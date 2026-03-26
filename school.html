@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>College Financial Health Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page">
+    <p><a class="back-link" href="./index.html">Back to search</a></p>
+
+    <header class="hero hero-tight">
+      <p class="eyebrow">College Financial Health Tracker</p>
+      <h1 id="school-name">Loading...</h1>
+      <p id="school-subtitle" class="intro"></p>
+    </header>
+
+    <section class="panel">
+      <h2>Financial Trends</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="metric-label">5-year revenue change</p>
+          <p id="revenue-change" class="metric-value"></p>
+        </article>
+        <article class="card">
+          <p class="metric-label">Ended the latest year at a loss?</p>
+          <p id="loss-latest" class="metric-value"></p>
+        </article>
+        <article class="card card-wide">
+          <p class="metric-label">Tuition dependence</p>
+          <p id="tuition-sentence" class="metric-copy"></p>
+        </article>
+      </div>
+      <div id="chart-revenue" class="chart-panel"></div>
+      <div id="chart-net-tuition" class="chart-panel"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Enrollment</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="metric-label">5-year enrollment change</p>
+          <p id="enrollment-change" class="metric-value"></p>
+        </article>
+        <article class="card">
+          <p class="metric-label">International students</p>
+          <p id="intl-sentence" class="metric-copy"></p>
+        </article>
+      </div>
+      <div id="chart-enrollment" class="chart-panel"></div>
+      <div id="chart-international" class="chart-panel"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Staffing</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="metric-label">5-year total staff change</p>
+          <p id="staff-change" class="metric-value"></p>
+        </article>
+      </div>
+      <div id="chart-staffing" class="chart-panel"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Endowment</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="metric-label">5-year endowment change</p>
+          <p id="endowment-change" class="metric-value"></p>
+        </article>
+      </div>
+      <div id="chart-endowment" class="chart-panel"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Federal And State Aid</h2>
+      <div class="cards">
+        <article class="card">
+          <p class="metric-label">Federal grants share of core revenue</p>
+          <p id="federal-share" class="metric-value"></p>
+        </article>
+        <article class="card">
+          <p class="metric-label">State appropriations share of core revenue</p>
+          <p id="state-share" class="metric-value"></p>
+        </article>
+      </div>
+      <div id="chart-federal" class="chart-panel"></div>
+      <div id="chart-state" class="chart-panel"></div>
+    </section>
+  </main>
+
+  <script src="js/charts.js"></script>
+  <script src="js/school.js"></script>
+</body>
+</html>

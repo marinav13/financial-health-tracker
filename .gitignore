@@ -1,0 +1,31 @@
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Local caches
+.renv-cache/
+.renv_cache/
+renv/library/
+
+# Temporary and scratch files
+temp/
+tmp/
+*.tmp
+tmp_*.html
+tmp_*.json
+tmp_*.zip
+temp_*.html
+temp_*.json
+temp_*.zip
+
+# Derived local extraction/download workspaces
+looker_aux/
+temp_ic2024_dict/
+
+# OS/editor noise
+Thumbs.db
+.DS_Store
+
+workbooks/ipeds_financial_health_article_workbook_r.xml
+workbooks/ipeds_financial_health_article_workbook_r_updated.xml

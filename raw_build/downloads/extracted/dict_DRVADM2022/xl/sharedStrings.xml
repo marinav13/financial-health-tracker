@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="188" uniqueCount="76"><si><t>varnumber</t></si><si><t>varname</t></si><si><t>DataType</t></si><si><t>Fieldwidth</t></si><si><t>format</t></si><si><t>imputationvar</t></si><si><t>varTitle</t></si><si><t>UNITID</t></si><si><t>N</t></si><si><t>Cont</t></si><si><t>Unique identification number of the institution</t></si><si><t>longDescription</t></si><si><t>n</t></si><si><t>sum</t></si><si><t>mean</t></si><si><t>min</t></si><si><t>max</t></si><si><t>Filename</t></si><si><t>Overview</t></si><si><t>Note</t></si><si><t>Contents of spreadsheet</t></si><si><t>Varlist</t></si><si><t>Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.</t></si><si><t>Description</t></si><si><t xml:space="preserve">Long description or glossary definition of a variable. </t></si><si><t>Statistics</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (Provisional release)</t></si><si><t>DRVADM2022</t></si><si><t>This table contains derived variables using the applications and admissions data.  Included are the percent of applicants that are admitted (selectivity) and the percent of admitted students that enrolled (admissions yield).</t></si><si><t>DVADM01</t></si><si><t>Percent admitted - total</t></si><si><t>DVADM02</t></si><si><t>Percent admitted - men</t></si><si><t>DVADM03</t></si><si><t>Percent admitted - women</t></si><si><t>DVADM04</t></si><si><t>Admissions yield - total</t></si><si><t>DVADM05</t></si><si><t>Admissions yield - men</t></si><si><t>DVADM06</t></si><si><t>Admissions yield - women</t></si><si><t>DVADM07</t></si><si><t>Admissions yield - full time</t></si><si><t>DVADM08</t></si><si><t>Admissions yield - full time men</t></si><si><t>DVADM09</t></si><si><t>Admissions yield - full time women</t></si><si><t>DVADM10</t></si><si><t>Admissions yield - part time</t></si><si><t>DVADM11</t></si><si><t>Admissions yield - part time men</t></si><si><t>DVADM12</t></si><si><t>Admissions yield - part time women</t></si><si><t xml:space="preserve"> Frequently used/Derived variables (Admissions) - Selectivity and admissions yield, Fall 2022</t></si><si><t/></si><si><t>Percent admitted - total
+
+If number of total applicants (APPLCN) &gt; 0 
+then Percent admitted total (DVADM01) = number of admissions-total(ADMSSN) divided by the total applicants(APPCLN)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Percent admitted - men
+
+If number of applicants-men (APPLCNM) &gt; 0 
+then Percent admitted-men (DVADM02) = number of admissions-Men(ADMSSNM) divided by the applicants-men(APPCLNM)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Percent admitted - women
+
+If number of applicants-women (APPLCNW) &gt; 0 
+then Percent admitted-women (DVADM03) = number of admissions-women(ADMSSNW) divided by the applicants-women(APPCLNW)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - total
+
+If number of total admitted (ADMSSN) &gt; 0 
+then Admissions yield (DVADM04) = number enrolled (ENRLT) divided by the number admitted (ADMSSN)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - men
+
+If number of admitted-men (ADMSSNM) &gt; 0 
+then Admissions yield-men (DVADM05) = number enrolled-men (ENRLM) divided by the number admitted-men (ADMSSNM)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - women
+
+If number of admitted-women (ADMSSNW) &gt; 0 
+then Admissions yield-women (DVADM06) = number enrolled-women (ENRLW) divided by the number admitted-women (ADMSSNW)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - full time
+
+If number of total admitted (ADMSSN) &gt; 0 
+then Admissions yield - full time(DVADM07) = number enrolled (ENRLFT) divided by the number admitted (ADMSSN)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - full-time men
+
+If number of admitted-men (ADMSSNM) &gt; 0 
+then Admissions yield-full-time men(DVADM08) = number enrolled-full-time men (ENRLFTM) divided by the number admitted-men (ADMSSNM)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - full-time women
+
+If number of admitted-women (ADMSSNW) &gt; 0 
+then Admissions yield-full-time women (DVADM09) = number enrolled-full-time women (ENRLFTW) divided by the number admitted-women (ADMSSNW)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - part time
+
+If number of total admitted (ADMSSN) &gt; 0 
+then Admissions yield - part time(DVADM10) = number enrolled (ENRLPT) divided by the number admitted (ADMSSN)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - part-time men
+
+If number of admitted-men (ADMSSNM) &gt; 0 
+then Admissions yield-part-time men(DVADM11) = number enrolled-part-time men (ENRLPTM) divided by the number admitted-men (ADMSSNM)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>Admissions yield - part-time women
+
+If number of admitted-women (ADMSSNW) &gt; 0 
+then Admissions yield-part-time women (DVADM12) = number enrolled-part-time women (ENRLPTW) divided by the number admitted-women (ADMSSNW)
+Ratios are converted to percentages and rounded to the nearest whole number.</t></si><si><t>(Final/revised  release)</t></si><si><t xml:space="preserve">  Provisional release:</t></si><si><t>December 2023</t></si><si><t xml:space="preserve">  Final release:</t></si><si><t>DRVADM2022_RV</t></si><si><t xml:space="preserve">IPEDS data, including provisional release data and final release data, adhere to rigorous quality control procedures established by NCES. Data are imputed for nonresponding institutions. Provisional release data are used for First Look  web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. While the final release data offer  the most up to date data, these data may not match tables from the First Look web tables based on provisional release data.  							</t></si><si><t>StatisticsRV</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (Final/revised release)</t></si><si><t>September 2024</t></si></sst>

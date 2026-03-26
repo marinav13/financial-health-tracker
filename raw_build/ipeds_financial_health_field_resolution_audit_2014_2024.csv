@@ -1,0 +1,1002 @@
+year,table_alias,table_name,output,resolved_var_name,resolved_var_title,matched_pattern
+2014,DRVADM,,admissions_yield,,,
+2014,DRVEF12,,fte_12_months,,,
+2014,DRVF,,endowment_assets_per_fte_fasb,,,
+2014,DRVF,,endowment_assets_per_fte_gasb,,,
+2014,DRVF,,gov_grants_fasb,,,
+2014,DRVF,,gov_revenue_fte_fasb,,,
+2014,DRVF,,state_approps_percent_core_gasb,,,
+2014,DRVF,,state_revenue_fte_fasb,,,
+2014,DRVGR,,transfer_out_rate_bachelor,,,
+2014,DRVHR,,fte_instructional,,,
+2014,DRVHR,,fte_total_staff,,,
+2014,EFIA,EFIA2014,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2013-14",^Reported full-time equivalent \(FTE\) graduate enrollment
+2014,EFIA,EFIA2014,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2013-14",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2014,F1A,F1314_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2014,F1A,F1314_F1A,endowment_net_investment_return_gasb,,,
+2014,F1A,F1314_F1A,endowment_spending_distribution_current_use_gasb,,,
+2014,F1A,F1314_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2014,F1A,F1314_F1A,new_gifts_additions_gasb,,,
+2014,F1A,F1314_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2014,F1A,F1314_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2014,F1A,F1314_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2014,F1A,F1314_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2014,F1A,F1314_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2014,F1A,F1314_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2014,F1A,F1314_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2014,F1A,F1314_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2014,F1A,F1314_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2014,F2,F1314_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2014,F2,F1314_F2,endowment_net_investment_return_fasb,,,
+2014,F2,F1314_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2014,F2,F1314_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2014,F2,F1314_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2014,F2,F1314_F2,new_endowment_gifts_fasb,,,
+2014,F2,F1314_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2014,F2,F1314_F2,spending_distribution_for_current_use_fasb,,,
+2014,F2,F1314_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2014,F2,F1314_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2014,F2,F1314_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2014,F2,F1314_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2014,F2,F1314_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2014,F2,F1314_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2014,F2,F1314_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2014,F2,F1314_F2,unrestricted_operating_rev_fasb,,,
+2014,F2,F1314_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2014,F2,F1314_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2014,F3,F1314_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Allowances applied to tuition and fees,Allowances applied to tuition and fees
+2014,F3,F1314_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2014,F3,F1314_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2014,F3,F1314_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2014,F3,F1314_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2014,F3,F1314_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2014,F3,F1314_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2014,F3,F1314_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2014,F3,F1314_F3,total_revenues_pfp,,,
+2014,F3,F1314_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2014,FLAGS,FLAGS2014,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2014,FLAGS,FLAGS2014,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2014,FLAGS,FLAGS2014,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2014,HD,HD2014,access_earnings,,,
+2014,HD,HD2014,category,INSTCAT,Institutional category,^Institutional category$
+2014,HD,HD2014,city,CITY,City location of institution,^City location of institution$
+2014,HD,HD2014,control,CONTROL,Control of institution,^Control of institution$
+2014,HD,HD2014,county,COUNTYNM,County name,^County name$
+2014,HD,HD2014,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2014,HD,HD2014,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2014,HD,HD2014,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2014,HD,HD2014,grad_program_mix,,,
+2014,HD,HD2014,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2014,HD,HD2014,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2014,HD,HD2014,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2014,HD,HD2014,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2014,HD,HD2014,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2014,HD,HD2014,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2014,HD,HD2014,level,ICLEVEL,Level of institution,^Level of institution$
+2014,HD,HD2014,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2014,HD,HD2014,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2014,HD,HD2014,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2014,HD,HD2014,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2014,HD,HD2014,region,,,
+2014,HD,HD2014,sector,SECTOR,Sector of institution,^Sector of institution$
+2014,HD,HD2014,size,,,
+2014,HD,HD2014,state,STABBR,State abbreviation,^State abbreviation$
+2014,HD,HD2014,status,ACT,Status of institution,^Status of institution$
+2014,HD,HD2014,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2014,HD,HD2014,undergrad_program_mix,,,
+2014,HD,HD2014,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2014,HD,HD2014,zip,ZIP,ZIP code,^ZIP code$
+2014,IC,IC2014,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2014,IC,IC2014,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2014,IC,IC2014,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2014,IC,IC2014,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2015,DRVADM,,admissions_yield,,,
+2015,DRVEF12,,fte_12_months,,,
+2015,DRVF,,endowment_assets_per_fte_fasb,,,
+2015,DRVF,,endowment_assets_per_fte_gasb,,,
+2015,DRVF,,gov_grants_fasb,,,
+2015,DRVF,,gov_revenue_fte_fasb,,,
+2015,DRVF,,state_approps_percent_core_gasb,,,
+2015,DRVF,,state_revenue_fte_fasb,,,
+2015,DRVGR,,transfer_out_rate_bachelor,,,
+2015,DRVHR,,fte_instructional,,,
+2015,DRVHR,,fte_total_staff,,,
+2015,EFIA,EFIA2015,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2014-15",^Reported full-time equivalent \(FTE\) graduate enrollment
+2015,EFIA,EFIA2015,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2014-15",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2015,F1A,F1415_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2015,F1A,F1415_F1A,endowment_net_investment_return_gasb,,,
+2015,F1A,F1415_F1A,endowment_spending_distribution_current_use_gasb,,,
+2015,F1A,F1415_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2015,F1A,F1415_F1A,new_gifts_additions_gasb,,,
+2015,F1A,F1415_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2015,F1A,F1415_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2015,F1A,F1415_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2015,F1A,F1415_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2015,F1A,F1415_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2015,F1A,F1415_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2015,F1A,F1415_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2015,F1A,F1415_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2015,F1A,F1415_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2015,F2,F1415_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2015,F2,F1415_F2,endowment_net_investment_return_fasb,,,
+2015,F2,F1415_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2015,F2,F1415_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2015,F2,F1415_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2015,F2,F1415_F2,new_endowment_gifts_fasb,,,
+2015,F2,F1415_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2015,F2,F1415_F2,spending_distribution_for_current_use_fasb,,,
+2015,F2,F1415_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2015,F2,F1415_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2015,F2,F1415_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2015,F2,F1415_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2015,F2,F1415_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2015,F2,F1415_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2015,F2,F1415_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2015,F2,F1415_F2,unrestricted_operating_rev_fasb,,,
+2015,F2,F1415_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2015,F2,F1415_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2015,F3,F1415_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Allowances applied to tuition and fees,Allowances applied to tuition and fees
+2015,F3,F1415_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2015,F3,F1415_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2015,F3,F1415_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2015,F3,F1415_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2015,F3,F1415_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2015,F3,F1415_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2015,F3,F1415_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2015,F3,F1415_F3,total_revenues_pfp,,,
+2015,F3,F1415_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2015,FLAGS,FLAGS2015,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2015,FLAGS,FLAGS2015,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2015,FLAGS,FLAGS2015,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2015,HD,HD2015,access_earnings,,,
+2015,HD,HD2015,category,INSTCAT,Institutional category,^Institutional category$
+2015,HD,HD2015,city,CITY,City location of institution,^City location of institution$
+2015,HD,HD2015,control,CONTROL,Control of institution,^Control of institution$
+2015,HD,HD2015,county,COUNTYNM,County name,^County name$
+2015,HD,HD2015,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2015,HD,HD2015,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2015,HD,HD2015,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2015,HD,HD2015,grad_program_mix,,,
+2015,HD,HD2015,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2015,HD,HD2015,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2015,HD,HD2015,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2015,HD,HD2015,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2015,HD,HD2015,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2015,HD,HD2015,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2015,HD,HD2015,level,ICLEVEL,Level of institution,^Level of institution$
+2015,HD,HD2015,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2015,HD,HD2015,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2015,HD,HD2015,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2015,HD,HD2015,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2015,HD,HD2015,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2015,HD,HD2015,sector,SECTOR,Sector of institution,^Sector of institution$
+2015,HD,HD2015,size,,,
+2015,HD,HD2015,state,STABBR,State abbreviation,^State abbreviation$
+2015,HD,HD2015,status,ACT,Status of institution,^Status of institution$
+2015,HD,HD2015,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2015,HD,HD2015,undergrad_program_mix,,,
+2015,HD,HD2015,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2015,HD,HD2015,zip,ZIP,ZIP code,^ZIP code$
+2015,IC,IC2015,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2015,IC,IC2015,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2015,IC,IC2015,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2015,IC,IC2015,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2016,DRVADM,,admissions_yield,,,
+2016,DRVEF12,,fte_12_months,,,
+2016,DRVF,,endowment_assets_per_fte_fasb,,,
+2016,DRVF,,endowment_assets_per_fte_gasb,,,
+2016,DRVF,,gov_grants_fasb,,,
+2016,DRVF,,gov_revenue_fte_fasb,,,
+2016,DRVF,,state_approps_percent_core_gasb,,,
+2016,DRVF,,state_revenue_fte_fasb,,,
+2016,DRVGR,,transfer_out_rate_bachelor,,,
+2016,DRVHR,,fte_instructional,,,
+2016,DRVHR,,fte_total_staff,,,
+2016,EFIA,EFIA2016,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2015-16",^Reported full-time equivalent \(FTE\) graduate enrollment
+2016,EFIA,EFIA2016,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2015-16",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2016,F1A,F1516_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2016,F1A,F1516_F1A,endowment_net_investment_return_gasb,,,
+2016,F1A,F1516_F1A,endowment_spending_distribution_current_use_gasb,,,
+2016,F1A,F1516_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2016,F1A,F1516_F1A,new_gifts_additions_gasb,,,
+2016,F1A,F1516_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2016,F1A,F1516_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2016,F1A,F1516_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2016,F1A,F1516_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2016,F1A,F1516_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2016,F1A,F1516_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2016,F1A,F1516_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2016,F1A,F1516_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2016,F1A,F1516_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2016,F2,F1516_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2016,F2,F1516_F2,endowment_net_investment_return_fasb,,,
+2016,F2,F1516_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2016,F2,F1516_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2016,F2,F1516_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2016,F2,F1516_F2,new_endowment_gifts_fasb,,,
+2016,F2,F1516_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2016,F2,F1516_F2,spending_distribution_for_current_use_fasb,,,
+2016,F2,F1516_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2016,F2,F1516_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2016,F2,F1516_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2016,F2,F1516_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2016,F2,F1516_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2016,F2,F1516_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2016,F2,F1516_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2016,F2,F1516_F2,unrestricted_operating_rev_fasb,,,
+2016,F2,F1516_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2016,F2,F1516_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2016,F3,F1516_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2016,F3,F1516_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2016,F3,F1516_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2016,F3,F1516_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2016,F3,F1516_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2016,F3,F1516_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2016,F3,F1516_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2016,F3,F1516_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2016,F3,F1516_F3,total_revenues_pfp,,,
+2016,F3,F1516_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2016,FLAGS,FLAGS2016,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2016,FLAGS,FLAGS2016,pell_accounting_method_pfp,,,
+2016,FLAGS,FLAGS2016,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2016,HD,HD2016,access_earnings,,,
+2016,HD,HD2016,category,INSTCAT,Institutional category,^Institutional category$
+2016,HD,HD2016,city,CITY,City location of institution,^City location of institution$
+2016,HD,HD2016,control,CONTROL,Control of institution,^Control of institution$
+2016,HD,HD2016,county,COUNTYNM,County name,^County name$
+2016,HD,HD2016,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2016,HD,HD2016,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2016,HD,HD2016,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2016,HD,HD2016,grad_program_mix,,,
+2016,HD,HD2016,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2016,HD,HD2016,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2016,HD,HD2016,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2016,HD,HD2016,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2016,HD,HD2016,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2016,HD,HD2016,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2016,HD,HD2016,level,ICLEVEL,Level of institution,^Level of institution$
+2016,HD,HD2016,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2016,HD,HD2016,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2016,HD,HD2016,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2016,HD,HD2016,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2016,HD,HD2016,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2016,HD,HD2016,sector,SECTOR,Sector of institution,^Sector of institution$
+2016,HD,HD2016,size,,,
+2016,HD,HD2016,state,STABBR,State abbreviation,^State abbreviation$
+2016,HD,HD2016,status,ACT,Status of institution,^Status of institution$
+2016,HD,HD2016,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2016,HD,HD2016,undergrad_program_mix,,,
+2016,HD,HD2016,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2016,HD,HD2016,zip,ZIP,ZIP code,^ZIP code$
+2016,IC,IC2016,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2016,IC,IC2016,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2016,IC,IC2016,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2016,IC,IC2016,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2017,DRVADM,,admissions_yield,,,
+2017,DRVEF12,,fte_12_months,,,
+2017,DRVF,,endowment_assets_per_fte_fasb,,,
+2017,DRVF,,endowment_assets_per_fte_gasb,,,
+2017,DRVF,,gov_grants_fasb,,,
+2017,DRVF,,gov_revenue_fte_fasb,,,
+2017,DRVF,,state_approps_percent_core_gasb,,,
+2017,DRVF,,state_revenue_fte_fasb,,,
+2017,DRVGR,,transfer_out_rate_bachelor,,,
+2017,DRVHR,,fte_instructional,,,
+2017,DRVHR,,fte_total_staff,,,
+2017,EFIA,EFIA2017,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2016-17",^Reported full-time equivalent \(FTE\) graduate enrollment
+2017,EFIA,EFIA2017,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2016-17",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2017,F1A,F1617_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2017,F1A,F1617_F1A,endowment_net_investment_return_gasb,,,
+2017,F1A,F1617_F1A,endowment_spending_distribution_current_use_gasb,,,
+2017,F1A,F1617_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2017,F1A,F1617_F1A,new_gifts_additions_gasb,,,
+2017,F1A,F1617_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2017,F1A,F1617_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2017,F1A,F1617_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2017,F1A,F1617_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2017,F1A,F1617_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2017,F1A,F1617_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2017,F1A,F1617_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2017,F1A,F1617_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2017,F1A,F1617_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2017,F2,F1617_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2017,F2,F1617_F2,endowment_net_investment_return_fasb,,,
+2017,F2,F1617_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2017,F2,F1617_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2017,F2,F1617_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2017,F2,F1617_F2,new_endowment_gifts_fasb,,,
+2017,F2,F1617_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2017,F2,F1617_F2,spending_distribution_for_current_use_fasb,,,
+2017,F2,F1617_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2017,F2,F1617_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2017,F2,F1617_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2017,F2,F1617_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2017,F2,F1617_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2017,F2,F1617_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2017,F2,F1617_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2017,F2,F1617_F2,unrestricted_operating_rev_fasb,,,
+2017,F2,F1617_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2017,F2,F1617_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2017,F3,F1617_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2017,F3,F1617_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2017,F3,F1617_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2017,F3,F1617_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2017,F3,F1617_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2017,F3,F1617_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2017,F3,F1617_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2017,F3,F1617_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2017,F3,F1617_F3,total_revenues_pfp,,,
+2017,F3,F1617_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2017,FLAGS,FLAGS2017,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2017,FLAGS,FLAGS2017,pell_accounting_method_pfp,,,
+2017,FLAGS,FLAGS2017,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2017,HD,HD2017,access_earnings,,,
+2017,HD,HD2017,category,INSTCAT,Institutional category,^Institutional category$
+2017,HD,HD2017,city,CITY,City location of institution,^City location of institution$
+2017,HD,HD2017,control,CONTROL,Control of institution,^Control of institution$
+2017,HD,HD2017,county,COUNTYNM,County name,^County name$
+2017,HD,HD2017,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2017,HD,HD2017,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2017,HD,HD2017,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2017,HD,HD2017,grad_program_mix,,,
+2017,HD,HD2017,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2017,HD,HD2017,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2017,HD,HD2017,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2017,HD,HD2017,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2017,HD,HD2017,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2017,HD,HD2017,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2017,HD,HD2017,level,ICLEVEL,Level of institution,^Level of institution$
+2017,HD,HD2017,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2017,HD,HD2017,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2017,HD,HD2017,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2017,HD,HD2017,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2017,HD,HD2017,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2017,HD,HD2017,sector,SECTOR,Sector of institution,^Sector of institution$
+2017,HD,HD2017,size,,,
+2017,HD,HD2017,state,STABBR,State abbreviation,^State abbreviation$
+2017,HD,HD2017,status,ACT,Status of institution,^Status of institution$
+2017,HD,HD2017,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2017,HD,HD2017,undergrad_program_mix,,,
+2017,HD,HD2017,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2017,HD,HD2017,zip,ZIP,ZIP code,^ZIP code$
+2017,IC,IC2017,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2017,IC,IC2017,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2017,IC,IC2017,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2017,IC,IC2017,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2018,DRVADM,,admissions_yield,,,
+2018,DRVEF12,,fte_12_months,,,
+2018,DRVF,,endowment_assets_per_fte_fasb,,,
+2018,DRVF,,endowment_assets_per_fte_gasb,,,
+2018,DRVF,,gov_grants_fasb,,,
+2018,DRVF,,gov_revenue_fte_fasb,,,
+2018,DRVF,,state_approps_percent_core_gasb,,,
+2018,DRVF,,state_revenue_fte_fasb,,,
+2018,DRVGR,,transfer_out_rate_bachelor,,,
+2018,DRVHR,,fte_instructional,,,
+2018,DRVHR,,fte_total_staff,,,
+2018,EFIA,EFIA2018,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2017-18",^Reported full-time equivalent \(FTE\) graduate enrollment
+2018,EFIA,EFIA2018,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2017-18",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2018,F1A,F1718_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2018,F1A,F1718_F1A,endowment_net_investment_return_gasb,,,
+2018,F1A,F1718_F1A,endowment_spending_distribution_current_use_gasb,,,
+2018,F1A,F1718_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2018,F1A,F1718_F1A,new_gifts_additions_gasb,,,
+2018,F1A,F1718_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2018,F1A,F1718_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2018,F1A,F1718_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2018,F1A,F1718_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2018,F1A,F1718_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2018,F1A,F1718_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2018,F1A,F1718_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2018,F1A,F1718_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2018,F1A,F1718_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2018,F2,F1718_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2018,F2,F1718_F2,endowment_net_investment_return_fasb,,,
+2018,F2,F1718_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2018,F2,F1718_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2018,F2,F1718_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2018,F2,F1718_F2,new_endowment_gifts_fasb,,,
+2018,F2,F1718_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2018,F2,F1718_F2,spending_distribution_for_current_use_fasb,,,
+2018,F2,F1718_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2018,F2,F1718_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2018,F2,F1718_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2018,F2,F1718_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2018,F2,F1718_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2018,F2,F1718_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2018,F2,F1718_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2018,F2,F1718_F2,unrestricted_operating_rev_fasb,,,
+2018,F2,F1718_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2018,F2,F1718_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2018,F3,F1718_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2018,F3,F1718_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2018,F3,F1718_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2018,F3,F1718_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2018,F3,F1718_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2018,F3,F1718_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2018,F3,F1718_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2018,F3,F1718_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2018,F3,F1718_F3,total_revenues_pfp,,,
+2018,F3,F1718_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2018,FLAGS,FLAGS2018,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2018,FLAGS,FLAGS2018,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2018,FLAGS,FLAGS2018,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2018,HD,HD2018,access_earnings,,,
+2018,HD,HD2018,category,INSTCAT,Institutional category,^Institutional category$
+2018,HD,HD2018,city,CITY,City location of institution,^City location of institution$
+2018,HD,HD2018,control,CONTROL,Control of institution,^Control of institution$
+2018,HD,HD2018,county,COUNTYNM,County name,^County name$
+2018,HD,HD2018,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2018,HD,HD2018,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2018,HD,HD2018,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2018,HD,HD2018,grad_program_mix,,,
+2018,HD,HD2018,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2018,HD,HD2018,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2018,HD,HD2018,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2018,HD,HD2018,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2018,HD,HD2018,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2018,HD,HD2018,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2018,HD,HD2018,level,ICLEVEL,Level of institution,^Level of institution$
+2018,HD,HD2018,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2018,HD,HD2018,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2018,HD,HD2018,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2018,HD,HD2018,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2018,HD,HD2018,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2018,HD,HD2018,sector,SECTOR,Sector of institution,^Sector of institution$
+2018,HD,HD2018,size,,,
+2018,HD,HD2018,state,STABBR,State abbreviation,^State abbreviation$
+2018,HD,HD2018,status,ACT,Status of institution,^Status of institution$
+2018,HD,HD2018,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2018,HD,HD2018,undergrad_program_mix,,,
+2018,HD,HD2018,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2018,HD,HD2018,zip,ZIP,ZIP code,^ZIP code$
+2018,IC,IC2018,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2018,IC,IC2018,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2018,IC,IC2018,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2018,IC,IC2018,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2019,DRVADM,,admissions_yield,,,
+2019,DRVEF12,,fte_12_months,,,
+2019,DRVF,,endowment_assets_per_fte_fasb,,,
+2019,DRVF,,endowment_assets_per_fte_gasb,,,
+2019,DRVF,,gov_grants_fasb,,,
+2019,DRVF,,gov_revenue_fte_fasb,,,
+2019,DRVF,,state_approps_percent_core_gasb,,,
+2019,DRVF,,state_revenue_fte_fasb,,,
+2019,DRVGR,,transfer_out_rate_bachelor,,,
+2019,DRVHR,,fte_instructional,,,
+2019,DRVHR,,fte_total_staff,,,
+2019,EFIA,EFIA2019,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2018-19",^Reported full-time equivalent \(FTE\) graduate enrollment
+2019,EFIA,EFIA2019,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2018-19",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2019,F1A,F1819_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2019,F1A,F1819_F1A,endowment_net_investment_return_gasb,,,
+2019,F1A,F1819_F1A,endowment_spending_distribution_current_use_gasb,,,
+2019,F1A,F1819_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2019,F1A,F1819_F1A,new_gifts_additions_gasb,,,
+2019,F1A,F1819_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2019,F1A,F1819_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2019,F1A,F1819_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2019,F1A,F1819_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2019,F1A,F1819_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2019,F1A,F1819_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2019,F1A,F1819_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2019,F1A,F1819_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2019,F1A,F1819_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2019,F2,F1819_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2019,F2,F1819_F2,endowment_net_investment_return_fasb,,,
+2019,F2,F1819_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2019,F2,F1819_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2019,F2,F1819_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2019,F2,F1819_F2,new_endowment_gifts_fasb,,,
+2019,F2,F1819_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2019,F2,F1819_F2,spending_distribution_for_current_use_fasb,,,
+2019,F2,F1819_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2019,F2,F1819_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2019,F2,F1819_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2019,F2,F1819_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2019,F2,F1819_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2019,F2,F1819_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2019,F2,F1819_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2019,F2,F1819_F2,unrestricted_operating_rev_fasb,,,
+2019,F2,F1819_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2019,F2,F1819_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2019,F3,F1819_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2019,F3,F1819_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2019,F3,F1819_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2019,F3,F1819_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2019,F3,F1819_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2019,F3,F1819_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2019,F3,F1819_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2019,F3,F1819_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2019,F3,F1819_F3,total_revenues_pfp,,,
+2019,F3,F1819_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2019,FLAGS,FLAGS2019,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2019,FLAGS,FLAGS2019,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2019,FLAGS,FLAGS2019,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2019,HD,HD2019,access_earnings,,,
+2019,HD,HD2019,category,INSTCAT,Institutional category,^Institutional category$
+2019,HD,HD2019,city,CITY,City location of institution,^City location of institution$
+2019,HD,HD2019,control,CONTROL,Control of institution,^Control of institution$
+2019,HD,HD2019,county,COUNTYNM,County name,^County name$
+2019,HD,HD2019,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2019,HD,HD2019,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2019,HD,HD2019,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2019,HD,HD2019,grad_program_mix,,,
+2019,HD,HD2019,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2019,HD,HD2019,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2019,HD,HD2019,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2019,HD,HD2019,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2019,HD,HD2019,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2019,HD,HD2019,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2019,HD,HD2019,level,ICLEVEL,Level of institution,^Level of institution$
+2019,HD,HD2019,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2019,HD,HD2019,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2019,HD,HD2019,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2019,HD,HD2019,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2019,HD,HD2019,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2019,HD,HD2019,sector,SECTOR,Sector of institution,^Sector of institution$
+2019,HD,HD2019,size,,,
+2019,HD,HD2019,state,STABBR,State abbreviation,^State abbreviation$
+2019,HD,HD2019,status,ACT,Status of institution,^Status of institution$
+2019,HD,HD2019,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2019,HD,HD2019,undergrad_program_mix,,,
+2019,HD,HD2019,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2019,HD,HD2019,zip,ZIP,ZIP code,^ZIP code$
+2019,IC,IC2019,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2019,IC,IC2019,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2019,IC,IC2019,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2019,IC,IC2019,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2020,DRVADM,,admissions_yield,,,
+2020,DRVEF12,,fte_12_months,,,
+2020,DRVF,,endowment_assets_per_fte_fasb,,,
+2020,DRVF,,endowment_assets_per_fte_gasb,,,
+2020,DRVF,,gov_grants_fasb,,,
+2020,DRVF,,gov_revenue_fte_fasb,,,
+2020,DRVF,,state_approps_percent_core_gasb,,,
+2020,DRVF,,state_revenue_fte_fasb,,,
+2020,DRVGR,,transfer_out_rate_bachelor,,,
+2020,DRVHR,,fte_instructional,,,
+2020,DRVHR,,fte_total_staff,,,
+2020,EFIA,EFIA2020,fte_graduate,,,
+2020,EFIA,EFIA2020,fte_undergrad,,,
+2020,F1A,F1920_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2020,F1A,F1920_F1A,endowment_net_investment_return_gasb,F1H03B,Endowment net investment return,Endowment net investment return
+2020,F1A,F1920_F1A,endowment_spending_distribution_current_use_gasb,F1H03C,Spending distribution for current use,Spending distribution for current use
+2020,F1A,F1920_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2020,F1A,F1920_F1A,new_gifts_additions_gasb,F1H03A,New gifts and additions,New gifts and additions
+2020,F1A,F1920_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2020,F1A,F1920_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2020,F1A,F1920_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2020,F1A,F1920_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2020,F1A,F1920_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2020,F1A,F1920_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2020,F1A,F1920_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2020,F1A,F1920_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2020,F1A,F1920_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2020,F2,F1920_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2020,F2,F1920_F2,endowment_net_investment_return_fasb,F2H03B,Endowment net investment return,Endowment net investment return
+2020,F2,F1920_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2020,F2,F1920_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2020,F2,F1920_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2020,F2,F1920_F2,new_endowment_gifts_fasb,F2H03A,New gifts and additions,New gifts and additions
+2020,F2,F1920_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2020,F2,F1920_F2,spending_distribution_for_current_use_fasb,F2H03C,Spending distribution for current use,Spending distribution for current use
+2020,F2,F1920_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2020,F2,F1920_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2020,F2,F1920_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2020,F2,F1920_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2020,F2,F1920_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2020,F2,F1920_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2020,F2,F1920_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2020,F2,F1920_F2,unrestricted_operating_rev_fasb,F2I02,Total unrestricted operating revenues,^Total unrestricted operating revenues$
+2020,F2,F1920_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2020,F2,F1920_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2020,F3,F1920_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2020,F3,F1920_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2020,F3,F1920_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2020,F3,F1920_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2020,F3,F1920_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2020,F3,F1920_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2020,F3,F1920_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2020,F3,F1920_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2020,F3,F1920_F3,total_revenues_pfp,F3G02,Total revenues,^Total revenues$
+2020,F3,F1920_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2020,FLAGS,FLAGS2020,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2020,FLAGS,FLAGS2020,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2020,FLAGS,FLAGS2020,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2020,HD,HD2020,access_earnings,,,
+2020,HD,HD2020,category,INSTCAT,Institutional category,^Institutional category$
+2020,HD,HD2020,city,CITY,City location of institution,^City location of institution$
+2020,HD,HD2020,control,CONTROL,Control of institution,^Control of institution$
+2020,HD,HD2020,county,COUNTYNM,County name,^County name$
+2020,HD,HD2020,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2020,HD,HD2020,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2020,HD,HD2020,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2020,HD,HD2020,grad_program_mix,,,
+2020,HD,HD2020,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2020,HD,HD2020,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2020,HD,HD2020,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2020,HD,HD2020,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2020,HD,HD2020,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2020,HD,HD2020,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2020,HD,HD2020,level,ICLEVEL,Level of institution,^Level of institution$
+2020,HD,HD2020,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2020,HD,HD2020,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2020,HD,HD2020,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2020,HD,HD2020,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2020,HD,HD2020,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2020,HD,HD2020,sector,SECTOR,Sector of institution,^Sector of institution$
+2020,HD,HD2020,size,,,
+2020,HD,HD2020,state,STABBR,State abbreviation,^State abbreviation$
+2020,HD,HD2020,status,ACT,Status of institution,^Status of institution$
+2020,HD,HD2020,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2020,HD,HD2020,undergrad_program_mix,,,
+2020,HD,HD2020,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2020,HD,HD2020,zip,ZIP,ZIP code,^ZIP code$
+2020,IC,,all_programs_distance_education,,,
+2020,IC,,control_or_affiliation,,,
+2020,IC,,has_full_time_first_time_undergrad,,,
+2020,IC,,religious_affiliation,,,
+2021,DRVADM,DRVADM2021,admissions_yield,DVADM04,Admissions yield - total,^Admissions yield
+2021,DRVEF12,DRVEF122021,fte_12_months,FTE12MN,12-month full-time equivalent enrollment,^12-month full-time equivalent enrollment$
+2021,DRVF,DRVF2021,endowment_assets_per_fte_fasb,F2ENDMFT,Endowment assets (year end) per FTE enrollment (FASB),Endowment assets \(year end\) per FTE enrollment.*FASB
+2021,DRVF,DRVF2021,endowment_assets_per_fte_gasb,F1ENDMFT,Endowment assets (year end) per FTE enrollment (GASB),Endowment assets \(year end\) per FTE enrollment.*GASB
+2021,DRVF,DRVF2021,gov_grants_fasb,F2GVGCPC,Government grants and contracts as a percent of core revenues (FASB),Government grants and contracts as a percent of core revenues.*FASB
+2021,DRVF,DRVF2021,gov_revenue_fte_fasb,F2GVGCFT,Revenues from government grants and contracts per FTE (FASB),Revenues from government grants and contracts per FTE.*FASB
+2021,DRVF,DRVF2021,state_approps_percent_core_gasb,F1STAPPC,State appropriations as percent of core revenues  (GASB),State appropriations as percent of core revenues.*GASB
+2021,DRVF,DRVF2021,state_revenue_fte_fasb,,,
+2021,DRVGR,DRVGR2021,transfer_out_rate_bachelor,GBATRRT,Transfer-out rate - Bachelor cohort,^Transfer-out rate - Bachelor cohort$
+2021,DRVHR,DRVHR2021,fte_instructional,SFTEINST,Instructional FTE,^Instructional FTE$
+2021,DRVHR,DRVHR2021,fte_total_staff,SFTETOTL,Total FTE staff,^Total FTE staff$
+2021,EFIA,EFIA2021,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2020-21",^Reported full-time equivalent \(FTE\) graduate enrollment
+2021,EFIA,EFIA2021,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2020-21",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2021,F1A,F2021_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2021,F1A,F2021_F1A,endowment_net_investment_return_gasb,F1H03B,Endowment net investment return,Endowment net investment return
+2021,F1A,F2021_F1A,endowment_spending_distribution_current_use_gasb,F1H03C,Spending distribution for current use,Spending distribution for current use
+2021,F1A,F2021_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2021,F1A,F2021_F1A,new_gifts_additions_gasb,F1H03A,New gifts and additions,New gifts and additions
+2021,F1A,F2021_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2021,F1A,F2021_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2021,F1A,F2021_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2021,F1A,F2021_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2021,F1A,F2021_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2021,F1A,F2021_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2021,F1A,F2021_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2021,F1A,F2021_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2021,F1A,F2021_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2021,F2,F2021_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2021,F2,F2021_F2,endowment_net_investment_return_fasb,F2H03B,Endowment net investment return,Endowment net investment return
+2021,F2,F2021_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2021,F2,F2021_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2021,F2,F2021_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2021,F2,F2021_F2,new_endowment_gifts_fasb,F2H03A,New gifts and additions,New gifts and additions
+2021,F2,F2021_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2021,F2,F2021_F2,spending_distribution_for_current_use_fasb,F2H03C,Spending distribution for current use,Spending distribution for current use
+2021,F2,F2021_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2021,F2,F2021_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2021,F2,F2021_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2021,F2,F2021_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2021,F2,F2021_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2021,F2,F2021_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2021,F2,F2021_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2021,F2,F2021_F2,unrestricted_operating_rev_fasb,F2I02,Total unrestricted operating revenues,^Total unrestricted operating revenues$
+2021,F2,F2021_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2021,F2,F2021_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2021,F3,F2021_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2021,F3,F2021_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2021,F3,F2021_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2021,F3,F2021_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2021,F3,F2021_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2021,F3,F2021_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2021,F3,F2021_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2021,F3,F2021_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2021,F3,F2021_F3,total_revenues_pfp,F3G02,Total revenues,^Total revenues$
+2021,F3,F2021_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2021,FLAGS,FLAGS2021,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2021,FLAGS,FLAGS2021,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2021,FLAGS,FLAGS2021,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2021,HD,HD2021,access_earnings,,,
+2021,HD,HD2021,category,INSTCAT,Institutional category,^Institutional category$
+2021,HD,HD2021,city,CITY,City location of institution,^City location of institution$
+2021,HD,HD2021,control,CONTROL,Control of institution,^Control of institution$
+2021,HD,HD2021,county,COUNTYNM,County name,^County name$
+2021,HD,HD2021,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2021,HD,HD2021,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2021,HD,HD2021,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2021,HD,HD2021,grad_program_mix,,,
+2021,HD,HD2021,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2021,HD,HD2021,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2021,HD,HD2021,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2021,HD,HD2021,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2021,HD,HD2021,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2021,HD,HD2021,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2021,HD,HD2021,level,ICLEVEL,Level of institution,^Level of institution$
+2021,HD,HD2021,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2021,HD,HD2021,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2021,HD,HD2021,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2021,HD,HD2021,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2021,HD,HD2021,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2021,HD,HD2021,sector,SECTOR,Sector of institution,^Sector of institution$
+2021,HD,HD2021,size,,,
+2021,HD,HD2021,state,STABBR,State abbreviation,^State abbreviation$
+2021,HD,HD2021,status,ACT,Status of institution,^Status of institution$
+2021,HD,HD2021,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2021,HD,HD2021,undergrad_program_mix,,,
+2021,HD,HD2021,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2021,HD,HD2021,zip,ZIP,ZIP code,^ZIP code$
+2021,IC,IC2021,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2021,IC,IC2021,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2021,IC,IC2021,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2021,IC,IC2021,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2022,DRVADM,DRVADM2022,admissions_yield,DVADM04,Admissions yield - total,^Admissions yield
+2022,DRVEF12,DRVEF122022,fte_12_months,FTE12MN,12-month full-time equivalent enrollment,^12-month full-time equivalent enrollment$
+2022,DRVF,DRVF2022,endowment_assets_per_fte_fasb,F2ENDMFT,Endowment assets (year end) per FTE enrollment (FASB),Endowment assets \(year end\) per FTE enrollment.*FASB
+2022,DRVF,DRVF2022,endowment_assets_per_fte_gasb,F1ENDMFT,Endowment assets (year end) per FTE enrollment (GASB),Endowment assets \(year end\) per FTE enrollment.*GASB
+2022,DRVF,DRVF2022,gov_grants_fasb,F2GVGCPC,Government grants and contracts as a percent of core revenues (FASB),Government grants and contracts as a percent of core revenues.*FASB
+2022,DRVF,DRVF2022,gov_revenue_fte_fasb,F2GVGCFT,Revenues from government grants and contracts per FTE (FASB),Revenues from government grants and contracts per FTE.*FASB
+2022,DRVF,DRVF2022,state_approps_percent_core_gasb,F1STAPPC,State appropriations as percent of core revenues  (GASB),State appropriations as percent of core revenues.*GASB
+2022,DRVF,DRVF2022,state_revenue_fte_fasb,,,
+2022,DRVGR,DRVGR2022,transfer_out_rate_bachelor,GBATRRT,Transfer-out rate - Bachelor cohort,^Transfer-out rate - Bachelor cohort$
+2022,DRVHR,DRVHR2022,fte_instructional,SFTEINST,Instructional FTE,^Instructional FTE$
+2022,DRVHR,DRVHR2022,fte_total_staff,SFTETOTL,Total FTE staff,^Total FTE staff$
+2022,EFIA,EFIA2022,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2021-22",^Reported full-time equivalent \(FTE\) graduate enrollment
+2022,EFIA,EFIA2022,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2021-22",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2022,F1A,F2122_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2022,F1A,F2122_F1A,endowment_net_investment_return_gasb,F1H03B,Endowment net investment return,Endowment net investment return
+2022,F1A,F2122_F1A,endowment_spending_distribution_current_use_gasb,F1H03C,Spending distribution for current use,Spending distribution for current use
+2022,F1A,F2122_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2022,F1A,F2122_F1A,new_gifts_additions_gasb,F1H03A,New gifts and additions,New gifts and additions
+2022,F1A,F2122_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2022,F1A,F2122_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2022,F1A,F2122_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2022,F1A,F2122_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2022,F1A,F2122_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2022,F1A,F2122_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2022,F1A,F2122_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2022,F1A,F2122_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2022,F1A,F2122_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2022,F2,F2122_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2022,F2,F2122_F2,endowment_net_investment_return_fasb,F2H03B,Endowment net investment return,Endowment net investment return
+2022,F2,F2122_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2022,F2,F2122_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2022,F2,F2122_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2022,F2,F2122_F2,new_endowment_gifts_fasb,F2H03A,New gifts and additions,New gifts and additions
+2022,F2,F2122_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2022,F2,F2122_F2,spending_distribution_for_current_use_fasb,F2H03C,Spending distribution for current use,Spending distribution for current use
+2022,F2,F2122_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2022,F2,F2122_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2022,F2,F2122_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2022,F2,F2122_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2022,F2,F2122_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2022,F2,F2122_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2022,F2,F2122_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2022,F2,F2122_F2,unrestricted_operating_rev_fasb,F2I02,Total unrestricted operating revenues,^Total unrestricted operating revenues$
+2022,F2,F2122_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2022,F2,F2122_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2022,F3,F2122_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2022,F3,F2122_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2022,F3,F2122_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2022,F3,F2122_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2022,F3,F2122_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2022,F3,F2122_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2022,F3,F2122_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2022,F3,F2122_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2022,F3,F2122_F3,total_revenues_pfp,F3G02,Total revenues,^Total revenues$
+2022,F3,F2122_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2022,FLAGS,FLAGS2022,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2022,FLAGS,FLAGS2022,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2022,FLAGS,FLAGS2022,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2022,HD,HD2022,access_earnings,,,
+2022,HD,HD2022,category,INSTCAT,Institutional category,^Institutional category$
+2022,HD,HD2022,city,CITY,City location of institution,^City location of institution$
+2022,HD,HD2022,control,CONTROL,Control of institution,^Control of institution$
+2022,HD,HD2022,county,COUNTYNM,County name,^County name$
+2022,HD,HD2022,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2022,HD,HD2022,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2022,HD,HD2022,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2022,HD,HD2022,grad_program_mix,,,
+2022,HD,HD2022,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2022,HD,HD2022,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2022,HD,HD2022,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2022,HD,HD2022,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2022,HD,HD2022,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2022,HD,HD2022,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2022,HD,HD2022,level,ICLEVEL,Level of institution,^Level of institution$
+2022,HD,HD2022,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2022,HD,HD2022,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2022,HD,HD2022,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2022,HD,HD2022,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2022,HD,HD2022,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2022,HD,HD2022,sector,SECTOR,Sector of institution,^Sector of institution$
+2022,HD,HD2022,size,,,
+2022,HD,HD2022,state,STABBR,State abbreviation,^State abbreviation$
+2022,HD,HD2022,status,ACT,Status of institution,^Status of institution$
+2022,HD,HD2022,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2022,HD,HD2022,undergrad_program_mix,,,
+2022,HD,HD2022,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2022,HD,HD2022,zip,ZIP,ZIP code,^ZIP code$
+2022,IC,IC2022,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2022,IC,IC2022,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2022,IC,IC2022,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2022,IC,IC2022,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2023,DRVADM,DRVADM2023,admissions_yield,DVADM04,Admissions yield - total,^Admissions yield
+2023,DRVEF12,DRVEF122023,fte_12_months,FTE12MN,12-month full-time equivalent enrollment,^12-month full-time equivalent enrollment$
+2023,DRVF,DRVF2023,endowment_assets_per_fte_fasb,F2ENDMFT,Endowment assets (year end) per FTE enrollment (FASB),Endowment assets \(year end\) per FTE enrollment.*FASB
+2023,DRVF,DRVF2023,endowment_assets_per_fte_gasb,F1ENDMFT,Endowment assets (year end) per FTE enrollment (GASB),Endowment assets \(year end\) per FTE enrollment.*GASB
+2023,DRVF,DRVF2023,gov_grants_fasb,F2GVGCPC,Government grants and contracts as a percent of core revenues (FASB),Government grants and contracts as a percent of core revenues.*FASB
+2023,DRVF,DRVF2023,gov_revenue_fte_fasb,F2GVGCFT,Revenues from government grants and contracts per FTE (FASB),Revenues from government grants and contracts per FTE.*FASB
+2023,DRVF,DRVF2023,state_approps_percent_core_gasb,F1STAPPC,State appropriations as percent of core revenues  (GASB),State appropriations as percent of core revenues.*GASB
+2023,DRVF,DRVF2023,state_revenue_fte_fasb,,,
+2023,DRVGR,DRVGR2023,transfer_out_rate_bachelor,GBATRRT,Transfer-out rate - Bachelor cohort,^Transfer-out rate - Bachelor cohort$
+2023,DRVHR,DRVHR2023,fte_instructional,SFTEINST,Instructional FTE,^Instructional FTE$
+2023,DRVHR,DRVHR2023,fte_total_staff,SFTETOTL,Total FTE staff,^Total FTE staff$
+2023,EFIA,EFIA2023,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2022-23",^Reported full-time equivalent \(FTE\) graduate enrollment
+2023,EFIA,EFIA2023,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2022-23",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2023,F1A,F2223_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2023,F1A,F2223_F1A,endowment_net_investment_return_gasb,F1H03B,Endowment net investment return,Endowment net investment return
+2023,F1A,F2223_F1A,endowment_spending_distribution_current_use_gasb,F1H03C,Spending distribution for current use,Spending distribution for current use
+2023,F1A,F2223_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2023,F1A,F2223_F1A,new_gifts_additions_gasb,F1H03A,New gifts and additions,New gifts and additions
+2023,F1A,F2223_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2023,F1A,F2223_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2023,F1A,F2223_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2023,F1A,F2223_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2023,F1A,F2223_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2023,F1A,F2223_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2023,F1A,F2223_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2023,F1A,F2223_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2023,F1A,F2223_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2023,F2,F2223_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2023,F2,F2223_F2,endowment_net_investment_return_fasb,F2H03B,Endowment net investment return,Endowment net investment return
+2023,F2,F2223_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2023,F2,F2223_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2023,F2,F2223_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2023,F2,F2223_F2,new_endowment_gifts_fasb,F2H03A,New gifts and additions,New gifts and additions
+2023,F2,F2223_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2023,F2,F2223_F2,spending_distribution_for_current_use_fasb,F2H03C,Spending distribution for current use,Spending distribution for current use
+2023,F2,F2223_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2023,F2,F2223_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2023,F2,F2223_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2023,F2,F2223_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2023,F2,F2223_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2023,F2,F2223_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2023,F2,F2223_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2023,F2,F2223_F2,unrestricted_operating_rev_fasb,F2I02,Total unrestricted operating revenues,^Total unrestricted operating revenues$
+2023,F2,F2223_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2023,F2,F2223_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2023,F3,F2223_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2023,F3,F2223_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2023,F3,F2223_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2023,F3,F2223_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2023,F3,F2223_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2023,F3,F2223_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2023,F3,F2223_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2023,F3,F2223_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2023,F3,F2223_F3,total_revenues_pfp,F3G02,Total revenues,^Total revenues$
+2023,F3,F2223_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2023,FLAGS,FLAGS2023,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2023,FLAGS,FLAGS2023,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2023,FLAGS,FLAGS2023,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2023,HD,HD2023,access_earnings,,,
+2023,HD,HD2023,category,INSTCAT,Institutional category,^Institutional category$
+2023,HD,HD2023,city,CITY,City location of institution,^City location of institution$
+2023,HD,HD2023,control,CONTROL,Control of institution,^Control of institution$
+2023,HD,HD2023,county,COUNTYNM,County name,^County name$
+2023,HD,HD2023,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2023,HD,HD2023,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2023,HD,HD2023,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2023,HD,HD2023,grad_program_mix,,,
+2023,HD,HD2023,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2023,HD,HD2023,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2023,HD,HD2023,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2023,HD,HD2023,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2023,HD,HD2023,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2023,HD,HD2023,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2023,HD,HD2023,level,ICLEVEL,Level of institution,^Level of institution$
+2023,HD,HD2023,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2023,HD,HD2023,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2023,HD,HD2023,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2023,HD,HD2023,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2023,HD,HD2023,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2023,HD,HD2023,sector,SECTOR,Sector of institution,^Sector of institution$
+2023,HD,HD2023,size,,,
+2023,HD,HD2023,state,STABBR,State abbreviation,^State abbreviation$
+2023,HD,HD2023,status,ACT,Status of institution,^Status of institution$
+2023,HD,HD2023,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2023,HD,HD2023,undergrad_program_mix,,,
+2023,HD,HD2023,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2023,HD,HD2023,zip,ZIP,ZIP code,^ZIP code$
+2023,IC,IC2023,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2023,IC,IC2023,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2023,IC,IC2023,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2023,IC,IC2023,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$
+2024,DRVADM,DRVADM2024,admissions_yield,DVADM04,Admissions yield - total,^Admissions yield
+2024,DRVEF12,DRVEF122024,fte_12_months,FTE12MN,12-month full-time equivalent enrollment,^12-month full-time equivalent enrollment$
+2024,DRVF,DRVF2024,endowment_assets_per_fte_fasb,F2ENDMFT,Endowment assets (year end) per FTE enrollment (FASB),Endowment assets \(year end\) per FTE enrollment.*FASB
+2024,DRVF,DRVF2024,endowment_assets_per_fte_gasb,F1ENDMFT,Endowment assets (year end) per FTE enrollment (GASB),Endowment assets \(year end\) per FTE enrollment.*GASB
+2024,DRVF,DRVF2024,gov_grants_fasb,F2GVGCPC,Government grants and contracts as a percent of core revenues (FASB),Government grants and contracts as a percent of core revenues.*FASB
+2024,DRVF,DRVF2024,gov_revenue_fte_fasb,F2GVGCFT,Revenues from government grants and contracts per FTE (FASB),Revenues from government grants and contracts per FTE.*FASB
+2024,DRVF,DRVF2024,state_approps_percent_core_gasb,F1STAPPC,State appropriations as percent of core revenues  (GASB),State appropriations as percent of core revenues.*GASB
+2024,DRVF,DRVF2024,state_revenue_fte_fasb,,,
+2024,DRVGR,DRVGR2024,transfer_out_rate_bachelor,GBATRRT,Transfer-out rate - Bachelor cohort,^Transfer-out rate - Bachelor cohort$
+2024,DRVHR,DRVHR2024,fte_instructional,SFTEINST,Instructional FTE,^Instructional FTE$
+2024,DRVHR,DRVHR2024,fte_total_staff,SFTETOTL,Total FTE staff,^Total FTE staff$
+2024,EFIA,EFIA2024,fte_graduate,FTEGD,"Reported full-time equivalent (FTE) graduate enrollment, 2023-24",^Reported full-time equivalent \(FTE\) graduate enrollment
+2024,EFIA,EFIA2024,fte_undergrad,FTEUG,"Reported full-time equivalent (FTE) undergraduate enrollment, 2023-24",^Reported full-time equivalent \(FTE\) undergraduate enrollment
+2024,F1A,F2324_F1A,discounts_allowances_applied_tuition_fees_gasb,F1E08,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2024,F1A,F2324_F1A,endowment_net_investment_return_gasb,F1H03B,Endowment net investment return,Endowment net investment return
+2024,F1A,F2324_F1A,endowment_spending_distribution_current_use_gasb,F1H03C,Spending distribution for current use,Spending distribution for current use
+2024,F1A,F2324_F1A,federal_operating_grants_contracts_gasb,F1B02,Federal operating grants and contracts,^Federal operating grants and contracts$
+2024,F1A,F2324_F1A,new_gifts_additions_gasb,F1H03A,New gifts and additions,New gifts and additions
+2024,F1A,F2324_F1A,state_appropriations_gasb,F1B11,State appropriations,^State appropriations$
+2024,F1A,F2324_F1A,total_assets_gasb,F1A06,Total assets,^Total assets
+2024,F1A,F2324_F1A,total_expenses_deductions_current_total_gasb,F1D02,Total expenses and other deductions,^Total expenses and other deductions$
+2024,F1A,F2324_F1A,total_liabilities_gasb,F1A13,Total liabilities,^Total liabilities
+2024,F1A,F2324_F1A,total_operating_nonoperating_revenues_gasb,F1D01,Total revenues and other additions,^Total revenues and other additions$
+2024,F1A,F2324_F1A,tuition_fees_after_discounts_allowances_gasb,F1B01,"Tuition and fees, after deducting discounts and allowances","^Tuition and fees, after deducting discounts and allowances$"
+2024,F1A,F2324_F1A,unrestricted_public,F1A17,Unrestricted,^Unrestricted$
+2024,F1A,F2324_F1A,value_endowment_assets_beginning_gasb,F1H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2024,F1A,F2324_F1A,value_endowment_assets_end_gasb,F1H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2024,F2,F2324_F2,allowances_applied_to_tuition_fasb,F2C08,Allowances applied to tuition and fees,^Allowances applied to tuition and fees$
+2024,F2,F2324_F2,endowment_net_investment_return_fasb,F2H03B,Endowment net investment return,Endowment net investment return
+2024,F2,F2324_F2,federal_grants_contracts_fasb,F2D05,Federal grants and contracts - Total,^Federal grants and contracts - Total$
+2024,F2,F2324_F2,institutional_grants_funded_fasb,F2C05,Institutional grants (funded),^Institutional grants \(funded\)$
+2024,F2,F2324_F2,institutional_grants_unfunded_fasb,F2C06,Institutional grants (unfunded),^Institutional grants \(unfunded\)$
+2024,F2,F2324_F2,new_endowment_gifts_fasb,F2H03A,New gifts and additions,New gifts and additions
+2024,F2,F2324_F2,pell_grants,F2C01,Pell grants,^Pell grants$
+2024,F2,F2324_F2,spending_distribution_for_current_use_fasb,F2H03C,Spending distribution for current use,Spending distribution for current use
+2024,F2,F2324_F2,state_approps_fasb,F2D03,State appropriations - Total,^State appropriations - Total$
+2024,F2,F2324_F2,total_assets_fasb,F2A02,Total assets,^Total assets$
+2024,F2,F2324_F2,total_expenses_fasb,F2B02,Total expenses,^Total expenses$
+2024,F2,F2324_F2,total_liabilities_fasb,F2A03,Total liabilities,^Total liabilities$
+2024,F2,F2324_F2,total_revenues_investment_return_fasb,F2D16,Total revenues and investment return - Total,^Total revenues and investment return - Total$
+2024,F2,F2324_F2,total_unrestricted_net_assets_fasb,F2A04,Total unrestricted net assets,^Total unrestricted net assets$
+2024,F2,F2324_F2,tuition_and_fees_fasb,F2D01,Tuition and fees - Total,^Tuition and fees - Total$
+2024,F2,F2324_F2,unrestricted_operating_rev_fasb,F2I02,Total unrestricted operating revenues,^Total unrestricted operating revenues$
+2024,F2,F2324_F2,value_endowment_beginning_fasb,F2H01,Value of endowment assets at the beginning of the fiscal year,Value of endowment assets at the beginning of the fiscal year
+2024,F2,F2324_F2,value_endowment_end_fasb,F2H02,Value of endowment assets at the end of the fiscal year,Value of endowment assets at the end of the fiscal year
+2024,F3,F2324_F3,discounts_allowances_applied_tuition_fees_pfp,F3C06,Discounts and allowances applied to tuition and fees,Discounts and allowances applied to tuition and fees
+2024,F3,F2324_F3,federal_grants_contracts_pfp,F3D02B,Federal grants and contracts,^Federal grants and contracts
+2024,F3,F2324_F3,institutional_grants_pfp,F3C04,Institutional grants,^Institutional grants$
+2024,F3,F2324_F3,state_appropriations_pfp,F3D03A,State appropriations,^State appropriations
+2024,F3,F2324_F3,total_assets_pfp,F3A01,Total assets,^Total assets$
+2024,F3,F2324_F3,total_expenses_total_amount_pfp,F3B02,Total expenses,^Total expenses$
+2024,F3,F2324_F3,total_liabilities_pfp,F3A02,Total liabilities,^Total liabilities$
+2024,F3,F2324_F3,total_revenues_investment_return_pfp,F3B01,Total revenues and investment return,^Total revenues and investment return$
+2024,F3,F2324_F3,total_revenues_pfp,F3G02,Total revenues,^Total revenues$
+2024,F3,F2324_F3,tuition_fees_pfp,F3D01,Tuition and fees,^Tuition and fees$
+2024,FLAGS,FLAGS2024,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2024,FLAGS,FLAGS2024,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2024,FLAGS,FLAGS2024,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2024,HD,HD2024,access_earnings,CARNEGIESAEC,Carnegie Classification 2025: Student Access and Earnings,Student Access and Earnings
+2024,HD,HD2024,category,INSTCAT,Institutional category,^Institutional category$
+2024,HD,HD2024,city,CITY,City location of institution,^City location of institution$
+2024,HD,HD2024,control,CONTROL,Control of institution,^Control of institution$
+2024,HD,HD2024,county,COUNTYNM,County name,^County name$
+2024,HD,HD2024,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2024,HD,HD2024,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2024,HD,HD2024,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2024,HD,HD2024,grad_program_mix,CARNEGIEGPM,Carnegie Classification 2025: Graduate Academic Program Mix,Graduate Academic Program Mix
+2024,HD,HD2024,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2024,HD,HD2024,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2024,HD,HD2024,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2024,HD,HD2024,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2024,HD,HD2024,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2024,HD,HD2024,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2024,HD,HD2024,level,ICLEVEL,Level of institution,^Level of institution$
+2024,HD,HD2024,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2024,HD,HD2024,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2024,HD,HD2024,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2024,HD,HD2024,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2024,HD,HD2024,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2024,HD,HD2024,sector,SECTOR,Sector of institution,^Sector of institution$
+2024,HD,HD2024,size,CARNEGIESIZE,Carnegie Classification 2025: Institutional Size,Institutional Size
+2024,HD,HD2024,state,STABBR,State abbreviation,^State abbreviation$
+2024,HD,HD2024,status,ACT,Status of institution,^Status of institution$
+2024,HD,HD2024,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2024,HD,HD2024,undergrad_program_mix,CARNEGIEAPM,Carnegie Classification 2025: Undergraduate Academic Program Mix,Undergraduate Academic Program Mix
+2024,HD,HD2024,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2024,HD,HD2024,zip,ZIP,ZIP code,^ZIP code$
+2024,IC,IC2024,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2024,IC,IC2024,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2024,IC,IC2024,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2024,IC,IC2024,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$

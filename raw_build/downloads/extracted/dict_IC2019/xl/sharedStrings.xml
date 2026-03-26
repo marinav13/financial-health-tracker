@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="6627" uniqueCount="882"><si><t>Filename</t></si><si><t>Overview</t></si><si><t>Note</t></si><si><t>Contents of spreadsheet</t></si><si><t>Varlist</t></si><si><t>Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.</t></si><si><t>Description</t></si><si><t xml:space="preserve">Long description or glossary definition of a variable. </t></si><si><t>Frequencies</t></si><si><t>Statistics</t></si><si><t>varnumber</t></si><si><t>varname</t></si><si><t>DataType</t></si><si><t>Fieldwidth</t></si><si><t>format</t></si><si><t>imputationvar</t></si><si><t>varTitle</t></si><si><t>UNITID</t></si><si><t>N</t></si><si><t>Cont</t></si><si><t>Unique identification number of the institution</t></si><si><t>PEO1ISTR</t></si><si><t>Disc</t></si><si><t>Occupational</t></si><si><t>PEO2ISTR</t></si><si><t>Academic</t></si><si><t>PEO3ISTR</t></si><si><t>Continuing professional</t></si><si><t>PEO4ISTR</t></si><si><t>Recreational or avocational</t></si><si><t>PEO5ISTR</t></si><si><t>Adult basic remedial or high school equivalent</t></si><si><t>PEO6ISTR</t></si><si><t>Secondary (high school)</t></si><si><t>CNTLAFFI</t></si><si><t>Institutional control or affiliation</t></si><si><t>PUBPRIME</t></si><si><t>Primary public control</t></si><si><t>PUBSECON</t></si><si><t>Secondary public control</t></si><si><t>RELAFFIL</t></si><si><t>Religious affiliation</t></si><si><t>LEVEL1</t></si><si><t>Less than one year certificate</t></si><si><t>LEVEL2</t></si><si><t>One but less than two years certificate</t></si><si><t>LEVEL3</t></si><si><t>Associate's degree</t></si><si><t>LEVEL4</t></si><si><t>Two but less than 4 years certificate</t></si><si><t>LEVEL5</t></si><si><t>Bachelor's degree</t></si><si><t>LEVEL6</t></si><si><t>Postbaccalaureate certificate</t></si><si><t>LEVEL7</t></si><si><t>Master's degree</t></si><si><t>LEVEL8</t></si><si><t>Post-master's certificate</t></si><si><t>LEVEL12</t></si><si><t>Other degree</t></si><si><t>LEVEL17</t></si><si><t>Doctor's degree - research/scholarship</t></si><si><t>LEVEL18</t></si><si><t>Doctor's degree - professional practice</t></si><si><t>LEVEL19</t></si><si><t>Doctor's degree - other</t></si><si><t>OPENADMP</t></si><si><t>Open admission policy</t></si><si><t>CREDITS1</t></si><si><t>Dual credit</t></si><si><t>CREDITS2</t></si><si><t>Credit for life experiences</t></si><si><t>CREDITS3</t></si><si><t>Advanced placement (AP) credits</t></si><si><t>CREDITS4</t></si><si><t>Institution does not accept dual, credit for life, or AP credits</t></si><si><t>SLO5</t></si><si><t>ROTC</t></si><si><t>SLO51</t></si><si><t>ROTC - Army</t></si><si><t>SLO52</t></si><si><t>ROTC - Navy</t></si><si><t>SLO53</t></si><si><t>ROTC - Air Force</t></si><si><t>SLO6</t></si><si><t>Study abroad</t></si><si><t>SLO7</t></si><si><t>Weekend/evening  college</t></si><si><t>SLO8</t></si><si><t>Teacher certification (below the postsecondary level)</t></si><si><t>SLO81</t></si><si><t>Teacher certification: Students can complete their preparation in certain areas of specialization</t></si><si><t>SLO82</t></si><si><t>Teacher certification: Students must complete their preparation at another institution for certain areas of specialization</t></si><si><t>SLO83</t></si><si><t>SLO9</t></si><si><t>None of the above special learning opportunities are offered</t></si><si><t>YRSCOLL</t></si><si><t>Years of college-level work required</t></si><si><t>STUSRV1</t></si><si><t>Remedial services</t></si><si><t>STUSRV2</t></si><si><t>Academic/career counseling service</t></si><si><t>STUSRV3</t></si><si><t>Employment services for students</t></si><si><t>STUSRV4</t></si><si><t>Placement services for completers</t></si><si><t>STUSRV8</t></si><si><t>On-campus day care for students' children</t></si><si><t>STUSRV9</t></si><si><t>None of the above selected services are offered</t></si><si><t>ATHASSOC</t></si><si><t>Member of National Athletic Association</t></si><si><t>ASSOC1</t></si><si><t>Member of National Collegiate Athletic Association (NCAA)</t></si><si><t>ASSOC2</t></si><si><t>Member of National Association of Intercollegiate Athletics (NAIA)</t></si><si><t>ASSOC3</t></si><si><t>Member of National Junior College Athletic  Association (NJCAA)</t></si><si><t>ASSOC4</t></si><si><t>Member of National Small College Athletic Association (NSCAA)</t></si><si><t>ASSOC5</t></si><si><t>Member of National Christian College Athletic Association (NCCAA)</t></si><si><t>ASSOC6</t></si><si><t>Member of other national athletic association not listed above</t></si><si><t>SPORT1</t></si><si><t>NCAA/NAIA member for football</t></si><si><t>CONFNO1</t></si><si><t>NCAA/NAIA conference number football</t></si><si><t>SPORT2</t></si><si><t>NCAA/NAIA member for basketball</t></si><si><t>CONFNO2</t></si><si><t>NCAA/NAIA conference number basketball</t></si><si><t>SPORT3</t></si><si><t>NCAA/NAIA member for baseball</t></si><si><t>CONFNO3</t></si><si><t>NCAA/NAIA conference number baseball</t></si><si><t>SPORT4</t></si><si><t>NCAA/NAIA member for cross country/track</t></si><si><t>CONFNO4</t></si><si><t>NCAA/NAIA conference number cross country/track</t></si><si><t>CALSYS</t></si><si><t>Calendar system</t></si><si><t>APPLFEEU</t></si><si><t>XAPPFEEU</t></si><si><t>Undergraduate application fee</t></si><si><t>APPLFEEG</t></si><si><t>XAPPFEEG</t></si><si><t>Graduate application fee</t></si><si><t>FT_UG</t></si><si><t>Full-time undergraduate students are enrolled</t></si><si><t>FT_FTUG</t></si><si><t>Full time first-time degree/certificate-seeking undergraduate students enrolled</t></si><si><t>FTGDNIDP</t></si><si><t>Full-time graduate (not including doctor's professional practice) students are enrolled</t></si><si><t>PT_UG</t></si><si><t>Part-time undergraduate students are enrolled</t></si><si><t>PT_FTUG</t></si><si><t>Part time first-time degree/certificate-seeking undergraduate students enrolled</t></si><si><t>PTGDNIDP</t></si><si><t>Part-time graduate (not including doctor's professional practice) students are enrolled</t></si><si><t>DOCPP</t></si><si><t>Doctor's professional practice students are enrolled</t></si><si><t>DOCPPSP</t></si><si><t>Doctor's professional practice students are enrolled in programs formerly designated as first-professional</t></si><si><t>TUITVARY</t></si><si><t>Tuition charge varies for in-district, in-state, out-of-state students</t></si><si><t>ROOM</t></si><si><t>Institution provide on-campus housing</t></si><si><t>ROOMCAP</t></si><si><t>XROOMCAP</t></si><si><t>Total dormitory capacity</t></si><si><t>BOARD</t></si><si><t>Institution provides board or meal plan</t></si><si><t>MEALSWK</t></si><si><t>XMEALSWK</t></si><si><t>Number of meals per week in board charge</t></si><si><t>ROOMAMT</t></si><si><t>XROOMAMT</t></si><si><t>Typical room charge for academic year</t></si><si><t>BOARDAMT</t></si><si><t>XBORDAMT</t></si><si><t>Typical board charge for academic year</t></si><si><t>RMBRDAMT</t></si><si><t>XRMBDAMT</t></si><si><t>Combined charge for room and board</t></si><si><t>ALLONCAM</t></si><si><t>Full-time, first-time degree/certificate-seeking students required to live on campus</t></si><si><t>TUITPL</t></si><si><t>Any alternative tuition plans offered by institution</t></si><si><t>TUITPL1</t></si><si><t>Tuition guaranteed plan</t></si><si><t>TUITPL2</t></si><si><t>Prepaid tuition plan</t></si><si><t>TUITPL3</t></si><si><t>Tuition payment plan</t></si><si><t>TUITPL4</t></si><si><t>Other alternative tuition plan</t></si><si><t>DISAB</t></si><si><t>Percent indicator of undergraduates formally registered as students with disabilities</t></si><si><t>DISABPCT</t></si><si><t>XDISABPC</t></si><si><t>Percent of undergraduates, who are formally registered as students with disabilities, when percentage is more than 3 percent</t></si><si><t>DISTNCED</t></si><si><t>All programs offered completely via distance education</t></si><si><t>DSTNCED1</t></si><si><t>DSTNCED2</t></si><si><t>DSTNCED3</t></si><si><t>Does not offer distance education opportunities</t></si><si><t>longDescription</t></si><si><t>codevalue</t></si><si><t>valuelabel</t></si><si><t>frequency</t></si><si><t>percent</t></si><si><t>1</t></si><si><t>Yes</t></si><si><t>0</t></si><si><t>Implied no</t></si><si><t>-2</t></si><si><t>Not applicable</t></si><si><t>Public</t></si><si><t>2</t></si><si><t>Private for-profit</t></si><si><t>3</t></si><si><t>Private not-for-profit (no religious affiliation)</t></si><si><t>4</t></si><si><t>Private not-for-profit (religious affiliation)</t></si><si><t>Federal</t></si><si><t>State</t></si><si><t>Territorial</t></si><si><t>School district</t></si><si><t>5</t></si><si><t>County</t></si><si><t>6</t></si><si><t>Township</t></si><si><t>7</t></si><si><t>City</t></si><si><t>8</t></si><si><t>Special district</t></si><si><t>9</t></si><si><t>Other</t></si><si><t>51</t></si><si><t>African Methodist Episcopal</t></si><si><t>24</t></si><si><t>African Methodist Episcopal Zion Church</t></si><si><t>52</t></si><si><t>American Baptist</t></si><si><t>22</t></si><si><t>American Evangelical Lutheran Church</t></si><si><t>27</t></si><si><t>Assemblies of God Church</t></si><si><t>54</t></si><si><t>Baptist</t></si><si><t>28</t></si><si><t>Brethren Church</t></si><si><t>34</t></si><si><t>Christ and Missionary Alliance Church</t></si><si><t>61</t></si><si><t>Christian Church (Disciples of Christ)</t></si><si><t>48</t></si><si><t>Christian Churches and Churches of Christ</t></si><si><t>55</t></si><si><t>Christian Methodist Episcopal</t></si><si><t>35</t></si><si><t>Christian Reformed Church</t></si><si><t>58</t></si><si><t>Church of Brethren</t></si><si><t>57</t></si><si><t>Church of God</t></si><si><t>59</t></si><si><t>Church of the Nazarene</t></si><si><t>74</t></si><si><t>Churches of Christ</t></si><si><t>60</t></si><si><t>Cumberland Presbyterian</t></si><si><t>50</t></si><si><t>Episcopal Church, Reformed</t></si><si><t>102</t></si><si><t>Evangelical Christian</t></si><si><t>36</t></si><si><t>Evangelical Congregational Church</t></si><si><t>37</t></si><si><t>Evangelical Covenant Church of America</t></si><si><t>38</t></si><si><t>Evangelical Free Church of America</t></si><si><t>39</t></si><si><t>Evangelical Lutheran Church</t></si><si><t>64</t></si><si><t>Free Methodist</t></si><si><t>41</t></si><si><t>Free Will Baptist Church</t></si><si><t>65</t></si><si><t>Friends</t></si><si><t>91</t></si><si><t>Greek Orthodox</t></si><si><t>42</t></si><si><t>Interdenominational</t></si><si><t>80</t></si><si><t>Jewish</t></si><si><t>94</t></si><si><t>68</t></si><si><t>Lutheran Church - Missouri Synod</t></si><si><t>67</t></si><si><t>Lutheran Church in America</t></si><si><t>43</t></si><si><t>Mennonite Brethren Church</t></si><si><t>69</t></si><si><t>Mennonite Church</t></si><si><t>87</t></si><si><t>Missionary Church Inc</t></si><si><t>44</t></si><si><t>Moravian Church</t></si><si><t>78</t></si><si><t>Multiple Protestant Denomination</t></si><si><t>45</t></si><si><t>North American Baptist</t></si><si><t>100</t></si><si><t>Original Free Will Baptist</t></si><si><t>79</t></si><si><t>Other Protestant</t></si><si><t>47</t></si><si><t>Pentecostal Holiness Church</t></si><si><t>103</t></si><si><t>Presbyterian</t></si><si><t>66</t></si><si><t>Presbyterian Church (USA)</t></si><si><t>73</t></si><si><t>Protestant Episcopal</t></si><si><t>49</t></si><si><t>Reformed Church in America</t></si><si><t>81</t></si><si><t>Reformed Presbyterian Church</t></si><si><t>30</t></si><si><t>Roman Catholic</t></si><si><t>92</t></si><si><t>Russian Orthodox</t></si><si><t>95</t></si><si><t>75</t></si><si><t>Southern Baptist</t></si><si><t>97</t></si><si><t>The Presbyterian Church in America</t></si><si><t>88</t></si><si><t>Undenominational</t></si><si><t>93</t></si><si><t>Unitarian Universalist</t></si><si><t>84</t></si><si><t>United Brethren Church</t></si><si><t>76</t></si><si><t>United Church of Christ</t></si><si><t>71</t></si><si><t>United Methodist</t></si><si><t>89</t></si><si><t>Wesleyan</t></si><si><t>33</t></si><si><t>Wisconsin Evangelical Lutheran Synod</t></si><si><t>99</t></si><si><t>Other (none of the above)</t></si><si><t>No</t></si><si><t>372</t></si><si><t>American Athletic Conference</t></si><si><t>204</t></si><si><t>American Southwest Conference</t></si><si><t>316</t></si><si><t>Appalachian Athletic Conference</t></si><si><t>Atlantic 10 Conference</t></si><si><t>Atlantic Coast Conference</t></si><si><t>104</t></si><si><t>Big East Conference</t></si><si><t>105</t></si><si><t>Big Sky Conference</t></si><si><t>106</t></si><si><t>Big South Conference</t></si><si><t>107</t></si><si><t>Big Ten Conference</t></si><si><t>108</t></si><si><t>Big Twelve Conference</t></si><si><t>138</t></si><si><t>164</t></si><si><t>Capital Athletic Conference</t></si><si><t>165</t></si><si><t>Centennial Conference</t></si><si><t>140</t></si><si><t>355</t></si><si><t>Central States Football League</t></si><si><t>304</t></si><si><t>167</t></si><si><t>110</t></si><si><t>Colonial Athletic Association</t></si><si><t>207</t></si><si><t>Commonwealth Conference</t></si><si><t>111</t></si><si><t>Conference USA</t></si><si><t>112</t></si><si><t>Division I Independents</t></si><si><t>113</t></si><si><t>Division I-A Independents</t></si><si><t>141</t></si><si><t>Division II Independents</t></si><si><t>170</t></si><si><t>Division III Independents</t></si><si><t>366</t></si><si><t>Eastern Collegiate Football Conference</t></si><si><t>172</t></si><si><t>Empire Eight</t></si><si><t>333</t></si><si><t>173</t></si><si><t>Freedom Football Conference</t></si><si><t>352</t></si><si><t>Frontier Conference</t></si><si><t>367</t></si><si><t>Great American Conference</t></si><si><t>144</t></si><si><t>145</t></si><si><t>Great Lakes Valley Conference</t></si><si><t>174</t></si><si><t>Great Northeast Athletic Conference</t></si><si><t>213</t></si><si><t>Great Northwest Athletic Conference</t></si><si><t>311</t></si><si><t>Great Plains Athletic Conference</t></si><si><t>337</t></si><si><t>Gulf Coast Athletic Conference</t></si><si><t>146</t></si><si><t>Gulf South Conference</t></si><si><t>320</t></si><si><t>Heart of America Athletic Conference</t></si><si><t>175</t></si><si><t>Heartland Collegiate Athletic Conference</t></si><si><t>209</t></si><si><t>Heartland Conference</t></si><si><t>322</t></si><si><t>Independent Midwest Region</t></si><si><t>335</t></si><si><t>Independent Southeast Region</t></si><si><t>176</t></si><si><t>117</t></si><si><t>Ivy Group</t></si><si><t>309</t></si><si><t>147</t></si><si><t>Lone Star Conference</t></si><si><t>179</t></si><si><t>180</t></si><si><t>148</t></si><si><t>119</t></si><si><t>Mid-American Conference</t></si><si><t>121</t></si><si><t>Mid-Eastern Athletic Conference</t></si><si><t>315</t></si><si><t>Mid-South Conference</t></si><si><t>356</t></si><si><t>Mid-States Football Association</t></si><si><t>181</t></si><si><t>Middle Atlantic States Athletic Corporation</t></si><si><t>182</t></si><si><t>Midwest Conference</t></si><si><t>183</t></si><si><t>123</t></si><si><t>Missouri Valley Conference</t></si><si><t>370</t></si><si><t>Mountain East Conference</t></si><si><t>203</t></si><si><t>Mountain West Conference</t></si><si><t>184</t></si><si><t>New England Football Conference</t></si><si><t>185</t></si><si><t>187</t></si><si><t>New Jersey Athletic Conference</t></si><si><t>189</t></si><si><t>North Coast Athletic Conference</t></si><si><t>373</t></si><si><t>North Star Athletic Association</t></si><si><t>153</t></si><si><t>Northeast 10 Conference</t></si><si><t>125</t></si><si><t>Northeast Conference</t></si><si><t>359</t></si><si><t>Northern Athletics Collegiate Conference</t></si><si><t>155</t></si><si><t>Northern Sun Intercollegiate Conference</t></si><si><t>205</t></si><si><t>Northwest Conference</t></si><si><t>191</t></si><si><t>Ohio Athletic Conference</t></si><si><t>126</t></si><si><t>Ohio Valley Conference</t></si><si><t>192</t></si><si><t>Old Dominion Athletic Conference</t></si><si><t>127</t></si><si><t>Pacific-12 Conference</t></si><si><t>128</t></si><si><t>Patriot League</t></si><si><t>193</t></si><si><t>Pennsylvania Athletic Conference</t></si><si><t>158</t></si><si><t>Pennsylvania State Athletic Conference</t></si><si><t>129</t></si><si><t>Pioneer Football League</t></si><si><t>194</t></si><si><t>Presidents' Athletic Conference</t></si><si><t>159</t></si><si><t>Rocky Mountain Athletic Conference</t></si><si><t>160</t></si><si><t>South Atlantic Conference</t></si><si><t>130</t></si><si><t>Southeastern Conference</t></si><si><t>368</t></si><si><t>Southern Athletic Association</t></si><si><t>197</t></si><si><t>198</t></si><si><t>Southern Collegiate Athletic Conference</t></si><si><t>131</t></si><si><t>Southern Conference</t></si><si><t>161</t></si><si><t>132</t></si><si><t>Southland Conference</t></si><si><t>133</t></si><si><t>Southwestern Athletic Conference</t></si><si><t>195</t></si><si><t>134</t></si><si><t>Sun Belt Conference</t></si><si><t>171</t></si><si><t>USA South Athletic Conference</t></si><si><t>200</t></si><si><t>University Athletic Association</t></si><si><t>354</t></si><si><t>Upper Midwest Athletic Conference</t></si><si><t>201</t></si><si><t>Upstate Collegiate Athletic Association</t></si><si><t>163</t></si><si><t>137</t></si><si><t>Western Athletic Conference</t></si><si><t>202</t></si><si><t>307</t></si><si><t>342</t></si><si><t>214</t></si><si><t>Allegheny Mountain Collegiate Conference</t></si><si><t>101</t></si><si><t>America East</t></si><si><t>319</t></si><si><t>American Midwest Conference</t></si><si><t>369</t></si><si><t>Association of Independent Institutions</t></si><si><t>135</t></si><si><t>Atlantic Sun Conference</t></si><si><t>109</t></si><si><t>Big West Conference</t></si><si><t>301</t></si><si><t>California Pacific Conference</t></si><si><t>328</t></si><si><t>Cascade Collegiate Conference</t></si><si><t>323</t></si><si><t>166</t></si><si><t>364</t></si><si><t>Colonial States Athletic Conference</t></si><si><t>168</t></si><si><t>Commonwealth Coast Conference</t></si><si><t>139</t></si><si><t>Conference Carolinas</t></si><si><t>305</t></si><si><t>Crossroads League</t></si><si><t>151</t></si><si><t>East Coast Conference</t></si><si><t>115</t></si><si><t>Eastern College Athletic Conference</t></si><si><t>208</t></si><si><t>Freedom Conference</t></si><si><t>302</t></si><si><t>Golden State Athletic Conference</t></si><si><t>371</t></si><si><t>Great Midwest Athletic Conference</t></si><si><t>122</t></si><si><t>Horizon League</t></si><si><t>318</t></si><si><t>Independent Mid-South Region</t></si><si><t>327</t></si><si><t>Independent Northeast Region</t></si><si><t>361</t></si><si><t>Landmark Conference</t></si><si><t>178</t></si><si><t>Little East Conference</t></si><si><t>118</t></si><si><t>Metro Atlantic Athletic Conference</t></si><si><t>363</t></si><si><t>New England Collegiate Conference</t></si><si><t>186</t></si><si><t>New England Women's &amp; Men's Athletic Conference</t></si><si><t>215</t></si><si><t>North Atlantic Conference</t></si><si><t>365</t></si><si><t>North Eastern Athletic Conference</t></si><si><t>156</t></si><si><t>Pacific West Conference</t></si><si><t>157</t></si><si><t>Peach Belt Conference</t></si><si><t>353</t></si><si><t>Red River Athletic Conference</t></si><si><t>196</t></si><si><t>Skyline Conference</t></si><si><t>340</t></si><si><t>Sooner Athletic Conference</t></si><si><t>334</t></si><si><t>Southern States Athletic Conference</t></si><si><t>199</t></si><si><t>162</t></si><si><t>Sunshine State Conference</t></si><si><t>120</t></si><si><t>The Summit League</t></si><si><t>317</t></si><si><t>TranSouth Athletic Conference</t></si><si><t>136</t></si><si><t>West Coast Conference</t></si><si><t>West Virginia Intercollegiate Athletic Conference</t></si><si><t>Wisconsin Intercollegiate Ath Conference</t></si><si><t>Wolverine-Hoosier Athletic Conference</t></si><si><t>Northern Athletics Conference</t></si><si><t>Semester</t></si><si><t>Quarter</t></si><si><t>Trimester</t></si><si><t>Four-one-four plan</t></si><si><t>Other academic year</t></si><si><t>Differs by program</t></si><si><t>Continuous</t></si><si><t>Yes, number of meals in the maximum meal plan offered</t></si><si><t>Yes, number of meals per week can vary</t></si><si><t>n</t></si><si><t>sum</t></si><si><t>mean</t></si><si><t>min</t></si><si><t>max</t></si><si><t>VET1</t></si><si><t>Yellow Ribbon Program (officially known as Post-9/11 GI Bill, Yellow Ribbon Program)</t></si><si><t>VET2</t></si><si><t>Credit for military training</t></si><si><t>VET3</t></si><si><t>Dedicated point of contact for support services for veterans, military servicemembers, and their families</t></si><si><t>VET4</t></si><si><t>Recognized student veteran organization</t></si><si><t>VET5</t></si><si><t>Member of Servicemembers Opportunity Colleges</t></si><si><t>VET9</t></si><si><t>Services  and programs are not available to veterans, military servicemembers, or their families?</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Occupational, may lead to a certificate, degree, or other formal award 
+
+OCCUPATIONAL PROGRAM - A program of study consisting of one or more courses, designed to provide the student with sufficient knowledge and skills to perform in a specific occupation.
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>What is your institutional control or affiliation? Select one;
+
+Public
+Private for-profit 
+Private not-for-profit independent (no religious affiliation) 
+Private not-for-profit religious affiliation - Specify 
+
+PUBLIC INSTITUTION -An educational institution whose programs and activities are operated by publicly elected or appointed school officials and which is supported primarily by public funds. 
+PRIVATE FOR-PROFIT (PROFIT-MAKING) INSTITUTION - A private institution in which the individual(s) or agency in control receives compensation other than wages, rent, or other expenses for the assumption of risk. 
+PRIVATE NOT-FOR-PROFIT INSTITUTION - A private institution in which the individual(s) or agency in control receives no compensation, other than wages, rent, or other expenses for the assumption of risk. These include both independent nonprofit schools and those affiliated with a religious organization.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Master's degree 
+
+MASTER'S DEGREE - An award that requires the successful completion of a program of study of at least the full-time equivalent of 1 but not more than 2 academic years of work beyond the bachelor's degree.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Doctor’s degree - research/scholarship
+
+Doctor’s degree - research/scholarship - A Ph.D. or other doctor's degree that requires advanced work beyond the master’s level, including the preparation and defense of a dissertation based on original research, or the planning and execution of an original project demonstrating substantial artistic or scholarly achievement. Some examples of this type of degree may include Ed.D., D.M.A., D.B.A., D.Sc., D.A., or D.M, and others, as designated by the awarding institution.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Doctor’s degree - professional practice
+
+Doctor’s degree - professional practice - A doctor’s degree that is conferred upon completion of a program providing the knowledge and skills for the recognition, credential, or license required for professional practice. The degree is awarded after a period of study such that the total time to the degree, including both pre-professional and professional preparation, equals at least six full-time equivalent academic years. Some of these degrees were formerly classified as “first-professional” and may include: Chiropractic (D.C. or D.C.M.); Dentistry (D.D.S. or D.M.D.); Law (L.L.B. or J.D.); Medicine (M.D.); Optometry (O.D.); Osteopathic Medicine (D.O); Pharmacy (Pharm.D.); Podiatry (D.P.M., Pod.D., D.P.); or, Veterinary Medicine (D.V.M.), and others, as designated by the awarding institution.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Doctor’s degree - other
+
+Doctor’s degree - other - A doctor’s degree that does not meet the definition of a doctor’s degree - research/scholarship or a doctor’s degree - professional practice.</t></si><si><t>If your institution grants a bachelor's degree or higher but does not offer a full 4-year program of study at the undergraduate level, how many years of completed college-level work are required for entrance? 
+
+Number of years</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+On-campus day care for children of students 
+
+DAY CARE SERVICE - A student service designed to provide appropriate care and protection of infants, preschool, and school-age children so their parents can participate in postsecondary education programs.</t></si><si><t>If the institution is a member of a national athletic association
+
+Other, not one of the above associations</t></si><si><t>If institution enrolls full-time students, indicate levels 
+
+Graduate (not including doctor's professional practice)
+
+GRADUATE STUDENT - A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level. These students may or may not be enrolled in graduate programs 
+FULL-TIME GRADUATE - A student enrolled for 9 or more semester credits, or 9 or more quarter credits, or students involved in thesis or dissertation preparation that are considered full time by the institution.
+Doctor's degree - professional practice A doctor's degree that is conferred upon completion of a program providing the knowledge and skills for the recognition, credential, or license required for professional practice. The degree is awarded after a period of study such that the total time to the degree, including both pre-professional and professional preparation, equals at least six full-time equivalent academic years. Some of these degrees were formerly classified as first-professional and may include: Chiropractic (D.C. or D.C.M.); Dentistry (D.D.S. or D.M.D.); Law (L.L.B. or J.D.); Medicine (M.D.); Optometry (O.D.); Osteopathic Medicine (D.O); Pharmacy (Pharm.D.); Podiatry (D.P.M., Pod.D., D.P.); or, Veterinary Medicine (D.V.M.), and others, as designated by the awarding institution.</t></si><si><t>If institution enrolls part-time students indicate levels
+
+Graduate (not including doctor's professional practice)
+
+GRADUATE STUDENT - A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level. These students may or may not be enrolled in graduate programs 
+PART-TIME Graduate - a student enrolled for either 8 semester credits or less, or 8 quarter credits or less.
+Doctor's degree - professional practice A doctor's degree that is conferred upon completion of a program providing the knowledge and skills for the recognition, credential, or license required for professional practice. The degree is awarded after a period of study such that the total time to the degree, including both pre-professional and professional preparation, equals at least six full-time equivalent academic years. Some of these degrees were formerly classified as first-professional and may include: Chiropractic (D.C. or D.C.M.); Dentistry (D.D.S. or D.M.D.); Law (L.L.B. or J.D.); Medicine (M.D.); Optometry (O.D.); Osteopathic Medicine (D.O); Pharmacy (Pharm.D.); Podiatry (D.P.M., Pod.D., D.P.); or, Veterinary Medicine (D.V.M.), and others, as designated by the awarding institution.</t></si><si><t>Does your institution enroll students in doctor's - professional practice programs? Checking 'yes' for this question will allow your institution to report graduate level students in Fall Enrollment.
+
+Doctor's degree - professional practice A doctor's degree that is conferred upon completion of a program providing the knowledge and skills for the recognition, credential, or license required for professional practice. The degree is awarded after a period of study such that the total time to the degree, including both pre-professional and professional preparation, equals at least six full-time equivalent academic years. Some of these degrees were formerly classified as first-professional and may include: Chiropractic (D.C. or D.C.M.); Dentistry (D.D.S. or D.M.D.); Law (L.L.B. or J.D.); Medicine (M.D.); Optometry (O.D.); Osteopathic Medicine (D.O); Pharmacy (Pharm.D.); Podiatry (D.P.M., Pod.D., D.P.); or, Veterinary Medicine (D.V.M.), and others, as designated by the awarding institution.</t></si><si><t>Does your institution enroll students in doctor's - professional practice programs? 
+
+Do you enroll students in one of the following?  If you select 'yes' to enrolling students in one of the listed programs, you will also report tuition for the appropriate program(s).
+
+Chiropractic (D.C. or D.C.M.), Dentistry (D.D.S. or D.M.D.), Medicine (M.D.), Optometry (O.D.), Osteopathic Medicine (D.O.), Pharmacy (Pharm.D.), Podiatry (Pod.D., D.P., or D.P.M.), Veterinary Medicine (D.V.M.), Law (J.D.)
+
+
+Doctor's degree - professional practice A doctor's degree that is conferred upon completion of a program providing the knowledge and skills for the recognition, credential, or license required for professional practice. The degree is awarded after a period of study such that the total time to the degree, including both pre-professional and professional preparation, equals at least six full-time equivalent academic years.</t></si><si><t>If institution provides on-campus housing, specify dormitory capacity for academic year 
+
+DORMITORY CAPACITY - The maximum number of students that the institution can provide residential facilities for, whether on or off campus. (off-campus dormitory space that is reserved by the institution).</t></si><si><t>Indicate whether or not any of the following alternative tuition plans are offered by your institution.
+
+Tuition guarantee
+Prepaid tuition plan
+Tuition payment plan
+Other
+
+Tuition guarantee - A program where the institution guarantees, to entering first-time students, that tuition will not increase for the years they are enrolled. These guarantees are generally time-bound for four or five years.
+Prepaid tuition plan - A program that allows students or their families to purchase college tuition or tuition credits for future years, at current prices.
+Tuition payment plan - A program that allows tuition to be paid in installments spread out over an agreed upon period of time, sometimes without interest or finance charges.</t></si><si><t>Indicate whether or not any of the following alternative tuition plans are offered by your institution.
+
+Tuition guarantee
+
+Tuition guarantee - A program where the institution guarantees, to entering first-time students, that tuition will not increase for the years they are enrolled. These guarantees are generally time-bound for four or five years.</t></si><si><t>Indicate whether or not any of the following alternative tuition plans are offered by your institution.
+
+Prepaid tuition plan
+
+Prepaid tuition plan - A program that allows students or their families to purchase college tuition or tuition credits for future years, at current prices.</t></si><si><t>Indicate whether or not any of the following alternative tuition plans are offered by your institution.
+
+Tuition payment plan
+
+Tuition payment plan - A program that allows tuition to be paid in installments spread out over an agreed upon period of time, sometimes without interest or finance charges.</t></si><si><t>Indicate whether or not any of the following alternative tuition plans are offered by your institution
+
+Other - (not one of the above alternative plans).</t></si><si><t>Please indicate at what level(s) your institution offers distance education opportunities (courses and/or programs).
+
+Undergraduate
+
+Distance education  Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. Technologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above.
+
+Undergraduate  - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate.</t></si><si><t>Please indicate at what level(s) your institution offers distance education opportunities (courses and/or programs).
+
+Graduate
+
+Distance education -  Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. Technologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above.
+
+Graduate - A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level. These students may or may not be enrolled in graduate programs</t></si><si><t>Please indicate at what level(s) your institution offers distance education opportunities (courses and/or programs).
+
+Does not offer distance education opportunites
+
+Distance education  Education that uses one or more technologies to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+
+Technologies used for instruction may include the following: Internet; one-way and two-way transmissions through open broadcasts, closed circuit, cable, microwave, broadband lines, fiber optics, satellite or wireless communication devices; audio conferencing; and video cassette, DVDs, and CD-ROMs, if the cassette, DVDs, and CD-ROMs are used in a course in conjunction with the technologies listed above.</t></si><si><t>Which of the following are available to veterans, military servicemembers, or their families? 
+     
+      Yellow Ribbon Program (officially known as Post-9/11 GI Bill, Yellow Ribbon Program)                     
+      Credit for military training 
+      Dedicated point of contact for support services for veterans, military servicemembers, and their families 
+      Recognized student veteran organization 
+      Member of Servicemembers Opportunity Colleges 
+      None of the above 
+
+Yellow Ribbon Program  
+A voluntary program through which participating public and private institutions can provide veterans and eligible beneficiaries additional institutional aid to cover the costs of tuitions and fees at their institutions. The Yellow Ribbon Program is a supplementary program to the Post 9/11 GI Bill coverage of in-state tuition and fees. The Department of Veterans Affairs matches the institutional aid provided beyond the in-state tuition and fees, but to certain limit each year</t></si><si><t>Which of the following are available to veterans, military servicemembers, or their families? 
+     
+      Yellow Ribbon Program (officially known as Post-9/11 GI Bill, Yellow Ribbon Program)                     
+      Credit for military training 
+      Dedicated point of contact for support services for veterans, military servicemembers, and their families 
+      Recognized student veteran organization 
+      Member of Servicemembers Opportunity Colleges 
+      None of the above 
+
+Credit for Military Training - Postsecondary credit granted by institutions to military servicemen or veterans for experiences and training gained while in the service.</t></si><si><t>Which of the following are available to veterans, military servicemembers, or their families? 
+     
+      Yellow Ribbon Program (officially known as Post-9/11 GI Bill, Yellow Ribbon Program)                     
+      Credit for military training 
+      Dedicated point of contact for support services for veterans, military servicemembers, and their families 
+      Recognized student veteran organization 
+      Member of Servicemembers Opportunity Colleges 
+      None of the above</t></si><si><t>Which of the following are available to veterans, military servicemembers, or their families? 
+     
+      Yellow Ribbon Program (officially known as Post-9/11 GI Bill, Yellow Ribbon Program)                     
+      Credit for military training 
+      Dedicated point of contact for support services for veterans, military servicemembers, and their families 
+      Recognized student veteran organization 
+      Member of Servicemembers Opportunity Colleges 
+      None of the above Servicemembers Opportunity Colleges 
+
+Servicemembers Opportunity Colleges - A membership group of over 1,700 institutions that functions to expand and improve voluntary postsecondary opportunities for servicemembers worldwide. It is funded by the Department of Defense through a contract with the American Association of State Colleges and Universities (AASCU).</t></si><si><t>General Baptist</t></si><si><t>Seventh Day Adventist</t></si><si><t>-1</t></si><si><t>Not reported</t></si><si><t>Imputation code values</t></si><si><t>This worksheet lists the code values for all imputation flag variables.</t></si><si><t>Code values for item imputation variables Xvarname</t></si><si><t>CodeValue</t></si><si><t>ValueLabel</t></si><si><t>A</t></si><si><t>B</t></si><si><t>Institution left item blank</t></si><si><t>C</t></si><si><t>Analyst corrected reported value</t></si><si><t>D</t></si><si><t>Do not know</t></si><si><t>G</t></si><si><t>Data generated from other data values</t></si><si><t>H</t></si><si><t>Value not derived - data not usable</t></si><si><t>J</t></si><si><t>Logical imputation</t></si><si><t>K</t></si><si><t xml:space="preserve">Ratio adjustment </t></si><si><t>L</t></si><si><t>Imputed using the Group Median procedure</t></si><si><t>Imputed using Nearest Neighbor procedure</t></si><si><t>P</t></si><si><t>Imputed using Carry Forward procedure</t></si><si><t>R</t></si><si><t>Reported</t></si><si><t>Z</t></si><si><t>Implied zero;</t></si><si><t>LIBRES1</t></si><si><t>Library resources/services: Physical facilities</t></si><si><t>LIBRES2</t></si><si><t>Library resources/services: Organized collection of printed materials</t></si><si><t>LIBRES3</t></si><si><t>Library resources/services: Access to digital/electronic resources</t></si><si><t>LIBRES4</t></si><si><t>Library resources/services: Staff trained to provide and interpret library materials</t></si><si><t>LIBRES5</t></si><si><t>Library resources/services: Established library hours</t></si><si><t>LIBRES6</t></si><si><t>Library resources/services: Access to library collections that are shared with other institutions</t></si><si><t>LIBRES9</t></si><si><t>Library resources/services not provided</t></si><si><t>DISTCRS</t></si><si><t>Distance education courses offered</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+Weekend college 
+
+Weekend/evening College - A program that allows students to take a complete course of study and attend classes only on weekends or only in evenings.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+Physical facilities
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+An organized collection of printed materials
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+Access to digital/electronic resources
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+A staff trained to provide and interpret library materials
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+Established library hours
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+Access to library collections that are shared with other institutions
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Indicate whether your institution offers any of the listed resources or services. If none of the listed resources/services apply, select "None of the above". 
+
+None of the above
+
+Academic Library - An entity in a postsecondary institution that provides an organized collection of printed or other materials, or a combination thereof; a staff trained to provide and interpret such materials as required to meet the informational, cultural, recreational, or educational needs of the clientele; an established schedule in which services of the staff are available to the clientele; an established schedule in which services of the staff are available to the clientele; and the physical facilities necessary to support such a collection, staff, and schedule. This definition includes libraries that are part of learning resource centers.</t></si><si><t>Does your institution offer distance education courses?
+
+A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.</t></si><si><t>Are all the programs at your institution offered completely via distance education?
+
+A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>374</t></si><si><t>Muslim</t></si><si><t>River States</t></si><si><t>One</t></si><si><t>Two</t></si><si><t>Three</t></si><si><t>Four</t></si><si><t>Five</t></si><si><t>Six</t></si><si><t>Eight</t></si><si><t>3 percent or less</t></si><si><t>More than 3 percent</t></si><si><t>What is the predominant calendar system at the institution? [Choose one] 
+
+Standard academic terms Checking one of these systems determines that your institution will provide graduation rates data based on a FALL COHORT and student charges based on a FULL ACADEMIC YEAR 
+
+Semester 
+Quarter 
+Trimester 
+4-1-4 or similar plan 
+Other academic calendar 
+
+Other calendar systems (for primarily occupational schools) Checking one of the following determines that your institution will provide graduation rates data based on a FULL YEAR COHORT and student charges data will be requested by PROGRAM. 
+
+Differs by program 
+Continuous basis (every 2 weeks, monthly, or other period) 
+
+
+SEMESTER calendar SYSTEM -A calendar system that consists of two semesters during the academic year with about 16 weeks for each semester of instruction. There may be an additional summer session. 
+
+QUARTER calendar SYSTEM - A calendar system in which the academic year consists of 3 sessions called quarters of about 12 weeks each. The range may be from 10 to 15 weeks. There may be an additional quarter in the summer 
+
+TRIMESTER calendar SYSTEM - An academic year consisting of 3 terms of about 15 weeks each. 
+FOUR-ONE-FOUR PLAN - The 4-1-4 calendar consists of 4 courses taken for 4 months, 1 course taken for 1 month, and 4 courses taken for 4 months. There may be an additional summer session. 
+
+OTHER ACADEMIC calendar SYSTEM - 
+Category used to describe "non-traditional" calendar systems at 4-year and 2-year degree-granting institutions. These can include schools that offer primarily on-line courses or "one course at a time". 
+
+DIFFERS BY PROGRAM (calendar SYSTEM) - A calendar system classification that is used by institutions that have occupational/vocational programs of varying lengths. These schools may enroll students at specific times depending on the program desired. For example, a school might offer a 2-month program in January, March, May, September, and November; and a 3-month program in January, April, and October. 
+
+CONTINUOUS BASIS (FOR PROGRAM ENROLLMENT) - A calendar system classification that is used by institutions that enroll students at any time during the academic year. For example, a cosmetology school or a word processing school might allow students to enroll and begin studies at various times, with no requirement that classes begin on a certain date.</t></si><si><t>DSTNUGC</t></si><si><t>Undergraduate level distance education courses offered</t></si><si><t>DSTNUGP</t></si><si><t>Undergraduate level distance education programs offered</t></si><si><t>DSTNUGN</t></si><si><t>Undergraduate level distance education not offered</t></si><si><t>DSTNGC</t></si><si><t>Graduate level distance education courses offered</t></si><si><t>DSTNGP</t></si><si><t>Graduate level distance education programs offered</t></si><si><t>DSTNGN</t></si><si><t>Graduate level distance education not offered</t></si><si><t>DISTPGS</t></si><si><t>Distance education programs offered</t></si><si><t>Undergraduate level programs or courses are offered via distance education</t></si><si><t>Graduate level programs or courses are offered via distance education</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Undergraduate level distant education courses
+
+Distance education course	 - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Undergraduate level distant education progams
+
+Distance education program	 - A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Undergraduate level distant education not offered
+
+Distance education course	 - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.
+
+Distance education program	 - A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Graduate level distant education courses
+
+Distance education course	 - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Graduate level distant education progams
+
+Distance education program	 - A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Graduate level distant education not offered
+
+Distance education course	 - A course in which the instructional content is delivered exclusively via distance education.  Requirements for coming to campus for orientation, testing, or academic support services do not exclude a course from being classified as distance education.
+
+Distance education program	 - A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>Please indicate at what level(s) your institution does or does not offer distance education courses and/or distance education programs. Check all that apply.
+
+Distant education progams offered
+
+Distance education program	 - A program for which all the required coursework for program completion is able to be completed via distance education courses.</t></si><si><t>114</t></si><si><t>Division I-AA Independents</t></si><si><t>Plymouth Brethren</t></si><si><t>American Rivers Conference</t></si><si><t>376</t></si><si><t>American Collegiate Athletic Association</t></si><si><t>375</t></si><si><t>Atlantic East Conference</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Continuing professional (postbaccalaureate only) 
+
+CONTINUING PROFESSIONAL EDUCATION - Programs and courses designed specifically for individuals who have completed a professional degree (such as law, medicine, dentistry, or social work) to obtain additional training in their particular field of study 
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>Non-Denominational</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Recreational or avocational
+
+AVOCATIONAL PROGRAMS - Instructional programs in personal interest and leisure categories whose expressed intent is not to produce postsecondary credits, nor to lead to a formal award or an academic degree, nor result in occupationally specific skills.
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>California Collegiate Athletic Association</t></si><si><t>Central Intercollegiate Athletic Association</t></si><si><t>College Conference of Illinois and Wisconsin</t></si><si><t>Great Lakes Intercollegiate Athletic Conference</t></si><si><t>Kansas Collegiate Athletic Conference</t></si><si><t>Massachusetts State College Athletic Association</t></si><si><t>Michigan Intercollegiate Athletic Association</t></si><si><t>Mid-America Intercollegiate Athletic Association</t></si><si><t>Minnesota Intercollegiate Athletic Conference</t></si><si><t>New England Small College Athletic Conference</t></si><si><t>Southern California Intercollegiate Athletic Conference</t></si><si><t>Southern Intercollegiate Athletic Conference</t></si><si><t>Wisconsin Intercollegiate Athletic Conference</t></si><si><t>Central Atlantic Collegiate Conference</t></si><si><t>Chicagoland Collegiate Athletic Conference</t></si><si><t>City University of New York Athletic Conference</t></si><si><t>St. Louis Intercollegiate Athletic Conference</t></si><si><t>State University of New York Athletic Conference</t></si><si><t>File Documentation for the Institutional Characteristics Data File, 2019-20</t></si><si><t>IC2019</t></si><si><t>Please indicate the percentage of all undergraduates enrolled in Fall 2018 who are formally registered as students with disabilities with the institution's office of disability services (or the equivalent office):
+
+This variable applies only to undergraduate students enrolled either full- or part-time. If fewer than 3% of the institution’s undergraduate students are registered with the disability services (or equivalent) office, the actual percent is not indicated. However, if more than 3% of the institution’s undergraduate students are registered with the disability services (or equivalent) office, the appropriate percentage is given.
+See variable DISABPCT.</t></si><si><t>Enter percentage when the percentage of all undergraduates enrolled in Fall 2018 who are formally registered as students with disabilities with the institution's office of disability services (or the equivalent office) if percentage is more than 3 percent</t></si><si><t>What are the typical room and board charges for a student for the full academic year 2018-19 ?
+
+Room charges
+
+ROOM CHARGES - The charges for an academic year for rooming accommodations for a typical student sharing a room with one other student.</t></si><si><t>What are the typical room and board charges for a student for the full academic year 2018-19 ?
+
+Board charges
+
+BOARD CHARGES - The charge for an academic year for meals, for a specified number of meals per week.</t></si><si><t>What are the typical room and board charges for a student for the full academic year 2018-19?
+
+Combined room and board charge (applicable only if institution CANNOT separate room and board charges.)
+
+ROOM CHARGES - The charges for an academic year for rooming accommodations for a typical student sharing a room with one other student. 
+BOARD CHARGES - The charge for an academic year for meals, for a specified number of meals per week.</t></si><si><t>40</t></si><si><t>International United Pentecostal Church</t></si><si><t>The Church of Jesus Christ of Latter-day Saints</t></si><si><t>The Sun Conference</t></si><si><t>332</t></si><si><t>Eastern Intercollegiate Athletic Conference</t></si><si><t xml:space="preserve">  Release 1</t></si><si><t>July 2020</t></si><si><t xml:space="preserve">  Release 2</t></si><si><t xml:space="preserve">This file contains data on program and award level offerings, control and affiliation of institution. It also contains information on special learning opportunities, student services, disability services, tuition plans and athletic conference associations. Services and programs for service members and veterans are also included.  Admissions and test score data, which has been part of the Institutional Characteristics survey component since 2001-02, was moved to the new ADM survey component in 2014 and will be released with other survey components of the IPEDS winter collection module.
+Release 2:  Several variables including open admissions policy, distance education offerings and library services were updated based on admissions data collected in the winter collection, distance education fall enrollments and academic library data collected in the spring of the IPEDS survey year. </t></si><si><t>March 2021</t></si><si><t xml:space="preserve">Provisional release data have undergone all NCES data quality control procedures. Data are imputed for nonresponding institutions. These data are used for First Look (Provisional Data) web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. The final release data can be used when the most up to date data are required; however, these data may not match tables from the First Look web tables based on provisional data. </t></si><si><t/></si><si><t>Teacher certification: Approved by the state for initial certification or licensure of teachers.</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Academic, leading to a certificate, degree, or diploma
+
+ACADEMIC PROGRAM - Instructional program leading toward an associate's, bachelor's, master's, doctor's, or first-professional degree or resulting in credits that can be applied to one of these degrees. 
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Adult basic or remedial instruction or high school equivalency 
+
+ADULT BASIC EDUCATION - Courses designed primarily for students 16 years of age and older to improve basic skills in reading, writing, and arithmetic. These courses are not intended to be part of a program leading to a high school degree, nor are they part of any academic, occupational, or vocational program at the postsecondary level. 
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>Which of the following types of instruction/programs are offered by your institution? [Check one or more]
+
+Secondary (high school)
+
+NOTE: This question is asked to verify the inclusion of the institution on the NCES/IPEDS list of institutions and agencies offering all types of postsecondary education. Postsecondary education is the provision of a formal instructional program whose curriculum is designed primarily for students beyond the compulsory age for high school. This includes programs whose purpose is academic, vocational, and continuing professional education and excludes avocational and adult basic education programs.</t></si><si><t>Indicates primary control for public institutions
+
+Public institutions must designate a primary control; identifying a secondary control is optional. 
+
+PUBLIC INSTITUTION -An educational institution whose programs and activities are operated by publicly elected or appointed school officials and which is supported primarily by public funds.</t></si><si><t>Indicates secondary control for public institutions
+
+Public institutions must designate a primary control; identifying a secondary control is optional. 
+
+PUBLIC INSTITUTION -An educational institution whose programs and activities are operated by publicly elected or appointed school officials and which is supported primarily by public funds.</t></si><si><t>Indicates religious affiliation (denomination) for private not-for-profit institutions that are religiously affiliated.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Postsecondary award, certificate, or diploma of less than one academic year (less than 900 contact or clock hours)
+
+POSTSECONDARY AWARD, CERTIFICATE, OR DIPLOMA (LESS THAN 1 ACADEMIC YEAR) - Requires completion of an organized program of study at the postsecondary level (below the baccalaureate degree) in less than 1 academic year (2 semesters or 3 quarters) or in less than 900 contact hours by a student enrolled full time.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Postsecondary award, certificate, or diploma of at least one but less than two academic years (at least 900 but less than 1800 contact or clock hours) 
+
+POSTSECONDARY AWARD, CERTIFICATE, OR DIPLOMA (AT LEAST 1 BUT LESS THAN 2 ACADEMIC YEARS) -Requires completion of an organized program of study at the postsecondary level (below the baccalaureate degree) in at least 1 but less than 2 full-time equivalent academic years, or designed for completion in at least 30 but less than 60 credit hours, or in at least 900 but less than 1,800 contact hours.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Associate's degree 
+
+ASSOCIATE'S DEGREE - An award that normally requires at least 2 but less than 4 years of full-time equivalent college work.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Postsecondary award, certificate, or diploma of at least two but less than four academic years (at least 1800 contact or clock hours) 
+
+POSTSECONDARY AWARD, CERTIFICATE, OR DIPLOMA (AT LEAST 2 BUT LESS THAN 4 ACADEMIC YEARS) 
+Requires completion of an organized program of study at the postsecondary level (below the baccalaureate degree) in at least 2 but less than 4 full-time equivalent academic years, or designed for completion in at least 60 but less than 120 credit hours, or in at least 1,800 but less than 3,600 contact hours.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Bachelor's degree or equivalent 
+
+BACHELOR'S DEGREE - An award (baccalaureate or equivalent degree, as determined by the Secretary, U.S. Department of Education) that normally requires at least 4 but not more than 5 years of full-time equivalent college-level work. This includes all bachelor's degrees conferred in a 5-year cooperative (work-study plan) program. A cooperative plan provides for alternate class attendance and employment in business, industry, or government; thus, it allows students to combine actual work experience with their college studies. Also, includes bachelor's degrees in which the normal 4 years of work are completed in 3 years.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply]
+
+Postbaccalaureate certificate 
+
+POSTBACCALAUREATE CERTIFICATE - An award that requires completion of an organized program of study requiring 18 credit hours beyond the bachelor's; designed for persons who have completed a baccalaureate degree, but do not meet the requirements of academic degrees carrying the title of master.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Post-master's certificate
+
+POST-MASTER'S CERTIFICATE - An award that requires completion of an organized program of study of 24 credit hours beyond the master's degree, but does not meet the requirements of academic degrees at the doctor's level.</t></si><si><t>What award levels are offered by your institution? (One academic year equals 30 semester credit hours or its equivalent, or 900 contact or clock hours.) [Check all that apply] 
+
+Other; please specify 
+
+An award that it cannot be classified in one of the standard levels (1-11).</t></si><si><t>If institution enrolls full-time students, indicate levels 
+
+Undergraduate (academic or occupational programs) 
+
+UNDERGRADUATE - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. 
+FULL-TIME STUDENT Undergraduate - A student enrolled for 12 or more semester credits, or 12 or more quarter credits, or 24 or more contact hours a week each term.</t></si><si><t>If institution enrolls full-time students, indicate levels 
+
+First-time degree/certificate-seeking undergraduate
+
+FIRST-TIME STUDENT (UNDERGRADUATE) -A student attending any institution for the first time at the undergraduate level. Includes students enrolled in academic or occupational programs. Also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). 
+UNDERGRADUATE - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. 
+FULL-TIME STUDENT Undergraduate - A student enrolled for 12 or more semester credits, or 12 or more quarter credits, or 24 or more contact hours a week each term. 
+DEGREE/CERTIFICATE-SEEKING STUDENTS - Students enrolled in courses for credit who are recognized by the institution as seeking a degree or other formal award. At the undergraduate level, this is intended to include students enrolled in vocational or occupational programs.</t></si><si><t>If institution enrolls part-time students indicate levels
+
+Undergraduate (academic or occupational programs)
+
+UNDERGRADUATE - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. 
+PART-TIME STUDENT Undergraduate - A student enrolled for either 11 semester credits or less, or 11 quarter credits or less, or less than 24 contact hours a week each term.</t></si><si><t>If institution enrolls part-time students indicate levels
+
+First-time degree/certificate-seeking undergraduate
+
+FIRST-TIME STUDENT (UNDERGRADUATE) -A student attending any institution for the first time at the undergraduate level. Includes students enrolled in academic or occupational programs. Also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). 
+UNDERGRADUATE - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate. 
+PART-TIME STUDENT Undergraduate - A student enrolled for either 11 semester credits or less, or 11 quarter credits or less, or less than 24 contact hours a week each term. DEGREE/CERTIFICATE-SEEKING STUDENTS - Students enrolled in courses for credit who are recognized by the institution as seeking a degree or other formal award. At the undergraduate level, this is intended to include students enrolled in vocational or occupational programs.</t></si><si><t>Does your institution have an open admission policy for all or most entering first-time undergraduate-level students? 
+
+OPEN ADMISSION - Admission policy whereby the school will accept any student who applies. 
+
+FIRST-TIME STUDENT (UNDERGRADUATE) - A student attending any institution for the first time at the undergraduate level. Includes students enrolled in academic or occupational programs. Also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school).</t></si><si><t>Does your institution accept any of the following? [Check all that apply] 
+Special credit upon entry - Please indicate if institution accepts credit earned prior to admission through any of the sources listed.
+
+Dual credit (college credit earned while in high school) 
+
+DUAL CREDIT - A program through which high school students are enrolled in advanced placement (AP) courses, taught at their high school, that fulfill high school graduation requirements and may earn the student college credits.</t></si><si><t>Does your institution accept any of the following? [Check all that apply] 
+Special credit upon entry - Please indicate if institution accepts credit earned prior to admission through any of the sources listed.
+
+Credit for life experiences 
+
+CREDIT FOR LIFE EXPERIENCES - Credit earned by students for what they have learned through independent study, noncredit adult courses, work experience, portfolio demonstration, previous licensure or certification, or completion of other learning opportunities (military, government, or professional). Credit may also be awarded through a credit by examination program</t></si><si><t>Does your institution accept any of the following? [Check all that apply] 
+Special credit upon entry - Please indicate if institution accepts credit earned prior to admission through any of the sources listed.
+
+Advanced placement (AP) credits 
+
+ADVANCED PLACEMENT - Advanced placement courses are college-level courses taught in high school. Students may take an examination at the completion of the course; acceptable scores allow students to earn college credit.</t></si><si><t>Does your institution accept any of the following? [Check all that apply] 
+Special credit upon entry - Please indicate if institution accepts credit earned prior to admission through any of the sources listed.
+
+None of above</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+
+ROTC</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+IF ROTC, Indicate if Army</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+IF ROTC, Indicate if Navy</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+IF ROTC, Indicate if Air Force</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+Study abroad 
+
+STUDY ABROAD - Arrangement by which a student completes part of the college program studying in another country. Can be at a campus abroad or through a cooperative agreement with some other U.S. college or an institution of another country.</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+Teacher certification (below the postsecondary level) 
+
+TEACHER CERTIFICATION - Program designed to prepare students to meet the requirements for certification as teachers in elementary, middle/junior high, and secondary schools.</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+If Teacher certification (below the postsecondary level), indicate if students can complete their  preparation in certain areas of specialization 
+
+TEACHER CERTIFICATION - Program designed to prepare students to meet the requirements for certification as teachers in elementary, middle/junior high, and secondary schools.</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+If Teacher certification (below the postsecondary level), indicate if students must complete their preparation at another institution for certain areas of specialization 
+
+TEACHER CERTIFICATION - Program designed to prepare students to meet the requirements for certification as teachers in elementary, middle/junior high, and secondary schools.</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+If Teacher certification (below the postsecondary level), indicate if this institution is approved by the state for the initial certification or licensure of teachers 
+
+TEACHER CERTIFICATION - Program designed to prepare students to meet the requirements for certification as teachers in elementary, middle/junior high, and secondary schools.</t></si><si><t>What types of special learning opportunities are offered by your institution? [Check all that apply] 
+Special learning opportunities - Indicate which of the listed special learning opportunities are offered by your institution. Teacher certification refers to pre-K through 12; if your institution provides certification for some levels (e.g., elementary only and not secondary) be sure to indicate that only certain levels are offered. 
+
+Institution does not have any of the following special learning opportunities: Accelerated programs, Cooperative (work study), Distance learning, Dual enrollment, ROTC, Study abroad, Weekend college, or Teacher certification (below thepostsecondary level).</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+Remedial services 
+
+REMEDIAL SERVICES - Instructional activities designed for students deficient in the general competencies necessary for a regular postsecondary curriculum and educational setting.</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+Academic/career counseling services 
+
+COUNSELING SERVICE - Activities designed to assist students in making plans and decisions related to their education, career, or personal development.</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+Employment services for current students 
+
+EMPLOYMENT SERVICES FOR CURRENT STUDENTS - Activities intended to assist students in obtaining part-time employment as a means of defraying part of the cost of their education.</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+Placement services for program completers 
+
+PLACEMENT SERVICES FOR PROGRAM COMPLETERS - Assistance for students in evaluating their career alternatives as well as in obtaining full-time employment upon leaving the institution.</t></si><si><t>Which of the following selected students services are offered by your institution? [Check all that apply] 
+Student Services - Indicate which of the listed services are offered by your institution
+
+None of the following selected students serveices are offered:
+Remedial services, Academic/career counseling services, Employment services for current students, Placement services for program completers, or On-campus day care for children of students</t></si><si><t>Are all full-time, first-time degree/certificate-seeking students required to live on campus or in institutionally-controlled housing?  
+If Yes to this question, institution is expected to specify a housing capacity, and to report room and board charges, or a comprehensive fee.  
+
+FIRST-TIME STUDENT (UNDERGRADUATE) - A student attending any institution for the first time at the undergraduate level. Includes students enrolled in academic or occupational programs. Also includes students enrolled in the fall term who attended college for the first time in the prior summer term, and students who entered with advanced standing (college credits earned before graduation from high school). 
+FULL-TIME Undergraduate - 
+A student enrolled for 12 or more semester credits, or 12 or more quarter credits, or 24 or more contact hours a week each term.</t></si><si><t>Does your institution charge different tuition for in-district, in-state, or out-of-state students? 
+
+TUITION AND REQUIRED FEES (Tuition)- Amount of money charged to students for instructional services. Tuition may be charged per term, per course, or per credit. (Required fees) - Fixed sum charged to students for items not covered by tuition and required of such a large proportion of all students that the student who does NOT pay the charge is an exception. 
+IN-DISTRICT STUDENT - A student who is a legal resident of the locality in which he/she attends school and thus is entitled to reduced tuition charges if offered by the institution .
+IN-STATE STUDENT - A student who is a legal resident of the state in which he/she attends school. 
+OUT-OF-STATE STUDENT -A student who is not a legal resident of the state in which he/she attends school.</t></si><si><t>Does your institution provide on-campus housing?</t></si><si><t>Does your institution provide board or meal plans to your students?
+
+BOARD CHARGES - The charge for an academic year for meals, for a specified number of meals per week.</t></si><si><t>If board or meal plans are provide, enter number of meals per week in the maximum meal plan offered. 
+If the number of meals per week can vary (for example, student receives a meal card and charges meals against the card) this field is not applicable.
+
+BOARD CHARGES - The charge for an academic year for meals, for a specified number of meals per week.</t></si><si><t>If insitution charges an application fee, indicate the amount of fee.
+
+Undergraduate
+
+APPLICATION FEE - That amount of money that an institution charges for processing a student's application for admittance to the institution. This amount is not creditable toward tuition or required fees, nor is it refundable if the student is not admitted to the institution. 
+UNDERGRADUATE - A student enrolled in a 4- or 5-year bachelor's degree program, an associate's degree program, or a vocational or technical program below the baccalaureate.</t></si><si><t>If insitution charges an application fee, indicate the amount of fee.
+
+Graduate
+
+APPLICATION FEE - That amount of money that an institution charges for processing a student's application for admittance to the institution. This amount is not creditable toward tuition or required fees, nor is it refundable if the student is not admitted to the institution. 
+GRADUATE STUDENT 
+A student who holds a bachelor's or first-professional degree, or equivalent, and is taking courses at the post-baccalaureate level. These students may or may not be enrolled in graduate programs.</t></si><si><t>Member of National Athletic Association (Yes/No)</t></si><si><t>If the institution is a member of a national athletic association 
+
+National Collegiate Athletic Association (NCAA)</t></si><si><t>If the institution is a member of a national athletic association 
+
+National Association of Intercollegiate Athletics (NAIA)</t></si><si><t>If the institution is a member of a national athletic association 
+
+National Junior College Athletic Association (NJCAA)</t></si><si><t>If the institution is a member of a national athletic association
+ 
+National Small College Athletic Association (NSCAA)</t></si><si><t>If the institution is a member of a national athletic association
+
+National Christian College Athletic Association (NCCAA)</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+NCAA or NAIA member for football (Yes/No)</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+If NCAA or NAIA member for football, specify conference</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+NCAA or NAIA member for basketball (Yes/No)</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+If NCAA or NAIA member for basketball, specify conference</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+NCAA or NAIA member for baseball (Yes/No)</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+If NCAA or NAIA member for baseball, specify conference</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+NCAA or NAIA member for cross country/track (Yes/No)</t></si><si><t>If this institution is a member of the NCAA or NAIA, specify the conference FOR EACH SPORT 
+
+If NCAA or NAIA member for cross country/track, specify conference</t></si><si><t>DISTPGS</t></si><si><t>(Final/revised release)</t></si><si><t xml:space="preserve">  Final/revised release:</t></si><si><t>July 2021</t></si><si><t>IC2019_RV</t></si><si><t>This worksheet contains the code values for of all categorical variables in the data file. It also lists the frequency and percent distribution for each code value by variable.(provisional release)</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file.(provisional release)</t></si><si><t>FrequenciesRV</t></si><si><t>This worksheet contains the code values for of all categorical variables in the data file. It also lists the frequency and percent distribution for each code value by variable. (final/revised release)</t></si><si><t>StatisticsRV</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (final/revised release)</t></si></sst>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="342" uniqueCount="118"><si><t>varnumber</t></si><si><t>varname</t></si><si><t>DataType</t></si><si><t>Fieldwidth</t></si><si><t>format</t></si><si><t>imputationvar</t></si><si><t>varTitle</t></si><si><t>UNITID</t></si><si><t>N</t></si><si><t>Cont</t></si><si><t>Unique identification number of the institution</t></si><si><t>longDescription</t></si><si><t>n</t></si><si><t>sum</t></si><si><t>mean</t></si><si><t>min</t></si><si><t>max</t></si><si><t>Filename</t></si><si><t>Overview</t></si><si><t>Note</t></si><si><t>Contents of spreadsheet</t></si><si><t>Varlist</t></si><si><t>Variable list: Lists all variables in the table. Includes the variable name, variable label and the Data type, format and maximum field width of each variable.  The data type describes a variable as either a numeric (N) or Alphanumeric (A) and the format of a variable defines a variable as either continuous (Cont.) or categorical (Disc).  It all also lists the variable name of all imputation flag variables for each continuous variable. Imputation flag variable describes whether a value for the corresponding variable was reported, imputed or not applicable.</t></si><si><t>Description</t></si><si><t xml:space="preserve">Long description or glossary definition of a variable. </t></si><si><t>Statistics</t></si><si><t>DRVHR2022</t></si><si><t>Table contains average salaries equated to 9-month contracts for full-time instructional, nonmedical staff by academic rank and full-time equivalent staff by occupational categories. Frequently used derived variables may include data for child campuses derived from allocation factors that are reported by the parent institution. Parent/child indicators can be found in table flags2022.</t></si><si><t>Frequently used/Derived variables (Human Resources) - Average salaries and full-time equivalent staff: Fall 2022</t></si><si><t>SALTOTL</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - all ranks</t></si><si><t>SALPROF</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - professors</t></si><si><t>SALASSC</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - associate professors</t></si><si><t>SALASST</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - assistant professors</t></si><si><t>SALINST</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - instructors</t></si><si><t>SALLECT</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - lecturers</t></si><si><t>SALNRNK</t></si><si><t>Average salary equated to 9 months of full-time instructional staff - No academic rank</t></si><si><t>SFTETOTL</t></si><si><t>Total FTE staff</t></si><si><t>SFTEPSTC</t></si><si><t>Instructional, research and public service FTE</t></si><si><t>SFTEINST</t></si><si><t>Instructional FTE</t></si><si><t>SFTERSRC</t></si><si><t>Research FTE</t></si><si><t>SFTEPBSV</t></si><si><t>Public Service FTE</t></si><si><t>SFTELCAI</t></si><si><t>Librarians, Curators, and Archivists/Student and Academic Affairs and Other Education Services FTE</t></si><si><t>SFTELCA</t></si><si><t>Librarians, Curators, and Archivists FTE</t></si><si><t>SFTEOTIS</t></si><si><t>Student and Academic Affairs and Other Education Services FTE</t></si><si><t>SFTEMNGM</t></si><si><t>Management FTE</t></si><si><t>SFTEBFO</t></si><si><t>Business and Financial Operations FTE</t></si><si><t>SFTECES</t></si><si><t>Computer, Engineering, and Science FTE</t></si><si><t>SFTECLAM</t></si><si><t>Community Service, Legal, Arts, and Media FTE</t></si><si><t>SFTEHLTH</t></si><si><t>Healthcare FTE</t></si><si><t>SFTEOTHR</t></si><si><t>Service, sales, office/admin support, natural resources, construction, maintenance, production, transportation &amp; materials moving FTE</t></si><si><t>SFTESRVC</t></si><si><t>Service FTE</t></si><si><t>SFTESALE</t></si><si><t>Sales and Related FTE</t></si><si><t>SFTEOFAS</t></si><si><t>Office and Administrative Support FTE</t></si><si><t>SFTENRCM</t></si><si><t>Natural Resources, Construction, and Maintenance FTE</t></si><si><t>SFTEPTMM</t></si><si><t>Production, Transportation, and Material Moving FTE</t></si><si><t>Total FTE staff is the sum of all FTE staff by occupational category. FTE for each of the occupational categories is derived by adding full-time staff  headcount to 1/3 of the part-time headcount for each occupational category.  For more detail see each of the occupational categories. Categories include:
+
+Instructional, research and public service FTE
+---Instructional FTE
+---Research FTE
+--- Public Service FTE
+Librarians, Curators, and Archivists/Student and Academic Affairs and Other Education Services FTE
+---Librarians, Curators, and Archivists FTE
+---Student and Academic Affairs and Other Education Services FTE
+Management FTE
+Business and Financial Operations FTE
+Computer, Engineering, and Science FTE
+Community Service, Legal, Arts, and Media FTE
+Healthcare FTE
+Service, sales, office/admin support, natural resources, construction, maintenance, production, transportation &amp; materials moving FTE
+---Service FTE
+---Sales and Related FTE
+---Office and Administrative Support FTE
+---Natural Resources, Construction, and Maintenance FTE
+---Production, Transportation, and Material Moving FTE</t></si><si><t>Instructional, research and public serviceFTE is the sum of  instructional, research, and public service FTE
+
+Instructional Staff- An occupational category that consists of the following two functions: 1) "Instruction" only and 2) "Instruction combined with research and/or public service 
+
+Research - An occupational category used to classify persons whose specific assignments customarily are made for the purpose of conducting research. Regardless of title, academic rank, or tenure status, these employees formally spend the majority of their time conducting research 
+
+Public Service  - An occupational category used to classify persons whose specific assignments customarily are made for the purpose of carrying out public service activities such as agricultural extension services, clinical services, or continuing education. Regardless of title, academic rank, or tenure status, these employees formally spend the majority of their time carrying out public service activities. (This category includes employees with a public service assignment regardless of the location of the assignment (e.g., in the field rather than on campus).</t></si><si><t>Instruction FTE = Full-time instructional staff (EAPFT,EAPCAT=21000) plus (1/3 of the part-time instructional staff (EAPPT,EAPCAT=21000))
+
+Instructional Staff- An occupational category that consists of the following two functions: 1) "Instruction" only and 2) "Instruction combined with research and/or public service</t></si><si><t>Research FTE = Full-time postsecondary research teachers  (EAPFT,EAPCAT=22000) plus (1/3 of the part-time postsecondary teachers research (EAPPT,EAPCAT=22000))
+
+Research - An occupational category used to classify persons whose specific assignments customarily are made for the purpose of conducting research. Regardless of title, academic rank, or tenure status, these employees formally spend the majority of their time conducting research</t></si><si><t>Public service FTE = Full-time  public service (EAPFT,EAPCAT=23000) plus (1/3 of the part-time  public service (EAPPT,EAPCAT=23000))
+
+Public Service  - An occupational category used to classify persons whose specific assignments customarily are made for the purpose of carrying out public service activities such as agricultural extension services, clinical services, or continuing education. Regardless of title, academic rank, or tenure status, these employees formally spend the majority of their time carrying out public service activities. (This category includes employees with a public service assignment regardless of the location of the assignment (e.g., in the field rather than on campus).</t></si><si><t>Librarians, Curators, and Archivists and other teaching and Instructional support FTE is the sum of Librarians, Curators and Archivists FTE and Other teaching and Instructional support FTE
+
+Archivists, Curators, and Museum Technicians  - An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Archivists, Curators, and Museum Technicians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254010.htm. 
+
+Librarians - An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Librarians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254020.htm 
+
+Library Technicians  An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Library Technicians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254030.htm.  
+
+Other Teachers and Instructional Support Staff  - An occupational category based on the following three minor groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Pre-school, Primary, Secondary, and Special Education School Teachers (http://www.bls.gov/soc/2010/soc250000.htm#25-2000); 2) Other Teachers and Instructors (http://www.bls.gov/soc/2010/soc250000.htm#25-3000); and 3) Other Education, Training, and Library Occupations (http://www.bls.gov/soc/2010/soc250000.htm#25-9000).</t></si><si><t>Librarians, Curators, and Archivists FTE = Full-time Librarians, Curators, and Archivists  (EAPFT,EAPCAT=26000) plus (1/3 of part-time Librarians, Curators, and Archivists (EAPPT,EAPCAT=26000)
+
+Archivists, Curators, and Museum Technicians  - An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Archivists, Curators, and Museum Technicians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254010.htm. 
+
+Librarians - An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Librarians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254020.htm 
+
+Library Technicians  An occupational category based on the broad occupation in the 2018 Standard Occupational Classification (SOC) Manual called "Library Technicians."  For detailed information, refer to the following website: http://www.bls.gov/soc/2010/soc254030.htm.</t></si><si><t>Student and Academic Affairs and Other Education Services  FTE = Full-time Other Teachers and Instructional Support  (EAPFT,EAPCAT=27000) plus (1/3 of part-time Other Teachers and Instructional Support  (EAPPT,EAPCAT=27000)
+
+Student and Academic Affairs and Other Education Services  Staff  - An occupational category based on the following three minor groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Pre-school, Primary, Secondary, and Special Education School Teachers (http://www.bls.gov/soc/2010/soc250000.htm#25-2000); 2) Other Teachers and Instructors (http://www.bls.gov/soc/2010/soc250000.htm#25-3000); and 3) Other Education, Training, and Library Occupations (http://www.bls.gov/soc/2010/soc250000.htm#25-9000).</t></si><si><t>Management FTE = Full-time  Management (EAPFT,EAPCAT=30000) plus (1/3 of part-time Management  (EAPPT,EAPCAT=30000) 
+
+Management Occupations  - An occupational category based on the major group in the 2018 Standard Occupational Classification (SOC) Manual called “Management Occupations.” For detailed information refer to the following website: http://www.bls.gov/soc/2010/soc110000.htm.</t></si><si><t>Business and Financial Operations FTE = Full-time  Business and Financial Operations (EAPFT,EAPCAT=31000) plus (1/3 of part-time Business and Financial Operations (EAPPT,EAPCAT=31000))
+
+Business and Financial Operations Occupations  - An occupational category based on the major group in the 2018 Standard Occupational Classification (SOC) Manual called “Business and Financial Operations Occupations.” For detailed information refer to the following website: http://www.bls.gov/soc/2010/soc130000.htm.</t></si><si><t>Computer, Engineering, and Science  FTE = Full-time  Computer, Engineering, and Science (EAPFT,EAPCAT=32000) plus (1/3 of part-time Computer, Engineering, and Science  (EAPPT,EAPCAT=32000))
+
+Computer, Engineering, and Science Occupations - An occupational category based on the following three major groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Computer and Mathematical Occupations (http://www.bls.gov/soc/2010/soc150000.htm); 2) Architecture and Engineering Occupations (http://www.bls.gov/soc/2010/soc170000.htm); and 3) Life, Physical, and Social Science Occupations (http://www.bls.gov/soc/2010/soc190000.htm).</t></si><si><t>Community Service, Legal, Arts, and Media FTE = Full-time  Community Service, Legal, Arts, and Media  (EAPFT,EAPCAT=33000) plus (1/3 of part-time Community Service, Legal, Arts, and Media  (EAPPT,EAPCAT=33000))
+
+Community Service, Legal, Arts, and Media Occupations  - An occupational category based on the following three major groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Community and Social Service Occupations (http://www.bls.gov/soc/2010/soc210000.htm); 2) Legal Occupations (http://www.bls.gov/soc/2010/soc230000.htm); and 3) Arts, Design, Entertainment, Sports, and Media Occupations (http://www.bls.gov/soc/2010/soc270000.htm).</t></si><si><t>Healthcare Practitioners and Technical   FTE = Full-time  Healthcare Practitioners and Technical  (EAPFT,EAPCAT=34000) plus (1/3 of part-time Healthcare Practitioners and Technical   (EAPPT,EAPCAT=34000))
+
+Healthcare Practitioners and Technical Occupations  - An occupational category based on the major group in the 2018 Standard Occupational Classification (SOC) Manual called “Healthcare Practitioners and Technical Occupations.” For detailed information refer to the following website: http://www.bls.gov/soc/2010/soc290000.htm</t></si><si><t>Service, sales, office/admin support, natural resources, construction, maintenance, production, transportation &amp; materials moving FTE is the sum of 
+Service FTE,
+Sales and related FTE,
+Office/admin support FTE, 
+Natural resources, Construction, Maintenance, Production FTE 
+Transportation &amp; Materials Moving FTE</t></si><si><t>Service FTE = Full-time Service (EAPFT,EAPCAT=35000) plus (1/3 part-time Service  (EAPPT,EAPCAT=35000))
+
+Service Occupations - An occupational category based on the following five major groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Healthcare Support Occupations (http://www.bls.gov/soc/2010/soc310000.htm); 2) Protective Service Occupations (http://www.bls.gov/soc/2010/soc330000.htm); 3) Food Preparation and Serving Related Occupations (http://www.bls.gov/soc/2010/soc350000.htm); 4) Building and Grounds Cleaning and Maintenance Occupations (http://www.bls.gov/soc/2010/soc370000.htm); and 5) Personal Care and Service Occupations (http://www.bls.gov/soc/2010/soc390000.htm).</t></si><si><t>Sales and Related FTE = Full-time Sales and Related  (EAPFT,EAPCAT=36000) plus (1/3 part-time Sales and Related  (EAPPT,EAPCAT=36000))
+
+Sales and Related Occupations - An occupational category based on the major group in the 2018 Standard Occupational Classification (SOC) Manual called “Sales and Related Occupations.” For detailed information refer to the following website: http://www.bls.gov/soc/2010/soc410000.htm.</t></si><si><t>Office and Administrative Support FTE = Full-time Office and Administrative Support (EAPFT,EAPCAT=37000) plus (1/3 part-time Office and Administrative Support (EAPPT,EAPCAT=37000))
+
+Office and Administrative Support Occupations - An occupational category based on the major group in the 2018 Standard Occupational Classification (SOC) Manual called “Office and Administrative Support Occupations.” For detailed information refer to the following website: http://www.bls.gov/soc/2010/soc430000.htm.</t></si><si><t>Natural Resources, Construction, and Maintenance FTE = Full-time Natural Resources, Construction, and Maintenance (EAPFT,EAPCAT=38000) plus (1/3 part-time Natural Resources, Construction, and Maintenance (EAPPT,EAPCAT=38000))
+
+Natural Resources, Construction, and Maintenance Occupations  - An occupational category based on the following three major groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Farming, Fishing, and Forestry Occupations (http://www.bls.gov/soc/2010/soc450000.htm); 2) Construction and Extraction Occupations (http://www.bls.gov/soc/2010/soc470000.htm); and 3) Installation, Maintenance, and Repair Occupations (http://www.bls.gov/soc/2010/soc490000.htm).</t></si><si><t>Production, Transportation, and Material Moving FTE = Full-time Production, Transportation, and Material Moving (EAPFT,EAPCAT=39000) plus (1/3 part-time Production, Transportation, and Material Moving (EAPPT,EAPCAT=39000)
+
+Production, Transportation, and Material Moving Occupations  - An occupational category based on the following two major groups in the 2018 Standard Occupational Classification (SOC) Manual:  1) Production Occupations (http://www.bls.gov/soc/2010/soc510000.htm) and 2) Transportation and Material Moving Occupations (http://www.bls.gov/soc/2010/soc530000.htm).</t></si><si><t>IPEDS data, including provisional release data and final release data, adhere to rigorous quality control procedures established by NCES. Data are imputed for nonresponding institutions. Provisional release data are used for First Look  web tables. Final release data include revisions to the provisional release data that have been made by institutions during the subsequent data collection year. While the final release data offer  the most up to date data, these data may not match tables from the First Look web tables based on provisional release data.</t></si><si><t>(Final/revised release)</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (Provisional release)</t></si><si><t>StatisticsRV</t></si><si><t>This worksheet lists the sum, mean, minimum and maximum values of all continuous variables in the data file. (Final/revised release)</t></si><si><t xml:space="preserve">  Provisional release:</t></si><si><t>January 2024</t></si><si><t xml:space="preserve">  Final release:</t></si><si><t>DRVHR2022_RV</t></si><si><t/></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - all ranks
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) full-time  instructional staff - all ranks  (ARANK=7) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - professors
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for professors  (ARANK=1) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - associate professors
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for associate professors  (ARANK=2) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - assistant professors.
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for assistant professors  (ARANK=3) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - instructors
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for instructors  (ARANK=4) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - lecturers
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for lecturers  (ARANK=5) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>Average salary equated to 9 months of full-time non-medical instructional staff - no academic rank
+
+This variable is pulled directly from the average salary equated to 9-month variable (SAEQ9AT) for instructional staff with no academic rank  (ARANK=6) from table SALxxxx_IS. xxxx is the IPEDS collection year. (see tablename).
+
+For institutions that submit data for multiple institutions under one parent institution UNITID, the average salaries are then allocated to the child institution(s) based on allocation factors submitted by the parent institution.  Parent/child indicators are available on the FLAGSxxxx table.
+
+average salary equated to 9 month variable (SAEQ9AT) is derived as follows:
+
+(salary outlays at 9-months SA09MOT)+
+(.90 * salary outlays at 10 months SA10MOT)+
+(.818 *salary outlays at 11 months SA11MOT) +
+(.75 * salary outlays at 12 months SA12MOT)  divided by by the number of full-time, non-medical, instructional staff (SATOTLT).</t></si><si><t>December 2024</t></si></sst>

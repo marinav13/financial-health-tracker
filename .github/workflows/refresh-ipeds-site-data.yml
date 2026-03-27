@@ -30,7 +30,7 @@ jobs:
       - name: Install R packages
         shell: pwsh
         run: >
-          Rscript -e "install.packages(c('dplyr','jsonlite','purrr','readr','readxl','stringr','tidyr'),
+          Rscript -e "install.packages(c('dplyr','jsonlite','purrr','readr','readxl','stringr','tidyr','xml2'),
           repos='https://cloud.r-project.org')"
 
       - name: Rebuild raw IPEDS data
@@ -61,3 +61,4 @@ jobs:
           $date = Get-Date -Format "yyyy-MM-dd"
           git commit -m "Automated IPEDS refresh ($date)"
           git push
+

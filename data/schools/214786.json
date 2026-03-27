@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": -25.2408,
+    "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": null,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": null,
     "pct_international_all": 2.8351,
+    "pct_international_undergraduate": 2.8351,
+    "pct_international_graduate": null,
+    "international_student_count_change_5yr": -9,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 60,
+    "sector_avg_federal_loan_pct_most_recent": 37.9232,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
@@ -114,6 +119,45 @@
         "value": 11
       }
     ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 47
+      },
+      {
+        "year": 2015,
+        "value": 36
+      },
+      {
+        "year": 2016,
+        "value": 20
+      },
+      {
+        "year": 2017,
+        "value": 16
+      },
+      {
+        "year": 2018,
+        "value": 16
+      },
+      {
+        "year": 2019,
+        "value": 20
+      },
+      {
+        "year": 2022,
+        "value": 7
+      },
+      {
+        "year": 2023,
+        "value": 8
+      },
+      {
+        "year": 2024,
+        "value": 11
+      }
+    ],
+    "enrollment_nonresident_graduate": [],
     "staff_headcount_total": [
       {
         "year": 2014,

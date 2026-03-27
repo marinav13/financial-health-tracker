@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": -12,
+    "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 35.4204,
     "net_tuition_per_fte_change_5yr": -82.7997,
     "staff_total_headcount_pct_change_5yr": -11.2795,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 44.9472,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 0.7% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
     "pct_international_all": 48.0059,
+    "pct_international_undergraduate": 48.0059,
+    "pct_international_graduate": null,
+    "international_student_count_change_5yr": 98,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 7,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
@@ -265,6 +270,53 @@
         "value": 1637
       }
     ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 1563
+      },
+      {
+        "year": 2015,
+        "value": 1383
+      },
+      {
+        "year": 2016,
+        "value": 1392
+      },
+      {
+        "year": 2017,
+        "value": 1366
+      },
+      {
+        "year": 2018,
+        "value": 1521
+      },
+      {
+        "year": 2019,
+        "value": 1539
+      },
+      {
+        "year": 2020,
+        "value": 1364
+      },
+      {
+        "year": 2021,
+        "value": 1465
+      },
+      {
+        "year": 2022,
+        "value": 1606
+      },
+      {
+        "year": 2023,
+        "value": 1497
+      },
+      {
+        "year": 2024,
+        "value": 1637
+      }
+    ],
+    "enrollment_nonresident_graduate": [],
     "staff_headcount_total": [
       {
         "year": 2014,

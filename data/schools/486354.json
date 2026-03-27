@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": 145.9184,
+    "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 64.6851,
     "net_tuition_per_fte_change_5yr": -49.2514,
     "staff_total_headcount_pct_change_5yr": -21.2121,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 98.0964,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 95.2% of its revenue from net tuition, below the median of 98.1% for private for-profit colleges.",
     "pct_international_all": 66.805,
+    "pct_international_undergraduate": 62.439,
+    "pct_international_graduate": 91.6667,
+    "international_student_count_change_5yr": 64,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 0,
+    "sector_avg_federal_loan_pct_most_recent": 60.9324,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
@@ -243,6 +248,62 @@
       {
         "year": 2024,
         "value": 161
+      }
+    ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2015,
+        "value": 36
+      },
+      {
+        "year": 2016,
+        "value": 50
+      },
+      {
+        "year": 2017,
+        "value": 49
+      },
+      {
+        "year": 2018,
+        "value": 85
+      },
+      {
+        "year": 2019,
+        "value": 97
+      },
+      {
+        "year": 2020,
+        "value": 22
+      },
+      {
+        "year": 2021,
+        "value": 74
+      },
+      {
+        "year": 2022,
+        "value": 59
+      },
+      {
+        "year": 2023,
+        "value": 60
+      },
+      {
+        "year": 2024,
+        "value": 128
+      }
+    ],
+    "enrollment_nonresident_graduate": [
+      {
+        "year": 2022,
+        "value": 9
+      },
+      {
+        "year": 2023,
+        "value": 22
+      },
+      {
+        "year": 2024,
+        "value": 33
       }
     ],
     "staff_headcount_total": [

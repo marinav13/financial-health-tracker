@@ -8,38 +8,23 @@
 </head>
 <body>
   <main class="page">
-    <header class="hero">
-      <p class="eyebrow">The Hechinger Report</p>
-      <h1>College Financial Health Tracker</h1>
-      <p class="intro">Search for a college to see a fast snapshot of its finances, enrollment, staffing, endowment, and government funding trends.</p>
+    <header class="masthead">
+      <div class="masthead-title">College Financial Health Explorer</div>
+      <div class="masthead-logo">The Hechinger Report</div>
     </header>
 
-    <section class="panel">
-      <label class="label" for="school-search">Find a college</label>
-      <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
-      <div id="search-results" class="results"></div>
+    <section class="intro-callout">
+      <div class="intro-bar"></div>
+      <div class="intro-box">
+        <p>As colleges and universities face federal funding cuts and immigration policy changes, which ones are most vulnerable to financial pressures and dips in international enrollment?</p>
+        <p>Look up your institution for a snapshot of key financial and enrollment trends.</p>
+      </div>
     </section>
 
-    <section class="grid-two">
-      <section class="panel">
-        <h2>Biggest Enrollment Declines</h2>
-        <ol id="rank-enrollment" class="rank-list"></ol>
-      </section>
-
-      <section class="panel">
-        <h2>Biggest Staff Cuts</h2>
-        <ol id="rank-staff" class="rank-list"></ol>
-      </section>
-
-      <section class="panel">
-        <h2>Most Dependent On Federal Grants</h2>
-        <ol id="rank-federal" class="rank-list"></ol>
-      </section>
-
-      <section class="panel">
-        <h2>Private Colleges With Repeated Losses</h2>
-        <ol id="rank-private-risk" class="rank-list"></ol>
-      </section>
+    <section class="search-panel">
+      <label class="search-label" for="school-search">Institution Name:</label>
+      <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
+      <div id="search-results" class="results"></div>
     </section>
   </main>
 

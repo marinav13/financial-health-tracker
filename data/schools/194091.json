@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": -9.1321,
+    "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.9332,
     "net_tuition_per_fte_change_5yr": -32.4008,
     "staff_total_headcount_pct_change_5yr": -16.5422,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 44.9472,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 84.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
     "pct_international_all": 17.8433,
+    "pct_international_undergraduate": 9.4713,
+    "pct_international_graduate": 25.8747,
+    "international_student_count_change_5yr": -317,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 45,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.4826,
     "state_funding_pct_core_revenue": 0.2002,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 24.096,
@@ -263,6 +268,98 @@
       {
         "year": 2024,
         "value": 1289
+      }
+    ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 754
+      },
+      {
+        "year": 2015,
+        "value": 986
+      },
+      {
+        "year": 2016,
+        "value": 844
+      },
+      {
+        "year": 2017,
+        "value": 644
+      },
+      {
+        "year": 2018,
+        "value": 641
+      },
+      {
+        "year": 2019,
+        "value": 659
+      },
+      {
+        "year": 2020,
+        "value": 626
+      },
+      {
+        "year": 2021,
+        "value": 370
+      },
+      {
+        "year": 2022,
+        "value": 305
+      },
+      {
+        "year": 2023,
+        "value": 286
+      },
+      {
+        "year": 2024,
+        "value": 335
+      }
+    ],
+    "enrollment_nonresident_graduate": [
+      {
+        "year": 2014,
+        "value": 1066
+      },
+      {
+        "year": 2015,
+        "value": 1843
+      },
+      {
+        "year": 2016,
+        "value": 2078
+      },
+      {
+        "year": 2017,
+        "value": 1769
+      },
+      {
+        "year": 2018,
+        "value": 1271
+      },
+      {
+        "year": 2019,
+        "value": 947
+      },
+      {
+        "year": 2020,
+        "value": 796
+      },
+      {
+        "year": 2021,
+        "value": 583
+      },
+      {
+        "year": 2022,
+        "value": 640
+      },
+      {
+        "year": 2023,
+        "value": 926
+      },
+      {
+        "year": 2024,
+        "value": 954
       }
     ],
     "staff_headcount_total": [

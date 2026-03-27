@@ -8,89 +8,117 @@
 </head>
 <body>
   <main class="page">
-    <p><a class="back-link" href="./index.html">Back to search</a></p>
-
-    <header class="hero hero-tight">
-      <p class="eyebrow">College Financial Health Tracker</p>
-      <h1 id="school-name">Loading...</h1>
-      <p id="school-subtitle" class="intro"></p>
+    <header class="masthead">
+      <div class="masthead-title">College Financial Health Explorer</div>
+      <div class="masthead-logo">The Hechinger Report</div>
     </header>
 
-    <section class="panel">
-      <h2>Financial Trends</h2>
-      <div class="cards">
-        <article class="card">
-          <p class="metric-label">5-year revenue change</p>
-          <p id="revenue-change" class="metric-value"></p>
-        </article>
-        <article class="card">
-          <p class="metric-label">Ended the latest year at a loss?</p>
-          <p id="loss-latest" class="metric-value"></p>
-        </article>
-        <article class="card card-wide">
-          <p class="metric-label">Tuition dependence</p>
-          <p id="tuition-sentence" class="metric-copy"></p>
-        </article>
+    <section class="intro-callout">
+      <div class="intro-bar"></div>
+      <div class="intro-box">
+        <p>As colleges and universities face federal funding cuts and immigration policy changes, which ones are most vulnerable to financial pressures and dips in international enrollment?</p>
+        <p>Look up your institution for a snapshot of key financial and enrollment trends.</p>
       </div>
+    </section>
+
+    <section class="search-panel">
+      <label class="search-label" for="school-search">Institution Name:</label>
+      <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
+      <div id="search-results" class="results"></div>
+    </section>
+
+    <section class="school-banner">
+      <h1 id="school-name">Loading...</h1>
+    </section>
+
+    <section class="school-meta-wrap">
+      <p id="school-urbanization" class="school-meta"></p>
+      <p id="school-control" class="school-meta"></p>
+      <p id="school-category" class="school-meta"></p>
+    </section>
+
+    <section class="section-block" id="financial-section">
+      <div class="section-title">Financial Trends</div>
+      <p class="section-copy">Revenue trends are a key indicator of whether a college is bringing in enough money to cover expenses.</p>
+      <div id="revenue-change-card" class="metric-strip"></div>
       <div id="chart-revenue" class="chart-panel"></div>
+
+      <p class="section-copy">A college that spends more than it brings in is operating at a loss. Repeated losses can be a warning sign.</p>
+      <div class="stack-cards">
+        <div class="metric-strip neutral">
+          <div class="metric-question">Did this college end the latest year at a loss?</div>
+          <div id="loss-latest" class="metric-answer"></div>
+        </div>
+        <div class="metric-strip neutral">
+          <div class="metric-question">Has this college been in the red in 3 of the last 5 years?</div>
+          <div id="loss-repeat" class="metric-answer"></div>
+        </div>
+        <div class="metric-strip neutral">
+          <div class="metric-question">How many times has this institution ended the year with a loss in the past decade?</div>
+          <div id="loss-years" class="metric-answer"></div>
+        </div>
+      </div>
+
+      <p class="section-copy">Net tuition revenue means how much money a college brings in per student after discounts and aid.</p>
+      <p class="section-copy">When that revenue falls, it can hit college finances particularly hard and lead to staff cuts.</p>
       <div id="chart-net-tuition" class="chart-panel"></div>
+      <div id="net-tuition-change-card" class="metric-strip"></div>
+      <p class="section-copy">Higher dependence on tuition can make a college more financially vulnerable when enrollment drops.</p>
+      <div id="tuition-sentence-card" class="metric-strip neutral"></div>
     </section>
 
-    <section class="panel">
-      <h2>Enrollment</h2>
-      <div class="cards">
-        <article class="card">
-          <p class="metric-label">5-year enrollment change</p>
-          <p id="enrollment-change" class="metric-value"></p>
-        </article>
-        <article class="card">
-          <p class="metric-label">International students</p>
-          <p id="intl-sentence" class="metric-copy"></p>
-        </article>
-      </div>
+    <section class="section-block" id="enrollment-section">
+      <div class="section-title">Enrollment</div>
+      <p class="section-copy">Drops in enrollment over time can be an early warning sign of financial stress.</p>
+      <div id="enrollment-change-card" class="metric-strip"></div>
       <div id="chart-enrollment" class="chart-panel"></div>
+      <div class="metric-strip neutral">
+        <div class="metric-question">Did this institution see a decline in enrollment in three of the five previous years?</div>
+        <div id="enrollment-flag" class="metric-answer"></div>
+      </div>
+
+      <p class="section-copy">Institutions with higher rates of international students may be more vulnerable to the federal push to make it harder to obtain student visas.</p>
+      <div id="intl-sentence-card" class="metric-strip neutral"></div>
       <div id="chart-international" class="chart-panel"></div>
+      <div id="intl-change-card" class="metric-strip"></div>
+
+      <p class="section-copy">Congress has capped how much federal loans students can take out. This change could hit colleges with higher rates of students borrowing.</p>
+      <div id="loan-card" class="metric-strip neutral"></div>
     </section>
 
-    <section class="panel">
-      <h2>Staffing</h2>
-      <div class="cards">
-        <article class="card">
-          <p class="metric-label">5-year total staff change</p>
-          <p id="staff-change" class="metric-value"></p>
-        </article>
-      </div>
+    <section class="section-block" id="staffing-section">
+      <div class="section-title">Staffing</div>
+      <p class="section-copy">Drops in staffing can signal that a college is cutting back as a result of financial and enrollment challenges.</p>
       <div id="chart-staffing" class="chart-panel"></div>
+      <div id="staff-change-card" class="metric-strip"></div>
     </section>
 
-    <section class="panel">
-      <h2>Endowment</h2>
-      <div class="cards">
-        <article class="card">
-          <p class="metric-label">5-year endowment change</p>
-          <p id="endowment-change" class="metric-value"></p>
-        </article>
-      </div>
+    <section class="section-block" id="endowment-section">
+      <div class="section-title">Endowment</div>
+      <p class="section-copy">Some colleges may have an endowment they can draw on for difficult financial periods.</p>
+      <div id="endowment-change-card" class="metric-strip"></div>
       <div id="chart-endowment" class="chart-panel"></div>
     </section>
 
-    <section class="panel">
-      <h2>Federal And State Aid</h2>
-      <div class="cards">
-        <article class="card">
-          <p class="metric-label">Federal grants share of core revenue</p>
-          <p id="federal-share" class="metric-value"></p>
-        </article>
-        <article class="card">
-          <p class="metric-label">State appropriations share of core revenue</p>
-          <p id="state-share" class="metric-value"></p>
-        </article>
+    <section class="section-block" id="aid-section">
+      <div id="aid-section-title" class="section-title">Federal And State Aid</div>
+      <p class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
+      <div id="federal-group">
+        <div id="federal-share-card" class="metric-strip neutral"></div>
+        <div id="federal-change-card" class="metric-strip neutral"></div>
+        <div id="chart-federal" class="chart-panel"></div>
       </div>
-      <div id="chart-federal" class="chart-panel"></div>
-      <div id="chart-state" class="chart-panel"></div>
+      <div id="state-group">
+        <div id="state-share-card" class="metric-strip neutral"></div>
+        <div id="state-change-card" class="metric-strip neutral"></div>
+        <div id="chart-state" class="chart-panel"></div>
+      </div>
     </section>
+
+    <footer class="page-footer">Visualization and data analysis by Marina Villeneuve, The Hechinger Report. For our methodology, please click here.</footer>
   </main>
 
+  <script src="js/app.js"></script>
   <script src="js/charts.js"></script>
   <script src="js/school.js"></script>
 </body>

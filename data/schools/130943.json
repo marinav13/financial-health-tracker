@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": 3.9869,
+    "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": 0.1616,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": null,
     "pct_international_all": 11.9478,
+    "pct_international_undergraduate": 6.4101,
+    "pct_international_graduate": 35.4155,
+    "international_student_count_change_5yr": 633,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 50,
+    "sector_avg_federal_loan_pct_most_recent": 37.9232,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
@@ -128,6 +133,98 @@
       {
         "year": 2024,
         "value": 3216
+      }
+    ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 853
+      },
+      {
+        "year": 2015,
+        "value": 887
+      },
+      {
+        "year": 2016,
+        "value": 818
+      },
+      {
+        "year": 2017,
+        "value": 920
+      },
+      {
+        "year": 2018,
+        "value": 1022
+      },
+      {
+        "year": 2019,
+        "value": 1143
+      },
+      {
+        "year": 2020,
+        "value": 1244
+      },
+      {
+        "year": 2021,
+        "value": 1247
+      },
+      {
+        "year": 2022,
+        "value": 1299
+      },
+      {
+        "year": 2023,
+        "value": 1284
+      },
+      {
+        "year": 2024,
+        "value": 1396
+      }
+    ],
+    "enrollment_nonresident_graduate": [
+      {
+        "year": 2014,
+        "value": 1296
+      },
+      {
+        "year": 2015,
+        "value": 1380
+      },
+      {
+        "year": 2016,
+        "value": 1488
+      },
+      {
+        "year": 2017,
+        "value": 1465
+      },
+      {
+        "year": 2018,
+        "value": 1452
+      },
+      {
+        "year": 2019,
+        "value": 1440
+      },
+      {
+        "year": 2020,
+        "value": 1369
+      },
+      {
+        "year": 2021,
+        "value": 1312
+      },
+      {
+        "year": 2022,
+        "value": 1467
+      },
+      {
+        "year": 2023,
+        "value": 1617
+      },
+      {
+        "year": 2024,
+        "value": 1820
       }
     ],
     "staff_headcount_total": [

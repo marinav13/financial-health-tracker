@@ -66,6 +66,7 @@ build_series <- function(df, value_col, scale = 1) {
 
 build_school_file <- function(df) {
   latest <- df %>% filter(year == max(year, na.rm = TRUE)) %>% slice(1)
+  sector_key <- latest$sector[[1]]
 
   list(
     unitid = as.character(latest$unitid[[1]]),
@@ -84,6 +85,7 @@ build_school_file <- function(df) {
     ),
     summary = list(
       enrollment_pct_change_5yr = latest$enrollment_pct_change_5yr[[1]],
+      enrollment_decline_last_3_of_5 = latest$enrollment_decline_last_3_of_5[[1]],
       revenue_pct_change_5yr = latest$revenue_pct_change_5yr[[1]],
       net_tuition_per_fte_change_5yr = latest$net_tuition_per_fte_change_5yr[[1]],
       staff_total_headcount_pct_change_5yr = latest$staff_total_headcount_pct_change_5yr[[1]],
@@ -95,8 +97,12 @@ build_school_file <- function(df) {
       sector_median_tuition_dependence_pct = latest$sector_median_tuition_dependence_pct[[1]],
       tuition_dependence_vs_sector_median_sentence = null_if_empty(latest$tuition_dependence_vs_sector_median_sentence[[1]]),
       pct_international_all = scale_ratio_to_pct(latest$pct_international_all[[1]]),
+      pct_international_undergraduate = scale_ratio_to_pct(latest$pct_international_undergraduate[[1]]),
+      pct_international_graduate = scale_ratio_to_pct(latest$pct_international_graduate[[1]]),
+      international_student_count_change_5yr = latest$international_student_count_change_5yr[[1]],
       international_students_sentence = null_if_empty(latest$international_students_sentence[[1]]),
       federal_loan_pct_most_recent = latest$federal_loan_pct_most_recent[[1]],
+      sector_avg_federal_loan_pct_most_recent = unname(sector_loan_benchmarks[[sector_key]] %||% NA_real_),
       federal_grants_contracts_pell_adjusted_pct_core_revenue = scale_ratio_to_pct(latest$federal_grants_contracts_pell_adjusted_pct_core_revenue[[1]]),
       state_funding_pct_core_revenue = scale_ratio_to_pct(latest$state_funding_pct_core_revenue[[1]]),
       federal_grants_contracts_pell_adjusted_pct_change_5yr = latest$federal_grants_contracts_pell_adjusted_pct_change_5yr[[1]],
@@ -109,6 +115,8 @@ build_school_file <- function(df) {
       net_tuition_per_fte_adjusted = build_series(df, "net_tuition_per_fte_adjusted"),
       enrollment_headcount_total = build_series(df, "enrollment_headcount_total"),
       enrollment_nonresident_total = build_series(df, "enrollment_nonresident_total"),
+      enrollment_nonresident_undergrad = build_series(df, "enrollment_nonresident_undergrad"),
+      enrollment_nonresident_graduate = build_series(df, "enrollment_nonresident_graduate"),
       staff_headcount_total = build_series(df, "staff_headcount_total"),
       staff_headcount_instructional = build_series(df, "staff_headcount_instructional"),
       endowment_value_adjusted = build_series(df, "endowment_value_adjusted"),
@@ -124,11 +132,13 @@ numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
   "tuition_dependence_pct","sector_median_tuition_dependence_pct","pct_international_all",
+  "pct_international_undergraduate","pct_international_graduate","international_student_count_change_5yr",
   "federal_loan_pct_most_recent","federal_grants_contracts_pell_adjusted_pct_core_revenue",
   "state_funding_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
   "state_funding_pct_change_5yr","endowment_pct_change_5yr","revenue_total_adjusted",
   "expenses_total_adjusted","net_tuition_per_fte_adjusted","enrollment_headcount_total",
-  "enrollment_nonresident_total","staff_headcount_total","staff_headcount_instructional",
+  "enrollment_nonresident_total","enrollment_nonresident_undergrad","enrollment_nonresident_graduate",
+  "staff_headcount_total","staff_headcount_instructional",
   "endowment_value_adjusted","federal_grants_contracts_pell_adjusted_adjusted","state_funding_adjusted"
 )
 
@@ -138,6 +148,11 @@ for (nm in intersect(numeric_cols, names(df))) {
 
 df <- df %>% arrange(unitid, year)
 latest_2024 <- df %>% filter(year == 2024)
+sector_loan_benchmarks <- latest_2024 %>%
+  group_by(sector) %>%
+  summarise(value = mean(federal_loan_pct_most_recent, na.rm = TRUE), .groups = "drop") %>%
+  filter(!is.na(sector), !is.na(value)) %>%
+  { stats::setNames(.$value, .$sector) }
 
 schools_index <- latest_2024 %>%
   transmute(
@@ -153,32 +168,6 @@ schools_index <- latest_2024 %>%
   ) %>%
   arrange(institution_name)
 
-rankings <- list(
-  generated_at = as.character(Sys.Date()),
-  lists = list(
-    enrollment_decline_5yr = latest_2024 %>%
-      filter(!is.na(enrollment_pct_change_5yr)) %>%
-      arrange(enrollment_pct_change_5yr) %>%
-      slice_head(n = 25) %>%
-      transmute(unitid = as.character(unitid), institution_name, value = round(enrollment_pct_change_5yr, 1)),
-    staff_cuts_5yr = latest_2024 %>%
-      filter(!is.na(staff_total_headcount_pct_change_5yr)) %>%
-      arrange(staff_total_headcount_pct_change_5yr) %>%
-      slice_head(n = 25) %>%
-      transmute(unitid = as.character(unitid), institution_name, value = round(staff_total_headcount_pct_change_5yr, 1)),
-    federal_dependence = latest_2024 %>%
-      filter(!is.na(federal_grants_contracts_pell_adjusted_pct_core_revenue)) %>%
-      arrange(desc(federal_grants_contracts_pell_adjusted_pct_core_revenue)) %>%
-      slice_head(n = 25) %>%
-      transmute(unitid = as.character(unitid), institution_name, value = round(federal_grants_contracts_pell_adjusted_pct_core_revenue * 100, 1)),
-    private_closure_risk = latest_2024 %>%
-      filter(control_label == "Private not-for-profit", !is.na(loss_years_last_10)) %>%
-      arrange(desc(loss_years_last_10), revenue_pct_change_5yr, enrollment_pct_change_5yr) %>%
-      slice_head(n = 25) %>%
-      transmute(unitid = as.character(unitid), institution_name, value = as.integer(loss_years_last_10))
-  )
-)
-
 metadata <- list(
   generated_at = as.character(Sys.Date()),
   title = "College Financial Health Tracker",
@@ -186,14 +175,12 @@ metadata <- list(
   methodology_note = "This website prototype uses the filtered public-facing reporting dataset from the project repo.",
   files = list(
     schools_index = "data/schools_index.json",
-    rankings = "data/rankings.json",
     schools = "data/schools/{unitid}.json",
     download = "data/downloads/full_dataset.csv"
   )
 )
 
 write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
-write_json_file(rankings, file.path(data_dir, "rankings.json"))
 write_json_file(metadata, file.path(data_dir, "metadata.json"))
 readr::write_csv(latest_2024, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
@@ -204,7 +191,6 @@ for (unitid in names(by_school)) {
 }
 
 cat(sprintf("Saved schools index to %s\n", file.path(data_dir, "schools_index.json")))
-cat(sprintf("Saved rankings to %s\n", file.path(data_dir, "rankings.json")))
 cat(sprintf("Saved metadata to %s\n", file.path(data_dir, "metadata.json")))
 cat(sprintf("Saved school files to %s\n", schools_dir))
 cat(sprintf("Saved download CSV to %s\n", file.path(downloads_dir, "full_dataset.csv")))

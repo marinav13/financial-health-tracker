@@ -15,6 +15,7 @@
   },
   "summary": {
     "enrollment_pct_change_5yr": 556.6265,
+    "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1430.1391,
     "net_tuition_per_fte_change_5yr": -84.5695,
     "staff_total_headcount_pct_change_5yr": 156.0976,
@@ -26,8 +27,12 @@
     "sector_median_tuition_dependence_pct": 44.9472,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 2% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
     "pct_international_all": 85.3211,
+    "pct_international_undergraduate": 85.8491,
+    "pct_international_graduate": 85.1936,
+    "international_student_count_change_5yr": 389,
     "international_students_sentence": null,
     "federal_loan_pct_most_recent": 0,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
@@ -171,6 +176,66 @@
       {
         "year": 2024,
         "value": 465
+      }
+    ],
+    "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 227
+      },
+      {
+        "year": 2019,
+        "value": 28
+      },
+      {
+        "year": 2020,
+        "value": 13
+      },
+      {
+        "year": 2021,
+        "value": 4
+      },
+      {
+        "year": 2022,
+        "value": 5
+      },
+      {
+        "year": 2023,
+        "value": 38
+      },
+      {
+        "year": 2024,
+        "value": 91
+      }
+    ],
+    "enrollment_nonresident_graduate": [
+      {
+        "year": 2014,
+        "value": 1875
+      },
+      {
+        "year": 2019,
+        "value": 48
+      },
+      {
+        "year": 2020,
+        "value": 36
+      },
+      {
+        "year": 2021,
+        "value": 40
+      },
+      {
+        "year": 2022,
+        "value": 74
+      },
+      {
+        "year": 2023,
+        "value": 219
+      },
+      {
+        "year": 2024,
+        "value": 374
       }
     ],
     "staff_headcount_total": [

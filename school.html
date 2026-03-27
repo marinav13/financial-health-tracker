@@ -21,17 +21,24 @@
       </div>
     </section>
 
-    <section class="search-panel">
-      <label class="search-label" for="school-search">Institution Name:</label>
-      <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
-      <div id="search-results" class="results"></div>
-    </section>
+    <details id="school-search-wrap" class="school-search-wrap" open>
+      <summary class="school-search-summary" aria-label="Toggle search"></summary>
+      <section class="search-panel">
+        <label class="search-label" for="school-search">Institution Name:</label>
+        <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
+        <div id="search-results" class="results"></div>
+      </section>
+    </details>
 
     <section class="school-banner">
       <h1 id="school-name">Loading...</h1>
     </section>
 
     <section class="school-meta-wrap">
+      <div class="school-actions">
+        <button id="download-school-data" class="download-button" type="button">Download This College's Data</button>
+      </div>
+      <p id="school-location" class="school-meta"></p>
       <p id="school-urbanization" class="school-meta"></p>
       <p id="school-control" class="school-meta"></p>
       <p id="school-category" class="school-meta"></p>
@@ -73,7 +80,7 @@
       <div id="enrollment-change-card" class="metric-strip"></div>
       <div id="chart-enrollment" class="chart-panel"></div>
       <div class="metric-strip neutral">
-        <div class="metric-question">Did this institution see a decline in enrollment in three of the five previous years?</div>
+        <div class="metric-question">Did this institution see a decline in enrollment in 3 of the previous 5 years?</div>
         <div id="enrollment-flag" class="metric-answer"></div>
       </div>
 
@@ -115,7 +122,12 @@
       </div>
     </section>
 
-    <footer class="page-footer">Visualization and data analysis by Marina Villeneuve, The Hechinger Report. For our methodology, please click here.</footer>
+    <details class="methodology-panel">
+      <summary class="methodology-summary">Methodology</summary>
+      <div class="methodology-body">
+        <p>This section is a placeholder for the project methodology. It can later include the source data, filters, inflation adjustment note, and any caveats about missing or system-level reporting.</p>
+      </div>
+    </details>
   </main>
 
   <script src="js/app.js"></script>

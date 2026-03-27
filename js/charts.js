@@ -1,9 +1,28 @@
-function formatCompactNumber(value) {
+function formatChartValue(value, format = "number") {
   if (value === null || value === undefined || Number.isNaN(value)) return "No data";
+  if (format === "currency") {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    }).format(value);
+  }
   return new Intl.NumberFormat("en-US", {
-    notation: Math.abs(value) >= 1000 ? "compact" : "standard",
-    maximumFractionDigits: 1
+    maximumFractionDigits: 0
   }).format(value);
+}
+
+function niceCeiling(value) {
+  if (!Number.isFinite(value) || value <= 0) return 1;
+  const exponent = Math.floor(Math.log10(value));
+  const base = 10 ** exponent;
+  const normalized = value / base;
+  let step;
+  if (normalized <= 1) step = 1;
+  else if (normalized <= 2) step = 2;
+  else if (normalized <= 5) step = 5;
+  else step = 10;
+  return step * base;
 }
 
 function renderLineChart(containerId, config) {
@@ -19,15 +38,21 @@ function renderLineChart(containerId, config) {
   const allPoints = seriesList.flatMap((s) => s.values);
   const values = allPoints.map((p) => Number(p.value)).filter((v) => !Number.isNaN(v));
   const years = allPoints.map((p) => Number(p.year));
+  const format = config.format || "number";
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
   const rawMaxY = Math.max(...values);
   const minY = 0;
-  const maxY = rawMaxY <= 0 ? 1 : rawMaxY;
+  const maxY = niceCeiling((rawMaxY <= 0 ? 1 : rawMaxY) * 1.05);
 
   const width = 760;
   const height = 260;
-  const pad = { top: 18, right: 20, bottom: 34, left: 52 };
+  const pad = {
+    top: 18,
+    right: 20,
+    bottom: 34,
+    left: format === "currency" ? 132 : 60
+  };
   const innerW = width - pad.left - pad.right;
   const innerH = height - pad.top - pad.bottom;
   const ySpan = maxY === minY ? 1 : maxY - minY;
@@ -37,9 +62,12 @@ function renderLineChart(containerId, config) {
   const yScale = (value) => pad.top + (1 - ((value - minY) / ySpan)) * innerH;
 
   const gridLines = [];
+  const yTicks = [];
   for (let i = 0; i < 5; i += 1) {
     const y = pad.top + (i / 4) * innerH;
+    const tickValue = maxY - ((maxY - minY) * i / 4);
     gridLines.push(`<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#e5e7eb" stroke-width="1" />`);
+    yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
   }
 
   const yearTicks = [];
@@ -59,7 +87,7 @@ function renderLineChart(containerId, config) {
   const pointGroups = seriesList.map((series) => series.values.map((point) => {
     const x = xScale(Number(point.year));
     const y = yScale(Number(point.value));
-    return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9"><title>${series.label}: ${formatCompactNumber(Number(point.value))} (${point.year})</title></circle>`;
+    return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9"><title>${series.label}: ${formatChartValue(Number(point.value), format)} (${point.year})</title></circle>`;
   }).join("")).join("");
 
   const title = config.title ? `<p class="chart-title">${config.title}</p>` : "";
@@ -73,13 +101,12 @@ function renderLineChart(containerId, config) {
     <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img">
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
+      ${yTicks.join("")}
       <line x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}" stroke="#94a3b8" />
       <line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${height - pad.bottom}" stroke="#94a3b8" />
       ${paths}
       ${pointGroups}
       ${yearTicks.join("")}
-      <text x="12" y="${pad.top + 6}" font-size="12" fill="#6b7280">${formatCompactNumber(maxY)}</text>
-      <text x="18" y="${height - pad.bottom}" font-size="12" fill="#6b7280">0</text>
     </svg>
     <div class="chart-legend">${legend}</div>
   `;
@@ -107,7 +134,7 @@ function renderLineChart(containerId, config) {
     const rows = seriesList.map((series) => {
       const point = series.values.find((value) => Number(value.year) === bestYear);
       if (!point) return null;
-      return `<span class="chart-tooltip-row">${series.label}: ${formatCompactNumber(Number(point.value))}</span>`;
+      return `<span class="chart-tooltip-row">${series.label}: ${formatChartValue(Number(point.value), format)}</span>`;
     }).filter(Boolean);
 
     if (!rows.length) return;

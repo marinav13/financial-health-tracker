@@ -1,0 +1,63 @@
+name: Refresh IPEDS Site Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 1 3 *"
+    - cron: "0 12 1 7 *"
+    - cron: "0 12 1 11 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ipeds-site-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.5.1"
+
+      - name: Install R packages
+        shell: pwsh
+        run: >
+          Rscript -e "install.packages(c('dplyr','jsonlite','purrr','readr','readxl','stringr','tidyr'),
+          repos='https://cloud.r-project.org')"
+
+      - name: Rebuild raw IPEDS data
+        shell: pwsh
+        run: >
+          Rscript --vanilla .\scripts\build_ipeds_tracker_dataset.R --start-year 2014 --end-year 2024
+
+      - name: Rebuild reporting datasets
+        shell: pwsh
+        run: >
+          Rscript --vanilla .\scripts\build_looker_ready_metrics.R
+
+      - name: Rebuild static web exports
+        shell: pwsh
+        run: >
+          Rscript --vanilla .\scripts\build_web_exports.R
+
+      - name: Commit and push updated data
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw_build/ looker_studio/ reporting/ data/
+          if (git diff --cached --quiet) {
+            Write-Host "No data changes to commit."
+            exit 0
+          }
+          $date = Get-Date -Format "yyyy-MM-dd"
+          git commit -m "Automated IPEDS refresh ($date)"
+          git push

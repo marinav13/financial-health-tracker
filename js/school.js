@@ -38,11 +38,19 @@ function latestPoint(values) {
   return series.length ? series[series.length - 1] : null;
 }
 
+function recentFiveYearRangeText(seriesValues) {
+  const values = toSeries(seriesValues);
+  if (values.length < 6) return "from 2019 to 2024";
+  const end = values[values.length - 1].year;
+  const start = values[values.length - 6].year;
+  return `from ${start} to ${end}`;
+}
+
 function sentimentClass(value) {
   const n = asNumber(value);
   if (n === null) return "neutral";
-  if (n < 0) return "negative";
-  if (n > 0) return "positive";
+  if (n <= -5) return "negative";
+  if (n >= 5) return "positive";
   return "neutral";
 }
 
@@ -179,14 +187,6 @@ function styleAnswerCard(answerId, value) {
   answer.className = `metric-answer ${state}`;
 }
 
-function medianComparisonState(summary) {
-  const value = asNumber(summary.tuition_dependence_pct);
-  const median = asNumber(summary.sector_median_tuition_dependence_pct);
-  if (value === null || median === null) return "neutral";
-  if (Math.abs(value - median) < 0.05) return "neutral";
-  return value > median ? "negative" : "neutral";
-}
-
 async function init() {
   syncSearchToggle();
   window.addEventListener("resize", syncSearchToggle);
@@ -201,6 +201,7 @@ async function init() {
   const p = school.profile;
   const s = school.summary;
   const series = school.series;
+  const fiveYearRangeText = recentFiveYearRangeText(series.revenue_total_adjusted || series.enrollment_headcount_total || []);
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -217,7 +218,7 @@ async function init() {
     "revenue-change-card",
     asNumber(s.revenue_pct_change_5yr) === null
       ? "Revenue data are not available."
-      : `Revenue has ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.revenue_pct_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.revenue_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     sentimentClass(s.revenue_pct_change_5yr)
   );
 
@@ -231,21 +232,21 @@ async function init() {
     "net-tuition-change-card",
     asNumber(s.net_tuition_per_fte_change_5yr) === null
       ? "Net tuition revenue per student data are not available."
-      : `Net tuition revenue per student has ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `Net tuition revenue per student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     sentimentClass(s.net_tuition_per_fte_change_5yr)
   );
 
   applyStrip(
     "tuition-sentence-card",
     s.tuition_dependence_vs_sector_median_sentence || "No tuition dependence benchmark is available.",
-    medianComparisonState(s)
+    "neutral"
   );
 
   applyStrip(
     "enrollment-change-card",
     asNumber(s.enrollment_pct_change_5yr) === null
       ? "Enrollment data are not available."
-      : `Enrollment has ${asNumber(s.enrollment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.enrollment_pct_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `Enrollment ${asNumber(s.enrollment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.enrollment_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     sentimentClass(s.enrollment_pct_change_5yr)
   );
 
@@ -257,9 +258,9 @@ async function init() {
 
   applyStrip(
     "intl-change-card",
-    asNumber(s.international_student_count_change_5yr) === null
+    asNumber(s.international_enrollment_pct_change_5yr) === null
       ? "The number of international students is not available."
-      : `The number of international students has ${asNumber(s.international_student_count_change_5yr) >= 0 ? "increased" : "decreased"} ${Math.abs(asNumber(s.international_student_count_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `The number of international students ${asNumber(s.international_enrollment_pct_change_5yr) >= 0 ? "increased" : "decreased"} ${Math.abs(asNumber(s.international_enrollment_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     "neutral"
   );
 
@@ -275,7 +276,7 @@ async function init() {
     "staff-change-card",
     asNumber(s.staff_total_headcount_pct_change_5yr) === null
       ? "Staffing data are not available."
-      : `Total staff headcount has ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     sentimentClass(s.staff_total_headcount_pct_change_5yr)
   );
 
@@ -283,7 +284,7 @@ async function init() {
     "endowment-change-card",
     asNumber(s.endowment_pct_change_5yr) === null
       ? "Endowment data are not available."
-      : `The institution's endowment has ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.endowment_pct_change_5yr)).toFixed(1)}% over the past 5 years.`,
+      : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.endowment_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
     sentimentClass(s.endowment_pct_change_5yr)
   );
 

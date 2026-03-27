@@ -1,0 +1,144 @@
+WEBSITE MANAGER NOTE
+
+This repo already contains the core files for the static interactive:
+
+- index.html
+- school.html
+- styles.css
+- js/
+- data/
+
+That means the repo already includes:
+
+- the landing page
+- the school detail page
+- the CSS styling
+- the JavaScript logic
+- the exported JSON and CSV data files
+
+Recommended website folder structure:
+
+- /interactives/collegefinancialhealth/index.html
+- /interactives/collegefinancialhealth/school.html
+- /interactives/collegefinancialhealth/styles.css
+- /interactives/collegefinancialhealth/js/
+- /interactives/collegefinancialhealth/data/
+
+The school page expects URLs like:
+
+- /interactives/collegefinancialhealth/school.html?unitid=172264
+
+WEBSITE DEPLOYMENT OPTIONS
+
+Option 1. Preferred
+
+Create a new folder at:
+
+- /interactives/collegefinancialhealth/
+
+This is the cleanest option because it:
+
+- keeps the new interactive separate from the old fitness tracker
+- makes staging and QA easier
+- gives us a stable permanent URL for the financial health project
+
+Option 2. Replace the existing fitness tracker later
+
+If desired, the current fitness tracker path could later be redirected to:
+
+- /interactives/collegefinancialhealth/
+
+This is safer than replacing the old fitness files immediately.
+
+Option 3. Direct replacement of the old fitness folder
+
+If the organization wants the new interactive to live directly at the old fitness location, the old files can be replaced in that folder.
+
+This is possible, but it is the riskiest option and should only happen after staging is approved.
+
+SUGGESTED LAUNCH STEPS
+
+1. Pull or download this repo.
+2. Copy the static interactive files into the website interactive folder.
+3. Confirm the final public URL structure.
+4. Test the landing page and several school pages on staging.
+5. Test desktop and mobile.
+6. Test the Download This College's Data button.
+7. Publish.
+
+PLEASE TEST BEFORE LAUNCH
+
+- landing page loads
+- search works
+- several school pages open correctly
+- charts load and show hover values
+- CSV download works
+- layout looks good on mobile
+- methodology panel opens
+
+Recommended school tests:
+
+- a private nonprofit school
+- a public flagship
+- a school with federal grants data
+- a school with no state appropriations data
+
+DATA REFRESH
+
+Yes. The data can still be refreshed three times a year after the interactive is moved to the website.
+
+This repo includes a GitHub Actions workflow at:
+
+- .github/workflows/refresh-ipeds-site-data.yml
+
+That workflow:
+
+1. rebuilds the raw IPEDS data
+2. rebuilds the reporting dataset
+3. rebuilds the static site exports in data/
+4. commits updated files back to the repo
+
+How that works after launch depends on the website setup:
+
+Option A. Manual publish from this repo
+
+- GitHub Actions refreshes the repo data three times a year
+- after each refresh, the updated files are copied from this repo to the website
+
+Option B. Website pulls directly from this repo
+
+- GitHub Actions refreshes the repo data three times a year
+- the website deploy process pulls the latest files from this repo
+
+In practical terms, that means the website build or deploy system uses this repo as a source of static files.
+
+The website deploy should pull only these files and folders:
+
+- index.html
+- school.html
+- styles.css
+- js/
+- data/
+
+Those files can then be published to:
+
+- /interactives/collegefinancialhealth/
+
+This is often the cleanest long-term setup because:
+
+- this repo remains the source of truth for the interactive
+- GitHub Actions can keep refreshing the data here
+- the website only needs to publish the finished static files
+
+Option C. Separate website repo
+
+- GitHub Actions refreshes this data repo three times a year
+- updated static files are copied into a website repo before publishing
+
+Short version:
+
+- the repo already has the HTML, CSS, JavaScript, and data files
+- place those files in /interactives/collegefinancialhealth/
+- test on staging
+- publish
+- use the GitHub Actions workflow for future updates

@@ -127,11 +127,12 @@ main <- function(cli_args = NULL) {
     out <- dplyr::case_when(
       stringr::str_detect(txt, "removed from warning|remove notice of concern|removal of sanction") ~ "removed",
       stringr::str_detect(txt, "removed from probation|removed from probation for good cause") ~ "removed",
-      stringr::str_detect(txt, "removed from membership|withdrawal of accreditation|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
       stringr::str_detect(txt, "show cause") ~ "show_cause",
+      stringr::str_detect(txt, "closure") ~ "adverse_action",
+      stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
       stringr::str_detect(txt, "probation") ~ "probation",
       stringr::str_detect(txt, "warning") ~ "warning",
-      stringr::str_detect(txt, "notice of concern") ~ "other",
+      stringr::str_detect(txt, "notice of concern") ~ "notice",
       stringr::str_detect(txt, "notice") ~ "notice",
       stringr::str_detect(txt, "monitor") ~ "monitoring",
       stringr::str_detect(txt, "adverse") ~ "adverse_action",
@@ -143,10 +144,54 @@ main <- function(cli_args = NULL) {
   classify_status <- function(raw_action) {
     txt <- stringr::str_to_lower(as.character(raw_action))
     dplyr::case_when(
-      stringr::str_detect(txt, "removed from warning|removed from probation|removal of sanction") ~ "resolved",
+      stringr::str_detect(txt, "removed from warning|removed from probation|removal of sanction|remove notice of concern|removed notice of concern") ~ "resolved",
       stringr::str_detect(txt, "placed on|continued on|on probation|on notice|warning|show cause|monitor") ~ "active",
-      stringr::str_detect(txt, "removed from membership|withdrawal of accreditation|withdraws from membership") ~ "active",
+      stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership") ~ "active",
       TRUE ~ "active"
+    )
+  }
+
+  has_public_action_keywords <- function(x) {
+    txt <- stringr::str_to_lower(as.character(x))
+    stringr::str_detect(
+      txt,
+      "warning|probation|show cause|notice of concern|notice|withdrawal of accreditation|withdraws from membership|closure|adverse"
+    )
+  }
+
+  extract_name_state_from_item <- function(x) {
+    item <- clean_text(x)
+    item <- stringr::str_remove(item, "\\s*\\((next review|letter dated|closure of|two proposals).*?\\)$")
+    item <- stringr::str_squish(item)
+
+    match <- stringr::str_match(item, "^(.*?),\\s*[^,]+,\\s*([A-Z]{2})$")
+    if (!is.na(match[1, 1])) {
+      return(list(
+        institution_name_raw = clean_text(match[1, 2]),
+        institution_state_raw = state_name(match[1, 3])
+      ))
+    }
+
+    match <- stringr::str_match(item, "^(.*?),\\s*([A-Z]{2})$")
+    if (!is.na(match[1, 1])) {
+      return(list(
+        institution_name_raw = clean_text(match[1, 2]),
+        institution_state_raw = state_name(match[1, 3])
+      ))
+    }
+
+    match <- stringr::str_match(item, "^(.*?)\\s*\\(([^)]+)\\)$")
+    if (!is.na(match[1, 1])) {
+      state_abbr <- stringr::str_match(match[1, 3], "([A-Z]{2})$")[, 2]
+      return(list(
+        institution_name_raw = clean_text(match[1, 2]),
+        institution_state_raw = state_name(state_abbr)
+      ))
+    }
+
+    list(
+      institution_name_raw = item,
+      institution_state_raw = NA_character_
     )
   }
 
@@ -161,47 +206,142 @@ main <- function(cli_args = NULL) {
       "(?s)<h3>(Non-Compliance Warning|Non-Compliance Probation|Non-Compliance Show Cause|Adverse Action)</h3>(.*?)(?=<h3>|<div class=\"single-share\"|</article>)"
     )[[1]]
 
-    if (nrow(section_matches) == 0) {
-      return(tibble::tibble())
+    current_status_rows <- if (nrow(section_matches) == 0) {
+      tibble::tibble()
+    } else {
+      purrr::map_dfr(seq_len(nrow(section_matches)), function(i) {
+        heading <- clean_text(section_matches[i, 2])
+        body <- section_matches[i, 3]
+        if (stringr::str_detect(body, "No institutions in this status")) {
+          return(tibble::tibble())
+        }
+
+        link_matches <- stringr::str_match_all(body, "<a[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>")[[1]]
+        if (nrow(link_matches) == 0) {
+          return(tibble::tibble())
+        }
+
+        action_label <- dplyr::case_when(
+          heading == "Non-Compliance Warning" ~ "warning",
+          heading == "Non-Compliance Probation" ~ "probation",
+          heading == "Non-Compliance Show Cause" ~ "show_cause",
+          heading == "Adverse Action" ~ "adverse_action",
+          TRUE ~ "other"
+        )
+
+        tibble::tibble(
+          institution_name_raw = clean_text(link_matches[, 3]),
+          institution_state_raw = NA_character_,
+          accreditor = "MSCHE",
+          action_type = action_label,
+          action_label_raw = heading,
+          action_status = "active",
+          action_date = as.Date(NA),
+          action_year = NA_integer_,
+          source_url = link_matches[, 2],
+          source_title = page_title,
+          notes = heading,
+          last_seen_at = Sys.time(),
+          source_page_url = url,
+          source_page_modified = page_modified
+        )
+      })
     }
 
-    purrr::map_dfr(seq_len(nrow(section_matches)), function(i) {
-      heading <- clean_text(section_matches[i, 2])
-      body <- section_matches[i, 3]
-      if (stringr::str_detect(body, "No institutions in this status")) {
+    parse_msche_month_page <- function(month_url, month_label) {
+      cache_name <- paste0("msche_", gsub("[^a-z0-9]+", "_", tolower(month_label)), ".html")
+      month_html <- fetch_html_text(month_url, cache_name, refresh = refresh)
+      page_modified_month <- extract_page_modified_date(month_html)
+      doc <- xml2::read_html(month_html)
+
+      state_sections <- xml2::xml_find_all(doc, "//h3[starts-with(@id,'state-')]")
+      if (length(state_sections) == 0) {
         return(tibble::tibble())
       }
 
-      link_matches <- stringr::str_match_all(body, "<a[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>")[[1]]
-      if (nrow(link_matches) == 0) {
+      purrr::map_dfr(state_sections, function(state_node) {
+        state_label <- clean_text(xml2::xml_text(state_node))
+        list_node <- xml2::xml_find_first(state_node, "following-sibling::*[1][self::ul]")
+        if (inherits(list_node, "xml_missing")) {
+          return(tibble::tibble())
+        }
+
+        item_nodes <- xml2::xml_find_all(list_node, "./li[a[contains(@href, '/institution/')]]")
+        if (length(item_nodes) == 0) {
+          return(tibble::tibble())
+        }
+
+        purrr::map_dfr(item_nodes, function(item_node) {
+          inst_link <- xml2::xml_find_first(item_node, ".//a[contains(@href, '/institution/')]")
+          inst_name_raw <- clean_text(xml2::xml_text(inst_link))
+          inst_name_clean <- stringr::str_remove(inst_name_raw, ",\\s*[A-Z]{2}$")
+          date_text <- clean_text(xml2::xml_text(item_node))
+          date_match <- stringr::str_match(date_text, "\\((January|February|March|April|May|June|July|August|September|October|November|December)\\s+[0-9]{1,2},\\s+[0-9]{4}\\)")
+          entry_date <- suppressWarnings(as.Date(stringr::str_remove_all(date_match[, 1], "[()]"), format = "%B %d, %Y"))
+
+          tibble::tibble(
+            institution_name_raw = inst_name_clean,
+            institution_state_raw = state_name(state_label),
+            accreditor = "MSCHE",
+            action_type = "commission_action",
+            action_label_raw = "Commission action",
+            action_status = NA_character_,
+            action_date = entry_date,
+            action_year = suppressWarnings(as.integer(format(entry_date, "%Y"))),
+            source_url = xml2::xml_attr(inst_link, "href"),
+            source_title = paste("MSCHE Statement of Accreditation Status -", inst_name_clean),
+            notes = paste("Recent Commission Action:", month_label),
+            last_seen_at = Sys.time(),
+            source_page_url = month_url,
+            source_page_modified = page_modified_month
+          )
+        })
+      })
+    }
+
+    parse_msche_recent_actions <- function() {
+      years <- seq.int(2017L, max(2017L, as.integer(format(Sys.Date(), "%Y"))))
+
+      month_links <- purrr::map_dfr(years, function(one_year) {
+        recent_url <- if (one_year == as.integer(format(Sys.Date(), "%Y"))) {
+          "https://www.msche.org/recent-commission-actions/"
+        } else {
+          paste0("https://www.msche.org/recent-commission-actions/?my=", one_year)
+        }
+
+        recent_html <- fetch_html_text(
+          recent_url,
+          paste0("msche_recent_actions_", one_year, ".html"),
+          refresh = refresh
+        )
+
+        links <- stringr::str_match_all(
+          recent_html,
+          "<a href=\"(https://www\\.msche\\.org/commission-actions/\\?fd=[0-9]+(?:&amp;|&)ld=[0-9]+)\">(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})</a>"
+        )[[1]]
+
+        if (nrow(links) == 0) {
+          return(tibble::tibble())
+        }
+
+        tibble::tibble(
+          month_url = gsub("&amp;", "&", links[, 2], fixed = TRUE),
+          month_label = paste(links[, 3], links[, 4])
+        )
+      }) |>
+        dplyr::distinct()
+
+      if (nrow(month_links) == 0) {
         return(tibble::tibble())
       }
 
-      action_label <- dplyr::case_when(
-        heading == "Non-Compliance Warning" ~ "warning",
-        heading == "Non-Compliance Probation" ~ "probation",
-        heading == "Non-Compliance Show Cause" ~ "show_cause",
-        heading == "Adverse Action" ~ "adverse_action",
-        TRUE ~ "other"
-      )
+      purrr::map_dfr(seq_len(nrow(month_links)), function(i) {
+        parse_msche_month_page(month_links$month_url[[i]], month_links$month_label[[i]])
+      })
+    }
 
-      tibble::tibble(
-        institution_name_raw = clean_text(link_matches[, 3]),
-        institution_state_raw = NA_character_,
-        accreditor = "MSCHE",
-        action_type = action_label,
-        action_label_raw = heading,
-        action_status = "active",
-        action_date = as.Date(NA),
-        action_year = NA_integer_,
-        source_url = link_matches[, 2],
-        source_title = page_title,
-        notes = heading,
-        last_seen_at = Sys.time(),
-        source_page_url = url,
-        source_page_modified = page_modified
-      )
-    })
+    dplyr::bind_rows(current_status_rows, parse_msche_recent_actions()) |>
+      dplyr::distinct()
   }
 
   parse_hlc <- function() {
@@ -215,56 +355,170 @@ main <- function(cli_args = NULL) {
       "(?s)<h3 class=\"wp-block-heading\">Current Public Disclosure Notices</h3>(.*?)(?=<h3 class=\"kt-adv-heading|</main>)"
     )[, 2]
 
-    if (is.na(current_notice_block)) {
-      return(tibble::tibble())
-    }
-
-    pane_matches <- stringr::str_match_all(
-      current_notice_block,
-      "(?s)<span class=\"kt-blocks-accordion-title\">(On Notice|On Probation|Removal of Sanction \\(past six months\\)|Withdrawal of Accreditation)</span>.*?<ul class=\"kt-svg-icon-list\">(.*?)</ul>"
-    )[[1]]
-
-    if (nrow(pane_matches) == 0) {
-      return(tibble::tibble())
-    }
-
-    purrr::map_dfr(seq_len(nrow(pane_matches)), function(i) {
-      heading <- clean_text(pane_matches[i, 2])
-      body <- pane_matches[i, 3]
-      li_matches <- stringr::str_match_all(
-        body,
-        "(?s)<li[^>]*>.*?<a[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>\\s*(?:&nbsp;)?\\s*\\(([^)]+)\\).*?</li>"
+    current_notice_rows <- if (is.na(current_notice_block)) {
+      tibble::tibble()
+    } else {
+      pane_matches <- stringr::str_match_all(
+        current_notice_block,
+        "(?s)<span class=\"kt-blocks-accordion-title\">(On Notice|On Probation|Removal of Sanction \\(past six months\\)|Withdrawal of Accreditation)</span>.*?<ul class=\"kt-svg-icon-list\">(.*?)</ul>"
       )[[1]]
 
-      if (nrow(li_matches) == 0) {
+      if (nrow(pane_matches) == 0) {
+        tibble::tibble()
+      } else {
+        purrr::map_dfr(seq_len(nrow(pane_matches)), function(i) {
+          heading <- clean_text(pane_matches[i, 2])
+          body <- pane_matches[i, 3]
+          li_matches <- stringr::str_match_all(
+            body,
+            "(?s)<li[^>]*>.*?<a[^>]*href=\"([^\"]+)\"[^>]*>(.*?)</a>\\s*(?:&nbsp;)?\\s*\\(([^)]+)\\).*?</li>"
+          )[[1]]
+
+          if (nrow(li_matches) == 0) {
+            return(tibble::tibble())
+          }
+
+          raw_action <- dplyr::case_when(
+            heading == "On Notice" ~ "On Notice",
+            heading == "On Probation" ~ "On Probation",
+            heading == "Removal of Sanction (past six months)" ~ "Removal of Sanction",
+            heading == "Withdrawal of Accreditation" ~ "Withdrawal of Accreditation",
+            TRUE ~ heading
+          )
+
+          tibble::tibble(
+            institution_name_raw = clean_text(li_matches[, 3]),
+            institution_state_raw = clean_text(li_matches[, 4]),
+            accreditor = "HLC",
+            action_type = classify_action(raw_action),
+            action_label_raw = raw_action,
+            action_status = classify_status(raw_action),
+            action_date = as.Date(NA),
+            action_year = NA_integer_,
+            source_url = li_matches[, 2],
+            source_title = paste(page_title, "-", heading),
+            notes = heading,
+            last_seen_at = Sys.time(),
+            source_page_url = url,
+            source_page_modified = page_modified
+          )
+        })
+      }
+    }
+
+    parse_hlc_detail_page <- function(detail_url) {
+      detail_html <- fetch_html_text(
+        detail_url,
+        paste0("hlc_", basename(gsub("/$", "", detail_url)), ".html"),
+        refresh = refresh
+      )
+      detail_title <- extract_page_title(detail_html)
+      detail_modified <- extract_page_modified_date(detail_html)
+      doc <- xml2::read_html(detail_html)
+
+      date_match <- stringr::str_match(
+        clean_text(detail_title),
+        "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})"
+      )
+      action_date <- if (!is.na(date_match[1, 1])) {
+        as.Date(paste0(date_match[1, 2], " 01 ", date_match[1, 3]), format = "%B %d %Y")
+      } else {
+        as.Date(NA)
+      }
+
+      content_nodes <- xml2::xml_find_all(doc, "//*[contains(@class,'entry-content')]//*[self::p or self::ul]")
+      if (length(content_nodes) == 0) {
         return(tibble::tibble())
       }
 
-      raw_action <- dplyr::case_when(
-        heading == "On Notice" ~ "On Notice",
-        heading == "On Probation" ~ "On Probation",
-        heading == "Removal of Sanction (past six months)" ~ "Removal of Sanction",
-        heading == "Withdrawal of Accreditation" ~ "Withdrawal of Accreditation",
-        TRUE ~ heading
-      )
+      current_institution <- NULL
+      current_state <- NULL
+      rows <- list()
 
-      tibble::tibble(
-        institution_name_raw = clean_text(li_matches[, 3]),
-        institution_state_raw = clean_text(li_matches[, 4]),
-        accreditor = "HLC",
-        action_type = classify_action(raw_action),
-        action_label_raw = raw_action,
-        action_status = classify_status(raw_action),
-        action_date = as.Date(NA),
-        action_year = NA_integer_,
-        source_url = li_matches[, 2],
-        source_title = paste(page_title, "-", heading),
-        notes = heading,
-        last_seen_at = Sys.time(),
-        source_page_url = url,
-        source_page_modified = page_modified
-      )
-    })
+      add_action_rows <- function(inst_name, inst_state, actions) {
+        if (is.null(inst_name) || !nzchar(inst_name)) {
+          return(NULL)
+        }
+        actions <- clean_text(actions)
+        actions <- actions[
+          stringr::str_detect(
+            actions,
+            "^(Approved|Accepted|Affirmed|Denied|Placed|Continued|Removed|Withdrew|Withdrawn|Issued|Extended|Required)"
+          )
+        ]
+        if (length(actions) == 0) {
+          return(NULL)
+        }
+        purrr::map(actions, function(action_txt) {
+          tibble::tibble(
+            institution_name_raw = inst_name,
+            institution_state_raw = inst_state,
+            accreditor = "HLC",
+            action_type = classify_action(action_txt, "HLC"),
+            action_label_raw = action_txt,
+            action_status = classify_status(action_txt),
+            action_date = action_date,
+            action_year = suppressWarnings(as.integer(format(action_date, "%Y"))),
+            source_url = detail_url,
+            source_title = detail_title,
+            notes = action_txt,
+            last_seen_at = Sys.time(),
+            source_page_url = detail_url,
+            source_page_modified = detail_modified
+          )
+        })
+      }
+
+      for (node in content_nodes) {
+        node_name <- xml2::xml_name(node)
+        if (identical(node_name, "p")) {
+          p_text <- clean_text(xml2::xml_text(node))
+          if (!nzchar(p_text)) next
+
+          p_link <- xml2::xml_find_first(node, ".//a[contains(@href, '/institution/')]")
+          if (!inherits(p_link, "xml_missing")) {
+            inst_name <- clean_text(xml2::xml_text(p_link))
+            rest_text <- clean_text(stringr::str_remove(p_text, paste0("^", stringr::fixed(inst_name), "\\s*,\\s*")))
+            if (stringr::str_detect(rest_text, ",\\s*[A-Z]{2}$")) {
+              parsed <- extract_name_state_from_item(rest_text)
+              current_institution <- parsed$institution_name_raw
+              current_state <- parsed$institution_state_raw
+            } else if (stringr::str_detect(p_text, ",\\s*[A-Z]{2}$")) {
+              parsed <- extract_name_state_from_item(p_text)
+              current_institution <- parsed$institution_name_raw
+              current_state <- parsed$institution_state_raw
+            } else {
+              action_txt <- clean_text(stringr::str_remove(p_text, paste0("^", stringr::fixed(inst_name), "\\s*,\\s*")))
+              rows <- c(rows, add_action_rows(inst_name, current_state, action_txt))
+            }
+          } else if (stringr::str_detect(p_text, ",\\s*[A-Z]{2}$")) {
+            parsed <- extract_name_state_from_item(p_text)
+            current_institution <- parsed$institution_name_raw
+            current_state <- parsed$institution_state_raw
+          }
+        } else if (identical(node_name, "ul")) {
+          li_text <- xml2::xml_find_all(node, ".//li") |> xml2::xml_text() |> clean_text()
+          rows <- c(rows, add_action_rows(current_institution, current_state, li_text))
+        }
+      }
+
+      dplyr::bind_rows(rows)
+    }
+
+    link_matches <- stringr::str_match_all(
+      html,
+      "href=\"(https://www\\.hlcommission\\.org/for-students/accreditation-actions/[a-z]+-20[0-9]{2}(?:-actions)?/?)\">([A-Za-z]+)\\s+([0-9]{4})</a>"
+    )[[1]]
+
+    historical_rows <- if (nrow(link_matches) == 0) {
+      tibble::tibble()
+    } else {
+      detail_urls <- unique(link_matches[as.integer(link_matches[, 4]) >= 2024, 2])
+      purrr::map_dfr(detail_urls, parse_hlc_detail_page)
+    }
+
+    dplyr::bind_rows(current_notice_rows, historical_rows) |>
+      dplyr::distinct()
   }
 
   parse_sacscoc_detail_page <- function(url) {
@@ -283,76 +537,122 @@ main <- function(cli_args = NULL) {
     }
 
     li_matches <- stringr::str_match_all(html, "(?s)<li>(.*?)</li>")[[1]]
-    if (nrow(li_matches) == 0) {
-      return(tibble::tibble())
+    sanction_rows <- if (nrow(li_matches) == 0) {
+      tibble::tibble()
+    } else {
+      raw_items <- clean_text(li_matches[, 2])
+      raw_items <- raw_items[
+        stringr::str_detect(raw_items, "\\bplaced on\\b|\\bcontinued on\\b|\\bremoved from\\b|withdraws from membership|withdrawal")
+      ]
+
+      purrr::map_dfr(raw_items, function(item) {
+        item_clean <- clean_text(item)
+        item_no_pdf <- stringr::str_remove(item_clean, "\\s*\\[?PDF\\]?$")
+        item_no_pdf <- stringr::str_squish(item_no_pdf)
+
+        inst_match <- stringr::str_match(
+          item_no_pdf,
+          "^(.*?),\\s*([^,]+),\\s*([^,(]+)\\s*\\((.*?)\\)$"
+        )
+
+        if (!is.na(inst_match[1, 1])) {
+          return(tibble::tibble(
+            institution_name_raw = clean_text(inst_match[1, 2]),
+            institution_state_raw = clean_text(inst_match[1, 4]),
+            accreditor = "SACSCOC",
+            action_type = classify_action(inst_match[1, 5]),
+            action_label_raw = clean_text(inst_match[1, 5]),
+            action_status = classify_status(inst_match[1, 5]),
+            action_date = action_date,
+            action_year = as.integer(format(action_date, "%Y")),
+            source_url = url,
+            source_title = page_title,
+            notes = item_clean,
+            last_seen_at = Sys.time(),
+            source_page_url = url,
+            source_page_modified = NA_character_
+          ))
+        }
+
+        withdrawal_match <- stringr::str_match(
+          item_no_pdf,
+          "^(.*?)\\s*\\(([^)]+)\\)\\s*(withdraws from membership)$"
+        )
+        if (!is.na(withdrawal_match[1, 1])) {
+          state_abbr <- stringr::str_match(withdrawal_match[1, 3], ",\\s*([A-Z]{2})$")[, 2]
+          return(tibble::tibble(
+            institution_name_raw = clean_text(withdrawal_match[1, 2]),
+            institution_state_raw = state_name(state_abbr),
+            accreditor = "SACSCOC",
+            action_type = "adverse_action",
+            action_label_raw = clean_text(withdrawal_match[1, 4]),
+            action_status = "active",
+            action_date = action_date,
+            action_year = as.integer(format(action_date, "%Y")),
+            source_url = url,
+            source_title = page_title,
+            notes = item_clean,
+            last_seen_at = Sys.time(),
+            source_page_url = url,
+            source_page_modified = NA_character_
+          ))
+        }
+
+        tibble::tibble()
+      })
     }
 
-    raw_items <- clean_text(li_matches[, 2])
-    raw_items <- raw_items[
-      stringr::str_detect(raw_items, "\\bplaced on\\b|\\bcontinued on\\b|\\bremoved from\\b|withdraws from membership|withdrawal")
-    ]
-
-    if (length(raw_items) == 0) {
-      return(tibble::tibble())
-    }
-
-    parsed <- purrr::map_dfr(raw_items, function(item) {
-      item_clean <- clean_text(item)
-      item_no_pdf <- stringr::str_remove(item_clean, "\\s*\\[?PDF\\]?$")
-      item_no_pdf <- stringr::str_squish(item_no_pdf)
-
-      inst_match <- stringr::str_match(
-        item_no_pdf,
-        "^(.*?),\\s*([^,]+),\\s*([^,(]+)\\s*\\((.*?)\\)$"
+    disclosure_matches <- stringr::str_match_all(
+      html,
+      paste0(
+        "(?s)<(?:p|li)>\\s*",
+        "<a href=\"(https://sacscoc\\.box\\.com/s/[^\"]+)\">(.*?)</a>,\\s*",
+        "([^,<]+),\\s*",
+        "([A-Z]{2}|[A-Za-z ]+)",
+        ".*?",
+        "</(?:p|li)>"
       )
+    )[[1]]
 
-      if (!is.na(inst_match[1, 1])) {
-        return(tibble::tibble(
-          institution_name_raw = clean_text(inst_match[1, 2]),
-          institution_state_raw = clean_text(inst_match[1, 4]),
+    disclosure_rows <- if (nrow(disclosure_matches) == 0) {
+      tibble::tibble()
+    } else {
+      purrr::map_dfr(seq_len(nrow(disclosure_matches)), function(i) {
+        tibble::tibble(
+          institution_name_raw = clean_text(disclosure_matches[i, 3]),
+          institution_state_raw = state_name(clean_text(disclosure_matches[i, 5])),
           accreditor = "SACSCOC",
-          action_type = classify_action(inst_match[1, 5]),
-          action_label_raw = clean_text(inst_match[1, 5]),
-          action_status = classify_status(inst_match[1, 5]),
-          action_date = action_date,
-          action_year = as.integer(format(action_date, "%Y")),
-          source_url = url,
-          source_title = page_title,
-          notes = item_clean,
-          last_seen_at = Sys.time(),
-          source_page_url = url,
-          source_page_modified = NA_character_
-        ))
-      }
-
-      withdrawal_match <- stringr::str_match(
-        item_no_pdf,
-        "^(.*?)\\s*\\(([^)]+)\\)\\s*(withdraws from membership)$"
-      )
-      if (!is.na(withdrawal_match[1, 1])) {
-        state_abbr <- stringr::str_match(withdrawal_match[1, 3], ",\\s*([A-Z]{2})$")[, 2]
-        return(tibble::tibble(
-          institution_name_raw = clean_text(withdrawal_match[1, 2]),
-          institution_state_raw = state_name(state_abbr),
-          accreditor = "SACSCOC",
-          action_type = "adverse_action",
-          action_label_raw = clean_text(withdrawal_match[1, 4]),
+          action_type = "other",
+          action_label_raw = "Public Disclosure Statement",
           action_status = "active",
           action_date = action_date,
           action_year = as.integer(format(action_date, "%Y")),
-          source_url = url,
-          source_title = page_title,
-          notes = item_clean,
+          source_url = disclosure_matches[i, 2],
+          source_title = paste(page_title, "- Public Disclosure Statement"),
+          notes = clean_text(paste(disclosure_matches[i, 3], disclosure_matches[i, 4], disclosure_matches[i, 5])),
           last_seen_at = Sys.time(),
           source_page_url = url,
           source_page_modified = NA_character_
-        ))
-      }
+        )
+      }) |>
+        dplyr::filter(
+          !stringr::str_detect(
+            institution_name_raw,
+            "Accreditation Actions|Public Disclosure Statements"
+          )
+        ) |>
+        dplyr::distinct(
+          accreditor,
+          source_url,
+          institution_name_normalized = normalize_name(institution_name_raw),
+          action_label_raw,
+          .keep_all = TRUE
+        ) |>
+        dplyr::select(-institution_name_normalized)
+    }
 
-      tibble::tibble()
-    })
-
-    parsed
+    dplyr::bind_rows(sanction_rows, disclosure_rows) |>
+      dplyr::distinct()
   }
 
   parse_sacscoc <- function() {
@@ -370,6 +670,167 @@ main <- function(cli_args = NULL) {
 
     detail_urls <- unique(links[, 2])
     purrr::map_dfr(detail_urls, parse_sacscoc_detail_page)
+  }
+
+  parse_neche <- function() {
+    url <- "https://www.neche.org/recent-commission-actions/"
+    html <- fetch_html_text(url, "neche_actions.html", refresh = refresh)
+    page_title <- extract_page_title(html)
+    page_modified <- extract_page_modified_date(html)
+
+    matches <- stringr::str_match_all(
+      html,
+      "(?s)<a class=\"elementor-toggle-title\"[^>]*>(.*?)</a>.*?<div id=\"elementor-tab-content-[^\"]+\" class=\"elementor-tab-content[^\"]*\"[^>]*>(.*?)</div>"
+    )[[1]]
+
+    if (nrow(matches) == 0) {
+      return(tibble::tibble())
+    }
+
+    purrr::map_dfr(seq_len(nrow(matches)), function(i) {
+      heading <- clean_text(matches[i, 2])
+      body <- matches[i, 3]
+
+      if (!has_public_action_keywords(heading)) {
+        return(tibble::tibble())
+      }
+
+      items <- stringr::str_match_all(body, "(?s)<li[^>]*>(.*?)</li>")[[1]]
+      if (nrow(items) == 0) {
+        return(tibble::tibble())
+      }
+
+      raw_items <- clean_text(items[, 2])
+      raw_items <- raw_items[nzchar(raw_items)]
+      if (length(raw_items) == 0) {
+        return(tibble::tibble())
+      }
+
+      purrr::map_dfr(raw_items, function(item) {
+        parsed <- extract_name_state_from_item(item)
+        tibble::tibble(
+          institution_name_raw = parsed$institution_name_raw,
+          institution_state_raw = parsed$institution_state_raw,
+          accreditor = "NECHE",
+          action_type = classify_action(heading),
+          action_label_raw = heading,
+          action_status = classify_status(heading),
+          action_date = as.Date(NA),
+          action_year = suppressWarnings(as.integer(stringr::str_extract(page_modified, "^[0-9]{4}"))),
+          source_url = url,
+          source_title = page_title,
+          notes = item,
+          last_seen_at = Sys.time(),
+          source_page_url = url,
+          source_page_modified = page_modified
+        )
+      })
+    })
+  }
+
+  parse_wscuc_detail_page <- function(url) {
+    html <- fetch_html_text(
+      url,
+      paste0("wscuc_", basename(gsub("/$", "", url)), ".html"),
+      refresh = refresh
+    )
+    page_title <- extract_page_title(html)
+    page_modified <- extract_page_modified_date(html)
+
+    date_match <- stringr::str_match(
+      clean_text(page_title),
+      "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})"
+    )
+    action_date <- if (!is.na(date_match[1, 1])) {
+      as.Date(paste0(date_match[1, 2], " 01 ", date_match[1, 3]), format = "%B %d %Y")
+    } else {
+      as.Date(NA)
+    }
+
+    heading_matches <- stringr::str_match_all(html, "(?s)<h2>(.*?)</h2>")[[1]]
+    heading_locs <- stringr::str_locate_all(html, "(?s)<h2>.*?</h2>")[[1]]
+    if (nrow(heading_matches) == 0 || nrow(heading_locs) == 0) {
+      return(tibble::tibble())
+    }
+
+    headings <- clean_text(heading_matches[, 2])
+
+    purrr::map_dfr(seq_along(headings), function(i) {
+      heading <- headings[[i]]
+      if (!has_public_action_keywords(heading)) {
+        return(tibble::tibble())
+      }
+
+      start_pos <- heading_locs[i, 2] + 1L
+      end_pos <- if (i < nrow(heading_locs)) heading_locs[i + 1, 1] - 1L else nchar(html)
+      block <- substr(html, start_pos, end_pos)
+
+      li_matches <- stringr::str_match_all(block, "(?s)<li[^>]*>(.*?)</li>")[[1]]
+      if (nrow(li_matches) == 0) {
+        return(tibble::tibble())
+      }
+
+      raw_items <- clean_text(li_matches[, 2])
+      raw_items <- raw_items[nzchar(raw_items)]
+      if (length(raw_items) == 0) {
+        return(tibble::tibble())
+      }
+
+      purrr::map_dfr(raw_items, function(item) {
+        parsed <- extract_name_state_from_item(item)
+        tibble::tibble(
+          institution_name_raw = parsed$institution_name_raw,
+          institution_state_raw = parsed$institution_state_raw,
+          accreditor = "WSCUC",
+          action_type = classify_action(heading),
+          action_label_raw = heading,
+          action_status = classify_status(heading),
+          action_date = action_date,
+          action_year = suppressWarnings(as.integer(format(action_date, "%Y"))),
+          source_url = url,
+          source_title = page_title,
+          notes = item,
+          last_seen_at = Sys.time(),
+          source_page_url = url,
+          source_page_modified = page_modified
+        )
+      })
+    })
+  }
+
+  parse_wscuc <- function() {
+    archive_urls <- c(
+      "https://www.wscuc.org/post/category/commission-actions/",
+      "https://www.wscuc.org/post/category/commission-actions/page/2/"
+    )
+
+    detail_urls <- purrr::map_dfr(seq_along(archive_urls), function(i) {
+      archive_html <- fetch_html_text(
+        archive_urls[[i]],
+        paste0("wscuc_commission_actions_archive_", i, ".html"),
+        refresh = refresh
+      )
+
+      links <- stringr::str_match_all(
+        archive_html,
+        "href=\"(https://www\\.wscuc\\.org/post/[^\"#]+commission-actions/?)\""
+      )[[1]]
+
+      if (nrow(links) == 0) {
+        return(tibble::tibble(url = character()))
+      }
+
+      tibble::tibble(url = links[, 2])
+    }) |>
+      dplyr::distinct() |>
+      dplyr::filter(stringr::str_detect(url, "20(24|25|26)")) |>
+      dplyr::pull(url)
+
+    if (length(detail_urls) == 0) {
+      return(tibble::tibble())
+    }
+
+    purrr::map_dfr(detail_urls, parse_wscuc_detail_page)
   }
 
   message("Reading financial tracker data ...")
@@ -410,7 +871,9 @@ main <- function(cli_args = NULL) {
   raw_actions <- dplyr::bind_rows(
     parse_msche(),
     parse_hlc(),
-    parse_sacscoc()
+    parse_sacscoc(),
+    parse_neche(),
+    parse_wscuc()
   ) |>
     dplyr::mutate(
       institution_name_raw = clean_text(institution_name_raw),
@@ -630,9 +1093,10 @@ main <- function(cli_args = NULL) {
     data.frame(
       notes = c(
         "This first version is intentionally partial rather than pretending to be comprehensive.",
-        "Covered accreditors in the current scraper: MSCHE current sanctions page, HLC current public disclosure notices, and SACSCOC latest public action/disclosure pages with explicit sanction language.",
-        "Not yet covered in this first build: NECHE, NWCCU, and WSCUC. Their public action data is more fragmented and needs a second-pass scraper or manual curation workflow.",
+        "Covered accreditors in the current scraper: MSCHE current sanctions page, HLC current public disclosure notices, SACSCOC latest public action/disclosure pages with explicit sanction language, NECHE recent commission actions, and WSCUC commission action posts.",
+        "Still not covered in this build: NWCCU and ACCJC. Their public action data needs a separate scraper or manual curation workflow.",
         "HLC uses Notice as a public sanction. Because that is not literally named Warning, the file includes both accreditation_warning and accreditation_warning_or_notice.",
+        "WSCUC commission action posts include many routine reaffirmation and report items. This scraper intentionally keeps only action headings with warning, probation, notice, show cause, withdrawal, closure, or adverse language.",
         "Unmatched institutions are often schools outside the four-year tracker scope or schools whose public accreditor name does not exactly match IPEDS naming. Review the unmatched sheet before publication."
       ),
       stringsAsFactors = FALSE

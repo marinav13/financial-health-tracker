@@ -177,6 +177,23 @@ function syncSearchToggle() {
   }
 }
 
+function syncTabs(unitid) {
+  const finances = document.getElementById("tab-finances");
+  if (finances) {
+    finances.href = unitid ? `school.html?unitid=${encodeURIComponent(unitid)}` : "index.html";
+  }
+
+  const cuts = document.getElementById("tab-cuts");
+  if (cuts) {
+    cuts.href = "cuts.html";
+  }
+
+  const accreditation = document.getElementById("tab-accreditation");
+  if (accreditation) {
+    accreditation.href = "accreditation.html";
+  }
+}
+
 function styleAnswerCard(answerId, value) {
   const answer = document.getElementById(answerId);
   if (!answer) return;
@@ -192,6 +209,7 @@ async function init() {
   window.addEventListener("resize", syncSearchToggle);
 
   const unitid = getParam("unitid");
+  syncTabs(unitid);
   if (!unitid) {
     setText("school-name", "No school selected");
     return;

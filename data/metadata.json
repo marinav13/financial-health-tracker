@@ -1,11 +1,15 @@
 {
-  "generated_at": "2026-03-26",
+  "generated_at": "2026-03-28",
   "title": "College Financial Health Tracker",
   "dataset": "IPEDS Financial Health Reporting Dataset",
   "methodology_note": "This website prototype uses the filtered public-facing reporting dataset from the project repo.",
   "files": {
     "schools_index": "data/schools_index.json",
+    "college_cuts_index": "data/college_cuts_index.json",
+    "accreditation_index": "data/accreditation_index.json",
     "schools": "data/schools/{unitid}.json",
-    "download": "data/downloads/full_dataset.csv"
+    "download": "data/downloads/full_dataset.csv",
+    "college_cuts": "data/college_cuts.json",
+    "accreditation": "data/accreditation.json"
   }
 }

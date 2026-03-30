@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accreditation | College Financial Health Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-search-page="accreditation.html" data-search-source="accreditation">
+  <main class="page">
+    <nav class="top-tabs" aria-label="Sections">
+      <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
+      <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
+      <a class="top-tab is-active" id="tab-accreditation" href="accreditation.html">Accreditation</a>
+    </nav>
+
+    <header class="masthead">
+      <div class="masthead-copy">
+        <div class="masthead-title">College Financial Health Explorer</div>
+      </div>
+      <div class="masthead-logo">The Hechinger Report</div>
+    </header>
+
+    <section class="intro-callout">
+      <div class="intro-bar"></div>
+      <div class="intro-box">
+        <p id="accreditation-intro-top">Currently, this page focuses on accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions in the financial tracker. Scroll further down the page to see recent accreditation actions at other institutions.</p>
+        <p id="accreditation-intro-bottom"></p>
+      </div>
+    </section>
+
+    <section class="search-panel">
+      <label class="search-label" for="school-search">Institution Name:</label>
+      <input id="school-search" class="search" type="search" list="school-options" placeholder="Type or choose a college with tracked actions">
+      <datalist id="school-options"></datalist>
+      <div id="search-results" class="results"></div>
+    </section>
+
+    <section class="school-banner">
+      <h1 id="accreditation-school-name">Recent accreditation actions</h1>
+    </section>
+
+    <section class="school-meta-wrap">
+      <p id="accreditation-school-location" class="school-meta"></p>
+      <p id="accreditation-school-control" class="school-meta"></p>
+      <p id="accreditation-school-category" class="school-meta"></p>
+    </section>
+
+    <div id="accreditation-overview" class="info-panel is-hidden"></div>
+
+    <section class="data-card">
+      <h2>Recent accreditation actions</h2>
+      <button id="accreditation-table-download" class="download-button" type="button">Download Displayed Table</button>
+      <div id="accreditation-status"></div>
+    </section>
+
+    <section class="data-card">
+      <h2 id="accreditation-other-title">Recent accreditation actions at other institutions</h2>
+      <p class="small-meta">This secondary table shows recent accreditation actions at institutions outside the main 4-year financial tracker universe.</p>
+      <button id="accreditation-other-download" class="download-button" type="button">Download Displayed Table</button>
+      <div id="accreditation-other-status"></div>
+    </section>
+
+    <section class="data-card">
+      <h2>Coverage and limitations</h2>
+      <div id="accreditation-limitations"></div>
+    </section>
+
+    <details class="methodology-panel">
+      <summary class="methodology-summary">Methodology</summary>
+      <div class="methodology-body">
+        <p>This section is a placeholder for the project methodology. It can later explain which accreditors are currently tracked, what kinds of actions are included, and the limits of the current coverage.</p>
+      </div>
+    </details>
+  </main>
+  <script src="js/app.js"></script>
+  <script src="js/accreditation.js"></script>
+</body>
+</html>
+

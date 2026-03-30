@@ -16,7 +16,8 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
 
     steps:
       - name: Check out repository
@@ -27,38 +28,45 @@ jobs:
         with:
           r-version: "4.5.1"
 
-      - name: Install R packages
-        shell: pwsh
-        run: >
-          Rscript -e "install.packages(c('dplyr','jsonlite','purrr','readr','readxl','stringr','tidyr','xml2'),
-          repos='https://cloud.r-project.org')"
+      - name: Set up R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::dplyr
+            any::jsonlite
+            any::purrr
+            any::readr
+            any::readxl
+            any::stringr
+            any::tidyr
+            any::xml2
 
       - name: Rebuild raw IPEDS data
-        shell: pwsh
+        shell: bash
         run: >
-          Rscript --vanilla .\scripts\build_ipeds_tracker_dataset.R --start-year 2014 --end-year 2024
+          Rscript --vanilla ./scripts/build_ipeds_tracker_dataset.R --start-year 2014 --end-year 2024
 
       - name: Rebuild reporting datasets
-        shell: pwsh
+        shell: bash
         run: >
-          Rscript --vanilla .\scripts\build_looker_ready_metrics.R
+          Rscript --vanilla ./scripts/build_looker_ready_metrics.R
 
       - name: Rebuild static web exports
-        shell: pwsh
+        shell: bash
         run: >
-          Rscript --vanilla .\scripts\build_web_exports.R
+          Rscript --vanilla ./scripts/build_web_exports.R
 
       - name: Commit and push updated data
-        shell: pwsh
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add raw_build/ looker_studio/ reporting/ data/
-          if (git diff --cached --quiet) {
-            Write-Host "No data changes to commit."
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
             exit 0
-          }
-          $date = Get-Date -Format "yyyy-MM-dd"
+          fi
+          date=$(date +%F)
           git commit -m "Automated IPEDS refresh ($date)"
           git push
 

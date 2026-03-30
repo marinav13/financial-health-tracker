@@ -44,12 +44,61 @@ body {
   background: var(--yellow);
   border-radius: 14px;
   padding: 14px 20px;
-  margin-bottom: var(--space-2);
+  margin-bottom: 30px;
+}
+
+.top-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 0 auto 56px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.top-tab {
+  display: inline-block;
+  text-decoration: none;
+  color: #2f3442;
+  background: var(--paper);
+  border: 1px solid #cfcfcf;
+  border-radius: 8px 8px 0 0;
+  padding: 12px 20px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.top-tab:hover {
+  background: #fff8db;
+  border-color: rgba(217, 164, 65, 0.45);
+  transform: translateY(-1px);
+}
+
+.top-tab.is-active {
+  background: var(--yellow);
+  border-color: rgba(217, 164, 65, 0.75);
+  box-shadow: 0 2px 8px rgba(217, 164, 65, 0.28);
+  font-weight: 800;
+  transform: translateY(1px);
 }
 
 .masthead-title {
   font-size: clamp(1.6rem, 3vw, 2rem);
   font-weight: 700;
+}
+
+.masthead-copy {
+  flex: 1 1 auto;
+}
+
+.masthead-subtitle {
+  margin-top: 6px;
+  font-size: 0.98rem;
+  color: #383838;
+  line-height: 1.3;
 }
 
 .masthead-logo {
@@ -293,6 +342,125 @@ body {
   color: inherit;
 }
 
+.info-panel {
+  width: min(100%, 780px);
+  margin: var(--space-2) auto;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+
+.info-panel p {
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.info-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.data-card {
+  width: min(100%, 780px);
+  margin: var(--space-2) auto;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: left;
+}
+
+.data-card h2,
+.data-card h3 {
+  margin: 0 0 12px;
+}
+
+.small-meta {
+  color: #555;
+  font-size: 0.95rem;
+  margin: 0 0 10px;
+}
+
+.plain-list,
+.link-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.plain-list li,
+.link-list li {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.link-list a {
+  color: var(--line-blue);
+}
+
+.history-table-wrap {
+  overflow-x: auto;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 18px 0 0;
+}
+
+.pagination-button {
+  appearance: none;
+  border: 1px solid #cfcfcf;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 6px;
+  min-width: 38px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pagination-button:hover {
+  background: #fff8db;
+  border-color: rgba(217, 164, 65, 0.45);
+}
+
+.pagination-button.is-active {
+  background: var(--yellow);
+  border-color: rgba(217, 164, 65, 0.75);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96rem;
+}
+
+.history-table th,
+.history-table td {
+  border-top: 1px solid #e6e6e6;
+  padding: 10px 8px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.history-table th {
+  background: #fafafa;
+  border-top: 0;
+}
+
+.empty-state {
+  width: min(100%, 780px);
+  margin: var(--space-2) auto;
+  background: var(--yellow-soft);
+  border: 1px solid rgba(217, 164, 65, 0.15);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: center;
+}
+
 .stack-cards {
   display: grid;
   gap: 14px;
@@ -421,8 +589,21 @@ body {
     text-align: center;
   }
 
+  .top-tabs {
+    justify-content: stretch;
+  }
+
+  .top-tab {
+    flex: 1 1 100%;
+    text-align: center;
+  }
+
   .masthead-logo {
     text-align: center;
+  }
+
+  .masthead-subtitle {
+    margin-top: 8px;
   }
 
   .intro-callout {

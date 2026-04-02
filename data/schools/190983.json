@@ -1,6 +1,6 @@
 {
   "unitid": "190983",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Elmira College",
     "institution_unique_name": "Elmira College | Elmira | New York",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -28.7615,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -29.3278,
-    "net_tuition_per_fte_change_5yr": -13.3766,
+    "net_tuition_per_fte_change_5yr": -28.4769,
     "staff_total_headcount_pct_change_5yr": 3.6765,
     "staff_instructional_headcount_pct_change_5yr": -13.0081,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
     "tuition_dependence_pct": 39.8053,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 39.8% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 39.8% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 7.3276,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 12966,
     "grad_plus_disbursements_per_recipient": 12966,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.5797,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -19.2581,
-    "state_funding_pct_change_5yr": -100,
-    "endowment_pct_change_5yr": -48.8049,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.5797,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -19.2581,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 65,
     "median_earnings_10yr": 57550,
     "median_debt_completers": 27000,
@@ -154,31 +154,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17429.9893
+        "value": 18800.0033
       },
       {
         "year": 2015,
-        "value": 17194.4047
+        "value": 18633.2555
       },
       {
         "year": 2016,
-        "value": 19134.8982
+        "value": 20707.2773
       },
       {
         "year": 2017,
-        "value": 22105.3651
+        "value": 22425.1059
       },
       {
         "year": 2018,
-        "value": 20157.8452
+        "value": 22032.4764
       },
       {
         "year": 2019,
-        "value": 19538.7446
+        "value": 21566.6044
       },
       {
         "year": 2020,
-        "value": 17878.8354
+        "value": 20029.6382
       },
       {
         "year": 2021,
@@ -194,7 +194,7 @@
       },
       {
         "year": 2024,
-        "value": 16925.1216
+        "value": 15425.1108
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 57017755.2353
-      },
-      {
-        "year": 2015,
-        "value": 54589083.1242
-      },
-      {
-        "year": 2016,
-        "value": 49616452.8955
-      },
-      {
-        "year": 2017,
-        "value": 52933623.8373
-      },
-      {
-        "year": 2018,
-        "value": 51379671.5559
-      },
-      {
-        "year": 2019,
-        "value": 50428443.2477
-      },
-      {
-        "year": 2020,
-        "value": 37617871.9878
-      },
-      {
-        "year": 2021,
-        "value": 37392223.1175
-      },
-      {
-        "year": 2022,
-        "value": 28396172.7131
-      },
-      {
-        "year": 2023,
-        "value": 29305980.6079
-      },
-      {
         "year": 2024,
         "value": 25816885
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 681114.414
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 620085
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 152583.1125
-      },
-      {
-        "year": 2015,
-        "value": 163661.1216
-      },
-      {
-        "year": 2016,
-        "value": 154614.1056
-      },
-      {
-        "year": 2017,
-        "value": 131668.2447
-      },
-      {
-        "year": 2018,
-        "value": 127845.6286
-      },
-      {
-        "year": 2019,
-        "value": 128901.606
-      },
-      {
-        "year": 2020,
-        "value": 92810.6668
-      },
-      {
-        "year": 2021,
-        "value": 88782.6578
-      },
-      {
-        "year": 2022,
-        "value": 78990.6107
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

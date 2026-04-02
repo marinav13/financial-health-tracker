@@ -1,6 +1,6 @@
 {
   "unitid": "204936",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Otterbein University",
     "institution_unique_name": "Otterbein University | Westerville | Ohio",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -19.6853,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.3382,
-    "net_tuition_per_fte_change_5yr": -22.2647,
+    "net_tuition_per_fte_change_5yr": -17.675,
     "staff_total_headcount_pct_change_5yr": -12.3867,
     "staff_instructional_headcount_pct_change_5yr": -14.759,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 46.2696,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 46.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 46.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 17.7819,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1600,
     "grad_plus_disbursements_per_recipient": 1600,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.6396,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 38.222,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 2.6414,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.6396,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 38.222,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 68,
     "median_earnings_10yr": 53313,
     "median_debt_completers": 26000,
@@ -174,7 +174,7 @@
       },
       {
         "year": 2019,
-        "value": 19129.259
+        "value": 19129.2586
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 17817.0914
+        "value": 18692.1057
       },
       {
         "year": 2022,
-        "value": 16314.1549
+        "value": 17580.2201
       },
       {
         "year": 2023,
-        "value": 15631.3754
+        "value": 16790.572
       },
       {
         "year": 2024,
-        "value": 14870.1896
+        "value": 15748.1599
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 127205127.0364
-      },
-      {
-        "year": 2015,
-        "value": 121126500.1477
-      },
-      {
-        "year": 2016,
-        "value": 112094380.902
-      },
-      {
-        "year": 2017,
-        "value": 119147356.9759
-      },
-      {
-        "year": 2018,
-        "value": 122144369.404
-      },
-      {
-        "year": 2019,
-        "value": 124400184.7781
-      },
-      {
-        "year": 2020,
-        "value": 120121334.5243
-      },
-      {
-        "year": 2021,
-        "value": 142163630.2155
-      },
-      {
-        "year": 2022,
-        "value": 125166852.3346
-      },
-      {
-        "year": 2023,
-        "value": 122505625.0141
-      },
-      {
         "year": 2024,
         "value": 127686133
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1737515.8129
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 992334
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "455770",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Providence Christian College",
     "institution_unique_name": "Providence Christian College | Pasadena | California",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -13.9665,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.0874,
-    "net_tuition_per_fte_change_5yr": -17.9556,
+    "net_tuition_per_fte_change_5yr": -60.9862,
     "staff_total_headcount_pct_change_5yr": -15.2542,
     "staff_instructional_headcount_pct_change_5yr": -31.8182,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 20.558,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 20.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 20.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 7.3841,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 7.3841,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -24.7961,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 20,
     "median_earnings_10yr": 46264,
     "median_debt_completers": 25000,
@@ -154,43 +154,43 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 4336.4092
+        "value": 21389.8512
       },
       {
         "year": 2015,
-        "value": 5213.5402
+        "value": 23127.6034
       },
       {
         "year": 2016,
-        "value": 8702.6037
+        "value": 25114.3128
       },
       {
         "year": 2017,
-        "value": 8411.2622
+        "value": 25792.0515
       },
       {
         "year": 2018,
-        "value": 9560.0695
+        "value": 25219.1294
       },
       {
         "year": 2019,
-        "value": 13189.7336
+        "value": 27737.4926
       },
       {
         "year": 2020,
-        "value": 16227.2867
+        "value": 30346.5452
       },
       {
         "year": 2021,
-        "value": 11918.6116
+        "value": 31826.2778
       },
       {
         "year": 2022,
-        "value": 13248.908
+        "value": 33044.9192
       },
       {
         "year": 2023,
-        "value": -8733.8345
+        "value": 12252.7831
       },
       {
         "year": 2024,
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 34541.6196
-      },
-      {
-        "year": 2015,
-        "value": 35730.1878
-      },
-      {
-        "year": 2016,
-        "value": 35611.8121
-      },
-      {
-        "year": 2017,
-        "value": 35098.052
-      },
-      {
-        "year": 2018,
-        "value": 34281.2169
-      },
-      {
-        "year": 2019,
-        "value": 33671.1044
-      },
-      {
-        "year": 2020,
-        "value": 33260.7715
-      },
-      {
-        "year": 2021,
-        "value": 29314.0675
-      },
-      {
-        "year": 2022,
-        "value": 27143.0406
-      },
-      {
-        "year": 2023,
-        "value": 26068.857
-      },
-      {
         "year": 2024,
         "value": 25322
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 434516
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

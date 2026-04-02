@@ -1,6 +1,6 @@
 {
   "unitid": "155812",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of Saint Mary",
     "institution_unique_name": "University of Saint Mary | Leavenworth | Kansas",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 1.4345,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.9047,
-    "net_tuition_per_fte_change_5yr": -30.6616,
+    "net_tuition_per_fte_change_5yr": -18.6266,
     "staff_total_headcount_pct_change_5yr": -1.2195,
     "staff_instructional_headcount_pct_change_5yr": 17.5325,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 56.0469,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 56% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 56% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 34.4726,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1588089,
     "grad_plus_disbursements_per_recipient": 14704.5278,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.0841,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 84.277,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 11.178,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.0841,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 84.277,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 48,
     "median_earnings_10yr": 59483,
     "median_debt_completers": 22018,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18045.8848
+        "value": 18795.1737
       },
       {
         "year": 2015,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 21453.6048
+        "value": 21453.6037
       },
       {
         "year": 2021,
-        "value": 18210.2679
+        "value": 21729.4301
       },
       {
         "year": 2022,
-        "value": 16553.1518
+        "value": 19930.6625
       },
       {
         "year": 2023,
-        "value": 14499.0267
+        "value": 17585.4532
       },
       {
         "year": 2024,
-        "value": 14573.7643
+        "value": 17103.3075
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 17578847.4145
-      },
-      {
-        "year": 2015,
-        "value": 20165940.9384
-      },
-      {
-        "year": 2016,
-        "value": 15503324.719
-      },
-      {
-        "year": 2017,
-        "value": 17204550.3959
-      },
-      {
-        "year": 2018,
-        "value": 17973781.1966
-      },
-      {
-        "year": 2019,
-        "value": 19614707.8821
-      },
-      {
-        "year": 2020,
-        "value": 20166560.1595
-      },
-      {
-        "year": 2021,
-        "value": 23489231.8992
-      },
-      {
-        "year": 2022,
-        "value": 19261516.4481
-      },
-      {
-        "year": 2023,
-        "value": 20006974.7171
-      },
-      {
         "year": 2024,
         "value": 21807240
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 651046
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

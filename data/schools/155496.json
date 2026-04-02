@@ -1,6 +1,6 @@
 {
   "unitid": "155496",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Manhattan Christian College",
     "institution_unique_name": "Manhattan Christian College | Manhattan | Kansas",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 31.1143,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 31.1% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 31.1% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.4586,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -71.3276,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 30.0448,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.4586,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -71.3276,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 46,
     "median_earnings_10yr": 48860,
     "median_debt_completers": 24250,
@@ -178,7 +178,7 @@
       },
       {
         "year": 2020,
-        "value": 14786.7305
+        "value": 15949.025
       },
       {
         "year": 2021,
@@ -190,7 +190,7 @@
       },
       {
         "year": 2023,
-        "value": 11780.6978
+        "value": 11780.7056
       },
       {
         "year": 2024,
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 3132656.4388
-      },
-      {
-        "year": 2015,
-        "value": 3260622.8319
-      },
-      {
-        "year": 2016,
-        "value": 3537725.7976
-      },
-      {
-        "year": 2017,
-        "value": 3734002.2328
-      },
-      {
-        "year": 2018,
-        "value": 3837163.9934
-      },
-      {
-        "year": 2019,
-        "value": 3870405.2303
-      },
-      {
-        "year": 2020,
-        "value": 3732787.7136
-      },
-      {
-        "year": 2021,
-        "value": 5550842.4466
-      },
-      {
-        "year": 2022,
-        "value": 4723492.529
-      },
-      {
-        "year": 2023,
-        "value": 4573018.2039
-      },
-      {
         "year": 2024,
         "value": 5033262
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 71961.2658
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 19106
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

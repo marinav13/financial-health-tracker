@@ -1,6 +1,6 @@
 {
   "unitid": "380438",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Provo College",
     "institution_unique_name": "Provo College | Provo | Utah",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 4.5714,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 432.1977,
-    "net_tuition_per_fte_change_5yr": 63.3791,
+    "net_tuition_per_fte_change_5yr": 63.3888,
     "staff_total_headcount_pct_change_5yr": -18.5714,
     "staff_instructional_headcount_pct_change_5yr": -36,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 37.4953,
-    "sector_median_tuition_dependence_pct": 98.0964,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 37.5% of its revenue from net tuition, below the median of 98.1% for private for-profit colleges.",
+    "tuition_dependence_pct": 37.4975,
+    "sector_median_tuition_dependence_pct": 98.8099,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 37.5% of its revenue from net tuition, below the median of 98.8% for private for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 27.3534,
     "research_expense": 0,
@@ -60,6 +60,10 @@
   },
   "series": {
     "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 10024683.4621
+      },
       {
         "year": 2015,
         "value": 10376864.7307
@@ -103,6 +107,10 @@
     ],
     "expenses_total_adjusted": [
       {
+        "year": 2014,
+        "value": 11726425.3511
+      },
+      {
         "year": 2015,
         "value": 10851624.7876
       },
@@ -145,20 +153,24 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
+        "year": 2014,
+        "value": 17874.4024
+      },
+      {
         "year": 2015,
-        "value": 17957.6022
+        "value": 18654.1217
       },
       {
         "year": 2016,
-        "value": 20996.6494
+        "value": 21068.0236
       },
       {
         "year": 2017,
-        "value": 19007.3389
+        "value": 19043.5298
       },
       {
         "year": 2018,
-        "value": 29412.3865
+        "value": 29437.7248
       },
       {
         "year": 2019,
@@ -174,18 +186,22 @@
       },
       {
         "year": 2022,
-        "value": 18041.2627
+        "value": 18044.3407
       },
       {
         "year": 2023,
-        "value": 19042.8894
+        "value": 19048.4333
       },
       {
         "year": 2024,
-        "value": 16931.8701
+        "value": 16932.8753
       }
     ],
     "enrollment_headcount_total": [
+      {
+        "year": 2014,
+        "value": 711
+      },
       {
         "year": 2015,
         "value": 755
@@ -229,6 +245,10 @@
     ],
     "enrollment_nonresident_total": [
       {
+        "year": 2014,
+        "value": 0
+      },
+      {
         "year": 2015,
         "value": 0
       },
@@ -270,6 +290,10 @@
       }
     ],
     "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 0
+      },
       {
         "year": 2015,
         "value": 0
@@ -314,6 +338,10 @@
     "enrollment_nonresident_graduate": [],
     "staff_headcount_total": [
       {
+        "year": 2014,
+        "value": 91
+      },
+      {
         "year": 2015,
         "value": 44
       },
@@ -355,6 +383,10 @@
       }
     ],
     "staff_headcount_instructional": [
+      {
+        "year": 2014,
+        "value": 69
+      },
       {
         "year": 2015,
         "value": 25
@@ -400,6 +432,10 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [],
     "state_funding_adjusted": [
       {
+        "year": 2014,
+        "value": 0
+      },
+      {
         "year": 2015,
         "value": 0
       },
@@ -413,7 +449,7 @@
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 162271.7556
       },
       {
         "year": 2019,

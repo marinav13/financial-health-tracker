@@ -1,6 +1,6 @@
 {
   "unitid": "498571",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Pennsylvania Western University",
     "institution_unique_name": "Pennsylvania Western University | California | Pennsylvania",
@@ -29,10 +29,10 @@
     "share_grad_students": 31.8262,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 721489,
-    "research_expense_per_fte": 72.5844,
+    "research_expense_per_fte": 73.3072,
     "research_expense_pct_core_expenses": 0.3382,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 14.8,
+    "research_spending_per_fte_percentile": 15,
     "research_spending_peer_bucket": "bottom 25%",
     "pct_international_all": 1.1744,
     "pct_international_undergraduate": 1.1628,
@@ -46,8 +46,8 @@
     "grad_plus_disbursements_amt": 544591,
     "grad_plus_disbursements_per_recipient": 5919.4674,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.2407,
-    "state_funding_pct_core_revenue": 43.7232,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.22,
+    "state_funding_pct_core_revenue": 2.3808,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
@@ -90,15 +90,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2022,
-        "value": 10020.8799
+        "value": 10116.5176
       },
       {
         "year": 2023,
-        "value": 8188.2028
+        "value": 8280.1559
       },
       {
         "year": 2024,
-        "value": 7642.5826
+        "value": 7718.6823
       }
     ],
     "enrollment_headcount_total": [
@@ -187,14 +187,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2022,
-        "value": 112599659.9083
-      },
-      {
-        "year": 2023,
-        "value": 116222454.9958
-      },
-      {
         "year": 2024,
         "value": 123168203
       }
@@ -202,29 +194,29 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2022,
-        "value": 7915975.2235
+        "value": 474018.6951
       },
       {
         "year": 2023,
-        "value": 13264752.1202
+        "value": 838997.7786
       },
       {
         "year": 2024,
-        "value": 11247721
+        "value": 763557
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2022,
-        "value": 93331050.8764
+        "value": -4263920.5385
       },
       {
         "year": 2023,
-        "value": 89875818.8146
+        "value": 4883267.6631
       },
       {
         "year": 2024,
-        "value": 151752241
+        "value": 8263267
       }
     ]
   }

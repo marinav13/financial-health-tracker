@@ -1,6 +1,6 @@
 {
   "unitid": "203580",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Lake Erie College",
     "institution_unique_name": "Lake Erie College | Painesville | Ohio",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -9.4505,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.876,
-    "net_tuition_per_fte_change_5yr": -13.6722,
+    "net_tuition_per_fte_change_5yr": -15.799,
     "staff_total_headcount_pct_change_5yr": -18.1818,
     "staff_instructional_headcount_pct_change_5yr": -15.2381,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 46.962,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 47% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.805,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 45.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 25.0809,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 14740,
     "grad_plus_disbursements_per_recipient": 7370,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.8744,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 1.1239,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -22.7307,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.8744,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 1.1239,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 38,
     "median_earnings_10yr": 50417,
     "median_debt_completers": 26000,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 11878.2101
+        "value": 11593.3406
       },
       {
         "year": 2024,
-        "value": 11468.489
+        "value": 11185.9455
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 44217347.6118
-      },
-      {
-        "year": 2015,
-        "value": 43307822.5808
-      },
-      {
-        "year": 2016,
-        "value": 41119679.9925
-      },
-      {
-        "year": 2017,
-        "value": 43177422.4348
-      },
-      {
-        "year": 2018,
-        "value": 43113411.0632
-      },
-      {
-        "year": 2019,
-        "value": 40825423.9043
-      },
-      {
-        "year": 2020,
-        "value": 39459520.2524
-      },
-      {
-        "year": 2021,
-        "value": 47333278.3907
-      },
-      {
-        "year": 2022,
-        "value": 35951943.9348
-      },
-      {
-        "year": 2023,
-        "value": 34449659.9068
-      },
-      {
         "year": 2024,
         "value": 31545508
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 185339.8786
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 171759
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

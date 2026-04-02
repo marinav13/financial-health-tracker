@@ -1,6 +1,6 @@
 {
   "unitid": "219374",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Sinte Gleska University",
     "institution_unique_name": "Sinte Gleska University | Mission | South Dakota",
@@ -22,7 +22,7 @@
     "staff_instructional_headcount_pct_change_5yr": 88.2353,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 1,
+    "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
     "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": null,
@@ -59,72 +59,9 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 19419720.4243
-      },
-      {
-        "year": 2015,
-        "value": 20706823.7465
-      },
-      {
-        "year": 2016,
-        "value": 18054519.5432
-      },
-      {
-        "year": 2017,
-        "value": 22665298.4688
-      },
-      {
-        "year": 2018,
-        "value": 16918782.4297
-      }
-    ],
-    "expenses_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 19107942.1584
-      },
-      {
-        "year": 2015,
-        "value": 19305659.6059
-      },
-      {
-        "year": 2016,
-        "value": 17711564.2131
-      },
-      {
-        "year": 2017,
-        "value": 18182752.7884
-      },
-      {
-        "year": 2018,
-        "value": 17707596.4541
-      }
-    ],
-    "net_tuition_per_fte_adjusted": [
-      {
-        "year": 2014,
-        "value": 4897.0101
-      },
-      {
-        "year": 2015,
-        "value": 7269.801
-      },
-      {
-        "year": 2016,
-        "value": 5870.3846
-      },
-      {
-        "year": 2017,
-        "value": 5512.0653
-      },
-      {
-        "year": 2018,
-        "value": 2800.8881
-      }
-    ],
+    "revenue_total_adjusted": [],
+    "expenses_total_adjusted": [],
+    "net_tuition_per_fte_adjusted": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -401,71 +338,8 @@
         "value": 64
       }
     ],
-    "endowment_value_adjusted": [
-      {
-        "year": 2014,
-        "value": 3665113.888
-      },
-      {
-        "year": 2015,
-        "value": 3790418.7864
-      },
-      {
-        "year": 2016,
-        "value": 3825670.8308
-      },
-      {
-        "year": 2017,
-        "value": 3639452.744
-      },
-      {
-        "year": 2018,
-        "value": 3573761.2738
-      }
-    ],
-    "federal_grants_contracts_pell_adjusted_adjusted": [
-      {
-        "year": 2014,
-        "value": 5137081.3937
-      },
-      {
-        "year": 2015,
-        "value": 8015691.8393
-      },
-      {
-        "year": 2016,
-        "value": 5785125.6071
-      },
-      {
-        "year": 2017,
-        "value": 8675405.0978
-      },
-      {
-        "year": 2018,
-        "value": 5230000.5178
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 31886.2028
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      }
-    ]
+    "endowment_value_adjusted": [],
+    "federal_grants_contracts_pell_adjusted_adjusted": [],
+    "state_funding_adjusted": []
   }
 }

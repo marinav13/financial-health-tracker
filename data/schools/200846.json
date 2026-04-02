@@ -1,6 +1,6 @@
 {
   "unitid": "200846",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of Akron Wayne College",
     "institution_unique_name": "University of Akron Wayne College | Orrville | Ohio",
@@ -14,12 +14,12 @@
     "all_programs_distance_education": "No"
   },
   "summary": {
-    "enrollment_pct_change_5yr": null,
-    "enrollment_decline_last_3_of_5": "No",
+    "enrollment_pct_change_5yr": -36.1756,
+    "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": null,
-    "staff_total_headcount_pct_change_5yr": null,
-    "staff_instructional_headcount_pct_change_5yr": null,
+    "staff_total_headcount_pct_change_5yr": -27.2727,
+    "staff_instructional_headcount_pct_change_5yr": -36.4706,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
@@ -37,8 +37,8 @@
     "pct_international_all": 0.0661,
     "pct_international_undergraduate": 0.0661,
     "pct_international_graduate": null,
-    "international_student_count_change_5yr": null,
-    "international_enrollment_pct_change_5yr": null,
+    "international_student_count_change_5yr": -18,
+    "international_enrollment_pct_change_5yr": -94.7368,
     "international_students_sentence": "0.1% of students are international.",
     "federal_loan_pct_most_recent": 9,
     "sector_avg_federal_loan_pct_most_recent": 37.9232,
@@ -64,17 +64,137 @@
     "net_tuition_per_fte_adjusted": [],
     "enrollment_headcount_total": [
       {
+        "year": 2014,
+        "value": 2771
+      },
+      {
+        "year": 2015,
+        "value": 2390
+      },
+      {
+        "year": 2016,
+        "value": 2584
+      },
+      {
+        "year": 2017,
+        "value": 2771
+      },
+      {
+        "year": 2018,
+        "value": 2523
+      },
+      {
+        "year": 2019,
+        "value": 2369
+      },
+      {
+        "year": 2020,
+        "value": 1946
+      },
+      {
+        "year": 2021,
+        "value": 1879
+      },
+      {
+        "year": 2022,
+        "value": 1750
+      },
+      {
+        "year": 2023,
+        "value": 1529
+      },
+      {
         "year": 2024,
         "value": 1512
       }
     ],
     "enrollment_nonresident_total": [
       {
+        "year": 2014,
+        "value": 3
+      },
+      {
+        "year": 2015,
+        "value": 5
+      },
+      {
+        "year": 2016,
+        "value": 10
+      },
+      {
+        "year": 2017,
+        "value": 10
+      },
+      {
+        "year": 2018,
+        "value": 11
+      },
+      {
+        "year": 2019,
+        "value": 19
+      },
+      {
+        "year": 2020,
+        "value": 14
+      },
+      {
+        "year": 2021,
+        "value": 8
+      },
+      {
+        "year": 2022,
+        "value": 8
+      },
+      {
+        "year": 2023,
+        "value": 2
+      },
+      {
         "year": 2024,
         "value": 1
       }
     ],
     "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 3
+      },
+      {
+        "year": 2015,
+        "value": 5
+      },
+      {
+        "year": 2016,
+        "value": 10
+      },
+      {
+        "year": 2017,
+        "value": 10
+      },
+      {
+        "year": 2018,
+        "value": 11
+      },
+      {
+        "year": 2019,
+        "value": 19
+      },
+      {
+        "year": 2020,
+        "value": 14
+      },
+      {
+        "year": 2021,
+        "value": 8
+      },
+      {
+        "year": 2022,
+        "value": 8
+      },
+      {
+        "year": 2023,
+        "value": 2
+      },
       {
         "year": 2024,
         "value": 1
@@ -83,11 +203,91 @@
     "enrollment_nonresident_graduate": [],
     "staff_headcount_total": [
       {
+        "year": 2014,
+        "value": 218
+      },
+      {
+        "year": 2015,
+        "value": 185
+      },
+      {
+        "year": 2016,
+        "value": 195
+      },
+      {
+        "year": 2017,
+        "value": 190
+      },
+      {
+        "year": 2018,
+        "value": 183
+      },
+      {
+        "year": 2019,
+        "value": 143
+      },
+      {
+        "year": 2020,
+        "value": 141
+      },
+      {
+        "year": 2021,
+        "value": 112
+      },
+      {
+        "year": 2022,
+        "value": 102
+      },
+      {
+        "year": 2023,
+        "value": 119
+      },
+      {
         "year": 2024,
         "value": 104
       }
     ],
     "staff_headcount_instructional": [
+      {
+        "year": 2014,
+        "value": 150
+      },
+      {
+        "year": 2015,
+        "value": 124
+      },
+      {
+        "year": 2016,
+        "value": 129
+      },
+      {
+        "year": 2017,
+        "value": 123
+      },
+      {
+        "year": 2018,
+        "value": 119
+      },
+      {
+        "year": 2019,
+        "value": 85
+      },
+      {
+        "year": 2020,
+        "value": 89
+      },
+      {
+        "year": 2021,
+        "value": 70
+      },
+      {
+        "year": 2022,
+        "value": 62
+      },
+      {
+        "year": 2023,
+        "value": 72
+      },
       {
         "year": 2024,
         "value": 54

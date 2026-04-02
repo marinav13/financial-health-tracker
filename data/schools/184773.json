@@ -1,6 +1,6 @@
 {
   "unitid": "184773",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Georgian Court University",
     "institution_unique_name": "Georgian Court University | Lakewood | New Jersey",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -20.3509,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 1.8086,
-    "net_tuition_per_fte_change_5yr": -9.0041,
+    "net_tuition_per_fte_change_5yr": -7.7648,
     "staff_total_headcount_pct_change_5yr": -22.3735,
     "staff_instructional_headcount_pct_change_5yr": -24.5675,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 54.5804,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 54.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 54.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 24.2731,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 268631,
     "grad_plus_disbursements_per_recipient": 7461.9722,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.1196,
-    "state_funding_pct_core_revenue": 1.4781,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -8.9344,
-    "state_funding_pct_change_5yr": 1117.3187,
-    "endowment_pct_change_5yr": -19.5543,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.1196,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -8.9344,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 54,
     "median_earnings_10yr": 53096,
     "median_debt_completers": 21816,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 21042.9069
+        "value": 21255.7003
       },
       {
         "year": 2022,
-        "value": 20130.5012
+        "value": 20382.1325
       },
       {
         "year": 2023,
-        "value": 19508.1098
+        "value": 19725.1503
       },
       {
         "year": 2024,
-        "value": 19441.6647
+        "value": 19706.4345
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 67959474.4401
-      },
-      {
-        "year": 2015,
-        "value": 68465372.8023
-      },
-      {
-        "year": 2016,
-        "value": 63999143.2769
-      },
-      {
-        "year": 2017,
-        "value": 67216209.5722
-      },
-      {
-        "year": 2018,
-        "value": 68251791.7053
-      },
-      {
-        "year": 2019,
-        "value": 67310897.2037
-      },
-      {
-        "year": 2020,
-        "value": 59350413.0722
-      },
-      {
-        "year": 2021,
-        "value": 66343537.9585
-      },
-      {
-        "year": 2022,
-        "value": 51653752.9184
-      },
-      {
-        "year": 2023,
-        "value": 53269817.0177
-      },
-      {
         "year": 2024,
         "value": 54148754
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 324043.0055
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1082000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 64782.0999
-      },
-      {
-        "year": 2015,
-        "value": 64423.3935
-      },
-      {
-        "year": 2016,
-        "value": 98674.5321
-      },
-      {
-        "year": 2017,
-        "value": 62701.9674
-      },
-      {
-        "year": 2018,
-        "value": 62908.4441
-      },
-      {
-        "year": 2019,
-        "value": 61985.1633
-      },
-      {
-        "year": 2020,
-        "value": 107180.6
-      },
-      {
-        "year": 2021,
-        "value": 183242.4417
-      },
-      {
-        "year": 2022,
-        "value": 372376.1918
-      },
-      {
-        "year": 2023,
-        "value": 672735.4639
-      },
-      {
-        "year": 2024,
-        "value": 754557
       }
     ]
   }

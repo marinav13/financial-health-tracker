@@ -1,6 +1,6 @@
 {
   "unitid": "238333",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Beloit College",
     "institution_unique_name": "Beloit College | Beloit | Wisconsin",
@@ -24,15 +24,15 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 25.4925,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 25.5% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 25.5% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 70720,
     "research_expense_per_fte": 68.9279,
     "research_expense_pct_core_expenses": 0.1709,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 69.5,
+    "research_spending_per_fte_percentile": 69.4,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 15.0926,
     "pct_international_undergraduate": 15.0926,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 22.1415,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 527.4877,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -49.9279,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 22.1415,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 527.4877,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 71,
     "median_earnings_10yr": 53260,
     "median_debt_completers": 25738,
@@ -154,11 +154,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23839.4778
+        "value": 23670.1535
       },
       {
         "year": 2015,
-        "value": 24111.771
+        "value": 23942.7765
       },
       {
         "year": 2016,
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 173266762.3333
-      },
-      {
-        "year": 2015,
-        "value": 192367039.3003
-      },
-      {
-        "year": 2016,
-        "value": 189717794.1884
-      },
-      {
-        "year": 2017,
-        "value": 204135941.1284
-      },
-      {
-        "year": 2018,
-        "value": 201041277.2185
-      },
-      {
-        "year": 2019,
-        "value": 167784948.8127
-      },
-      {
-        "year": 2020,
-        "value": 106251518.8658
-      },
-      {
-        "year": 2021,
-        "value": 108946825.6739
-      },
-      {
-        "year": 2022,
-        "value": 89545845.9806
-      },
-      {
-        "year": 2023,
-        "value": 88164262.7698
-      },
-      {
         "year": 2024,
         "value": 84013471
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1732903.285
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 9339579
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

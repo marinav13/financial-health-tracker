@@ -1,6 +1,6 @@
 {
   "unitid": "145619",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Benedictine University",
     "institution_unique_name": "Benedictine University | Lisle | Illinois",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -44.2383,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -49.5391,
-    "net_tuition_per_fte_change_5yr": -26.3518,
+    "net_tuition_per_fte_change_5yr": -34.5308,
     "staff_total_headcount_pct_change_5yr": -32.299,
     "staff_instructional_headcount_pct_change_5yr": -24.9377,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 80.9071,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 80.9% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 71.681,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 71.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 43.624,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 422030,
     "research_expense_per_fte": 145.2771,
     "research_expense_pct_core_expenses": 0.7413,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 72.8,
+    "research_spending_per_fte_percentile": 72.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.7389,
     "pct_international_undergraduate": 2.1457,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 100698,
     "grad_plus_disbursements_per_recipient": 7746,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.8054,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 496.3485,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -20.601,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.8054,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 496.3485,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": 63446,
     "median_debt_completers": 22500,
@@ -154,27 +154,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18339.2302
+        "value": 15242.4633
       },
       {
         "year": 2015,
-        "value": 17837.7267
+        "value": 15328.0024
       },
       {
         "year": 2016,
-        "value": 18666.8617
+        "value": 16016.6422
       },
       {
         "year": 2017,
-        "value": 19915.7566
+        "value": 19643.6814
       },
       {
         "year": 2018,
-        "value": 20312.6504
+        "value": 20235.9199
       },
       {
         "year": 2019,
-        "value": 19661.0048
+        "value": 19595.1298
       },
       {
         "year": 2020,
@@ -186,15 +186,15 @@
       },
       {
         "year": 2022,
-        "value": 14672.2702
+        "value": 14577.8421
       },
       {
         "year": 2023,
-        "value": 14502.634
+        "value": 14449.1704
       },
       {
         "year": 2024,
-        "value": 14479.9687
+        "value": 12828.7659
       }
     ],
     "enrollment_headcount_total": [
@@ -475,30 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2018,
-        "value": 45524401.7289
-      },
-      {
-        "year": 2019,
-        "value": 43655289.9229
-      },
-      {
-        "year": 2020,
-        "value": 44727229.182
-      },
-      {
-        "year": 2021,
-        "value": 47104036.6412
-      },
-      {
-        "year": 2022,
-        "value": 44676393.3213
-      },
-      {
-        "year": 2023,
-        "value": 41336616.0317
-      },
-      {
         "year": 2024,
         "value": 34661849
       }
@@ -506,15 +482,61 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 2496423.0742
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 3909191.1877
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 2333818.6085
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 11663112.7409
+      },
+      {
+        "year": 2015,
+        "value": 11598274.1436
+      },
+      {
+        "year": 2016,
+        "value": 10126299.2121
       },
       {
         "year": 2017,
@@ -547,52 +569,6 @@
       {
         "year": 2024,
         "value": 1308913
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

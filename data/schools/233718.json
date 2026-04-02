@@ -1,6 +1,6 @@
 {
   "unitid": "233718",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Sweet Briar College",
     "institution_unique_name": "Sweet Briar College | Sweet Briar | Virginia",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 26.4151,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 56.9011,
-    "net_tuition_per_fte_change_5yr": -36.365,
+    "net_tuition_per_fte_change_5yr": -36.2495,
     "staff_total_headcount_pct_change_5yr": 27.5701,
     "staff_instructional_headcount_pct_change_5yr": 36,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 10.7117,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 10.7% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.5831,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 10.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 14529,
     "research_expense_per_fte": 31.0449,
     "research_expense_pct_core_expenses": 0.0512,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 67,
+    "research_spending_per_fte_percentile": 66.8,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 9.3817,
     "pct_international_undergraduate": 9.3817,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.4313,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 22.3384,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -18.916,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.4313,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 22.3384,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 52,
     "median_earnings_10yr": 51943,
     "median_debt_completers": 27000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22074.8575
+        "value": 19868.3833
       },
       {
         "year": 2015,
-        "value": 25063.9582
+        "value": 23047.584
       },
       {
         "year": 2016,
-        "value": 23774.2603
+        "value": 23022.2734
       },
       {
         "year": 2017,
-        "value": 18139.8865
+        "value": 17796.8246
       },
       {
         "year": 2018,
-        "value": 361.5013
+        "value": 17899.1081
       },
       {
         "year": 2019,
-        "value": 14618.3436
+        "value": 14416.7273
       },
       {
         "year": 2020,
-        "value": 13757.3634
+        "value": 13565.1394
       },
       {
         "year": 2021,
-        "value": 11827.5806
+        "value": 10995.3708
       },
       {
         "year": 2022,
-        "value": 10397.8711
+        "value": 10254.4222
       },
       {
         "year": 2023,
-        "value": 9275.0189
+        "value": 9141.7771
       },
       {
         "year": 2024,
-        "value": 9302.3846
+        "value": 9190.7329
       }
     ],
     "enrollment_headcount_total": [
@@ -471,51 +471,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 124605622.3774
-      },
-      {
-        "year": 2015,
-        "value": 102495017.0543
-      },
-      {
-        "year": 2016,
-        "value": 98149643.7936
-      },
-      {
-        "year": 2017,
-        "value": 98379834.7258
-      },
-      {
-        "year": 2018,
-        "value": 93463657.9748
-      },
-      {
-        "year": 2019,
-        "value": 86449586.3198
-      },
-      {
-        "year": 2020,
-        "value": 77531270.5076
-      },
-      {
-        "year": 2021,
-        "value": 90844885.4424
-      },
-      {
-        "year": 2022,
-        "value": 73112051.6929
-      },
-      {
-        "year": 2023,
-        "value": 71975259.6277
-      },
-      {
         "year": 2024,
         "value": 70096817
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 635565.5352
@@ -559,52 +565,6 @@
       {
         "year": 2024,
         "value": 140758
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 33947.4504
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "145725",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Illinois Institute of Technology",
     "institution_unique_name": "Illinois Institute of Technology | Chicago | Illinois",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 41.3742,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 3.3026,
-    "net_tuition_per_fte_change_5yr": -41.1196,
+    "net_tuition_per_fte_change_5yr": -25.192,
     "staff_total_headcount_pct_change_5yr": -1.2373,
     "staff_instructional_headcount_pct_change_5yr": 45.5224,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 42.8848,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.9% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.9454,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 44.9% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 63.7613,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 95519000,
-    "research_expense_per_fte": 12481.2492,
+    "research_expense_per_fte": 15130.5243,
     "research_expense_pct_core_expenses": 33.5224,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 97,
+    "research_spending_per_fte_percentile": 96.9,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 52.3922,
     "pct_international_undergraduate": 19.7124,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 4940644,
     "grad_plus_disbursements_per_recipient": 12109.4216,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 15.8949,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -6.8012,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -10.6212,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 17.6939,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -5.9357,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 75,
     "median_earnings_10yr": 82592,
     "median_debt_completers": 25000,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 21547.4205
+        "value": 28230.8751
       },
       {
         "year": 2022,
-        "value": 19451.4573
+        "value": 24891.1051
       },
       {
         "year": 2023,
-        "value": 17052.9061
+        "value": 22584.3569
       },
       {
         "year": 2024,
-        "value": 19074.3499
+        "value": 24234.1201
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 295469448.4743
-      },
-      {
-        "year": 2015,
-        "value": 311627006.7168
-      },
-      {
-        "year": 2016,
-        "value": 293076312.7909
-      },
-      {
-        "year": 2017,
-        "value": 309545213.3567
-      },
-      {
-        "year": 2018,
-        "value": 310503477.6928
-      },
-      {
-        "year": 2019,
-        "value": 295151610.4038
-      },
-      {
-        "year": 2020,
-        "value": 307909998.5202
-      },
-      {
-        "year": 2021,
-        "value": 350376153.9248
-      },
-      {
-        "year": 2022,
-        "value": 309901000.7312
-      },
-      {
-        "year": 2023,
-        "value": 262438710.2152
-      },
-      {
         "year": 2024,
         "value": 263803000
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 56630341.3169
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 59076504.6094
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 54930569.9084
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 58280477.9251
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 56282557.6587
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 54844072.0262
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 56990069.1238
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 62875560.6045
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 51476702.0041
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 47322768.6822
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 51114000
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 61862996.5151
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 64338690.2923
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 60214768.3984
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 63322639.5602
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 61356907.3104
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 60489460.5311
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 62535147.0958
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 68272534.8747
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 56824276.5236
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 52493919.0094
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 56899000
       }
     ]
   }

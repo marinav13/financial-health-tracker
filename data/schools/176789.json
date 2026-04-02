@@ -1,6 +1,6 @@
 {
   "unitid": "176789",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Calvary University",
     "institution_unique_name": "Calvary University | Kansas City | Missouri",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -38.9234,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -46.303,
-    "net_tuition_per_fte_change_5yr": -4.3181,
+    "net_tuition_per_fte_change_5yr": -9.3444,
     "staff_total_headcount_pct_change_5yr": -34.2593,
     "staff_instructional_headcount_pct_change_5yr": 8.5714,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 36.5589,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 27.1186,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 28488,
     "grad_plus_disbursements_per_recipient": 7122,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 10.1579,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 10.1579,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -24.655,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 52,
     "median_earnings_10yr": 45421,
     "median_debt_completers": 20839,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 6688.171
+        "value": 8934.6135
       },
       {
         "year": 2015,
-        "value": 10677.3278
+        "value": 12449.0965
       },
       {
         "year": 2016,
-        "value": 11160.1228
+        "value": 13315.4737
       },
       {
         "year": 2017,
-        "value": 10995.587
+        "value": 12815.3657
       },
       {
         "year": 2018,
-        "value": 9721.2529
+        "value": 10237.3942
       },
       {
         "year": 2019,
-        "value": 8853.3966
+        "value": 9344.2612
       },
       {
         "year": 2020,
-        "value": 7106.6142
+        "value": 7926.9729
       },
       {
         "year": 2021,
-        "value": 6376.4858
+        "value": 8059.0466
       },
       {
         "year": 2022,
@@ -190,7 +190,7 @@
       },
       {
         "year": 2023,
-        "value": 9399.2838
+        "value": 9961.3244
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1615933.7642
-      },
-      {
-        "year": 2015,
-        "value": 962273.2377
-      },
-      {
-        "year": 2016,
-        "value": 944978.8491
-      },
-      {
-        "year": 2017,
-        "value": 1543234.1918
-      },
-      {
-        "year": 2018,
-        "value": 1317180.9942
-      },
-      {
-        "year": 2019,
-        "value": 640944.8465
-      },
-      {
-        "year": 2020,
-        "value": 554932.0108
-      },
-      {
-        "year": 2021,
-        "value": 517322.3265
-      },
-      {
-        "year": 2022,
-        "value": 493557.8685
-      },
-      {
-        "year": 2023,
-        "value": 466474.2036
-      },
-      {
         "year": 2024,
         "value": 482920
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 625730.9525
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 354243
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

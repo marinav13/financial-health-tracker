@@ -1,6 +1,6 @@
 {
   "unitid": "169479",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Davenport University",
     "institution_unique_name": "Davenport University | Grand Rapids | Michigan",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -30.1084,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.9233,
-    "net_tuition_per_fte_change_5yr": -30.7203,
+    "net_tuition_per_fte_change_5yr": -10.8231,
     "staff_total_headcount_pct_change_5yr": -32.6376,
     "staff_instructional_headcount_pct_change_5yr": -41.5414,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 57.4581,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 57.5% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 74.6548,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 74.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 22.2482,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 868036,
     "grad_plus_disbursements_per_recipient": 12225.8592,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.2491,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.2491,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 0.3768,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 55,
     "median_earnings_10yr": 45099,
     "median_debt_completers": 26000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21123.3718
+        "value": 21780.2016
       },
       {
         "year": 2015,
-        "value": 22152.4742
+        "value": 22714.7955
       },
       {
         "year": 2016,
-        "value": 22415.2125
+        "value": 23152.9086
       },
       {
         "year": 2017,
-        "value": 22656.3477
+        "value": 22987.1175
       },
       {
         "year": 2018,
-        "value": 23092.1409
+        "value": 23521.5859
       },
       {
         "year": 2019,
-        "value": 19623.6332
+        "value": 19807.9403
       },
       {
         "year": 2020,
-        "value": 20268.1016
+        "value": 20073.29
       },
       {
         "year": 2021,
-        "value": 18770.2906
+        "value": 19558.6309
       },
       {
         "year": 2022,
-        "value": 18045.0126
+        "value": 18387.1063
       },
       {
         "year": 2023,
-        "value": 13959.0661
+        "value": 17694.8251
       },
       {
         "year": 2024,
-        "value": 13595.19
+        "value": 17664.1077
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 27332221.2159
-      },
-      {
-        "year": 2015,
-        "value": 27099378.7947
-      },
-      {
-        "year": 2016,
-        "value": 26939250.3791
-      },
-      {
-        "year": 2017,
-        "value": 30157518.1077
-      },
-      {
-        "year": 2018,
-        "value": 31763410.0732
-      },
-      {
-        "year": 2019,
-        "value": 31875372.6984
-      },
-      {
-        "year": 2020,
-        "value": 31500344.4068
-      },
-      {
-        "year": 2021,
-        "value": 38490085.9961
-      },
-      {
-        "year": 2022,
-        "value": 31517673.8321
-      },
-      {
-        "year": 2023,
-        "value": 30894100.2752
-      },
-      {
         "year": 2024,
         "value": 31995490
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 2379600
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

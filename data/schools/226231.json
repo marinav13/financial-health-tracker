@@ -1,6 +1,6 @@
 {
   "unitid": "226231",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "LeTourneau University",
     "institution_unique_name": "LeTourneau University | Longview | Texas",
@@ -24,15 +24,15 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 36.4301,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.4% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 4.8804,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 485983,
     "research_expense_per_fte": 234.4346,
     "research_expense_pct_core_expenses": 1.0303,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 75.4,
+    "research_spending_per_fte_percentile": 75.2,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.1579,
     "pct_international_undergraduate": 3.2948,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2677,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -23.6098,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 38.4227,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.2677,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -23.6098,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 59,
     "median_earnings_10yr": 57103,
     "median_debt_completers": 26000,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20086.7289
+        "value": 20086.7348
       },
       {
         "year": 2015,
@@ -182,11 +182,11 @@
       },
       {
         "year": 2021,
-        "value": 18609.1408
+        "value": 18609.1403
       },
       {
         "year": 2022,
-        "value": 15789.5273
+        "value": 17179.4462
       },
       {
         "year": 2023,
@@ -194,7 +194,7 @@
       },
       {
         "year": 2024,
-        "value": 15637.5147
+        "value": 15637.5142
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 22178764.7519
-      },
-      {
-        "year": 2015,
-        "value": 23317583.8518
-      },
-      {
-        "year": 2016,
-        "value": 26145180.2922
-      },
-      {
-        "year": 2017,
-        "value": 26041309.785
-      },
-      {
-        "year": 2018,
-        "value": 27116315.1656
-      },
-      {
-        "year": 2019,
-        "value": 27061089.4303
-      },
-      {
-        "year": 2020,
-        "value": 27717282.5316
-      },
-      {
-        "year": 2021,
-        "value": 33031190.0706
-      },
-      {
-        "year": 2022,
-        "value": 27463039.7172
-      },
-      {
-        "year": 2023,
-        "value": 28652161.074
-      },
-      {
         "year": 2024,
         "value": 37458704
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 769433.5244
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 212103
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

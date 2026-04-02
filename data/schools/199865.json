@@ -1,6 +1,6 @@
 {
   "unitid": "199865",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Warren Wilson College",
     "institution_unique_name": "Warren Wilson College | Swannanoa | North Carolina",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 6.9565,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.9164,
-    "net_tuition_per_fte_change_5yr": -32.5095,
+    "net_tuition_per_fte_change_5yr": -33.7394,
     "staff_total_headcount_pct_change_5yr": -12.9707,
     "staff_instructional_headcount_pct_change_5yr": -26.2136,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 28.2725,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 28.3% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 28.3% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 7.8978,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 3629,
     "grad_plus_disbursements_per_recipient": 3629,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 6.6201,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -38.3917,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -13.2506,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 6.6201,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -38.3917,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 42,
     "median_earnings_10yr": 36260,
     "median_debt_completers": 25000,
@@ -154,31 +154,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21315.6281
+        "value": 18830.6064
       },
       {
         "year": 2015,
-        "value": 20996.7511
+        "value": 18197.2979
       },
       {
         "year": 2016,
-        "value": 19738.887
+        "value": 16878.5544
       },
       {
         "year": 2017,
-        "value": 21460.9091
+        "value": 18749.4292
       },
       {
         "year": 2018,
-        "value": 20161.1426
+        "value": 17926.8106
       },
       {
         "year": 2019,
-        "value": 17668.054
+        "value": 17996.0145
       },
       {
         "year": 2020,
-        "value": 16351.434
+        "value": 16801.9484
       },
       {
         "year": 2021,
@@ -190,7 +190,7 @@
       },
       {
         "year": 2023,
-        "value": 12547.4492
+        "value": 12647.6835
       },
       {
         "year": 2024,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 71294919.1251
-      },
-      {
-        "year": 2015,
-        "value": 72658539.3757
-      },
-      {
-        "year": 2016,
-        "value": 68097177.0943
-      },
-      {
-        "year": 2017,
-        "value": 67996815.537
-      },
-      {
-        "year": 2018,
-        "value": 65730383.341
-      },
-      {
-        "year": 2019,
-        "value": 63460417.0906
-      },
-      {
-        "year": 2020,
-        "value": 61827273.9562
-      },
-      {
-        "year": 2021,
-        "value": 69380986.7974
-      },
-      {
-        "year": 2022,
-        "value": 59957368.8774
-      },
-      {
-        "year": 2023,
-        "value": 56579750.612
-      },
-      {
         "year": 2024,
         "value": 55051556
       }
@@ -522,23 +482,69 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 1039269.7202
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 1423974.4449
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 1532986.1068
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 1346263.5553
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 966316.3243
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 2761857.4263
+      },
+      {
+        "year": 2015,
+        "value": 3369283.7898
+      },
+      {
+        "year": 2016,
+        "value": 3297781.6236
+      },
+      {
+        "year": 2017,
+        "value": 2755179.1682
+      },
+      {
+        "year": 2018,
+        "value": 2182896.0256
       },
       {
         "year": 2019,
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1623102
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

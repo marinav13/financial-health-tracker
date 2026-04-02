@@ -1,6 +1,6 @@
 {
   "unitid": "193052",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Mesivta Torah Vodaath Rabbinical Seminary",
     "institution_unique_name": "Mesivta Torah Vodaath Rabbinical Seminary | Brooklyn | New York",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 69.1667,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -60.1138,
-    "net_tuition_per_fte_change_5yr": 132.4489,
+    "net_tuition_per_fte_change_5yr": 31.4594,
     "staff_total_headcount_pct_change_5yr": 15.3846,
     "staff_instructional_headcount_pct_change_5yr": -5.2632,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 72.0838,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 72.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 72.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 41.7077,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.3374,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -93.4986,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -17.73,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.3374,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -93.4986,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": null,
     "median_debt_completers": null,
@@ -154,43 +154,43 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": -353.6637
+        "value": 7844.8244
       },
       {
         "year": 2015,
-        "value": -23.2184
+        "value": 8645.959
       },
       {
         "year": 2016,
-        "value": -2212.2859
+        "value": 6989.4112
       },
       {
         "year": 2017,
-        "value": -2994.0579
+        "value": 7253.1421
       },
       {
         "year": 2018,
-        "value": -2129.0123
+        "value": 6502.2466
       },
       {
         "year": 2019,
-        "value": -11415.1382
+        "value": 2817.6692
       },
       {
         "year": 2020,
-        "value": 742.4673
+        "value": 6140.9926
       },
       {
         "year": 2021,
-        "value": -2256.3136
+        "value": 1781.6324
       },
       {
         "year": 2022,
-        "value": -4508.0085
+        "value": 1813.309
       },
       {
         "year": 2023,
-        "value": 4038.2404
+        "value": 3557.8483
       },
       {
         "year": 2024,
@@ -475,47 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2015,
-        "value": 1519325.0907
-      },
-      {
-        "year": 2016,
-        "value": 1446572.5359
-      },
-      {
-        "year": 2017,
-        "value": 1783177.0988
-      },
-      {
-        "year": 2018,
-        "value": 1644651.4382
-      },
-      {
-        "year": 2019,
-        "value": 1724117.1095
-      },
-      {
-        "year": 2020,
-        "value": 1528108.3454
-      },
-      {
-        "year": 2021,
-        "value": 1696644.5555
-      },
-      {
-        "year": 2022,
-        "value": 1519677.993
-      },
-      {
-        "year": 2023,
-        "value": 1397845.4254
-      },
-      {
         "year": 2024,
         "value": 1418431
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1138051.4909
@@ -546,11 +556,11 @@
       },
       {
         "year": 2021,
-        "value": 1228883.6324
+        "value": 3277073.5704
       },
       {
         "year": 2022,
-        "value": 1139642.1965
+        "value": 2979903.4768
       },
       {
         "year": 2023,
@@ -559,52 +569,6 @@
       {
         "year": 2024,
         "value": 77350
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

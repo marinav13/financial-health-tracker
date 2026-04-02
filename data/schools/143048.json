@@ -1,6 +1,6 @@
 {
   "unitid": "143048",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "School of the Art Institute of Chicago",
     "institution_unique_name": "School of the Art Institute of Chicago | Chicago | Illinois",
@@ -16,16 +16,16 @@
   "summary": {
     "enrollment_pct_change_5yr": -10.03,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": -18.0226,
-    "net_tuition_per_fte_change_5yr": -13.0322,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": -13.0715,
     "staff_total_headcount_pct_change_5yr": -5.761,
     "staff_instructional_headcount_pct_change_5yr": -6.5844,
-    "ended_year_at_loss": "No",
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 75.0814,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 75.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "share_grad_students": 19.0436,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1287225,
     "grad_plus_disbursements_per_recipient": 12744.802,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.7367,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 109.7746,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 41.4455,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.7367,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 109.7746,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 40151,
     "median_debt_completers": 27000,
@@ -59,52 +59,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 179211901.3755
-      },
-      {
-        "year": 2015,
-        "value": 203421214.5616
-      },
-      {
-        "year": 2016,
-        "value": 193581688.2161
-      },
-      {
-        "year": 2017,
-        "value": 195526603.7048
-      },
-      {
-        "year": 2018,
-        "value": 199930900.3324
-      },
-      {
-        "year": 2019,
-        "value": 197307222.7235
-      },
-      {
-        "year": 2020,
-        "value": 194883600.3513
-      },
-      {
-        "year": 2021,
-        "value": 167940284.3402
-      },
-      {
-        "year": 2022,
-        "value": 170611337.0029
-      },
-      {
-        "year": 2023,
-        "value": 174072401.9647
-      },
-      {
-        "year": 2024,
-        "value": 161747345
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -154,47 +109,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36683.3519
+        "value": 36589.776
       },
       {
         "year": 2015,
-        "value": 38546.1165
+        "value": 38453.6424
       },
       {
         "year": 2016,
-        "value": 42174.565
+        "value": 42083.963
       },
       {
         "year": 2017,
-        "value": 42756.1841
+        "value": 42686.3199
       },
       {
         "year": 2018,
-        "value": 42447.3102
+        "value": 42377.3564
       },
       {
         "year": 2019,
-        "value": 42873.9018
+        "value": 42781.2103
       },
       {
         "year": 2020,
-        "value": 43838.3264
+        "value": 43752.9208
       },
       {
         "year": 2021,
-        "value": 41227.0137
+        "value": 41560.0749
       },
       {
         "year": 2022,
-        "value": 39319.7479
+        "value": 39217.0926
       },
       {
         "year": 2023,
-        "value": 39353.6794
+        "value": 39268.9662
       },
       {
         "year": 2024,
-        "value": 37286.5011
+        "value": 37189.0574
       }
     ],
     "enrollment_headcount_total": [
@@ -475,47 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 251559666.768
-      },
-      {
-        "year": 2016,
-        "value": 244568337.8318
-      },
-      {
-        "year": 2017,
-        "value": 271673972.4258
-      },
-      {
-        "year": 2018,
-        "value": 280320966.1379
-      },
-      {
-        "year": 2019,
-        "value": 294708666.4242
-      },
-      {
-        "year": 2020,
-        "value": 305649545.9698
-      },
-      {
-        "year": 2021,
-        "value": 407858213.2155
-      },
-      {
-        "year": 2022,
-        "value": 334852060.9967
-      },
-      {
-        "year": 2023,
-        "value": 371190379.7284
-      },
-      {
         "year": 2024,
         "value": 416852000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1021796.1765
@@ -559,52 +524,6 @@
       {
         "year": 2024,
         "value": 1060276
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

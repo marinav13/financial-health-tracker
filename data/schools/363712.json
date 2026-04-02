@@ -1,6 +1,6 @@
 {
   "unitid": "363712",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Yeshivah Gedolah Rabbinical College",
     "institution_unique_name": "Yeshivah Gedolah Rabbinical College | Miami Beach | Florida",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 102.8571,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 38.7099,
-    "net_tuition_per_fte_change_5yr": 711.0562,
+    "net_tuition_per_fte_change_5yr": 30.0956,
     "staff_total_headcount_pct_change_5yr": 140,
     "staff_instructional_headcount_pct_change_5yr": 140,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 27.3524,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 27.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 31.895,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 31.9% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,10 +46,10 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 20.8416,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 94.1772,
-    "state_funding_pct_change_5yr": null,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 20.8416,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 94.1772,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 0,
     "median_earnings_10yr": 30667,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 2739.2013
+        "value": 10141.6224
       },
       {
         "year": 2015,
-        "value": 8028.4269
+        "value": 8536.5188
       },
       {
         "year": 2016,
-        "value": -4714.2242
+        "value": 10195.9022
       },
       {
         "year": 2017,
-        "value": -2339.4567
+        "value": 2888.7589
       },
       {
         "year": 2018,
-        "value": -1589.8612
+        "value": 4656.261
       },
       {
         "year": 2019,
-        "value": 532.6076
+        "value": 3871.8886
       },
       {
         "year": 2020,
-        "value": 339.9234
+        "value": 4709.1989
       },
       {
         "year": 2021,
-        "value": 14894.3997
+        "value": 10894.9478
       },
       {
         "year": 2022,
-        "value": 10707.9497
+        "value": 7578.905
       },
       {
         "year": 2023,
-        "value": 5328.3049
+        "value": 6413.9739
       },
       {
         "year": 2024,
-        "value": 4319.7465
+        "value": 5037.1549
       }
     ],
     "enrollment_headcount_total": [
@@ -432,6 +432,52 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
         "value": 178861.6686
       },
       {
@@ -473,52 +519,6 @@
       {
         "year": 2024,
         "value": 233696
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

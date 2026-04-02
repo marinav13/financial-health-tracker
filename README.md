@@ -9,7 +9,7 @@ If you are new to the project, start here:
 
 Quick summary:
 
-- `scripts/build_ipeds_tracker_dataset.R` builds the raw IPEDS file
+- `scripts/collect_ipeds_data.R` builds the raw IPEDS file
 - `scripts/build_ipeds_canonical_dataset.R` builds the canonical IPEDS dataset used by the site and workbook
 - `scripts/build_article_workbook.R` builds the workbook XML
 - the next web step is to create `scripts/build_web_exports.R`

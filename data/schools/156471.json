@@ -1,6 +1,6 @@
 {
   "unitid": "156471",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Galen College of Nursing-Louisville",
     "institution_unique_name": "Galen College of Nursing-Louisville | Louisville | Kentucky",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 114.4681,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 104.7321,
-    "net_tuition_per_fte_change_5yr": 0.4257,
+    "net_tuition_per_fte_change_5yr": -0.0699,
     "staff_total_headcount_pct_change_5yr": 26.9388,
     "staff_instructional_headcount_pct_change_5yr": 33.8889,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 99.0705,
-    "sector_median_tuition_dependence_pct": 98.0964,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 99.1% of its revenue from net tuition, above the median of 98.1% for private for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 98.8099,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 99.1% of its revenue from net tuition, above the median of 98.8% for private for-profit colleges.",
     "share_grad_students": 12.8118,
     "sector_avg_share_grad_students": 27.3534,
     "research_expense": 0,
@@ -49,7 +49,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 823.9329,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 23,
     "median_earnings_10yr": 61480,
@@ -60,6 +60,10 @@
   },
   "series": {
     "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 60691356.1216
+      },
       {
         "year": 2015,
         "value": 63674979.9177
@@ -103,6 +107,10 @@
     ],
     "expenses_total_adjusted": [
       {
+        "year": 2014,
+        "value": 54404544.1733
+      },
+      {
         "year": 2015,
         "value": 60822745.5758
       },
@@ -145,28 +153,32 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
+        "year": 2014,
+        "value": 57439.3634
+      },
+      {
         "year": 2015,
-        "value": 53355.9652
+        "value": 50964.466
       },
       {
         "year": 2016,
-        "value": 45037.3983
+        "value": 51520.4953
       },
       {
         "year": 2017,
-        "value": 41540.0648
+        "value": 41648.5078
       },
       {
         "year": 2018,
-        "value": 38967.0453
+        "value": 39036.5743
       },
       {
         "year": 2019,
-        "value": 41726.5589
+        "value": 41933.4924
       },
       {
         "year": 2020,
-        "value": 44804.4646
+        "value": 44988.1294
       },
       {
         "year": 2021,
@@ -186,6 +198,10 @@
       }
     ],
     "enrollment_headcount_total": [
+      {
+        "year": 2014,
+        "value": 1505
+      },
       {
         "year": 2015,
         "value": 1618
@@ -229,6 +245,10 @@
     ],
     "enrollment_nonresident_total": [
       {
+        "year": 2014,
+        "value": 1
+      },
+      {
         "year": 2015,
         "value": 1
       },
@@ -270,6 +290,10 @@
       }
     ],
     "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 1
+      },
       {
         "year": 2015,
         "value": 1
@@ -335,6 +359,10 @@
     ],
     "staff_headcount_total": [
       {
+        "year": 2014,
+        "value": 255
+      },
+      {
         "year": 2015,
         "value": 282
       },
@@ -376,6 +404,10 @@
       }
     ],
     "staff_headcount_instructional": [
+      {
+        "year": 2014,
+        "value": 129
+      },
       {
         "year": 2015,
         "value": 150
@@ -421,44 +453,48 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [],
     "state_funding_adjusted": [
       {
+        "year": 2014,
+        "value": 35388.3318
+      },
+      {
         "year": 2015,
-        "value": 0
+        "value": 20361.8528
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 17407.9247
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 54320.9733
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 111143.4979
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 219577.5147
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 239363.1385
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 74721.8149
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 29636.2173
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 513319.2869
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 2028749
       }
     ]
   }

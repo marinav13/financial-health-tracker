@@ -1,6 +1,6 @@
 {
   "unitid": "218919",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Voorhees University",
     "institution_unique_name": "Voorhees University | Denmark | South Carolina",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 8.9015,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 97.3462,
-    "net_tuition_per_fte_change_5yr": 21.0126,
+    "net_tuition_per_fte_change_5yr": 35.0084,
     "staff_total_headcount_pct_change_5yr": 64,
     "staff_instructional_headcount_pct_change_5yr": 166.6667,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 12.429,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 12.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 12.4% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 16.1739,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 6619,
     "grad_plus_disbursements_per_recipient": 3309.5,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 70.747,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 302.3517,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 6.4207,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 70.747,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 302.3517,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 43,
     "median_earnings_10yr": 35339,
     "median_debt_completers": 26700,
@@ -154,43 +154,43 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13508.8321
+        "value": 10880.1106
       },
       {
         "year": 2015,
-        "value": 12868.7196
+        "value": 9965.9755
       },
       {
         "year": 2016,
-        "value": 14800.0061
+        "value": 12352.3025
       },
       {
         "year": 2017,
-        "value": 14202.6356
+        "value": 12050.9891
       },
       {
         "year": 2018,
-        "value": 13309.5699
+        "value": 12043.8647
       },
       {
         "year": 2019,
-        "value": 13715.2931
+        "value": 12293.4833
       },
       {
         "year": 2020,
-        "value": 13258.778
+        "value": 11696.5149
       },
       {
         "year": 2021,
-        "value": 11593.8507
+        "value": 9770.4939
       },
       {
         "year": 2022,
-        "value": 10915.5371
+        "value": 9419.9385
       },
       {
         "year": 2023,
-        "value": 11738.3441
+        "value": 10410.4821
       },
       {
         "year": 2024,
@@ -439,51 +439,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 8577843.0368
-      },
-      {
-        "year": 2015,
-        "value": 8559876.7483
-      },
-      {
-        "year": 2016,
-        "value": 8353849.907
-      },
-      {
-        "year": 2017,
-        "value": 9061624.4412
-      },
-      {
-        "year": 2018,
-        "value": 9501612.2896
-      },
-      {
-        "year": 2019,
-        "value": 9891860.5358
-      },
-      {
-        "year": 2020,
-        "value": 9795155.4042
-      },
-      {
-        "year": 2021,
-        "value": 11581029.2836
-      },
-      {
-        "year": 2022,
-        "value": 9689592.7984
-      },
-      {
-        "year": 2023,
-        "value": 9538640.2708
-      },
-      {
         "year": 2024,
         "value": 10526987
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 7123639.2625
@@ -518,61 +524,15 @@
       },
       {
         "year": 2022,
-        "value": 15377254.4068
+        "value": 17528415.6735
       },
       {
         "year": 2023,
-        "value": 21590969.2004
+        "value": 23775407.0219
       },
       {
         "year": 2024,
         "value": 23886547
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

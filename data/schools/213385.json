@@ -1,6 +1,6 @@
 {
   "unitid": "213385",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Lafayette College",
     "institution_unique_name": "Lafayette College | Easton | Pennsylvania",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 4.6407,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 32.0219,
-    "net_tuition_per_fte_change_5yr": -9.5803,
+    "net_tuition_per_fte_change_5yr": -9.6411,
     "staff_total_headcount_pct_change_5yr": 2.103,
     "staff_instructional_headcount_pct_change_5yr": 1.6129,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 33.6485,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 33.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.6259,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 33.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2859000,
     "research_expense_per_fte": 1013.8298,
     "research_expense_pct_core_expenses": 1.6782,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 86.6,
+    "research_spending_per_fte_percentile": 85.8,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 6.8312,
     "pct_international_undergraduate": 6.8312,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.8101,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 58.5314,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 7.8351,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.8101,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 58.5314,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 88,
     "median_earnings_10yr": 91410,
     "median_debt_completers": 16000,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36371.7852
+        "value": 36277.804
       },
       {
         "year": 2015,
@@ -194,7 +194,7 @@
       },
       {
         "year": 2024,
-        "value": 35867.0213
+        "value": 35842.9078
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1103523734.0469
-      },
-      {
-        "year": 2015,
-        "value": 1070782506.8524
-      },
-      {
-        "year": 2016,
-        "value": 1012570322.0364
-      },
-      {
-        "year": 2017,
-        "value": 1066108769.3415
-      },
-      {
-        "year": 2018,
-        "value": 1087752182.2888
-      },
-      {
-        "year": 2019,
-        "value": 1057401757.7301
-      },
-      {
-        "year": 2020,
-        "value": 1045875639.8839
-      },
-      {
-        "year": 2021,
-        "value": 1256089615.2637
-      },
-      {
-        "year": 2022,
-        "value": 1095242000.2324
-      },
-      {
-        "year": 2023,
-        "value": 1095658966.272
-      },
-      {
         "year": 2024,
         "value": 1140250000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1726043.4582
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 2093000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

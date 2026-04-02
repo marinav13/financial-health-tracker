@@ -1,6 +1,6 @@
 {
   "unitid": "459842",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Herzing University-Kenosha",
     "institution_unique_name": "Herzing University-Kenosha | Kenosha | Wisconsin",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 91.9553,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 92% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 92% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 0.3293,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,8 +46,8 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.4406,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.4406,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
@@ -60,18 +60,6 @@
   },
   "series": {
     "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 7322044.2159
-      },
-      {
-        "year": 2015,
-        "value": 8189163.9726
-      },
-      {
-        "year": 2016,
-        "value": 8580317.6104
-      },
       {
         "year": 2017,
         "value": 8124767.7741
@@ -107,18 +95,6 @@
     ],
     "expenses_total_adjusted": [
       {
-        "year": 2014,
-        "value": 5731897.4112
-      },
-      {
-        "year": 2015,
-        "value": 6281400.6401
-      },
-      {
-        "year": 2016,
-        "value": 6336157.8524
-      },
-      {
         "year": 2017,
         "value": 6831816.7599
       },
@@ -152,18 +128,6 @@
       }
     ],
     "net_tuition_per_fte_adjusted": [
-      {
-        "year": 2014,
-        "value": 14255.9332
-      },
-      {
-        "year": 2015,
-        "value": 16164.7335
-      },
-      {
-        "year": 2016,
-        "value": 16287.6242
-      },
       {
         "year": 2017,
         "value": 18432.7658
@@ -505,22 +469,10 @@
       },
       {
         "year": 2024,
-        "value": 234272
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
       {
         "year": 2017,
         "value": 0
@@ -551,7 +503,7 @@
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 234272
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "109785",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Azusa Pacific University",
     "institution_unique_name": "Azusa Pacific University | Azusa | California",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -33.2433,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -41.1462,
-    "net_tuition_per_fte_change_5yr": -25.1554,
+    "net_tuition_per_fte_change_5yr": -16.4589,
     "staff_total_headcount_pct_change_5yr": -32.1601,
     "staff_instructional_headcount_pct_change_5yr": -29.1488,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 71.099,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 71.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 71.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 57.273,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5643507,
-    "research_expense_per_fte": 891.2677,
+    "research_expense_per_fte": 990.6103,
     "research_expense_pct_core_expenses": 3.4103,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 85.4,
+    "research_spending_per_fte_percentile": 85.6,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.9337,
     "pct_international_undergraduate": 4.2925,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 12610890,
     "grad_plus_disbursements_per_recipient": 11259.7232,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.6642,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 163.483,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -0.8001,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 4.6642,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 163.483,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 62,
     "median_earnings_10yr": 66677,
     "median_debt_completers": 23219,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24739.5715
+        "value": 25024.1021
       },
       {
         "year": 2015,
@@ -166,7 +166,7 @@
       },
       {
         "year": 2017,
-        "value": 24126.3493
+        "value": 24126.3492
       },
       {
         "year": 2018,
@@ -174,7 +174,7 @@
       },
       {
         "year": 2019,
-        "value": 25918.4138
+        "value": 25808.5269
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 22877.6294
+        "value": 24106.7618
       },
       {
         "year": 2022,
-        "value": 20968.2995
+        "value": 22651.7975
       },
       {
         "year": 2023,
-        "value": 20016.6649
+        "value": 22121.1064
       },
       {
         "year": 2024,
-        "value": 19398.5212
+        "value": 21560.7223
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 76971259.4921
-      },
-      {
-        "year": 2015,
-        "value": 80373807.5287
-      },
-      {
-        "year": 2016,
-        "value": 88546280.2612
-      },
-      {
-        "year": 2017,
-        "value": 104215621.0846
-      },
-      {
-        "year": 2018,
-        "value": 108575068.7393
-      },
-      {
-        "year": 2019,
-        "value": 97009137.6657
-      },
-      {
-        "year": 2020,
-        "value": 93233592.0212
-      },
-      {
-        "year": 2021,
-        "value": 116063460.9394
-      },
-      {
-        "year": 2022,
-        "value": 95891246.3924
-      },
-      {
-        "year": 2023,
-        "value": 93023790.2923
-      },
-      {
         "year": 2024,
         "value": 96232956
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 241929.1431
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 7289253
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

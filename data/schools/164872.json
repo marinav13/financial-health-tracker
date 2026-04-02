@@ -1,6 +1,6 @@
 {
   "unitid": "164872",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Boston Architectural College",
     "institution_unique_name": "Boston Architectural College | Boston | Massachusetts",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 15.4994,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -16.3278,
-    "net_tuition_per_fte_change_5yr": -29.175,
+    "net_tuition_per_fte_change_5yr": -22.8992,
     "staff_total_headcount_pct_change_5yr": -15.4799,
     "staff_instructional_headcount_pct_change_5yr": -11.3744,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 86.0322,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 86% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 88.3852,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 88.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 55.9642,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1123398,
     "grad_plus_disbursements_per_recipient": 12079.5484,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3758,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -84.3195,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -22.797,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.7598,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 15.1634,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 32,
     "median_earnings_10yr": 62123,
     "median_debt_completers": 37250,
@@ -154,27 +154,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24558.5274
+        "value": 36810.7141
       },
       {
         "year": 2015,
-        "value": 27249.792
+        "value": 38242.9241
       },
       {
         "year": 2016,
-        "value": 29590.0808
+        "value": 39443.2364
       },
       {
         "year": 2017,
-        "value": 30050.6672
+        "value": 38566.6291
       },
       {
         "year": 2018,
-        "value": 31148.6785
+        "value": 40088.6814
       },
       {
         "year": 2019,
-        "value": 29829.4929
+        "value": 37091.804
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 27796.8158
+        "value": 35246.1295
       },
       {
         "year": 2022,
-        "value": 25675.2081
+        "value": 33638.3836
       },
       {
         "year": 2023,
-        "value": 24272.3576
+        "value": 30307.2986
       },
       {
         "year": 2024,
-        "value": 21126.7466
+        "value": 28598.0599
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 14192666.2475
-      },
-      {
-        "year": 2015,
-        "value": 13952179.766
-      },
-      {
-        "year": 2016,
-        "value": 13178690.3952
-      },
-      {
-        "year": 2017,
-        "value": 14246712.1626
-      },
-      {
-        "year": 2018,
-        "value": 14791704.2503
-      },
-      {
-        "year": 2019,
-        "value": 14375416.7981
-      },
-      {
-        "year": 2020,
-        "value": 14398482.7863
-      },
-      {
-        "year": 2021,
-        "value": 16602049.0758
-      },
-      {
-        "year": 2022,
-        "value": 13230965.8749
-      },
-      {
-        "year": 2023,
-        "value": 10296760.97
-      },
-      {
         "year": 2024,
         "value": 11098252
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1424778.2047
@@ -554,61 +560,15 @@
       },
       {
         "year": 2022,
-        "value": 468329.1931
+        "value": 747334.5258
       },
       {
         "year": 2023,
-        "value": 116739.5165
+        "value": 409984.8169
       },
       {
         "year": 2024,
-        "value": 66736
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
+        "value": 490133
       }
     ]
   }

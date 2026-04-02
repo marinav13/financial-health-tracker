@@ -1,6 +1,6 @@
 {
   "unitid": "201867",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Cincinnati College of Mortuary Science",
     "institution_unique_name": "Cincinnati College of Mortuary Science | Cincinnati | Ohio",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 23.2323,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 54.5802,
-    "net_tuition_per_fte_change_5yr": -2.3259,
+    "net_tuition_per_fte_change_5yr": -16.0368,
     "staff_total_headcount_pct_change_5yr": 109.0909,
     "staff_instructional_headcount_pct_change_5yr": 225,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 69.3356,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 69.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.6473,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 59.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3964,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 8.0157,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 5.1082,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 55695,
     "median_debt_completers": 15000,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16019.0764
+        "value": 15664.7349
       },
       {
         "year": 2015,
@@ -174,27 +174,27 @@
       },
       {
         "year": 2019,
-        "value": 17774.7099
+        "value": 17788.024
       },
       {
         "year": 2020,
-        "value": 10823.7631
+        "value": 10146.5811
       },
       {
         "year": 2021,
-        "value": 22041.614
+        "value": 20979.923
       },
       {
         "year": 2022,
-        "value": 16457.469
+        "value": 15116.633
       },
       {
         "year": 2023,
-        "value": 17908.015
+        "value": 16108.7586
       },
       {
         "year": 2024,
-        "value": 17361.2913
+        "value": 14935.3858
       }
     ],
     "enrollment_headcount_total": [
@@ -430,46 +430,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 651841.2262
-      },
-      {
-        "year": 2015,
-        "value": 707455.6018
-      },
-      {
-        "year": 2016,
-        "value": 690668.1379
-      },
-      {
-        "year": 2017,
-        "value": 730766.6285
-      },
-      {
-        "year": 2018,
-        "value": 714911.1561
-      },
-      {
-        "year": 2019,
-        "value": 740885.769
-      },
-      {
-        "year": 2020,
-        "value": 701405.7
-      },
-      {
-        "year": 2021,
-        "value": 863988.2053
-      },
-      {
-        "year": 2022,
-        "value": 653618.5235
-      },
-      {
-        "year": 2023,
-        "value": 700687.2661
-      },
-      {
         "year": 2024,
         "value": 778732
       }
@@ -509,15 +469,15 @@
       },
       {
         "year": 2022,
-        "value": 432452.5311
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 8088.7374
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 11750
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
@@ -555,15 +515,15 @@
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 700861.3271
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 135248.7962
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 237590
       }
     ]
   }

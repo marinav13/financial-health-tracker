@@ -1,6 +1,6 @@
 {
   "unitid": "447953",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "SUM Bible College and Theological Seminary",
     "institution_unique_name": "SUM Bible College and Theological Seminary | El Dorado Hills | California",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -11.5885,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.9773,
-    "net_tuition_per_fte_change_5yr": 49.7557,
+    "net_tuition_per_fte_change_5yr": 49.1011,
     "staff_total_headcount_pct_change_5yr": -77.2727,
     "staff_instructional_headcount_pct_change_5yr": -91.2281,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 52.6177,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.3877,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 35.3461,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 601700,
     "research_expense_per_fte": 2359.6078,
     "research_expense_pct_core_expenses": 19.4651,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 91.5,
+    "research_spending_per_fte_percentile": 91.2,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 2.7982,
     "pct_international_undergraduate": 0.2278,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.6406,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -15.9991,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -45.0862,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.6406,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -15.9991,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 14,
     "median_earnings_10yr": 35418,
     "median_debt_completers": 26677,
@@ -166,7 +166,7 @@
       },
       {
         "year": 2017,
-        "value": 7594.0764
+        "value": 7470.3971
       },
       {
         "year": 2018,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 7222.0048
+        "value": 7080.9642
       },
       {
         "year": 2021,
-        "value": 7338.9528
+        "value": 7228.6047
       },
       {
         "year": 2022,
-        "value": 5567.1671
+        "value": 5531.1122
       },
       {
         "year": 2023,
-        "value": 4976.3944
+        "value": 4973.6994
       },
       {
         "year": 2024,
-        "value": 10249.4471
+        "value": 10204.6431
       }
     ],
     "enrollment_headcount_total": [
@@ -475,31 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2019,
-        "value": 149324.8818
-      },
-      {
-        "year": 2020,
-        "value": 158655.8921
-      },
-      {
-        "year": 2021,
-        "value": 175037.0034
-      },
-      {
-        "year": 2022,
-        "value": 100005.7532
-      },
-      {
-        "year": 2023,
-        "value": 98790.2818
-      },
-      {
         "year": 2024,
         "value": 82000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 27561.2125
@@ -543,52 +569,6 @@
       {
         "year": 2024,
         "value": 52771
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

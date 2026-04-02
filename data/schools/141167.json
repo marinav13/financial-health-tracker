@@ -1,6 +1,6 @@
 {
   "unitid": "141167",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Thomas University",
     "institution_unique_name": "Thomas University | Thomasville | Georgia",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -23.0063,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 15.2819,
-    "net_tuition_per_fte_change_5yr": 11.1519,
+    "net_tuition_per_fte_change_5yr": 7.0901,
     "staff_total_headcount_pct_change_5yr": 47.1698,
     "staff_instructional_headcount_pct_change_5yr": 105.7554,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 72.6226,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 72.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.9688,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 44.3059,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 435989,
     "grad_plus_disbursements_per_recipient": 11473.3947,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 8.2768,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 7.9991,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 3.5808,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 8.2768,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 7.9991,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 7,
     "median_earnings_10yr": 49716,
     "median_debt_completers": 21198,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13150.1837
+        "value": 13479.1135
       },
       {
         "year": 2015,
-        "value": 30852.426
+        "value": 31170.9817
       },
       {
         "year": 2016,
-        "value": 16315.8736
+        "value": 16394.4316
       },
       {
         "year": 2017,
-        "value": 29231.5937
+        "value": 29260.6061
       },
       {
         "year": 2018,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 22742.0951
+        "value": 22703.1208
       },
       {
         "year": 2022,
-        "value": 24334.5364
+        "value": 24166.4531
       },
       {
         "year": 2023,
-        "value": 20888.3882
+        "value": 20450.1928
       },
       {
         "year": 2024,
-        "value": 23752.652
+        "value": 22884.6614
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 6661588.7857
-      },
-      {
-        "year": 2015,
-        "value": 6910991.511
-      },
-      {
-        "year": 2016,
-        "value": 6454897.439
-      },
-      {
-        "year": 2017,
-        "value": 6964753.2234
-      },
-      {
-        "year": 2018,
-        "value": 7160766.825
-      },
-      {
-        "year": 2019,
-        "value": 6971546.829
-      },
-      {
-        "year": 2020,
-        "value": 6643512.4667
-      },
-      {
-        "year": 2021,
-        "value": 8124737.2703
-      },
-      {
-        "year": 2022,
-        "value": 7132877.6542
-      },
-      {
-        "year": 2023,
-        "value": 6537880.3142
-      },
-      {
         "year": 2024,
         "value": 7221182
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 954068.472
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1587350
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

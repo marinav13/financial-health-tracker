@@ -1,6 +1,6 @@
 {
   "unitid": "451103",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Miami Regional University",
     "institution_unique_name": "Miami Regional University | Miami Springs | Florida",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 79.8506,
-    "sector_median_tuition_dependence_pct": 98.0964,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 79.9% of its revenue from net tuition, below the median of 98.1% for private for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 98.8099,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 79.9% of its revenue from net tuition, below the median of 98.8% for private for-profit colleges.",
     "share_grad_students": 61.6407,
     "sector_avg_share_grad_students": 27.3534,
     "research_expense": 0,
@@ -60,6 +60,10 @@
   },
   "series": {
     "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 14177449.2781
+      },
       {
         "year": 2015,
         "value": 13838907.7781
@@ -103,6 +107,10 @@
     ],
     "expenses_total_adjusted": [
       {
+        "year": 2014,
+        "value": 11426858.8224
+      },
+      {
         "year": 2015,
         "value": 12464814.2477
       },
@@ -145,6 +153,10 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
+        "year": 2014,
+        "value": 11251.9439
+      },
+      {
         "year": 2015,
         "value": 12603.7411
       },
@@ -170,15 +182,15 @@
       },
       {
         "year": 2021,
-        "value": 18203.8261
+        "value": 18238.0567
       },
       {
         "year": 2022,
-        "value": 17191.1278
+        "value": 17567.3516
       },
       {
         "year": 2023,
-        "value": 12979.6926
+        "value": 14176.5569
       },
       {
         "year": 2024,
@@ -186,6 +198,10 @@
       }
     ],
     "enrollment_headcount_total": [
+      {
+        "year": 2014,
+        "value": 1156
+      },
       {
         "year": 2015,
         "value": 1208
@@ -229,6 +245,10 @@
     ],
     "enrollment_nonresident_total": [
       {
+        "year": 2014,
+        "value": 0
+      },
+      {
         "year": 2015,
         "value": 0
       },
@@ -270,6 +290,10 @@
       }
     ],
     "enrollment_nonresident_undergrad": [
+      {
+        "year": 2014,
+        "value": 0
+      },
       {
         "year": 2015,
         "value": 0
@@ -347,6 +371,10 @@
     ],
     "staff_headcount_total": [
       {
+        "year": 2014,
+        "value": 100
+      },
+      {
         "year": 2015,
         "value": 106
       },
@@ -388,6 +416,10 @@
       }
     ],
     "staff_headcount_instructional": [
+      {
+        "year": 2014,
+        "value": 45
+      },
       {
         "year": 2015,
         "value": 57
@@ -433,6 +465,10 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [],
     "state_funding_adjusted": [
       {
+        "year": 2014,
+        "value": 0
+      },
+      {
         "year": 2015,
         "value": 0
       },
@@ -454,23 +490,23 @@
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 353679.0115
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 342420.7684
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 270094.8522
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 425010.2875
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 1295366
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "220701",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "The University of Tennessee Southern",
     "institution_unique_name": "The University of Tennessee Southern | Pulaski | Tennessee",
@@ -16,13 +16,13 @@
   "summary": {
     "enrollment_pct_change_5yr": 10.6599,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": -6.9953,
-    "net_tuition_per_fte_change_5yr": -74.0227,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": 57.3913,
     "staff_instructional_headcount_pct_change_5yr": 69.5652,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 6,
+    "loss_years_last_10": 1,
     "tuition_dependence_pct": 14.3343,
     "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 14.3% of its revenue from net tuition, below the median of 21.2% for public colleges.",
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3272,
-    "state_funding_pct_core_revenue": 35.4812,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2215,
+    "state_funding_pct_core_revenue": 6.1814,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -94.2191,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 35,
     "median_earnings_10yr": 38924,
     "median_debt_completers": 21500,
@@ -60,38 +60,6 @@
   },
   "series": {
     "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 24139678.7676
-      },
-      {
-        "year": 2015,
-        "value": 21756637.7311
-      },
-      {
-        "year": 2016,
-        "value": 22225643.38
-      },
-      {
-        "year": 2017,
-        "value": 22567882.3704
-      },
-      {
-        "year": 2018,
-        "value": 23463541.6955
-      },
-      {
-        "year": 2019,
-        "value": 21352812.6963
-      },
-      {
-        "year": 2020,
-        "value": 18343047.633
-      },
-      {
-        "year": 2021,
-        "value": 23168965.1198
-      },
       {
         "year": 2022,
         "value": 24226899.6345
@@ -107,38 +75,6 @@
     ],
     "expenses_total_adjusted": [
       {
-        "year": 2014,
-        "value": 22921112.7597
-      },
-      {
-        "year": 2015,
-        "value": 23337825.2673
-      },
-      {
-        "year": 2016,
-        "value": 23836884.7677
-      },
-      {
-        "year": 2017,
-        "value": 22683278.766
-      },
-      {
-        "year": 2018,
-        "value": 21818261.8975
-      },
-      {
-        "year": 2019,
-        "value": 21570240.5216
-      },
-      {
-        "year": 2020,
-        "value": 20235525.173
-      },
-      {
-        "year": 2021,
-        "value": 19680257.6889
-      },
-      {
         "year": 2022,
         "value": 22538424.1495
       },
@@ -152,38 +88,6 @@
       }
     ],
     "net_tuition_per_fte_adjusted": [
-      {
-        "year": 2014,
-        "value": 5497.6731
-      },
-      {
-        "year": 2015,
-        "value": 5156.6826
-      },
-      {
-        "year": 2016,
-        "value": 5375.9322
-      },
-      {
-        "year": 2017,
-        "value": 13477.7171
-      },
-      {
-        "year": 2018,
-        "value": 12390.7691
-      },
-      {
-        "year": 2019,
-        "value": 12271.3141
-      },
-      {
-        "year": 2020,
-        "value": 12684.2901
-      },
-      {
-        "year": 2021,
-        "value": 13110.1094
-      },
       {
         "year": 2022,
         "value": 3573.5494
@@ -467,140 +371,36 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 17975372.4337
-      },
-      {
-        "year": 2015,
-        "value": 19420443.0164
-      },
-      {
-        "year": 2016,
-        "value": 18247326.7847
-      },
-      {
-        "year": 2017,
-        "value": 18739352.4042
-      },
-      {
-        "year": 2018,
-        "value": 19123935.887
-      },
-      {
-        "year": 2019,
-        "value": 18142363.3208
-      },
-      {
-        "year": 2020,
-        "value": 17598344.2674
-      },
-      {
-        "year": 2021,
-        "value": 19801328.4226
-      },
-      {
-        "year": 2022,
-        "value": 279033.2014
-      },
-      {
-        "year": 2023,
-        "value": 720322.8126
-      },
-      {
         "year": 2024,
         "value": 1048784
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
-        "year": 2014,
-        "value": 71712.1548
-      },
-      {
-        "year": 2015,
-        "value": 81693.5798
-      },
-      {
-        "year": 2016,
-        "value": 93339.3607
-      },
-      {
-        "year": 2017,
-        "value": 90367.3101
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
         "year": 2022,
-        "value": 49136.8032
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 10453.486
       },
       {
         "year": 2024,
-        "value": 56961
+        "value": 38550
       }
     ],
     "state_funding_adjusted": [
       {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
         "year": 2022,
-        "value": 6712764.5253
+        "value": 565064.6617
       },
       {
         "year": 2023,
-        "value": 5987199.6463
+        "value": 6195.4972
       },
       {
         "year": 2024,
-        "value": 6176356
+        "value": 1076023
       }
     ]
   }

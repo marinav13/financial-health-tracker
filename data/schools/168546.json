@@ -1,6 +1,6 @@
 {
   "unitid": "168546",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Albion College",
     "institution_unique_name": "Albion College | Albion | Michigan",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -6.9226,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -45.7698,
-    "net_tuition_per_fte_change_5yr": -27.1041,
+    "net_tuition_per_fte_change_5yr": -23.6245,
     "staff_total_headcount_pct_change_5yr": -15.5925,
     "staff_instructional_headcount_pct_change_5yr": -14.1935,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 37.9617,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 38% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 38% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 161646,
     "research_expense_per_fte": 112.9602,
     "research_expense_pct_core_expenses": 0.2942,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 71.5,
+    "research_spending_per_fte_percentile": 71.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 3.9892,
     "pct_international_undergraduate": 3.9892,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.3168,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -34.1042,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -30.9408,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.3168,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -34.1042,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 62,
     "median_earnings_10yr": 58799,
     "median_debt_completers": 27000,
@@ -154,43 +154,43 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22271.1213
+        "value": 22119.3877
       },
       {
         "year": 2015,
-        "value": 22359.6031
+        "value": 21411.7319
       },
       {
         "year": 2016,
-        "value": 20484.1967
+        "value": 19586.288
       },
       {
         "year": 2017,
-        "value": 17860.2401
+        "value": 17639.8459
       },
       {
         "year": 2018,
-        "value": 16165.1769
+        "value": 15707.0882
       },
       {
         "year": 2019,
-        "value": 15513.5824
+        "value": 14806.7922
       },
       {
         "year": 2020,
-        "value": 14657.1833
+        "value": 14291.8162
       },
       {
         "year": 2021,
-        "value": 13133.2117
+        "value": 12768.8666
       },
       {
         "year": 2022,
-        "value": 9256.2457
+        "value": 11655.067
       },
       {
         "year": 2023,
-        "value": 8278.7277
+        "value": 11668.7118
       },
       {
         "year": 2024,
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 248722866.6948
-      },
-      {
-        "year": 2015,
-        "value": 240197718.4165
-      },
-      {
-        "year": 2016,
-        "value": 226206623.7685
-      },
-      {
-        "year": 2017,
-        "value": 226320916.1133
-      },
-      {
-        "year": 2018,
-        "value": 217751840.1687
-      },
-      {
-        "year": 2019,
-        "value": 208718042.4598
-      },
-      {
-        "year": 2020,
-        "value": 196863221.0642
-      },
-      {
-        "year": 2021,
-        "value": 230657207.2415
-      },
-      {
-        "year": 2022,
-        "value": 188785755.542
-      },
-      {
-        "year": 2023,
-        "value": 154315357.6009
-      },
-      {
         "year": 2024,
         "value": 144138966
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 416938.8672
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 369800
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 2247794.6351
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

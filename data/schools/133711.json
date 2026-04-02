@@ -1,6 +1,6 @@
 {
   "unitid": "133711",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Flagler College",
     "institution_unique_name": "Flagler College | Saint Augustine | Florida",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 48.1209,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 48.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 48.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 0.5435,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3418,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -28.5784,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 10.4751,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.3418,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -28.5784,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 56,
     "median_earnings_10yr": 49483,
     "median_debt_completers": 24250,
@@ -166,11 +166,11 @@
       },
       {
         "year": 2017,
-        "value": 19719.9403
+        "value": 19990.291
       },
       {
         "year": 2018,
-        "value": 19581.5684
+        "value": 19871.6256
       },
       {
         "year": 2019,
@@ -178,19 +178,19 @@
       },
       {
         "year": 2020,
-        "value": 15831.5763
+        "value": 15774.1975
       },
       {
         "year": 2021,
-        "value": 15258.334
+        "value": 15212.091
       },
       {
         "year": 2022,
-        "value": 15215.6167
+        "value": 15155.9629
       },
       {
         "year": 2023,
-        "value": 16359.2496
+        "value": 16302.3363
       },
       {
         "year": 2024,
@@ -463,51 +463,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 82809022.4356
-      },
-      {
-        "year": 2015,
-        "value": 82096510.2727
-      },
-      {
-        "year": 2016,
-        "value": 77617636.3492
-      },
-      {
-        "year": 2017,
-        "value": 73025752.3756
-      },
-      {
-        "year": 2018,
-        "value": 85813049.0123
-      },
-      {
-        "year": 2019,
-        "value": 85790356.8439
-      },
-      {
-        "year": 2020,
-        "value": 85484681.8962
-      },
-      {
-        "year": 2021,
-        "value": 96324112.0547
-      },
-      {
-        "year": 2022,
-        "value": 99898989.278
-      },
-      {
-        "year": 2023,
-        "value": 90343249.4185
-      },
-      {
         "year": 2024,
         "value": 94777008
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -551,52 +557,6 @@
       {
         "year": 2024,
         "value": 257027
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

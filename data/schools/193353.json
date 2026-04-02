@@ -1,6 +1,6 @@
 {
   "unitid": "193353",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Mount Saint Mary College",
     "institution_unique_name": "Mount Saint Mary College | Newburgh | New York",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -1.8727,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.0968,
-    "net_tuition_per_fte_change_5yr": -17.7044,
+    "net_tuition_per_fte_change_5yr": -15.8207,
     "staff_total_headcount_pct_change_5yr": -27.7064,
     "staff_instructional_headcount_pct_change_5yr": -31.4741,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 52.8365,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.8088,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 17.1756,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 19971,
     "grad_plus_disbursements_per_recipient": 6657,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 18.6891,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 870.1026,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 50.9231,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 18.6891,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 870.1026,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 65,
     "median_earnings_10yr": 67705,
     "median_debt_completers": 26007,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22212.0715
+        "value": 22052.9188
       },
       {
         "year": 2015,
-        "value": 23840.9106
+        "value": 23462.8629
       },
       {
         "year": 2016,
-        "value": 23972.803
+        "value": 23480.1367
       },
       {
         "year": 2017,
-        "value": 23756.0967
+        "value": 23239.2209
       },
       {
         "year": 2018,
-        "value": 23094.3808
+        "value": 22626.0198
       },
       {
         "year": 2019,
-        "value": 22750.2711
+        "value": 22229.4854
       },
       {
         "year": 2020,
-        "value": 23242.218
+        "value": 22104.5651
       },
       {
         "year": 2021,
-        "value": 21794.3727
+        "value": 19095.1195
       },
       {
         "year": 2022,
-        "value": 21371.6073
+        "value": 20860.7455
       },
       {
         "year": 2023,
-        "value": 20441.2888
+        "value": 20294.8332
       },
       {
         "year": 2024,
-        "value": 18722.473
+        "value": 18712.6352
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 7984951.0039
-      },
-      {
-        "year": 2015,
-        "value": 6429529.3142
-      },
-      {
-        "year": 2016,
-        "value": 6385843.4338
-      },
-      {
-        "year": 2017,
-        "value": 6741608.1371
-      },
-      {
-        "year": 2018,
-        "value": 7121386.274
-      },
-      {
-        "year": 2019,
-        "value": 7359197.6577
-      },
-      {
-        "year": 2020,
-        "value": 7953533.8045
-      },
-      {
-        "year": 2021,
-        "value": 9590936.1181
-      },
-      {
-        "year": 2022,
-        "value": 9945488.5487
-      },
-      {
-        "year": 2023,
-        "value": 10017646.5096
-      },
-      {
         "year": 2024,
         "value": 11106728
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1169525.6005
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 8554052
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

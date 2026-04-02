@@ -1,6 +1,6 @@
 {
   "unitid": "226471",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of Mary Hardin-Baylor",
     "institution_unique_name": "University of Mary Hardin-Baylor | Belton | Texas",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -9.3854,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -4.9183,
-    "net_tuition_per_fte_change_5yr": -16.1398,
+    "net_tuition_per_fte_change_5yr": -13.2119,
     "staff_total_headcount_pct_change_5yr": 8.1081,
     "staff_instructional_headcount_pct_change_5yr": 11.9874,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 59.6388,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 59.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 59.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 16.3775,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 2098033,
     "grad_plus_disbursements_per_recipient": 12792.8841,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.6954,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -5.8482,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 9.1383,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.6954,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -5.8482,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 49,
     "median_earnings_10yr": 56132,
     "median_debt_completers": 26000,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 23711.5025
+        "value": 24559.8825
       },
       {
         "year": 2022,
-        "value": 22987.0202
+        "value": 23843.1877
       },
       {
         "year": 2023,
-        "value": 22095.1219
+        "value": 22874.8666
       },
       {
         "year": 2024,
-        "value": 20866.467
+        "value": 21594.9888
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 104437132.7128
-      },
-      {
-        "year": 2015,
-        "value": 106874414.1789
-      },
-      {
-        "year": 2016,
-        "value": 97982985.6888
-      },
-      {
-        "year": 2017,
-        "value": 105103579.0217
-      },
-      {
-        "year": 2018,
-        "value": 110177592.5818
-      },
-      {
-        "year": 2019,
-        "value": 113103860.5391
-      },
-      {
-        "year": 2020,
-        "value": 112475533.7606
-      },
-      {
-        "year": 2021,
-        "value": 136136663.9667
-      },
-      {
-        "year": 2022,
-        "value": 125077166.5749
-      },
-      {
-        "year": 2023,
-        "value": 116051271.6979
-      },
-      {
         "year": 2024,
         "value": 123439591
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 487292.8373
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 668905
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "178679",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Ozark Christian College",
     "institution_unique_name": "Ozark Christian College | Joplin | Missouri",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 42.2474,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.2% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.2% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 14.6433,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2319,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -26.7927,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 3.3083,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.2319,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -26.7927,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 58,
     "median_earnings_10yr": 41297,
     "median_debt_completers": 16772,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10698.1475
+        "value": 10907.7266
       },
       {
         "year": 2015,
-        "value": 11050.3689
+        "value": 11242.9558
       },
       {
         "year": 2016,
-        "value": 10955.2183
+        "value": 11151.383
       },
       {
         "year": 2017,
-        "value": 10976.492
+        "value": 11224.5035
       },
       {
         "year": 2018,
@@ -439,51 +439,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 4061116.8342
-      },
-      {
-        "year": 2015,
-        "value": 4237209.5852
-      },
-      {
-        "year": 2016,
-        "value": 4801275.2894
-      },
-      {
-        "year": 2017,
-        "value": 4813641.6557
-      },
-      {
-        "year": 2018,
-        "value": 5030589.3198
-      },
-      {
-        "year": 2019,
-        "value": 5215412.5999
-      },
-      {
-        "year": 2020,
-        "value": 5311550.8008
-      },
-      {
-        "year": 2021,
-        "value": 5479184.9368
-      },
-      {
-        "year": 2022,
-        "value": 5350711.8918
-      },
-      {
-        "year": 2023,
-        "value": 5227843.5538
-      },
-      {
         "year": 2024,
         "value": 5387955
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 62879.3162
@@ -527,52 +533,6 @@
       {
         "year": 2024,
         "value": 26492
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

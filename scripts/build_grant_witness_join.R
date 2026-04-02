@@ -20,10 +20,10 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "readr", "stringr", "tidyr"))
 
-  financial_input <- get_arg_value(
-    "--financial-input",
-    file.path(getwd(), "reporting", "ipeds_financial_health_reporting_2014_2024.csv")
-  )
+    financial_input <- get_arg_value(
+      "--financial-input",
+      file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
+    )
   output_prefix <- get_arg_value(
     "--output-prefix",
     file.path(getwd(), "grant_witness", "grant_witness")

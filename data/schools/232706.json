@@ -1,6 +1,6 @@
 {
   "unitid": "232706",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Marymount University",
     "institution_unique_name": "Marymount University | Arlington | Virginia",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 9.963,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -12.7005,
-    "net_tuition_per_fte_change_5yr": -24.3652,
+    "net_tuition_per_fte_change_5yr": -18.6729,
     "staff_total_headcount_pct_change_5yr": 13.7825,
     "staff_instructional_headcount_pct_change_5yr": -4.9096,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 65.367,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 65.4% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 65.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 40.2781,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2324284,
-    "research_expense_per_fte": 778.3938,
+    "research_expense_per_fte": 836.9766,
     "research_expense_pct_core_expenses": 2.5737,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 84.6,
+    "research_spending_per_fte_percentile": 84.1,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 10.1592,
     "pct_international_undergraduate": 10.89,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 4097399,
     "grad_plus_disbursements_per_recipient": 15288.8022,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.2977,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 110.6954,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -43.6721,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.2977,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 110.6954,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 54,
     "median_earnings_10yr": 67516,
     "median_debt_completers": 25000,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 25826.4241
+        "value": 27385.5477
       },
       {
         "year": 2022,
-        "value": 24121.1034
+        "value": 25845.3026
       },
       {
         "year": 2023,
-        "value": 21078.0046
+        "value": 22660.3913
       },
       {
         "year": 2024,
-        "value": 21383.8989
+        "value": 22993.274
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 50080325.0896
-      },
-      {
-        "year": 2015,
-        "value": 49598363.2245
-      },
-      {
-        "year": 2016,
-        "value": 48873052.5607
-      },
-      {
-        "year": 2017,
-        "value": 55092150.198
-      },
-      {
-        "year": 2018,
-        "value": 57839492.3048
-      },
-      {
-        "year": 2019,
-        "value": 57556246.2343
-      },
-      {
-        "year": 2020,
-        "value": 57815484.5839
-      },
-      {
-        "year": 2021,
-        "value": 67637346.1957
-      },
-      {
-        "year": 2022,
-        "value": 52874077.1412
-      },
-      {
-        "year": 2023,
-        "value": 32920870.0013
-      },
-      {
         "year": 2024,
         "value": 32420212
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1480335.2488
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 2529661
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

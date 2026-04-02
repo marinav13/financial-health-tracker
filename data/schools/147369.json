@@ -1,6 +1,6 @@
 {
   "unitid": "147369",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Moody Bible Institute",
     "institution_unique_name": "Moody Bible Institute | Chicago | Illinois",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -28.5597,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -1.3044,
-    "net_tuition_per_fte_change_5yr": -20.6862,
+    "net_tuition_per_fte_change_5yr": -11.8959,
     "staff_total_headcount_pct_change_5yr": 48.8055,
     "staff_instructional_headcount_pct_change_5yr": 0.4717,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 8.9066,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 8.9% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.319,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 10.3% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 29.2655,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -50,7 +50,7 @@
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 6.4376,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 62,
     "median_earnings_10yr": 45399,
     "median_debt_completers": 18149,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8367.2292
+        "value": 8704.6228
       },
       {
         "year": 2015,
-        "value": 8565.7366
+        "value": 8909.3207
       },
       {
         "year": 2016,
-        "value": 8833.0504
+        "value": 8956.6675
       },
       {
         "year": 2017,
-        "value": 8784.7649
+        "value": 9159.025
       },
       {
         "year": 2018,
-        "value": 9019.1932
+        "value": 9262.7992
       },
       {
         "year": 2019,
-        "value": 8800.2711
+        "value": 9178.5647
       },
       {
         "year": 2020,
-        "value": 8197.9807
+        "value": 8823.8211
       },
       {
         "year": 2021,
-        "value": 8832.4444
+        "value": 9350.3869
       },
       {
         "year": 2022,
-        "value": 8307.5982
+        "value": 8822.0471
       },
       {
         "year": 2023,
-        "value": 7883.7543
+        "value": 8801.4912
       },
       {
         "year": 2024,
-        "value": 6979.8306
+        "value": 8086.6904
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 49751317.0906
-      },
-      {
-        "year": 2015,
-        "value": 50609839.7513
-      },
-      {
-        "year": 2016,
-        "value": 50162136.8993
-      },
-      {
-        "year": 2017,
-        "value": 50322311.3617
-      },
-      {
-        "year": 2018,
-        "value": 50277360.912
-      },
-      {
-        "year": 2019,
-        "value": 50715272.1739
-      },
-      {
-        "year": 2020,
-        "value": 51148406.4448
-      },
-      {
-        "year": 2021,
-        "value": 50074567.3983
-      },
-      {
-        "year": 2022,
-        "value": 46575539.0181
-      },
-      {
-        "year": 2023,
-        "value": 51659508.6578
-      },
-      {
         "year": 2024,
         "value": 53980101
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -559,52 +565,6 @@
       {
         "year": 2023,
         "value": 502290.3135
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

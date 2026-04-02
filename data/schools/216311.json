@@ -1,6 +1,6 @@
 {
   "unitid": "216311",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Talmudical Yeshiva of Philadelphia",
     "institution_unique_name": "Talmudical Yeshiva of Philadelphia | Philadelphia | Pennsylvania",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -1.6,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.9829,
-    "net_tuition_per_fte_change_5yr": -0.5807,
+    "net_tuition_per_fte_change_5yr": 1.1205,
     "staff_total_headcount_pct_change_5yr": 7.1429,
     "staff_instructional_headcount_pct_change_5yr": 14.2857,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 38.5804,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 38.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.2255,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 40.2% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,10 +46,10 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 11.194,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 17463.9092,
-    "state_funding_pct_change_5yr": null,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 11.194,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 17463.9092,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": null,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15991.7787
+        "value": 16343.4998
       },
       {
         "year": 2015,
-        "value": 24327.0974
+        "value": 17723.2317
       },
       {
         "year": 2016,
-        "value": 16333.0424
+        "value": 16816.7682
       },
       {
         "year": 2017,
-        "value": 15793.7541
+        "value": 16291.5058
       },
       {
         "year": 2018,
-        "value": 16467.6151
+        "value": 16917.3736
       },
       {
         "year": 2019,
-        "value": 16462.1991
+        "value": 16875.3885
       },
       {
         "year": 2020,
-        "value": 16179.0465
+        "value": 16699.977
       },
       {
         "year": 2021,
-        "value": 15426.5416
+        "value": 15959.8273
       },
       {
         "year": 2022,
-        "value": 14026.1907
+        "value": 15063.8282
       },
       {
         "year": 2023,
-        "value": 15601.2639
+        "value": 15831.7059
       },
       {
         "year": 2024,
-        "value": 16366.5965
+        "value": 17064.4737
       }
     ],
     "enrollment_headcount_total": [
@@ -432,6 +432,52 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
         "value": 85552.3887
       },
       {
@@ -473,52 +519,6 @@
       {
         "year": 2024,
         "value": 812033
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

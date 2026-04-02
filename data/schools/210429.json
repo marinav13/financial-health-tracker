@@ -1,6 +1,6 @@
 {
   "unitid": "210429",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Western Oregon University",
     "institution_unique_name": "Western Oregon University | Monmouth | Oregon",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 243.9927,
     "research_expense_pct_core_expenses": 0.8933,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 30,
+    "research_spending_per_fte_percentile": 29.8,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 0.5527,
     "pct_international_undergraduate": 0.4722,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 228082,
     "grad_plus_disbursements_per_recipient": 11404.1,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 11.0535,
-    "state_funding_pct_core_revenue": 29.4665,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 69.8236,
-    "state_funding_pct_change_5yr": 14.7725,
-    "endowment_pct_change_5yr": 24.0329,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2829,
+    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -21.5921,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 47,
     "median_earnings_10yr": 51815,
     "median_debt_completers": 20609,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 17152736.4938
-      },
-      {
-        "year": 2015,
-        "value": 17956389.4042
-      },
-      {
-        "year": 2016,
-        "value": 17151526.7421
-      },
-      {
-        "year": 2017,
-        "value": 18156625.6889
-      },
-      {
-        "year": 2018,
-        "value": 19498104.8388
-      },
-      {
-        "year": 2019,
-        "value": 21670234.2048
-      },
-      {
-        "year": 2020,
-        "value": 23751721.535
-      },
-      {
-        "year": 2021,
-        "value": 24735714.1594
-      },
-      {
-        "year": 2022,
-        "value": 19896838.0991
-      },
-      {
-        "year": 2023,
-        "value": 22294544.1982
-      },
-      {
         "year": 2024,
         "value": 26878214
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 11223667.7585
+        "value": 99094.4844
       },
       {
         "year": 2015,
-        "value": 12621320.5967
+        "value": 334875.3854
       },
       {
         "year": 2016,
-        "value": 14042394.795
+        "value": 380999.468
       },
       {
         "year": 2017,
-        "value": 10177012.0222
+        "value": 316298.3826
       },
       {
         "year": 2018,
-        "value": 9790810.2446
+        "value": 240342.0366
       },
       {
         "year": 2019,
-        "value": 7946914.3801
+        "value": 440552.5729
       },
       {
         "year": 2020,
-        "value": 7497539.3171
+        "value": 304122.377
       },
       {
         "year": 2021,
-        "value": 6963409.5861
+        "value": 297.5166
       },
       {
         "year": 2022,
-        "value": 7922483.6365
+        "value": 133599.3257
       },
       {
         "year": 2023,
-        "value": 14495353.0933
+        "value": 137093.6501
       },
       {
         "year": 2024,
-        "value": 13495735
+        "value": 345428
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 20460525.8871
+        "value": 689757.7692
       },
       {
         "year": 2015,
-        "value": 23544401.7895
+        "value": 737833.6068
       },
       {
         "year": 2016,
-        "value": 30293638.1457
+        "value": 1384001.2476
       },
       {
         "year": 2017,
-        "value": 30812932.574
+        "value": 682392.5905
       },
       {
         "year": 2018,
-        "value": 30862245.8001
+        "value": 500606.7044
       },
       {
         "year": 2019,
-        "value": 31346248.5075
+        "value": 3051809.1732
       },
       {
         "year": 2020,
-        "value": 34181739.2794
+        "value": 2219678.3496
       },
       {
         "year": 2021,
-        "value": 34707310.6113
+        "value": 932054.6781
       },
       {
         "year": 2022,
-        "value": 34628615.9299
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 34430064.5106
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 35976864
+        "value": 0
       }
     ]
   }

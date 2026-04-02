@@ -23,7 +23,7 @@ main <- function(cli_args = NULL) {
   project_dir <- getwd()
   script_dir <- file.path(project_dir, "scripts")
 
-  raw_main <- load_main(file.path(script_dir, "build_ipeds_tracker_dataset.R"))
+  raw_main <- load_main(file.path(script_dir, "collect_ipeds_data.R"))
   canonical_main <- load_main(file.path(script_dir, "build_ipeds_canonical_dataset.R"))
 
   message("Step 1: Building raw IPEDS tracker dataset ...")

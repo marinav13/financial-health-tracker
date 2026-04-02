@@ -1,6 +1,6 @@
 {
   "unitid": "117751",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "The Master's University and Seminary",
     "institution_unique_name": "The Master's University and Seminary | Santa Clarita | California",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 18.2853,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 52.6053,
-    "net_tuition_per_fte_change_5yr": -11.4633,
+    "net_tuition_per_fte_change_5yr": -11.148,
     "staff_total_headcount_pct_change_5yr": 18.6583,
     "staff_instructional_headcount_pct_change_5yr": 20.6897,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 38.9738,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 39% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 39% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 33.9641,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 6069,
     "grad_plus_disbursements_per_recipient": 6069,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2144,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -32.5482,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 69.2334,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.2144,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -32.5482,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 57106,
     "median_debt_completers": 20500,
@@ -158,7 +158,7 @@
       },
       {
         "year": 2015,
-        "value": 19133.7472
+        "value": 19131.9695
       },
       {
         "year": 2016,
@@ -174,7 +174,7 @@
       },
       {
         "year": 2019,
-        "value": 15761.883
+        "value": 15759.7379
       },
       {
         "year": 2020,
@@ -186,15 +186,15 @@
       },
       {
         "year": 2022,
-        "value": 14005.66
+        "value": 14005.6595
       },
       {
         "year": 2023,
-        "value": 14017.9546
+        "value": 14070.2848
       },
       {
         "year": 2024,
-        "value": 13955.0439
+        "value": 14002.8352
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 22741596.5123
-      },
-      {
-        "year": 2015,
-        "value": 24924125.4351
-      },
-      {
-        "year": 2016,
-        "value": 25204459.6471
-      },
-      {
-        "year": 2017,
-        "value": 28330704.5552
-      },
-      {
-        "year": 2018,
-        "value": 29795695.4549
-      },
-      {
-        "year": 2019,
-        "value": 31554643.2204
-      },
-      {
-        "year": 2020,
-        "value": 38588750.2966
-      },
-      {
-        "year": 2021,
-        "value": 55659690.24
-      },
-      {
-        "year": 2022,
-        "value": 47589309.0216
-      },
-      {
-        "year": 2023,
-        "value": 54381539.185
-      },
-      {
         "year": 2024,
         "value": 53400998
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 191506.6999
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 150586
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

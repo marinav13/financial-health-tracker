@@ -1,6 +1,6 @@
 {
   "unitid": "201690",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Central State University",
     "institution_unique_name": "Central State University | Wilberforce | Ohio",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 2313.1072,
     "research_expense_pct_core_expenses": 7.9238,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 62.7,
+    "research_spending_per_fte_percentile": 62.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 4.79,
     "pct_international_undergraduate": 4.8038,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 51183,
     "grad_plus_disbursements_per_recipient": 5118.3,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 26.0833,
-    "state_funding_pct_core_revenue": 16.1836,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 116.0755,
-    "state_funding_pct_change_5yr": -17.283,
-    "endowment_pct_change_5yr": -74.4635,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.1464,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
+    "state_funding_pct_change_5yr": -21.6638,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 23,
     "median_earnings_10yr": 33267,
     "median_debt_completers": 30739,
@@ -459,46 +459,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 3348130.793
-      },
-      {
-        "year": 2015,
-        "value": 3377326.6224
-      },
-      {
-        "year": 2016,
-        "value": 3363386.4574
-      },
-      {
-        "year": 2017,
-        "value": 3323282.335
-      },
-      {
-        "year": 2018,
-        "value": 3119365.8796
-      },
-      {
-        "year": 2019,
-        "value": 7281579.394
-      },
-      {
-        "year": 2020,
-        "value": 7626016.6527
-      },
-      {
-        "year": 2021,
-        "value": 8642339.7486
-      },
-      {
-        "year": 2022,
-        "value": 7568939.1818
-      },
-      {
-        "year": 2023,
-        "value": 7269686.1072
-      },
-      {
         "year": 2024,
         "value": 1859458
       }
@@ -506,93 +466,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 8153307.6103
+        "value": 242097.4255
       },
       {
         "year": 2015,
-        "value": 8031117.0843
+        "value": 205243.7705
       },
       {
         "year": 2016,
-        "value": 8008191.7022
+        "value": 217547.4327
       },
       {
         "year": 2017,
-        "value": 11043213.1599
+        "value": 415588.0153
       },
       {
         "year": 2018,
-        "value": 11831138.5316
+        "value": 685815.4698
       },
       {
         "year": 2019,
-        "value": 11724671.9262
+        "value": 1029077.8829
       },
       {
         "year": 2020,
-        "value": 20817839.5666
+        "value": 545587.1909
       },
       {
         "year": 2021,
-        "value": 15583999.3663
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 14053996.0737
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 14331169.3278
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 25334148
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 22926019.4506
+        "value": 6407.9819
       },
       {
         "year": 2015,
-        "value": 23996953.7287
+        "value": 1515.393
       },
       {
         "year": 2016,
-        "value": 23178572.7063
+        "value": 2180.075
       },
       {
         "year": 2017,
-        "value": 21156409.844
+        "value": 9173.1509
       },
       {
         "year": 2018,
-        "value": 19944974.9049
+        "value": 84263.9358
       },
       {
         "year": 2019,
-        "value": 19003093.0437
+        "value": 181481.8785
       },
       {
         "year": 2020,
-        "value": 17815981.6085
+        "value": 101641.5822
       },
       {
         "year": 2021,
-        "value": 17061719.1682
+        "value": 317795.1921
       },
       {
         "year": 2022,
-        "value": 16376769.5709
+        "value": -303489.0563
       },
       {
         "year": 2023,
-        "value": 16047062.6325
+        "value": -309474.25
       },
       {
         "year": 2024,
-        "value": 15718780
+        "value": 142166
       }
     ]
   }

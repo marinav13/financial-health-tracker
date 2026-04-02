@@ -302,6 +302,7 @@ raw_rows <- raw_rows %>%
     year = as.integer(to_num(year))
   )
 
+
 if ("state" %in% names(raw_rows)) {
   raw_rows <- raw_rows %>% filter(!(state %in% excluded_state_codes))
 }
@@ -675,9 +676,31 @@ latest_name_lookup <- raw_enriched %>%
 raw_enriched <- raw_enriched %>%
   left_join(latest_name_lookup, by = "unitid")
 
+# Older raw years can be sparse on HD metadata. Carry the latest known
+# institution attributes across the full time series for each UNITID so the
+# canonical build applies one consistent cohort definition to every year.
+metadata_fill_cols <- c(
+  "institution_name", "city", "state", "zip", "county", "longitude", "latitude",
+  "status", "date_closed", "is_active", "multi_institution_campus_org",
+  "id_number_multi", "name_multi", "opeid", "region", "hbcu", "tribal_college",
+  "sector", "level", "control", "degree_granting_status", "highest_degree",
+  "category", "grad_offering", "urbanization", "size", "undergrad_program_mix",
+  "grad_program_mix", "control_or_affiliation", "religious_affiliation",
+  "has_full_time_first_time_undergrad", "all_programs_distance_education",
+  "reporting_model", "pell_accounting_method"
+)
+metadata_fill_cols <- intersect(metadata_fill_cols, names(raw_enriched))
+if (length(metadata_fill_cols) > 0) {
+  raw_enriched <- raw_enriched %>%
+    arrange(unitid, year) %>%
+    group_by(unitid) %>%
+    tidyr::fill(dplyr::all_of(metadata_fill_cols), .direction = "updown") %>%
+    ungroup()
+}
+
 # Keep a lightweight unitid/year backfill table from the auxiliary joins so the
 # canonical fallback path can still restore enrollment, staffing, and loan
-# fields even when the legacy multi-year finance extract is used as the base.
+# fields even when older source files have gaps that can be filled from nearby years.
 aux_backfill_rows <- raw_enriched %>%
   transmute(
     unitid = as.character(unitid),
@@ -1015,6 +1038,7 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
     )
 })
 
+
 effy_backfill <- effy_long %>%
   {
     required_cols <- c(
@@ -1226,62 +1250,14 @@ sorted_rows <- prepared_rows %>%
   ungroup() %>%
   arrange(year, unitid)
 
-# The refactored raw extractor now writes into ipeds/, but older-year IPEDS
-# dictionaries still need a second-pass parser for the legacy STATA metadata
-# archives. Until that cleanup is finished, fall back to the last full
-# multi-year finance extract if the rebuilt series collapses to a single year.
-legacy_reporting_path <- file.path(root, "reporting", "ipeds_financial_health_reporting_2014_2024.csv")
-if (length(unique(sorted_rows$year)) <= 1 && file.exists(legacy_reporting_path)) {
-  legacy_rows <- suppressMessages(readr::read_csv(legacy_reporting_path, show_col_types = FALSE, guess_max = 100000)) %>%
-    mutate(
-      unitid = as.character(unitid),
-      year = as.integer(to_num(year))
-    ) %>%
-    {
-      if (!("research_expense" %in% names(.))) .[["research_expense"]] <- NA_real_
-      if (!("research_expense_per_fte" %in% names(.))) .[["research_expense_per_fte"]] <- NA_real_
-      if (!("research_expense_pct_core_expenses" %in% names(.))) .[["research_expense_pct_core_expenses"]] <- NA_real_
-      if (!("core_expenses" %in% names(.))) .[["core_expenses"]] <- NA_real_
-      .
-    } %>%
-    left_join(aux_backfill_rows, by = c("unitid", "year"), suffix = c("", "_aux")) %>%
-    mutate(
-      enrollment_headcount_total = coalesce(enrollment_headcount_total, enrollment_headcount_total_aux),
-      enrollment_headcount_undergrad = coalesce(enrollment_headcount_undergrad, enrollment_headcount_undergrad_aux),
-      enrollment_headcount_graduate = coalesce(enrollment_headcount_graduate, enrollment_headcount_graduate_aux),
-      enrollment_nonresident_total = coalesce(enrollment_nonresident_total, enrollment_nonresident_total_aux),
-      enrollment_nonresident_undergrad = coalesce(enrollment_nonresident_undergrad, enrollment_nonresident_undergrad_aux),
-      enrollment_nonresident_graduate = coalesce(enrollment_nonresident_graduate, enrollment_nonresident_graduate_aux),
-      staff_headcount_total = coalesce(staff_headcount_total, staff_headcount_total_aux),
-      staff_headcount_instructional = coalesce(staff_headcount_instructional, staff_headcount_instructional_aux),
-      research_expense = coalesce(research_expense, research_expense_aux),
-      research_expense_per_fte = safe_divide(research_expense, fte_12_months),
-      core_expenses = coalesce(core_expenses, core_expenses_aux),
-      research_expense_pct_core_expenses = coalesce(research_expense_pct_core_expenses, safe_divide(research_expense, core_expenses)),
-      loan_pct_undergrad_federal = coalesce(loan_pct_undergrad_federal, loan_pct_undergrad_federal_aux),
-      loan_avg_undergrad_federal = coalesce(loan_avg_undergrad_federal, loan_avg_undergrad_federal_aux),
-      loan_count_undergrad_federal = coalesce(loan_count_undergrad_federal, loan_count_undergrad_federal_aux),
-      pct_international_all = safe_divide(enrollment_nonresident_total, enrollment_headcount_total),
-      pct_international_undergraduate = safe_divide(enrollment_nonresident_undergrad, enrollment_headcount_undergrad),
-      pct_international_graduate = safe_divide(enrollment_nonresident_graduate, enrollment_headcount_graduate)
-    ) %>%
-    select(-ends_with("_aux")) %>%
-    arrange(unitid, year)
 
-  if (length(unique(legacy_rows$year)) > 1) {
-    sorted_rows <- legacy_rows %>%
-      group_by(unitid) %>%
-      group_modify(~ enrich_group(.x)) %>%
-      ungroup() %>%
-      group_by(year) %>%
-      mutate(
-        liquidity_percentile_private_nfp = ifelse(control_label == "Private not-for-profit" & !is.na(liquidity), round(percent_rank(liquidity) * 100, 1), NA_real_),
-        leverage_percentile_private_nfp = ifelse(control_label == "Private not-for-profit" & !is.na(leverage), round(percent_rank(leverage) * 100, 1), NA_real_)
-      ) %>%
-      ungroup() %>%
-      arrange(year, unitid)
-    message("Using legacy multi-year finance extract as canonical fallback while older IPEDS dictionary parsing is migrated.")
-  }
+# The canonical dataset now depends only on the refactored IPEDS collector.
+# Fail fast if the raw extract does not span the requested multi-year window.
+if (length(unique(sorted_rows$year)) <= 1) {
+  stop(
+    "The collected IPEDS raw dataset only contains a single year. ",
+    "Fix the collector input/extraction step instead of falling back to a legacy dataset."
+  )
 }
 
 # The public-facing finance tracker is defined by the 2024 cohort. Once we know

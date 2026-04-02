@@ -1,6 +1,6 @@
 {
   "unitid": "162061",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Capitol Technology University",
     "institution_unique_name": "Capitol Technology University | Laurel | Maryland",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 36.0965,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 6.1527,
-    "net_tuition_per_fte_change_5yr": -11.9788,
+    "net_tuition_per_fte_change_5yr": -22.1675,
     "staff_total_headcount_pct_change_5yr": 16.7883,
     "staff_instructional_headcount_pct_change_5yr": 39.5604,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 69.1838,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 69.2% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 78.2623,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 78.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 74.3254,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 974038,
     "grad_plus_disbursements_per_recipient": 14116.4928,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.3391,
-    "state_funding_pct_core_revenue": 6.0617,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 64.7981,
-    "state_funding_pct_change_5yr": 89.0203,
-    "endowment_pct_change_5yr": 3.2717,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 5.3391,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -24.0051,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 43,
     "median_earnings_10yr": 85035,
     "median_debt_completers": 20264,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25978.0558
+        "value": 29619.1096
       },
       {
         "year": 2015,
-        "value": 21334.091
+        "value": 25008.8575
       },
       {
         "year": 2016,
-        "value": 21617.9019
+        "value": 25817.7808
       },
       {
         "year": 2017,
-        "value": 22099.9442
+        "value": 27132.9044
       },
       {
         "year": 2018,
-        "value": 22327.3558
+        "value": 27728.4796
       },
       {
         "year": 2019,
-        "value": 24229.267
+        "value": 30996.6123
       },
       {
         "year": 2020,
-        "value": 22449.7063
+        "value": 28064.0462
       },
       {
         "year": 2021,
-        "value": 22732.6753
+        "value": 27524.2239
       },
       {
         "year": 2022,
-        "value": 21305.2628
+        "value": 25448.6692
       },
       {
         "year": 2023,
-        "value": 22773.4176
+        "value": 25897.9115
       },
       {
         "year": 2024,
-        "value": 21326.8856
+        "value": 24125.4441
       }
     ],
     "enrollment_headcount_total": [
@@ -475,42 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2015,
-        "value": 5622292.031
-      },
-      {
-        "year": 2016,
-        "value": 5260612.3792
-      },
-      {
-        "year": 2017,
-        "value": 5629445.492
-      },
-      {
-        "year": 2018,
-        "value": 5771809.1425
-      },
-      {
-        "year": 2019,
-        "value": 5928849.339
-      },
-      {
-        "year": 2020,
-        "value": 5746869.1165
-      },
-      {
-        "year": 2021,
-        "value": 6770527.375
-      },
-      {
-        "year": 2022,
-        "value": 5336326.284
-      },
-      {
-        "year": 2023,
-        "value": 5561915.5133
-      },
-      {
         "year": 2024,
         "value": 6122824
       }
@@ -518,31 +482,77 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 504845.8845
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 646776.354
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 573517.8626
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 776618.306
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 710979.8468
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 751034.2168
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 629143.9407
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 1439216.0399
+      },
+      {
+        "year": 2015,
+        "value": 1466872.6402
+      },
+      {
+        "year": 2016,
+        "value": 1498038.2504
+      },
+      {
+        "year": 2017,
+        "value": 1687191.7457
+      },
+      {
+        "year": 2018,
+        "value": 1643088.6584
+      },
+      {
+        "year": 2019,
+        "value": 1628648.5715
+      },
+      {
+        "year": 2020,
+        "value": 1485276.1027
       },
       {
         "year": 2021,
@@ -559,52 +569,6 @@
       {
         "year": 2024,
         "value": 1237690
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 673350.8975
-      },
-      {
-        "year": 2015,
-        "value": 658276.1356
-      },
-      {
-        "year": 2016,
-        "value": 636344.0157
-      },
-      {
-        "year": 2017,
-        "value": 682054.7401
-      },
-      {
-        "year": 2018,
-        "value": 694473.8444
-      },
-      {
-        "year": 2019,
-        "value": 743404.7828
-      },
-      {
-        "year": 2020,
-        "value": 813225.9849
-      },
-      {
-        "year": 2021,
-        "value": 776734.806
-      },
-      {
-        "year": 2022,
-        "value": 1027916.5837
-      },
-      {
-        "year": 2023,
-        "value": 1230295.2133
-      },
-      {
-        "year": 2024,
-        "value": 1405186
       }
     ]
   }

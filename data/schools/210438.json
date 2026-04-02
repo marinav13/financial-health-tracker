@@ -1,6 +1,6 @@
 {
   "unitid": "210438",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of Western States",
     "institution_unique_name": "University of Western States | Portland | Oregon",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -20.0245,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -32.5168,
-    "net_tuition_per_fte_change_5yr": -59.8091,
+    "net_tuition_per_fte_change_5yr": -9.7532,
     "staff_total_headcount_pct_change_5yr": -11.6418,
     "staff_instructional_headcount_pct_change_5yr": 66.6667,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 88.6373,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 88.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 88.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 99.9234,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -50,7 +50,7 @@
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -21.5741,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 27382,
     "median_debt_completers": null,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 131109.3845
+        "value": 131199.2425
       },
       {
         "year": 2015,
-        "value": 171294.6488
+        "value": 171435.9335
       },
       {
         "year": 2016,
-        "value": 77317.2321
+        "value": 77377.7034
       },
       {
         "year": 2017,
-        "value": 78510.1039
+        "value": 78565.3139
       },
       {
         "year": 2018,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 30582.5269
+        "value": 78234.3711
       },
       {
         "year": 2022,
-        "value": 25740.742
+        "value": 54114.5758
       },
       {
         "year": 2023,
-        "value": 26906.1138
+        "value": 48271.0403
       },
       {
         "year": 2024,
-        "value": 26288.3897
+        "value": 59029.3841
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 3572975.9596
-      },
-      {
-        "year": 2015,
-        "value": 3678724.3955
-      },
-      {
-        "year": 2016,
-        "value": 3413505.9626
-      },
-      {
-        "year": 2017,
-        "value": 3862421.2267
-      },
-      {
-        "year": 2018,
-        "value": 4080641.5833
-      },
-      {
-        "year": 2019,
-        "value": 4276384.8599
-      },
-      {
-        "year": 2020,
-        "value": 4341323.3569
-      },
-      {
-        "year": 2021,
-        "value": 5144063.1651
-      },
-      {
-        "year": 2022,
-        "value": 4055730.641
-      },
-      {
-        "year": 2023,
-        "value": 4103101.371
-      },
-      {
         "year": 2024,
         "value": 3353795
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1540074.1769
@@ -559,52 +565,6 @@
       {
         "year": 2023,
         "value": 398932.1651
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

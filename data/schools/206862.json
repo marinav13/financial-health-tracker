@@ -1,6 +1,6 @@
 {
   "unitid": "206862",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Southern Nazarene University",
     "institution_unique_name": "Southern Nazarene University | Bethany | Oklahoma",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -9.3728,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.6696,
-    "net_tuition_per_fte_change_5yr": -28.0454,
+    "net_tuition_per_fte_change_5yr": -27.0924,
     "staff_total_headcount_pct_change_5yr": 10.5033,
     "staff_instructional_headcount_pct_change_5yr": 22.335,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 39.5503,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 39.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 39.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 33.7562,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 282553,
     "grad_plus_disbursements_per_recipient": 13454.9048,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.0641,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 18.9501,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 20.7842,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.0641,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 18.9501,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 49,
     "median_earnings_10yr": 54951,
     "median_debt_completers": 21900,
@@ -158,23 +158,23 @@
       },
       {
         "year": 2015,
-        "value": 17352.0503
+        "value": 17252.7914
       },
       {
         "year": 2016,
-        "value": 16198.5898
+        "value": 19391.1026
       },
       {
         "year": 2017,
-        "value": 16861.8504
+        "value": 18759.9371
       },
       {
         "year": 2018,
-        "value": 15265.0499
+        "value": 15866.1788
       },
       {
         "year": 2019,
-        "value": 16417.9768
+        "value": 16203.3786
       },
       {
         "year": 2020,
@@ -186,7 +186,7 @@
       },
       {
         "year": 2022,
-        "value": 15927.2396
+        "value": 15105.1246
       },
       {
         "year": 2023,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 30590939.7255
-      },
-      {
-        "year": 2015,
-        "value": 31193921.7381
-      },
-      {
-        "year": 2016,
-        "value": 31625247.0162
-      },
-      {
-        "year": 2017,
-        "value": 31627688.3061
-      },
-      {
-        "year": 2018,
-        "value": 45095519.2454
-      },
-      {
-        "year": 2019,
-        "value": 41420166.3809
-      },
-      {
-        "year": 2020,
-        "value": 41830286.5233
-      },
-      {
-        "year": 2021,
-        "value": 59403008.2093
-      },
-      {
-        "year": 2022,
-        "value": 46333533.6704
-      },
-      {
-        "year": 2023,
-        "value": 45937502.6487
-      },
-      {
         "year": 2024,
         "value": 50029010
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 5007472.1418
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1295247
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

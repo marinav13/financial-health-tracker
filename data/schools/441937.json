@@ -1,6 +1,6 @@
 {
   "unitid": "441937",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "California State University-Channel Islands",
     "institution_unique_name": "California State University-Channel Islands | Camarillo | California",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 860.365,
     "research_expense_pct_core_expenses": 2.082,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 49.2,
+    "research_spending_per_fte_percentile": 49,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 2.2516,
     "pct_international_undergraduate": 1.1034,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 60973,
     "grad_plus_disbursements_per_recipient": 10162.1667,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.4381,
-    "state_funding_pct_core_revenue": 50.3863,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 17.4456,
-    "state_funding_pct_change_5yr": -1.7806,
-    "endowment_pct_change_5yr": -5.7126,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.1783,
+    "state_funding_pct_core_revenue": 5.1238,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -49.8313,
+    "state_funding_pct_change_5yr": 147.397,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 51,
     "median_earnings_10yr": 62152,
     "median_debt_completers": 15000,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 9488847.1142
-      },
-      {
-        "year": 2015,
-        "value": 17340914.8494
-      },
-      {
-        "year": 2016,
-        "value": 16770324.6892
-      },
-      {
-        "year": 2017,
-        "value": 19226279.3282
-      },
-      {
-        "year": 2018,
-        "value": 19097396.1139
-      },
-      {
-        "year": 2019,
-        "value": 20922085.8723
-      },
-      {
-        "year": 2020,
-        "value": 9829799.1122
-      },
-      {
-        "year": 2021,
-        "value": 12480316.6179
-      },
-      {
-        "year": 2022,
-        "value": 17466129.132
-      },
-      {
-        "year": 2023,
-        "value": 18149513.5797
-      },
-      {
         "year": 2024,
         "value": 19726893
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 4542216.349
+        "value": 859147.9212
       },
       {
         "year": 2015,
-        "value": 4540916.8437
+        "value": 1085630.1992
       },
       {
         "year": 2016,
-        "value": 4267585.6189
+        "value": 927786.5793
       },
       {
         "year": 2017,
-        "value": 3270198.8668
+        "value": 1051222.8749
       },
       {
         "year": 2018,
-        "value": 3709848.036
+        "value": 1146262.1071
       },
       {
         "year": 2019,
-        "value": 4584007.6133
+        "value": 784578.9411
       },
       {
         "year": 2020,
-        "value": 6057086.8371
+        "value": 1033306.7965
       },
       {
         "year": 2021,
-        "value": 4274308.6945
+        "value": 465613.4784
       },
       {
         "year": 2022,
-        "value": 4297620.2264
+        "value": 559768.5371
       },
       {
         "year": 2023,
-        "value": 5039790.9609
+        "value": 582701.0319
       },
       {
         "year": 2024,
-        "value": 5383716
+        "value": 393613
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 72919375.6642
+        "value": 403441.8235
       },
       {
         "year": 2015,
-        "value": 86053528.3226
+        "value": 402168.0995
       },
       {
         "year": 2016,
-        "value": 93608750.2275
+        "value": 1040930.9016
       },
       {
         "year": 2017,
-        "value": 101214484.2481
+        "value": 3054198.5492
       },
       {
         "year": 2018,
-        "value": 134086241.6878
+        "value": 1344351.6256
       },
       {
         "year": 2019,
-        "value": 113278656.5402
+        "value": 4573273.8905
       },
       {
         "year": 2020,
-        "value": 132184238.953
+        "value": 2889028.0448
       },
       {
         "year": 2021,
-        "value": 103958301.1772
+        "value": 9871591.5143
       },
       {
         "year": 2022,
-        "value": 123693269.1692
+        "value": -6413365.7365
       },
       {
         "year": 2023,
-        "value": 114185690.9382
+        "value": 5479880.2527
       },
       {
         "year": 2024,
-        "value": 111261637
+        "value": 11314143
       }
     ]
   }

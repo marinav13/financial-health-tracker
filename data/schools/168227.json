@@ -1,6 +1,6 @@
 {
   "unitid": "168227",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Wentworth Institute of Technology",
     "institution_unique_name": "Wentworth Institute of Technology | Boston | Massachusetts",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -14.0335,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.8667,
-    "net_tuition_per_fte_change_5yr": 6.2694,
+    "net_tuition_per_fte_change_5yr": 6.2947,
     "staff_total_headcount_pct_change_5yr": -12.931,
     "staff_instructional_headcount_pct_change_5yr": -10.7612,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 56.3581,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 56.4% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.6717,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 56.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 5.4343,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 227053,
     "grad_plus_disbursements_per_recipient": 13356.0588,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.2696,
-    "state_funding_pct_core_revenue": 0.6035,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 776.6276,
-    "state_funding_pct_change_5yr": 23.966,
-    "endowment_pct_change_5yr": 12.39,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.2696,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 776.6276,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 68,
     "median_earnings_10yr": 82721,
     "median_debt_completers": 25028,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21281.9581
+        "value": 21375.5684
       },
       {
         "year": 2015,
-        "value": 21796.6156
+        "value": 21789.5744
       },
       {
         "year": 2016,
-        "value": 22617.5498
+        "value": 22621.6888
       },
       {
         "year": 2017,
-        "value": 22901.6606
+        "value": 22981.6864
       },
       {
         "year": 2018,
-        "value": 23041.7625
+        "value": 23203.7678
       },
       {
         "year": 2019,
-        "value": 19842.8659
+        "value": 19948.5506
       },
       {
         "year": 2020,
-        "value": 19880.3534
+        "value": 20055.5929
       },
       {
         "year": 2021,
-        "value": 18216.64
+        "value": 18353.7668
       },
       {
         "year": 2022,
-        "value": 20933.5507
+        "value": 21085.4709
       },
       {
         "year": 2023,
-        "value": 21079.5107
+        "value": 21257.8618
       },
       {
         "year": 2024,
-        "value": 21086.8969
+        "value": 21204.2575
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 121192264.2649
-      },
-      {
-        "year": 2015,
-        "value": 118769381.098
-      },
-      {
-        "year": 2016,
-        "value": 109935425.7405
-      },
-      {
-        "year": 2017,
-        "value": 120413416.888
-      },
-      {
-        "year": 2018,
-        "value": 140705093.7041
-      },
-      {
-        "year": 2019,
-        "value": 142505845.0982
-      },
-      {
-        "year": 2020,
-        "value": 141218118.7837
-      },
-      {
-        "year": 2021,
-        "value": 173416161.8649
-      },
-      {
-        "year": 2022,
-        "value": 154239725.2849
-      },
-      {
-        "year": 2023,
-        "value": 154038699.5142
-      },
-      {
         "year": 2024,
         "value": 160162385
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 161483.5291
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1398396
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 324440.523
-      },
-      {
-        "year": 2015,
-        "value": 377458.5907
-      },
-      {
-        "year": 2016,
-        "value": 457711.1826
-      },
-      {
-        "year": 2017,
-        "value": 525843.7096
-      },
-      {
-        "year": 2018,
-        "value": 544536.9309
-      },
-      {
-        "year": 2019,
-        "value": 536195.3438
-      },
-      {
-        "year": 2020,
-        "value": 536690.8254
-      },
-      {
-        "year": 2021,
-        "value": 579520.6606
-      },
-      {
-        "year": 2022,
-        "value": 705292.4502
-      },
-      {
-        "year": 2023,
-        "value": 661038.3486
-      },
-      {
-        "year": 2024,
-        "value": 664700
       }
     ]
   }

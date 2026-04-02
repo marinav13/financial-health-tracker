@@ -1,6 +1,6 @@
 {
   "unitid": "190594",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "CUNY Hunter College",
     "institution_unique_name": "CUNY Hunter College | New York | New York",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -4.5118,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -9.6921,
-    "net_tuition_per_fte_change_5yr": -27.7658,
+    "net_tuition_per_fte_change_5yr": -27.2148,
     "staff_total_headcount_pct_change_5yr": -3.7075,
     "staff_instructional_headcount_pct_change_5yr": 5.52,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 25.1165,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 37875447,
-    "research_expense_per_fte": 1963.7811,
+    "research_expense_per_fte": 1978.7601,
     "research_expense_pct_core_expenses": 8.4893,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 61.1,
+    "research_spending_per_fte_percentile": 60.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 4.2402,
     "pct_international_undergraduate": 4.4074,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 904452,
     "grad_plus_disbursements_per_recipient": 10516.8837,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.7163,
-    "state_funding_pct_core_revenue": 32.5568,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -17.8289,
-    "state_funding_pct_change_5yr": -0.729,
-    "endowment_pct_change_5yr": 16.3745,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.4653,
+    "state_funding_pct_core_revenue": 0.4965,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -73.8985,
+    "state_funding_pct_change_5yr": 189.3766,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 57,
     "median_earnings_10yr": 63163,
     "median_debt_completers": 11000,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7855.9872
+        "value": 7882.6339
       },
       {
         "year": 2015,
@@ -162,7 +162,7 @@
       },
       {
         "year": 2016,
-        "value": 7900.0211
+        "value": 7962.4448
       },
       {
         "year": 2017,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 6864.9388
+        "value": 6920.539
       },
       {
         "year": 2022,
-        "value": 5448.0648
+        "value": 5492.1798
       },
       {
         "year": 2023,
-        "value": 5229.8371
+        "value": 5270.7406
       },
       {
         "year": 2024,
-        "value": 5054.2482
+        "value": 5092.8
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 123064212.5418
-      },
-      {
-        "year": 2015,
-        "value": 131041839.695
-      },
-      {
-        "year": 2016,
-        "value": 138204310.114
-      },
-      {
-        "year": 2017,
-        "value": 153618306.1509
-      },
-      {
-        "year": 2018,
-        "value": 159001172.3062
-      },
-      {
-        "year": 2019,
-        "value": 166654467.4332
-      },
-      {
-        "year": 2020,
-        "value": 159335619.3097
-      },
-      {
-        "year": 2021,
-        "value": 181483605.7731
-      },
-      {
-        "year": 2022,
-        "value": 149719792.162
-      },
-      {
-        "year": 2023,
-        "value": 186154391.6571
-      },
-      {
         "year": 2024,
         "value": 193943349
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 31945581.2697
+        "value": 23214181.2026
       },
       {
         "year": 2015,
-        "value": 33208453.4417
+        "value": 27849880.8224
       },
       {
         "year": 2016,
-        "value": 29582809.5424
+        "value": 32553402.1694
       },
       {
         "year": 2017,
-        "value": 24142938.4889
+        "value": 52791703.6238
       },
       {
         "year": 2018,
-        "value": 25844026.3006
+        "value": 69818241.6939
       },
       {
         "year": 2019,
-        "value": 26857429.6781
+        "value": 80052048.2626
       },
       {
         "year": 2020,
-        "value": 27960003.0178
+        "value": 57905377.8731
       },
       {
         "year": 2021,
-        "value": 23747751.8289
+        "value": 22733230.6431
       },
       {
         "year": 2022,
-        "value": 20690480.7552
+        "value": 21406191.8111
       },
       {
         "year": 2023,
-        "value": 21597353.0951
+        "value": 20736905.8009
       },
       {
         "year": 2024,
-        "value": 22069053
+        "value": 20894749
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 142138899.7122
+        "value": 579027.948
       },
       {
         "year": 2015,
-        "value": 143956421.2645
+        "value": 471578.3933
       },
       {
         "year": 2016,
-        "value": 173802066.7273
+        "value": 359210.4814
       },
       {
         "year": 2017,
-        "value": 159793486.2962
+        "value": 295098.2685
       },
       {
         "year": 2018,
-        "value": 140689008.6903
+        "value": 464913.8639
       },
       {
         "year": 2019,
-        "value": 153462405.538
+        "value": 802813.2637
       },
       {
         "year": 2020,
-        "value": 151657700.7272
+        "value": 638961.4558
       },
       {
         "year": 2021,
-        "value": 119398715.791
+        "value": 413720.5636
       },
       {
         "year": 2022,
-        "value": 139623150.2231
+        "value": 486799.7091
       },
       {
         "year": 2023,
-        "value": 134385517.7511
+        "value": 1076638.0279
       },
       {
         "year": 2024,
-        "value": 152343637
+        "value": 2323154
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "490276",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Yeshiva Shaar Ephraim",
     "institution_unique_name": "Yeshiva Shaar Ephraim | Monsey | New York",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 15.8333,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 45.724,
-    "net_tuition_per_fte_change_5yr": 42.619,
+    "net_tuition_per_fte_change_5yr": 0.1378,
     "staff_total_headcount_pct_change_5yr": 50,
     "staff_instructional_headcount_pct_change_5yr": 50,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 48.6709,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 48.7% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 48.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -48,8 +48,8 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -100,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 6,
     "median_earnings_10yr": null,
@@ -60,10 +60,6 @@
   },
   "series": {
     "revenue_total_adjusted": [
-      {
-        "year": 2017,
-        "value": 2951027.4759
-      },
       {
         "year": 2018,
         "value": 2719451.6615
@@ -95,10 +91,6 @@
     ],
     "expenses_total_adjusted": [
       {
-        "year": 2017,
-        "value": 2721133.0595
-      },
-      {
         "year": 2018,
         "value": 2657303.9951
       },
@@ -129,16 +121,12 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
-        "year": 2017,
-        "value": 7905.1372
-      },
-      {
         "year": 2018,
-        "value": 8426.4993
+        "value": 13141.5634
       },
       {
         "year": 2019,
-        "value": 9369.1752
+        "value": 13343.8408
       },
       {
         "year": 2020,
@@ -336,6 +324,36 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2018,
         "value": 167256.161
       },
       {
@@ -357,40 +375,6 @@
       {
         "year": 2023,
         "value": 1206518.0108
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

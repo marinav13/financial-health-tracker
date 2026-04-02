@@ -1,6 +1,6 @@
 {
   "unitid": "213358",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "La Roche University",
     "institution_unique_name": "La Roche University | Pittsburgh | Pennsylvania",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 70.7861,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 14.0232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 2380906,
     "grad_plus_disbursements_per_recipient": 15767.5894,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2467,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -81.9836,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 84.7193,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.2467,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -81.9836,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 56,
     "median_earnings_10yr": 52341,
     "median_debt_completers": 25000,
@@ -166,7 +166,7 @@
       },
       {
         "year": 2017,
-        "value": 19639.8084
+        "value": 19639.8075
       },
       {
         "year": 2018,
@@ -178,19 +178,19 @@
       },
       {
         "year": 2020,
-        "value": 18395.8139
+        "value": 18738.633
       },
       {
         "year": 2021,
-        "value": 23327.5634
+        "value": 23677.7103
       },
       {
         "year": 2022,
-        "value": 11011.5786
+        "value": 11152.8957
       },
       {
         "year": 2023,
-        "value": 12874.6049
+        "value": 13054.7088
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 6988262.0319
-      },
-      {
-        "year": 2015,
-        "value": 6953198.8459
-      },
-      {
-        "year": 2016,
-        "value": 6964388.016
-      },
-      {
-        "year": 2017,
-        "value": 7348878.9179
-      },
-      {
-        "year": 2018,
-        "value": 7375885.771
-      },
-      {
-        "year": 2019,
-        "value": 7445889.5246
-      },
-      {
-        "year": 2020,
-        "value": 7424110.3644
-      },
-      {
-        "year": 2021,
-        "value": 8568328.732
-      },
-      {
-        "year": 2022,
-        "value": 13404033.709
-      },
-      {
-        "year": 2023,
-        "value": 13139376.1752
-      },
-      {
         "year": 2024,
         "value": 13753998
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 375300.2354
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 58332
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

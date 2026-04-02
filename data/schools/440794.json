@@ -1,6 +1,6 @@
 {
   "unitid": "440794",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Pillar College",
     "institution_unique_name": "Pillar College | Newark | New Jersey",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 7.0402,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -9.303,
-    "net_tuition_per_fte_change_5yr": -53.4263,
+    "net_tuition_per_fte_change_5yr": -21.589,
     "staff_total_headcount_pct_change_5yr": -9.4203,
     "staff_instructional_headcount_pct_change_5yr": 8.2353,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 92.7091,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 92.7% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 92.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 10.4698,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -50,7 +50,7 @@
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 119.4825,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 30,
     "median_earnings_10yr": 45577,
     "median_debt_completers": 21483,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 26499.4984
+        "value": 22001.4466
       },
       {
         "year": 2015,
-        "value": 28618.5211
+        "value": 23844.7521
       },
       {
         "year": 2016,
-        "value": 30708.42
+        "value": 25812.7191
       },
       {
         "year": 2017,
-        "value": 30718.3519
+        "value": 25658.5378
       },
       {
         "year": 2018,
-        "value": 26639.3988
+        "value": 21872.4854
       },
       {
         "year": 2019,
-        "value": 28443.0057
+        "value": 23700.849
       },
       {
         "year": 2020,
-        "value": 27286.6084
+        "value": 23535.7919
       },
       {
         "year": 2021,
-        "value": 24024.1544
+        "value": 23790.6471
       },
       {
         "year": 2022,
-        "value": 22619.3477
+        "value": 19839.289
       },
       {
         "year": 2023,
-        "value": 11883.8379
+        "value": 16519.0278
       },
       {
         "year": 2024,
-        "value": 13246.9602
+        "value": 18584.062
       }
     ],
     "enrollment_headcount_total": [
@@ -459,51 +459,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1251472.5056
-      },
-      {
-        "year": 2015,
-        "value": 1253233.9896
-      },
-      {
-        "year": 2016,
-        "value": 1237329.7773
-      },
-      {
-        "year": 2017,
-        "value": 504610.3223
-      },
-      {
-        "year": 2018,
-        "value": 531440.0619
-      },
-      {
-        "year": 2019,
-        "value": 135966.6239
-      },
-      {
-        "year": 2020,
-        "value": 135442.9231
-      },
-      {
-        "year": 2021,
-        "value": 317942.214
-      },
-      {
-        "year": 2022,
-        "value": 292966.4788
-      },
-      {
-        "year": 2023,
-        "value": 281860.1219
-      },
-      {
         "year": 2024,
         "value": 298423
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -538,57 +544,11 @@
       },
       {
         "year": 2022,
-        "value": 2054858.8348
+        "value": 3316717.0655
       },
       {
         "year": 2023,
         "value": 51516.9288
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

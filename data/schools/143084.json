@@ -1,6 +1,6 @@
 {
   "unitid": "143084",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Augustana College",
     "institution_unique_name": "Augustana College | Rock Island | Illinois",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -1.7301,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1.4401,
-    "net_tuition_per_fte_change_5yr": -28.9726,
+    "net_tuition_per_fte_change_5yr": -18.8442,
     "staff_total_headcount_pct_change_5yr": -6.867,
     "staff_instructional_headcount_pct_change_5yr": -5.6818,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 34.869,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 34.9% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.5619,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 39.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 2.0344,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 405292,
     "research_expense_per_fte": 158.1319,
     "research_expense_pct_core_expenses": 0.5815,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 73.1,
+    "research_spending_per_fte_percentile": 72.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 17.6448,
     "pct_international_undergraduate": 18.0112,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 86395,
     "grad_plus_disbursements_per_recipient": 12342.1429,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.331,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 8.4099,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 5.1198,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.331,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 8.4099,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 73,
     "median_earnings_10yr": 62971,
     "median_debt_completers": 27000,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23736.7824
+        "value": 23588.646
       },
       {
         "year": 2015,
-        "value": 23289.9009
+        "value": 23140.0271
       },
       {
         "year": 2016,
-        "value": 24705.3682
+        "value": 22386.4916
       },
       {
         "year": 2017,
-        "value": 21926.5953
+        "value": 21785.7172
       },
       {
         "year": 2018,
-        "value": 20781.5155
+        "value": 20650.0383
       },
       {
         "year": 2019,
-        "value": 20407.9052
+        "value": 20264.7853
       },
       {
         "year": 2020,
-        "value": 20277.7352
+        "value": 20129.0369
       },
       {
         "year": 2021,
-        "value": 19463.4652
+        "value": 19320.7465
       },
       {
         "year": 2022,
@@ -194,7 +194,7 @@
       },
       {
         "year": 2024,
-        "value": 14495.1998
+        "value": 16446.0386
       }
     ],
     "enrollment_headcount_total": [
@@ -451,51 +451,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 191303282.232
-      },
-      {
-        "year": 2015,
-        "value": 192506696.3319
-      },
-      {
-        "year": 2016,
-        "value": 183914305.24
-      },
-      {
-        "year": 2017,
-        "value": 204149853.1434
-      },
-      {
-        "year": 2018,
-        "value": 210036859.9204
-      },
-      {
-        "year": 2019,
-        "value": 212080734.5031
-      },
-      {
-        "year": 2020,
-        "value": 201312503.15
-      },
-      {
-        "year": 2021,
-        "value": 249377689.1142
-      },
-      {
-        "year": 2022,
-        "value": 210956498.3035
-      },
-      {
-        "year": 2023,
-        "value": 214117578.0227
-      },
-      {
         "year": 2024,
         "value": 222938769
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1352888.4921
@@ -539,52 +545,6 @@
       {
         "year": 2024,
         "value": 1126139
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

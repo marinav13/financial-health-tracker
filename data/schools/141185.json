@@ -1,6 +1,6 @@
 {
   "unitid": "141185",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Toccoa Falls College",
     "institution_unique_name": "Toccoa Falls College | Toccoa Falls | Georgia",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 50.4047,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.2809,
-    "net_tuition_per_fte_change_5yr": -15.839,
+    "net_tuition_per_fte_change_5yr": -16.268,
     "staff_total_headcount_pct_change_5yr": 12.9032,
     "staff_instructional_headcount_pct_change_5yr": 6.9519,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 69.2862,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 69.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.933,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 68.9% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 2.1226,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.504,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -30.2667,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 4.1453,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.504,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -30.2667,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 42,
     "median_earnings_10yr": 36630,
     "median_debt_completers": 22250,
@@ -154,23 +154,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14254.0415
+        "value": 13695.4131
       },
       {
         "year": 2015,
-        "value": 13776.2499
+        "value": 13257.0703
       },
       {
         "year": 2016,
-        "value": 14018.3491
+        "value": 13455.8885
       },
       {
         "year": 2017,
-        "value": 13329.2156
+        "value": 12866.0808
       },
       {
         "year": 2018,
-        "value": 12856.9922
+        "value": 12761.4902
       },
       {
         "year": 2019,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 12300.2132
+        "value": 12167.1293
       },
       {
         "year": 2021,
-        "value": 12585.176
+        "value": 12466.0847
       },
       {
         "year": 2022,
-        "value": 11332.507
+        "value": 11245.8588
       },
       {
         "year": 2023,
-        "value": 10957.0922
+        "value": 10831.8667
       },
       {
         "year": 2024,
-        "value": 10267.0234
+        "value": 10214.6894
       }
     ],
     "enrollment_headcount_total": [
@@ -447,51 +447,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 3325961.2427
-      },
-      {
-        "year": 2015,
-        "value": 3426922.9872
-      },
-      {
-        "year": 2016,
-        "value": 3464601.7963
-      },
-      {
-        "year": 2017,
-        "value": 3627286.2895
-      },
-      {
-        "year": 2018,
-        "value": 3863627.5638
-      },
-      {
-        "year": 2019,
-        "value": 3980995.2132
-      },
-      {
-        "year": 2020,
-        "value": 3994376.0094
-      },
-      {
-        "year": 2021,
-        "value": 4585317.7298
-      },
-      {
-        "year": 2022,
-        "value": 3719385.4608
-      },
-      {
-        "year": 2023,
-        "value": 3904287.4732
-      },
-      {
         "year": 2024,
         "value": 4146021
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 417714.0263
@@ -535,52 +541,6 @@
       {
         "year": 2024,
         "value": 286155
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

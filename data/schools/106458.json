@@ -1,6 +1,6 @@
 {
   "unitid": "106458",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Arkansas State University",
     "institution_unique_name": "Arkansas State University | Jonesboro | Arkansas",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 7.0401,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.2151,
-    "net_tuition_per_fte_change_5yr": -22.8949,
+    "net_tuition_per_fte_change_5yr": -19.4134,
     "staff_total_headcount_pct_change_5yr": -7.4504,
     "staff_instructional_headcount_pct_change_5yr": -11.2162,
     "ended_year_at_loss": "Yes",
@@ -29,10 +29,10 @@
     "share_grad_students": 43.5288,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 9509378,
-    "research_expense_per_fte": 720.735,
+    "research_expense_per_fte": 753.2777,
     "research_expense_pct_core_expenses": 4.4024,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 45.3,
+    "research_spending_per_fte_percentile": 46.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 7.3549,
     "pct_international_undergraduate": 9.8161,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1894950,
     "grad_plus_disbursements_per_recipient": 9619.0355,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.966,
-    "state_funding_pct_core_revenue": 34.639,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -19.4493,
-    "state_funding_pct_change_5yr": -11.4778,
-    "endowment_pct_change_5yr": 16.5525,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.88,
+    "state_funding_pct_core_revenue": 2.0746,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -1.3807,
+    "state_funding_pct_change_5yr": 6.2241,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 53,
     "median_earnings_10yr": 42617,
     "median_debt_completers": 20500,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 4758.4786
+        "value": 4892.9442
       },
       {
         "year": 2022,
-        "value": 4379.9036
+        "value": 4501.7864
       },
       {
         "year": 2023,
-        "value": 4344.9121
+        "value": 4497.4637
       },
       {
         "year": 2024,
-        "value": 3950.6616
+        "value": 4129.0422
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 61007519.0054
-      },
-      {
-        "year": 2015,
-        "value": 71691161.4473
-      },
-      {
-        "year": 2016,
-        "value": 70715173.9638
-      },
-      {
-        "year": 2017,
-        "value": 83015126.8792
-      },
-      {
-        "year": 2018,
-        "value": 95037284.7578
-      },
-      {
-        "year": 2019,
-        "value": 99007125.4427
-      },
-      {
-        "year": 2020,
-        "value": 99764647.8826
-      },
-      {
-        "year": 2021,
-        "value": 120119474.6431
-      },
-      {
-        "year": 2022,
-        "value": 95191245.7793
-      },
-      {
-        "year": 2023,
-        "value": 106404923.6649
-      },
-      {
         "year": 2024,
         "value": 115395232
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 12420447.158
+        "value": 637579.6238
       },
       {
         "year": 2015,
-        "value": 13384567.8075
+        "value": 907320.7197
       },
       {
         "year": 2016,
-        "value": 15321962.8712
+        "value": 1064851.6042
       },
       {
         "year": 2017,
-        "value": 15595504.4771
+        "value": 1325695.6309
       },
       {
         "year": 2018,
-        "value": 15269640.0297
+        "value": 1589233.3438
       },
       {
         "year": 2019,
-        "value": 15561884.5788
+        "value": 1874940.1481
       },
       {
         "year": 2020,
-        "value": 16913921.6565
+        "value": 1541606.8226
       },
       {
         "year": 2021,
-        "value": 13013840.286
+        "value": 1653714.1836
       },
       {
         "year": 2022,
-        "value": 12034162.8337
+        "value": 1528356.9489
       },
       {
         "year": 2023,
-        "value": 11677477.6678
+        "value": 1925606.4597
       },
       {
         "year": 2024,
-        "value": 12535207
+        "value": 1849052
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 86685014.0506
+        "value": 2954852.1667
       },
       {
         "year": 2015,
-        "value": 87075767.4484
+        "value": 721448.8335
       },
       {
         "year": 2016,
-        "value": 86024026.3242
+        "value": 496129.1223
       },
       {
         "year": 2017,
-        "value": 84540437.0823
+        "value": 2537250.2877
       },
       {
         "year": 2018,
-        "value": 82833863.6034
+        "value": 2553281.0765
       },
       {
         "year": 2019,
-        "value": 82216238.1913
+        "value": 4103575.3583
       },
       {
         "year": 2020,
-        "value": 81315413.5215
+        "value": 2595878.256
       },
       {
         "year": 2021,
-        "value": 83040310.7629
+        "value": 4779772.0325
       },
       {
         "year": 2022,
-        "value": 75523177.5398
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 74233793.249
+        "value": 3816723.8277
       },
       {
         "year": 2024,
-        "value": 72779636
+        "value": 4358985
       }
     ]
   }

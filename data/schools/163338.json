@@ -1,6 +1,6 @@
 {
   "unitid": "163338",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of Maryland Eastern Shore",
     "institution_unique_name": "University of Maryland Eastern Shore | Princess Anne | Maryland",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -8.8996,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 23.6027,
-    "net_tuition_per_fte_change_5yr": -13.8975,
+    "net_tuition_per_fte_change_5yr": -0.0577,
     "staff_total_headcount_pct_change_5yr": 10.5744,
     "staff_instructional_headcount_pct_change_5yr": 8.4746,
     "ended_year_at_loss": "Yes",
@@ -29,10 +29,10 @@
     "share_grad_students": 22.5031,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 26523929,
-    "research_expense_per_fte": 9565.0664,
+    "research_expense_per_fte": 11102.5237,
     "research_expense_pct_core_expenses": 17.946,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 83.4,
+    "research_spending_per_fte_percentile": 85.4,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.0587,
     "pct_international_undergraduate": 2.6581,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1740630,
     "grad_plus_disbursements_per_recipient": 15681.3514,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 10.1004,
-    "state_funding_pct_core_revenue": 50.7569,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 21.3568,
-    "state_funding_pct_change_5yr": 38.2633,
-    "endowment_pct_change_5yr": 81.0025,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.6289,
+    "state_funding_pct_core_revenue": 0.8437,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 275.6285,
+    "state_funding_pct_change_5yr": 60.2667,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 35,
     "median_earnings_10yr": 47697,
     "median_debt_completers": 27000,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 5264.316
+        "value": 6407.0763
       },
       {
         "year": 2022,
-        "value": 6498.2486
+        "value": 7929.8355
       },
       {
         "year": 2023,
-        "value": 5827.599
+        "value": 7194.4573
       },
       {
         "year": 2024,
-        "value": 5105.6177
+        "value": 5926.2779
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 32626412.1212
-      },
-      {
-        "year": 2015,
-        "value": 34989965.3458
-      },
-      {
-        "year": 2016,
-        "value": 32707553.5971
-      },
-      {
-        "year": 2017,
-        "value": 35579927.8359
-      },
-      {
-        "year": 2018,
-        "value": 36076063.8646
-      },
-      {
-        "year": 2019,
-        "value": 36493230.5569
-      },
-      {
-        "year": 2020,
-        "value": 35467565.8967
-      },
-      {
-        "year": 2021,
-        "value": 67745864.5072
-      },
-      {
-        "year": 2022,
-        "value": 69917552.8053
-      },
-      {
-        "year": 2023,
-        "value": 70518362.4039
-      },
-      {
         "year": 2024,
         "value": 66053653
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 13524521.5041
+        "value": 1300540.7392
       },
       {
         "year": 2015,
-        "value": 14190112.3504
+        "value": 1897646.5952
       },
       {
         "year": 2016,
-        "value": 13348040.9188
+        "value": 1950118.8797
       },
       {
         "year": 2017,
-        "value": 11900696.7327
+        "value": 2190555.6047
       },
       {
         "year": 2018,
-        "value": 10123819.7497
+        "value": 1271252.0087
       },
       {
         "year": 2019,
-        "value": 12263364.1979
+        "value": 1423478.3925
       },
       {
         "year": 2020,
-        "value": 9620227.8899
+        "value": 1443804.9796
       },
       {
         "year": 2021,
-        "value": 10145546.4199
+        "value": 2222807.8714
       },
       {
         "year": 2022,
-        "value": 11186192.2934
+        "value": 2933899.7585
       },
       {
         "year": 2023,
-        "value": 12512608.6654
+        "value": 4488365.9686
       },
       {
         "year": 2024,
-        "value": 14882430
+        "value": 5346990
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 44997109.9656
+        "value": 1203158.2301
       },
       {
         "year": 2015,
-        "value": 48453430.2044
+        "value": 829213.7905
       },
       {
         "year": 2016,
-        "value": 50991680.2563
+        "value": 322933.4066
       },
       {
         "year": 2017,
-        "value": 52628216.0119
+        "value": 1168975.2654
       },
       {
         "year": 2018,
-        "value": 51986112.5544
+        "value": 709502.0143
       },
       {
         "year": 2019,
-        "value": 54090826.7705
+        "value": 775672.2088
       },
       {
         "year": 2020,
-        "value": 55615575.8008
+        "value": 212180.742
       },
       {
         "year": 2021,
-        "value": 54871040.8782
+        "value": 2146216.4482
       },
       {
         "year": 2022,
-        "value": 50850148.2744
+        "value": 229123.5777
       },
       {
         "year": 2023,
-        "value": 65908700.3767
+        "value": 796238.7585
       },
       {
         "year": 2024,
-        "value": 74787740
+        "value": 1243144
       }
     ]
   }

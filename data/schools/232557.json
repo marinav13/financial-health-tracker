@@ -1,6 +1,6 @@
 {
   "unitid": "232557",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Liberty University",
     "institution_unique_name": "Liberty University | Lynchburg | Virginia",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 29.0348,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.9834,
-    "net_tuition_per_fte_change_5yr": -19.9861,
+    "net_tuition_per_fte_change_5yr": -17.9776,
     "staff_total_headcount_pct_change_5yr": 63.5276,
     "staff_instructional_headcount_pct_change_5yr": 73.5619,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 64.9524,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 65% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 64.9541,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 65% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 49.7652,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5421919,
-    "research_expense_per_fte": 61.7707,
+    "research_expense_per_fte": 63.3195,
     "research_expense_pct_core_expenses": 0.5368,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 69.4,
+    "research_spending_per_fte_percentile": 69.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 0.5784,
     "pct_international_undergraduate": 0.6777,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 30525577,
     "grad_plus_disbursements_per_recipient": 7869.445,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5726,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -2.2871,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 33.3458,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5726,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -2.2871,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 44813,
     "median_debt_completers": 24500,
@@ -158,7 +158,7 @@
       },
       {
         "year": 2015,
-        "value": 13376.1475
+        "value": 13296.0212
       },
       {
         "year": 2016,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 14356.8166
+        "value": 14356.8853
       },
       {
         "year": 2021,
-        "value": 13661.6423
+        "value": 14005.8987
       },
       {
         "year": 2022,
-        "value": 12859.0884
+        "value": 13207.6328
       },
       {
         "year": 2023,
-        "value": 11489.9148
+        "value": 11796.1356
       },
       {
         "year": 2024,
-        "value": 11526.5101
+        "value": 11815.846
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 167516149.7988
-      },
-      {
-        "year": 2015,
-        "value": 1395333601.7484
-      },
-      {
-        "year": 2016,
-        "value": 1415475188.5356
-      },
-      {
-        "year": 2017,
-        "value": 1651759487.9499
-      },
-      {
-        "year": 2018,
-        "value": 1790093923.2121
-      },
-      {
-        "year": 2019,
-        "value": 1948362786.2885
-      },
-      {
-        "year": 2020,
-        "value": 2077995321.8317
-      },
-      {
-        "year": 2021,
-        "value": 2496590976.7895
-      },
-      {
-        "year": 2022,
-        "value": 2325371677.834
-      },
-      {
-        "year": 2023,
-        "value": 2344343639.4325
-      },
-      {
         "year": 2024,
         "value": 2598059324
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 2920559.6581
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 8303636
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

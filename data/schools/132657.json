@@ -1,6 +1,6 @@
 {
   "unitid": "132657",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Lynn University",
     "institution_unique_name": "Lynn University | Boca Raton | Florida",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 10.8238,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -6.8405,
-    "net_tuition_per_fte_change_5yr": -18.5721,
+    "net_tuition_per_fte_change_5yr": -20.6453,
     "staff_total_headcount_pct_change_5yr": 9.0556,
     "staff_instructional_headcount_pct_change_5yr": 65.3846,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 68.5244,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 68.5% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.3876,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 24.128,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 419603,
     "grad_plus_disbursements_per_recipient": 11042.1842,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5993,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -1.8143,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 26.6958,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5993,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -1.8143,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 52,
     "median_earnings_10yr": 49006,
     "median_debt_completers": 17940,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28229.2709
+        "value": 29366.6402
       },
       {
         "year": 2015,
-        "value": 28547.3798
+        "value": 29708.2173
       },
       {
         "year": 2016,
-        "value": 28235.5291
+        "value": 29269.9612
       },
       {
         "year": 2017,
-        "value": 26519.432
+        "value": 27533.7336
       },
       {
         "year": 2018,
-        "value": 24911.6934
+        "value": 26131.3944
       },
       {
         "year": 2019,
-        "value": 24455.5795
+        "value": 25776.8108
       },
       {
         "year": 2020,
-        "value": 25204.1088
+        "value": 26640.0881
       },
       {
         "year": 2021,
-        "value": 22774.9662
+        "value": 23669.0941
       },
       {
         "year": 2022,
-        "value": 23370.4032
+        "value": 24050.6325
       },
       {
         "year": 2023,
-        "value": 21657.7738
+        "value": 22236.1402
       },
       {
         "year": 2024,
-        "value": 19913.6699
+        "value": 20455.1164
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 32306594.7266
-      },
-      {
-        "year": 2015,
-        "value": 32126084.3153
-      },
-      {
-        "year": 2016,
-        "value": 31408981.75
-      },
-      {
-        "year": 2017,
-        "value": 33114158.5077
-      },
-      {
-        "year": 2018,
-        "value": 33278509.4422
-      },
-      {
-        "year": 2019,
-        "value": 33875230.4107
-      },
-      {
-        "year": 2020,
-        "value": 34858818.1466
-      },
-      {
-        "year": 2021,
-        "value": 44905982.8456
-      },
-      {
-        "year": 2022,
-        "value": 38573798.9465
-      },
-      {
-        "year": 2023,
-        "value": 38956119.2393
-      },
-      {
         "year": 2024,
         "value": 42918486
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 435260.4482
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 539848
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

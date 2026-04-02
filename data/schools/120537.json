@@ -1,6 +1,6 @@
 {
   "unitid": "120537",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Hope International University",
     "institution_unique_name": "Hope International University | Fullerton | California",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -27.5309,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.2125,
-    "net_tuition_per_fte_change_5yr": 356.9696,
+    "net_tuition_per_fte_change_5yr": 4.2935,
     "staff_total_headcount_pct_change_5yr": -21.9745,
     "staff_instructional_headcount_pct_change_5yr": -30.5882,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 70.3224,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 50.4259,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.1304,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -91.2753,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 12.7417,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.1304,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -91.2753,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 49,
     "median_earnings_10yr": 49697,
     "median_debt_completers": 23000,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7434.1804
+        "value": 13262.6579
       },
       {
         "year": 2015,
-        "value": 8572.9253
+        "value": 14161.7504
       },
       {
         "year": 2016,
-        "value": 8086.2679
+        "value": 14785.3584
       },
       {
         "year": 2017,
-        "value": 8773.1877
+        "value": 17085.2757
       },
       {
         "year": 2018,
-        "value": 6452.1749
+        "value": 15304.2698
       },
       {
         "year": 2019,
-        "value": 2999.6392
+        "value": 13143.1351
       },
       {
         "year": 2020,
-        "value": -88.6324
+        "value": 11571.8613
       },
       {
         "year": 2021,
-        "value": 361.0459
+        "value": 11477.3557
       },
       {
         "year": 2022,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 7341640.503
-      },
-      {
-        "year": 2015,
-        "value": 7594530.373
-      },
-      {
-        "year": 2016,
-        "value": 9039401.1424
-      },
-      {
-        "year": 2017,
-        "value": 8905898.4309
-      },
-      {
-        "year": 2018,
-        "value": 9122757.497
-      },
-      {
-        "year": 2019,
-        "value": 9055789.6639
-      },
-      {
-        "year": 2020,
-        "value": 9104570.7876
-      },
-      {
-        "year": 2021,
-        "value": 8765010.3574
-      },
-      {
-        "year": 2022,
-        "value": 9872848.7857
-      },
-      {
-        "year": 2023,
-        "value": 9645738.5723
-      },
-      {
         "year": 2024,
         "value": 10209652
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 2465555.8413
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 205727
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "213251",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Juniata College",
     "institution_unique_name": "Juniata College | Huntingdon | Pennsylvania",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -6.2207,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 16.1,
-    "net_tuition_per_fte_change_5yr": -18.9326,
+    "net_tuition_per_fte_change_5yr": -20.5236,
     "staff_total_headcount_pct_change_5yr": -9.4431,
     "staff_instructional_headcount_pct_change_5yr": -18.9873,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 32.7739,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 32.8% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.1307,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 32.1% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 7.3466,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1301435,
     "research_expense_per_fte": 996.5046,
     "research_expense_pct_core_expenses": 2.4997,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 86.4,
+    "research_spending_per_fte_percentile": 85.6,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 10.7703,
     "pct_international_undergraduate": 11.0855,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.5679,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 350.742,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -7.7876,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 5.5679,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 350.742,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 74,
     "median_earnings_10yr": 56918,
     "median_debt_completers": 27000,
@@ -162,11 +162,11 @@
       },
       {
         "year": 2016,
-        "value": 25677.8373
+        "value": 25404.0456
       },
       {
         "year": 2017,
-        "value": 23040.5064
+        "value": 22720.0935
       },
       {
         "year": 2018,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 20727.5483
+        "value": 20493.4607
       },
       {
         "year": 2021,
-        "value": 21083.4294
+        "value": 20768.1256
       },
       {
         "year": 2022,
-        "value": 18831.0212
+        "value": 18476.4239
       },
       {
         "year": 2023,
-        "value": 18579.9113
+        "value": 18173.6837
       },
       {
         "year": 2024,
-        "value": 17625.827
+        "value": 17279.9058
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 141497387.3154
-      },
-      {
-        "year": 2015,
-        "value": 146330541.8327
-      },
-      {
-        "year": 2016,
-        "value": 140557225.2903
-      },
-      {
-        "year": 2017,
-        "value": 148166901.4339
-      },
-      {
-        "year": 2018,
-        "value": 152788969.077
-      },
-      {
-        "year": 2019,
-        "value": 143894418.0327
-      },
-      {
-        "year": 2020,
-        "value": 138970041.1506
-      },
-      {
-        "year": 2021,
-        "value": 158107861.986
-      },
-      {
-        "year": 2022,
-        "value": 131652818.1748
-      },
-      {
-        "year": 2023,
-        "value": 126823027.9966
-      },
-      {
         "year": 2024,
         "value": 132688469
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 207580.982
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 3061351
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

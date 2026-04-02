@@ -1,6 +1,6 @@
 {
   "unitid": "178697",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "College of the Ozarks",
     "institution_unique_name": "College of the Ozarks | Point Lookout | Missouri",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -12.7913,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 430.0477,
-    "net_tuition_per_fte_change_5yr": -78.4872,
+    "net_tuition_per_fte_change_5yr": -44.9814,
     "staff_total_headcount_pct_change_5yr": 0.7177,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 1.0764,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 1.1% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 4.5271,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 4.5% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -48,9 +48,9 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 11.3989,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 64,
     "median_earnings_10yr": 41592,
     "median_debt_completers": null,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 82.509
+        "value": 508.3747
       },
       {
         "year": 2015,
-        "value": 879.2822
+        "value": 479.1777
       },
       {
         "year": 2016,
-        "value": 606.9196
+        "value": 506.249
       },
       {
         "year": 2017,
-        "value": -1106.9836
+        "value": 2899.5126
       },
       {
         "year": 2018,
-        "value": 758.6019
+        "value": 3038.6075
       },
       {
         "year": 2019,
-        "value": 5515.5766
+        "value": 9070.2147
       },
       {
         "year": 2020,
-        "value": 654.8315
+        "value": 5342.8447
       },
       {
         "year": 2021,
-        "value": 1814.015
+        "value": 5342.2416
       },
       {
         "year": 2022,
-        "value": 1355.8687
+        "value": 4841.6131
       },
       {
         "year": 2023,
-        "value": 995.1894
+        "value": 4850.8486
       },
       {
         "year": 2024,
-        "value": 1186.5551
+        "value": 4990.3045
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 566159866.9541
-      },
-      {
-        "year": 2015,
-        "value": 585341782.7366
-      },
-      {
-        "year": 2016,
-        "value": 544014935.5359
-      },
-      {
-        "year": 2017,
-        "value": 587785266.5471
-      },
-      {
-        "year": 2018,
-        "value": 635958571.6065
-      },
-      {
-        "year": 2019,
-        "value": 584813955.9451
-      },
-      {
-        "year": 2020,
-        "value": 582409349.6374
-      },
-      {
-        "year": 2021,
-        "value": 769993204.8464
-      },
-      {
-        "year": 2022,
-        "value": 628591760.0724
-      },
-      {
-        "year": 2023,
-        "value": 584114882.878
-      },
-      {
         "year": 2024,
         "value": 651476183
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 2731154.5006
@@ -514,52 +520,6 @@
       {
         "year": 2023,
         "value": 5527117.5734
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

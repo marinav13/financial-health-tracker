@@ -1,6 +1,6 @@
 {
   "unitid": "139205",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Brewton-Parker College",
     "institution_unique_name": "Brewton-Parker College | Mount Vernon | Georgia",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 32.3671,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.9581,
-    "net_tuition_per_fte_change_5yr": -29.8239,
+    "net_tuition_per_fte_change_5yr": -16.1662,
     "staff_total_headcount_pct_change_5yr": 44.2748,
     "staff_instructional_headcount_pct_change_5yr": 69.4915,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 42.2814,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.3% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.2512,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.3% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 11.3869,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.6741,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 182.9537,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 9.4864,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 5.6741,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 182.9537,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 17,
     "median_earnings_10yr": 42009,
     "median_debt_completers": 24990,
@@ -158,23 +158,23 @@
       },
       {
         "year": 2015,
-        "value": 9338.541
+        "value": 8861.6548
       },
       {
         "year": 2016,
-        "value": 9711.3222
+        "value": 9117.8172
       },
       {
         "year": 2017,
-        "value": 12999.0007
+        "value": 10511.6662
       },
       {
         "year": 2018,
-        "value": 12686.8595
+        "value": 11219.2228
       },
       {
         "year": 2019,
-        "value": 12996.7818
+        "value": 10871.6392
       },
       {
         "year": 2020,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 10503.9951
+        "value": 10274.5806
       },
       {
         "year": 2024,
-        "value": 9120.639
+        "value": 9114.1129
       }
     ],
     "enrollment_headcount_total": [
@@ -435,51 +435,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 18435638.057
-      },
-      {
-        "year": 2015,
-        "value": 10157398.7653
-      },
-      {
-        "year": 2016,
-        "value": 9894276.7613
-      },
-      {
-        "year": 2017,
-        "value": 9822914.0639
-      },
-      {
-        "year": 2018,
-        "value": 9659444.3015
-      },
-      {
-        "year": 2019,
-        "value": 9673793.4478
-      },
-      {
-        "year": 2020,
-        "value": 9127650.4324
-      },
-      {
-        "year": 2021,
-        "value": 10208867.6766
-      },
-      {
-        "year": 2022,
-        "value": 8498178.063
-      },
-      {
-        "year": 2023,
-        "value": 9089940.2879
-      },
-      {
         "year": 2024,
         "value": 10591487
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 280946.8096
@@ -523,52 +529,6 @@
       {
         "year": 2024,
         "value": 775809
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

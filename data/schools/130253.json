@@ -1,6 +1,6 @@
 {
   "unitid": "130253",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Sacred Heart University",
     "institution_unique_name": "Sacred Heart University | Fairfield | Connecticut",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 22.9659,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.2351,
-    "net_tuition_per_fte_change_5yr": -14.9653,
+    "net_tuition_per_fte_change_5yr": -12.1578,
     "staff_total_headcount_pct_change_5yr": 16.4109,
     "staff_instructional_headcount_pct_change_5yr": 10.8247,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 64.704,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 64.7% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 64.8296,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 64.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 40.5356,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 2155848,
     "grad_plus_disbursements_per_recipient": 11653.2324,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.0483,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 120.7809,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 45.3947,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.0483,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 120.7809,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 73,
     "median_earnings_10yr": 75059,
     "median_debt_completers": 25000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27789.7908
+        "value": 27577.4245
       },
       {
         "year": 2015,
-        "value": 27824.7153
+        "value": 27653.2532
       },
       {
         "year": 2016,
-        "value": 28592.3642
+        "value": 28459.5049
       },
       {
         "year": 2017,
-        "value": 29141.7711
+        "value": 29043.4538
       },
       {
         "year": 2018,
-        "value": 29608.7875
+        "value": 29708.8399
       },
       {
         "year": 2019,
-        "value": 29660.8835
+        "value": 29734.2299
       },
       {
         "year": 2020,
-        "value": 30330.2556
+        "value": 30422.7599
       },
       {
         "year": 2021,
-        "value": 27072.2357
+        "value": 28391.1879
       },
       {
         "year": 2022,
-        "value": 26386.6548
+        "value": 27450.7768
       },
       {
         "year": 2023,
-        "value": 25630.5451
+        "value": 26557.7041
       },
       {
         "year": 2024,
-        "value": 25222.0444
+        "value": 26119.2108
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 181618779.6604
-      },
-      {
-        "year": 2015,
-        "value": 186627091.8913
-      },
-      {
-        "year": 2016,
-        "value": 184801540.8566
-      },
-      {
-        "year": 2017,
-        "value": 201564690.8025
-      },
-      {
-        "year": 2018,
-        "value": 209125165.9345
-      },
-      {
-        "year": 2019,
-        "value": 217341167.88
-      },
-      {
-        "year": 2020,
-        "value": 230089307.6675
-      },
-      {
-        "year": 2021,
-        "value": 284223010.3829
-      },
-      {
-        "year": 2022,
-        "value": 255600428.8784
-      },
-      {
-        "year": 2023,
-        "value": 276289736.7423
-      },
-      {
         "year": 2024,
         "value": 316002568
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1953987.936
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 7396835
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

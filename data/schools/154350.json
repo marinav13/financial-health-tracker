@@ -1,6 +1,6 @@
 {
   "unitid": "154350",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Simpson College",
     "institution_unique_name": "Simpson College | Indianola | Iowa",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -24.1007,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.4334,
-    "net_tuition_per_fte_change_5yr": 1.0628,
+    "net_tuition_per_fte_change_5yr": -25.5304,
     "staff_total_headcount_pct_change_5yr": -7.5188,
     "staff_instructional_headcount_pct_change_5yr": -14.0449,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 57.7135,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 57.7% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.243,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.2% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 4.4234,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -47,10 +47,10 @@
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -15.2274,
+    "state_funding_pct_core_revenue": 7.7759,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 75.339,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 59274,
     "median_debt_completers": 26000,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16422.7321
+        "value": 16438.1548
       },
       {
         "year": 2015,
-        "value": 17446.3789
+        "value": 17368.8646
       },
       {
         "year": 2016,
-        "value": 17938.3684
+        "value": 17859.9364
       },
       {
         "year": 2017,
-        "value": 17751.0531
+        "value": 17677.7604
       },
       {
         "year": 2018,
-        "value": 17943.9072
+        "value": 17834.4558
       },
       {
         "year": 2019,
-        "value": 17210.2753
+        "value": 17095.3136
       },
       {
         "year": 2020,
-        "value": 17188.3412
+        "value": 17045.0334
       },
       {
         "year": 2021,
-        "value": 15660.8455
+        "value": 15612.4973
       },
       {
         "year": 2022,
@@ -194,7 +194,7 @@
       },
       {
         "year": 2024,
-        "value": 17393.1827
+        "value": 12730.8066
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 113111033.2004
-      },
-      {
-        "year": 2015,
-        "value": 113828372.7065
-      },
-      {
-        "year": 2016,
-        "value": 104328629.7427
-      },
-      {
-        "year": 2017,
-        "value": 108274831.2253
-      },
-      {
-        "year": 2018,
-        "value": 108617361.2325
-      },
-      {
-        "year": 2019,
-        "value": 102832374.9269
-      },
-      {
-        "year": 2020,
-        "value": 100824689.8331
-      },
-      {
-        "year": 2021,
-        "value": 121937897.2577
-      },
-      {
-        "year": 2022,
-        "value": 102092855.0379
-      },
-      {
-        "year": 2023,
-        "value": 84347100.3775
-      },
-      {
         "year": 2024,
         "value": 87173703
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 960915.0482
@@ -554,7 +560,7 @@
       },
       {
         "year": 2022,
-        "value": 1839439.1537
+        "value": 3959749.771
       },
       {
         "year": 2023,
@@ -562,53 +568,7 @@
       },
       {
         "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
+        "value": 2101730
       }
     ]
   }

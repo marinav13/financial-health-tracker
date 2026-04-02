@@ -1,6 +1,6 @@
 {
   "unitid": "234915",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "City University of Seattle",
     "institution_unique_name": "City University of Seattle | Seattle | Washington",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -2.2033,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -30.6748,
-    "net_tuition_per_fte_change_5yr": -49.1906,
+    "net_tuition_per_fte_change_5yr": -29.0523,
     "staff_total_headcount_pct_change_5yr": 4.4693,
     "staff_instructional_headcount_pct_change_5yr": 13.0542,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 75.8623,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 75.9% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 78.3777,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 78.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 39.7811,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 549235,
     "grad_plus_disbursements_per_recipient": 13395.9756,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.8177,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 1222.9928,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -27.1706,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 4.8177,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 1222.9928,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 69460,
     "median_debt_completers": 25000,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25467.8009
+        "value": 25319.9632
       },
       {
         "year": 2015,
-        "value": 31642.5396
+        "value": 31213.6102
       },
       {
         "year": 2016,
-        "value": 28806.9021
+        "value": 28499.0739
       },
       {
         "year": 2017,
-        "value": 28074.7391
+        "value": 27858.4559
       },
       {
         "year": 2018,
@@ -178,7 +178,7 @@
       },
       {
         "year": 2020,
-        "value": 26847.8545
+        "value": 27422.244
       },
       {
         "year": 2021,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 16541.2446
+        "value": 19243.7008
       },
       {
         "year": 2024,
-        "value": 14523.4653
+        "value": 20279.843
       }
     ],
     "enrollment_headcount_total": [
@@ -475,39 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2017,
-        "value": 5035015.5867
-      },
-      {
-        "year": 2018,
-        "value": 5383989.9154
-      },
-      {
-        "year": 2019,
-        "value": 5531609.5708
-      },
-      {
-        "year": 2020,
-        "value": 3299024.4438
-      },
-      {
-        "year": 2021,
-        "value": 4232884.4281
-      },
-      {
-        "year": 2022,
-        "value": 637412.8753
-      },
-      {
-        "year": 2023,
-        "value": 3956474.6028
-      },
-      {
         "year": 2024,
         "value": 4028637
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -551,52 +569,6 @@
       {
         "year": 2024,
         "value": 1460971
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "170675",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Lawrence Technological University",
     "institution_unique_name": "Lawrence Technological University | Southfield | Michigan",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 19.1032,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 15.2576,
-    "net_tuition_per_fte_change_5yr": 2.7782,
+    "net_tuition_per_fte_change_5yr": 0.6707,
     "staff_total_headcount_pct_change_5yr": 12.4615,
     "staff_instructional_headcount_pct_change_5yr": 13.1737,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 79.8588,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 79.9% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 78.2213,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 78.2% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 29.8865,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 650422,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1172496,
     "grad_plus_disbursements_per_recipient": 14126.4578,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3803,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -7.7019,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -11.7557,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.3803,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -7.7019,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 60,
     "median_earnings_10yr": 69151,
     "median_debt_completers": 27000,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25574.6752
+        "value": 25910.8345
       },
       {
         "year": 2015,
-        "value": 25490.3762
+        "value": 27208.4976
       },
       {
         "year": 2016,
-        "value": 27434.5925
+        "value": 27823.9335
       },
       {
         "year": 2017,
-        "value": 27591.2514
+        "value": 28311.2335
       },
       {
         "year": 2018,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 27176.8716
+        "value": 28654.4819
       },
       {
         "year": 2022,
-        "value": 25673.4251
+        "value": 26818.2083
       },
       {
         "year": 2023,
-        "value": 30213.5177
+        "value": 30402.1267
       },
       {
         "year": 2024,
-        "value": 30211.8453
+        "value": 29592.341
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 54961748.4111
-      },
-      {
-        "year": 2015,
-        "value": 63341682.1292
-      },
-      {
-        "year": 2016,
-        "value": 59351530.5975
-      },
-      {
-        "year": 2017,
-        "value": 62854073.0151
-      },
-      {
-        "year": 2018,
-        "value": 62910767.6152
-      },
-      {
-        "year": 2019,
-        "value": 61573222.9771
-      },
-      {
-        "year": 2020,
-        "value": 58983717.9749
-      },
-      {
-        "year": 2021,
-        "value": 67048558.5298
-      },
-      {
-        "year": 2022,
-        "value": 51111696.0111
-      },
-      {
-        "year": 2023,
-        "value": 52712727.7473
-      },
-      {
         "year": 2024,
         "value": 54334838
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 974246.4597
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 344055
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

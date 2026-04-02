@@ -1,6 +1,6 @@
 {
   "unitid": "122931",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Santa Clara University",
     "institution_unique_name": "Santa Clara University | Santa Clara | California",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 7.4923,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -1.9761,
-    "net_tuition_per_fte_change_5yr": -12.9802,
+    "net_tuition_per_fte_change_5yr": -5.2475,
     "staff_total_headcount_pct_change_5yr": 12.7614,
     "staff_instructional_headcount_pct_change_5yr": 10.3255,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 55.7889,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 55.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 55.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 36.1437,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 10013000,
-    "research_expense_per_fte": 1178,
+    "research_expense_per_fte": 1155.3017,
     "research_expense_pct_core_expenses": 2.1334,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 88.1,
+    "research_spending_per_fte_percentile": 86.8,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 15.6383,
     "pct_international_undergraduate": 7.9777,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 11520508,
     "grad_plus_disbursements_per_recipient": 20211.4175,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.201,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 199.9925,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 24.297,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.201,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 199.9925,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 88,
     "median_earnings_10yr": 109183,
     "median_debt_completers": 19162,
@@ -166,15 +166,15 @@
       },
       {
         "year": 2017,
-        "value": 43525.0887
+        "value": 39264.3163
       },
       {
         "year": 2018,
-        "value": 44360.1407
+        "value": 40083.4646
       },
       {
         "year": 2019,
-        "value": 45856.614
+        "value": 41302.8291
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 39656.6866
+        "value": 39490.3086
       },
       {
         "year": 2022,
-        "value": 40685.1204
+        "value": 40415.3252
       },
       {
         "year": 2023,
-        "value": 40200.8981
+        "value": 39449.4794
       },
       {
         "year": 2024,
-        "value": 39904.3529
+        "value": 39135.4563
       }
     ],
     "enrollment_headcount_total": [
@@ -475,43 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2016,
-        "value": 1098802220.0769
-      },
-      {
-        "year": 2017,
-        "value": 1159259506.2092
-      },
-      {
-        "year": 2018,
-        "value": 1223300528.7467
-      },
-      {
-        "year": 2019,
-        "value": 1251236987.9956
-      },
-      {
-        "year": 2020,
-        "value": 1253450634.1037
-      },
-      {
-        "year": 2021,
-        "value": 1780054549.7214
-      },
-      {
-        "year": 2022,
-        "value": 1577345833.5959
-      },
-      {
-        "year": 2023,
-        "value": 1521874791.7178
-      },
-      {
         "year": 2024,
         "value": 1555250000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 6258250.3168
@@ -555,52 +569,6 @@
       {
         "year": 2024,
         "value": 12169000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

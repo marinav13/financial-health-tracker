@@ -1,6 +1,6 @@
 {
   "unitid": "194392",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Paul Smiths College of Arts and Science",
     "institution_unique_name": "Paul Smiths College of Arts and Science | Paul Smiths | New York",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 56.1198,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.4541,
-    "net_tuition_per_fte_change_5yr": 57.0356,
+    "net_tuition_per_fte_change_5yr": 48.1955,
     "staff_total_headcount_pct_change_5yr": -11.1111,
     "staff_instructional_headcount_pct_change_5yr": -26.7606,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 56.3847,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 56.4% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.2106,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 53.2% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 1.7515,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.9634,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -16.1314,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -2.8308,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.9634,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -16.1314,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 46,
     "median_earnings_10yr": 46145,
     "median_debt_completers": 22750,
@@ -178,23 +178,23 @@
       },
       {
         "year": 2020,
-        "value": 17839.708
+        "value": 14871.6529
       },
       {
         "year": 2021,
-        "value": 28301.2327
+        "value": 25484.698
       },
       {
         "year": 2022,
-        "value": 30555.7112
+        "value": 24592.0641
       },
       {
         "year": 2023,
-        "value": 23473.4933
+        "value": 21718.5434
       },
       {
         "year": 2024,
-        "value": 24912.8735
+        "value": 23510.4384
       }
     ],
     "enrollment_headcount_total": [
@@ -447,51 +447,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 33460216.9775
-      },
-      {
-        "year": 2015,
-        "value": 35338534.8548
-      },
-      {
-        "year": 2016,
-        "value": 33263193.0152
-      },
-      {
-        "year": 2017,
-        "value": 37797118.5955
-      },
-      {
-        "year": 2018,
-        "value": 38442154.9057
-      },
-      {
-        "year": 2019,
-        "value": 37376652.263
-      },
-      {
-        "year": 2020,
-        "value": 37241609.0554
-      },
-      {
-        "year": 2021,
-        "value": 44549300.9604
-      },
-      {
-        "year": 2022,
-        "value": 37352911.9903
-      },
-      {
-        "year": 2023,
-        "value": 35146100.5085
-      },
-      {
         "year": 2024,
         "value": 36318604
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 757943.9439
@@ -518,15 +524,15 @@
       },
       {
         "year": 2020,
-        "value": 783927.3685
+        "value": 2615916.8951
       },
       {
         "year": 2021,
-        "value": 2810493.4525
+        "value": 4318271.6922
       },
       {
         "year": 2022,
-        "value": 4609952.2352
+        "value": 6015179.9141
       },
       {
         "year": 2023,
@@ -535,52 +541,6 @@
       {
         "year": 2024,
         "value": 702268
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

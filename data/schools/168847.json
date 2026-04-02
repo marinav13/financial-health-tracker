@@ -1,6 +1,6 @@
 {
   "unitid": "168847",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Baker College",
     "institution_unique_name": "Baker College | Owosso | Michigan",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -57.5897,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.2385,
-    "net_tuition_per_fte_change_5yr": -21.7185,
+    "net_tuition_per_fte_change_5yr": -15.7764,
     "staff_total_headcount_pct_change_5yr": -53.6349,
     "staff_instructional_headcount_pct_change_5yr": -59.7946,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 29.8188,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 29.8% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.5064,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 37.5% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 7.8577,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -48,9 +48,9 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -13.7554,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 30,
     "median_earnings_10yr": 35833,
     "median_debt_completers": 25000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 72723.5013
+        "value": 82015.8961
       },
       {
         "year": 2015,
-        "value": 10940.8732
+        "value": 12261.1211
       },
       {
         "year": 2016,
-        "value": 11795.1725
+        "value": 13438.0338
       },
       {
         "year": 2017,
-        "value": 10704.4724
+        "value": 12217.6898
       },
       {
         "year": 2018,
-        "value": 11123.2332
+        "value": 12406.6882
       },
       {
         "year": 2019,
-        "value": 11602.378
+        "value": 13339.8577
       },
       {
         "year": 2020,
-        "value": 12174.7339
+        "value": 14281.0579
       },
       {
         "year": 2021,
-        "value": 13857.7057
+        "value": 16401.7769
       },
       {
         "year": 2022,
-        "value": 12565.153
+        "value": 15008.9103
       },
       {
         "year": 2023,
-        "value": 9252.8294
+        "value": 11488.9675
       },
       {
         "year": 2024,
-        "value": 9082.515
+        "value": 11235.31
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 331382694.1919
-      },
-      {
-        "year": 2015,
-        "value": 340681617.0411
-      },
-      {
-        "year": 2016,
-        "value": 371839023.0592
-      },
-      {
-        "year": 2017,
-        "value": 388312535.3338
-      },
-      {
-        "year": 2018,
-        "value": 414194017.6823
-      },
-      {
-        "year": 2019,
-        "value": 403531926.1601
-      },
-      {
-        "year": 2020,
-        "value": 417161185.1898
-      },
-      {
-        "year": 2021,
-        "value": 451461392.8667
-      },
-      {
-        "year": 2022,
-        "value": 373244951.3579
-      },
-      {
-        "year": 2023,
-        "value": 342093767.3948
-      },
-      {
         "year": 2024,
         "value": 348024578
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1215393.8184
@@ -555,52 +561,6 @@
       {
         "year": 2022,
         "value": 12856649.5929
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
       },
       {
         "year": 2023,

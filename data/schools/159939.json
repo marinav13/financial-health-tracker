@@ -1,6 +1,6 @@
 {
   "unitid": "159939",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of New Orleans",
     "institution_unique_name": "University of New Orleans | New Orleans | Louisiana",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 2845.7734,
     "research_expense_pct_core_expenses": 9.3885,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 66,
+    "research_spending_per_fte_percentile": 65.4,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 8.4175,
     "pct_international_undergraduate": 7.8658,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 211604,
     "grad_plus_disbursements_per_recipient": 6412.2424,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.7517,
-    "state_funding_pct_core_revenue": 21.0618,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -9.9842,
-    "state_funding_pct_change_5yr": -1.0316,
-    "endowment_pct_change_5yr": 1.3901,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.2722,
+    "state_funding_pct_core_revenue": 4.4099,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -63.2085,
+    "state_funding_pct_change_5yr": 386.2412,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 38,
     "median_earnings_10yr": 47872,
     "median_debt_completers": 18750,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 30807642.4088
-      },
-      {
-        "year": 2015,
-        "value": 27557178.3613
-      },
-      {
-        "year": 2016,
-        "value": 26889432.7907
-      },
-      {
-        "year": 2017,
-        "value": 27840052.3184
-      },
-      {
-        "year": 2018,
-        "value": 27641830.156
-      },
-      {
-        "year": 2019,
-        "value": 27368633.6562
-      },
-      {
-        "year": 2020,
-        "value": 26764427.2412
-      },
-      {
-        "year": 2021,
-        "value": 29891433.7239
-      },
-      {
-        "year": 2022,
-        "value": 25059276.5661
-      },
-      {
-        "year": 2023,
-        "value": 25674989.9223
-      },
-      {
         "year": 2024,
         "value": 27749072
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 10281795.1231
+        "value": 10508335.0392
       },
       {
         "year": 2015,
-        "value": 8111505.7056
+        "value": 10175418.0455
       },
       {
         "year": 2016,
-        "value": 10302040.9626
+        "value": 11050120.3553
       },
       {
         "year": 2017,
-        "value": 8654732.2351
+        "value": 10742811.6635
       },
       {
         "year": 2018,
-        "value": 9831788.5537
+        "value": 9644898.3322
       },
       {
         "year": 2019,
-        "value": 8561435.9618
+        "value": 10016357.2419
       },
       {
         "year": 2020,
-        "value": 7651006.4707
+        "value": 10533142.8623
       },
       {
         "year": 2021,
-        "value": 7392704.044
+        "value": 8317680.8369
       },
       {
         "year": 2022,
-        "value": 6779190.6404
+        "value": 4626181.4646
       },
       {
         "year": 2023,
-        "value": 7608458.7381
+        "value": 3950166.8907
       },
       {
         "year": 2024,
-        "value": 7706641
+        "value": 3685173
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 45105122.0924
+        "value": 3810540.3606
       },
       {
         "year": 2015,
-        "value": 41879671.2098
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 40896447.1125
+        "value": 76838.4935
       },
       {
         "year": 2017,
-        "value": 37978686.324
+        "value": 2496765.8249
       },
       {
         "year": 2018,
-        "value": 36369008.2436
+        "value": 2055079.1291
       },
       {
         "year": 2019,
-        "value": 34515859.9203
+        "value": 1470933.5209
       },
       {
         "year": 2020,
-        "value": 43222846.4981
+        "value": 1567213.5685
       },
       {
         "year": 2021,
-        "value": 21116348.3199
+        "value": 6811074.1412
       },
       {
         "year": 2022,
-        "value": 31884539.5247
+        "value": -3246479.3699
       },
       {
         "year": 2023,
-        "value": 29912697.685
+        "value": 1419840.5731
       },
       {
         "year": 2024,
-        "value": 34159792
+        "value": 7152285
       }
     ]
   }

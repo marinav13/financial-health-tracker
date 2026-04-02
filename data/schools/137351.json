@@ -1,6 +1,6 @@
 {
   "unitid": "137351",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of South Florida",
     "institution_unique_name": "University of South Florida | Tampa | Florida",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 9.2708,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 17.5338,
-    "net_tuition_per_fte_change_5yr": -26.3407,
+    "net_tuition_per_fte_change_5yr": -24.9935,
     "staff_total_headcount_pct_change_5yr": 20.3149,
     "staff_instructional_headcount_pct_change_5yr": 23.1408,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 23.7604,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 534342165,
-    "research_expense_per_fte": 12117.9763,
+    "research_expense_per_fte": 12339.6108,
     "research_expense_pct_core_expenses": 28.9029,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 86.8,
+    "research_spending_per_fte_percentile": 86.3,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 10.8583,
     "pct_international_undergraduate": 7.5463,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 4244173,
     "grad_plus_disbursements_per_recipient": 9410.5831,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 15.433,
-    "state_funding_pct_core_revenue": 33.0156,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 12.869,
-    "state_funding_pct_change_5yr": 31.8087,
-    "endowment_pct_change_5yr": 20.2519,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 14.6162,
+    "state_funding_pct_core_revenue": 3.8952,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 23.9268,
+    "state_funding_pct_change_5yr": 54.8755,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 77,
     "median_earnings_10yr": 57743,
     "median_debt_completers": 17988,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 6787.6953
+        "value": 6881.5259
       },
       {
         "year": 2022,
-        "value": 6914.8899
+        "value": 7029.8126
       },
       {
         "year": 2023,
-        "value": 6456.7948
+        "value": 6560.5779
       },
       {
         "year": 2024,
-        "value": 5785.5939
+        "value": 5891.4108
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 513940357.1562
-      },
-      {
-        "year": 2015,
-        "value": 513971430.6512
-      },
-      {
-        "year": 2016,
-        "value": 480573129.4692
-      },
-      {
-        "year": 2017,
-        "value": 525090660.2119
-      },
-      {
-        "year": 2018,
-        "value": 555217698.5954
-      },
-      {
-        "year": 2019,
-        "value": 589041280.7716
-      },
-      {
-        "year": 2020,
-        "value": 644993607.3374
-      },
-      {
-        "year": 2021,
-        "value": 801953148.7764
-      },
-      {
-        "year": 2022,
-        "value": 647965077.1645
-      },
-      {
-        "year": 2023,
-        "value": 656688486.7049
-      },
-      {
         "year": 2024,
         "value": 708333328
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 236301495.9712
+        "value": 163252182.4407
       },
       {
         "year": 2015,
-        "value": 239018562.6606
+        "value": 179533296.3378
       },
       {
         "year": 2016,
-        "value": 249410168.005
+        "value": 210934698.0615
       },
       {
         "year": 2017,
-        "value": 253686932.293
+        "value": 212703854.7626
       },
       {
         "year": 2018,
-        "value": 255709720.7303
+        "value": 243860515.915
       },
       {
         "year": 2019,
-        "value": 253964142.9862
+        "value": 219061977.02
       },
       {
         "year": 2020,
-        "value": 228792910.859
+        "value": 239105100.2417
       },
       {
         "year": 2021,
-        "value": 224337885.2064
+        "value": 233378373.9397
       },
       {
         "year": 2022,
-        "value": 225542669.687
+        "value": 225802643.9141
       },
       {
         "year": 2023,
-        "value": 258772532.4408
+        "value": 221423309.817
       },
       {
         "year": 2024,
-        "value": 286646820
+        "value": 271476403
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 379586602.908
+        "value": 33967612.2742
       },
       {
         "year": 2015,
-        "value": 416227682.8722
+        "value": 9616366.4031
       },
       {
         "year": 2016,
-        "value": 425385663.6049
+        "value": 14081395.6564
       },
       {
         "year": 2017,
-        "value": 435436226.0481
+        "value": 21907080.2136
       },
       {
         "year": 2018,
-        "value": 465632112.9665
+        "value": 21524255.6777
       },
       {
         "year": 2019,
-        "value": 465235337.8574
+        "value": 46713479.4525
       },
       {
         "year": 2020,
-        "value": 519899882.0099
+        "value": 5058932.8049
       },
       {
         "year": 2021,
-        "value": 506179189.5431
+        "value": 42038275.9091
       },
       {
         "year": 2022,
-        "value": 469394619.9052
+        "value": -50375780.1487
       },
       {
         "year": 2023,
-        "value": 543138195.587
+        "value": 32180176.5831
       },
       {
         "year": 2024,
-        "value": 613220660
+        "value": 72347751
       }
     ]
   }

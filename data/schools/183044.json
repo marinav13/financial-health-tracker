@@ -1,6 +1,6 @@
 {
   "unitid": "183044",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of New Hampshire-Main Campus",
     "institution_unique_name": "University of New Hampshire-Main Campus | Durham | New Hampshire",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -11.9774,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.803,
-    "net_tuition_per_fte_change_5yr": -22.5078,
+    "net_tuition_per_fte_change_5yr": -22.3211,
     "staff_total_headcount_pct_change_5yr": -4.1743,
     "staff_instructional_headcount_pct_change_5yr": -5.3106,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 18.0635,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 184971678,
-    "research_expense_per_fte": 13470.1193,
+    "research_expense_per_fte": 13502.5679,
     "research_expense_pct_core_expenses": 34.2717,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 88.8,
+    "research_spending_per_fte_percentile": 87.8,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.332,
     "pct_international_undergraduate": 1.0644,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 3439667,
     "grad_plus_disbursements_per_recipient": 12834.5784,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 20.4836,
-    "state_funding_pct_core_revenue": 11.1067,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 47.773,
-    "state_funding_pct_change_5yr": 1.9543,
-    "endowment_pct_change_5yr": 5.1601,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 10.1676,
+    "state_funding_pct_core_revenue": 11.598,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 23.6205,
+    "state_funding_pct_change_5yr": 120.3262,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 76,
     "median_earnings_10yr": 66479,
     "median_debt_completers": 26814,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 16321.6578
+        "value": 16349.269
       },
       {
         "year": 2022,
-        "value": 14849.4877
+        "value": 14881.6992
       },
       {
         "year": 2023,
-        "value": 14113.9024
+        "value": 14144.7435
       },
       {
         "year": 2024,
-        "value": 13413.5551
+        "value": 13445.8674
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 445723409.3142
-      },
-      {
-        "year": 2015,
-        "value": 459151736.4746
-      },
-      {
-        "year": 2016,
-        "value": 431481643.3303
-      },
-      {
-        "year": 2017,
-        "value": 467650518.6709
-      },
-      {
-        "year": 2018,
-        "value": 486562654.7443
-      },
-      {
-        "year": 2019,
-        "value": 499662643.3376
-      },
-      {
-        "year": 2020,
-        "value": 484266478.8906
-      },
-      {
-        "year": 2021,
-        "value": 579078106.3843
-      },
-      {
-        "year": 2022,
-        "value": 474059339.4925
-      },
-      {
-        "year": 2023,
-        "value": 487023811.4426
-      },
-      {
         "year": 2024,
         "value": 525445726
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 89452171.7101
+        "value": 44718590.6628
       },
       {
         "year": 2015,
-        "value": 88988830.0242
+        "value": 42970751.5299
       },
       {
         "year": 2016,
-        "value": 85104956.1238
+        "value": 46756340.9261
       },
       {
         "year": 2017,
-        "value": 79806206.9128
+        "value": 48780566.7831
       },
       {
         "year": 2018,
-        "value": 79623645.3783
+        "value": 53313901.9625
       },
       {
         "year": 2019,
-        "value": 82431085.6533
+        "value": 48911205.5166
       },
       {
         "year": 2020,
-        "value": 85543294.8854
+        "value": 45217812.8355
       },
       {
         "year": 2021,
-        "value": 80090980.0895
+        "value": 51081435.3459
       },
       {
         "year": 2022,
-        "value": 105312355.3637
+        "value": 55109625.8993
       },
       {
         "year": 2023,
-        "value": 120756331.8229
+        "value": 60261982.3219
       },
       {
         "year": 2024,
-        "value": 121810894
+        "value": 60464289
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 60156973.3627
+        "value": 5125304.2755
       },
       {
         "year": 2015,
-        "value": 70159457.7795
+        "value": 5158534.1245
       },
       {
         "year": 2016,
-        "value": 69159754.5196
+        "value": -27657798.1207
       },
       {
         "year": 2017,
-        "value": 67576742.0454
+        "value": 5585608.1197
       },
       {
         "year": 2018,
-        "value": 65960940.2026
+        "value": 41309436.0391
       },
       {
         "year": 2019,
-        "value": 64782489.5326
+        "value": 31303728.3394
       },
       {
         "year": 2020,
-        "value": 67708230.9364
+        "value": 12768915.8765
       },
       {
         "year": 2021,
-        "value": 66951528.7581
+        "value": 137792390.1497
       },
       {
         "year": 2022,
-        "value": 61960547.3543
+        "value": -39826084.2791
       },
       {
         "year": 2023,
-        "value": 59510633.6368
+        "value": 40871879.6146
       },
       {
         "year": 2024,
-        "value": 66048504
+        "value": 68970306
       }
     ]
   }

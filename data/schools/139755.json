@@ -1,6 +1,6 @@
 {
   "unitid": "139755",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Georgia Institute of Technology-Main Campus",
     "institution_unique_name": "Georgia Institute of Technology-Main Campus | Atlanta | Georgia",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 38631.8815,
     "research_expense_pct_core_expenses": 59.1676,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 98,
+    "research_spending_per_fte_percentile": 97.1,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 27.578,
     "pct_international_undergraduate": 9.312,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 4712317,
     "grad_plus_disbursements_per_recipient": 8992.9714,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 42.5692,
-    "state_funding_pct_core_revenue": 20.3018,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 36.8959,
-    "state_funding_pct_change_5yr": 35.867,
-    "endowment_pct_change_5yr": 18.9995,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 12.6322,
+    "state_funding_pct_core_revenue": 2.367,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 5.7542,
+    "state_funding_pct_change_5yr": 72.4177,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 94,
     "median_earnings_10yr": 102772,
     "median_debt_completers": 21672,
@@ -154,15 +154,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17003.743
+        "value": 15858.6812
       },
       {
         "year": 2015,
-        "value": 17868.6056
+        "value": 16964.1755
       },
       {
         "year": 2016,
-        "value": 18779.1616
+        "value": 18040.194
       },
       {
         "year": 2017,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 2503053665.881
-      },
-      {
-        "year": 2015,
-        "value": 2460332533.755
-      },
-      {
-        "year": 2016,
-        "value": 2409798403.3632
-      },
-      {
-        "year": 2017,
-        "value": 2541303213.0304
-      },
-      {
-        "year": 2018,
-        "value": 2612265706.6111
-      },
-      {
-        "year": 2019,
-        "value": 2661350987.6319
-      },
-      {
-        "year": 2020,
-        "value": 2629769287.7158
-      },
-      {
-        "year": 2021,
-        "value": 3439964785.0577
-      },
-      {
-        "year": 2022,
-        "value": 3138167577.2486
-      },
-      {
-        "year": 2023,
-        "value": 3034246738.6848
-      },
-      {
         "year": 2024,
         "value": 3166993332
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 653755616.0954
+        "value": 251032349.22
       },
       {
         "year": 2015,
-        "value": 689413725.6977
+        "value": 270922205.8109
       },
       {
         "year": 2016,
-        "value": 694552936.1134
+        "value": 276412631.409
       },
       {
         "year": 2017,
-        "value": 697858551.0853
+        "value": 298480038.6396
       },
       {
         "year": 2018,
-        "value": 765885265.6989
+        "value": 308678343.3053
       },
       {
         "year": 2019,
-        "value": 813129206.9323
+        "value": 312346125.1419
       },
       {
         "year": 2020,
-        "value": 899537845.7537
+        "value": 285762374.1095
       },
       {
         "year": 2021,
-        "value": 945222713.0212
+        "value": 257984249.3082
       },
       {
         "year": 2022,
-        "value": 982574153.1216
+        "value": 277273170.8577
       },
       {
         "year": 2023,
-        "value": 1060046681.8772
+        "value": 310225140.5224
       },
       {
         "year": 2024,
-        "value": 1113140273
+        "value": 330319270
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 294273489.2859
+        "value": 19025726.2665
       },
       {
         "year": 2015,
-        "value": 300717511.1216
+        "value": 20052412.194
       },
       {
         "year": 2016,
-        "value": 304793621.0402
+        "value": 20108440.3136
       },
       {
         "year": 2017,
-        "value": 342347419.4667
+        "value": 27547269.0931
       },
       {
         "year": 2018,
-        "value": 363877990.7756
+        "value": 25570270.0089
       },
       {
         "year": 2019,
-        "value": 390728013.2521
+        "value": 35897848.8178
       },
       {
         "year": 2020,
-        "value": 427406764.5506
+        "value": 34879707.6371
       },
       {
         "year": 2021,
-        "value": 370848397.329
+        "value": 46142310.1812
       },
       {
         "year": 2022,
-        "value": 443866034.4541
+        "value": -1196214.5829
       },
       {
         "year": 2023,
-        "value": 494678130.0378
+        "value": 43508521.818
       },
       {
         "year": 2024,
-        "value": 530870251
+        "value": 61894259
       }
     ]
   }

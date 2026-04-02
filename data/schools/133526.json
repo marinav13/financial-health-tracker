@@ -1,6 +1,6 @@
 {
   "unitid": "133526",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Edward Waters University",
     "institution_unique_name": "Edward Waters University | Jacksonville | Florida",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -72.2549,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 15.7287,
-    "net_tuition_per_fte_change_5yr": 52.8003,
+    "net_tuition_per_fte_change_5yr": 77.6391,
     "staff_total_headcount_pct_change_5yr": 0,
     "staff_instructional_headcount_pct_change_5yr": -9.8214,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 43.3603,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 43.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 43.4% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 5.9894,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 83076,
     "grad_plus_disbursements_per_recipient": 5934,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 16.3261,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 36.2522,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 167.9016,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 16.3261,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 36.2522,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 28,
     "median_earnings_10yr": 34782,
     "median_debt_completers": null,
@@ -154,27 +154,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14528.4787
+        "value": 12332.8015
       },
       {
         "year": 2015,
-        "value": 13637.2224
+        "value": 11556.6346
       },
       {
         "year": 2016,
-        "value": 11710.8814
+        "value": 10250.3096
       },
       {
         "year": 2017,
-        "value": 8171.6308
+        "value": 7043.7372
       },
       {
         "year": 2018,
-        "value": 7798.8174
+        "value": 6591.6744
       },
       {
         "year": 2019,
-        "value": 9465.3048
+        "value": 8141.799
       },
       {
         "year": 2020,
@@ -443,51 +443,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 2200383.8506
-      },
-      {
-        "year": 2015,
-        "value": 2224317.6825
-      },
-      {
-        "year": 2016,
-        "value": 2196607.1996
-      },
-      {
-        "year": 2017,
-        "value": 2150787.7944
-      },
-      {
-        "year": 2018,
-        "value": 2100757.0206
-      },
-      {
-        "year": 2019,
-        "value": 2063412.1979
-      },
-      {
-        "year": 2020,
-        "value": 2037011.9669
-      },
-      {
-        "year": 2021,
-        "value": 1946805.0791
-      },
-      {
-        "year": 2022,
-        "value": 3733170.8198
-      },
-      {
-        "year": 2023,
-        "value": 4459421.7338
-      },
-      {
         "year": 2024,
         "value": 5527915
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 4185476.2051
@@ -531,52 +537,6 @@
       {
         "year": 2024,
         "value": 4283478
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

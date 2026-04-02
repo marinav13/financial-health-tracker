@@ -1,6 +1,6 @@
 {
   "unitid": "104586",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Embry-Riddle Aeronautical University-Prescott",
     "institution_unique_name": "Embry-Riddle Aeronautical University-Prescott | Prescott | Arizona",
@@ -16,23 +16,23 @@
   "summary": {
     "enrollment_pct_change_5yr": 17.2473,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": 31.2841,
-    "net_tuition_per_fte_change_5yr": 1.9531,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": 2.2822,
     "staff_total_headcount_pct_change_5yr": 24.7104,
     "staff_instructional_headcount_pct_change_5yr": 5.0251,
-    "ended_year_at_loss": "No",
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 74.9971,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 75% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "share_grad_students": 1.2234,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5758000,
     "research_expense_per_fte": 1803.8847,
     "research_expense_pct_core_expenses": 5.4842,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 90,
+    "research_spending_per_fte_percentile": 89.4,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 9.4961,
     "pct_international_undergraduate": 9.2303,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.9964,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 13.8042,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 47.4073,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.9964,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 13.8042,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 68,
     "median_earnings_10yr": 84131,
     "median_debt_completers": 23666,
@@ -59,52 +59,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 79781759.8084
-      },
-      {
-        "year": 2015,
-        "value": 82213710.371
-      },
-      {
-        "year": 2016,
-        "value": 88682521.8764
-      },
-      {
-        "year": 2017,
-        "value": 97665647.0831
-      },
-      {
-        "year": 2018,
-        "value": 102651270.2075
-      },
-      {
-        "year": 2019,
-        "value": 109764217.5336
-      },
-      {
-        "year": 2020,
-        "value": 108447180.6647
-      },
-      {
-        "year": 2021,
-        "value": 133562957.8404
-      },
-      {
-        "year": 2022,
-        "value": 120717555.644
-      },
-      {
-        "year": 2023,
-        "value": 129019325.5935
-      },
-      {
-        "year": 2024,
-        "value": 144103000
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -154,47 +109,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34930.3931
+        "value": 35256.0939
       },
       {
         "year": 2015,
-        "value": 33968.1955
+        "value": 34459.9078
       },
       {
         "year": 2016,
-        "value": 34067.3366
+        "value": 34623.5806
       },
       {
         "year": 2017,
-        "value": 33198.0585
+        "value": 33388.4636
       },
       {
         "year": 2018,
-        "value": 32497.9331
+        "value": 32687.0075
       },
       {
         "year": 2019,
-        "value": 33208.8447
+        "value": 33390.8235
       },
       {
         "year": 2020,
-        "value": 31231.1815
+        "value": 31627.9572
       },
       {
         "year": 2021,
-        "value": 34584.5339
+        "value": 34797.3056
       },
       {
         "year": 2022,
-        "value": 32904.9706
+        "value": 33127.6424
       },
       {
         "year": 2023,
-        "value": 31923.5951
+        "value": 32161.7116
       },
       {
         "year": 2024,
-        "value": 33857.4561
+        "value": 34152.8822
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 32658018.7367
-      },
-      {
-        "year": 2015,
-        "value": 34692579.0629
-      },
-      {
-        "year": 2016,
-        "value": 39453083.2601
-      },
-      {
-        "year": 2017,
-        "value": 47809884.122
-      },
-      {
-        "year": 2018,
-        "value": 50700665.6085
-      },
-      {
-        "year": 2019,
-        "value": 59828112.0407
-      },
-      {
-        "year": 2020,
-        "value": 62744829.8256
-      },
-      {
-        "year": 2021,
-        "value": 85506502.2622
-      },
-      {
-        "year": 2022,
-        "value": 74325819.2684
-      },
-      {
-        "year": 2023,
-        "value": 82310135.5685
-      },
-      {
         "year": 2024,
         "value": 88191000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1164726.2394
@@ -563,52 +524,6 @@
       {
         "year": 2024,
         "value": 1307000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

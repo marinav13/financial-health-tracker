@@ -1,6 +1,6 @@
 {
   "unitid": "170037",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Cornerstone University",
     "institution_unique_name": "Cornerstone University | Grand Rapids | Michigan",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 55.378,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 55.4% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 55.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 18.7935,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 12342,
     "grad_plus_disbursements_per_recipient": 4114,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.7381,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -33.2726,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 32.8759,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.7381,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -33.2726,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 47314,
     "median_debt_completers": 25000,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14933.0769
+        "value": 14884.4814
       },
       {
         "year": 2015,
-        "value": 15015.5582
+        "value": 14930.0991
       },
       {
         "year": 2016,
-        "value": 15338.2368
+        "value": 15260.5741
       },
       {
         "year": 2017,
-        "value": 13190.71
+        "value": 15223.818
       },
       {
         "year": 2018,
@@ -190,7 +190,7 @@
       },
       {
         "year": 2023,
-        "value": 14624.1712
+        "value": 14338.8142
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 9664589.5956
-      },
-      {
-        "year": 2015,
-        "value": 9835812.5163
-      },
-      {
-        "year": 2016,
-        "value": 11020124.7195
-      },
-      {
-        "year": 2017,
-        "value": 12151796.3822
-      },
-      {
-        "year": 2018,
-        "value": 13187676.3416
-      },
-      {
-        "year": 2019,
-        "value": 12802874.873
-      },
-      {
-        "year": 2020,
-        "value": 12816579.3063
-      },
-      {
-        "year": 2021,
-        "value": 18147218.3219
-      },
-      {
-        "year": 2022,
-        "value": 17581526.9818
-      },
-      {
-        "year": 2023,
-        "value": 16994789.4317
-      },
-      {
         "year": 2024,
         "value": 17011940
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 302966.6283
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 229762
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

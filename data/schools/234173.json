@@ -1,6 +1,6 @@
 {
   "unitid": "234173",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Virginia Wesleyan University",
     "institution_unique_name": "Virginia Wesleyan University | Virginia Beach | Virginia",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 26.5712,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 26.6% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 26.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 6.9644,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 12731,
     "grad_plus_disbursements_per_recipient": 4243.6667,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.6255,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.6255,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 65.5807,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 42,
     "median_earnings_10yr": 50074,
     "median_debt_completers": 27000,
@@ -154,11 +154,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 26304.1346
+        "value": 21615.5181
       },
       {
         "year": 2015,
-        "value": 18549.7702
+        "value": 20305.7919
       },
       {
         "year": 2016,
@@ -182,11 +182,11 @@
       },
       {
         "year": 2021,
-        "value": 13555.2957
+        "value": 15963.726
       },
       {
         "year": 2022,
-        "value": 14123.8418
+        "value": 14227.0812
       },
       {
         "year": 2023,
@@ -459,51 +459,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 76472707.6345
-      },
-      {
-        "year": 2015,
-        "value": 75915977.897
-      },
-      {
-        "year": 2016,
-        "value": 68718025.3254
-      },
-      {
-        "year": 2017,
-        "value": 72651131.2837
-      },
-      {
-        "year": 2018,
-        "value": 73325495.508
-      },
-      {
-        "year": 2019,
-        "value": 73571520.1724
-      },
-      {
-        "year": 2020,
-        "value": 71226176.2705
-      },
-      {
-        "year": 2021,
-        "value": 84303477.1057
-      },
-      {
-        "year": 2022,
-        "value": 124224858.1645
-      },
-      {
-        "year": 2023,
-        "value": 119294470.3772
-      },
-      {
         "year": 2024,
         "value": 121820249
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -547,52 +553,6 @@
       {
         "year": 2024,
         "value": 358800
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

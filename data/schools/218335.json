@@ -1,6 +1,6 @@
 {
   "unitid": "218335",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Medical University of South Carolina",
     "institution_unique_name": "Medical University of South Carolina | Charleston | South Carolina",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 7.1135,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -3.9568,
-    "net_tuition_per_fte_change_5yr": -60.4638,
+    "net_tuition_per_fte_change_5yr": -21.2998,
     "staff_total_headcount_pct_change_5yr": 15.3077,
     "staff_instructional_headcount_pct_change_5yr": 15.8397,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 90.3952,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 252836474,
-    "research_expense_per_fte": 71706.3171,
+    "research_expense_per_fte": 96355.3636,
     "research_expense_pct_core_expenses": 27.1706,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 99.6,
+    "research_spending_per_fte_percentile": 99.1,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 2.3875,
     "pct_international_undergraduate": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 9713345,
     "grad_plus_disbursements_per_recipient": 10877.206,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 23.4975,
-    "state_funding_pct_core_revenue": 17.547,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 7.9001,
-    "state_funding_pct_change_5yr": 27.0508,
-    "endowment_pct_change_5yr": 15.9886,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 6.1331,
+    "state_funding_pct_core_revenue": 1.46,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 20.5154,
+    "state_funding_pct_change_5yr": 164.3515,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 88420,
     "median_debt_completers": 15000,
@@ -170,11 +170,11 @@
       },
       {
         "year": 2018,
-        "value": 58518.8743
+        "value": 49770.2054
       },
       {
         "year": 2019,
-        "value": 74532.2746
+        "value": 50313.1917
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 34397.1298
+        "value": 48680.9178
       },
       {
         "year": 2022,
-        "value": 31474.5627
+        "value": 42892.0369
       },
       {
         "year": 2023,
-        "value": 30540.7198
+        "value": 40797.7048
       },
       {
         "year": 2024,
-        "value": 29467.2326
+        "value": 39596.5938
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 414186746.3339
-      },
-      {
-        "year": 2015,
-        "value": 427015176.757
-      },
-      {
-        "year": 2016,
-        "value": 407786060.8796
-      },
-      {
-        "year": 2017,
-        "value": 437736140.2519
-      },
-      {
-        "year": 2018,
-        "value": 463838556.4743
-      },
-      {
-        "year": 2019,
-        "value": 460849089.3936
-      },
-      {
-        "year": 2020,
-        "value": 441852530.1864
-      },
-      {
-        "year": 2021,
-        "value": 548231189.4183
-      },
-      {
-        "year": 2022,
-        "value": 463336103.0928
-      },
-      {
-        "year": 2023,
-        "value": 487470154.9129
-      },
-      {
         "year": 2024,
         "value": 534532443
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 174874830.5514
+        "value": 42594432.1155
       },
       {
         "year": 2015,
-        "value": 174257343.7396
+        "value": 43571486.4061
       },
       {
         "year": 2016,
-        "value": 181428086.583
+        "value": 48729026.4571
       },
       {
         "year": 2017,
-        "value": 186613641.1287
+        "value": 49594365.2723
       },
       {
         "year": 2018,
-        "value": 194788940.1559
+        "value": 51420729.8154
       },
       {
         "year": 2019,
-        "value": 204684052.251
+        "value": 47832142.4485
       },
       {
         "year": 2020,
-        "value": 223495916.6454
+        "value": 41310373.9524
       },
       {
         "year": 2021,
-        "value": 248340703.6886
+        "value": 35718868.2077
       },
       {
         "year": 2022,
-        "value": 212414726.8879
+        "value": 45760605.7481
       },
       {
         "year": 2023,
-        "value": 229881847.8113
+        "value": 56342568.4877
       },
       {
         "year": 2024,
-        "value": 220854265
+        "value": 57645078
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 123052067.0574
+        "value": 15060456.1989
       },
       {
         "year": 2015,
-        "value": 143165363.6142
+        "value": 4116561.8024
       },
       {
         "year": 2016,
-        "value": 120059798.4355
+        "value": -4447274.5076
       },
       {
         "year": 2017,
-        "value": 133864527.1341
+        "value": 12033681.8262
       },
       {
         "year": 2018,
-        "value": 124578375.7807
+        "value": 9821900.9423
       },
       {
         "year": 2019,
-        "value": 129810361.4409
+        "value": 5191162.3372
       },
       {
         "year": 2020,
-        "value": 171559007.3852
+        "value": 679712.6277
       },
       {
         "year": 2021,
-        "value": 169358862.0096
+        "value": 34205060.9157
       },
       {
         "year": 2022,
-        "value": 165137464.7568
+        "value": -16449552.9649
       },
       {
         "year": 2023,
-        "value": 181691358.457
+        "value": 6425869.2654
       },
       {
         "year": 2024,
-        "value": 164925090
+        "value": 13722913
       }
     ]
   }

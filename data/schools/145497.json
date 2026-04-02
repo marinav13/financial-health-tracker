@@ -1,6 +1,6 @@
 {
   "unitid": "145497",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Hebrew Theological College",
     "institution_unique_name": "Hebrew Theological College | Skokie | Illinois",
@@ -16,16 +16,16 @@
   "summary": {
     "enrollment_pct_change_5yr": 10.6796,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": 15.0963,
+    "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": 38.5025,
     "staff_total_headcount_pct_change_5yr": -5.814,
     "staff_instructional_headcount_pct_change_5yr": -10.2564,
-    "ended_year_at_loss": "Yes",
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 3,
-    "tuition_dependence_pct": 16.458,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 16.5% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "loss_years_last_10": 0,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -48,9 +48,9 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 5.8658,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": 33291,
     "median_debt_completers": 14000,
@@ -75,34 +75,6 @@
       {
         "year": 2017,
         "value": 9846779.8691
-      },
-      {
-        "year": 2018,
-        "value": 11141722.7969
-      },
-      {
-        "year": 2019,
-        "value": 10199285.7435
-      },
-      {
-        "year": 2020,
-        "value": 10904713.9921
-      },
-      {
-        "year": 2021,
-        "value": 10391085.5962
-      },
-      {
-        "year": 2022,
-        "value": 13898977.5094
-      },
-      {
-        "year": 2023,
-        "value": 12207744.4913
-      },
-      {
-        "year": 2024,
-        "value": 11739000
       }
     ],
     "expenses_total_adjusted": [
@@ -154,15 +126,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 4994.7305
+        "value": 5513.1787
       },
       {
         "year": 2015,
-        "value": 5643.9326
+        "value": 6204.4519
       },
       {
         "year": 2016,
-        "value": 5278.7547
+        "value": 5677.1462
       },
       {
         "year": 2017,
@@ -451,46 +423,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1174326.2867
-      },
-      {
-        "year": 2015,
-        "value": 1170872.0486
-      },
-      {
-        "year": 2016,
-        "value": 1077164.8454
-      },
-      {
-        "year": 2017,
-        "value": 1206072.2658
-      },
-      {
-        "year": 2018,
-        "value": 1077705.9194
-      },
-      {
-        "year": 2019,
-        "value": 1079010.3074
-      },
-      {
-        "year": 2020,
-        "value": 1307325.7633
-      },
-      {
-        "year": 2021,
-        "value": 1541904.6671
-      },
-      {
-        "year": 2022,
-        "value": 1444602.9345
-      },
-      {
-        "year": 2023,
-        "value": 1075778.4001
-      },
-      {
         "year": 2024,
         "value": 1142303
       }
@@ -498,11 +430,11 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 9908.7859
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 10082.3266
+        "value": 0
       },
       {
         "year": 2016,
@@ -514,11 +446,11 @@
       },
       {
         "year": 2018,
-        "value": 254907.9935
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 246864.5817
+        "value": 0
       },
       {
         "year": 2020,
@@ -544,27 +476,27 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 1709469.629
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 1576797.5286
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 9652.1904
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 244753.4363
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 254907.9935
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 246864.5817
       },
       {
         "year": 2020,

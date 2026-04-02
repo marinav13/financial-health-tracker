@@ -1,6 +1,6 @@
 {
   "unitid": "210739",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "DeSales University",
     "institution_unique_name": "DeSales University | Center Valley | Pennsylvania",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -7.3894,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.9385,
-    "net_tuition_per_fte_change_5yr": -19.7811,
+    "net_tuition_per_fte_change_5yr": -14.561,
     "staff_total_headcount_pct_change_5yr": 5.9091,
     "staff_instructional_headcount_pct_change_5yr": 3.0581,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 58.3447,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 58.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 58.159,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 58.2% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 26.9635,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 575923,
     "grad_plus_disbursements_per_recipient": 10103.9123,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5858,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -14.6329,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -6.1886,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5858,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -14.6329,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 72,
     "median_earnings_10yr": 61295,
     "median_debt_completers": 25788,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20853.8502
+        "value": 21245.8768
       },
       {
         "year": 2015,
-        "value": 22221.9939
+        "value": 21695.5368
       },
       {
         "year": 2016,
-        "value": 22375.2917
+        "value": 22294.3675
       },
       {
         "year": 2017,
-        "value": 21932.1469
+        "value": 21880.4307
       },
       {
         "year": 2018,
-        "value": 20669.8407
+        "value": 20622.2374
       },
       {
         "year": 2019,
-        "value": 21848.9577
+        "value": 21792.3023
       },
       {
         "year": 2020,
-        "value": 21242.1768
+        "value": 21097.6962
       },
       {
         "year": 2021,
-        "value": 19077.9987
+        "value": 20023.1365
       },
       {
         "year": 2022,
-        "value": 18055.1933
+        "value": 19013.9855
       },
       {
         "year": 2023,
-        "value": 17594.6833
+        "value": 18584.4593
       },
       {
         "year": 2024,
-        "value": 17526.9892
+        "value": 18619.1245
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 88423577.9846
-      },
-      {
-        "year": 2015,
-        "value": 91613092.3474
-      },
-      {
-        "year": 2016,
-        "value": 90546182.7472
-      },
-      {
-        "year": 2017,
-        "value": 102501904.2414
-      },
-      {
-        "year": 2018,
-        "value": 109735714.4165
-      },
-      {
-        "year": 2019,
-        "value": 112687864.9767
-      },
-      {
-        "year": 2020,
-        "value": 97604207.9342
-      },
-      {
-        "year": 2021,
-        "value": 113990616.4838
-      },
-      {
-        "year": 2022,
-        "value": 92670771.7339
-      },
-      {
-        "year": 2023,
-        "value": 97504312.5431
-      },
-      {
         "year": 2024,
         "value": 105714112
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 711867.6919
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 477308
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

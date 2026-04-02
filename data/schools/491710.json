@@ -1,6 +1,6 @@
 {
   "unitid": "491710",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Yeshiva Gedolah of Cliffwood",
     "institution_unique_name": "Yeshiva Gedolah of Cliffwood | Keyport | New Jersey",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -23.0088,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -22.5838,
-    "net_tuition_per_fte_change_5yr": -69.8663,
+    "net_tuition_per_fte_change_5yr": -36.7678,
     "staff_total_headcount_pct_change_5yr": -41.6667,
     "staff_instructional_headcount_pct_change_5yr": -37.5,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 7.6901,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 7.7% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.8145,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 20.8% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,8 +46,8 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.0142,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.0142,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
@@ -122,31 +122,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2018,
-        "value": 4664.2101
+        "value": 7232.0304
       },
       {
         "year": 2019,
-        "value": 6702.4255
+        "value": 8645.2636
       },
       {
         "year": 2020,
-        "value": 8565.3117
+        "value": 10231.698
       },
       {
         "year": 2021,
-        "value": 4778.0819
+        "value": 6680.0223
       },
       {
         "year": 2022,
-        "value": 6433.1634
+        "value": 7603.9193
       },
       {
         "year": 2023,
-        "value": 4770.4127
+        "value": 9153.8468
       },
       {
         "year": 2024,
-        "value": 2019.6897
+        "value": 5466.5862
       }
     ],
     "enrollment_headcount_total": [
@@ -312,6 +312,36 @@
       },
       {
         "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
         "value": 566525.1629
       },
       {
@@ -329,36 +359,6 @@
       {
         "year": 2024,
         "value": 325
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "164748",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Berklee College of Music",
     "institution_unique_name": "Berklee College of Music | Boston | Massachusetts",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 70.8101,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 10.3864,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 848479,
     "grad_plus_disbursements_per_recipient": 10740.2405,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.429,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 235.3742,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -2.4035,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.429,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 235.3742,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 33647,
     "median_debt_completers": 25000,
@@ -154,15 +154,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40761.8643
+        "value": 40782.009
       },
       {
         "year": 2015,
-        "value": 41285.5222
+        "value": 41307.8302
       },
       {
         "year": 2016,
-        "value": 33001.7059
+        "value": 33017.6622
       },
       {
         "year": 2017,
@@ -178,19 +178,19 @@
       },
       {
         "year": 2020,
-        "value": 40722.9357
+        "value": 40849.4884
       },
       {
         "year": 2021,
-        "value": 30936.2443
+        "value": 30841.4407
       },
       {
         "year": 2022,
-        "value": 32791.8508
+        "value": 32765.1493
       },
       {
         "year": 2023,
-        "value": 33652.1052
+        "value": 33636.6606
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 425944559.6658
-      },
-      {
-        "year": 2015,
-        "value": 433766714.5127
-      },
-      {
-        "year": 2016,
-        "value": 413548417.2505
-      },
-      {
-        "year": 2017,
-        "value": 459062605.3154
-      },
-      {
-        "year": 2018,
-        "value": 456061509.7591
-      },
-      {
-        "year": 2019,
-        "value": 436884953.8396
-      },
-      {
-        "year": 2020,
-        "value": 397028923.3071
-      },
-      {
-        "year": 2021,
-        "value": 517045781.9128
-      },
-      {
-        "year": 2022,
-        "value": 435815374.0976
-      },
-      {
-        "year": 2023,
-        "value": 401525105.2556
-      },
-      {
         "year": 2024,
         "value": 426384464
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 841033.0492
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 5018996
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

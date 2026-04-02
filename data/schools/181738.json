@@ -1,6 +1,6 @@
 {
   "unitid": "181738",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Union Adventist University",
     "institution_unique_name": "Union Adventist University | Lincoln | Nebraska",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -23.1397,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.1,
-    "net_tuition_per_fte_change_5yr": 4.0842,
+    "net_tuition_per_fte_change_5yr": -1.7646,
     "staff_total_headcount_pct_change_5yr": -14.2349,
     "staff_instructional_headcount_pct_change_5yr": -11.5702,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 47.2921,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 47.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 47.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 13.2626,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1245385,
     "grad_plus_disbursements_per_recipient": 18049.058,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.8174,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 255.7314,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 24.878,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.8174,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 255.7314,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 58,
     "median_earnings_10yr": 55045,
     "median_debt_completers": 27000,
@@ -154,39 +154,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19730.0982
+        "value": 20419.4377
       },
       {
         "year": 2015,
-        "value": 19809.3339
+        "value": 20396.2499
       },
       {
         "year": 2016,
-        "value": 19699.8905
+        "value": 20306.1145
       },
       {
         "year": 2017,
-        "value": 18180.7308
+        "value": 19109.3169
       },
       {
         "year": 2018,
-        "value": 19317.6133
+        "value": 20037.6996
       },
       {
         "year": 2019,
-        "value": 18275.0623
+        "value": 19363.1388
       },
       {
         "year": 2020,
-        "value": 19175.922
+        "value": 20207.2959
       },
       {
         "year": 2021,
-        "value": 15990.5155
+        "value": 17065.5844
       },
       {
         "year": 2022,
-        "value": 14894.7796
+        "value": 15961.3498
       },
       {
         "year": 2023,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 21813697.9417
-      },
-      {
-        "year": 2015,
-        "value": 26731765.6264
-      },
-      {
-        "year": 2016,
-        "value": 24868146.4878
-      },
-      {
-        "year": 2017,
-        "value": 25236830.3367
-      },
-      {
-        "year": 2018,
-        "value": 27305492.717
-      },
-      {
-        "year": 2019,
-        "value": 27502083.7203
-      },
-      {
-        "year": 2020,
-        "value": 30444018.5675
-      },
-      {
-        "year": 2021,
-        "value": 36777027.0909
-      },
-      {
-        "year": 2022,
-        "value": 31894552.9625
-      },
-      {
-        "year": 2023,
-        "value": 30855816.4673
-      },
-      {
         "year": 2024,
         "value": 34344047
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 582238.5642
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 614454
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

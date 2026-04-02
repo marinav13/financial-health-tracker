@@ -1,6 +1,6 @@
 {
   "unitid": "120698",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Palo Alto University",
     "institution_unique_name": "Palo Alto University | Palo Alto | California",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 87.1385,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 87.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 87.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 97.8807,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 6062594,
     "grad_plus_disbursements_per_recipient": 16253.6032,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5312,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -54.3774,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 57.3122,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5312,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -54.3774,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 83187,
     "median_debt_completers": 20500,
@@ -182,15 +182,15 @@
       },
       {
         "year": 2021,
-        "value": 31313.7411
+        "value": 65586.6844
       },
       {
         "year": 2022,
-        "value": 29480.5311
+        "value": 61327.3926
       },
       {
         "year": 2023,
-        "value": 27589.1895
+        "value": 58119.3586
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 903684.4554
-      },
-      {
-        "year": 2015,
-        "value": 903670.5416
-      },
-      {
-        "year": 2016,
-        "value": 892787.7499
-      },
-      {
-        "year": 2017,
-        "value": 876980.3578
-      },
-      {
-        "year": 2018,
-        "value": 864758.1254
-      },
-      {
-        "year": 2019,
-        "value": 729739.777
-      },
-      {
-        "year": 2020,
-        "value": 728725.0568
-      },
-      {
-        "year": 2021,
-        "value": 722246.4351
-      },
-      {
-        "year": 2022,
-        "value": 720715.6311
-      },
-      {
-        "year": 2023,
-        "value": 978420.145
-      },
-      {
         "year": 2024,
         "value": 1147970
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 686483.5502
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 211852
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

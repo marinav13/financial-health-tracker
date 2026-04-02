@@ -1,6 +1,6 @@
 {
   "unitid": "239716",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Saint Norbert College",
     "institution_unique_name": "Saint Norbert College | De Pere | Wisconsin",
@@ -24,15 +24,15 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 36.3826,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.4% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 3.8412,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 387546,
     "research_expense_per_fte": 197.526,
     "research_expense_pct_core_expenses": 0.6285,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 74.4,
+    "research_spending_per_fte_percentile": 74.2,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.8558,
     "pct_international_undergraduate": 1.8851,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.853,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 95.5122,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 6.5371,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.853,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 95.5122,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 72,
     "median_earnings_10yr": 58363,
     "median_debt_completers": 26731,
@@ -162,7 +162,7 @@
       },
       {
         "year": 2016,
-        "value": 22117.942
+        "value": 23760.833
       },
       {
         "year": 2017,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 127187747.5719
-      },
-      {
-        "year": 2015,
-        "value": 139569232.7699
-      },
-      {
-        "year": 2016,
-        "value": 130281832.7381
-      },
-      {
-        "year": 2017,
-        "value": 139060982.7545
-      },
-      {
-        "year": 2018,
-        "value": 182807998.3778
-      },
-      {
-        "year": 2019,
-        "value": 177211076.4533
-      },
-      {
-        "year": 2020,
-        "value": 178383523.3174
-      },
-      {
-        "year": 2021,
-        "value": 212933531.004
-      },
-      {
-        "year": 2022,
-        "value": 185488550.8531
-      },
-      {
-        "year": 2023,
-        "value": 175309757.4505
-      },
-      {
         "year": 2024,
         "value": 188795538
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 456540.8844
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 663644
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

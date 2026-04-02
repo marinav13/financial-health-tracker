@@ -1,6 +1,6 @@
 {
   "unitid": "215114",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Cairn University-Langhorne",
     "institution_unique_name": "Cairn University-Langhorne | Langhorne | Pennsylvania",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 18.0838,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -14.5284,
-    "net_tuition_per_fte_change_5yr": -28.9313,
+    "net_tuition_per_fte_change_5yr": -11.3275,
     "staff_total_headcount_pct_change_5yr": -27.2109,
     "staff_instructional_headcount_pct_change_5yr": -28.9017,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 50.5632,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 50.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 50.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 14.0785,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.8285,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -15.7507,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 3.7958,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.8285,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -93.3211,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 60,
     "median_earnings_10yr": 44172,
     "median_debt_completers": 26926,
@@ -154,27 +154,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15537.1124
+        "value": 14214.1562
       },
       {
         "year": 2015,
-        "value": 14644.2163
+        "value": 13461.5833
       },
       {
         "year": 2016,
-        "value": 14440.486
+        "value": 13090.9166
       },
       {
         "year": 2017,
-        "value": 14479.0216
+        "value": 13194.9994
       },
       {
         "year": 2018,
-        "value": 14017.1597
+        "value": 11127.3282
       },
       {
         "year": 2019,
-        "value": 13826.2941
+        "value": 11081.4097
       },
       {
         "year": 2020,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 14978178.0292
-      },
-      {
-        "year": 2015,
-        "value": 14818215.6214
-      },
-      {
-        "year": 2016,
-        "value": 13257016.254
-      },
-      {
-        "year": 2017,
-        "value": 14013413.6473
-      },
-      {
-        "year": 2018,
-        "value": 14250892.5067
-      },
-      {
-        "year": 2019,
-        "value": 13750895.2346
-      },
-      {
-        "year": 2020,
-        "value": 13114260.9085
-      },
-      {
-        "year": 2021,
-        "value": 17998017.799
-      },
-      {
-        "year": 2022,
-        "value": 13748041.7094
-      },
-      {
-        "year": 2023,
-        "value": 13709573.9978
-      },
-      {
         "year": 2024,
         "value": 14272849
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 171902.4624
@@ -538,11 +544,11 @@
       },
       {
         "year": 2018,
-        "value": 158651.5031
+        "value": 1921307.1798
       },
       {
         "year": 2019,
-        "value": 155827.9374
+        "value": 1965640.5966
       },
       {
         "year": 2020,
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 131284
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

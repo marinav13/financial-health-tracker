@@ -1,6 +1,6 @@
 {
   "unitid": "136774",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Ringling College of Art and Design",
     "institution_unique_name": "Ringling College of Art and Design | Sarasota | Florida",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 10.9554,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.7806,
-    "net_tuition_per_fte_change_5yr": -5.7287,
+    "net_tuition_per_fte_change_5yr": -6.2612,
     "staff_total_headcount_pct_change_5yr": -0.2304,
     "staff_instructional_headcount_pct_change_5yr": 1.7442,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 57.8496,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 57.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.6584,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 57.7% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.4919,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 26.5504,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 12.8173,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.4919,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 26.5504,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 72,
     "median_earnings_10yr": 43325,
     "median_debt_completers": 27000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 46019.4526
+        "value": 46176.1433
       },
       {
         "year": 2015,
-        "value": 46817.549
+        "value": 46971.1137
       },
       {
         "year": 2016,
-        "value": 47070.8887
+        "value": 47210.2852
       },
       {
         "year": 2017,
-        "value": 46543.574
+        "value": 46699.4599
       },
       {
         "year": 2018,
-        "value": 45654.2664
+        "value": 45774.1632
       },
       {
         "year": 2019,
-        "value": 46577.4997
+        "value": 46687.28
       },
       {
         "year": 2020,
-        "value": 46994.2522
+        "value": 47087.596
       },
       {
         "year": 2021,
-        "value": 45243.3909
+        "value": 45368.2679
       },
       {
         "year": 2022,
-        "value": 43499.1257
+        "value": 43350.1506
       },
       {
         "year": 2023,
-        "value": 43352.4389
+        "value": 43228.0089
       },
       {
         "year": 2024,
-        "value": 43909.1927
+        "value": 43764.0727
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 54524990.647
-      },
-      {
-        "year": 2015,
-        "value": 58568188.8544
-      },
-      {
-        "year": 2016,
-        "value": 53255931.2088
-      },
-      {
-        "year": 2017,
-        "value": 58137412.3475
-      },
-      {
-        "year": 2018,
-        "value": 62765967.5125
-      },
-      {
-        "year": 2019,
-        "value": 62491021.3077
-      },
-      {
-        "year": 2020,
-        "value": 65641772.4844
-      },
-      {
-        "year": 2021,
-        "value": 74069258.0049
-      },
-      {
-        "year": 2022,
-        "value": 66091080.7981
-      },
-      {
-        "year": 2023,
-        "value": 62755501.1266
-      },
-      {
         "year": 2024,
         "value": 70500683
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 314018.9395
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 500488
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

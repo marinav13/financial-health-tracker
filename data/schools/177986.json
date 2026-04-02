@@ -1,6 +1,6 @@
 {
   "unitid": "177986",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Logan University",
     "institution_unique_name": "Logan University | Chesterfield | Missouri",
@@ -17,23 +17,23 @@
     "enrollment_pct_change_5yr": 4.9827,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.1727,
-    "net_tuition_per_fte_change_5yr": -65.1184,
+    "net_tuition_per_fte_change_5yr": -21.6019,
     "staff_total_headcount_pct_change_5yr": 18.7919,
     "staff_instructional_headcount_pct_change_5yr": 16.2791,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 80.7678,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 80.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 80.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 77.7726,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 374273,
-    "research_expense_per_fte": 204.0747,
+    "research_expense_per_fte": 458.6679,
     "research_expense_pct_core_expenses": 0.8727,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 74.8,
-    "research_spending_peer_bucket": "middle 50%",
+    "research_spending_per_fte_percentile": 80,
+    "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 1.8797,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 2.4169,
@@ -49,8 +49,8 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 19.6545,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 22,
     "median_earnings_10yr": 55838,
     "median_debt_completers": 10250,
@@ -158,19 +158,19 @@
       },
       {
         "year": 2015,
-        "value": 178194.1648
+        "value": 178757.659
       },
       {
         "year": 2016,
-        "value": 338149.8668
+        "value": 339935.0269
       },
       {
         "year": 2017,
-        "value": 86418.2785
+        "value": 86772.4934
       },
       {
         "year": 2018,
-        "value": 66006.2802
+        "value": 65988.2227
       },
       {
         "year": 2019,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 22636.0612
+        "value": 50191.8674
       },
       {
         "year": 2022,
-        "value": 20794.8203
+        "value": 47743.9457
       },
       {
         "year": 2023,
-        "value": 20461.6183
+        "value": 43852.6658
       },
       {
         "year": 2024,
-        "value": 21972.4335
+        "value": 49384.1213
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 20592997.2648
-      },
-      {
-        "year": 2015,
-        "value": 19946812.4622
-      },
-      {
-        "year": 2016,
-        "value": 20413769.7456
-      },
-      {
-        "year": 2017,
-        "value": 27305163.4315
-      },
-      {
-        "year": 2018,
-        "value": 30124939.7976
-      },
-      {
-        "year": 2019,
-        "value": 29412389.4482
-      },
-      {
-        "year": 2020,
-        "value": 32980708.1158
-      },
-      {
-        "year": 2021,
-        "value": 40238343.3145
-      },
-      {
-        "year": 2022,
-        "value": 31886074.4469
-      },
-      {
-        "year": 2023,
-        "value": 30854796.2384
-      },
-      {
         "year": 2024,
         "value": 35193244
       }
@@ -522,15 +482,15 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 270376.8196
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 251150.2525
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 117020.8824
+        "value": 0
       },
       {
         "year": 2017,
@@ -546,11 +506,11 @@
       },
       {
         "year": 2020,
-        "value": 133493.9646
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 5623547.6315
+        "value": 0
       },
       {
         "year": 2022,
@@ -568,35 +528,35 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 402652.0887
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 355319.2944
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 266741.5823
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 249499.9789
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 344408.6781
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 556757.2696
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 133493.9646
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 5623547.6315
       },
       {
         "year": 2022,

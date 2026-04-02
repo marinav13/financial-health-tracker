@@ -1,6 +1,6 @@
 {
   "unitid": "153977",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Mercy College of Health Sciences",
     "institution_unique_name": "Mercy College of Health Sciences | Des Moines | Iowa",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 37.045,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -2.6723,
-    "net_tuition_per_fte_change_5yr": -30.4107,
+    "net_tuition_per_fte_change_5yr": -31.5681,
     "staff_total_headcount_pct_change_5yr": 25.6983,
     "staff_instructional_headcount_pct_change_5yr": 8.1967,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 67.936,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 67.9% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.5993,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 70.6% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 0.1562,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -48,9 +48,9 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 23.3278,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -100,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 62234,
     "median_debt_completers": 14745,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20001.1559
+        "value": 21434.3541
       },
       {
         "year": 2015,
-        "value": 20611.6059
+        "value": 22600.2666
       },
       {
         "year": 2016,
-        "value": 20764.3866
+        "value": 22606.7731
       },
       {
         "year": 2017,
-        "value": 21849.9127
+        "value": 23728.7793
       },
       {
         "year": 2018,
-        "value": 21851.5493
+        "value": 23354.8034
       },
       {
         "year": 2019,
-        "value": 22507.2322
+        "value": 23785.1672
       },
       {
         "year": 2020,
-        "value": 23397.2095
+        "value": 23702.7732
       },
       {
         "year": 2021,
-        "value": 22666.2308
+        "value": 22997.6351
       },
       {
         "year": 2022,
-        "value": 20772.8415
+        "value": 21100.5087
       },
       {
         "year": 2023,
-        "value": 19630.6968
+        "value": 19982.7142
       },
       {
         "year": 2024,
-        "value": 15662.622
+        "value": 16276.641
       }
     ],
     "enrollment_headcount_total": [
@@ -439,51 +439,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 4540885.9905
-      },
-      {
-        "year": 2015,
-        "value": 5221096.6948
-      },
-      {
-        "year": 2016,
-        "value": 6615687.1166
-      },
-      {
-        "year": 2017,
-        "value": 7065394.2578
-      },
-      {
-        "year": 2018,
-        "value": 8911220.0774
-      },
-      {
-        "year": 2019,
-        "value": 9362435.7319
-      },
-      {
-        "year": 2020,
-        "value": 10101929.7223
-      },
-      {
-        "year": 2021,
-        "value": 11588222.9339
-      },
-      {
-        "year": 2022,
-        "value": 10508742.8169
-      },
-      {
-        "year": 2023,
-        "value": 11377185.4783
-      },
-      {
         "year": 2024,
         "value": 11546487
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -523,52 +529,6 @@
       {
         "year": 2023,
         "value": 299299.7569
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
       },
       {
         "year": 2024,

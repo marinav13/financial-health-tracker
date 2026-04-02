@@ -1,6 +1,6 @@
 {
   "unitid": "147341",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Monmouth College",
     "institution_unique_name": "Monmouth College | Monmouth | Illinois",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -18.5822,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 30.2091,
-    "net_tuition_per_fte_change_5yr": -22.5719,
+    "net_tuition_per_fte_change_5yr": -26.9063,
     "staff_total_headcount_pct_change_5yr": -24.8366,
     "staff_instructional_headcount_pct_change_5yr": -13.7615,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 16.1157,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 16.1% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 16.1% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3575,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -19.8469,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -5.6236,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.3575,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -19.8469,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 65,
     "median_earnings_10yr": 51110,
     "median_debt_completers": 27000,
@@ -154,15 +154,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16142.4629
+        "value": 17149.6021
       },
       {
         "year": 2015,
-        "value": 16223.1256
+        "value": 16792.9185
       },
       {
         "year": 2016,
-        "value": 15870.3424
+        "value": 16153.4281
       },
       {
         "year": 2017,
@@ -170,7 +170,7 @@
       },
       {
         "year": 2018,
-        "value": 15178.7178
+        "value": 14819.3732
       },
       {
         "year": 2019,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 11928.188
+        "value": 11247.4229
       },
       {
         "year": 2024,
-        "value": 11427.1173
+        "value": 10787.4313
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 131464638.2235
-      },
-      {
-        "year": 2015,
-        "value": 132830252.2622
-      },
-      {
-        "year": 2016,
-        "value": 123870846.5572
-      },
-      {
-        "year": 2017,
-        "value": 140461490.4989
-      },
-      {
-        "year": 2018,
-        "value": 147602361.6192
-      },
-      {
-        "year": 2019,
-        "value": 150452787.6992
-      },
-      {
-        "year": 2020,
-        "value": 138973902.7065
-      },
-      {
-        "year": 2021,
-        "value": 169301135.6857
-      },
-      {
-        "year": 2022,
-        "value": 130641388.0701
-      },
-      {
-        "year": 2023,
-        "value": 128463708.5001
-      },
-      {
         "year": 2024,
         "value": 141991869
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1952831.1602
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 161791
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

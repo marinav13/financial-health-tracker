@@ -1,6 +1,6 @@
 {
   "unitid": "156286",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Bellarmine University",
     "institution_unique_name": "Bellarmine University | Louisville | Kentucky",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -11.1899,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -9.1318,
-    "net_tuition_per_fte_change_5yr": -26.5591,
+    "net_tuition_per_fte_change_5yr": -22.7343,
     "staff_total_headcount_pct_change_5yr": -14.8387,
     "staff_instructional_headcount_pct_change_5yr": -24.3373,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 60.2688,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 60.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 60.4546,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 60.5% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 24.7856,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1747599,
     "grad_plus_disbursements_per_recipient": 13340.4504,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.8249,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 173.5473,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -22.1823,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.8249,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 173.5473,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 64,
     "median_earnings_10yr": 62069,
     "median_debt_completers": 25000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22485.3293
+        "value": 23237.4789
       },
       {
         "year": 2015,
-        "value": 23623.9426
+        "value": 24428.0744
       },
       {
         "year": 2016,
-        "value": 23640.8425
+        "value": 24438.7344
       },
       {
         "year": 2017,
-        "value": 23857.2902
+        "value": 24580.888
       },
       {
         "year": 2018,
-        "value": 23416.7364
+        "value": 24263.201
       },
       {
         "year": 2019,
-        "value": 23105.8462
+        "value": 24099.0415
       },
       {
         "year": 2020,
-        "value": 22749.3134
+        "value": 23327.2287
       },
       {
         "year": 2021,
-        "value": 20033.9689
+        "value": 22273.1154
       },
       {
         "year": 2022,
-        "value": 17922.6062
+        "value": 20721.4399
       },
       {
         "year": 2023,
-        "value": 17067.5426
+        "value": 18939.3468
       },
       {
         "year": 2024,
-        "value": 16969.1499
+        "value": 18620.293
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 70225622.2589
-      },
-      {
-        "year": 2015,
-        "value": 71908834.0874
-      },
-      {
-        "year": 2016,
-        "value": 66059370.3193
-      },
-      {
-        "year": 2017,
-        "value": 73429295.5113
-      },
-      {
-        "year": 2018,
-        "value": 83528758.4364
-      },
-      {
-        "year": 2019,
-        "value": 81387914.5446
-      },
-      {
-        "year": 2020,
-        "value": 79495333.4891
-      },
-      {
-        "year": 2021,
-        "value": 92783387.8404
-      },
-      {
-        "year": 2022,
-        "value": 76135624.3486
-      },
-      {
-        "year": 2023,
-        "value": 61187510.1336
-      },
-      {
         "year": 2024,
         "value": 63334186
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 785428.303
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1426535
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

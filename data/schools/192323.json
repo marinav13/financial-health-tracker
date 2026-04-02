@@ -1,6 +1,6 @@
 {
   "unitid": "192323",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Le Moyne College",
     "institution_unique_name": "Le Moyne College | Syracuse | New York",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -10.0575,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 34.683,
-    "net_tuition_per_fte_change_5yr": -10.8642,
+    "net_tuition_per_fte_change_5yr": -12.526,
     "staff_total_headcount_pct_change_5yr": 21.4184,
     "staff_instructional_headcount_pct_change_5yr": 12.7778,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 36.4415,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.8526,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 35.9% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 20.6796,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 181438,
-    "research_expense_per_fte": 60.8036,
+    "research_expense_per_fte": 61.1933,
     "research_expense_pct_core_expenses": 0.2094,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 69.2,
+    "research_spending_per_fte_percentile": 69,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 2.2364,
     "pct_international_undergraduate": 2.0871,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 752031,
     "grad_plus_disbursements_per_recipient": 12129.5323,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.9978,
-    "state_funding_pct_core_revenue": 0.1798,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 77.9518,
-    "state_funding_pct_change_5yr": -33.2871,
-    "endowment_pct_change_5yr": 14.4335,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.9978,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 77.9518,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 73,
     "median_earnings_10yr": 62731,
     "median_debt_completers": 23000,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20196.3659
+        "value": 20196.3663
       },
       {
         "year": 2015,
@@ -174,27 +174,27 @@
       },
       {
         "year": 2019,
-        "value": 19213.4856
+        "value": 19385.5179
       },
       {
         "year": 2020,
-        "value": 18970.569
+        "value": 19088.9056
       },
       {
         "year": 2021,
-        "value": 18605.6023
+        "value": 18159.1649
       },
       {
         "year": 2022,
-        "value": 17354.828
+        "value": 17047.8794
       },
       {
         "year": 2023,
-        "value": 16913.6633
+        "value": 16610.1738
       },
       {
         "year": 2024,
-        "value": 17126.0895
+        "value": 16957.2975
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 191911646.9706
-      },
-      {
-        "year": 2015,
-        "value": 216076871.714
-      },
-      {
-        "year": 2016,
-        "value": 206685785.5428
-      },
-      {
-        "year": 2017,
-        "value": 229156460.1714
-      },
-      {
-        "year": 2018,
-        "value": 234337358.2516
-      },
-      {
-        "year": 2019,
-        "value": 237456804.9123
-      },
-      {
-        "year": 2020,
-        "value": 229103554.0052
-      },
-      {
-        "year": 2021,
-        "value": 284936009.4928
-      },
-      {
-        "year": 2022,
-        "value": 262400053.7062
-      },
-      {
-        "year": 2023,
-        "value": 243898743.3863
-      },
-      {
         "year": 2024,
         "value": 271730113
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1525913.2789
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 3693863
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 294618.7611
-      },
-      {
-        "year": 2015,
-        "value": 281217.238
-      },
-      {
-        "year": 2016,
-        "value": 289658.5094
-      },
-      {
-        "year": 2017,
-        "value": 281693.0291
-      },
-      {
-        "year": 2018,
-        "value": 288420.9374
-      },
-      {
-        "year": 2019,
-        "value": 332150.3161
-      },
-      {
-        "year": 2020,
-        "value": 210655.9971
-      },
-      {
-        "year": 2021,
-        "value": 246534.7571
-      },
-      {
-        "year": 2022,
-        "value": 304029.2803
-      },
-      {
-        "year": 2023,
-        "value": 167015.9046
-      },
-      {
-        "year": 2024,
-        "value": 221587
       }
     ]
   }

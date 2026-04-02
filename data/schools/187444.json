@@ -1,6 +1,6 @@
 {
   "unitid": "187444",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "William Paterson University of New Jersey",
     "institution_unique_name": "William Paterson University of New Jersey | Wayne | New Jersey",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -4.1691,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.4503,
-    "net_tuition_per_fte_change_5yr": -15.021,
+    "net_tuition_per_fte_change_5yr": -14.2797,
     "staff_total_headcount_pct_change_5yr": -33.1646,
     "staff_instructional_headcount_pct_change_5yr": -31.0247,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 32.2881,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1163392,
-    "research_expense_per_fte": 162.2583,
+    "research_expense_per_fte": 163.6736,
     "research_expense_pct_core_expenses": 0.6314,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 23,
+    "research_spending_per_fte_percentile": 23.4,
     "research_spending_peer_bucket": "bottom 25%",
     "pct_international_all": 2.0159,
     "pct_international_undergraduate": 2.341,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 443684,
     "grad_plus_disbursements_per_recipient": 7520.0678,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.5812,
-    "state_funding_pct_core_revenue": 36.5623,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 57.1876,
-    "state_funding_pct_change_5yr": -18.4855,
-    "endowment_pct_change_5yr": 65.6569,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.6623,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
+    "state_funding_pct_change_5yr": -29.971,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 44,
     "median_earnings_10yr": 57780,
     "median_debt_completers": 22334,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 11681.1019
+        "value": 11770.2158
       },
       {
         "year": 2022,
-        "value": 11916.9027
+        "value": 12034.295
       },
       {
         "year": 2023,
-        "value": 9699.0676
+        "value": 9788.6225
       },
       {
         "year": 2024,
-        "value": 10051.5289
+        "value": 10139.204
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 11388624.2654
-      },
-      {
-        "year": 2015,
-        "value": 22409434.6291
-      },
-      {
-        "year": 2016,
-        "value": 21605887.8004
-      },
-      {
-        "year": 2017,
-        "value": 24412198.8784
-      },
-      {
-        "year": 2018,
-        "value": 25417699.7303
-      },
-      {
-        "year": 2019,
-        "value": 27768689.3703
-      },
-      {
-        "year": 2020,
-        "value": 29304609.8856
-      },
-      {
-        "year": 2021,
-        "value": 32836745.0292
-      },
-      {
-        "year": 2022,
-        "value": 32407793.6353
-      },
-      {
-        "year": 2023,
-        "value": 38002116.6423
-      },
-      {
         "year": 2024,
         "value": 46000752
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 5355737.2129
+        "value": 1526822.2689
       },
       {
         "year": 2015,
-        "value": 5000529.5878
+        "value": 1627813.9953
       },
       {
         "year": 2016,
-        "value": 4060128.2215
+        "value": 2240276.6629
       },
       {
         "year": 2017,
-        "value": 4193509.5235
+        "value": 1694033.2168
       },
       {
         "year": 2018,
-        "value": 4144484.4472
+        "value": 1721218.9022
       },
       {
         "year": 2019,
-        "value": 3328142.4129
+        "value": 1700550.2812
       },
       {
         "year": 2020,
-        "value": 3411242.2775
+        "value": 1193377.138
       },
       {
         "year": 2021,
-        "value": 2780686.2252
+        "value": 1388142.9947
       },
       {
         "year": 2022,
-        "value": 4005655.9489
+        "value": 1255408.7707
       },
       {
         "year": 2023,
-        "value": 5149231.3621
+        "value": 1539612.9801
       },
       {
         "year": 2024,
-        "value": 5231428
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 81827538.5076
+        "value": 1164571.2075
       },
       {
         "year": 2015,
-        "value": 82744964.8086
+        "value": 1088146.1486
       },
       {
         "year": 2016,
-        "value": 79411981.8149
+        "value": 1079002.4865
       },
       {
         "year": 2017,
-        "value": 78261316.742
+        "value": 1108626.7333
       },
       {
         "year": 2018,
-        "value": 98157154.0749
+        "value": 336372.4173
       },
       {
         "year": 2019,
-        "value": 90907686.1866
+        "value": 4810902.9061
       },
       {
         "year": 2020,
-        "value": 73557980.3389
+        "value": 3636037.9204
       },
       {
         "year": 2021,
-        "value": 80298607.3158
+        "value": 2617077.5638
       },
       {
         "year": 2022,
-        "value": 74991521.0165
+        "value": -2574765.486
       },
       {
         "year": 2023,
-        "value": 77307298.3088
+        "value": 2826156.6784
       },
       {
         "year": 2024,
-        "value": 74102923
+        "value": 3369026
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "486901",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Milligan University",
     "institution_unique_name": "Milligan University | Milligan | Tennessee",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 41.7897,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 41.8% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 41.8% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 34.5651,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 931659,
     "grad_plus_disbursements_per_recipient": 17578.4717,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.4458,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -10.0066,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 30.6154,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.4458,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -10.0066,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 46641,
     "median_debt_completers": 25219,
@@ -146,11 +146,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 17716.2076
+        "value": 18399.9886
       },
       {
         "year": 2016,
-        "value": 16850.581
+        "value": 17643.3495
       },
       {
         "year": 2017,
@@ -158,7 +158,7 @@
       },
       {
         "year": 2018,
-        "value": 17063.1886
+        "value": 17063.1831
       },
       {
         "year": 2019,
@@ -439,47 +439,53 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2015,
-        "value": 38197935.8806
-      },
-      {
-        "year": 2016,
-        "value": 37565154.0248
-      },
-      {
-        "year": 2017,
-        "value": 41796576.5613
-      },
-      {
-        "year": 2018,
-        "value": 44270354.0392
-      },
-      {
-        "year": 2019,
-        "value": 42989635.9189
-      },
-      {
-        "year": 2020,
-        "value": 57840096.2458
-      },
-      {
-        "year": 2021,
-        "value": 70145849.8807
-      },
-      {
-        "year": 2022,
-        "value": 54719225.0906
-      },
-      {
-        "year": 2023,
-        "value": 51423146.011
-      },
-      {
         "year": 2024,
         "value": 56151084
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2015,
         "value": 156564.5824
@@ -519,48 +525,6 @@
       {
         "year": 2024,
         "value": 158885
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "195234",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "The College of Saint Rose",
     "institution_unique_name": "The College of Saint Rose | Albany | New York",
@@ -24,7 +24,7 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 44.9472,
+    "sector_median_tuition_dependence_pct": 45.0862,
     "tuition_dependence_vs_sector_median_sentence": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
@@ -146,43 +146,43 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19555.5949
+        "value": 19964.1558
       },
       {
         "year": 2015,
-        "value": 19664.3334
+        "value": 20100.7458
       },
       {
         "year": 2016,
-        "value": 18768.0519
+        "value": 19234.3026
       },
       {
         "year": 2017,
-        "value": 18092.6432
+        "value": 18520.5257
       },
       {
         "year": 2018,
-        "value": 16930.6898
+        "value": 17378.0258
       },
       {
         "year": 2019,
-        "value": 13701.6509
+        "value": 14362.7197
       },
       {
         "year": 2020,
-        "value": 13285.8934
+        "value": 13851.6968
       },
       {
         "year": 2021,
-        "value": 12114.4067
+        "value": 12553.5201
       },
       {
         "year": 2022,
-        "value": 10031.6585
+        "value": 10614.9389
       },
       {
         "year": 2023,
-        "value": 11541.2891
+        "value": 12485.1061
       }
     ],
     "enrollment_headcount_total": [
@@ -437,49 +437,50 @@
         "value": 206
       }
     ],
-    "endowment_value_adjusted": [
+    "endowment_value_adjusted": [],
+    "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 47469020.7864
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 41651046.7119
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 51337365.9081
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 54119075.7095
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 55878472.2802
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 55166653.0346
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 47045612.3437
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 50991240.3524
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 42999175.7187
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 29962771.2627
+        "value": 0
       }
     ],
-    "federal_grants_contracts_pell_adjusted_adjusted": [
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 7057072.3091
@@ -519,48 +520,6 @@
       {
         "year": 2023,
         "value": 3677384.8503
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 373755.2175
-      },
-      {
-        "year": 2015,
-        "value": 372686.0954
-      },
-      {
-        "year": 2016,
-        "value": 329031.8657
-      },
-      {
-        "year": 2017,
-        "value": 316881.9425
-      },
-      {
-        "year": 2018,
-        "value": 315004.4333
-      },
-      {
-        "year": 2019,
-        "value": 277924.6479
-      },
-      {
-        "year": 2020,
-        "value": 256805.5903
-      },
-      {
-        "year": 2021,
-        "value": 248404.3653
-      },
-      {
-        "year": 2022,
-        "value": 231476.339
-      },
-      {
-        "year": 2023,
-        "value": 215532.8868
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "435000",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Louisiana State University Health Sciences Center-Shreveport",
     "institution_unique_name": "Louisiana State University Health Sciences Center-Shreveport | Shreveport | Louisiana",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 18.8643,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -3.4395,
-    "net_tuition_per_fte_change_5yr": -70.7807,
+    "net_tuition_per_fte_change_5yr": -14.919,
     "staff_total_headcount_pct_change_5yr": 6.3792,
     "staff_instructional_headcount_pct_change_5yr": 10.6061,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 97.4899,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 61005342,
-    "research_expense_per_fte": 52727.1755,
+    "research_expense_per_fte": 149522.8971,
     "research_expense_pct_core_expenses": 14.5113,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 98.7,
+    "research_spending_per_fte_percentile": 99.8,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 6.3158,
     "pct_international_undergraduate": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 3706872,
     "grad_plus_disbursements_per_recipient": 9937.9946,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.6705,
-    "state_funding_pct_core_revenue": 20.3784,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 9.394,
-    "state_funding_pct_change_5yr": 12.1022,
-    "endowment_pct_change_5yr": 4.8578,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 60.1226,
+    "state_funding_pct_core_revenue": 3.9629,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 2.6956,
+    "state_funding_pct_change_5yr": 50.67,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 74671,
     "median_debt_completers": null,
@@ -174,7 +174,7 @@
       },
       {
         "year": 2019,
-        "value": 65358.739
+        "value": 63652.2445
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 22143.7325
+        "value": 60566.397
       },
       {
         "year": 2022,
-        "value": 20910.4218
+        "value": 59316.2466
       },
       {
         "year": 2023,
-        "value": 20039.5674
+        "value": 58109.5939
       },
       {
         "year": 2024,
-        "value": 19097.3578
+        "value": 54155.9877
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 226742806.3594
-      },
-      {
-        "year": 2015,
-        "value": 220321750.9084
-      },
-      {
-        "year": 2016,
-        "value": 212904075.5771
-      },
-      {
-        "year": 2017,
-        "value": 224212752.501
-      },
-      {
-        "year": 2018,
-        "value": 223531173.39
-      },
-      {
-        "year": 2019,
-        "value": 230278264.5948
-      },
-      {
-        "year": 2020,
-        "value": 232310554.3955
-      },
-      {
-        "year": 2021,
-        "value": 273704109.5718
-      },
-      {
-        "year": 2022,
-        "value": 216571304.7024
-      },
-      {
-        "year": 2023,
-        "value": 224028091.228
-      },
-      {
         "year": 2024,
         "value": 241464652
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 12111364.0606
+        "value": 95897113.465
       },
       {
         "year": 2015,
-        "value": 14400863.1517
+        "value": 186675329.0346
       },
       {
         "year": 2016,
-        "value": 13622566.9894
+        "value": 156603625.2424
       },
       {
         "year": 2017,
-        "value": 15779478.1102
+        "value": 200165315.6249
       },
       {
         "year": 2018,
-        "value": 14874334.2005
+        "value": 232587309.7479
       },
       {
         "year": 2019,
-        "value": 19094267.1109
+        "value": 261829086.9633
       },
       {
         "year": 2020,
-        "value": 18629548.1763
+        "value": 249400115.0332
       },
       {
         "year": 2021,
-        "value": 17746627.8489
+        "value": 259167197.3036
       },
       {
         "year": 2022,
-        "value": 20539302.7119
+        "value": 278848346.1484
       },
       {
         "year": 2023,
-        "value": 23876587.7897
+        "value": 279088684.9135
       },
       {
         "year": 2024,
-        "value": 20887990
+        "value": 268886829
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 62530392.6006
+        "value": 9049456.4593
       },
       {
         "year": 2015,
-        "value": 60165353.5298
+        "value": 2673988.3898
       },
       {
         "year": 2016,
-        "value": 124279353.1342
+        "value": 2673187.5323
       },
       {
         "year": 2017,
-        "value": 82851544.5668
+        "value": 5760299.8243
       },
       {
         "year": 2018,
-        "value": 81860900.1559
+        "value": 3452111.7984
       },
       {
         "year": 2019,
-        "value": 81299481.5766
+        "value": 11762891.4885
       },
       {
         "year": 2020,
-        "value": 87575171.4434
+        "value": 12330632.9136
       },
       {
         "year": 2021,
-        "value": 67854167.4954
+        "value": 13857439.9219
       },
       {
         "year": 2022,
-        "value": 78800903.0803
+        "value": -19421644.6311
       },
       {
         "year": 2023,
-        "value": 73601266.7476
+        "value": 9299177.8164
       },
       {
         "year": 2024,
-        "value": 91138486
+        "value": 17723152
       }
     ]
   }

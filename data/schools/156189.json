@@ -1,6 +1,6 @@
 {
   "unitid": "156189",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Alice Lloyd College",
     "institution_unique_name": "Alice Lloyd College | Pippa Passes | Kentucky",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -6.72,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 22.8903,
-    "net_tuition_per_fte_change_5yr": -12.6211,
+    "net_tuition_per_fte_change_5yr": -15.2268,
     "staff_total_headcount_pct_change_5yr": -5.6452,
     "staff_instructional_headcount_pct_change_5yr": -4.878,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 9.0863,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 9.1% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.806,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 10.8% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.6529,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -13.4572,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 27.4567,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.6529,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -13.4572,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 39,
     "median_earnings_10yr": 40573,
     "median_debt_completers": 19599,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7897.5597
+        "value": 10232.9796
       },
       {
         "year": 2015,
-        "value": 8031.6727
+        "value": 9931.4424
       },
       {
         "year": 2016,
-        "value": 8970.7166
+        "value": 10938.3356
       },
       {
         "year": 2017,
-        "value": 8964.916
+        "value": 11178.3364
       },
       {
         "year": 2018,
-        "value": 8560.9659
+        "value": 10801.7237
       },
       {
         "year": 2019,
-        "value": 7287.1769
+        "value": 8932.6975
       },
       {
         "year": 2020,
-        "value": 7289.0273
+        "value": 8743.8064
       },
       {
         "year": 2021,
-        "value": 6951.0213
+        "value": 8466.1102
       },
       {
         "year": 2022,
-        "value": 6758.8746
+        "value": 8042.3339
       },
       {
         "year": 2023,
-        "value": 6993.2198
+        "value": 8094.4454
       },
       {
         "year": 2024,
-        "value": 6367.4532
+        "value": 7572.5356
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 47425572.125
-      },
-      {
-        "year": 2015,
-        "value": 49030160.9907
-      },
-      {
-        "year": 2016,
-        "value": 49676519.973
-      },
-      {
-        "year": 2017,
-        "value": 52192701.2202
-      },
-      {
-        "year": 2018,
-        "value": 54128178.9285
-      },
-      {
-        "year": 2019,
-        "value": 55246930.1892
-      },
-      {
-        "year": 2020,
-        "value": 57680314.3696
-      },
-      {
-        "year": 2021,
-        "value": 69302291.9204
-      },
-      {
-        "year": 2022,
-        "value": 61207512.6078
-      },
-      {
-        "year": 2023,
-        "value": 62344162.5246
-      },
-      {
         "year": 2024,
         "value": 70415927
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1160508.5788
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 1219863
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

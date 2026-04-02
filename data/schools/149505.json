@@ -1,6 +1,6 @@
 {
   "unitid": "149505",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Trinity Christian College",
     "institution_unique_name": "Trinity Christian College | Palos Heights | Illinois",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -37.1997,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.4614,
-    "net_tuition_per_fte_change_5yr": -19.5144,
+    "net_tuition_per_fte_change_5yr": -19.5383,
     "staff_total_headcount_pct_change_5yr": -16.0535,
     "staff_instructional_headcount_pct_change_5yr": -16.5517,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 36.8877,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.9% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.6216,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 36.6% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 6.2295,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 10191,
     "grad_plus_disbursements_per_recipient": 5095.5,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.0138,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -14.839,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -27.8867,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.0138,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -14.839,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 58,
     "median_earnings_10yr": 55700,
     "median_debt_completers": 25009,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21044.257
+        "value": 20749.8435
       },
       {
         "year": 2015,
-        "value": 20293.8157
+        "value": 20209.4222
       },
       {
         "year": 2016,
-        "value": 19854.7792
+        "value": 19748.7209
       },
       {
         "year": 2017,
-        "value": 18890.0373
+        "value": 18796.1056
       },
       {
         "year": 2018,
-        "value": 18275.0233
+        "value": 18191.0737
       },
       {
         "year": 2019,
-        "value": 16699.8034
+        "value": 16584.2059
       },
       {
         "year": 2020,
-        "value": 15965.8295
+        "value": 15885.965
       },
       {
         "year": 2021,
-        "value": 14356.4135
+        "value": 14257.7858
       },
       {
         "year": 2022,
-        "value": 12778.9728
+        "value": 12716.9761
       },
       {
         "year": 2023,
-        "value": 12069.5442
+        "value": 11975.4426
       },
       {
         "year": 2024,
-        "value": 13440.9361
+        "value": 13343.9416
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 13704692.3303
-      },
-      {
-        "year": 2015,
-        "value": 14354950.0522
-      },
-      {
-        "year": 2016,
-        "value": 14295067.8359
-      },
-      {
-        "year": 2017,
-        "value": 13759228.5533
-      },
-      {
-        "year": 2018,
-        "value": 14264556.5236
-      },
-      {
-        "year": 2019,
-        "value": 15319027.3518
-      },
-      {
-        "year": 2020,
-        "value": 15769550.8874
-      },
-      {
-        "year": 2021,
-        "value": 20754692.0036
-      },
-      {
-        "year": 2022,
-        "value": 16345697.0438
-      },
-      {
-        "year": 2023,
-        "value": 11426124.5532
-      },
-      {
         "year": 2024,
         "value": 11047055
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 182498.9536
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 285924
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

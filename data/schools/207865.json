@@ -1,6 +1,6 @@
 {
   "unitid": "207865",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Southwestern Oklahoma State University",
     "institution_unique_name": "Southwestern Oklahoma State University | Weatherford | Oklahoma",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -2.0037,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.3067,
-    "net_tuition_per_fte_change_5yr": -22.8284,
+    "net_tuition_per_fte_change_5yr": -16.9076,
     "staff_total_headcount_pct_change_5yr": 0.9772,
     "staff_instructional_headcount_pct_change_5yr": 10.274,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 17.6521,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 812264,
-    "research_expense_per_fte": 196.8648,
+    "research_expense_per_fte": 211.9687,
     "research_expense_pct_core_expenses": 1.077,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 26,
+    "research_spending_per_fte_percentile": 26.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.7039,
     "pct_international_undergraduate": 1.6139,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 170951,
     "grad_plus_disbursements_per_recipient": 4748.6389,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.9599,
-    "state_funding_pct_core_revenue": 27.8653,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -0.4498,
-    "state_funding_pct_change_5yr": 3.4191,
-    "endowment_pct_change_5yr": 25.6653,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5649,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 19.1939,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 41,
     "median_earnings_10yr": 45744,
     "median_debt_completers": 15954,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 7290.9022
+        "value": 8083.4742
       },
       {
         "year": 2022,
-        "value": 6639.658
+        "value": 7336.8929
       },
       {
         "year": 2023,
-        "value": 6421.9432
+        "value": 6962.231
       },
       {
         "year": 2024,
-        "value": 6054.517
+        "value": 6519.0337
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 28642444.1561
-      },
-      {
-        "year": 2015,
-        "value": 29471240.17
-      },
-      {
-        "year": 2016,
-        "value": 28211875.6746
-      },
-      {
-        "year": 2017,
-        "value": 28375680.8929
-      },
-      {
-        "year": 2018,
-        "value": 28985504.702
-      },
-      {
-        "year": 2019,
-        "value": 30800570.9724
-      },
-      {
-        "year": 2020,
-        "value": 34515739.6273
-      },
-      {
-        "year": 2021,
-        "value": 40806300.1879
-      },
-      {
-        "year": 2022,
-        "value": 42197740.5457
-      },
-      {
-        "year": 2023,
-        "value": 36542135.0533
-      },
-      {
         "year": 2024,
         "value": 38705626
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 2380671.282
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 2106776.1245
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 1969385.3576
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 2249586.0082
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 2660639.4244
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 2403566.1804
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 1121525.0479
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 1935015.5497
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 2035060.2682
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 1784748.9781
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 2392754
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 33846451.594
+        "value": 203470.6512
       },
       {
         "year": 2015,
-        "value": 30668923.4252
+        "value": 191302.1548
       },
       {
         "year": 2016,
-        "value": 26404312.5241
+        "value": 189954.0618
       },
       {
         "year": 2017,
-        "value": 24375072.444
+        "value": 273016.416
       },
       {
         "year": 2018,
-        "value": 22034069.1662
+        "value": 310622.154
       },
       {
         "year": 2019,
-        "value": 21781337.0702
+        "value": 383142.8614
       },
       {
         "year": 2020,
-        "value": 22032604.3431
+        "value": 403991.9583
       },
       {
         "year": 2021,
-        "value": 20553804.628
+        "value": 180878.516
       },
       {
         "year": 2022,
-        "value": 20498983.1362
+        "value": 364463.6252
       },
       {
         "year": 2023,
-        "value": 20575745.6604
+        "value": 184569.8135
       },
       {
         "year": 2024,
-        "value": 22526067
+        "value": 456683
       }
     ]
   }

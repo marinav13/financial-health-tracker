@@ -1,6 +1,6 @@
 {
   "unitid": "123572",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Sonoma State University",
     "institution_unique_name": "Sonoma State University | Rohnert Park | California",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 1190.1254,
     "research_expense_pct_core_expenses": 3.5865,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 53.9,
+    "research_spending_per_fte_percentile": 53.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 0.717,
     "pct_international_undergraduate": 0.5298,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 21328,
     "grad_plus_disbursements_per_recipient": 10664,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.4902,
-    "state_funding_pct_core_revenue": 47.9486,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 6.7613,
-    "state_funding_pct_change_5yr": -6.9372,
-    "endowment_pct_change_5yr": 7.5707,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.4703,
+    "state_funding_pct_core_revenue": 3.5126,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -34.1811,
+    "state_funding_pct_change_5yr": 136.8768,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 58,
     "median_earnings_10yr": 65986,
     "median_debt_completers": 16705,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 42836752.1508
-      },
-      {
-        "year": 2015,
-        "value": 46556925.7788
-      },
-      {
-        "year": 2016,
-        "value": 47383997.3169
-      },
-      {
-        "year": 2017,
-        "value": 46635334.3247
-      },
-      {
-        "year": 2018,
-        "value": 46078826.2712
-      },
-      {
-        "year": 2019,
-        "value": 47950013.3998
-      },
-      {
-        "year": 2020,
-        "value": 50513334.4219
-      },
-      {
-        "year": 2021,
-        "value": 53178107.7555
-      },
-      {
-        "year": 2022,
-        "value": 52931441.6417
-      },
-      {
-        "year": 2023,
-        "value": 52108802.659
-      },
-      {
         "year": 2024,
         "value": 51580176
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 10102374.2799
+        "value": 870221.4333
       },
       {
         "year": 2015,
-        "value": 9154539.4646
+        "value": 1344039.7798
       },
       {
         "year": 2016,
-        "value": 8643437.8384
+        "value": 1785903.5567
       },
       {
         "year": 2017,
-        "value": 8580819.7764
+        "value": 1118488.3825
       },
       {
         "year": 2018,
-        "value": 8938325.7492
+        "value": 1245739.098
       },
       {
         "year": 2019,
-        "value": 9318879.9829
+        "value": 1583046.2004
       },
       {
         "year": 2020,
-        "value": 9833105.5543
+        "value": 1769249.5449
       },
       {
         "year": 2021,
-        "value": 10128993.152
+        "value": 1463971.5251
       },
       {
         "year": 2022,
-        "value": 11535775.1053
+        "value": 1396669.8447
       },
       {
         "year": 2023,
-        "value": 11410373.289
+        "value": 1205512.1948
       },
       {
         "year": 2024,
-        "value": 9948961
+        "value": 1041944
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 68828866.387
+        "value": 962471.9917
       },
       {
         "year": 2015,
-        "value": 73936034.2118
+        "value": 844349.1918
       },
       {
         "year": 2016,
-        "value": 77939751.5742
+        "value": 1566438.756
       },
       {
         "year": 2017,
-        "value": 85881325.7444
+        "value": 834610.8432
       },
       {
         "year": 2018,
-        "value": 129269864.3771
+        "value": 1180935.5805
       },
       {
         "year": 2019,
-        "value": 114159690.5206
+        "value": 3285633.2877
       },
       {
         "year": 2020,
-        "value": 122259012.3821
+        "value": 2826105.0452
       },
       {
         "year": 2021,
-        "value": 95271069.994
+        "value": 7500079.7528
       },
       {
         "year": 2022,
-        "value": 111398287.4724
+        "value": -7912342.6458
       },
       {
         "year": 2023,
-        "value": 113144187.4949
+        "value": 3407671.7328
       },
       {
         "year": 2024,
-        "value": 106240151
+        "value": 7782904
       }
     ]
   }

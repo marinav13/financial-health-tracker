@@ -1,6 +1,6 @@
 {
   "unitid": "230603",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Southern Utah University",
     "institution_unique_name": "Southern Utah University | Cedar City | Utah",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 56.5523,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 19.7997,
-    "net_tuition_per_fte_change_5yr": -17.675,
+    "net_tuition_per_fte_change_5yr": -17.5499,
     "staff_total_headcount_pct_change_5yr": 17.0651,
     "staff_instructional_headcount_pct_change_5yr": 13.963,
     "ended_year_at_loss": "No",
@@ -29,7 +29,7 @@
     "share_grad_students": 12.6384,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 739509,
-    "research_expense_per_fte": 59.0568,
+    "research_expense_per_fte": 59.1465,
     "research_expense_pct_core_expenses": 0.3018,
     "sector_research_spending_n": 548,
     "research_spending_per_fte_percentile": 13.5,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 136536,
     "grad_plus_disbursements_per_recipient": 6206.1818,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.2401,
-    "state_funding_pct_core_revenue": 30.5241,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 20.6895,
-    "state_funding_pct_change_5yr": 43.8257,
-    "endowment_pct_change_5yr": 13.7894,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 4.3874,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 176.6254,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": 50296,
     "median_debt_completers": 12500,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 7681.4309
+        "value": 7688.0913
       },
       {
         "year": 2024,
-        "value": 7200.2805
+        "value": 7211.2223
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 30318281.1555
-      },
-      {
-        "year": 2015,
-        "value": 32049766.741
-      },
-      {
-        "year": 2016,
-        "value": 33167179.5338
-      },
-      {
-        "year": 2017,
-        "value": 34967349.988
-      },
-      {
-        "year": 2018,
-        "value": 36142937.347
-      },
-      {
-        "year": 2019,
-        "value": 36730476.7512
-      },
-      {
-        "year": 2020,
-        "value": 37169509.7094
-      },
-      {
-        "year": 2021,
-        "value": 44936430.2545
-      },
-      {
-        "year": 2022,
-        "value": 35926555.5503
-      },
-      {
-        "year": 2023,
-        "value": 37542411.3643
-      },
-      {
         "year": 2024,
         "value": 41795372
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 393452.209
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 648082.636
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 1140448.4483
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 1807852.9772
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 2164508.6911
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 2607143.7243
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 3633994.4228
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 3258225.836
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 3796456.3469
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 3423907.8888
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 3146548
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 41849529.3953
+        "value": 3191226.6654
       },
       {
         "year": 2015,
-        "value": 44059003.5575
+        "value": 1273209.384
       },
       {
         "year": 2016,
-        "value": 46030608.6088
+        "value": 1462455.1923
       },
       {
         "year": 2017,
-        "value": 48409422.7352
+        "value": 4191876.5798
       },
       {
         "year": 2018,
-        "value": 50829303.2454
+        "value": 3154544.0397
       },
       {
         "year": 2019,
-        "value": 53850088.558
+        "value": 4024337.4656
       },
       {
         "year": 2020,
-        "value": 58650658.1692
+        "value": 3186485.4198
       },
       {
         "year": 2021,
-        "value": 63348022.753
+        "value": 11246966.7636
       },
       {
         "year": 2022,
-        "value": 59188522.9319
+        "value": -9625216.1046
       },
       {
         "year": 2023,
-        "value": 73626781.7366
+        "value": 4577291.6351
       },
       {
         "year": 2024,
-        "value": 77450284
+        "value": 11132338
       }
     ]
   }

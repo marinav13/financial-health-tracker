@@ -1,6 +1,6 @@
 {
   "unitid": "211088",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Arcadia University",
     "institution_unique_name": "Arcadia University | Glenside | Pennsylvania",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -8.4349,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.5104,
-    "net_tuition_per_fte_change_5yr": -18.0974,
+    "net_tuition_per_fte_change_5yr": -6.25,
     "staff_total_headcount_pct_change_5yr": -27.0295,
     "staff_instructional_headcount_pct_change_5yr": -43.3526,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 46.0511,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 46.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.1492,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 49.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 47.2108,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2351000,
-    "research_expense_per_fte": 772.0854,
+    "research_expense_per_fte": 885.8327,
     "research_expense_pct_core_expenses": 2.0421,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 84.4,
+    "research_spending_per_fte_percentile": 84.5,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.9406,
     "pct_international_undergraduate": 7.1255,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1565200,
     "grad_plus_disbursements_per_recipient": 13152.9412,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.4103,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 41.0178,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -23.4812,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.4103,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 41.0178,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 58336,
     "median_debt_completers": 27000,
@@ -154,47 +154,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19141.3792
+        "value": 20003.3931
       },
       {
         "year": 2015,
-        "value": 22278.0639
+        "value": 23646.2142
       },
       {
         "year": 2016,
-        "value": 25017.299
+        "value": 26680.9567
       },
       {
         "year": 2017,
-        "value": 21828.3969
+        "value": 23223.5222
       },
       {
         "year": 2018,
-        "value": 22431.1176
+        "value": 23853.2958
       },
       {
         "year": 2019,
-        "value": 22917.6029
+        "value": 24516.4544
       },
       {
         "year": 2020,
-        "value": 22351.0992
+        "value": 24009.3888
       },
       {
         "year": 2021,
-        "value": 22935.5142
+        "value": 25430.8762
       },
       {
         "year": 2022,
-        "value": 20220.1837
+        "value": 23659.2461
       },
       {
         "year": 2023,
-        "value": 19194.8165
+        "value": 22824.5974
       },
       {
         "year": 2024,
-        "value": 18770.1149
+        "value": 22984.1748
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 91267365.0902
-      },
-      {
-        "year": 2015,
-        "value": 89635827.4006
-      },
-      {
-        "year": 2016,
-        "value": 83894983.1505
-      },
-      {
-        "year": 2017,
-        "value": 88936564.7193
-      },
-      {
-        "year": 2018,
-        "value": 89684320.5805
-      },
-      {
-        "year": 2019,
-        "value": 86382664.9691
-      },
-      {
-        "year": 2020,
-        "value": 96160742.3255
-      },
-      {
-        "year": 2021,
-        "value": 112512211.3518
-      },
-      {
-        "year": 2022,
-        "value": 90556120.6062
-      },
-      {
-        "year": 2023,
-        "value": 69792513.2654
-      },
-      {
         "year": 2024,
         "value": 66099000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 731432.1776
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 1623000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

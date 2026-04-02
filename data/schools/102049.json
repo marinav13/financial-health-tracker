@@ -1,6 +1,6 @@
 {
   "unitid": "102049",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Samford University",
     "institution_unique_name": "Samford University | Birmingham | Alabama",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 3.079,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 3.2068,
-    "net_tuition_per_fte_change_5yr": -37.0909,
+    "net_tuition_per_fte_change_5yr": -23.132,
     "staff_total_headcount_pct_change_5yr": -2.3071,
     "staff_instructional_headcount_pct_change_5yr": 0.8945,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 52.2659,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 52.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 36.7914,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 271405,
-    "research_expense_per_fte": 44.4416,
+    "research_expense_per_fte": 54.3027,
     "research_expense_pct_core_expenses": 0.1571,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 67.9,
+    "research_spending_per_fte_percentile": 68.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.0599,
     "pct_international_undergraduate": 0.7876,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 9930405,
     "grad_plus_disbursements_per_recipient": 13735,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.2171,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 169.2681,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 10.3453,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.2171,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 169.2681,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 77,
     "median_earnings_10yr": 58469,
     "median_debt_completers": 19500,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 23426.9839
+        "value": 29664.6765
       },
       {
         "year": 2022,
-        "value": 21301.2051
+        "value": 26743.8038
       },
       {
         "year": 2023,
-        "value": 20601.3114
+        "value": 25697.5619
       },
       {
         "year": 2024,
-        "value": 19678.3805
+        "value": 24044.7919
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 429110868.61
-      },
-      {
-        "year": 2015,
-        "value": 422522781.6064
-      },
-      {
-        "year": 2016,
-        "value": 413913220.3822
-      },
-      {
-        "year": 2017,
-        "value": 428742065.4198
-      },
-      {
-        "year": 2018,
-        "value": 431389520.8133
-      },
-      {
-        "year": 2019,
-        "value": 425934339.4012
-      },
-      {
-        "year": 2020,
-        "value": 403450256.9229
-      },
-      {
-        "year": 2021,
-        "value": 426522543.1712
-      },
-      {
-        "year": 2022,
-        "value": 456988443.1727
-      },
-      {
-        "year": 2023,
-        "value": 456550939.0925
-      },
-      {
         "year": 2024,
         "value": 469998443
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 317302.434
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 2434919
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

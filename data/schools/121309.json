@@ -1,6 +1,6 @@
 {
   "unitid": "121309",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Point Loma Nazarene University",
     "institution_unique_name": "Point Loma Nazarene University | San Diego | California",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -0.966,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.9224,
-    "net_tuition_per_fte_change_5yr": -4.2601,
+    "net_tuition_per_fte_change_5yr": -3.7796,
     "staff_total_headcount_pct_change_5yr": 12.5395,
     "staff_instructional_headcount_pct_change_5yr": 19.9095,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 67.018,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 67% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 67% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 33.9524,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 736886,
-    "research_expense_per_fte": 179.9038,
+    "research_expense_per_fte": 172.5728,
     "research_expense_pct_core_expenses": 0.5839,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 73.9,
+    "research_spending_per_fte_percentile": 73.3,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.1067,
     "pct_international_undergraduate": 1.0508,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 2030496,
     "grad_plus_disbursements_per_recipient": 15499.9695,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.2427,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 45.4798,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 16.2634,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.2427,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 45.4798,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 77,
     "median_earnings_10yr": 63998,
     "median_debt_completers": 22990,
@@ -158,23 +158,23 @@
       },
       {
         "year": 2015,
-        "value": 28610.0621
+        "value": 27184.8703
       },
       {
         "year": 2016,
-        "value": 27736.5631
+        "value": 26397.5566
       },
       {
         "year": 2017,
-        "value": 27083.2569
+        "value": 25829.8392
       },
       {
         "year": 2018,
-        "value": 26336.4636
+        "value": 25139.3516
       },
       {
         "year": 2019,
-        "value": 26460.294
+        "value": 25255.2947
       },
       {
         "year": 2020,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 24658.1656
+        "value": 23574.4129
       },
       {
         "year": 2022,
-        "value": 25408.4831
+        "value": 24296.3908
       },
       {
         "year": 2023,
-        "value": 25199.8982
+        "value": 24066.4236
       },
       {
         "year": 2024,
-        "value": 25333.0522
+        "value": 24300.7452
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 62686895.2356
-      },
-      {
-        "year": 2015,
-        "value": 68769940.3276
-      },
-      {
-        "year": 2016,
-        "value": 67481552.9398
-      },
-      {
-        "year": 2017,
-        "value": 71333057.7631
-      },
-      {
-        "year": 2018,
-        "value": 76369108.418
-      },
-      {
-        "year": 2019,
-        "value": 74955731.1517
-      },
-      {
-        "year": 2020,
-        "value": 74742268.3972
-      },
-      {
-        "year": 2021,
-        "value": 81324019.693
-      },
-      {
-        "year": 2022,
-        "value": 72831949.8341
-      },
-      {
-        "year": 2023,
-        "value": 70129613.9974
-      },
-      {
         "year": 2024,
         "value": 87146089
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 933437.3144
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 316467
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

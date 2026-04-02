@@ -1,6 +1,6 @@
 {
   "unitid": "142294",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "The College of Idaho",
     "institution_unique_name": "The College of Idaho | Caldwell | Idaho",
@@ -24,8 +24,8 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 21.4823,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 21.5% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 21.5% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 3.853,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 21771,
     "grad_plus_disbursements_per_recipient": 10885.5,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.4509,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 10.3016,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -2.5349,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.4509,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 10.3016,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 48473,
     "median_debt_completers": 24500,
@@ -154,23 +154,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 9853.2526
+        "value": 15309.7489
       },
       {
         "year": 2015,
-        "value": 14410.7826
+        "value": 14967.2202
       },
       {
         "year": 2016,
-        "value": 17379.9907
+        "value": 17347.4206
       },
       {
         "year": 2017,
-        "value": 14379.0294
+        "value": 15282.2208
       },
       {
         "year": 2018,
-        "value": 13762.4057
+        "value": 14694.8435
       },
       {
         "year": 2019,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 141648300.8544
-      },
-      {
-        "year": 2015,
-        "value": 133199845.3676
-      },
-      {
-        "year": 2016,
-        "value": 125583163.4349
-      },
-      {
-        "year": 2017,
-        "value": 128372296.2646
-      },
-      {
-        "year": 2018,
-        "value": 124069626.6315
-      },
-      {
-        "year": 2019,
-        "value": 128882012.2092
-      },
-      {
-        "year": 2020,
-        "value": 122096285.2513
-      },
-      {
-        "year": 2021,
-        "value": 145596191.5176
-      },
-      {
-        "year": 2022,
-        "value": 119171383.0936
-      },
-      {
-        "year": 2023,
-        "value": 121209749.9787
-      },
-      {
         "year": 2024,
         "value": 125614956
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 239339.9792
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 527981
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "213400",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Lancaster Bible College",
     "institution_unique_name": "Lancaster Bible College | Lancaster | Pennsylvania",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 21.8677,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -11.6469,
-    "net_tuition_per_fte_change_5yr": -17.0533,
+    "net_tuition_per_fte_change_5yr": -20.5944,
     "staff_total_headcount_pct_change_5yr": 54.8694,
     "staff_instructional_headcount_pct_change_5yr": 71.1382,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 61.9885,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 62% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.5469,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 63.5% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 25.447,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 42646,
     "grad_plus_disbursements_per_recipient": 8529.2,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5102,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 27.344,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 10.5842,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5102,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 27.344,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 68,
     "median_earnings_10yr": 44096,
     "median_debt_completers": 20500,
@@ -162,7 +162,7 @@
       },
       {
         "year": 2016,
-        "value": 14776.438
+        "value": 15163.5008
       },
       {
         "year": 2017,
@@ -174,27 +174,27 @@
       },
       {
         "year": 2019,
-        "value": 15241.2872
+        "value": 16321.2287
       },
       {
         "year": 2020,
-        "value": 16082.2908
+        "value": 16268.2847
       },
       {
         "year": 2021,
-        "value": 14325.3219
+        "value": 14836.906
       },
       {
         "year": 2022,
-        "value": 12905.0734
+        "value": 13874.5294
       },
       {
         "year": 2023,
-        "value": 12190.8463
+        "value": 12809.0212
       },
       {
         "year": 2024,
-        "value": 12642.1487
+        "value": 12959.9736
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 15145123.4486
-      },
-      {
-        "year": 2015,
-        "value": 17634296.2595
-      },
-      {
-        "year": 2016,
-        "value": 16845092.8957
-      },
-      {
-        "year": 2017,
-        "value": 17129077.9384
-      },
-      {
-        "year": 2018,
-        "value": 17378229.6875
-      },
-      {
-        "year": 2019,
-        "value": 17528257.6893
-      },
-      {
-        "year": 2020,
-        "value": 17813496.9288
-      },
-      {
-        "year": 2021,
-        "value": 21097976.3805
-      },
-      {
-        "year": 2022,
-        "value": 17614252.3371
-      },
-      {
-        "year": 2023,
-        "value": 18136789.029
-      },
-      {
         "year": 2024,
         "value": 19383479
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 133345.9162
@@ -534,7 +540,7 @@
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 1632404.9483
       },
       {
         "year": 2018,
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 156250
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

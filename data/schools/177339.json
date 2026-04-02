@@ -1,6 +1,6 @@
 {
   "unitid": "177339",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Evangel University",
     "institution_unique_name": "Evangel University | Springfield | Missouri",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": 8.7522,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.2865,
-    "net_tuition_per_fte_change_5yr": -10.9207,
+    "net_tuition_per_fte_change_5yr": -2.2818,
     "staff_total_headcount_pct_change_5yr": 25.6818,
     "staff_instructional_headcount_pct_change_5yr": 77.2222,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 43.2707,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 43.3% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 43.3% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 38.1275,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 31326,
     "grad_plus_disbursements_per_recipient": 5221,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.8011,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -18.4999,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 12.5419,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.8614,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -18.4999,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 65,
     "median_earnings_10yr": 46573,
     "median_debt_completers": 24736,
@@ -62,15 +62,15 @@
     "revenue_total_adjusted": [
       {
         "year": 2014,
-        "value": 54785082.3641
+        "value": 60770994.7751
       },
       {
         "year": 2015,
-        "value": 47358493.2422
+        "value": 52789807.3729
       },
       {
         "year": 2016,
-        "value": 42853783.2428
+        "value": 47560524.5741
       },
       {
         "year": 2017,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 10668.8398
+        "value": 11537.0479
       },
       {
         "year": 2022,
-        "value": 11973.8271
+        "value": 13164.4703
       },
       {
         "year": 2023,
-        "value": 11151.5024
+        "value": 12172.5556
       },
       {
         "year": 2024,
-        "value": 11492.1916
+        "value": 12606.7073
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 17901932.4029
-      },
-      {
-        "year": 2015,
-        "value": 18742923.3748
-      },
-      {
-        "year": 2016,
-        "value": 19085233.6307
-      },
-      {
-        "year": 2017,
-        "value": 22945961.3101
-      },
-      {
-        "year": 2018,
-        "value": 24225696.0213
-      },
-      {
-        "year": 2019,
-        "value": 24869227.1593
-      },
-      {
-        "year": 2020,
-        "value": 25504783.0883
-      },
-      {
-        "year": 2021,
-        "value": 28218246.6737
-      },
-      {
-        "year": 2022,
-        "value": 27293318.2706
-      },
-      {
-        "year": 2023,
-        "value": 26650128.0392
-      },
-      {
         "year": 2024,
         "value": 27988292
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 405250.528
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 327164
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

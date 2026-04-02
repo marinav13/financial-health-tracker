@@ -1,6 +1,6 @@
 {
   "unitid": "139153",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Beulah Heights University",
     "institution_unique_name": "Beulah Heights University | Atlanta | Georgia",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -20.8122,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -29.9689,
-    "net_tuition_per_fte_change_5yr": 9.6312,
+    "net_tuition_per_fte_change_5yr": 17.9784,
     "staff_total_headcount_pct_change_5yr": -14.1509,
     "staff_instructional_headcount_pct_change_5yr": -22.8571,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 95.3193,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 95.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 95.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 59.8291,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,10 +46,10 @@
     "grad_plus_disbursements_amt": 50206,
     "grad_plus_disbursements_per_recipient": 12551.5,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.6764,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -51.0699,
-    "state_funding_pct_change_5yr": null,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.6764,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -97.0624,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 0,
     "median_earnings_10yr": 35236,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8806.2599
+        "value": 8487.1017
       },
       {
         "year": 2015,
-        "value": 11321.5
+        "value": 9512.3551
       },
       {
         "year": 2016,
-        "value": 13766.4963
+        "value": 12054.5741
       },
       {
         "year": 2017,
-        "value": 12987.5877
+        "value": 10396.2366
       },
       {
         "year": 2018,
-        "value": 17087.9864
+        "value": 15967.206
       },
       {
         "year": 2019,
-        "value": 13089.2598
+        "value": 12163.1718
       },
       {
         "year": 2020,
-        "value": 11083.2775
+        "value": 11050.8571
       },
       {
         "year": 2021,
-        "value": 9294.4623
+        "value": 10730.246
       },
       {
         "year": 2022,
@@ -485,7 +485,7 @@
       },
       {
         "year": 2016,
-        "value": 44797.4037
+        "value": 0
       },
       {
         "year": 2017,
@@ -493,11 +493,57 @@
       },
       {
         "year": 2018,
-        "value": 31867.7153
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 53275.9767
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 1877259.1105
+      },
+      {
+        "year": 2015,
+        "value": 1602956.256
+      },
+      {
+        "year": 2016,
+        "value": 1373394.9476
+      },
+      {
+        "year": 2017,
+        "value": 1145764.6853
+      },
+      {
+        "year": 2018,
+        "value": 982716.1426
+      },
+      {
+        "year": 2019,
+        "value": 887398.386
       },
       {
         "year": 2020,
@@ -518,52 +564,6 @@
       {
         "year": 2024,
         "value": 26068
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

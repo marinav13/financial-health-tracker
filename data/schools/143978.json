@@ -1,6 +1,6 @@
 {
   "unitid": "143978",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "The Chicago School at Chicago",
     "institution_unique_name": "The Chicago School at Chicago | Chicago | Illinois",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -6.2767,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 27.4668,
-    "net_tuition_per_fte_change_5yr": -20.347,
+    "net_tuition_per_fte_change_5yr": 22.697,
     "staff_total_headcount_pct_change_5yr": -63.8989,
     "staff_instructional_headcount_pct_change_5yr": -48.5714,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 91.4418,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 91.4% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 91.4% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 96.7275,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.1988,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -47.4027,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -31.9788,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.9828,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -47.4027,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 56899,
     "median_debt_completers": 20000,
@@ -154,11 +154,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 124517.5406
+        "value": 124013.5775
       },
       {
         "year": 2015,
-        "value": 141738.7173
+        "value": 141298.6844
       },
       {
         "year": 2016,
@@ -166,35 +166,35 @@
       },
       {
         "year": 2017,
-        "value": 149210.6339
+        "value": 148759.4903
       },
       {
         "year": 2018,
-        "value": 167288.7718
+        "value": 166338.4264
       },
       {
         "year": 2019,
-        "value": 178858.7024
+        "value": 178104.6069
       },
       {
         "year": 2020,
-        "value": 211822.4299
+        "value": 211128.5585
       },
       {
         "year": 2021,
-        "value": 139855.8078
+        "value": 217049.7587
       },
       {
         "year": 2022,
-        "value": 130244.9083
+        "value": 198649.396
       },
       {
         "year": 2023,
-        "value": 137151.9796
+        "value": 206367.1597
       },
       {
         "year": 2024,
-        "value": 142466.3959
+        "value": 218528.9633
       }
     ],
     "enrollment_headcount_total": [
@@ -451,51 +451,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 23545252.3173
-      },
-      {
-        "year": 2015,
-        "value": 48410619.3593
-      },
-      {
-        "year": 2016,
-        "value": 46811917.1537
-      },
-      {
-        "year": 2017,
-        "value": 51582415.3803
-      },
-      {
-        "year": 2018,
-        "value": 54886307.0039
-      },
-      {
-        "year": 2019,
-        "value": 62062788.9578
-      },
-      {
-        "year": 2020,
-        "value": 68703573.0384
-      },
-      {
-        "year": 2021,
-        "value": 85999816.041
-      },
-      {
-        "year": 2022,
-        "value": 75115904.3779
-      },
-      {
-        "year": 2023,
-        "value": 72078661.0148
-      },
-      {
         "year": 2024,
         "value": 42215842
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 845069.1768
@@ -539,52 +545,6 @@
       {
         "year": 2024,
         "value": 336399
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

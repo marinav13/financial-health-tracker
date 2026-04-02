@@ -1,6 +1,6 @@
 {
   "unitid": "148575",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Saint Francis Medical Center College of Nursing",
     "institution_unique_name": "Saint Francis Medical Center College of Nursing | Peoria | Illinois",
@@ -16,16 +16,16 @@
   "summary": {
     "enrollment_pct_change_5yr": 1.0558,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": 6.5389,
-    "net_tuition_per_fte_change_5yr": -11.8989,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": -2.9001,
     "staff_total_headcount_pct_change_5yr": -9.0909,
     "staff_instructional_headcount_pct_change_5yr": -13.2075,
-    "ended_year_at_loss": "Yes",
-    "losses_last_3_of_5": "Yes",
-    "loss_years_last_10": 3,
-    "tuition_dependence_pct": 68.6997,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 68.7% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "ended_year_at_loss": null,
+    "losses_last_3_of_5": "No",
+    "loss_years_last_10": 0,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "share_grad_students": 49.7015,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -47,9 +47,9 @@
     "grad_plus_disbursements_per_recipient": 12721.1,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 3.7124,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -40.2722,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 72850,
@@ -59,52 +59,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 10843627.7896
-      },
-      {
-        "year": 2015,
-        "value": 11272090.0996
-      },
-      {
-        "year": 2016,
-        "value": 11154526.0797
-      },
-      {
-        "year": 2017,
-        "value": 11124697.8192
-      },
-      {
-        "year": 2018,
-        "value": 11452215.0316
-      },
-      {
-        "year": 2019,
-        "value": 10636705.8068
-      },
-      {
-        "year": 2020,
-        "value": 9278375.954
-      },
-      {
-        "year": 2021,
-        "value": 8916475.2479
-      },
-      {
-        "year": 2022,
-        "value": 7413103.8502
-      },
-      {
-        "year": 2023,
-        "value": 7221238.1012
-      },
-      {
-        "year": 2024,
-        "value": 11332226
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -154,47 +109,47 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17957.617
+        "value": 14276.2272
       },
       {
         "year": 2015,
-        "value": 20149.5344
+        "value": 16830.5307
       },
       {
         "year": 2016,
-        "value": 19847.4259
+        "value": 16514.8384
       },
       {
         "year": 2017,
-        "value": 20124.8058
+        "value": 16179.9749
       },
       {
         "year": 2018,
-        "value": 21057.9503
+        "value": 16846.3343
       },
       {
         "year": 2019,
-        "value": 21658.5136
+        "value": 17169.1442
       },
       {
         "year": 2020,
-        "value": 23385.9619
+        "value": 19135.4956
       },
       {
         "year": 2021,
-        "value": 25370.8363
+        "value": 19139.1241
       },
       {
         "year": 2022,
-        "value": 19558.4966
+        "value": 15432.2224
       },
       {
         "year": 2023,
-        "value": 20421.7106
+        "value": 17050.3376
       },
       {
         "year": 2024,
-        "value": 19081.3799
+        "value": 16671.2255
       }
     ],
     "enrollment_headcount_total": [
@@ -528,47 +483,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 639731.5185
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 525971.0762
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 541847.9606
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 613052.6301
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 671494.3609
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 619560.8363
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 423864.5481
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 421629.6431
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 331578.5608
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 302744.4451
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 370050
       }
     ]
   }

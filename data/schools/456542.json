@@ -1,6 +1,6 @@
 {
   "unitid": "456542",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Geisinger Commonwealth School of Medicine",
     "institution_unique_name": "Geisinger Commonwealth School of Medicine | Scranton | Pennsylvania",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 46.0405,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.803,
-    "net_tuition_per_fte_change_5yr": -79.3373,
+    "net_tuition_per_fte_change_5yr": -29.8106,
     "staff_total_headcount_pct_change_5yr": -7.9602,
     "staff_instructional_headcount_pct_change_5yr": -13.1148,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 60.8252,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 60.8% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 60.8% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 88.5246,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1773339,
-    "research_expense_per_fte": 2690.9545,
+    "research_expense_per_fte": 9140.9227,
     "research_expense_pct_core_expenses": 3.9688,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 91.9,
+    "research_spending_per_fte_percentile": 95.7,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 3805878,
     "grad_plus_disbursements_per_recipient": 22654.0357,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.029,
-    "state_funding_pct_core_revenue": 6.6878,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 17.7149,
-    "state_funding_pct_change_5yr": -26.4641,
-    "endowment_pct_change_5yr": 93.1445,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.029,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 17.7149,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": null,
     "median_debt_completers": null,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 51619.5821
+        "value": 189071.725
       },
       {
         "year": 2022,
-        "value": 48300.4638
+        "value": 161756.2409
       },
       {
         "year": 2023,
-        "value": 47895.8912
+        "value": 165481.5712
       },
       {
         "year": 2024,
-        "value": 46240.4112
+        "value": 157074.3866
       }
     ],
     "enrollment_headcount_total": [
@@ -435,51 +435,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1007060.2032
-      },
-      {
-        "year": 2015,
-        "value": 1568108.8342
-      },
-      {
-        "year": 2016,
-        "value": 1812031.7813
-      },
-      {
-        "year": 2017,
-        "value": 2504540.2239
-      },
-      {
-        "year": 2018,
-        "value": 2855193.6378
-      },
-      {
-        "year": 2019,
-        "value": 3085285.1859
-      },
-      {
-        "year": 2020,
-        "value": 634792.042
-      },
-      {
-        "year": 2021,
-        "value": 5414668.9832
-      },
-      {
-        "year": 2022,
-        "value": 6196149.5962
-      },
-      {
-        "year": 2023,
-        "value": 5300532.0348
-      },
-      {
         "year": 2024,
         "value": 5959058
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 2109998.9744
@@ -523,52 +529,6 @@
       {
         "year": 2024,
         "value": 1016515
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 294907.4189
-      },
-      {
-        "year": 2017,
-        "value": 298901.6453
-      },
-      {
-        "year": 2018,
-        "value": 4638777.5714
-      },
-      {
-        "year": 2019,
-        "value": 4556219.9338
-      },
-      {
-        "year": 2020,
-        "value": 4404481.492
-      },
-      {
-        "year": 2021,
-        "value": 4205966.7005
-      },
-      {
-        "year": 2022,
-        "value": 3961511.9302
-      },
-      {
-        "year": 2023,
-        "value": 3603230.3693
-      },
-      {
-        "year": 2024,
-        "value": 3350457
       }
     ]
   }

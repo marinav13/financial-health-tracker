@@ -1,6 +1,6 @@
 {
   "unitid": "198543",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Fayetteville State University",
     "institution_unique_name": "Fayetteville State University | Fayetteville | North Carolina",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 564.8441,
     "research_expense_pct_core_expenses": 2.7895,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 41.9,
+    "research_spending_per_fte_percentile": 41.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.1515,
     "pct_international_undergraduate": 0.9765,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 68169,
     "grad_plus_disbursements_per_recipient": 4009.9412,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.0616,
-    "state_funding_pct_core_revenue": 45.8607,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -10.3369,
-    "state_funding_pct_change_5yr": 28.1993,
-    "endowment_pct_change_5yr": 17.0649,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 2.6902,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 127.1626,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 38,
     "median_earnings_10yr": 40144,
     "median_debt_completers": 22987,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 25500322.8259
-      },
-      {
-        "year": 2015,
-        "value": 26169528.35
-      },
-      {
-        "year": 2016,
-        "value": 25728243.5693
-      },
-      {
-        "year": 2017,
-        "value": 27127121.3768
-      },
-      {
-        "year": 2018,
-        "value": 28342212.8319
-      },
-      {
-        "year": 2019,
-        "value": 29825166.6115
-      },
-      {
-        "year": 2020,
-        "value": 30019015.9148
-      },
-      {
-        "year": 2021,
-        "value": 38168862.996
-      },
-      {
-        "year": 2022,
-        "value": 34268454.803
-      },
-      {
-        "year": 2023,
-        "value": 32202308.6535
-      },
-      {
         "year": 2024,
         "value": 34914792
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 870273.1106
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 1036481.1731
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 254398.2802
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 744516.117
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 134903.7466
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 129156.8203
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 340172.05
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 371870.2812
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 11315.7635
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 341976.4174
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 115806
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 65546088.794
+        "value": 2409072.5814
       },
       {
         "year": 2015,
-        "value": 65275208.4663
+        "value": 1064885.8585
       },
       {
         "year": 2016,
-        "value": 63266513.9239
+        "value": -55478.2026
       },
       {
         "year": 2017,
-        "value": 69106185.7972
+        "value": 2490571.9005
       },
       {
         "year": 2018,
-        "value": 66354434.6564
+        "value": 2793816.7429
       },
       {
         "year": 2019,
-        "value": 67234537.8334
+        "value": 2225802.0866
       },
       {
         "year": 2020,
-        "value": 67135028.6512
+        "value": 997957.6819
       },
       {
         "year": 2021,
-        "value": 62321869.4784
+        "value": 9842706.9358
       },
       {
         "year": 2022,
-        "value": 68532365.9363
+        "value": 1487050.1781
       },
       {
         "year": 2023,
-        "value": 85123839.4828
+        "value": 426229.2089
       },
       {
         "year": 2024,
-        "value": 86194239
+        "value": 5056189
       }
     ]
   }

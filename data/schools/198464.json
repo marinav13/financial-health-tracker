@@ -1,6 +1,6 @@
 {
   "unitid": "198464",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "East Carolina University",
     "institution_unique_name": "East Carolina University | Greenville | North Carolina",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -7.2562,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -1.6738,
-    "net_tuition_per_fte_change_5yr": -15.9538,
+    "net_tuition_per_fte_change_5yr": -12.5039,
     "staff_total_headcount_pct_change_5yr": -6.6558,
     "staff_instructional_headcount_pct_change_5yr": -3.622,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 21.4382,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 53969072,
-    "research_expense_per_fte": 2305.4839,
+    "research_expense_per_fte": 2400.1188,
     "research_expense_pct_core_expenses": 8.1129,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 62.5,
+    "research_spending_per_fte_percentile": 62.7,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.0571,
     "pct_international_undergraduate": 0.7328,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 3144719,
     "grad_plus_disbursements_per_recipient": 9415.3263,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.9625,
-    "state_funding_pct_core_revenue": 46.1597,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 75.3808,
-    "state_funding_pct_change_5yr": -2.8799,
-    "endowment_pct_change_5yr": 22.7326,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.1893,
+    "state_funding_pct_core_revenue": 3.4393,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 2.2514,
+    "state_funding_pct_change_5yr": 154.8436,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 55146,
     "median_debt_completers": 22750,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 8263.1182
+        "value": 8580.8914
       },
       {
         "year": 2022,
-        "value": 8194.2328
+        "value": 8523.9139
       },
       {
         "year": 2023,
-        "value": 8152.5911
+        "value": 8483.9535
       },
       {
         "year": 2024,
-        "value": 8117.5422
+        "value": 8450.7492
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 219594216.2492
-      },
-      {
-        "year": 2015,
-        "value": 225012370.0526
-      },
-      {
-        "year": 2016,
-        "value": 217918527.6933
-      },
-      {
-        "year": 2017,
-        "value": 237789183.499
-      },
-      {
-        "year": 2018,
-        "value": 250806311.2024
-      },
-      {
-        "year": 2019,
-        "value": 260816547.7006
-      },
-      {
-        "year": 2020,
-        "value": 256916906.3762
-      },
-      {
-        "year": 2021,
-        "value": 333257180.7548
-      },
-      {
-        "year": 2022,
-        "value": 277694367.6502
-      },
-      {
-        "year": 2023,
-        "value": 287774436.4379
-      },
-      {
         "year": 2024,
         "value": 320106984
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 22728921.0047
+        "value": 14075505.9183
       },
       {
         "year": 2015,
-        "value": 22927364.1961
+        "value": 14848384.5155
       },
       {
         "year": 2016,
-        "value": 21530881.72
+        "value": 19898010.7996
       },
       {
         "year": 2017,
-        "value": 22583529.708
+        "value": 19050202.9488
       },
       {
         "year": 2018,
-        "value": 22659643.2861
+        "value": 16076499.1011
       },
       {
         "year": 2019,
-        "value": 27154662.2663
+        "value": 17101956.6242
       },
       {
         "year": 2020,
-        "value": 30541682.238
+        "value": 16826568.8009
       },
       {
         "year": 2021,
-        "value": 42562625.1841
+        "value": 15996791.4929
       },
       {
         "year": 2022,
-        "value": 47382405.3717
+        "value": 15599814.906
       },
       {
         "year": 2023,
-        "value": 47507042.0013
+        "value": 16128964.0588
       },
       {
         "year": 2024,
-        "value": 47624071
+        "value": 17486987
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 365262436.5504
+        "value": 10451888.8809
       },
       {
         "year": 2015,
-        "value": 361768817.6679
+        "value": 3086091.9087
       },
       {
         "year": 2016,
-        "value": 373419704.1873
+        "value": 869540.152
       },
       {
         "year": 2017,
-        "value": 376315286.3247
+        "value": 12219154.0308
       },
       {
         "year": 2018,
-        "value": 380944963.703
+        "value": 10633558.2847
       },
       {
         "year": 2019,
-        "value": 379625639.5806
+        "value": 10779627.0193
       },
       {
         "year": 2020,
-        "value": 378444442.3732
+        "value": 5586721.2045
       },
       {
         "year": 2021,
-        "value": 343209329.8085
+        "value": 23440216.9077
       },
       {
         "year": 2022,
-        "value": 352929708.6955
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 366221346.9465
+        "value": 16034876.5074
       },
       {
         "year": 2024,
-        "value": 368692677
+        "value": 27471193
       }
     ]
   }

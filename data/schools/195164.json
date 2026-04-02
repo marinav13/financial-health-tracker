@@ -1,6 +1,6 @@
 {
   "unitid": "195164",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "St Bonaventure University",
     "institution_unique_name": "St Bonaventure University | Saint Bonaventure | New York",
@@ -24,15 +24,15 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 40.4159,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 40.4% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 40.4% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 32.8519,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1798952,
     "research_expense_per_fte": 663.0859,
     "research_expense_pct_core_expenses": 2.5338,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 83.5,
+    "research_spending_per_fte_percentile": 82.5,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 3.7286,
     "pct_international_undergraduate": 4.5523,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.9306,
-    "state_funding_pct_core_revenue": 0.2506,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 119.3965,
-    "state_funding_pct_change_5yr": 4.5441,
-    "endowment_pct_change_5yr": 8.2355,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.9306,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 119.3965,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 67,
     "median_earnings_10yr": 57214,
     "median_debt_completers": 26000,
@@ -154,19 +154,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18992.5894
+        "value": 20164.3252
       },
       {
         "year": 2015,
-        "value": 19287.4132
+        "value": 20654.9943
       },
       {
         "year": 2016,
-        "value": 19373.0711
+        "value": 20503.1378
       },
       {
         "year": 2017,
-        "value": 18455.3041
+        "value": 19555.6322
       },
       {
         "year": 2018,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 81864891.9008
-      },
-      {
-        "year": 2015,
-        "value": 83674436.736
-      },
-      {
-        "year": 2016,
-        "value": 78982865.1647
-      },
-      {
-        "year": 2017,
-        "value": 85473149.9627
-      },
-      {
-        "year": 2018,
-        "value": 90485972.8844
-      },
-      {
-        "year": 2019,
-        "value": 87965335.7101
-      },
-      {
-        "year": 2020,
-        "value": 84826480.5349
-      },
-      {
-        "year": 2021,
-        "value": 105906538.2719
-      },
-      {
-        "year": 2022,
-        "value": 89398629.58
-      },
-      {
-        "year": 2023,
-        "value": 83208537.2325
-      },
-      {
         "year": 2024,
         "value": 95209711
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 311922.6973
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 654810
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 216680.1573
-      },
-      {
-        "year": 2015,
-        "value": 205740.0782
-      },
-      {
-        "year": 2016,
-        "value": 215749.0015
-      },
-      {
-        "year": 2017,
-        "value": 188603.7196
-      },
-      {
-        "year": 2018,
-        "value": 191823.4088
-      },
-      {
-        "year": 2019,
-        "value": 168664.7239
-      },
-      {
-        "year": 2020,
-        "value": 451462.6739
-      },
-      {
-        "year": 2021,
-        "value": 143368.2715
-      },
-      {
-        "year": 2022,
-        "value": 155180.4171
-      },
-      {
-        "year": 2023,
-        "value": 161813.8694
-      },
-      {
-        "year": 2024,
-        "value": 176329
       }
     ]
   }

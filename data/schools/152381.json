@@ -1,6 +1,6 @@
 {
   "unitid": "152381",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Saint Mary-of-the-Woods College",
     "institution_unique_name": "Saint Mary-of-the-Woods College | Saint Mary of the Woods | Indiana",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": 15.8067,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 19.28,
-    "net_tuition_per_fte_change_5yr": -25.4306,
+    "net_tuition_per_fte_change_5yr": -16.0979,
     "staff_total_headcount_pct_change_5yr": 18.0328,
     "staff_instructional_headcount_pct_change_5yr": 24.8588,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 50.5821,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 50.6% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.1177,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 51.1% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 28.2885,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 36525,
     "research_expense_per_fte": 35.5648,
     "research_expense_pct_core_expenses": 0.1492,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 67.4,
+    "research_spending_per_fte_percentile": 67.1,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.6266,
     "pct_international_undergraduate": 1.8738,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 79946,
     "grad_plus_disbursements_per_recipient": 11420.8571,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5776,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.5776,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -28.1512,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 46,
     "median_earnings_10yr": 43845,
     "median_debt_completers": 19512,
@@ -166,35 +166,35 @@
       },
       {
         "year": 2017,
-        "value": 17212.4116
+        "value": 16230.2412
       },
       {
         "year": 2018,
-        "value": 17867.9861
+        "value": 16577.1987
       },
       {
         "year": 2019,
-        "value": 18440.0121
+        "value": 16562.4219
       },
       {
         "year": 2020,
-        "value": 17220.9524
+        "value": 15626.4563
       },
       {
         "year": 2021,
-        "value": 15537.8361
+        "value": 15196.6294
       },
       {
         "year": 2022,
-        "value": 14781.0987
+        "value": 13793.8816
       },
       {
         "year": 2023,
-        "value": 12357.7391
+        "value": 13081.2629
       },
       {
         "year": 2024,
-        "value": 13750.6076
+        "value": 13896.2132
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 16755403.189
-      },
-      {
-        "year": 2015,
-        "value": 16748435.8871
-      },
-      {
-        "year": 2016,
-        "value": 15840228.642
-      },
-      {
-        "year": 2017,
-        "value": 17071117.3946
-      },
-      {
-        "year": 2018,
-        "value": 16556412.4027
-      },
-      {
-        "year": 2019,
-        "value": 15823838.7035
-      },
-      {
-        "year": 2020,
-        "value": 15177491.7009
-      },
-      {
-        "year": 2021,
-        "value": 14165309.4046
-      },
-      {
-        "year": 2022,
-        "value": 11828203.5039
-      },
-      {
-        "year": 2023,
-        "value": 10783539.8915
-      },
-      {
         "year": 2024,
         "value": 11369245
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 684841.803
@@ -546,7 +552,7 @@
       },
       {
         "year": 2020,
-        "value": 886444.0428
+        "value": 3245443.8401
       },
       {
         "year": 2021,
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 129921
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

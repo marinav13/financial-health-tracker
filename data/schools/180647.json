@@ -1,6 +1,6 @@
 {
   "unitid": "180647",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Salish Kootenai College",
     "institution_unique_name": "Salish Kootenai College | Pablo | Montana",
@@ -22,7 +22,7 @@
     "staff_instructional_headcount_pct_change_5yr": 17.4757,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 2,
+    "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
     "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": null,
@@ -59,72 +59,9 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 33289908.5602
-      },
-      {
-        "year": 2015,
-        "value": 35113232.3101
-      },
-      {
-        "year": 2016,
-        "value": 33320252.6871
-      },
-      {
-        "year": 2017,
-        "value": 34162142.3696
-      },
-      {
-        "year": 2018,
-        "value": 30598174.7454
-      }
-    ],
-    "expenses_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 34775640.7714
-      },
-      {
-        "year": 2015,
-        "value": 34377268.7909
-      },
-      {
-        "year": 2016,
-        "value": 33704451.6896
-      },
-      {
-        "year": 2017,
-        "value": 33617870.455
-      },
-      {
-        "year": 2018,
-        "value": 31240625.8874
-      }
-    ],
-    "net_tuition_per_fte_adjusted": [
-      {
-        "year": 2014,
-        "value": 4885.6422
-      },
-      {
-        "year": 2015,
-        "value": 4513.5196
-      },
-      {
-        "year": 2016,
-        "value": 4177.9721
-      },
-      {
-        "year": 2017,
-        "value": 4738.6333
-      },
-      {
-        "year": 2018,
-        "value": 471.1937
-      }
-    ],
+    "revenue_total_adjusted": [],
+    "expenses_total_adjusted": [],
+    "net_tuition_per_fte_adjusted": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -369,71 +306,8 @@
         "value": 121
       }
     ],
-    "endowment_value_adjusted": [
-      {
-        "year": 2014,
-        "value": 15438328.3725
-      },
-      {
-        "year": 2015,
-        "value": 15863868.5619
-      },
-      {
-        "year": 2016,
-        "value": 14907867.5649
-      },
-      {
-        "year": 2017,
-        "value": 16922973.8228
-      },
-      {
-        "year": 2018,
-        "value": 17716547.1472
-      }
-    ],
-    "federal_grants_contracts_pell_adjusted_adjusted": [
-      {
-        "year": 2014,
-        "value": 12971941.7197
-      },
-      {
-        "year": 2015,
-        "value": 16849003.72
-      },
-      {
-        "year": 2016,
-        "value": 15802929.4937
-      },
-      {
-        "year": 2017,
-        "value": 15404348.963
-      },
-      {
-        "year": 2018,
-        "value": 15397015.9499
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 689199.9197
-      },
-      {
-        "year": 2015,
-        "value": 684380.5999
-      },
-      {
-        "year": 2016,
-        "value": 634469.7786
-      },
-      {
-        "year": 2017,
-        "value": 597267.0809
-      },
-      {
-        "year": 2018,
-        "value": 587652.663
-      }
-    ]
+    "endowment_value_adjusted": [],
+    "federal_grants_contracts_pell_adjusted_adjusted": [],
+    "state_funding_adjusted": []
   }
 }

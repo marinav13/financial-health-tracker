@@ -1,6 +1,6 @@
 {
   "unitid": "150136",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Ball State University",
     "institution_unique_name": "Ball State University | Muncie | Indiana",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -6.1947,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.3372,
-    "net_tuition_per_fte_change_5yr": -17.0161,
+    "net_tuition_per_fte_change_5yr": -16.8305,
     "staff_total_headcount_pct_change_5yr": -6.9723,
     "staff_instructional_headcount_pct_change_5yr": -0.5368,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 32.2193,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 15999871,
-    "research_expense_per_fte": 892.7503,
+    "research_expense_per_fte": 894.7473,
     "research_expense_pct_core_expenses": 4.1977,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 50.3,
+    "research_spending_per_fte_percentile": 50.1,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.4764,
     "pct_international_undergraduate": 0.6117,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 962196,
     "grad_plus_disbursements_per_recipient": 5831.4909,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.4729,
-    "state_funding_pct_core_revenue": 28.7532,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 110.0532,
-    "state_funding_pct_change_5yr": -15.8399,
-    "endowment_pct_change_5yr": -0.2381,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.1889,
+    "state_funding_pct_core_revenue": 4.6663,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -70.2994,
+    "state_funding_pct_change_5yr": 14.0513,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 62,
     "median_earnings_10yr": 51833,
     "median_debt_completers": 23250,
@@ -190,11 +190,11 @@
       },
       {
         "year": 2023,
-        "value": 8964.0087
+        "value": 8983.1847
       },
       {
         "year": 2024,
-        "value": 8870.5809
+        "value": 8890.4233
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 254556401.3772
-      },
-      {
-        "year": 2015,
-        "value": 255028086.2987
-      },
-      {
-        "year": 2016,
-        "value": 238363487.6721
-      },
-      {
-        "year": 2017,
-        "value": 258264404.9845
-      },
-      {
-        "year": 2018,
-        "value": 267656445.0018
-      },
-      {
-        "year": 2019,
-        "value": 261436334.3034
-      },
-      {
-        "year": 2020,
-        "value": 258439514.4891
-      },
-      {
-        "year": 2021,
-        "value": 311792270.3218
-      },
-      {
-        "year": 2022,
-        "value": 258295920.495
-      },
-      {
-        "year": 2023,
-        "value": 244742829.9556
-      },
-      {
         "year": 2024,
         "value": 260813964
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 8159860.0236
+        "value": 7942962.5567
       },
       {
         "year": 2015,
-        "value": 7360094.4421
+        "value": 5751568.9514
       },
       {
         "year": 2016,
-        "value": 7268475.7985
+        "value": 5191414.6041
       },
       {
         "year": 2017,
-        "value": 5957171.9211
+        "value": 7840090.3996
       },
       {
         "year": 2018,
-        "value": 6090522.5232
+        "value": 6857893.6102
       },
       {
         "year": 2019,
-        "value": 5904704.5977
+        "value": 20077648.1444
       },
       {
         "year": 2020,
-        "value": 4648967.9189
+        "value": 8223823.3276
       },
       {
         "year": 2021,
-        "value": 5457977.9073
+        "value": 8230010.6828
       },
       {
         "year": 2022,
-        "value": 8349312.0498
+        "value": 5853995.9362
       },
       {
         "year": 2023,
-        "value": 10138275.456
+        "value": 5500237.4748
       },
       {
         "year": 2024,
-        "value": 12403023
+        "value": 5963184
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 173266525.1479
+        "value": 3201623.0728
       },
       {
         "year": 2015,
-        "value": 167489808.9924
+        "value": 3751479.1418
       },
       {
         "year": 2016,
-        "value": 171383550.6381
+        "value": 4448375.0011
       },
       {
         "year": 2017,
-        "value": 170563429.6523
+        "value": 2574238.5105
       },
       {
         "year": 2018,
-        "value": 171694019.6064
+        "value": 2949856.1177
       },
       {
         "year": 2019,
-        "value": 171354492.0135
+        "value": 20520536.9094
       },
       {
         "year": 2020,
-        "value": 169123366.7322
+        "value": 24094047.3781
       },
       {
         "year": 2021,
-        "value": 152344963.136
+        "value": 4279226.4008
       },
       {
         "year": 2022,
-        "value": 151705017.8376
+        "value": -38665534.1274
       },
       {
         "year": 2023,
-        "value": 144267910.3172
+        "value": 15589315.4528
       },
       {
         "year": 2024,
-        "value": 144212067
+        "value": 23403946
       }
     ]
   }

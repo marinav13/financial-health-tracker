@@ -1,6 +1,6 @@
 {
   "unitid": "110413",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "California Lutheran University",
     "institution_unique_name": "California Lutheran University | Thousand Oaks | California",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -23.7123,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.3261,
-    "net_tuition_per_fte_change_5yr": -12.5726,
+    "net_tuition_per_fte_change_5yr": -9.67,
     "staff_total_headcount_pct_change_5yr": -11.4224,
     "staff_instructional_headcount_pct_change_5yr": -16.0752,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 59.3342,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 59.3% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 59.3% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 34.7771,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1017433,
     "grad_plus_disbursements_per_recipient": 10489,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.9009,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -8.7154,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 10.2688,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 4.9009,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -8.7154,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 70,
     "median_earnings_10yr": 68712,
     "median_debt_completers": 21669,
@@ -62,7 +62,7 @@
     "revenue_total_adjusted": [
       {
         "year": 2014,
-        "value": 187710772.2631
+        "value": 189178385.6272
       },
       {
         "year": 2015,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25377.9857
+        "value": 25315.0729
       },
       {
         "year": 2015,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 23065.0441
+        "value": 23765.7543
       },
       {
         "year": 2022,
-        "value": 20900.2049
+        "value": 21566.0009
       },
       {
         "year": 2023,
-        "value": 20417.1183
+        "value": 21014.0074
       },
       {
         "year": 2024,
-        "value": 21122.2422
+        "value": 21823.5032
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 114267532.1528
-      },
-      {
-        "year": 2015,
-        "value": 123002423.0216
-      },
-      {
-        "year": 2016,
-        "value": 120975723.9954
-      },
-      {
-        "year": 2017,
-        "value": 126016129.9652
-      },
-      {
-        "year": 2018,
-        "value": 135965459.998
-      },
-      {
-        "year": 2019,
-        "value": 131482521.5897
-      },
-      {
-        "year": 2020,
-        "value": 140673428.5016
-      },
-      {
-        "year": 2021,
-        "value": 168710792.1353
-      },
-      {
-        "year": 2022,
-        "value": 153344344.7289
-      },
-      {
-        "year": 2023,
-        "value": 137692240.3524
-      },
-      {
         "year": 2024,
         "value": 144984195
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 2232427.7353
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 4624209
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

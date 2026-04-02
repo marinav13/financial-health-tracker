@@ -1,6 +1,6 @@
 {
   "unitid": "169080",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Calvin University",
     "institution_unique_name": "Calvin University | Grand Rapids | Michigan",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -10.7498,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.6971,
-    "net_tuition_per_fte_change_5yr": -34.5395,
+    "net_tuition_per_fte_change_5yr": -33.7566,
     "staff_total_headcount_pct_change_5yr": 10.1553,
     "staff_instructional_headcount_pct_change_5yr": 10.9948,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 31.214,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 31.2% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 31.2% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 11.5824,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1835000,
     "research_expense_per_fte": 545.3195,
     "research_expense_pct_core_expenses": 1.6147,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 82,
+    "research_spending_per_fte_percentile": 81.3,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 12.5612,
     "pct_international_undergraduate": 12.9766,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 252178,
     "grad_plus_disbursements_per_recipient": 9699.1538,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.9158,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -18.0343,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 32.0891,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.9158,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -18.0343,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 74,
     "median_earnings_10yr": 58375,
     "median_debt_completers": 23250,
@@ -154,35 +154,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22634.535
+        "value": 22278.2699
       },
       {
         "year": 2015,
-        "value": 22678.6322
+        "value": 22341.724
       },
       {
         "year": 2016,
-        "value": 22441.286
+        "value": 22159.7818
       },
       {
         "year": 2017,
-        "value": 22186.2897
+        "value": 21772.9158
       },
       {
         "year": 2018,
-        "value": 21486.6667
+        "value": 21101.5089
       },
       {
         "year": 2019,
-        "value": 21166.3218
+        "value": 20916.1492
       },
       {
         "year": 2020,
-        "value": 19473.3609
+        "value": 19589.6628
       },
       {
         "year": 2021,
-        "value": 18648.0869
+        "value": 18985.5637
       },
       {
         "year": 2022,
@@ -190,7 +190,7 @@
       },
       {
         "year": 2023,
-        "value": 14551.5947
+        "value": 14551.2699
       },
       {
         "year": 2024,
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 163864232.1664
-      },
-      {
-        "year": 2015,
-        "value": 169982881.9561
-      },
-      {
-        "year": 2016,
-        "value": 168721901.2963
-      },
-      {
-        "year": 2017,
-        "value": 186421472.0633
-      },
-      {
-        "year": 2018,
-        "value": 200836207.0338
-      },
-      {
-        "year": 2019,
-        "value": 216610648.9633
-      },
-      {
-        "year": 2020,
-        "value": 231349137.2623
-      },
-      {
-        "year": 2021,
-        "value": 281208753.9469
-      },
-      {
-        "year": 2022,
-        "value": 266433333.9666
-      },
-      {
-        "year": 2023,
-        "value": 261938375.9411
-      },
-      {
         "year": 2024,
         "value": 286119000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 3843222.9234
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 2465000
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

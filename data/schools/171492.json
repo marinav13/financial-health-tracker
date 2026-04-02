@@ -1,6 +1,6 @@
 {
   "unitid": "171492",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Northwood University",
     "institution_unique_name": "Northwood University | Midland | Michigan",
@@ -17,15 +17,15 @@
     "enrollment_pct_change_5yr": -24.2892,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.5437,
-    "net_tuition_per_fte_change_5yr": -21.1152,
+    "net_tuition_per_fte_change_5yr": -21.1369,
     "staff_total_headcount_pct_change_5yr": -42.7208,
     "staff_instructional_headcount_pct_change_5yr": -54.291,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 45.1305,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 45.1% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.1539,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 45.2% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 18.5821,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 180685,
     "grad_plus_disbursements_per_recipient": 8604.0476,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.7199,
-    "state_funding_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.7199,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 2.2911,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 63,
     "median_earnings_10yr": 63075,
     "median_debt_completers": 20842,
@@ -166,35 +166,35 @@
       },
       {
         "year": 2017,
-        "value": 18563.2601
+        "value": 18556.6468
       },
       {
         "year": 2018,
-        "value": 19602.3596
+        "value": 19592.1778
       },
       {
         "year": 2019,
-        "value": 18222.2933
+        "value": 18236.8
       },
       {
         "year": 2020,
-        "value": 15942.1699
+        "value": 15937.6089
       },
       {
         "year": 2021,
-        "value": 16666.6627
+        "value": 16741.3417
       },
       {
         "year": 2022,
-        "value": 15270.0644
+        "value": 15349.6336
       },
       {
         "year": 2023,
-        "value": 14100.926
+        "value": 14172.1357
       },
       {
         "year": 2024,
-        "value": 14374.6207
+        "value": 14382.097
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 41865056.4284
-      },
-      {
-        "year": 2015,
-        "value": 45842917.5912
-      },
-      {
-        "year": 2016,
-        "value": 44343959.8919
-      },
-      {
-        "year": 2017,
-        "value": 44335246.0767
-      },
-      {
-        "year": 2018,
-        "value": 124255227.6533
-      },
-      {
-        "year": 2019,
-        "value": 120138228.1128
-      },
-      {
-        "year": 2020,
-        "value": 109042795.9732
-      },
-      {
-        "year": 2021,
-        "value": 132368525.9356
-      },
-      {
-        "year": 2022,
-        "value": 107434255.5687
-      },
-      {
-        "year": 2023,
-        "value": 108598532.2225
-      },
-      {
         "year": 2024,
         "value": 122890733
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 0
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 435435
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

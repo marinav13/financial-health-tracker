@@ -1,6 +1,6 @@
 {
   "unitid": "110468",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Alliant International University-San Diego",
     "institution_unique_name": "Alliant International University-San Diego | San Diego | California",
@@ -17,19 +17,19 @@
     "enrollment_pct_change_5yr": -0.6061,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.4062,
-    "net_tuition_per_fte_change_5yr": -1.6211,
+    "net_tuition_per_fte_change_5yr": 28.7031,
     "staff_total_headcount_pct_change_5yr": 8.8235,
     "staff_instructional_headcount_pct_change_5yr": 4.8023,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 97.0242,
-    "sector_median_tuition_dependence_pct": 98.0964,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 97% of its revenue from net tuition, below the median of 98.1% for private for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 98.8099,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 97% of its revenue from net tuition, below the median of 98.8% for private for-profit colleges.",
     "share_grad_students": 88.0918,
     "sector_avg_share_grad_students": 27.3534,
     "research_expense": 114469,
-    "research_expense_per_fte": 31.0719,
+    "research_expense_per_fte": 40.6495,
     "research_expense_pct_core_expenses": 0.1279,
     "sector_research_spending_n": 122,
     "research_spending_per_fte_percentile": 95,
@@ -49,7 +49,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -99.4024,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 66666,
@@ -60,10 +60,6 @@
   },
   "series": {
     "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 95038924.886
-      },
       {
         "year": 2015,
         "value": 82411189.2412
@@ -107,10 +103,6 @@
     ],
     "expenses_total_adjusted": [
       {
-        "year": 2014,
-        "value": 101668697.6971
-      },
-      {
         "year": 2015,
         "value": 90985869.1954
       },
@@ -153,10 +145,6 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
-        "year": 2014,
-        "value": 23757.7552
-      },
-      {
         "year": 2015,
         "value": 23120.3719
       },
@@ -182,19 +170,19 @@
       },
       {
         "year": 2021,
-        "value": 26208.036
+        "value": 26692.4729
       },
       {
         "year": 2022,
-        "value": 21572.6547
+        "value": 29691.7212
       },
       {
         "year": 2023,
-        "value": 21435.5017
+        "value": 31431.4528
       },
       {
         "year": 2024,
-        "value": 24237.2345
+        "value": 31708.0866
       }
     ],
     "enrollment_headcount_total": [
@@ -473,62 +461,48 @@
         "value": 371
       }
     ],
-    "endowment_value_adjusted": [
-      {
-        "year": 2014,
-        "value": 1671674.9914
-      }
-    ],
-    "federal_grants_contracts_pell_adjusted_adjusted": [
-      {
-        "year": 2014,
-        "value": 522043.8161
-      }
-    ],
+    "endowment_value_adjusted": [],
+    "federal_grants_contracts_pell_adjusted_adjusted": [],
     "state_funding_adjusted": [
       {
-        "year": 2014,
-        "value": 0
-      },
-      {
         "year": 2015,
-        "value": 0
+        "value": 212833.9704
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 377896.6515
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 6618.7969
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 1572.7736
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 5856.4311
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 20918.5794
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 8.1036
       },
       {
         "year": 2022,
-        "value": 0
+        "value": -6.4312
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 6.177
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 35
       }
     ]
   }

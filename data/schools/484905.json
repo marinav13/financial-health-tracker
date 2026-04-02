@@ -1,6 +1,6 @@
 {
   "unitid": "484905",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "University of North Texas at Dallas",
     "institution_unique_name": "University of North Texas at Dallas | Dallas | Texas",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": -1.3963,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -28.9526,
-    "net_tuition_per_fte_change_5yr": -14.3729,
+    "net_tuition_per_fte_change_5yr": -0.3242,
     "staff_total_headcount_pct_change_5yr": -1.5656,
     "staff_instructional_headcount_pct_change_5yr": -20,
     "ended_year_at_loss": "Yes",
@@ -29,10 +29,10 @@
     "share_grad_students": 19.4426,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1349396,
-    "research_expense_per_fte": 451.7563,
+    "research_expense_per_fte": 525.8753,
     "research_expense_pct_core_expenses": 1.0641,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 37.8,
+    "research_spending_per_fte_percentile": 40,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 0.3596,
     "pct_international_undergraduate": 0.3348,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1060245,
     "grad_plus_disbursements_per_recipient": 9140.0431,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.0657,
-    "state_funding_pct_core_revenue": 41.5343,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 129.3231,
-    "state_funding_pct_change_5yr": 49.5834,
-    "endowment_pct_change_5yr": 1097.1506,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.4313,
+    "state_funding_pct_core_revenue": 3.1414,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 214.576,
+    "state_funding_pct_change_5yr": 180.7374,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 42,
     "median_earnings_10yr": null,
     "median_debt_completers": 18606,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 9774.2131
+        "value": 11133.3768
       },
       {
         "year": 2022,
-        "value": 8713.3871
+        "value": 9906.6859
       },
       {
         "year": 2023,
-        "value": 9468.3597
+        "value": 10972.9799
       },
       {
         "year": 2024,
-        "value": 9682.4533
+        "value": 11271.0398
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 210077.3919
-      },
-      {
-        "year": 2015,
-        "value": 1090188.2896
-      },
-      {
-        "year": 2016,
-        "value": 1098539.5132
-      },
-      {
-        "year": 2017,
-        "value": 1140895.2881
-      },
-      {
-        "year": 2018,
-        "value": 1162444.5604
-      },
-      {
-        "year": 2019,
-        "value": 1122455.6271
-      },
-      {
-        "year": 2020,
-        "value": 1182108.8124
-      },
-      {
-        "year": 2021,
-        "value": 1306472.9516
-      },
-      {
-        "year": 2022,
-        "value": 1012899.6426
-      },
-      {
-        "year": 2023,
-        "value": 997195.0342
-      },
-      {
         "year": 2024,
         "value": 13437484
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 692667.5973
+        "value": 612461.8188
       },
       {
         "year": 2015,
-        "value": 901547.6679
+        "value": 1316077.1391
       },
       {
         "year": 2016,
-        "value": 735835.4225
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 706314.7041
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 1461159.1071
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 2474898.566
+        "value": 509778.2139
       },
       {
         "year": 2020,
-        "value": 1887945.7265
+        "value": 828617.6669
       },
       {
         "year": 2021,
-        "value": 3738807.7565
+        "value": 577216.9328
       },
       {
         "year": 2022,
-        "value": 3168965.8003
+        "value": 932021.4635
       },
       {
         "year": 2023,
-        "value": 4538972.8244
+        "value": 1153641.1199
       },
       {
         "year": 2024,
-        "value": 5675515
+        "value": 1603640
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 20725822.4332
+        "value": 449465.0731
       },
       {
         "year": 2015,
-        "value": 19979407.3085
+        "value": -350301.9539
       },
       {
         "year": 2016,
-        "value": 22792057.7009
+        "value": 494929.2969
       },
       {
         "year": 2017,
-        "value": 22479195.3542
+        "value": 1422917.2095
       },
       {
         "year": 2018,
-        "value": 31651901.8018
+        "value": 2011890.942
       },
       {
         "year": 2019,
-        "value": 31109452.6191
+        "value": 1253715.5111
       },
       {
         "year": 2020,
-        "value": 34185970.5072
+        "value": 869910.6202
       },
       {
         "year": 2021,
-        "value": 30763469.9269
+        "value": 3125693.1885
       },
       {
         "year": 2022,
-        "value": 35232682.8353
+        "value": -2075525.6186
       },
       {
         "year": 2023,
-        "value": 32484920.3063
+        "value": 1925483.9498
       },
       {
         "year": 2024,
-        "value": 46534565
+        "value": 3519648
       }
     ]
   }

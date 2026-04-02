@@ -1,6 +1,6 @@
 {
   "unitid": "147590",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "National University of Health Sciences",
     "institution_unique_name": "National University of Health Sciences | Lombard | Illinois",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -23.0198,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 3.8073,
-    "net_tuition_per_fte_change_5yr": -67.7124,
+    "net_tuition_per_fte_change_5yr": 127.1944,
     "staff_total_headcount_pct_change_5yr": -17.3516,
     "staff_instructional_headcount_pct_change_5yr": -22.7273,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 62.988,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 63% of its revenue from net tuition, above the median of 44.9% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 63% of its revenue from net tuition, above the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": 92.1222,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 378211,
-    "research_expense_per_fte": 655.4783,
+    "research_expense_per_fte": 4612.3293,
     "research_expense_pct_core_expenses": 1.8989,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 83.1,
+    "research_spending_per_fte_percentile": 93.6,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 1.4469,
     "pct_international_undergraduate": 0,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 2094794,
     "grad_plus_disbursements_per_recipient": 12322.3176,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.7153,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -26.988,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 138.5618,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.7153,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -26.988,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 58723,
     "median_debt_completers": 12500,
@@ -154,7 +154,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 77576.7136
+        "value": 63148.6995
       },
       {
         "year": 2015,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 24735.1073
+        "value": 102800.8215
       },
       {
         "year": 2022,
-        "value": 23478.6682
+        "value": 104891.7124
       },
       {
         "year": 2023,
-        "value": 28296.0311
+        "value": 118882.6307
       },
       {
         "year": 2024,
-        "value": 30886.4471
+        "value": 217335.122
       }
     ],
     "enrollment_headcount_total": [
@@ -475,51 +475,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 4771317.6027
-      },
-      {
-        "year": 2015,
-        "value": 5003351.2629
-      },
-      {
-        "year": 2016,
-        "value": 4947946.7598
-      },
-      {
-        "year": 2017,
-        "value": 4851711.2558
-      },
-      {
-        "year": 2018,
-        "value": 4743530.0371
-      },
-      {
-        "year": 2019,
-        "value": 4711316.5842
-      },
-      {
-        "year": 2020,
-        "value": 9615025.8189
-      },
-      {
-        "year": 2021,
-        "value": 11089894.2061
-      },
-      {
-        "year": 2022,
-        "value": 9601657.4074
-      },
-      {
-        "year": 2023,
-        "value": 9450451.7223
-      },
-      {
         "year": 2024,
         "value": 11239401
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 488154.1252
@@ -563,52 +569,6 @@
       {
         "year": 2024,
         "value": 190792
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

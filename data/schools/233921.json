@@ -1,6 +1,6 @@
 {
   "unitid": "233921",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Virginia Polytechnic Institute and State University",
     "institution_unique_name": "Virginia Polytechnic Institute and State University | Blacksburg | Virginia",
@@ -17,7 +17,7 @@
     "enrollment_pct_change_5yr": 9.9398,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.9432,
-    "net_tuition_per_fte_change_5yr": -7.3688,
+    "net_tuition_per_fte_change_5yr": -5.0579,
     "staff_total_headcount_pct_change_5yr": 9.3793,
     "staff_instructional_headcount_pct_change_5yr": 7.0812,
     "ended_year_at_loss": "No",
@@ -29,10 +29,10 @@
     "share_grad_students": 21.7446,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 510201407,
-    "research_expense_per_fte": 13044.2924,
+    "research_expense_per_fte": 13369.7075,
     "research_expense_pct_core_expenses": 31.1869,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 87.9,
+    "research_spending_per_fte_percentile": 87.4,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 10.8415,
     "pct_international_undergraduate": 4.6737,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 5550513,
     "grad_plus_disbursements_per_recipient": 15082.9158,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 16.4848,
-    "state_funding_pct_core_revenue": 19.8013,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 15.7205,
-    "state_funding_pct_change_5yr": 23.4478,
-    "endowment_pct_change_5yr": 17.2309,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.933,
+    "state_funding_pct_core_revenue": 4.3624,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -9.2145,
+    "state_funding_pct_change_5yr": 253.8377,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 86,
     "median_earnings_10yr": 81698,
     "median_debt_completers": 21500,
@@ -182,19 +182,19 @@
       },
       {
         "year": 2021,
-        "value": 17728.4531
+        "value": 18146.5883
       },
       {
         "year": 2022,
-        "value": 17290.7136
+        "value": 17771.6237
       },
       {
         "year": 2023,
-        "value": 17162.1326
+        "value": 17599.7339
       },
       {
         "year": 2024,
-        "value": 17549.8679
+        "value": 17987.6834
       }
     ],
     "enrollment_headcount_total": [
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 1045205981.3463
-      },
-      {
-        "year": 2015,
-        "value": 1072289446.7486
-      },
-      {
-        "year": 2016,
-        "value": 1092390081.1226
-      },
-      {
-        "year": 2017,
-        "value": 1263867723.564
-      },
-      {
-        "year": 2018,
-        "value": 1420243259.248
-      },
-      {
-        "year": 2019,
-        "value": 1654598217.5336
-      },
-      {
-        "year": 2020,
-        "value": 1611284514.9549
-      },
-      {
-        "year": 2021,
-        "value": 1945202888.5116
-      },
-      {
-        "year": 2022,
-        "value": 1795601690.728
-      },
-      {
-        "year": 2023,
-        "value": 1945641450.0069
-      },
-      {
         "year": 2024,
         "value": 1939700000
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 315139093.4434
+        "value": 66052172.2829
       },
       {
         "year": 2015,
-        "value": 301451734.255
+        "value": 68834957.9669
       },
       {
         "year": 2016,
-        "value": 300295074.254
+        "value": 77180536.5468
       },
       {
         "year": 2017,
-        "value": 272960467.1696
+        "value": 83786845.0743
       },
       {
         "year": 2018,
-        "value": 279038001.401
+        "value": 88080592.4856
       },
       {
         "year": 2019,
-        "value": 290035566.9483
+        "value": 88203395.3998
       },
       {
         "year": 2020,
-        "value": 290186710.0106
+        "value": 82529821.9585
       },
       {
         "year": 2021,
-        "value": 275529336.8656
+        "value": 83551536.8932
       },
       {
         "year": 2022,
-        "value": 286728686.9532
+        "value": 80842608.9612
       },
       {
         "year": 2023,
-        "value": 314430992.6401
+        "value": 76218912.7204
       },
       {
         "year": 2024,
-        "value": 335630488
+        "value": 80075900
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 322775202.9758
+        "value": 17037733.3595
       },
       {
         "year": 2015,
-        "value": 321383617.7799
+        "value": 4328444.1853
       },
       {
         "year": 2016,
-        "value": 327597423.4376
+        "value": 1121741.3662
       },
       {
         "year": 2017,
-        "value": 334928489.055
+        "value": 23664469.3431
       },
       {
         "year": 2018,
-        "value": 287610465.5409
+        "value": 20392495.817
       },
       {
         "year": 2019,
-        "value": 326579780.2346
+        "value": 25101245.1422
       },
       {
         "year": 2020,
-        "value": 368227138.6679
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 349920988.2569
+        "value": 111858023.2859
       },
       {
         "year": 2022,
-        "value": 349880137.7595
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 376105756.2921
+        "value": 62044784.5261
       },
       {
         "year": 2024,
-        "value": 403155578
+        "value": 88817675
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "212577",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "Franklin and Marshall College",
     "institution_unique_name": "Franklin and Marshall College | Lancaster | Pennsylvania",
@@ -17,22 +17,22 @@
     "enrollment_pct_change_5yr": -18.4553,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.8713,
-    "net_tuition_per_fte_change_5yr": -8.5265,
+    "net_tuition_per_fte_change_5yr": -8.4748,
     "staff_total_headcount_pct_change_5yr": -18.9495,
     "staff_instructional_headcount_pct_change_5yr": -24.026,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 41.9748,
-    "sector_median_tuition_dependence_pct": 44.9472,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 42% of its revenue from net tuition, below the median of 44.9% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.4928,
+    "sector_median_tuition_dependence_pct": 45.0862,
+    "tuition_dependence_vs_sector_median_sentence": "This college gets 42.5% of its revenue from net tuition, below the median of 45.1% for private not-for-profit colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4589278,
     "research_expense_per_fte": 2236.4903,
     "research_expense_pct_core_expenses": 4.2061,
     "sector_research_spending_n": 1150,
-    "research_spending_per_fte_percentile": 91.3,
+    "research_spending_per_fte_percentile": 91.1,
     "research_spending_peer_bucket": "top 25%",
     "pct_international_all": 16.9492,
     "pct_international_undergraduate": 16.9492,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.3423,
-    "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -33.1981,
-    "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": -1.76,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.3423,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -33.1981,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 84,
     "median_earnings_10yr": 76124,
     "median_debt_completers": 19000,
@@ -174,27 +174,27 @@
       },
       {
         "year": 2019,
-        "value": 38447.1875
+        "value": 38899.5986
       },
       {
         "year": 2020,
-        "value": 39778.6742
+        "value": 40088.4565
       },
       {
         "year": 2021,
-        "value": 38555.4604
+        "value": 38811.5362
       },
       {
         "year": 2022,
-        "value": 35972.1113
+        "value": 36361.3577
       },
       {
         "year": 2023,
-        "value": 35621.1442
+        "value": 36035.876
       },
       {
         "year": 2024,
-        "value": 35169
+        "value": 35602.9459
       }
     ],
     "enrollment_headcount_total": [
@@ -430,51 +430,57 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 449465073.1448
-      },
-      {
-        "year": 2015,
-        "value": 442865335.3135
-      },
-      {
-        "year": 2016,
-        "value": 429140176.1615
-      },
-      {
-        "year": 2017,
-        "value": 470857273.3233
-      },
-      {
-        "year": 2018,
-        "value": 482938873.2749
-      },
-      {
-        "year": 2019,
-        "value": 476020247.0757
-      },
-      {
-        "year": 2020,
-        "value": 460291109.5135
-      },
-      {
-        "year": 2021,
-        "value": 581448047.2118
-      },
-      {
-        "year": 2022,
-        "value": 457139449.7163
-      },
-      {
-        "year": 2023,
-        "value": 443537471.1108
-      },
-      {
         "year": 2024,
         "value": 467642341
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1984939.9727
@@ -518,52 +524,6 @@
       {
         "year": 2024,
         "value": 1987004
-      }
-    ],
-    "state_funding_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ]
   }

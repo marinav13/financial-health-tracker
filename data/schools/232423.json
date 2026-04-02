@@ -1,6 +1,6 @@
 {
   "unitid": "232423",
-  "generated_at": "2026-04-01",
+  "generated_at": "2026-04-02",
   "profile": {
     "institution_name": "James Madison University",
     "institution_unique_name": "James Madison University | Harrisonburg | Virginia",
@@ -32,7 +32,7 @@
     "research_expense_per_fte": 197.4165,
     "research_expense_pct_core_expenses": 0.97,
     "sector_research_spending_n": 548,
-    "research_spending_per_fte_percentile": 26.1,
+    "research_spending_per_fte_percentile": 25.8,
     "research_spending_peer_bucket": "middle 50%",
     "pct_international_all": 1.2892,
     "pct_international_undergraduate": 0.8893,
@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 1091122,
     "grad_plus_disbursements_per_recipient": 11990.3516,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.0821,
-    "state_funding_pct_core_revenue": 32.854,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 28.1448,
-    "state_funding_pct_change_5yr": 42.3779,
-    "endowment_pct_change_5yr": 14.119,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.203,
+    "state_funding_pct_core_revenue": 2.7154,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -17.017,
+    "state_funding_pct_change_5yr": 164.2124,
+    "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": 80,
     "median_earnings_10yr": 69954,
     "median_debt_completers": 20093,
@@ -475,46 +475,6 @@
     ],
     "endowment_value_adjusted": [
       {
-        "year": 2014,
-        "value": 103865513.1657
-      },
-      {
-        "year": 2015,
-        "value": 108457510.1838
-      },
-      {
-        "year": 2016,
-        "value": 104530080.171
-      },
-      {
-        "year": 2017,
-        "value": 119220716.5885
-      },
-      {
-        "year": 2018,
-        "value": 129824967.2482
-      },
-      {
-        "year": 2019,
-        "value": 136275596.3074
-      },
-      {
-        "year": 2020,
-        "value": 141408768.8668
-      },
-      {
-        "year": 2021,
-        "value": 179076602.7123
-      },
-      {
-        "year": 2022,
-        "value": 132261992.5553
-      },
-      {
-        "year": 2023,
-        "value": 139355077.6341
-      },
-      {
         "year": 2024,
         "value": 155516395
       }
@@ -522,93 +482,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 17578636.7302
+        "value": 7985608.2328
       },
       {
         "year": 2015,
-        "value": 15405772.5342
+        "value": 6873290.6505
       },
       {
         "year": 2016,
-        "value": 15872031.8579
+        "value": 6107835.5168
       },
       {
         "year": 2017,
-        "value": 16404689.5164
+        "value": 6282420.7805
       },
       {
         "year": 2018,
-        "value": 14738181.2295
+        "value": 6504068.2783
       },
       {
         "year": 2019,
-        "value": 16110919.163
+        "value": 7331708.1371
       },
       {
         "year": 2020,
-        "value": 17571789.7071
+        "value": 7429230.0167
       },
       {
         "year": 2021,
-        "value": 23937551.2123
+        "value": 7323031.9077
       },
       {
         "year": 2022,
-        "value": 32564994.5331
+        "value": 4421466.5794
       },
       {
         "year": 2023,
-        "value": 25221172.3228
+        "value": 4263264.9609
       },
       {
         "year": 2024,
-        "value": 20645299
+        "value": 6084072
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 108905117.9711
+        "value": 1041373.9128
       },
       {
         "year": 2015,
-        "value": 108941074.0784
+        "value": 910366.0641
       },
       {
         "year": 2016,
-        "value": 113227345.4718
+        "value": 982181.2795
       },
       {
         "year": 2017,
-        "value": 117327070.0793
+        "value": 2040649.8358
       },
       {
         "year": 2018,
-        "value": 116521603.9795
+        "value": 2392233.5609
       },
       {
         "year": 2019,
-        "value": 116702487.1226
+        "value": 5197703.4296
       },
       {
         "year": 2020,
-        "value": 128550844.4895
+        "value": 5085303.1353
       },
       {
         "year": 2021,
-        "value": 106525186.4172
+        "value": 2285213.4252
       },
       {
         "year": 2022,
-        "value": 149767151.7997
+        "value": 674879.125
       },
       {
         "year": 2023,
-        "value": 149467068.0393
+        "value": 5514448.6154
       },
       {
         "year": 2024,
-        "value": 166158504
+        "value": 13732975
       }
     ]
   }

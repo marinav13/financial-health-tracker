@@ -396,6 +396,7 @@ summary_rows <- rbind(
 
 sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "Summary", "", "", "", "", "", "", "", "Top-level counts and sector shares. Includes all filtered institutions plus baccalaureate-only breakouts."),
+  make_row("Worksheet index", "ReportAnswers", "", "", "", "", "", "", "", "Topline reporting answers, counts, and notes explaining how each figure was calculated."),
   make_row("Worksheet index", "All_2024", "", "", "", "", "", "", "", "All 2024 predominantly baccalaureate institutions included in the workbook universe."),
   make_row("Worksheet index", "EnrollDecl3of5", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with enrollment declines in 3 of the last 5 years."),
   make_row("Worksheet index", "RevDecl3of5", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with revenue declines in 3 of the last 5 years."),
@@ -435,7 +436,18 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "PublicCampusRisk", "", "", "", "", "", "", "", "Predominantly baccalaureate non-flagship public campuses ranked by a restructuring-risk score built from enrollment decline, large 5-year enrollment losses, staffing cuts, rising transfer-out rates, falling state funding, and missing campus-level revenue or expense data."),
   make_row("Worksheet index", "LossTuition", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with repeated losses and high tuition dependence."),
   make_row("Worksheet index", "PrivNFPStress", "", "", "", "", "", "", "", "Predominantly baccalaureate private nonprofits with rising discount rates and falling net tuition per FTE."),
-  make_row("Worksheet index", "MultiFront", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with high international share, high federal dependence, negative 5-year revenue change, and losses in at least 3 of the last 10 years.")
+  make_row("Worksheet index", "MultiFront", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with high international share, high federal dependence, negative 5-year revenue change, and losses in at least 3 of the last 10 years."),
+  make_row("Worksheet index", "DistressCore", "", "", "", "", "", "", "", "Broad distress list using the workbook warning-score definition: at least 4 of 6 core warning signs."),
+  make_row("Worksheet index", "DistressIntl10", "", "", "", "", "", "", "", "Distressed colleges that also increased international enrollment over the past 10 years."),
+  make_row("Worksheet index", "StaffCutsYoY", "", "", "", "", "", "", "", "Year-by-year counts of institutions with staffing cuts versus the prior year."),
+  make_row("Worksheet index", "PublicFedTop", "", "", "", "", "", "", "", "Public universities ranked by federal grants and contracts as a share of core revenue."),
+  make_row("Worksheet index", "GradDependTop", "", "", "", "", "", "", "", "Universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
+  make_row("Worksheet index", "PublicGradTop", "", "", "", "", "", "", "", "Public universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
+  make_row("Worksheet index", "FlagshipCuts", "", "", "", "", "", "", "", "Public flagships matched to still-disrupted federal research cuts from Grant Witness."),
+  make_row("Worksheet index", "DistressCompare", "", "", "", "", "", "", "", "Year comparison for the distress paragraph framing, including 2024 toplines and 2019/2014 context."),
+  make_row("Worksheet index", "IntlOffset10yr", "", "", "", "", "", "", "", "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
+  make_row("Worksheet index", "IntlVulnerable", "", "", "", "", "", "", "", "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
+  make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
 
 summary_rows <- rbind(sheet_index_rows, summary_rows)
@@ -456,6 +468,7 @@ all_sheet_columns <- c(
   "endowment_value","endowment_pct_change_5yr",
   "liquidity","liquidity_percentile_private_nfp","leverage","leverage_percentile_private_nfp",
   "loan_year_latest","federal_loan_pct_most_recent","federal_loan_count_most_recent","federal_loan_avg_most_recent",
+  "grad_plus_recipients","grad_plus_disbursements_amt","grad_plus_disbursements_per_recipient",
   "high_tuition_dependence","high_international_share","high_federal_dependence","multi_signal_score"
 )
 
@@ -574,6 +587,219 @@ multi_front <- all_sheet_bacc[
   , drop = FALSE]
 if (nrow(multi_front) > 0) multi_front <- multi_front[order(-xtfrm(multi_front$federal_grants_contracts_pell_adjusted_pct_core_revenue), -xtfrm(multi_front$pct_international_all), -xtfrm(multi_front$loss_years_last_10), xtfrm(multi_front$revenue_pct_change_5yr), na.last = TRUE), , drop = FALSE]
 
+distress_core <- all_sheet_bacc[
+  !is.na(all_sheet_bacc$warning_score_core) &
+    all_sheet_bacc$warning_score_core >= 4,
+  , drop = FALSE]
+if (nrow(distress_core) > 0) distress_core <- distress_core[order(-xtfrm(distress_core$warning_score_core), xtfrm(distress_core$revenue_pct_change_5yr), xtfrm(distress_core$enrollment_pct_change_5yr), na.last = TRUE), , drop = FALSE]
+
+distress_intl10 <- all_sheet_bacc[
+  !is.na(all_sheet_bacc$warning_score_core) &
+    all_sheet_bacc$warning_score_core >= 4 &
+    all_sheet_bacc$international_enrollment_increase_10yr == "Yes",
+  , drop = FALSE]
+if (nrow(distress_intl10) > 0) distress_intl10 <- distress_intl10[order(-xtfrm(distress_intl10$warning_score_core), -xtfrm(distress_intl10$international_enrollment_change_10yr), na.last = TRUE), , drop = FALSE]
+
+staff_cut_yoy <- do.call(rbind, lapply(2015:2024, function(y) {
+  prev <- read_df[as.integer(read_df$year) == (y - 1L), c("unitid","staff_headcount_total"), drop = FALSE]
+  curr <- read_df[as.integer(read_df$year) == y, c("unitid","staff_headcount_total"), drop = FALSE]
+  names(prev)[2] <- "staff_prev"
+  names(curr)[2] <- "staff_curr"
+  joined <- merge(prev, curr, by = "unitid", all = FALSE)
+  joined <- joined[!is.na(joined$staff_prev) & !is.na(joined$staff_curr), , drop = FALSE]
+  data.frame(
+    year = y,
+    institutions_with_staff_data = nrow(joined),
+    institutions_cutting_staff = sum(joined$staff_curr < joined$staff_prev, na.rm = TRUE),
+    institutions_increasing_staff = sum(joined$staff_curr > joined$staff_prev, na.rm = TRUE),
+    institutions_flat_staff = sum(joined$staff_curr == joined$staff_prev, na.rm = TRUE),
+    stringsAsFactors = FALSE
+  )
+}))
+
+public_fed_top <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !is.na(all_sheet_bacc$federal_grants_contracts_pell_adjusted_pct_core_revenue), , drop = FALSE]
+if (nrow(public_fed_top) > 0) {
+  public_fed_top <- public_fed_top[order(-xtfrm(public_fed_top$federal_grants_contracts_pell_adjusted_pct_core_revenue), -xtfrm(public_fed_top$research_expense_per_fte), na.last = TRUE), , drop = FALSE]
+  public_fed_top$federal_grants_contracts_pct_core_revenue_pct <- public_fed_top$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100
+}
+
+grad_depend_top <- all_sheet_bacc[!is.na(all_sheet_bacc$share_grad_students), , drop = FALSE]
+if (nrow(grad_depend_top) > 0) {
+  grad_depend_top <- grad_depend_top[order(-xtfrm(grad_depend_top$share_grad_students), -xtfrm(grad_depend_top$grad_plus_disbursements_per_recipient), na.last = TRUE), , drop = FALSE]
+  grad_depend_top$share_grad_students_pct <- grad_depend_top$share_grad_students * 100
+}
+
+public_grad_top <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !is.na(all_sheet_bacc$share_grad_students), , drop = FALSE]
+if (nrow(public_grad_top) > 0) {
+  public_grad_top <- public_grad_top[order(-xtfrm(public_grad_top$share_grad_students), -xtfrm(public_grad_top$grad_plus_disbursements_per_recipient), na.last = TRUE), , drop = FALSE]
+  public_grad_top$share_grad_students_pct <- public_grad_top$share_grad_students * 100
+}
+
+`%||%` <- function(a, b) if (is.null(a) || length(a) == 0) b else a
+research_json_path <- "./data/research_funding.json"
+flagship_cuts <- data.frame()
+if (file.exists(research_json_path)) {
+  research_json <- jsonlite::fromJSON(research_json_path, simplifyVector = FALSE)
+  research_school_rows <- lapply(research_json$schools, function(x) {
+    data.frame(
+      unitid = suppressWarnings(as.numeric(x$unitid %||% NA)),
+      institution_name = x$institution_name %||% NA_character_,
+      state = x$state %||% NA_character_,
+      control_label = x$control_label %||% NA_character_,
+      total_disrupted_grants = suppressWarnings(as.numeric(x$total_disrupted_grants %||% NA)),
+      total_disrupted_award_remaining = suppressWarnings(as.numeric(x$total_disrupted_award_remaining %||% NA)),
+      latest_termination_date = x$latest_termination_date %||% NA_character_,
+      stringsAsFactors = FALSE
+    )
+  })
+  research_school_df <- dplyr::bind_rows(research_school_rows)
+  flagship_cuts <- research_school_df[
+    research_school_df$control_label == "Public" &
+      as.integer(research_school_df$unitid) %in% flagship_unitids &
+      !is.na(research_school_df$total_disrupted_award_remaining) &
+      research_school_df$total_disrupted_award_remaining > 0,
+    , drop = FALSE]
+if (nrow(flagship_cuts) > 0) {
+    flagship_cuts <- flagship_cuts[order(-xtfrm(flagship_cuts$total_disrupted_award_remaining), -xtfrm(flagship_cuts$total_disrupted_grants), na.last = TRUE), , drop = FALSE]
+  }
+}
+
+calc_distress_compare <- function(year_value) {
+  year_df <- read_df[
+    as.integer(read_df$year) == as.integer(year_value) &
+      read_df$category == bacc_category_label,
+    , drop = FALSE]
+  year_df$warning_score_core <- rowSums(cbind(
+    yes_flag(year_df$enrollment_decline_last_3_of_5),
+    yes_flag(year_df$revenue_10pct_drop_last_3_of_5),
+    yes_flag(year_df$losses_last_3_of_5),
+    yes_flag(year_df$ended_year_at_loss),
+    !is.na(year_df$staff_total_headcount_pct_change_5yr) & year_df$staff_total_headcount_pct_change_5yr < 0,
+    !is.na(year_df$net_tuition_per_fte_change_5yr) & year_df$net_tuition_per_fte_change_5yr < 0
+  ), na.rm = TRUE)
+  distress_df <- year_df[
+    !is.na(year_df$warning_score_core) &
+      year_df$warning_score_core >= 4,
+    , drop = FALSE]
+  longrun_df <- year_df[
+    year_df$enrollment_decline_last_3_of_5 == "Yes" &
+      year_df$losses_last_3_of_5 == "Yes",
+    , drop = FALSE]
+  data.frame(
+    year = year_value,
+    institutions_total = nrow(year_df),
+    distress_count = nrow(distress_df),
+    distress_pct = safe_pct(nrow(distress_df), nrow(year_df)) * 100,
+    enrollment_drop_10pct_count = sum(!is.na(year_df$enrollment_pct_change_5yr) & year_df$enrollment_pct_change_5yr <= -10, na.rm = TRUE),
+    revenue_drop_10pct_count = sum(!is.na(year_df$revenue_pct_change_5yr) & year_df$revenue_pct_change_5yr <= -10, na.rm = TRUE),
+    distress_students = sum(year_df$enrollment_headcount_total[!is.na(year_df$warning_score_core) & year_df$warning_score_core >= 4], na.rm = TRUE),
+    longrun_count = nrow(longrun_df),
+    longrun_students = sum(longrun_df$enrollment_headcount_total, na.rm = TRUE),
+    five_year_enrollment_metrics_available = sum(!is.na(year_df$enrollment_pct_change_5yr)),
+    five_year_revenue_metrics_available = sum(!is.na(year_df$revenue_pct_change_5yr)),
+    comparison_note = if (sum(!is.na(year_df$enrollment_pct_change_5yr)) == 0 || sum(!is.na(year_df$revenue_pct_change_5yr)) == 0) {
+      "Five-year enrollment and revenue trend fields are not available for this year, so the distress comparison is not directly comparable."
+    } else {
+      "Comparable using the same primarily baccalaureate 4-year universe and warning-score method."
+    },
+    stringsAsFactors = FALSE
+  )
+}
+
+distress_compare <- do.call(rbind, lapply(c(2024L, 2019L, 2014L), calc_distress_compare))
+
+intl_base_2014 <- read_df[as.integer(read_df$year) == 2014L, c("unitid","enrollment_headcount_total"), drop = FALSE]
+names(intl_base_2014)[2] <- "enrollment_headcount_total_2014"
+intl_offset_10yr <- merge(all_sheet_bacc, intl_base_2014, by = "unitid", all.x = TRUE)
+intl_offset_10yr$total_change_10yr_proxy <- intl_offset_10yr$enrollment_headcount_total - intl_offset_10yr$enrollment_headcount_total_2014
+intl_offset_10yr$domestic_change_10yr_proxy <- intl_offset_10yr$total_change_10yr_proxy - intl_offset_10yr$international_enrollment_change_10yr
+intl_offset_10yr$pct_international_all_pct <- intl_offset_10yr$pct_international_all * 100
+intl_offset_10yr <- intl_offset_10yr[
+  !is.na(intl_offset_10yr$total_change_10yr_proxy) &
+    !is.na(intl_offset_10yr$international_enrollment_change_10yr) &
+    intl_offset_10yr$international_enrollment_change_10yr > 0 &
+    intl_offset_10yr$domestic_change_10yr_proxy < 0,
+  , drop = FALSE]
+if (nrow(intl_offset_10yr) > 0) {
+  intl_offset_10yr <- intl_offset_10yr[order(xtfrm(intl_offset_10yr$domestic_change_10yr_proxy), -xtfrm(intl_offset_10yr$pct_international_all_pct), na.last = TRUE), , drop = FALSE]
+}
+
+intl_offset_q75 <- if (nrow(intl_offset_10yr) == 0) NA_real_ else q75_safe(intl_offset_10yr$pct_international_all_pct)
+intl_vulnerable <- intl_offset_10yr[
+  !is.na(intl_offset_q75) &
+    !is.na(intl_offset_10yr$pct_international_all_pct) &
+    intl_offset_10yr$pct_international_all_pct >= intl_offset_q75 &
+    (
+      intl_offset_10yr$enrollment_decline_last_3_of_5 == "Yes" |
+      intl_offset_10yr$losses_last_3_of_5 == "Yes" |
+      intl_offset_10yr$ended_year_at_loss == "Yes" |
+      (!is.na(intl_offset_10yr$revenue_pct_change_5yr) & intl_offset_10yr$revenue_pct_change_5yr < 0)
+    ),
+  , drop = FALSE]
+if (nrow(intl_vulnerable) > 0) {
+  intl_vulnerable <- intl_vulnerable[order(-xtfrm(intl_vulnerable$pct_international_all_pct), xtfrm(intl_vulnerable$domestic_change_10yr_proxy), na.last = TRUE), , drop = FALSE]
+}
+
+intl_vulnerable_large <- intl_vulnerable[!is.na(intl_vulnerable$enrollment_headcount_total) & intl_vulnerable$enrollment_headcount_total >= 5000, , drop = FALSE]
+
+report_answers <- data.frame(
+  question = c(
+    "2024 distressed institutions in the primarily baccalaureate universe",
+    "2024 distressed institutions as a share of the primarily baccalaureate universe",
+    "2024 institutions with at least a 10% five-year enrollment drop",
+    "2024 institutions with at least a 10% five-year revenue drop",
+    "2024 students enrolled at distressed institutions",
+    "2024 long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years",
+    "2024 students enrolled at those long-running challenge institutions",
+    "2019 distressed institutions in the same universe",
+    "2019 institutions with at least a 10% five-year enrollment drop",
+    "2019 institutions with at least a 10% five-year revenue drop",
+    "2019 long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years",
+    "2014 comparison note",
+    "Colleges in distress with rising international enrollment over 10 years",
+    "Public flagships with still-disrupted federal research cuts",
+    "Public flagships with at least $1M still disrupted in federal research cuts",
+    "Institutions cutting staffing from 2023 to 2024"
+  ),
+  value = c(
+    distress_compare$distress_count[distress_compare$year == 2024],
+    distress_compare$distress_pct[distress_compare$year == 2024],
+    distress_compare$enrollment_drop_10pct_count[distress_compare$year == 2024],
+    distress_compare$revenue_drop_10pct_count[distress_compare$year == 2024],
+    distress_compare$distress_students[distress_compare$year == 2024],
+    distress_compare$longrun_count[distress_compare$year == 2024],
+    distress_compare$longrun_students[distress_compare$year == 2024],
+    distress_compare$distress_count[distress_compare$year == 2019],
+    distress_compare$enrollment_drop_10pct_count[distress_compare$year == 2019],
+    distress_compare$revenue_drop_10pct_count[distress_compare$year == 2019],
+    distress_compare$longrun_count[distress_compare$year == 2019],
+    distress_compare$comparison_note[distress_compare$year == 2014],
+    nrow(distress_intl10),
+    nrow(flagship_cuts),
+    if (nrow(flagship_cuts) == 0) 0 else sum(flagship_cuts$total_disrupted_award_remaining >= 1e6, na.rm = TRUE),
+    staff_cut_yoy$institutions_cutting_staff[staff_cut_yoy$year == 2024]
+  ),
+  note = c(
+    "warning_score_core >= 4 in the 2024 primarily baccalaureate workbook universe.",
+    "Share of the 2024 primarily baccalaureate workbook universe with warning_score_core >= 4.",
+    "Count of 2024 primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.",
+    "Count of 2024 primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.",
+    "Sum of 2024 enrollment_headcount_total for institutions in the distress group.",
+    "Count of 2024 institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.",
+    "Sum of 2024 enrollment_headcount_total for institutions with both enrollment declines and repeated losses.",
+    "warning_score_core >= 4 in the 2019 primarily baccalaureate workbook universe.",
+    "Count of 2019 primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.",
+    "Count of 2019 primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.",
+    "Count of 2019 institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.",
+    "2014 lacks populated five-year trend fields in the canonical dataset, so it is not directly comparable to 2019 and 2024 on this framing.",
+    "Same distress definition, limited to institutions with international_enrollment_increase_10yr == Yes.",
+    "Matched Grant Witness research-funding schools to the predefined flagship unitid list and kept positive still-disrupted totals only.",
+    "Subset of public flagships with positive still-disrupted totals of at least $1 million.",
+    "Counts institutions whose 2024 staff_headcount_total is below 2023."
+  ),
+  stringsAsFactors = FALSE
+)
+
 state_public <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !is.na(all_sheet_bacc$state) & all_sheet_bacc$state != "", , drop = FALSE]
 state_breakdown <- do.call(rbind, lapply(split(state_public, state_public$state), function(df) {
   df <- df[!is.na(df$state_funding_pct_change_5yr), , drop = FALSE]
@@ -646,6 +872,7 @@ bacc_benchmarks <- make_benchmark_tab(list(
 
 worksheets <- list(
   Summary = summary_rows,
+  ReportAnswers = report_answers,
   BaccBenchmarks = bacc_benchmarks,
   All_2024 = all_sheet_bacc,
   EnrollDecl3of5 = enr35,
@@ -686,7 +913,18 @@ worksheets <- list(
   PublicCampusRisk = public_campus_risk,
   LossTuition = loss_tuition,
   PrivNFPStress = priv_nfp_stress,
-  MultiFront = multi_front
+  MultiFront = multi_front,
+  DistressCore = distress_core,
+  DistressIntl10 = distress_intl10,
+  StaffCutsYoY = staff_cut_yoy,
+  PublicFedTop = public_fed_top,
+  GradDependTop = grad_depend_top,
+  PublicGradTop = public_grad_top,
+  FlagshipCuts = flagship_cuts,
+  DistressCompare = distress_compare,
+  IntlOffset10yr = intl_offset_10yr,
+  IntlVulnerable = intl_vulnerable,
+  IntlVulnLarge = intl_vulnerable_large
 )
 
 xml_cell <- function(value, style_id = NULL) {

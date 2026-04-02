@@ -104,18 +104,18 @@ function buildIntlSentence(summary, series) {
   const grad = asNumber(summary.pct_international_graduate);
 
   if (all !== null && ug !== null && grad !== null) {
-    return `${fmtPlainPct(all)} of students are international. That includes ${fmtPlainPct(ug)} of undergraduates and ${fmtPlainPct(grad)} of graduate students.`;
+    return `${fmtRoundedPct(all)} of students are international. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`;
   }
 
   if (all !== null) {
-    return `${fmtPlainPct(all)} of students are international.`;
+    return `${fmtRoundedPct(all)} of students are international.`;
   }
 
   const latestIntl = latestPoint(series.enrollment_nonresident_total);
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
   if (latestIntl && latestEnrollment && latestEnrollment.value > 0) {
     const pct = (latestIntl.value / latestEnrollment.value) * 100;
-    return `${fmtPlainPct(pct)} of students are international.`;
+    return `${fmtRoundedPct(pct)} of students are international.`;
   }
 
   return "International student data are not available.";
@@ -136,7 +136,7 @@ function buildResearchSpendingSentence(profile, summary) {
   if (shareOfCoreExpenses === null) {
     return baseSentence;
   }
-  return `${baseSentence} Research expenses accounted for ${fmtPlainPct(shareOfCoreExpenses, 1)} of total core expenses.`;
+  return `${baseSentence} Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses.`;
 }
 
 function buildGradLoanSentence(profile, summary) {
@@ -421,7 +421,7 @@ async function init() {
       "How much have federal grants and contracts changed over the past 5 years?",
       asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) === null
         ? "No data"
-        : fmtPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, 1),
+        : fmtRoundedPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, true),
       asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
     );
   }
@@ -438,7 +438,7 @@ async function init() {
       "How much has state aid changed over the past 5 years?",
       asNumber(s.state_funding_pct_change_5yr) === null
         ? "No data"
-        : fmtPct(s.state_funding_pct_change_5yr, 1),
+        : fmtRoundedPct(s.state_funding_pct_change_5yr, true),
       asNumber(s.state_funding_pct_change_5yr) === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr)
     );
   }

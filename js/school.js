@@ -123,12 +123,12 @@ function buildIntlSentence(summary, series) {
 
 function buildResearchSpendingSentence(profile, summary) {
   const perFte = asNumber(summary.research_expense_per_fte);
-  const sector = String(profile.control_label || "").toLowerCase();
+  const sectorLabel = String(profile.control_label || profile.sector || "").toLowerCase();
   const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
   const sectorMedian = asNumber(summary.sector_median_research_expense_per_fte_positive);
   const reportingShare = asNumber(summary.sector_research_spending_reporting_share_pct);
 
-  if (perFte === null || !sector) {
+  if (perFte === null) {
     return "Research spending data are not available.";
   }
 
@@ -149,7 +149,8 @@ function buildResearchSpendingSentence(profile, summary) {
   }
 
   if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
-    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sector} colleges who reported research spending.`;
+    const sectorPhrase = sectorLabel ? `${sectorLabel} colleges` : "colleges in the same sector";
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`;
   }
 
   if (shareOfCoreExpenses !== null) {

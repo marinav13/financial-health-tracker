@@ -187,6 +187,46 @@ main <- function(cli_args = NULL) {
     ) & !has_campus_anchor
   }
 
+  pass_through_exclusion_phrases <- c(
+    "grantmaker initiative",
+    "regional grantmaker",
+    "subgrantee",
+    "subgrantees",
+    "pass-through entity",
+    "pass through entity",
+    "pass-through",
+    "manage and distribute funds",
+    "administer subawards",
+    "will administer subawards",
+    "issue subawards",
+    "will issue subawards",
+    "competitive and noncompetitive subgrants",
+    "subaward distribution",
+    "subaward administration"
+  )
+
+  detect_pass_through_phrase <- function(project_title, project_abstract) {
+    text <- paste(project_title, project_abstract, sep = " ")
+    text <- text |>
+      as.character() |>
+      stringr::str_to_lower() |>
+      stringr::str_squish()
+
+    matches <- pass_through_exclusion_phrases[
+      vapply(
+        pass_through_exclusion_phrases,
+        function(phrase) stringr::str_detect(text, stringr::fixed(phrase, ignore_case = TRUE)),
+        logical(1)
+      )
+    ]
+
+    if (length(matches) == 0) {
+      NA_character_
+    } else {
+      paste(matches, collapse = "; ")
+    }
+  }
+
   strip_legal_prefixes <- function(x) {
     x |>
       as.character() |>
@@ -807,6 +847,12 @@ main <- function(cli_args = NULL) {
         FALSE,
         dplyr::coalesce(override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, likely_higher_ed)
       ),
+      pass_through_keyword_match = vapply(
+        seq_len(dplyr::n()),
+        function(i) detect_pass_through_phrase(project_title[[i]], project_abstract[[i]]),
+        character(1)
+      ),
+      is_pass_through_or_grantmaker = !is.na(pass_through_keyword_match),
       match_method = dplyr::case_when(
         !is.na(city_unitid) ~ "normalized_name_city_state",
         is.na(city_unitid) & !is.na(unitid) ~ "normalized_name_state_fallback",
@@ -834,6 +880,8 @@ main <- function(cli_args = NULL) {
       organization_type,
       project_title,
       project_abstract,
+      is_pass_through_or_grantmaker,
+      pass_through_keyword_match,
       start_date,
       original_end_date,
       termination_date,
@@ -879,6 +927,13 @@ main <- function(cli_args = NULL) {
     dplyr::ungroup() |>
     dplyr::select(-match_priority, -grant_match_key) |>
     dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
+
+  excluded_pass_through_grants <- grants_joined |>
+    dplyr::filter(currently_disrupted, is_pass_through_or_grantmaker) |>
+    dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
+
+  grants_joined <- grants_joined |>
+    dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
 
   institution_summary_long <- grants_joined |>
     dplyr::filter(currently_disrupted, !is.na(organization_name), !is.na(organization_state)) |>
@@ -960,6 +1015,7 @@ main <- function(cli_args = NULL) {
   higher_ed_summary_path <- paste0(output_prefix, "_higher_ed_institution_summary.csv")
   unmatched_path <- paste0(output_prefix, "_unmatched_for_review.csv")
   likely_higher_ed_unmatched_path <- paste0(output_prefix, "_likely_higher_ed_unmatched_for_review.csv")
+  excluded_pass_through_path <- paste0(output_prefix, "_excluded_pass_through_grants.csv")
 
   higher_ed_summary <- institution_summary_wide |>
     dplyr::filter(!is.na(matched_unitid) | likely_higher_ed)
@@ -987,6 +1043,7 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(unmatched_for_review, unmatched_path)
   write_csv_atomic(likely_higher_ed_unmatched, likely_higher_ed_unmatched_path)
   write_csv_atomic(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"))
+  write_csv_atomic(excluded_pass_through_grants, excluded_pass_through_path)
 
   cat(sprintf("Saved grant-level data to %s\n", grant_path))
   cat(sprintf("Saved institution summary (long) to %s\n", summary_long_path))
@@ -995,6 +1052,7 @@ main <- function(cli_args = NULL) {
   cat(sprintf("Saved unmatched review file to %s\n", unmatched_path))
   cat(sprintf("Saved likely higher-ed unmatched review file to %s\n", likely_higher_ed_unmatched_path))
   cat(sprintf("Saved likely higher-ed review-ready file to %s\n", paste0(output_prefix, "_likely_higher_ed_review_ready.csv")))
+  cat(sprintf("Saved excluded pass-through grants file to %s\n", excluded_pass_through_path))
 }
 
 if (sys.nframe() == 0) {

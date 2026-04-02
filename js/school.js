@@ -123,20 +123,40 @@ function buildIntlSentence(summary, series) {
 
 function buildResearchSpendingSentence(profile, summary) {
   const perFte = asNumber(summary.research_expense_per_fte);
-  const bucket = summary.research_spending_peer_bucket;
   const sector = String(profile.control_label || "").toLowerCase();
   const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
-  const institutionName = String(profile.institution_name || "This institution");
+  const sectorMedian = asNumber(summary.sector_median_research_expense_per_fte_positive);
+  const reportingShare = asNumber(summary.sector_research_spending_reporting_share_pct);
 
-  if (perFte === null || !bucket || !sector) {
+  if (perFte === null || !sector) {
     return "Research spending data are not available.";
   }
 
-  const baseSentence = `${institutionName} spent about ${fmtCurrency(perFte)} per full-time equivalent student on research in 2024, placing it in the ${bucket} of ${sector} four-year institutions in our analysis.`;
-  if (shareOfCoreExpenses === null) {
-    return baseSentence;
+  let medianComparison = null;
+  if (sectorMedian !== null) {
+    if (sectorMedian === 0) {
+      medianComparison = "about";
+    } else {
+      const pctDiff = Math.abs(perFte - sectorMedian) / sectorMedian;
+      if (pctDiff <= 0.05) {
+        medianComparison = "about";
+      } else if (perFte > sectorMedian) {
+        medianComparison = "above";
+      } else {
+        medianComparison = "below";
+      }
+    }
   }
-  return `${baseSentence} Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses.`;
+
+  if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sector} colleges who reported research spending.`;
+  }
+
+  if (shareOfCoreExpenses !== null) {
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024.`;
+  }
+
+  return `This institution spent about ${fmtCurrency(perFte)} per full-time student on research in 2024.`;
 }
 
 function buildGradLoanSentence(profile, summary) {

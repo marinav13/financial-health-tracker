@@ -1315,9 +1315,15 @@ sector_research_benchmarks <- sorted_rows %>%
   group_by(control_label, year) %>%
   mutate(
     sector_research_spending_n = sum(!is.na(research_expense_per_fte)),
-    research_spending_per_fte_percentile = ifelse(
-      !is.na(research_expense_per_fte),
-      round(dplyr::percent_rank(research_expense_per_fte) * 100, 1),
+    sector_research_spending_positive_n = sum(!is.na(research_expense_per_fte) & research_expense_per_fte > 0),
+    sector_research_spending_reporting_share_pct = ifelse(
+      sector_research_spending_n > 0,
+      round(100 * sector_research_spending_positive_n / sector_research_spending_n, 1),
+      NA_real_
+    ),
+    sector_median_research_expense_per_fte_positive = ifelse(
+      sector_research_spending_positive_n > 0,
+      stats::median(research_expense_per_fte[!is.na(research_expense_per_fte) & research_expense_per_fte > 0]),
       NA_real_
     )
   ) %>%
@@ -1326,13 +1332,9 @@ sector_research_benchmarks <- sorted_rows %>%
     unitid,
     year,
     sector_research_spending_n,
-    research_spending_per_fte_percentile,
-    research_spending_peer_bucket = case_when(
-      is.na(research_spending_per_fte_percentile) ~ NA_character_,
-      research_spending_per_fte_percentile >= 75 ~ "top 25%",
-      research_spending_per_fte_percentile <= 25 ~ "bottom 25%",
-      TRUE ~ "middle 50%"
-    )
+    sector_research_spending_positive_n,
+    sector_research_spending_reporting_share_pct,
+    sector_median_research_expense_per_fte_positive
   )
 
 sorted_rows <- sorted_rows %>%
@@ -1343,8 +1345,9 @@ sorted_rows <- sorted_rows %>%
     "sector_enrollment_total_national",
     "sector_enrollment_pct_change_5yr_national",
     "sector_research_spending_n",
-    "research_spending_per_fte_percentile",
-    "research_spending_peer_bucket",
+    "sector_research_spending_positive_n",
+    "sector_research_spending_reporting_share_pct",
+    "sector_median_research_expense_per_fte_positive",
     "tuition_dependence_vs_sector_median_pct_points",
     "tuition_dependence_relative_to_sector_median",
     "tuition_dependence_vs_sector_median_sentence"
@@ -1410,7 +1413,7 @@ canonical_columns <- c(
   "international_enrollment_increase_5yr","international_enrollment_change_10yr",
   "international_enrollment_increase_10yr","transfer_out_rate_bachelor","transfer_out_rate_bachelor_change_5yr",
   "transfer_out_rate_bachelor_increase_5yr","research_expense","research_expense_per_fte","research_expense_pct_core_expenses","core_expenses",
-  "sector_research_spending_n","research_spending_per_fte_percentile","research_spending_peer_bucket","staff_fte_total","staff_fte_instructional",
+  "sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive","staff_fte_total","staff_fte_instructional",
   "staff_headcount_total","staff_headcount_instructional","revenue_total","revenue_total_adjusted","expenses_total",
   "expenses_total_adjusted","loss_amount","loss_amount_adjusted",
   "ended_year_at_loss","losses_last_3_of_5","loss_years_last_5","loss_years_last_10","net_tuition_total",
@@ -1451,7 +1454,7 @@ extended_columns <- unique(c(
   "revenue_change_1yr","enrollment_change_1yr","staff_change_1yr","net_tuition_pct_change_5yr","net_tuition_pct_change_5yr_adjusted",
   "enroll_fte_pct_change_5yr","enroll_fte_decline_last_3_of_5","staff_total_headcount_pct_change_5yr",
   "staff_instructional_headcount_pct_change_5yr","international_enrollment_pct_change_10yr",
-  "research_expense","research_expense_per_fte","research_expense_pct_core_expenses","core_expenses","sector_research_spending_n","research_spending_per_fte_percentile","research_spending_peer_bucket",
+  "research_expense","research_expense_per_fte","research_expense_pct_core_expenses","core_expenses","sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive",
   "loan_pct_undergrad_federal","loan_avg_undergrad_federal","loan_count_undergrad_federal","federal_funding","federal_funding_adjusted",
   "transfer_out_rate_bachelor","transfer_out_rate_bachelor_change_5yr","transfer_out_rate_bachelor_increase_5yr",
   "transfer_out_rate_bachelor_change_10yr","transfer_out_rate_bachelor_increase_10yr",

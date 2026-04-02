@@ -29,6 +29,7 @@ function renderLineChart(containerId, config) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const showTooltip = config.showTooltip !== false;
+  const showLegend = config.showLegend !== false;
 
   const seriesList = (config.series || []).filter((s) => Array.isArray(s.values) && s.values.length > 0);
   if (!seriesList.length) {
@@ -112,7 +113,7 @@ function renderLineChart(containerId, config) {
       ${pointGroups}
       ${yearTicks.join("")}
     </svg>
-    <div class="chart-legend">${legend}</div>
+    ${showLegend ? `<div class="chart-legend">${legend}</div>` : ""}
   `;
 
   const svg = container.querySelector("svg");

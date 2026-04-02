@@ -176,7 +176,7 @@ function buildGradLoanSentence(profile, summary) {
 
   if (gradPlusPerRecipient !== null && sectorGradPlusMedian !== null && sectorLabel) {
     sentences.push(
-      `Students at this institution borrow about ${fmtCurrency(gradPlusPerRecipient)} in Grad PLUS loans, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
+      `On average, graduate students who take out Grad PLUS loans at this institution borrow about ${fmtCurrency(gradPlusPerRecipient)}, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
     );
   }
 
@@ -494,6 +494,7 @@ async function init() {
   renderLineChart("chart-enrollment", {
     title: "Enrollment trends (12-month unduplicated headcount)",
     format: "number",
+    showLegend: false,
     series: [
       { label: "Enrollment", color: "#0072b2", values: toSeries(series.enrollment_headcount_total) }
     ]
@@ -522,6 +523,7 @@ async function init() {
     title: "Endowment value over time",
     format: "currency",
     showTooltip: false,
+    showLegend: false,
     series: [
       { label: "Endowment Value", color: "#0072b2", values: toSeries(series.endowment_value_adjusted) }
     ]
@@ -532,6 +534,7 @@ async function init() {
       title: "Revenue from federal grants and contracts (excluding Pell grants, adjusted for inflation)",
       format: "currency",
       showTooltip: false,
+      showLegend: false,
       series: [
         {
           label: "Federal Grants",
@@ -550,6 +553,7 @@ async function init() {
       title: "State government appropriations over time (adjusted for inflation)",
       format: "currency",
       showTooltip: false,
+      showLegend: false,
       series: [
         { label: "State Funding", color: "#0072b2", values: toSeries(series.state_funding_adjusted) }
       ]

@@ -486,6 +486,7 @@ async function init() {
     title: "Net Tuition Revenue over time (per full-time equivalent student, adjusted for inflation)",
     format: "currency",
     showTooltip: false,
+    showLegend: false,
     series: [
       { label: "Net Tuition Revenue", color: "#0072b2", values: toSeries(series.net_tuition_per_fte_adjusted) }
     ]

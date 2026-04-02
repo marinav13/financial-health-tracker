@@ -1,17 +1,15 @@
-name: Refresh IPEDS Site Data
+name: Refresh Source Data Weekly
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 12 1 3 *"
-    - cron: "0 12 1 7 *"
-    - cron: "0 12 1 11 *"
+    - cron: "0 12 * * 1"
 
 permissions:
   contents: write
 
 concurrency:
-  group: refresh-ipeds-site-data
+  group: refresh-source-data-weekly
   cancel-in-progress: false
 
 jobs:
@@ -41,15 +39,20 @@ jobs:
             any::tidyr
             any::xml2
 
-      - name: Rebuild canonical IPEDS dataset
+      - name: Refresh accreditation actions with cache fallback
         shell: bash
         run: >
-          Rscript --vanilla ./scripts/build_ipeds_dataset.R --start-year 2014 --end-year 2024
+          Rscript --vanilla ./scripts/build_accreditation_actions.R
 
-      - name: Rebuild Scorecard and graduation-rate joins
+      - name: Refresh college cuts with cache fallback
         shell: bash
         run: >
-          Rscript --vanilla ./scripts/build_outcomes_join.R
+          Rscript --vanilla ./scripts/build_college_cuts_join.R
+
+      - name: Refresh research cuts with cache fallback
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_grant_witness_join.R
 
       - name: Rebuild static web exports
         shell: bash
@@ -61,12 +64,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ipeds/ scorecard/ reporting/ data/
+          git add accreditation/ college_cuts/ grant_witness/ data/
           if git diff --cached --quiet; then
             echo "No data changes to commit."
             exit 0
           fi
           date=$(date +%F)
-          git commit -m "Automated IPEDS refresh ($date)"
+          git commit -m "Automated weekly source refresh ($date)"
           git push
 

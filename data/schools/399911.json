@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 6769,
     "grad_plus_disbursements_per_recipient": 6769,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 0.1263,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.1263,
+    "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": null,
+    "endowment_pct_change_5yr": -2.2115,
     "graduation_rate_6yr": 92,
     "median_earnings_10yr": 55017,
     "median_debt_completers": 15650,
@@ -471,6 +471,46 @@
     ],
     "endowment_value_adjusted": [
       {
+        "year": 2014,
+        "value": 1656006177.0453
+      },
+      {
+        "year": 2015,
+        "value": 1616553764.9831
+      },
+      {
+        "year": 2016,
+        "value": 1517775248.0678
+      },
+      {
+        "year": 2017,
+        "value": 1585661294.5374
+      },
+      {
+        "year": 2018,
+        "value": 1593774274.6279
+      },
+      {
+        "year": 2019,
+        "value": 1558430294.2888
+      },
+      {
+        "year": 2020,
+        "value": 1493179808.3273
+      },
+      {
+        "year": 2021,
+        "value": 1810712651.3083
+      },
+      {
+        "year": 2022,
+        "value": 1501251423.8369
+      },
+      {
+        "year": 2023,
+        "value": 1486656818.0878
+      },
+      {
         "year": 2024,
         "value": 1523965000
       }
@@ -514,11 +554,11 @@
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 205898.8782
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 184000
       }
     ],
     "state_funding_adjusted": [
@@ -560,11 +600,11 @@
       },
       {
         "year": 2023,
-        "value": 205898.8782
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 184000
+        "value": 0
       }
     ]
   }

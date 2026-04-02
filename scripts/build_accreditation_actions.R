@@ -16,6 +16,13 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr", "xml2"))
 
+  write_csv_atomic <- function(df, path) {
+    tmp <- paste0(path, ".tmp")
+    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
+    readr::write_csv(df, tmp, na = "")
+    file.rename(tmp, path)
+  }
+
     financial_input <- get_arg_value(
       "--financial-input",
       file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
@@ -1069,11 +1076,15 @@ main <- function(cli_args = NULL) {
     workbook = paste0(output_prefix, "_workbook.xlsx")
   )
 
-  readr::write_csv(actions_joined, outputs$actions, na = "")
-  readr::write_csv(institution_summary, outputs$summary, na = "")
-  readr::write_csv(current_status, outputs$current, na = "")
-  readr::write_csv(unmatched_for_review, outputs$unmatched, na = "")
-  readr::write_csv(source_coverage, outputs$coverage, na = "")
+  if (nrow(actions_joined) == 0 || nrow(institution_summary) == 0) {
+    stop("Accreditation refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
+  write_csv_atomic(actions_joined, outputs$actions)
+  write_csv_atomic(institution_summary, outputs$summary)
+  write_csv_atomic(current_status, outputs$current)
+  write_csv_atomic(unmatched_for_review, outputs$unmatched)
+  write_csv_atomic(source_coverage, outputs$coverage)
 
   wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(wb, "actions")
@@ -1102,7 +1113,11 @@ main <- function(cli_args = NULL) {
       stringsAsFactors = FALSE
     )
   )
-  openxlsx::saveWorkbook(wb, outputs$workbook, overwrite = TRUE)
+  workbook_tmp <- paste0(outputs$workbook, ".tmp")
+  if (file.exists(workbook_tmp)) file.remove(workbook_tmp)
+  openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)
+  if (file.exists(outputs$workbook)) file.remove(outputs$workbook)
+  file.rename(workbook_tmp, outputs$workbook)
 
   message("Saved:")
   message(" - ", outputs$actions)

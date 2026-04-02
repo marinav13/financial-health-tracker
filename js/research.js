@@ -72,10 +72,9 @@
     return String(b || "").localeCompare(String(a || ""));
   }
 
-  function financePageLink(unitid, financialUnitid, label) {
-    const comparableUnitid = financialUnitid || (unitid && !String(unitid).startsWith("research-") ? unitid : "");
-    return comparableUnitid
-      ? `<a href="${schoolUrl(comparableUnitid, "school.html")}">${label || ""}</a>`
+  function researchPageLink(unitid, label) {
+    return unitid
+      ? `<a href="${schoolUrl(unitid, "research.html")}">${label || ""}</a>`
       : (label || "");
   }
 
@@ -154,8 +153,7 @@
       : "";
     const comparableUnitid = financialUnitid || (!String(unitid).startsWith("research-") ? unitid : "");
     const cutsLink = comparableUnitid ? `<li><a href="${schoolUrl(comparableUnitid, "cuts.html")}">College Cuts</a></li>` : "";
-    const accreditationLink = comparableUnitid ? `<li><a href="${schoolUrl(comparableUnitid, "accreditation.html")}">Accreditation</a></li>` : "";
-    const list = [financeLink, cutsLink, accreditationLink].filter(Boolean).join("");
+    const list = [financeLink, cutsLink].filter(Boolean).join("");
     if (!list) return "";
     return `
       <div class="related-links">
@@ -410,7 +408,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => `
       <tr>
-        <td>${financePageLink(item.unitid, item.financial_unitid, item.institution_name || "")}</td>
+        <td>${researchPageLink(item.unitid, item.institution_name || "")}</td>
         <td>${item.state || ""}</td>
         <td>${item.control_label || ""}</td>
         <td>${Number(item.total_disrupted_grants || 0)}</td>

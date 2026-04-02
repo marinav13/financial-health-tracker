@@ -24,7 +24,7 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 0,
-    "sector_median_tuition_dependence_pct": 21.229,
+    "sector_median_tuition_dependence_pct": 21.1862,
     "tuition_dependence_vs_sector_median_sentence": "This college gets 0% of its revenue from net tuition, below the median of 21.2% for public colleges.",
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
@@ -428,7 +428,28 @@
         "value": 248
       }
     ],
-    "endowment_value_adjusted": [],
+    "endowment_value_adjusted": [
+      {
+        "year": 2019,
+        "value": 34990217.3398
+      },
+      {
+        "year": 2020,
+        "value": 31133192.3708
+      },
+      {
+        "year": 2021,
+        "value": 35368075.299
+      },
+      {
+        "year": 2022,
+        "value": 27123601.1115
+      },
+      {
+        "year": 2023,
+        "value": 39263040.3432
+      }
+    ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,

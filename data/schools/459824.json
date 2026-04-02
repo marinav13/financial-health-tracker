@@ -48,8 +48,8 @@
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": -100,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
+    "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 104805,
@@ -447,57 +447,23 @@
     ],
     "endowment_value_adjusted": [
       {
+        "year": 2021,
+        "value": 7318163.9804
+      },
+      {
+        "year": 2022,
+        "value": 5932043.2986
+      },
+      {
+        "year": 2023,
+        "value": 6019066.6157
+      },
+      {
         "year": 2024,
         "value": 6268997
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
-      {
-        "year": 2014,
-        "value": 0
-      },
-      {
-        "year": 2015,
-        "value": 0
-      },
-      {
-        "year": 2016,
-        "value": 0
-      },
-      {
-        "year": 2017,
-        "value": 0
-      },
-      {
-        "year": 2018,
-        "value": 0
-      },
-      {
-        "year": 2019,
-        "value": 0
-      },
-      {
-        "year": 2020,
-        "value": 0
-      },
-      {
-        "year": 2021,
-        "value": 0
-      },
-      {
-        "year": 2022,
-        "value": 0
-      },
-      {
-        "year": 2023,
-        "value": 0
-      },
-      {
-        "year": 2024,
-        "value": 0
-      }
-    ],
-    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 1660298.0409
@@ -537,6 +503,52 @@
       {
         "year": 2023,
         "value": 9289.1279
+      },
+      {
+        "year": 2024,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
       },
       {
         "year": 2024,

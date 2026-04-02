@@ -20,6 +20,13 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "readr", "stringr", "tidyr"))
 
+  write_csv_atomic <- function(df, path) {
+    tmp <- paste0(path, ".tmp")
+    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
+    readr::write_csv(df, tmp, na = "")
+    file.rename(tmp, path)
+  }
+
     financial_input <- get_arg_value(
       "--financial-input",
       file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
@@ -341,9 +348,26 @@ main <- function(cli_args = NULL) {
 
   maybe_download <- function(url, path) {
     if (skip_download && file.exists(path)) return(invisible(path))
-    message("Downloading ", basename(path), " ...")
-    utils::download.file(url, destfile = path, mode = "wb", quiet = FALSE)
-    invisible(path)
+    live_result <- tryCatch({
+      message("Downloading ", basename(path), " ...")
+      utils::download.file(url, destfile = path, mode = "wb", quiet = FALSE)
+      TRUE
+    }, error = function(e) e)
+
+    if (!inherits(live_result, "error") && file.exists(path) && file.info(path)$size > 0) {
+      return(invisible(path))
+    }
+
+    if (file.exists(path) && file.info(path)$size > 0) {
+      message("Falling back to cached Grant Witness file for ", basename(path))
+      return(invisible(path))
+    }
+
+    if (inherits(live_result, "error")) {
+      stop("Failed to download ", basename(path), ": ", live_result$message)
+    }
+
+    stop("Grant Witness file ", basename(path), " is unavailable and no cache was found.")
   }
 
   safe_max <- function(x) {
@@ -832,6 +856,28 @@ main <- function(cli_args = NULL) {
     )
 
   grants_joined <- grants_joined |>
+    dplyr::mutate(
+      match_priority = dplyr::case_when(
+        match_method == "normalized_name_city_state" ~ 1L,
+        match_method == "normalized_name_state_fallback" ~ 2L,
+        match_method == "alias_name_state_fallback" ~ 3L,
+        match_method == "manual_name_override" ~ 4L,
+        match_method == "manual_display_name_override" ~ 5L,
+        match_method == "manual_include_unmatched" ~ 6L,
+        match_method == "likely_higher_ed_unmatched" ~ 7L,
+        TRUE ~ 8L
+      ),
+      grant_match_key = dplyr::if_else(
+        !is.na(matched_unitid) & trimws(matched_unitid) != "",
+        paste(agency, grant_id, matched_unitid, sep = "|"),
+        paste(agency, grant_id, organization_name_display, organization_state, sep = "|")
+      )
+    ) |>
+    dplyr::arrange(match_priority) |>
+    dplyr::group_by(grant_match_key) |>
+    dplyr::slice(1) |>
+    dplyr::ungroup() |>
+    dplyr::select(-match_priority, -grant_match_key) |>
     dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
 
   institution_summary_long <- grants_joined |>
@@ -930,13 +976,17 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::arrange(dplyr::desc(disrupted_award_remaining), organization_name)
 
-  readr::write_csv(grants_joined, grant_path, na = "")
-  readr::write_csv(institution_summary_long, summary_long_path, na = "")
-  readr::write_csv(institution_summary_wide, summary_path, na = "")
-  readr::write_csv(higher_ed_summary, higher_ed_summary_path, na = "")
-  readr::write_csv(unmatched_for_review, unmatched_path, na = "")
-  readr::write_csv(likely_higher_ed_unmatched, likely_higher_ed_unmatched_path, na = "")
-  readr::write_csv(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"), na = "")
+  if (nrow(grants_joined) == 0 || nrow(higher_ed_summary) == 0) {
+    stop("Grant Witness refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
+  write_csv_atomic(grants_joined, grant_path)
+  write_csv_atomic(institution_summary_long, summary_long_path)
+  write_csv_atomic(institution_summary_wide, summary_path)
+  write_csv_atomic(higher_ed_summary, higher_ed_summary_path)
+  write_csv_atomic(unmatched_for_review, unmatched_path)
+  write_csv_atomic(likely_higher_ed_unmatched, likely_higher_ed_unmatched_path)
+  write_csv_atomic(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"))
 
   cat(sprintf("Saved grant-level data to %s\n", grant_path))
   cat(sprintf("Saved institution summary (long) to %s\n", summary_long_path))

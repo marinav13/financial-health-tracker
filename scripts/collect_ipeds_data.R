@@ -352,8 +352,9 @@ field_specs <- list(
     total_operating_nonoperating_revenues_gasb = "F1D01",
     total_expenses_deductions_current_total_gasb = "F1D02",
     tuition_and_fees_fasb = "F2D01",
-    federal_grants_contracts_fasb = "F2D04",
-    state_approps_fasb = "F2D05",
+    pell_grants = "F2D06",
+    federal_grants_contracts_fasb = "F2D05",
+    state_approps_fasb = "F2D04",
     total_revenues_investment_return_fasb = "F2B01",
     total_expenses_fasb = "F2B02",
     tuition_fees_pfp = "F3D01",
@@ -563,8 +564,19 @@ for (year in start_year:end_year) {
         dplyr::coalesce(independent_operations_revenue_gasb, 0)
     }
 
-    state_grants_contracts_fasb        <- get_number(f2, "F2D06")
-    local_grants_contracts_fasb        <- get_number(f2, "F2D07")
+    # Only use state/local FASB government-grant fields when they resolve from
+    # the year-specific dictionary. Hard-coding nearby F2 columns is brittle and
+    # can misclassify Pell grants or other aid lines as state/local revenue.
+    state_grants_contracts_fasb <- if (!is.null(resolved_fields[["state_grants_contracts_fasb"]])) {
+      get_number(f2, resolved_fields[["state_grants_contracts_fasb"]])
+    } else {
+      NA_real_
+    }
+    local_grants_contracts_fasb <- if (!is.null(resolved_fields[["local_grants_contracts_fasb"]])) {
+      get_number(f2, resolved_fields[["local_grants_contracts_fasb"]])
+    } else {
+      NA_real_
+    }
     auxiliary_enterprises_revenue_fasb <- get_number(f2, "F2D12")
     hospital_revenue_fasb              <- get_number(f2, "F2D13")
     independent_operations_revenue_fasb <- get_number(f2, "F2D14")

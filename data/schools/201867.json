@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 8.0157,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 5.6372,
+    "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": null,
+    "endowment_pct_change_5yr": 5.1082,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": 55695,
     "median_debt_completers": 15000,
@@ -430,6 +430,46 @@
     ],
     "endowment_value_adjusted": [
       {
+        "year": 2014,
+        "value": 651841.2262
+      },
+      {
+        "year": 2015,
+        "value": 707455.6018
+      },
+      {
+        "year": 2016,
+        "value": 690668.1379
+      },
+      {
+        "year": 2017,
+        "value": 730766.6285
+      },
+      {
+        "year": 2018,
+        "value": 714911.1561
+      },
+      {
+        "year": 2019,
+        "value": 740885.769
+      },
+      {
+        "year": 2020,
+        "value": 701405.7
+      },
+      {
+        "year": 2021,
+        "value": 863988.2053
+      },
+      {
+        "year": 2022,
+        "value": 653618.5235
+      },
+      {
+        "year": 2023,
+        "value": 700687.2661
+      },
+      {
         "year": 2024,
         "value": 778732
       }
@@ -469,15 +509,15 @@
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 700861.3271
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 84983.7325
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 167090
       }
     ],
     "state_funding_adjusted": [
@@ -515,15 +555,15 @@
       },
       {
         "year": 2022,
-        "value": 700861.3271
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 135248.7962
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 237590
+        "value": 0
       }
     ]
   }

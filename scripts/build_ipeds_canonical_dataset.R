@@ -312,26 +312,15 @@ if ("transfer_out_rate_bachelor" %in% names(raw_rows)) {
 }
 
 if (!("F1H01" %in% names(raw_rows))) raw_rows$F1H01 <- NA_character_
+if (!("F1H02" %in% names(raw_rows))) raw_rows$F1H02 <- NA_character_
 if (!("F2H01" %in% names(raw_rows))) raw_rows$F2H01 <- NA_character_
+if (!("F2H02" %in% names(raw_rows))) raw_rows$F2H02 <- NA_character_
 
 catalog <- catalog %>%
   mutate(
     year = as.integer(to_num(year)),
     table_name = as.character(table_name)
   )
-
-endowment_value_by_key <- raw_rows %>%
-  mutate(
-    control_label = get_control_label(control),
-    endowment_value = case_when(
-      control_label == "Public" ~ coalesce(to_num(value_endowment_assets_end_gasb), to_num(F1H01)),
-      control_label == "Private not-for-profit" ~ coalesce(to_num(value_endowment_end_fasb), to_num(F2H01)),
-      TRUE ~ NA_real_
-    ),
-    row_key = paste(unitid, year, sep = "|")
-  ) %>%
-  filter(!is.na(unitid), !is.na(year), !is.na(endowment_value)) %>%
-  select(row_key, endowment_value)
 
 # Decode 2024 HD / IC / FLAGS labels once and reuse them throughout the build
 # so the output contains readable categories rather than numeric codes.
@@ -758,27 +747,31 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   if (!is.na(is_active_decoded) && !(is_active_decoded %in% c("Yes", "Imputed as active"))) return(NULL)
 
   fte12 <- to_num(row$fte_12_months[[1]])
-  revenue <- if (identical(control_label, "Public")) {
+  reporting_model_code <- trimws(as.character(row$reporting_model[[1]] %||% ""))
+  uses_fasb_finance <- identical(control_label, "Private not-for-profit") || identical(reporting_model_code, "2")
+  uses_gasb_finance <- identical(control_label, "Public") && !uses_fasb_finance
+
+  revenue <- if (uses_gasb_finance) {
     to_num(row$total_operating_nonoperating_revenues_gasb[[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     to_num(row$total_revenues_investment_return_fasb[[1]])
   } else if (identical(control_label, "Private for-profit")) {
     to_num(row$total_revenues_investment_return_pfp[[1]])
   } else {
     NA_real_
   }
-  expenses <- if (identical(control_label, "Public")) {
+  expenses <- if (uses_gasb_finance) {
     to_num(row[["total_expenses_deductions_current_total_gasb"]][[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     to_num(row[["total_expenses_fasb"]][[1]])
   } else if (identical(control_label, "Private for-profit")) {
     to_num(row[["total_expenses_total_amount_pfp"]][[1]])
   } else {
     NA_real_
   }
-  net_tuition_total <- if (identical(control_label, "Public")) {
+  net_tuition_total <- if (uses_gasb_finance) {
     to_num(row$tuition_fees_after_discounts_allowances_gasb[[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     (to_num(row$tuition_and_fees_fasb[[1]]) + zero_if_null(to_num(row$allowances_applied_to_tuition_fasb[[1]]))) -
       (zero_if_null(to_num(row$institutional_grants_funded_fasb[[1]])) + zero_if_null(to_num(row$institutional_grants_unfunded_fasb[[1]])))
   } else if (identical(control_label, "Private for-profit")) {
@@ -787,18 +780,18 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   } else {
     NA_real_
   }
-  federal_funding <- if (identical(control_label, "Public")) {
+  federal_funding <- if (uses_gasb_finance) {
     to_num(row$federal_operating_grants_contracts_gasb[[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     to_num(row$federal_grants_contracts_fasb[[1]])
   } else if (identical(control_label, "Private for-profit")) {
     to_num(row$federal_grants_contracts_pfp[[1]])
   } else {
     NA_real_
   }
-  state_funding <- if (identical(control_label, "Public")) {
+  state_funding <- if (uses_gasb_finance) {
     to_num(row$state_appropriations_gasb[[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     to_num(row$state_approps_fasb[[1]])
   } else if (identical(control_label, "Private for-profit")) {
     to_num(row$state_appropriations_pfp[[1]])
@@ -807,31 +800,42 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   }
   assets <- to_num(row$assets[[1]])
   liabilities <- to_num(row$liabilities[[1]])
-  unrestricted_assets <- if (identical(control_label, "Public")) {
+  unrestricted_assets <- if (uses_gasb_finance) {
     to_num(row$unrestricted_public[[1]])
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     to_num(row$total_unrestricted_net_assets_fasb[[1]])
   } else {
     NA_real_
   }
-  gross_tuition <- if (identical(control_label, "Public")) {
+  gross_tuition <- if (uses_gasb_finance) {
     zero_if_null(to_num(row$discounts_allowances_applied_tuition_fees_gasb[[1]])) + zero_if_null(to_num(row$tuition_fees_after_discounts_allowances_gasb[[1]]))
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     zero_if_null(to_num(row$tuition_and_fees_fasb[[1]])) + zero_if_null(to_num(row$allowances_applied_to_tuition_fasb[[1]]))
   } else {
     NA_real_
   }
-  discount_rate <- if (identical(control_label, "Public")) {
+  discount_rate <- if (uses_gasb_finance) {
     safe_divide(to_num(row$discounts_allowances_applied_tuition_fees_gasb[[1]]), gross_tuition)
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     safe_divide(to_num(row$institutional_grants_unfunded_fasb[[1]]), gross_tuition)
   } else {
     NA_real_
   }
-  endowment_value <- endowment_value_by_key %>%
-    filter(row_key == !!row_key) %>%
-    pull(endowment_value) %>%
-    .[1] %||% if (identical(control_label, "Public")) to_num(row$value_endowment_assets_end_gasb[[1]]) else to_num(row$value_endowment_end_fasb[[1]])
+  endowment_value <- if (uses_gasb_finance) {
+    dplyr::coalesce(
+      to_num(row$value_endowment_assets_end_gasb[[1]]),
+      if ("F1H02" %in% names(row)) to_num(row$F1H02[[1]]) else NA_real_,
+      to_num(row$F1H01[[1]])
+    )
+  } else if (uses_fasb_finance) {
+    dplyr::coalesce(
+      to_num(row$value_endowment_end_fasb[[1]]),
+      if ("F2H02" %in% names(row)) to_num(row$F2H02[[1]]) else NA_real_,
+      to_num(row$F2H01[[1]])
+    )
+  } else {
+    NA_real_
+  }
   government_funding <- if (is.na(federal_funding) && is.na(state_funding)) NA_real_ else zero_if_null(federal_funding) + zero_if_null(state_funding)
   # Standardize research spending from the correct 2024 finance lines across
   # GASB, FASB nonprofit, and FASB for-profit institutions.
@@ -855,13 +859,13 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   )
   core_revenue <- dplyr::coalesce(
     to_num(row$core_revenue[[1]]),
-    if (identical(control_label, "Public")) {
+    if (uses_gasb_finance) {
       total_rev <- to_num(row$total_operating_nonoperating_revenues_gasb[[1]])
       aux_rev <- to_num(row$auxiliary_enterprises_revenue_gasb[[1]])
       hosp_rev <- to_num(row$hospital_services_revenue_gasb[[1]])
       indep_rev <- to_num(row$independent_operations_revenue_gasb[[1]])
       if (is.na(total_rev)) NA_real_ else total_rev - zero_if_null(aux_rev) - zero_if_null(hosp_rev) - zero_if_null(indep_rev)
-    } else if (identical(control_label, "Private not-for-profit")) {
+    } else if (uses_fasb_finance) {
       total_rev <- to_num(row$total_revenues_investment_return_fasb[[1]])
       aux_rev <- to_num(row$auxiliary_enterprises_revenue_fasb[[1]])
       hosp_rev <- to_num(row$hospital_revenue_fasb[[1]])
@@ -873,7 +877,7 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   )
   gov_grants_fasb <- dplyr::coalesce(
     to_num(row$gov_grants_fasb[[1]]),
-    if (identical(control_label, "Private not-for-profit")) {
+    if (uses_fasb_finance) {
       safe_divide(
         sum_if_any(c(
           to_num(row$federal_grants_contracts_fasb[[1]]),
@@ -888,15 +892,15 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   )
   state_approps_percent_core_gasb <- dplyr::coalesce(
     to_num(row$state_approps_percent_core_gasb[[1]]),
-    if (identical(control_label, "Public")) safe_divide(to_num(row$state_appropriations_gasb[[1]]), core_revenue) else NA_real_
+    if (uses_gasb_finance) safe_divide(to_num(row$state_appropriations_gasb[[1]]), core_revenue) else NA_real_
   )
   state_revenue_fte_fasb <- dplyr::coalesce(
     to_num(row$state_revenue_fte_fasb[[1]]),
-    if (identical(control_label, "Private not-for-profit")) safe_divide(to_num(row$state_approps_fasb[[1]]), fte12) else NA_real_
+    if (uses_fasb_finance) safe_divide(to_num(row$state_approps_fasb[[1]]), fte12) else NA_real_
   )
   gov_revenue_fte_fasb <- dplyr::coalesce(
     to_num(row$gov_revenue_fte_fasb[[1]]),
-    if (identical(control_label, "Private not-for-profit")) {
+    if (uses_fasb_finance) {
       safe_divide(
         sum_if_any(c(
           to_num(row$federal_grants_contracts_fasb[[1]]),
@@ -912,10 +916,12 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
   loss_amount <- if (is.na(revenue) || is.na(expenses)) NA_real_ else revenue - expenses
   pell_accounting_method <- trimws(as.character(row$pell_accounting_method[[1]] %||% ""))
   pell_grants <- to_num(row$pell_grants[[1]])
-  federal_adj <- if (identical(control_label, "Public")) {
+  federal_adj <- if (uses_gasb_finance) {
     federal_funding
-  } else if (identical(control_label, "Private not-for-profit")) {
+  } else if (uses_fasb_finance) {
     if (is.na(federal_funding)) NA_real_ else if (identical(pell_accounting_method, "2")) pmax(federal_funding - zero_if_null(pell_grants), 0) else federal_funding
+  } else if (identical(control_label, "Private for-profit")) {
+    federal_funding
   } else {
     NA_real_
   }

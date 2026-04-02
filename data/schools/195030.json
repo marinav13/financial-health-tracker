@@ -46,11 +46,11 @@
     "grad_plus_disbursements_amt": 5024793,
     "grad_plus_disbursements_per_recipient": 14154.3465,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.0389,
-    "state_funding_pct_core_revenue": 24.088,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 282.3485,
-    "state_funding_pct_change_5yr": -0.6446,
-    "endowment_pct_change_5yr": null,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 24.088,
+    "state_funding_pct_core_revenue": 0.0389,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -0.6446,
+    "state_funding_pct_change_5yr": 282.3485,
+    "endowment_pct_change_5yr": 5.0688,
     "graduation_rate_6yr": 85,
     "median_earnings_10yr": 79042,
     "median_debt_completers": 21000,
@@ -475,57 +475,51 @@
     ],
     "endowment_value_adjusted": [
       {
+        "year": 2014,
+        "value": 2670366859.1512
+      },
+      {
+        "year": 2015,
+        "value": 2713412430.8003
+      },
+      {
+        "year": 2016,
+        "value": 2519238689.3799
+      },
+      {
+        "year": 2017,
+        "value": 2714820119.5741
+      },
+      {
+        "year": 2018,
+        "value": 2819945521.1245
+      },
+      {
+        "year": 2019,
+        "value": 2844815684.6126
+      },
+      {
+        "year": 2020,
+        "value": 2823988825.2856
+      },
+      {
+        "year": 2021,
+        "value": 3698582817.6551
+      },
+      {
+        "year": 2022,
+        "value": 2936060654.501
+      },
+      {
+        "year": 2023,
+        "value": 2905951759.168
+      },
+      {
         "year": 2024,
         "value": 2989014000
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
-      {
-        "year": 2014,
-        "value": 609526.8147
-      },
-      {
-        "year": 2015,
-        "value": 157494.994
-      },
-      {
-        "year": 2016,
-        "value": 170729.4079
-      },
-      {
-        "year": 2017,
-        "value": 176026.4697
-      },
-      {
-        "year": 2018,
-        "value": 180456.7156
-      },
-      {
-        "year": 2019,
-        "value": 154184.9956
-      },
-      {
-        "year": 2020,
-        "value": 101339.7845
-      },
-      {
-        "year": 2021,
-        "value": 346379.9387
-      },
-      {
-        "year": 2022,
-        "value": 553086.4807
-      },
-      {
-        "year": 2023,
-        "value": 586842.6878
-      },
-      {
-        "year": 2024,
-        "value": 589524
-      }
-    ],
-    "state_funding_adjusted": [
       {
         "year": 2014,
         "value": 347161297.534
@@ -569,6 +563,52 @@
       {
         "year": 2024,
         "value": 365322000
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 609526.8147
+      },
+      {
+        "year": 2015,
+        "value": 157494.994
+      },
+      {
+        "year": 2016,
+        "value": 170729.4079
+      },
+      {
+        "year": 2017,
+        "value": 176026.4697
+      },
+      {
+        "year": 2018,
+        "value": 180456.7156
+      },
+      {
+        "year": 2019,
+        "value": 154184.9956
+      },
+      {
+        "year": 2020,
+        "value": 101339.7845
+      },
+      {
+        "year": 2021,
+        "value": 346379.9387
+      },
+      {
+        "year": 2022,
+        "value": 553086.4807
+      },
+      {
+        "year": 2023,
+        "value": 586842.6878
+      },
+      {
+        "year": 2024,
+        "value": 589524
       }
     ]
   }

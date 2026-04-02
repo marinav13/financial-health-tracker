@@ -1,0 +1,86 @@
+name: Refresh IPEDS Full Dataset
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 7 1 *"
+    - cron: "0 12 24 9 *"
+    - cron: "0 12 10 12 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-ipeds-full
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.5.1"
+
+      - name: Set up R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::dplyr
+            any::jsonlite
+            any::purrr
+            any::readr
+            any::readxl
+            any::stringr
+            any::tidyr
+            any::xml2
+
+      - name: Rebuild canonical IPEDS dataset
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_ipeds_dataset.R --start-year 2014 --end-year 2024
+
+      - name: Rebuild Scorecard and graduation-rate joins
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_outcomes_join.R
+
+      - name: Refresh accreditation actions with cache fallback
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_accreditation_actions.R
+
+      - name: Refresh college cuts with cache fallback
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_college_cuts_join.R
+
+      - name: Refresh research cuts with cache fallback
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_grant_witness_join.R
+
+      - name: Rebuild static web exports
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_web_exports.R
+
+      - name: Commit and push updated data
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ipeds/ scorecard/ accreditation/ college_cuts/ grant_witness/ archive/ data/
+          if git diff --cached --quiet; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+          date=$(date +%F)
+          git commit -m "Automated IPEDS refresh ($date)"
+          git push

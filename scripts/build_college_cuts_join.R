@@ -16,6 +16,13 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr"))
 
+  write_csv_atomic <- function(df, path) {
+    tmp <- paste0(path, ".tmp")
+    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
+    readr::write_csv(df, tmp, na = "")
+    file.rename(tmp, path)
+  }
+
     financial_input <- get_arg_value(
       "--financial-input",
       file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
@@ -23,6 +30,10 @@ main <- function(cli_args = NULL) {
   output_prefix <- get_arg_value(
     "--output-prefix",
     file.path(getwd(), "college_cuts", "college_cuts_financial_tracker")
+  )
+  cache_dir <- get_arg_value(
+    "--cache-dir",
+    file.path(getwd(), "college_cuts", "cache")
   )
 
   supabase_url <- Sys.getenv(
@@ -43,6 +54,7 @@ main <- function(cli_args = NULL) {
     stop("Financial input file not found: ", financial_input)
   }
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
   build_url <- function(table_name) {
     paste0(
@@ -53,47 +65,65 @@ main <- function(cli_args = NULL) {
   }
 
   fetch_table_csv <- function(table_name, select = "*", order = NULL, page_size = 1000) {
+    cache_path <- file.path(cache_dir, paste0(table_name, ".csv"))
     start <- 0L
     pieces <- list()
+    live_result <- tryCatch({
+      repeat {
+        req <- httr2::request(build_url(table_name)) |>
+          httr2::req_headers(
+            apikey = supabase_key,
+            Authorization = paste("Bearer", supabase_key),
+            Accept = "text/csv",
+            Prefer = "count=exact",
+            Range = paste0(start, "-", start + page_size - 1L),
+            `Range-Unit` = "items"
+          ) |>
+          httr2::req_url_query(select = select)
 
-    repeat {
-      req <- httr2::request(build_url(table_name)) |>
-        httr2::req_headers(
-          apikey = supabase_key,
-          Authorization = paste("Bearer", supabase_key),
-          Accept = "text/csv",
-          Prefer = "count=exact",
-          Range = paste0(start, "-", start + page_size - 1L),
-          `Range-Unit` = "items"
-        ) |>
-        httr2::req_url_query(select = select)
+        if (!is.null(order)) {
+          req <- httr2::req_url_query(req, order = order)
+        }
 
-      if (!is.null(order)) {
-        req <- httr2::req_url_query(req, order = order)
+        resp <- httr2::req_perform(req)
+        body <- httr2::resp_body_string(resp)
+
+        if (!nzchar(trimws(body))) {
+          break
+        }
+
+        batch <- readr::read_csv(I(body), show_col_types = FALSE, progress = FALSE)
+        if (nrow(batch) == 0) {
+          break
+        }
+
+        pieces[[length(pieces) + 1L]] <- batch
+
+        if (nrow(batch) < page_size) {
+          break
+        }
+
+        start <- start + page_size
       }
 
-      resp <- httr2::req_perform(req)
-      body <- httr2::resp_body_string(resp)
+      dplyr::bind_rows(pieces)
+    }, error = function(e) e)
 
-      if (!nzchar(trimws(body))) {
-        break
-      }
-
-      batch <- readr::read_csv(I(body), show_col_types = FALSE, progress = FALSE)
-      if (nrow(batch) == 0) {
-        break
-      }
-
-      pieces[[length(pieces) + 1L]] <- batch
-
-      if (nrow(batch) < page_size) {
-        break
-      }
-
-      start <- start + page_size
+    if (!inherits(live_result, "error") && nrow(live_result) > 0) {
+      write_csv_atomic(live_result, cache_path)
+      return(live_result)
     }
 
-    dplyr::bind_rows(pieces)
+    if (file.exists(cache_path)) {
+      message("Falling back to cached College Cuts table for ", table_name)
+      return(readr::read_csv(cache_path, show_col_types = FALSE, progress = FALSE))
+    }
+
+    if (inherits(live_result, "error")) {
+      stop("Failed to fetch College Cuts table ", table_name, ": ", live_result$message)
+    }
+
+    stop("College Cuts table ", table_name, " returned no rows and no cache was available.")
   }
 
   state_lookup <- c(
@@ -511,11 +541,15 @@ main <- function(cli_args = NULL) {
   unmatched_csv <- paste0(output_prefix, "_unmatched_for_review.csv")
   workbook_xlsx <- paste0(output_prefix, "_workbook.xlsx")
 
+  if (nrow(cuts_joined) == 0 || nrow(cuts_institutions_summary) == 0) {
+    stop("College cuts refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
   message("Writing outputs ...")
-  readr::write_csv(cuts_joined, cut_level_csv, na = "")
-  readr::write_csv(cuts_institutions_summary, institution_csv, na = "")
-  readr::write_csv(financial_trends, trends_csv, na = "")
-  readr::write_csv(unmatched_for_review, unmatched_csv, na = "")
+  write_csv_atomic(cuts_joined, cut_level_csv)
+  write_csv_atomic(cuts_institutions_summary, institution_csv)
+  write_csv_atomic(financial_trends, trends_csv)
+  write_csv_atomic(unmatched_for_review, unmatched_csv)
 
   wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(wb, "overview")
@@ -529,7 +563,11 @@ main <- function(cli_args = NULL) {
   openxlsx::writeData(wb, "inst_summary", cuts_institutions_summary)
   openxlsx::writeData(wb, "fin_trends", financial_trends)
   openxlsx::writeData(wb, "unmatched", unmatched_for_review)
-  openxlsx::saveWorkbook(wb, workbook_xlsx, overwrite = TRUE)
+  workbook_tmp <- paste0(workbook_xlsx, ".tmp")
+  if (file.exists(workbook_tmp)) file.remove(workbook_tmp)
+  openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)
+  if (file.exists(workbook_xlsx)) file.remove(workbook_xlsx)
+  file.rename(workbook_tmp, workbook_xlsx)
 
   message("Saved: ", cut_level_csv)
   message("Saved: ", institution_csv)

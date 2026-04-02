@@ -13,6 +13,8 @@
       <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
       <a class="top-tab is-active" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
+      <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer">Tuition</a>
     </nav>
 
     <header class="masthead">
@@ -25,19 +27,13 @@
     <section class="intro-callout">
       <div class="intro-bar"></div>
       <div class="intro-box">
-        <p>The below table shows cuts at 4-year, primarily bachelor's-degree-granting institutions. Scroll down further to see cuts at other institutions.</p>
+        <p>Explore cuts at 4-year institutions nationwide that primarily grant bachelor's degrees. Scroll down further to see cuts at other institutions. Data includes cuts collected by <a href="https://www.college-cuts.com/" target="_blank" rel="noopener">College Cuts Tracker</a> and The Hechinger Report.</p>
+        <p>Have you heard of a cut at your university? Submit information about cuts here if you'd like to help grow our database.</p>
       </div>
     </section>
 
-    <section class="search-panel">
-      <label class="search-label" for="school-search">Institution Name:</label>
-      <input id="school-search" class="search" type="search" list="school-options" placeholder="Type or choose a college with tracked cuts">
-      <datalist id="school-options"></datalist>
-      <div id="search-results" class="results"></div>
-    </section>
-
     <section class="school-banner">
-      <h1 id="cuts-school-name">Latest college cuts</h1>
+      <h1 id="cuts-school-name" class="is-hidden"></h1>
     </section>
 
     <section class="school-meta-wrap">
@@ -50,14 +46,26 @@
 
     <section class="data-card">
       <h2 id="cuts-section-title">Cuts</h2>
-      <button id="cuts-table-download" class="download-button" type="button">Download Displayed Table</button>
+      <div class="table-toolbar">
+        <div class="table-toolbar-spacer"></div>
+        <div class="table-toolbar-actions">
+          <input id="cuts-filter" class="table-filter-input" type="search" placeholder="Filter by institution">
+          <button id="cuts-table-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
       <div id="cuts-list"></div>
     </section>
 
     <section class="data-card">
       <h2 id="cuts-other-section-title">Cuts at other institutions</h2>
       <p class="small-meta">This secondary table shows recent cuts at institutions outside the main 4-year financial tracker universe.</p>
-      <button id="cuts-other-download" class="download-button" type="button">Download Displayed Table</button>
+      <div class="table-toolbar">
+        <div class="table-toolbar-spacer"></div>
+        <div class="table-toolbar-actions">
+          <input id="cuts-other-filter" class="table-filter-input" type="search" placeholder="Filter by institution">
+          <button id="cuts-other-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
       <div id="cuts-other-list"></div>
     </section>
 

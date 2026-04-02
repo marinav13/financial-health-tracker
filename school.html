@@ -13,6 +13,8 @@
       <a class="top-tab is-active" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
+      <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer">Tuition</a>
     </nav>
 
     <header class="masthead">
@@ -48,7 +50,23 @@
       <p id="school-location" class="school-meta"></p>
       <p id="school-urbanization" class="school-meta"></p>
       <p id="school-control" class="school-meta"></p>
-      <p id="school-category" class="school-meta"></p>
+    </section>
+
+    <section class="data-card">
+      <div id="school-outcomes-grid" class="research-summary-grid">
+        <article class="metric-strip neutral">
+          <div class="metric-question">Graduation rate, bachelor's degree within 6 years</div>
+          <div id="school-graduation-rate" class="metric-answer">No data</div>
+        </article>
+        <article class="metric-strip neutral">
+          <div class="metric-question">Median earnings, 10 years after entry</div>
+          <div id="school-median-earnings" class="metric-answer">No data</div>
+        </article>
+        <article class="metric-strip neutral">
+          <div class="metric-question">Median debt for completers</div>
+          <div id="school-median-debt" class="metric-answer">No data</div>
+        </article>
+      </div>
     </section>
 
     <section class="section-block" id="financial-section">
@@ -96,7 +114,7 @@
       <div id="chart-international" class="chart-panel"></div>
       <div id="intl-change-card" class="metric-strip"></div>
 
-      <p class="section-copy">Congress has capped how much federal loans students can take out. This change could hit colleges with higher rates of students borrowing.</p>
+      <p id="grad-loan-intro" class="section-copy">Congress has capped federal loans for graduate students starting summer 2026. This change could hit colleges with higher rates of graduate students who borrow.</p>
       <div id="loan-card" class="metric-strip neutral"></div>
     </section>
 
@@ -127,6 +145,8 @@
         <div id="state-change-card" class="metric-strip neutral"></div>
         <div id="chart-state" class="chart-panel"></div>
       </div>
+      <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
+      <div id="research-spending-card" class="metric-strip neutral"></div>
     </section>
 
     <section class="data-card">
@@ -136,6 +156,7 @@
         <ul class="link-list">
           <li><a href="cuts.html">College Cuts</a></li>
           <li><a href="accreditation.html">Accreditation</a></li>
+          <li><a href="research.html">Research Funding Cuts</a></li>
         </ul>
       </div>
     </section>

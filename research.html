@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <title>Research Funding Cuts | College Financial Health Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-search-page="research.html" data-search-source="research">
+  <main class="page">
+    <nav class="top-tabs" aria-label="Sections">
+      <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
+      <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
+      <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
+      <a class="top-tab is-active" id="tab-research" href="research.html">Research Funding Cuts</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer">Tuition</a>
+    </nav>
+
+    <header class="masthead">
+      <div class="masthead-copy">
+        <div class="masthead-title">College Financial Health Explorer</div>
+      </div>
+      <div class="masthead-logo">The Hechinger Report</div>
+    </header>
+
+    <section class="intro-callout">
+      <div class="intro-bar"></div>
+      <div class="intro-box">
+          <p id="research-intro-top">Below, explore a database showing federal research funding cuts to colleges and universities across the U.S. since the start of the second Trump administration.<br><br>This data comes from the <a href="https://grant-witness.us/" target="_blank" rel="noopener">Grant Witness database</a>. The grants below have been terminated, frozen, or otherwise remain at risk amid legal battles.<br><br>Grants include funding from the National Institutes of Health, National Science Foundation, Environmental Protection Agency, Substance Abuse and Mental Health Services Administration, and Centers for Disease Control and Prevention.</p>
+          <p id="research-intro-bottom"></p>
+      </div>
+    </section>
+
+    <section class="school-banner">
+      <h1 id="research-school-name" class="is-hidden"></h1>
+    </section>
+
+    <section class="school-meta-wrap">
+      <p id="research-school-location" class="school-meta"></p>
+      <p id="research-school-control" class="school-meta"></p>
+      <p id="research-school-category" class="school-meta"></p>
+    </section>
+
+    <div id="research-overview" class="info-panel is-hidden"></div>
+
+    <section class="data-card">
+      <div id="research-summary-grid" class="research-summary-grid"></div>
+    </section>
+
+    <section class="data-card">
+      <h2 id="research-section-title" class="is-hidden"></h2>
+      <div class="table-toolbar">
+        <div id="research-sector-filter" class="filter-row">
+          <span class="filter-label">Sector:</span>
+          <div class="filter-button-group" role="group" aria-label="Filter by sector">
+            <button type="button" class="filter-button is-active" data-sector="both">Both</button>
+            <button type="button" class="filter-button" data-sector="public">Public</button>
+            <button type="button" class="filter-button" data-sector="private">Private</button>
+          </div>
+        </div>
+        <div class="table-toolbar-actions">
+          <input id="research-filter" class="table-filter-input" type="search" placeholder="Filter by institution">
+          <button id="research-table-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
+      <div id="research-list"></div>
+    </section>
+
+    <section class="data-card is-hidden">
+      <h2 id="research-other-section-title">Research funding cuts at other higher-ed institutions</h2>
+      <p class="small-meta">This secondary table includes higher-ed recipients outside the main 4-year financial tracker universe, including likely campus matches that still need manual review.</p>
+      <button id="research-other-download" class="download-button" type="button">Download Displayed Table</button>
+      <div id="research-other-list"></div>
+    </section>
+
+    <section id="research-state-summary-card" class="data-card">
+      <h2>Still disrupted cuts by state</h2>
+      <div id="research-state-summary"></div>
+    </section>
+
+    <details class="methodology-panel">
+      <summary class="methodology-summary">Methodology</summary>
+      <div class="methodology-body">
+        <p>This section tracks grants that Grant Witness currently lists as still disrupted. It uses remaining-funding fields from Grant Witness and separates institutions in the main financial tracker from other higher-ed recipients.</p>
+      </div>
+    </details>
+  </main>
+  <script src="js/app.js"></script>
+  <script src="js/research.js"></script>
+</body>
+</html>

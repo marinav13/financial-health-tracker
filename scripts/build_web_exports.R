@@ -1,6 +1,9 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+# This script turns the canonical IPEDS dataset plus the joined cuts,
+# accreditation, research, and scorecard files into the JSON payloads used by
+# the static site.
 get_arg_value <- function(flag, default) {
   idx <- match(flag, args)
   if (!is.na(idx) && idx < length(args)) {
@@ -9,7 +12,7 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-input_csv <- get_arg_value("--input", "./reporting/ipeds_financial_health_reporting_2014_2024.csv")
+input_csv <- get_arg_value("--input", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
 output_dir <- get_arg_value("--output-dir", ".")
 
 suppressPackageStartupMessages({
@@ -35,7 +38,11 @@ cuts_path <- file.path(root, "college_cuts", "college_cuts_financial_tracker_cut
 accreditation_summary_path <- file.path(root, "accreditation", "accreditation_tracker_institution_summary.csv")
 accreditation_actions_path <- file.path(root, "accreditation", "accreditation_tracker_actions_joined.csv")
 accreditation_coverage_path <- file.path(root, "accreditation", "accreditation_tracker_source_coverage.csv")
+research_summary_path <- file.path(root, "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
+research_grants_path <- file.path(root, "grant_witness", "grant_witness_grant_level_joined.csv")
+outcomes_summary_path <- file.path(root, "scorecard", "tracker_outcomes_joined.csv")
 
+# Small helpers for numeric cleanup, JSON writing, and export-safe labels.
 to_num <- function(x) {
   if (is.null(x)) return(NA_real_)
   x <- trimws(as.character(x))
@@ -50,7 +57,26 @@ null_if_empty <- function(x) {
 }
 
 scale_ratio_to_pct <- function(x) {
-  ifelse(is.na(x), NA_real_, x * 100)
+  value <- to_num(x)
+  ifelse(is.na(value), NA_real_, value * 100)
+}
+
+build_international_students_sentence <- function(all_pct, ug_pct, grad_pct) {
+  all_value <- scale_ratio_to_pct(all_pct)
+  ug_value <- scale_ratio_to_pct(ug_pct)
+  grad_value <- scale_ratio_to_pct(grad_pct)
+  dplyr::case_when(
+    is.na(all_value) ~ NA_character_,
+    !is.na(ug_value) & !is.na(grad_value) ~ paste0(
+      round(all_value, 1),
+      "% of students are international. That includes ",
+      round(ug_value, 1),
+      "% of undergraduates and ",
+      round(grad_value, 1),
+      "% of graduate students."
+    ),
+    TRUE ~ paste0(round(all_value, 1), "% of students are international.")
+  )
 }
 
 write_json_file <- function(x, path) {
@@ -98,6 +124,14 @@ normalize_control_label <- function(x) {
     grepl("^public$", value, ignore.case = TRUE) ~ "Public",
     grepl("private (?:non-profit|not-for-profit)", value, ignore.case = TRUE) ~ "Private not-for-profit",
     grepl("private for-profit", value, ignore.case = TRUE) ~ "Private for-profit",
+    TRUE ~ value
+  )
+}
+
+normalize_display_institution_name <- function(x) {
+  value <- trimws(as.character(x %||% ""))
+  dplyr::case_when(
+    identical(value, "Arizona State University Campus Immersion") ~ "Arizona State University",
     TRUE ~ value
   )
 }
@@ -153,6 +187,7 @@ build_series <- function(df, value_col, scale = 1) {
 }
 
 build_cuts_export <- function() {
+  # Build the site payload for the college cuts page and related downloads.
   if (!file.exists(cuts_path)) return(NULL)
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE) %>%
@@ -268,6 +303,8 @@ build_cuts_export <- function() {
 }
 
 build_accreditation_export <- function() {
+  # Build the accreditation landing-page and school-level payloads from the
+  # joined accreditation summary and actions files.
   if (!file.exists(accreditation_summary_path) || !file.exists(accreditation_actions_path)) return(NULL)
 
   normalize_accreditor_name <- function(x) {
@@ -424,16 +461,218 @@ build_accreditation_export <- function() {
   )
 }
 
+build_research_export <- function() {
+  # Build the Grant Witness research-funding payloads used on the research page.
+  if (!file.exists(research_summary_path) || !file.exists(research_grants_path)) return(NULL)
+
+  summary_df <- readr::read_csv(research_summary_path, show_col_types = FALSE) %>%
+    mutate(
+      matched_unitid = as.character(matched_unitid),
+      display_city = as.character(display_city),
+      display_state = as.character(display_state),
+      institution_key = as.character(institution_key),
+      likely_higher_ed = as.logical(likely_higher_ed),
+      export_unitid = vapply(
+        seq_len(n()),
+        function(i) make_export_id(
+          "research",
+          matched_unitid[[i]],
+          display_name[[i]],
+          display_state[[i]]
+        ),
+        character(1)
+      ),
+      has_financial_profile = !is.na(matched_unitid) & matched_unitid != "",
+      is_primary_tracker = has_financial_profile & is_primary_bachelors_category(tracker_category)
+    )
+
+  grants_df <- readr::read_csv(research_grants_path, show_col_types = FALSE) %>%
+    mutate(
+      matched_unitid = as.character(matched_unitid),
+      organization_state = as.character(organization_state),
+      export_unitid = vapply(
+        seq_len(n()),
+        function(i) make_export_id(
+          "research",
+          matched_unitid[[i]],
+          dplyr::coalesce(tracker_institution_name[[i]], organization_name[[i]]),
+          dplyr::coalesce(tracker_state[[i]], organization_state[[i]])
+        ),
+        character(1)
+      ),
+      currently_disrupted = as.character(currently_disrupted),
+      likely_higher_ed = as.logical(likely_higher_ed)
+    ) %>%
+    filter(currently_disrupted == "TRUE")
+
+  if (nrow(summary_df) == 0 || nrow(grants_df) == 0) return(NULL)
+
+  agencies <- c("nih", "nsf", "epa", "samhsa", "cdc")
+  agency_labels <- c(
+    nih = "NIH",
+    nsf = "NSF",
+    epa = "EPA",
+    samhsa = "SAMHSA",
+    cdc = "CDC"
+  )
+
+  schools <- lapply(split(summary_df, summary_df$export_unitid), function(df) {
+    latest <- df %>% slice(1)
+    school_grants <- grants_df %>%
+      filter(export_unitid == latest$export_unitid[[1]]) %>%
+      arrange(desc(termination_date), desc(award_remaining), agency, project_title)
+
+    agency_summary <- lapply(agencies, function(agency) {
+      grant_col <- paste0(agency, "_disrupted_grants")
+      amount_col <- paste0(agency, "_disrupted_award_remaining")
+      list(
+        agency = agency,
+        agency_label = agency_labels[[agency]],
+        disrupted_grants = unname(latest[[grant_col]][[1]] %||% 0),
+        disrupted_award_remaining = unname(latest[[amount_col]][[1]] %||% 0)
+      )
+    })
+
+    latest_termination <- school_grants %>%
+      filter(!is.na(termination_date), trimws(termination_date) != "") %>%
+      slice_head(n = 1)
+
+    list(
+      unitid = as.character(latest$export_unitid[[1]]),
+      financial_unitid = if (isTRUE(latest$has_financial_profile[[1]])) latest$matched_unitid[[1]] else NA_character_,
+      has_financial_profile = isTRUE(latest$has_financial_profile[[1]]),
+      is_primary_tracker = isTRUE(latest$is_primary_tracker[[1]]),
+      likely_higher_ed = isTRUE(latest$likely_higher_ed[[1]]),
+      institution_name = latest$display_name[[1]],
+      city = or_null(latest$display_city),
+      state = latest$display_state[[1]],
+      control_label = or_null(latest$tracker_control_label),
+      category = or_null(latest$tracker_category),
+      latest_termination_date = or_null(latest_termination$termination_date),
+      total_disrupted_grants = unname(latest$total_disrupted_grants[[1]] %||% 0),
+      total_disrupted_award_remaining = unname(latest$total_disrupted_award_remaining[[1]] %||% 0),
+      agency_summary = agency_summary,
+      grants = lapply(seq_len(nrow(school_grants)), function(i) {
+        list(
+          agency = or_null(school_grants$agency[i]),
+          agency_label = agency_labels[[school_grants$agency[i]]] %||% toupper(as.character(school_grants$agency[i])),
+          grant_id = or_null(school_grants$grant_id[i]),
+          grant_id_core = or_null(school_grants$grant_id_core[i]),
+          status = or_null(school_grants$status[i]),
+          organization_name = or_null(school_grants$organization_name[i]),
+          organization_city = or_null(school_grants$organization_city[i]),
+          organization_state = or_null(school_grants$organization_state[i]),
+          organization_type = or_null(school_grants$organization_type[i]),
+          project_title = or_null(school_grants$project_title[i]),
+          project_abstract = or_null(school_grants$project_abstract[i]),
+          start_date = or_null(school_grants$start_date[i]),
+          original_end_date = or_null(school_grants$original_end_date[i]),
+          termination_date = or_null(school_grants$termination_date[i]),
+          award_value = or_null(school_grants$award_value[i]),
+          award_outlaid = or_null(school_grants$award_outlaid[i]),
+          award_remaining = or_null(school_grants$award_remaining[i]),
+          remaining_field = or_null(school_grants$remaining_field[i]),
+          source_url = or_null(school_grants$source_url[i]),
+          detail_url = or_null(school_grants$detail_url[i])
+        )
+      })
+    )
+  })
+
+  list(
+    generated_at = as.character(Sys.Date()),
+    agencies = unname(agency_labels),
+    schools = schools
+  )
+}
+
+build_outcomes_export <- function() {
+  # Outcomes are now used mainly as finance-page blocks, but this helper still
+  # assembles the joined payload while the repo transitions off the old page.
+  if (!file.exists(outcomes_summary_path)) return(NULL)
+
+  outcomes <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
+    mutate(
+      unitid = as.character(unitid),
+      has_financial_profile = TRUE,
+      is_primary_tracker = is_primary_bachelors_category(category)
+    ) %>%
+    filter(is_primary_tracker)
+
+  if (nrow(outcomes) == 0) return(NULL)
+
+  schools <- lapply(seq_len(nrow(outcomes)), function(i) {
+    row <- outcomes[i, , drop = FALSE]
+    list(
+      unitid = row$unitid[[1]],
+      financial_unitid = row$unitid[[1]],
+      has_financial_profile = TRUE,
+      is_primary_tracker = isTRUE(row$is_primary_tracker[[1]]),
+      institution_name = row$institution_name[[1]],
+      city = row$city[[1]],
+      state = row$state[[1]],
+      control_label = row$control_label[[1]],
+      category = row$category[[1]],
+      urbanization = row$urbanization[[1]],
+      graduation_rate_6yr = row$graduation_rate_6yr[[1]],
+      median_earnings_10yr = row$median_earnings_10yr[[1]],
+      median_debt_completers = row$median_debt_completers[[1]],
+      outcomes_data_available = isTRUE(row$outcomes_data_available[[1]]),
+      scorecard_data_updated = row$scorecard_data_updated[[1]],
+      ipeds_graduation_rate_year = row$ipeds_graduation_rate_year[[1]],
+      ipeds_graduation_rate_label = row$ipeds_graduation_rate_label[[1]]
+    )
+  })
+
+  list(
+    schools = stats::setNames(schools, vapply(schools, function(item) item$unitid, character(1)))
+  )
+}
+
 build_school_file <- function(df) {
   latest <- df %>% filter(year == max(year, na.rm = TRUE)) %>% slice(1)
+  pct_international_all <- scale_ratio_to_pct(latest$pct_international_all[[1]])
+  pct_international_undergraduate <- scale_ratio_to_pct(latest$pct_international_undergraduate[[1]])
+  pct_international_graduate <- scale_ratio_to_pct(latest$pct_international_graduate[[1]])
+  international_students_sentence <- if ("international_students_sentence" %in% names(latest)) {
+    null_if_empty(latest$international_students_sentence[[1]])
+  } else {
+    build_international_students_sentence(
+      latest$pct_international_all[[1]],
+      latest$pct_international_undergraduate[[1]],
+      latest$pct_international_graduate[[1]]
+    )
+  }
   sector_key <- latest$sector[[1]]
+  sector_loan_benchmark <- if (!is.null(sector_key) && !is.na(sector_key) && sector_key %in% names(sector_loan_benchmarks)) {
+    unname(sector_loan_benchmarks[[sector_key]])
+  } else {
+    NA_real_
+  }
+  sector_grad_share_benchmark <- if (!is.null(sector_key) && !is.na(sector_key) && sector_key %in% names(sector_grad_share_benchmarks)) {
+    unname(sector_grad_share_benchmarks[[sector_key]])
+  } else {
+    NA_real_
+  }
+  sector_grad_plus_benchmark <- if (!is.null(sector_key) && !is.na(sector_key) && sector_key %in% names(sector_grad_plus_benchmarks)) {
+    unname(sector_grad_plus_benchmarks[[sector_key]])
+  } else {
+    NA_real_
+  }
 
   list(
     unitid = as.character(latest$unitid[[1]]),
     generated_at = as.character(Sys.Date()),
     profile = list(
       institution_name = latest$institution_name[[1]],
-      institution_unique_name = latest$institution_unique_name[[1]],
+      institution_unique_name = paste(
+        na.omit(c(
+          normalize_display_institution_name(latest$institution_name[[1]]),
+          latest$city[[1]],
+          latest$state[[1]]
+        )),
+        collapse = " | "
+      ),
       state = latest$state[[1]],
       city = latest$city[[1]],
       control_label = latest$control_label[[1]],
@@ -456,19 +695,37 @@ build_school_file <- function(df) {
       tuition_dependence_pct = latest$tuition_dependence_pct[[1]],
       sector_median_tuition_dependence_pct = latest$sector_median_tuition_dependence_pct[[1]],
       tuition_dependence_vs_sector_median_sentence = null_if_empty(latest$tuition_dependence_vs_sector_median_sentence[[1]]),
-      pct_international_all = scale_ratio_to_pct(latest$pct_international_all[[1]]),
-      pct_international_undergraduate = scale_ratio_to_pct(latest$pct_international_undergraduate[[1]]),
-      pct_international_graduate = scale_ratio_to_pct(latest$pct_international_graduate[[1]]),
+      share_grad_students = scale_ratio_to_pct(latest$share_grad_students[[1]]),
+      sector_avg_share_grad_students = scale_ratio_to_pct(sector_grad_share_benchmark),
+      research_expense = latest$research_expense[[1]],
+      research_expense_per_fte = latest$research_expense_per_fte[[1]],
+      research_expense_pct_core_expenses = scale_ratio_to_pct(latest$research_expense_pct_core_expenses[[1]]),
+      sector_research_spending_n = latest$sector_research_spending_n[[1]],
+      research_spending_per_fte_percentile = latest$research_spending_per_fte_percentile[[1]],
+      research_spending_peer_bucket = null_if_empty(latest$research_spending_peer_bucket[[1]]),
+      pct_international_all = pct_international_all,
+      pct_international_undergraduate = pct_international_undergraduate,
+      pct_international_graduate = pct_international_graduate,
       international_student_count_change_5yr = latest$international_student_count_change_5yr[[1]],
       international_enrollment_pct_change_5yr = latest$international_enrollment_pct_change_5yr[[1]],
-      international_students_sentence = null_if_empty(latest$international_students_sentence[[1]]),
+      international_students_sentence = international_students_sentence,
       federal_loan_pct_most_recent = latest$federal_loan_pct_most_recent[[1]],
-      sector_avg_federal_loan_pct_most_recent = unname(sector_loan_benchmarks[[sector_key]] %||% NA_real_),
+      sector_avg_federal_loan_pct_most_recent = sector_loan_benchmark,
+      grad_plus_recipients = latest$grad_plus_recipients[[1]],
+      grad_plus_disbursements_amt = latest$grad_plus_disbursements_amt[[1]],
+      grad_plus_disbursements_per_recipient = latest$grad_plus_disbursements_per_recipient[[1]],
+      sector_median_grad_plus_disbursements_per_recipient = sector_grad_plus_benchmark,
       federal_grants_contracts_pell_adjusted_pct_core_revenue = scale_ratio_to_pct(latest$federal_grants_contracts_pell_adjusted_pct_core_revenue[[1]]),
       state_funding_pct_core_revenue = scale_ratio_to_pct(latest$state_funding_pct_core_revenue[[1]]),
       federal_grants_contracts_pell_adjusted_pct_change_5yr = latest$federal_grants_contracts_pell_adjusted_pct_change_5yr[[1]],
       state_funding_pct_change_5yr = latest$state_funding_pct_change_5yr[[1]],
-      endowment_pct_change_5yr = latest$endowment_pct_change_5yr[[1]]
+      endowment_pct_change_5yr = latest$endowment_pct_change_5yr[[1]],
+      graduation_rate_6yr = latest$graduation_rate_6yr[[1]],
+      median_earnings_10yr = latest$median_earnings_10yr[[1]],
+      median_debt_completers = latest$median_debt_completers[[1]],
+      scorecard_data_updated = null_if_empty(latest$scorecard_data_updated[[1]]),
+      ipeds_graduation_rate_year = latest$ipeds_graduation_rate_year[[1]],
+      ipeds_graduation_rate_label = null_if_empty(latest$ipeds_graduation_rate_label[[1]])
     ),
     series = list(
       revenue_total_adjusted = build_series(df, "revenue_total_adjusted"),
@@ -487,15 +744,19 @@ build_school_file <- function(df) {
   )
 }
 
+# Load the canonical finance dataset that serves as the backbone for school
+# JSON files and the sitewide download.
 df <- readr::read_csv(input_path, show_col_types = FALSE)
 
 numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
-  "tuition_dependence_pct","sector_median_tuition_dependence_pct","pct_international_all",
+  "tuition_dependence_pct","sector_median_tuition_dependence_pct","share_grad_students","research_expense","research_expense_per_fte",
+  "research_expense_pct_core_expenses",
+  "sector_research_spending_n","research_spending_per_fte_percentile","pct_international_all",
   "pct_international_undergraduate","pct_international_graduate","international_student_count_change_5yr",
   "international_enrollment_pct_change_5yr",
-  "federal_loan_pct_most_recent","federal_grants_contracts_pell_adjusted_pct_core_revenue",
+  "federal_loan_pct_most_recent","grad_plus_recipients","grad_plus_disbursements_amt","grad_plus_disbursements_per_recipient","federal_grants_contracts_pell_adjusted_pct_core_revenue",
   "state_funding_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
   "state_funding_pct_change_5yr","endowment_pct_change_5yr","revenue_total_adjusted",
   "expenses_total_adjusted","net_tuition_per_fte_adjusted","enrollment_headcount_total",
@@ -509,18 +770,101 @@ for (nm in intersect(numeric_cols, names(df))) {
 }
 
 df <- df %>% arrange(unitid, year)
+# Join the latest outcomes fields onto the finance dataframe so the finance
+# page can render the three outcomes blocks from the same school JSON.
 latest_2024 <- df %>% filter(year == 2024)
+if (file.exists(outcomes_summary_path)) {
+  outcomes_summary <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
+    mutate(unitid = as.character(unitid))
+  for (nm in c(
+    "grad_plus_recipients",
+    "grad_plus_disbursements_amt",
+    "grad_plus_disbursements_per_recipient",
+    "grad_plus_data_updated"
+  )) {
+    if (!(nm %in% names(outcomes_summary))) outcomes_summary[[nm]] <- NA
+  }
+  df <- df %>%
+    mutate(unitid = as.character(unitid)) %>%
+    left_join(
+      outcomes_summary %>%
+        dplyr::select(
+          unitid,
+          graduation_rate_6yr,
+          median_earnings_10yr,
+          median_debt_completers,
+          grad_plus_recipients,
+          grad_plus_disbursements_amt,
+          grad_plus_disbursements_per_recipient,
+          outcomes_data_available,
+          scorecard_data_updated,
+          grad_plus_data_updated,
+          ipeds_graduation_rate_year,
+          ipeds_graduation_rate_label
+        ),
+      by = "unitid"
+    )
+  latest_2024 <- latest_2024 %>%
+    mutate(unitid = as.character(unitid)) %>%
+    left_join(
+      outcomes_summary %>%
+        dplyr::select(
+          unitid,
+          graduation_rate_6yr,
+          median_earnings_10yr,
+          median_debt_completers,
+          grad_plus_recipients,
+          grad_plus_disbursements_amt,
+          grad_plus_disbursements_per_recipient,
+          outcomes_data_available,
+          scorecard_data_updated,
+          grad_plus_data_updated,
+          ipeds_graduation_rate_year,
+          ipeds_graduation_rate_label
+        ),
+      by = "unitid"
+    )
+}
 sector_loan_benchmarks <- latest_2024 %>%
   group_by(sector) %>%
   summarise(value = mean(federal_loan_pct_most_recent, na.rm = TRUE), .groups = "drop") %>%
   filter(!is.na(sector), !is.na(value)) %>%
   { stats::setNames(.$value, .$sector) }
 
+sector_grad_share_benchmarks <- latest_2024 %>%
+  group_by(sector) %>%
+  summarise(
+    value = if (all(is.na(share_grad_students))) NA_real_ else mean(share_grad_students, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  filter(!is.na(sector), !is.na(value)) %>%
+  { stats::setNames(.$value, .$sector) }
+
+sector_grad_plus_benchmarks <- latest_2024 %>%
+  group_by(sector) %>%
+  summarise(
+    value = if (all(is.na(grad_plus_disbursements_per_recipient))) NA_real_ else stats::median(grad_plus_disbursements_per_recipient, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  filter(!is.na(sector), !is.na(value)) %>%
+  { stats::setNames(.$value, .$sector) }
+
 schools_index <- latest_2024 %>%
   transmute(
     unitid = as.character(unitid),
-    institution_name = institution_name,
-    institution_unique_name = institution_unique_name,
+    institution_name = vapply(institution_name, normalize_display_institution_name, character(1)),
+    institution_unique_name = vapply(
+      seq_len(n()),
+      function(i) paste(
+        na.omit(c(
+          normalize_display_institution_name(institution_name[[i]]),
+          city[[i]],
+          state[[i]]
+        )),
+        collapse = " | "
+      ),
+      character(1)
+    ),
     state = state,
     city = city,
     control_label = control_label,
@@ -533,20 +877,24 @@ schools_index <- latest_2024 %>%
 metadata <- list(
   generated_at = as.character(Sys.Date()),
   title = "College Financial Health Tracker",
-  dataset = "IPEDS Financial Health Reporting Dataset",
-  methodology_note = "This website prototype uses the filtered public-facing reporting dataset from the project repo.",
+  dataset = "IPEDS Financial Health Canonical Dataset",
+  methodology_note = "This website prototype uses the filtered public-facing canonical IPEDS dataset from the project repo.",
   files = list(
     schools_index = "data/schools_index.json",
     college_cuts_index = "data/college_cuts_index.json",
     accreditation_index = "data/accreditation_index.json",
+    research_funding_index = "data/research_funding_index.json",
     schools = "data/schools/{unitid}.json",
     download = "data/downloads/full_dataset.csv",
     college_cuts = "data/college_cuts.json",
-    accreditation = "data/accreditation.json"
+    accreditation = "data/accreditation.json",
+    research_funding = "data/research_funding.json"
   )
 )
 
 write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
+# Write the site metadata first, then each section export and the school-level
+# JSON files consumed by the static frontend.
 write_json_file(metadata, file.path(data_dir, "metadata.json"))
 readr::write_csv(latest_2024, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
@@ -601,9 +949,36 @@ if (!is.null(accreditation_export)) {
   write_json_file(accreditation_index, file.path(data_dir, "accreditation_index.json"))
 }
 
-by_school <- split(df, df$unitid)
-for (unitid in names(by_school)) {
-  school_json <- build_school_file(by_school[[unitid]])
+research_export <- build_research_export()
+if (!is.null(research_export)) {
+  write_json_file(research_export, file.path(data_dir, "research_funding.json"))
+  research_index <- lapply(research_export$schools, function(school) {
+    list(
+      unitid = school$unitid,
+      financial_unitid = school$financial_unitid,
+      has_financial_profile = school$has_financial_profile,
+      is_primary_tracker = school$is_primary_tracker,
+      likely_higher_ed = school$likely_higher_ed,
+      institution_name = school$institution_name,
+      institution_unique_name = paste(na.omit(c(school$institution_name, school$city, school$state)), collapse = " | "),
+      state = school$state,
+      city = school$city,
+      control_label = school$control_label,
+      category = school$category,
+      latest_termination_date = school$latest_termination_date,
+      total_disrupted_grants = school$total_disrupted_grants,
+      total_disrupted_award_remaining = school$total_disrupted_award_remaining
+    )
+  })
+  write_json_file(research_index, file.path(data_dir, "research_funding_index.json"))
+}
+
+by_school <- df %>%
+  dplyr::group_by(unitid) %>%
+  dplyr::group_split(.keep = TRUE)
+for (school_df in by_school) {
+  unitid <- as.character(school_df$unitid[[1]])
+  school_json <- build_school_file(school_df)
   write_json_file(school_json, file.path(schools_dir, paste0(unitid, ".json")))
 }
 
@@ -613,8 +988,10 @@ cat(sprintf("Saved school files to %s\n", schools_dir))
 cat(sprintf("Saved download CSV to %s\n", file.path(downloads_dir, "full_dataset.csv")))
 if (!is.null(cuts_export)) cat(sprintf("Saved college cuts export to %s\n", file.path(data_dir, "college_cuts.json")))
 if (!is.null(accreditation_export)) cat(sprintf("Saved accreditation export to %s\n", file.path(data_dir, "accreditation.json")))
+if (!is.null(research_export)) cat(sprintf("Saved research funding export to %s\n", file.path(data_dir, "research_funding.json")))
 if (!is.null(cuts_export)) cat(sprintf("Saved college cuts index to %s\n", file.path(data_dir, "college_cuts_index.json")))
 if (!is.null(accreditation_export)) cat(sprintf("Saved accreditation index to %s\n", file.path(data_dir, "accreditation_index.json")))
+if (!is.null(research_export)) cat(sprintf("Saved research funding index to %s\n", file.path(data_dir, "research_funding_index.json")))
 
 invisible(TRUE)
 }

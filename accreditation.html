@@ -13,6 +13,8 @@
       <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab is-active" id="tab-accreditation" href="accreditation.html">Accreditation</a>
+      <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer">Tuition</a>
     </nav>
 
     <header class="masthead">
@@ -30,15 +32,8 @@
       </div>
     </section>
 
-    <section class="search-panel">
-      <label class="search-label" for="school-search">Institution Name:</label>
-      <input id="school-search" class="search" type="search" list="school-options" placeholder="Type or choose a college with tracked actions">
-      <datalist id="school-options"></datalist>
-      <div id="search-results" class="results"></div>
-    </section>
-
     <section class="school-banner">
-      <h1 id="accreditation-school-name">Recent accreditation actions</h1>
+      <h1 id="accreditation-school-name" class="is-hidden"></h1>
     </section>
 
     <section class="school-meta-wrap">
@@ -51,14 +46,26 @@
 
     <section class="data-card">
       <h2>Recent accreditation actions</h2>
-      <button id="accreditation-table-download" class="download-button" type="button">Download Displayed Table</button>
+      <div class="table-toolbar">
+        <div class="table-toolbar-spacer"></div>
+        <div class="table-toolbar-actions">
+          <input id="accreditation-filter" class="table-filter-input" type="search" placeholder="Filter by institution">
+          <button id="accreditation-table-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
       <div id="accreditation-status"></div>
     </section>
 
     <section class="data-card">
       <h2 id="accreditation-other-title">Recent accreditation actions at other institutions</h2>
       <p class="small-meta">This secondary table shows recent accreditation actions at institutions outside the main 4-year financial tracker universe.</p>
-      <button id="accreditation-other-download" class="download-button" type="button">Download Displayed Table</button>
+      <div class="table-toolbar">
+        <div class="table-toolbar-spacer"></div>
+        <div class="table-toolbar-actions">
+          <input id="accreditation-other-filter" class="table-filter-input" type="search" placeholder="Filter by institution">
+          <button id="accreditation-other-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
       <div id="accreditation-other-status"></div>
     </section>
 

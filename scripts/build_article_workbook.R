@@ -9,7 +9,7 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-input_csv <- get_arg_value("--input", "./reporting/ipeds_financial_health_reporting_2014_2024.csv")
+input_csv <- get_arg_value("--input", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
 output_xml <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook_r.xml")
 
 flagship_unitids <- c(
@@ -407,6 +407,7 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "IntlUp10yr", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges ranked by biggest increase in international students over the past 10 years."),
   make_row("Worksheet index", "Flagships", "", "", "", "", "", "", "", "Predominantly baccalaureate public flagships ranked by core stress signals such as enrollment, revenue, and losses."),
   make_row("Worksheet index", "FlagshipFed", "", "", "", "", "", "", "", "Predominantly baccalaureate public flagships ranked by dependence on Pell-adjusted federal grants and contracts."),
+  make_row("Worksheet index", "ResearchLeaders", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges ranked by research spending per FTE, with research spending levels and research spending as a share of core expenses."),
   make_row("Worksheet index", "Loss2024", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges that ended 2024 at a loss."),
   make_row("Worksheet index", "StateDown5yr", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with declining state appropriations over the past 5 years."),
   make_row("Worksheet index", "EndowDown5yr", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with declining endowment value over the past 5 years."),
@@ -451,12 +452,17 @@ all_sheet_columns <- c(
   "discount_rate","discount_pct_change_5yr",
   "federal_grants_contracts_pell_adjusted","federal_grants_contracts_pell_adjusted_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
   "state_funding","state_funding_pct_core_revenue","state_funding_pct_change_5yr",
+  "research_expense","research_expense_per_fte","research_expense_pct_core_expenses","sector_research_spending_n","research_spending_per_fte_percentile","research_spending_peer_bucket",
   "endowment_value","endowment_pct_change_5yr",
   "liquidity","liquidity_percentile_private_nfp","leverage","leverage_percentile_private_nfp",
   "loan_year_latest","federal_loan_pct_most_recent","federal_loan_count_most_recent","federal_loan_avg_most_recent",
   "high_tuition_dependence","high_international_share","high_federal_dependence","multi_signal_score"
 )
 
+missing_all_sheet_columns <- setdiff(all_sheet_columns, names(latest))
+for (nm in missing_all_sheet_columns) {
+  latest[[nm]] <- NA
+}
 all_sheet <- latest[, all_sheet_columns, drop = FALSE]
 all_sheet_bacc <- all_sheet[all_sheet$category == bacc_category_label, , drop = FALSE]
 
@@ -482,6 +488,20 @@ if (nrow(intl10) > 0) intl10 <- intl10[order(-xtfrm(intl10$international_enrollm
 flagships <- sort_df(all_sheet_bacc[all_sheet_bacc$control_label == "Public" & as.integer(all_sheet_bacc$unitid) %in% flagship_unitids, , drop = FALSE], c("enrollment_pct_change_5yr","revenue_pct_change_5yr","loss_amount"))
 flagship_fed <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & as.integer(all_sheet_bacc$unitid) %in% flagship_unitids & !is.na(all_sheet_bacc$federal_grants_contracts_pell_adjusted_pct_core_revenue), , drop = FALSE]
 if (nrow(flagship_fed) > 0) flagship_fed <- flagship_fed[order(-xtfrm(flagship_fed$federal_grants_contracts_pell_adjusted_pct_core_revenue), -xtfrm(flagship_fed$federal_grants_contracts_pell_adjusted), na.last = TRUE), , drop = FALSE]
+research_leaders <- all_sheet_bacc[
+  !is.na(all_sheet_bacc$research_expense_per_fte) & all_sheet_bacc$research_expense_per_fte > 0,
+  , drop = FALSE]
+if (nrow(research_leaders) > 0) {
+  research_leaders <- research_leaders[
+    order(
+      -xtfrm(research_leaders$research_expense_per_fte),
+      -xtfrm(research_leaders$research_expense_pct_core_expenses),
+      -xtfrm(research_leaders$research_expense),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+}
 loss2024 <- sort_df(all_sheet_bacc[all_sheet_bacc$ended_year_at_loss == "Yes", , drop = FALSE], c("loss_amount"))
 state_down5yr <- sort_df(all_sheet_bacc[!is.na(all_sheet_bacc$state_funding_pct_change_5yr) & all_sheet_bacc$state_funding_pct_change_5yr < 0, , drop = FALSE], c("state_funding_pct_change_5yr"))
 endow_down5yr <- sort_df(all_sheet_bacc[!is.na(all_sheet_bacc$endowment_pct_change_5yr) & all_sheet_bacc$endowment_pct_change_5yr < 0, , drop = FALSE], c("endowment_pct_change_5yr"))
@@ -638,6 +658,7 @@ worksheets <- list(
   IntlUp10yr = intl10,
   Flagships = flagships,
   FlagshipFed = flagship_fed,
+  ResearchLeaders = research_leaders,
   Loss2024 = loss2024,
   StateDown5yr = state_down5yr,
   EndowDown5yr = endow_down5yr,

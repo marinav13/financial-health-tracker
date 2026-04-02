@@ -7,7 +7,7 @@ function asNumber(value) {
   return Number.isFinite(n) ? n : null;
 }
 
-function fmtPct(value, digits = 1) {
+function fmtPct(value, digits = 0) {
   const n = asNumber(value);
   if (n === null) return "No data";
   const normalized = Math.abs(n) < (0.5 / (10 ** digits)) ? 0 : n;
@@ -15,10 +15,20 @@ function fmtPct(value, digits = 1) {
   return `${sign}${normalized.toFixed(digits)}%`;
 }
 
-function fmtPlainPct(value, digits = 1) {
+function fmtPlainPct(value, digits = 0) {
   const n = asNumber(value);
   if (n === null) return "No data";
   return `${n.toFixed(digits)}%`;
+}
+
+function fmtCurrency(value) {
+  const n = asNumber(value);
+  if (n === null) return "No data";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0
+  }).format(n);
 }
 
 function setText(id, value) {
@@ -71,6 +81,12 @@ function applyQuestionValueStrip(id, question, value, state = "neutral") {
   applyStrip(id, `${question}<br><strong>${value}</strong>`, state);
 }
 
+function setHidden(id, hidden) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.classList.toggle("is-hidden", Boolean(hidden));
+}
+
 function buildIntlSentence(summary, series) {
   if (summary.international_students_sentence) return summary.international_students_sentence;
   const all = asNumber(summary.pct_international_all);
@@ -93,6 +109,47 @@ function buildIntlSentence(summary, series) {
   }
 
   return "International student data are not available.";
+}
+
+function buildResearchSpendingSentence(profile, summary) {
+  const perFte = asNumber(summary.research_expense_per_fte);
+  const bucket = summary.research_spending_peer_bucket;
+  const sector = String(profile.control_label || "").toLowerCase();
+  const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
+  const institutionName = String(profile.institution_name || "This institution");
+
+  if (perFte === null || !bucket || !sector) {
+    return "Research spending data are not available.";
+  }
+
+  const baseSentence = `${institutionName} spent about ${fmtCurrency(perFte)} per full-time equivalent student on research in 2024, placing it in the ${bucket} of ${sector} four-year institutions in our analysis.`;
+  if (shareOfCoreExpenses === null) {
+    return baseSentence;
+  }
+  return `${baseSentence} Research expenses accounted for ${fmtPlainPct(shareOfCoreExpenses, 1)} of total core expenses.`;
+}
+
+function buildGradLoanSentence(profile, summary) {
+  const sentences = [];
+  const gradShare = asNumber(summary.share_grad_students);
+  const sectorGradShare = asNumber(summary.sector_avg_share_grad_students);
+  const gradPlusPerRecipient = asNumber(summary.grad_plus_disbursements_per_recipient);
+  const sectorGradPlusMedian = asNumber(summary.sector_median_grad_plus_disbursements_per_recipient);
+  const sectorLabel = String(profile.control_label || "").toLowerCase();
+
+  if (gradShare !== null && sectorGradShare !== null && sectorLabel) {
+    sentences.push(
+      `${fmtPlainPct(gradShare, 0)} of students at this institution are graduate students, compared to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
+    );
+  }
+
+  if (gradPlusPerRecipient !== null && sectorGradPlusMedian !== null && sectorLabel) {
+    sentences.push(
+      `Students at this institution borrow about ${fmtCurrency(gradPlusPerRecipient)} in Grad PLUS loans, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
+    );
+  }
+
+  return sentences.join(" ");
 }
 
 function deriveEnrollmentFlag(summary, series) {
@@ -192,6 +249,11 @@ function syncTabs(unitid) {
   if (accreditation) {
     accreditation.href = "accreditation.html";
   }
+
+  const research = document.getElementById("tab-research");
+  if (research) {
+    research.href = "research.html";
+  }
 }
 
 function styleAnswerCard(answerId, value) {
@@ -230,13 +292,15 @@ async function init() {
   setText("school-location", [p.city, p.state].filter(Boolean).join(", "));
   setText("school-urbanization", p.urbanization);
   setText("school-control", p.sector);
-  setText("school-category", p.category);
+  setText("school-graduation-rate", asNumber(s.graduation_rate_6yr) === null ? "No data" : fmtPlainPct(s.graduation_rate_6yr, 0));
+  setText("school-median-earnings", fmtCurrency(s.median_earnings_10yr));
+  setText("school-median-debt", fmtCurrency(s.median_debt_completers));
 
   applyStrip(
     "revenue-change-card",
     asNumber(s.revenue_pct_change_5yr) === null
       ? "Revenue data are not available."
-      : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.revenue_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
+      : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.revenue_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}, after adjusting for inflation.`,
     sentimentClass(s.revenue_pct_change_5yr)
   );
 
@@ -250,13 +314,19 @@ async function init() {
     "net-tuition-change-card",
     asNumber(s.net_tuition_per_fte_change_5yr) === null
       ? "Net tuition revenue per student data are not available."
-      : `Net tuition revenue per student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
+      : `Net tuition revenue per student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)).toFixed(1)}% ${fiveYearRangeText}, after adjusting for inflation.`,
     sentimentClass(s.net_tuition_per_fte_change_5yr)
   );
 
   applyStrip(
     "tuition-sentence-card",
     s.tuition_dependence_vs_sector_median_sentence || "No tuition dependence benchmark is available.",
+    "neutral"
+  );
+
+  applyStrip(
+    "research-spending-card",
+    buildResearchSpendingSentence(p, s),
     "neutral"
   );
 
@@ -282,13 +352,12 @@ async function init() {
     "neutral"
   );
 
-  applyStrip(
-    "loan-card",
-    asNumber(s.federal_loan_pct_most_recent) === null
-      ? "Federal loan data are not available."
-      : `${fmtPlainPct(s.federal_loan_pct_most_recent, 0)} of undergraduates at this institution took out federal loans in the most recent year available.<br>${asNumber(s.sector_avg_federal_loan_pct_most_recent) === null ? "No sector benchmark is available." : `For ${p.control_label.toLowerCase()} colleges, the average was ${fmtPlainPct(s.sector_avg_federal_loan_pct_most_recent, 0)}.`}`,
-    "neutral"
-  );
+  const gradLoanSentence = buildGradLoanSentence(p, s);
+  setHidden("grad-loan-intro", !gradLoanSentence);
+  setHidden("loan-card", !gradLoanSentence);
+  if (gradLoanSentence) {
+    applyStrip("loan-card", gradLoanSentence, "neutral");
+  }
 
   applyStrip(
     "staff-change-card",
@@ -302,21 +371,25 @@ async function init() {
     "endowment-change-card",
     asNumber(s.endowment_pct_change_5yr) === null
       ? "Endowment data are not available."
-      : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.endowment_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}.`,
+      : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${Math.abs(asNumber(s.endowment_pct_change_5yr)).toFixed(1)}% ${fiveYearRangeText}, after adjusting for inflation.`,
     sentimentClass(s.endowment_pct_change_5yr)
   );
 
   const hasFederal =
     (asNumber(s.federal_grants_contracts_pell_adjusted_pct_core_revenue) ?? 0) !== 0 ||
     asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) !== null ||
+    hasMeaningfulData(series.federal_grants_contracts_pell_adjusted) ||
     hasMeaningfulData(series.federal_grants_contracts_pell_adjusted_adjusted);
   const hasState =
     (asNumber(s.state_funding_pct_core_revenue) ?? 0) !== 0 ||
     ((asNumber(s.state_funding_pct_change_5yr) ?? 0) !== 0) ||
     hasMeaningfulData(series.state_funding_adjusted);
+  const hasResearchSpending = asNumber(s.research_expense_per_fte) !== null;
 
   setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
+  setHidden("research-aid-intro", !hasResearchSpending);
+  setHidden("research-spending-card", !hasResearchSpending);
 
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
@@ -360,9 +433,18 @@ async function init() {
     );
   }
 
+  if (hasResearchSpending) {
+    applyStrip(
+      "research-spending-card",
+      buildResearchSpendingSentence(p, s),
+      "neutral"
+    );
+  }
+
   renderLineChart("chart-revenue", {
-    title: "Revenue vs Expenses",
+    title: "Revenue vs Expenses (adjusted for inflation)",
     format: "currency",
+    showTooltip: false,
     series: [
       { label: "Revenue", color: "#009e73", values: toSeries(series.revenue_total_adjusted) },
       { label: "Expenses", color: "#d55e00", values: toSeries(series.expenses_total_adjusted) }
@@ -370,8 +452,9 @@ async function init() {
   });
 
   renderLineChart("chart-net-tuition", {
-    title: "Net Tuition Revenue over time (per full-time equivalent student)",
+    title: "Net Tuition Revenue over time (per full-time equivalent student, adjusted for inflation)",
     format: "currency",
+    showTooltip: false,
     series: [
       { label: "Net Tuition Revenue", color: "#0072b2", values: toSeries(series.net_tuition_per_fte_adjusted) }
     ]
@@ -407,6 +490,7 @@ async function init() {
   renderLineChart("chart-endowment", {
     title: "Endowment value over time",
     format: "currency",
+    showTooltip: false,
     series: [
       { label: "Endowment Value", color: "#0072b2", values: toSeries(series.endowment_value_adjusted) }
     ]
@@ -414,18 +498,27 @@ async function init() {
 
   if (hasFederal) {
     renderLineChart("chart-federal", {
-      title: "Revenue from federal grants and contracts (excluding Pell grants)",
+      title: "Revenue from federal grants and contracts (excluding Pell grants, adjusted for inflation)",
       format: "currency",
+      showTooltip: false,
       series: [
-        { label: "Federal Grants", color: "#0072b2", values: toSeries(series.federal_grants_contracts_pell_adjusted_adjusted) }
+        {
+          label: "Federal Grants",
+          color: "#0072b2",
+          values: toSeries(
+            series.federal_grants_contracts_pell_adjusted ||
+            series.federal_grants_contracts_pell_adjusted_adjusted
+          )
+        }
       ]
     });
   }
 
   if (hasState) {
     renderLineChart("chart-state", {
-      title: "State government appropriations over time",
+      title: "State government appropriations over time (adjusted for inflation)",
       format: "currency",
+      showTooltip: false,
       series: [
         { label: "State Funding", color: "#0072b2", values: toSeries(series.state_funding_adjusted) }
       ]

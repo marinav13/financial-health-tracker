@@ -37,16 +37,11 @@ normalize_names <- function(df) {
     select(-institution_name_latest, -city_latest, -state_latest)
 }
 
-looker_path <- "./looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv"
-report_path <- "./reporting/ipeds_financial_health_reporting_2014_2024.csv"
+dataset_path <- "./ipeds/ipeds_financial_health_dataset_2014_2024.csv"
 
-looker <- read_csv(looker_path, show_col_types = FALSE, guess_max = 100000)
-report <- read_csv(report_path, show_col_types = FALSE, guess_max = 100000)
+dataset <- read_csv(dataset_path, show_col_types = FALSE, guess_max = 100000)
+dataset <- normalize_names(dataset)
 
-looker <- normalize_names(looker)
-report <- normalize_names(report)
+write_csv(dataset, dataset_path, na = "")
 
-write_csv(looker, looker_path, na = "")
-write_csv(report, report_path, na = "")
-
-cat("patched latest display names in looker and reporting outputs\n")
+cat("patched latest display names in canonical IPEDS dataset\n")

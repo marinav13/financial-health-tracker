@@ -2,7 +2,7 @@ library(readr)
 library(dplyr)
 
 df <- read_csv(
-  "./looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv",
+  "./ipeds/ipeds_financial_health_dataset_2014_2024.csv",
   show_col_types = FALSE,
   guess_max = 100000
 )

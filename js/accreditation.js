@@ -52,6 +52,10 @@
     if (accreditation) {
       accreditation.href = "accreditation.html";
     }
+    const research = document.getElementById("tab-research");
+    if (research) {
+      research.href = "research.html";
+    }
   }
 
   function isPrimaryBachelorsInstitution(record) {
@@ -61,6 +65,22 @@
 
   function renderEmpty(message) {
     return `<div class="empty-state"><p>${message}</p></div>`;
+  }
+
+  function financePageLink(unitid, label) {
+    return unitid
+      ? `<a href="${schoolUrl(unitid, "school.html")}">${label || ""}</a>`
+      : (label || "");
+  }
+
+  function normalizeQuery(value) {
+    return String(value || "").trim().toLowerCase();
+  }
+
+  function filterByInstitution(items, query) {
+    const normalized = normalizeQuery(query);
+    if (!normalized) return items || [];
+    return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
   }
 
   function setSectionVisible(id, show) {
@@ -219,6 +239,7 @@
         <ul class="link-list">
           ${financeLink}
           <li><a href="${schoolUrl(unitid, "cuts.html")}">College Cuts</a></li>
+          <li><a href="${schoolUrl(financialUnitid || unitid, "research.html")}">Research Funding Cuts</a></li>
         </ul>
       </div>
     `;
@@ -299,7 +320,7 @@
     const rows = pageRows
       .map((action) => `
         <tr>
-          <td><a href="${schoolUrl(action.unitid, "accreditation.html")}">${escapeHtml(action.institution_name)}</a></td>
+          <td>${financePageLink(action.unitid, escapeHtml(action.institution_name))}</td>
           <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
           <td>${escapeHtml(action.action_label || action.action_type || "")}</td>
           <td>${escapeHtml(action.state || "")}</td>
@@ -345,17 +366,18 @@
     `;
   }
 
-  function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv") {
+  function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null) {
     if (!container) return;
     let currentPage = 1;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
 
     const render = () => {
-      container.innerHTML = renderActionTablePage(actions, currentPage, pageSize, emptyMessage);
-      const totalPages = Math.max(1, Math.ceil(actions.length / pageSize));
+      const filteredActions = filterByInstitution(actions, searchInput?.value || "");
+      container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage);
+      const totalPages = Math.max(1, Math.ceil(filteredActions.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;
-      const pageRows = actions.slice(start, start + pageSize);
+      const pageRows = filteredActions.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageRows.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
@@ -382,6 +404,14 @@
         });
       });
     };
+
+    if (searchInput && !searchInput.dataset.boundFilter) {
+      searchInput.addEventListener("input", () => {
+        currentPage = 1;
+        render();
+      });
+      searchInput.dataset.boundFilter = "true";
+    }
 
     render();
   }
@@ -451,17 +481,22 @@
     }
 
     if (!unitid) {
+      document.getElementById("accreditation-school-name").textContent = "";
+      document.getElementById("accreditation-school-name").classList.add("is-hidden");
       const allActions = buildDefaultActionRows(data);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
       setSectionVisible("accreditation-other-status", true);
+      const primaryFilter = document.getElementById("accreditation-filter");
+      const otherFilter = document.getElementById("accreditation-other-filter");
       setupPagination(
         document.getElementById("accreditation-status"),
         primaryActions,
         PAGE_SIZE,
         "No accreditation actions from 2019 to the present are available for 4-year, primarily bachelor's-degree-granting institutions.",
         "accreditation-table-download",
-        "accreditation-primary.csv"
+        "accreditation-primary.csv",
+        primaryFilter
       );
       setupPagination(
         document.getElementById("accreditation-other-status"),
@@ -469,7 +504,8 @@
         OTHER_PAGE_SIZE,
         "No accreditation actions from 2019 to the present are available for other institutions.",
         "accreditation-other-download",
-        "accreditation-other.csv"
+        "accreditation-other.csv",
+        otherFilter
       );
       return;
     }
@@ -477,11 +513,13 @@
     const school = data.schools?.[unitid];
     if (!school) {
       document.getElementById("accreditation-school-name").textContent = "No tracked accreditation record found";
+      document.getElementById("accreditation-school-name").classList.remove("is-hidden");
       document.getElementById("accreditation-status").innerHTML = renderEmpty("No accreditation actions found.");
       return;
     }
 
     document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
+    document.getElementById("accreditation-school-name").classList.remove("is-hidden");
     setText("accreditation-school-location", [school.city, school.state].filter(Boolean).join(", "));
     setText("accreditation-school-control", school.control_label || "");
     setText("accreditation-school-category", school.category || "");

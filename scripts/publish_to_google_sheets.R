@@ -22,10 +22,10 @@ main <- function(cli_args = NULL) {
 
   input_csv <- get_arg_value(
     "--input",
-    file.path(getwd(), "looker_studio", "ipeds_financial_health_looker_ready_2014_2024.csv")
+    file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
   )
   sheet_id_or_url <- get_arg_value("--sheet", NULL)
-  tab_name <- get_arg_value("--tab", "looker_ready")
+  tab_name <- get_arg_value("--tab", "ipeds_dataset")
   create_name <- get_arg_value("--create", NULL)
   email <- get_arg_value("--email", NA_character_)
   auth_json <- get_arg_value("--auth-json", Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_))

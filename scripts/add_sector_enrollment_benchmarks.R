@@ -46,9 +46,7 @@ add_benchmarks <- function(df) {
 }
 
 paths <- c(
-  "./looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv",
-  "./looker_studio/ipeds_financial_health_looker_ready_2014_2024_rebuilt2.csv",
-  "./reporting/ipeds_financial_health_reporting_2014_2024_rebuilt2.csv"
+  "./ipeds/ipeds_financial_health_dataset_2014_2024.csv"
 )
 
 for (path in paths) {

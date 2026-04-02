@@ -12,6 +12,7 @@ function getSearchSourcePath() {
   const source = document.body.dataset.searchSource || "all";
   if (source === "accreditation") return "data/accreditation_index.json";
   if (source === "cuts") return "data/college_cuts_index.json";
+  if (source === "research") return "data/research_funding_index.json";
   return "data/schools_index.json";
 }
 

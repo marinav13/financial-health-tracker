@@ -1,0 +1,104 @@
+year,table_alias,table_name,output,resolved_var_name,resolved_var_title,matched_pattern
+2024,DRVADM,DRVADM2024,admissions_yield,,,
+2024,DRVEF12,DRVEF122024,fte_12_months,,,
+2024,DRVF,DRVF2024,core_expenses_fasb,F2COREXP,,exact_code_override
+2024,DRVF,DRVF2024,core_expenses_gasb,F1COREXP,,exact_code_override
+2024,DRVF,DRVF2024,core_expenses_pfp,F3COREXP,,exact_code_override
+2024,DRVF,DRVF2024,endowment_assets_per_fte_fasb,,,
+2024,DRVF,DRVF2024,endowment_assets_per_fte_gasb,,,
+2024,DRVF,DRVF2024,gov_grants_fasb,,,
+2024,DRVF,DRVF2024,gov_revenue_fte_fasb,,,
+2024,DRVF,DRVF2024,research_expenses_pct_core_expenses_fasb,F2RSRCPC,,exact_code_override
+2024,DRVF,DRVF2024,research_expenses_pct_core_expenses_gasb,F1RSRCPC,,exact_code_override
+2024,DRVF,DRVF2024,research_expenses_pct_core_expenses_pfp,F3RSRCPC,,exact_code_override
+2024,DRVF,DRVF2024,research_expenses_per_fte_fasb,F2RSRCFT,,exact_code_override
+2024,DRVF,DRVF2024,research_expenses_per_fte_gasb,F1RSRCFT,,exact_code_override
+2024,DRVF,DRVF2024,research_expenses_per_fte_pfp,F3RSRCFT,,exact_code_override
+2024,DRVF,DRVF2024,state_approps_percent_core_gasb,,,
+2024,DRVF,DRVF2024,state_revenue_fte_fasb,,,
+2024,DRVGR,DRVGR2024,transfer_out_rate_bachelor,,,
+2024,DRVHR,DRVHR2024,fte_instructional,,,
+2024,DRVHR,DRVHR2024,fte_total_staff,,,
+2024,EFIA,EFIA2024,fte_graduate,,,
+2024,EFIA,EFIA2024,fte_undergrad,,,
+2024,F1A,F2324_F1A,discounts_allowances_applied_tuition_fees_gasb,,,
+2024,F1A,F2324_F1A,endowment_net_investment_return_gasb,,,
+2024,F1A,F2324_F1A,endowment_spending_distribution_current_use_gasb,,,
+2024,F1A,F2324_F1A,federal_operating_grants_contracts_gasb,,,
+2024,F1A,F2324_F1A,new_gifts_additions_gasb,,,
+2024,F1A,F2324_F1A,research_expenses_total_gasb,F1C021,,exact_code_override
+2024,F1A,F2324_F1A,state_appropriations_gasb,,,
+2024,F1A,F2324_F1A,total_assets_gasb,,,
+2024,F1A,F2324_F1A,total_expenses_deductions_current_total_gasb,,,
+2024,F1A,F2324_F1A,total_liabilities_gasb,,,
+2024,F1A,F2324_F1A,total_operating_nonoperating_revenues_gasb,,,
+2024,F1A,F2324_F1A,tuition_fees_after_discounts_allowances_gasb,,,
+2024,F1A,F2324_F1A,unrestricted_public,,,
+2024,F1A,F2324_F1A,value_endowment_assets_beginning_gasb,,,
+2024,F1A,F2324_F1A,value_endowment_assets_end_gasb,,,
+2024,F2,F2324_F2,allowances_applied_to_tuition_fasb,,,
+2024,F2,F2324_F2,endowment_net_investment_return_fasb,,,
+2024,F2,F2324_F2,federal_grants_contracts_fasb,,,
+2024,F2,F2324_F2,institutional_grants_funded_fasb,,,
+2024,F2,F2324_F2,institutional_grants_unfunded_fasb,,,
+2024,F2,F2324_F2,new_endowment_gifts_fasb,,,
+2024,F2,F2324_F2,pell_grants,,,
+2024,F2,F2324_F2,research_expenses_total_fasb,F2E021,,exact_code_override
+2024,F2,F2324_F2,spending_distribution_for_current_use_fasb,,,
+2024,F2,F2324_F2,state_approps_fasb,,,
+2024,F2,F2324_F2,total_assets_fasb,,,
+2024,F2,F2324_F2,total_expenses_fasb,,,
+2024,F2,F2324_F2,total_liabilities_fasb,,,
+2024,F2,F2324_F2,total_revenues_investment_return_fasb,,,
+2024,F2,F2324_F2,total_unrestricted_net_assets_fasb,,,
+2024,F2,F2324_F2,tuition_and_fees_fasb,,,
+2024,F2,F2324_F2,unrestricted_operating_rev_fasb,,,
+2024,F2,F2324_F2,value_endowment_beginning_fasb,,,
+2024,F2,F2324_F2,value_endowment_end_fasb,,,
+2024,F3,F2324_F3,discounts_allowances_applied_tuition_fees_pfp,,,
+2024,F3,F2324_F3,federal_grants_contracts_pfp,,,
+2024,F3,F2324_F3,institutional_grants_pfp,,,
+2024,F3,F2324_F3,research_expenses_total_pfp,F3E02A1,,exact_code_override
+2024,F3,F2324_F3,state_appropriations_pfp,,,
+2024,F3,F2324_F3,total_assets_pfp,,,
+2024,F3,F2324_F3,total_expenses_total_amount_pfp,,,
+2024,F3,F2324_F3,total_liabilities_pfp,,,
+2024,F3,F2324_F3,total_revenues_investment_return_pfp,,,
+2024,F3,F2324_F3,total_revenues_pfp,,,
+2024,F3,F2324_F3,tuition_fees_pfp,,,
+2024,FLAGS,FLAGS2024,pell_accounting_method_fasb,F2PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (FASB  institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(FASB\s+institutions\)\?$
+2024,FLAGS,FLAGS2024,pell_accounting_method_pfp,F3PELL,Account for Pell grants as pass through transactions or as federal grant revenues to the institution (private-for-profit institutions)?,^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \(private-for-profit institutions\)\?$
+2024,FLAGS,FLAGS2024,reporting_model,FORM_F,"Identifies reporting standards GASB, FASB, or modified FASB(for-profit institutions) used to report finance data","Identifies reporting standards GASB, FASB, or modified FASB"
+2024,HD,HD2024,access_earnings,CARNEGIESAEC,Carnegie Classification 2025: Student Access and Earnings,Student Access and Earnings
+2024,HD,HD2024,category,INSTCAT,Institutional category,^Institutional category$
+2024,HD,HD2024,city,CITY,City location of institution,^City location of institution$
+2024,HD,HD2024,control,CONTROL,Control of institution,^Control of institution$
+2024,HD,HD2024,county,COUNTYNM,County name,^County name$
+2024,HD,HD2024,date_closed,CLOSEDAT,Date institution closed,^Date institution closed$
+2024,HD,HD2024,degree_granting_status,DEGGRANT,Degree-granting status,^Degree-granting status$
+2024,HD,HD2024,grad_offering,GROFFER,Graduate offering,^Graduate offering$
+2024,HD,HD2024,grad_program_mix,CARNEGIEGPM,Carnegie Classification 2025: Graduate Academic Program Mix,Graduate Academic Program Mix
+2024,HD,HD2024,hbcu,HBCU,Historically Black College or University,Historically Black College or University
+2024,HD,HD2024,highest_degree,HDEGOFR1,Highest degree offered,^Highest degree offered$
+2024,HD,HD2024,id_number_multi,F1SYSCOD,Identification number of multi-institution or multi-campus organization,^Identification number of multi-institution or multi-campus organization$
+2024,HD,HD2024,institution_name,INSTNM,Institution (entity) name,^Institution \(entity\) name$
+2024,HD,HD2024,is_active,CYACTIVE,Institution is active in current year,^Institution is active in current year$
+2024,HD,HD2024,latitude,LATITUDE,Latitude location of institution,^Latitude location of institution$
+2024,HD,HD2024,level,ICLEVEL,Level of institution,^Level of institution$
+2024,HD,HD2024,longitude,LONGITUD,Longitude location of institution,^Longitude location of institution$
+2024,HD,HD2024,multi_institution_campus_org,F1SYSTYP,Multi-institution or multi-campus organization,^Multi-institution or multi-campus organization$
+2024,HD,HD2024,name_multi,F1SYSNAM,Name of multi-institution or multi-campus organization,^Name of multi-institution or multi-campus organization$
+2024,HD,HD2024,opeid,OPEID,Office of Postsecondary Education (OPE) ID Number,^Office of Postsecondary Education \(OPE\) ID Number$
+2024,HD,HD2024,region,OBEREG,Bureau of Economic Analysis (BEA) regions,Bureau of Economic Analysis \(BEA\) regions
+2024,HD,HD2024,sector,SECTOR,Sector of institution,^Sector of institution$
+2024,HD,HD2024,size,CARNEGIESIZE,Carnegie Classification 2025: Institutional Size,Institutional Size
+2024,HD,HD2024,state,STABBR,State abbreviation,^State abbreviation$
+2024,HD,HD2024,status,ACT,Status of institution,^Status of institution$
+2024,HD,HD2024,tribal_college,TRIBAL,Tribal college,^Tribal college$
+2024,HD,HD2024,undergrad_program_mix,CARNEGIEAPM,Carnegie Classification 2025: Undergraduate Academic Program Mix,Undergraduate Academic Program Mix
+2024,HD,HD2024,urbanization,LOCALE,Degree of urbanization (Urban-centric locale),Urban-centric locale
+2024,HD,HD2024,zip,ZIP,ZIP code,^ZIP code$
+2024,IC,IC2024,all_programs_distance_education,DISTNCED,All programs offered completely via distance education,^All programs offered completely via distance education$
+2024,IC,IC2024,control_or_affiliation,CNTLAFFI,Institutional control or affiliation,^Institutional control or affiliation$
+2024,IC,IC2024,has_full_time_first_time_undergrad,FT_FTUG,Full time first-time degree/certificate-seeking undergraduate students enrolled,Full time first-time degree/certificate-seeking undergraduate students enrolled
+2024,IC,IC2024,religious_affiliation,RELAFFIL,Religious affiliation,^Religious affiliation$

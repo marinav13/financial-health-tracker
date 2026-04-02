@@ -10,7 +10,7 @@ If you are new to the project, start here:
 Quick summary:
 
 - `scripts/build_ipeds_tracker_dataset.R` builds the raw IPEDS file
-- `scripts/build_looker_ready_metrics.R` builds the Looker and reporting files
+- `scripts/build_ipeds_canonical_dataset.R` builds the canonical IPEDS dataset used by the site and workbook
 - `scripts/build_article_workbook.R` builds the workbook XML
 - the next web step is to create `scripts/build_web_exports.R`
 
@@ -126,10 +126,11 @@ The GitHub repo includes a workflow at:
 
 That workflow:
 
-1. rebuilds the raw IPEDS data
-2. rebuilds the reporting dataset
-3. rebuilds the static site exports in `data/`
-4. commits the updated files back to the repo
+1. rebuilds the raw IPEDS data in `ipeds/`
+2. rebuilds the canonical IPEDS dataset in `ipeds/`
+3. rebuilds the scorecard and graduation joins in `scorecard/`
+4. rebuilds the static site exports in `data/`
+5. commits the updated files back to the repo
 
 After launch, there are three practical ways to use those updates:
 

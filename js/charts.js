@@ -28,6 +28,7 @@ function niceCeiling(value) {
 function renderLineChart(containerId, config) {
   const container = document.getElementById(containerId);
   if (!container) return;
+  const showTooltip = config.showTooltip !== false;
 
   const seriesList = (config.series || []).filter((s) => Array.isArray(s.values) && s.values.length > 0);
   if (!seriesList.length) {
@@ -87,7 +88,10 @@ function renderLineChart(containerId, config) {
   const pointGroups = seriesList.map((series) => series.values.map((point) => {
     const x = xScale(Number(point.year));
     const y = yScale(Number(point.value));
-    return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9"><title>${series.label}: ${formatChartValue(Number(point.value), format)} (${point.year})</title></circle>`;
+    const title = showTooltip
+      ? `<title>${series.label}: ${formatChartValue(Number(point.value), format)} (${point.year})</title>`
+      : "";
+    return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9">${title}</circle>`;
   }).join("")).join("");
 
   const title = config.title ? `<p class="chart-title">${config.title}</p>` : "";
@@ -97,7 +101,7 @@ function renderLineChart(containerId, config) {
 
   container.innerHTML = `
     ${title}
-    <div class="chart-tooltip" aria-hidden="true"></div>
+    ${showTooltip ? '<div class="chart-tooltip" aria-hidden="true"></div>' : ""}
     <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img">
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
@@ -113,11 +117,11 @@ function renderLineChart(containerId, config) {
 
   const svg = container.querySelector("svg");
   const tooltip = container.querySelector(".chart-tooltip");
-  if (!svg || !tooltip) return;
+  if (!svg || !showTooltip || !tooltip) return;
 
   const yearsSorted = Array.from(new Set(years)).sort((a, b) => a - b);
 
-  const showTooltip = (evt) => {
+  const renderTooltip = (evt) => {
     const rect = svg.getBoundingClientRect();
     const localX = ((evt.clientX - rect.left) / rect.width) * width;
     let bestYear = yearsSorted[0];
@@ -145,9 +149,9 @@ function renderLineChart(containerId, config) {
     tooltip.classList.add("visible");
   };
 
-  svg.addEventListener("mousemove", showTooltip);
+  svg.addEventListener("mousemove", renderTooltip);
   svg.addEventListener("touchmove", (evt) => {
-    if (evt.touches && evt.touches[0]) showTooltip(evt.touches[0]);
+    if (evt.touches && evt.touches[0]) renderTooltip(evt.touches[0]);
   }, { passive: true });
   svg.addEventListener("mouseleave", () => tooltip.classList.remove("visible"));
   svg.addEventListener("touchend", () => tooltip.classList.remove("visible"));

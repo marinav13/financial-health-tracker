@@ -27,6 +27,10 @@
     if (accreditation) {
       accreditation.href = "accreditation.html";
     }
+    const research = document.getElementById("tab-research");
+    if (research) {
+      research.href = "research.html";
+    }
   }
 
   function isPrimaryBachelorsInstitution(record) {
@@ -62,6 +66,7 @@
         <ul class="link-list">
           ${financeLink}
           <li><a href="${schoolUrl(unitid, "accreditation.html")}">Accreditation</a></li>
+          <li><a href="${schoolUrl(financialUnitid || unitid, "research.html")}">Research Funding Cuts</a></li>
         </ul>
       </div>
     `;
@@ -105,11 +110,75 @@
     URL.revokeObjectURL(url);
   }
 
-  function renderCutsTable(items) {
+  function compareText(a, b) {
+    return String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
+  }
+
+  function compareDateDesc(a, b) {
+    return String(b || "").localeCompare(String(a || ""));
+  }
+
+  function financePageLink(unitid, label) {
+    return unitid
+      ? `<a href="${schoolUrl(unitid, "school.html")}">${label || ""}</a>`
+      : (label || "");
+  }
+
+  function normalizeQuery(value) {
+    return String(value || "").trim().toLowerCase();
+  }
+
+  function filterByInstitution(items, query) {
+    const normalized = normalizeQuery(query);
+    if (!normalized) return items || [];
+    return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
+  }
+
+  function sortCuts(items, sortState) {
+    const sorted = (items || []).slice();
+    const direction = sortState?.direction === "desc" ? -1 : 1;
+    sorted.sort((a, b) => {
+      if (sortState?.key === "institution_name") {
+        const primary = compareText(a.institution_name, b.institution_name) * direction;
+        if (primary !== 0) return primary;
+        return compareDateDesc(a.announcement_date || a.announcement_year, b.announcement_date || b.announcement_year);
+      }
+      if (sortState?.key === "state") {
+        const primary = compareText(a.state, b.state) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "announcement_date") {
+        const primary = sortState.direction === "asc"
+          ? compareDateDesc(b.announcement_date || b.announcement_year, a.announcement_date || a.announcement_year)
+          : compareDateDesc(a.announcement_date || a.announcement_year, b.announcement_date || b.announcement_year);
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      return compareDateDesc(a.announcement_date || a.announcement_year, b.announcement_date || b.announcement_year);
+    });
+    return sorted;
+  }
+
+  function renderSortControls(key, sortState, label) {
+    const activeKey = sortState?.key || "";
+    const activeDirection = activeKey === key ? sortState.direction : "";
+    const upClass = activeDirection === "asc" ? " is-active" : "";
+    const downClass = activeDirection === "desc" ? " is-active" : "";
+    return `
+      <span class="sort-header-label">${label}</span>
+      <span class="sort-controls" aria-label="Sort ${label}">
+        <button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button>
+        <button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button>
+      </span>
+    `;
+  }
+
+  function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => `
       <tr>
-        <td>${cut.unitid ? `<a href="${schoolUrl(cut.unitid, "cuts.html")}">${cut.institution_name || ""}</a>` : (cut.institution_name || "")}</td>
+        <td>${financePageLink(cut.unitid, cut.institution_name || "")}</td>
         <td>${cut.state || ""}</td>
         <td>${cut.control_label || ""}</td>
         <td>${(cut.program_name || "") + formatAffectedCount(cut)}</td>
@@ -122,11 +191,11 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>Institution</th>
-              <th>State</th>
+              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
+              <th>${renderSortControls("state", sortState, "State")}</th>
               <th>Sector</th>
               <th>Cut</th>
-              <th>Date</th>
+              <th>${renderSortControls("announcement_date", sortState, "Date")}</th>
               <th>Source</th>
             </tr>
           </thead>
@@ -167,7 +236,7 @@
       );
   }
 
-  function renderCutsTablePage(items, page, pageSize, emptyMessage) {
+  function renderCutsTablePage(items, page, pageSize, emptyMessage, sortState) {
     const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
     const safePage = Math.min(Math.max(1, page), totalPages);
     const start = (safePage - 1) * pageSize;
@@ -190,24 +259,27 @@
       .join("");
 
     return `
-      ${renderCutsTable(pageItems)}
+      ${renderCutsTable(pageItems, sortState)}
       <div class="pagination" aria-label="College cuts pages">
         ${pagination}
       </div>
     `;
   }
 
-  function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv") {
+  function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv", searchInput = null) {
     if (!container) return;
     let currentPage = 1;
+    let sortState = { key: "announcement_date", direction: "desc" };
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
 
     const render = () => {
-      container.innerHTML = renderCutsTablePage(items, currentPage, pageSize, emptyMessage);
-      const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+      const filteredItems = filterByInstitution(items, searchInput?.value || "");
+      const sortedItems = sortCuts(filteredItems, sortState);
+      container.innerHTML = renderCutsTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
+      const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;
-      const pageItems = items.slice(start, start + pageSize);
+      const pageItems = sortedItems.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
@@ -232,7 +304,25 @@
           }
         });
       });
+      container.querySelectorAll(".sort-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.sortKey || "announcement_date";
+          const direction = button.dataset.sortDirection || "desc";
+          if (sortState.key === key && sortState.direction === direction) return;
+          sortState = { key, direction };
+          currentPage = 1;
+          render();
+        });
+      });
     };
+
+    if (searchInput && !searchInput.dataset.boundFilter) {
+      searchInput.addEventListener("input", () => {
+        currentPage = 1;
+        render();
+      });
+      searchInput.dataset.boundFilter = "true";
+    }
 
     render();
   }
@@ -248,26 +338,32 @@
     const otherTitle = document.getElementById("cuts-other-section-title");
 
     if (!unitid) {
+      document.getElementById("cuts-school-name").textContent = "";
+      document.getElementById("cuts-school-name").classList.add("is-hidden");
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       setSectionVisible("cuts-other-list", true);
-      title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-Year, Primarily Bachelor's-Degree-Granting Institutions`;
+      title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
-      setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv");
-      setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv");
+      const primaryFilter = document.getElementById("cuts-filter");
+      const otherFilter = document.getElementById("cuts-other-filter");
+      setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
+      setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
       return;
     }
 
     const school = cutsData.schools?.[unitid];
     if (!school) {
       document.getElementById("cuts-school-name").textContent = "No matched cuts found";
+      document.getElementById("cuts-school-name").classList.remove("is-hidden");
       container.innerHTML = renderEmpty("No matched college cuts were found for this institution in the current dataset.");
       title.textContent = "Cuts";
       return;
     }
 
     document.getElementById("cuts-school-name").textContent = school.institution_name || "College Cuts";
+    document.getElementById("cuts-school-name").classList.remove("is-hidden");
     textOrEmpty("cuts-school-location", [school.city, school.state].filter(Boolean).join(", "));
     textOrEmpty("cuts-school-control", school.control_label || "");
     textOrEmpty("cuts-school-category", school.category || "");
@@ -275,7 +371,7 @@
       ? "This institution appears in the main tracker universe because it is a 4-year, primarily bachelor's-degree-granting school with finance data in this project."
       : "This institution appears here because it has matched college cuts data, even though it falls outside the main 4-year financial tracker universe.";
     const financeLinkText = school.financial_unitid
-      ? `You can switch back to <a href="${schoolUrl(school.financial_unitid, "school.html")}">financial trends</a> or open <a href="${schoolUrl(unitid, "accreditation.html")}">accreditation</a>.`
+      ? `You can switch back to <a href="${schoolUrl(school.financial_unitid, "school.html")}">financial trends</a>, open <a href="${schoolUrl(unitid, "accreditation.html")}">accreditation</a>, or view <a href="${schoolUrl(school.financial_unitid, "research.html")}">research funding cuts</a>.`
       : `You can also open <a href="${schoolUrl(unitid, "accreditation.html")}">accreditation</a> for this institution.`;
     const overview = document.getElementById("cuts-overview");
     if (overview) {
@@ -290,11 +386,34 @@
     if (otherDownload) otherDownload.classList.add("is-hidden");
     if (otherContainer) otherContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
-    container.innerHTML = (school.cuts || []).length
-      ? school.cuts.map(renderCutItem).join("") +
-        renderCutsTable((school.cuts || []).map((cut) => ({ ...cut, institution_name: school.institution_name, state: school.state, control_label: school.control_label, unitid: school.unitid }))) +
-        renderInstitutionLinks(school.unitid, school.financial_unitid)
-      : renderEmpty("No matched cuts were found for this institution.");
+    if (!(school.cuts || []).length) {
+      container.innerHTML = renderEmpty("No matched cuts were found for this institution.");
+      return;
+    }
+
+    let detailSortState = { key: "announcement_date", direction: "desc" };
+    const detailRows = (school.cuts || []).map((cut) => ({
+      ...cut,
+      institution_name: school.institution_name,
+      state: school.state,
+      control_label: school.control_label,
+      unitid: school.unitid
+    }));
+    const renderDetailTable = () => {
+      container.innerHTML = school.cuts.map(renderCutItem).join("") +
+        renderCutsTable(detailRows, detailSortState) +
+        renderInstitutionLinks(school.unitid, school.financial_unitid);
+      container.querySelectorAll(".sort-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.sortKey || "announcement_date";
+          const direction = button.dataset.sortDirection || "desc";
+          if (detailSortState.key === key && detailSortState.direction === direction) return;
+          detailSortState = { key, direction };
+          renderDetailTable();
+        });
+      });
+    };
+    renderDetailTable();
   }
 
   init().catch((error) => {

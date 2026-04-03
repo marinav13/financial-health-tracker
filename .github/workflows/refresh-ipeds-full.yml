@@ -33,6 +33,7 @@ jobs:
         with:
           packages: |
             any::dplyr
+            any::httr
             any::jsonlite
             any::purrr
             any::readr
@@ -61,7 +62,17 @@ jobs:
         run: >
           Rscript --vanilla ./scripts/build_college_cuts_join.R
 
-      - name: Refresh research cuts with cache fallback
+      - name: Build unfiltered research join for USAspending analysis
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
+
+      - name: Refresh USAspending reinstatement analysis
+        shell: bash
+        run: >
+          Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
+
+      - name: Refresh research cuts with Proposal G filter
         shell: bash
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R

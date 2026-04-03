@@ -47,10 +47,22 @@ main <- function(cli_args = NULL) {
     "--manual-match-overrides",
     file.path(getwd(), "grant_witness", "manual_match_overrides.csv")
   )
+  usaspending_filter_path <- get_arg_value(
+    "--usaspending-filter",
+    file.path(getwd(), "grant_witness", "analysis", "grant_witness_usaspending_flagged_proposal_G.csv")
+  )
   skip_download <- has_flag("--skip-download")
+  skip_usaspending_filter <- has_flag("--skip-usaspending-filter")
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
+  }
+  if (!skip_usaspending_filter && !file.exists(usaspending_filter_path)) {
+    stop(
+      "USAspending Proposal G filter file not found: ",
+      usaspending_filter_path,
+      ". Run scripts/build_grant_witness_usaspending_sensitivity.R first."
+    )
   }
 
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
@@ -852,6 +864,7 @@ main <- function(cli_args = NULL) {
         function(i) detect_pass_through_phrase(project_title[[i]], project_abstract[[i]]),
         character(1)
       ),
+      award_id_string = stringr::str_match(source_url, "award/([^/?#]+)")[, 2],
       is_pass_through_or_grantmaker = !is.na(pass_through_keyword_match),
       match_method = dplyr::case_when(
         !is.na(city_unitid) ~ "normalized_name_city_state",
@@ -890,6 +903,7 @@ main <- function(cli_args = NULL) {
       award_outlaid,
       award_remaining,
       remaining_field,
+      award_id_string,
       source_url,
       detail_url,
       likely_higher_ed,
@@ -934,6 +948,24 @@ main <- function(cli_args = NULL) {
 
   grants_joined <- grants_joined |>
     dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
+
+  if (skip_usaspending_filter) {
+    usaspending_filter_ids <- tibble::tibble(award_id_string = character())
+    excluded_usaspending_proposal_g_grants <- grants_joined[0, ]
+  } else {
+    usaspending_filter_ids <- readr::read_csv(usaspending_filter_path, show_col_types = FALSE) |>
+      dplyr::transmute(award_id_string = as.character(award_id_string)) |>
+      dplyr::filter(!is.na(award_id_string), trimws(award_id_string) != "") |>
+      dplyr::distinct()
+
+    excluded_usaspending_proposal_g_grants <- grants_joined |>
+      dplyr::filter(currently_disrupted, !is.na(award_id_string)) |>
+      dplyr::semi_join(usaspending_filter_ids, by = "award_id_string") |>
+      dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
+
+    grants_joined <- grants_joined |>
+      dplyr::filter(!(currently_disrupted & !is.na(award_id_string) & award_id_string %in% usaspending_filter_ids$award_id_string))
+  }
 
   institution_summary_long <- grants_joined |>
     dplyr::filter(currently_disrupted, !is.na(organization_name), !is.na(organization_state)) |>
@@ -1016,6 +1048,7 @@ main <- function(cli_args = NULL) {
   unmatched_path <- paste0(output_prefix, "_unmatched_for_review.csv")
   likely_higher_ed_unmatched_path <- paste0(output_prefix, "_likely_higher_ed_unmatched_for_review.csv")
   excluded_pass_through_path <- paste0(output_prefix, "_excluded_pass_through_grants.csv")
+  excluded_usaspending_path <- paste0(output_prefix, "_excluded_usaspending_proposal_g_grants.csv")
 
   higher_ed_summary <- institution_summary_wide |>
     dplyr::filter(!is.na(matched_unitid) | likely_higher_ed)
@@ -1044,6 +1077,7 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(likely_higher_ed_unmatched, likely_higher_ed_unmatched_path)
   write_csv_atomic(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"))
   write_csv_atomic(excluded_pass_through_grants, excluded_pass_through_path)
+  write_csv_atomic(excluded_usaspending_proposal_g_grants, excluded_usaspending_path)
 
   cat(sprintf("Saved grant-level data to %s\n", grant_path))
   cat(sprintf("Saved institution summary (long) to %s\n", summary_long_path))
@@ -1053,6 +1087,7 @@ main <- function(cli_args = NULL) {
   cat(sprintf("Saved likely higher-ed unmatched review file to %s\n", likely_higher_ed_unmatched_path))
   cat(sprintf("Saved likely higher-ed review-ready file to %s\n", paste0(output_prefix, "_likely_higher_ed_review_ready.csv")))
   cat(sprintf("Saved excluded pass-through grants file to %s\n", excluded_pass_through_path))
+  cat(sprintf("Saved excluded USAspending Proposal G grants file to %s\n", excluded_usaspending_path))
 }
 
 if (sys.nframe() == 0) {

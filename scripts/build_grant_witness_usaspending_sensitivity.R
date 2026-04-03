@@ -632,13 +632,89 @@ main <- function(cli_args = NULL) {
       )
     )
 
+  proposal_E_flagged <- comparison |>
+    dplyr::mutate(
+      proposal = "E",
+      continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
+      outlay_signal = amount_or_share_threshold(post_termination_outlays_total, award_remaining, 10000, 0.01),
+      proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & (continuation_signal | outlay_signal)
+    )
+
+  proposal_E_summary <- proposal_E_flagged |>
+    dplyr::filter(proposal_flag) |>
+    dplyr::summarise(
+      proposal = "E",
+      grants_flagged = dplyr::n(),
+      institutions_affected = dplyr::n_distinct(institution_key),
+      excluded_award_remaining = sum(award_remaining, na.rm = TRUE),
+      flagged_with_jul_dec_2025_activity = sum(
+        (post_termination_outlays_jul_dec_2025 > 0) | (post_termination_positive_cont_rev_jul_dec_2025 > 0),
+        na.rm = TRUE
+      ),
+      flagged_with_2026_activity = sum(
+        (post_termination_outlays_2026 > 0) | (post_termination_positive_cont_rev_2026 > 0),
+        na.rm = TRUE
+      )
+    )
+
+  proposal_F_flagged <- comparison |>
+    dplyr::mutate(
+      proposal = "F",
+      continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
+      proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & continuation_signal
+    )
+
+  proposal_F_summary <- proposal_F_flagged |>
+    dplyr::filter(proposal_flag) |>
+    dplyr::summarise(
+      proposal = "F",
+      grants_flagged = dplyr::n(),
+      institutions_affected = dplyr::n_distinct(institution_key),
+      excluded_award_remaining = sum(award_remaining, na.rm = TRUE),
+      flagged_with_jul_dec_2025_activity = sum(
+        (post_termination_outlays_jul_dec_2025 > 0) | (post_termination_positive_cont_rev_jul_dec_2025 > 0),
+        na.rm = TRUE
+      ),
+      flagged_with_2026_activity = sum(
+        (post_termination_outlays_2026 > 0) | (post_termination_positive_cont_rev_2026 > 0),
+        na.rm = TRUE
+      )
+    )
+
+  proposal_G_flagged <- comparison |>
+    dplyr::mutate(
+      proposal = "G",
+      continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
+      proposal_flag = continuation_signal
+    )
+
+  proposal_G_summary <- proposal_G_flagged |>
+    dplyr::filter(proposal_flag) |>
+    dplyr::summarise(
+      proposal = "G",
+      grants_flagged = dplyr::n(),
+      institutions_affected = dplyr::n_distinct(institution_key),
+      excluded_award_remaining = sum(award_remaining, na.rm = TRUE),
+      flagged_with_jul_dec_2025_activity = sum(
+        (post_termination_outlays_jul_dec_2025 > 0) | (post_termination_positive_cont_rev_jul_dec_2025 > 0),
+        na.rm = TRUE
+      ),
+      flagged_with_2026_activity = sum(
+        (post_termination_outlays_2026 > 0) | (post_termination_positive_cont_rev_2026 > 0),
+        na.rm = TRUE
+      )
+    )
+
   proposal_summary <- dplyr::bind_rows(
     proposal_A$summary,
     proposal_B$summary,
     proposal_C_low$summary,
     proposal_C_medium$summary,
     proposal_C_high$summary,
-    proposal_D_summary
+    proposal_D_summary,
+    proposal_E_summary,
+    proposal_F_summary,
+    proposal_G_summary
   ) |>
     dplyr::mutate(
       analyzed_grants = nrow(comparison),
@@ -680,6 +756,18 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(
     proposal_D_flagged |> dplyr::filter(proposal_flag),
     file.path(output_dir, "grant_witness_usaspending_flagged_proposal_D.csv")
+  )
+  write_csv_atomic(
+    proposal_E_flagged |> dplyr::filter(proposal_flag),
+    file.path(output_dir, "grant_witness_usaspending_flagged_proposal_E.csv")
+  )
+  write_csv_atomic(
+    proposal_F_flagged |> dplyr::filter(proposal_flag),
+    file.path(output_dir, "grant_witness_usaspending_flagged_proposal_F.csv")
+  )
+  write_csv_atomic(
+    proposal_G_flagged |> dplyr::filter(proposal_flag),
+    file.path(output_dir, "grant_witness_usaspending_flagged_proposal_G.csv")
   )
 
   cat(sprintf("Saved comparison table to %s\n", file.path(output_dir, "grant_witness_usaspending_comparison.csv")))

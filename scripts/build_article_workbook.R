@@ -434,6 +434,8 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "MultiSignal", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with the highest combined warning-signal score."),
   make_row("Worksheet index", "PrivateCloseRisk", "", "", "", "", "", "", "", "Predominantly baccalaureate private colleges ranked by a transparent closure-risk score built from enrollment decline, repeated losses, ending 2024 at a loss, net tuition decline, high tuition dependence, weak liquidity, high leverage, endowment decline, and instructional staffing cuts."),
   make_row("Worksheet index", "PublicCampusRisk", "", "", "", "", "", "", "", "Predominantly baccalaureate non-flagship public campuses ranked by a restructuring-risk score built from enrollment decline, large 5-year enrollment losses, staffing cuts, rising transfer-out rates, falling state funding, and missing campus-level revenue or expense data."),
+  make_row("Worksheet index", "PublicFinBad50", "", "", "", "", "", "", "", "Top 50 public institutions with the most finance-page indicators currently styled as bad on the site."),
+  make_row("Worksheet index", "PrivateFinBad50", "", "", "", "", "", "", "", "Top 50 private institutions with the most finance-page indicators currently styled as bad on the site."),
   make_row("Worksheet index", "LossTuition", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with repeated losses and high tuition dependence."),
   make_row("Worksheet index", "PrivNFPStress", "", "", "", "", "", "", "", "Predominantly baccalaureate private nonprofits with rising discount rates and falling net tuition per FTE."),
   make_row("Worksheet index", "MultiFront", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with high international share, high federal dependence, negative 5-year revenue change, and losses in at least 3 of the last 10 years."),
@@ -446,6 +448,7 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "FlagshipCuts", "", "", "", "", "", "", "", "Public flagships matched to still-disrupted federal research cuts from Grant Witness."),
   make_row("Worksheet index", "DistressCompare", "", "", "", "", "", "", "", "Year comparison for the distress paragraph framing, including 2024 toplines and 2019/2014 context."),
   make_row("Worksheet index", "IntlOffset10yr", "", "", "", "", "", "", "", "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
+  make_row("Worksheet index", "BiggestDropsNoIntl", "", "", "", "", "", "", "", "All ranked institutions where 2014-2024 enrollment would have fallen further without international enrollment growth, sorted by the biggest implied domestic drops."),
   make_row("Worksheet index", "IntlVulnerable", "", "", "", "", "", "", "", "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
   make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
@@ -571,6 +574,62 @@ private_close_risk <- all_sheet_bacc[all_sheet_bacc$control_label != "Public" & 
 if (nrow(private_close_risk) > 0) private_close_risk <- private_close_risk[order(-xtfrm(private_close_risk$private_closure_risk_score), xtfrm(private_close_risk$net_tuition_per_fte_change_5yr), xtfrm(private_close_risk$revenue_pct_change_5yr), xtfrm(private_close_risk$enrollment_pct_change_5yr), na.last = TRUE), , drop = FALSE]
 public_campus_risk <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !(as.integer(all_sheet_bacc$unitid) %in% flagship_unitids) & !is.na(all_sheet_bacc$public_campus_risk_score), , drop = FALSE]
 if (nrow(public_campus_risk) > 0) public_campus_risk <- public_campus_risk[order(-xtfrm(public_campus_risk$public_campus_risk_score), xtfrm(public_campus_risk$enrollment_pct_change_5yr), xtfrm(public_campus_risk$state_funding_pct_change_5yr), na.last = TRUE), , drop = FALSE]
+
+# Mirror the finance-page card logic so workbook rankings match what readers see on school pages.
+finance_bad <- all_sheet_bacc
+finance_bad$bad_revenue_change <- !is.na(finance_bad$revenue_pct_change_5yr) & finance_bad$revenue_pct_change_5yr <= -5
+finance_bad$bad_latest_loss <- yes_flag(finance_bad$ended_year_at_loss)
+finance_bad$bad_repeat_losses <- yes_flag(finance_bad$losses_last_3_of_5)
+finance_bad$bad_net_tuition_change <- !is.na(finance_bad$net_tuition_per_fte_change_5yr) & finance_bad$net_tuition_per_fte_change_5yr <= -5
+finance_bad$bad_enrollment_change <- !is.na(finance_bad$enrollment_pct_change_5yr) & finance_bad$enrollment_pct_change_5yr <= -5
+finance_bad$bad_enrollment_flag <- yes_flag(finance_bad$enrollment_decline_last_3_of_5)
+finance_bad$bad_staff_change <- !is.na(finance_bad$staff_total_headcount_pct_change_5yr) & finance_bad$staff_total_headcount_pct_change_5yr <= -5
+finance_bad$bad_endowment_change <- !is.na(finance_bad$endowment_pct_change_5yr) & finance_bad$endowment_pct_change_5yr <= -5
+finance_bad$bad_federal_change <- !is.na(finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr) & finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr <= -5
+finance_bad$bad_state_change <- !is.na(finance_bad$state_funding_pct_change_5yr) & finance_bad$state_funding_pct_change_5yr <= -5
+finance_bad$finance_page_bad_count <- rowSums(cbind(
+  finance_bad$bad_revenue_change,
+  finance_bad$bad_latest_loss,
+  finance_bad$bad_repeat_losses,
+  finance_bad$bad_net_tuition_change,
+  finance_bad$bad_enrollment_change,
+  finance_bad$bad_enrollment_flag,
+  finance_bad$bad_staff_change,
+  finance_bad$bad_endowment_change,
+  finance_bad$bad_federal_change,
+  finance_bad$bad_state_change
+), na.rm = TRUE)
+
+public_fin_bad50 <- finance_bad[finance_bad$control_label == "Public", , drop = FALSE]
+if (nrow(public_fin_bad50) > 0) {
+  public_fin_bad50 <- public_fin_bad50[
+    order(
+      -xtfrm(public_fin_bad50$finance_page_bad_count),
+      -xtfrm(public_fin_bad50$warning_score_core),
+      xtfrm(public_fin_bad50$revenue_pct_change_5yr),
+      xtfrm(public_fin_bad50$enrollment_pct_change_5yr),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+  public_fin_bad50 <- utils::head(public_fin_bad50, 50)
+}
+
+private_fin_bad50 <- finance_bad[finance_bad$control_label != "Public", , drop = FALSE]
+if (nrow(private_fin_bad50) > 0) {
+  private_fin_bad50 <- private_fin_bad50[
+    order(
+      -xtfrm(private_fin_bad50$finance_page_bad_count),
+      -xtfrm(private_fin_bad50$warning_score_core),
+      xtfrm(private_fin_bad50$revenue_pct_change_5yr),
+      xtfrm(private_fin_bad50$enrollment_pct_change_5yr),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+  private_fin_bad50 <- utils::head(private_fin_bad50, 50)
+}
+
 loss_tuition <- all_sheet_bacc[!is.na(all_sheet_bacc$loss_years_last_10) & !is.na(all_sheet_bacc$tuition_dependence_pct), , drop = FALSE]
 if (nrow(loss_tuition) > 0) loss_tuition <- loss_tuition[order(-xtfrm(loss_tuition$loss_years_last_10), -xtfrm(loss_tuition$tuition_dependence_pct), xtfrm(loss_tuition$revenue_pct_change_5yr), na.last = TRUE), , drop = FALSE]
 priv_nfp_stress <- all_sheet_bacc[all_sheet_bacc$control_label == "Private not-for-profit" & !is.na(all_sheet_bacc$discount_pct_change_5yr) & !is.na(all_sheet_bacc$net_tuition_per_fte_change_5yr) & all_sheet_bacc$discount_pct_change_5yr > 0 & all_sheet_bacc$net_tuition_per_fte_change_5yr < 0, , drop = FALSE]
@@ -722,6 +781,10 @@ intl_offset_10yr <- intl_offset_10yr[
   , drop = FALSE]
 if (nrow(intl_offset_10yr) > 0) {
   intl_offset_10yr <- intl_offset_10yr[order(xtfrm(intl_offset_10yr$domestic_change_10yr_proxy), -xtfrm(intl_offset_10yr$pct_international_all_pct), na.last = TRUE), , drop = FALSE]
+}
+intl_offset_10yr_ranked <- intl_offset_10yr
+if (nrow(intl_offset_10yr_ranked) > 0) {
+  intl_offset_10yr_ranked$rank_biggest_drop_if_not_for_internationals <- seq_len(nrow(intl_offset_10yr_ranked))
 }
 
 intl_offset_q75 <- if (nrow(intl_offset_10yr) == 0) NA_real_ else q75_safe(intl_offset_10yr$pct_international_all_pct)
@@ -911,6 +974,8 @@ worksheets <- list(
   MultiSignal = multi_signal,
   PrivateCloseRisk = private_close_risk,
   PublicCampusRisk = public_campus_risk,
+  PublicFinBad50 = public_fin_bad50,
+  PrivateFinBad50 = private_fin_bad50,
   LossTuition = loss_tuition,
   PrivNFPStress = priv_nfp_stress,
   MultiFront = multi_front,
@@ -923,6 +988,7 @@ worksheets <- list(
   FlagshipCuts = flagship_cuts,
   DistressCompare = distress_compare,
   IntlOffset10yr = intl_offset_10yr,
+  BiggestDropsNoIntl = intl_offset_10yr_ranked,
   IntlVulnerable = intl_vulnerable,
   IntlVulnLarge = intl_vulnerable_large
 )

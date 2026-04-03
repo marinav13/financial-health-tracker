@@ -24,9 +24,31 @@ function schoolUrl(unitid, page = getSearchTargetPage()) {
   return `${page}?unitid=${encodeURIComponent(unitid)}`;
 }
 
+function tokenizeSearch(value) {
+  return String(value || "")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+function buildSearchHaystack(row) {
+  return [
+    row.institution_name,
+    row.institution_unique_name,
+    row.city,
+    row.state
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
 async function initSearch() {
   const raw = await loadJson(getSearchSourcePath());
-  const schools = (Array.isArray(raw) ? raw : Object.values(raw || {})).slice().sort((a, b) =>
+  const schools = (Array.isArray(raw) ? raw : Object.values(raw || {})).slice().map((row) => ({
+    ...row,
+    _searchHaystack: buildSearchHaystack(row)
+  })).sort((a, b) =>
     String(a.institution_unique_name || a.institution_name || "").localeCompare(
       String(b.institution_unique_name || b.institution_name || "")
     )
@@ -73,15 +95,29 @@ async function initSearch() {
 
   function renderMatches(query) {
     const q = query.trim().toLowerCase();
-    if (!q) {
+    const tokens = tokenizeSearch(query);
+    if (!q || !tokens.length) {
       clearResults();
       return;
     }
-    const matches = schools.filter((row) => {
-      const uniqueName = String(row.institution_unique_name || "").toLowerCase();
-      const institutionName = String(row.institution_name || "").toLowerCase();
-      return uniqueName.includes(q) || institutionName.includes(q);
-    }).slice(0, 8);
+    const matches = schools
+      .filter((row) => tokens.every((token) => row._searchHaystack.includes(token)))
+      .sort((a, b) => {
+        const aName = String(a.institution_name || "").toLowerCase();
+        const bName = String(b.institution_name || "").toLowerCase();
+        const aStarts = aName.startsWith(q) ? 1 : 0;
+        const bStarts = bName.startsWith(q) ? 1 : 0;
+        if (aStarts !== bStarts) return bStarts - aStarts;
+
+        const aUniqueStarts = String(a.institution_unique_name || "").toLowerCase().startsWith(q) ? 1 : 0;
+        const bUniqueStarts = String(b.institution_unique_name || "").toLowerCase().startsWith(q) ? 1 : 0;
+        if (aUniqueStarts !== bUniqueStarts) return bUniqueStarts - aUniqueStarts;
+
+        return String(a.institution_unique_name || a.institution_name || "").localeCompare(
+          String(b.institution_unique_name || b.institution_name || "")
+        );
+      })
+      .slice(0, 8);
 
     if (!matches.length) {
       results.innerHTML = `<div class="result-item is-empty">No matching institutions found.</div>`;

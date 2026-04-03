@@ -1233,8 +1233,8 @@ enrich_group <- function(df) {
     mutate(
       international_students_sentence = case_when(
         is.na(pct_international_all) ~ NA_character_,
-        !is.na(pct_international_undergraduate) & !is.na(pct_international_graduate) ~ paste0(round(pct_international_all * 100, 1), "% of students are international. That includes ", round(pct_international_undergraduate * 100, 1), "% of undergraduates and ", round(pct_international_graduate * 100, 1), "% of graduate students."),
-        TRUE ~ paste0(round(pct_international_all * 100, 1), "% of students are international.")
+        !is.na(pct_international_undergraduate) & !is.na(pct_international_graduate) ~ paste0(round(pct_international_all * 100), "% of students are international. That includes ", round(pct_international_undergraduate * 100), "% of undergraduates and ", round(pct_international_graduate * 100), "% of graduate students."),
+        TRUE ~ paste0(round(pct_international_all * 100), "% of students are international.")
       ),
       enrollment_change_sentence = ifelse(is.na(enrollment_pct_change_5yr), NA_character_, paste0("12-month unduplicated headcount changed by ", round(enrollment_pct_change_5yr, 1), "% over the past five years.")),
       revenue_change_sentence = ifelse(is.na(revenue_pct_change_5yr), NA_character_, paste0("Total revenue changed by ", round(revenue_pct_change_5yr, 1), "% over the past five years.")),
@@ -1368,7 +1368,7 @@ sorted_rows <- sorted_rows %>%
       is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
       TRUE ~ paste0(
         "This college gets ",
-        round(tuition_dependence_pct, 1),
+        round(tuition_dependence_pct),
         "% of its revenue from net tuition, ",
         tolower(case_when(
           abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "about the same as",
@@ -1377,7 +1377,7 @@ sorted_rows <- sorted_rows %>%
           TRUE ~ "compared with"
         )),
         " the median of ",
-        round(sector_median_tuition_dependence_pct, 1),
+        round(sector_median_tuition_dependence_pct),
         "% for ",
         tolower(control_label),
         " colleges."

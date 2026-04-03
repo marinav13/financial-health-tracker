@@ -58,6 +58,10 @@ function latestPoint(values) {
   return series.length ? series[series.length - 1] : null;
 }
 
+function hasNegativePoint(values) {
+  return toSeries(values).some((point) => point.value < 0);
+}
+
 function recentFiveYearRangeText(seriesValues) {
   const values = toSeries(seriesValues);
   if (values.length < 6) return "from 2019 to 2024";
@@ -104,11 +108,11 @@ function buildIntlSentence(summary, series) {
   const grad = asNumber(summary.pct_international_graduate);
 
   if (all !== null && ug !== null && grad !== null) {
-    return `${fmtRoundedPct(all)} of students are international. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`;
+    return `${fmtRoundedPct(all * 100)} of students are international. That includes ${fmtRoundedPct(ug * 100)} of undergraduates and ${fmtRoundedPct(grad * 100)} of graduate students.`;
   }
 
   if (all !== null) {
-    return `${fmtRoundedPct(all)} of students are international.`;
+    return `${fmtRoundedPct(all * 100)} of students are international.`;
   }
 
   const latestIntl = latestPoint(series.enrollment_nonresident_total);
@@ -421,6 +425,7 @@ async function init() {
   setSectionVisibility("state-group", hasState);
   setHidden("research-aid-intro", !hasResearchSpending);
   setHidden("research-spending-card", !hasResearchSpending);
+  setHidden("state-negative-note", !(hasState && hasNegativePoint(series.state_funding_adjusted)));
 
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {

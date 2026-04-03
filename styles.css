@@ -293,6 +293,15 @@ body {
   color: #333;
 }
 
+.chart-note {
+  margin: 0.75rem auto 0;
+  max-width: 760px;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: #5c6a7d;
+  text-align: center;
+}
+
 .metric-strip {
   background: var(--yellow-soft);
   border-radius: 4px;

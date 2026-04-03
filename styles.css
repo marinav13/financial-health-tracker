@@ -6,10 +6,12 @@
   --yellow: #f7d564;
   --yellow-soft: #fae9a8;
   --gold: #d9a441;
-  --status-blue: #0072b2;
-  --status-orange: #d55e00;
-  --line-blue: #0072b2;
-  --line-red: #d55e00;
+  --status-blue: #005ab5;
+  --status-blue-dark: #00478f;
+  --status-orange: #dc3220;
+  --status-orange-dark: #b52618;
+  --line-blue: #005ab5;
+  --line-red: #dc3220;
   --line-green: #009e73;
   --line-orange: #e69f00;
   --line-purple: #cc79a7;
@@ -308,15 +310,34 @@ body {
 
 .metric-strip.negative {
   background: var(--status-orange);
-  border-color: var(--status-orange);
+  border: 2px solid var(--status-orange-dark);
+  border-left: 10px solid var(--status-orange-dark);
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .metric-strip.positive {
   background: var(--status-blue);
   border-color: var(--status-blue);
   color: #ffffff;
+  font-weight: 400;
+}
+
+.metric-strip.positive .metric-question,
+.metric-strip.positive .metric-statement {
+  font-weight: 400;
+}
+
+.metric-strip.positive .metric-answer {
+  font-weight: 600;
+}
+
+.metric-strip.negative .metric-question,
+.metric-strip.negative .metric-statement {
+  font-weight: 600;
+}
+
+.metric-strip.negative .metric-answer {
   font-weight: 700;
 }
 

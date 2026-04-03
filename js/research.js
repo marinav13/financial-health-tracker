@@ -205,7 +205,7 @@
     const institutions = (items || []).length;
     return `
       <article class="metric-strip neutral">
-        <div class="metric-statement">Since 2025, the federal government has cut at least ${formatCurrency(funding)} in research grants that were supposed to go to at least ${institutions.toLocaleString("en-US")} colleges and universities nationwide.</div>
+        <div class="metric-statement">Since January 2025, the federal government has cut at least <strong>${formatCurrency(funding)}</strong> in research grants that were supposed to go to at least <strong>${institutions.toLocaleString("en-US")}</strong> colleges and universities nationwide.</div>
       </article>
     `;
   }

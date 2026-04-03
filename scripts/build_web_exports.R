@@ -4,6 +4,8 @@ args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 # This script turns the canonical IPEDS dataset plus the joined cuts,
 # accreditation, research, and scorecard files into the JSON payloads used by
 # the static site.
+# The helpers below focus on making those exports resilient to missing values so
+# a sparse field in one source does not break the generated pages.
 get_arg_value <- function(flag, default) {
   idx <- match(flag, args)
   if (!is.na(idx) && idx < length(args)) {
@@ -188,6 +190,8 @@ build_series <- function(df, value_col, scale = 1) {
 
 build_cuts_export <- function() {
   # Build the site payload for the college cuts page and related downloads.
+  # This keeps the landing-page summaries and school-level cut tables derived
+  # from the same joined cuts file.
   if (!file.exists(cuts_path)) return(NULL)
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE) %>%
@@ -305,6 +309,8 @@ build_cuts_export <- function() {
 build_accreditation_export <- function() {
   # Build the accreditation landing-page and school-level payloads from the
   # joined accreditation summary and actions files.
+  # Coverage notes are carried through so missing source support can be surfaced
+  # explicitly instead of showing silent blanks.
   if (!file.exists(accreditation_summary_path) || !file.exists(accreditation_actions_path)) return(NULL)
 
   normalize_accreditor_name <- function(x) {
@@ -463,6 +469,8 @@ build_accreditation_export <- function() {
 
 build_research_export <- function() {
   # Build the Grant Witness research-funding payloads used on the research page.
+  # This export reads the already-filtered research join, so Proposal G and the
+  # pass-through exclusions are reflected everywhere the site shows research cuts.
   if (!file.exists(research_summary_path) || !file.exists(research_grants_path)) return(NULL)
 
   summary_df <- readr::read_csv(research_summary_path, show_col_types = FALSE) %>%

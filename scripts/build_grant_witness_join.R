@@ -1,6 +1,8 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  # Allow scheduled jobs and local rebuilds to override inputs without editing
+  # the script body.
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
@@ -10,6 +12,8 @@ main <- function(cli_args = NULL) {
     flag %in% args
   }
 
+  # Package loading is handled here so the script can run as a standalone data
+  # build step in GitHub Actions or from a local shell.
   ensure_packages <- function(pkgs) {
     missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
     if (length(missing) > 0) {
@@ -20,6 +24,8 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "readr", "stringr", "tidyr"))
 
+  # Write outputs atomically so a failed build never replaces a previously good
+  # joined dataset with a partial CSV.
   write_csv_atomic <- function(df, path) {
     tmp <- paste0(path, ".tmp")
     on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
@@ -68,6 +74,8 @@ main <- function(cli_args = NULL) {
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
+  # These are the raw Grant Witness agency files that feed the research-cuts
+  # join. They are cached on disk so weekly refreshes can fall back cleanly.
   downloads <- c(
     nih = "https://files.grant-witness.us/nih_terminations.csv",
     nsf = "https://files.grant-witness.us/nsf_terminations.csv",
@@ -79,6 +87,8 @@ main <- function(cli_args = NULL) {
   cached_paths <- file.path(cache_dir, paste0(names(downloads), "_terminations.csv"))
   names(cached_paths) <- names(downloads)
 
+  # The matching logic depends on very aggressive name normalization because
+  # legal entity names, abbreviations, and punctuation vary across sources.
   normalize_name <- function(x) {
     x |>
       as.character() |>
@@ -199,6 +209,9 @@ main <- function(cli_args = NULL) {
     ) & !has_campus_anchor
   }
 
+  # These phrases are the explicit text cues we use to identify awards that
+  # look like grantmaking/pass-through programs rather than direct university
+  # research grants.
   pass_through_exclusion_phrases <- c(
     "grantmaker initiative",
     "regional grantmaker",
@@ -217,6 +230,8 @@ main <- function(cli_args = NULL) {
     "subaward administration"
   )
 
+  # Return the matched phrase list so the exclusion remains auditable rather
+  # than acting like an opaque boolean flag.
   detect_pass_through_phrase <- function(project_title, project_abstract) {
     text <- paste(project_title, project_abstract, sep = " ")
     text <- text |>
@@ -376,6 +391,8 @@ main <- function(cli_args = NULL) {
       stringr::str_to_lower()
   }
 
+  # Grant Witness status labels differ slightly by agency, so centralize the
+  # rule that decides whether an award still belongs in the disrupted universe.
   is_currently_disrupted <- function(agency, status) {
     status_norm <- normalize_status(status)
     dplyr::case_when(
@@ -917,6 +934,8 @@ main <- function(cli_args = NULL) {
       in_financial_tracker
     )
 
+  # After matching institutions, keep one best row per award/institution pair
+  # so later summaries do not double-count grants created by many-to-many joins.
   grants_joined <- grants_joined |>
     dplyr::mutate(
       match_priority = dplyr::case_when(
@@ -942,6 +961,8 @@ main <- function(cli_args = NULL) {
     dplyr::select(-match_priority, -grant_match_key) |>
     dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
 
+  # First remove obvious pass-through/grantmaker awards, but keep an audit file
+  # so we can review exactly which grants were filtered and why.
   excluded_pass_through_grants <- grants_joined |>
     dplyr::filter(currently_disrupted, is_pass_through_or_grantmaker) |>
     dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
@@ -949,6 +970,9 @@ main <- function(cli_args = NULL) {
   grants_joined <- grants_joined |>
     dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
 
+  # Proposal G exclusions are calculated in a separate USAspending analysis
+  # script. When this build runs in analysis mode we skip them, and when it
+  # runs in production mode we apply the saved award-id list here.
   if (skip_usaspending_filter) {
     usaspending_filter_ids <- tibble::tibble(award_id_string = character())
     excluded_usaspending_proposal_g_grants <- grants_joined[0, ]
@@ -967,6 +991,8 @@ main <- function(cli_args = NULL) {
       dplyr::filter(!(currently_disrupted & !is.na(award_id_string) & award_id_string %in% usaspending_filter_ids$award_id_string))
   }
 
+  # The institution summaries are built only after all grant-level exclusions
+  # are applied so totals on the page and in downloads stay in sync.
   institution_summary_long <- grants_joined |>
     dplyr::filter(currently_disrupted, !is.na(organization_name), !is.na(organization_state)) |>
     dplyr::mutate(

@@ -1,11 +1,15 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  # Read optional command-line overrides so the same script can run locally
+  # and in scheduled refresh jobs without editing hard-coded paths.
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
   }
 
+  # Install/load the small set of packages this analysis needs so the script
+  # remains self-contained in GitHub Actions and local rebuilds.
   ensure_packages <- function(pkgs) {
     missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
     if (length(missing) > 0) {
@@ -18,6 +22,8 @@ main <- function(cli_args = NULL) {
 
   `%||%` <- function(x, y) if (is.null(x) || length(x) == 0) y else x
 
+  # Write to a temp file first so a failed run never leaves behind a partial
+  # analysis CSV that later scripts might treat as complete.
   write_csv_atomic <- function(df, path) {
     tmp <- paste0(path, ".tmp")
     on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
@@ -52,12 +58,17 @@ main <- function(cli_args = NULL) {
 
   safe_num <- function(x) suppressWarnings(as.numeric(x))
 
+  # Grant Witness and USAspending both contain blank strings in date fields, so
+  # normalize those to NA before parsing.
   parse_date_safe <- function(x) {
     x <- as.character(x)
     x[!nzchar(x)] <- NA_character_
     as.Date(x)
   }
 
+  # USAspending funding rows are reported by fiscal year/month. Convert them to
+  # the last calendar date in that reporting period so we can compare them to
+  # Grant Witness termination dates.
   period_end_date_from_fiscal <- function(fy, fm) {
     fy <- as.integer(fy)
     fm <- as.integer(fm)
@@ -68,6 +79,8 @@ main <- function(cli_args = NULL) {
     as.Date(sprintf("%04d-%02d-01", next_month_year, next_month)) - 1
   }
 
+  # The empirical proposals use the positive-value distribution of observed
+  # activity, so these helpers compute stable cut points from the comparison set.
   quantile_lookup <- function(values, probs) {
     if (length(values) == 0) {
       stats::setNames(rep(NA_real_, length(probs)), paste0("p", probs * 100))
@@ -92,12 +105,17 @@ main <- function(cli_args = NULL) {
     !is.na(x) & is.finite(x) & x >= threshold
   }
 
+  # Several proposals allow a grant to qualify either because the dollar amount
+  # is large on its own or because it is meaningful relative to the disrupted
+  # balance Grant Witness reports for that award.
   amount_or_share_threshold <- function(amount, remaining, amount_threshold, share_threshold) {
     amount_hit <- !is.na(amount) & amount >= amount_threshold
     share_hit <- !is.na(amount) & !is.na(remaining) & remaining > 0 & amount >= (share_threshold * remaining)
     amount_hit | share_hit
   }
 
+  # Cache every USAspending response locally so reruns can reuse the same award
+  # snapshots instead of hitting the network again for unchanged awards.
   fetch_json_cached <- function(path, verb = c("GET", "POST"), url, body = NULL, pause_seconds = 0, retries = 5) {
     verb <- match.arg(verb)
     if (!file.exists(path)) {
@@ -210,6 +228,9 @@ main <- function(cli_args = NULL) {
     dplyr::bind_rows(parts)
   }
 
+  # Start from the joined grant-level file and keep only higher-ed awards that
+  # Grant Witness still treats as currently disrupted and that we can map to a
+  # USAspending award page.
   grants <- readr::read_csv(grant_input, show_col_types = FALSE) |>
     dplyr::mutate(
       currently_disrupted = as.logical(currently_disrupted),
@@ -237,6 +258,8 @@ main <- function(cli_args = NULL) {
     stop("No eligible currently disrupted higher-ed grants with USAspending award ids were found.")
   }
 
+  # Pull detail, transaction, and funding-history signals for one award and
+  # reduce them to the measures used by proposals A-G.
   analyze_one_award <- function(row) {
     award_id_string <- row$award_id_string[[1]]
     error_stub <- tibble::tibble(
@@ -333,6 +356,9 @@ main <- function(cli_args = NULL) {
           action_type_description = toupper(as.character(action_type_description))
         )
 
+      # Positive post-termination continuations/revisions are the clearest sign
+      # that money may still be moving even after Grant Witness marked a grant
+      # disrupted, so we track them separately from outlays.
       positive_cont_rev <- transactions |>
         dplyr::filter(
           !is.na(action_date),
@@ -367,6 +393,8 @@ main <- function(cli_args = NULL) {
         post_termination_outlays_2026 = 0
       )
     } else {
+      # Funding rows accumulate within a fiscal year, so convert them to
+      # positive increments before summing post-termination outlays.
       funding <- funding |>
         dplyr::mutate(
           reporting_fiscal_year = as.integer(reporting_fiscal_year),
@@ -453,6 +481,8 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  # Build the comparison table one award at a time so cached responses and
+  # partial progress are reusable on long runs.
   comparison <- purrr::map_dfr(seq_len(nrow(grants)), function(i) {
     if (i %% 50 == 0) {
       cat(sprintf("Processed %s / %s awards\n", i, nrow(grants)))
@@ -517,6 +547,7 @@ main <- function(cli_args = NULL) {
     if (length(value) == 0) NA_real_ else value[[1]]
   }
 
+  # Proposal C uses observed cut points rather than hand-picked thresholds.
   empirical_cuts <- list(
     low = list(
       amount = get_cutpoint("post_termination_outlays_total", "p50"),
@@ -607,6 +638,7 @@ main <- function(cli_args = NULL) {
   proposal_C_medium <- apply_empirical_rule(comparison, "medium", empirical_cuts$medium)
   proposal_C_high <- apply_empirical_rule(comparison, "high", empirical_cuts$high)
 
+  # Proposal D is the deliberately aggressive outer-bound sensitivity check.
   proposal_D_flagged <- comparison |>
     dplyr::mutate(
       proposal = "D",
@@ -632,6 +664,8 @@ main <- function(cli_args = NULL) {
       )
     )
 
+  # Proposal E is the broader caution-first screen that also allows outlay-only
+  # evidence to trigger exclusion.
   proposal_E_flagged <- comparison |>
     dplyr::mutate(
       proposal = "E",
@@ -657,6 +691,8 @@ main <- function(cli_args = NULL) {
       )
     )
 
+  # Proposal F narrows that approach to grants with future/recent periods of
+  # performance plus positive post-termination continuation/revision activity.
   proposal_F_flagged <- comparison |>
     dplyr::mutate(
       proposal = "F",
@@ -681,6 +717,10 @@ main <- function(cli_args = NULL) {
       )
     )
 
+  # Proposal G is the production filter: if Grant Witness still marks a grant
+  # disrupted but USAspending shows positive continuation/revision activity
+  # after the Grant Witness termination date, treat it as too risky to keep in
+  # the currently disrupted totals.
   proposal_G_flagged <- comparison |>
     dplyr::mutate(
       proposal = "G",

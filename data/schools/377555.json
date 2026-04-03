@@ -20,6 +20,8 @@
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": 3.3875,
     "staff_instructional_headcount_pct_change_5yr": -3.8576,
+    "students_per_instructional_staff_fte": 22.4052,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
@@ -40,7 +42,7 @@
     "pct_international_graduate": 24.5053,
     "international_student_count_change_5yr": -330,
     "international_enrollment_pct_change_5yr": -47.8261,
-    "international_students_sentence": "5.2% of students are international. That includes 3.2% of undergraduates and 24.5% of graduate students.",
+    "international_students_sentence": "In 2024, 5.2% of students were international. That includes 3.2% of undergraduates and 24.5% of graduate students.",
     "federal_loan_pct_most_recent": 20,
     "sector_avg_federal_loan_pct_most_recent": 37.9232,
     "grad_plus_recipients": null,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
+    "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": 65,
     "median_earnings_10yr": 78466,
     "median_debt_completers": 14615,
@@ -340,6 +343,8 @@
       }
     ],
     "endowment_value_adjusted": [],
+    "endowment_spending_current_use": [],
+    "endowment_spending_current_use_pct_core_revenue": [],
     "federal_grants_contracts_pell_adjusted_adjusted": [],
     "state_funding_adjusted": []
   }

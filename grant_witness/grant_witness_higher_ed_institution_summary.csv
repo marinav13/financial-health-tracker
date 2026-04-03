@@ -1,93 +1,83 @@
 institution_key,matched_unitid,display_name,display_city,display_state,tracker_control_label,tracker_category,likely_higher_ed,nsf_disrupted_grants,epa_disrupted_grants,nih_disrupted_grants,cdc_disrupted_grants,samhsa_disrupted_grants,nsf_disrupted_award_remaining,epa_disrupted_award_remaining,nih_disrupted_award_remaining,cdc_disrupted_award_remaining,samhsa_disrupted_award_remaining,total_disrupted_grants,total_disrupted_award_remaining
-unitid:166027,166027,Harvard University,Cambridge,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,10,0,0,0,58242.06,42481406.43,0,13,42539648.49
 unitid:228653,228653,The University of Texas Medical Branch at Galveston,Galveston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,5,0,0,0,0,37001650.13,0,0,5,37001650.13
-unitid:162928,162928,Johns Hopkins University,Baltimore,Maryland,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,24,2,0,3077181.77,527797.51,12128309.94,11081018.89,0,32,26814308.11
-unitid:170976,170976,University of Michigan-Ann Arbor,Ann Arbor,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,24,1,15,1,0,8584516.364814814,8185.58000000008,16028569.81,927859.38,0,41,25549131.134814814
 unitid:104151,104151,Arizona State University,Tempe,Arizona,Public,"Degree-granting, primarily baccalaureate or above",TRUE,26,2,0,1,0,23164292.48459568,91288.76999999996,0,2091243.25,0,29,25346824.50459568
 unitid:190150,190150,Columbia University in the City of New York,New York,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",FALSE,0,1,0,4,0,0,52580.1800000001,0,23902088.599999998,0,5,23954668.779999997
 unitid:158802,158802,Dillard University,New Orleans,Louisiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,1,0,0,0,19713610,267305.26,0,0,2,19980915.26
 unitid:234076,234076,University of Virginia,Charlottesville,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,2,0,0,0,0,19842810.09,0,0,0,2,19842810.09
 unitid:147767,147767,Northwestern University,Evanston,Illinois,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,13,0,14,1,0,5706689.56,0,13396615.72,353607.67,0,28,19456912.95
-unitid:126614,126614,University of Colorado Boulder,Boulder,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,24,4,1,0,0,16422209.6,860965.19,1064278,0,0,29,18347452.79
-unitid:179867,179867,Washington University in St Louis,St. Louis,Missouri,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,21,0,0,3646836.19,66750.6800000001,13385043.040000001,0,0,27,17098629.91
+unitid:126614,126614,University of Colorado Boulder,Boulder,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,24,4,0,0,0,16422209.6,860965.19,0,0,0,28,17283174.79
 unitid:228796,228796,The University of Texas at El Paso,El Paso,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,13,0,2,0,0,13973769.100000001,0,2413621.86,0,0,15,16387390.96
-unitid:228778,228778,The University of Texas at Austin,Austin,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,15,3,5,1,0,12854081.86,1155150.79,1916263.54,336975,0,24,16262471.19
-unitid:215293,215293,University of Pittsburgh-Pittsburgh Campus,Pittsburgh,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,0,21,0,0,6263069.7700000005,0,9706659.39,0,0,31,15969729.16
-unitid:236948,236948,University of Washington,Seattle,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,17,4,2,0,0,7533460.937832647,8358021.47,36234.4400000001,0,0,23,15927716.847832646
-unitid:228723,228723,Texas A&M University,College Station,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,3,2,0,0,0,14384043.14,175428.89,0,0,5,14559472.030000001
-unitid:233921,233921,Virginia Polytechnic Institute and State University,Blacksburg,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,3,8,0,0,5168814.51,1567130.1,6579657.29,0,0,21,13315601.9
-unitid:215062,215062,University of Pennsylvania,Philadelphia,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,22,0,0,1038551.1000000001,0,12191241.31,0,0,27,13229792.41
-unitid:144050,144050,University of Chicago,Chicago,Illinois,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,10,0,0,6534838.88,0,5737573.641353712,0,0,15,12272412.521353712
-unitid:130794,130794,Yale University,New Haven,Connecticut,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,24,0,0,833878.86,0,11290861.17,0,0,27,12124740.03
-unitid:NA,,Baylor College of Medicine,Houston,Texas,,,TRUE,0,0,16,0,0,0,0,11680301.31,0,0,16,11680301.31
+unitid:236948,236948,University of Washington,Seattle,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,17,4,1,0,0,7533460.937832647,8358021.47,15975.22,0,0,22,15907457.627832647
+unitid:170976,170976,University of Michigan-Ann Arbor,Ann Arbor,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,24,1,5,1,0,8584516.364814814,8185.58000000008,6289830.58,927859.38,0,31,15810391.904814815
+unitid:228778,228778,The University of Texas at Austin,Austin,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,15,3,4,1,0,12854081.86,1155150.79,967267.54,336975,0,23,15313475.19
+unitid:179867,179867,Washington University in St Louis,St. Louis,Missouri,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,17,0,0,3646836.19,66750.6800000001,11488167.040000001,0,0,23,15201753.91
+unitid:228723,228723,Texas A&M University,College Station,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,3,1,0,0,0,14384043.14,4097.89000000001,0,0,4,14388141.030000001
+unitid:144050,144050,University of Chicago,Chicago,Illinois,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,6,0,0,6534838.88,0,5330053.03,0,0,11,11864891.91
+unitid:233921,233921,Virginia Polytechnic Institute and State University,Blacksburg,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,3,6,0,0,5168814.51,1567130.1,4824915.29,0,0,19,11560859.9
 unitid:131520,131520,Howard University,Washington,District Of Columbia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,2,0,0,8179020.83,0,2314508.0100000002,0,0,11,10493528.84
-unitid:234030,234030,Virginia Commonwealth University,Richmond,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,9,0,0,3261830.3,0,6987603.24,0,0,15,10249433.54
-unitid:171100,171100,Michigan State University,East Lansing,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,17,1,4,0,0,8352984.529269407,1263525.55,574234.27,0,0,22,10190744.349269407
-unitid:100663,100663,University of Alabama at Birmingham,Birmingham,Alabama,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,13,0,0,1158468.84,24784.67,8793486.87,0,0,15,9976740.379999999
+unitid:171100,171100,Michigan State University,East Lansing,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,17,1,3,0,0,8352984.529269407,1263525.55,229837.18,0,0,21,9846347.259269407
 unitid:174066,174066,University of Minnesota,Minneapolis,Minnesota,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,4,1,0,0,0,7417613.83,2334832.55,0,0,5,9752446.379999999
-unitid:204796,204796,The Ohio State University,Columbus,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,3,0,1,0,4299617.68,1410633.45,0,3655677.45,0,15,9365928.58
 unitid:163268,163268,University of Maryland-Baltimore County,Baltimore,Maryland,Public,"Degree-granting, primarily baccalaureate or above",FALSE,6,0,0,0,0,9291320.91,0,0,0,0,6,9291320.91
 unitid:129020,129020,University of Connecticut,Storrs,Connecticut,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,2,0,0,0,3675556.2865543896,5579985.16,0,0,0,12,9255541.446554389
-unitid:229027,229027,The University of Texas at San Antonio,San Antonio,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,0,8,0,0,7122425.886296296,0,1924245.28,0,0,19,9046671.166296296
-unitid:139658,139658,Emory University,Atlanta,Georgia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,3,17,0,0,1484330.32,961458.3800000001,6395959.239999999,0,0,25,8841747.94
-unitid:212054,212054,Drexel University,Philadelphia,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,2,4,0,0,2792293.73,433581.97,5489413.74,0,0,12,8715289.44
+unitid:100663,100663,University of Alabama at Birmingham,Birmingham,Alabama,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,12,0,0,1158468.84,24784.67,7975963.869999999,0,0,14,9159217.379999999
 unitid:188030,188030,New Mexico State University-Main Campus,Las Cruces,New Mexico,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,0,0,0,3152396.5,5544169.61,0,0,0,6,8696566.11
-unitid:193900,193900,New York University,New York,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,12,1,13,0,0,3335897.9000000004,109458.58,5143269.5,0,0,26,8588625.98
+unitid:162928,162928,Johns Hopkins University,Baltimore,Maryland,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,18,0,0,3077181.77,527797.51,4989398.36,0,0,24,8594377.64
+unitid:215293,215293,University of Pittsburgh-Pittsburgh Campus,Pittsburgh,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,0,11,0,0,6263069.7700000005,0,2212852.04,0,0,21,8475921.81
+unitid:215062,215062,University of Pennsylvania,Philadelphia,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,14,0,0,1038551.1000000001,0,7363741.31,0,0,19,8402292.41
 unitid:100858,100858,Auburn University,Auburn,Alabama,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,8351968.32,0,0,0,0,5,8351968.32
-unitid:134130,134130,University of Florida,Gainesville,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,14,0,0,2727387.42,0,5191897.15,0,0,22,7919284.57
-unitid:198419,198419,Duke University,Durham,North Carolina,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,1,18,0,0,245670.78999999998,41018.44,7612450.21,0,0,22,7899139.4399999995
-unitid:NA,,Icahn School of Medicine at Mount Sinai,New York,New York,,,TRUE,0,0,8,0,0,0,0,7881374.9996616095,0,0,8,7881374.9996616095
-unitid:218663,218663,University of South Carolina-Columbia,Columbia,South Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,6,0,0,1006789.7000000001,0,6713299.62,0,0,9,7720089.32
+unitid:212054,212054,Drexel University,Philadelphia,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,2,3,0,0,2792293.73,433581.97,4907509.74,0,0,11,8133385.44
+unitid:229027,229027,The University of Texas at San Antonio,San Antonio,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,0,7,0,0,7122425.886296296,0,990263.2799999999,0,0,18,8112689.166296296
 unitid:122409,122409,San Diego State University,San Diego,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,1,0,0,0,1525624.59,6095058.79,0,0,0,7,7620683.38
-unitid:104179,104179,University of Arizona,Tucson,Arizona,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,1,1,0,0,1390238.04,5536532.58,602701.49,0,0,8,7529472.11
-unitid:234076,234076,University of Virginia-Main Campus,Charlottesville,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,0,6,0,0,6908881.837037037,0,583127.52,0,0,16,7492009.357037038
-unitid:168148,168148,Tufts University,Medford,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,6,0,0,1125273.5,0,6135239.26,0,0,10,7260512.76
 unitid:138947,138947,Clark Atlanta University,Atlanta,Georgia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,7252896.25,0,0,0,0,2,7252896.25
-unitid:204796,204796,The The Ohio State University,Columbus,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,8,0,0,0,0,7023781.8,0,0,8,7023781.8
-unitid:243744,243744,Stanford University,Stanford,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,16,0,0,643890.09,0,6309000.257202798,0,0,22,6952890.347202797
+unitid:234076,234076,University of Virginia-Main Campus,Charlottesville,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,0,5,0,0,6908881.837037037,0,62084.520000000004,0,0,15,6970966.357037037
+unitid:104179,104179,University of Arizona,Tucson,Arizona,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,1,0,0,0,1390238.04,5536532.58,0,0,0,7,6926770.62
+unitid:234030,234030,Virginia Commonwealth University,Richmond,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,7,0,0,3261830.3,0,3627750.2399999998,0,0,13,6889580.539999999
 unitid:156125,156125,Wichita State University,Wichita,Kansas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,0,0,0,888958.36,5937963.92,0,0,0,2,6826922.28
+unitid:NA,,Baylor College of Medicine,Houston,Texas,,,TRUE,0,0,9,0,0,0,0,6781715.96,0,0,9,6781715.96
 unitid:167358,167358,Northeastern University,Boston,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,4,1,0,5869819.539999999,0,465712.1300000001,359199.04,0,9,6694730.709999999
-unitid:123961,123961,University of Southern California,Los Angeles,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,15,0,0,1381535.4200000002,0,5290262.63,0,0,20,6671798.05
 unitid:137351,137351,University of South Florida,Tampa,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,15,0,2,0,0,6246638.005274725,0,363219.13,0,0,17,6609857.135274725
 unitid:209542,209542,Oregon State University,Corvallis,Oregon,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,3,0,0,0,3576680.32,2949227.95,0,0,0,7,6525908.27
 unitid:141486,141486,Chaminade University of Honolulu,Honolulu,Hawaii,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,6426068.77,0,0,0,0,1,6426068.77
-unitid:180461,180461,Montana State University,Bozeman,Montana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,2,0,0,309918.21,6061376.97,26291,0,0,5,6397586.18
-unitid:157085,157085,University of Kentucky,Lexington,Kentucky,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,6,0,0,3463164.71,0,2849108.38,0,0,12,6312273.09
-unitid:178396,178396,University of Missouri-Columbia,Columbia,Missouri,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,5,0,0,776211.0700000001,0,5527015.4399999995,0,0,9,6303226.51
+unitid:180461,180461,Montana State University,Bozeman,Montana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,1,0,0,309918.21,6061376.97,12248,0,0,4,6383543.18
 unitid:190150,190150,Columbia University in the City of New York,New York,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,0,0,0,6279096.275994513,0,0,0,0,8,6279096.275994513
+unitid:218663,218663,University of South Carolina-Columbia,Columbia,South Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,4,0,0,1006789.7000000001,0,5239039.62,0,0,7,6245829.32
 unitid:139959,139959,University of Georgia,Athens,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,0,4,0,0,3538246.9499999997,0,2656644.2600000002,0,0,15,6194891.21
-unitid:243780,243780,Purdue University-Main Campus,West Lafayette,Indiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,1,4,0,0,4870559.8,146147.67,792023.85,0,0,16,5808731.319999999
-unitid:145637,145637,University of Illinois Urbana-Champaign,Champaign,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,1,0,0,5625983.482870201,0,33786.83,0,0,9,5659770.312870201
-unitid:199193,199193,North Carolina State University at Raleigh,Raleigh,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,2,0,0,4272804.105485661,0,1166473,0,0,11,5439277.105485661
-unitid:160755,160755,Tulane University of Louisiana,New Orleans,Louisiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,4,0,0,519356.37999999995,0,4912948.7,0,0,8,5432305.08
+unitid:NA,,Icahn School of Medicine at Mount Sinai,New York,New York,,,TRUE,0,0,5,0,0,0,0,6087210.07966161,0,0,5,6087210.07966161
+unitid:204796,204796,The Ohio State University,Columbus,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,3,0,0,0,4299617.68,1410633.45,0,0,0,14,5710251.13
+unitid:243780,243780,Purdue University-Main Campus,West Lafayette,Indiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,1,3,0,0,4870559.8,146147.67,686366.85,0,0,15,5703074.319999999
+unitid:168148,168148,Tufts University,Medford,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,2,0,0,1125273.5,0,4531306.5,0,0,6,5656580
+unitid:145637,145637,University of Illinois Urbana-Champaign,Champaign,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,0,0,0,5625983.482870201,0,0,0,0,8,5625983.482870201
+unitid:193900,193900,New York University,New York,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,12,1,9,0,0,3335897.9000000004,109458.58,2003713.5,0,0,22,5449069.98
+unitid:160755,160755,Tulane University of Louisiana,New Orleans,Louisiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,3,0,0,519356.37999999995,0,4896615.63,0,0,7,5415972.01
 unitid:199102,199102,North Carolina A & T State University,Greensboro,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,1,0,0,0,5246251.03,89647.6599999999,0,0,0,9,5335898.69
 unitid:232186,232186,George Mason University,Fairfax,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,0,0,0,5331546.36,0,0,0,0,8,5331546.36
-unitid:195030,195030,University of Rochester,Rochester,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,5,0,0,1059973.62,0,4230399.03,0,0,6,5290372.65
-unitid:240444,240444,University of Wisconsin-Madison,Madison,Wisconsin,Public,"Degree-granting, primarily baccalaureate or above",TRUE,16,0,1,0,0,5138144.073666835,0,42344.64,0,0,17,5180488.713666835
+unitid:204796,204796,The The Ohio State University,Columbus,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,4,0,0,0,0,5272567.8,0,0,4,5272567.8
+unitid:240444,240444,University of Wisconsin-Madison,Madison,Wisconsin,Public,"Degree-granting, primarily baccalaureate or above",TRUE,16,0,0,0,0,5138144.073666835,0,0,0,0,16,5138144.073666835
 unitid:225511,225511,University of Houston,Houston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,11,0,2,0,0,2491881.75,0,2634260.16,0,0,13,5126141.91
 unitid:145725,145725,Illinois Institute of Technology,Chicago,Illinois,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,5117908.26,0,0,0,0,1,5117908.26
 unitid:NA,,Spelman College,Atlanta,Georgia,,,TRUE,3,0,1,0,0,242454.53999999998,0,4854705.39,0,0,4,5097159.93
+unitid:139658,139658,Emory University,Atlanta,Georgia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,3,10,0,0,1484330.32,961458.3800000001,2552128.779999999,0,0,18,4997917.479999999
 unitid:133951,133951,Florida International University,Miami,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,16,1,4,0,0,4615318.103424657,74140.3799999999,303240.130000001,0,0,21,4992698.613424658
 unitid:144005,144005,Chicago State University,Chicago,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,4992454.66,0,0,0,0,5,4992454.66
+unitid:157085,157085,University of Kentucky,Lexington,Kentucky,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,3,0,0,3463164.71,0,1465164.38,0,0,9,4928329.09
+unitid:199193,199193,North Carolina State University at Raleigh,Raleigh,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,1,0,0,4272804.105485661,0,484783,0,0,10,4757587.105485661
 unitid:162007,162007,Bowie State University,Bowie,Maryland,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,4660052.993150685,0,0,0,0,3,4660052.993150685
-unitid:NA,,University of Puerto Rico Medical Sciences,San Juan,Puerto Rico,,,TRUE,0,0,2,0,0,0,0,4555698.140000001,0,0,2,4555698.140000001
 unitid:NA,,University of Wisconsin System,Madison,Wisconsin,,,TRUE,0,6,0,0,0,0,4529953.76,0,0,0,6,4529953.76
-unitid:145600,145600,University of Illinois Chicago,Chicago,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,5,0,0,2939880.914131627,0,1566510.85,0,0,9,4506391.764131627
+unitid:134130,134130,University of Florida,Gainesville,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,8,0,0,2727387.42,0,1778614.05,0,0,16,4506001.47
 unitid:182281,182281,University of Nevada-Las Vegas,Las Vegas,Nevada,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,4479065.67,0,0,0,0,6,4479065.67
-unitid:181464,181464,University of Nebraska-Lincoln,Lincoln,Nebraska,Public,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,2,0,0,4397895.26,0,24472.480000000032,0,0,11,4422367.74
-unitid:207500,207500,University of Oklahoma-Norman Campus,Norman,Oklahoma,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,1,1,0,0,1729177.71,1530815.99,1150230,0,0,6,4410223.7
+unitid:130794,130794,Yale University,New Haven,Connecticut,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,15,0,0,833878.86,0,3603874.81,0,0,18,4437753.67
+unitid:181464,181464,University of Nebraska-Lincoln,Lincoln,Nebraska,Public,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,1,0,0,4397895.26,0,8983.72000000003,0,0,10,4406878.9799999995
 unitid:NA,,University of Kansas Center for Research Inc,Lawrence,Kansas,,,TRUE,4,0,0,0,0,4385758.25,0,0,0,0,4,4385758.25
 unitid:230764,230764,University of Utah,Salt Lake City,Utah,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,0,0,0,4335392.44,0,0,0,0,8,4335392.44
-unitid:NA,,University of Texas Health Sciences Center,San Antonio,Texas,,,TRUE,0,0,8,0,0,0,0,4184469.52,0,0,8,4184469.52
+unitid:195030,195030,University of Rochester,Rochester,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,3,0,0,1059973.62,0,3245547.66,0,0,4,4305521.28
 unitid:174066,174066,University of Minnesota-Twin Cities,Minneapolis,Minnesota,Public,"Degree-granting, primarily baccalaureate or above",TRUE,13,0,0,0,0,4174563.53,0,0,0,0,13,4174563.53
+unitid:NA,,University of Texas Health Sciences Center,San Antonio,Texas,,,TRUE,0,0,7,0,0,0,0,4151242.83,0,0,7,4151242.83
 unitid:163286,163286,University of Maryland-College Park,College Park,Maryland,Public,"Degree-granting, primarily baccalaureate or above",TRUE,13,2,1,0,0,3573792.6,472481.1,59676.1,0,0,16,4105949.8000000003
-unitid:221999,221999,Vanderbilt University,Nashville,Tennessee,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,9,0,0,2095109.35,200195.44,1660041.92,0,0,15,3955346.71
-unitid:164988,164988,Boston University,Boston,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,7,1,4,0,0,2770644.32,311011.45,872028.65,0,0,12,3953684.42
+unitid:243744,243744,Stanford University,Stanford,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,10,0,0,643890.09,0,3365236.4972027973,0,0,16,4009126.587202797
 unitid:126818,126818,Colorado State University-Fort Collins,Fort Collins,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,10,3,0,0,0,3109080.8,811754.19,0,0,0,13,3920834.9899999998
-unitid:416801,416801,The University of Texas MD Anderson Cancer Center,Houston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,5,0,0,0,0,3878199.4299999997,0,0,5,3878199.4299999997
 unitid:196413,196413,Syracuse University,Syracuse,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,3829366.347962963,0,0,0,0,4,3829366.347962963
-unitid:153658,153658,University of Iowa,Iowa City,Iowa,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,7,0,0,1760552.33,0,2043478.9100000001,0,0,11,3804031.24
 unitid:140553,140553,Morehouse College,Atlanta,Georgia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,3766315.9200000004,0,0,0,0,3,3766315.9200000004
+unitid:145600,145600,University of Illinois Chicago,Chicago,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,3,0,0,2939880.914131627,0,803947.85,0,0,7,3743828.764131627
 unitid:228723,228723,Texas A&M University-College Station,College Station,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,0,0,0,3697654.189122486,0,0,0,0,9,3697654.189122486
 unitid:NA,,University of North Carolina Greensboro,Greensboro,North Carolina,,,TRUE,6,0,1,0,0,3654641.25,0,14165.01,0,0,7,3668806.26
 unitid:482149,482149,Augusta University,Augusta,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,3658993.07,0,0,3,3658993.07
@@ -98,48 +88,47 @@ unitid:151351,151351,Indiana University-Bloomington,Bloomington,Indiana,Public,"
 unitid:139940,139940,Georgia State University,Atlanta,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,8,0,2,0,0,3206652.12,0,190966.57,0,0,10,3397618.69
 unitid:131469,131469,George Washington University,Washington,District Of Columbia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,9,0,3,0,0,1575571.18,0,1786065.61,0,0,12,3361636.79
 unitid:166638,166638,University of Massachusetts-Boston,Boston,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,3358769.07,0,0,0,0,4,3358769.07
+unitid:164988,164988,Boston University,Boston,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,7,1,3,0,0,2770644.32,311011.45,269406.65,0,0,11,3351062.42
 unitid:198464,198464,East Carolina University,Greenville,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,1,0,0,3337470.74,0,11678.17,0,0,2,3349148.91
 unitid:NA,,University of Hawaii,Honolulu,Hawaii,,,TRUE,7,0,0,0,0,3317266.07,0,0,0,0,7,3317266.07
-unitid:151111,151111,Indiana University-Indianapolis,Indianapolis,Indiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,9,0,0,0,0,3275732.86,0,0,9,3275732.86
-unitid:NA,,Wake Forest University Health Sciences,Winston-Salem,North Carolina,,,TRUE,0,0,8,0,0,0,0,3269202.56,0,0,8,3269202.56
-unitid:201645,201645,Case Western Reserve University,Cleveland,Ohio,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,7,0,0,22955.34,0,3238638.25,0,0,8,3261593.59
+unitid:207500,207500,University of Oklahoma-Norman Campus,Norman,Oklahoma,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,1,0,0,0,1729177.71,1530815.99,0,0,0,5,3259993.7
 unitid:102094,102094,University of South Alabama,Mobile,Alabama,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,3176961.641481481,0,0,0,0,2,3176961.641481481
 unitid:214041,214041,Millersville University of Pennsylvania,Millersville,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,3150383.9,0,0,0,0,1,3150383.9
-unitid:228769,228769,The University of Texas at Arlington,Arlington,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,1,0,0,1885835.24,0,1210595,0,0,3,3096430.24
 unitid:NA,,"University of California, San Francisco",San Francisco,California,,,TRUE,0,0,1,3,1,0,0,3409.42,2805475.81,280270.13,5,3089155.36
 unitid:175856,175856,Jackson State University,Jackson,Mississippi,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,2,0,0,0,2979156.388589212,29442.14,0,0,0,7,3008598.5285892123
-unitid:NA,,Vanderbilt University Medical Center,Nashville,Tennessee,,,TRUE,0,0,4,0,0,0,0,2980033.08,0,0,4,2980033.08
 unitid:NA,,University of Alabama,Tuscaloosa,Alabama,,,TRUE,3,0,0,0,0,2973467.37,0,0,0,0,3,2973467.37
 unitid:193654,193654,The New School,New York,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",FALSE,0,1,0,0,0,0,2947266.56,0,0,0,1,2947266.56
-unitid:157289,157289,University of Louisville,Louisville,Kentucky,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,6,0,0,0,0,2925869.43,0,0,6,2925869.43
 unitid:106263,106263,University of Arkansas for Medical Sciences,Little Rock,Arkansas,Public,"Degree-granting, primarily baccalaureate or above",FALSE,0,0,6,0,0,0,0,2919483.6799999997,0,0,6,2919483.6799999997
 unitid:NA,,University of Puerto Rico Medical Sciences Campus,San Juan,Puerto Rico,,,TRUE,1,0,0,0,0,2814957.49,0,0,0,0,1,2814957.49
 unitid:177551,177551,Harris-Stowe State University,Saint Louis,Missouri,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,2814456.47,0,0,0,0,1,2814456.47
 unitid:130493,130493,Southern Connecticut State University,New Haven,Connecticut,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,2729416.83,0,0,0,0,1,2729416.83
-unitid:217882,217882,Clemson University,Clemson,South Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,1,3,0,0,1953756.67,74767.82,647155.3699999999,0,0,7,2675679.86
+unitid:153658,153658,University of Iowa,Iowa City,Iowa,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,5,0,0,1760552.33,0,957793.98,0,0,9,2718346.31
+unitid:151111,151111,Indiana University-Indianapolis,Indianapolis,Indiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,7,0,0,0,0,2693371.36,0,0,7,2693371.36
 unitid:122755,122755,San Jose State University,San Jose,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,0,0,0,2375993.18,258269.37,0,0,0,6,2634262.5500000003
 unitid:207388,207388,Oklahoma State University-Main Campus,Stillwater,Oklahoma,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,2,0,0,0,1120141.94,1481498.32,0,0,0,3,2601640.26
 unitid:105330,105330,Northern Arizona University,Flagstaff,Arizona,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,2589619.65,0,0,0,0,4,2589619.65
-unitid:164924,164924,Boston College,Chestnut Hill,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,2,0,0,0,0,2558872,0,0,2,2558872
+unitid:217882,217882,Clemson University,Clemson,South Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,1,2,0,0,1953756.67,74767.82,529093.3699999999,0,0,6,2557617.86
+unitid:416801,416801,The University of Texas MD Anderson Cancer Center,Houston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,2515845.83,0,0,3,2515845.83
 unitid:221838,221838,Tennessee State University,Nashville,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,2512670.69,0,0,0,0,2,2512670.69
 unitid:142115,142115,Boise State University,Boise,Idaho,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,2488700.65,0,0,0,0,6,2488700.65
 unitid:185262,185262,Kean University,Union,New Jersey,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,2424948.0439726,0,0,0,0,2,2424948.0439726
 unitid:100654,100654,Alabama A&M University,Normal,Alabama,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,2387359.51,0,0,0,0,4,2387359.51
-unitid:201885,201885,University of Cincinnati-Main Campus,Cincinnati,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,2,0,0,1539031.6500000001,0,820455.78,0,0,8,2359487.43
+unitid:198419,198419,Duke University,Durham,North Carolina,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,1,9,0,0,245670.78999999998,41018.44,2054109.9,0,0,13,2340799.13
+unitid:221999,221999,Vanderbilt University,Nashville,Tennessee,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,1,6,0,0,2095109.35,200195.44,28779.16,0,0,12,2324083.95
 unitid:199157,199157,North Carolina Central University,Durham,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,2318974.34,0,0,0,0,3,2318974.34
 unitid:235097,235097,Eastern Washington University,Cheney,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,2256306.04,0,0,0,0,3,2256306.04
 unitid:227216,227216,University of North Texas,Denton,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,2245476.9,0,0,0,0,6,2245476.9
 unitid:NA,,University of The Virgin Islands,Charlotte Amalie,Virgin Islands,,,TRUE,2,0,0,0,0,2236928.72,0,0,0,0,2,2236928.72
 unitid:209807,209807,Portland State University,Portland,Oregon,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,2,0,0,0,1836040.5046296301,400798.68,0,0,0,8,2236839.1846296303
 unitid:237011,237011,Western Washington University,Bellingham,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,2222934.16,0,0,0,0,5,2222934.16
-unitid:223232,223232,Baylor University,Waco,Texas,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,2180559,0,0,1,2180559
 unitid:NA,,University of Central Florida,Orlando,Florida,,,TRUE,3,1,0,0,0,2167741.4699999997,3522.58,0,0,0,4,2171264.05
+unitid:123961,123961,University of Southern California,Los Angeles,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,8,0,0,1381535.4200000002,0,717177.52,0,0,13,2098712.9400000004
 unitid:NA,,CUNY Borough of Manhattan Community College,New York,New York,,,TRUE,1,0,0,0,0,2095291.61,0,0,0,0,1,2095291.61
 unitid:234155,234155,Virginia State University,Petersburg,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,2075936.63,0,0,0,0,1,2075936.63
 unitid:186380,186380,Rutgers University-New Brunswick,New Brunswick,New Jersey,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,2004319.45,0,0,0,0,5,2004319.45
 unitid:106397,106397,University of Arkansas,Fayetteville,Arkansas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,7,0,0,0,0,1993449.9600000002,0,0,0,0,7,1993449.9600000002
 unitid:218335,218335,Medical University of South Carolina,Charleston,South Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,6,0,0,0,92988.72,1898854.3285714285,0,0,7,1991843.0485714285
-unitid:NA,,Albert Einstein College of Medicine,Bronx,New York,,,TRUE,0,0,12,0,0,0,0,1983896.7,0,0,12,1983896.7
+unitid:228769,228769,The University of Texas at Arlington,Arlington,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,1885835.24,0,0,0,0,2,1885835.24
 unitid:NA,,California Polytechnic State University Foundation,San Luis Obispo,California,,,TRUE,2,0,0,0,0,1884422.9,0,0,0,0,2,1884422.9
 unitid:225885,225885,Jarvis Christian University,Hawkins,Texas,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1870029.41,0,0,0,0,1,1870029.41
 unitid:NA,,University of Alaska Anchorage Campus,Anchorage,Alaska,,,TRUE,1,0,0,0,0,1853520.18,0,0,0,0,1,1853520.18
@@ -147,73 +136,70 @@ unitid:NA,,Hinds Community College-Utica,Raymond,Mississippi,,,TRUE,1,0,0,0,0,18
 unitid:186399,186399,Rutgers University-Newark,Newark,New Jersey,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,1803975.4,0,0,0,0,4,1803975.4
 unitid:NA,,University of Wisconsin System,Milwaukee,Wisconsin,,,TRUE,0,1,0,0,0,0,1791741.24,0,0,0,1,1791741.24
 unitid:159391,159391,Louisiana State University and Agricultural & Mechanical College,Baton Rouge,Louisiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,7,0,0,0,0,1760452.3189010988,0,0,0,0,7,1760452.3189010988
-unitid:228459,228459,Texas State University,San Marcos,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,2,0,0,923198.6900000001,0,828870.05,0,0,5,1752068.7400000002
 unitid:227368,227368,The University of Texas Rio Grande Valley,Edinburg,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,7,0,0,0,0,1718960.31,0,0,0,0,7,1718960.31
 unitid:106412,106412,University of Arkansas at Pine Bluff,Pine Bluff,Arkansas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1709080.63,0,0,0,0,1,1709080.63
 unitid:NA,,Fielding Graduate University,Santa Barbara,California,,,TRUE,2,0,0,0,0,1680111.29,0,0,0,0,2,1680111.29
 unitid:199120,199120,University of North Carolina at Chapel Hill,Chapel Hill,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,4,0,0,0,1133246.26,538996.9800000001,0,0,0,9,1672243.2400000002
-unitid:NA,,University of Connecticut Storrs,Storrs-Mansfield,Connecticut,,,TRUE,0,0,5,0,0,0,0,1664104.15,0,0,5,1664104.15
 unitid:NA,,Texas Tech University System,Lubbock,Texas,,,TRUE,0,1,0,0,0,0,1662466.05,0,0,0,1,1662466.05
+unitid:201645,201645,Case Western Reserve University,Cleveland,Ohio,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,5,0,0,22955.34,0,1615222.25,0,0,6,1638177.59
 unitid:227881,227881,Sam Houston State University,Huntsville,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1634172.2,0,0,0,0,1,1634172.2
-unitid:NA,,Utah State Higher Education System--University of Utah,Salt Lake City,Utah,,,TRUE,0,0,8,0,0,0,0,1615370.95,0,0,8,1615370.95
 unitid:199999,199999,Winston-Salem State University,Winston-Salem,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,1596596.1300000001,0,0,0,0,3,1596596.1300000001
 unitid:217484,217484,University of Rhode Island,Kingston,Rhode Island,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,1576030.25,0,0,0,0,6,1576030.25
 unitid:232265,232265,Hampton University,Hampton,Virginia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,1562928.49,0,0,0,0,4,1562928.49
 unitid:214777,214777,Pennsylvania State University,University Park,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,4,0,0,0,0,1561019.8,0,0,4,1561019.8
 unitid:166629,166629,University of Massachusetts-Amherst,Amherst,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,1558202.4200000002,0,0,0,0,3,1558202.4200000002
+unitid:201885,201885,University of Cincinnati-Main Campus,Cincinnati,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,1,0,0,1539031.6500000001,0,3330.57000000001,0,0,7,1542362.2200000002
 unitid:NA,,Medical College of Wisconsin,Milwaukee,Wisconsin,,,TRUE,0,0,6,0,0,0,0,1492207.94,0,0,6,1492207.94
 unitid:NA,,Claremont Graduate University,Claremont,California,,,TRUE,2,0,1,0,0,1485355.51,0,985.430000000051,0,0,3,1486340.94
 unitid:NA,,University of Puerto Rico,San Juan,Puerto Rico,,,TRUE,1,0,0,0,0,1480771.16,0,0,0,0,1,1480771.16
 unitid:199139,199139,University of North Carolina at Charlotte,Charlotte,North Carolina,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,1471861.36,0,0,0,0,5,1471861.36
-unitid:211440,211440,Carnegie Mellon University,Pittsburgh,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,1,1,0,0,1082444.2,96966.04,291119,0,0,8,1470529.24
-unitid:135726,135726,University of Miami,Coral Gables,Florida,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,11,0,0,348293.08,58853.97,1061444.4600000002,0,0,13,1468591.5100000002
-unitid:191241,191241,Fordham University,Bronx,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,1460325,0,0,1,1460325
 unitid:NA,,St. Petersburg College,Clearwater,Florida,,,TRUE,1,0,0,0,0,1418739.09,0,0,0,0,1,1418739.09
 unitid:155399,155399,Kansas State University,Manhattan,Kansas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1401186.35,0,0,0,0,1,1401186.35
 unitid:229115,229115,Texas Tech University,Lubbock,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,1400052.3900000001,0,0,0,0,6,1400052.3900000001
+unitid:178396,178396,University of Missouri-Columbia,Columbia,Missouri,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,2,0,0,776211.0700000001,0,613428.62,0,0,6,1389639.69
 unitid:NA,,University of Illinois,Urbana,Illinois,,,TRUE,0,3,0,0,0,0,1338145.12,0,0,0,3,1338145.12
 unitid:NA,,Dona Ana Branch Community College,Las Cruces,New Mexico,,,TRUE,1,0,0,0,0,1327873.46,0,0,0,0,1,1327873.46
 unitid:122597,122597,San Francisco State University,San Francisco,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1324350.07,0,0,0,0,1,1324350.07
+unitid:166027,166027,Harvard University,Cambridge,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,5,0,0,0,58242.06,1241483.3900000001,0,8,1299725.4500000002
 unitid:227757,227757,Rice University,Houston,Texas,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,1288493.33,0,0,0,0,6,1288493.33
 unitid:138354,138354,University of West Florida,Pensacola,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1283809.67,0,0,0,0,1,1283809.67
-unitid:NA,,University of Texas Health Sciences Center Houston,Houston,Texas,,,TRUE,0,0,6,0,0,0,0,1269033.09,0,0,6,1269033.09
+unitid:NA,,Wake Forest University Health Sciences,Winston-Salem,North Carolina,,,TRUE,0,0,4,0,0,0,0,1279665.11,0,0,4,1279665.11
 unitid:NA,,"Teachers College, Columbia University",New York,New York,,,TRUE,2,0,0,0,0,1267366.4,0,0,0,0,2,1267366.4
 unitid:NA,,Loyola University of Chicago,Chicago,Illinois,,,TRUE,3,0,1,0,0,802720.424661792,0,461730.53,0,0,4,1264450.9546617921
 unitid:121150,121150,Pepperdine University,Malibu,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1234349.92,0,0,0,0,1,1234349.92
 unitid:217156,217156,Brown University,Providence,Rhode Island,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,1211865.3599999999,0,0,0,0,4,1211865.3599999999
-unitid:221759,221759,The University of Tennessee-Knoxville,Knoxville,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,1,0,0,387441.41,0,813235.87,0,0,6,1200677.28
 unitid:110547,110547,California State University-Dominguez Hills,Carson,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,1197241.03,0,0,0,0,3,1197241.03
 unitid:131399,131399,University of the District of Columbia,Washington,District Of Columbia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,1,0,0,1032158.58,0,152883.39,0,0,3,1185041.97
 unitid:141644,141644,Hawaii Pacific University,Honolulu,Hawaii,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1185000,0,0,0,0,1,1185000
+unitid:211440,211440,Carnegie Mellon University,Pittsburgh,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,6,1,0,0,0,1082444.2,96966.04,0,0,0,7,1179410.24
 unitid:191968,191968,Ithaca College,Ithaca,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1178139.24,0,0,0,0,1,1178139.24
+unitid:135726,135726,University of Miami,Coral Gables,Florida,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,10,0,0,348293.08,58853.97,769373.4600000002,0,0,12,1176520.5100000002
 unitid:195003,195003,Rochester Institute of Technology,Rochester,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",FALSE,5,0,0,0,0,1165202.27,0,0,0,0,5,1165202.27
 unitid:NA,,University of Colorado at Denver-Downtown Campus,Denver,Colorado,,,TRUE,1,0,0,0,0,1159696.34,0,0,0,0,1,1159696.34
 unitid:216339,216339,Temple University,Philadelphia,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,0,0,0,438966.83,704395.57,0,0,0,3,1143362.4
 unitid:NA,,Bank Street College of Education,New York,New York,,,TRUE,1,0,0,0,0,1139972.12,0,0,0,0,1,1139972.12
 unitid:236939,236939,Washington State University,Pullman,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,6,0,0,0,0,1137244.74,0,0,0,0,6,1137244.74
 unitid:110583,110583,California State University-Long Beach,Long Beach,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,1127585.21,0,0,0,0,3,1127585.21
+unitid:157289,157289,University of Louisville,Louisville,Kentucky,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,1125876.43,0,0,3,1125876.43
 unitid:131159,131159,American University,Washington,District Of Columbia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,1124015.78,0,0,0,0,4,1124015.78
 unitid:227526,227526,Prairie View A&M University,Prairie View,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,1,0,0,1087001.77,0,31770.96,0,0,2,1118772.73
 unitid:142285,142285,University of Idaho,Moscow,Idaho,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,1103534.26,0,0,0,0,2,1103534.26
 unitid:NA,,Galveston College,Galveston,Texas,,,TRUE,1,0,0,0,0,1099454.45,0,0,0,0,1,1099454.45
-unitid:NA,,Boston University Medical Campus,Boston,Massachusetts,,,TRUE,0,0,6,0,0,0,0,1087002.8599999999,0,0,6,1087002.8599999999
+unitid:228459,228459,Texas State University,San Marcos,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,1,0,0,923198.6900000001,0,159466.53,0,0,4,1082665.22
 unitid:173258,173258,Carleton College,Northfield,Minnesota,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1079561.66,0,0,0,0,1,1079561.66
 unitid:NA,,University of Puerto Rico-Rio Piedras,San Juan,Puerto Rico,,,TRUE,4,0,0,0,0,1062750.94,0,0,0,0,4,1062750.94
 unitid:175005,175005,St Catherine University,Saint Paul,Minnesota,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,1,0,0,503776.22,0,553818.27,0,0,4,1057594.49
 unitid:166869,166869,MGH Institute of Health Professions,Boston,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",FALSE,0,0,1,0,0,0,0,1052474,0,0,1,1052474
-unitid:172644,172644,Wayne State University,Detroit,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,2,0,0,557015.19,10865.23,471341.67,0,0,5,1039222.09
 unitid:228787,228787,The University of Texas at Dallas,Richardson,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,1,1,0,0,981836.23,105.049999999999,54016.26,0,0,6,1035957.54
 unitid:214777,214777,Pennsylvania State University-Main Campus,University Park,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,1029786.6506764169,0,0,0,0,5,1029786.6506764169
 unitid:139719,139719,Fort Valley State University,Fort Valley,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1025204.97,0,0,0,0,1,1025204.97
-unitid:NA,,University of Miami Coral Gables,Coral Gables,Florida,,,TRUE,0,0,2,0,0,0,0,1024150,0,0,2,1024150
 unitid:169248,169248,Central Michigan University,Mount Pleasant,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,1,0,0,691152.4,0,308460,0,0,2,999612.4
-unitid:194824,194824,Rensselaer Polytechnic Institute,Troy,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,993814,0,0,1,993814
 unitid:225414,225414,University of Houston-Clear Lake,Houston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,985071.83,0,0,0,0,1,985071.83
 unitid:NA,,University of Puerto Rico-Arecibo Campus,Arecibo,Puerto Rico,,,TRUE,1,0,0,0,0,982868.16,0,0,0,0,1,982868.16
-unitid:131496,131496,Georgetown University,Washington,District Of Columbia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,1,1,0,227923.21000000002,0.00999999999839929,44737.72,706268.27,0,5,978929.2100000001
 unitid:202134,202134,Cleveland State University,Cleveland,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,978707.3899999999,0,0,0,0,2,978707.3899999999
 unitid:160658,160658,University of Louisiana at Lafayette,Lafayette,Louisiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,959629.26,0,0,0,0,1,959629.26
 unitid:163453,163453,Morgan State University,Baltimore,Maryland,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,950898.8400000001,0,0,0,0,5,950898.8400000001
+unitid:NA,,Utah State Higher Education System--University of Utah,Salt Lake City,Utah,,,TRUE,0,0,6,0,0,0,0,914575.95,0,0,6,914575.95
 unitid:179566,179566,Missouri State University-Springfield,Springfield,Missouri,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,898422.08,0,0,0,0,1,898422.08
 unitid:139144,139144,Berry College,Mount Berry,Georgia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,882843.414688018,0,0,0,0,1,882843.414688018
 unitid:NA,,University of Maine System,Orono,Maine,,,TRUE,0,1,0,0,0,0,879131.1,0,0,0,1,879131.1
@@ -221,20 +207,20 @@ unitid:NA,,Rush University Medical Center,Chicago,Illinois,,,TRUE,0,0,2,0,0,0,0,
 unitid:NA,,Research Foundation of the City University of New York,Jamaica,New York,,,TRUE,0,1,0,0,0,0,851809.86,0,0,0,1,851809.86
 unitid:110644,110644,University of California-Davis,Davis,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,2,0,0,0,2682.37,840107.21,0,3,842789.58
 unitid:165866,165866,Framingham State University,Framingham,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,835116.72,0,0,0,0,1,835116.72
+unitid:NA,,Vanderbilt University Medical Center,Nashville,Tennessee,,,TRUE,0,0,1,0,0,0,0,832534.4,0,0,1,832534.4
 unitid:165334,165334,Clark University,Worcester,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,832396.1,0,0,0,0,1,832396.1
 unitid:441937,441937,California State University-Channel Islands,Camarillo,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,816325.31,0,0,0,0,1,816325.31
 unitid:166683,166683,Massachusetts Institute of Technology,Cambridge,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,3,1,0,0,0,608776.06,200152.45,0,0,0,4,808928.51
 unitid:NA,,CUNY Kingsborough Community College,Brooklyn,New York,,,TRUE,1,0,0,0,0,788596.14,0,0,0,0,1,788596.14
-unitid:186131,186131,Princeton University,Princeton,New Jersey,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,4,0,0,459224.05,0,319765.21,0,0,8,778989.26
+unitid:NA,,University of Texas Health Sciences Center Houston,Houston,Texas,,,TRUE,0,0,3,0,0,0,0,774778.0900000001,0,0,3,774778.0900000001
+unitid:NA,,Albert Einstein College of Medicine,Bronx,New York,,,TRUE,0,0,9,0,0,0,0,767628.12,0,0,9,767628.12
 unitid:220862,220862,University of Memphis,Memphis,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,762394.96,0,0,0,0,3,762394.96
 unitid:138716,138716,Albany State University,Albany,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,756335.52,0,0,0,0,2,756335.52
 unitid:190655,190655,CUNY New York City College of Technology,Brooklyn,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,749228.25,0,0,0,0,1,749228.25
-unitid:216366,216366,Thomas Jefferson University,Philadelphia,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,740451,0,0,1,740451
 unitid:NA,,Housatonic Community College,Bridgeport,Connecticut,,,TRUE,1,0,0,0,0,739974.02,0,0,0,0,1,739974.02
 unitid:NA,,University of Massachusetts,Amherst,Massachusetts,,,TRUE,0,2,0,0,0,0,738700.8899999999,0,0,0,2,738700.8899999999
 unitid:NA,,Northern Virginia Community College,Annandale,Virginia,,,TRUE,1,0,0,0,0,712037.037037037,0,0,0,0,1,712037.037037037
 unitid:176080,176080,Mississippi State University,Mississippi State,Mississippi,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,706353.01,0,0,0,0,3,706353.01
-unitid:181428,181428,University of Nebraska Medical Center,Omaha,Nebraska,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,691733.9299999999,0,0,3,691733.9299999999
 unitid:236595,236595,Seattle University,Seattle,Washington,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,680872.48,0,0,0,0,2,680872.48
 unitid:NA,,City Colleges of Chicago Harry S Truman College,Chicago,Illinois,,,TRUE,2,0,0,0,0,678212.9299999999,0,0,0,0,2,678212.9299999999
 unitid:126775,126775,Colorado School of Mines,Golden,Colorado,Public,"Degree-granting, primarily baccalaureate or above",FALSE,1,0,0,0,0,653657.78,0,0,0,0,1,653657.78
@@ -242,7 +228,6 @@ unitid:232982,232982,Old Dominion University,Norfolk,Virginia,Public,"Degree-gra
 unitid:NA,,Research Foundation of the City University of New York,New York,New York,,,TRUE,2,1,0,0,0,503346.606489945,145838.91,0,0,0,3,649185.516489945
 unitid:NA,,Santa Monica College,Santa Monica,California,,,TRUE,1,0,0,0,0,646696.66,0,0,0,0,1,646696.66
 unitid:160904,160904,Xavier University of Louisiana,New Orleans,Louisiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,643404.68,0,0,0,0,1,643404.68
-unitid:132903,132903,University of Central Florida,Orlando,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,5,0,0,0,0,642781.5,0,0,5,642781.5
 unitid:NA,,North Dakota State University Fargo,Fargo,North Dakota,,,TRUE,4,0,0,0,0,642099.06,0,0,0,0,4,642099.06
 unitid:229179,229179,Texas Woman's University,Denton,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,638572.3799999999,0,0,0,0,2,638572.3799999999
 unitid:133650,133650,Florida Agricultural and Mechanical University,Tallahassee,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,633724.66,0,0,0,0,1,633724.66
@@ -250,6 +235,7 @@ unitid:NA,,University of Mass at Boston,Dorchester,Massachusetts,,,TRUE,0,2,0,0,
 unitid:130934,130934,Delaware State University,Dover,Delaware,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,615924.104895105,0,0,0,0,1,615924.104895105
 unitid:232423,232423,James Madison University,Harrisonburg,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,612142.04,0,0,0,0,1,612142.04
 unitid:190664,190664,CUNY Queens College,Queens,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,610544.23,0,0,0,0,1,610544.23
+unitid:172644,172644,Wayne State University,Detroit,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,1,0,0,557015.19,10865.23,36119.45,0,0,4,603999.87
 unitid:127060,127060,University of Denver,Denver,Colorado,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,597945,0,0,0,0,4,597945
 unitid:176017,176017,University of Mississippi,University,Mississippi,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,2,0,0,314022.99328767124,0,277319.79,0,0,5,591342.7832876712
 unitid:NA,,The Leland Stanford Junior University,Stanford,California,,,TRUE,0,2,0,0,0,0,587857.89,0,0,0,2,587857.89
@@ -258,11 +244,10 @@ unitid:224147,224147,Texas A&M University-Corpus Christi,Corpus Christi,Texas,Pu
 unitid:165024,165024,Bridgewater State University,Bridgewater,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,564748.44,0,0,0,0,1,564748.44
 unitid:235422,235422,Heritage University,Toppenish,Washington,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,564343.7,0,0,0,0,1,564343.7
 unitid:226152,226152,Texas A&M International University,Laredo,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,555729.64,0,0,0,0,2,555729.64
-unitid:207342,207342,University of Oklahoma-Health Sciences Center,Oklahoma City,Oklahoma,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,551424.03,0,0,3,551424.03
+unitid:NA,,Boston University Medical Campus,Boston,Massachusetts,,,TRUE,0,0,4,0,0,0,0,547870.86,0,0,4,547870.86
 unitid:159939,159939,University of New Orleans,New Orleans,Louisiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,539962.52,0,0,0,0,1,539962.52
 unitid:NA,,Appalachian College Association,Walland,Tennessee,,,TRUE,1,0,0,0,0,526168,0,0,0,0,1,526168
 unitid:153603,153603,Iowa State University,Ames,Iowa,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,0,0,0,186776.18000000002,326597.14,0,0,0,3,513373.32000000007
-unitid:152080,152080,University of Notre Dame,Notre Dame,Indiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,2,0,0,355674.68,0,154150.97,0,0,4,509825.65
 unitid:231624,231624,William & Mary,Williamsburg,Virginia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,501593.15,0,0,0,0,2,501593.15
 unitid:NA,,Middlesex Community College,Bedford,Massachusetts,,,TRUE,1,0,0,0,0,499878.65,0,0,0,0,1,499878.65
 unitid:168430,168430,Worcester State University,Worcester,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,498511.29,0,0,0,0,1,498511.29
@@ -275,12 +260,12 @@ unitid:NA,,Rio Hondo College,City Of Industry,California,,,TRUE,1,0,0,0,0,486129
 unitid:190558,190558,College of Staten Island CUNY,Staten Island,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,483124.42,0,0,0,0,1,483124.42
 unitid:190600,190600,CUNY John Jay College of Criminal Justice,New York,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,0,0,0,474123.97000000003,0,0,0,0,4,474123.97000000003
 unitid:110556,110556,California State University-Fresno,Fresno,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,465213.27999999997,0,0,0,0,3,465213.27999999997
+unitid:186131,186131,Princeton University,Princeton,New Jersey,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,4,0,1,0,0,459224.05,0,4704,0,0,5,463928.05
 unitid:167987,167987,University of Massachusetts-Dartmouth,North Dartmouth,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,0,0,0,0,456448.57,0,0,0,1,456448.57
 unitid:NA,,University of Missouri-Saint Louis,Saint Louis,Missouri,,,TRUE,1,0,0,0,0,455864.86,0,0,0,0,1,455864.86
 unitid:110662,110662,University of California-Los Angeles,Los Angeles,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,2,0,0,0,0,452150.74,0,0,2,452150.74
 unitid:NA,,The Texas A&M University System HSC,College Station,Texas,,,TRUE,1,0,0,0,0,449944.73,0,0,0,0,1,449944.73
 unitid:229300,229300,The University of Texas Health Science Center at Houston,Houston,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,446598.05,0,0,0,0,1,446598.05
-unitid:203517,203517,Kent State University at Kent,Kent,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,1,0,0,24993.56000000001,0,419715,0,0,3,444708.56
 unitid:190044,190044,Clarkson University,Potsdam,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,435569.15,0,0,0,0,1,435569.15
 unitid:130943,130943,University of Delaware,Newark,Delaware,Public,"Degree-granting, primarily baccalaureate or above",TRUE,3,0,0,0,0,433757.27,0,0,0,0,3,433757.27
 unitid:229814,229814,West Texas A&M University,Canyon,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,431969.37,0,0,0,0,1,431969.37
@@ -290,11 +275,12 @@ unitid:197869,197869,Appalachian State University,Boone,North Carolina,Public,"D
 unitid:185590,185590,Montclair State University,Montclair,New Jersey,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,410464.73,0,0,0,0,1,410464.73
 unitid:NA,,Southwestern College,Chula Vista,California,,,TRUE,1,0,0,0,0,393156.48,0,0,0,0,1,393156.48
 unitid:163338,163338,University of Maryland Eastern Shore,Princess Anne,Maryland,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,391312.99109589,0,0,0,0,1,391312.99109589
+unitid:221759,221759,The University of Tennessee-Knoxville,Knoxville,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,5,0,0,0,0,387441.41,0,0,0,0,5,387441.41
 unitid:NA,,University of Puerto Rico Mayaguez,Mayaguez,Puerto Rico,,,TRUE,1,0,0,0,0,384053.57,0,0,0,0,1,384053.57
 unitid:NA,,San Jacinto College District,Pasadena,Texas,,,TRUE,1,0,0,0,0,377145.22,0,0,0,0,1,377145.22
 unitid:NA,,University of Kansas Medical Center,Kansas City,Kansas,,,TRUE,0,0,1,0,0,0,0,374022,0,0,1,374022
+unitid:152080,152080,University of Notre Dame,Notre Dame,Indiana,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,1,0,0,355674.68,0,16952.97,0,0,3,372627.65
 unitid:NA,,University of Houston System,Houston,Texas,,,TRUE,0,1,0,0,0,0,369536.61,0,0,0,1,369536.61
-unitid:NA,,University of Mississippi Medical Center,Jackson,Mississippi,,,TRUE,0,0,2,0,0,0,0,363950.14,0,0,2,363950.14
 unitid:NA,,University of the Pacific-Stockton,Stockton,California,,,TRUE,0,0,1,0,0,0,0,362788.93,0,0,1,362788.93
 unitid:NA,,"The Medical College of Wisconsin, Inc.",Milwaukee,Wisconsin,,,TRUE,0,1,0,0,0,0,359999.93,0,0,0,1,359999.93
 unitid:187897,187897,New Mexico Highlands University,Las Vegas,New Mexico,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,347485.41,0,0,0,0,1,347485.41
@@ -312,8 +298,6 @@ unitid:196167,196167,SUNY College at Geneseo,Geneseo,New York,Public,"Degree-gra
 unitid:165015,165015,Brandeis University,Waltham,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,1,0,0,50458.62,0,263216,0,0,2,313674.62
 unitid:174233,174233,University of Minnesota-Duluth,Duluth,Minnesota,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,309928.34,0,0,0,0,1,309928.34
 unitid:NA,,University of Alaska Fairbanks Campus,Fairbanks,Alaska,,,TRUE,3,0,0,0,0,299707,0,0,0,0,3,299707
-unitid:NA,,Texas A&M University Health Science Center,College Station,Texas,,,TRUE,0,0,4,0,0,0,0,298224.6,0,0,4,298224.6
-unitid:102614,102614,University of Alaska Fairbanks,Fairbanks,Alaska,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,297083.86,0,0,1,297083.86
 unitid:234827,234827,Central Washington University,Ellensburg,Washington,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,294776.92,0,0,0,0,2,294776.92
 unitid:191515,191515,Hamilton College,Clinton,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,293318.94,0,0,0,0,1,293318.94
 unitid:NA,,University of Vermont & State Agricultural College,Burlington,Vermont,,,TRUE,1,0,0,0,0,291708.581578947,0,0,0,0,1,291708.581578947
@@ -322,30 +306,28 @@ unitid:179159,179159,Saint Louis University,Saint Louis,Missouri,Private not-for
 unitid:213251,213251,Juniata College,Huntingdon,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,288302.36,0,0,0,0,1,288302.36
 unitid:157951,157951,Western Kentucky University,Bowling Green,Kentucky,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,1,1,0,0,13005.78,203.279999999999,274169,0,0,3,287378.06
 unitid:178411,178411,Missouri University of Science and Technology,Rolla,Missouri,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,286609.78,0,0,0,0,1,286609.78
+unitid:181428,181428,University of Nebraska Medical Center,Omaha,Nebraska,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,2,0,0,0,0,282150.93,0,0,2,282150.93
 unitid:NA,,West Hills Community College,Coalinga,California,,,TRUE,1,0,0,0,0,278208.18,0,0,0,0,1,278208.18
 unitid:NA,,University of Connecticut Sch of Med/Dnt,Farmington,Connecticut,,,TRUE,0,0,2,0,0,0,0,277412.91000000003,0,0,2,277412.91000000003
+unitid:131496,131496,Georgetown University,Washington,District Of Columbia,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,2,1,1,0,0,227923.21000000002,0.00999999999839929,44737.72,0,0,4,272660.94
 unitid:171571,171571,Oakland University,Rochester Hills,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,271587.82721991703,0,0,0,0,2,271587.82721991703
+unitid:132903,132903,University of Central Florida,Orlando,Florida,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,3,0,0,0,0,270286.86,0,0,3,270286.86
 unitid:110574,110574,California State University-East Bay,Hayward,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,268312.2,0,0,0,0,1,268312.2
 unitid:111948,111948,Chapman University,Orange,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,263423.77,0,0,0,0,1,263423.77
-unitid:NA,,University of Pittsburgh - of the Commonwealth System of Higher Education,Pittsburgh,Pennsylvania,,,TRUE,0,0,0,1,0,0,0,0,262813.76,0,1,262813.76
+unitid:NA,,University of Pittsburgh - Of the Commonwealth System of Higher Education,Pittsburgh,Pennsylvania,,,TRUE,0,0,0,1,0,0,0,0,262813.76,0,1,262813.76
 unitid:195003,195003,Rochester Institute of Technology,Rochester,New York,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,2,0,0,0,0,262782.98,0,0,2,262782.98
 unitid:220978,220978,Middle Tennessee State University,Murfreesboro,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,261572.38,0,0,0,0,1,261572.38
 unitid:167598,167598,Regis College,Weston,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,260768.24,0,0,0,0,1,260768.24
 unitid:196264,196264,Empire State University,Saratoga Springs,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,247976.66,0,0,0,0,1,247976.66
-unitid:NA,,University of Kansas Lawrence,Lawrence,Kansas,,,TRUE,0,0,1,0,0,0,0,246819.48,0,0,1,246819.48
 unitid:212106,212106,Duquesne University,Pittsburgh,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,1,0,0,154625.35,0,92040.95,0,0,2,246666.3
 unitid:NA,,Alamo Community College District - St. Philip's College,San Antonio,Texas,,,TRUE,1,0,0,0,0,246087.99,0,0,0,0,1,246087.99
-unitid:220075,220075,East Tennessee State University,Johnson City,Tennessee,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,245676.19,0,0,1,245676.19
 unitid:201441,201441,Bowling Green State University-Main Campus,Bowling Green,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,235816.98,0,0,0,0,1,235816.98
 unitid:126580,126580,University of Colorado Colorado Springs,Colorado Springs,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,231765.96,0,0,0,0,1,231765.96
-unitid:NA,,University of Denver (Colorado Seminary),Denver,Colorado,,,TRUE,0,0,1,0,0,0,0,230472.11,0,0,1,230472.11
-unitid:180489,180489,The University of Montana,Missoula,Montana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,229712,0,0,1,229712
 unitid:167729,167729,Salem State University,Salem,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,227130.11,0,0,0,0,1,227130.11
 unitid:NA,,New York University d/b/a NYU Long Island School of Medicine,Mineola,New York,,,TRUE,0,0,1,0,0,0,0,219376.3,0,0,1,219376.3
 unitid:147703,147703,Northern Illinois University,Dekalb,Illinois,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,216046.04,0,0,0,0,1,216046.04
 unitid:238193,238193,Alverno College,Milwaukee,Wisconsin,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,214824.26,0,0,0,0,1,214824.26
 unitid:240727,240727,University of Wyoming,Laramie,Wyoming,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,214452.3,0,0,0,0,1,214452.3
-unitid:228909,228909,University of North Texas Health Science Center,Fort Worth,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,209131,0,0,1,209131
 unitid:216764,216764,West Chester University of Pennsylvania,West Chester,Pennsylvania,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,207032.34,0,0,0,0,2,207032.34
 unitid:210669,210669,Allegheny College,Meadville,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,202737.56,0,0,0,0,1,202737.56
 unitid:203368,203368,John Carroll University,University Heights,Ohio,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,200134.12,0,0,0,0,1,200134.12
@@ -382,6 +364,7 @@ unitid:441900,441900,Nevada State University,Henderson,Nevada,Public,"Degree-gra
 unitid:NA,,Lehigh Carbon Community College,Schnecksville,Pennsylvania,,,TRUE,1,0,0,0,0,141740.99,0,0,0,0,1,141740.99
 unitid:NA,,Rockefeller University,New York,New York,,,TRUE,0,0,2,0,0,0,0,123961.71000000002,0,0,2,123961.71000000002
 unitid:482680,482680,University of North Georgia,Dahlonega,Georgia,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,116645.4,0,0,0,0,1,116645.4
+unitid:NA,,University of Puerto Rico Medical Sciences,San Juan,Puerto Rico,,,TRUE,0,0,1,0,0,0,0,115301.82,0,0,1,115301.82
 unitid:459949,459949,Texas A&M University-San Antonio,San Antonio,Texas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,114804.33,0,0,0,0,1,114804.33
 unitid:NA,,Weber State University,Ogden,Utah,,,TRUE,1,0,0,0,0,113141.46,0,0,0,0,1,113141.46
 unitid:136215,136215,Nova Southeastern University,Fort Lauderdale,Florida,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,111480.4,0,0,0,0,1,111480.4
@@ -409,9 +392,9 @@ unitid:NA,,LSU Health Science Center,New Orleans,Louisiana,,,TRUE,0,0,1,0,0,0,0,
 unitid:161004,161004,Bowdoin College,Brunswick,Maine,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,55168.4588665448,0,0,0,0,1,55168.4588665448
 unitid:211088,211088,Arcadia University,Glenside,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,54255.6246575343,0,0,0,0,1,54255.6246575343
 unitid:118693,118693,Menlo College,Atherton,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,53616.47,0,0,0,0,1,53616.47
-unitid:146719,146719,Loyola University Chicago,Chicago,Illinois,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,53486.1538461538,0,0,1,53486.1538461538
 unitid:196185,196185,SUNY Oneonta,Oneonta,New York,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,52632.06,0,0,0,0,1,52632.06
 unitid:204501,204501,Oberlin College,Oberlin,Ohio,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,52515.75,0,0,0,0,1,52515.75
+unitid:207342,207342,University of Oklahoma-Health Sciences Center,Oklahoma City,Oklahoma,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,2,0,0,0,0,51578.5,0,0,2,51578.5
 unitid:166513,166513,University of Massachusetts-Lowell,Lowell,Massachusetts,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,50691.6,0,0,0,0,1,50691.6
 unitid:127741,127741,University of Northern Colorado,Greeley,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,49666,0,0,0,0,1,49666
 unitid:216852,216852,Widener University,Chester,Pennsylvania,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,0,0,0,0,48005.47,0,0,0,1,48005.47
@@ -428,6 +411,7 @@ unitid:NA,,Ivy Tech Community College of Indiana,Indianapolis,Indiana,,,TRUE,1,0
 unitid:NA,,University of Alabama in Tuscaloosa,Tuscaloosa,Alabama,,,TRUE,0,0,1,0,0,0,0,38833.8100000001,0,0,1,38833.8100000001
 unitid:127185,127185,Fort Lewis College,Durango,Colorado,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,0,0,0,0,38071.08,0,0,0,1,38071.08
 unitid:159647,159647,Louisiana Tech University,Ruston,Louisiana,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,37761.96,0,0,0,0,1,37761.96
+unitid:NA,,University of Connecticut Storrs,Storrs-Mansfield,Connecticut,,,TRUE,0,0,2,0,0,0,0,36132.15,0,0,2,36132.15
 unitid:NA,,David Lipscomb University,Nashville,Tennessee,,,TRUE,1,0,0,0,0,33145.41,0,0,0,0,1,33145.41
 unitid:225399,225399,Houston Christian University,Houston,Texas,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,33007.23,0,0,0,0,1,33007.23
 unitid:106245,106245,University of Arkansas at Little Rock,Little Rock,Arkansas,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,32190.62,0,0,0,0,1,32190.62
@@ -438,8 +422,10 @@ unitid:237066,237066,Whitworth University,Spokane,Washington,Private not-for-pro
 unitid:NA,,Fashion Institute of Technology,New York,New York,,,TRUE,0,1,0,0,0,0,28020,0,0,0,1,28020
 unitid:169798,169798,Eastern Michigan University,Ypsilanti,Michigan,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,27767.45,0,0,0,0,1,27767.45
 unitid:NA,,University of Oregon Eugene,Eugene,Oregon,,,TRUE,1,0,0,0,0,26462.34,0,0,0,0,1,26462.34
+unitid:203517,203517,Kent State University at Kent,Kent,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,2,0,0,0,0,24993.56000000001,0,0,0,0,2,24993.56000000001
 unitid:111966,111966,Charles R Drew University of Medicine and Science,Los Angeles,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,24266.9299999999,0,0,1,24266.9299999999
 unitid:181002,181002,Creighton University,Omaha,Nebraska,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,24256.93,0,0,1,24256.93
+unitid:NA,,University of Mississippi Medical Center,Jackson,Mississippi,,,TRUE,0,0,1,0,0,0,0,24172.14,0,0,1,24172.14
 unitid:206084,206084,University of Toledo,Toledo,Ohio,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,23628.5479452055,0,0,0,0,1,23628.5479452055
 unitid:199412,199412,Queens University of Charlotte,Charlotte,North Carolina,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,0,0,0,0,22911.33,0,0,0,1,22911.33
 unitid:109785,109785,Azusa Pacific University,Azusa,California,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,20847.75,0,0,0,0,1,20847.75
@@ -464,9 +450,11 @@ unitid:NA,,Henry Ford Health + Michigan State University Health Sciences,East La
 unitid:167835,167835,Smith College,Northampton,Massachusetts,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,6470.68,0,0,0,0,1,6470.68
 unitid:176372,176372,University of Southern Mississippi,Hattiesburg,Mississippi,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,5934.76348547718,0,0,0,0,1,5934.76348547718
 unitid:NA,,University of New Mexico Health Sciences Center,Albuquerque,New Mexico,,,TRUE,0,0,1,0,0,0,0,3380.39,0,0,1,3380.39
+unitid:NA,,Texas A&M University Health Science Center,College Station,Texas,,,TRUE,0,0,2,0,0,0,0,2425.2900000000013,0,0,2,2425.2900000000013
 unitid:240189,240189,University of Wisconsin-Whitewater,Whitewater,Wisconsin,Public,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,2284.3,0,0,0,0,1,2284.3
 unitid:186867,186867,Stevens Institute of Technology,Hoboken,New Jersey,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,1,0,0,0,0,1795.79999999999,0,0,0,0,1,1795.79999999999
 unitid:NA,,City College of San Francisco,San Francisco,California,,,TRUE,1,0,0,0,0,1770.39000000001,0,0,0,0,1,1770.39000000001
+unitid:NA,,University of Miami Coral Gables,Coral Gables,Florida,,,TRUE,0,0,1,0,0,0,0,1687,0,0,1,1687
 unitid:110653,110653,University of California-Irvine,Irvine,California,Public,"Degree-granting, primarily baccalaureate or above",TRUE,0,0,1,0,0,0,0,92.2600000000093,0,0,1,92.2600000000093
 unitid:133553,133553,Embry-Riddle Aeronautical University-Daytona Beach,Daytona Beach,Florida,Private not-for-profit,"Degree-granting, primarily baccalaureate or above",TRUE,0,1,0,0,0,0,26.9399999999987,0,0,0,1,26.9399999999987
 unitid:128328,128328,United States Air Force Academy,Usaf Academy,Colorado,Public,"Degree-granting, primarily baccalaureate or above",FALSE,1,0,0,0,0,0,0,0,0,0,1,0

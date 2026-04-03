@@ -41,6 +41,15 @@ function fmtCurrency(value) {
   }).format(n);
 }
 
+function fmtNumber(value, digits = 1) {
+  const n = asNumber(value);
+  if (n === null) return "No data";
+  return new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: digits
+  }).format(n);
+}
+
 function setText(id, value) {
   const node = document.getElementById(id);
   if (node) node.textContent = value ?? "No data";
@@ -102,24 +111,29 @@ function setHidden(id, hidden) {
 }
 
 function buildIntlSentence(summary, series) {
-  if (summary.international_students_sentence) return summary.international_students_sentence;
   const all = asNumber(summary.pct_international_all);
   const ug = asNumber(summary.pct_international_undergraduate);
   const grad = asNumber(summary.pct_international_graduate);
+  const latestYear = latestPoint(series.enrollment_headcount_total)?.year || 2024;
+  const prefixLatestYear = `In ${latestYear}, `;
+
+  if (summary.international_students_sentence && /^In \d{4},/i.test(summary.international_students_sentence)) {
+    return summary.international_students_sentence;
+  }
 
   if (all !== null && ug !== null && grad !== null) {
-    return `${fmtRoundedPct(all * 100)} of students are international. That includes ${fmtRoundedPct(ug * 100)} of undergraduates and ${fmtRoundedPct(grad * 100)} of graduate students.`;
+    return `${prefixLatestYear}${fmtRoundedPct(all)} of students were international. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`;
   }
 
   if (all !== null) {
-    return `${fmtRoundedPct(all * 100)} of students are international.`;
+    return `${prefixLatestYear}${fmtRoundedPct(all)} of students were international.`;
   }
 
   const latestIntl = latestPoint(series.enrollment_nonresident_total);
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
   if (latestIntl && latestEnrollment && latestEnrollment.value > 0) {
     const pct = (latestIntl.value / latestEnrollment.value) * 100;
-    return `${fmtRoundedPct(pct)} of students are international.`;
+    return `${prefixLatestYear}${fmtRoundedPct(pct)} of students were international.`;
   }
 
   return "International student data are not available.";
@@ -180,11 +194,19 @@ function buildGradLoanSentence(profile, summary) {
 
   if (gradPlusPerRecipient !== null && sectorGradPlusMedian !== null && sectorLabel) {
     sentences.push(
-      `On average, graduate students who take out Grad PLUS loans at this institution borrow about ${fmtCurrency(gradPlusPerRecipient)}, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
+      `On average, graduate students who took out Grad PLUS loans at this institution borrowed about ${fmtCurrency(gradPlusPerRecipient)} in the most recent year, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
     );
   }
 
   return sentences.join(" ");
+}
+
+function buildInstructionalStaffRatioSentence(profile, summary) {
+  const ratio = asNumber(summary.students_per_instructional_staff_fte);
+  const benchmark = asNumber(summary.sector_median_students_per_instructional_staff_fte);
+  const sectorLabel = String(profile.control_label || "").toLowerCase();
+  if (ratio === null || benchmark === null || !sectorLabel) return null;
+  return `In 2024, this institution had about ${fmtNumber(ratio)} students per 1 instructional staff member, compared with ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`;
 }
 
 function deriveEnrollmentFlag(summary, series) {
@@ -377,15 +399,27 @@ async function init() {
   setText("enrollment-flag", enrollmentFlag);
   styleAnswerCard("enrollment-flag", enrollmentFlag);
 
+  const intlTotalSeries = toSeries(series.enrollment_nonresident_total);
+  const intlGradSeries = toSeries(series.enrollment_nonresident_graduate);
+  const intlUndergradSeries = toSeries(series.enrollment_nonresident_undergrad);
+  const hasAnyInternationalEnrollment = [
+    ...intlTotalSeries,
+    ...intlGradSeries,
+    ...intlUndergradSeries
+  ].some((point) => point.value > 0);
+
   applyStrip("intl-sentence-card", buildIntlSentence(s, series), "neutral");
 
-  applyStrip(
-    "intl-change-card",
-    asNumber(s.international_enrollment_pct_change_5yr) === null
-      ? "The number of international students is not available."
-      : `The number of international students ${asNumber(s.international_enrollment_pct_change_5yr) >= 0 ? "increased" : "decreased"} ${fmtRoundedPct(Math.abs(asNumber(s.international_enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    "neutral"
-  );
+  if (hasAnyInternationalEnrollment) {
+    applyStrip(
+      "intl-change-card",
+      asNumber(s.international_enrollment_pct_change_5yr) === null
+        ? "The number of international students is not available."
+        : `The number of international students ${asNumber(s.international_enrollment_pct_change_5yr) >= 0 ? "increased" : "decreased"} ${fmtRoundedPct(Math.abs(asNumber(s.international_enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
+      "neutral"
+    );
+  }
+  setHidden("intl-change-card", !hasAnyInternationalEnrollment);
 
   const gradLoanSentence = buildGradLoanSentence(p, s);
   setHidden("grad-loan-intro", !gradLoanSentence);
@@ -396,9 +430,13 @@ async function init() {
 
   applyStrip(
     "staff-change-card",
-    asNumber(s.staff_total_headcount_pct_change_5yr) === null
-      ? "Staffing data are not available."
-      : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)))} ${fiveYearRangeText}.`,
+    (() => {
+      const staffingChange = asNumber(s.staff_total_headcount_pct_change_5yr) === null
+        ? "Staffing data are not available."
+        : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)))} ${fiveYearRangeText}.`;
+      const ratioSentence = buildInstructionalStaffRatioSentence(p, s);
+      return ratioSentence ? `${staffingChange} ${ratioSentence}` : staffingChange;
+    })(),
     sentimentClass(s.staff_total_headcount_pct_change_5yr)
   );
 
@@ -438,7 +476,7 @@ async function init() {
   if (hasFederal) {
     applyStrip(
       "federal-share-card",
-      `${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants.`,
+      `${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants, in 2024.`,
       "neutral"
     );
 
@@ -506,15 +544,18 @@ async function init() {
     ]
   });
 
-  renderLineChart("chart-international", {
-    title: "International enrollment",
-    format: "number",
-    series: [
-      { label: "International Student Total", color: "#005ab5", values: toSeries(series.enrollment_nonresident_total) },
-      { label: "International Graduate Students", color: "#56b4e9", values: toSeries(series.enrollment_nonresident_graduate) },
-      { label: "International Undergraduate Students", color: "#cc79a7", values: toSeries(series.enrollment_nonresident_undergrad) }
-    ]
-  });
+  if (hasAnyInternationalEnrollment) {
+    renderLineChart("chart-international", {
+      title: "International enrollment",
+      format: "number",
+      series: [
+        { label: "International Student Total", color: "#005ab5", values: intlTotalSeries },
+        { label: "International Graduate Students", color: "#56b4e9", values: intlGradSeries },
+        { label: "International Undergraduate Students", color: "#cc79a7", values: intlUndergradSeries }
+      ]
+    });
+  }
+  setHidden("chart-international", !hasAnyInternationalEnrollment);
 
   renderLineChart("chart-staffing", {
     title: "Staffing levels",
@@ -534,6 +575,38 @@ async function init() {
       { label: "Endowment Value", color: "#005ab5", values: toSeries(series.endowment_value_adjusted) }
     ]
   });
+
+  const endowmentSpendingSeries = toSeries(series.endowment_spending_current_use);
+  const endowmentSpendingShareSeries = toSeries(series.endowment_spending_current_use_pct_core_revenue)
+    .map((point) => ({ year: point.year, value: point.value * 100 }));
+  const endowmentSpendingShareByYear = new Map(
+    endowmentSpendingShareSeries.map((point) => [Number(point.year), Number(point.value)])
+  );
+  const hasEndowmentSpending = endowmentSpendingSeries.length > 0;
+  setHidden("endowment-spending-copy", !hasEndowmentSpending);
+  setHidden("chart-endowment-spending", !hasEndowmentSpending);
+  if (hasEndowmentSpending) {
+    renderLineChart("chart-endowment-spending", {
+      title: "Endowment spending distribution for current use",
+      format: "currency",
+      showLegend: false,
+      series: [
+        { label: "Spending Distribution For Current Use", color: "#dc3220", values: endowmentSpendingSeries }
+      ],
+      tooltipRows: (year, seriesList, formatValue) => {
+        const point = seriesList[0]?.values?.find((value) => Number(value.year) === Number(year));
+        if (!point) return [];
+        const share = endowmentSpendingShareByYear.get(Number(year));
+        const rows = [
+          `<span class="chart-tooltip-row">Spending Distribution For Current Use: ${formatValue(Number(point.value), "currency")}</span>`
+        ];
+        if (Number.isFinite(share)) {
+          rows.push(`<span class="chart-tooltip-row">Share of Core Revenue: ${formatValue(share, "percent")}</span>`);
+        }
+        return rows;
+      }
+    });
+  }
 
   if (hasFederal) {
     renderLineChart("chart-federal", {

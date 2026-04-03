@@ -20,12 +20,14 @@
     "net_tuition_per_fte_change_5yr": -31.6109,
     "staff_total_headcount_pct_change_5yr": 134.3832,
     "staff_instructional_headcount_pct_change_5yr": 102.6667,
+    "students_per_instructional_staff_fte": 14.5772,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 39.0606,
     "sector_median_tuition_dependence_pct": 21.1862,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 39% of its revenue from net tuition, above the median of 21% for public colleges.",
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "share_grad_students": 27.8923,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1651358,
@@ -40,7 +42,7 @@
     "pct_international_graduate": 0.4525,
     "international_student_count_change_5yr": 87,
     "international_enrollment_pct_change_5yr": 228.9474,
-    "international_students_sentence": "1.8% of students are international. That includes 2.3% of undergraduates and 0.5% of graduate students.",
+    "international_students_sentence": "In 2024, 1.8% of students were international. That includes 2.3% of undergraduates and 0.5% of graduate students.",
     "federal_loan_pct_most_recent": 58,
     "sector_avg_federal_loan_pct_most_recent": 37.9232,
     "grad_plus_recipients": 9,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 37.6096,
     "state_funding_pct_change_5yr": 1024.0984,
     "endowment_pct_change_5yr": null,
+    "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": 43,
     "median_earnings_10yr": 50331,
     "median_debt_completers": 15000,
@@ -468,6 +471,8 @@
         "value": 6946309.3613
       }
     ],
+    "endowment_spending_current_use": [],
+    "endowment_spending_current_use_pct_core_revenue": [],
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,

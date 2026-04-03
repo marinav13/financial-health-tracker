@@ -20,12 +20,14 @@
     "net_tuition_per_fte_change_5yr": -2.3771,
     "staff_total_headcount_pct_change_5yr": 28.0844,
     "staff_instructional_headcount_pct_change_5yr": 27.2727,
+    "students_per_instructional_staff_fte": 20.3165,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 30.9783,
     "sector_median_tuition_dependence_pct": 21.1862,
-    "tuition_dependence_vs_sector_median_sentence": "This college gets 31% of its revenue from net tuition, above the median of 21% for public colleges.",
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "share_grad_students": 11.7958,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 4541694,
@@ -40,7 +42,7 @@
     "pct_international_graduate": 2.7237,
     "international_student_count_change_5yr": -98,
     "international_enrollment_pct_change_5yr": -67.5862,
-    "international_students_sentence": "0.5% of students are international. That includes 0.2% of undergraduates and 2.7% of graduate students.",
+    "international_students_sentence": "In 2024, 0.5% of students were international. That includes 0.2% of undergraduates and 2.7% of graduate students.",
     "federal_loan_pct_most_recent": 36,
     "sector_avg_federal_loan_pct_most_recent": 37.9232,
     "grad_plus_recipients": 27,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 291.4365,
     "state_funding_pct_change_5yr": 160.3162,
     "endowment_pct_change_5yr": -0.7216,
+    "endowment_spending_current_use_pct_core_revenue": 0.0009,
     "graduation_rate_6yr": 40,
     "median_earnings_10yr": 54338,
     "median_debt_completers": 18401,
@@ -478,6 +481,50 @@
       {
         "year": 2024,
         "value": 4463975
+      }
+    ],
+    "endowment_spending_current_use": [
+      {
+        "year": 2020,
+        "value": 164683
+      },
+      {
+        "year": 2021,
+        "value": 171552
+      },
+      {
+        "year": 2022,
+        "value": 184021
+      },
+      {
+        "year": 2023,
+        "value": 200766
+      },
+      {
+        "year": 2024,
+        "value": 113222
+      }
+    ],
+    "endowment_spending_current_use_pct_core_revenue": [
+      {
+        "year": 2020,
+        "value": 0.0013
+      },
+      {
+        "year": 2021,
+        "value": 0.0012
+      },
+      {
+        "year": 2022,
+        "value": 0.0017
+      },
+      {
+        "year": 2023,
+        "value": 0.0012
+      },
+      {
+        "year": 2024,
+        "value": 0.0009
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [

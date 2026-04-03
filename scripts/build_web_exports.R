@@ -63,21 +63,22 @@ scale_ratio_to_pct <- function(x) {
   ifelse(is.na(value), NA_real_, value * 100)
 }
 
-build_international_students_sentence <- function(all_pct, ug_pct, grad_pct) {
+build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pct) {
   all_value <- scale_ratio_to_pct(all_pct)
   ug_value <- scale_ratio_to_pct(ug_pct)
   grad_value <- scale_ratio_to_pct(grad_pct)
   dplyr::case_when(
     is.na(all_value) ~ NA_character_,
     !is.na(ug_value) & !is.na(grad_value) ~ paste0(
+      "In ", year, ", ",
       round(all_value, 1),
-      "% of students are international. That includes ",
+      "% of students were international. That includes ",
       round(ug_value, 1),
       "% of undergraduates and ",
       round(grad_value, 1),
       "% of graduate students."
     ),
-    TRUE ~ paste0(round(all_value, 1), "% of students are international.")
+    TRUE ~ paste0("In ", year, ", ", round(all_value, 1), "% of students were international.")
   )
 }
 
@@ -491,8 +492,13 @@ build_research_export <- function() {
         character(1)
       ),
       has_financial_profile = !is.na(matched_unitid) & matched_unitid != "",
+      # Keep the broader higher-ed research universe on the research page.
+      # Schools can still carry a finance profile flag when they also appear in
+      # the financial tracker, but research-only institutions should remain in
+      # the export rather than being silently filtered out.
       is_primary_tracker = has_financial_profile & is_primary_bachelors_category(tracker_category)
-    )
+    ) %>%
+    filter(likely_higher_ed, total_disrupted_award_remaining > 0)
 
   grants_df <- readr::read_csv(research_grants_path, show_col_types = FALSE) %>%
     mutate(
@@ -643,9 +649,16 @@ build_school_file <- function(df) {
   pct_international_undergraduate <- scale_ratio_to_pct(latest$pct_international_undergraduate[[1]])
   pct_international_graduate <- scale_ratio_to_pct(latest$pct_international_graduate[[1]])
   international_students_sentence <- if ("international_students_sentence" %in% names(latest)) {
-    null_if_empty(latest$international_students_sentence[[1]])
+    stored_sentence <- null_if_empty(latest$international_students_sentence[[1]])
+    if (!is.na(stored_sentence) && grepl("^In \\d{4},", stored_sentence)) stored_sentence else build_international_students_sentence(
+      latest$year[[1]],
+      latest$pct_international_all[[1]],
+      latest$pct_international_undergraduate[[1]],
+      latest$pct_international_graduate[[1]]
+    )
   } else {
     build_international_students_sentence(
+      latest$year[[1]],
       latest$pct_international_all[[1]],
       latest$pct_international_undergraduate[[1]],
       latest$pct_international_graduate[[1]]
@@ -697,6 +710,8 @@ build_school_file <- function(df) {
       net_tuition_per_fte_change_5yr = latest$net_tuition_per_fte_change_5yr[[1]],
       staff_total_headcount_pct_change_5yr = latest$staff_total_headcount_pct_change_5yr[[1]],
       staff_instructional_headcount_pct_change_5yr = latest$staff_instructional_headcount_pct_change_5yr[[1]],
+      students_per_instructional_staff_fte = or_null(latest$students_per_instructional_staff_fte),
+      sector_median_students_per_instructional_staff_fte = or_null(latest$sector_median_students_per_instructional_staff_fte),
       ended_year_at_loss = latest$ended_year_at_loss[[1]],
       losses_last_3_of_5 = latest$losses_last_3_of_5[[1]],
       loss_years_last_10 = latest$loss_years_last_10[[1]],
@@ -729,6 +744,7 @@ build_school_file <- function(df) {
       federal_grants_contracts_pell_adjusted_pct_change_5yr = latest$federal_grants_contracts_pell_adjusted_pct_change_5yr[[1]],
       state_funding_pct_change_5yr = latest$state_funding_pct_change_5yr[[1]],
       endowment_pct_change_5yr = latest$endowment_pct_change_5yr[[1]],
+      endowment_spending_current_use_pct_core_revenue = latest$endowment_spending_current_use_pct_core_revenue[[1]],
       graduation_rate_6yr = latest$graduation_rate_6yr[[1]],
       median_earnings_10yr = latest$median_earnings_10yr[[1]],
       median_debt_completers = latest$median_debt_completers[[1]],
@@ -747,6 +763,8 @@ build_school_file <- function(df) {
       staff_headcount_total = build_series(df, "staff_headcount_total"),
       staff_headcount_instructional = build_series(df, "staff_headcount_instructional"),
       endowment_value_adjusted = build_series(df, "endowment_value_adjusted"),
+      endowment_spending_current_use = build_series(df, "endowment_spending_current_use"),
+      endowment_spending_current_use_pct_core_revenue = build_series(df, "endowment_spending_current_use_pct_core_revenue"),
       federal_grants_contracts_pell_adjusted_adjusted = build_series(df, "federal_grants_contracts_pell_adjusted_adjusted"),
       state_funding_adjusted = build_series(df, "state_funding_adjusted")
     )
@@ -755,11 +773,16 @@ build_school_file <- function(df) {
 
 # Load the canonical finance dataset that serves as the backbone for school
 # JSON files and the sitewide download.
-df <- readr::read_csv(input_path, show_col_types = FALSE)
+df <- readr::read_csv(
+  input_path,
+  show_col_types = FALSE,
+  col_types = readr::cols(.default = readr::col_character())
+)
 
 numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
+  "students_per_instructional_staff_fte","sector_median_students_per_instructional_staff_fte",
   "tuition_dependence_pct","sector_median_tuition_dependence_pct","share_grad_students","research_expense","research_expense_per_fte",
   "research_expense_pct_core_expenses",
   "sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive","pct_international_all",
@@ -767,11 +790,11 @@ numeric_cols <- c(
   "international_enrollment_pct_change_5yr",
   "federal_loan_pct_most_recent","grad_plus_recipients","grad_plus_disbursements_amt","grad_plus_disbursements_per_recipient","federal_grants_contracts_pell_adjusted_pct_core_revenue",
   "state_funding_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
-  "state_funding_pct_change_5yr","endowment_pct_change_5yr","revenue_total_adjusted",
+  "state_funding_pct_change_5yr","endowment_pct_change_5yr","endowment_spending_current_use_pct_core_revenue","revenue_total_adjusted",
   "expenses_total_adjusted","net_tuition_per_fte_adjusted","enrollment_headcount_total",
   "enrollment_nonresident_total","enrollment_nonresident_undergrad","enrollment_nonresident_graduate",
   "staff_headcount_total","staff_headcount_instructional",
-  "endowment_value_adjusted","federal_grants_contracts_pell_adjusted_adjusted","state_funding_adjusted"
+  "endowment_value_adjusted","endowment_spending_current_use","endowment_spending_current_use_pct_core_revenue","federal_grants_contracts_pell_adjusted_adjusted","state_funding_adjusted"
 )
 
 for (nm in intersect(numeric_cols, names(df))) {

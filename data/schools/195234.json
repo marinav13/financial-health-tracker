@@ -20,6 +20,8 @@
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": null,
     "staff_instructional_headcount_pct_change_5yr": null,
+    "students_per_instructional_staff_fte": null,
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
+    "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": null,
     "median_earnings_10yr": null,
     "median_debt_completers": null,
@@ -478,6 +481,42 @@
       {
         "year": 2023,
         "value": 29962771.2627
+      }
+    ],
+    "endowment_spending_current_use": [
+      {
+        "year": 2020,
+        "value": 6221290
+      },
+      {
+        "year": 2021,
+        "value": 3693948
+      },
+      {
+        "year": 2022,
+        "value": 1248473
+      },
+      {
+        "year": 2023,
+        "value": 11935886
+      }
+    ],
+    "endowment_spending_current_use_pct_core_revenue": [
+      {
+        "year": 2020,
+        "value": 0.118
+      },
+      {
+        "year": 2021,
+        "value": 0.0582
+      },
+      {
+        "year": 2022,
+        "value": 0.0264
+      },
+      {
+        "year": 2023,
+        "value": 0.3002
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [

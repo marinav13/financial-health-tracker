@@ -43,6 +43,13 @@ escape_xml <- function(x) {
   x
 }
 
+read_csv_if_exists <- function(path) {
+  if (!file.exists(path)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+  read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
+}
+
 make_row <- function(metric, statistic, all = NA, public = NA, private_nfp = NA, private_fp = NA,
                      bacc_public = NA, bacc_private_nfp = NA, bacc_private_fp = NA, notes = "") {
   data.frame(
@@ -90,6 +97,9 @@ for (nm in intersect(num_cols, names(latest))) {
 }
 for (nm in intersect(num_cols, names(prev_year))) {
   prev_year[[nm]] <- to_num(prev_year[[nm]])
+}
+for (nm in intersect(num_cols, names(read_df))) {
+  read_df[[nm]] <- to_num(read_df[[nm]])
 }
 
 latest$warning_score_core <- rowSums(cbind(
@@ -441,7 +451,7 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "MultiFront", "", "", "", "", "", "", "", "Predominantly baccalaureate colleges with high international share, high federal dependence, negative 5-year revenue change, and losses in at least 3 of the last 10 years."),
   make_row("Worksheet index", "DistressCore", "", "", "", "", "", "", "", "Broad distress list using the workbook warning-score definition: at least 4 of 6 core warning signs."),
   make_row("Worksheet index", "DistressIntl10", "", "", "", "", "", "", "", "Distressed colleges that also increased international enrollment over the past 10 years."),
-  make_row("Worksheet index", "StaffCutsYoY", "", "", "", "", "", "", "", "Year-by-year counts of institutions with staffing cuts versus the prior year."),
+  make_row("Worksheet index", "StaffCutsYoY", "", "", "", "", "", "", "", "Year-by-year counts of institutions with staffing cuts versus the prior year, plus the total number of total and instructional staff positions cut or added."),
   make_row("Worksheet index", "PublicFedTop", "", "", "", "", "", "", "", "Public universities ranked by federal grants and contracts as a share of core revenue."),
   make_row("Worksheet index", "GradDependTop", "", "", "", "", "", "", "", "Universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
   make_row("Worksheet index", "PublicGradTop", "", "", "", "", "", "", "", "Public universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
@@ -449,6 +459,10 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "DistressCompare", "", "", "", "", "", "", "", "Year comparison for the distress paragraph framing, including 2024 toplines and 2019/2014 context."),
   make_row("Worksheet index", "IntlOffset10yr", "", "", "", "", "", "", "", "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
   make_row("Worksheet index", "BiggestDropsNoIntl", "", "", "", "", "", "", "", "All ranked institutions where 2014-2024 enrollment would have fallen further without international enrollment growth, sorted by the biggest implied domestic drops."),
+  make_row("Worksheet index", "AccredFinanceXtab", "", "", "", "", "", "", "", "Finance, enrollment, and staffing comparison for institutions with versus without accreditation actions."),
+  make_row("Worksheet index", "AccredMatches", "", "", "", "", "", "", "", "Matched 4-year primarily bachelor's institutions with accreditation actions and finance metrics."),
+  make_row("Worksheet index", "CutsFinanceXtab", "", "", "", "", "", "", "", "Finance, enrollment, and staffing comparison for institutions with versus without college cuts."),
+  make_row("Worksheet index", "CutsMatches", "", "", "", "", "", "", "", "Matched 4-year primarily bachelor's institutions with college cuts and finance metrics."),
   make_row("Worksheet index", "IntlVulnerable", "", "", "", "", "", "", "", "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
   make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
@@ -600,6 +614,148 @@ finance_bad$finance_page_bad_count <- rowSums(cbind(
   finance_bad$bad_state_change
 ), na.rm = TRUE)
 
+# Compare institutions with accreditation actions or program cuts against the
+# same 2024 primarily bachelor's tracker universe used throughout the workbook.
+accreditation_summary <- read_csv_if_exists("./accreditation/accreditation_tracker_institution_summary.csv")
+college_cuts_summary <- read_csv_if_exists("./college_cuts/college_cuts_financial_tracker_institution_summary.csv")
+
+accreditation_summary$unitid <- to_num(accreditation_summary$unitid)
+college_cuts_summary$matched_unitid <- to_num(college_cuts_summary$matched_unitid)
+
+# Keep the audit tabs tied to the same finance-page universe so the toplines are
+# apples-to-apples with the main tracker rather than the broader source files.
+accreditation_summary_bacc <- merge(
+  finance_bad,
+  accreditation_summary[
+    !is.na(accreditation_summary$unitid) & accreditation_summary$action_count > 0,
+    c(
+      "unitid","tracker_name","tracker_state","accreditors","action_types","action_labels",
+      "active_actions","has_active_warning","has_active_warning_or_notice","has_active_adverse_action",
+      "action_count","latest_action_date","latest_action_year"
+    ),
+    drop = FALSE
+  ],
+  by = "unitid",
+  all.x = FALSE,
+  all.y = FALSE
+)
+if (nrow(accreditation_summary_bacc) > 0) {
+  accreditation_summary_bacc <- accreditation_summary_bacc[
+    order(
+      -xtfrm(accreditation_summary_bacc$action_count),
+      -xtfrm(accreditation_summary_bacc$finance_page_bad_count),
+      -xtfrm(accreditation_summary_bacc$warning_score_core),
+      xtfrm(accreditation_summary_bacc$revenue_pct_change_5yr),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+}
+
+college_cuts_summary_bacc <- merge(
+  finance_bad,
+  college_cuts_summary[
+    !is.na(college_cuts_summary$matched_unitid) & college_cuts_summary$cut_records > 0,
+    c(
+      "matched_unitid","institution_name_collegecuts","institution_state_full","cut_records","cut_types",
+      "latest_cut_announcement_date","first_cut_announcement_date","total_students_affected_known",
+      "total_faculty_affected_known","staff_layoff_records","program_suspension_records",
+      "department_closure_records","campus_closure_records","institution_closure_records",
+      "teach_out_records","financial_warning_count"
+    ),
+    drop = FALSE
+  ],
+  by.x = "unitid",
+  by.y = "matched_unitid",
+  all.x = FALSE,
+  all.y = FALSE
+)
+if (nrow(college_cuts_summary_bacc) > 0) {
+  college_cuts_summary_bacc <- college_cuts_summary_bacc[
+    order(
+      -xtfrm(college_cuts_summary_bacc$cut_records),
+      -xtfrm(college_cuts_summary_bacc$finance_page_bad_count),
+      -xtfrm(college_cuts_summary_bacc$warning_score_core),
+      xtfrm(college_cuts_summary_bacc$revenue_pct_change_5yr),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+}
+
+summarize_event_subset <- function(df, cohort_label, event_type, control_scope = "All") {
+  median_or_na <- function(x) {
+    x <- to_num(x)
+    x <- x[!is.na(x)]
+    if (length(x) == 0) return(NA_real_)
+    median(x, na.rm = TRUE)
+  }
+
+  data.frame(
+    event_type = event_type,
+    control_scope = control_scope,
+    cohort = cohort_label,
+    institutions = nrow(df),
+    median_finance_page_bad_count = median_or_na(df$finance_page_bad_count),
+    median_warning_score_core = median_or_na(df$warning_score_core),
+    median_enrollment_pct_change_5yr = median_or_na(df$enrollment_pct_change_5yr),
+    enrollment_decline_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$enrollment_decline_last_3_of_5), na.rm = TRUE), nrow(df)),
+    median_revenue_pct_change_5yr = median_or_na(df$revenue_pct_change_5yr),
+    revenue_decreased_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$revenue_decreased_5yr), na.rm = TRUE), nrow(df)),
+    revenue_10pct_drop_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$revenue_10pct_drop_last_3_of_5), na.rm = TRUE), nrow(df)),
+    ended_2024_at_loss_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$ended_year_at_loss), na.rm = TRUE), nrow(df)),
+    losses_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$losses_last_3_of_5), na.rm = TRUE), nrow(df)),
+    median_staff_total_headcount_pct_change_5yr = median_or_na(df$staff_total_headcount_pct_change_5yr),
+    staff_total_decline_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, na.rm = TRUE), nrow(df)),
+    median_staff_instructional_headcount_pct_change_5yr = median_or_na(df$staff_instructional_headcount_pct_change_5yr),
+    staff_instructional_decline_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, na.rm = TRUE), nrow(df)),
+    median_net_tuition_per_fte_change_5yr = median_or_na(df$net_tuition_per_fte_change_5yr),
+    median_tuition_dependence_pct = median_or_na(df$tuition_dependence_pct),
+    median_pct_international_all_pct = median_or_na(df$pct_international_all) * 100,
+    stringsAsFactors = FALSE
+  )
+}
+
+# Build paired "with event" versus "without event" rows so the workbook can
+# show whether institutions with accreditation actions or cuts look different
+# from peers in the same sector slice.
+build_event_xtab <- function(base_df, event_unitids, event_type) {
+  event_unitids <- unique(as.character(event_unitids[!is.na(event_unitids)]))
+  base_df$.__event_flag__ <- as.character(base_df$unitid) %in% event_unitids
+
+  scopes <- list(
+    All = base_df,
+    Public = base_df[base_df$control_label == "Public", , drop = FALSE],
+    `Private not-for-profit` = base_df[base_df$control_label == "Private not-for-profit", , drop = FALSE],
+    `Private for-profit` = base_df[base_df$control_label == "Private for-profit", , drop = FALSE]
+  )
+
+  rows <- lapply(names(scopes), function(scope_name) {
+    scope_df <- scopes[[scope_name]]
+    rbind(
+      summarize_event_subset(scope_df[scope_df$.__event_flag__, , drop = FALSE], "With event", event_type, scope_name),
+      summarize_event_subset(scope_df[!scope_df$.__event_flag__, , drop = FALSE], "Without event", event_type, scope_name)
+    )
+  })
+
+  out <- do.call(rbind, rows)
+  out$event_institution_count <- length(event_unitids)
+  out
+}
+
+accreditation_any_unitids <- accreditation_summary_bacc$unitid
+accreditation_warning_unitids <- accreditation_summary_bacc$unitid[trimws(tolower(as.character(accreditation_summary_bacc$has_active_warning_or_notice))) == "true"]
+accreditation_adverse_unitids <- accreditation_summary_bacc$unitid[trimws(tolower(as.character(accreditation_summary_bacc$has_active_adverse_action))) == "true"]
+college_cuts_any_unitids <- college_cuts_summary_bacc$unitid
+
+accredit_finance_xtab <- rbind(
+  build_event_xtab(finance_bad, accreditation_any_unitids, "Any accreditation action since 2019"),
+  build_event_xtab(finance_bad, accreditation_warning_unitids, "Active warning/notice"),
+  build_event_xtab(finance_bad, accreditation_adverse_unitids, "Active adverse action")
+)
+
+cuts_finance_xtab <- build_event_xtab(finance_bad, college_cuts_any_unitids, "Any college cut")
+
 public_fin_bad50 <- finance_bad[finance_bad$control_label == "Public", , drop = FALSE]
 if (nrow(public_fin_bad50) > 0) {
   public_fin_bad50 <- public_fin_bad50[
@@ -659,22 +815,99 @@ distress_intl10 <- all_sheet_bacc[
   , drop = FALSE]
 if (nrow(distress_intl10) > 0) distress_intl10 <- distress_intl10[order(-xtfrm(distress_intl10$warning_score_core), -xtfrm(distress_intl10$international_enrollment_change_10yr), na.last = TRUE), , drop = FALSE]
 
-staff_cut_yoy <- do.call(rbind, lapply(2015:2024, function(y) {
-  prev <- read_df[as.integer(read_df$year) == (y - 1L), c("unitid","staff_headcount_total"), drop = FALSE]
-  curr <- read_df[as.integer(read_df$year) == y, c("unitid","staff_headcount_total"), drop = FALSE]
-  names(prev)[2] <- "staff_prev"
-  names(curr)[2] <- "staff_curr"
+# Year-over-year staffing cuts: keep the existing institution counts, but also
+# sum the actual headcount reductions so the workbook shows how many jobs were
+# cut rather than only how many campuses reported a decline. Include 2014 as
+# the visible staffing baseline, then show later years as cuts relative to the
+# prior year's staffing base.
+staff_cut_baseline_2014 <- {
+  base <- read_df[
+    as.integer(read_df$year) == 2014L,
+    c("unitid", "staff_headcount_total", "staff_headcount_instructional"),
+    drop = FALSE
+  ]
+  base_total <- base[!is.na(base$staff_headcount_total), , drop = FALSE]
+  base_instr <- base[!is.na(base$staff_headcount_instructional), , drop = FALSE]
+  data.frame(
+    year = 2014L,
+    total_staff_headcount_year = if (nrow(base_total) == 0) NA_real_ else sum(base_total$staff_headcount_total, na.rm = TRUE),
+    total_instructional_staff_headcount_year = if (nrow(base_instr) == 0) NA_real_ else sum(base_instr$staff_headcount_instructional, na.rm = TRUE),
+    prior_year_total_staff_headcount = NA_real_,
+    prior_year_total_instructional_staff_headcount = NA_real_,
+    institutions_with_staff_data = nrow(base_total),
+    institutions_cutting_staff = NA_real_,
+    institutions_increasing_staff = NA_real_,
+    institutions_flat_staff = NA_real_,
+    total_staff_positions_cut = NA_real_,
+    total_staff_positions_added = NA_real_,
+    net_staff_change = NA_real_,
+    total_staff_positions_cut_pct_of_prior_year = NA_real_,
+    institutions_with_instructional_staff_data = nrow(base_instr),
+    institutions_cutting_instructional_staff = NA_real_,
+    institutions_increasing_instructional_staff = NA_real_,
+    institutions_flat_instructional_staff = NA_real_,
+    total_instructional_positions_cut = NA_real_,
+    total_instructional_positions_added = NA_real_,
+    net_instructional_change = NA_real_,
+    total_instructional_positions_cut_pct_of_prior_year = NA_real_,
+    stringsAsFactors = FALSE
+  )
+}
+
+staff_cut_yoy_comparisons <- do.call(rbind, lapply(2015:2024, function(y) {
+  prev <- read_df[
+    as.integer(read_df$year) == (y - 1L),
+    c("unitid", "staff_headcount_total", "staff_headcount_instructional"),
+    drop = FALSE
+  ]
+  curr <- read_df[
+    as.integer(read_df$year) == y,
+    c("unitid", "staff_headcount_total", "staff_headcount_instructional"),
+    drop = FALSE
+  ]
+  names(prev)[2:3] <- c("staff_prev", "instructional_prev")
+  names(curr)[2:3] <- c("staff_curr", "instructional_curr")
   joined <- merge(prev, curr, by = "unitid", all = FALSE)
-  joined <- joined[!is.na(joined$staff_prev) & !is.na(joined$staff_curr), , drop = FALSE]
+
+  joined_total <- joined[!is.na(joined$staff_prev) & !is.na(joined$staff_curr), , drop = FALSE]
+  joined_instr <- joined[!is.na(joined$instructional_prev) & !is.na(joined$instructional_curr), , drop = FALSE]
+
+  prior_total_staff_headcount <- if (nrow(joined_total) == 0) NA_real_ else sum(joined_total$staff_prev, na.rm = TRUE)
+  current_total_staff_headcount <- if (nrow(joined_total) == 0) NA_real_ else sum(joined_total$staff_curr, na.rm = TRUE)
+  prior_instructional_staff_headcount <- if (nrow(joined_instr) == 0) NA_real_ else sum(joined_instr$instructional_prev, na.rm = TRUE)
+  current_instructional_staff_headcount <- if (nrow(joined_instr) == 0) NA_real_ else sum(joined_instr$instructional_curr, na.rm = TRUE)
+  total_cut_amount <- if (nrow(joined_total) == 0) 0 else sum(pmax(joined_total$staff_prev - joined_total$staff_curr, 0), na.rm = TRUE)
+  total_added_amount <- if (nrow(joined_total) == 0) 0 else sum(pmax(joined_total$staff_curr - joined_total$staff_prev, 0), na.rm = TRUE)
+  instructional_cut_amount <- if (nrow(joined_instr) == 0) 0 else sum(pmax(joined_instr$instructional_prev - joined_instr$instructional_curr, 0), na.rm = TRUE)
+  instructional_added_amount <- if (nrow(joined_instr) == 0) 0 else sum(pmax(joined_instr$instructional_curr - joined_instr$instructional_prev, 0), na.rm = TRUE)
+
   data.frame(
     year = y,
-    institutions_with_staff_data = nrow(joined),
-    institutions_cutting_staff = sum(joined$staff_curr < joined$staff_prev, na.rm = TRUE),
-    institutions_increasing_staff = sum(joined$staff_curr > joined$staff_prev, na.rm = TRUE),
-    institutions_flat_staff = sum(joined$staff_curr == joined$staff_prev, na.rm = TRUE),
+    total_staff_headcount_year = current_total_staff_headcount,
+    total_instructional_staff_headcount_year = current_instructional_staff_headcount,
+    prior_year_total_staff_headcount = prior_total_staff_headcount,
+    prior_year_total_instructional_staff_headcount = prior_instructional_staff_headcount,
+    institutions_with_staff_data = nrow(joined_total),
+    institutions_cutting_staff = sum(joined_total$staff_curr < joined_total$staff_prev, na.rm = TRUE),
+    institutions_increasing_staff = sum(joined_total$staff_curr > joined_total$staff_prev, na.rm = TRUE),
+    institutions_flat_staff = sum(joined_total$staff_curr == joined_total$staff_prev, na.rm = TRUE),
+    total_staff_positions_cut = total_cut_amount,
+    total_staff_positions_added = total_added_amount,
+    net_staff_change = total_added_amount - total_cut_amount,
+    total_staff_positions_cut_pct_of_prior_year = safe_pct(total_cut_amount, prior_total_staff_headcount),
+    institutions_with_instructional_staff_data = nrow(joined_instr),
+    institutions_cutting_instructional_staff = sum(joined_instr$instructional_curr < joined_instr$instructional_prev, na.rm = TRUE),
+    institutions_increasing_instructional_staff = sum(joined_instr$instructional_curr > joined_instr$instructional_prev, na.rm = TRUE),
+    institutions_flat_instructional_staff = sum(joined_instr$instructional_curr == joined_instr$instructional_prev, na.rm = TRUE),
+    total_instructional_positions_cut = instructional_cut_amount,
+    total_instructional_positions_added = instructional_added_amount,
+    net_instructional_change = instructional_added_amount - instructional_cut_amount,
+    total_instructional_positions_cut_pct_of_prior_year = safe_pct(instructional_cut_amount, prior_instructional_staff_headcount),
     stringsAsFactors = FALSE
   )
 }))
+
+staff_cut_yoy <- rbind(staff_cut_baseline_2014, staff_cut_yoy_comparisons)
 
 public_fed_top <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !is.na(all_sheet_bacc$federal_grants_contracts_pell_adjusted_pct_core_revenue), , drop = FALSE]
 if (nrow(public_fed_top) > 0) {
@@ -989,6 +1222,10 @@ worksheets <- list(
   DistressCompare = distress_compare,
   IntlOffset10yr = intl_offset_10yr,
   BiggestDropsNoIntl = intl_offset_10yr_ranked,
+  AccredFinanceXtab = accredit_finance_xtab,
+  AccredMatches = accreditation_summary_bacc,
+  CutsFinanceXtab = cuts_finance_xtab,
+  CutsMatches = college_cuts_summary_bacc,
   IntlVulnerable = intl_vulnerable,
   IntlVulnLarge = intl_vulnerable_large
 )

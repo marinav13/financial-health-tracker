@@ -7,6 +7,11 @@ function formatChartValue(value, format = "number") {
       maximumFractionDigits: 0
     }).format(value);
   }
+  if (format === "percent") {
+    return `${new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 0
+    }).format(value)}%`;
+  }
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0
   }).format(value);
@@ -142,9 +147,14 @@ function renderLineChart(containerId, config) {
       return `<span class="chart-tooltip-row">${series.label}: ${formatChartValue(Number(point.value), format)}</span>`;
     }).filter(Boolean);
 
-    if (!rows.length) return;
+    const customRows = typeof config.tooltipRows === "function"
+      ? config.tooltipRows(bestYear, seriesList, formatChartValue)
+      : null;
+    const tooltipRows = Array.isArray(customRows) && customRows.length ? customRows : rows;
 
-    tooltip.innerHTML = `<strong>${bestYear}</strong>${rows.join("")}`;
+    if (!tooltipRows.length) return;
+
+    tooltip.innerHTML = `<strong>${bestYear}</strong>${tooltipRows.join("")}`;
     tooltip.style.left = `${((xScale(bestYear) / width) * 100).toFixed(2)}%`;
     tooltip.style.top = `${((pad.top + 12) / height) * 100}%`;
     tooltip.classList.add("visible");

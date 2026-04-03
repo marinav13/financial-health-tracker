@@ -20,6 +20,8 @@
     "net_tuition_per_fte_change_5yr": 13.9622,
     "staff_total_headcount_pct_change_5yr": -4.717,
     "staff_instructional_headcount_pct_change_5yr": -1.5625,
+    "students_per_instructional_staff_fte": 14.4765,
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
@@ -40,7 +42,7 @@
     "pct_international_graduate": null,
     "international_student_count_change_5yr": 0,
     "international_enrollment_pct_change_5yr": null,
-    "international_students_sentence": "0% of students are international.",
+    "international_students_sentence": "In 2024, 0% of students were international.",
     "federal_loan_pct_most_recent": 61,
     "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": null,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": -46.1205,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": 48.3322,
+    "endowment_spending_current_use_pct_core_revenue": 0.1041,
     "graduation_rate_6yr": 50,
     "median_earnings_10yr": 68303,
     "median_debt_completers": 24250,
@@ -428,6 +431,46 @@
       {
         "year": 2024,
         "value": 10626713
+      }
+    ],
+    "endowment_spending_current_use": [
+      {
+        "year": 2020,
+        "value": 727929
+      },
+      {
+        "year": 2021,
+        "value": 682112
+      },
+      {
+        "year": 2022,
+        "value": 769826
+      },
+      {
+        "year": 2023,
+        "value": 1341236
+      },
+      {
+        "year": 2024,
+        "value": 1772069
+      }
+    ],
+    "endowment_spending_current_use_pct_core_revenue": [
+      {
+        "year": 2021,
+        "value": 0.0395
+      },
+      {
+        "year": 2022,
+        "value": 0.0416
+      },
+      {
+        "year": 2023,
+        "value": 0.0803
+      },
+      {
+        "year": 2024,
+        "value": 0.1041
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [

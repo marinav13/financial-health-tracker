@@ -76,6 +76,10 @@ safe_divide <- function(numerator, denominator) {
   )
 }
 
+as_positive_spend <- function(x) {
+  ifelse(is.na(x), NA_real_, abs(x))
+}
+
 cpi_u_annual_avg <- c(
   `2014` = 236.736,
   `2015` = 237.017,
@@ -293,7 +297,11 @@ loss_frequency <- function(years, values, end_year, window_years) {
 
 # Load the raw tracker build plus the file catalog that tells us where to find
 # supplemental IPEDS tables such as EAP, EFFY, SFA, and DRVF.
-raw_rows <- suppressMessages(readr::read_csv(raw_path, show_col_types = FALSE, guess_max = 100000))
+raw_rows <- suppressMessages(readr::read_csv(
+  raw_path,
+  show_col_types = FALSE,
+  col_types = readr::cols(.default = readr::col_character())
+))
 catalog <- suppressMessages(readr::read_csv(catalog_path, show_col_types = FALSE, guess_max = 10000))
 
 raw_rows <- raw_rows %>%
@@ -977,9 +985,10 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
     enrollment_nonresident_total = to_num(row$enrollment_nonresident_total[[1]]),
     enrollment_nonresident_undergrad = to_num(row$enrollment_nonresident_undergrad[[1]]),
     enrollment_nonresident_graduate = to_num(row$enrollment_nonresident_graduate[[1]]),
-    staff_fte_total = to_num(row$fte_total_staff[[1]]),
-    staff_fte_instructional = to_num(row$fte_instructional[[1]]),
-    transfer_out_rate_bachelor = to_num(row$transfer_out_rate_bachelor[[1]]),
+      staff_fte_total = to_num(row$fte_total_staff[[1]]),
+      staff_fte_instructional = to_num(row$fte_instructional[[1]]),
+      students_per_instructional_staff_fte = safe_divide(fte12, to_num(row$fte_instructional[[1]])),
+      transfer_out_rate_bachelor = to_num(row$transfer_out_rate_bachelor[[1]]),
     research_expense = research_expense,
     research_expense_per_fte = safe_divide(research_expense, fte12),
     research_expense_pct_core_expenses = safe_divide(research_expense, core_expenses),
@@ -1025,6 +1034,33 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
     government_funding_pct_total_revenue = safe_divide(government_funding, revenue),
     endowment_value = endowment_value,
     endowment_value_adjusted = endowment_value_adjusted,
+    endowment_spending_current_use = if (uses_gasb_finance) {
+      as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
+    } else if (uses_fasb_finance) {
+      as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
+    } else {
+      NA_real_
+    },
+    endowment_spending_current_use_adjusted = inflate_to_base_year(
+      if (uses_gasb_finance) {
+        as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
+      } else if (uses_fasb_finance) {
+        as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
+      } else {
+        NA_real_
+      },
+      year
+    ),
+    endowment_spending_current_use_pct_core_revenue = safe_divide(
+      if (uses_gasb_finance) {
+        as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
+      } else if (uses_fasb_finance) {
+        as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
+      } else {
+        NA_real_
+      },
+      core_revenue
+    ),
     endowment_assets_per_fte_gasb = to_num(row$endowment_assets_per_fte_gasb[[1]]),
     endowment_assets_per_fte_fasb = to_num(row$endowment_assets_per_fte_fasb[[1]]),
     endowment_assets_per_fte = ifelse(control_label == "Public", to_num(row$endowment_assets_per_fte_gasb[[1]]), to_num(row$endowment_assets_per_fte_fasb[[1]])),
@@ -1233,13 +1269,13 @@ enrich_group <- function(df) {
     mutate(
       international_students_sentence = case_when(
         is.na(pct_international_all) ~ NA_character_,
-        !is.na(pct_international_undergraduate) & !is.na(pct_international_graduate) ~ paste0(round(pct_international_all * 100), "% of students are international. That includes ", round(pct_international_undergraduate * 100), "% of undergraduates and ", round(pct_international_graduate * 100), "% of graduate students."),
-        TRUE ~ paste0(round(pct_international_all * 100), "% of students are international.")
+        !is.na(pct_international_undergraduate) & !is.na(pct_international_graduate) ~ paste0("In ", year, ", ", round(pct_international_all * 100), "% of students were international. That includes ", round(pct_international_undergraduate * 100), "% of undergraduates and ", round(pct_international_graduate * 100), "% of graduate students."),
+        TRUE ~ paste0("In ", year, ", ", round(pct_international_all * 100), "% of students were international.")
       ),
       enrollment_change_sentence = ifelse(is.na(enrollment_pct_change_5yr), NA_character_, paste0("12-month unduplicated headcount changed by ", round(enrollment_pct_change_5yr, 1), "% over the past five years.")),
       revenue_change_sentence = ifelse(is.na(revenue_pct_change_5yr), NA_character_, paste0("Total revenue changed by ", round(revenue_pct_change_5yr, 1), "% over the past five years.")),
       staffing_change_sentence = ifelse(is.na(staff_total_headcount_pct_change_5yr), NA_character_, paste0("Total staff headcount changed by ", round(staff_total_headcount_pct_change_5yr, 1), "% over the past five years.")),
-      federal_grants_contracts_dependence_sentence = ifelse(is.na(federal_grants_contracts_pell_adjusted_pct_core_revenue), NA_character_, paste0(round(federal_grants_contracts_pell_adjusted_pct_core_revenue * 100, 1), "% of core revenue came from Pell-adjusted federal grants and contracts.")),
+      federal_grants_contracts_dependence_sentence = ifelse(is.na(federal_grants_contracts_pell_adjusted_pct_core_revenue), NA_character_, paste0(round(federal_grants_contracts_pell_adjusted_pct_core_revenue * 100, 1), "% of core revenue came from Pell-adjusted federal grants and contracts in ", year, ".")),
       state_funding_sentence = ifelse(is.na(state_funding_pct_core_revenue), NA_character_, paste0(round(state_funding_pct_core_revenue * 100, 1), "% of core revenue came from state appropriations."))
     )
 }
@@ -1337,6 +1373,24 @@ sector_research_benchmarks <- sorted_rows %>%
     sector_median_research_expense_per_fte_positive
   )
 
+sector_staffing_benchmarks <- sorted_rows %>%
+  group_by(control_label, year) %>%
+  summarise(
+    sector_median_students_per_instructional_staff_fte = if (
+      all(is.na(students_per_instructional_staff_fte) | students_per_instructional_staff_fte <= 0)
+    ) {
+      NA_real_
+    } else {
+      stats::median(
+        students_per_instructional_staff_fte[
+          !is.na(students_per_instructional_staff_fte) & students_per_instructional_staff_fte > 0
+        ],
+        na.rm = TRUE
+      )
+    },
+    .groups = "drop"
+  )
+
 sorted_rows <- sorted_rows %>%
   select(-any_of(c(
     "sector_median_tuition_dependence_pct",
@@ -1348,6 +1402,7 @@ sorted_rows <- sorted_rows %>%
     "sector_research_spending_positive_n",
     "sector_research_spending_reporting_share_pct",
     "sector_median_research_expense_per_fte_positive",
+    "sector_median_students_per_instructional_staff_fte",
     "tuition_dependence_vs_sector_median_pct_points",
     "tuition_dependence_relative_to_sector_median",
     "tuition_dependence_vs_sector_median_sentence"
@@ -1355,6 +1410,7 @@ sorted_rows <- sorted_rows %>%
   left_join(sector_tuition_dependence_benchmarks, by = c("control_label", "year")) %>%
   left_join(sector_enrollment_benchmarks, by = c("control_label", "year")) %>%
   left_join(sector_research_benchmarks, by = c("unitid", "year")) %>%
+  left_join(sector_staffing_benchmarks, by = c("control_label", "year")) %>%
   mutate(
     tuition_dependence_vs_sector_median_pct_points = tuition_dependence_pct - sector_median_tuition_dependence_pct,
     tuition_dependence_relative_to_sector_median = case_when(
@@ -1367,9 +1423,11 @@ sorted_rows <- sorted_rows %>%
     tuition_dependence_vs_sector_median_sentence = case_when(
       is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
       TRUE ~ paste0(
-        "This college gets ",
+        "This college got ",
         round(tuition_dependence_pct),
-        "% of its revenue from net tuition, ",
+        "% of its revenue from net tuition in ",
+        year,
+        ", ",
         tolower(case_when(
           abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "about the same as",
           tuition_dependence_pct > sector_median_tuition_dependence_pct ~ "above",
@@ -1414,6 +1472,7 @@ canonical_columns <- c(
   "international_enrollment_increase_10yr","transfer_out_rate_bachelor","transfer_out_rate_bachelor_change_5yr",
   "transfer_out_rate_bachelor_increase_5yr","research_expense","research_expense_per_fte","research_expense_pct_core_expenses","core_expenses",
   "sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive","staff_fte_total","staff_fte_instructional",
+  "students_per_instructional_staff_fte","sector_median_students_per_instructional_staff_fte",
   "staff_headcount_total","staff_headcount_instructional","revenue_total","revenue_total_adjusted","expenses_total",
   "expenses_total_adjusted","loss_amount","loss_amount_adjusted",
   "ended_year_at_loss","losses_last_3_of_5","loss_years_last_5","loss_years_last_10","net_tuition_total",
@@ -1428,7 +1487,7 @@ canonical_columns <- c(
   "federal_grants_contracts_pell_adjusted_pct_change_5yr_adjusted",
   "state_approps_percent_core_gasb","gov_grants_fasb","state_revenue_fte_fasb","gov_revenue_fte_fasb",
   "state_funding","state_funding_adjusted","state_funding_pct_core_revenue",
-  "state_funding_pct_change_5yr","state_funding_pct_change_5yr_adjusted","endowment_value","endowment_value_adjusted","endowment_assets_per_fte_gasb","endowment_assets_per_fte_fasb","endowment_assets_per_fte",
+  "state_funding_pct_change_5yr","state_funding_pct_change_5yr_adjusted","endowment_value","endowment_value_adjusted","endowment_spending_current_use","endowment_spending_current_use_adjusted","endowment_spending_current_use_pct_core_revenue","endowment_assets_per_fte_gasb","endowment_assets_per_fte_fasb","endowment_assets_per_fte",
   "endowment_assets_per_fte_adjusted","endowment_pct_change_5yr","endowment_pct_change_5yr_adjusted","liquidity","liquidity_percentile_private_nfp","leverage",
   "leverage_percentile_private_nfp","loan_year_latest","loan_pct_undergrad_federal_latest",
   "loan_count_undergrad_federal_latest","loan_avg_undergrad_federal_latest","federal_loan_pct_most_recent",

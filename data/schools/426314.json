@@ -20,6 +20,8 @@
     "net_tuition_per_fte_change_5yr": -5.0097,
     "staff_total_headcount_pct_change_5yr": 15.8713,
     "staff_instructional_headcount_pct_change_5yr": 42.4547,
+    "students_per_instructional_staff_fte": 23.8235,
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
@@ -40,7 +42,7 @@
     "pct_international_graduate": 9.5301,
     "international_student_count_change_5yr": 451,
     "international_enrollment_pct_change_5yr": 70.3588,
-    "international_students_sentence": "6.1% of students are international. That includes 4.9% of undergraduates and 9.5% of graduate students.",
+    "international_students_sentence": "In 2024, 6.1% of students were international. That includes 4.9% of undergraduates and 9.5% of graduate students.",
     "federal_loan_pct_most_recent": 10,
     "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": 79,
@@ -52,6 +54,7 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 697.9716,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": 286.2193,
+    "endowment_spending_current_use_pct_core_revenue": 0.0012,
     "graduation_rate_6yr": 23,
     "median_earnings_10yr": 84131,
     "median_debt_completers": 23666,
@@ -473,6 +476,46 @@
       {
         "year": 2024,
         "value": 7350000
+      }
+    ],
+    "endowment_spending_current_use": [
+      {
+        "year": 2020,
+        "value": 25000
+      },
+      {
+        "year": 2021,
+        "value": 102000
+      },
+      {
+        "year": 2022,
+        "value": 81000
+      },
+      {
+        "year": 2023,
+        "value": 124000
+      },
+      {
+        "year": 2024,
+        "value": 132000
+      }
+    ],
+    "endowment_spending_current_use_pct_core_revenue": [
+      {
+        "year": 2021,
+        "value": 0.0009
+      },
+      {
+        "year": 2022,
+        "value": 0.0009
+      },
+      {
+        "year": 2023,
+        "value": 0.0013
+      },
+      {
+        "year": 2024,
+        "value": 0.0012
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [

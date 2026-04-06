@@ -44,6 +44,7 @@
     </section>
 
     <section class="school-meta-wrap">
+      <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
       <div class="school-actions">
         <button id="download-school-data" class="download-button" type="button">Download This College's Data</button>
       </div>
@@ -52,17 +53,17 @@
       <p id="school-control" class="school-meta"></p>
     </section>
 
-    <section class="data-card">
+    <section id="school-outcomes-section" class="data-card">
       <div id="school-outcomes-grid" class="research-summary-grid">
-        <article class="metric-strip neutral">
+        <article id="school-graduation-card" class="metric-strip neutral">
           <div class="metric-question">Graduation rate, bachelor's degree within 6 years</div>
           <div id="school-graduation-rate" class="metric-answer">No data</div>
         </article>
-        <article class="metric-strip neutral">
+        <article id="school-earnings-card" class="metric-strip neutral">
           <div class="metric-question">Median earnings, 10 years after entry</div>
           <div id="school-median-earnings" class="metric-answer">No data</div>
         </article>
-        <article class="metric-strip neutral">
+        <article id="school-debt-card" class="metric-strip neutral">
           <div class="metric-question">Median total debt for graduates</div>
           <div id="school-median-debt" class="metric-answer">No data</div>
         </article>
@@ -121,8 +122,9 @@
     <section class="section-block" id="staffing-section">
       <div class="section-title">Staffing</div>
       <p class="section-copy">Drops in staffing can signal that a college is cutting back as a result of financial and enrollment challenges.</p>
-      <div id="chart-staffing" class="chart-panel"></div>
       <div id="staff-change-card" class="metric-strip"></div>
+      <div id="chart-staffing" class="chart-panel"></div>
+      <div id="staff-ratio-card" class="metric-strip neutral"></div>
     </section>
 
     <section class="section-block" id="endowment-section">
@@ -150,6 +152,21 @@
       </div>
       <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
       <div id="research-spending-card" class="metric-strip neutral"></div>
+    </section>
+
+    <section class="section-block is-hidden" id="federal-composite-section">
+      <div class="section-title">Federal Composite Financial Score</div>
+      <p class="section-copy">The federal government looks at college finances and gives them a score for overall financial health. The scale goes from -1.0 to 3.0, with a score of at least 1.5 indicating the institution is considered financially responsible.</p>
+      <p class="section-copy">Schools with scores from 1 to less than 1.5 are considered financially responsible, but require additional oversight to keep receiving federal student aid. A school with a score less than 1.0 is considered not financially responsible and must take steps like posting a letter of credit to keep receiving federal aid.</p>
+      <p class="small-meta">These are the most recent public scores available from Federal Student Aid and cover fiscal years ending between July 1, 2022 and June 30, 2023.</p>
+      <div id="federal-composite-card" class="metric-strip neutral"></div>
+    </section>
+
+    <section class="section-block is-hidden" id="hcm2-section">
+      <div class="section-title">Cash Monitoring</div>
+      <p class="section-copy">The federal government can delay federal financial aid to colleges with serious accreditation, financial or administrative concerns. It can do so by placing them on what's known as heightened cash monitoring level 2. Historically, most schools on the list are for-profit.</p>
+      <p id="hcm2-trend-copy" class="section-copy"></p>
+      <div id="hcm2-card" class="metric-strip neutral"></div>
     </section>
 
     <section class="data-card">

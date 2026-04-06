@@ -15,9 +15,8 @@
   function syncTabs(unitid, financialUnitid) {
     const finances = document.getElementById("tab-finances");
     if (finances) {
-      const comparableUnitid = financialUnitid || (unitid && !String(unitid).startsWith("research-") ? unitid : "");
-      finances.href = comparableUnitid
-        ? `school.html?unitid=${encodeURIComponent(comparableUnitid)}`
+      finances.href = financialUnitid
+        ? `school.html?unitid=${encodeURIComponent(financialUnitid)}`
         : "index.html";
     }
     const cuts = document.getElementById("tab-cuts");
@@ -151,8 +150,9 @@
     const financeLink = financialUnitid
       ? `<li><a href="${schoolUrl(financialUnitid, "school.html")}">Finances</a></li>`
       : "";
-    const comparableUnitid = financialUnitid || (!String(unitid).startsWith("research-") ? unitid : "");
-    const cutsLink = comparableUnitid ? `<li><a href="${schoolUrl(comparableUnitid, "cuts.html")}">College Cuts</a></li>` : "";
+    const cutsLink = (!String(unitid).startsWith("research-") && unitid)
+      ? `<li><a href="${schoolUrl(unitid, "cuts.html")}">College Cuts</a></li>`
+      : "";
     const list = [financeLink, cutsLink].filter(Boolean).join("");
     if (!list) return "";
     return `
@@ -593,7 +593,7 @@
       overview.innerHTML = "";
     }
 
-    title.textContent = `Currently disrupted grants (${Number(school.total_disrupted_grants || 0)})`;
+    title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;
     if (title) title.classList.remove("is-hidden");
     if (filterWrap) filterWrap.classList.add("is-hidden");
     if (stateSummaryCard) stateSummaryCard.classList.add("is-hidden");

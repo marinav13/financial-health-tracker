@@ -2,6 +2,7 @@
   const { loadJson, schoolUrl } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
+  const CLOSURE_PAGE_SIZE = 10;
   const MIN_DEFAULT_YEAR = 2024;
 
   function getParam(name) {
@@ -205,6 +206,59 @@
     `;
   }
 
+  function sortClosures(items, sortState) {
+    const sorted = (items || []).slice();
+    const direction = sortState?.direction === "desc" ? -1 : 1;
+    sorted.sort((a, b) => {
+      if (sortState?.key === "institution_name") {
+        const primary = compareText(a.institution_name, b.institution_name) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.close_date, b.close_date);
+      }
+      if (sortState?.key === "state") {
+        const primary = compareText(a.state, b.state) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "close_date") {
+        const primary = compareText(a.close_date, b.close_date) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      return compareText(a.close_date, b.close_date);
+    });
+    return sorted;
+  }
+
+  function renderClosuresTable(items, sortState) {
+    if (!items || !items.length) return renderEmpty("No matched closures are available.");
+    const rows = items.map((closure) => `
+      <tr>
+        <td>${financePageLink(closure.unitid, closure.institution_name || "")}</td>
+        <td>${closure.state || ""}</td>
+        <td>${closure.control_label || ""}</td>
+        <td>${closure.close_date_display || closure.close_date || ""}</td>
+        <td>Federal data</td>
+      </tr>
+    `).join("");
+    return `
+      <div class="history-table-wrap">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
+              <th>${renderSortControls("state", sortState, "State")}</th>
+              <th>Sector</th>
+              <th>${renderSortControls("close_date", sortState, "Closure date")}</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
   function getAnnouncementYear(cut) {
     const explicitYear = Number(cut.announcement_year || "");
     if (!Number.isNaN(explicitYear) && explicitYear > 0) return explicitYear;
@@ -261,6 +315,36 @@
     return `
       ${renderCutsTable(pageItems, sortState)}
       <div class="pagination" aria-label="College cuts pages">
+        ${pagination}
+      </div>
+    `;
+  }
+
+  function renderClosuresTablePage(items, page, pageSize, emptyMessage, sortState) {
+    const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
+    const safePage = Math.min(Math.max(1, page), totalPages);
+    const start = (safePage - 1) * pageSize;
+    const pageItems = items.slice(start, start + pageSize);
+
+    if (!pageItems.length) {
+      return renderEmpty(emptyMessage);
+    }
+
+    const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
+      .map((pageNumber) => `
+        <button
+          type="button"
+          class="pagination-button${pageNumber === safePage ? " is-active" : ""}"
+          data-page="${pageNumber}"
+          aria-label="Page ${pageNumber}"
+          aria-current="${pageNumber === safePage ? "page" : "false"}"
+        >${pageNumber}</button>
+      `)
+      .join("");
+
+    return `
+      ${renderClosuresTable(pageItems, sortState)}
+      <div class="pagination" aria-label="Closure pages">
         ${pagination}
       </div>
     `;
@@ -327,15 +411,111 @@
     render();
   }
 
+  function setupClosurePagination(container, items, pageSize = CLOSURE_PAGE_SIZE, emptyMessage = "No tracker-universe closures from 2024-2026 are available.", downloadButtonId = null, downloadFilename = "college-closures.csv", searchInput = null) {
+    if (!container) return;
+    let currentPage = 1;
+    let sortState = { key: "close_date", direction: "asc" };
+    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
+
+    const render = () => {
+      const filteredItems = filterByInstitution(items, searchInput?.value || "");
+      const sortedItems = sortClosures(filteredItems, sortState);
+      container.innerHTML = renderClosuresTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
+      const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
+      const safePage = Math.min(Math.max(1, currentPage), totalPages);
+      const start = (safePage - 1) * pageSize;
+      const pageItems = sortedItems.slice(start, start + pageSize);
+      if (downloadButton) {
+        downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
+        downloadButton.onclick = () => downloadRowsCsv(
+          downloadFilename,
+          ["Institution", "State", "Sector", "Closure date", "Source"],
+          pageItems.map((closure) => [
+            closure.institution_name || "",
+            closure.state || "",
+            closure.control_label || "",
+            closure.close_date_display || closure.close_date || "",
+            "Federal data"
+          ])
+        );
+      }
+      container.querySelectorAll(".pagination-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const nextPage = Number(button.dataset.page || "1");
+          if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
+            currentPage = nextPage;
+            render();
+          }
+        });
+      });
+      container.querySelectorAll(".sort-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          const key = button.dataset.sortKey || "close_date";
+          const direction = button.dataset.sortDirection || "asc";
+          if (sortState.key === key && sortState.direction === direction) return;
+          sortState = { key, direction };
+          currentPage = 1;
+          render();
+        });
+      });
+    };
+
+    if (searchInput && !searchInput.dataset.boundFilter) {
+      searchInput.addEventListener("input", () => {
+        currentPage = 1;
+        render();
+      });
+      searchInput.dataset.boundFilter = "true";
+    }
+
+    render();
+  }
+
+  function formatDateLong(dateText) {
+    if (!dateText) return "";
+    const parsed = new Date(`${dateText}T00:00:00`);
+    if (Number.isNaN(parsed.getTime())) return dateText;
+    return parsed.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  }
+
+  function isFourYearInstitution(record) {
+    const category = String(record?.category || "");
+    return /4-year or above/i.test(category) || /primarily baccalaureate or above/i.test(category);
+  }
+
+  function buildRecentClosures(closureData, schoolsIndex) {
+    const schoolLookup = new Map((schoolsIndex || []).map((school) => [String(school.unitid || ""), school]));
+    return Object.values(closureData?.schools || {})
+      .map((closure) => {
+        const school = schoolLookup.get(String(closure.unitid || "")) || {};
+        return {
+          ...closure,
+          institution_name: school.institution_name || closure.institution_name || "",
+          state: school.state || closure.state || "",
+          control_label: school.control_label || "",
+          category: school.category || "",
+          close_date_display: formatDateLong(closure.close_date || "")
+        };
+      })
+      .filter((closure) => {
+        const year = Number(closure.close_year || "");
+        return Number.isFinite(year) && year >= 2024 && year <= 2026 && isFourYearInstitution(closure);
+      });
+  }
+
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid);
 
     const cutsData = await loadJson("data/college_cuts.json");
+    const closureData = await loadJson("data/closure_status_by_unitid.json");
+    const schoolsIndex = await loadJson("data/schools_index.json");
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
+    const closuresContainer = document.getElementById("cuts-closures-list");
     const title = document.getElementById("cuts-section-title");
     const otherTitle = document.getElementById("cuts-other-section-title");
+    const closuresTitle = document.getElementById("cuts-closures-section-title");
 
     if (!unitid) {
       document.getElementById("cuts-school-name").textContent = "";
@@ -343,13 +523,18 @@
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
+      const closures = buildRecentClosures(closureData, schoolsIndex);
       setSectionVisible("cuts-other-list", true);
+      setSectionVisible("cuts-closures-list", true);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
+      if (closuresTitle) closuresTitle.textContent = "Closures at 4-year institutions, 2024-2026";
       const primaryFilter = document.getElementById("cuts-filter");
       const otherFilter = document.getElementById("cuts-other-filter");
+      const closuresFilter = document.getElementById("cuts-closures-filter");
       setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
       setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
+      setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, "No tracker-universe closures from 2024-2026 are available.", "cuts-closures-download", "cuts-closures.csv", closuresFilter);
       return;
     }
 
@@ -380,12 +565,17 @@
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);
+    setSectionVisible("cuts-closures-list", false);
     const mainDownload = document.getElementById("cuts-table-download");
     const otherDownload = document.getElementById("cuts-other-download");
+    const closuresDownload = document.getElementById("cuts-closures-download");
     if (mainDownload) mainDownload.classList.add("is-hidden");
     if (otherDownload) otherDownload.classList.add("is-hidden");
+    if (closuresDownload) closuresDownload.classList.add("is-hidden");
     if (otherContainer) otherContainer.innerHTML = "";
+    if (closuresContainer) closuresContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
+    if (closuresTitle) closuresTitle.textContent = "";
     if (!(school.cuts || []).length) {
       container.innerHTML = renderEmpty("No matched cuts were found for this institution.");
       return;

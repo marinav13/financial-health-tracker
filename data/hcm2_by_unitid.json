@@ -1,0 +1,1346 @@
+{
+  "generated_at": "2026-04-03",
+  "source_files": [
+    "federal_hcm/raw/schools-on-hcm-dec-2024.xls",
+    "federal_hcm/raw/schools-on-hcm-mar-2025.xlsx",
+    "federal_hcm/raw/schools-on-hcm-jun-2025.xlsx",
+    "federal_hcm/raw/schools-on-hcm-sep-2025.xlsx",
+    "federal_hcm/raw/schools-on-hcm-dec-2025.xlsx"
+  ],
+  "summary": {
+    "counts_by_snapshot": [
+      {
+        "snapshot_date": "2024-12-01",
+        "snapshot_label": "December 2024",
+        "hcm2_institutions": 42,
+        "hcm2_institutions_in_finance_tracker": 11
+      },
+      {
+        "snapshot_date": "2025-03-01",
+        "snapshot_label": "March 2025",
+        "hcm2_institutions": 49,
+        "hcm2_institutions_in_finance_tracker": 11
+      },
+      {
+        "snapshot_date": "2025-06-01",
+        "snapshot_label": "June 2025",
+        "hcm2_institutions": 26,
+        "hcm2_institutions_in_finance_tracker": 7
+      },
+      {
+        "snapshot_date": "2025-09-01",
+        "snapshot_label": "September 2025",
+        "hcm2_institutions": 18,
+        "hcm2_institutions_in_finance_tracker": 6
+      },
+      {
+        "snapshot_date": "2025-12-01",
+        "snapshot_label": "December 2025",
+        "hcm2_institutions": 18,
+        "hcm2_institutions_in_finance_tracker": 6
+      }
+    ],
+    "trump_administration_drop_from": 42,
+    "trump_administration_drop_to": 18,
+    "latest_snapshot_label": "December 2025",
+    "dec2024_drop_count": 28,
+    "mar2025_drop_count": 33,
+    "jun2025_drop_count": 8,
+    "dec2024_remained_count": 14,
+    "mar2025_remained_count": 16,
+    "downgraded_to_hcm1_count": 12
+  },
+  "schools": {
+    "490744": {
+      "unitid": "490744",
+      "institution_name": "Northern Technical College",
+      "sector": "Private for-profit",
+      "state": "AR",
+      "opeids": [
+        "04272400"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "485704": {
+      "unitid": "485704",
+      "institution_name": "River Valley School of Massage",
+      "sector": "Private for-profit",
+      "state": "AR",
+      "opeids": [
+        "04241900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Compliance Audit Late or Missing",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "119775": {
+      "unitid": "119775",
+      "institution_name": "NewSchool of Architecture and Design",
+      "sector": "Private for-profit",
+      "state": "CA",
+      "opeids": [
+        "03043900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "416458": {
+      "unitid": "416458",
+      "institution_name": "Premiere Career College",
+      "sector": "Private for-profit",
+      "state": "CA",
+      "opeids": [
+        "03125800"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "112084": {
+      "unitid": "112084",
+      "institution_name": "San Diego Christian College",
+      "sector": "Private not-for-profit",
+      "state": "CA",
+      "opeids": [
+        "01203100"
+      ],
+      "snapshots_present": [
+        "2024-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2024",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "March 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "December 2024",
+      "first_hcm1_snapshot_after_hcm2_label": "March 2025",
+      "latest_hcm2_reason_on_description": "Adverse Action Taken by Accreditor/State Agency"
+    },
+    "481571": {
+      "unitid": "481571",
+      "institution_name": "Belle Academy of Cosmetology",
+      "sector": "Private for-profit",
+      "state": "CT",
+      "opeids": [
+        "04224200"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "439394": {
+      "unitid": "439394",
+      "institution_name": "East West College of Natural Medicine",
+      "sector": "Private for-profit",
+      "state": "FL",
+      "opeids": [
+        "03429700"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "134510": {
+      "unitid": "134510",
+      "institution_name": "Hobe Sound Bible College",
+      "sector": "Private not-for-profit",
+      "state": "FL",
+      "opeids": [
+        "02188900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "490230": {
+      "unitid": "490230",
+      "institution_name": "Reformed University",
+      "sector": "Private not-for-profit",
+      "state": "GA",
+      "opeids": [
+        "04256700"
+      ],
+      "snapshots_present": [
+        "2024-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2024",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "March 2025",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "482167": {
+      "unitid": "482167",
+      "institution_name": "Trenz Beauty Academy",
+      "sector": "Private for-profit",
+      "state": "IL",
+      "opeids": [
+        "04224500"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Severe Program Review Findings"
+    },
+    "155308": {
+      "unitid": "155308",
+      "institution_name": "Kansas Christian College",
+      "sector": "Private not-for-profit",
+      "state": "KS",
+      "opeids": [
+        "02168900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Audit - Severe Findings",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Audit - Severe Findings"
+    },
+    "480161": {
+      "unitid": "480161",
+      "institution_name": "Ideal Beauty Academy",
+      "sector": "Private for-profit",
+      "state": "KY",
+      "opeids": [
+        "04038700"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "444662": {
+      "unitid": "444662",
+      "institution_name": "Moore Career College",
+      "sector": "Private for-profit",
+      "state": "LA",
+      "opeids": [
+        "03727500"
+      ],
+      "snapshots_present": [
+        "2024-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2024",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "March 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "217606": {
+      "unitid": "217606",
+      "institution_name": "Northpoint Bible College",
+      "sector": "Private not-for-profit",
+      "state": "MA",
+      "opeids": [
+        "03570500"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Financial Responsibility"
+    },
+    "460932": {
+      "unitid": "460932",
+      "institution_name": "Skin Institute",
+      "sector": "Private for-profit",
+      "state": "MO",
+      "opeids": [
+        "04174000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Financial Responsibility"
+    },
+    "494685": {
+      "unitid": "494685",
+      "institution_name": "Urshan University",
+      "sector": "Private not-for-profit",
+      "state": "MO",
+      "opeids": [
+        "04282700"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "199582": {
+      "unitid": "199582",
+      "institution_name": "Saint Augustine's University",
+      "sector": "Private not-for-profit",
+      "state": "NC",
+      "opeids": [
+        "00296800"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "200086": {
+      "unitid": "200086",
+      "institution_name": "Nueta Hidatsa Sahnish College",
+      "sector": "Public",
+      "state": "ND",
+      "opeids": [
+        "02553700"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Administrative Capability"
+    },
+    "186274": {
+      "unitid": "186274",
+      "institution_name": "Robert Fiance Beauty Schools",
+      "sector": "Private for-profit",
+      "state": "NJ",
+      "opeids": [
+        "01209000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Administrative Capability"
+    },
+    "481094": {
+      "unitid": "481094",
+      "institution_name": "Sotheby's Institute of Art - NY",
+      "sector": "Private for-profit",
+      "state": "NY",
+      "opeids": [
+        "04179800"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "491774": {
+      "unitid": "491774",
+      "institution_name": "Transitions Career Institute School of Nursing",
+      "sector": "Private for-profit",
+      "state": "NY",
+      "opeids": [
+        "04270400"
+      ],
+      "snapshots_present": [
+        "2024-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2024",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "March 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "December 2024",
+      "first_hcm1_snapshot_after_hcm2_label": "March 2025",
+      "latest_hcm2_reason_on_description": "Adverse Action Taken by Accreditor/State Agency"
+    },
+    "197674": {
+      "unitid": "197674",
+      "institution_name": "Yeshiva of Nitra Rabbinical College",
+      "sector": "Private not-for-profit",
+      "state": "NY",
+      "opeids": [
+        "01167000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "202888": {
+      "unitid": "202888",
+      "institution_name": "Gerber Akron Beauty School",
+      "sector": "Private for-profit",
+      "state": "OH",
+      "opeids": [
+        "00953000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Program Review",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "496706": {
+      "unitid": "496706",
+      "institution_name": "Lakewood University",
+      "sector": "Private not-for-profit",
+      "state": "OH",
+      "opeids": [
+        "04293900"
+      ],
+      "snapshots_present": [
+        "2024-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2024",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "March 2025",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "207157": {
+      "unitid": "207157",
+      "institution_name": "Randall University",
+      "sector": "Private not-for-profit",
+      "state": "OK",
+      "opeids": [
+        "01026600"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "209719": {
+      "unitid": "209719",
+      "institution_name": "Summit Salon Academy - Portland",
+      "sector": "Private for-profit",
+      "state": "OR",
+      "opeids": [
+        "01300800"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Adverse Action Taken by Accreditor/State Agency"
+    },
+    "211608": {
+      "unitid": "211608",
+      "institution_name": "Cheyney University of Pennsylvania",
+      "sector": "Public",
+      "state": "PA",
+      "opeids": [
+        "00331700"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "490151": {
+      "unitid": "490151",
+      "institution_name": "Allied Health Careers Institute",
+      "sector": "Private for-profit",
+      "state": "TN",
+      "opeids": [
+        "04253100"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Audit - Severe Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "451918": {
+      "unitid": "451918",
+      "institution_name": "Jenny Lea Academy of Cosmetology",
+      "sector": "Private for-profit",
+      "state": "TN",
+      "opeids": [
+        "02275000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "248660": {
+      "unitid": "248660",
+      "institution_name": "Paul Mitchell the School Knoxville",
+      "sector": "Private for-profit",
+      "state": "TN",
+      "opeids": [
+        "02275500"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "484048": {
+      "unitid": "484048",
+      "institution_name": "Barber Institute of Texas",
+      "sector": "Private for-profit",
+      "state": "TX",
+      "opeids": [
+        "04229000"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "369686": {
+      "unitid": "369686",
+      "institution_name": "Northwest Educational Center",
+      "sector": "Private for-profit",
+      "state": "TX",
+      "opeids": [
+        "03303300"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Financial Statement Late or Missing",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Financial Statement Late or Missing"
+    },
+    "495244": {
+      "unitid": "495244",
+      "institution_name": "Pearlands Innovative School of Beauty",
+      "sector": "Private for-profit",
+      "state": "TX",
+      "opeids": [
+        "04288900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "443322": {
+      "unitid": "443322",
+      "institution_name": "Valley Grande Institute for Academic Studies",
+      "sector": "Private not-for-profit",
+      "state": "TX",
+      "opeids": [
+        "03612400"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "240596": {
+      "unitid": "240596",
+      "institution_name": "Eastern Wyoming College",
+      "sector": "Public",
+      "state": "WY",
+      "opeids": [
+        "00392900"
+      ],
+      "snapshots_present": [
+        "2024-12-01",
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "December 2024",
+        "March 2025"
+      ],
+      "first_snapshot_label": "December 2024",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Administrative Capability"
+    },
+    "103954": {
+      "unitid": "103954",
+      "institution_name": "Arizona Academy of Beauty",
+      "sector": "Private for-profit",
+      "state": "AZ",
+      "opeids": [
+        "00886400"
+      ],
+      "snapshots_present": [
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "488563": {
+      "unitid": "488563",
+      "institution_name": "California College of Music",
+      "sector": "Private for-profit",
+      "state": "CA",
+      "opeids": [
+        "04293000"
+      ],
+      "snapshots_present": [
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Severe Program Review Findings",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "461953": {
+      "unitid": "461953",
+      "institution_name": "Colorado Academy of Veterinary Technology",
+      "sector": "Private for-profit",
+      "state": "CO",
+      "opeids": [
+        "04185000"
+      ],
+      "snapshots_present": [
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "420370": {
+      "unitid": "420370",
+      "institution_name": "Career Technical Institute",
+      "sector": "Private for-profit",
+      "state": "DC",
+      "opeids": [
+        "03104300"
+      ],
+      "snapshots_present": [
+        "2025-03-01",
+        "2025-06-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025",
+        "June 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "June 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "September 2025",
+      "latest_reason_on_description": "Financial Responsibility",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "493831": {
+      "unitid": "493831",
+      "institution_name": "Midwest Barber College",
+      "sector": "Private for-profit",
+      "state": "KS",
+      "opeids": [
+        "04284500"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "159513": {
+      "unitid": "159513",
+      "institution_name": "Aveda Arts & Sciences Institute Baton Rouge",
+      "sector": "Private for-profit",
+      "state": "LA",
+      "opeids": [
+        "02258400"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Other - CIO Problems (Eligibility)",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "160320": {
+      "unitid": "160320",
+      "institution_name": "Aveda Arts & Sciences Institute Covington",
+      "sector": "Private for-profit",
+      "state": "LA",
+      "opeids": [
+        "02600900"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Other - CIO Problems (Eligibility)",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "159522": {
+      "unitid": "159522",
+      "institution_name": "Aveda Arts & Sciences Institute Lafayette",
+      "sector": "Private for-profit",
+      "state": "LA",
+      "opeids": [
+        "02117800"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Other - CIO Problems (Eligibility)",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "193399": {
+      "unitid": "193399",
+      "institution_name": "University of Mount Saint Vincent",
+      "sector": "Private not-for-profit",
+      "state": "NY",
+      "opeids": [
+        "00270300"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "204459": {
+      "unitid": "204459",
+      "institution_name": "Toledo Public Schools Adult and Continuing Education",
+      "sector": "Public",
+      "state": "OH",
+      "opeids": [
+        "00813200"
+      ],
+      "snapshots_present": [
+        "2025-03-01",
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025",
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "213303": {
+      "unitid": "213303",
+      "institution_name": "Keystone College",
+      "sector": "Private not-for-profit",
+      "state": "PA",
+      "opeids": [
+        "00328000"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Adverse Action Taken by Accreditor/State Agency",
+      "downgraded_to_hcm1_after_hcm2": true,
+      "first_hcm2_snapshot_before_downgrade_label": "March 2025",
+      "first_hcm1_snapshot_after_hcm2_label": "June 2025",
+      "latest_hcm2_reason_on_description": "Adverse Action Taken by Accreditor/State Agency"
+    },
+    "455354": {
+      "unitid": "455354",
+      "institution_name": "Aveda Arts & Sciences Institute Corpus Christi",
+      "sector": "Private for-profit",
+      "state": "TX",
+      "opeids": [
+        "04142300"
+      ],
+      "snapshots_present": [
+        "2025-03-01"
+      ],
+      "snapshot_labels_present": [
+        "March 2025"
+      ],
+      "first_snapshot_label": "March 2025",
+      "latest_snapshot_label_present": "March 2025",
+      "on_latest_snapshot": false,
+      "first_snapshot_absent_after_last_presence": "June 2025",
+      "latest_reason_on_description": "Other - CIO Problems (Eligibility)",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "493637": {
+      "unitid": "493637",
+      "institution_name": "South Eastern Beauty Academy",
+      "sector": "Private for-profit",
+      "state": "KY",
+      "opeids": [
+        "04278000"
+      ],
+      "snapshots_present": [
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "June 2025",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Payment Method Changed",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    },
+    "434432": {
+      "unitid": "434432",
+      "institution_name": "Myotherapy Institute",
+      "sector": "Private for-profit",
+      "state": "NE",
+      "opeids": [
+        "03279300"
+      ],
+      "snapshots_present": [
+        "2025-06-01",
+        "2025-09-01",
+        "2025-12-01"
+      ],
+      "snapshot_labels_present": [
+        "June 2025",
+        "September 2025",
+        "December 2025"
+      ],
+      "first_snapshot_label": "June 2025",
+      "latest_snapshot_label_present": "December 2025",
+      "on_latest_snapshot": true,
+      "first_snapshot_absent_after_last_presence": "",
+      "latest_reason_on_description": "Administrative Capability",
+      "downgraded_to_hcm1_after_hcm2": false,
+      "first_hcm2_snapshot_before_downgrade_label": "",
+      "first_hcm1_snapshot_after_hcm2_label": ""
+    }
+  }
+}

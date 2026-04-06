@@ -269,6 +269,14 @@ body {
   color: #2c3350;
 }
 
+.school-closure-flag {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  color: #8b1e16;
+  font-weight: 600;
+}
+
 .section-block {
   margin-top: var(--space-4);
   text-align: center;
@@ -447,7 +455,9 @@ body {
 .small-meta {
   color: #555;
   font-size: 0.95rem;
-  margin: 0 0 10px;
+  margin: 0 auto 10px;
+  max-width: 620px;
+  text-align: center;
 }
 
 .plain-list,

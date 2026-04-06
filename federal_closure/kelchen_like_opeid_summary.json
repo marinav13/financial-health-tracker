@@ -1,0 +1,33 @@
+{
+  "panel_year_start": 1996,
+  "panel_year_end": 2024,
+  "kelchen_compare_end_year": 2023,
+  "present_closure_end_year": 2026,
+  "unique_opeid6_with_valid_opeid": 8964,
+  "preferred_sample_opeid6": 8559,
+  "all_valid_sample_opeid6": 8933,
+  "known_type_sample_opeid6": 8899,
+  "all_valid_no_1996_only_blank_sample_opeid6": 8718,
+  "selected_sample_variant": "all_valid_no_1996_only_blank",
+  "kelchen_table3_total_institutions": 8633,
+  "sample_gap_vs_kelchen": 85,
+  "main_campus_closures_1996_2023": 1679,
+  "main_campus_closures_1996_present": 1801,
+  "closures_with_matched_headcount": 1162,
+  "closures_with_student_fte_two_years_prior": 799,
+  "matched_student_headcount_total": 827305,
+  "kelchen_table3_total_closures": 1661,
+  "closure_gap_vs_kelchen": 18,
+  "best_variant": {
+    "sample_variant": "all_valid_no_1996_only_blank",
+    "closure_variant": "schfile_main00_close_date",
+    "sample_size": 8718,
+    "sample_gap_vs_kelchen": 85,
+    "main_campus_closures": 1679,
+    "closure_gap_vs_kelchen": 18,
+    "absolute_total_gap": 103
+  },
+  "figure2_output_built": true,
+  "method_note": "This script approximates Kelchen's OPEID-level panel using official IPEDS directory-style files and the federal schfile rectype-01 main-campus close-date signal. It is materially closer to the paper's PEPS-style closure logic than an IPEDS ACT-code proxy. It now uses first closure only, excludes obvious fake 00 branch rows, drops foreign locations, classifies OPEIDs as 4-year if any component is 4-year, and double-counts sector changers in the type tables.",
+  "coverage_note": "Recovered 1996-1997 IPEDS files help define the panel, but they do not expose the same closure-status fields as later directory files. Annual closure counts should therefore be treated as strongest from 1998 onward. The 1996-2023 comparison can still differ from the paper because the current schfile can include later backfilled closures beyond the November 2023 PEPS snapshot used in the paper. The present-day extension uses the current schfile through 2026, while IPEDS panel exits stop after 2024 because newer directory files are not yet available locally."
+}

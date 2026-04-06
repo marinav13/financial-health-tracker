@@ -455,6 +455,7 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "PublicFedTop", "", "", "", "", "", "", "", "Public universities ranked by federal grants and contracts as a share of core revenue."),
   make_row("Worksheet index", "GradDependTop", "", "", "", "", "", "", "", "Universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
   make_row("Worksheet index", "PublicGradTop", "", "", "", "", "", "", "", "Public universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
+  make_row("Worksheet index", "StudPerInstr50", "", "", "", "", "", "", "", "Top 50 universities with the highest students-per-instructional-staff ratio, using the FTE-based IPEDS measure."),
   make_row("Worksheet index", "FlagshipCuts", "", "", "", "", "", "", "", "Public flagships matched to still-disrupted federal research cuts from Grant Witness."),
   make_row("Worksheet index", "DistressCompare", "", "", "", "", "", "", "", "Year comparison for the distress paragraph framing, including 2024 toplines and 2019/2014 context."),
   make_row("Worksheet index", "IntlOffset10yr", "", "", "", "", "", "", "", "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
@@ -463,6 +464,29 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "AccredMatches", "", "", "", "", "", "", "", "Matched 4-year primarily bachelor's institutions with accreditation actions and finance metrics."),
   make_row("Worksheet index", "CutsFinanceXtab", "", "", "", "", "", "", "", "Finance, enrollment, and staffing comparison for institutions with versus without college cuts."),
   make_row("Worksheet index", "CutsMatches", "", "", "", "", "", "", "", "Matched 4-year primarily bachelor's institutions with college cuts and finance metrics."),
+  make_row("Worksheet index", "HCM2Summary", "", "", "", "", "", "", "", "Quarterly counts for schools on heightened cash monitoring level 2 in the 2024-2025 Federal Student Aid snapshots."),
+  make_row("Worksheet index", "HCM2All", "", "", "", "", "", "", "", "All normalized HCM2 rows from the December 2024 through December 2025 quarterly source files."),
+  make_row("Worksheet index", "HCM2Dec24Drop", "", "", "", "", "", "", "", "Schools on HCM2 in December 2024 that had dropped off the list by December 2025."),
+  make_row("Worksheet index", "HCM2Mar25Drop", "", "", "", "", "", "", "", "Schools on HCM2 in March 2025 that had dropped off the list by December 2025."),
+  make_row("Worksheet index", "HCM2Jun25Drop", "", "", "", "", "", "", "", "Schools on HCM2 in June 2025 that had dropped off the list by December 2025."),
+  make_row("Worksheet index", "HCM2Dec24Stay", "", "", "", "", "", "", "", "Schools on HCM2 in December 2024 that remained on every quarterly list through December 2025."),
+  make_row("Worksheet index", "HCM2Mar25Stay", "", "", "", "", "", "", "", "Schools on HCM2 in March 2025 that remained on every quarterly list through December 2025."),
+  make_row("Worksheet index", "RunningClosures", "", "", "", "", "", "", "", "Running list of federal closure events and IPEDS-supported closure or merger/consolidation events from 2008 to the present."),
+  make_row("Worksheet index", "MainCampusClosures", "", "", "", "", "", "", "", "Main-campus or full-system closures derived from federal closure files."),
+  make_row("Worksheet index", "BranchCampusClosures", "", "", "", "", "", "", "", "Branch-campus closures derived from PEPS rows and monthly federal reports."),
+  make_row("Worksheet index", "MergersConsol", "", "", "", "", "", "", "", "IPEDS exits that look more like mergers or consolidations than clean closures."),
+  make_row("Worksheet index", "PrivFedMainClose", "", "", "", "", "", "", "", "Selective list of private-sector main/full-system closures from federal closure sources only."),
+  make_row("Worksheet index", "KelchenLeavers", "", "", "", "", "", "", "", "IPEDS-only leavers from the annual directory files, using 2003-2023 HD files and no federal closure files."),
+  make_row("Worksheet index", "KelchenClose", "", "", "", "", "", "", "", "Selective IPEDS-only apparent closures, limited to degree-granting leavers with closure-like ACT codes and no successor UNITID."),
+  make_row("Worksheet index", "KelchenCombos", "", "", "", "", "", "", "", "IPEDS-only likely combinations or successor cases, separated so they are not mistaken for clean closures."),
+  make_row("Worksheet index", "KelchenYearSum", "", "", "", "", "", "", "", "Year-by-year summary of all IPEDS leavers versus the narrower apparent-closure proxy and likely combination counts."),
+  make_row("Worksheet index", "KelchenOPEID", "", "", "", "", "", "", "", "OPEID6-level panel approximation of the Kelchen/Federal Reserve closure sample, using recovered IPEDS directory-style files from 1996-2023."),
+  make_row("Worksheet index", "KelchenOPEIDClose", "", "", "", "", "", "", "", "Apparent main-campus closures from the OPEID6-level Kelchen-like panel."),
+  make_row("Worksheet index", "KelchenOPEIDYr", "", "", "", "", "", "", "", "Year-by-year OPEID6 exit counts, apparent main-campus closures, and likely combinations in the Kelchen-like panel."),
+  make_row("Worksheet index", "KelchenYrUniv", "", "", "", "", "", "", "", "Year-by-year universe and closure counts for the selected Kelchen-like OPEID6 match, with 2024 universe included and 2025-2026 left blank."),
+  make_row("Worksheet index", "KelchenYrType", "", "", "", "", "", "", "", "Main-campus closures by year and institution type for the Kelchen-like OPEID6 series."),
+  make_row("Worksheet index", "KelchenStudSec", "", "", "", "", "", "", "", "Student headcount represented by matched closures, overall and by broad sector."),
+  make_row("Worksheet index", "KelchenTbl3Cmp", "", "", "", "", "", "", "", "Comparison between our OPEID6-based Kelchen-like panel and Table 3 from the Federal Reserve paper."),
   make_row("Worksheet index", "IntlVulnerable", "", "", "", "", "", "", "", "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
   make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
@@ -476,6 +500,7 @@ all_sheet_columns <- c(
   "share_grad_students","pct_international_all","pct_international_undergraduate","pct_international_graduate","international_student_count_change_5yr","international_enrollment_pct_change_5yr","international_enrollment_increase_5yr","international_enrollment_change_10yr","international_enrollment_pct_change_10yr","international_enrollment_increase_10yr",
   "transfer_out_rate_bachelor","transfer_out_rate_bachelor_change_5yr","transfer_out_rate_bachelor_increase_5yr","transfer_out_rate_bachelor_change_10yr","transfer_out_rate_bachelor_increase_10yr",
   "staff_headcount_total","staff_headcount_instructional","staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","staff_change_1yr",
+  "students_per_instructional_staff_fte","sector_median_students_per_instructional_staff_fte",
   "revenue_total","revenue_pct_change_5yr","revenue_decreased_5yr","revenue_change_1yr","expenses_total","loss_amount",
   "net_tuition_per_fte","net_tuition_per_fte_change_5yr","tuition_dependence_pct",
   "discount_rate","discount_pct_change_5yr",
@@ -588,6 +613,18 @@ private_close_risk <- all_sheet_bacc[all_sheet_bacc$control_label != "Public" & 
 if (nrow(private_close_risk) > 0) private_close_risk <- private_close_risk[order(-xtfrm(private_close_risk$private_closure_risk_score), xtfrm(private_close_risk$net_tuition_per_fte_change_5yr), xtfrm(private_close_risk$revenue_pct_change_5yr), xtfrm(private_close_risk$enrollment_pct_change_5yr), na.last = TRUE), , drop = FALSE]
 public_campus_risk <- all_sheet_bacc[all_sheet_bacc$control_label == "Public" & !(as.integer(all_sheet_bacc$unitid) %in% flagship_unitids) & !is.na(all_sheet_bacc$public_campus_risk_score), , drop = FALSE]
 if (nrow(public_campus_risk) > 0) public_campus_risk <- public_campus_risk[order(-xtfrm(public_campus_risk$public_campus_risk_score), xtfrm(public_campus_risk$enrollment_pct_change_5yr), xtfrm(public_campus_risk$state_funding_pct_change_5yr), na.last = TRUE), , drop = FALSE]
+students_per_instr_top50 <- all_sheet_bacc[!is.na(all_sheet_bacc$students_per_instructional_staff_fte), , drop = FALSE]
+if (nrow(students_per_instr_top50) > 0) {
+  students_per_instr_top50 <- students_per_instr_top50[
+    order(
+      -xtfrm(students_per_instr_top50$students_per_instructional_staff_fte),
+      xtfrm(students_per_instr_top50$institution_name),
+      na.last = TRUE
+    ),
+    , drop = FALSE
+  ]
+  students_per_instr_top50 <- utils::head(students_per_instr_top50, 50)
+}
 
 # Mirror the finance-page card logic so workbook rankings match what readers see on school pages.
 finance_bad <- all_sheet_bacc
@@ -618,6 +655,31 @@ finance_bad$finance_page_bad_count <- rowSums(cbind(
 # same 2024 primarily bachelor's tracker universe used throughout the workbook.
 accreditation_summary <- read_csv_if_exists("./accreditation/accreditation_tracker_institution_summary.csv")
 college_cuts_summary <- read_csv_if_exists("./college_cuts/college_cuts_financial_tracker_institution_summary.csv")
+hcm_summary <- read_csv_if_exists("./federal_hcm/hcm_level2_summary.csv")
+hcm_all <- read_csv_if_exists("./federal_hcm/hcm_level2_snapshots_2024_2025.csv")
+hcm_dec24_drop <- read_csv_if_exists("./federal_hcm/hcm2_dec2024_dropped_since.csv")
+hcm_mar25_drop <- read_csv_if_exists("./federal_hcm/hcm2_mar2025_dropped_since.csv")
+hcm_jun25_drop <- read_csv_if_exists("./federal_hcm/hcm2_jun2025_dropped_since.csv")
+hcm_dec24_stay <- read_csv_if_exists("./federal_hcm/hcm2_dec2024_remained_since.csv")
+hcm_mar25_stay <- read_csv_if_exists("./federal_hcm/hcm2_mar2025_remained_since.csv")
+# Closure tabs come from the federal PEPS-style closure pipeline plus the
+# IPEDS merger/consolidation review list built in build_closure_outputs.py.
+running_closures <- read_csv_if_exists("./federal_closure/running_closures.csv")
+main_campus_closures <- read_csv_if_exists("./federal_closure/main_campus_closures.csv")
+branch_campus_closures <- read_csv_if_exists("./federal_closure/branch_campus_closures.csv")
+mergers_consol <- read_csv_if_exists("./federal_closure/mergers_consolidations.csv")
+private_federal_main_closures <- read_csv_if_exists("./federal_closure/private_sector_federal_main_closures.csv")
+kelchen_ipeds_leavers <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_leavers.csv")
+kelchen_ipeds_apparent_closures <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_apparent_closures.csv")
+kelchen_ipeds_combinations <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_combinations.csv")
+kelchen_ipeds_year_summary <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_year_summary.csv")
+kelchen_opeid_panel <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_panel.csv")
+kelchen_opeid_closures <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_main_campus_closures.csv")
+kelchen_opeid_year_counts <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_year_counts.csv")
+kelchen_year_universe <- read_csv_if_exists("./federal_closure/kelchen_like_year_universe_closures.csv")
+kelchen_opeid_year_type <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_year_type_counts.csv")
+kelchen_students_sector <- read_csv_if_exists("./federal_closure/kelchen_like_closure_students_by_sector.csv")
+kelchen_table3_comparison <- read_csv_if_exists("./federal_closure/kelchen_like_table3_comparison.csv")
 
 accreditation_summary$unitid <- to_num(accreditation_summary$unitid)
 college_cuts_summary$matched_unitid <- to_num(college_cuts_summary$matched_unitid)
@@ -1218,6 +1280,7 @@ worksheets <- list(
   PublicFedTop = public_fed_top,
   GradDependTop = grad_depend_top,
   PublicGradTop = public_grad_top,
+  StudPerInstr50 = students_per_instr_top50,
   FlagshipCuts = flagship_cuts,
   DistressCompare = distress_compare,
   IntlOffset10yr = intl_offset_10yr,
@@ -1226,9 +1289,67 @@ worksheets <- list(
   AccredMatches = accreditation_summary_bacc,
   CutsFinanceXtab = cuts_finance_xtab,
   CutsMatches = college_cuts_summary_bacc,
+  HCM2Summary = hcm_summary,
+  HCM2All = hcm_all,
+  HCM2Dec24Drop = hcm_dec24_drop,
+  HCM2Mar25Drop = hcm_mar25_drop,
+  HCM2Jun25Drop = hcm_jun25_drop,
+  HCM2Dec24Stay = hcm_dec24_stay,
+  HCM2Mar25Stay = hcm_mar25_stay,
+  # Closure tabs sit near the bottom of the workbook so the running list and
+  # its derived splits are easy to find together.
+  RunningClosures = running_closures,
+  MainCampusClosures = main_campus_closures,
+  BranchCampusClosures = branch_campus_closures,
+  MergersConsol = mergers_consol,
+  PrivFedMainClose = private_federal_main_closures,
+  KelchenLeavers = kelchen_ipeds_leavers,
+  KelchenClose = kelchen_ipeds_apparent_closures,
+  KelchenCombos = kelchen_ipeds_combinations,
+  KelchenYearSum = kelchen_ipeds_year_summary,
+  KelchenOPEID = kelchen_opeid_panel,
+  KelchenOPEIDClose = kelchen_opeid_closures,
+  KelchenOPEIDYr = kelchen_opeid_year_counts,
+  KelchenYrUniv = kelchen_year_universe,
+  KelchenYrType = kelchen_opeid_year_type,
+  KelchenStudSec = kelchen_students_sector,
+  KelchenTbl3Cmp = kelchen_table3_comparison,
   IntlVulnerable = intl_vulnerable,
   IntlVulnLarge = intl_vulnerable_large
 )
+
+# Drop truly identical worksheet payloads while keeping the last occurrence.
+# This mainly cleans up repeated empty tabs that otherwise all render as the
+# same "No rows" worksheet in the exported workbook.
+worksheet_signature <- function(df) {
+  if (is.null(df) || nrow(df) == 0) {
+    return("EMPTY")
+  }
+  paste(capture.output(dput(df)), collapse = "\n")
+}
+
+worksheet_names <- names(worksheets)
+non_summary_names <- setdiff(worksheet_names, "Summary")
+seen_signatures <- character(0)
+duplicate_worksheet_names <- character(0)
+
+for (name in rev(non_summary_names)) {
+  sig <- worksheet_signature(worksheets[[name]])
+  if (sig %in% seen_signatures) {
+    duplicate_worksheet_names <- c(duplicate_worksheet_names, name)
+  } else {
+    seen_signatures <- c(seen_signatures, sig)
+  }
+}
+
+if (length(duplicate_worksheet_names) > 0) {
+  worksheets <- worksheets[setdiff(names(worksheets), duplicate_worksheet_names)]
+  worksheets$Summary <- worksheets$Summary[
+    !(worksheets$Summary$metric == "Worksheet index" &
+        worksheets$Summary$statistic %in% duplicate_worksheet_names),
+    , drop = FALSE
+  ]
+}
 
 xml_cell <- function(value, style_id = NULL) {
   style_attr <- if (is.null(style_id)) "" else paste0(' ss:StyleID="', style_id, '"')

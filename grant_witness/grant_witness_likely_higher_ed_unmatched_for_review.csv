@@ -1,10 +1,10 @@
 agency,organization_name,organization_state,organization_city,organization_type,likely_higher_ed,match_method,disrupted_award_remaining
 nih,Peking University,,Beijing,Unavailable,TRUE,manual_include_unmatched,10677598.75
 nih,Baylor College of Medicine,Texas,Houston,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,6781715.96
-nih,Icahn School of Medicine at Mount Sinai,New York,New York,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,6087210.07966161
+nih,Icahn School of Medicine at Mount Sinai,New York,New York,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,6082372.07966161
 nih,Spelman College,Georgia,Atlanta,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,4854705.39
-nih,University of Texas Health Sciences Center,Texas,San Antonio,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,4151242.83
 nsf,University of Kansas Center for Research Inc,Kansas,Lawrence,Continuing Grant,TRUE,manual_include_unmatched,4140642.61
+nih,University of Texas Health Sciences Center,Texas,San Antonio,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,3968902.83
 epa,University of Wisconsin System,Wisconsin,Madison,,TRUE,manual_include_unmatched,3206525.37
 nsf,University of Hawaii,Hawaii,Honolulu,Continuing Grant,TRUE,manual_include_unmatched,3111207.2800000003
 nsf,University of North Carolina Greensboro,North Carolina,Greensboro,Continuing Grant,TRUE,manual_include_unmatched,3089660.03
@@ -42,7 +42,6 @@ nih,Rush University Medical Center,Illinois,Chicago,SCHOOLS OF MEDICINE,TRUE,man
 epa,Research Foundation of the City University of New York,New York,Jamaica,State Institution of Higher Learning,TRUE,manual_include_unmatched,851809.86
 nih,Vanderbilt University Medical Center,Tennessee,Nashville,Independent Hospitals,TRUE,manual_include_unmatched,832534.4
 nsf,CUNY Kingsborough Community College,New York,Brooklyn,Continuing Grant,TRUE,manual_include_unmatched,788596.14
-nih,Albert Einstein College of Medicine,New York,Bronx,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,747338.47
 nsf,Housatonic Community College,Connecticut,Bridgeport,Continuing Grant,TRUE,manual_include_unmatched,739974.02
 epa,University of Massachusetts,Massachusetts,Amherst,State Institution of Higher Learning,TRUE,manual_include_unmatched,738700.8899999999
 nsf,Northern Virginia Community College,Virginia,Annandale,Cooperative Agreement,TRUE,manual_include_unmatched,712037.037037037
@@ -51,6 +50,7 @@ nsf,City Colleges of Chicago Harry S Truman College,Illinois,Chicago,Standard Gr
 nsf,Loyola University of Chicago,Illinois,Chicago,Standard Grant,TRUE,manual_include_unmatched,657404.054661792
 nsf,Santa Monica College,California,Santa Monica,Continuing Grant,TRUE,manual_include_unmatched,646696.66
 nsf,North Dakota State University Fargo,North Dakota,Fargo,Standard Grant,TRUE,manual_include_unmatched,642099.06
+nih,Albert Einstein College of Medicine,New York,Bronx,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,633262.47
 epa,University of Mass at Boston,Massachusetts,Dorchester,State Institution of Higher Learning,TRUE,manual_include_unmatched,622246.52
 epa,The Leland Stanford Junior University,California,Stanford,Private University,TRUE,manual_include_unmatched,587857.89
 nsf,University of North Carolina Greensboro,North Carolina,Greensboro,Standard Grant,TRUE,manual_include_unmatched,564981.22
@@ -77,7 +77,7 @@ nsf,University of Vermont & State Agricultural College,Vermont,Burlington,Standa
 samhsa,"University of California, San Francisco",California,San Francisco,"Junior College, College & University",TRUE,manual_include_unmatched,280270.13
 nsf,West Hills Community College,California,Coalinga,Standard Grant,TRUE,manual_include_unmatched,278208.18
 nih,University of Connecticut Sch of Med/Dnt,Connecticut,Farmington,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,277412.91000000003
-cdc,University of Pittsburgh - Of the Commonwealth System of Higher Education,Pennsylvania,Pittsburgh,"Junior College, College & University",TRUE,likely_higher_ed_unmatched,262813.76
+cdc,University of Pittsburgh - of the Commonwealth System of Higher Education,Pennsylvania,Pittsburgh,"Junior College, College & University",TRUE,manual_include_unmatched,262813.76
 nsf,Alamo Community College District - St. Philip's College,Texas,San Antonio,Standard Grant,TRUE,likely_higher_ed_unmatched,246087.99
 nsf,University of Kansas Center for Research Inc,Kansas,Lawrence,Standard Grant,TRUE,manual_include_unmatched,245115.64
 nih,China Medical University,,Shenyang,Unavailable,TRUE,manual_include_unmatched,239000

@@ -198,7 +198,7 @@ cdc,Ministry of Health in the Repu Blic of the Marshall Islands,Marshall Islands
 epa,Building Materials Re-Use Association,Pennsylvania,Pittsburgh,Not for Profit,FALSE,unmatched,6501271
 epa,Willamette Partnership,Oregon,Portland,,FALSE,unmatched,6449053.22
 cdc,Fsm Deparatment of Health and Social Affairs,Federated States Of Micronesia,Pohnpei,Health Department,FALSE,unmatched,6399547.609999999
-nih,Icahn School of Medicine at Mount Sinai,New York,New York,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,6087210.07966161
+nih,Icahn School of Medicine at Mount Sinai,New York,New York,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,6082372.07966161
 cdc,Colorado Department of Public Health & Environment,Colorado,Denver,Health Department,FALSE,unmatched,5880112.609999999
 nih,University of North Carolina Chapel Hill,North Carolina,Chapel Hill,SCHOOLS OF PUBLIC HEALTH,FALSE,unmatched,5762101.4
 nih,"Ecohealth Alliance, Inc.",New York,New York,Other Domestic Non-Profits,FALSE,unmatched,5716314.399999999
@@ -215,9 +215,9 @@ cdc,"International Centre for Diarrhoeal Disease Research, Bangladesh",Dhaka,Dha
 cdc,Family Health International,North Carolina,Durham,Other Health Organization,FALSE,unmatched,4189628.139999999
 nih,Hebrew Rehabilitation Center for Aged,Massachusetts,Boston,Independent Hospitals,FALSE,unmatched,4184696.56
 nih,"Broad Institute, Inc.",Massachusetts,Cambridge,Research Institutes,FALSE,unmatched,4165026.45
-nih,University of Texas Health Sciences Center,Texas,San Antonio,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,4151242.83
 nsf,University of Kansas Center for Research Inc,Kansas,Lawrence,Continuing Grant,TRUE,manual_include_unmatched,4140642.61
 nsf,"The Geological Society of America, Inc.",Colorado,Boulder,Continuing Grant,FALSE,unmatched,4014764.5
+nih,University of Texas Health Sciences Center,Texas,San Antonio,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,3968902.83
 cdc,"National Center for Farmworker Health, Inc.",Texas,Buda,Other Social Services Organization,FALSE,unmatched,3867084
 cdc,Chickasaw Nation,Oklahoma,Ada,Indian Tribal Council,FALSE,unmatched,3712745.54
 cdc,Commonwealth Healthcare Corporation,Northern Mariana Islands,Saipan,Indian Tribal Council,FALSE,unmatched,3628606.96
@@ -439,7 +439,6 @@ cdc,Institut Pasteur De Dakar,Province,Dakar,"Research Institution, Foundation a
 nsf,Exploratorium,California,San Francisco,Continuing Grant,FALSE,unmatched,764691.57
 epa,Tulalip Tribes of Washington,Washington,Marysville,,FALSE,unmatched,755107.29
 nsf,Georgia Tech Research Corporation,Georgia,Atlanta,Cooperative Agreement,FALSE,unmatched,751893.38
-nih,Albert Einstein College of Medicine,New York,Bronx,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,747338.47
 samhsa,Montana State Dept/Pub Health & Human Srvs,Montana,Helena,Welfare Department,FALSE,unmatched,744442.91
 nsf,Housatonic Community College,Connecticut,Bridgeport,Continuing Grant,TRUE,manual_include_unmatched,739974.02
 epa,University of Massachusetts,Massachusetts,Amherst,State Institution of Higher Learning,TRUE,manual_include_unmatched,738700.8899999999
@@ -472,6 +471,7 @@ nih,Texas Engineering Experiment Station,Texas,College Station,BIOMED ENGR/COL E
 nih,Institute for Systems Biology,Washington,Seattle,Research Institutes,FALSE,unmatched,643150
 nsf,North Dakota State University Fargo,North Dakota,Fargo,Standard Grant,TRUE,manual_include_unmatched,642099.06
 epa,Multnomah County,Oregon,Portland,,FALSE,unmatched,640630.85
+nih,Albert Einstein College of Medicine,New York,Bronx,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,633262.47
 epa,University of Mass at Boston,Massachusetts,Dorchester,State Institution of Higher Learning,TRUE,manual_include_unmatched,622246.52
 cdc,"General Department of Preventive Medicine, Ministry of Health of Vietnam",Hanoi,Ha Noi,Other Health Organization,FALSE,unmatched,601301
 nsf,Chicago Children's Museum,Illinois,Chicago,Standard Grant,FALSE,unmatched,597835.376599634
@@ -659,7 +659,7 @@ cdc,Partnership Health Center Inc,Montana,Missoula,Health Department,FALSE,unmat
 cdc,l Sakvarelidze National Center for Disease Control and Public Health,Tbilisi,Tbilisi,Other Health Organization,FALSE,unmatched,269183
 nsf,Children's Museum of Pittsburgh,Pennsylvania,Pittsburgh,Standard Grant,FALSE,unmatched,263917.31
 epa,Gulf of Maine Research Institute,Maine,Portland,,FALSE,unmatched,263043.56
-cdc,University of Pittsburgh - Of the Commonwealth System of Higher Education,Pennsylvania,Pittsburgh,"Junior College, College & University",TRUE,likely_higher_ed_unmatched,262813.76
+cdc,University of Pittsburgh - of the Commonwealth System of Higher Education,Pennsylvania,Pittsburgh,"Junior College, College & University",TRUE,manual_include_unmatched,262813.76
 nih,Monell Chemical Senses Center,Pennsylvania,Philadelphia,Research Institutes,FALSE,unmatched,262604
 cdc,"Health, Virginia Department of",Virginia,Virginia Beach,Health Department,FALSE,unmatched,254715.61
 nih,"Ndri-Usa, Inc.",New York,New York,Other Domestic Non-Profits,FALSE,unmatched,253273.11
@@ -866,12 +866,12 @@ nih,Columbia University New York Morningside,New York,New York,GRADUATE SCHOOLS,
 epa,"Silent Spring Institute, Inc.",Massachusetts,Newtonville,Not for Profit,FALSE,unmatched,6000
 epa,Association of Environmental and Resource Economists,Florida,Altamonte Springs,Not for Profit,FALSE,unmatched,5275
 nih,Genetobe Inc.,Michigan,Ann Arbor,Domestic For-Profits,FALSE,unmatched,4933.5
+nih,Harvard Medical School,Massachusetts,Boston,SCHOOLS OF MEDICINE,FALSE,unmatched,4885.96
 epa,Centro Para La Reconstruccion Del Habitat Inc,Puerto Rico,Caguas,Not for Profit,FALSE,unmatched,4706.16
 nsf,Eureka Scientific Inc,California,Oakland,Standard Grant,FALSE,unmatched,3682.76000000001
 epa,University of Central Florida,Florida,Orlando,State Institution of Higher Learning,TRUE,manual_include_unmatched,3522.58
 nih,"University of California, San Francisco",California,San Francisco,ORGANIZED RESEARCH UNITS,TRUE,manual_include_unmatched,3409.42
 nih,University of New Mexico Health Sciences Center,New Mexico,Albuquerque,UNIVERSITY-WIDE,TRUE,manual_include_unmatched,3380.39
-nih,Harvard Medical School,Massachusetts,Boston,SCHOOLS OF MEDICINE,FALSE,unmatched,2623.96
 nih,Texas A&M University Health Science Center,Texas,College Station,SCHOOLS OF MEDICINE,TRUE,manual_include_unmatched,2424.57
 epa,New England Vegetable Growers Association Incorporated,Massachusetts,Essex,Not for Profit,FALSE,unmatched,2036.82
 nih,Gordon Research Conferences,Rhode Island,East Greenwich,Domestic For-Profits,FALSE,unmatched,2021.73913043478

@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  paths_env <- new.env(parent = baseenv())
+  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1L]] else default
@@ -22,7 +26,7 @@ main <- function(cli_args = NULL) {
 
   input_csv <- get_arg_value(
     "--input",
-    file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
+    ipeds_layout(root = ".")$dataset_csv
   )
   sheet_id_or_url <- get_arg_value("--sheet", NULL)
   tab_name <- get_arg_value("--tab", "ipeds_dataset")

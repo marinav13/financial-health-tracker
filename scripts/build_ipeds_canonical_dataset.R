@@ -1,7 +1,12 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
-# This script takes the wide raw IPEDS tracker extract and turns it into the
+paths_env <- new.env(parent = baseenv())
+sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+ensure_ipeds_layout_dirs <- get("ensure_ipeds_layout_dirs", envir = paths_env, inherits = FALSE)
+
+# This script takes the wide raw IPEDS extract and turns it into the
 # cleaned, decoded canonical dataset used by the website, workbook, and
 # downstream exports.
 get_arg_value <- function(flag, default) {
@@ -12,10 +17,11 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-raw_csv <- get_arg_value("--raw", "./ipeds/ipeds_financial_health_raw_2014_2024.csv")
-catalog_csv <- get_arg_value("--catalog", "./ipeds/ipeds_financial_health_selected_file_catalog.csv")
-output_csv <- get_arg_value("--output", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
-expanded_output_csv <- get_arg_value("--expanded-output", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
+default_paths <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
+raw_csv <- get_arg_value("--raw", default_paths$raw_csv)
+catalog_csv <- get_arg_value("--catalog", default_paths$selected_file_catalog_csv)
+output_csv <- get_arg_value("--output", default_paths$canonical_csv)
+expanded_output_csv <- get_arg_value("--expanded-output", default_paths$dataset_csv)
 
 user_lib <- Sys.getenv("R_LIBS_USER", unset = "")
 if (!identical(user_lib, "")) {
@@ -36,21 +42,20 @@ suppressPackageStartupMessages({
   if (is.null(x) || length(x) == 0) y else x
 }
 
-# Set up paths for the input raw tracker file, the selected-file catalog, and
+# Set up paths for the input raw file, the selected-file catalog, and
 # the canonical processed dataset output used by the website and workbook.
 root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 raw_path <- normalizePath(raw_csv, winslash = "/", mustWork = TRUE)
 catalog_path <- normalizePath(catalog_csv, winslash = "/", mustWork = TRUE)
-output_path <- file.path(root, output_csv)
-expanded_output_path <- file.path(root, expanded_output_csv)
+output_path <- normalizePath(output_csv, winslash = "/", mustWork = FALSE)
+expanded_output_path <- normalizePath(expanded_output_csv, winslash = "/", mustWork = FALSE)
+resolved_paths <- ipeds_layout(root = root, output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
+ensure_ipeds_layout_dirs(resolved_paths)
 dir.create(dirname(output_path), recursive = TRUE, showWarnings = FALSE)
 dir.create(dirname(expanded_output_path), recursive = TRUE, showWarnings = FALSE)
-aux_root <- file.path(root, "ipeds", "aux")
-aux_data_root <- file.path(aux_root, "data")
-aux_extract_root <- file.path(aux_root, "extracted")
-dir.create(aux_root, recursive = TRUE, showWarnings = FALSE)
-dir.create(aux_data_root, recursive = TRUE, showWarnings = FALSE)
-dir.create(aux_extract_root, recursive = TRUE, showWarnings = FALSE)
+aux_root <- resolved_paths$cache_aux_dir
+aux_data_root <- resolved_paths$cache_aux_data_dir
+aux_extract_root <- resolved_paths$cache_aux_extract_dir
 
 to_num <- function(x) {
   if (is.null(x)) return(NA_real_)
@@ -332,9 +337,9 @@ catalog <- catalog %>%
 
 # Decode 2024 HD / IC / FLAGS labels once and reuse them throughout the build
 # so the output contains readable categories rather than numeric codes.
-hd2024_dict <- file.path(root, "ipeds", "downloads", "dict", "HD2024.zip")
-ic2024_dict <- file.path(root, "ipeds", "downloads", "dict", "IC2024.zip")
-flags2024_dict <- file.path(root, "ipeds", "downloads", "dict", "FLAGS2024.zip")
+hd2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "HD2024.zip")
+ic2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "IC2024.zip")
+flags2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "FLAGS2024.zip")
 try(ensure_dictionary_archive("HD2024", hd2024_dict), silent = TRUE)
 try(ensure_dictionary_archive("IC2024", ic2024_dict), silent = TRUE)
 try(ensure_dictionary_archive("FLAGS2024", flags2024_dict), silent = TRUE)
@@ -357,11 +362,39 @@ flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags
 load_catalog_table <- function(entry) {
   table_name <- entry$table_name[[1]]
   year <- entry$year[[1]]
-  shared_zip_path <- file.path(root, "ipeds", "downloads", "data", paste0(table_name, ".zip"))
-  zip_path <- if (file.exists(shared_zip_path)) shared_zip_path else file.path(aux_data_root, paste0(table_name, ".zip"))
+  shared_zip_path <- file.path(root, "ipeds", "cache", "downloads", "data", paste0(table_name, ".zip"))
   extract_path <- file.path(aux_extract_root, table_name)
-  if (!file.exists(zip_path)) {
+  legacy_extract_path <- file.path(root, "ipeds", "aux", "extracted", table_name)
+  if (dir.exists(extract_path) && length(list.files(extract_path, pattern = "\\.csv$", recursive = TRUE, full.names = TRUE)) > 0) {
+    csv_file <- find_first_file(extract_path, "\\.csv$")
+    if (!is.na(csv_file)) {
+      return(list(
+        year = year,
+        table_name = table_name,
+        data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000))
+      ))
+    }
+  }
+  if (dir.exists(legacy_extract_path) && length(list.files(legacy_extract_path, pattern = "\\.csv$", recursive = TRUE, full.names = TRUE)) > 0) {
+    csv_file <- find_first_file(legacy_extract_path, "\\.csv$")
+    if (!is.na(csv_file)) {
+      return(list(
+        year = year,
+        table_name = table_name,
+        data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000))
+      ))
+    }
+  }
+
+  zip_candidates <- c(
+    shared_zip_path,
+    file.path(aux_data_root, paste0(table_name, ".zip")),
+    file.path(root, "ipeds", "aux", "data", paste0(table_name, ".zip"))
+  )
+  zip_path <- zip_candidates[file.exists(zip_candidates)][1]
+  if (length(zip_path) == 0 || is.na(zip_path)) {
     download_ok <- tryCatch({
+      zip_path <- shared_zip_path
       download_if_missing(entry$data_url[[1]], zip_path)
       TRUE
     }, error = function(e) FALSE)
@@ -480,8 +513,8 @@ transfer_out_by_year_unit <- list()
 
 for (yr in sort(unique(raw_rows$year[raw_rows$year >= 2020]))) {
   table_name <- paste0("DRVGR", yr)
-  zip_path <- file.path(root, "ipeds", "downloads", "data", paste0(table_name, ".zip"))
-  extract_path <- file.path(root, "ipeds", "downloads", "extracted", paste0("data_", table_name))
+  zip_path <- file.path(root, "ipeds", "cache", "downloads", "data", paste0(table_name, ".zip"))
+  extract_path <- file.path(root, "ipeds", "cache", "downloads", "extracted", paste0("data_", table_name))
   if (!file.exists(zip_path)) next
   expand_zip_if_missing(zip_path, extract_path)
   csv_file <- find_first_file(extract_path, "\\.csv$")
@@ -498,8 +531,8 @@ for (yr in sort(unique(raw_rows$year[raw_rows$year >= 2020]))) {
 
 for (yr in 2014:2023) {
   if (as.character(yr) %in% names(transfer_out_by_year_unit)) next
-  gr_zip <- file.path(root, "ipeds", "downloads", "data", paste0("GR", yr, ".zip"))
-  gr_extract <- file.path(root, "ipeds", "downloads", "extracted", paste0("data_GR", yr))
+  gr_zip <- file.path(root, "ipeds", "cache", "downloads", "data", paste0("GR", yr, ".zip"))
+  gr_extract <- file.path(root, "ipeds", "cache", "downloads", "extracted", paste0("data_GR", yr))
   if (!file.exists(gr_zip)) next
   expand_zip_if_missing(gr_zip, gr_extract)
   gr_csv <- find_first_file(gr_extract, "\\.csv$")
@@ -551,7 +584,7 @@ load_finance_research_year <- function(year, year_catalog) {
 
   purrr::imap_dfr(aliases, function(table_name, alias) {
     if (is.na(table_name) || identical(table_name, "")) return(tibble::tibble())
-    data_folder <- file.path(root, "ipeds", "downloads", "extracted", paste0("data_", table_name))
+  data_folder <- file.path(root, "ipeds", "cache", "downloads", "extracted", paste0("data_", table_name))
     csv_path <- find_first_file(data_folder, "\\.csv$")
     required_fields <- field_map[[alias]]
     if (is.na(csv_path)) {
@@ -728,9 +761,9 @@ aux_backfill_rows <- raw_enriched %>%
       if ("F2COREXP" %in% names(.)) to_num(F2COREXP) else NA_real_,
       if ("F3COREXP" %in% names(.)) to_num(F3COREXP) else NA_real_
     ),
-    loan_pct_undergrad_federal = to_num(loan_pct_undergrad_federal),
-    loan_avg_undergrad_federal = to_num(loan_avg_undergrad_federal),
-    loan_count_undergrad_federal = to_num(loan_count_undergrad_federal)
+    loan_pct_undergrad_federal = if ("loan_pct_undergrad_federal" %in% names(.)) to_num(.data$loan_pct_undergrad_federal) else NA_real_,
+    loan_avg_undergrad_federal = if ("loan_avg_undergrad_federal" %in% names(.)) to_num(.data$loan_avg_undergrad_federal) else NA_real_,
+    loan_count_undergrad_federal = if ("loan_count_undergrad_federal" %in% names(.)) to_num(.data$loan_count_undergrad_federal) else NA_real_
   ) %>%
   distinct()
 

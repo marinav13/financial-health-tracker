@@ -94,7 +94,7 @@ This repo includes a GitHub Actions workflow at:
 That workflow:
 
 1. rebuilds the raw IPEDS data
-2. rebuilds the reporting dataset
+2. rebuilds the canonical dataset and the supporting `data_pipelines/` joins
 3. rebuilds the static site exports in data/
 4. commits updated files back to the repo
 

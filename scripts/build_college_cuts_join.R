@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  paths_env <- new.env(parent = baseenv())
+  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
@@ -25,15 +29,15 @@ main <- function(cli_args = NULL) {
 
     financial_input <- get_arg_value(
       "--financial-input",
-      file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
+      ipeds_layout(root = ".")$dataset_csv
     )
   output_prefix <- get_arg_value(
     "--output-prefix",
-    file.path(getwd(), "college_cuts", "college_cuts_financial_tracker")
+    file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_financial_tracker")
   )
   cache_dir <- get_arg_value(
     "--cache-dir",
-    file.path(getwd(), "college_cuts", "cache")
+    file.path(getwd(), "data_pipelines", "college_cuts", "cache")
   )
 
   supabase_url <- Sys.getenv(

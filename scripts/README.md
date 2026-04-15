@@ -1,25 +1,34 @@
 # Scripts
 
-This folder contains the public build entrypoints for the project.
+This folder contains the active build scripts for the interactive.
 
-The IPEDS implementations now live under `scripts/ipeds/`, while the root
-files keep the old command-line paths working for existing docs and workflows.
+The non-IPEDS domain datasets those scripts read and write live under
+`data_pipelines/`, not at the repo root.
 
-## Source Data Pipeline
+Most files inside `data_pipelines/` are local rebuild inputs or intermediate
+outputs. The repo commits the code and shipped website assets in `data/`, not
+the generated pipeline CSVs and cache folders.
+
+IPEDS remains under `ipeds/`.
+
+## Core Interactive Build
 
 - `collect_ipeds_data.R`
-  - wrapper that forwards to `scripts/ipeds/collect_ipeds_data.R`
+  - downloads missing IPEDS zips and dictionaries
+  - resolves requested variables from yearly files and codebooks
+  - writes the wide raw decoded IPEDS dataset
 
 - `build_ipeds_canonical_dataset.R`
-  - wrapper that forwards to `scripts/ipeds/build_ipeds_canonical_dataset.R`
+  - reads the raw IPEDS dataset
+  - computes the derived fields used by the interactive and workbook
+  - writes the canonical dataset
 
-- `build_ipeds_tracker_dataset.R`
-  - wrapper that forwards to `scripts/ipeds/build_ipeds_tracker_dataset.R`
-
-## Domain Joins
+- `build_ipeds_dataset.R`
+  - runs `collect_ipeds_data.R` and `build_ipeds_canonical_dataset.R` in order
+  - this is the preferred IPEDS rebuild command
 
 - `build_outcomes_join.R`
-  - joins College Scorecard and graduation-rate data
+  - joins College Scorecard, graduation-rate, and Grad PLUS data
 
 - `build_college_cuts_join.R`
   - joins the reported college cuts data
@@ -30,67 +39,46 @@ files keep the old command-line paths working for existing docs and workflows.
 - `build_grant_witness_join.R`
   - joins the disrupted research funding data
 
-- `build_grant_witness_usaspending_sensitivity.R`
-  - runs the USAspending comparison analysis used in the research workflow
-
 - `build_hcm_level2.py`
   - processes federal HCM status data
 
-- `build_closure_status.py`
-  - processes federal closure status data
-
-- `build_closure_outputs.py`
-  - writes the closure outputs used by the profile and tab work
-
-- `build_federal_closure_opeid_panel.py`
-  - builds the federal closure OPEID panel
-
-- `build_federal_closure_style_ipeds_closures.py`
-  - builds the IPEDS-style closure outputs
+- `import_closure_sheet.py`
+  - imports the closure outputs this repo needs from a published Google Sheet
+  - refreshes `data_pipelines/federal_closure/derived/`
+  - refreshes `data/closure_status_by_unitid.json`
 
 - `build_federal_composite_scores.py`
-  - processes the federal composite score file from Downloads
-
-- `download_weekly_closed_school_search_file.py`
-  - fetches the latest weekly closed-school report from FSA and saves it to a stable local path
-
-## Site Outputs
+  - processes the federal composite score source file
 
 - `build_web_exports.R`
   - writes the site JSON, CSV downloads, and school-level files
 
 - `build_article_workbook.R`
-  - writes the workbook XML
+  - writes the canonical Excel-compatible workbook for local reporting use
 
-- `publish_to_google_sheets.R`
-  - publishes the site-ready CSV to Google Sheets when that handoff is needed
+## Supporting Scripts
 
-- `publish_closure_status_sheet.R`
-  - publishes the weekly closure spreadsheet from the downloaded FSA report
+- `build_grant_witness_usaspending_sensitivity.R`
+  - supporting research QA analysis used by the scheduled grant workflow
 
 - `annual_refresh_and_publish.R`
-  - runs the full refresh flow in one place
+  - convenience wrapper for a partial refresh
 
-## Shared Helpers
+- `publish_to_google_sheets.R`
+  - optional Google Sheets publisher for the site-ready CSV
 
-- `shared/script_utils.R` contains the tiny command-line and script-loading helpers used by the entrypoints.
+## Closure Tabs Expected In Google Sheets
 
-## IPEDS Implementations
+`import_closure_sheet.py` looks for these tab names:
 
-- `ipeds/collect_ipeds_data.R`
-  - downloads the needed IPEDS data zips and dictionaries only when they are missing
-  - resolves variables from the yearly dictionaries and code mappings
-  - writes the wide raw-but-decoded institution-year dataset
+- `closure_status_tracker_matches`
+- `running_closures`
+- `main_campus_closures`
+- `branch_campus_closures`
+- `mergers_consolidations`
+- `private_sector_federal_main_closures`
 
-- `ipeds/build_ipeds_canonical_dataset.R`
-  - reads the raw dataset from `ipeds/raw/`
-  - computes the derived fields used by the interactive and workbook
-  - writes the canonical dataset and the extended JSON-ready export
+## Legacy Material
 
-- `ipeds/build_ipeds_tracker_dataset.R`
-  - runs the collector and canonical builder in the intended order
-  - this is the preferred IPEDS orchestration script
-
-## Archived Wrappers
-
-- Legacy PowerShell wrappers now live under `archive/legacy_powershell/` so the active build surface stays R-first and easier to follow.
+Scripts that are not part of the active interactive build should stay out of
+the main repo surface.

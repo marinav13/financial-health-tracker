@@ -7,6 +7,9 @@ on:
     - cron: "0 12 24 9 *"
     - cron: "0 12 10 12 *"
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 permissions:
   contents: write
 
@@ -22,6 +25,14 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Restore IPEDS download cache
+        uses: actions/cache@v4
+        with:
+          path: ipeds/cache/downloads
+          key: ipeds-downloads-${{ runner.os }}-${{ hashFiles('scripts/collect_ipeds_data.R', 'scripts/build_ipeds_dataset.R') }}
+          restore-keys: |
+            ipeds-downloads-${{ runner.os }}-
 
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
@@ -50,7 +61,7 @@ jobs:
       - name: Rebuild Scorecard and graduation-rate joins
         shell: bash
         run: >
-          Rscript --vanilla ./scripts/build_outcomes_join.R
+          Rscript --vanilla ./scripts/build_outcomes_join.R --download-missing TRUE
 
       - name: Refresh accreditation actions with cache fallback
         shell: bash
@@ -87,7 +98,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add ipeds/ scorecard/ accreditation/ college_cuts/ grant_witness/ archive/ data/
+          git add data/
           if git diff --cached --quiet; then
             echo "No data changes to commit."
             exit 0

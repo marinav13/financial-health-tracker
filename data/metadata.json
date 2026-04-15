@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-13",
+  "generated_at": "2026-04-15",
   "title": "College Financial Health Tracker",
   "dataset": "IPEDS Financial Health Canonical Dataset",
   "methodology_note": "This website prototype uses the filtered public-facing canonical IPEDS dataset from the project repo.",
@@ -12,6 +12,9 @@
     "download": "data/downloads/full_dataset.csv",
     "college_cuts": "data/college_cuts.json",
     "accreditation": "data/accreditation.json",
-    "research_funding": "data/research_funding.json"
+    "research_funding": "data/research_funding.json",
+    "closure_status": "data/closure_status_by_unitid.json",
+    "hcm2": "data/hcm2_by_unitid.json",
+    "federal_composite_scores": "data/federal_composite_scores_by_unitid.json"
   }
 }

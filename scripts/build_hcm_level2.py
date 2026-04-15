@@ -9,6 +9,7 @@ from openpyxl import load_workbook
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DATA_PIPELINES = ROOT / "data_pipelines"
 
 # Federal Student Aid publishes HCM files quarterly. We keep the raw files in
 # the repo so the normalization step can be rerun without depending on a live
@@ -17,39 +18,39 @@ SOURCE_FILES = [
     {
         "snapshot_date": "2024-12-01",
         "snapshot_label": "December 2024",
-        "path": ROOT / "federal_hcm" / "raw" / "schools-on-hcm-dec-2024.xls",
+        "path": DATA_PIPELINES / "federal_hcm" / "raw" / "schools-on-hcm-dec-2024.xls",
         "kind": "xls",
     },
     {
         "snapshot_date": "2025-03-01",
         "snapshot_label": "March 2025",
-        "path": ROOT / "federal_hcm" / "raw" / "schools-on-hcm-mar-2025.xlsx",
+        "path": DATA_PIPELINES / "federal_hcm" / "raw" / "schools-on-hcm-mar-2025.xlsx",
         "kind": "xlsx",
     },
     {
         "snapshot_date": "2025-06-01",
         "snapshot_label": "June 2025",
-        "path": ROOT / "federal_hcm" / "raw" / "schools-on-hcm-jun-2025.xlsx",
+        "path": DATA_PIPELINES / "federal_hcm" / "raw" / "schools-on-hcm-jun-2025.xlsx",
         "kind": "xlsx",
     },
     {
         "snapshot_date": "2025-09-01",
         "snapshot_label": "September 2025",
-        "path": ROOT / "federal_hcm" / "raw" / "schools-on-hcm-sep-2025.xlsx",
+        "path": DATA_PIPELINES / "federal_hcm" / "raw" / "schools-on-hcm-sep-2025.xlsx",
         "kind": "xlsx",
     },
     {
         "snapshot_date": "2025-12-01",
         "snapshot_label": "December 2025",
-        "path": ROOT / "federal_hcm" / "raw" / "schools-on-hcm-dec-2025.xlsx",
+        "path": DATA_PIPELINES / "federal_hcm" / "raw" / "schools-on-hcm-dec-2025.xlsx",
         "kind": "xlsx",
     },
 ]
 
-IPEDS_RAW = ROOT / "ipeds" / "ipeds_financial_health_raw_2014_2024.csv"
+IPEDS_RAW = ROOT / "ipeds" / "raw" / "ipeds_financial_health_raw_2014_2024.csv"
 TRACKER_INDEX = ROOT / "data" / "schools_index.json"
 
-OUTPUT_DIR = ROOT / "federal_hcm"
+OUTPUT_DIR = DATA_PIPELINES / "federal_hcm"
 OUTPUT_ALL = OUTPUT_DIR / "hcm_level2_snapshots_2024_2025.csv"
 OUTPUT_SUMMARY = OUTPUT_DIR / "hcm_level2_summary.csv"
 OUTPUT_DEC24_DROP = OUTPUT_DIR / "hcm2_dec2024_dropped_since.csv"
@@ -60,6 +61,33 @@ OUTPUT_MAR25_STAY = OUTPUT_DIR / "hcm2_mar2025_remained_since.csv"
 OUTPUT_HCM1 = OUTPUT_DIR / "hcm_level1_snapshots_2024_2025.csv"
 OUTPUT_DOWNGRADE = OUTPUT_DIR / "hcm2_to_hcm1_downgrades_2025.csv"
 OUTPUT_JSON = ROOT / "data" / "hcm2_by_unitid.json"
+
+
+def ensure_required_inputs(script_name, requirements):
+    missing = []
+    for requirement in requirements:
+        if requirement["path"].exists():
+            continue
+        missing.append(requirement)
+
+    if not missing:
+        return
+
+    message_lines = [
+        f"{script_name} cannot start because required local input files are missing.",
+        "",
+        "Add the missing files below and then run the script again.",
+        "",
+    ]
+
+    for requirement in missing:
+        message_lines.append(f"- {requirement['label']}")
+        message_lines.append(f"  Expected path: {requirement['path']}")
+        if requirement.get("note"):
+            message_lines.append(f"  Why it is needed: {requirement['note']}")
+        message_lines.append("")
+
+    raise FileNotFoundError("\n".join(message_lines).rstrip())
 
 
 def normalize_opeid(value):
@@ -388,6 +416,29 @@ def write_csv(path, rows):
 
 
 def main():
+    ensure_required_inputs(
+        "build_hcm_level2.py",
+        [
+            *[
+                {
+                    "label": f"HCM raw workbook for {snapshot['snapshot_label']}",
+                    "path": snapshot["path"],
+                    "note": "Used to build the quarterly HCM history shown on school profiles.",
+                }
+                for snapshot in SOURCE_FILES
+            ],
+            {
+                "label": "IPEDS raw dataset",
+                "path": IPEDS_RAW,
+                "note": "Used to map federal OPEIDs back to UNITIDs and school names.",
+            },
+            {
+                "label": "Schools index JSON",
+                "path": TRACKER_INDEX,
+                "note": "Used to flag which HCM schools are in the interactive tracker universe.",
+            },
+        ],
+    )
     ipeds_by_opeid = build_ipeds_lookup()
     tracker_unitids = build_tracker_unitid_set()
     hcm2_rows = normalize_snapshot_rows(ipeds_by_opeid, tracker_unitids, level_number=2)
@@ -471,4 +522,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise SystemExit(str(exc))

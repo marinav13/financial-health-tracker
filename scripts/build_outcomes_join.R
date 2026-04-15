@@ -1,8 +1,14 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+paths_env <- new.env(parent = baseenv())
+sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
 # This script joins the latest College Scorecard earnings/debt values and the
 # latest IPEDS graduation-rate file onto the 2024 finance tracker cohort.
+# By default it expects those source files to already exist in the local
+# scorecard cache so the build is reproducible without a live download.
 get_arg_value <- function(flag, default) {
   idx <- match(flag, args)
   if (!is.na(idx) && idx < length(args)) {
@@ -11,8 +17,8 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-skip_download <- identical(get_arg_value("--skip-download", "FALSE"), "TRUE")
-input_csv <- get_arg_value("--input", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
+download_missing <- identical(get_arg_value("--download-missing", "FALSE"), "TRUE")
+input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 
 suppressPackageStartupMessages({
@@ -28,7 +34,7 @@ suppressPackageStartupMessages({
 
 root <- normalizePath(output_dir, winslash = "/", mustWork = TRUE)
 input_path <- normalizePath(input_csv, winslash = "/", mustWork = TRUE)
-outcomes_root <- file.path(root, "scorecard")
+outcomes_root <- file.path(root, "data_pipelines", "scorecard")
 cache_dir <- file.path(outcomes_root, "cache")
 dir.create(outcomes_root, recursive = TRUE, showWarnings = FALSE)
 dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
@@ -47,13 +53,33 @@ grad_plus_xls <- file.path(cache_dir, "dl-dashboard-ay2025-2026-q2.xls")
 hd2024_url <- "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip"
 hd2024_zip <- file.path(cache_dir, "HD2024.zip")
 hd2024_csv <- file.path(cache_dir, "hd2024.csv")
-hd2024_local_csv <- file.path(root, "ipeds", "downloads", "extracted", "data_HD2024", "hd2024.csv")
+hd2024_local_csv <- file.path(root, "ipeds", "cache", "downloads", "extracted", "data_HD2024", "hd2024.csv")
 
 # Helpers for downloading, extraction, and numeric cleanup.
 download_if_needed <- function(url, path) {
-  if (skip_download && file.exists(path)) return(invisible(path))
   if (file.exists(path)) return(invisible(path))
+  if (!download_missing) {
+    stop(
+      paste0(
+        "Missing required local source file: ", path, "\n",
+        "Re-run with --download-missing TRUE if you want the script to fetch it."
+      )
+    )
+  }
   utils::download.file(url, destfile = path, mode = "wb", quiet = TRUE)
+  invisible(path)
+}
+
+require_existing_path <- function(path, label) {
+  if (!file.exists(path)) {
+    stop(
+      paste0(
+        "Missing required local source file for ", label, ": ", path, "\n",
+        "Place the file in data_pipelines/scorecard/cache/ or re-run with ",
+        "--download-missing TRUE."
+      )
+    )
+  }
   invisible(path)
 }
 
@@ -100,6 +126,9 @@ normalize_display_name <- function(x) {
 download_if_needed(scorecard_url, scorecard_zip)
 download_if_needed(drvgr_url, drvgr_zip)
 download_if_needed(grad_plus_url, grad_plus_xls)
+require_existing_path(scorecard_zip, "College Scorecard")
+require_existing_path(drvgr_zip, "IPEDS graduation rates")
+require_existing_path(grad_plus_xls, "Grad PLUS dashboard")
 
 scorecard_csv_path <- extract_single_csv(scorecard_zip, basename(scorecard_csv), cache_dir)
 drvgr_csv_path <- extract_single_csv(drvgr_zip, basename(drvgr_csv), cache_dir)

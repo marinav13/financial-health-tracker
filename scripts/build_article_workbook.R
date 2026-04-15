@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+paths_env <- new.env(parent = baseenv())
+sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
 get_arg_value <- function(flag, default) {
   idx <- match(flag, args)
   if (!is.na(idx) && idx < length(args)) {
@@ -9,8 +13,10 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-input_csv <- get_arg_value("--input", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
-output_xml <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook_r.xml")
+input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
+# The workbook is written as SpreadsheetML with an .xls extension so Excel can
+# open it directly without a manual rename step.
+output_workbook <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook.xls")
 
 flagship_unitids <- c(
   102553,100751,106397,104179,110635,126614,129020,130943,134130,139959,141574,153658,142285,
@@ -46,6 +52,19 @@ escape_xml <- function(x) {
 read_csv_if_exists <- function(path) {
   if (!file.exists(path)) {
     return(data.frame(stringsAsFactors = FALSE))
+  }
+  read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
+}
+
+read_required_closure_csv <- function(path) {
+  if (!file.exists(path)) {
+    stop(
+      paste(
+        "Missing required closure input:", path,
+        "\nRun `python scripts/import_closure_sheet.py --sheet YOUR_CLOSURE_GOOGLE_SHEET_URL_OR_ID`",
+        "\nand then rerun the workbook build."
+      )
+    )
   }
   read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
 }
@@ -476,17 +495,6 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "BranchCampusClosures", "", "", "", "", "", "", "", "Branch-campus closures derived from PEPS rows and monthly federal reports."),
   make_row("Worksheet index", "MergersConsol", "", "", "", "", "", "", "", "IPEDS exits that look more like mergers or consolidations than clean closures."),
   make_row("Worksheet index", "PrivFedMainClose", "", "", "", "", "", "", "", "Selective list of private-sector main/full-system closures from federal closure sources only."),
-  make_row("Worksheet index", "KelchenLeavers", "", "", "", "", "", "", "", "IPEDS-only leavers from the annual directory files, using 2003-2023 HD files and no federal closure files."),
-  make_row("Worksheet index", "KelchenClose", "", "", "", "", "", "", "", "Selective IPEDS-only apparent closures, limited to degree-granting leavers with closure-like ACT codes and no successor UNITID."),
-  make_row("Worksheet index", "KelchenCombos", "", "", "", "", "", "", "", "IPEDS-only likely combinations or successor cases, separated so they are not mistaken for clean closures."),
-  make_row("Worksheet index", "KelchenYearSum", "", "", "", "", "", "", "", "Year-by-year summary of all IPEDS leavers versus the narrower apparent-closure proxy and likely combination counts."),
-  make_row("Worksheet index", "KelchenOPEID", "", "", "", "", "", "", "", "OPEID6-level panel approximation of the Kelchen/Federal Reserve closure sample, using recovered IPEDS directory-style files from 1996-2023."),
-  make_row("Worksheet index", "KelchenOPEIDClose", "", "", "", "", "", "", "", "Apparent main-campus closures from the OPEID6-level Kelchen-like panel."),
-  make_row("Worksheet index", "KelchenOPEIDYr", "", "", "", "", "", "", "", "Year-by-year OPEID6 exit counts, apparent main-campus closures, and likely combinations in the Kelchen-like panel."),
-  make_row("Worksheet index", "KelchenYrUniv", "", "", "", "", "", "", "", "Year-by-year universe and closure counts for the selected Kelchen-like OPEID6 match, with 2024 universe included and 2025-2026 left blank."),
-  make_row("Worksheet index", "KelchenYrType", "", "", "", "", "", "", "", "Main-campus closures by year and institution type for the Kelchen-like OPEID6 series."),
-  make_row("Worksheet index", "KelchenStudSec", "", "", "", "", "", "", "", "Student headcount represented by matched closures, overall and by broad sector."),
-  make_row("Worksheet index", "KelchenTbl3Cmp", "", "", "", "", "", "", "", "Comparison between our OPEID6-based Kelchen-like panel and Table 3 from the Federal Reserve paper."),
   make_row("Worksheet index", "IntlVulnerable", "", "", "", "", "", "", "", "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
   make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
@@ -653,34 +661,22 @@ finance_bad$finance_page_bad_count <- rowSums(cbind(
 
 # Compare institutions with accreditation actions or program cuts against the
 # same 2024 primarily bachelor's tracker universe used throughout the workbook.
-accreditation_summary <- read_csv_if_exists("./accreditation/accreditation_tracker_institution_summary.csv")
-college_cuts_summary <- read_csv_if_exists("./college_cuts/college_cuts_financial_tracker_institution_summary.csv")
-hcm_summary <- read_csv_if_exists("./federal_hcm/hcm_level2_summary.csv")
-hcm_all <- read_csv_if_exists("./federal_hcm/hcm_level2_snapshots_2024_2025.csv")
-hcm_dec24_drop <- read_csv_if_exists("./federal_hcm/hcm2_dec2024_dropped_since.csv")
-hcm_mar25_drop <- read_csv_if_exists("./federal_hcm/hcm2_mar2025_dropped_since.csv")
-hcm_jun25_drop <- read_csv_if_exists("./federal_hcm/hcm2_jun2025_dropped_since.csv")
-hcm_dec24_stay <- read_csv_if_exists("./federal_hcm/hcm2_dec2024_remained_since.csv")
-hcm_mar25_stay <- read_csv_if_exists("./federal_hcm/hcm2_mar2025_remained_since.csv")
-# Closure tabs come from the federal PEPS-style closure pipeline plus the
-# IPEDS merger/consolidation review list built in build_closure_outputs.py.
-running_closures <- read_csv_if_exists("./federal_closure/running_closures.csv")
-main_campus_closures <- read_csv_if_exists("./federal_closure/main_campus_closures.csv")
-branch_campus_closures <- read_csv_if_exists("./federal_closure/branch_campus_closures.csv")
-mergers_consol <- read_csv_if_exists("./federal_closure/mergers_consolidations.csv")
-private_federal_main_closures <- read_csv_if_exists("./federal_closure/private_sector_federal_main_closures.csv")
-kelchen_ipeds_leavers <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_leavers.csv")
-kelchen_ipeds_apparent_closures <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_apparent_closures.csv")
-kelchen_ipeds_combinations <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_combinations.csv")
-kelchen_ipeds_year_summary <- read_csv_if_exists("./federal_closure/kelchen_style_ipeds_year_summary.csv")
-kelchen_opeid_panel <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_panel.csv")
-kelchen_opeid_closures <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_main_campus_closures.csv")
-kelchen_opeid_year_counts <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_year_counts.csv")
-kelchen_year_universe <- read_csv_if_exists("./federal_closure/kelchen_like_year_universe_closures.csv")
-kelchen_opeid_year_type <- read_csv_if_exists("./federal_closure/kelchen_like_opeid_year_type_counts.csv")
-kelchen_students_sector <- read_csv_if_exists("./federal_closure/kelchen_like_closure_students_by_sector.csv")
-kelchen_table3_comparison <- read_csv_if_exists("./federal_closure/kelchen_like_table3_comparison.csv")
-
+accreditation_summary <- read_csv_if_exists("./data_pipelines/accreditation/accreditation_tracker_institution_summary.csv")
+college_cuts_summary <- read_csv_if_exists("./data_pipelines/college_cuts/college_cuts_financial_tracker_institution_summary.csv")
+hcm_summary <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm_level2_summary.csv")
+hcm_all <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm_level2_snapshots_2024_2025.csv")
+hcm_dec24_drop <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm2_dec2024_dropped_since.csv")
+hcm_mar25_drop <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm2_mar2025_dropped_since.csv")
+hcm_jun25_drop <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm2_jun2025_dropped_since.csv")
+hcm_dec24_stay <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm2_dec2024_remained_since.csv")
+hcm_mar25_stay <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm2_mar2025_remained_since.csv")
+# Closure tabs are now imported from the published closure Google Sheet so this
+# workbook stays decoupled from the heavier federal scraping workflow.
+running_closures <- read_required_closure_csv("./data_pipelines/federal_closure/derived/running_closures.csv")
+main_campus_closures <- read_required_closure_csv("./data_pipelines/federal_closure/derived/main_campus_closures.csv")
+branch_campus_closures <- read_required_closure_csv("./data_pipelines/federal_closure/derived/branch_campus_closures.csv")
+mergers_consol <- read_required_closure_csv("./data_pipelines/federal_closure/derived/mergers_consolidations.csv")
+private_federal_main_closures <- read_required_closure_csv("./data_pipelines/federal_closure/derived/private_sector_federal_main_closures.csv")
 accreditation_summary$unitid <- to_num(accreditation_summary$unitid)
 college_cuts_summary$matched_unitid <- to_num(college_cuts_summary$matched_unitid)
 
@@ -1303,17 +1299,6 @@ worksheets <- list(
   BranchCampusClosures = branch_campus_closures,
   MergersConsol = mergers_consol,
   PrivFedMainClose = private_federal_main_closures,
-  KelchenLeavers = kelchen_ipeds_leavers,
-  KelchenClose = kelchen_ipeds_apparent_closures,
-  KelchenCombos = kelchen_ipeds_combinations,
-  KelchenYearSum = kelchen_ipeds_year_summary,
-  KelchenOPEID = kelchen_opeid_panel,
-  KelchenOPEIDClose = kelchen_opeid_closures,
-  KelchenOPEIDYr = kelchen_opeid_year_counts,
-  KelchenYrUniv = kelchen_year_universe,
-  KelchenYrType = kelchen_opeid_year_type,
-  KelchenStudSec = kelchen_students_sector,
-  KelchenTbl3Cmp = kelchen_table3_comparison,
   IntlVulnerable = intl_vulnerable,
   IntlVulnLarge = intl_vulnerable_large
 )
@@ -1397,10 +1382,10 @@ for (nm in names(worksheets)) {
 }
 wb <- c(wb, '</Workbook>')
 
-dir.create(dirname(output_xml), recursive = TRUE, showWarnings = FALSE)
-writeLines(wb, output_xml, useBytes = TRUE)
-cat(sprintf("Saved article workbook to %s\n", normalizePath(output_xml, winslash = "/", mustWork = FALSE)))
-invisible(list(workbook = normalizePath(output_xml, winslash = "/", mustWork = FALSE)))
+dir.create(dirname(output_workbook), recursive = TRUE, showWarnings = FALSE)
+writeLines(wb, output_workbook, useBytes = TRUE)
+cat(sprintf("Saved article workbook to %s\n", normalizePath(output_workbook, winslash = "/", mustWork = FALSE)))
+invisible(list(workbook = normalizePath(output_workbook, winslash = "/", mustWork = FALSE)))
 }
 
 if (sys.nframe() == 0) {

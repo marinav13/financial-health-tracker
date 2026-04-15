@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  paths_env <- new.env(parent = baseenv())
+  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1L]] else default
@@ -19,6 +23,12 @@ main <- function(cli_args = NULL) {
   end_year <- get_arg_value("--end-year", "2024")
   output_stem <- get_arg_value("--output-stem", "ipeds_financial_health")
   force_rebuild <- get_arg_value("--force-rebuild", "FALSE")
+  paths <- ipeds_layout(
+    root = ".",
+    output_stem = output_stem,
+    start_year = as.integer(start_year),
+    end_year = as.integer(end_year)
+  )
 
   project_dir <- getwd()
   script_dir <- file.path(project_dir, "scripts")
@@ -26,7 +36,7 @@ main <- function(cli_args = NULL) {
   raw_main <- load_main(file.path(script_dir, "collect_ipeds_data.R"))
   canonical_main <- load_main(file.path(script_dir, "build_ipeds_canonical_dataset.R"))
 
-  message("Step 1: Building raw IPEDS tracker dataset ...")
+  message("Step 1: Building raw IPEDS dataset ...")
   raw_main(c(
     "--start-year", start_year,
     "--end-year", end_year,
@@ -36,15 +46,16 @@ main <- function(cli_args = NULL) {
 
   message("Step 2: Building canonical IPEDS dataset ...")
   canonical_main(c(
-    "--raw", sprintf("./ipeds/%s_raw_%s_%s.csv", output_stem, start_year, end_year),
-    "--catalog", sprintf("./ipeds/%s_selected_file_catalog.csv", output_stem),
-    "--output", sprintf("./ipeds/%s_dataset_%s_%s.csv", output_stem, start_year, end_year),
-    "--expanded-output", sprintf("./ipeds/%s_dataset_%s_%s.csv", output_stem, start_year, end_year)
+    "--raw", paths$raw_csv,
+    "--catalog", paths$selected_file_catalog_csv,
+    "--output", paths$canonical_csv,
+    "--expanded-output", paths$dataset_csv
   ))
 
   invisible(list(
-    raw = normalizePath(sprintf("./ipeds/%s_raw_%s_%s.csv", output_stem, start_year, end_year), winslash = "/", mustWork = FALSE),
-    canonical = normalizePath(sprintf("./ipeds/%s_dataset_%s_%s.csv", output_stem, start_year, end_year), winslash = "/", mustWork = FALSE)
+    raw = normalizePath(paths$raw_csv, winslash = "/", mustWork = FALSE),
+    canonical = normalizePath(paths$canonical_csv, winslash = "/", mustWork = FALSE),
+    extended = normalizePath(paths$dataset_csv, winslash = "/", mustWork = FALSE)
   ))
 }
 

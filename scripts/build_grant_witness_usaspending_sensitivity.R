@@ -33,15 +33,15 @@ main <- function(cli_args = NULL) {
 
   grant_input <- get_arg_value(
     "--grant-input",
-    file.path(getwd(), "grant_witness", "grant_witness_grant_level_joined.csv")
+    file.path(getwd(), "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv")
   )
   output_dir <- get_arg_value(
     "--output-dir",
-    file.path(getwd(), "grant_witness", "analysis")
+    file.path(getwd(), "data_pipelines", "grant_witness", "analysis")
   )
   cache_dir <- get_arg_value(
     "--cache-dir",
-    file.path(getwd(), "grant_witness", "cache", "usaspending_sensitivity")
+    file.path(getwd(), "data_pipelines", "grant_witness", "cache", "usaspending_sensitivity")
   )
   limit_awards <- suppressWarnings(as.integer(get_arg_value("--limit-awards", NA_character_)))
   pause_seconds <- suppressWarnings(as.numeric(get_arg_value("--pause-seconds", "0.05")))

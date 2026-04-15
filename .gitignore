@@ -20,16 +20,40 @@ temp_*.json
 temp_*.zip
 
 # Derived local extraction/download workspaces
+# Keep these caches locally so rebuilds are faster, but do not commit them.
 looker_aux/
 temp_ic2024_dict/
+ipeds/cache/
 ipeds/aux/
 ipeds/downloads/
 ipeds/year_cache/
-scorecard/cache/
+data_pipelines/scorecard/cache/
+data_pipelines/federal_closure/raw/
+data_pipelines/federal_closure/derived/
+ipeds/raw/
+ipeds/manifests/
+ipeds/derived/
+workbooks/*.xls
+data_pipelines/accreditation/cache/
+data_pipelines/accreditation/*.csv
+data_pipelines/accreditation/*.xlsx
+data_pipelines/college_cuts/cache/
+data_pipelines/college_cuts/*.csv
+data_pipelines/college_cuts/*.xlsx
+data_pipelines/federal_hcm/raw/
+data_pipelines/federal_hcm/*.csv
+data_pipelines/federal_composite/*.csv
+data_pipelines/grant_witness/cache/
+data_pipelines/grant_witness/grant_witness_*.csv
+data_pipelines/grant_witness/analysis/*
+!data_pipelines/grant_witness/manual_include.csv
+!data_pipelines/grant_witness/manual_match_overrides.csv
+!data_pipelines/grant_witness/analysis/grant_witness_usaspending_flagged_proposal_G.csv
+data_pipelines/scorecard/*.csv
 
 # OS/editor noise
 Thumbs.db
 .DS_Store
+__pycache__/
+*.pyc
 
-workbooks/ipeds_financial_health_article_workbook_r.xml
-workbooks/ipeds_financial_health_article_workbook_r_updated.xml

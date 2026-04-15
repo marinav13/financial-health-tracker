@@ -1,6 +1,11 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+paths_env <- new.env(parent = baseenv())
+sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+ensure_ipeds_layout_dirs <- get("ensure_ipeds_layout_dirs", envir = paths_env, inherits = FALSE)
+
 # This script is the single source-of-truth IPEDS collector. It downloads only
 # the annual source tables and dictionaries we need, resolves the requested
 # variables year by year, and writes one wide raw-but-decoded institution-year
@@ -39,21 +44,30 @@ suppressPackageStartupMessages({
 
 excluded_state_codes <- c("PR", "GU", "VI", "AS", "MP", "FM", "MH", "PW")
 
-root          <- normalizePath(".", winslash = "/", mustWork = TRUE)
-raw_root      <- file.path(root, "ipeds")
-download_root <- file.path(raw_root, "downloads")
-data_root     <- file.path(download_root, "data")
-dict_root     <- file.path(download_root, "dict")
-extract_root  <- file.path(download_root, "extracted")
-year_cache_dir <- file.path(raw_root, "year_cache")
-catalog_html  <- file.path(raw_root, "ipeds_datafiles.html")
-catalog_csv   <- file.path(raw_root, sprintf("%s_selected_file_catalog.csv", output_stem))
-dataset_csv   <- file.path(raw_root, sprintf("%s_raw_%s_%s.csv", output_stem, start_year, end_year))
-resolution_audit_csv <- file.path(raw_root, sprintf("%s_field_resolution_audit_%s_%s.csv", output_stem, start_year, end_year))
+paths <- ipeds_layout(
+  root = ".",
+  output_stem = output_stem,
+  start_year = start_year,
+  end_year = end_year
+)
 
-for (d in c(raw_root, download_root, data_root, dict_root, extract_root, year_cache_dir)) {
-  dir.create(d, recursive = TRUE, showWarnings = FALSE)
-}
+root <- paths$repo_root
+ipeds_root <- paths$ipeds_root
+raw_root <- paths$raw_dir
+manifest_root <- paths$manifests_dir
+cache_root <- paths$cache_dir
+download_root <- paths$cache_downloads_dir
+data_root <- paths$cache_data_dir
+dict_root <- paths$cache_dict_dir
+extract_root <- paths$cache_extract_dir
+year_cache_dir <- paths$cache_year_dir
+catalog_html <- paths$catalog_html
+catalog_csv <- paths$selected_file_catalog_csv
+dataset_csv <- paths$raw_csv
+resolution_audit_csv <- paths$field_resolution_audit_csv
+legacy_catalog_html <- paths$legacy_catalog_html
+
+ensure_ipeds_layout_dirs(paths)
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
@@ -187,6 +201,12 @@ sum_if_any <- function(values) {
 # ── catalog ────────────────────────────────────────────────────────────────
 # Build the filtered IPEDS file catalog that drives all later downloads and
 # dictionary lookups for the requested year range.
+if (!file.exists(catalog_html)) {
+  if (file.exists(legacy_catalog_html)) {
+    file.copy(legacy_catalog_html, catalog_html, overwrite = TRUE)
+  }
+}
+
 if (!file.exists(catalog_html)) {
   download_if_missing(
     "https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx?year=-1&sid=5588c647-c6be-4540-b2d1-283f6c31aee7&rtid=1",
@@ -389,6 +409,16 @@ field_specs <- list(
 # ── main year loop ─────────────────────────────────────────────────────────
 all_rows             <- list()
 resolution_audit_rows <- list()
+required_year_cache_cols <- c(
+  "enrollment_headcount_total",
+  "enrollment_headcount_undergrad",
+  "enrollment_headcount_graduate",
+  "enrollment_nonresident_total",
+  "enrollment_nonresident_undergrad",
+  "enrollment_nonresident_graduate",
+  "staff_headcount_total",
+  "staff_headcount_instructional"
+)
 
 for (year in start_year:end_year) {
   # Build each year separately so we can cache the result and avoid
@@ -399,10 +429,18 @@ for (year in start_year:end_year) {
   if (!force_rebuild && file.exists(year_cache_csv)) {
     cat(sprintf("[%d] Loading from cache...\n", year))
     cached <- suppressMessages(readr::read_csv(year_cache_csv, show_col_types = FALSE))
-    if ("unitid" %in% names(cached)) cached <- cached %>% mutate(unitid = as.character(unitid))
-    if ("year" %in% names(cached)) cached <- cached %>% mutate(year = suppressWarnings(as.integer(year)))
-    all_rows[[length(all_rows) + 1L]] <- cached
-    next
+    missing_cache_cols <- setdiff(required_year_cache_cols, names(cached))
+    if (length(missing_cache_cols) == 0) {
+      if ("unitid" %in% names(cached)) cached <- cached %>% mutate(unitid = as.character(unitid))
+      if ("year" %in% names(cached)) cached <- cached %>% mutate(year = suppressWarnings(as.integer(year)))
+      all_rows[[length(all_rows) + 1L]] <- cached
+      next
+    }
+    cat(sprintf(
+      "[%d] Rebuilding cache because required columns are missing: %s\n",
+      year,
+      paste(missing_cache_cols, collapse = ", ")
+    ))
   }
 
   year_catalog <- catalog_by_year[[as.character(year)]]
@@ -414,6 +452,7 @@ for (year in start_year:end_year) {
     HD      = (year_catalog %>% filter(str_detect(table_name, "^HD\\d{4}$"))      %>% slice(1) %>% pull(table_name) %||% NA_character_),
     IC      = (year_catalog %>% filter(str_detect(table_name, "^IC\\d{4}$"))      %>% slice(1) %>% pull(table_name) %||% NA_character_),
     FLAGS   = (year_catalog %>% filter(str_detect(table_name, "^FLAGS\\d{4}$"))   %>% slice(1) %>% pull(table_name) %||% NA_character_),
+    EFFY    = (year_catalog %>% filter(str_detect(table_name, "^EFFY\\d{4}$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
     EFIA    = (year_catalog %>% filter(str_detect(table_name, "^EFIA\\d{4}$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
     EAP     = (year_catalog %>% filter(str_detect(table_name, "^EAP\\d{4}$"))     %>% slice(1) %>% pull(table_name) %||% NA_character_),
     DRVEF12 = (year_catalog %>% filter(str_detect(table_name, "^DRVEF12\\d{4}$")) %>% slice(1) %>% pull(table_name) %||% NA_character_),
@@ -511,6 +550,50 @@ for (year in start_year:end_year) {
   # EAP raw no longer needed in memory
   rm(eap_raw)
 
+  # EFFY stores enrollment in multiple rows per institution, so collapse it to
+  # one row per UNITID before the main unit loop.
+  effy_index <- list()
+  effy_raw <- data_tables[["EFFY"]]
+  if (!is.null(effy_raw) &&
+      all(c("UNITID", "EFYTOTLT", "EFYNRALT") %in% names(effy_raw))) {
+    effy_prepped <- effy_raw %>% mutate(UNITID = as.character(UNITID))
+    if ("EFFYALEV" %in% names(effy_prepped)) {
+      effy_prepped <- effy_prepped %>% mutate(level_code = as.character(EFFYALEV))
+    } else if ("LSTUDY" %in% names(effy_prepped)) {
+      effy_prepped <- effy_prepped %>% mutate(level_code = dplyr::case_when(
+        as.character(LSTUDY) == "999" ~ "1",
+        as.character(LSTUDY) == "1" ~ "2",
+        as.character(LSTUDY) == "3" ~ "12",
+        TRUE ~ as.character(LSTUDY)
+      ))
+    } else {
+      effy_prepped <- effy_prepped %>% mutate(level_code = NA_character_)
+    }
+
+    effy_lookup <- effy_prepped %>%
+      transmute(
+        UNITID,
+        level_code,
+        EFYTOTLT = to_num(EFYTOTLT),
+        EFYNRALT = to_num(EFYNRALT)
+      ) %>%
+      filter(level_code %in% c("1", "2", "12")) %>%
+      group_by(UNITID) %>%
+      summarise(
+        enrollment_headcount_total = EFYTOTLT[level_code == "1"][1] %||% NA_real_,
+        enrollment_headcount_undergrad = EFYTOTLT[level_code == "2"][1] %||% NA_real_,
+        enrollment_headcount_graduate = EFYTOTLT[level_code == "12"][1] %||% NA_real_,
+        enrollment_nonresident_total = EFYNRALT[level_code == "1"][1] %||% NA_real_,
+        enrollment_nonresident_undergrad = EFYNRALT[level_code == "2"][1] %||% NA_real_,
+        enrollment_nonresident_graduate = EFYNRALT[level_code == "12"][1] %||% NA_real_,
+        .groups = "drop"
+      )
+    if (nrow(effy_lookup) > 0) {
+      effy_index <- split(effy_lookup, effy_lookup$UNITID)
+    }
+  }
+  rm(effy_raw)
+
   unitids   <- hd_table$UNITID
   year_rows <- vector("list", length(unitids))
 
@@ -529,6 +612,7 @@ for (year in start_year:end_year) {
     efia   <- get_row("EFIA"); drvef12 <- get_row("DRVEF12"); drvadm <- get_row("DRVADM")
     drvhr  <- get_row("DRVHR"); drvgr  <- get_row("DRVGR"); drvf   <- get_row("DRVF")
     f1     <- get_row("F1A");  f2      <- get_row("F2");    f3     <- get_row("F3")
+    effy   <- effy_index[[unitid]]
 
     institution_name <- get_string(hd, resolved_fields[["institution_name"]])
     city             <- get_string(hd, resolved_fields[["city"]])
@@ -559,8 +643,18 @@ for (year in start_year:end_year) {
       dplyr::coalesce(ft, 0) + dplyr::coalesce(pt, 0) / 3
     }
 
+    get_eap_headcount <- function(occupcat) {
+      idx <- if (occupcat == "100") eap_100_index else eap_210_index
+      hit <- idx[[unitid]]
+      if (is.null(hit) || nrow(hit) == 0) return(NA_real_)
+      hit <- hit[1L, , drop = FALSE]
+      get_number(hit, "EAPTOT")
+    }
+
     fte_total_staff_rebuilt    <- get_eap_fte("100")
     fte_instructional_rebuilt  <- get_eap_fte("210")
+    staff_headcount_total_rebuilt <- get_eap_headcount("100")
+    staff_headcount_instructional_rebuilt <- get_eap_headcount("210")
 
     auxiliary_enterprises_revenue_gasb    <- get_number(f1, "F1B05")
     hospital_services_revenue_gasb        <- get_number(f1, "F1B06")
@@ -646,8 +740,16 @@ for (year in start_year:end_year) {
       fte_12_months = fte_12_months,
       fte_undergrad = fte_undergrad,
       fte_graduate = fte_graduate,
+      enrollment_headcount_total = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_headcount_total[[1]],
+      enrollment_headcount_undergrad = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_headcount_undergrad[[1]],
+      enrollment_headcount_graduate = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_headcount_graduate[[1]],
+      enrollment_nonresident_total = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_nonresident_total[[1]],
+      enrollment_nonresident_undergrad = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_nonresident_undergrad[[1]],
+      enrollment_nonresident_graduate = if (is.null(effy) || nrow(effy) == 0) NA_real_ else effy$enrollment_nonresident_graduate[[1]],
       fte_total_staff = dplyr::coalesce(get_number(drvhr, resolved_fields[["fte_total_staff"]]), fte_total_staff_rebuilt),
       fte_instructional = dplyr::coalesce(get_number(drvhr, resolved_fields[["fte_instructional"]]), fte_instructional_rebuilt),
+      staff_headcount_total = staff_headcount_total_rebuilt,
+      staff_headcount_instructional = staff_headcount_instructional_rebuilt,
       transfer_out_rate_bachelor = get_number(drvgr, resolved_fields[["transfer_out_rate_bachelor"]]),
       state_approps_percent_core_gasb = dplyr::coalesce(
         get_number(drvf, resolved_fields[["state_approps_percent_core_gasb"]]),

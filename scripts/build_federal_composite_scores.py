@@ -4,19 +4,47 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DATA_PIPELINES = ROOT / "data_pipelines"
 
 # The federal score file is a one-sheet extract from Federal Student Aid's
 # published composite score workbook for institutions with fiscal years ending
 # between July 1, 2022 and June 30, 2023.
-SOURCE_CSV = ROOT / "federal_composite" / "ay_2022_2023_composite_scores.csv"
+SOURCE_CSV = DATA_PIPELINES / "federal_composite" / "ay_2022_2023_composite_scores.csv"
 
 # The raw IPEDS export already carries OPEID alongside UNITID, so we can map
 # the federal workbook onto our school pages without rebuilding the full IPEDS
 # pipeline.
-IPEDS_RAW = ROOT / "ipeds" / "ipeds_financial_health_raw_2014_2024.csv"
+IPEDS_RAW = ROOT / "ipeds" / "raw" / "ipeds_financial_health_raw_2014_2024.csv"
 
 # The school page only needs a lightweight lookup keyed by UNITID.
 OUTPUT_JSON = ROOT / "data" / "federal_composite_scores_by_unitid.json"
+
+
+def ensure_required_inputs(script_name, requirements):
+    missing = []
+    for requirement in requirements:
+        if requirement["path"].exists():
+            continue
+        missing.append(requirement)
+
+    if not missing:
+        return
+
+    message_lines = [
+        f"{script_name} cannot start because required local input files are missing.",
+        "",
+        "Add the missing files below and then run the script again.",
+        "",
+    ]
+
+    for requirement in missing:
+        message_lines.append(f"- {requirement['label']}")
+        message_lines.append(f"  Expected path: {requirement['path']}")
+        if requirement.get("note"):
+            message_lines.append(f"  Why it is needed: {requirement['note']}")
+        message_lines.append("")
+
+    raise FileNotFoundError("\n".join(message_lines).rstrip())
 
 
 def normalize_opeid(value: str) -> str:
@@ -78,6 +106,21 @@ def composite_status_label(status):
 
 
 def main():
+    ensure_required_inputs(
+        "build_federal_composite_scores.py",
+        [
+            {
+                "label": "Federal composite score CSV",
+                "path": SOURCE_CSV,
+                "note": "Used to build the federal composite score lookup shown on school profiles.",
+            },
+            {
+                "label": "IPEDS raw dataset",
+                "path": IPEDS_RAW,
+                "note": "Used to map federal OPEIDs back to UNITIDs and tracker school names.",
+            },
+        ],
+    )
     ipeds_by_opeid = build_ipeds_lookup()
     rows_by_unitid = {}
 
@@ -129,4 +172,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise SystemExit(str(exc))

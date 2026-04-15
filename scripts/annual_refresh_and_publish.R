@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  paths_env <- new.env(parent = baseenv())
+  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
   get_arg_value <- function(flag, default = NULL) {
     idx <- match(flag, args)
     if (!is.na(idx) && idx < length(args)) args[[idx + 1L]] else default
@@ -21,11 +25,13 @@ main <- function(cli_args = NULL) {
 
   start_year <- get_arg_value("--start-year", "2014")
   end_year <- get_arg_value("--end-year", format(Sys.Date(), "%Y"))
-  workbook_output <- get_arg_value("--workbook-output", "./workbooks/ipeds_financial_health_article_workbook_r.xml")
-  reporting_input <- get_arg_value(
-    "--reporting-input",
-    sprintf("./ipeds/ipeds_financial_health_dataset_%s_%s.csv", start_year, end_year)
-  )
+  workbook_output <- get_arg_value("--workbook-output", "./workbooks/ipeds_financial_health_article_workbook.xls")
+  reporting_input <- get_arg_value("--reporting-input", ipeds_layout(
+    root = ".",
+    output_stem = "ipeds_financial_health",
+    start_year = as.integer(start_year),
+    end_year = as.integer(end_year)
+  )$dataset_csv)
   sheet <- get_arg_value("--sheet", NULL)
   create <- get_arg_value("--create", NULL)
   tab <- get_arg_value("--tab", "ipeds_dataset")

@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
 args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+paths_env <- new.env(parent = baseenv())
+sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
 # This script turns the canonical IPEDS dataset plus the joined cuts,
 # accreditation, research, and scorecard files into the JSON payloads used by
 # the static site.
@@ -14,7 +18,34 @@ get_arg_value <- function(flag, default) {
   default
 }
 
-input_csv <- get_arg_value("--input", "./ipeds/ipeds_financial_health_dataset_2014_2024.csv")
+require_local_file <- function(path, label, how_to_fix) {
+  if (file.exists(path)) {
+    return(invisible(path))
+  }
+
+  stop(
+    paste(
+      "Missing required local input for the website build:",
+      label,
+      "\nExpected path:",
+      path,
+      "\nHow to fix:",
+      how_to_fix
+    ),
+    call. = FALSE
+  )
+}
+
+ensure_columns <- function(df, defaults) {
+  for (column_name in names(defaults)) {
+    if (!column_name %in% names(df)) {
+      df[[column_name]] <- defaults[[column_name]]
+    }
+  }
+  df
+}
+
+input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 
 suppressPackageStartupMessages({
@@ -36,13 +67,16 @@ dir.create(data_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(schools_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(downloads_dir, recursive = TRUE, showWarnings = FALSE)
 
-cuts_path <- file.path(root, "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv")
-accreditation_summary_path <- file.path(root, "accreditation", "accreditation_tracker_institution_summary.csv")
-accreditation_actions_path <- file.path(root, "accreditation", "accreditation_tracker_actions_joined.csv")
-accreditation_coverage_path <- file.path(root, "accreditation", "accreditation_tracker_source_coverage.csv")
-research_summary_path <- file.path(root, "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
-research_grants_path <- file.path(root, "grant_witness", "grant_witness_grant_level_joined.csv")
-outcomes_summary_path <- file.path(root, "scorecard", "tracker_outcomes_joined.csv")
+cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv")
+accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
+accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
+accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
+research_summary_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
+research_grants_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv")
+outcomes_summary_path <- file.path(root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv")
+closure_status_json_path <- file.path(data_dir, "closure_status_by_unitid.json")
+hcm_json_path <- file.path(data_dir, "hcm2_by_unitid.json")
+federal_composite_json_path <- file.path(data_dir, "federal_composite_scores_by_unitid.json")
 
 # Small helpers for numeric cleanup, JSON writing, and export-safe labels.
 to_num <- function(x) {
@@ -193,7 +227,11 @@ build_cuts_export <- function() {
   # Build the site payload for the college cuts page and related downloads.
   # This keeps the landing-page summaries and school-level cut tables derived
   # from the same joined cuts file.
-  if (!file.exists(cuts_path)) return(NULL)
+  require_local_file(
+    cuts_path,
+    "college cuts joined dataset",
+    "Run `Rscript --vanilla ./scripts/build_college_cuts_join.R` first."
+  )
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE) %>%
     mutate(
@@ -312,7 +350,16 @@ build_accreditation_export <- function() {
   # joined accreditation summary and actions files.
   # Coverage notes are carried through so missing source support can be surfaced
   # explicitly instead of showing silent blanks.
-  if (!file.exists(accreditation_summary_path) || !file.exists(accreditation_actions_path)) return(NULL)
+  require_local_file(
+    accreditation_summary_path,
+    "accreditation institution summary",
+    "Run `Rscript --vanilla ./scripts/build_accreditation_actions.R` first."
+  )
+  require_local_file(
+    accreditation_actions_path,
+    "accreditation joined actions file",
+    "Run `Rscript --vanilla ./scripts/build_accreditation_actions.R` first."
+  )
 
   normalize_accreditor_name <- function(x) {
     dplyr::case_when(
@@ -323,6 +370,17 @@ build_accreditation_export <- function() {
   }
 
   summary_df <- readr::read_csv(accreditation_summary_path, show_col_types = FALSE) %>%
+    ensure_columns(list(
+      accreditors = NA_character_,
+      latest_action_date = NA_character_,
+      latest_action_year = NA_character_,
+      action_labels = NA_character_,
+      active_actions = NA_character_,
+      has_active_warning = NA,
+      has_active_warning_or_notice = NA,
+      has_active_adverse_action = NA,
+      action_count = NA_integer_
+    )) %>%
     mutate(
       unitid = as.character(unitid),
       accreditors = normalize_accreditor_name(accreditors),
@@ -330,13 +388,35 @@ build_accreditation_export <- function() {
       latest_action_year = na_if(as.character(latest_action_year), "")
     )
   actions_df <- readr::read_csv(accreditation_actions_path, show_col_types = FALSE) %>%
+    ensure_columns(list(
+      accreditor = NA_character_,
+      action_date = NA_character_,
+      action_year = NA_character_,
+      source_page_modified = NA_character_,
+      display_action = TRUE,
+      accreditors = NA_character_,
+      latest_action_date = NA_character_,
+      latest_action_year = NA_character_,
+      action_labels = NA_character_,
+      active_actions = NA_character_,
+      has_active_warning = NA,
+      has_active_warning_or_notice = NA,
+      has_active_adverse_action = NA,
+      action_count = NA_integer_,
+      action_label_raw = NA_character_
+    )) %>%
     mutate(
       unitid = as.character(unitid),
       accreditor = normalize_accreditor_name(accreditor),
       action_date = na_if(as.character(action_date), ""),
       action_year = na_if(as.character(action_year), ""),
       source_page_modified = na_if(as.character(source_page_modified), ""),
-      display_action = if ("display_action" %in% names(.)) as.logical(display_action) else TRUE
+      display_action = as.logical(display_action),
+      accreditors = dplyr::coalesce(accreditors, accreditor),
+      latest_action_date = dplyr::coalesce(latest_action_date, action_date),
+      latest_action_year = dplyr::coalesce(latest_action_year, action_year),
+      action_labels = dplyr::coalesce(action_labels, action_label_raw),
+      action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L)
     )
   coverage_df <- if (file.exists(accreditation_coverage_path)) {
     readr::read_csv(accreditation_coverage_path, show_col_types = FALSE) %>%
@@ -364,11 +444,11 @@ build_accreditation_export <- function() {
 
   summary_df <- summary_df %>%
     mutate(
-      export_institution_name = pick_first_present(cur_data(), c("institution_name", "tracker_name", "institution_name_raw")),
-      export_state = pick_first_present(cur_data(), c("state", "tracker_state", "institution_state_raw")),
-      export_city = pick_first_present(cur_data(), c("city", "tracker_city")),
-      export_control_label = pick_first_present(cur_data(), c("control_label", "tracker_control")),
-      export_category = pick_first_present(cur_data(), c("category", "tracker_category")),
+      export_institution_name = pick_first_present(pick(dplyr::everything()), c("institution_name", "tracker_name", "institution_name_raw")),
+      export_state = pick_first_present(pick(dplyr::everything()), c("state", "tracker_state", "institution_state_raw")),
+      export_city = pick_first_present(pick(dplyr::everything()), c("city", "tracker_city")),
+      export_control_label = pick_first_present(pick(dplyr::everything()), c("control_label", "tracker_control")),
+      export_category = pick_first_present(pick(dplyr::everything()), c("category", "tracker_category")),
       export_unitid = vapply(
         seq_len(n()),
         function(i) make_accreditation_export_id(unitid[[i]], export_institution_name[[i]], export_state[[i]], accreditors[[i]]),
@@ -377,11 +457,11 @@ build_accreditation_export <- function() {
     )
   actions_df <- actions_df %>%
     mutate(
-      export_institution_name = pick_first_present(cur_data(), c("institution_name", "tracker_name", "institution_name_raw")),
-      export_state = pick_first_present(cur_data(), c("state", "tracker_state", "institution_state_raw")),
-      export_city = pick_first_present(cur_data(), c("city", "tracker_city")),
-      export_control_label = pick_first_present(cur_data(), c("control_label", "tracker_control")),
-      export_category = pick_first_present(cur_data(), c("category", "tracker_category")),
+      export_institution_name = pick_first_present(pick(dplyr::everything()), c("institution_name", "tracker_name", "institution_name_raw")),
+      export_state = pick_first_present(pick(dplyr::everything()), c("state", "tracker_state", "institution_state_raw")),
+      export_city = pick_first_present(pick(dplyr::everything()), c("city", "tracker_city")),
+      export_control_label = pick_first_present(pick(dplyr::everything()), c("control_label", "tracker_control")),
+      export_category = pick_first_present(pick(dplyr::everything()), c("category", "tracker_category")),
       export_unitid = vapply(
         seq_len(n()),
         function(i) make_accreditation_export_id(unitid[[i]], export_institution_name[[i]], export_state[[i]], accreditor[[i]]),
@@ -427,8 +507,8 @@ build_accreditation_export <- function() {
         has_active_warning = or_null(latest$has_active_warning),
         has_active_warning_or_notice = or_null(latest$has_active_warning_or_notice),
         has_active_adverse_action = or_null(latest$has_active_adverse_action),
-        latest_action_date = or_null_date(latest$latest_action_date %||% latest$action_date),
-        latest_action_year = or_null(latest$latest_action_year %||% latest$action_year),
+        latest_action_date = or_null_date(pick_first_present(latest, c("latest_action_date", "action_date"))),
+        latest_action_year = or_null(pick_first_present(latest, c("latest_action_year", "action_year"))),
         action_count = or_null(latest$action_count)
       ),
       actions = lapply(seq_len(nrow(df)), function(i) {
@@ -472,7 +552,16 @@ build_research_export <- function() {
   # Build the Grant Witness research-funding payloads used on the research page.
   # This export reads the already-filtered research join, so Proposal G and the
   # pass-through exclusions are reflected everywhere the site shows research cuts.
-  if (!file.exists(research_summary_path) || !file.exists(research_grants_path)) return(NULL)
+  require_local_file(
+    research_summary_path,
+    "research institution summary",
+    "Run `Rscript --vanilla ./scripts/build_grant_witness_join.R` first."
+  )
+  require_local_file(
+    research_grants_path,
+    "research grant-level join",
+    "Run `Rscript --vanilla ./scripts/build_grant_witness_join.R` first."
+  )
 
   summary_df <- readr::read_csv(research_summary_path, show_col_types = FALSE) %>%
     mutate(
@@ -500,10 +589,17 @@ build_research_export <- function() {
     ) %>%
     filter(likely_higher_ed, total_disrupted_award_remaining > 0)
 
-  grants_df <- readr::read_csv(research_grants_path, show_col_types = FALSE) %>%
+  grants_df <- readr::read_csv(
+    research_grants_path,
+    show_col_types = FALSE,
+    col_types = readr::cols(.default = readr::col_character())
+  ) %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
       organization_state = as.character(organization_state),
+      award_value = to_num(award_value),
+      award_outlaid = to_num(award_outlaid),
+      award_remaining = to_num(award_remaining),
       export_unitid = vapply(
         seq_len(n()),
         function(i) make_export_id(
@@ -603,7 +699,11 @@ build_research_export <- function() {
 build_outcomes_export <- function() {
   # Outcomes are now used mainly as finance-page blocks, but this helper still
   # assembles the joined payload while the repo transitions off the old page.
-  if (!file.exists(outcomes_summary_path)) return(NULL)
+  require_local_file(
+    outcomes_summary_path,
+    "scorecard and graduation-rate join",
+    "Run `Rscript --vanilla ./scripts/build_outcomes_join.R` first."
+  )
 
   outcomes <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
     mutate(
@@ -779,6 +879,22 @@ df <- readr::read_csv(
   col_types = readr::cols(.default = readr::col_character())
 )
 
+require_local_file(
+  closure_status_json_path,
+  "closure status JSON",
+  "Run `python ./scripts/import_closure_sheet.py` first."
+)
+require_local_file(
+  hcm_json_path,
+  "HCM JSON lookup",
+  "Run `python ./scripts/build_hcm_level2.py` first."
+)
+require_local_file(
+  federal_composite_json_path,
+  "federal composite score JSON lookup",
+  "Run `python ./scripts/build_federal_composite_scores.py` first."
+)
+
 numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
@@ -805,58 +921,56 @@ df <- df %>% arrange(unitid, year)
 # Join the latest outcomes fields onto the finance dataframe so the finance
 # page can render the three outcomes blocks from the same school JSON.
 latest_2024 <- df %>% filter(year == 2024)
-if (file.exists(outcomes_summary_path)) {
-  outcomes_summary <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
-    mutate(unitid = as.character(unitid))
-  for (nm in c(
-    "grad_plus_recipients",
-    "grad_plus_disbursements_amt",
-    "grad_plus_disbursements_per_recipient",
-    "grad_plus_data_updated"
-  )) {
-    if (!(nm %in% names(outcomes_summary))) outcomes_summary[[nm]] <- NA
-  }
-  df <- df %>%
-    mutate(unitid = as.character(unitid)) %>%
-    left_join(
-      outcomes_summary %>%
-        dplyr::select(
-          unitid,
-          graduation_rate_6yr,
-          median_earnings_10yr,
-          median_debt_completers,
-          grad_plus_recipients,
-          grad_plus_disbursements_amt,
-          grad_plus_disbursements_per_recipient,
-          outcomes_data_available,
-          scorecard_data_updated,
-          grad_plus_data_updated,
-          ipeds_graduation_rate_year,
-          ipeds_graduation_rate_label
-        ),
-      by = "unitid"
-    )
-  latest_2024 <- latest_2024 %>%
-    mutate(unitid = as.character(unitid)) %>%
-    left_join(
-      outcomes_summary %>%
-        dplyr::select(
-          unitid,
-          graduation_rate_6yr,
-          median_earnings_10yr,
-          median_debt_completers,
-          grad_plus_recipients,
-          grad_plus_disbursements_amt,
-          grad_plus_disbursements_per_recipient,
-          outcomes_data_available,
-          scorecard_data_updated,
-          grad_plus_data_updated,
-          ipeds_graduation_rate_year,
-          ipeds_graduation_rate_label
-        ),
-      by = "unitid"
-    )
+outcomes_summary <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
+  mutate(unitid = as.character(unitid))
+for (nm in c(
+  "grad_plus_recipients",
+  "grad_plus_disbursements_amt",
+  "grad_plus_disbursements_per_recipient",
+  "grad_plus_data_updated"
+)) {
+  if (!(nm %in% names(outcomes_summary))) outcomes_summary[[nm]] <- NA
 }
+df <- df %>%
+  mutate(unitid = as.character(unitid)) %>%
+  left_join(
+    outcomes_summary %>%
+      dplyr::select(
+        unitid,
+        graduation_rate_6yr,
+        median_earnings_10yr,
+        median_debt_completers,
+        grad_plus_recipients,
+        grad_plus_disbursements_amt,
+        grad_plus_disbursements_per_recipient,
+        outcomes_data_available,
+        scorecard_data_updated,
+        grad_plus_data_updated,
+        ipeds_graduation_rate_year,
+        ipeds_graduation_rate_label
+      ),
+    by = "unitid"
+  )
+latest_2024 <- latest_2024 %>%
+  mutate(unitid = as.character(unitid)) %>%
+  left_join(
+    outcomes_summary %>%
+      dplyr::select(
+        unitid,
+        graduation_rate_6yr,
+        median_earnings_10yr,
+        median_debt_completers,
+        grad_plus_recipients,
+        grad_plus_disbursements_amt,
+        grad_plus_disbursements_per_recipient,
+        outcomes_data_available,
+        scorecard_data_updated,
+        grad_plus_data_updated,
+        ipeds_graduation_rate_year,
+        ipeds_graduation_rate_label
+      ),
+    by = "unitid"
+  )
 sector_loan_benchmarks <- latest_2024 %>%
   group_by(sector) %>%
   summarise(value = mean(federal_loan_pct_most_recent, na.rm = TRUE), .groups = "drop") %>%
@@ -920,7 +1034,10 @@ metadata <- list(
     download = "data/downloads/full_dataset.csv",
     college_cuts = "data/college_cuts.json",
     accreditation = "data/accreditation.json",
-    research_funding = "data/research_funding.json"
+    research_funding = "data/research_funding.json",
+    closure_status = "data/closure_status_by_unitid.json",
+    hcm2 = "data/hcm2_by_unitid.json",
+    federal_composite_scores = "data/federal_composite_scores_by_unitid.json"
   )
 )
 

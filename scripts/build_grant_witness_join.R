@@ -1,6 +1,10 @@
 main <- function(cli_args = NULL) {
   args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
 
+  paths_env <- new.env(parent = baseenv())
+  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
+  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+
   # Allow scheduled jobs and local rebuilds to override inputs without editing
   # the script body.
   get_arg_value <- function(flag, default = NULL) {
@@ -35,27 +39,27 @@ main <- function(cli_args = NULL) {
 
     financial_input <- get_arg_value(
       "--financial-input",
-      file.path(getwd(), "ipeds", "ipeds_financial_health_dataset_2014_2024.csv")
+      ipeds_layout(root = ".")$dataset_csv
     )
   output_prefix <- get_arg_value(
     "--output-prefix",
-    file.path(getwd(), "grant_witness", "grant_witness")
+    file.path(getwd(), "data_pipelines", "grant_witness", "grant_witness")
   )
   cache_dir <- get_arg_value(
     "--cache-dir",
-    file.path(getwd(), "grant_witness", "cache")
+    file.path(getwd(), "data_pipelines", "grant_witness", "cache")
   )
   manual_include_path <- get_arg_value(
     "--manual-include",
-    file.path(getwd(), "grant_witness", "manual_include.csv")
+    file.path(getwd(), "data_pipelines", "grant_witness", "manual_include.csv")
   )
   manual_match_overrides_path <- get_arg_value(
     "--manual-match-overrides",
-    file.path(getwd(), "grant_witness", "manual_match_overrides.csv")
+    file.path(getwd(), "data_pipelines", "grant_witness", "manual_match_overrides.csv")
   )
   usaspending_filter_path <- get_arg_value(
     "--usaspending-filter",
-    file.path(getwd(), "grant_witness", "analysis", "grant_witness_usaspending_flagged_proposal_G.csv")
+    file.path(getwd(), "data_pipelines", "grant_witness", "analysis", "grant_witness_usaspending_flagged_proposal_G.csv")
   )
   skip_download <- has_flag("--skip-download")
   skip_usaspending_filter <- has_flag("--skip-usaspending-filter")

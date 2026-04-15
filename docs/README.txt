@@ -171,6 +171,16 @@ main(c(
 ))
 ```
 
+Weekly closure status sheet:
+
+- `scripts/download_weekly_closed_school_search_file.py` fetches the current weekly closed-school report from FSA
+- `scripts/publish_closure_status_sheet.R` writes the report into a Google Sheet
+- it uses a `weekly_closed_school_report` tab and a matching summary tab
+- use it when you want the freshest closure status without reopening the larger historical closure workbook
+- the GitHub Action uses Google Cloud Workload Identity Federation, so no JSON
+  key file or GitHub secret is needed
+- share the spreadsheet with the service account before the weekly workflow runs
+
 What happens next:
 
 - the tab named `looker_ready` is created or replaced
@@ -184,6 +194,10 @@ How to connect the Google Sheet to Looker Studio
 4. Select the spreadsheet and the `looker_ready` tab.
 5. Use the first row as headers.
 6. Finish the connection.
+
+For the weekly closure status sheet, the workflow downloads the report itself,
+then `scripts/publish_closure_status_sheet.R` writes it to your closure Google
+Sheet.
 
 Important field-type cleanup in Looker Studio
 

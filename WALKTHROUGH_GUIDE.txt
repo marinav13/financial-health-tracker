@@ -1,121 +1,105 @@
 IPEDS Financial Health Project
 Full Walkthrough
 
-This project lets someone:
+This project rebuilds the college financial health interactive from raw source
+files to the static site assets that live on the Hechinger website.
 
-- rebuild the full raw IPEDS dataset
-- create the Looker-ready CSV
-- create the fuller reporting CSV
-- create the workbook XML
-- publish the Looker-ready CSV into Google Sheets
-- connect that Google Sheet to Looker Studio
+What this repo does
+
+- scrapes and decodes IPEDS
+- builds one raw-but-decoded institution-year dataset
+- builds one authoritative canonical dataset
+- joins the domain tables for cuts, accreditation, research, closures, HCM,
+  and federal composite scores
+- writes the web exports and workbook XML
+- publishes the files that power the live interactive
+
+Visual target
+
+The finished interactive should match the structure and density shown in these
+reference PDFs:
+
+- `assets/interactive_examples/example_interactive.pdf`
+- `assets/interactive_examples/example_cuts.pdf`
+- `assets/interactive_examples/example_accreditation.pdf`
+- `assets/interactive_examples/example_research.pdf`
+
+Use them as the design target for the website handoff:
+
+- the landing page should feel like a guided search tool, not a generic blog
+- school pages should start with a clear profile summary and then move into
+  chart sections and evidence sections
+- the Cuts, Accreditation, and Research tabs should keep the same card-based
+  structure and not collapse into plain tables
+- the page should feel clean and readable, but still information-dense
 
 Project folders
 
-- `scripts` contains the R scripts
-- `raw_build` contains the raw CSV and the cached IPEDS downloads
-- `looker_studio` contains the main Looker-ready CSV
-- `reporting` contains the fuller reporting CSV
-- `workbooks` contains the multi-tab workbook XML
-- `docs` contains handoff notes
+- `scripts/` contains the build entrypoints
+- `scripts/ipeds/` contains the real IPEDS pipeline
+- `scripts/shared/` contains the shared helper functions
+- `ipeds/raw/` contains the raw decoded institution-year CSV
+- `ipeds/cache/` contains downloaded IPEDS zips and extracted caches
+- `ipeds/manifests/` contains the file catalog, column contract, and audit files
+- `ipeds/derived/` contains the canonical and extended IPEDS datasets
+- `data_pipelines/` contains the domain joins and federal closure outputs
+- `data/` contains the site JSON exports and indexes
+- `data/downloads/` contains the site-wide CSV download
+- `data/schools/` contains the school-level JSON files
+- `workbooks/` contains the workbook XML
+- `docs/` contains the handoff notes
 
-Main scripts
+What must already exist locally
 
-- `scripts/build_ipeds_tracker_dataset.R`
-- `scripts/build_looker_ready_metrics.R`
-- `scripts/build_article_workbook.R`
-- `scripts/publish_to_google_sheets.R`
-- `scripts/annual_refresh_and_publish.R`
+These inputs are not committed in the repo and must be present before the full
+pipeline can run:
+
+- federal closure raw files in `data_pipelines/federal_closure/raw/`
+- federal composite score source in `data_pipelines/federal_composite/`
+
+Required raw files
+
+- `data_pipelines/federal_closure/raw/closure_file_20250403.xlsx`
+- `data_pipelines/federal_closure/raw/closures_sep24.xlsx`
+- `data_pipelines/federal_closure/raw/MONTHLY_CLOSED_REPORT_SECTION_1_2026040107063586645.zip`
+- `data_pipelines/federal_closure/raw/MONTHLY_CLOSED_REPORT_SECTION_2_2026040107103586655.zip`
+- `data_pipelines/federal_closure/raw/schfile_access_format_20260402.dat.zip`
+- `data_pipelines/federal_composite/ay_2022_2023_composite_scores.csv`
+
+If you need to store those files elsewhere, set these environment variables:
+
+- `IPEDS_DOWNLOADS_DIR`
+- `FEDERAL_CLOSURE_SEPT_2024_XLSX`
+- `FEDERAL_CLOSURE_MONTHLY_SECTION_1_ZIP`
+- `FEDERAL_CLOSURE_MONTHLY_SECTION_2_ZIP`
+- `FEDERAL_SCHFILE_ZIP`
+
+The IPEDS cache folder itself is created automatically by the IPEDS tracker
+build. The first run will download the needed IPEDS zips and dictionaries into
+`ipeds/cache/downloads/` if they are missing.
 
 What the current main outputs are
 
-- `raw_build/ipeds_financial_health_raw_2014_2024.csv`
-- `raw_build/ipeds_financial_health_selected_file_catalog.csv`
-- `raw_build/ipeds_financial_health_field_resolution_audit_2014_2024.csv`
-- `looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv`
-- `reporting/ipeds_financial_health_reporting_2014_2024.csv`
+- `ipeds/raw/ipeds_financial_health_raw_2014_2024.csv`
+- `ipeds/manifests/ipeds_financial_health_selected_file_catalog.csv`
+- `ipeds/manifests/ipeds_financial_health_field_resolution_audit_2014_2024.csv`
+- `ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv`
+- `ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv`
+- `data/downloads/full_dataset.csv`
+- `data/schools_index.json`
+- `data/accreditation.json`
+- `data/research_funding.json`
+- `data/college_cuts.json`
+- `data/hcm2_by_unitid.json`
+- `data/closure_status_by_unitid.json`
+- `data/federal_composite_scores_by_unitid.json`
 - `workbooks/ipeds_financial_health_article_workbook_r.xml`
-
-Current conventions and caveats
-
-- the main monetary percent-change fields now use inflation-adjusted dollars
-- nominal versions are still kept in separate `_nominal` fields
-- the workbook now includes:
-  - worksheet index on `Summary`
-  - `StaffDown5yr`
-  - `InstrStaffDown5yr`
-  - `StaffCutRisk`
-  - `TransferOutUp10yr`
-  - `FlagshipFed`
-  - `PrivateCloseRisk`
-  - `PublicCampusRisk`
-- the workbook tabs use the predominantly baccalaureate universe, while the top summary tab still shows broader sector totals plus baccalaureate breakouts
-- the reporting and Looker-ready datasets now include `religious_affiliation` and `all_programs_distance_education`
-
-What the audit file means
-
-`raw_build/ipeds_financial_health_field_resolution_audit_2014_2024.csv` shows which raw IPEDS variable name matched each output field by year.
-
-Important nuance:
-
-- an output can still appear unresolved in the audit even when the final dataset is correct
-- that happens when the build uses a hard-coded fallback or a manual reconstruction instead of a direct dictionary title match
-
-Examples:
-
-- older public finance totals now use exact older summary lines like `F1D01` and `F1D02`
-- older for-profit totals now use exact older summary lines like `F3B01`, `F3D09`, `F3B02`, and `F3E071`
-- some older derived fields are rebuilt directly from source tables instead of coming from `DRV*` tables
-
-So:
-
-- `unresolved in audit` does not automatically mean `bad data`
-- it can also mean `rebuilt by explicit fallback logic`
-
-Metadata fields that only exist in later years
-
-Some descriptive IPEDS metadata fields were introduced later and simply do not exist in the earlier annual files. The main examples are:
-
-- `access_earnings`
-- `size`
-- `undergrad_program_mix`
-- `grad_program_mix`
-
-For those fields:
-
-- later years have real labels from IPEDS
-- earlier years are blank because there is no exact older source variable to decode
-
-This is expected and not a pipeline bug.
-
-Monetary percent-change convention
-
-The following primary fields now use inflation-adjusted dollars:
-
-- `revenue_pct_change_5yr`
-- `revenue_change_1yr`
-- `net_tuition_pct_change_5yr`
-- `net_tuition_per_fte_change_5yr`
-- `government_funding_pct_change_5yr`
-- `federal_grants_contracts_pell_adjusted_pct_change_5yr`
-- `state_funding_pct_change_5yr`
-- `endowment_pct_change_5yr`
-
-Nominal versions are preserved in:
-
-- `revenue_pct_change_5yr_nominal`
-- `revenue_change_1yr_nominal`
-- `net_tuition_pct_change_5yr_nominal`
-- `net_tuition_per_fte_change_5yr_nominal`
-- `government_funding_pct_change_5yr_nominal`
-- `federal_grants_contracts_pell_adjusted_pct_change_5yr_nominal`
-- `state_funding_pct_change_5yr_nominal`
-- `endowment_pct_change_5yr_nominal`
 
 What you need
 
 - R
 - RStudio
+- Python 3
 - internet access when you rebuild IPEDS files
 - a Google account if you want Google Sheets publishing
 
@@ -126,7 +110,10 @@ Open RStudio and set the working directory to the project folder.
 Run:
 
 ```r
-user_lib <- "C:/Users/YourName/Documents/R/win-library/4.4"
+user_lib <- Sys.getenv("R_LIBS_USER")
+if (!nzchar(user_lib)) {
+  user_lib <- file.path(path.expand("~"), "R", paste0("library-", getRversion()))
+}
 dir.create(user_lib, recursive = TRUE, showWarnings = FALSE)
 .libPaths(c(user_lib, .libPaths()))
 
@@ -143,8 +130,6 @@ install.packages(c(
 ))
 ```
 
-Replace `YourName` with the Windows username.
-
 How to rebuild everything from scratch
 
 Step 1. Build the raw IPEDS dataset
@@ -154,73 +139,104 @@ source("scripts/build_ipeds_tracker_dataset.R")
 main(c("--start-year", "2014", "--end-year", "2024"))
 ```
 
-This downloads the IPEDS source files into `raw_build/downloads` and creates:
+This downloads the IPEDS source files into `ipeds/cache/downloads/` and
+creates:
 
-- `raw_build/ipeds_financial_health_raw_2014_2024.csv`
-- `raw_build/ipeds_financial_health_selected_file_catalog.csv`
+- `ipeds/raw/ipeds_financial_health_raw_2014_2024.csv`
+- `ipeds/manifests/ipeds_financial_health_selected_file_catalog.csv`
+- `ipeds/manifests/ipeds_financial_health_field_resolution_audit_2014_2024.csv`
+- `ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv`
+- `ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv`
 
-Step 2. Build the Looker-ready and reporting datasets
+Step 2. Build the domain joins and profile tables
+
+Run these in order:
 
 ```r
-source("scripts/build_looker_ready_metrics.R")
+source("scripts/build_outcomes_join.R")
+main()
+
+source("scripts/build_college_cuts_join.R")
+main()
+
+source("scripts/build_accreditation_actions.R")
+main()
+
+source("scripts/build_grant_witness_join.R")
+main()
+```
+
+```powershell
+python scripts/build_hcm_level2.py
+python scripts/build_closure_status.py
+python scripts/build_closure_outputs.py
+python scripts/build_federal_closure_opeid_panel.py
+python scripts/build_federal_closure_style_ipeds_closures.py
+python scripts/build_federal_composite_scores.py
+```
+
+Step 3. Build the web exports
+
+```r
+source("scripts/build_web_exports.R")
 main()
 ```
 
 This creates:
 
-- `looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv`
-- `reporting/ipeds_financial_health_reporting_2014_2024.csv`
+- `data/downloads/full_dataset.csv`
+- `data/schools_index.json`
+- `data/schools/*.json`
+- `data/accreditation.json`
+- `data/research_funding.json`
+- `data/college_cuts.json`
+- `data/hcm2_by_unitid.json`
+- `data/closure_status_by_unitid.json`
+- `data/federal_composite_scores_by_unitid.json`
+- `data/metadata.json`
 
-Step 3. Build the workbook
+Step 4. Build the workbook
 
 ```r
 source("scripts/build_article_workbook.R")
 main(c(
-  "--input", "./reporting/ipeds_financial_health_reporting_2014_2024.csv",
+  "--input", "./data/downloads/full_dataset.csv",
   "--output", "./workbooks/ipeds_financial_health_article_workbook_r.xml"
 ))
 ```
 
-This creates:
+Step 5. Copy the site files to the live interactive folder
 
-- `workbooks/ipeds_financial_health_article_workbook_r.xml`
+The website manager should deploy these finished static files into:
 
-Quick sanity checks after rebuild
+- `/interactives/fitness/`
 
-Open the reporting CSV and confirm:
+Files to copy:
 
-- `state` is a full state name
-- `urbanization` is a label, not a numeric code
-- `category` is a label, not a numeric code
+- `index.html`
+- `school.html`
+- `styles.css`
+- `js/`
+- `data/`
 
-Spot-check one school:
+The school page expects URLs like:
 
-```r
-library(readr)
-df <- read_csv("reporting/ipeds_financial_health_reporting_2014_2024.csv", show_col_types = FALSE)
-subset(df, unitid == 100663 & year %in% c(2014, 2019, 2020, 2024),
-       select = c(unitid, institution_name, year, enrollment_headcount_total, staff_headcount_total, fte_12_months))
-```
+- `/interactives/fitness/school.html?unitid=172264`
 
 How the Google Sheets publishing works
 
 The recommended setup is:
 
 - build data in R
-- publish only the Looker-ready CSV to Google Sheets
+- publish only the site-ready CSV to Google Sheets
 - connect Looker Studio to that sheet
 
-Do not use the raw CSV as the main Google Sheet source unless you really need it.
+Do not use the raw CSV as the main Google Sheet source unless you really need
+it.
 
-Current size notes
+Recommended source:
 
-- the Looker-ready CSV is about 3.0 million cells, which fits under the Google Sheets 10 million cell limit
-- the raw CSV is about 7.0 million cells, which also fits today, but is much heavier and slower
-
-Recommendation:
-
-- use `looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv` for Google Sheets and Looker Studio
-- keep the raw and reporting CSVs on disk, not as the live Looker source
+- `data/downloads/full_dataset.csv`
 
 How to create and fill a Google Sheet
 
@@ -229,7 +245,7 @@ If you already have a Google Sheet:
 ```r
 source("scripts/publish_to_google_sheets.R")
 main(c(
-  "--input", "./looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv",
+  "--input", "./data/downloads/full_dataset.csv",
   "--sheet", "YOUR_GOOGLE_SHEET_URL_OR_ID",
   "--tab", "looker_ready",
   "--email", "your.email@example.com"
@@ -241,17 +257,43 @@ If you want the script to create a new Google Sheet:
 ```r
 source("scripts/publish_to_google_sheets.R")
 main(c(
-  "--input", "./looker_studio/ipeds_financial_health_looker_ready_2014_2024.csv",
+  "--input", "./data/downloads/full_dataset.csv",
   "--create", "IPEDS Financial Health Tracker",
   "--tab", "looker_ready",
   "--email", "your.email@example.com"
 ))
 ```
 
-What happens next:
+Weekly closure status spreadsheet
 
-- the tab named `looker_ready` is created or replaced
-- that sheet becomes the source for Looker Studio
+The closure status sheet is a separate Google Sheet for the current federal
+school-file closure matches.
+
+Use it when you want the freshest closure status without reopening the larger
+historical closure workbook.
+
+Publish it with:
+
+```r
+source("scripts/publish_closure_status_sheet.R")
+main(c(
+  "--sheet", "YOUR_CLOSURE_GOOGLE_SHEET_URL_OR_ID",
+  "--tab", "tracker_closure_status",
+  "--summary-tab", "tracker_closure_summary"
+))
+```
+
+This sheet uses:
+
+- `data_pipelines/federal_closure/derived/closure_status_tracker_matches.csv`
+- `data/closure_status_by_unitid.json`
+
+The weekly closure workflow downloads the current federal closed-school report
+for you. You do not need to place the ZIP in the repo by hand.
+If you automate the sheet in GitHub Actions, use Google Cloud Workload Identity
+Federation instead of a JSON key file, then share the spreadsheet with the
+service account email. If you already have a local Google Cloud credentials
+file, the script will also read `GOOGLE_APPLICATION_CREDENTIALS` automatically.
 
 How to connect the Google Sheet to Looker Studio
 
@@ -264,480 +306,41 @@ How to connect the Google Sheet to Looker Studio
 
 Important sharing and credentials setting
 
-If you plan to share the report with other people, set the data source to `Owner's credentials`, not `Viewer's credentials`.
+If you plan to share the report with other people, set the data source to
+`Owner's credentials`, not `Viewer's credentials`.
 
 Why this matters:
 
-- `Owner's credentials` lets viewers see the report using the data source connection owned by the report creator
-- `Viewer's credentials` can cause outside users to hit vague `Looker Studio has encountered a system error` messages, even when the report works for you
-
-How to change it:
-
-1. In Looker Studio, go to the data source.
-2. Open the credentials settings.
-3. Select `Owner's credentials`.
-4. Save and test the report in an incognito/private window.
-
-Important field-type cleanup in Looker Studio
-
-You will usually need to change some fields from `Text` to `Number`.
-
-
-Looker Studio fields to change to Number
-
-In the Google Sheets connector or Looker Studio data source, change these fields to `Number`.
-
-Alphabetical list:
-
-discount_pct_change_5yr
-discount_rate
-endowment_pct_change_5yr
-endowment_value
-enrollment_headcount_graduate
-enrollment_headcount_total
-enrollment_headcount_undergrad
-enrollment_pct_change_5yr
-expenses_total
-federal_grants_contracts_pell_adjusted
-federal_grants_contracts_pell_adjusted_pct_change_5yr
-federal_grants_contracts_pell_adjusted_pct_core_revenue
-federal_loan_avg_most_recent
-federal_loan_count_most_recent
-federal_loan_pct_most_recent
-international_enrollment_pct_change_5yr
-loss_amount
-loss_amount_2024
-loss_years_last_10
-loss_years_last_5
-net_tuition_per_fte
-net_tuition_per_fte_change_5yr
-pct_international_all
-pct_international_graduate
-pct_international_undergraduate
-revenue_pct_change_5yr
-revenue_total
-sector_enrollment_pct_change_5yr_national
-staff_headcount_instructional
-staff_headcount_total
-staff_instructional_headcount_pct_change_5yr
-staff_total_headcount_pct_change_5yr
-state_funding
-state_funding_pct_change_5yr
-state_funding_pct_core_revenue
-tuition_dependence_pct
-year
-
-Fields that should stay as text
-
-- `institution_name`
-- `institution_unique_name`
-- `state`
-- `city`
-- `sector`
-- `level`
-- `urbanization`
-- `category`
-- `control_label`
-- all yes/no flags such as `enrollment_decline_last_3_of_5` and `ended_2024_at_loss`
-
-Sentence fields in Looker Studio
-
-- create sentence fields as `dimensions`, not metrics
-- use row-level formulas, not `MAX()`
-- filter sentence charts to `year = 2024`
-
-
-
-
-Recommended aggregation defaults
-
-- use `Sum` for counts and dollars
-- use `None` for labels and yes/no flags
-
-Examples:
-
-- `enrollment_headcount_total` -> Number, Sum
-- `revenue_total` -> Number, Sum
-- `pct_international_all` -> Number, Average
-- `year` -> Number, None
-- `unitid` -> Number, None
-
-Year handling in Looker Studio
-
-`year` is stored as a number.
-
-For line charts:
-
-- use a regular line chart if possible
-- use `year` as the dimension
-
-If you need a true date field for a time series chart, create:
-
-```text
-PARSE_DATE("%Y%m%d", CONCAT(CAST(year AS TEXT), "0101"))
-```
-
-and name it `year_date`.
-
-Filter your sentence cards and scorecards to:
-
-- `year = 2024`
-
-That makes them show the current year row for the selected institution.
-
-Suggested Looker Studio layout
-
-Top text:
-
-`As colleges and universities face federal funding cuts and immigration policy changes, which ones are most vulnerable to financial pressures and dips in international enrollment? Look up your institution for a snapshot of key financial trends, from enrollment to revenue and more.`
-
-Institution selector:
-
-- dimension: `institution_unique_name`
-
-Institution snapshot:
-
-- `institution_name`
-- `state`
-- `city`
-- `urbanization`
-- `control_label`
-- `category`
-
-Section 1. Enrollment
-
-- line chart dimension: `year`
-- line chart metric: `enrollment_headcount_total`
-- scorecard: `enrollment_decline_last_3_of_5`
-- scorecard: `enrollment_pct_change_5yr`
-
-Section 2. International and student exposure
-
-- sentence: international share
-- sentence: international 5-year change
-- sentence: borrowing
-
-Section 3. Staffing
-
-- line chart dimension: `year`
-- line chart metrics: `staff_headcount_total`, `staff_headcount_instructional`
-- scorecard: `staff_total_headcount_pct_change_5yr`
-
-Section 4. Revenue
-
-- line chart dimension: `year`
-- line chart metric: `revenue_total`
-- scorecard: `revenue_10pct_drop_last_3_of_5`
-- scorecard: `revenue_pct_change_5yr`
-
-Section 5. Losses
-
-- line chart dimension: `year`
-- line chart metrics: `revenue_total`, `expenses_total`
-- scorecard: `ended_2024_at_loss`
-- scorecard: `losses_last_3_of_5`
-- scorecard: `loss_years_last_10`
-
-Section 6. Net tuition
-
-- line chart dimension: `year`
-- line chart metric: `net_tuition_per_fte`
-- scorecard: `net_tuition_per_fte_change_5yr`
-- sentence: tuition dependence
-
-Section 7. Federal and state exposure
-
-- federal scorecard: `federal_grants_contracts_pell_adjusted_pct_core_revenue`
-- state scorecard: `state_funding_pct_core_revenue`
-- federal line chart: `federal_grants_contracts_pell_adjusted`
-- state line chart: `state_funding`
-
-Section 8. Endowment
-
-- line chart dimension: `year`
-- line chart metric: `endowment_value`
-- sentence: endowment 5-year change
-
-Recommended custom number formats in Looker Studio
-
-For scorecards where you want explicit positive and negative signs:
-
-- no decimal places: `+0'%';-0'%'`
-- one decimal place: `+0.0'%';-0.0'%'`
-
-Dynamic sentence formulas for Looker Studio
-
-International share:
-
-```text
-CONCAT(
-  CAST(ROUND(100 * MAX(CAST(pct_international_all AS NUMBER)), 1) AS TEXT),
-  "% of students are international. That includes ",
-  CAST(ROUND(100 * MAX(CAST(pct_international_undergraduate AS NUMBER)), 1) AS TEXT),
-  "% of undergraduates and ",
-  CAST(ROUND(100 * MAX(CAST(pct_international_graduate AS NUMBER)), 1) AS TEXT),
-  "% of graduate students."
-)
-```
-
-International change over 5 years:
-
-```text
-CASE
-  WHEN MAX(CAST(international_enrollment_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(international_enrollment_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "The number of international students has increased ",
-      CAST(ROUND(MAX(CAST(international_enrollment_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(international_enrollment_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "The number of international students has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(international_enrollment_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "The number of international students has not changed over the past five years."
-END
-```
-
-Enrollment change over 5 years:
-
-```text
-CASE
-  WHEN MAX(CAST(enrollment_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(enrollment_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "Enrollment has increased ",
-      CAST(ROUND(MAX(CAST(enrollment_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(enrollment_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "Enrollment has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(enrollment_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "Enrollment has not changed over the past five years."
-END
-```
-
-Staffing change over 5 years:
-
-```text
-CASE
-  WHEN MAX(CAST(staff_total_headcount_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(staff_total_headcount_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "Total staff headcount has increased ",
-      CAST(ROUND(MAX(CAST(staff_total_headcount_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(staff_total_headcount_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "Total staff headcount has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(staff_total_headcount_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "Total staff headcount has not changed over the past five years."
-END
-```
-
-Revenue change over 5 years:
-
-```text
-CASE
-  WHEN MAX(CAST(revenue_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(revenue_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "Revenue has increased ",
-      CAST(ROUND(MAX(CAST(revenue_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(revenue_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "Revenue has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(revenue_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "Revenue has not changed over the past five years."
-END
-```
-
-Net tuition per student over 5 years:
-
-```text
-CASE
-  WHEN MAX(CAST(net_tuition_per_fte_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(net_tuition_per_fte_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "Net tuition revenue per student has increased ",
-      CAST(ROUND(MAX(CAST(net_tuition_per_fte_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(net_tuition_per_fte_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "Net tuition revenue per student has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(net_tuition_per_fte_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "Net tuition revenue per student has not changed over the past five years."
-END
-```
-
-Student borrowing:
-
-```text
-CONCAT(
-  CAST(ROUND(MAX(CAST(federal_loan_pct_most_recent AS NUMBER)), 1) AS TEXT),
-  "% of undergraduates at this institution took out federal loans in the most recent year available. That was ",
-  CAST(ROUND(MAX(CAST(federal_loan_count_most_recent AS NUMBER)), 0) AS TEXT),
-  " students, and the average loan amount was $",
-  CAST(ROUND(MAX(CAST(federal_loan_avg_most_recent AS NUMBER)), 0) AS TEXT),
-  "."
-)
-```
-
-Tuition dependence:
-
-```text
-CONCAT(
-  CAST(ROUND(MAX(CAST(tuition_dependence_pct AS NUMBER)), 1) AS TEXT),
-  "% of this institution's revenue comes from net tuition."
-)
-```
-
-Endowment change:
-
-```text
-CASE
-  WHEN MAX(CAST(endowment_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(endowment_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "The institution's endowment has increased ",
-      CAST(ROUND(MAX(CAST(endowment_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(endowment_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "The institution's endowment has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(endowment_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "The institution's endowment has not changed over the past five years."
-END
-```
-
-Discount rate change:
-
-```text
-CASE
-  WHEN MAX(CAST(discount_pct_change_5yr AS NUMBER)) IS NULL THEN NULL
-  WHEN MAX(CAST(discount_pct_change_5yr AS NUMBER)) > 0 THEN
-    CONCAT(
-      "The discount rate has increased ",
-      CAST(ROUND(MAX(CAST(discount_pct_change_5yr AS NUMBER)), 1) AS TEXT),
-      "% over the past five years."
-    )
-  WHEN MAX(CAST(discount_pct_change_5yr AS NUMBER)) < 0 THEN
-    CONCAT(
-      "The discount rate has decreased ",
-      CAST(ROUND(ABS(MAX(CAST(discount_pct_change_5yr AS NUMBER))), 1) AS TEXT),
-      "% over the past five years."
-    )
-  ELSE
-    "The discount rate has not changed over the past five years."
-END
-```
-
-Federal grants and contracts dependence:
-
-```text
-CONCAT(
-  CAST(ROUND(100 * MAX(CAST(federal_grants_contracts_pell_adjusted_pct_core_revenue AS NUMBER)), 1) AS TEXT),
-  "% of core revenue came from federal grants and contracts, excluding Pell grants."
-)
-```
-
-State funding dependence:
-
-```text
-CONCAT(
-  CAST(ROUND(100 * MAX(CAST(state_funding_pct_core_revenue AS NUMBER)), 1) AS TEXT),
-  "% of core revenue came from state appropriations."
-)
-```
-
-Annual IPEDS release-cycle automation
-
-This project is better thought of as a three-times-a-year refresh, not just once a year.
-
-Current 2024-25 release schedule:
-
-- Fall surveys release: September 23, 2025
-- Winter surveys release: December 9, 2025
-- Spring surveys release: January 6, 2026
-
-What each release affects most:
-
-- Fall surveys: IC, Completions, 12-month Enrollment
-- Winter surveys: Admissions, Graduation Rates, Student Financial Aid, Outcome Measures, Cost
-- Spring surveys: Fall Enrollment, Finance, Human Resources, Academic Libraries
-
-Recommended refresh schedule:
-
-- run on September 24 after the fall release
-- run on December 10 after the winter release
-- run on January 7 after the spring release
+- `Owner's credentials` lets viewers see the report using the data source
+  connection owned by the report creator
+- `Viewer's credentials` can cause outside users to hit vague system errors
 
 How to automate the refresh
 
-The easiest approach is Windows Task Scheduler.
-
-Create a scheduled task that runs:
+Use any scheduler you prefer. The command should look like this:
 
 ```powershell
-"C:\Program Files\IBM\SPSS Statistics\R\bin\x64\Rscript.exe" --vanilla "C:\Users\mv3031\Desktop\Financial_Health_Project\scripts\annual_refresh_and_publish.R" --start-year 2014 --end-year 2024 --sheet YOUR_GOOGLE_SHEET_URL_OR_ID --tab looker_ready --email your.email@example.com
+Rscript --vanilla scripts/annual_refresh_and_publish.R --start-year 2014 --end-year 2024 --sheet YOUR_GOOGLE_SHEET_URL_OR_ID --tab looker_ready --email your.email@example.com
 ```
 
 Use the same Google Sheet every time.
 
-What happens when the scheduled run succeeds:
+If something is missing
 
-- IPEDS files are refreshed in the project cache
-- the Looker-ready CSV is rebuilt
-- the Google Sheet tab is replaced
-- Looker Studio continues reading the same sheet
+If a later step fails because an input file is missing, go back one step and
+rebuild the file it depends on.
 
-If the Google Sheet or Looker report is lost later
+Examples:
 
-Someone else can still:
+- if the web export fails, rebuild the outcomes join or the IPEDS tracker first
+- if the workbook fails, rebuild the web export first
+- if a closure or composite-score script fails, make sure the raw source files
+  are in `data_pipelines/federal_closure/raw/` or `ipeds/cache/downloads/`
 
-- rerun the three build scripts
-- create a new Google Sheet with `publish_to_google_sheets.R`
-- connect that new sheet to a new Looker Studio report
+Short version
 
-Known expected blanks
-
-Some blanks are normal and not a bug.
-
-- `transfer_out_rate_bachelor` is cohort-based, so many institutions will be blank because they do not have a usable bachelor transfer-out cohort in that year
-- `state_funding_*` is mostly meaningful for publics
-- `federal_grants_contracts_pell_adjusted_*` is intentionally blank for for-profits
-- `endowment_*`, `liquidity`, and `leverage` are not universal across sectors
-
-Core fields that should generally be populated across the decade now:
-
-- `enrollment_headcount_total`
-- `staff_headcount_total`
-- `fte_12_months`
-- `revenue_total`
-- `net_tuition_per_fte`
-
-If those look blank across whole years, something is wrong and the pipeline should be rerun.
+1. Rebuild IPEDS.
+2. Rebuild the domain joins.
+3. Rebuild the web exports.
+4. Rebuild the workbook.
+5. Copy the static site into `/interactives/fitness/`.

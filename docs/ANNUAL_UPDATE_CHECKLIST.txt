@@ -71,6 +71,22 @@ main(c(
 ))
 ```
 
+If you want to test the weekly closure status sheet locally, you can point the
+publisher at the downloaded weekly files like this:
+
+```r
+source("scripts/publish_closure_status_sheet.R")
+main(c(
+  "--weekly-zip", "./data_pipelines/federal_closure/raw/weekly_closed_school_search/latest.zip",
+  "--weekly-metadata", "./data_pipelines/federal_closure/raw/weekly_closed_school_search/latest.json",
+  "--sheet", "YOUR_CLOSURE_GOOGLE_SHEET_URL_OR_ID"
+))
+```
+
+When you run this manually, the script will use `GOOGLE_APPLICATION_CREDENTIALS`
+if it is already set. The GitHub Action does this automatically, so you do not
+need to fill those paths in by hand for the scheduled weekly run.
+
 5. Open Looker Studio and confirm the new data is present
 
 - the Google Sheet tab refreshed

@@ -51,6 +51,29 @@ body {
   top: 0;
 }
 
+/* Screen-reader-only utility: visually hidden but accessible to AT */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Visible labels for form controls */
+.table-filter-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-right: 8px;
+  white-space: nowrap;
+  align-self: center;
+}
+
 .page {
   width: min(100%, 940px);
   margin: 0 auto;
@@ -83,7 +106,7 @@ body {
   text-decoration: none;
   color: #2f3442;
   background: var(--paper);
-  border: 1px solid #cfcfcf;
+  border: 1px solid #111111;
   border-radius: 8px 8px 0 0;
   padding: 12px 20px;
   font-weight: 700;

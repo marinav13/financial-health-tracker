@@ -112,7 +112,7 @@ function renderLineChart(containerId, config) {
     ${title}
     ${description}
     ${showTooltip ? '<div class="chart-tooltip" aria-hidden="true"></div>' : ""}
-    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img" aria-describedby="${descriptionId}">
+    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img">
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
       ${yTicks.join("")}

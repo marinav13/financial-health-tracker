@@ -13,6 +13,7 @@ main <- function(cli_args = NULL) {
 
 ensure_packages(c("dplyr", "jsonlite", "readr"))
 source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
+source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
 input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
@@ -725,12 +726,28 @@ for (nm in intersect(numeric_cols, names(df))) {
   df[[nm]] <- to_num(df[[nm]])
 }
 
+validate_export_input(df)
+
 df <- df %>% arrange(unitid, year)
 # Join the latest outcomes fields onto the finance dataframe so the finance
 # page can render the three outcomes blocks from the same school JSON.
 latest_2024 <- df %>% filter(year == 2024)
 outcomes_summary <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
   mutate(unitid = as.character(unitid))
+outcomes_join_fields <- c(
+  "unitid",
+  "graduation_rate_6yr",
+  "median_earnings_10yr",
+  "median_debt_completers",
+  "grad_plus_recipients",
+  "grad_plus_disbursements_amt",
+  "grad_plus_disbursements_per_recipient",
+  "outcomes_data_available",
+  "scorecard_data_updated",
+  "grad_plus_data_updated",
+  "ipeds_graduation_rate_year",
+  "ipeds_graduation_rate_label"
+)
 for (nm in c(
   "grad_plus_recipients",
   "grad_plus_disbursements_amt",
@@ -742,66 +759,40 @@ for (nm in c(
 df <- df %>%
   mutate(unitid = as.character(unitid)) %>%
   left_join(
-    outcomes_summary %>%
-      dplyr::select(
-        unitid,
-        graduation_rate_6yr,
-        median_earnings_10yr,
-        median_debt_completers,
-        grad_plus_recipients,
-        grad_plus_disbursements_amt,
-        grad_plus_disbursements_per_recipient,
-        outcomes_data_available,
-        scorecard_data_updated,
-        grad_plus_data_updated,
-        ipeds_graduation_rate_year,
-        ipeds_graduation_rate_label
-      ),
+    outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
 latest_2024 <- latest_2024 %>%
   mutate(unitid = as.character(unitid)) %>%
   left_join(
-    outcomes_summary %>%
-      dplyr::select(
-        unitid,
-        graduation_rate_6yr,
-        median_earnings_10yr,
-        median_debt_completers,
-        grad_plus_recipients,
-        grad_plus_disbursements_amt,
-        grad_plus_disbursements_per_recipient,
-        outcomes_data_available,
-        scorecard_data_updated,
-        grad_plus_data_updated,
-        ipeds_graduation_rate_year,
-        ipeds_graduation_rate_label
-      ),
+    outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
-sector_loan_benchmarks <- latest_2024 %>%
-  group_by(sector) %>%
-  summarise(value = mean(federal_loan_pct_most_recent, na.rm = TRUE), .groups = "drop") %>%
-  filter(!is.na(sector), !is.na(value)) %>%
-  { stats::setNames(.$value, .$sector) }
-
-sector_grad_share_benchmarks <- latest_2024 %>%
-  group_by(sector) %>%
-  summarise(
-    value = if (all(is.na(share_grad_students))) NA_real_ else mean(share_grad_students, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  filter(!is.na(sector), !is.na(value)) %>%
-  { stats::setNames(.$value, .$sector) }
-
-sector_grad_plus_benchmarks <- latest_2024 %>%
-  group_by(sector) %>%
-  summarise(
-    value = if (all(is.na(grad_plus_disbursements_per_recipient))) NA_real_ else stats::median(grad_plus_disbursements_per_recipient, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  filter(!is.na(sector), !is.na(value)) %>%
-  { stats::setNames(.$value, .$sector) }
+benchmark_specs <- list(
+  sector_loan_benchmarks = list(
+    value_col = "federal_loan_pct_most_recent",
+    summarizer = function(x) mean(x, na.rm = TRUE)
+  ),
+  sector_grad_share_benchmarks = list(
+    value_col = "share_grad_students",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else mean(x, na.rm = TRUE)
+  ),
+  sector_grad_plus_benchmarks = list(
+    value_col = "grad_plus_disbursements_per_recipient",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE)
+  )
+)
+benchmark_values <- lapply(benchmark_specs, function(spec) {
+  build_group_value_lookup(
+    latest_2024,
+    group_col = "sector",
+    value_col = spec$value_col,
+    summarizer = spec$summarizer
+  )
+})
+sector_loan_benchmarks <- benchmark_values$sector_loan_benchmarks
+sector_grad_share_benchmarks <- benchmark_values$sector_grad_share_benchmarks
+sector_grad_plus_benchmarks <- benchmark_values$sector_grad_plus_benchmarks
 
 schools_index <- latest_2024 %>%
   transmute(
@@ -848,52 +839,50 @@ write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
 write_json_file(metadata, file.path(data_dir, "metadata.json"))
 readr::write_csv(latest_2024, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
-cuts_export <- build_cuts_export()
-cuts_paths <- write_export_bundle(
-  cuts_export,
-  data_dir,
-  "college_cuts.json",
-  "college_cuts_index.json",
-  function(school) list(
-    latest_cut_date  = school$latest_cut_date,
-    latest_cut_label = school$latest_cut_label,
-    cut_count        = school$cut_count
-  )
-)
-
-accreditation_export <- build_accreditation_export()
-accreditation_paths <- write_export_bundle(
-  accreditation_export,
-  data_dir,
-  "accreditation.json",
-  "accreditation_index.json",
-  function(school) {
-    latest_action_label <- if (!is.null(school$actions) && length(school$actions) > 0) {
-      school$actions[[1]]$action_label
-    } else {
-      school$latest_status$action_labels
-    }
-    list(
-      latest_action_date  = school$latest_status$latest_action_date,
-      latest_action_label = latest_action_label,
-      action_count        = school$latest_status$action_count
+export_bundle_specs <- list(
+  cuts = list(
+    builder = build_cuts_export,
+    export_filename = "college_cuts.json",
+    index_filename = "college_cuts_index.json",
+    index_builder = function(school) list(
+      latest_cut_date = school$latest_cut_date,
+      latest_cut_label = school$latest_cut_label,
+      cut_count = school$cut_count
     )
-  }
-)
-
-research_export <- build_research_export()
-research_paths <- write_export_bundle(
-  research_export,
-  data_dir,
-  "research_funding.json",
-  "research_funding_index.json",
-  function(school) list(
-    likely_higher_ed                = school$likely_higher_ed,
-    latest_termination_date         = school$latest_termination_date,
-    total_disrupted_grants          = school$total_disrupted_grants,
-    total_disrupted_award_remaining = school$total_disrupted_award_remaining
+  ),
+  accreditation = list(
+    builder = build_accreditation_export,
+    export_filename = "accreditation.json",
+    index_filename = "accreditation_index.json",
+    index_builder = function(school) {
+      latest_action_label <- if (!is.null(school$actions) && length(school$actions) > 0) {
+        school$actions[[1]]$action_label
+      } else {
+        school$latest_status$action_labels
+      }
+      list(
+        latest_action_date = school$latest_status$latest_action_date,
+        latest_action_label = latest_action_label,
+        action_count = school$latest_status$action_count
+      )
+    }
+  ),
+  research = list(
+    builder = build_research_export,
+    export_filename = "research_funding.json",
+    index_filename = "research_funding_index.json",
+    index_builder = function(school) list(
+      likely_higher_ed = school$likely_higher_ed,
+      latest_termination_date = school$latest_termination_date,
+      total_disrupted_grants = school$total_disrupted_grants,
+      total_disrupted_award_remaining = school$total_disrupted_award_remaining
+    )
   )
 )
+export_paths <- write_export_bundles(export_bundle_specs, data_dir)
+cuts_paths <- export_paths$cuts
+accreditation_paths <- export_paths$accreditation
+research_paths <- export_paths$research
 
 by_school <- df %>%
   dplyr::group_by(unitid) %>%

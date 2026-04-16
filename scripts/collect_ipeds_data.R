@@ -13,8 +13,11 @@ main <- function(cli_args = NULL) {
   setup_r_libs()
   ensure_packages(c("dplyr", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"))
   source(file.path(getwd(), "scripts", "shared", "ipeds_helpers.R"))
+  source(file.path(getwd(), "scripts", "shared", "ipeds_collector_helpers.R"))
   # Shared: download_if_missing, expand_zip_if_missing, find_first_file,
   # sum_if_any are in scripts/shared/ipeds_helpers.R
+  # Collector: get_eap_fte, get_eap_headcount, lookup_row, lookup_number,
+  # lookup_string, rebuild_core_revenue_* are in scripts/shared/ipeds_collector_helpers.R
 
   start_year    <- as.integer(get_arg_value("--start-year",    "2014"))
   end_year      <- as.integer(get_arg_value("--end-year",      "2024"))
@@ -124,24 +127,152 @@ find_var_match <- function(varlist, patterns) {
   list(var_name = NA_character_, var_title = NA_character_, matched_pattern = NA_character_)
 }
 
-get_string <- function(row, field_name) {
-  field_name <- if (length(field_name) == 0) NA_character_ else as.character(field_name[[1]])
-  if (is.null(row) || is.na(field_name) || identical(field_name, "")) return(NA_character_)
-  if (!(field_name %in% names(row))) return(NA_character_)
-  value <- row[[field_name]][[1]]
-  if (is.null(value) || identical(as.character(value), "")) NA_character_ else as.character(value)
+resolve_year_table_aliases <- function(year_catalog, table_alias_patterns) {
+  lapply(table_alias_patterns, function(pat) {
+    hit <- year_catalog[stringr::str_detect(year_catalog$table_name, pat), , drop = FALSE]
+    if (nrow(hit) == 0) NA_character_ else hit$table_name[[1L]]
+  })
 }
 
-get_number <- function(row, field_name) {
-  value <- get_string(row, field_name)
-  if (is.na(value)) return(NA_real_)
-  suppressWarnings(as.numeric(gsub(",", "", trimws(value), fixed = TRUE)))
+load_year_tables_and_dictionaries <- function(aliases, year_catalog, data_root, dict_root, extract_root) {
+  data_tables <- list()
+  dictionaries <- list()
+
+  for (alias in names(aliases)) {
+    table_name <- aliases[[alias]]
+    if (is.na(table_name) || identical(table_name, "")) next
+
+    entry <- year_catalog %>% filter(table_name == !!table_name) %>% slice(1)
+    data_archive <- file.path(data_root, paste0(table_name, ".zip"))
+    data_folder <- file.path(extract_root, paste0("data_", table_name))
+    dict_archive <- file.path(dict_root, paste0(table_name, ".zip"))
+
+    download_if_missing(entry$data_url[[1]], data_archive)
+    expand_zip_if_missing(data_archive, data_folder)
+
+    dict_ok <- tryCatch({
+      download_if_missing(entry$dictionary_url[[1]], dict_archive)
+      TRUE
+    }, error = function(e) FALSE)
+
+    dictionaries[[alias]] <- if (dict_ok && file.exists(dict_archive)) {
+      get_varlist(dict_archive, table_name)
+    } else {
+      tibble::tibble()
+    }
+
+    csv_file <- find_first_file(data_folder, "\\.csv$")
+    if (!is.na(csv_file)) {
+      tbl <- suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 2000))
+      names(tbl) <- toupper(names(tbl))
+      if ("UNITID" %in% names(tbl)) {
+        data_tables[[alias]] <- tbl %>% mutate(UNITID = as.character(UNITID))
+      }
+    }
+  }
+
+  list(data_tables = data_tables, dictionaries = dictionaries)
 }
 
-first_non_null <- function(values) {
-  values <- values[!(is.na(values) | values == "")]
-  if (length(values) == 0) return(NA)
-  values[[1]]
+resolve_year_fields <- function(field_specs, dictionaries, data_tables, exact_field_overrides, aliases, year) {
+  resolved_fields <- list()
+  resolution_audit <- list()
+
+  for (spec in field_specs) {
+    alias <- spec$table
+    match_info <- list(var_name = NA_character_, var_title = NA_character_, matched_pattern = NA_character_)
+    if (!is.null(dictionaries[[alias]]) && nrow(dictionaries[[alias]]) > 0) {
+      match_info <- find_var_match(dictionaries[[alias]], spec$patterns)
+    }
+
+    exact_override <- exact_field_overrides[[spec$output]] %||% NA_character_
+    if ((is.na(match_info$var_name) || identical(match_info$var_name, "")) &&
+        !is.na(exact_override) &&
+        exact_override %in% names(data_tables[[alias]] %||% data.frame())) {
+      match_info <- list(
+        var_name = exact_override,
+        var_title = NA_character_,
+        matched_pattern = "exact_code_override"
+      )
+    }
+
+    resolved_fields[[spec$output]] <- match_info$var_name
+    resolution_audit[[length(resolution_audit) + 1L]] <- tibble::tibble(
+      year = year,
+      table_alias = alias,
+      table_name = aliases[[alias]] %||% alias,
+      output = spec$output,
+      resolved_var_name = match_info$var_name,
+      resolved_var_title = match_info$var_title,
+      matched_pattern = match_info$matched_pattern
+    )
+  }
+
+  list(
+    resolved_fields = resolved_fields,
+    resolution_audit = dplyr::bind_rows(resolution_audit)
+  )
+}
+
+build_eap_indexes <- function(eap_raw) {
+  indexes <- list(total = list(), instructional = list())
+
+  if (is.null(eap_raw) || !all(c("OCCUPCAT", "EAPCAT", "FACSTAT") %in% names(eap_raw))) {
+    return(indexes)
+  }
+
+  eap_100 <- eap_raw[eap_raw$OCCUPCAT == "100" &
+                       eap_raw$EAPCAT == "10000" &
+                       eap_raw$FACSTAT == "0", ]
+  eap_210 <- eap_raw[eap_raw$OCCUPCAT == "210" &
+                       eap_raw$EAPCAT == "21000" &
+                       eap_raw$FACSTAT == "0", ]
+
+  if (nrow(eap_100) > 0) indexes$total <- split(eap_100, eap_100$UNITID)
+  if (nrow(eap_210) > 0) indexes$instructional <- split(eap_210, eap_210$UNITID)
+  indexes
+}
+
+build_effy_index <- function(effy_raw) {
+  if (is.null(effy_raw) || !all(c("UNITID", "EFYTOTLT", "EFYNRALT") %in% names(effy_raw))) {
+    return(list())
+  }
+
+  effy_prepped <- effy_raw %>% mutate(UNITID = as.character(UNITID))
+  if ("EFFYALEV" %in% names(effy_prepped)) {
+    effy_prepped <- effy_prepped %>% mutate(level_code = as.character(EFFYALEV))
+  } else if ("LSTUDY" %in% names(effy_prepped)) {
+    effy_prepped <- effy_prepped %>% mutate(level_code = dplyr::case_when(
+      as.character(LSTUDY) == "999" ~ "1",
+      as.character(LSTUDY) == "1" ~ "2",
+      as.character(LSTUDY) == "3" ~ "12",
+      TRUE ~ as.character(LSTUDY)
+    ))
+  } else {
+    effy_prepped <- effy_prepped %>% mutate(level_code = NA_character_)
+  }
+
+  effy_lookup <- effy_prepped %>%
+    transmute(
+      UNITID,
+      level_code,
+      EFYTOTLT = to_num(EFYTOTLT),
+      EFYNRALT = to_num(EFYNRALT)
+    ) %>%
+    filter(level_code %in% c("1", "2", "12")) %>%
+    group_by(UNITID) %>%
+    summarise(
+      enrollment_headcount_total = EFYTOTLT[level_code == "1"][1] %||% NA_real_,
+      enrollment_headcount_undergrad = EFYTOTLT[level_code == "2"][1] %||% NA_real_,
+      enrollment_headcount_graduate = EFYTOTLT[level_code == "12"][1] %||% NA_real_,
+      enrollment_nonresident_total = EFYNRALT[level_code == "1"][1] %||% NA_real_,
+      enrollment_nonresident_undergrad = EFYNRALT[level_code == "2"][1] %||% NA_real_,
+      enrollment_nonresident_graduate = EFYNRALT[level_code == "12"][1] %||% NA_real_,
+      .groups = "drop"
+    )
+
+  if (nrow(effy_lookup) == 0) return(list())
+  split(effy_lookup, effy_lookup$UNITID)
 }
 
 # safe_divide() is in utils.R; sum_if_any() is in ipeds_helpers.R
@@ -373,6 +504,22 @@ required_year_cache_cols <- c(
   "staff_headcount_total",
   "staff_headcount_instructional"
 )
+year_table_alias_patterns <- c(
+  HD = "^HD\\d{4}$",
+  IC = "^IC\\d{4}$",
+  FLAGS = "^FLAGS\\d{4}$",
+  EFFY = "^EFFY\\d{4}$",
+  EFIA = "^EFIA\\d{4}$",
+  EAP = "^EAP\\d{4}$",
+  DRVEF12 = "^DRVEF12\\d{4}$",
+  DRVADM = "^DRVADM\\d{4}$",
+  DRVHR = "^DRVHR\\d{4}$",
+  DRVGR = "^DRVGR\\d{4}$",
+  DRVF = "^DRVF\\d{4}$",
+  F1A = "^F\\d{4}_F1A$",
+  F2 = "^F\\d{4}_F2$",
+  F3 = "^F\\d{4}_F3$"
+)
 
 for (year in start_year:end_year) {
   # Build each year separately so we can cache the result and avoid
@@ -404,85 +551,27 @@ for (year in start_year:end_year) {
 
   # Canonical alias → regex pattern mapping.  Add a row here to support a
   # new IPEDS table without touching the download/index/field-match loops.
-  table_alias_patterns <- c(
-    HD      = "^HD\\d{4}$",
-    IC      = "^IC\\d{4}$",
-    FLAGS   = "^FLAGS\\d{4}$",
-    EFFY    = "^EFFY\\d{4}$",
-    EFIA    = "^EFIA\\d{4}$",
-    EAP     = "^EAP\\d{4}$",
-    DRVEF12 = "^DRVEF12\\d{4}$",
-    DRVADM  = "^DRVADM\\d{4}$",
-    DRVHR   = "^DRVHR\\d{4}$",
-    DRVGR   = "^DRVGR\\d{4}$",
-    DRVF    = "^DRVF\\d{4}$",
-    F1A     = "^F\\d{4}_F1A$",
-    F2      = "^F\\d{4}_F2$",
-    F3      = "^F\\d{4}_F3$"
+  aliases <- resolve_year_table_aliases(year_catalog, year_table_alias_patterns)
+  year_assets <- load_year_tables_and_dictionaries(
+    aliases = aliases,
+    year_catalog = year_catalog,
+    data_root = data_root,
+    dict_root = dict_root,
+    extract_root = extract_root
   )
-  aliases <- lapply(table_alias_patterns, function(pat) {
-    hit <- year_catalog[stringr::str_detect(year_catalog$table_name, pat), , drop = FALSE]
-    if (nrow(hit) == 0) NA_character_ else hit$table_name[[1L]]
-  })
+  data_tables <- year_assets$data_tables
+  dictionaries <- year_assets$dictionaries
 
-  data_tables  <- list()
-  dictionaries <- list()
-  resolved_fields <- list()
-
-  for (alias in names(aliases)) {
-    table_name <- aliases[[alias]]
-    if (is.na(table_name) || identical(table_name, "")) next
-    entry        <- year_catalog %>% filter(table_name == !!table_name) %>% slice(1)
-    data_archive <- file.path(data_root, paste0(table_name, ".zip"))
-    data_folder  <- file.path(extract_root, paste0("data_", table_name))
-    dict_archive <- file.path(dict_root, paste0(table_name, ".zip"))
-    download_if_missing(entry$data_url[[1]], data_archive)
-    expand_zip_if_missing(data_archive, data_folder)
-    dict_ok <- tryCatch({
-      download_if_missing(entry$dictionary_url[[1]], dict_archive)
-      TRUE
-    }, error = function(e) FALSE)
-    dictionaries[[alias]] <- if (dict_ok && file.exists(dict_archive)) get_varlist(dict_archive, table_name) else tibble::tibble()
-    csv_file <- find_first_file(data_folder, "\\.csv$")
-    if (!is.na(csv_file)) {
-      # guess_max=2000 is enough for type inference; avoids scanning the whole file twice
-      tbl <- suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 2000))
-      names(tbl) <- toupper(names(tbl))
-      if (!("UNITID" %in% names(tbl))) next
-      tbl <- tbl %>% mutate(UNITID = as.character(UNITID))
-      data_tables[[alias]] <- tbl
-    }
-  }
-
-  for (spec in field_specs) {
-    # Resolve each requested output field against the matching annual
-    # dictionary so the raw dataset keeps a stable schema over time.
-    alias <- spec$table
-    match_info <- list(var_name = NA_character_, var_title = NA_character_, matched_pattern = NA_character_)
-    if (!is.null(dictionaries[[alias]]) && nrow(dictionaries[[alias]]) > 0) {
-      match_info <- find_var_match(dictionaries[[alias]], spec$patterns)
-    }
-    exact_override <- exact_field_overrides[[spec$output]] %||% NA_character_
-    if ((is.na(match_info$var_name) || identical(match_info$var_name, "")) &&
-        !is.na(exact_override) &&
-        exact_override %in% names(data_tables[[alias]] %||% data.frame())) {
-      match_info <- list(
-        var_name = exact_override,
-        var_title = NA_character_,
-        matched_pattern = "exact_code_override"
-      )
-    }
-    resolved_fields[[spec$output]] <- match_info$var_name
-    resolution_audit_rows[[length(resolution_audit_rows) + 1L]] <- tibble::tibble(
-      year = year,
-      table_alias = alias,
-      table_name = aliases[[alias]] %||% alias,
-      output = spec$output,
-      resolved_var_name = match_info$var_name,
-      resolved_var_title = match_info$var_title,
-      matched_pattern = match_info$matched_pattern
-    )
-  }
+  field_resolution <- resolve_year_fields(
+    field_specs = field_specs,
+    dictionaries = dictionaries,
+    data_tables = data_tables,
+    exact_field_overrides = exact_field_overrides,
+    aliases = aliases,
+    year = year
+  )
+  resolved_fields <- field_resolution$resolved_fields
+  resolution_audit_rows[[length(resolution_audit_rows) + 1L]] <- field_resolution$resolution_audit
 
   hd_table <- data_tables[["HD"]]
   if (is.null(hd_table) || nrow(hd_table) == 0) next
@@ -493,66 +582,14 @@ for (year in start_year:end_year) {
   table_index <- lapply(data_tables, function(tbl) split(tbl, tbl$UNITID))
 
   # Pre-filter and pre-index EAP for the two occupation categories we need
-  eap_100_index <- list()
-  eap_210_index <- list()
-  eap_raw <- data_tables[["EAP"]]
-  if (!is.null(eap_raw) &&
-      all(c("OCCUPCAT", "EAPCAT", "FACSTAT") %in% names(eap_raw))) {
-    eap_100 <- eap_raw[eap_raw$OCCUPCAT == "100" &
-                       eap_raw$EAPCAT   == "10000" &
-                       eap_raw$FACSTAT  == "0", ]
-    eap_210 <- eap_raw[eap_raw$OCCUPCAT == "210" &
-                       eap_raw$EAPCAT   == "21000" &
-                       eap_raw$FACSTAT  == "0", ]
-    if (nrow(eap_100) > 0) eap_100_index <- split(eap_100, eap_100$UNITID)
-    if (nrow(eap_210) > 0) eap_210_index <- split(eap_210, eap_210$UNITID)
-  }
-  # EAP raw no longer needed in memory
-  rm(eap_raw)
+  eap_indexes <- build_eap_indexes(data_tables[["EAP"]])
+  eap_100_index <- eap_indexes$total
+  eap_210_index <- eap_indexes$instructional
+  rm(eap_indexes)
 
   # EFFY stores enrollment in multiple rows per institution, so collapse it to
   # one row per UNITID before the main unit loop.
-  effy_index <- list()
-  effy_raw <- data_tables[["EFFY"]]
-  if (!is.null(effy_raw) &&
-      all(c("UNITID", "EFYTOTLT", "EFYNRALT") %in% names(effy_raw))) {
-    effy_prepped <- effy_raw %>% mutate(UNITID = as.character(UNITID))
-    if ("EFFYALEV" %in% names(effy_prepped)) {
-      effy_prepped <- effy_prepped %>% mutate(level_code = as.character(EFFYALEV))
-    } else if ("LSTUDY" %in% names(effy_prepped)) {
-      effy_prepped <- effy_prepped %>% mutate(level_code = dplyr::case_when(
-        as.character(LSTUDY) == "999" ~ "1",
-        as.character(LSTUDY) == "1" ~ "2",
-        as.character(LSTUDY) == "3" ~ "12",
-        TRUE ~ as.character(LSTUDY)
-      ))
-    } else {
-      effy_prepped <- effy_prepped %>% mutate(level_code = NA_character_)
-    }
-
-    effy_lookup <- effy_prepped %>%
-      transmute(
-        UNITID,
-        level_code,
-        EFYTOTLT = to_num(EFYTOTLT),
-        EFYNRALT = to_num(EFYNRALT)
-      ) %>%
-      filter(level_code %in% c("1", "2", "12")) %>%
-      group_by(UNITID) %>%
-      summarise(
-        enrollment_headcount_total = EFYTOTLT[level_code == "1"][1] %||% NA_real_,
-        enrollment_headcount_undergrad = EFYTOTLT[level_code == "2"][1] %||% NA_real_,
-        enrollment_headcount_graduate = EFYTOTLT[level_code == "12"][1] %||% NA_real_,
-        enrollment_nonresident_total = EFYNRALT[level_code == "1"][1] %||% NA_real_,
-        enrollment_nonresident_undergrad = EFYNRALT[level_code == "2"][1] %||% NA_real_,
-        enrollment_nonresident_graduate = EFYNRALT[level_code == "12"][1] %||% NA_real_,
-        .groups = "drop"
-      )
-    if (nrow(effy_lookup) > 0) {
-      effy_index <- split(effy_lookup, effy_lookup$UNITID)
-    }
-  }
-  rm(effy_raw)
+  effy_index <- build_effy_index(data_tables[["EFFY"]])
 
   unitids   <- hd_table$UNITID
   year_rows <- vector("list", length(unitids))
@@ -611,10 +648,10 @@ for (year in start_year:end_year) {
       get_number(hit, "EAPTOT")
     }
 
-    fte_total_staff_rebuilt    <- get_eap_fte("100")
-    fte_instructional_rebuilt  <- get_eap_fte("210")
-    staff_headcount_total_rebuilt <- get_eap_headcount("100")
-    staff_headcount_instructional_rebuilt <- get_eap_headcount("210")
+    fte_total_staff_rebuilt    <- get_eap_total_fte(unitid, eap_100_index)
+    fte_instructional_rebuilt  <- get_eap_instructional_fte(unitid, eap_210_index)
+    staff_headcount_total_rebuilt <- get_eap_total_headcount(unitid, eap_100_index)
+    staff_headcount_instructional_rebuilt <- get_eap_instructional_headcount(unitid, eap_210_index)
 
     auxiliary_enterprises_revenue_gasb    <- get_number(f1, "F1B05")
     hospital_services_revenue_gasb        <- get_number(f1, "F1B06")
@@ -854,29 +891,33 @@ all_rows_df <- dplyr::bind_rows(all_rows) %>%
 
 resolution_audit_df <- if (length(resolution_audit_rows) == 0) {
   tibble::tibble(
-    year = integer(),
-    table_alias = character(),
-    table_name = character(),
-    output = character(),
-    resolved_var_name = character(),
+    year               = integer(),
+    table_alias        = character(),
+    table_name         = character(),
+    output             = character(),
+    resolved_var_name  = character(),
     resolved_var_title = character(),
-    matched_pattern = character()
+    matched_pattern    = character()
   )
 } else {
   dplyr::bind_rows(resolution_audit_rows)
-} %>%
-  arrange(year, table_alias, output)
+}
 
-readr::write_csv(all_rows_df,         dataset_csv,          na = "")
-readr::write_csv(resolution_audit_df, resolution_audit_csv, na = "")
+# Write outputs atomically via .tmp intermediaries so a partial run never
+# leaves a half-written file that downstream scripts silently accept.
+tmp_dataset <- paste0(dataset_csv, ".tmp")
+tmp_audit   <- paste0(resolution_audit_csv, ".tmp")
+readr::write_csv(all_rows_df,        tmp_dataset, na = "")
+readr::write_csv(resolution_audit_df, tmp_audit,   na = "")
+file.rename(tmp_dataset, dataset_csv)
+file.rename(tmp_audit,   resolution_audit_csv)
 
 cat(sprintf("Saved catalog to %s\n",              catalog_csv))
 cat(sprintf("Saved dataset to %s\n",              dataset_csv))
 cat(sprintf("Saved field resolution audit to %s\n", resolution_audit_csv))
 
 invisible(list(
-  catalog              = catalog_csv,
-  dataset              = dataset_csv,
+  dataset                = dataset_csv,
   field_resolution_audit = resolution_audit_csv
 ))
 }

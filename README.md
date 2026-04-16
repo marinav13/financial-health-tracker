@@ -38,6 +38,29 @@ If you only remember one thing, remember this order:
 
 Each step writes files used by the next one.
 
+## Build Architecture
+
+The repo is organized around a small number of orchestrator scripts plus a
+shared helper layer:
+
+- `scripts/`
+  - main entrypoints for collection, canonical build, exports, workbook, and joins
+- `scripts/shared/`
+  - reusable helper code for IPEDS, exports, workbook generation, accreditation, and Grant Witness logic
+- `ipeds/`
+  - local IPEDS raw, manifests, derived outputs, and cache
+- `data_pipelines/`
+  - local non-IPEDS rebuild inputs and intermediate joins
+- `data/`
+  - shipped website assets and JSON/CSV exports
+
+If you are trying to understand the codebase quickly:
+
+1. read `scripts/build_ipeds_dataset.R`
+2. read `scripts/build_web_exports.R`
+3. read `scripts/build_article_workbook.R`
+4. dip into `scripts/shared/` only when you want the implementation details
+
 ## Full Rebuild Order
 
 1. `scripts/build_ipeds_dataset.R`
@@ -170,6 +193,20 @@ main(c(
 ))
 ```
 
+Run the lightweight regression suite:
+
+```bash
+Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+```
+
+That suite currently covers:
+
+- shared helper regressions
+- canonical fixture regressions
+- export fixture regressions
+- a reduced canonical-to-export end-to-end fixture
+- source smoke for the main pipeline entry scripts
+
 ## Main Outputs
 
 Tracked website outputs:
@@ -199,6 +236,24 @@ Local rebuild outputs that are useful for reporting but are not part of the comm
 - `data_pipelines/federal_composite/*.csv`
 - `data_pipelines/federal_closure/derived/*`
 - `workbooks/ipeds_financial_health_article_workbook.xls`
+
+## Testing Notes
+
+This repo does not use a heavyweight test framework yet. Instead it keeps a
+small fast regression harness in `tests/`:
+
+- `test_utils.R`, `test_export_helpers.R`, `test_workbook_helpers.R`, and the other helper tests
+  - validate shared pure helpers directly
+- `test_canonical_pipeline_fixture.R`
+  - validates the canonical build on a tiny isolated fixture
+- `test_canonical_pipeline_aux_fixture.R`
+  - validates canonical aux-table backfill behavior on a tiny EFFY fixture
+- `test_export_pipeline_fixture.R`
+  - validates website export outputs on a tiny fixture
+- `test_end_to_end_pipeline_fixture.R`
+  - validates a reduced end-to-end canonical-to-export path
+- `test_pipeline_smoke.R`
+  - ensures the main scripts still source cleanly and expose `main()`
 
 ## Website Handoff
 

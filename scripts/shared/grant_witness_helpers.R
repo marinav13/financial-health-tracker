@@ -18,6 +18,63 @@ normalize_name <- function(x) {
 }
 
 # ---------------------------------------------------------------------------
+# Keyword constants for institution classification
+# ---------------------------------------------------------------------------
+
+# Shared signal keywords: any institution name containing one of these is
+# tentatively flagged as higher-ed.  This list is referenced by both
+# is_likely_higher_ed_name() and is_noncampus_medical_or_foundation_name().
+HIGHER_ED_SIGNAL_KEYWORDS <- c(
+  "university", "college", "school of medicine", "medical college",
+  "community college", "polytechnic", "institute of technology",
+  "research foundation", "medical center", "cancer center",
+  "health science center", "health sciences"
+)
+
+# Exclusion keywords: institution names containing these but no signal keyword
+# are classified as non-campus medical or standalone foundation entities.
+NONCAMPUS_MEDICAL_KEYWORDS <- c(
+  "medical center", "cancer center", "research foundation", "foundation"
+)
+
+# Exclusion keywords: institution names containing these (even with signal
+# keywords) are NOT higher-ed institutions.
+HIGHER_ED_EXCLUSION_KEYWORDS <- c(
+  "department", "state of", "board of health", "commission", "authority",
+  "office", "county", "city of", "fund", "network", "corporation", "llc",
+  "department of health", "public health"
+)
+
+# Explicitly-excluded institution names (normalized form).
+EXCLUDED_INSTITUTION_NAMES <- c(
+  "university enterprises incorporated",
+  "american college of obstetricians and gynecologists"
+)
+
+# Pass-through phrases that flag an award as a grantmaker / pass-through
+# program rather than a direct university research grant.
+PASS_THROUGH_EXCLUSION_PHRASES <- c(
+  "grantmaker initiative", "regional grantmaker",
+  "subgrantee", "subgrantees", "pass-through entity", "pass through entity",
+  "pass-through", "manage and distribute funds", "administer subawards",
+  "will administer subawards", "issue subawards", "will issue subawards",
+  "competitive and noncompetitive subgrants",
+  "subaward distribution", "subaward administration"
+)
+
+# Legal entity prefixes to strip from institution names.
+# Order matters: compound patterns come first (handled by str_replace sequentially).
+LEGAL_PREFIXES <- c(
+  "^the ",
+  "^(regents of( the)?|trustees of|president and fellows of|board of trustees of|the trustees of)\\s+",
+  "^the\\s+"
+)
+
+# Threshold for shouting case detection (used by prettify_text).
+# If >= 70% of letters are uppercase, the text is treated as shouty.
+SHOUTY_CASE_THRESHOLD <- 0.70
+
+# ---------------------------------------------------------------------------
 # Lookup tables for name normalisation
 # ---------------------------------------------------------------------------
 
@@ -163,7 +220,7 @@ prettify_text <- function(x) {
     stringr::str_detect(x_chr, "[A-Z]") &
     (
       !stringr::str_detect(x_chr, "[a-z]") |
-      upper_share >= 0.7
+      upper_share >= SHOUTY_CASE_THRESHOLD
     )
   out <- x_chr
   out[is_shouty] <- tools::toTitleCase(stringr::str_to_lower(out[is_shouty]))
@@ -180,79 +237,48 @@ prettify_institution_name <- function(x) {
 }
 
 is_excluded_higher_ed_name <- function(x) {
-  norm <- normalize_name(x)
-  norm %in% c(
-    "university enterprises incorporated",
-    "american college of obstetricians and gynecologists"
-  )
+  normalize_name(x) %in% EXCLUDED_INSTITUTION_NAMES
 }
 
 is_noncampus_medical_or_foundation_name <- function(x) {
   norm <- normalize_name(x)
   has_campus_anchor <- stringr::str_detect(
     norm,
-    regex("\\b(university|college|school of medicine|medical college|community college|polytechnic|institute of technology)\\b", ignore_case = TRUE)
+    regex(paste0("\\b(", paste(HIGHER_ED_SIGNAL_KEYWORDS, collapse = "|"), ")\\b"),
+          ignore_case = TRUE)
   )
   stringr::str_detect(
     norm,
-    regex("\\b(medical center|cancer center|research foundation|foundation)\\b", ignore_case = TRUE)
+    regex(paste0("\\b(", paste(NONCAMPUS_MEDICAL_KEYWORDS, collapse = "|"), ")\\b"),
+          ignore_case = TRUE)
   ) & !has_campus_anchor
 }
-
-# These phrases are the explicit text cues we use to identify awards that
-# look like grantmaking/pass-through programs rather than direct university
-# research grants.
-pass_through_exclusion_phrases <- c(
-  "grantmaker initiative",
-  "regional grantmaker",
-  "subgrantee",
-  "subgrantees",
-  "pass-through entity",
-  "pass through entity",
-  "pass-through",
-  "manage and distribute funds",
-  "administer subawards",
-  "will administer subawards",
-  "issue subawards",
-  "will issue subawards",
-  "competitive and noncompetitive subgrants",
-  "subaward distribution",
-  "subaward administration"
-)
 
 # Return the matched phrase list so the exclusion remains auditable rather
 # than acting like an opaque boolean flag.
 detect_pass_through_phrase <- function(project_title, project_abstract) {
-  text <- paste(project_title, project_abstract, sep = " ")
-  text <- text |>
+  text <- paste(project_title, project_abstract, sep = " ") |>
     as.character() |>
     stringr::str_to_lower() |>
     stringr::str_squish()
 
-  matches <- pass_through_exclusion_phrases[
+  matches <- PASS_THROUGH_EXCLUSION_PHRASES[
     vapply(
-      pass_through_exclusion_phrases,
+      PASS_THROUGH_EXCLUSION_PHRASES,
       function(phrase) stringr::str_detect(text, stringr::fixed(phrase, ignore_case = TRUE)),
       logical(1)
     )
   ]
 
-  if (length(matches) == 0) {
-    NA_character_
-  } else {
-    paste(matches, collapse = "; ")
-  }
+  if (length(matches) == 0) NA_character_ else paste(matches, collapse = "; ")
 }
 
 strip_legal_prefixes <- function(x) {
-  x |>
-    as.character() |>
-    stringr::str_replace(
-      regex("^(the )?(regents of( the)?|trustees of|president and fellows of|board of trustees of|the trustees of)\\s+", ignore_case = TRUE),
-      ""
-    ) |>
-    stringr::str_replace(regex("^the\\s+", ignore_case = TRUE), "") |>
-    stringr::str_squish()
+  out <- as.character(x)
+  for (prefix in LEGAL_PREFIXES) {
+    out <- stringr::str_replace(out, regex(prefix, ignore_case = TRUE), "")
+  }
+  stringr::str_squish(out)
 }
 
 simplify_institution_name <- function(x) {
@@ -269,12 +295,14 @@ is_likely_higher_ed_name <- function(x) {
   excluded <- is_excluded_higher_ed_name(x)
   has_signal <- stringr::str_detect(
     norm,
-    regex("\\b(university|college|institute of technology|polytechnic|school of medicine|medical college|community college|research foundation|medical center|cancer center|health science center|health sciences)\\b", ignore_case = TRUE)
+    regex(paste0("\\b(", paste(HIGHER_ED_SIGNAL_KEYWORDS, collapse = "|"), ")\\b"),
+          ignore_case = TRUE)
   )
   standalone_medical_or_foundation <- is_noncampus_medical_or_foundation_name(x)
   has_exclusion <- stringr::str_detect(
     norm,
-    regex("\\b(department|state of|board of health|commission|authority|office|county|city of|fund|network|corporation|llc|department of health|public health)\\b", ignore_case = TRUE)
+    regex(paste0("\\b(", paste(HIGHER_ED_EXCLUSION_KEYWORDS, collapse = "|"), ")\\b"),
+          ignore_case = TRUE)
   )
   has_signal & !has_exclusion & !excluded & !standalone_medical_or_foundation
 }

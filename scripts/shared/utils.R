@@ -169,3 +169,33 @@ collapse_unique_values <- function(x, sep = "; ") {
   vals <- unique(stats::na.omit(as.character(x)))
   if (length(vals) == 0L) NA_character_ else paste(sort(vals), collapse = sep)
 }
+
+# ---------------------------------------------------------------------------
+# IPEDS field access helpers (shared between collector and canonical dataset)
+# ---------------------------------------------------------------------------
+
+# Extracts a string field from a one-row IPEDS data frame by column name.
+# Returns NA_character_ when the field is absent, blank, or the row is NULL.
+get_string <- function(row, field_name) {
+  field_name <- if (length(field_name) == 0) NA_character_ else as.character(field_name[[1]])
+  if (is.null(row) || is.na(field_name) || identical(field_name, "")) return(NA_character_)
+  if (!(field_name %in% names(row))) return(NA_character_)
+  value <- row[[field_name]][[1]]
+  if (is.null(value) || identical(as.character(value), "")) NA_character_ else as.character(value)
+}
+
+# Extracts a numeric field from a one-row IPEDS data frame by column name.
+# Strips commas before parsing; returns NA_real_ for blank or non-numeric values.
+get_number <- function(row, field_name) {
+  value <- get_string(row, field_name)
+  if (is.na(value)) return(NA_real_)
+  suppressWarnings(as.numeric(gsub(",", "", trimws(value), fixed = TRUE)))
+}
+
+# Returns the first non-blank element in `values`, or NA when every element is
+# absent or an empty string.
+first_non_null <- function(values) {
+  values <- values[!(is.na(values) | values == "")]
+  if (length(values) == 0) return(NA)
+  values[[1]]
+}

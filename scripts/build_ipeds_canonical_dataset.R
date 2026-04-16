@@ -13,6 +13,7 @@ main <- function(cli_args = NULL) {
   ensure_packages(c("dplyr", "purrr", "readr", "readxl", "stringr", "tidyr"))
 
   source(file.path(getwd(), "scripts", "shared", "ipeds_helpers.R"))
+  source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
   default_paths        <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
   raw_csv              <- get_arg_value("--raw",             default_paths$raw_csv)
@@ -322,9 +323,9 @@ load_finance_research_year <- function(year, year_catalog) {
     DRVF = c("UNITID", "F1COREXP", "F2COREXP", "F3COREXP")
   )
 
-  purrr::imap_dfr(aliases, function(table_name, alias) {
+  finance_rows <- purrr::imap_dfr(aliases, function(table_name, alias) {
     if (is.na(table_name) || identical(table_name, "")) return(tibble::tibble())
-  data_folder <- file.path(root, "ipeds", "cache", "downloads", "extracted", paste0("data_", table_name))
+    data_folder <- file.path(root, "ipeds", "cache", "downloads", "extracted", paste0("data_", table_name))
     csv_path <- find_first_file(data_folder, "\\.csv$")
     required_fields <- field_map[[alias]]
     if (is.na(csv_path)) {
@@ -360,7 +361,18 @@ load_finance_research_year <- function(year, year_catalog) {
           research_expense = to_num(.data[[value_field]])
         )
     }
-  }) %>%
+  })
+
+  if (!all(c("unitid", "year") %in% names(finance_rows))) {
+    return(tibble::tibble(
+      unitid = character(),
+      year = integer(),
+      research_expense = numeric(),
+      core_expenses = numeric()
+    ))
+  }
+
+  finance_rows %>%
     group_by(unitid, year) %>%
     summarise(
       research_expense = if ("research_expense" %in% names(.)) {
@@ -389,6 +401,10 @@ finance_research_long <- purrr::map_dfr(sort(unique(catalog$year)), function(yr)
   }
   load_finance_research_year(yr, year_catalog)
 })
+if (!("unitid" %in% names(finance_research_long))) finance_research_long[["unitid"]] <- character(nrow(finance_research_long))
+if (!("year" %in% names(finance_research_long))) finance_research_long[["year"]] <- integer(nrow(finance_research_long))
+if (!("research_expense" %in% names(finance_research_long))) finance_research_long[["research_expense"]] <- numeric(nrow(finance_research_long))
+if (!("core_expenses" %in% names(finance_research_long))) finance_research_long[["core_expenses"]] <- numeric(nrow(finance_research_long))
 
 for (nm in c(
   "enrollment_headcount_total", "enrollment_headcount_undergrad", "enrollment_headcount_graduate",
@@ -475,14 +491,14 @@ aux_backfill_rows <- raw_enriched %>%
   transmute(
     unitid = as.character(unitid),
     year = as.integer(year),
-    enrollment_headcount_total = to_num(enrollment_headcount_total),
-    enrollment_headcount_undergrad = to_num(enrollment_headcount_undergrad),
-    enrollment_headcount_graduate = to_num(enrollment_headcount_graduate),
-    enrollment_nonresident_total = to_num(enrollment_nonresident_total),
-    enrollment_nonresident_undergrad = to_num(enrollment_nonresident_undergrad),
-    enrollment_nonresident_graduate = to_num(enrollment_nonresident_graduate),
-    staff_headcount_total = to_num(staff_headcount_total),
-    staff_headcount_instructional = to_num(staff_headcount_instructional),
+    enrollment_headcount_total = if ("enrollment_headcount_total" %in% names(.)) to_num(enrollment_headcount_total) else NA_real_,
+    enrollment_headcount_undergrad = if ("enrollment_headcount_undergrad" %in% names(.)) to_num(enrollment_headcount_undergrad) else NA_real_,
+    enrollment_headcount_graduate = if ("enrollment_headcount_graduate" %in% names(.)) to_num(enrollment_headcount_graduate) else NA_real_,
+    enrollment_nonresident_total = if ("enrollment_nonresident_total" %in% names(.)) to_num(enrollment_nonresident_total) else NA_real_,
+    enrollment_nonresident_undergrad = if ("enrollment_nonresident_undergrad" %in% names(.)) to_num(enrollment_nonresident_undergrad) else NA_real_,
+    enrollment_nonresident_graduate = if ("enrollment_nonresident_graduate" %in% names(.)) to_num(enrollment_nonresident_graduate) else NA_real_,
+    staff_headcount_total = if ("staff_headcount_total" %in% names(.)) to_num(staff_headcount_total) else NA_real_,
+    staff_headcount_instructional = if ("staff_headcount_instructional" %in% names(.)) to_num(staff_headcount_instructional) else NA_real_,
     research_expense = dplyr::coalesce(
       if ("research_expenses_total_gasb" %in% names(.)) to_num(research_expenses_total_gasb) else NA_real_,
       if ("research_expenses_total_fasb" %in% names(.)) to_num(research_expenses_total_fasb) else NA_real_,
@@ -532,6 +548,8 @@ prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
 
 effy_backfill <- effy_long %>%
   {
+    if (!("unitid" %in% names(.))) .[["unitid"]] <- character(nrow(.))
+    if (!("year" %in% names(.))) .[["year"]] <- integer(nrow(.))
     required_cols <- c(
       "enrollment_headcount_total",
       "enrollment_headcount_undergrad",
@@ -564,6 +582,8 @@ effy_backfill <- effy_long %>%
 
 eap_backfill <- eap_long %>%
   {
+    if (!("unitid" %in% names(.))) .[["unitid"]] <- character(nrow(.))
+    if (!("year" %in% names(.))) .[["year"]] <- integer(nrow(.))
     required_cols <- c("staff_headcount_total", "staff_headcount_instructional")
     missing_cols <- setdiff(required_cols, names(.))
     for (nm in missing_cols) .[[nm]] <- NA_real_
@@ -729,6 +749,7 @@ extended_dataset[] <- lapply(extended_dataset, function(col) {
   if (is.character(col)) enc2utf8(col) else col
 })
 
+validate_canonical_output(canonical_dataset)
 readr::write_csv(canonical_dataset, output_path, na = "")
 if (normalizePath(output_path, winslash = "/", mustWork = FALSE) != normalizePath(expanded_output_path, winslash = "/", mustWork = FALSE)) {
   readr::write_csv(extended_dataset, expanded_output_path, na = "")

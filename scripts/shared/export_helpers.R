@@ -278,3 +278,36 @@ write_export_bundle <- function(export_obj, data_dir, export_filename,
 
   list(export_path = export_path, index_path = index_path)
 }
+
+# Builds a named lookup vector by summarising `value_col` within `group_col`.
+# `summarizer` receives the grouped vector and should return a scalar numeric.
+build_group_value_lookup <- function(df, group_col, value_col, summarizer) {
+  df %>%
+    dplyr::group_by(.data[[group_col]]) %>%
+    dplyr::summarise(value = summarizer(.data[[value_col]]), .groups = "drop") %>%
+    dplyr::filter(!is.na(.data[[group_col]]), !is.na(value)) %>%
+    { stats::setNames(.$value, .[[group_col]]) }
+}
+
+# Runs a set of export bundle specs, each with a builder plus filenames, and
+# returns a named list of written paths keyed by the spec name.
+write_export_bundles <- function(specs, data_dir) {
+  results <- vector("list", length(specs))
+  names(results) <- names(specs)
+
+  for (nm in names(specs)) {
+    spec <- specs[[nm]]
+    export_obj <- spec$builder()
+    index_filename <- if ("index_filename" %in% names(spec)) spec$index_filename else NULL
+    index_builder <- if ("index_builder" %in% names(spec)) spec$index_builder else function(school) list()
+    results[[nm]] <- write_export_bundle(
+      export_obj = export_obj,
+      data_dir = data_dir,
+      export_filename = spec$export_filename,
+      index_filename = index_filename,
+      index_builder = index_builder
+    )
+  }
+
+  results
+}

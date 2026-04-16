@@ -1,20 +1,65 @@
+# =========================================================================
 # scripts/shared/workbook_table_helpers.R
+# =========================================================================
 #
-# Workbook row/table helpers extracted from workbook_helpers.R.
-# Source this after utils.R and before scripts that build workbook tabs.
+# PURPOSE:
+#   Provides core helpers for building and manipulating data frames that
+#   become Excel workbook rows and tables. Handles data frame assembly,
+#   risk scoring, percentage calculations, XML escaping, file I/O, and
+#   cross-tab comparisons used throughout the workbook build pipeline.
+#
+# USAGE:
+#   Source this after utils.R and before scripts that build workbook tabs.
+#   All functions are available to downstream scripts.
+#
+# KEY CONCEPTS:
+#   - row_score() builds risk scores from TRUE/FALSE flags (e.g., enrollment decline)
+#   - make_row() creates single-row data frames for the Summary sheet
+#   - append_rows() combines multiple data frames, handling empty/NULL inputs
+#   - build_workbook_sheet() filters and orders rows according to specs
+#
 
+# ---------------------------------------------------------------------------
+# Boolean and flag helpers
+# ---------------------------------------------------------------------------
+
+#' Convert a value to a TRUE/FALSE boolean flag for "yes" responses.
+#' @description
+#'   Converts input to lowercase string and checks if it equals "yes".
+#'   Useful for normalizing diverse yes/no columns from input CSV files.
+#' @param x A value (character, numeric, or logical).
+#' @return Logical: TRUE if lowercased and trimmed value is "yes", FALSE otherwise.
 yes_flag <- function(x) {
   trimws(tolower(as.character(x))) == "yes"
 }
 
-# Percentage of num over den; NA when either is NA or den is 0.
+# ---------------------------------------------------------------------------
+# Numeric calculation helpers
+# ---------------------------------------------------------------------------
+
+#' Calculate a percentage, handling edge cases safely.
+#' @description
+#'   Divides num by den and multiplies by 100. Returns NA if either
+#'   argument is NA or if den is 0, preventing division-by-zero errors.
+#' @param num Numerator (count or amount).
+#' @param den Denominator (total or base).
+#' @return Numeric percentage, or NA_real_ if invalid.
 safe_pct <- function(num, den) {
   ifelse(is.na(num) | is.na(den) | den == 0, NA_real_, (num / den) * 100)
 }
 
-# Escapes the four XML special characters so values are safe inside XML tags.
+#' Escape four XML special characters for safe embedding in XML tags.
+#' @description
+#'   Excel workbooks are stored as ZIP archives of XML files (xlsx format).
+#'   This function replaces the four XML-reserved characters (&, <, >, ")
+#'   with their entity references so values won't break the XML structure
+#'   when written into SpreadsheetML (Excel's XML format).
+#'   For example: "Sales & Marketing" becomes "Sales &amp; Marketing"
+#' @param x Character vector to escape.
+#' @return Character vector with XML special characters replaced by entities.
 escape_xml <- function(x) {
   x <- ifelse(is.na(x), "", as.character(x))
+  # & must be replaced first to avoid double-escaping
   x <- gsub("&",  "&amp;",  x, fixed = TRUE)
   x <- gsub("<",  "&lt;",   x, fixed = TRUE)
   x <- gsub(">",  "&gt;",   x, fixed = TRUE)
@@ -22,14 +67,50 @@ escape_xml <- function(x) {
   x
 }
 
-# Convenience wrapper for additive boolean risk scores: sums any number of
-# logical predicates row-wise, treating NA as 0.  Replaces the verbose
-# rowSums(cbind(...), na.rm = TRUE) idiom throughout build_article_workbook.R.
+# ---------------------------------------------------------------------------
+# Risk scoring helper
+# ---------------------------------------------------------------------------
+
+#' Build a numeric risk score from a set of TRUE/FALSE flags (row-wise).
+#' @description
+#'   This is a convenience wrapper that sums logical predicates across rows.
+#'   Each TRUE in the row counts as 1 point; NA is treated as 0.
+#'
+#'   This replaces the verbose rowSums(cbind(...), na.rm = TRUE) pattern
+#'   used throughout build_article_workbook.R to keep code concise.
+#'
+#'   EXAMPLE: A college might have three risk signals:
+#'   - Enrollment decline (last 3 of 5 years): TRUE = 1 point
+#'   - Revenue drop (10% in last 3 of 5 years): TRUE = 1 point
+#'   - Staffing cuts (5-year headcount decline): TRUE = 1 point
+#'   Row score: 0 (no risks) to 3 (all risks present)
+#'
+#' @param ... Any number of logical vectors (same length).
+#' @return Integer vector: sum of TRUE values per row, NA treated as 0.
 row_score <- function(...) rowSums(cbind(...), na.rm = TRUE)
 
-# Core financial-distress score used in both the "latest year" sheet and the
-# multi-year trend loop.  Any data frame with the required columns can be
-# scored with this function.
+#' Core financial-distress risk score: sums six key warning signals.
+#' @description
+#'   Computes a numeric distress score (0-6) used across the workbook.
+#'   Used in both the "latest year" sheet and multi-year trend loops.
+#'   Any data frame with the six required columns can be scored.
+#'
+#'   The six signals are:
+#'   1. Enrollment decline in 3 of the last 5 years
+#'   2. Revenue drop of 10% or more in 3 of the last 5 years
+#'   3. Operating losses in 3 of the last 5 years
+#'   4. Ended fiscal year at a loss
+#'   5. Total staffing headcount declined over 5 years
+#'   6. Net tuition per FTE declined over 5 years
+#'
+#'   Each TRUE signal adds 1 point. Institutions with a score of 4 or higher
+#'   are flagged as "distressed" in the ReportAnswers tab and other summaries.
+#'
+#' @param df Data frame with columns: enrollment_decline_last_3_of_5,
+#'           revenue_10pct_drop_last_3_of_5, losses_last_3_of_5,
+#'           ended_year_at_loss, staff_total_headcount_pct_change_5yr,
+#'           net_tuition_per_fte_change_5yr.
+#' @return Numeric vector: risk score per row (0-6), or NA if required data missing.
 compute_warning_score_core <- function(df) {
   row_score(
     yes_flag(df$enrollment_decline_last_3_of_5),
@@ -41,14 +122,24 @@ compute_warning_score_core <- function(df) {
   )
 }
 
-# Returns the 75th-percentile of x, or NA when x is all-NA.
+#' Calculate the 75th percentile of a numeric vector, handling all-NA case.
+#' @description
+#'   Returns the 75th percentile (third quartile). If the vector is all-NA,
+#'   returns NA_real_ instead of an error.
+#' @param x Numeric vector.
+#' @return Numeric: 75th percentile, or NA_real_ if x is all-NA.
 q75_safe <- function(x) {
   x <- x[!is.na(x)]
   if (length(x) == 0) return(NA_real_)
   as.numeric(stats::quantile(x, probs = 0.75, na.rm = TRUE, names = FALSE))
 }
 
-# Returns the 25th-percentile of x, or NA when x is all-NA.
+#' Calculate the 25th percentile of a numeric vector, handling all-NA case.
+#' @description
+#'   Returns the 25th percentile (first quartile). If the vector is all-NA,
+#'   returns NA_real_ instead of an error.
+#' @param x Numeric vector.
+#' @return Numeric: 25th percentile, or NA_real_ if x is all-NA.
 q25_safe <- function(x) {
   x <- x[!is.na(x)]
   if (length(x) == 0) return(NA_real_)
@@ -59,7 +150,12 @@ q25_safe <- function(x) {
 # File I/O helpers
 # ---------------------------------------------------------------------------
 
-# Reads a CSV, returning an empty data frame when the file is missing.
+#' Read a CSV file, returning empty data frame if file does not exist.
+#' @description
+#'   Gracefully handles missing optional input files by returning an empty
+#'   data frame instead of an error. Useful for optional closure or event data.
+#' @param path Character: path to CSV file.
+#' @return Data frame with columns named as in the CSV, or empty data frame.
 read_csv_if_exists <- function(path) {
   if (!file.exists(path)) {
     return(data.frame(stringsAsFactors = FALSE))
@@ -67,7 +163,12 @@ read_csv_if_exists <- function(path) {
   read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
 }
 
-# Reads a CSV that must exist; stops with a helpful message when it does not.
+#' Read a required CSV file, stopping with helpful message if missing.
+#' @description
+#'   Used for closure data and other mandatory inputs. If file does not exist,
+#'   stops with an error message that instructs the user how to generate it.
+#' @param path Character: path to CSV file.
+#' @return Data frame, or stops with error if file missing.
 read_required_closure_csv <- function(path) {
   if (!file.exists(path)) {
     stop(
@@ -85,7 +186,24 @@ read_required_closure_csv <- function(path) {
 # Summary-row factory
 # ---------------------------------------------------------------------------
 
-# Creates a single-row data frame for the article Summary sheet.
+#' Create a single-row data frame for the article Summary sheet.
+#' @description
+#'   The Summary sheet displays key metrics and statistics broken down by
+#'   control type (public, private not-for-profit, private for-profit).
+#'   This function builds one row with a metric name and statistic label,
+#'   plus values for all eight workbook groups (all, public, private NFP,
+#'   private FP, and each replicated for baccalaureate-degree-granting only).
+#' @param metric Character: the metric category (e.g., "Distress count").
+#' @param statistic Character: the statistic type (e.g., "count", "percent").
+#' @param all Numeric: value for the all-institutions group, or NA.
+#' @param public Numeric: value for public institutions, or NA.
+#' @param private_nfp Numeric: value for private not-for-profit, or NA.
+#' @param private_fp Numeric: value for private for-profit, or NA.
+#' @param bacc_public Numeric: value for public baccalaureate only, or NA.
+#' @param bacc_private_nfp Numeric: value for private NFP baccalaureate, or NA.
+#' @param bacc_private_fp Numeric: value for private FP baccalaureate, or NA.
+#' @param notes Character: optional explanatory note.
+#' @return Single-row data frame.
 make_row <- function(metric, statistic,
                      all = NA, public = NA, private_nfp = NA, private_fp = NA,
                      bacc_public = NA, bacc_private_nfp = NA, bacc_private_fp = NA,
@@ -105,8 +223,13 @@ make_row <- function(metric, statistic,
   )
 }
 
-# Appends any number of data frames with shared columns, skipping NULL or
-# zero-row inputs. Useful for building long workbook tabs in stages.
+#' Concatenate multiple data frames with shared columns, skipping empty/NULL.
+#' @description
+#'   Useful for building long workbook tabs in stages without repeating
+#'   rbind() calls. Automatically filters out NULL arguments and zero-row
+#'   data frames, so you can safely pass optional tables.
+#' @param ... Any number of data frames or NULL values.
+#' @return Data frame combining non-empty inputs, or empty data frame.
 append_rows <- function(...) {
   rows <- list(...)
   rows <- rows[!vapply(rows, is.null, logical(1))]
@@ -115,8 +238,16 @@ append_rows <- function(...) {
   do.call(rbind, rows)
 }
 
-# Expands a named vector/list of group values into a Summary-sheet row using
-# the standard workbook group order.
+#' Create a Summary-sheet row from a named vector of grouped values.
+#' @description
+#'   Convenience function that takes a named vector/list (e.g., with names
+#'   "all", "public", "private_nfp", "private_fp", "bacc_public", etc.)
+#'   and expands it into a full Summary-sheet row. Missing groups become NA.
+#' @param metric Character: metric category.
+#' @param statistic Character: statistic type.
+#' @param values Named vector/list with optional group keys.
+#' @param notes Character: optional note.
+#' @return Single-row data frame.
 make_group_row <- function(metric, statistic, values, notes = "") {
   value_or_na <- function(name) {
     if (is.null(values) || !(name %in% names(values))) return(NA)
@@ -137,7 +268,15 @@ make_group_row <- function(metric, statistic, values, notes = "") {
   )
 }
 
-# Convenience wrapper for the common pattern of pairing count and percent rows.
+#' Create paired count and percent rows for a metric.
+#' @description
+#'   Convenience wrapper for the common pattern of creating two rows
+#'   (count and percent) for the same metric across groups.
+#' @param metric Character: metric category.
+#' @param counts Named vector: count values by group.
+#' @param pcts Named vector: percentage values by group.
+#' @param notes Character: optional note (applied to both rows).
+#' @return Two-row data frame (count row, then percent row).
 make_count_pct_rows <- function(metric, counts, pcts, notes = "") {
   append_rows(
     make_group_row(metric, "count", counts, notes),
@@ -149,7 +288,15 @@ make_count_pct_rows <- function(metric, counts, pcts, notes = "") {
 # Data-frame utilities
 # ---------------------------------------------------------------------------
 
-# Sorts `df` by one or more column names; handles NAs at the end.
+#' Sort a data frame by one or more columns with NA handling.
+#' @description
+#'   Sorts in specified order, placing all NAs at the end regardless of
+#'   column order. This prevents NA rows from appearing at the top (which
+#'   happens when R's default order() treats NA as smallest).
+#' @param df Data frame to sort.
+#' @param cols Character vector: column names to sort by (in order).
+#' @param decreasing Logical: sort descending (TRUE) or ascending (FALSE).
+#' @return Sorted data frame.
 sort_df <- function(df, cols, decreasing = FALSE) {
   if (nrow(df) == 0) return(df)
   ord_args <- c(lapply(cols, function(col) {
@@ -159,9 +306,17 @@ sort_df <- function(df, cols, decreasing = FALSE) {
   df[do.call(order, ord_args), , drop = FALSE]
 }
 
-# Applies a workbook sheet spec to a data frame: optional filter, ordering,
-# and row limit. This keeps the main workbook script focused on declaring
-# which tabs exist rather than repeating the same subsetting boilerplate.
+#' Apply a workbook sheet spec to a data frame: filter, order, and limit rows.
+#' @description
+#'   Encapsulates the common pattern of filtering, ordering, and limiting rows
+#'   that appears throughout the workbook build. This reduces boilerplate in
+#'   the main build script, which can then focus on declaring which tabs exist
+#'   rather than repeating subsetting and ordering logic.
+#' @param df Data frame to process.
+#' @param filter_fn Optional function that returns logical vector (TRUE = keep).
+#' @param order_fn Optional function that returns reordered data frame.
+#' @param head_n Optional integer: limit output to first N rows.
+#' @return Filtered, ordered, and limited data frame.
 build_workbook_sheet <- function(df, filter_fn = NULL, order_fn = NULL, head_n = NULL) {
   out <- df
   if (!is.null(filter_fn)) {
@@ -178,8 +333,16 @@ build_workbook_sheet <- function(df, filter_fn = NULL, order_fn = NULL, head_n =
   out
 }
 
-# Builds a named list of worksheet data frames from a named list of specs.
-# Each spec may provide filter_fn, order_fn, head_n, or a prebuilt data frame.
+#' Build multiple worksheet data frames from a named list of specs.
+#' @description
+#'   Applies build_workbook_sheet to each spec, allowing each worksheet to
+#'   have its own filter, ordering, and row limit. A spec can also provide
+#'   a prebuilt data frame via spec$data (e.g., for computed tables).
+#' @param df Data frame: the base data to extract sheets from.
+#' @param specs Named list of sheet specifications. Each spec is a list that
+#'        may contain $filter_fn, $order_fn, $head_n (passed to
+#'        build_workbook_sheet), or $data (ready-made data frame).
+#' @return Named list of data frames, one per spec.
 build_workbook_sheets <- function(df, specs) {
   stats::setNames(lapply(specs, function(spec) {
     if (!is.null(spec$data)) {
@@ -194,9 +357,19 @@ build_workbook_sheets <- function(df, specs) {
   }), names(specs))
 }
 
-# Builds the Summary-sheet worksheet index rows from a list of worksheet specs.
-# Each spec should supply `name` and `description`.
+# Builds Summary-sheet worksheet index from a list of worksheet specs.
+# Each spec should supply `name` (tab name) and `description` (one-line summary).
 
+#' Build a benchmark summary tab from grouped data frames.
+#' @description
+#'   Creates a summary table showing key financial health metrics aggregated
+#'   by group (e.g., by institution category or closure status). Used to
+#'   compare distress indicators across different institutional cohorts.
+#' @param group_list Named list of data frames (one per group).
+#' @param label_prefix Character: prefix to prepend to all group names.
+#' @return Data frame with one row per group and columns for institutions count,
+#'         repeated losses share, median revenue/tuition changes, and median
+#'         transfer rates.
 build_benchmark_tab <- function(group_list, label_prefix = "") {
   rows <- lapply(names(group_list), function(gname) {
     df <- group_list[[gname]]
@@ -229,7 +402,17 @@ build_benchmark_tab <- function(group_list, label_prefix = "") {
   do.call(rbind, rows)
 }
 
-# Builds the ReportAnswers tab from the workbook's derived summary tables.
+#' Build the ReportAnswers tab: key topline statistics for the article.
+#' @description
+#'   Creates a data frame with 16 pre-computed key statistics and their
+#'   interpretation notes. Used by journalists as a quick reference for
+#'   the main findings in the workbook (e.g., count of distressed institutions,
+#'   flagship research funding disruptions, staffing cuts year-over-year).
+#' @param distress_compare Data frame: distress comparison across years.
+#' @param distress_intl10 Data frame: distressed institutions with 10-year intl growth.
+#' @param flagship_cuts Data frame: flagship universities with disrupted grants.
+#' @param staff_cut_yoy Data frame: year-over-year staffing changes.
+#' @return Data frame with columns: question, value, note (16 rows).
 build_report_answers <- function(distress_compare, distress_intl10, flagship_cuts, staff_cut_yoy) {
   value_for_year <- function(field, year_value) {
     distress_compare[[field]][distress_compare$year == year_value]
@@ -294,8 +477,15 @@ build_report_answers <- function(distress_compare, distress_intl10, flagship_cut
   )
 }
 
-# Builds the StateBySt tab for public institutions with 5-year state-funding
-# change data.
+#' Build the StateBySt tab: state-level breakdown of public institution funding.
+#' @description
+#'   Aggregates public institutions by state and summarizes their state funding
+#'   trends (5-year changes, percentages, mean/median shifts). Includes counts
+#'   of institutions losing vs. gaining state funding and the biggest cuts.
+#'   Sorted by institutions cutting state funding (descending).
+#' @param df Data frame: institution-level data with control_label, state,
+#'           state_funding_pct_change_5yr, state_funding_pct_core_revenue.
+#' @return Data frame: one row per state with funding statistics.
 build_state_breakdown <- function(df) {
   state_public <- df[
     df$control_label == "Public" &
@@ -332,9 +522,18 @@ build_state_breakdown <- function(df) {
   out[order(out$state_funding_down_5yr_percent, out$mean_state_funding_pct_change_5yr, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
 }
 
-# Builds the final ordered workbook worksheet registry from the already-prepared
-# tab data frames and grouped sheet collections.
-
+#' Build staffing cuts year-over-year summary: annual baseline and comparisons.
+#' @description
+#'   Computes year-by-year staffing changes including baseline counts and
+#'   comparisons against prior year. Each row covers total staff, instructional
+#'   staff, and applies counts to both overall institutions and those with data
+#'   for each type. Returns baseline (start_year) and comparison rows for
+#'   subsequent years through end_year.
+#' @param read_df Data frame: all institution years with columns unitid,
+#'                staff_headcount_total, staff_headcount_instructional, year.
+#' @param start_year Integer: baseline year (default 2014).
+#' @param end_year Integer: final year (default 2024).
+#' @return Data frame: one row per year with staff change metrics.
 build_staff_cut_yoy <- function(read_df, start_year = 2014L, end_year = 2024L) {
   staff_cols <- c("unitid", "staff_headcount_total", "staff_headcount_instructional")
   base <- read_df[
@@ -426,8 +625,16 @@ build_staff_cut_yoy <- function(read_df, start_year = 2014L, end_year = 2024L) {
   rbind(baseline, comparisons)
 }
 
-# Computes the distress comparison rows used for workbook toplines across a set
-# of comparison years within the primarily baccalaureate universe.
+#' Compute distress comparison rows across multiple years for topline reporting.
+#' @description
+#'   Filters to a single category (typically primarily-baccalaureate) across
+#'   specified years (default 2024, 2019, 2014) and computes distress counts,
+#'   percentages, and long-running challenge indicators for each year.
+#'   Includes a comparison note indicating whether 5-year metrics are available.
+#' @param read_df Data frame: institution-level data across multiple years.
+#' @param bacc_category_label Character: category filter value (e.g., "Baccalaureate").
+#' @param years Integer vector: years to report on (default 2024, 2019, 2014).
+#' @return Data frame: one row per year with distress metrics and availability notes.
 build_distress_compare <- function(read_df, bacc_category_label, years = c(2024L, 2019L, 2014L)) {
   do.call(rbind, lapply(years, function(year_value) {
     year_df <- read_df[
@@ -472,12 +679,24 @@ build_distress_compare <- function(read_df, bacc_category_label, years = c(2024L
   }))
 }
 
-# Applies a predicate across an explicit list of group data frames.
+#' Apply a predicate to count matches across group data frames.
+#' @description
+#'   Applies a logical predicate function to each group data frame and sums
+#'   the TRUE values, returning a named vector of counts per group.
+#' @param group_list Named list of data frames.
+#' @param pred Function that returns logical vector (TRUE = match).
+#' @return Named numeric vector: count per group.
 count_by_group_from <- function(group_list, pred) {
   sapply(group_list, function(df) sum(pred(df), na.rm = TRUE))
 }
 
-# Percentage share by group for any row predicate.
+#' Calculate percentage share by group for any row predicate.
+#' @description
+#'   Applies a logical predicate to each group, counts matches, divides by
+#'   group size, and returns as percentage. Returns NA for empty groups.
+#' @param group_list Named list of data frames.
+#' @param pred Function that returns logical vector.
+#' @return Named numeric vector: percentage (0-100) per group, or NA.
 pct_by_group_from <- function(group_list, pred) {
   sapply(group_list, function(df) {
     if (nrow(df) == 0) return(NA_real_)
@@ -485,8 +704,15 @@ pct_by_group_from <- function(group_list, pred) {
   })
 }
 
-# Applies a numeric summary function (median, mean, etc.) to one field across
-# each workbook group, returning a named vector.
+#' Apply a numeric summary function to one field across workbook groups.
+#' @description
+#'   Extracts a numeric field from each group, applies a statistic function
+#'   (median, mean, etc.), and returns a named vector of results. Returns NA
+#'   for groups with no non-missing values.
+#' @param group_list Named list of data frames.
+#' @param field Character: column name.
+#' @param stat_fn Function: e.g., stats::median, mean, sd (default median).
+#' @return Named numeric vector: statistic per group, or NA.
 numeric_stat_by_group <- function(group_list, field, stat_fn = stats::median) {
   sapply(group_list, function(df) {
     x <- to_num(df[[field]])
@@ -496,8 +722,15 @@ numeric_stat_by_group <- function(group_list, field, stat_fn = stats::median) {
   })
 }
 
-# Returns the top row by `metric` for each group, or NULL when that group has
-# no non-missing values for the metric.
+#' Return the top row by metric for each group, or NULL if all NA.
+#' @description
+#'   Finds the single highest (or lowest) value of a specified column in
+#'   each group data frame. Returns NULL for groups with no non-missing values,
+#'   allowing for optional presence in downstream operations.
+#' @param group_list Named list of data frames.
+#' @param metric Character: column name to rank by.
+#' @param decreasing Logical: rank descending (TRUE) or ascending (FALSE).
+#' @return List of single-row data frames (or NULL per group).
 top_metric_by_group_from <- function(group_list, metric, decreasing = TRUE) {
   lapply(group_list, function(df) {
     keep <- !is.na(df[[metric]])
@@ -507,7 +740,15 @@ top_metric_by_group_from <- function(group_list, metric, decreasing = TRUE) {
   })
 }
 
-# Weighted percentage of num_col / den_col across df rows.
+#' Weighted percentage of one column divided by another (whole data frame).
+#' @description
+#'   Sums num_col across all valid rows (where both columns and den_col > 0),
+#'   divides by sum of den_col, and converts to percentage. Returns NA if
+#'   no valid rows. Used for international enrollment share calculations.
+#' @param df Data frame.
+#' @param num_col Character: numerator column name.
+#' @param den_col Character: denominator column name.
+#' @return Numeric: percentage, or NA_real_.
 weighted_intl_pct <- function(df, num_col, den_col) {
   keep <- !is.na(df[[num_col]]) & !is.na(df[[den_col]]) & df[[den_col]] > 0
   if (!any(keep)) return(NA_real_)

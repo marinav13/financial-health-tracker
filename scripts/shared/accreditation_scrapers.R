@@ -1,27 +1,80 @@
+################################################################################
 # scripts/shared/accreditation_scrapers.R
 #
-# Per-accreditor HTML scraper functions.
-# Source this inside main() in build_accreditation_actions.R after
-# accreditation_helpers.R has been sourced.
+# PURPOSE:
+#   Per-accreditor HTML scraper functions that extract accreditation action data
+#   from six major accreditors' websites:
+#   - MSCHE (Middle States Commission on Higher Education)
+#   - HLC (Higher Learning Commission)
+#   - SACSCOC (Southern Association of Colleges and Schools Commission on Colleges)
+#   - NECHE (New England Commission of Higher Education)
+#   - WSCUC (Western Association of Schools and Colleges, accrediting commission)
 #
-# Each top-level function takes (cache_dir, refresh) as explicit parameters
-# so it is a pure function with no hidden closures.
+#   Each accreditor has a different website structure and HTML format, so this
+#   file contains custom scraping logic for each one. All scrapers convert their
+#   output to a standardized table format for downstream processing.
 #
-# Requires: dplyr, httr2, purrr, readr, stringr, xml2 (loaded by the caller)
+# USAGE:
+#   Source this inside main() in build_accreditation_actions.R after
+#   accreditation_helpers.R has been sourced. Call the top-level parse_*()
+#   functions for each accreditor (e.g., parse_msche(), parse_hlc(), etc.)
+#   to retrieve accreditation action data.
+#
+# ARCHITECTURE:
+#   Each top-level function takes (cache_dir, refresh) as explicit parameters
+#   so it is a pure function with no hidden state (closures). This makes the
+#   scraping logic easier to test and debug.
+#
+#   The functions nest inner helper functions (like parse_msche_month_page)
+#   to handle specific page structures within each accreditor's site.
+#
+# DEPENDENCIES:
+#   Requires: dplyr, httr2, purrr, readr, stringr, xml2 (loaded by the caller)
+#   Also depends on helper functions from accreditation_helpers.R:
+#   - clean_text(), normalize_name(), extract_name_state_from_item()
+#   - classify_action(), classify_status(), has_public_action_keywords()
+#   - extract_page_title(), extract_page_modified_date(), fetch_html_text()
+#   - state_name()
+#
+################################################################################
 
 # ---------------------------------------------------------------------------
-# Shared inner-loop primitive
+# SHARED INNER-LOOP PRIMITIVES FOR HTML PARSING
 # ---------------------------------------------------------------------------
 
-# Maps a character vector of raw <li> text items to a tibble of action rows.
-# Used by parse_neche() and parse_wscuc_detail_page() — both iterate the same
-# structure: extract name/state from each item, classify the heading action,
-# and attach page-level source metadata.
+#' Convert list items from HTML to standardized action rows
+#'
+#' Maps raw text items (typically extracted from HTML <li> elements) to a
+#' standardized data frame of accreditation actions. This function is shared
+#' across multiple accreditors that follow the same listing pattern
+#' (heading + list of institutions).
+#'
+#' Used by parse_neche() and parse_wscuc_detail_page() because both iterate
+#' the same structure: find a heading describing an action (e.g., "Probation"),
+#' then process each <li> item below it (each item is an institution).
+#'
+#' @param raw_items character vector. Text strings, each describing one institution
+#'        (typically extracted from <li> tags)
+#' @param accreditor character. Name of the accreditor (e.g., "NECHE", "WSCUC")
+#' @param heading character. The action label from the page heading (e.g., "Warning")
+#' @param action_date Date. When the action took effect (or NA if unknown)
+#' @param action_year integer. Calendar year of the action
+#' @param source_url character. URL to the PDF/document where the action was announced
+#' @param source_title character. Human-readable title of the source page or document
+#' @param source_page_url character. URL of the web page from which this data was scraped
+#' @param source_page_modified character. ISO date when the source page was last modified
+#'
+#' @return tibble with one row per item, columns:
+#'   institution_name_raw, institution_state_raw, accreditor, action_type,
+#'   action_label_raw, action_status, action_date, action_year, source_url,
+#'   source_title, notes (original item text), last_seen_at, source_page_url,
+#'   source_page_modified
 parse_items_to_rows <- function(raw_items, accreditor, heading,
                                 action_date, action_year,
                                 source_url, source_title,
                                 source_page_url, source_page_modified) {
   purrr::map_dfr(raw_items, function(item) {
+    # Parse the institution name and state from the list item text
     parsed <- extract_name_state_from_item(item)
     tibble::tibble(
       institution_name_raw  = parsed$institution_name_raw,
@@ -42,12 +95,33 @@ parse_items_to_rows <- function(raw_items, accreditor, heading,
   })
 }
 
+#' Extract all <li> items from HTML block
+#'
+#' Finds all <li> (list item) elements in a block of HTML and returns their
+#' cleaned text content. Used to extract institution names from lists on
+#' accreditor websites.
+#'
+#' @param html_block character. HTML string to search
+#' @param item_pattern character. Regex pattern to match <li> elements.
+#'        Default matches: <li ...> ... </li> with any attributes.
+#'        The (?s) flag makes . match newlines (for multiline HTML).
+#'
+#' @return character vector. Cleaned text of each <li> item, with empty
+#'         items filtered out. Returns character(0) if no items found.
+#'
+#' @details
+#'   Example HTML: "<ul><li>Boston College, MA</li><li>Tufts, MA</li></ul>"
+#'   Returns: c("Boston College, MA", "Tufts, MA")
 extract_list_items_from_html <- function(html_block, item_pattern = "(?s)<li[^>]*>(.*?)</li>") {
+  # Find all <li> elements and capture their content (group 2)
   item_matches <- stringr::str_match_all(html_block, item_pattern)[[1]]
+  # Return empty character vector if no matches
   if (nrow(item_matches) == 0) {
     return(character())
   }
+  # Clean the extracted text (decode HTML, normalize whitespace)
   raw_items <- clean_text(item_matches[, 2])
+  # Return only non-empty items
   raw_items[nzchar(raw_items)]
 }
 
@@ -390,6 +464,29 @@ parse_msche <- function(cache_dir, refresh) {
     "(?s)<h3>(Non-Compliance Warning|Non-Compliance Probation|Non-Compliance Show Cause|Adverse Action)</h3>(.*?)(?=<h3>|<div class=\"single-share\"|</article>)"
   )[[1]]
 
+  # Guard: if the page returned non-empty HTML but none of the expected H3
+  # action headings are present, the page was likely rendered by JavaScript and
+  # httr2 received only the pre-JS shell.  Emit a warning so callers know the
+  # 0-row result is suspicious rather than a genuine "no actions" outcome.
+  if (nrow(section_matches) == 0 && nzchar(trimws(html))) {
+    has_any_heading <- any(vapply(
+      names(MSCHE_CURRENT_STATUS_ACTION_TYPES),
+      function(lbl) grepl(lbl, html, fixed = TRUE),
+      logical(1)
+    ))
+    if (!has_any_heading) {
+      warning(sprintf(
+        paste(
+          "parse_msche: fetched %s but found none of the expected H3 action",
+          "headings (%s). The page may be JavaScript-rendered and unavailable",
+          "to httr2. Returning 0 current-status rows \u2014 validate output."
+        ),
+        url,
+        paste(names(MSCHE_CURRENT_STATUS_ACTION_TYPES), collapse = ", ")
+      ))
+    }
+  }
+
   current_status_rows <- if (nrow(section_matches) == 0) {
     tibble::tibble()
   } else {
@@ -679,117 +776,3 @@ parse_sacscoc <- function(cache_dir, refresh) {
 }
 
 parse_neche <- function(cache_dir, refresh) {
-  url <- NECHE_ACTIONS_URL
-  html <- fetch_html_text(url, "neche_actions.html", cache_dir, refresh = refresh)
-  page_title <- extract_page_title(html)
-  page_modified <- extract_page_modified_date(html)
-
-  sections <- extract_regex_heading_sections(html, NECHE_TOGGLE_SECTION_PATTERN)
-  parse_public_action_sections(
-    sections = sections,
-    accreditor = "NECHE",
-    action_date = as.Date(NA),
-    action_year = suppressWarnings(as.integer(stringr::str_extract(page_modified, "^[0-9]{4}"))),
-    source_url = url,
-    source_title = page_title,
-    source_page_url = url,
-    source_page_modified = page_modified
-  )
-}
-
-parse_wscuc_detail_page <- function(url, cache_dir, refresh) {
-  html <- fetch_html_text(
-    url,
-    paste0("wscuc_", basename(gsub("/$", "", url)), ".html"),
-    cache_dir,
-    refresh = refresh
-  )
-  page_title <- extract_page_title(html)
-  page_modified <- extract_page_modified_date(html)
-
-  date_match <- stringr::str_match(
-    clean_text(page_title),
-    "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})"
-  )
-  action_date <- if (!is.na(date_match[1, 1])) {
-    as.Date(paste0(date_match[1, 2], " 01 ", date_match[1, 3]), format = "%B %d %Y")
-  } else {
-    as.Date(NA)
-  }
-
-  sections <- extract_tag_heading_sections(html, heading_tag = "h2")
-  parse_public_action_sections(
-    sections = sections,
-    accreditor = "WSCUC",
-    action_date = action_date,
-    action_year = suppressWarnings(as.integer(format(action_date, "%Y"))),
-    source_url = url,
-    source_title = page_title,
-    source_page_url = url,
-    source_page_modified = page_modified
-  )
-}
-
-parse_wscuc <- function(cache_dir, refresh) {
-  detail_urls <- purrr::map_dfr(seq_along(WSCUC_ARCHIVE_URLS), function(i) {
-    archive_html <- fetch_html_text(
-      WSCUC_ARCHIVE_URLS[[i]],
-      paste0("wscuc_commission_actions_archive_", i, ".html"),
-      cache_dir,
-      refresh = refresh
-    )
-
-    links <- stringr::str_match_all(
-      archive_html,
-      WSCUC_DETAIL_LINK_PATTERN
-    )[[1]]
-
-    if (nrow(links) == 0) {
-      return(tibble::tibble(url = character()))
-    }
-
-    tibble::tibble(url = links[, 2])
-  }) |>
-    dplyr::distinct() |>
-    dplyr::filter(stringr::str_detect(url, "20(24|25|26)")) |>
-    dplyr::pull(url)
-
-  if (length(detail_urls) == 0) {
-    return(tibble::tibble())
-  }
-
-  purrr::map_dfr(detail_urls, function(u) parse_wscuc_detail_page(u, cache_dir, refresh))
-}
-
-build_match_suggestions <- function(unmatched_df, candidates_df, max_candidates = 3L) {
-  if (nrow(unmatched_df) == 0) {
-    return(unmatched_df)
-  }
-
-  purrr::map_dfr(seq_len(nrow(unmatched_df)), function(i) {
-    row <- unmatched_df[i, ]
-    same_state <- candidates_df
-    if (!is.na(row$institution_state_normalized) && nzchar(row$institution_state_normalized)) {
-      same_state <- candidates_df |>
-        dplyr::filter(state_full == row$institution_state_normalized)
-    }
-    pool <- if (nrow(same_state) > 0) same_state else candidates_df
-    dists <- utils::adist(row$institution_name_normalized, pool$norm_name)
-    ord <- order(dists[1, ], pool$institution_name)
-    top_n <- head(ord, max_candidates)
-    suggestions <- paste0(
-      pool$institution_name[top_n],
-      " (",
-      pool$state_full[top_n],
-      "; UNITID ",
-      pool$unitid[top_n],
-      "; distance ",
-      as.integer(dists[1, top_n]),
-      ")"
-    )
-    dplyr::bind_cols(
-      row,
-      tibble::tibble(suggested_matches = paste(suggestions, collapse = " | "))
-    )
-  })
-}

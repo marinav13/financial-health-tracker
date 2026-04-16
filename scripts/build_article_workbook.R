@@ -1,3 +1,33 @@
+################################################################################
+# build_article_workbook.R
+#
+# PURPOSE:
+#   Generates a comprehensive Excel workbook for journalist research on college
+#   financial health. The workbook combines IPEDS financial data with risk scores,
+#   closure indicators, and accreditation/college cuts tracking data to support
+#   investigative reporting on institutional stability and distress.
+#
+# INPUTS:
+#   - IPEDS financial dataset CSV (default: ./ipeds/raw/ipeds_financial_health_canonical.csv)
+#   - Optional CLI flags: --input (input CSV path), --output (workbook path)
+#
+# OUTPUTS:
+#   - SpreadsheetML workbook (.xls format): ./workbooks/ipeds_financial_health_article_workbook.xls
+#   - Contains 50+ sheets with filtered institution lists, risk scores, and cross-tabulations
+#
+# TO RUN:
+#   Rscript scripts/build_article_workbook.R
+#   Rscript scripts/build_article_workbook.R --input /path/to/data.csv --output ./workbooks/custom.xls
+#
+# DOMAIN CONCEPTS:
+#   - Risk Scores: Count of concerning financial signals; higher = more stress indicators
+#   - Federal Composite Score: Department of Education formula (range -1 to 3);
+#     below 1.5 triggers federal oversight
+#   - HCM Level 2: Heightened Cash Monitoring Level 2, a federal oversight flag for
+#     schools with liquidity concerns
+#   - Closures: Official federal closure dates from IPEDS/PEPS
+################################################################################
+
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args          <- parse_cli_args(cli_args)
@@ -18,6 +48,13 @@ source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 # read_csv_if_exists, read_required_closure_csv) are in
 # scripts/shared/workbook_helpers.R
 
+# ============================================================================
+# SECTION: Configuration Constants
+# Update these values whenever new IPEDS financial data is released.
+# ============================================================================
+
+# Public flagship universities, used to identify non-flagship campuses in
+# public_campus_risk_score and to filter flagship-specific workbook sheets.
 flagship_unitids <- c(
   102553,100751,106397,104179,110635,126614,129020,130943,134130,139959,141574,153658,142285,
   145637,151351,155317,157085,159391,166629,163286,161253,170976,174066,178396,176017,180489,
@@ -25,10 +62,141 @@ flagship_unitids <- c(
   218663,219471,221759,228778,230764,234076,231174,236948,240444,238032,240727
 )
 
-read_df <- read.csv(input_csv, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
-latest <- read_df[as.character(read_df$year) == "2024", , drop = FALSE]
-prev_year <- read_df[as.character(read_df$year) == "2023", , drop = FALSE]
+# Latest data year and prior comparison year for year-over-year framing.
+latest_year   <- 2024L
+prev_year_num <- 2023L
 
+# ============================================================================
+# SECTION: Risk Score Computation Functions
+# These functions compute risk scores by counting financial warning signals.
+# Each score is built by summing boolean conditions (TRUE=1, FALSE=0):
+#   - Higher scores = more financial stress indicators present
+#   - Scores reflect common patterns before institutional distress events
+# ============================================================================
+
+# Compute multi-signal score combining enrollment, revenue, losses, and dependencies
+#
+# DESCRIPTION:
+#   Sums 7 financial warning signals that often appear together:
+#   enrollment decline, revenue loss, repeated losses, tuition dependence,
+#   falling net tuition, international reliance, and federal aid dependence
+#
+# PARAMS:
+#   df = Data frame with pre-computed boolean columns (high_tuition_dependence,
+#        high_international_share, high_federal_dependence must exist)
+#
+# RETURNS:
+#   Integer vector: count of warning signals present (0-7)
+compute_multi_signal_score <- function(df) {
+  # Depends on df$high_tuition_dependence, df$high_international_share, and
+  # df$high_federal_dependence being pre-computed on df before calling.
+  row_score(
+    yes_flag(df$enrollment_decline_last_3_of_5),
+    yes_flag(df$revenue_10pct_drop_last_3_of_5),
+    yes_flag(df$losses_last_3_of_5),
+    df$high_tuition_dependence,
+    !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0,
+    df$high_international_share,
+    df$high_federal_dependence
+  )
+}
+
+# Compute staffing cut risk score identifying institutions likely to reduce staff
+#
+# DESCRIPTION:
+#   Sums 8 warning signals that precede major staffing cuts:
+#   enrollment/revenue decline, losses, low tuition per FTE, high tuition dependence,
+#   endowment decline, and declining instructional staff headcount
+#
+# PARAMS:
+#   df = Data frame with enrollment, revenue, loss, tuition, and staff columns
+#
+# RETURNS:
+#   Integer vector: count of staffing-cut risk signals (0-8)
+compute_staffing_cut_risk_score <- function(df) {
+  row_score(
+    yes_flag(df$enrollment_decline_last_3_of_5),
+    yes_flag(df$revenue_10pct_drop_last_3_of_5),
+    yes_flag(df$losses_last_3_of_5),
+    yes_flag(df$ended_year_at_loss),
+    !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0,
+    !is.na(df$tuition_dependence_pct) & df$tuition_dependence_pct >= 50,
+    !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0,
+    !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0
+  )
+}
+
+# Compute private institution closure risk score
+#
+# DESCRIPTION:
+#   Sums 9 financial distress signals specific to private colleges:
+#   enrollment/revenue decline, repeated losses, net tuition loss, high tuition
+#   dependence, weak liquidity, high leverage, endowment decline, and staffing cuts.
+#   Only applies to non-public institutions.
+#
+# PARAMS:
+#   df = Data frame with institutional control and financial columns
+#   tuition_q75 = 75th percentile of tuition dependence (to flag high dependence)
+#   leverage_q75 = 75th percentile of debt leverage (to flag high debt)
+#   liquidity_q25 = 25th percentile of liquid reserves (to flag weak cushion)
+#
+# RETURNS:
+#   Integer vector: count of closure risk signals (0-9)
+compute_private_closure_risk_score <- function(df, tuition_q75, leverage_q75, liquidity_q25) {
+  is_private <- df$control_label != "Public"
+  row_score(
+    is_private & yes_flag(df$enrollment_decline_last_3_of_5),
+    is_private & yes_flag(df$losses_last_3_of_5),
+    is_private & yes_flag(df$ended_year_at_loss),
+    is_private & !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0,
+    is_private & !is.na(df$tuition_dependence_pct) & !is.na(tuition_q75) & df$tuition_dependence_pct >= tuition_q75,
+    is_private & !is.na(df$liquidity) & !is.na(liquidity_q25) & df$liquidity <= liquidity_q25,
+    is_private & !is.na(df$leverage) & !is.na(leverage_q75) & df$leverage >= leverage_q75,
+    is_private & !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0,
+    is_private & !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0
+  )
+}
+
+# Compute public non-flagship campus restructuring risk score
+#
+# DESCRIPTION:
+#   Sums 8 distress signals for public campuses that are not flagship universities.
+#   Focuses on enrollment and staff cuts, transfer-out increases, state funding loss,
+#   and data gaps. Does not apply to main state university flagships.
+#
+# PARAMS:
+#   df = Data frame with control, unitid, and public institution metrics
+#   flagship_unitids = Vector of flagship university UNITID values to exclude
+#
+# RETURNS:
+#   Integer vector: count of restructuring risk signals (0-8)
+compute_public_campus_risk_score <- function(df, flagship_unitids) {
+  is_nonflagship <- df$control_label == "Public" & !(as.integer(df$unitid) %in% flagship_unitids)
+  row_score(
+    is_nonflagship & yes_flag(df$enrollment_decline_last_3_of_5),
+    is_nonflagship & !is.na(df$enrollment_pct_change_5yr) & df$enrollment_pct_change_5yr <= -20,
+    is_nonflagship & !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0,
+    is_nonflagship & !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0,
+    is_nonflagship & yes_flag(df$transfer_out_rate_bachelor_increase_5yr),
+    is_nonflagship & yes_flag(df$transfer_out_rate_bachelor_increase_10yr),
+    is_nonflagship & !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0,
+    is_nonflagship & (is.na(df$revenue_total) | is.na(df$expenses_total))
+  )
+}
+
+# ============================================================================
+# SECTION: Load and Prepare Data
+# Read the IPEDS canonical dataset and convert numeric columns
+# ============================================================================
+
+# Load the full IPEDS financial dataset across all years
+read_df <- read.csv(input_csv, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
+# Filter for latest and prior year separately for comparisons
+latest    <- read_df[as.character(read_df$year) == as.character(latest_year),   , drop = FALSE]
+prev_year <- read_df[as.character(read_df$year) == as.character(prev_year_num), , drop = FALSE]
+
+# List of columns that should be stored as numbers (not text)
+# These include percentages, headcounts, dollar amounts, and calculated ratios
 num_cols <- c(
   "enrollment_headcount_total","enrollment_headcount_undergrad","enrollment_headcount_graduate",
   "enrollment_nonresident_total","enrollment_nonresident_undergrad","enrollment_nonresident_graduate",
@@ -50,6 +218,7 @@ num_cols <- c(
   "federal_loan_pct_most_recent","federal_loan_count_most_recent","federal_loan_avg_most_recent"
 )
 
+# Convert specified columns to numeric across all three datasets
 for (nm in intersect(num_cols, names(latest))) {
   latest[[nm]] <- to_num(latest[[nm]])
 }
@@ -60,10 +229,20 @@ for (nm in intersect(num_cols, names(read_df))) {
   read_df[[nm]] <- to_num(read_df[[nm]])
 }
 
+# Validate that required columns exist and data looks reasonable
 validate_workbook_input(read_df)
 
+# ============================================================================
+# SECTION: Compute Risk Scores
+# Calculate warning scores and risk metrics for all institutions
+# ============================================================================
+
+# Core warning score: sum of 6 main financial distress signals
+# (defined in shared contracts.R)
 latest$warning_score_core <- compute_warning_score_core(latest)
 
+# Calculate sector percentiles to identify institutions in top 25% of risk metrics
+# These are used to flag "high dependence" conditions in risk score functions
 tuition_dependence_q75 <- q75_safe(latest$tuition_dependence_pct)
 international_share_q75 <- q75_safe(latest$pct_international_all)
 federal_dependence_q75 <- q75_safe(latest$federal_grants_contracts_pell_adjusted_pct_core_revenue)
@@ -71,67 +250,43 @@ private_tuition_dependence_q75 <- q75_safe(latest$tuition_dependence_pct[latest$
 private_leverage_q75 <- q75_safe(latest$leverage[latest$control_label != "Public"])
 private_liquidity_q25 <- q25_safe(latest$liquidity[latest$control_label != "Public"])
 
+# Flag institutions with tuition revenue above 75th percentile (high dependence on student fees)
 latest$high_tuition_dependence <- !is.na(latest$tuition_dependence_pct) & !is.na(tuition_dependence_q75) &
   latest$tuition_dependence_pct >= tuition_dependence_q75
+# Flag institutions with international enrollment above 75th percentile (high reliance on nonresident fees)
 latest$high_international_share <- !is.na(latest$pct_international_all) & !is.na(international_share_q75) &
   latest$pct_international_all >= international_share_q75
+# Flag institutions with federal aid above 75th percentile (high reliance on Title IV programs)
 latest$high_federal_dependence <- !is.na(latest$federal_grants_contracts_pell_adjusted_pct_core_revenue) &
   !is.na(federal_dependence_q75) &
   latest$federal_grants_contracts_pell_adjusted_pct_core_revenue >= federal_dependence_q75
 
-latest$multi_signal_score <- row_score(
-  yes_flag(latest$enrollment_decline_last_3_of_5),
-  yes_flag(latest$revenue_10pct_drop_last_3_of_5),
-  yes_flag(latest$losses_last_3_of_5),
-  latest$high_tuition_dependence,
-  !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
-  latest$high_international_share,
-  latest$high_federal_dependence
+# Compute all risk scores using the functions defined above
+latest$multi_signal_score <- compute_multi_signal_score(latest)
+latest$staffing_cut_risk_score <- compute_staffing_cut_risk_score(latest)
+latest$private_closure_risk_score <- compute_private_closure_risk_score(
+  latest,
+  tuition_q75  = private_tuition_dependence_q75,
+  leverage_q75 = private_leverage_q75,
+  liquidity_q25 = private_liquidity_q25
 )
+latest$public_campus_risk_score <- compute_public_campus_risk_score(latest, flagship_unitids)
 
-latest$staffing_cut_risk_score <- row_score(
-  yes_flag(latest$enrollment_decline_last_3_of_5),
-  yes_flag(latest$revenue_10pct_drop_last_3_of_5),
-  yes_flag(latest$losses_last_3_of_5),
-  yes_flag(latest$ended_year_at_loss),
-  !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
-  !is.na(latest$tuition_dependence_pct) & latest$tuition_dependence_pct >= 50,
-  !is.na(latest$endowment_pct_change_5yr) & latest$endowment_pct_change_5yr < 0,
-  !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0
-)
-
-is_private <- latest$control_label != "Public"
-latest$private_closure_risk_score <- row_score(
-  is_private & yes_flag(latest$enrollment_decline_last_3_of_5),
-  is_private & yes_flag(latest$losses_last_3_of_5),
-  is_private & yes_flag(latest$ended_year_at_loss),
-  is_private & !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
-  is_private & !is.na(latest$tuition_dependence_pct) & !is.na(private_tuition_dependence_q75) & latest$tuition_dependence_pct >= private_tuition_dependence_q75,
-  is_private & !is.na(latest$liquidity) & !is.na(private_liquidity_q25) & latest$liquidity <= private_liquidity_q25,
-  is_private & !is.na(latest$leverage) & !is.na(private_leverage_q75) & latest$leverage >= private_leverage_q75,
-  is_private & !is.na(latest$endowment_pct_change_5yr) & latest$endowment_pct_change_5yr < 0,
-  is_private & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0
-)
-
-is_public_nonflagship <- latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids)
-latest$public_campus_risk_score <- row_score(
-  is_public_nonflagship & yes_flag(latest$enrollment_decline_last_3_of_5),
-  is_public_nonflagship & !is.na(latest$enrollment_pct_change_5yr) & latest$enrollment_pct_change_5yr <= -20,
-  is_public_nonflagship & !is.na(latest$staff_total_headcount_pct_change_5yr) & latest$staff_total_headcount_pct_change_5yr < 0,
-  is_public_nonflagship & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0,
-  is_public_nonflagship & yes_flag(latest$transfer_out_rate_bachelor_increase_5yr),
-  is_public_nonflagship & yes_flag(latest$transfer_out_rate_bachelor_increase_10yr),
-  is_public_nonflagship & !is.na(latest$state_funding_pct_change_5yr) & latest$state_funding_pct_change_5yr < 0,
-  is_public_nonflagship & (is.na(latest$revenue_total) | is.na(latest$expenses_total))
-)
-
+# Assign risk category label based on institution control
 latest$closure_risk_track <- dplyr::case_when(
   latest$control_label == "Public" ~ "Public campus restructuring risk",
   TRUE ~ "Private college closure risk"
 )
 
+# ============================================================================
+# SECTION: Build Institutional Groups for Analysis
+# Organize institutions by control/sector for comparative reporting
+# ============================================================================
+
+# Standard IPEDS category label for 4-year bachelor's-focused institutions
 bacc_category_label <- "Degree-granting, primarily baccalaureate or above"
 
+# Create 7 subgroups of the latest year data for comparison analysis
 groups <- list(
   all = latest,
   public = latest[latest$control_label == "Public", , drop = FALSE],
@@ -142,6 +297,7 @@ groups <- list(
   bacc_private_fp = latest[latest$control_label == "Private for-profit" & latest$category == bacc_category_label, , drop = FALSE]
 )
 
+# Same grouping for prior year to enable year-over-year comparisons
 groups_2023 <- list(
   all = prev_year,
   public = prev_year[prev_year$control_label == "Public", , drop = FALSE],
@@ -152,6 +308,13 @@ groups_2023 <- list(
   bacc_private_fp = prev_year[prev_year$control_label == "Private for-profit" & prev_year$category == bacc_category_label, , drop = FALSE]
 )
 
+# ============================================================================
+# SECTION: Build Summary Statistics
+# Create topline metrics and counts for the workbook Summary sheet
+# ============================================================================
+
+# Define key financial health metrics and their filters
+# Each spec includes: metric name, predicate function to identify institutions
 summary_metric_specs <- list(
   list(metric = "Enrollment decline in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5)),
   list(metric = "Revenue decline in 3 of last 5 years", pred = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5)),
@@ -178,12 +341,15 @@ summary_metric_specs <- list(
   list(metric = "Transfer-out rate increased over past 5 years", pred = function(df) !is.na(df$transfer_out_rate_bachelor_change_5yr) & df$transfer_out_rate_bachelor_change_5yr > 0)
 )
 
+# Build count and percentage rows for each metric across all institutional groups
+# Result: table showing metric prevalence by sector and category
 summary_rows <- do.call(rbind, lapply(summary_metric_specs, function(spec) {
   counts <- count_by_group_from(groups, spec$pred)
   pcts <- pct_by_group_from(groups, spec$pred)
   make_count_pct_rows(spec$metric, counts, pcts, spec$notes %||% "")
 }))
 
+# Add custom rows for discount rate metric (nonprofit data only)
 private_nfp_only <- groups$private_nfp
 disc_count <- sum(!is.na(private_nfp_only$discount_pct_change_5yr) & private_nfp_only$discount_pct_change_5yr > 0, na.rm = TRUE)
 disc_pct <- safe_pct(disc_count, nrow(private_nfp_only))
@@ -193,6 +359,7 @@ summary_rows <- append_rows(
   make_row("Discount rate increased over past 5 years", "percent", disc_pct, "", disc_pct, "", "", safe_pct(sum(!is.na(groups$bacc_private_nfp$discount_pct_change_5yr) & groups$bacc_private_nfp$discount_pct_change_5yr > 0, na.rm = TRUE), nrow(groups$bacc_private_nfp)), "", "Private nonprofit only")
 )
 
+# Calculate international student shares across sectors (weighted by enrollment)
 intl_all <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_total", den_col = "enrollment_headcount_total")
 intl_grad <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_graduate", den_col = "enrollment_headcount_graduate")
 intl_ug <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_undergrad", den_col = "enrollment_headcount_undergrad")
@@ -266,6 +433,11 @@ summary_rows <- append_rows(
     "State appropriations"
   )
 )
+
+# ============================================================================
+# SECTION: Define Worksheet Specifications
+# Each spec defines a filtered set of institutions and their sort order
+# ============================================================================
 
 sheet_index_specs <- list(
   list(name = "Summary", description = "Top-level counts and sector shares. Includes all filtered institutions plus baccalaureate-only breakouts."),
@@ -691,7 +863,7 @@ cuts_finance_xtab <- build_event_xtab(finance_bad, college_cuts_any_unitids, "An
 # cut rather than only how many campuses reported a decline. Include 2014 as
 # the visible staffing baseline, then show later years as cuts relative to the
 # prior year's staffing base.
-staff_cut_yoy <- build_staff_cut_yoy(read_df, start_year = 2014L, end_year = 2024L)
+staff_cut_yoy <- build_staff_cut_yoy(read_df, start_year = latest_year - 10L, end_year = latest_year)
 
 graduate_sheet_specs <- list(
   PublicFedTop = list(
@@ -751,9 +923,9 @@ if (nrow(flagship_cuts) > 0) {
   }
 }
 
-distress_compare <- build_distress_compare(read_df, bacc_category_label, years = c(2024L, 2019L, 2014L))
+distress_compare <- build_distress_compare(read_df, bacc_category_label, years = c(latest_year, latest_year - 5L, latest_year - 10L))
 
-intl_base_2014 <- read_df[as.integer(read_df$year) == 2014L, c("unitid","enrollment_headcount_total"), drop = FALSE]
+intl_base_2014 <- read_df[as.integer(read_df$year) == latest_year - 10L, c("unitid","enrollment_headcount_total"), drop = FALSE]
 names(intl_base_2014)[2] <- "enrollment_headcount_total_2014"
 intl_offset_10yr <- merge(all_sheet_bacc, intl_base_2014, by = "unitid", all.x = TRUE)
 intl_offset_10yr$total_change_10yr_proxy <- intl_offset_10yr$enrollment_headcount_total - intl_offset_10yr$enrollment_headcount_total_2014

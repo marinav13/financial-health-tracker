@@ -1,3 +1,45 @@
+# =========================================================================
+# build_accreditation_actions.R
+# =========================================================================
+#
+# PURPOSE: Scrape accreditation actions (sanctions, warnings, probation) from
+#          regional accreditors and match them to the financial tracker dataset.
+#
+# INPUTS:
+#   - Financial tracker CSV (latest year data with institution info)
+#   - Scraped data from 5 regional accreditors:
+#     * MSCHE (Middle States), HLC (Higher Learning Commission),
+#     * SACSCOC (Southern Association), NECHE (New England),
+#     * WSCUC (Western Association)
+#
+# OUTPUTS:
+#   - accreditation_actions_joined.csv     (raw actions with financial metrics)
+#   - accreditation_institution_summary.csv (one row per institution with action summary)
+#   - accreditation_current_status.csv     (filtered to active warnings/adverse actions only)
+#   - accreditation_unmatched_for_review.csv (accreditor data that didn't match institutions)
+#   - accreditation_source_coverage.csv    (summary of what accreditor data was scraped)
+#   - accreditation_workbook.xlsx          (all above + notes sheet)
+#
+# WORKFLOW:
+#   1. Load financial tracker data and normalize institution names
+#   2. Build fuzzy-match lookup tables (exact name+state, name-only fallback)
+#   3. Fetch and scrape accreditation action pages (with local cache fallback)
+#   4. Clean and normalize accreditor data
+#   5. Match institutions to tracker using lookup tables
+#   6. Join matched actions with financial health metrics
+#   7. Build three summary views: all actions, institution summary, current active status
+#   8. Identify unmatched institutions for manual review
+#   9. Write outputs as CSVs and Excel workbook
+#
+# DOMAIN CONCEPTS:
+#   - accreditation_warning: true if action_type is warning, probation, or show_cause
+#   - accreditation_warning_or_notice: broader set including notice (HLC's public sanction)
+#   - Action status: "active" or past/closed
+#   - Unmatched records: often non-4-year schools or name mismatches across sources
+#
+# NOTE: This is intentionally partial coverage (5 of 7 regional accreditors).
+#       NWCCU and ACCJC not yet implemented.
+
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args          <- parse_cli_args(cli_args)
@@ -7,10 +49,14 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr", "xml2"))
 
-    financial_input <- get_arg_value(
-      "--financial-input",
-      ipeds_layout(root = ".")$dataset_csv
-    )
+  # -----------------------------------------------------------------------
+  # Parse command-line arguments
+  # -----------------------------------------------------------------------
+
+  financial_input <- get_arg_value(
+    "--financial-input",
+    ipeds_layout(root = ".")$dataset_csv
+  )
   output_prefix <- get_arg_value(
     "--output-prefix",
     file.path(getwd(), "data_pipelines", "accreditation", "accreditation_tracker")
@@ -25,6 +71,9 @@ main <- function(cli_args = NULL) {
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
 
+  # -----------------------------------------------------------------------
+  # Load helper functions for scraping and text normalization
+  # -----------------------------------------------------------------------
 
   source(file.path(getwd(), "scripts", "shared", "accreditation_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "accreditation_scrapers.R"))
@@ -33,6 +82,9 @@ main <- function(cli_args = NULL) {
   # parse_neche, parse_wscuc, build_match_suggestions) are in
   # scripts/shared/accreditation_scrapers.R
 
+  # -----------------------------------------------------------------------
+  # Load financial tracker data and prepare for matching
+  # -----------------------------------------------------------------------
 
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
@@ -45,6 +97,8 @@ main <- function(cli_args = NULL) {
       norm_name = normalize_name(institution_name)
     )
 
+  # Build lookup tables for matching accreditor institution names to tracker names.
+  # Strategy 1: exact match on normalized name + state (highest confidence)
   lookup_exact <- financial_latest |>
     dplyr::transmute(
       matched_unitid = unitid,
@@ -57,6 +111,7 @@ main <- function(cli_args = NULL) {
     dplyr::filter(candidate_count == 1L) |>
     dplyr::select(-candidate_count)
 
+  # Fallback lookup: match on normalized name only (for multi-state situations)
   lookup_name_only <- financial_latest |>
     dplyr::transmute(
       matched_unitid = unitid,
@@ -67,6 +122,10 @@ main <- function(cli_args = NULL) {
     dplyr::add_count(norm_name, name = "candidate_count") |>
     dplyr::filter(candidate_count == 1L) |>
     dplyr::select(-candidate_count)
+
+  # -----------------------------------------------------------------------
+  # Fetch and process accreditation actions from all accreditors
+  # -----------------------------------------------------------------------
 
   message("Fetching accreditation actions ...")
   raw_actions <- dplyr::bind_rows(
@@ -81,7 +140,9 @@ main <- function(cli_args = NULL) {
       institution_state_raw = clean_text(institution_state_raw),
       institution_name_normalized = normalize_name(institution_name_raw),
       institution_state_normalized = state_name(institution_state_raw),
+      # True if action is a warning-level sanction (strictest actions)
       accreditation_warning = action_type %in% c("warning", "probation", "show_cause"),
+      # True if action is warning-level OR notice (broader sanction set)
       accreditation_warning_or_notice = action_type %in% c("notice", "warning", "probation", "show_cause")
     ) |>
     # match_institutions_to_tracker() is defined in scripts/shared/accreditation_helpers.R
@@ -111,6 +172,10 @@ main <- function(cli_args = NULL) {
       last_seen_at
     ) |>
     dplyr::distinct()
+
+  # -----------------------------------------------------------------------
+  # Select financial metrics to attach to each accreditation action
+  # -----------------------------------------------------------------------
 
   latest_fields <- c(
     "unitid",
@@ -147,14 +212,24 @@ main <- function(cli_args = NULL) {
   financial_join <- financial_latest |>
     dplyr::select(dplyr::any_of(latest_fields))
 
+  # -----------------------------------------------------------------------
+  # Join actions with financial metrics
+  # -----------------------------------------------------------------------
+
   actions_joined <- raw_actions |>
     dplyr::left_join(financial_join, by = "unitid")
 
+  # Helper: collapse multiple values into a semicolon-separated string
   collapse_unique <- function(x) {
     vals <- unique(stats::na.omit(as.character(x)))
     if (length(vals) == 0) NA_character_ else paste(sort(vals), collapse = "; ")
   }
 
+  # -----------------------------------------------------------------------
+  # Build three summary views of accreditation actions
+  # -----------------------------------------------------------------------
+
+  # View 1: Institution summary (all actions collapsed per institution)
   institution_summary <- actions_joined |>
     dplyr::filter(!is.na(unitid)) |>
     dplyr::group_by(unitid, tracker_name, tracker_state) |>
@@ -173,6 +248,7 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::left_join(financial_join, by = c("unitid"))
 
+  # View 2: Current status (filtered to only active warnings/adverse actions)
   current_status <- institution_summary |>
     dplyr::filter(has_active_warning_or_notice | has_active_adverse_action) |>
     dplyr::arrange(
@@ -183,6 +259,7 @@ main <- function(cli_args = NULL) {
 
   # build_match_suggestions() is in scripts/shared/accreditation_scrapers.R
 
+  # View 3: Unmatched institutions (accreditor data with no tracker match)
   unmatched_for_review <- actions_joined |>
     dplyr::filter(is.na(unitid)) |>
     dplyr::distinct(
@@ -198,8 +275,13 @@ main <- function(cli_args = NULL) {
     ) |>
     build_match_suggestions(financial_latest)
 
+  # Coverage summary: count of actions by accreditor/type/status
   source_coverage <- actions_joined |>
     dplyr::count(accreditor, action_type, action_status, sort = TRUE)
+
+  # -----------------------------------------------------------------------
+  # Prepare output file paths
+  # -----------------------------------------------------------------------
 
   outputs <- list(
     actions = paste0(output_prefix, "_actions_joined.csv"),
@@ -214,11 +296,19 @@ main <- function(cli_args = NULL) {
     stop("Accreditation refresh produced empty outputs; existing published files were left unchanged.")
   }
 
+  # -----------------------------------------------------------------------
+  # Write CSV outputs
+  # -----------------------------------------------------------------------
+
   write_csv_atomic(actions_joined, outputs$actions)
   write_csv_atomic(institution_summary, outputs$summary)
   write_csv_atomic(current_status, outputs$current)
   write_csv_atomic(unmatched_for_review, outputs$unmatched)
   write_csv_atomic(source_coverage, outputs$coverage)
+
+  # -----------------------------------------------------------------------
+  # Write Excel workbook with all tables and documentation
+  # -----------------------------------------------------------------------
 
   wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(wb, "actions")
@@ -252,6 +342,10 @@ main <- function(cli_args = NULL) {
   openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)
   if (file.exists(outputs$workbook)) file.remove(outputs$workbook)
   file.rename(workbook_tmp, outputs$workbook)
+
+  # -----------------------------------------------------------------------
+  # Log completion
+  # -----------------------------------------------------------------------
 
   message("Saved:")
   message(" - ", outputs$actions)

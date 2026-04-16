@@ -1,3 +1,58 @@
+# =========================================================================
+# build_college_cuts_join.R
+# =========================================================================
+#
+# PURPOSE: Retrieve college cuts/layoffs/closures from CollegeCuts database
+#          (Supabase) and match them to the financial tracker dataset.
+#
+# DOMAIN: College cuts = layoffs, program cuts, hiring freezes, campus/department
+#         closures, and institution closures announced by universities.
+#
+# INPUTS:
+#   - Financial tracker CSV (latest year data with institution info and metrics)
+#   - CollegeCuts Supabase tables:
+#     * institutions  (metadata about each school in the cuts database)
+#     * program_cuts  (individual cut announcements and details)
+#     * sources       (article/publication metadata)
+#
+# OUTPUTS:
+#   - college_cuts_financial_tracker_cut_level_joined.csv
+#     (one row per cut record, with matched financial metrics)
+#   - college_cuts_financial_tracker_institution_summary.csv
+#     (one row per institution, collapsed cut/financial counts)
+#   - college_cuts_financial_tracker_financial_trends.csv
+#     (time series of financial metrics for institutions with cuts)
+#   - college_cuts_financial_tracker_unmatched_for_review.csv
+#     (cuts that didn't match to tracker, flagged for manual review)
+#   - college_cuts_financial_tracker_workbook.xlsx
+#     (all above + overview summary sheet)
+#
+# WORKFLOW:
+#   1. Fetch institutions, program_cuts, and sources tables from Supabase
+#     (with fallback to cached CSV if API is unavailable)
+#   2. Load financial tracker data and normalize institution names
+#   3. Build matching lookup tables (direct UNITID, fuzzy name+state match)
+#   4. Join cuts to institutions, then to financial tracker
+#   5. Calculate "financial_warning_count" (how many red flags in latest year)
+#   6. Build institution-level summary (collapsed cut types, dates, impact metrics)
+#   7. Extract financial trends for all matched institutions
+#   8. Generate review file for unmatched cuts (for manual curation)
+#   9. Write outputs as CSVs and Excel workbook
+#
+# MATCHING STRATEGY:
+#   Priority 1: Direct UNITID from CollegeCuts institutions table
+#   Priority 2: Normalized name + state fallback (case-insensitive, punctuation-removed)
+#   Priority 3: Unmatched (flagged for manual review)
+#
+# KEY METRICS:
+#   - financial_warning_count: Sum of 6 financial red flags:
+#     * enrollment_decline_last_3_of_5 = "Yes"
+#     * revenue_10pct_drop_last_3_of_5 = "Yes"
+#     * losses_last_3_of_5 = "Yes"
+#     * ended_2024_at_loss = "Yes"
+#     * enrollment_decreased_5yr = "Yes"
+#     * revenue_decreased_5yr = "Yes"
+
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args          <- parse_cli_args(cli_args)
@@ -6,6 +61,10 @@ main <- function(cli_args = NULL) {
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr"))
+
+  # -----------------------------------------------------------------------
+  # Parse command-line arguments
+  # -----------------------------------------------------------------------
 
   financial_input <- get_arg_value(
     "--financial-input",
@@ -19,6 +78,10 @@ main <- function(cli_args = NULL) {
     "--cache-dir",
     file.path(getwd(), "data_pipelines", "college_cuts", "cache")
   )
+
+  # -----------------------------------------------------------------------
+  # Supabase API credentials for CollegeCuts database
+  # -----------------------------------------------------------------------
 
   supabase_url <- Sys.getenv(
     "COLLEGE_CUTS_SUPABASE_URL",
@@ -40,6 +103,10 @@ main <- function(cli_args = NULL) {
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
+  # -----------------------------------------------------------------------
+  # Helper: Build Supabase REST API URL
+  # -----------------------------------------------------------------------
+
   build_url <- function(table_name) {
     paste0(
       supabase_url,
@@ -47,6 +114,12 @@ main <- function(cli_args = NULL) {
       utils::URLencode(table_name, reserved = TRUE)
     )
   }
+
+  # -----------------------------------------------------------------------
+  # Helper: Fetch table from Supabase, with cache fallback
+  # -----------------------------------------------------------------------
+  # Implements pagination for large tables. If the API fails, falls back
+  # to a cached CSV from the last successful run.
 
   fetch_table_csv <- function(table_name, select = "*", order = NULL, page_size = 1000) {
     cache_path <- file.path(cache_dir, paste0(table_name, ".csv"))
@@ -110,6 +183,10 @@ main <- function(cli_args = NULL) {
     stop("College Cuts table ", table_name, " returned no rows and no cache was available.")
   }
 
+  # -----------------------------------------------------------------------
+  # Helper: Convert state abbreviations to full names
+  # -----------------------------------------------------------------------
+
   state_lookup <- c(
     setNames(state.name, state.abb),
     DC = "District of Columbia",
@@ -130,6 +207,11 @@ main <- function(cli_args = NULL) {
     out
   }
 
+  # -----------------------------------------------------------------------
+  # Helper: Normalize institution names for fuzzy matching
+  # -----------------------------------------------------------------------
+  # Converts to lowercase, replaces &, removes special chars, squeezes whitespace
+
   normalize_name <- function(x) {
     x |>
       as.character() |>
@@ -139,14 +221,26 @@ main <- function(cli_args = NULL) {
       stringr::str_squish()
   }
 
+  # -----------------------------------------------------------------------
+  # Helper: Sum values, return NA if all inputs are NA
+  # -----------------------------------------------------------------------
+
   safe_sum <- function(x) {
     if (all(is.na(x))) NA_real_ else sum(x, na.rm = TRUE)
   }
+
+  # -----------------------------------------------------------------------
+  # Fetch all three CollegeCuts tables from Supabase
+  # -----------------------------------------------------------------------
 
   message("Fetching CollegeCuts tables from Supabase ...")
   institutions <- fetch_table_csv("institutions", order = "name.asc")
   program_cuts <- fetch_table_csv("program_cuts", order = "announcement_date.desc,id.asc")
   sources <- fetch_table_csv("sources", order = "published_at.desc,id.asc")
+
+  # -----------------------------------------------------------------------
+  # Load financial tracker and prepare for matching
+  # -----------------------------------------------------------------------
 
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
@@ -158,6 +252,7 @@ main <- function(cli_args = NULL) {
       state_full = as.character(state)
     )
 
+  # Build fallback lookup table for matching by normalized name + state
   fallback_lookup <- financial_latest |>
     dplyr::transmute(
       unitid_candidate = unitid,
@@ -169,7 +264,12 @@ main <- function(cli_args = NULL) {
     dplyr::filter(candidate_count == 1) |>
     dplyr::select(-candidate_count)
 
+  # -----------------------------------------------------------------------
+  # Join CollegeCuts cuts with institutions, then sources and tracker
+  # -----------------------------------------------------------------------
+
   cuts_raw <- program_cuts |>
+    # Join institutions metadata (name, state, location, UNITID, URL)
     dplyr::left_join(
       institutions |>
         dplyr::rename(
@@ -185,6 +285,7 @@ main <- function(cli_args = NULL) {
         ),
       by = c("institution_id" = "id")
     ) |>
+    # Join sources metadata (article title, publication, publication date)
     dplyr::left_join(
       sources |>
         dplyr::rename(
@@ -200,10 +301,12 @@ main <- function(cli_args = NULL) {
       institution_state_full = abbr_to_state(institution_state_abbr),
       norm_name = normalize_name(institution_name_collegecuts)
     ) |>
+    # Attempt fuzzy match to tracker by normalized name + state
     dplyr::left_join(
       fallback_lookup,
       by = c("norm_name", "institution_state_full" = "state_full")
     ) |>
+    # Coalesce UNITID: prefer direct CollegeCuts UNITID, fall back to fuzzy match
     dplyr::mutate(
       matched_unitid = dplyr::coalesce(institution_unitid, unitid_candidate),
       match_method = dplyr::case_when(
@@ -212,6 +315,10 @@ main <- function(cli_args = NULL) {
         TRUE ~ "unmatched"
       )
     )
+
+  # -----------------------------------------------------------------------
+  # Select financial fields to attach to cut records
+  # -----------------------------------------------------------------------
 
   latest_fields <- c(
     "unitid",
@@ -276,14 +383,20 @@ main <- function(cli_args = NULL) {
   financial_latest_slim <- financial_latest |>
     dplyr::select(dplyr::all_of(latest_fields))
 
+  # Prefix all tracker fields to avoid naming conflicts
   tracker_cols <- setdiff(names(financial_latest_slim), "unitid")
   names(financial_latest_slim)[match(tracker_cols, names(financial_latest_slim))] <- paste0("tracker_", tracker_cols)
+
+  # -----------------------------------------------------------------------
+  # Join cuts to financial tracker and compute financial warning count
+  # -----------------------------------------------------------------------
 
   cuts_joined <- cuts_raw |>
     dplyr::left_join(financial_latest_slim, by = c("matched_unitid" = "unitid")) |>
     dplyr::mutate(
       in_financial_tracker = !is.na(tracker_institution_name),
       announcement_year = suppressWarnings(as.integer(format(as.Date(announcement_date), "%Y"))),
+      # Count how many financial warning indicators are present for this institution
       financial_warning_count = rowSums(
         cbind(
           tracker_enrollment_decline_last_3_of_5 == "Yes",
@@ -375,6 +488,16 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::arrange(dplyr::desc(announcement_date), institution_name_collegecuts, program_name)
 
+  # -----------------------------------------------------------------------
+  # Build institution-level summary (collapse cuts per institution)
+  # -----------------------------------------------------------------------
+
+  # Helper to collapse unique values into semicolon-separated string
+  collapse_unique_values <- function(x) {
+    vals <- unique(stats::na.omit(as.character(x)))
+    if (length(vals) == 0) NA_character_ else paste(sort(vals), collapse = "; ")
+  }
+
   cuts_institutions_summary <- cuts_joined |>
     dplyr::group_by(matched_unitid, institution_name_collegecuts, institution_state_full) |>
     dplyr::summarise(
@@ -426,11 +549,16 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::arrange(dplyr::desc(financial_warning_count), dplyr::desc(cut_records), institution_name_collegecuts)
 
+  # -----------------------------------------------------------------------
+  # Extract financial trends (time-series data) for matched institutions
+  # -----------------------------------------------------------------------
+
   matched_unitids <- cuts_joined |>
     dplyr::filter(!is.na(matched_unitid), in_financial_tracker) |>
     dplyr::distinct(matched_unitid) |>
     dplyr::pull(matched_unitid)
 
+  # Build a summary table with cut counts and warnings for trend join
   trends_summary <- cuts_institutions_summary |>
     dplyr::filter(!is.na(matched_unitid), in_financial_tracker) |>
     dplyr::arrange(matched_unitid, dplyr::desc(cut_records), dplyr::desc(financial_warning_count)) |>
@@ -445,6 +573,7 @@ main <- function(cli_args = NULL) {
       financial_warning_count
     )
 
+  # Get full financial history (all years) for institutions with cuts
   financial_trends <- financial_all |>
     dplyr::filter(unitid %in% matched_unitids) |>
     dplyr::select(
@@ -473,6 +602,10 @@ main <- function(cli_args = NULL) {
     dplyr::left_join(trends_summary, by = "unitid") |>
     dplyr::arrange(institution_name, year)
 
+  # -----------------------------------------------------------------------
+  # Identify unmatched cuts for manual review
+  # -----------------------------------------------------------------------
+
   unmatched_for_review <- cuts_joined |>
     dplyr::filter(!in_financial_tracker) |>
     dplyr::select(
@@ -492,6 +625,10 @@ main <- function(cli_args = NULL) {
       source_publication
     ) |>
     dplyr::arrange(institution_name_collegecuts, dplyr::desc(announcement_date))
+
+  # -----------------------------------------------------------------------
+  # Build overview summary table
+  # -----------------------------------------------------------------------
 
   overview <- tibble::tibble(
     metric = c(
@@ -514,6 +651,10 @@ main <- function(cli_args = NULL) {
     )
   )
 
+  # -----------------------------------------------------------------------
+  # Prepare output file paths
+  # -----------------------------------------------------------------------
+
   cut_level_csv <- paste0(output_prefix, "_cut_level_joined.csv")
   institution_csv <- paste0(output_prefix, "_institution_summary.csv")
   trends_csv <- paste0(output_prefix, "_financial_trends.csv")
@@ -524,11 +665,19 @@ main <- function(cli_args = NULL) {
     stop("College cuts refresh produced empty outputs; existing published files were left unchanged.")
   }
 
+  # -----------------------------------------------------------------------
+  # Write CSV outputs
+  # -----------------------------------------------------------------------
+
   message("Writing outputs ...")
   write_csv_atomic(cuts_joined, cut_level_csv)
   write_csv_atomic(cuts_institutions_summary, institution_csv)
   write_csv_atomic(financial_trends, trends_csv)
   write_csv_atomic(unmatched_for_review, unmatched_csv)
+
+  # -----------------------------------------------------------------------
+  # Write Excel workbook with all tables
+  # -----------------------------------------------------------------------
 
   wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(wb, "overview")
@@ -547,6 +696,10 @@ main <- function(cli_args = NULL) {
   openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)
   if (file.exists(workbook_xlsx)) file.remove(workbook_xlsx)
   file.rename(workbook_tmp, workbook_xlsx)
+
+  # -----------------------------------------------------------------------
+  # Log completion
+  # -----------------------------------------------------------------------
 
   message("Saved: ", cut_level_csv)
   message("Saved: ", institution_csv)

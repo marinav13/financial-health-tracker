@@ -1,3 +1,28 @@
+# ====== BUILD CANONICAL IPEDS DATASET =============================================
+# This script transforms the raw IPEDS dataset into the canonical dataset: clean, decoded,
+# and enriched with derived metrics.
+#
+# INPUT:  ipeds_financial_health_raw.csv - raw institution-year data from collect_ipeds_data.R
+#         selected_file_catalog.csv - catalog of IPEDS tables used to find supplemental data
+#
+# OUTPUT: Two CSV files
+#         1. ipeds_financial_health_canonical.csv - canonical dataset for website/workbook
+#         2. ipeds_financial_health_dataset.csv - extended dataset with additional analysis fields
+#
+# TRANSFORMATIONS:
+# - Decode numeric IPEDS codes to readable labels (sector, control, etc.)
+# - Merge auxiliary enrollment/staffing/loan data (EFFY, EAP, SFA, DRVF tables)
+# - Compute derived fields: ratios, change-over-time metrics, percentiles
+# - Filter to eligible 2024 cohort (active, degree-granting institutions)
+# - Forward-fill institutional metadata across years for missing values
+#
+# USAGE:  Typically called via build_ipeds_dataset.R, but can be run independently:
+#         Rscript scripts/build_ipeds_canonical_dataset.R \
+#           --raw ipeds_financial_health_raw.csv \
+#           --catalog selected_file_catalog.csv \
+#           --output ipeds_financial_health_canonical.csv \
+#           --expanded-output ipeds_financial_health_dataset.csv
+#
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args                     <- parse_cli_args(cli_args)
@@ -6,24 +31,24 @@ main <- function(cli_args = NULL) {
   ensure_ipeds_layout_dirs <- ipeds$ensure_ipeds_layout_dirs
   get_arg_value            <- function(flag, default = NULL) get_arg(args, flag, default)
 
-  # This script takes the wide raw IPEDS extract and turns it into the
-  # cleaned, decoded canonical dataset used by the website, workbook, and
-  # downstream exports.
   setup_r_libs()
+  # Load required packages for data manipulation, file I/O, and string processing
   ensure_packages(c("dplyr", "purrr", "readr", "readxl", "stringr", "tidyr"))
 
+  # Load domain-specific helpers for IPEDS variable decoding and validation
   source(file.path(getwd(), "scripts", "shared", "ipeds_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
+  # ---------------------------------------------------------------------------
+  # PARSE COMMAND-LINE ARGUMENTS AND SET UP PATHS
   default_paths        <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
   raw_csv              <- get_arg_value("--raw",             default_paths$raw_csv)
   catalog_csv          <- get_arg_value("--catalog",         default_paths$selected_file_catalog_csv)
   output_csv           <- get_arg_value("--output",          default_paths$canonical_csv)
   expanded_output_csv  <- get_arg_value("--expanded-output", default_paths$dataset_csv)
 
-# Set up paths for the input raw file, the selected-file catalog, and
-# the canonical processed dataset output used by the website and workbook.
-root <- normalizePath(".", winslash = "/", mustWork = TRUE)
+  # Normalize file paths for cross-platform compatibility
+  root <- normalizePath(".", winslash = "/", mustWork = TRUE)
 raw_path <- normalizePath(raw_csv, winslash = "/", mustWork = TRUE)
 catalog_path <- normalizePath(catalog_csv, winslash = "/", mustWork = TRUE)
 output_path <- normalizePath(output_csv, winslash = "/", mustWork = FALSE)
@@ -36,71 +61,101 @@ aux_root <- resolved_paths$cache_aux_dir
 aux_data_root <- resolved_paths$cache_aux_data_dir
 aux_extract_root <- resolved_paths$cache_aux_extract_dir
 
+  # ---------------------------------------------------------------------------
+  # HELPER FUNCTIONS
+  # Utility functions like as_positive_spend, inflate_to_base_year, and decode
+  # helpers are loaded from scripts/shared/ipeds_helpers.R and used throughout this script.
 
-# Utility functions (as_positive_spend, inflate_to_base_year, decode helpers,
-# download helpers, time-series helpers) are in scripts/shared/ipeds_helpers.R
+  # ---------------------------------------------------------------------------
+  # LOAD RAW DATASET AND FILE CATALOG
+  # Read the raw IPEDS dataset produced by collect_ipeds_data.R, which contains
+  # institution-years as rows and variables as columns. All columns are stored as
+  # text initially to preserve data integrity.
+  raw_rows <- suppressMessages(readr::read_csv(
+    raw_path,
+    show_col_types = FALSE,
+    col_types = readr::cols(.default = readr::col_character())
+  ))
+  # Load the file catalog which maps table names to data and dictionary URLs.
+  # This is used to locate supplemental tables (EFFY, EAP, SFA, DRVF) that weren't
+  # included in the main collector but are needed for enrichment.
+  catalog <- suppressMessages(readr::read_csv(catalog_path, show_col_types = FALSE, guess_max = 10000))
 
+  # Coerce unitid to character and year to integer for consistency
+  raw_rows <- raw_rows %>%
+    mutate(
+      unitid = as.character(unitid),
+      year = as.integer(to_num(year))
+    )
 
-# Load the raw tracker build plus the file catalog that tells us where to find
-# supplemental IPEDS tables such as EAP, EFFY, SFA, and DRVF.
-raw_rows <- suppressMessages(readr::read_csv(
-  raw_path,
-  show_col_types = FALSE,
-  col_types = readr::cols(.default = readr::col_character())
-))
-catalog <- suppressMessages(readr::read_csv(catalog_path, show_col_types = FALSE, guess_max = 10000))
+  # ---------------------------------------------------------------------------
+  # FILTER OUT EXCLUDED STATES
+  # Remove U.S. territories and outlying areas not in scope:
+  # PR = Puerto Rico, GU = Guam, VI = Virgin Islands, AS = American Samoa,
+  # MP = Northern Mariana Islands, FM = Federated States of Micronesia,
+  # MH = Marshall Islands, PW = Palau
+  if ("state" %in% names(raw_rows)) {
+    raw_rows <- raw_rows %>% filter(!(state %in% excluded_state_codes))
+  }
 
-raw_rows <- raw_rows %>%
-  mutate(
-    unitid = as.character(unitid),
-    year = as.integer(to_num(year))
-  )
+  # Remove transfer-out-rate field if present; it will be rebuilt from source tables
+  if ("transfer_out_rate_bachelor" %in% names(raw_rows)) {
+    raw_rows <- raw_rows %>% select(-transfer_out_rate_bachelor)
+  }
 
+  # Ensure endowment fields exist (F1H01/F1H02 = GASB, F2H01/F2H02 = FASB)
+  # These are used to compute endowment metrics and must be present for consistency
+  if (!("F1H01" %in% names(raw_rows))) raw_rows$F1H01 <- NA_character_
+  if (!("F1H02" %in% names(raw_rows))) raw_rows$F1H02 <- NA_character_
+  if (!("F2H01" %in% names(raw_rows))) raw_rows$F2H01 <- NA_character_
+  if (!("F2H02" %in% names(raw_rows))) raw_rows$F2H02 <- NA_character_
 
-if ("state" %in% names(raw_rows)) {
-  raw_rows <- raw_rows %>% filter(!(state %in% excluded_state_codes))
-}
+  # Coerce catalog metadata to the correct types
+  catalog <- catalog %>%
+    mutate(
+      year = as.integer(to_num(year)),
+      table_name = as.character(table_name)
+    )
 
-if ("transfer_out_rate_bachelor" %in% names(raw_rows)) {
-  raw_rows <- raw_rows %>% select(-transfer_out_rate_bachelor)
-}
+  # ---------------------------------------------------------------------------
+  # LOAD IPEDS DICTIONARY ARCHIVES FOR DECODING
+  # Download and extract the 2024 IPEDS dictionaries (HD, IC, FLAGS) which map
+  # numeric codes to readable labels. For example:
+  # - SECTOR code "1" -> "Public, 4-year or above"
+  # - ICLEVEL code "1" -> "4-year or above"
+  # - ACT code "1" -> "Yes" (accredited)
+  hd2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "HD2024.zip")
+  ic2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "IC2024.zip")
+  flags2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "FLAGS2024.zip")
+  try(ensure_dictionary_archive("HD2024", hd2024_dict), silent = TRUE)
+  try(ensure_dictionary_archive("IC2024", ic2024_dict), silent = TRUE)
+  try(ensure_dictionary_archive("FLAGS2024", flags2024_dict), silent = TRUE)
 
-if (!("F1H01" %in% names(raw_rows))) raw_rows$F1H01 <- NA_character_
-if (!("F1H02" %in% names(raw_rows))) raw_rows$F1H02 <- NA_character_
-if (!("F2H01" %in% names(raw_rows))) raw_rows$F2H01 <- NA_character_
-if (!("F2H02" %in% names(raw_rows))) raw_rows$F2H02 <- NA_character_
+  # Create lookup tables: numeric code -> readable label
+  # e.g., "1" -> "Public, 4-year or above" for sector
+  # These are applied to all years so output is human-readable
+  hd_sector_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "SECTOR", aux_extract_root) else character()
+  hd_level_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ICLEVEL", aux_extract_root) else character()
+  hd_act_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ACT", aux_extract_root) else character()
+  hd_active_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CYACTIVE", aux_extract_root) else character()
+  hd_hbcu_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "HBCU", aux_extract_root) else character()
+  hd_tribal_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "TRIBAL", aux_extract_root) else character()
+  hd_grad_offering_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "GROFFER", aux_extract_root) else character()
+  hd_category_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "INSTCAT", aux_extract_root) else character()
+  hd_locale_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "LOCALE", aux_extract_root) else character()
+  hd_access_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESAEC", aux_extract_root) else character()
+  hd_size_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESIZE", aux_extract_root) else character()
+  hd_ug_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEAPM", aux_extract_root) else character()
+  hd_grad_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEGPM", aux_extract_root) else character()
+  ic_religious_affiliation_lookup <- if (file.exists(ic2024_dict)) get_frequency_lookup(ic2024_dict, "IC2024", "RELAFFIL", aux_extract_root) else character()
+  flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags2024_dict, "FLAGS2024", "FORM_F", aux_extract_root) else character()
 
-catalog <- catalog %>%
-  mutate(
-    year = as.integer(to_num(year)),
-    table_name = as.character(table_name)
-  )
-
-# Decode 2024 HD / IC / FLAGS labels once and reuse them throughout the build
-# so the output contains readable categories rather than numeric codes.
-hd2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "HD2024.zip")
-ic2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "IC2024.zip")
-flags2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "FLAGS2024.zip")
-try(ensure_dictionary_archive("HD2024", hd2024_dict), silent = TRUE)
-try(ensure_dictionary_archive("IC2024", ic2024_dict), silent = TRUE)
-try(ensure_dictionary_archive("FLAGS2024", flags2024_dict), silent = TRUE)
-hd_sector_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "SECTOR", aux_extract_root) else character()
-hd_level_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ICLEVEL", aux_extract_root) else character()
-hd_act_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ACT", aux_extract_root) else character()
-hd_active_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CYACTIVE", aux_extract_root) else character()
-hd_hbcu_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "HBCU", aux_extract_root) else character()
-hd_tribal_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "TRIBAL", aux_extract_root) else character()
-hd_grad_offering_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "GROFFER", aux_extract_root) else character()
-hd_category_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "INSTCAT", aux_extract_root) else character()
-hd_locale_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "LOCALE", aux_extract_root) else character()
-hd_access_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESAEC", aux_extract_root) else character()
-hd_size_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESIZE", aux_extract_root) else character()
-hd_ug_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEAPM", aux_extract_root) else character()
-hd_grad_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEGPM", aux_extract_root) else character()
-ic_religious_affiliation_lookup <- if (file.exists(ic2024_dict)) get_frequency_lookup(ic2024_dict, "IC2024", "RELAFFIL", aux_extract_root) else character()
-flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags2024_dict, "FLAGS2024", "FORM_F", aux_extract_root) else character()
-
-load_catalog_table <- function(entry) {
+  # ---------------------------------------------------------------------------
+  # HELPER FUNCTION: Load supplemental IPEDS tables from catalog
+  # Parameters:
+  #   entry: one row of the catalog tibble (contains table_name, year, data_url)
+  # Returns: list with year, table_name, and data tibble; or NULL if not found
+  load_catalog_table <- function(entry) {
   table_name <- entry$table_name[[1]]
   year <- entry$year[[1]]
   shared_zip_path <- file.path(root, "ipeds", "cache", "downloads", "data", paste0(table_name, ".zip"))
@@ -147,18 +202,34 @@ load_catalog_table <- function(entry) {
   list(year = year, table_name = table_name, data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000)))
 }
 
-# Pull supporting IPEDS tables into year-by-year lookup tables keyed by UNITID.
-eap_tables_df <- catalog %>% filter(str_detect(table_name, "^EAP\\d{4}$"))
-effy_tables_df <- catalog %>% filter(str_detect(table_name, "^EFFY\\d{4}$"))
-sfa_tables_df <- catalog %>% filter(str_detect(table_name, "^SFA\\d{4}$"))
-drvf_tables_df <- catalog %>% filter(str_detect(table_name, "^DRVF\\d{4}$"))
+  # ---------------------------------------------------------------------------
+  # LOAD AUXILIARY IPEDS TABLES
+  # These supplemental tables provide enrollment, staffing, and loan data
+  # that complement the main financial data. They are filtered from the catalog
+  # and will be joined to the main dataset by year and unitid.
+  # EAP = Employees by Assigned Position (staffing data)
+  # EFFY = Full-time equivalent (enrollment data)
+  # SFA = Student Financial Aid
+  # DRVF = Derived Financial tables (calculated financial metrics)
+  eap_tables_df <- catalog %>% filter(str_detect(table_name, "^EAP\\d{4}$"))
+  effy_tables_df <- catalog %>% filter(str_detect(table_name, "^EFFY\\d{4}$"))
+  sfa_tables_df <- catalog %>% filter(str_detect(table_name, "^SFA\\d{4}$"))
+  drvf_tables_df <- catalog %>% filter(str_detect(table_name, "^DRVF\\d{4}$"))
 
-eap_tables <- split(eap_tables_df, seq_len(nrow(eap_tables_df)))
-effy_tables <- split(effy_tables_df, seq_len(nrow(effy_tables_df)))
-sfa_tables <- split(sfa_tables_df, seq_len(nrow(sfa_tables_df)))
-drvf_tables <- split(drvf_tables_df, seq_len(nrow(drvf_tables_df)))
+  # Split catalog entries into separate list entries for processing
+  eap_tables <- split(eap_tables_df, seq_len(nrow(eap_tables_df)))
+  effy_tables <- split(effy_tables_df, seq_len(nrow(effy_tables_df)))
+  sfa_tables <- split(sfa_tables_df, seq_len(nrow(sfa_tables_df)))
+  drvf_tables <- split(drvf_tables_df, seq_len(nrow(drvf_tables_df)))
 
-eap_by_year_unit <- list()
+  # ---------------------------------------------------------------------------
+  # EXTRACT AND PROCESS EAP (Employees by Assigned Position) DATA
+  # EAP contains staffing counts by occupation category and employment status.
+  # We extract:
+  # - EAPCAT 10000: total staff (all occupations)
+  # - EAPCAT 21000: instructional staff
+  # These are aggregated by unitid to create year-by-year staffing lookups.
+  eap_by_year_unit <- list()
 for (entry in eap_tables) {
   loaded <- load_catalog_table(entry)
   if (is.null(loaded)) next
@@ -183,8 +254,13 @@ for (entry in eap_tables) {
   eap_by_year_unit[[as.character(loaded$year)]] <- table_lookup
 }
 
-effy_by_year_unit <- list()
-for (entry in effy_tables) {
+  # ---------------------------------------------------------------------------
+  # EXTRACT AND PROCESS EFFY (Enrollment) DATA
+  # EFFY contains enrollment counts by level of study and residency status.
+  # Level codes: 1 = total, 2 = undergraduate, 12 = graduate
+  # We extract both headcount and nonresident enrollment for each level.
+  effy_by_year_unit <- list()
+  for (entry in effy_tables) {
   loaded <- load_catalog_table(entry)
   if (is.null(loaded)) next
   dat <- loaded$data %>% mutate(UNITID = as.character(UNITID))
@@ -221,36 +297,55 @@ for (entry in effy_tables) {
   effy_by_year_unit[[as.character(loaded$year)]] <- table_lookup
 }
 
-sfa_by_year_unit <- list()
-for (entry in sfa_tables) {
-  loaded <- load_catalog_table(entry)
-  if (is.null(loaded)) next
-  table_lookup <- loaded$data %>%
-    transmute(
-      UNITID = as.character(UNITID),
-      loan_pct_undergrad_federal = if ("UFLOANP" %in% names(loaded$data)) to_num(UFLOANP) else NA_real_,
-      loan_avg_undergrad_federal = if ("UFLOANA" %in% names(loaded$data)) to_num(UFLOANA) else NA_real_,
-      loan_count_undergrad_federal = if ("UFLOANN" %in% names(loaded$data)) to_num(UFLOANN) else NA_real_
-    )
-  sfa_by_year_unit[[as.character(loaded$year)]] <- table_lookup
-}
+  # ---------------------------------------------------------------------------
+  # EXTRACT AND PROCESS SFA (Student Financial Aid) DATA
+  # SFA contains federal loan information for undergraduate students:
+  # - UFLOANP: percentage of undergrads taking federal loans
+  # - UFLOANA: average federal loan amount
+  # - UFLOANN: number of undergrads with federal loans
+  sfa_by_year_unit <- list()
+  for (entry in sfa_tables) {
+    loaded <- load_catalog_table(entry)
+    if (is.null(loaded)) next
+    table_lookup <- loaded$data %>%
+      transmute(
+        UNITID = as.character(UNITID),
+        loan_pct_undergrad_federal = if ("UFLOANP" %in% names(loaded$data)) to_num(UFLOANP) else NA_real_,
+        loan_avg_undergrad_federal = if ("UFLOANA" %in% names(loaded$data)) to_num(UFLOANA) else NA_real_,
+        loan_count_undergrad_federal = if ("UFLOANN" %in% names(loaded$data)) to_num(UFLOANN) else NA_real_
+      )
+    sfa_by_year_unit[[as.character(loaded$year)]] <- table_lookup
+  }
 
-drvf_by_year_unit <- list()
-for (entry in drvf_tables) {
-  loaded <- load_catalog_table(entry)
-  if (is.null(loaded)) next
-  table_lookup <- loaded$data %>%
-    transmute(
-      UNITID = as.character(UNITID),
-      core_revenue = dplyr::coalesce(if ("F1CORREV" %in% names(loaded$data)) to_num(F1CORREV) else NA_real_, if ("F2CORREV" %in% names(loaded$data)) to_num(F2CORREV) else NA_real_),
-      gov_grants_contracts_pct_core_revenue_gasb = if ("F1GVGCPC" %in% names(loaded$data)) to_num(F1GVGCPC) else NA_real_,
-      gov_grants_contracts_pct_core_revenue_fasb = if ("F2GVGCPC" %in% names(loaded$data)) to_num(F2GVGCPC) else NA_real_,
-      state_appropriations_pct_core_revenue_gasb = if ("F1STAPPC" %in% names(loaded$data)) to_num(F1STAPPC) else NA_real_
-    )
-  drvf_by_year_unit[[as.character(loaded$year)]] <- table_lookup
-}
+  # ---------------------------------------------------------------------------
+  # EXTRACT AND PROCESS DRVF (Derived Financial) DATA
+  # DRVF contains pre-calculated financial metrics that can vary by accounting
+  # standard (GASB = public/non-profit, FASB = private):
+  # - core_revenue: total revenue minus auxiliary/hospital/independent ops
+  # - gov_grants_contracts_pct: government funding as % of core revenue
+  # - state_appropriations_pct: state funding as % of core revenue
+  drvf_by_year_unit <- list()
+  for (entry in drvf_tables) {
+    loaded <- load_catalog_table(entry)
+    if (is.null(loaded)) next
+    table_lookup <- loaded$data %>%
+      transmute(
+        UNITID = as.character(UNITID),
+        core_revenue = dplyr::coalesce(if ("F1CORREV" %in% names(loaded$data)) to_num(F1CORREV) else NA_real_, if ("F2CORREV" %in% names(loaded$data)) to_num(F2CORREV) else NA_real_),
+        gov_grants_contracts_pct_core_revenue_gasb = if ("F1GVGCPC" %in% names(loaded$data)) to_num(F1GVGCPC) else NA_real_,
+        gov_grants_contracts_pct_core_revenue_fasb = if ("F2GVGCPC" %in% names(loaded$data)) to_num(F2GVGCPC) else NA_real_,
+        state_appropriations_pct_core_revenue_gasb = if ("F1STAPPC" %in% names(loaded$data)) to_num(F1STAPPC) else NA_real_
+      )
+    drvf_by_year_unit[[as.character(loaded$year)]] <- table_lookup
+  }
 
-transfer_out_by_year_unit <- list()
+  # ---------------------------------------------------------------------------
+  # EXTRACT TRANSFER-OUT RATES
+  # Transfer rates measure the percentage of bachelor degree cohorts who
+  # successfully transfer to other institutions. We extract from:
+  # - DRVGR (2020+): pre-calculated transfer rates (GBATRRT field)
+  # - GR (2014-2023): raw graduation tables (GRTYPE 8=cohort, 16=transfers)
+  transfer_out_by_year_unit <- list()
 
 for (yr in sort(unique(raw_rows$year[raw_rows$year >= 2020]))) {
   table_name <- paste0("DRVGR", yr)
@@ -299,17 +394,30 @@ for (yr in 2014:2023) {
     select(UNITID, transfer_out_rate_bachelor)
 }
 
-bind_aux_year <- function(aux_list) {
-  if (length(aux_list) == 0) return(tibble::tibble(unitid = character(), year = integer()))
-  purrr::imap_dfr(aux_list, function(tbl, yr) {
-    if (is.null(tbl) || nrow(tbl) == 0) return(tibble::tibble(unitid = character(), year = integer()))
-    tbl %>%
-      mutate(year = as.integer(yr), unitid = as.character(UNITID)) %>%
-      select(-any_of("UNITID"))
-  })
-}
+  # ---------------------------------------------------------------------------
+  # HELPER FUNCTION: Convert year-keyed auxiliary table list to long format
+  # Parameters:
+  #   aux_list: list where names are years (as strings) and values are tibbles
+  # Returns: long-format tibble with unitid and year columns, indexed for joining
+  bind_aux_year <- function(aux_list) {
+    if (length(aux_list) == 0) return(tibble::tibble(unitid = character(), year = integer()))
+    purrr::imap_dfr(aux_list, function(tbl, yr) {
+      if (is.null(tbl) || nrow(tbl) == 0) return(tibble::tibble(unitid = character(), year = integer()))
+      tbl %>%
+        mutate(year = as.integer(yr), unitid = as.character(UNITID)) %>%
+        select(-any_of("UNITID"))
+    })
+  }
 
-load_finance_research_year <- function(year, year_catalog) {
+  # ---------------------------------------------------------------------------
+  # HELPER FUNCTION: Load research expense and core expense data for a given year
+  # Parameters:
+  #   year: fiscal year (integer)
+  #   year_catalog: filtered catalog for that year
+  # Returns: tibble with research_expense and core_expenses by unitid
+  # This function tries to resolve F1A (public), F2 (private non-profit), and
+  # F3 (for-profit) fields for core expenses (F*COREXP) and research (F*C021, F2E021, F3E02A1)
+  load_finance_research_year <- function(year, year_catalog) {
   aliases <- list(
     F1A = year_catalog %>% filter(str_detect(table_name, "^F\\d{4}_F1A$")) %>% slice(1) %>% pull(table_name) %||% NA_character_,
     F2 = year_catalog %>% filter(str_detect(table_name, "^F\\d{4}_F2$")) %>% slice(1) %>% pull(table_name) %||% NA_character_,

@@ -1,3 +1,75 @@
+# =========================================================================
+# build_grant_witness_join.R
+# =========================================================================
+#
+# PURPOSE: Retrieve terminated/frozen federal research grants from Grant Witness
+#          and match them to institutions in the financial tracker.
+#
+# DOMAIN: Grant witness = tracking disrupted (terminated/frozen) federal
+#         research grants from 5 agencies: NIH, NSF, EPA, SAMHSA, CDC.
+#         These disruptions indicate loss of research funding and can signal
+#         institutional financial stress.
+#
+# INPUTS:
+#   - Financial tracker CSV (latest year + historical data for trends)
+#   - Grant Witness CSV files (downloaded from external service):
+#     * nih_terminations.csv, nsf_terminations.csv, epa_terminations.csv,
+#       samhsa_terminations.csv, cdc_terminations.csv
+#   - Manual inclusion/override lists (optional, for curation):
+#     * manual_include.csv, manual_match_overrides.csv
+#   - USAspending sensitivity filter (output of build_grant_witness_usaspending_sensitivity.R)
+#
+# OUTPUTS:
+#   - grant_witness_grant_level_joined.csv
+#     (one row per grant with matched institution and financial metrics)
+#   - grant_witness_institution_summary_long.csv
+#     (institution-agency-level disrupted grant totals in long format)
+#   - grant_witness_institution_summary.csv
+#     (institution-level summary with agency columns pivoted wide)
+#   - grant_witness_higher_ed_institution_summary.csv
+#     (filtered to likely higher-ed institutions only)
+#   - grant_witness_unmatched_for_review.csv
+#     (unmatched organizations for manual curation)
+#   - grant_witness_likely_higher_ed_unmatched_for_review.csv
+#     (higher-ed-like unmatched organizations for easier review)
+#   - grant_witness_excluded_pass_through_grants.csv
+#     (grants filtered as pass-through/grantmaker organizations)
+#   - grant_witness_excluded_risky_continuation_grants.csv
+#     (grants filtered by USAspending sensitivity analysis)
+#
+# WORKFLOW:
+#   1. Download or cache all 5 Grant Witness agency files
+#   2. Load financial tracker and normalize institution names
+#   3. Build multi-level matching lookups:
+#     * Exact: norm_name + city + state
+#     * Fallback 1: norm_name + state only
+#     * Fallback 2: simplified_name + state (with alias variants)
+#     * Manual overrides: institution-specific curation rules
+#   4. Read and standardize all grant records (normalize fields, parse dates)
+#   5. Apply matching cascade: city+state -> state -> aliases -> manual -> display name
+#   6. Filter out obvious non-higher-ed and pass-through organizations
+#   7. Filter out "risky continuation" grants (positive post-termination activity)
+#   8. Build institution summaries (long and wide format)
+#   9. Write outputs as CSVs
+#
+# KEY MATCHING STRATEGY:
+#   Priority 1: City + normalized name + state (highest confidence)
+#   Priority 2: Normalized name + state fallback
+#   Priority 3: Alias name + state fallback (for institutions with variant names)
+#   Priority 4: Manual name override (curator-specified matches)
+#   Priority 5: Manual display name override (for display-name-only matches)
+#   Priority 6: Manual include (high-confidence unmatched, curator-flagged)
+#   Priority 7: Likely higher-ed unmatched (named similar to colleges)
+#   Priority 8: Other unmatched (for review)
+#
+# DOMAIN CONCEPTS:
+#   - status_bucket: Classifies grant status into comparable buckets across agencies
+#   - currently_disrupted: TRUE if grant is currently in a terminated/frozen state
+#   - pass_through_or_grantmaker: Grant where recipient organization passes money
+#     to other entities (not direct research). These are filtered out.
+#   - likely_higher_ed: Heuristic scoring based on institution name keywords
+#   - award_remaining: Amount still available under the grant (not yet spent)
+
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args          <- parse_cli_args(cli_args)
@@ -8,10 +80,14 @@ main <- function(cli_args = NULL) {
 
   ensure_packages(c("dplyr", "readr", "stringr", "tidyr"))
 
-    financial_input <- get_arg_value(
-      "--financial-input",
-      ipeds_layout(root = ".")$dataset_csv
-    )
+  # -----------------------------------------------------------------------
+  # Parse command-line arguments
+  # -----------------------------------------------------------------------
+
+  financial_input <- get_arg_value(
+    "--financial-input",
+    ipeds_layout(root = ".")$dataset_csv
+  )
   output_prefix <- get_arg_value(
     "--output-prefix",
     file.path(getwd(), "data_pipelines", "grant_witness", "grant_witness")
@@ -49,8 +125,12 @@ main <- function(cli_args = NULL) {
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
+  # -----------------------------------------------------------------------
+  # Define Grant Witness agency files to download
+  # -----------------------------------------------------------------------
   # These are the raw Grant Witness agency files that feed the research-cuts
   # join. They are cached on disk so weekly refreshes can fall back cleanly.
+
   downloads <- c(
     nih = "https://files.grant-witness.us/nih_terminations.csv",
     nsf = "https://files.grant-witness.us/nsf_terminations.csv",
@@ -62,6 +142,9 @@ main <- function(cli_args = NULL) {
   cached_paths <- file.path(cache_dir, paste0(names(downloads), "_terminations.csv"))
   names(cached_paths) <- names(downloads)
 
+  # -----------------------------------------------------------------------
+  # Load helper functions for text normalization and institution matching
+  # -----------------------------------------------------------------------
   # The matching logic depends on very aggressive name normalization because
   # legal entity names, abbreviations, and punctuation vary across sources.
 
@@ -70,10 +153,17 @@ main <- function(cli_args = NULL) {
   # simplify_institution_name, classify_status_bucket, maybe_download, etc.)
   # are in scripts/shared/grant_witness_helpers.R
 
+  # -----------------------------------------------------------------------
+  # Download all Grant Witness agency files (or skip if already cached)
+  # -----------------------------------------------------------------------
 
   for (agency in names(downloads)) {
     maybe_download(downloads[[agency]], cached_paths[[agency]], skip_download = skip_download)
   }
+
+  # -----------------------------------------------------------------------
+  # Load financial tracker and prepare matching lookups
+  # -----------------------------------------------------------------------
 
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
@@ -92,15 +182,24 @@ main <- function(cli_args = NULL) {
       state_full = prettify_location_text(as.character(state))
     )
 
+  # Lookup table: Match by city + normalized name + state (highest confidence)
   city_lookup <- financial_latest |>
     dplyr::add_count(norm_name, state_full, city_norm, name = "candidate_count") |>
     dplyr::filter(!is.na(city_norm), city_norm != "", candidate_count == 1) |>
     dplyr::select(-candidate_count)
 
+  # Fallback lookup: Match by normalized name + state only
   fallback_lookup <- financial_latest |>
     dplyr::add_count(norm_name, state_full, name = "candidate_count") |>
     dplyr::filter(candidate_count == 1) |>
     dplyr::select(-candidate_count)
+
+  # -----------------------------------------------------------------------
+  # Build institution name aliases (handle naming variations)
+  # -----------------------------------------------------------------------
+  # Each row maps a tracker institution name (regex) to an alternative name
+  # that may appear in grant data. This allows matching despite punctuation,
+  # abbreviations, or legal entity name differences.
 
   alias_seed <- financial_latest |>
     dplyr::transmute(
@@ -113,9 +212,7 @@ main <- function(cli_args = NULL) {
       alias = tracker_institution_name
     )
 
-  # Institution-specific name aliases: each row maps a tracker name (regex,
-  # case-insensitive) to one alternative name used in grant data.
-  # Add a row here to register a new alias — no other code changes needed.
+  # Explicit aliases: institution-specific name variants known to appear in grants
   tracker_name_aliases <- tibble::tribble(
     ~tracker_pattern,                                         ~alias,
     "^University of Pittsburgh-Pittsburgh Campus$",           "University of Pittsburgh",
@@ -135,6 +232,7 @@ main <- function(cli_args = NULL) {
   alias_core_cols <- c("unitid", "tracker_institution_name", "tracker_city",
                        "tracker_state", "tracker_control_label", "tracker_category")
 
+  # Build alias variants: generic "-Main Campus" stripping + explicit aliases
   alias_variants <- dplyr::bind_rows(
     # Generic: strip "-Main Campus" suffix from all institution names
     financial_latest |>
@@ -143,7 +241,7 @@ main <- function(cli_args = NULL) {
         alias = stringr::str_replace(tracker_institution_name,
                                      regex("-[[:space:]]*Main Campus$", ignore_case = TRUE), "")
       ),
-    # Explicit aliases from lookup table — one output row per matched pair
+    # Explicit aliases from lookup table
     purrr::map_dfr(seq_len(nrow(tracker_name_aliases)), function(i) {
       matched <- financial_latest[
         stringr::str_detect(
@@ -173,6 +271,12 @@ main <- function(cli_args = NULL) {
     dplyr::select(-candidate_count) |>
     dplyr::distinct(alias_norm, state_full, .keep_all = TRUE)
 
+  # -----------------------------------------------------------------------
+  # Load manual inclusion/override lists for curator-driven curation
+  # -----------------------------------------------------------------------
+
+  # Manual include: List of organizations curator has flagged as "include in dataset"
+  # (typically high-confidence matches that automated matching missed)
   manual_include <- if (file.exists(manual_include_path)) {
     readr::read_csv(manual_include_path, show_col_types = FALSE, progress = FALSE) |>
       dplyr::transmute(
@@ -189,6 +293,7 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  # Manual match overrides: Curator-specified UNITID matches for organization names
   manual_match_overrides <- if (file.exists(manual_match_overrides_path)) {
     readr::read_csv(manual_match_overrides_path, show_col_types = FALSE, progress = FALSE) |>
       dplyr::transmute(
@@ -202,6 +307,7 @@ main <- function(cli_args = NULL) {
         override_tracker_category = category_override,
         override_likely_higher_ed = TRUE
       ) |>
+      # Enrich with metadata from financial tracker
       dplyr::left_join(
         financial_latest |>
           dplyr::select(
@@ -238,6 +344,10 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  # -----------------------------------------------------------------------
+  # Helper: Read CSV with UTF-8 encoding
+  # -----------------------------------------------------------------------
+
   read_csv_utf8 <- function(path) {
     readr::read_csv(
       path,
@@ -246,6 +356,13 @@ main <- function(cli_args = NULL) {
       locale = readr::locale(encoding = "UTF-8")
     )
   }
+
+  # -----------------------------------------------------------------------
+  # Helper: Standardize and normalize each grant record
+  # -----------------------------------------------------------------------
+  # This function takes raw Grant Witness data and normalizes fields to
+  # consistent types, formats, and naming. It extracts institution-relevant
+  # information and computes heuristic fields like "likely_higher_ed".
 
   standardize_grants <- function(agency, df) {
     out <- standardize_grant_witness_rows(
@@ -278,10 +395,15 @@ main <- function(cli_args = NULL) {
       )
   }
 
+  # -----------------------------------------------------------------------
+  # Read and standardize all Grant Witness files, apply matching cascade
+  # -----------------------------------------------------------------------
+
   message("Reading and standardizing Grant Witness files ...")
   grants_joined <- dplyr::bind_rows(lapply(names(cached_paths), function(agency) {
     standardize_grants(agency, read_csv_utf8(cached_paths[[agency]]))
   })) |>
+    # Apply matching priority 1: city + normalized name + state
     dplyr::left_join(
       city_lookup |>
         dplyr::rename(
@@ -298,10 +420,12 @@ main <- function(cli_args = NULL) {
         "organization_city_norm" = "city_norm"
       )
     ) |>
+    # Apply matching priority 2: normalized name + state fallback
     dplyr::left_join(
       fallback_lookup,
       by = c("norm_name", "organization_state" = "state_full")
     ) |>
+    # Apply matching priority 3: alias name + state
     dplyr::left_join(
       alias_lookup |>
         dplyr::rename(
@@ -314,15 +438,18 @@ main <- function(cli_args = NULL) {
         ),
       by = c("simplified_norm_name" = "alias_norm", "organization_state" = "state_full")
     ) |>
+    # Apply matching priority 4: manual inclusion flag
     dplyr::left_join(
       manual_include,
       by = c("organization_name_display" = "organization_name", "organization_state")
     ) |>
+    # Apply matching priority 5: manual name override
     dplyr::left_join(
       manual_match_overrides |>
         dplyr::select(-organization_name_display),
       by = c("organization_name", "organization_state")
     ) |>
+    # Apply matching priority 6: manual display name override
     dplyr::left_join(
       manual_match_overrides |>
         dplyr::rename(
@@ -347,6 +474,7 @@ main <- function(cli_args = NULL) {
         ),
       by = c("organization_name_display", "organization_state")
     ) |>
+    # Coalesce all matching attempts into single columns
     dplyr::mutate(
       matched_unitid = dplyr::coalesce(city_unitid, unitid, alias_unitid, override_unitid, display_override_unitid),
       tracker_institution_name = dplyr::coalesce(city_tracker_institution_name, tracker_institution_name, alias_tracker_institution_name, override_tracker_institution_name, display_override_tracker_institution_name),
@@ -359,13 +487,16 @@ main <- function(cli_args = NULL) {
         FALSE,
         dplyr::coalesce(override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, likely_higher_ed)
       ),
+      # Detect pass-through/grantmaker keywords in project title/abstract
       pass_through_keyword_match = vapply(
         seq_len(dplyr::n()),
         function(i) detect_pass_through_phrase(project_title[[i]], project_abstract[[i]]),
         character(1)
       ),
+      # Extract award ID from USAspending URL (for cross-reference validation)
       award_id_string = stringr::str_match(source_url, "award/([^/?#]+)")[, 2],
       is_pass_through_or_grantmaker = !is.na(pass_through_keyword_match),
+      # Record which matching method succeeded for this grant
       match_method = dplyr::case_when(
         !is.na(city_unitid) ~ "normalized_name_city_state",
         is.na(city_unitid) & !is.na(unitid) ~ "normalized_name_state_fallback",
@@ -417,8 +548,11 @@ main <- function(cli_args = NULL) {
       in_financial_tracker
     )
 
-  # After matching institutions, keep one best row per award/institution pair
-  # so later summaries do not double-count grants created by many-to-many joins.
+  # -----------------------------------------------------------------------
+  # Deduplication: Keep one best row per award/institution pair
+  # -----------------------------------------------------------------------
+  # This prevents inflated counts when a many-to-many join produces duplicates
+
   grants_joined <- grants_joined |>
     dplyr::mutate(
       match_priority = dplyr::case_when(
@@ -442,10 +576,15 @@ main <- function(cli_args = NULL) {
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::select(-match_priority, -grant_match_key) |>
+    # Remove grants with negative remaining amount (fully spent)
     dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
 
-  # First remove obvious pass-through/grantmaker awards, but keep an audit file
-  # so we can review exactly which grants were filtered and why.
+  # -----------------------------------------------------------------------
+  # Filter 1: Remove obvious pass-through/grantmaker awards
+  # -----------------------------------------------------------------------
+  # These are organizations receiving money to pass to others, not direct research.
+  # Keep an audit file for review.
+
   excluded_pass_through_grants <- grants_joined |>
     dplyr::filter(currently_disrupted, is_pass_through_or_grantmaker) |>
     dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
@@ -453,9 +592,13 @@ main <- function(cli_args = NULL) {
   grants_joined <- grants_joined |>
     dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
 
-  # Proposal G exclusions are calculated in a separate USAspending analysis
-  # script. When this build runs in analysis mode we skip them, and when it
-  # runs in production mode we apply the saved award-id list here.
+  # -----------------------------------------------------------------------
+  # Filter 2: Apply USAspending sensitivity filter
+  # -----------------------------------------------------------------------
+  # Proposal G exclusions are calculated in build_grant_witness_usaspending_sensitivity.R
+  # These are grants showing positive post-termination continuation/revision activity,
+  # suggesting money may still be flowing despite Grant Witness marking them disrupted.
+
   if (skip_usaspending_filter) {
     usaspending_filter_ids <- tibble::tibble(award_id_string = character())
     excluded_risky_continuation_grants <- grants_joined[0, ]
@@ -474,8 +617,11 @@ main <- function(cli_args = NULL) {
       dplyr::filter(!(currently_disrupted & !is.na(award_id_string) & award_id_string %in% usaspending_filter_ids$award_id_string))
   }
 
-  # The institution summaries are built only after all grant-level exclusions
-  # are applied so totals on the page and in downloads stay in sync.
+  # -----------------------------------------------------------------------
+  # Build institution summary tables (after all grant-level exclusions)
+  # -----------------------------------------------------------------------
+  # This ensures that totals on the page and in downloads stay in sync.
+
   institution_summary_long <- grants_joined |>
     dplyr::filter(currently_disrupted, !is.na(organization_name), !is.na(organization_state)) |>
     dplyr::mutate(
@@ -508,6 +654,7 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::mutate(largest_single_grant_remaining = as.numeric(largest_single_grant_remaining))
 
+  # Pivot institution summary to wide format (one row per institution)
   institution_summary_wide <- institution_summary_long |>
     dplyr::select(
       institution_key,
@@ -529,6 +676,7 @@ main <- function(cli_args = NULL) {
       values_fill = 0
     )
 
+  # Add total columns across agencies
   grant_cols <- grep("_disrupted_grants$", names(institution_summary_wide), value = TRUE)
   amount_cols <- grep("_disrupted_award_remaining$", names(institution_summary_wide), value = TRUE)
   if (length(grant_cols) > 0) {
@@ -545,10 +693,18 @@ main <- function(cli_args = NULL) {
   institution_summary_wide <- institution_summary_wide |>
     dplyr::arrange(dplyr::desc(total_disrupted_award_remaining), display_name)
 
+  # -----------------------------------------------------------------------
+  # Identify unmatched grants for manual review
+  # -----------------------------------------------------------------------
+
   unmatched_for_review <- grants_joined |>
     dplyr::filter(currently_disrupted, !in_financial_tracker) |>
     dplyr::count(agency, organization_name = organization_name_display, organization_state, organization_city, organization_type, likely_higher_ed, match_method, wt = award_remaining, name = "disrupted_award_remaining") |>
     dplyr::arrange(dplyr::desc(disrupted_award_remaining), organization_name)
+
+  # -----------------------------------------------------------------------
+  # Prepare output file paths
+  # -----------------------------------------------------------------------
 
   grant_path <- paste0(output_prefix, "_grant_level_joined.csv")
   summary_long_path <- paste0(output_prefix, "_institution_summary_long.csv")
@@ -559,12 +715,17 @@ main <- function(cli_args = NULL) {
   excluded_pass_through_path <- paste0(output_prefix, "_excluded_pass_through_grants.csv")
   excluded_risky_continuation_path <- paste0(output_prefix, "_excluded_risky_continuation_grants.csv")
 
+  # -----------------------------------------------------------------------
+  # Filter to higher-ed institutions for main outputs
+  # -----------------------------------------------------------------------
+
   higher_ed_summary <- institution_summary_wide |>
     dplyr::filter(!is.na(matched_unitid) | likely_higher_ed)
 
   likely_higher_ed_unmatched <- unmatched_for_review |>
     dplyr::filter(likely_higher_ed)
 
+  # Prepare review-ready summary for likely-higher-ed unmatched
   likely_higher_ed_review_ready <- likely_higher_ed_unmatched |>
     dplyr::group_by(organization_name, organization_state) |>
     dplyr::summarise(
@@ -574,9 +735,17 @@ main <- function(cli_args = NULL) {
     ) |>
     dplyr::arrange(dplyr::desc(disrupted_award_remaining), organization_name)
 
+  # -----------------------------------------------------------------------
+  # Safety check: ensure outputs are not empty
+  # -----------------------------------------------------------------------
+
   if (nrow(grants_joined) == 0 || nrow(higher_ed_summary) == 0) {
     stop("Grant Witness refresh produced empty outputs; existing published files were left unchanged.")
   }
+
+  # -----------------------------------------------------------------------
+  # Write all CSV outputs
+  # -----------------------------------------------------------------------
 
   write_csv_atomic(grants_joined, grant_path)
   write_csv_atomic(institution_summary_long, summary_long_path)
@@ -587,6 +756,10 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"))
   write_csv_atomic(excluded_pass_through_grants, excluded_pass_through_path)
   write_csv_atomic(excluded_risky_continuation_grants, excluded_risky_continuation_path)
+
+  # -----------------------------------------------------------------------
+  # Log completion
+  # -----------------------------------------------------------------------
 
   cat(sprintf("Saved grant-level data to %s\n", grant_path))
   cat(sprintf("Saved institution summary (long) to %s\n", summary_long_path))

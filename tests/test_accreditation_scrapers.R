@@ -150,3 +150,80 @@ run_test("Accreditation scraper HLC content node parser", function() {
   assert_true(all(rows$institution_state_raw == "Massachusetts"))
   assert_identical(rows$action_type[[1]], "notice")
 })
+
+run_test("parse_msche returns correct rows from fixture HTML", function() {
+  cache_dir <- tempfile("msche_fixture_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  # Minimal static HTML that mirrors the server-rendered MSCHE page structure.
+  # One institution under Non-Compliance Warning; all other sections empty.
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html>",
+      "<head><title>Non-Compliance and Adverse Actions By Status | MSCHE</title>",
+      "<meta property=\"article:modified_time\" content=\"2025-06-01T00:00:00+00:00\">",
+      "</head><body><article>",
+      "<h3>Non-Compliance Warning</h3>",
+      "<a href=\"https://www.msche.org/institution/100/\">Fixture College</a>",
+      "<h3>Non-Compliance Probation</h3><p>No institutions in this status</p>",
+      "<h3>Non-Compliance Show Cause</h3><p>No institutions in this status</p>",
+      "<h3>Adverse Action</h3><p>No institutions in this status</p>",
+      "<div class=\"single-share\">end</div>",
+      "</article></body></html>"
+    ),
+    file.path(cache_dir, "msche_status.html")
+  )
+
+  # Stub out every recent-actions page so the parser does not attempt network calls.
+  current_year <- as.integer(format(Sys.Date(), "%Y"))
+  for (yr in seq.int(2017L, current_year)) {
+    writeLines(
+      "<html><body></body></html>",
+      file.path(cache_dir, paste0("msche_recent_actions_", yr, ".html"))
+    )
+  }
+
+  rows <- parse_msche(cache_dir, refresh = FALSE)
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "Fixture College")
+  assert_identical(rows$action_type[[1]], "warning")
+  assert_identical(rows$accreditor[[1]], "MSCHE")
+  assert_identical(rows$action_status[[1]], "active")
+  assert_identical(rows$source_url[[1]], "https://www.msche.org/institution/100/")
+})
+
+run_test("parse_msche warns when page has content but no expected H3 headings", function() {
+  cache_dir <- tempfile("msche_jsshell_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  # Simulate a JavaScript-rendered shell: non-empty HTML, but none of the
+  # expected H3 action headings are present.
+  writeLines(
+    "<html><head><title>MSCHE</title></head><body><p>Loading...</p></body></html>",
+    file.path(cache_dir, "msche_status.html")
+  )
+
+  current_year <- as.integer(format(Sys.Date(), "%Y"))
+  for (yr in seq.int(2017L, current_year)) {
+    writeLines(
+      "<html><body></body></html>",
+      file.path(cache_dir, paste0("msche_recent_actions_", yr, ".html"))
+    )
+  }
+
+  warned <- FALSE
+  withCallingHandlers(
+    parse_msche(cache_dir, refresh = FALSE),
+    warning = function(w) {
+      if (grepl("JavaScript-rendered", conditionMessage(w), fixed = TRUE)) {
+        warned <<- TRUE
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+
+  assert_true(warned, "Expected a JS-rendering warning from parse_msche but none was raised.")
+})

@@ -19,28 +19,16 @@ jobs:
           r-version: "4.5.1"
           use-public-rspm: true
 
-      # Cache compiled R packages. Key includes a version bump token (v1 →
-      # v2 etc.) so you can force a fresh install without changing packages.
-      # Once renv is set up, swap the key for:
-      #   key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
       - name: Cache R packages
         uses: actions/cache@v4
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: r-${{ runner.os }}-4.5.1-pkgs-v1
+          key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
           restore-keys: |
-            r-${{ runner.os }}-4.5.1-pkgs-
+            r-${{ runner.os }}-
 
-      # Install all packages required by the shared helpers and test fixtures.
-      # Once renv.lock exists, replace this step with:
-      #   run: Rscript -e "renv::restore()"
-      - name: Install R packages
-        run: |
-          Rscript -e "install.packages(c(
-            'dplyr', 'readr', 'tidyr', 'tibble', 'stringr',
-            'jsonlite', 'httr2', 'xml2', 'rvest',
-            'openxlsx', 'lubridate'
-          ), repos = 'https://packagemanager.posit.co/cran/__linux__/jammy/latest')"
+      - name: Restore R packages
+        run: Rscript -e "renv::restore()"
 
       - name: Run R tests
         run: Rscript --vanilla tests/run_shared_helper_smoke_tests.R
@@ -70,6 +58,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      # No external packages required — test uses stdlib only.
+      - name: Install Python packages
+        run: pip install -r requirements.txt
+
       - name: Run Python tests
         run: python tests/test_import_closure_sheet.py

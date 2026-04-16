@@ -1,3 +1,14 @@
+# tests/test_support.R
+#
+# Test support utilities and helpers for the entire test suite.
+#
+# A "smoke test" is a quick check to verify that core functionality works
+# before running more comprehensive tests. If smoke tests fail, the whole system
+# needs attention before deeper testing is worthwhile.
+#
+# This file loads shared helper scripts and defines assertion functions that
+# other test files use (run_test, assert_true, assert_identical, etc.).
+
 root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 
 source(file.path(root, "scripts", "shared", "utils.R"))
@@ -65,6 +76,7 @@ assert_equal <- function(actual, expected, message = "Values were not equal.") {
   }
 }
 
+# Run a single test: executes fn() and records success or failure
 run_test <- function(name, fn) {
   tryCatch(
     {
@@ -79,9 +91,4 @@ run_test_files <- function(test_paths) {
   for (path in test_paths) {
     sys.source(path, envir = globalenv())
   }
-  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
-  if (length(failures) > 0L) {
-    stop("Smoke tests failed.", call. = FALSE)
-  }
-  invisible(list(passes = passes, failures = failures))
-}
+  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, len

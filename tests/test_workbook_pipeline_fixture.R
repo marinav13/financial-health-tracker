@@ -286,7 +286,11 @@ run_test("Article workbook fixture", function() {
   # paths from the repo root (root) to avoid getting confused by setwd() calls
   # in earlier fixtures.
   for (nm in c("shared/utils.R", "shared/ipeds_paths.R",
-               "shared/workbook_helpers.R", "shared/contracts.R")) {
+               "shared/workbook_helpers.R",
+               "shared/workbook_table_helpers.R",
+               "shared/workbook_registry_helpers.R",
+               "shared/workbook_xml_helpers.R",
+               "shared/contracts.R")) {
     file.copy(file.path(root, "scripts", nm),
       file.path(fixture_root, "scripts", nm), overwrite = TRUE)
   }

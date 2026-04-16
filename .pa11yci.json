@@ -12,23 +12,23 @@
   },
   "urls": [
     {
-      "url": "file://${GITHUB_WORKSPACE}/index.html",
+      "url": "http://localhost:8000/index.html",
       "name": "Homepage"
     },
     {
-      "url": "file://${GITHUB_WORKSPACE}/cuts.html",
+      "url": "http://localhost:8000/cuts.html",
       "name": "College Cuts"
     },
     {
-      "url": "file://${GITHUB_WORKSPACE}/research.html",
+      "url": "http://localhost:8000/research.html",
       "name": "Research Funding Cuts"
     },
     {
-      "url": "file://${GITHUB_WORKSPACE}/accreditation.html",
+      "url": "http://localhost:8000/accreditation.html",
       "name": "Accreditation"
     },
     {
-      "url": "file://${GITHUB_WORKSPACE}/school.html?unitid=222178",
+      "url": "http://localhost:8000/school.html?unitid=222178",
       "name": "School Detail Page"
     }
   ]

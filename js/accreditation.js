@@ -374,6 +374,11 @@
     const render = () => {
       const filteredActions = filterByInstitution(actions, searchInput?.value || "");
       container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage);
+      // Move focus to the pagination region so screen readers announce the updated content
+      setTimeout(() => {
+        const pagination = container.querySelector(".pagination");
+        if (pagination) pagination.focus();
+      }, 0);
       const totalPages = Math.max(1, Math.ceil(filteredActions.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;

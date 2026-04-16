@@ -104,11 +104,15 @@ function renderLineChart(containerId, config) {
   const legend = seriesList.map((series) => (
     `<span><span class="legend-dot" style="background:${series.color}"></span>${series.label}</span>`
   )).join("");
+  const descriptionId = `${containerId}-desc`;
+  const descriptionText = config.title || "Chart";
+  const description = `<p id="${descriptionId}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;" aria-hidden="true">${descriptionText}. Data: ${seriesList.map((s) => `${s.label}: ${s.values.map((p) => `${p.year}: ${formatChartValue(Number(p.value), format)}`).join(", ")}`).join(". ")}</p>`;
 
   container.innerHTML = `
     ${title}
+    ${description}
     ${showTooltip ? '<div class="chart-tooltip" aria-hidden="true"></div>' : ""}
-    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img">
+    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img" aria-describedby="${descriptionId}">
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
       ${yTicks.join("")}

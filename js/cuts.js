@@ -360,6 +360,11 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortCuts(filteredItems, sortState);
       container.innerHTML = renderCutsTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
+      // Move focus to the pagination region so screen readers announce the updated content
+      setTimeout(() => {
+        const pagination = container.querySelector(".pagination");
+        if (pagination) pagination.focus();
+      }, 0);
       const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;
@@ -421,6 +426,11 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortClosures(filteredItems, sortState);
       container.innerHTML = renderClosuresTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
+      // Move focus to the pagination region so screen readers announce the updated content
+      setTimeout(() => {
+        const pagination = container.querySelector(".pagination");
+        if (pagination) pagination.focus();
+      }, 0);
       const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;

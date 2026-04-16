@@ -391,6 +391,11 @@
     const render = () => {
       const stateRows = buildStateSummaryRows(items);
       container.innerHTML = renderStateSummaryTable(stateRows, sortState);
+      // Move focus to the table so screen readers announce the updated sort
+      setTimeout(() => {
+        const table = container.querySelector(".history-table");
+        if (table) table.focus();
+      }, 0);
       container.querySelectorAll(".sort-button").forEach((button) => {
         button.addEventListener("click", () => {
           const key = button.dataset.sortKey || "public_funding";
@@ -470,6 +475,11 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortInstitutionRows(filteredItems, sortState);
       container.innerHTML = renderTablePage(sortedItems, currentPage, pageSize, emptyMessage, ariaLabel, sortState);
+      // Move focus to the pagination region so screen readers announce the updated content
+      setTimeout(() => {
+        const pagination = container.querySelector(".pagination");
+        if (pagination) pagination.focus();
+      }, 0);
       const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
       const safePage = Math.min(Math.max(1, currentPage), totalPages);
       const start = (safePage - 1) * pageSize;

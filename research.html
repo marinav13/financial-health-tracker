@@ -15,7 +15,7 @@
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab is-active" id="tab-research" href="research.html">Research Funding Cuts</a>
-      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer">Tuition</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition (opens in new tab)">Tuition</a>
     </nav>
 
     <header class="masthead">
@@ -28,7 +28,7 @@
     <section class="intro-callout">
       <div class="intro-bar"></div>
       <div class="intro-box">
-          <p id="research-intro-top">Below, explore a database showing federal research funding cuts to colleges and universities across the U.S. since the start of the second Trump administration. The first table shows cuts by university, and keep scrolling for a state-by-state breakdown.<br><br>This data comes from the <a href="https://grant-witness.us/" target="_blank" rel="noopener">Grant Witness database</a>. The grants below have been terminated, frozen, or otherwise remain at risk amid legal battles.<br><br>Grants include funding from the National Institutes of Health, National Science Foundation, Environmental Protection Agency, Substance Abuse and Mental Health Services Administration, and Centers for Disease Control and Prevention.<br><br>Out of caution, we have excluded grants where the university is passing on funds to community groups. And in an effort to exclude grants that may have been reinstated, we have filtered out grants that distributed money after the termination date identified by Grant Witness.</p>
+          <p id="research-intro-top">Below, explore a database showing federal research funding cuts to colleges and universities across the U.S. since the start of the second Trump administration. The first table shows cuts by university, and keep scrolling for a state-by-state breakdown.<br><br>This data comes from the <a href="https://grant-witness.us/" target="_blank" rel="noopener" aria-label="Grant Witness database (opens in new tab)">Grant Witness database</a>. The grants below have been terminated, frozen, or otherwise remain at risk amid legal battles.<br><br>Grants include funding from the National Institutes of Health, National Science Foundation, Environmental Protection Agency, Substance Abuse and Mental Health Services Administration, and Centers for Disease Control and Prevention.<br><br>Out of caution, we have excluded grants where the university is passing on funds to community groups. And in an effort to exclude grants that may have been reinstated, we have filtered out grants that distributed money after the termination date identified by Grant Witness.</p>
           <p id="research-intro-bottom"></p>
       </div>
     </section>
@@ -65,19 +65,19 @@
           <button id="research-table-download" class="download-button" type="button">Download Displayed Table</button>
         </div>
       </div>
-      <div id="research-list"></div>
+      <div id="research-list" aria-live="polite"></div>
     </section>
 
     <section class="data-card is-hidden">
       <h2 id="research-other-section-title">Research funding cuts at other higher-ed institutions</h2>
       <p class="small-meta">This secondary table includes higher-ed recipients outside the main 4-year financial tracker universe, including likely campus matches that still need manual review.</p>
       <button id="research-other-download" class="download-button" type="button">Download Displayed Table</button>
-      <div id="research-other-list"></div>
+      <div id="research-other-list" aria-live="polite"></div>
     </section>
 
     <section id="research-state-summary-card" class="data-card">
       <h2>Still disrupted cuts by state</h2>
-      <div id="research-state-summary"></div>
+      <div id="research-state-summary" aria-live="polite"></div>
     </section>
 
     <details class="methodology-panel">

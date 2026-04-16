@@ -197,16 +197,8 @@ grad_plus <- fsa_grad_plus %>%
     ) %>%
     arrange(institution_name)
 
-  scorecard_out_path <- file.path(outcomes_root, "scorecard_latest_selected.csv")
-  grad_out_path <- file.path(outcomes_root, "ipeds_drvgr2024_selected.csv")
   joined_out_path <- file.path(outcomes_root, "tracker_outcomes_joined.csv")
-
-  readr::write_csv(scorecard, scorecard_out_path, na = "")
-  readr::write_csv(drvgr, grad_out_path, na = "")
   readr::write_csv(scorecard_selected, joined_out_path, na = "")
-
-  cat(sprintf("Saved selected Scorecard outcomes to %s\n", scorecard_out_path))
-  cat(sprintf("Saved selected IPEDS graduation rates to %s\n", grad_out_path))
   cat(sprintf("Saved joined tracker outcomes to %s\n", joined_out_path))
 
   invisible(TRUE)

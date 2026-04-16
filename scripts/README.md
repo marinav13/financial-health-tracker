@@ -53,8 +53,6 @@ IPEDS remains under `ipeds/`.
 - `build_web_exports.R`
   - writes the site JSON, CSV downloads, and school-level files
 
-- `build_article_workbook.R`
-  - writes the canonical Excel-compatible workbook for local reporting use
 
 ## Shared Helper Layout
 
@@ -75,7 +73,7 @@ Current shared helper roles:
 - `scripts/shared/export_helpers.R`
   - JSON export, index, and bundle-writing helpers
 - `scripts/shared/workbook_helpers.R`
-  - workbook summary, benchmark, XML, and worksheet builders
+  - workbook summary, benchmark, XML, and worksheet builders for optional local reporting
 - `scripts/shared/accreditation_helpers.R`
   - accreditation text cleanup, classification, and matching helpers
 - `scripts/shared/accreditation_scrapers.R`
@@ -88,6 +86,10 @@ Current shared helper roles:
 - `build_grant_witness_usaspending_sensitivity.R`
   - supporting research QA analysis used by the scheduled grant workflow
   - writes the risky continuation filter used by the Grant Witness join
+
+- `build_article_workbook.R`
+  - optional local reporting script
+  - not part of the streamlined public production path
 
 The sensitivity script no longer maintains multiple proposal variants. Its
 current production purpose is to build the risky continuation filter and a
@@ -110,11 +112,10 @@ small summary of that filter for QA.
 - `tests/test_export_helpers.R`
 - `tests/test_accreditation_helpers.R`
 - `tests/test_grant_witness_helpers.R`
-- `tests/test_workbook_helpers.R`
 - `tests/test_ipeds_helpers.R`
 - `tests/test_pipeline_smoke.R`
   - focused regression coverage for each shared helper layer
-  - plus a source-level smoke check for the main pipeline entry scripts
+  - plus a source-level smoke check for the core shipped-output pipeline entry scripts
 - `tests/test_export_pipeline_fixture.R`
   - tiny fixture-driven regression check for the website export pipeline
   - verifies generated JSON/CSV outputs from a minimal temporary dataset
@@ -128,6 +129,15 @@ small summary of that filter for QA.
 - `tests/test_end_to_end_pipeline_fixture.R`
   - reduced end-to-end pipeline check
   - runs canonical build first, then web exports from that generated canonical output
+- `tests/test_grant_witness_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the Grant Witness join
+  - verifies risky continuation exclusions and higher-ed summary outputs
+- `tests/test_accreditation_actions_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the accreditation actions pipeline
+  - verifies matched actions, current-status output, unmatched review, and coverage outputs
+
+Workbook-specific tests still exist for local use, but they are no longer part
+of the streamlined public smoke gate.
 
 Run it with:
 
@@ -166,8 +176,10 @@ Available validators:
 | Validator | Where to call it |
 |---|---|
 | `validate_canonical_output(df)` | After `build_ipeds_canonical_dataset.R` finishes |
-| `validate_workbook_input(df)` | After numeric coercion in `build_article_workbook.R` |
 | `validate_export_input(df)` | After numeric coercion in `build_web_exports.R` |
+
+`validate_workbook_input(df)` still exists for local workbook reporting, but it
+is not part of the streamlined public production path.
 
 When adding a new required column to the canonical dataset, add it to
 `CANONICAL_REQUIRED_COLS` in `contracts.R` and add at least one fixture test

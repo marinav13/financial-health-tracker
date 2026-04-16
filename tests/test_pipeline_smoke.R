@@ -1,7 +1,6 @@
 run_test("Pipeline scripts source cleanly", function() {
   script_paths <- c(
     file.path(root, "scripts", "build_web_exports.R"),
-    file.path(root, "scripts", "build_article_workbook.R"),
     file.path(root, "scripts", "build_grant_witness_join.R"),
     file.path(root, "scripts", "build_grant_witness_usaspending_sensitivity.R"),
     file.path(root, "scripts", "build_ipeds_canonical_dataset.R"),

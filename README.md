@@ -7,7 +7,10 @@ It does four main things:
 1. Collects the IPEDS variables we need for 2014-2024.
 2. Builds one raw-but-decoded institution-year dataset.
 3. Derives one authoritative canonical dataset.
-4. Builds the web exports and workbook used by the site.
+4. Builds the web exports used by the site.
+
+The workbook build still exists for local reporting, but it is not part of the
+streamlined public repo's core production path.
 
 If you are new to the project, start with:
 
@@ -34,7 +37,6 @@ If you only remember one thing, remember this order:
 1. `scripts/build_ipeds_dataset.R`
 2. supporting joins and profile inputs
 3. `scripts/build_web_exports.R`
-4. `scripts/build_article_workbook.R`
 
 Each step writes files used by the next one.
 
@@ -44,9 +46,9 @@ The repo is organized around a small number of orchestrator scripts plus a
 shared helper layer:
 
 - `scripts/`
-  - main entrypoints for collection, canonical build, exports, workbook, and joins
+  - main entrypoints for collection, canonical build, exports, and joins
 - `scripts/shared/`
-  - reusable helper code for IPEDS, exports, workbook generation, accreditation, and Grant Witness logic
+  - reusable helper code for IPEDS, exports, accreditation, Grant Witness logic, and optional local reporting
 - `ipeds/`
   - local IPEDS raw, manifests, derived outputs, and cache
 - `data_pipelines/`
@@ -58,7 +60,7 @@ If you are trying to understand the codebase quickly:
 
 1. read `scripts/build_ipeds_dataset.R`
 2. read `scripts/build_web_exports.R`
-3. read `scripts/build_article_workbook.R`
+3. read the join scripts that feed shipped website sections
 4. dip into `scripts/shared/` only when you want the implementation details
 
 ## Full Rebuild Order
@@ -94,7 +96,8 @@ If you are trying to understand the codebase quickly:
    - writes the site JSON, download CSV, and school-level files
 
 10. `scripts/build_article_workbook.R`
-   - writes the canonical workbook used for reporting and handoff
+   - optional local reporting step only
+   - not part of the streamlined public production path
 
 ## Closure Sheet Contract
 
@@ -183,7 +186,7 @@ source("scripts/build_web_exports.R")
 main()
 ```
 
-Build the workbook:
+Build the workbook locally if you still want the reporting export:
 
 ```r
 source("scripts/build_article_workbook.R")
@@ -204,6 +207,7 @@ That suite currently covers:
 - shared helper regressions
 - canonical fixture regressions
 - export fixture regressions
+- Grant Witness and accreditation pipeline fixtures
 - a reduced canonical-to-export end-to-end fixture
 - source smoke for the main pipeline entry scripts
 

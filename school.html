@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-search-page="school.html">
-  <main class="page">
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <main id="main" class="page">
     <nav class="top-tabs" aria-label="Sections">
       <a class="top-tab is-active" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
@@ -35,7 +36,7 @@
       <section class="search-panel">
         <label class="search-label" for="school-search">Institution Name:</label>
         <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
-        <div id="search-results" class="results"></div>
+        <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
     </details>
 

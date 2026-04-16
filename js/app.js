@@ -60,6 +60,9 @@ async function initSearch() {
   const page = getSearchTargetPage();
   const sourceKind = getSearchSourceKind();
 
+  // Roving tabindex state
+  let activeIndex = -1;
+
   if (datalist) {
     datalist.innerHTML = "";
     schools.forEach((item) => {
@@ -71,6 +74,7 @@ async function initSearch() {
 
   function clearResults() {
     results.innerHTML = "";
+    activeIndex = -1;
   }
 
   function getMatchText(row) {
@@ -91,6 +95,28 @@ async function initSearch() {
       return `Latest action${date ? ` (${date})` : ""}: ${trimBadge(row.latest_action_label)}`;
     }
     return "";
+  }
+
+  function getAllResultButtons() {
+    return Array.from(results.querySelectorAll(".result-item[data-unitid]"));
+  }
+
+  function setActiveButton(newIndex) {
+    const buttons = getAllResultButtons();
+    if (!buttons.length) return;
+    // Clamp to valid range
+    activeIndex = Math.max(0, Math.min(newIndex, buttons.length - 1));
+    buttons.forEach((btn, i) => {
+      btn.setAttribute("tabindex", i === activeIndex ? "0" : "-1");
+    });
+    buttons[activeIndex].focus();
+  }
+
+  function navigateToActive() {
+    const buttons = getAllResultButtons();
+    if (buttons[activeIndex]) {
+      window.location.href = schoolUrl(buttons[activeIndex].dataset.unitid, page);
+    }
   }
 
   function renderMatches(query) {
@@ -120,20 +146,38 @@ async function initSearch() {
       .slice(0, 8);
 
     if (!matches.length) {
-      results.innerHTML = `<div class="result-item is-empty">No matching institutions found.</div>`;
+      clearResults();
+      results.innerHTML = `<div class="result-item is-empty" role="option" tabindex="-1">No matching institutions found.</div>`;
       return;
     }
 
+    activeIndex = -1;
+    results.setAttribute("aria-label", `${matches.length} search result${matches.length !== 1 ? "s" : ""}`);
     results.innerHTML = matches.map((row) => `
-      <button type="button" class="result-item" data-unitid="${row.unitid}">
+      <button type="button" class="result-item" role="option" data-unitid="${row.unitid}" tabindex="-1">
         <span>${getMatchText(row)}</span>
         ${getResultBadge(row) ? `<small class="small-meta">${getResultBadge(row)}</small>` : ""}
       </button>
     `).join("");
 
-    results.querySelectorAll("[data-unitid]").forEach((button) => {
+    results.querySelectorAll("[data-unitid]").forEach((button, i) => {
       button.addEventListener("click", () => {
         window.location.href = schoolUrl(button.dataset.unitid, page);
+      });
+      // Arrow key navigation on each result button
+      button.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setActiveButton(i + 1);
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setActiveButton(i - 1);
+        } else if (e.key === "Enter" || e.key === " ") {
+          window.location.href = schoolUrl(button.dataset.unitid, page);
+        } else if (e.key === "Escape") {
+          clearResults();
+          input.focus();
+        }
       });
     });
   }
@@ -152,6 +196,8 @@ async function initSearch() {
     return false;
   }
 
+  results.setAttribute("role", "listbox");
+
   input.addEventListener("input", () => {
     const q = input.value.trim().toLowerCase();
     if (!q) {
@@ -168,16 +214,39 @@ async function initSearch() {
   });
 
   input.addEventListener("keydown", (event) => {
+    const buttons = getAllResultButtons();
+
     if (event.key === "Enter") {
       if (navigateFromValue(input.value)) {
         event.preventDefault();
         return;
       }
-      const firstMatch = results.querySelector("[data-unitid]");
-      if (firstMatch) {
+      if (buttons.length) {
         event.preventDefault();
-        window.location.href = schoolUrl(firstMatch.dataset.unitid, page);
+        // If a result is already focused (activeIndex >= 0), navigate there;
+        // otherwise focus and navigate to the first result.
+        if (activeIndex >= 0 && document.activeElement && document.activeElement.dataset.unitid) {
+          navigateToActive();
+        } else {
+          setActiveButton(0);
+        }
       }
+    } else if (event.key === "ArrowDown") {
+      if (!buttons.length) return;
+      event.preventDefault();
+      setActiveButton(activeIndex < 0 ? 0 : activeIndex + 1);
+    } else if (event.key === "ArrowUp") {
+      if (!buttons.length) return;
+      event.preventDefault();
+      if (activeIndex <= 0) {
+        clearResults();
+        input.focus();
+      } else {
+        setActiveButton(activeIndex - 1);
+      }
+    } else if (event.key === "Escape") {
+      clearResults();
+      input.focus();
     }
   });
 }

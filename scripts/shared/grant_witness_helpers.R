@@ -395,14 +395,24 @@ status_rule_values <- function(rule_name, agency) {
 }
 
 status_matches_rule <- function(agency, status, rule_name) {
-  mapply(
-    function(one_agency, one_status) {
-      normalize_status(one_status) %in% status_rule_values(rule_name, one_agency)
-    },
-    agency,
-    status,
-    USE.NAMES = FALSE
-  )
+  agency <- as.character(agency)
+  status <- as.character(status)
+
+  n <- max(length(agency), length(status))
+  if (n == 0L) {
+    return(logical())
+  }
+
+  if (length(agency) == 1L && n > 1L) {
+    agency <- rep(agency, n)
+  }
+  if (length(status) == 1L && n > 1L) {
+    status <- rep(status, n)
+  }
+
+  vapply(seq_len(n), function(i) {
+    normalize_status(status[[i]]) %in% status_rule_values(rule_name, agency[[i]])
+  }, logical(1))
 }
 
 is_currently_disrupted <- function(agency, status) {

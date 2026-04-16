@@ -514,43 +514,11 @@ main <- function(cli_args = NULL) {
     )
   )
 
-  get_cutpoint <- function(metric_name, column_name) {
-    value <- positive_distributions |>
-      dplyr::filter(metric == metric_name) |>
-      dplyr::pull(column_name)
-    if (length(value) == 0) NA_real_ else value[[1]]
-  }
-
-  # Proposal C uses observed cut points rather than hand-picked thresholds.
-  empirical_cuts <- list(
-    low = list(
-      amount = get_cutpoint("post_termination_outlays_total", "p50"),
-      cont_rev = get_cutpoint("post_termination_positive_cont_rev_total", "p50"),
-      live_delta = get_cutpoint("live_outlay_minus_gw_outlay", "p50"),
-      live_ratio = get_cutpoint("live_outlay_ratio_to_gw_outlay", "p50")
-    ),
-    medium = list(
-      amount = get_cutpoint("post_termination_outlays_total", "p75"),
-      cont_rev = get_cutpoint("post_termination_positive_cont_rev_total", "p75"),
-      live_delta = get_cutpoint("live_outlay_minus_gw_outlay", "p75"),
-      live_ratio = get_cutpoint("live_outlay_ratio_to_gw_outlay", "p75")
-    ),
-    high = list(
-      amount = get_cutpoint("post_termination_outlays_total", "p90"),
-      cont_rev = get_cutpoint("post_termination_positive_cont_rev_total", "p90"),
-      live_delta = get_cutpoint("live_outlay_minus_gw_outlay", "p90"),
-      live_ratio = get_cutpoint("live_outlay_ratio_to_gw_outlay", "p90")
-    )
-  )
-
-  # Shared summary builder for any proposal data frame that has a proposal_flag
-  # column.  All eight proposals use the same summary shape; this eliminates the
-  # repeated summarise() block.
-  summarise_proposal_flags <- function(flagged, proposal_name) {
+  summarise_risky_filter <- function(flagged) {
     flagged |>
       dplyr::filter(proposal_flag) |>
       dplyr::summarise(
-        proposal = proposal_name,
+        proposal = "risky_continuation_filter",
         grants_flagged = dplyr::n(),
         institutions_affected = dplyr::n_distinct(institution_key),
         excluded_award_remaining = sum(award_remaining, na.rm = TRUE),
@@ -565,77 +533,6 @@ main <- function(cli_args = NULL) {
       )
   }
 
-  apply_rule <- function(df, name, outlay_amount, outlay_share, cont_rev_amount, cont_rev_share, live_delta, live_ratio) {
-    flagged <- df |>
-      dplyr::mutate(
-        proposal = name,
-        activity_signal = amount_or_share_threshold(post_termination_outlays_total, award_remaining, outlay_amount, outlay_share) |
-          amount_or_share_threshold(post_termination_positive_cont_rev_total, award_remaining, cont_rev_amount, cont_rev_share),
-        materially_higher = (!is.na(live_outlay_minus_gw_outlay) & live_outlay_minus_gw_outlay >= live_delta) |
-          ratio_threshold(live_outlay_ratio_to_gw_outlay, live_ratio),
-        proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & activity_signal & materially_higher
-      )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, name))
-  }
-
-  proposal_A <- apply_rule(comparison, "A", 1000, 0.05, 1000, 0.05, 1000, 1.05)
-  proposal_B <- apply_rule(comparison, "B", 100000, 0.10, 100000, 0.10, 100000, 1.15)
-
-  apply_empirical_rule <- function(df, label, cuts) {
-    name   <- paste0("C_", label)
-    flagged <- df |>
-      dplyr::mutate(
-        proposal = name,
-        activity_signal = (!is.na(post_termination_outlays_total) & post_termination_outlays_total >= cuts$amount) |
-          (!is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total >= cuts$cont_rev),
-        materially_higher = (!is.na(live_outlay_minus_gw_outlay) & live_outlay_minus_gw_outlay >= cuts$live_delta) |
-          ratio_threshold(live_outlay_ratio_to_gw_outlay, cuts$live_ratio),
-        proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & activity_signal & materially_higher
-      )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, name))
-  }
-
-  proposal_C_low <- apply_empirical_rule(comparison, "low", empirical_cuts$low)
-  proposal_C_medium <- apply_empirical_rule(comparison, "medium", empirical_cuts$medium)
-  proposal_C_high <- apply_empirical_rule(comparison, "high", empirical_cuts$high)
-
-  # Proposal D is the deliberately aggressive outer-bound sensitivity check.
-  proposal_D <- {
-    flagged <- comparison |>
-      dplyr::mutate(
-        proposal = "D",
-        activity_signal = (post_termination_outlays_total > 0) | (post_termination_positive_cont_rev_total > 0),
-        materially_higher = ratio_threshold(live_outlay_ratio_to_gw_outlay, 1.01),
-        proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & activity_signal & materially_higher
-      )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, "D"))
-  }
-
-  # Proposal E is the broader caution-first screen that also allows outlay-only
-  # evidence to trigger exclusion.
-  proposal_E <- {
-    flagged <- comparison |>
-      dplyr::mutate(
-        proposal = "E",
-        continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
-        outlay_signal = amount_or_share_threshold(post_termination_outlays_total, award_remaining, 10000, 0.01),
-        proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & (continuation_signal | outlay_signal)
-      )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, "E"))
-  }
-
-  # Proposal F narrows that approach to grants with future/recent periods of
-  # performance plus positive post-termination continuation/revision activity.
-  proposal_F <- {
-    flagged <- comparison |>
-      dplyr::mutate(
-        proposal = "F",
-        continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
-        proposal_flag = dplyr::coalesce(period_recent_or_future, FALSE) & continuation_signal
-      )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, "F"))
-  }
-
   # Risky continuation filter: if Grant Witness marks a grant disrupted but
   # USAspending shows positive continuation/revision activity after the
   # termination date, treat it as too risky to keep in the disrupted totals.
@@ -646,41 +543,21 @@ main <- function(cli_args = NULL) {
         continuation_signal = !is.na(post_termination_positive_cont_rev_total) & post_termination_positive_cont_rev_total > 0,
         proposal_flag = continuation_signal
       )
-    list(flagged = flagged, summary = summarise_proposal_flags(flagged, "risky_continuation_filter"))
+    list(flagged = flagged, summary = summarise_risky_filter(flagged))
   }
 
-  proposal_summary <- dplyr::bind_rows(
-    proposal_A$summary,
-    proposal_B$summary,
-    proposal_C_low$summary,
-    proposal_C_medium$summary,
-    proposal_C_high$summary,
-    proposal_D$summary,
-    proposal_E$summary,
-    proposal_F$summary,
-    risky_continuation_filter$summary
-  ) |>
+  risky_filter_summary <- risky_continuation_filter$summary |>
     dplyr::mutate(
       analyzed_grants = nrow(comparison),
       analyzed_institutions = dplyr::n_distinct(comparison$institution_key)
     )
 
-  empirical_thresholds <- tibble::tibble(
-    evidence_level = c("low", "medium", "high"),
-    outlay_threshold = c(empirical_cuts$low$amount, empirical_cuts$medium$amount, empirical_cuts$high$amount),
-    cont_rev_threshold = c(empirical_cuts$low$cont_rev, empirical_cuts$medium$cont_rev, empirical_cuts$high$cont_rev),
-    live_delta_threshold = c(empirical_cuts$low$live_delta, empirical_cuts$medium$live_delta, empirical_cuts$high$live_delta),
-    live_ratio_threshold = c(empirical_cuts$low$live_ratio, empirical_cuts$medium$live_ratio, empirical_cuts$high$live_ratio)
-  )
-
   write_csv_atomic(comparison, file.path(output_dir, "grant_witness_usaspending_comparison.csv"))
   write_csv_atomic(positive_distributions, file.path(output_dir, "grant_witness_usaspending_positive_distributions.csv"))
-  write_csv_atomic(empirical_thresholds, file.path(output_dir, "grant_witness_usaspending_empirical_thresholds.csv"))
-  write_csv_atomic(proposal_summary, file.path(output_dir, "grant_witness_usaspending_proposal_summary.csv"))
+  write_csv_atomic(risky_filter_summary, file.path(output_dir, "grant_witness_usaspending_risky_filter_summary.csv"))
 
   # The risky continuation filter is the production output used by
-  # build_grant_witness_join.R. Proposals A-F are exploratory sensitivity
-  # variants; their objects stay in memory for review.
+  # build_grant_witness_join.R.
   write_csv_atomic(
     risky_continuation_filter$flagged |> dplyr::filter(proposal_flag),
     file.path(output_dir, "grant_witness_usaspending_risky_continuation_filter.csv")
@@ -688,8 +565,7 @@ main <- function(cli_args = NULL) {
 
   cat(sprintf("Saved comparison table to %s\n", file.path(output_dir, "grant_witness_usaspending_comparison.csv")))
   cat(sprintf("Saved positive distributions to %s\n", file.path(output_dir, "grant_witness_usaspending_positive_distributions.csv")))
-  cat(sprintf("Saved empirical thresholds to %s\n", file.path(output_dir, "grant_witness_usaspending_empirical_thresholds.csv")))
-  cat(sprintf("Saved proposal summary to %s\n", file.path(output_dir, "grant_witness_usaspending_proposal_summary.csv")))
+  cat(sprintf("Saved risky filter summary to %s\n", file.path(output_dir, "grant_witness_usaspending_risky_filter_summary.csv")))
   cat(sprintf("Saved risky continuation filter to %s\n", file.path(output_dir, "grant_witness_usaspending_risky_continuation_filter.csv")))
 }
 

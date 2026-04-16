@@ -87,6 +87,11 @@ Current shared helper roles:
 
 - `build_grant_witness_usaspending_sensitivity.R`
   - supporting research QA analysis used by the scheduled grant workflow
+  - writes the risky continuation filter used by the Grant Witness join
+
+The sensitivity script no longer maintains multiple proposal variants. Its
+current production purpose is to build the risky continuation filter and a
+small summary of that filter for QA.
 
 - `annual_refresh_and_publish.R`
   - convenience wrapper for a partial refresh
@@ -176,7 +181,7 @@ you know where to look when something breaks.
 **Orchestrators** — mostly call other scripts or arrange data flow:
 - `build_ipeds_dataset.R` — runs collector → canonical in order
 - `annual_refresh_and_publish.R` — convenience wrapper for partial refresh
-- `build_grant_witness_usaspending_sensitivity.R` — calls the API, computes proposals
+- `build_grant_witness_usaspending_sensitivity.R` - calls the API and computes the risky continuation filter
 
 **Heavy transforms** — do the actual data shaping:
 - `collect_ipeds_data.R` — downloads IPEDS, resolves variable names, writes raw CSV

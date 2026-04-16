@@ -18,8 +18,8 @@ Each subfolder groups one subject area so the repo stays readable:
 - `grant_witness/`
   - disrupted research funding inputs, cache files, methodology files, and
     derived outputs for the Research tab
-  - the small manual include/match tables and the chosen Proposal G filter file
-    are the main human-maintained source files worth keeping in Git
+  - the small manual include/match tables and the chosen risky continuation
+    filter file are the main human-maintained source files worth keeping in Git
 
 - `scorecard/`
   - College Scorecard and graduation-rate join files used during local rebuilds

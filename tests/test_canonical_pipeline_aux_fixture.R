@@ -40,6 +40,21 @@ run_test("IPEDS canonical pipeline fixture with aux enrollment backfill", functi
     file.path(fixture_root, "scripts", "shared", "contracts.R"),
     overwrite = TRUE
   )
+  file.copy(
+    file.path(root, "scripts", "shared", "ipeds_row_builders.R"),
+    file.path(fixture_root, "scripts", "shared", "ipeds_row_builders.R"),
+    overwrite = TRUE
+  )
+  file.copy(
+    file.path(root, "scripts", "shared", "ipeds_enrichment_helpers.R"),
+    file.path(fixture_root, "scripts", "shared", "ipeds_enrichment_helpers.R"),
+    overwrite = TRUE
+  )
+  file.copy(
+    file.path(root, "scripts", "shared", "ipeds_sector_benchmarks.R"),
+    file.path(fixture_root, "scripts", "shared", "ipeds_sector_benchmarks.R"),
+    overwrite = TRUE
+  )
 
   ipeds_helpers_lines <- readLines(file.path(root, "scripts", "shared", "ipeds_helpers.R"), warn = FALSE)
   ipeds_helpers_override <- c(

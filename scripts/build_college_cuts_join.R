@@ -1,36 +1,16 @@
 main <- function(cli_args = NULL) {
-  args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
-
-  paths_env <- new.env(parent = baseenv())
-  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-
-  get_arg_value <- function(flag, default = NULL) {
-    idx <- match(flag, args)
-    if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
-  }
-
-  ensure_packages <- function(pkgs) {
-    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
-    if (length(missing) > 0) {
-      install.packages(missing, repos = "https://cloud.r-project.org")
-    }
-    invisible(lapply(pkgs, library, character.only = TRUE))
-  }
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  ipeds         <- load_ipeds_paths()
+  ipeds_layout  <- ipeds$ipeds_layout
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr"))
 
-  write_csv_atomic <- function(df, path) {
-    tmp <- paste0(path, ".tmp")
-    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
-    readr::write_csv(df, tmp, na = "")
-    file.rename(tmp, path)
-  }
-
-    financial_input <- get_arg_value(
-      "--financial-input",
-      ipeds_layout(root = ".")$dataset_csv
-    )
+  financial_input <- get_arg_value(
+    "--financial-input",
+    ipeds_layout(root = ".")$dataset_csv
+  )
   output_prefix <- get_arg_value(
     "--output-prefix",
     file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_financial_tracker")
@@ -161,11 +141,6 @@ main <- function(cli_args = NULL) {
 
   safe_sum <- function(x) {
     if (all(is.na(x))) NA_real_ else sum(x, na.rm = TRUE)
-  }
-
-  collapse_unique <- function(x) {
-    vals <- unique(stats::na.omit(as.character(x)))
-    if (length(vals) == 0) NA_character_ else paste(sort(vals), collapse = "; ")
   }
 
   message("Fetching CollegeCuts tables from Supabase ...")
@@ -411,7 +386,7 @@ main <- function(cli_args = NULL) {
       tracker_institution_name = dplyr::first(tracker_institution_name),
       tracker_control_label = dplyr::first(tracker_control_label),
       cut_records = dplyr::n(),
-      cut_types = collapse_unique(cut_type),
+      cut_types = collapse_unique_values(cut_type),
       latest_cut_announcement_date = suppressWarnings(max(as.Date(announcement_date), na.rm = TRUE)),
       first_cut_announcement_date = suppressWarnings(min(as.Date(announcement_date), na.rm = TRUE)),
       total_students_affected_known = safe_sum(students_affected),

@@ -49,6 +49,11 @@ jobs:
             any::tidyr
             any::xml2
 
+      - name: Run shared helper smoke tests
+        shell: bash
+        run: >
+          Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+
       - name: Refresh accreditation actions with cache fallback
         shell: bash
         run: >

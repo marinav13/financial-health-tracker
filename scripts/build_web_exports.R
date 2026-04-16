@@ -1,62 +1,21 @@
 main <- function(cli_args = NULL) {
-args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
-
-paths_env <- new.env(parent = baseenv())
-sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  ipeds         <- load_ipeds_paths()
+  ipeds_layout  <- ipeds$ipeds_layout
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
 # This script turns the canonical IPEDS dataset plus the joined cuts,
 # accreditation, research, and scorecard files into the JSON payloads used by
 # the static site.
 # The helpers below focus on making those exports resilient to missing values so
 # a sparse field in one source does not break the generated pages.
-get_arg_value <- function(flag, default) {
-  idx <- match(flag, args)
-  if (!is.na(idx) && idx < length(args)) {
-    return(args[[idx + 1L]])
-  }
-  default
-}
 
-require_local_file <- function(path, label, how_to_fix) {
-  if (file.exists(path)) {
-    return(invisible(path))
-  }
+ensure_packages(c("dplyr", "jsonlite", "readr"))
+source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
 
-  stop(
-    paste(
-      "Missing required local input for the website build:",
-      label,
-      "\nExpected path:",
-      path,
-      "\nHow to fix:",
-      how_to_fix
-    ),
-    call. = FALSE
-  )
-}
-
-ensure_columns <- function(df, defaults) {
-  for (column_name in names(defaults)) {
-    if (!column_name %in% names(df)) {
-      df[[column_name]] <- defaults[[column_name]]
-    }
-  }
-  df
-}
-
-input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
+input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
-
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(jsonlite)
-  library(readr)
-})
-
-`%||%` <- function(x, y) {
-  if (is.null(x) || length(x) == 0 || (length(x) == 1 && is.na(x))) y else x
-}
 
 root <- normalizePath(output_dir, winslash = "/", mustWork = TRUE)
 input_path <- normalizePath(input_csv, winslash = "/", mustWork = TRUE)
@@ -78,150 +37,9 @@ closure_status_json_path <- file.path(data_dir, "closure_status_by_unitid.json")
 hcm_json_path <- file.path(data_dir, "hcm2_by_unitid.json")
 federal_composite_json_path <- file.path(data_dir, "federal_composite_scores_by_unitid.json")
 
-# Small helpers for numeric cleanup, JSON writing, and export-safe labels.
-to_num <- function(x) {
-  if (is.null(x)) return(NA_real_)
-  x <- trimws(as.character(x))
-  x[x %in% c("", "NA", "NULL")] <- NA_character_
-  suppressWarnings(as.numeric(gsub(",", "", x, fixed = TRUE)))
-}
 
-null_if_empty <- function(x) {
-  x <- as.character(x %||% "")
-  x <- trimws(x)
-  ifelse(x == "", NA_character_, x)
-}
-
-scale_ratio_to_pct <- function(x) {
-  value <- to_num(x)
-  ifelse(is.na(value), NA_real_, value * 100)
-}
-
-build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pct) {
-  all_value <- scale_ratio_to_pct(all_pct)
-  ug_value <- scale_ratio_to_pct(ug_pct)
-  grad_value <- scale_ratio_to_pct(grad_pct)
-  dplyr::case_when(
-    is.na(all_value) ~ NA_character_,
-    !is.na(ug_value) & !is.na(grad_value) ~ paste0(
-      "In ", year, ", ",
-      round(all_value, 1),
-      "% of students were international. That includes ",
-      round(ug_value, 1),
-      "% of undergraduates and ",
-      round(grad_value, 1),
-      "% of graduate students."
-    ),
-    TRUE ~ paste0("In ", year, ", ", round(all_value, 1), "% of students were international.")
-  )
-}
-
-write_json_file <- function(x, path) {
-  jsonlite::write_json(x, path = path, pretty = TRUE, auto_unbox = TRUE, na = "null")
-}
-
-or_null <- function(x) {
-  if (length(x) == 0 || all(is.na(x))) return(NA)
-  value <- x[[1]]
-  if (is.character(value)) {
-    value <- trimws(value)
-    if (identical(value, "")) return(NA)
-  }
-  value
-}
-
-or_null_date <- function(x) {
-  if (length(x) == 0 || all(is.na(x))) return(NA)
-  value <- x[[1]]
-  if (inherits(value, "Date")) {
-    if (is.na(value)) return(NA)
-    return(as.character(value))
-  }
-  if (is.character(value)) {
-    value <- trimws(value)
-    if (identical(value, "")) return(NA)
-  }
-  value
-}
-
-make_export_id <- function(prefix, unitid, institution_name, state) {
-  raw_unitid <- trimws(as.character(unitid %||% ""))
-  if (!identical(raw_unitid, "")) return(raw_unitid)
-  base <- paste(institution_name %||% "", state %||% "", sep = " | ")
-  normalized <- tolower(base)
-  normalized <- gsub("[^a-z0-9]+", "-", normalized)
-  normalized <- gsub("^-+|-+$", "", normalized)
-  paste0(prefix, "-", normalized)
-}
-
-normalize_control_label <- function(x) {
-  value <- trimws(as.character(x %||% ""))
-  if (!nzchar(value)) return(NA_character_)
-  dplyr::case_when(
-    grepl("^public$", value, ignore.case = TRUE) ~ "Public",
-    grepl("private (?:non-profit|not-for-profit)", value, ignore.case = TRUE) ~ "Private not-for-profit",
-    grepl("private for-profit", value, ignore.case = TRUE) ~ "Private for-profit",
-    TRUE ~ value
-  )
-}
-
-normalize_display_institution_name <- function(x) {
-  value <- trimws(as.character(x %||% ""))
-  dplyr::case_when(
-    identical(value, "Arizona State University Campus Immersion") ~ "Arizona State University",
-    TRUE ~ value
-  )
-}
-
-is_primary_bachelors_category <- function(x) {
-  value <- as.character(x %||% "")
-  grepl("primarily baccalaureate or above", value, ignore.case = TRUE) &
-    !grepl("not primarily baccalaureate or above", value, ignore.case = TRUE)
-}
-
-derive_positions_affected <- function(faculty_affected, notes, source_title, program_name, cut_type) {
-  explicit <- to_num(faculty_affected)
-  if (!is.na(explicit) && explicit > 0) return(as.integer(explicit))
-
-  text <- paste(notes %||% "", source_title %||% "", program_name %||% "", sep = " ")
-  text <- gsub(",", "", text, fixed = TRUE)
-  text <- trimws(text)
-  if (!nzchar(text)) return(NA_integer_)
-
-  layoff_signal <- grepl("layoff|laid off|positions|position|employees|employee|staff members|faculty", text, ignore.case = TRUE) ||
-    grepl("staff_layoff|faculty_layoff", as.character(cut_type %||% ""), ignore.case = TRUE)
-  if (!layoff_signal) return(NA_integer_)
-
-  patterns <- c(
-    "cutting\\s+([0-9]{1,4})\\s+positions",
-    "lays? off\\s+([0-9]{1,4})",
-    "laid off\\s+([0-9]{1,4})",
-    "([0-9]{1,4})\\s+positions\\s+affected",
-    "([0-9]{1,4})\\s+(?:employees|employee|staff members|staff|faculty(?: members)?)"
-  )
-  for (pattern in patterns) {
-    matched <- regexec(pattern, text, ignore.case = TRUE)
-    value <- regmatches(text, matched)[[1]]
-    if (length(value) >= 2) {
-      parsed <- suppressWarnings(as.integer(value[2]))
-      if (!is.na(parsed) && parsed > 0) return(parsed)
-    }
-  }
-
-  NA_integer_
-}
-
-build_series <- function(df, value_col, scale = 1) {
-  keep <- !is.na(df[[value_col]])
-  if (!any(keep)) return(list())
-  rows <- df[keep, c("year", value_col), drop = FALSE]
-  lapply(seq_len(nrow(rows)), function(i) {
-    list(
-      year = as.integer(rows$year[[i]]),
-      value = unname(rows[[value_col]][[i]]) * scale
-    )
-  })
-}
+# Helper functions (require_local_file, ensure_columns, null_if_empty,
+# write_json_file, build_series, etc.) are in scripts/shared/export_helpers.R
 
 build_cuts_export <- function() {
   # Build the site payload for the college cuts page and related downloads.
@@ -433,13 +251,6 @@ build_accreditation_export <- function() {
     normalized <- gsub("[^a-z0-9]+", "-", normalized)
     normalized <- gsub("^-+|-+$", "", normalized)
     paste0("accred-", normalized)
-  }
-
-  pick_first_present <- function(df, candidates) {
-    present <- candidates[candidates %in% names(df)]
-    if (!length(present)) return(rep(NA_character_, nrow(df)))
-    values <- lapply(present, function(col) as.character(df[[col]]))
-    Reduce(function(x, y) dplyr::coalesce(x, y), values)
   }
 
   summary_df <- summary_df %>%
@@ -786,13 +597,10 @@ build_school_file <- function(df) {
     generated_at = as.character(Sys.Date()),
     profile = list(
       institution_name = latest$institution_name[[1]],
-      institution_unique_name = paste(
-        na.omit(c(
-          normalize_display_institution_name(latest$institution_name[[1]]),
-          latest$city[[1]],
-          latest$state[[1]]
-        )),
-        collapse = " | "
+      institution_unique_name = build_institution_unique_name(
+        latest$institution_name[[1]],
+        latest$city[[1]],
+        latest$state[[1]]
       ),
       state = latest$state[[1]],
       city = latest$city[[1]],
@@ -1001,14 +809,7 @@ schools_index <- latest_2024 %>%
     institution_name = vapply(institution_name, normalize_display_institution_name, character(1)),
     institution_unique_name = vapply(
       seq_len(n()),
-      function(i) paste(
-        na.omit(c(
-          normalize_display_institution_name(institution_name[[i]]),
-          city[[i]],
-          state[[i]]
-        )),
-        collapse = " | "
-      ),
+      function(i) build_institution_unique_name(institution_name[[i]], city[[i]], state[[i]]),
       character(1)
     ),
     state = state,
@@ -1048,79 +849,51 @@ write_json_file(metadata, file.path(data_dir, "metadata.json"))
 readr::write_csv(latest_2024, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
 cuts_export <- build_cuts_export()
-if (!is.null(cuts_export)) {
-  write_json_file(cuts_export, file.path(data_dir, "college_cuts.json"))
-  cuts_index <- lapply(cuts_export$schools, function(school) {
-    list(
-      unitid = school$unitid,
-      financial_unitid = school$financial_unitid,
-      has_financial_profile = school$has_financial_profile,
-      is_primary_tracker = school$is_primary_tracker,
-      institution_name = school$institution_name,
-      institution_unique_name = paste(na.omit(c(school$institution_name, school$city, school$state)), collapse = " | "),
-      state = school$state,
-      city = school$city,
-      control_label = school$control_label,
-      category = school$category,
-      latest_cut_date = school$latest_cut_date,
-      latest_cut_label = school$latest_cut_label,
-      cut_count = school$cut_count
-    )
-  })
-  write_json_file(cuts_index, file.path(data_dir, "college_cuts_index.json"))
-}
+cuts_paths <- write_export_bundle(
+  cuts_export,
+  data_dir,
+  "college_cuts.json",
+  "college_cuts_index.json",
+  function(school) list(
+    latest_cut_date  = school$latest_cut_date,
+    latest_cut_label = school$latest_cut_label,
+    cut_count        = school$cut_count
+  )
+)
 
 accreditation_export <- build_accreditation_export()
-if (!is.null(accreditation_export)) {
-  write_json_file(accreditation_export, file.path(data_dir, "accreditation.json"))
-  accreditation_index <- lapply(accreditation_export$schools, function(school) {
+accreditation_paths <- write_export_bundle(
+  accreditation_export,
+  data_dir,
+  "accreditation.json",
+  "accreditation_index.json",
+  function(school) {
     latest_action_label <- if (!is.null(school$actions) && length(school$actions) > 0) {
       school$actions[[1]]$action_label
     } else {
       school$latest_status$action_labels
     }
     list(
-      unitid = school$unitid,
-      financial_unitid = school$financial_unitid,
-      has_financial_profile = school$has_financial_profile,
-      is_primary_tracker = school$is_primary_tracker,
-      institution_name = school$institution_name,
-      institution_unique_name = paste(na.omit(c(school$institution_name, school$city, school$state)), collapse = " | "),
-      state = school$state,
-      city = school$city,
-      control_label = school$control_label,
-      category = school$category,
-      latest_action_date = school$latest_status$latest_action_date,
+      latest_action_date  = school$latest_status$latest_action_date,
       latest_action_label = latest_action_label,
-      action_count = school$latest_status$action_count
+      action_count        = school$latest_status$action_count
     )
-  })
-  write_json_file(accreditation_index, file.path(data_dir, "accreditation_index.json"))
-}
+  }
+)
 
 research_export <- build_research_export()
-if (!is.null(research_export)) {
-  write_json_file(research_export, file.path(data_dir, "research_funding.json"))
-  research_index <- lapply(research_export$schools, function(school) {
-    list(
-      unitid = school$unitid,
-      financial_unitid = school$financial_unitid,
-      has_financial_profile = school$has_financial_profile,
-      is_primary_tracker = school$is_primary_tracker,
-      likely_higher_ed = school$likely_higher_ed,
-      institution_name = school$institution_name,
-      institution_unique_name = paste(na.omit(c(school$institution_name, school$city, school$state)), collapse = " | "),
-      state = school$state,
-      city = school$city,
-      control_label = school$control_label,
-      category = school$category,
-      latest_termination_date = school$latest_termination_date,
-      total_disrupted_grants = school$total_disrupted_grants,
-      total_disrupted_award_remaining = school$total_disrupted_award_remaining
-    )
-  })
-  write_json_file(research_index, file.path(data_dir, "research_funding_index.json"))
-}
+research_paths <- write_export_bundle(
+  research_export,
+  data_dir,
+  "research_funding.json",
+  "research_funding_index.json",
+  function(school) list(
+    likely_higher_ed                = school$likely_higher_ed,
+    latest_termination_date         = school$latest_termination_date,
+    total_disrupted_grants          = school$total_disrupted_grants,
+    total_disrupted_award_remaining = school$total_disrupted_award_remaining
+  )
+)
 
 by_school <- df %>%
   dplyr::group_by(unitid) %>%
@@ -1135,12 +908,12 @@ cat(sprintf("Saved schools index to %s\n", file.path(data_dir, "schools_index.js
 cat(sprintf("Saved metadata to %s\n", file.path(data_dir, "metadata.json")))
 cat(sprintf("Saved school files to %s\n", schools_dir))
 cat(sprintf("Saved download CSV to %s\n", file.path(downloads_dir, "full_dataset.csv")))
-if (!is.null(cuts_export)) cat(sprintf("Saved college cuts export to %s\n", file.path(data_dir, "college_cuts.json")))
-if (!is.null(accreditation_export)) cat(sprintf("Saved accreditation export to %s\n", file.path(data_dir, "accreditation.json")))
-if (!is.null(research_export)) cat(sprintf("Saved research funding export to %s\n", file.path(data_dir, "research_funding.json")))
-if (!is.null(cuts_export)) cat(sprintf("Saved college cuts index to %s\n", file.path(data_dir, "college_cuts_index.json")))
-if (!is.null(accreditation_export)) cat(sprintf("Saved accreditation index to %s\n", file.path(data_dir, "accreditation_index.json")))
-if (!is.null(research_export)) cat(sprintf("Saved research funding index to %s\n", file.path(data_dir, "research_funding_index.json")))
+if (!is.null(cuts_paths)) cat(sprintf("Saved college cuts export to %s\n", cuts_paths$export_path))
+if (!is.null(accreditation_paths)) cat(sprintf("Saved accreditation export to %s\n", accreditation_paths$export_path))
+if (!is.null(research_paths)) cat(sprintf("Saved research funding export to %s\n", research_paths$export_path))
+if (!is.null(cuts_paths)) cat(sprintf("Saved college cuts index to %s\n", cuts_paths$index_path))
+if (!is.null(accreditation_paths)) cat(sprintf("Saved accreditation index to %s\n", accreditation_paths$index_path))
+if (!is.null(research_paths)) cat(sprintf("Saved research funding index to %s\n", research_paths$index_path))
 
 invisible(TRUE)
 }

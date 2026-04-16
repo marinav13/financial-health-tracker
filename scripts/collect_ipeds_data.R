@@ -1,46 +1,26 @@
 main <- function(cli_args = NULL) {
-args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args                     <- parse_cli_args(cli_args)
+  ipeds                    <- load_ipeds_paths()
+  ipeds_layout             <- ipeds$ipeds_layout
+  ensure_ipeds_layout_dirs <- ipeds$ensure_ipeds_layout_dirs
+  get_arg_value            <- function(flag, default = NULL) get_arg(args, flag, default)
 
-paths_env <- new.env(parent = baseenv())
-sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-ensure_ipeds_layout_dirs <- get("ensure_ipeds_layout_dirs", envir = paths_env, inherits = FALSE)
+  # This script is the single source-of-truth IPEDS collector. It downloads only
+  # the annual source tables and dictionaries we need, resolves the requested
+  # variables year by year, and writes one wide raw-but-decoded institution-year
+  # dataset for the canonical build.
+  setup_r_libs()
+  ensure_packages(c("dplyr", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"))
+  source(file.path(getwd(), "scripts", "shared", "ipeds_helpers.R"))
+  # Shared: download_if_missing, expand_zip_if_missing, find_first_file,
+  # sum_if_any are in scripts/shared/ipeds_helpers.R
 
-# This script is the single source-of-truth IPEDS collector. It downloads only
-# the annual source tables and dictionaries we need, resolves the requested
-# variables year by year, and writes one wide raw-but-decoded institution-year
-# dataset for the canonical build.
-get_arg_value <- function(flag, default) {
-  idx <- match(flag, args)
-  if (!is.na(idx) && idx < length(args)) {
-    return(args[[idx + 1L]])
-  }
-  default
-}
-
-start_year     <- as.integer(get_arg_value("--start-year",    "2014"))
-end_year       <- as.integer(get_arg_value("--end-year",      "2024"))
-output_stem    <- get_arg_value("--output-stem", "ipeds_financial_health")
-# Pass --force-rebuild TRUE to ignore per-year caches and rebuild everything
-force_rebuild  <- identical(get_arg_value("--force-rebuild", "FALSE"), "TRUE")
-
-user_lib <- Sys.getenv("R_LIBS_USER", unset = "")
-if (!identical(user_lib, "")) {
-  dir.create(user_lib, recursive = TRUE, showWarnings = FALSE)
-  .libPaths(unique(c(user_lib, .libPaths())))
-}
-
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(purrr)
-  library(readr)
-  library(readxl)
-  library(stringr)
-  library(tidyr)
-  library(xml2)
-})
-
-`%||%` <- function(x, y) if (is.null(x) || length(x) == 0) y else x
+  start_year    <- as.integer(get_arg_value("--start-year",    "2014"))
+  end_year      <- as.integer(get_arg_value("--end-year",      "2024"))
+  output_stem   <- get_arg_value("--output-stem", "ipeds_financial_health")
+  # Pass --force-rebuild TRUE to ignore per-year caches and rebuild everything
+  force_rebuild <- identical(get_arg_value("--force-rebuild", "FALSE"), "TRUE")
 
 excluded_state_codes <- c("PR", "GU", "VI", "AS", "MP", "FM", "MH", "PW")
 
@@ -71,32 +51,8 @@ ensure_ipeds_layout_dirs(paths)
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
-# Helper functions for downloads, extraction, catalog parsing, and field access.
-download_if_missing <- function(url, out_file) {
-  if (file.exists(out_file)) return(invisible(out_file))
-  url <- gsub("&amp;", "&", as.character(url), fixed = TRUE)
-  utils::download.file(url, destfile = out_file, mode = "wb", quiet = TRUE)
-  out_file
-}
-
-expand_zip_if_missing <- function(zip_path, destination_path) {
-  if (dir.exists(destination_path)) {
-    existing_files <- list.files(destination_path, recursive = TRUE, full.names = TRUE, all.files = TRUE, no.. = TRUE)
-    if (length(existing_files) > 0) return(invisible(destination_path))
-  }
-  dir.create(destination_path, recursive = TRUE, showWarnings = FALSE)
-  tryCatch(
-    suppressWarnings(utils::unzip(zip_path, exdir = destination_path)),
-    error = function(e) invisible(NULL)
-  )
-  destination_path
-}
-
-find_first_file <- function(path, pattern) {
-  hits <- list.files(path, pattern = pattern, recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
-  if (length(hits) == 0) return(NA_character_)
-  hits[[1]]
-}
+# Collector-specific helpers for HTML catalog parsing and field access.
+# (download_if_missing, expand_zip_if_missing, find_first_file are in ipeds_helpers.R)
 
 html_decode_clean <- function(x) {
   x <- iconv(as.character(x %||% ""), from = "", to = "UTF-8", sub = "")
@@ -188,15 +144,7 @@ first_non_null <- function(values) {
   values[[1]]
 }
 
-safe_divide <- function(numerator, denominator) {
-  if (is.na(numerator) || is.na(denominator) || denominator == 0) return(NA_real_)
-  numerator / denominator
-}
-
-sum_if_any <- function(values) {
-  if (all(is.na(values))) return(NA_real_)
-  sum(values, na.rm = TRUE)
-}
+# safe_divide() is in utils.R; sum_if_any() is in ipeds_helpers.R
 
 # ── catalog ────────────────────────────────────────────────────────────────
 # Build the filtered IPEDS file catalog that drives all later downloads and
@@ -226,28 +174,34 @@ catalog <- get_catalog_rows(catalog_html) %>%
   filter(purrr::map_lgl(table_name, ~ any(stringr::str_detect(.x, target_table_regex)))) %>%
   arrange(year, table_name)
 
-# Manual patches for entries that sometimes go missing from the catalog
-patch_catalog <- function(cat, yr, survey, desc, tname, durl, dict_url) {
-  if (any(cat$table_name == tname)) return(cat)
-  dplyr::bind_rows(cat, tibble::tibble(
-    year = yr, survey = survey, description = desc,
-    table_name = tname, data_url = durl, dictionary_url = dict_url
-  ))
-}
-
-if (start_year <= 2020 && end_year >= 2020) {
-  catalog <- patch_catalog(catalog, 2020L, "12-Month Enrollment",
+# Manual patches for entries that sometimes go missing from the catalog.
+# To add a future patch: append a row to this tibble.  No other code changes.
+catalog_patches <- tibble::tibble(
+  year           = c(2020L,                2020L),
+  survey         = "12-Month Enrollment",
+  description    = c(
     "12-month unduplicated headcount by race/ethnicity, gender and level of student: 2019-20",
-    "EFFY2020",
+    "12-month full-time equivalent enrollment and instructional activity: 2019-20"
+  ),
+  table_name     = c("EFFY2020",           "EFIA2020"),
+  data_url       = c(
     "https://nces.ed.gov/ipeds/datacenter/data/EFFY2020.zip",
-    "https://nces.ed.gov/ipeds/datacenter/EFFY2020_STATA"
-  )
-  catalog <- patch_catalog(catalog, 2020L, "12-Month Enrollment",
-    "12-month full-time equivalent enrollment and instructional activity: 2019-20",
-    "EFIA2020",
-    "https://nces.ed.gov/ipeds/datacenter/data/EFIA2020.zip",
+    "https://nces.ed.gov/ipeds/datacenter/data/EFIA2020.zip"
+  ),
+  dictionary_url = c(
+    "https://nces.ed.gov/ipeds/datacenter/EFFY2020_STATA",
     "https://nces.ed.gov/ipeds/datacenter/EFIA2020_STATA"
   )
+)
+
+patches_needed <- catalog_patches[
+  catalog_patches$year >= start_year &
+    catalog_patches$year <= end_year &
+    !catalog_patches$table_name %in% catalog$table_name, ,
+  drop = FALSE
+]
+if (nrow(patches_needed) > 0) {
+  catalog <- dplyr::bind_rows(catalog, patches_needed)
 }
 
 catalog <- arrange(catalog, year, table_name)
@@ -448,22 +402,28 @@ for (year in start_year:end_year) {
 
   cat(sprintf("[%d] Processing...\n", year))
 
-  aliases <- list(
-    HD      = (year_catalog %>% filter(str_detect(table_name, "^HD\\d{4}$"))      %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    IC      = (year_catalog %>% filter(str_detect(table_name, "^IC\\d{4}$"))      %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    FLAGS   = (year_catalog %>% filter(str_detect(table_name, "^FLAGS\\d{4}$"))   %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    EFFY    = (year_catalog %>% filter(str_detect(table_name, "^EFFY\\d{4}$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    EFIA    = (year_catalog %>% filter(str_detect(table_name, "^EFIA\\d{4}$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    EAP     = (year_catalog %>% filter(str_detect(table_name, "^EAP\\d{4}$"))     %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    DRVEF12 = (year_catalog %>% filter(str_detect(table_name, "^DRVEF12\\d{4}$")) %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    DRVADM  = (year_catalog %>% filter(str_detect(table_name, "^DRVADM\\d{4}$"))  %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    DRVHR   = (year_catalog %>% filter(str_detect(table_name, "^DRVHR\\d{4}$"))   %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    DRVGR   = (year_catalog %>% filter(str_detect(table_name, "^DRVGR\\d{4}$"))   %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    DRVF    = (year_catalog %>% filter(str_detect(table_name, "^DRVF\\d{4}$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    F1A     = (year_catalog %>% filter(str_detect(table_name, "^F\\d{4}_F1A$"))   %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    F2      = (year_catalog %>% filter(str_detect(table_name, "^F\\d{4}_F2$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_),
-    F3      = (year_catalog %>% filter(str_detect(table_name, "^F\\d{4}_F3$"))    %>% slice(1) %>% pull(table_name) %||% NA_character_)
+  # Canonical alias → regex pattern mapping.  Add a row here to support a
+  # new IPEDS table without touching the download/index/field-match loops.
+  table_alias_patterns <- c(
+    HD      = "^HD\\d{4}$",
+    IC      = "^IC\\d{4}$",
+    FLAGS   = "^FLAGS\\d{4}$",
+    EFFY    = "^EFFY\\d{4}$",
+    EFIA    = "^EFIA\\d{4}$",
+    EAP     = "^EAP\\d{4}$",
+    DRVEF12 = "^DRVEF12\\d{4}$",
+    DRVADM  = "^DRVADM\\d{4}$",
+    DRVHR   = "^DRVHR\\d{4}$",
+    DRVGR   = "^DRVGR\\d{4}$",
+    DRVF    = "^DRVF\\d{4}$",
+    F1A     = "^F\\d{4}_F1A$",
+    F2      = "^F\\d{4}_F2$",
+    F3      = "^F\\d{4}_F3$"
   )
+  aliases <- lapply(table_alias_patterns, function(pat) {
+    hit <- year_catalog[stringr::str_detect(year_catalog$table_name, pat), , drop = FALSE]
+    if (nrow(hit) == 0) NA_character_ else hit$table_name[[1L]]
+  })
 
   data_tables  <- list()
   dictionaries <- list()

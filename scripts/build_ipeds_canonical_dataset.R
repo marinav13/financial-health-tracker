@@ -1,46 +1,24 @@
 main <- function(cli_args = NULL) {
-args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args                     <- parse_cli_args(cli_args)
+  ipeds                    <- load_ipeds_paths()
+  ipeds_layout             <- ipeds$ipeds_layout
+  ensure_ipeds_layout_dirs <- ipeds$ensure_ipeds_layout_dirs
+  get_arg_value            <- function(flag, default = NULL) get_arg(args, flag, default)
 
-paths_env <- new.env(parent = baseenv())
-sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-ensure_ipeds_layout_dirs <- get("ensure_ipeds_layout_dirs", envir = paths_env, inherits = FALSE)
+  # This script takes the wide raw IPEDS extract and turns it into the
+  # cleaned, decoded canonical dataset used by the website, workbook, and
+  # downstream exports.
+  setup_r_libs()
+  ensure_packages(c("dplyr", "purrr", "readr", "readxl", "stringr", "tidyr"))
 
-# This script takes the wide raw IPEDS extract and turns it into the
-# cleaned, decoded canonical dataset used by the website, workbook, and
-# downstream exports.
-get_arg_value <- function(flag, default) {
-  idx <- match(flag, args)
-  if (!is.na(idx) && idx < length(args)) {
-    return(args[[idx + 1L]])
-  }
-  default
-}
+  source(file.path(getwd(), "scripts", "shared", "ipeds_helpers.R"))
 
-default_paths <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
-raw_csv <- get_arg_value("--raw", default_paths$raw_csv)
-catalog_csv <- get_arg_value("--catalog", default_paths$selected_file_catalog_csv)
-output_csv <- get_arg_value("--output", default_paths$canonical_csv)
-expanded_output_csv <- get_arg_value("--expanded-output", default_paths$dataset_csv)
-
-user_lib <- Sys.getenv("R_LIBS_USER", unset = "")
-if (!identical(user_lib, "")) {
-  dir.create(user_lib, recursive = TRUE, showWarnings = FALSE)
-  .libPaths(unique(c(user_lib, .libPaths())))
-}
-
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(purrr)
-  library(readr)
-  library(readxl)
-  library(stringr)
-  library(tidyr)
-})
-
-`%||%` <- function(x, y) {
-  if (is.null(x) || length(x) == 0) y else x
-}
+  default_paths        <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
+  raw_csv              <- get_arg_value("--raw",             default_paths$raw_csv)
+  catalog_csv          <- get_arg_value("--catalog",         default_paths$selected_file_catalog_csv)
+  output_csv           <- get_arg_value("--output",          default_paths$canonical_csv)
+  expanded_output_csv  <- get_arg_value("--expanded-output", default_paths$dataset_csv)
 
 # Set up paths for the input raw file, the selected-file catalog, and
 # the canonical processed dataset output used by the website and workbook.
@@ -57,248 +35,10 @@ aux_root <- resolved_paths$cache_aux_dir
 aux_data_root <- resolved_paths$cache_aux_data_dir
 aux_extract_root <- resolved_paths$cache_aux_extract_dir
 
-to_num <- function(x) {
-  if (is.null(x)) return(NA_real_)
-  x <- as.character(x)
-  x <- trimws(x)
-  x[x %in% c("", "NA", "NULL")] <- NA_character_
-  suppressWarnings(as.numeric(gsub(",", "", x, fixed = TRUE)))
-}
 
-safe_pct_change <- function(new_value, old_value) {
-  ifelse(
-    is.na(new_value) | is.na(old_value) | old_value == 0,
-    NA_real_,
-    ((new_value - old_value) / abs(old_value)) * 100
-  )
-}
+# Utility functions (as_positive_spend, inflate_to_base_year, decode helpers,
+# download helpers, time-series helpers) are in scripts/shared/ipeds_helpers.R
 
-safe_divide <- function(numerator, denominator) {
-  ifelse(
-    is.na(numerator) | is.na(denominator) | denominator == 0,
-    NA_real_,
-    numerator / denominator
-  )
-}
-
-as_positive_spend <- function(x) {
-  ifelse(is.na(x), NA_real_, abs(x))
-}
-
-cpi_u_annual_avg <- c(
-  `2014` = 236.736,
-  `2015` = 237.017,
-  `2016` = 240.007,
-  `2017` = 245.120,
-  `2018` = 251.107,
-  `2019` = 255.657,
-  `2020` = 258.811,
-  `2021` = 270.970,
-  `2022` = 292.655,
-  `2023` = 304.702,
-  `2024` = 313.689
-)
-
-inflate_to_base_year <- function(value, year, base_year = 2024) {
-  year_key <- as.character(year)
-  base_key <- as.character(base_year)
-  ifelse(
-    is.na(value) | is.na(year) |
-      !(year_key %in% names(cpi_u_annual_avg)) |
-      !(base_key %in% names(cpi_u_annual_avg)),
-    NA_real_,
-    value * (unname(cpi_u_annual_avg[[base_key]]) / unname(cpi_u_annual_avg[[year_key]]))
-  )
-}
-
-zero_if_null <- function(x) {
-  ifelse(is.na(x), 0, x)
-}
-
-sum_if_any <- function(values) {
-  if (all(is.na(values))) return(NA_real_)
-  sum(values, na.rm = TRUE)
-}
-
-get_control_label <- function(control_code) {
-  code <- trimws(as.character(control_code %||% ""))
-  dplyr::case_when(
-    code == "1" ~ "Public",
-    code == "2" ~ "Private not-for-profit",
-    code == "3" ~ "Private for-profit",
-    TRUE ~ as.character(control_code)
-  )
-}
-
-decode_yes_no_field <- function(x) {
-  code <- trimws(as.character(x %||% ""))
-  dplyr::case_when(
-    code == "1" ~ "Yes",
-    code == "2" ~ "No",
-    code == "-1" ~ "Not reported",
-    code == "-2" ~ "Not applicable",
-    code == "" ~ NA_character_,
-    TRUE ~ as.character(x)
-  )
-}
-
-state_lookup <- c(
-  AL = "Alabama", AK = "Alaska", AZ = "Arizona", AR = "Arkansas", CA = "California", CO = "Colorado",
-  CT = "Connecticut", DE = "Delaware", DC = "District of Columbia", FL = "Florida", GA = "Georgia",
-  HI = "Hawaii", ID = "Idaho", IL = "Illinois", IN = "Indiana", IA = "Iowa", KS = "Kansas",
-  KY = "Kentucky", LA = "Louisiana", ME = "Maine", MD = "Maryland", MA = "Massachusetts",
-  MI = "Michigan", MN = "Minnesota", MS = "Mississippi", MO = "Missouri", MT = "Montana",
-  NE = "Nebraska", NV = "Nevada", NH = "New Hampshire", NJ = "New Jersey", NM = "New Mexico",
-  NY = "New York", NC = "North Carolina", ND = "North Dakota", OH = "Ohio", OK = "Oklahoma",
-  OR = "Oregon", PA = "Pennsylvania", RI = "Rhode Island", SC = "South Carolina", SD = "South Dakota",
-  TN = "Tennessee", TX = "Texas", UT = "Utah", VT = "Vermont", VA = "Virginia", WA = "Washington",
-  WV = "West Virginia", WI = "Wisconsin", WY = "Wyoming", PR = "Puerto Rico", GU = "Guam",
-  VI = "U.S. Virgin Islands", AS = "American Samoa", MP = "Northern Mariana Islands",
-  FM = "Federated States of Micronesia", MH = "Marshall Islands", PW = "Palau"
-)
-
-get_state_name <- function(state_abbr) {
-  vals <- as.character(state_abbr)
-  keys <- toupper(trimws(ifelse(is.na(vals), "", vals)))
-  out <- vals
-  matched <- keys %in% names(state_lookup)
-  out[matched] <- unname(state_lookup[keys[matched]])
-  out
-}
-
-excluded_state_codes <- c("PR", "GU", "VI", "AS", "MP", "FM", "MH", "PW")
-
-# Download and dictionary helpers:
-# these make sure the 2024 lookup files exist and can be re-expanded cleanly
-# when the cached extraction is missing or stale.
-download_if_missing <- function(url, out_file) {
-  if (file.exists(out_file)) return(invisible(out_file))
-  url <- gsub("&amp;", "&", as.character(url), fixed = TRUE)
-  utils::download.file(url, destfile = out_file, mode = "wb", quiet = TRUE)
-  out_file
-}
-
-is_valid_zip_archive <- function(path) {
-  if (!file.exists(path)) return(FALSE)
-  tryCatch({
-    listing <- utils::unzip(path, list = TRUE)
-    nrow(listing) > 0
-  }, error = function(e) FALSE)
-}
-
-ensure_dictionary_archive <- function(table_name, out_file, year = 2024) {
-  if (is_valid_zip_archive(out_file)) return(invisible(out_file))
-  dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
-  url <- sprintf(
-    "https://nces.ed.gov/ipeds/dictionary-generator?year=%s&tableName=%s",
-    year,
-    table_name
-  )
-  if (file.exists(out_file)) file.remove(out_file)
-  download_if_missing(url, out_file)
-  if (!is_valid_zip_archive(out_file)) {
-    stop(sprintf("Dictionary download for %s did not produce a valid archive.", table_name))
-  }
-  out_file
-}
-
-expand_zip_if_missing <- function(zip_path, destination_path) {
-  if (dir.exists(destination_path)) {
-    existing_files <- list.files(destination_path, recursive = TRUE, full.names = TRUE, all.files = FALSE)
-    if (length(existing_files) > 0) return(invisible(destination_path))
-    unlink(destination_path, recursive = TRUE, force = TRUE)
-  }
-  dir.create(destination_path, recursive = TRUE, showWarnings = FALSE)
-  utils::unzip(zip_path, exdir = destination_path)
-  destination_path
-}
-
-find_first_file <- function(path, pattern) {
-  hits <- list.files(path, pattern = pattern, recursive = TRUE, full.names = TRUE, ignore.case = TRUE)
-  if (length(hits) == 0) return(NA_character_)
-  hits[[1]]
-}
-
-get_frequency_lookup <- function(dictionary_archive, table_name, var_name) {
-  expanded <- file.path(aux_extract_root, paste0("dict_", table_name))
-  expand_zip_if_missing(dictionary_archive, expanded)
-  xlsx_path <- find_first_file(expanded, "\\.xlsx$")
-  if (is.na(xlsx_path) && dir.exists(expanded)) {
-    unlink(expanded, recursive = TRUE, force = TRUE)
-    expand_zip_if_missing(dictionary_archive, expanded)
-    xlsx_path <- find_first_file(expanded, "\\.xlsx$")
-  }
-  if (is.na(xlsx_path)) return(character())
-  sheets <- tryCatch(readxl::excel_sheets(xlsx_path), error = function(e) character())
-  if (length(sheets) == 0 && dir.exists(expanded)) {
-    unlink(expanded, recursive = TRUE, force = TRUE)
-    expand_zip_if_missing(dictionary_archive, expanded)
-    xlsx_path <- find_first_file(expanded, "\\.xlsx$")
-    if (is.na(xlsx_path)) return(character())
-    sheets <- tryCatch(readxl::excel_sheets(xlsx_path), error = function(e) character())
-  }
-  freq_sheet <- sheets[tolower(sheets) == "frequencies"][1]
-  if (length(freq_sheet) == 0 || is.na(freq_sheet)) return(character())
-  rows <- suppressMessages(readxl::read_excel(xlsx_path, sheet = freq_sheet, col_names = FALSE, .name_repair = "minimal"))
-  if (ncol(rows) == 0) return(character())
-  bad_names <- is.na(names(rows)) | names(rows) == ""
-  names(rows)[bad_names] <- paste0("X", which(bad_names))
-  names(rows)[seq_len(min(5, ncol(rows)))] <- c("A", "B", "C", "D", "E")[seq_len(min(5, ncol(rows)))]
-  if (!all(c("A", "D", "E") %in% names(rows))) return(character())
-  rows <- rows %>%
-    mutate(
-      A = trimws(as.character(A)),
-      D = trimws(as.character(D)),
-      E = trimws(as.character(E))
-    ) %>%
-    filter(A == var_name, !is.na(D), D != "", !is.na(E), E != "")
-  stats::setNames(rows$E, rows$D)
-}
-
-decode_value <- function(code, lookup) {
-  key <- trimws(as.character(code %||% ""))
-  if (!length(lookup) || is.na(key) || key == "") return(ifelse(key == "", NA_character_, as.character(code)))
-  if (key %in% names(lookup)) lookup[[key]] else as.character(code)
-}
-
-latest_non_null <- function(df, field) {
-  vals <- df %>%
-    filter(!is.na(.data[[field]])) %>%
-    arrange(desc(year)) %>%
-    select(year, value = all_of(field)) %>%
-    slice(1)
-  if (nrow(vals) == 0) return(list(year = NA_real_, value = NA_real_))
-  list(year = vals$year[[1]], value = vals$value[[1]])
-}
-
-count_decline_years <- function(years, values, start_year, end_year, threshold_pct = 0) {
-  lookup <- stats::setNames(values, years)
-  count <- 0
-  for (yr in start_year:end_year) {
-    old_val <- unname(lookup[as.character(yr)])
-    new_val <- unname(lookup[as.character(yr + 1)])
-    pct <- safe_pct_change(new_val, old_val)
-    if (!is.na(pct) && pct <= threshold_pct) count <- count + 1
-  }
-  count
-}
-
-count_negative_years <- function(years, values, target_years, threshold = 0) {
-  lookup <- stats::setNames(values, years)
-  sum(purrr::map_lgl(target_years, ~ {
-    val <- unname(lookup[as.character(.x)])
-    !is.na(val) && val < threshold
-  }))
-}
-
-loss_frequency <- function(years, values, end_year, window_years) {
-  lookup <- stats::setNames(values, years)
-  start_year <- end_year - window_years + 1
-  sum(vapply(start_year:end_year, function(yr) {
-    val <- unname(lookup[as.character(yr)])
-    !is.na(val) && val < 0
-  }, logical(1)))
-}
 
 # Load the raw tracker build plus the file catalog that tells us where to find
 # supplemental IPEDS tables such as EAP, EFFY, SFA, and DRVF.
@@ -343,21 +83,21 @@ flags2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "FLAGS2
 try(ensure_dictionary_archive("HD2024", hd2024_dict), silent = TRUE)
 try(ensure_dictionary_archive("IC2024", ic2024_dict), silent = TRUE)
 try(ensure_dictionary_archive("FLAGS2024", flags2024_dict), silent = TRUE)
-hd_sector_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "SECTOR") else character()
-hd_level_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ICLEVEL") else character()
-hd_act_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ACT") else character()
-hd_active_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CYACTIVE") else character()
-hd_hbcu_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "HBCU") else character()
-hd_tribal_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "TRIBAL") else character()
-hd_grad_offering_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "GROFFER") else character()
-hd_category_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "INSTCAT") else character()
-hd_locale_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "LOCALE") else character()
-hd_access_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESAEC") else character()
-hd_size_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESIZE") else character()
-hd_ug_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEAPM") else character()
-hd_grad_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEGPM") else character()
-ic_religious_affiliation_lookup <- if (file.exists(ic2024_dict)) get_frequency_lookup(ic2024_dict, "IC2024", "RELAFFIL") else character()
-flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags2024_dict, "FLAGS2024", "FORM_F") else character()
+hd_sector_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "SECTOR", aux_extract_root) else character()
+hd_level_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ICLEVEL", aux_extract_root) else character()
+hd_act_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ACT", aux_extract_root) else character()
+hd_active_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CYACTIVE", aux_extract_root) else character()
+hd_hbcu_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "HBCU", aux_extract_root) else character()
+hd_tribal_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "TRIBAL", aux_extract_root) else character()
+hd_grad_offering_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "GROFFER", aux_extract_root) else character()
+hd_category_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "INSTCAT", aux_extract_root) else character()
+hd_locale_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "LOCALE", aux_extract_root) else character()
+hd_access_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESAEC", aux_extract_root) else character()
+hd_size_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESIZE", aux_extract_root) else character()
+hd_ug_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEAPM", aux_extract_root) else character()
+hd_grad_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEGPM", aux_extract_root) else character()
+ic_religious_affiliation_lookup <- if (file.exists(ic2024_dict)) get_frequency_lookup(ic2024_dict, "IC2024", "RELAFFIL", aux_extract_root) else character()
+flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags2024_dict, "FLAGS2024", "FORM_F", aux_extract_root) else character()
 
 load_catalog_table <- function(entry) {
   table_name <- entry$table_name[[1]]
@@ -767,350 +507,26 @@ aux_backfill_rows <- raw_enriched %>%
   ) %>%
   distinct()
 
+decode_lookups <- list(
+  hd_sector_lookup = hd_sector_lookup,
+  hd_level_lookup = hd_level_lookup,
+  hd_act_lookup = hd_act_lookup,
+  hd_active_lookup = hd_active_lookup,
+  hd_hbcu_lookup = hd_hbcu_lookup,
+  hd_tribal_lookup = hd_tribal_lookup,
+  hd_grad_offering_lookup = hd_grad_offering_lookup,
+  hd_category_lookup = hd_category_lookup,
+  hd_locale_lookup = hd_locale_lookup,
+  hd_access_lookup = hd_access_lookup,
+  hd_size_lookup = hd_size_lookup,
+  hd_ug_mix_lookup = hd_ug_mix_lookup,
+  hd_grad_mix_lookup = hd_grad_mix_lookup,
+  ic_religious_affiliation_lookup = ic_religious_affiliation_lookup,
+  flags_form_lookup = flags_form_lookup
+)
+
 prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
-  row <- raw_enriched[i, , drop = FALSE]
-  year <- row$year[[1]]
-  unitid <- as.character(row$unitid[[1]])
-  row_key <- paste(unitid, year, sep = "|")
-  control_label <- get_control_label(row$control[[1]])
-
-  sector_decoded <- decode_value(row$sector[[1]], hd_sector_lookup)
-  level_decoded <- decode_value(row$level[[1]], hd_level_lookup)
-  status_decoded <- decode_value(row$status[[1]], hd_act_lookup)
-  is_active_decoded <- decode_value(row$is_active[[1]], hd_active_lookup)
-  state_full <- get_state_name(row$state[[1]])
-
-  # Keep only core four-year institutions here; later filters further narrow
-  # the final public-facing universe to the 2024 tracker cohort.
-  if (!(control_label %in% c("Public", "Private not-for-profit", "Private for-profit"))) return(NULL)
-  if (!identical(level_decoded, "Four or more years")) return(NULL)
-  if (!is.na(sector_decoded) && str_detect(sector_decoded, "^Administrative Unit")) return(NULL)
-  if (!is.na(is_active_decoded) && !(is_active_decoded %in% c("Yes", "Imputed as active"))) return(NULL)
-
-  fte12 <- to_num(row$fte_12_months[[1]])
-  reporting_model_code <- trimws(as.character(row$reporting_model[[1]] %||% ""))
-  uses_fasb_finance <- identical(control_label, "Private not-for-profit") || identical(reporting_model_code, "2")
-  uses_gasb_finance <- identical(control_label, "Public") && !uses_fasb_finance
-
-  revenue <- if (uses_gasb_finance) {
-    to_num(row$total_operating_nonoperating_revenues_gasb[[1]])
-  } else if (uses_fasb_finance) {
-    to_num(row$total_revenues_investment_return_fasb[[1]])
-  } else if (identical(control_label, "Private for-profit")) {
-    to_num(row$total_revenues_investment_return_pfp[[1]])
-  } else {
-    NA_real_
-  }
-  expenses <- if (uses_gasb_finance) {
-    to_num(row[["total_expenses_deductions_current_total_gasb"]][[1]])
-  } else if (uses_fasb_finance) {
-    to_num(row[["total_expenses_fasb"]][[1]])
-  } else if (identical(control_label, "Private for-profit")) {
-    to_num(row[["total_expenses_total_amount_pfp"]][[1]])
-  } else {
-    NA_real_
-  }
-  net_tuition_total <- if (uses_gasb_finance) {
-    to_num(row$tuition_fees_after_discounts_allowances_gasb[[1]])
-  } else if (uses_fasb_finance) {
-    (to_num(row$tuition_and_fees_fasb[[1]]) + zero_if_null(to_num(row$allowances_applied_to_tuition_fasb[[1]]))) -
-      (zero_if_null(to_num(row$institutional_grants_funded_fasb[[1]])) + zero_if_null(to_num(row$institutional_grants_unfunded_fasb[[1]])))
-  } else if (identical(control_label, "Private for-profit")) {
-    (to_num(row$tuition_fees_pfp[[1]]) + zero_if_null(to_num(row$discounts_allowances_applied_tuition_fees_pfp[[1]]))) -
-      zero_if_null(to_num(row$institutional_grants_pfp[[1]]))
-  } else {
-    NA_real_
-  }
-  federal_funding <- if (uses_gasb_finance) {
-    to_num(row$federal_operating_grants_contracts_gasb[[1]])
-  } else if (uses_fasb_finance) {
-    to_num(row$federal_grants_contracts_fasb[[1]])
-  } else if (identical(control_label, "Private for-profit")) {
-    to_num(row$federal_grants_contracts_pfp[[1]])
-  } else {
-    NA_real_
-  }
-  state_funding <- if (uses_gasb_finance) {
-    to_num(row$state_appropriations_gasb[[1]])
-  } else if (uses_fasb_finance) {
-    to_num(row$state_approps_fasb[[1]])
-  } else if (identical(control_label, "Private for-profit")) {
-    to_num(row$state_appropriations_pfp[[1]])
-  } else {
-    NA_real_
-  }
-  assets <- to_num(row$assets[[1]])
-  liabilities <- to_num(row$liabilities[[1]])
-  unrestricted_assets <- if (uses_gasb_finance) {
-    to_num(row$unrestricted_public[[1]])
-  } else if (uses_fasb_finance) {
-    to_num(row$total_unrestricted_net_assets_fasb[[1]])
-  } else {
-    NA_real_
-  }
-  gross_tuition <- if (uses_gasb_finance) {
-    zero_if_null(to_num(row$discounts_allowances_applied_tuition_fees_gasb[[1]])) + zero_if_null(to_num(row$tuition_fees_after_discounts_allowances_gasb[[1]]))
-  } else if (uses_fasb_finance) {
-    zero_if_null(to_num(row$tuition_and_fees_fasb[[1]])) + zero_if_null(to_num(row$allowances_applied_to_tuition_fasb[[1]]))
-  } else {
-    NA_real_
-  }
-  discount_rate <- if (uses_gasb_finance) {
-    safe_divide(to_num(row$discounts_allowances_applied_tuition_fees_gasb[[1]]), gross_tuition)
-  } else if (uses_fasb_finance) {
-    safe_divide(to_num(row$institutional_grants_unfunded_fasb[[1]]), gross_tuition)
-  } else {
-    NA_real_
-  }
-  endowment_value <- if (uses_gasb_finance) {
-    dplyr::coalesce(
-      to_num(row$value_endowment_assets_end_gasb[[1]]),
-      if ("F1H02" %in% names(row)) to_num(row$F1H02[[1]]) else NA_real_,
-      to_num(row$F1H01[[1]])
-    )
-  } else if (uses_fasb_finance) {
-    dplyr::coalesce(
-      to_num(row$value_endowment_end_fasb[[1]]),
-      if ("F2H02" %in% names(row)) to_num(row$F2H02[[1]]) else NA_real_,
-      to_num(row$F2H01[[1]])
-    )
-  } else {
-    NA_real_
-  }
-  government_funding <- if (is.na(federal_funding) && is.na(state_funding)) NA_real_ else zero_if_null(federal_funding) + zero_if_null(state_funding)
-  # Standardize research spending from the correct 2024 finance lines across
-  # GASB, FASB nonprofit, and FASB for-profit institutions.
-  research_expense <- dplyr::coalesce(
-    if ("research_expenses_total_gasb" %in% names(row)) to_num(row[["research_expenses_total_gasb"]][[1]]) else NA_real_,
-    if ("research_expenses_total_fasb" %in% names(row)) to_num(row[["research_expenses_total_fasb"]][[1]]) else NA_real_,
-    if ("research_expenses_total_pfp" %in% names(row)) to_num(row[["research_expenses_total_pfp"]][[1]]) else NA_real_,
-    if ("research_expense" %in% names(row)) to_num(row[["research_expense"]][[1]]) else NA_real_,
-    if ("F1C021" %in% names(row)) to_num(row[["F1C021"]][[1]]) else NA_real_,
-    if ("F2E021" %in% names(row)) to_num(row[["F2E021"]][[1]]) else NA_real_,
-    if ("F3E02A1" %in% names(row)) to_num(row[["F3E02A1"]][[1]]) else NA_real_
-  )
-  core_expenses <- dplyr::coalesce(
-    if ("core_expenses_gasb" %in% names(row)) to_num(row[["core_expenses_gasb"]][[1]]) else NA_real_,
-    if ("core_expenses_fasb" %in% names(row)) to_num(row[["core_expenses_fasb"]][[1]]) else NA_real_,
-    if ("core_expenses_pfp" %in% names(row)) to_num(row[["core_expenses_pfp"]][[1]]) else NA_real_,
-    if ("core_expenses" %in% names(row)) to_num(row[["core_expenses"]][[1]]) else NA_real_,
-    if ("F1COREXP" %in% names(row)) to_num(row[["F1COREXP"]][[1]]) else NA_real_,
-    if ("F2COREXP" %in% names(row)) to_num(row[["F2COREXP"]][[1]]) else NA_real_,
-    if ("F3COREXP" %in% names(row)) to_num(row[["F3COREXP"]][[1]]) else NA_real_
-  )
-  core_revenue <- dplyr::coalesce(
-    to_num(row$core_revenue[[1]]),
-    if (uses_gasb_finance) {
-      total_rev <- to_num(row$total_operating_nonoperating_revenues_gasb[[1]])
-      aux_rev <- to_num(row$auxiliary_enterprises_revenue_gasb[[1]])
-      hosp_rev <- to_num(row$hospital_services_revenue_gasb[[1]])
-      indep_rev <- to_num(row$independent_operations_revenue_gasb[[1]])
-      if (is.na(total_rev)) NA_real_ else total_rev - zero_if_null(aux_rev) - zero_if_null(hosp_rev) - zero_if_null(indep_rev)
-    } else if (uses_fasb_finance) {
-      total_rev <- to_num(row$total_revenues_investment_return_fasb[[1]])
-      aux_rev <- to_num(row$auxiliary_enterprises_revenue_fasb[[1]])
-      hosp_rev <- to_num(row$hospital_revenue_fasb[[1]])
-      indep_rev <- to_num(row$independent_operations_revenue_fasb[[1]])
-      if (is.na(total_rev)) NA_real_ else total_rev - zero_if_null(aux_rev) - zero_if_null(hosp_rev) - zero_if_null(indep_rev)
-    } else {
-      NA_real_
-    }
-  )
-  gov_grants_fasb <- dplyr::coalesce(
-    to_num(row$gov_grants_fasb[[1]]),
-    if (uses_fasb_finance) {
-      safe_divide(
-        sum_if_any(c(
-          to_num(row$federal_grants_contracts_fasb[[1]]),
-          to_num(row$state_grants_contracts_fasb[[1]]),
-          to_num(row$local_grants_contracts_fasb[[1]])
-        )),
-        core_revenue
-      )
-    } else {
-      NA_real_
-    }
-  )
-  state_approps_percent_core_gasb <- dplyr::coalesce(
-    to_num(row$state_approps_percent_core_gasb[[1]]),
-    if (uses_gasb_finance) safe_divide(to_num(row$state_appropriations_gasb[[1]]), core_revenue) else NA_real_
-  )
-  state_revenue_fte_fasb <- dplyr::coalesce(
-    to_num(row$state_revenue_fte_fasb[[1]]),
-    if (uses_fasb_finance) safe_divide(to_num(row$state_approps_fasb[[1]]), fte12) else NA_real_
-  )
-  gov_revenue_fte_fasb <- dplyr::coalesce(
-    to_num(row$gov_revenue_fte_fasb[[1]]),
-    if (uses_fasb_finance) {
-      safe_divide(
-        sum_if_any(c(
-          to_num(row$federal_grants_contracts_fasb[[1]]),
-          to_num(row$state_grants_contracts_fasb[[1]]),
-          to_num(row$local_grants_contracts_fasb[[1]])
-        )),
-        fte12
-      )
-    } else {
-      NA_real_
-    }
-  )
-  loss_amount <- if (is.na(revenue) || is.na(expenses)) NA_real_ else revenue - expenses
-  pell_accounting_method <- trimws(as.character(row$pell_accounting_method[[1]] %||% ""))
-  pell_grants <- to_num(row$pell_grants[[1]])
-  federal_adj <- if (uses_gasb_finance) {
-    federal_funding
-  } else if (uses_fasb_finance) {
-    if (is.na(federal_funding)) NA_real_ else if (identical(pell_accounting_method, "2")) pmax(federal_funding - zero_if_null(pell_grants), 0) else federal_funding
-  } else if (identical(control_label, "Private for-profit")) {
-    federal_funding
-  } else {
-    NA_real_
-  }
-
-  # Recompute comparable finance metrics in one place so downstream exports can
-  # just read from this dataframe instead of rebuilding each metric separately.
-  revenue_adjusted <- inflate_to_base_year(revenue, year)
-  expenses_adjusted <- inflate_to_base_year(expenses, year)
-  loss_amount_adjusted <- inflate_to_base_year(loss_amount, year)
-  net_tuition_total_adjusted <- inflate_to_base_year(net_tuition_total, year)
-  federal_funding_adjusted <- inflate_to_base_year(federal_funding, year)
-  federal_adj_adjusted <- inflate_to_base_year(federal_adj, year)
-  state_funding_adjusted <- inflate_to_base_year(state_funding, year)
-  government_funding_adjusted <- inflate_to_base_year(government_funding, year)
-  core_revenue_adjusted <- inflate_to_base_year(core_revenue, year)
-  endowment_value_adjusted <- inflate_to_base_year(endowment_value, year)
-  assets_adjusted <- inflate_to_base_year(assets, year)
-  liabilities_adjusted <- inflate_to_base_year(liabilities, year)
-
-  tibble::tibble(
-    unitid = unitid,
-    institution_name = dplyr::coalesce(row$institution_name_latest[[1]], row$institution_name[[1]]),
-    institution_unique_name = dplyr::coalesce(
-      row$institution_unique_name_latest[[1]],
-      paste(na.omit(c(row$institution_name[[1]], row$city[[1]], state_full)), collapse = " | ")
-    ),
-    year = year,
-    control_label = control_label,
-    state = dplyr::coalesce(row$state_latest[[1]], state_full),
-    city = dplyr::coalesce(row$city_latest[[1]], row$city[[1]]),
-    urbanization = decode_value(row$urbanization[[1]], hd_locale_lookup),
-    sector = sector_decoded,
-    level = level_decoded,
-    category = decode_value(row$category[[1]], hd_category_lookup),
-    institution_status = status_decoded,
-    is_active = is_active_decoded,
-    hbcu = decode_value(row$hbcu[[1]], hd_hbcu_lookup),
-    tribal_college = decode_value(row$tribal_college[[1]], hd_tribal_lookup),
-    grad_offering = decode_value(row$grad_offering[[1]], hd_grad_offering_lookup),
-    reporting_model = decode_value(row$reporting_model[[1]], flags_form_lookup),
-    access_earnings = decode_value(row$access_earnings[[1]], hd_access_lookup),
-    size = decode_value(row$size[[1]], hd_size_lookup),
-    grad_program_mix = decode_value(row$grad_program_mix[[1]], hd_grad_mix_lookup),
-    undergrad_program_mix = decode_value(row$undergrad_program_mix[[1]], hd_ug_mix_lookup),
-    religious_affiliation = decode_value(row$religious_affiliation[[1]], ic_religious_affiliation_lookup),
-    all_programs_distance_education = decode_yes_no_field(row$all_programs_distance_education[[1]]),
-    fte_12_months = fte12,
-    fte_undergrad = to_num(row$fte_undergrad[[1]]),
-    fte_graduate = to_num(row$fte_graduate[[1]]),
-    enrollment_headcount_total = to_num(row$enrollment_headcount_total[[1]]),
-    enrollment_headcount_undergrad = to_num(row$enrollment_headcount_undergrad[[1]]),
-    enrollment_headcount_graduate = to_num(row$enrollment_headcount_graduate[[1]]),
-    enrollment_nonresident_total = to_num(row$enrollment_nonresident_total[[1]]),
-    enrollment_nonresident_undergrad = to_num(row$enrollment_nonresident_undergrad[[1]]),
-    enrollment_nonresident_graduate = to_num(row$enrollment_nonresident_graduate[[1]]),
-      staff_fte_total = to_num(row$fte_total_staff[[1]]),
-      staff_fte_instructional = to_num(row$fte_instructional[[1]]),
-      students_per_instructional_staff_fte = safe_divide(fte12, to_num(row$fte_instructional[[1]])),
-      transfer_out_rate_bachelor = to_num(row$transfer_out_rate_bachelor[[1]]),
-    research_expense = research_expense,
-    research_expense_per_fte = safe_divide(research_expense, fte12),
-    research_expense_pct_core_expenses = safe_divide(research_expense, core_expenses),
-    staff_headcount_total = to_num(row$staff_headcount_total[[1]]),
-    staff_headcount_instructional = to_num(row$staff_headcount_instructional[[1]]),
-    loan_pct_undergrad_federal = to_num(row$loan_pct_undergrad_federal[[1]]),
-    loan_avg_undergrad_federal = to_num(row$loan_avg_undergrad_federal[[1]]),
-    loan_count_undergrad_federal = to_num(row$loan_count_undergrad_federal[[1]]),
-    revenue_total = revenue,
-    revenue_total_adjusted = revenue_adjusted,
-    expenses_total = expenses,
-    expenses_total_adjusted = expenses_adjusted,
-    loss_amount = loss_amount,
-    loss_amount_adjusted = loss_amount_adjusted,
-    ended_year_at_loss = dplyr::case_when(is.na(loss_amount) ~ NA_character_, loss_amount < 0 ~ "Yes", TRUE ~ "No"),
-    operating_margin = ifelse(is.na(revenue) | revenue == 0 | is.na(expenses), NA_real_, ((revenue - expenses) / revenue) * 100),
-    net_tuition_total = net_tuition_total,
-    net_tuition_total_adjusted = net_tuition_total_adjusted,
-    net_tuition_per_fte = safe_divide(net_tuition_total, fte12),
-    net_tuition_per_fte_adjusted = safe_divide(net_tuition_total_adjusted, fte12),
-    tuition_dependence_ratio = safe_divide(net_tuition_total, revenue),
-    tuition_dependence_pct = safe_divide(net_tuition_total, revenue) * 100,
-    admissions_yield = to_num(row$admissions_yield[[1]]),
-    federal_funding = federal_funding,
-    federal_funding_adjusted = federal_funding_adjusted,
-    federal_grants_contracts_pell_adjusted = federal_adj,
-    federal_grants_contracts_pell_adjusted_adjusted = federal_adj_adjusted,
-    federal_grants_contracts_pell_adjusted_pct_core_revenue = safe_divide(federal_adj, core_revenue),
-    state_funding = state_funding,
-    state_funding_adjusted = state_funding_adjusted,
-    core_revenue = core_revenue,
-    core_revenue_adjusted = core_revenue_adjusted,
-    state_funding_pct_core_revenue = safe_divide(state_funding, core_revenue),
-    state_approps_percent_core_gasb = state_approps_percent_core_gasb,
-    gov_grants_fasb = gov_grants_fasb,
-    state_revenue_fte_fasb = state_revenue_fte_fasb,
-    gov_revenue_fte_fasb = gov_revenue_fte_fasb,
-    gov_grants_contracts_pct_core_revenue_gasb = to_num(row$gov_grants_contracts_pct_core_revenue_gasb[[1]]),
-    gov_grants_contracts_pct_core_revenue_fasb = to_num(row$gov_grants_contracts_pct_core_revenue_fasb[[1]]),
-    state_appropriations_pct_core_revenue_gasb = to_num(row$state_appropriations_pct_core_revenue_gasb[[1]]),
-    government_funding_total = government_funding,
-    government_funding_total_adjusted = government_funding_adjusted,
-    government_funding_pct_total_revenue = safe_divide(government_funding, revenue),
-    endowment_value = endowment_value,
-    endowment_value_adjusted = endowment_value_adjusted,
-    endowment_spending_current_use = if (uses_gasb_finance) {
-      as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
-    } else if (uses_fasb_finance) {
-      as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
-    } else {
-      NA_real_
-    },
-    endowment_spending_current_use_adjusted = inflate_to_base_year(
-      if (uses_gasb_finance) {
-        as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
-      } else if (uses_fasb_finance) {
-        as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
-      } else {
-        NA_real_
-      },
-      year
-    ),
-    endowment_spending_current_use_pct_core_revenue = safe_divide(
-      if (uses_gasb_finance) {
-        as_positive_spend(to_num(row$endowment_spending_distribution_current_use_gasb[[1]]))
-      } else if (uses_fasb_finance) {
-        as_positive_spend(to_num(row$spending_distribution_for_current_use_fasb[[1]]))
-      } else {
-        NA_real_
-      },
-      core_revenue
-    ),
-    endowment_assets_per_fte_gasb = to_num(row$endowment_assets_per_fte_gasb[[1]]),
-    endowment_assets_per_fte_fasb = to_num(row$endowment_assets_per_fte_fasb[[1]]),
-    endowment_assets_per_fte = ifelse(control_label == "Public", to_num(row$endowment_assets_per_fte_gasb[[1]]), to_num(row$endowment_assets_per_fte_fasb[[1]])),
-    endowment_assets_per_fte_adjusted = safe_divide(endowment_value_adjusted, fte12),
-    leverage = safe_divide(liabilities, assets),
-    liquidity = safe_divide(unrestricted_assets, assets),
-    discount_rate = discount_rate,
-    assets = assets,
-    assets_adjusted = assets_adjusted,
-    liabilities = liabilities,
-    liabilities_adjusted = liabilities_adjusted
-  ) %>%
-    mutate(
-      pct_international_all = safe_divide(enrollment_nonresident_total, enrollment_headcount_total),
-      pct_international_undergraduate = safe_divide(enrollment_nonresident_undergrad, enrollment_headcount_undergrad),
-      pct_international_graduate = safe_divide(enrollment_nonresident_graduate, enrollment_headcount_graduate)
-    )
+  build_canonical_ipeds_row(raw_enriched[i, , drop = FALSE], decode_lookups = decode_lookups)
 })
 
 
@@ -1187,131 +603,7 @@ for (nm in c("staff_headcount_total", "staff_headcount_instructional")) {
   if (!(nm %in% names(prepared_rows))) prepared_rows[[nm]] <- NA_real_
 }
 
-enrich_group <- function(df) {
-  # This step adds year-over-year and 5/10-year trend metrics within each
-  # institution, using the already-decoded yearly rows as input.
-  df <- df %>% arrange(year)
-  years <- df$year
-  enroll_lookup <- stats::setNames(df$enrollment_headcount_total, years)
-  enroll_fte_lookup <- stats::setNames(df$fte_12_months, years)
-  staff_fte_lookup <- stats::setNames(df$staff_fte_total, years)
-  staff_instr_fte_lookup <- stats::setNames(df$staff_fte_instructional, years)
-  staff_head_lookup <- stats::setNames(df$staff_headcount_total, years)
-  staff_instr_head_lookup <- stats::setNames(df$staff_headcount_instructional, years)
-  revenue_lookup <- stats::setNames(df$revenue_total, years)
-  revenue_adjusted_lookup <- stats::setNames(df$revenue_total_adjusted, years)
-  op_margin_lookup <- stats::setNames(df$operating_margin, years)
-  net_tuition_lookup <- stats::setNames(df$net_tuition_total, years)
-  net_tuition_adjusted_lookup <- stats::setNames(df$net_tuition_total_adjusted, years)
-  net_tuition_fte_lookup <- stats::setNames(df$net_tuition_per_fte, years)
-  net_tuition_fte_adjusted_lookup <- stats::setNames(df$net_tuition_per_fte_adjusted, years)
-  yield_lookup <- stats::setNames(df$admissions_yield, years)
-  discount_lookup <- stats::setNames(df$discount_rate, years)
-  government_lookup <- stats::setNames(df$government_funding_total, years)
-  government_adjusted_lookup <- stats::setNames(df$government_funding_total_adjusted, years)
-  endowment_lookup <- stats::setNames(df$endowment_value, years)
-  endowment_adjusted_lookup <- stats::setNames(df$endowment_value_adjusted, years)
-  intl_lookup <- stats::setNames(df$enrollment_nonresident_total, years)
-  loss_lookup <- stats::setNames(df$loss_amount, years)
-  loss_adjusted_lookup <- stats::setNames(df$loss_amount_adjusted, years)
-  federal_adj_lookup <- stats::setNames(df$federal_grants_contracts_pell_adjusted, years)
-  federal_adj_adjusted_lookup <- stats::setNames(df$federal_grants_contracts_pell_adjusted_adjusted, years)
-  state_lookup_year <- stats::setNames(df$state_funding, years)
-  state_adjusted_lookup_year <- stats::setNames(df$state_funding_adjusted, years)
-  transfer_out_lookup <- stats::setNames(df$transfer_out_rate_bachelor, years)
-  loan_pct_latest <- latest_non_null(df, "loan_pct_undergrad_federal")
-  loan_count_latest <- latest_non_null(df, "loan_count_undergrad_federal")
-  loan_avg_latest <- latest_non_null(df, "loan_avg_undergrad_federal")
-  loss2024 <- unname(loss_lookup["2024"])
-
-  df %>%
-    rowwise() %>%
-    mutate(
-      enrollment_pct_change_5yr = safe_pct_change(enrollment_headcount_total, unname(enroll_lookup[as.character(year - 5)])),
-      enrollment_decreased_5yr = case_when(is.na(enrollment_pct_change_5yr) ~ NA_character_, enrollment_pct_change_5yr < 0 ~ "Yes", TRUE ~ "No"),
-      enroll_fte_pct_change_5yr = safe_pct_change(fte_12_months, unname(enroll_fte_lookup[as.character(year - 5)])),
-      enrollment_decline_last_3_of_5 = ifelse(count_decline_years(years, df$enrollment_headcount_total, year - 5, year - 1, 0) >= 3, "Yes", "No"),
-      enroll_fte_decline_last_3_of_5 = ifelse(count_decline_years(years, df$fte_12_months, year - 5, year - 1, 0) >= 3, "Yes", "No"),
-      staff_total_pct_change_5yr = safe_pct_change(staff_fte_total, unname(staff_fte_lookup[as.character(year - 5)])),
-      staff_instructional_fte_pct_change_5yr = safe_pct_change(staff_fte_instructional, unname(staff_instr_fte_lookup[as.character(year - 5)])),
-      staff_total_headcount_pct_change_5yr = safe_pct_change(staff_headcount_total, unname(staff_head_lookup[as.character(year - 5)])),
-      staff_instructional_headcount_pct_change_5yr = safe_pct_change(staff_headcount_instructional, unname(staff_instr_head_lookup[as.character(year - 5)])),
-      revenue_pct_change_5yr_nominal = safe_pct_change(revenue_total, unname(revenue_lookup[as.character(year - 5)])),
-      revenue_pct_change_5yr = safe_pct_change(revenue_total_adjusted, unname(revenue_adjusted_lookup[as.character(year - 5)])),
-      revenue_pct_change_5yr_adjusted = revenue_pct_change_5yr,
-      revenue_decreased_5yr = case_when(is.na(revenue_pct_change_5yr) ~ NA_character_, revenue_pct_change_5yr < 0 ~ "Yes", TRUE ~ "No"),
-      revenue_change_1yr_nominal = safe_pct_change(revenue_total, unname(revenue_lookup[as.character(year - 1)])),
-      revenue_change_1yr = safe_pct_change(revenue_total_adjusted, unname(revenue_adjusted_lookup[as.character(year - 1)])),
-      enrollment_change_1yr = safe_pct_change(enrollment_headcount_total, unname(enroll_lookup[as.character(year - 1)])),
-      staff_change_1yr = safe_pct_change(staff_headcount_total, unname(staff_head_lookup[as.character(year - 1)])),
-      revenue_10pct_drop_last_3_of_5 = ifelse(count_decline_years(years, df$revenue_total_adjusted, year - 5, year - 1, -10) >= 3, "Yes", "No"),
-      losses_last_3_of_5 = ifelse(count_negative_years(years, df$operating_margin, (year - 4):year, 0) >= 3, "Yes", "No"),
-      net_tuition_pct_change_5yr_nominal = safe_pct_change(net_tuition_total, unname(net_tuition_lookup[as.character(year - 5)])),
-      net_tuition_pct_change_5yr = safe_pct_change(net_tuition_total_adjusted, unname(net_tuition_adjusted_lookup[as.character(year - 5)])),
-      net_tuition_pct_change_5yr_adjusted = net_tuition_pct_change_5yr,
-      net_tuition_per_fte_change_5yr_nominal = safe_pct_change(net_tuition_per_fte, unname(net_tuition_fte_lookup[as.character(year - 5)])),
-      net_tuition_per_fte_change_5yr = safe_pct_change(net_tuition_per_fte_adjusted, unname(net_tuition_fte_adjusted_lookup[as.character(year - 5)])),
-      net_tuition_per_fte_change_5yr_adjusted = net_tuition_per_fte_change_5yr,
-      yield_pct_change_5yr = safe_pct_change(admissions_yield, unname(yield_lookup[as.character(year - 5)])),
-      discount_pct_change_5yr = safe_pct_change(discount_rate, unname(discount_lookup[as.character(year - 5)])),
-      government_funding_pct_change_5yr_nominal = safe_pct_change(government_funding_total, unname(government_lookup[as.character(year - 5)])),
-      government_funding_pct_change_5yr = safe_pct_change(government_funding_total_adjusted, unname(government_adjusted_lookup[as.character(year - 5)])),
-      government_funding_pct_change_5yr_adjusted = government_funding_pct_change_5yr,
-      federal_grants_contracts_pell_adjusted_pct_change_5yr_nominal = safe_pct_change(federal_grants_contracts_pell_adjusted, unname(federal_adj_lookup[as.character(year - 5)])),
-      federal_grants_contracts_pell_adjusted_pct_change_5yr = safe_pct_change(federal_grants_contracts_pell_adjusted_adjusted, unname(federal_adj_adjusted_lookup[as.character(year - 5)])),
-      federal_grants_contracts_pell_adjusted_pct_change_5yr_adjusted = federal_grants_contracts_pell_adjusted_pct_change_5yr,
-      state_funding_pct_change_5yr_nominal = safe_pct_change(state_funding, unname(state_lookup_year[as.character(year - 5)])),
-      state_funding_pct_change_5yr = safe_pct_change(state_funding_adjusted, unname(state_adjusted_lookup_year[as.character(year - 5)])),
-      state_funding_pct_change_5yr_adjusted = state_funding_pct_change_5yr,
-      endowment_pct_change_5yr_nominal = safe_pct_change(endowment_value, unname(endowment_lookup[as.character(year - 5)])),
-      endowment_pct_change_5yr = safe_pct_change(endowment_value_adjusted, unname(endowment_adjusted_lookup[as.character(year - 5)])),
-      endowment_pct_change_5yr_adjusted = endowment_pct_change_5yr,
-      international_enrollment_change_10yr = enrollment_nonresident_total - unname(intl_lookup[as.character(year - 10)]),
-      international_enrollment_pct_change_10yr = safe_pct_change(enrollment_nonresident_total, unname(intl_lookup[as.character(year - 10)])),
-      international_enrollment_increase_10yr = case_when(is.na(unname(intl_lookup[as.character(year - 10)])) | is.na(enrollment_nonresident_total) ~ NA_character_, enrollment_nonresident_total > unname(intl_lookup[as.character(year - 10)]) ~ "Yes", TRUE ~ "No"),
-      international_student_count_change_5yr = enrollment_nonresident_total - unname(intl_lookup[as.character(year - 5)]),
-      international_enrollment_pct_change_5yr = safe_pct_change(enrollment_nonresident_total, unname(intl_lookup[as.character(year - 5)])),
-      international_enrollment_increase_5yr = case_when(is.na(unname(intl_lookup[as.character(year - 5)])) | is.na(enrollment_nonresident_total) ~ NA_character_, enrollment_nonresident_total > unname(intl_lookup[as.character(year - 5)]) ~ "Yes", TRUE ~ "No"),
-      transfer_out_rate_bachelor_change_5yr = transfer_out_rate_bachelor - unname(transfer_out_lookup[as.character(year - 5)]),
-      transfer_out_rate_bachelor_increase_5yr = case_when(
-        is.na(unname(transfer_out_lookup[as.character(year - 5)])) | is.na(transfer_out_rate_bachelor) ~ NA_character_,
-        transfer_out_rate_bachelor > unname(transfer_out_lookup[as.character(year - 5)]) ~ "Yes",
-        TRUE ~ "No"
-      ),
-      transfer_out_rate_bachelor_change_10yr = transfer_out_rate_bachelor - unname(transfer_out_lookup[as.character(year - 10)]),
-      transfer_out_rate_bachelor_increase_10yr = case_when(
-        is.na(unname(transfer_out_lookup[as.character(year - 10)])) | is.na(transfer_out_rate_bachelor) ~ NA_character_,
-        transfer_out_rate_bachelor > unname(transfer_out_lookup[as.character(year - 10)]) ~ "Yes",
-        TRUE ~ "No"
-      ),
-      share_grad_students = safe_divide(enrollment_headcount_graduate, enrollment_headcount_total),
-      loan_year_latest = dplyr::coalesce(loan_pct_latest$year, loan_count_latest$year, loan_avg_latest$year),
-      loan_pct_undergrad_federal_latest = loan_pct_latest$value,
-      loan_count_undergrad_federal_latest = loan_count_latest$value,
-      loan_avg_undergrad_federal_latest = loan_avg_latest$value,
-      federal_loan_pct_most_recent = loan_pct_latest$value,
-      federal_loan_count_most_recent = loan_count_latest$value,
-      federal_loan_avg_most_recent = loan_avg_latest$value,
-      ended_2024_at_loss = case_when(is.na(loss2024) ~ NA_character_, loss2024 < 0 ~ "Yes", TRUE ~ "No"),
-      loss_amount_2024 = loss2024,
-      loss_amount_2024_adjusted = unname(loss_adjusted_lookup["2024"]),
-      loss_years_last_10 = loss_frequency(years, df$loss_amount, year, 10),
-      loss_years_last_5 = loss_frequency(years, df$loss_amount, year, 5)
-    ) %>%
-    ungroup() %>%
-    mutate(
-      international_students_sentence = case_when(
-        is.na(pct_international_all) ~ NA_character_,
-        !is.na(pct_international_undergraduate) & !is.na(pct_international_graduate) ~ paste0("In ", year, ", ", round(pct_international_all * 100), "% of students were international. That includes ", round(pct_international_undergraduate * 100), "% of undergraduates and ", round(pct_international_graduate * 100), "% of graduate students."),
-        TRUE ~ paste0("In ", year, ", ", round(pct_international_all * 100), "% of students were international.")
-      ),
-      enrollment_change_sentence = ifelse(is.na(enrollment_pct_change_5yr), NA_character_, paste0("12-month unduplicated headcount changed by ", round(enrollment_pct_change_5yr, 1), "% over the past five years.")),
-      revenue_change_sentence = ifelse(is.na(revenue_pct_change_5yr), NA_character_, paste0("Total revenue changed by ", round(revenue_pct_change_5yr, 1), "% over the past five years.")),
-      staffing_change_sentence = ifelse(is.na(staff_total_headcount_pct_change_5yr), NA_character_, paste0("Total staff headcount changed by ", round(staff_total_headcount_pct_change_5yr, 1), "% over the past five years.")),
-      federal_grants_contracts_dependence_sentence = ifelse(is.na(federal_grants_contracts_pell_adjusted_pct_core_revenue), NA_character_, paste0(round(federal_grants_contracts_pell_adjusted_pct_core_revenue * 100, 1), "% of core revenue came from Pell-adjusted federal grants and contracts in ", year, ".")),
-      state_funding_sentence = ifelse(is.na(state_funding_pct_core_revenue), NA_character_, paste0(round(state_funding_pct_core_revenue * 100, 1), "% of core revenue came from state appropriations."))
-    )
-}
+# enrich_group() is defined in scripts/shared/ipeds_helpers.R
 
 sorted_rows <- prepared_rows %>%
   group_by(unitid) %>%
@@ -1355,139 +647,7 @@ eligible_unitids_2024 <- sorted_rows %>%
 sorted_rows <- sorted_rows %>%
   filter(unitid %in% eligible_unitids_2024)
 
-sector_tuition_dependence_benchmarks <- sorted_rows %>%
-  group_by(control_label, year) %>%
-  summarise(
-    sector_median_tuition_dependence_pct = if (all(is.na(tuition_dependence_pct))) NA_real_ else stats::median(tuition_dependence_pct, na.rm = TRUE),
-    sector_mean_tuition_dependence_pct = if (all(is.na(tuition_dependence_pct))) NA_real_ else mean(tuition_dependence_pct, na.rm = TRUE),
-    sector_tuition_dependence_n = sum(!is.na(tuition_dependence_pct)),
-    .groups = "drop"
-  )
-
-sector_enrollment_benchmarks <- sorted_rows %>%
-  group_by(control_label, year) %>%
-  summarise(
-    sector_enrollment_total_national = sum(enrollment_headcount_total, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  group_by(control_label) %>%
-  arrange(year, .by_group = TRUE) %>%
-  mutate(
-    sector_enrollment_pct_change_5yr_national = safe_pct_change(
-      sector_enrollment_total_national,
-      dplyr::lag(sector_enrollment_total_national, 5)
-    )
-  ) %>%
-  ungroup()
-
-sector_research_benchmarks <- sorted_rows %>%
-  group_by(control_label, year) %>%
-  mutate(
-    sector_research_spending_n = sum(!is.na(research_expense_per_fte)),
-    sector_research_spending_positive_n = sum(!is.na(research_expense_per_fte) & research_expense_per_fte > 0),
-    sector_research_spending_reporting_share_pct = ifelse(
-      sector_research_spending_n > 0,
-      round(100 * sector_research_spending_positive_n / sector_research_spending_n, 1),
-      NA_real_
-    ),
-    sector_median_research_expense_per_fte_positive = ifelse(
-      sector_research_spending_positive_n > 0,
-      stats::median(research_expense_per_fte[!is.na(research_expense_per_fte) & research_expense_per_fte > 0]),
-      NA_real_
-    )
-  ) %>%
-  ungroup() %>%
-  transmute(
-    unitid,
-    year,
-    sector_research_spending_n,
-    sector_research_spending_positive_n,
-    sector_research_spending_reporting_share_pct,
-    sector_median_research_expense_per_fte_positive
-  )
-
-sector_staffing_benchmarks <- sorted_rows %>%
-  group_by(control_label, year) %>%
-  summarise(
-    sector_median_students_per_instructional_staff_fte = if (
-      all(is.na(students_per_instructional_staff_fte) | students_per_instructional_staff_fte <= 0)
-    ) {
-      NA_real_
-    } else {
-      stats::median(
-        students_per_instructional_staff_fte[
-          !is.na(students_per_instructional_staff_fte) & students_per_instructional_staff_fte > 0
-        ],
-        na.rm = TRUE
-      )
-    },
-    .groups = "drop"
-  )
-
-sorted_rows <- sorted_rows %>%
-  select(-any_of(c(
-    "sector_median_tuition_dependence_pct",
-    "sector_mean_tuition_dependence_pct",
-    "sector_tuition_dependence_n",
-    "sector_enrollment_total_national",
-    "sector_enrollment_pct_change_5yr_national",
-    "sector_research_spending_n",
-    "sector_research_spending_positive_n",
-    "sector_research_spending_reporting_share_pct",
-    "sector_median_research_expense_per_fte_positive",
-    "sector_median_students_per_instructional_staff_fte",
-    "tuition_dependence_vs_sector_median_pct_points",
-    "tuition_dependence_relative_to_sector_median",
-    "tuition_dependence_vs_sector_median_sentence"
-  ))) %>%
-  left_join(sector_tuition_dependence_benchmarks, by = c("control_label", "year")) %>%
-  left_join(sector_enrollment_benchmarks, by = c("control_label", "year")) %>%
-  left_join(sector_research_benchmarks, by = c("unitid", "year")) %>%
-  left_join(sector_staffing_benchmarks, by = c("control_label", "year")) %>%
-  mutate(
-    tuition_dependence_vs_sector_median_pct_points = tuition_dependence_pct - sector_median_tuition_dependence_pct,
-    tuition_dependence_relative_to_sector_median = case_when(
-      is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
-      abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "About the same as sector median",
-      tuition_dependence_pct > sector_median_tuition_dependence_pct ~ "Above sector median",
-      tuition_dependence_pct < sector_median_tuition_dependence_pct ~ "Below sector median",
-      TRUE ~ NA_character_
-    ),
-    tuition_dependence_vs_sector_median_sentence = case_when(
-      is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
-      TRUE ~ paste0(
-        "This college got ",
-        round(tuition_dependence_pct),
-        "% of its revenue from net tuition in ",
-        year,
-        ", ",
-        tolower(case_when(
-          abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "about the same as",
-          tuition_dependence_pct > sector_median_tuition_dependence_pct ~ "above",
-          tuition_dependence_pct < sector_median_tuition_dependence_pct ~ "below",
-          TRUE ~ "compared with"
-        )),
-        " the median of ",
-        round(sector_median_tuition_dependence_pct),
-        "% for ",
-        tolower(control_label),
-        " colleges."
-      )
-    ),
-    sector_enrollment_change_sentence = ifelse(
-      is.na(enrollment_pct_change_5yr) | is.na(sector_enrollment_pct_change_5yr_national),
-      NA_character_,
-      paste0(
-        "12-month unduplicated headcount changed by ",
-        round(enrollment_pct_change_5yr, 1),
-        "% over the past five years. That compares with ",
-        round(sector_enrollment_pct_change_5yr_national, 1),
-        "% for ",
-        tolower(control_label),
-        " institutions in this tracker."
-      )
-      )
-  )
+sorted_rows <- apply_sector_benchmarks(sorted_rows)
 
 # These final column lists define the canonical IPEDS dataset used by the
 # website/workbook plus a broader extended export for analysis.

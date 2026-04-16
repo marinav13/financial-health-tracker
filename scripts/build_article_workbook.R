@@ -1,22 +1,21 @@
 main <- function(cli_args = NULL) {
-args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  ipeds         <- load_ipeds_paths()
+  ipeds_layout  <- ipeds$ipeds_layout
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
-paths_env <- new.env(parent = baseenv())
-sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
+  input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
+  # The workbook is written as SpreadsheetML with an .xls extension so Excel can
+  # open it directly without a manual rename step.
+  output_workbook <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook.xls")
 
-get_arg_value <- function(flag, default) {
-  idx <- match(flag, args)
-  if (!is.na(idx) && idx < length(args)) {
-    return(args[[idx + 1L]])
-  }
-  default
-}
-
-input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
-# The workbook is written as SpreadsheetML with an .xls extension so Excel can
-# open it directly without a manual rename step.
-output_workbook <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook.xls")
+source(file.path(getwd(), "scripts", "shared", "workbook_helpers.R"))
+# Pure helpers (yes_flag, safe_pct, escape_xml, make_row, sort_df, q75_safe,
+# q25_safe, count_by_group_from, weighted_intl_pct, summarize_event_subset,
+# build_event_xtab, worksheet_signature, xml_cell, worksheet_xml,
+# read_csv_if_exists, read_required_closure_csv) are in
+# scripts/shared/workbook_helpers.R
 
 flagship_unitids <- c(
   102553,100751,106397,104179,110635,126614,129020,130943,134130,139959,141574,153658,142285,
@@ -24,67 +23,6 @@ flagship_unitids <- c(
   199120,200280,181464,183044,186380,187985,182290,196088,204796,207500,209551,214777,217484,
   218663,219471,221759,228778,230764,234076,231174,236948,240444,238032,240727
 )
-
-to_num <- function(x) {
-  if (is.null(x)) return(NA_real_)
-  x <- trimws(as.character(x))
-  x[x %in% c("", "NA", "NULL")] <- NA_character_
-  suppressWarnings(as.numeric(gsub(",", "", x, fixed = TRUE)))
-}
-
-yes_flag <- function(x) {
-  trimws(tolower(as.character(x))) == "yes"
-}
-
-safe_pct <- function(num, den) {
-  ifelse(is.na(num) | is.na(den) | den == 0, NA_real_, (num / den) * 100)
-}
-
-escape_xml <- function(x) {
-  x <- ifelse(is.na(x), "", as.character(x))
-  x <- gsub("&", "&amp;", x, fixed = TRUE)
-  x <- gsub("<", "&lt;", x, fixed = TRUE)
-  x <- gsub(">", "&gt;", x, fixed = TRUE)
-  x <- gsub("\"", "&quot;", x, fixed = TRUE)
-  x
-}
-
-read_csv_if_exists <- function(path) {
-  if (!file.exists(path)) {
-    return(data.frame(stringsAsFactors = FALSE))
-  }
-  read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
-}
-
-read_required_closure_csv <- function(path) {
-  if (!file.exists(path)) {
-    stop(
-      paste(
-        "Missing required closure input:", path,
-        "\nRun `python scripts/import_closure_sheet.py --sheet YOUR_CLOSURE_GOOGLE_SHEET_URL_OR_ID`",
-        "\nand then rerun the workbook build."
-      )
-    )
-  }
-  read.csv(path, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
-}
-
-make_row <- function(metric, statistic, all = NA, public = NA, private_nfp = NA, private_fp = NA,
-                     bacc_public = NA, bacc_private_nfp = NA, bacc_private_fp = NA, notes = "") {
-  data.frame(
-    metric = metric,
-    statistic = statistic,
-    all = all,
-    public = public,
-    private_nfp = private_nfp,
-    private_fp = private_fp,
-    bacc_public = bacc_public,
-    bacc_private_nfp = bacc_private_nfp,
-    bacc_private_fp = bacc_private_fp,
-    notes = notes,
-    stringsAsFactors = FALSE
-  )
-}
 
 read_df <- read.csv(input_csv, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
 latest <- read_df[as.character(read_df$year) == "2024", , drop = FALSE]
@@ -121,26 +59,7 @@ for (nm in intersect(num_cols, names(read_df))) {
   read_df[[nm]] <- to_num(read_df[[nm]])
 }
 
-latest$warning_score_core <- rowSums(cbind(
-  yes_flag(latest$enrollment_decline_last_3_of_5),
-  yes_flag(latest$revenue_10pct_drop_last_3_of_5),
-  yes_flag(latest$losses_last_3_of_5),
-  yes_flag(latest$ended_year_at_loss),
-  !is.na(latest$staff_total_headcount_pct_change_5yr) & latest$staff_total_headcount_pct_change_5yr < 0,
-  !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0
-), na.rm = TRUE)
-
-q75_safe <- function(x) {
-  x <- x[!is.na(x)]
-  if (length(x) == 0) return(NA_real_)
-  as.numeric(stats::quantile(x, probs = 0.75, na.rm = TRUE, names = FALSE))
-}
-
-q25_safe <- function(x) {
-  x <- x[!is.na(x)]
-  if (length(x) == 0) return(NA_real_)
-  as.numeric(stats::quantile(x, probs = 0.25, na.rm = TRUE, names = FALSE))
-}
+latest$warning_score_core <- compute_warning_score_core(latest)
 
 tuition_dependence_q75 <- q75_safe(latest$tuition_dependence_pct)
 international_share_q75 <- q75_safe(latest$pct_international_all)
@@ -157,7 +76,7 @@ latest$high_federal_dependence <- !is.na(latest$federal_grants_contracts_pell_ad
   !is.na(federal_dependence_q75) &
   latest$federal_grants_contracts_pell_adjusted_pct_core_revenue >= federal_dependence_q75
 
-latest$multi_signal_score <- rowSums(cbind(
+latest$multi_signal_score <- row_score(
   yes_flag(latest$enrollment_decline_last_3_of_5),
   yes_flag(latest$revenue_10pct_drop_last_3_of_5),
   yes_flag(latest$losses_last_3_of_5),
@@ -165,9 +84,9 @@ latest$multi_signal_score <- rowSums(cbind(
   !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
   latest$high_international_share,
   latest$high_federal_dependence
-), na.rm = TRUE)
+)
 
-latest$staffing_cut_risk_score <- rowSums(cbind(
+latest$staffing_cut_risk_score <- row_score(
   yes_flag(latest$enrollment_decline_last_3_of_5),
   yes_flag(latest$revenue_10pct_drop_last_3_of_5),
   yes_flag(latest$losses_last_3_of_5),
@@ -176,30 +95,32 @@ latest$staffing_cut_risk_score <- rowSums(cbind(
   !is.na(latest$tuition_dependence_pct) & latest$tuition_dependence_pct >= 50,
   !is.na(latest$endowment_pct_change_5yr) & latest$endowment_pct_change_5yr < 0,
   !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0
-), na.rm = TRUE)
+)
 
-latest$private_closure_risk_score <- rowSums(cbind(
-  latest$control_label != "Public" & yes_flag(latest$enrollment_decline_last_3_of_5),
-  latest$control_label != "Public" & yes_flag(latest$losses_last_3_of_5),
-  latest$control_label != "Public" & yes_flag(latest$ended_year_at_loss),
-  latest$control_label != "Public" & !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
-  latest$control_label != "Public" & !is.na(latest$tuition_dependence_pct) & !is.na(private_tuition_dependence_q75) & latest$tuition_dependence_pct >= private_tuition_dependence_q75,
-  latest$control_label != "Public" & !is.na(latest$liquidity) & !is.na(private_liquidity_q25) & latest$liquidity <= private_liquidity_q25,
-  latest$control_label != "Public" & !is.na(latest$leverage) & !is.na(private_leverage_q75) & latest$leverage >= private_leverage_q75,
-  latest$control_label != "Public" & !is.na(latest$endowment_pct_change_5yr) & latest$endowment_pct_change_5yr < 0,
-  latest$control_label != "Public" & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0
-), na.rm = TRUE)
+is_private <- latest$control_label != "Public"
+latest$private_closure_risk_score <- row_score(
+  is_private & yes_flag(latest$enrollment_decline_last_3_of_5),
+  is_private & yes_flag(latest$losses_last_3_of_5),
+  is_private & yes_flag(latest$ended_year_at_loss),
+  is_private & !is.na(latest$net_tuition_per_fte_change_5yr) & latest$net_tuition_per_fte_change_5yr < 0,
+  is_private & !is.na(latest$tuition_dependence_pct) & !is.na(private_tuition_dependence_q75) & latest$tuition_dependence_pct >= private_tuition_dependence_q75,
+  is_private & !is.na(latest$liquidity) & !is.na(private_liquidity_q25) & latest$liquidity <= private_liquidity_q25,
+  is_private & !is.na(latest$leverage) & !is.na(private_leverage_q75) & latest$leverage >= private_leverage_q75,
+  is_private & !is.na(latest$endowment_pct_change_5yr) & latest$endowment_pct_change_5yr < 0,
+  is_private & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0
+)
 
-latest$public_campus_risk_score <- rowSums(cbind(
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & yes_flag(latest$enrollment_decline_last_3_of_5),
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & !is.na(latest$enrollment_pct_change_5yr) & latest$enrollment_pct_change_5yr <= -20,
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & !is.na(latest$staff_total_headcount_pct_change_5yr) & latest$staff_total_headcount_pct_change_5yr < 0,
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0,
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & yes_flag(latest$transfer_out_rate_bachelor_increase_5yr),
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & yes_flag(latest$transfer_out_rate_bachelor_increase_10yr),
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & !is.na(latest$state_funding_pct_change_5yr) & latest$state_funding_pct_change_5yr < 0,
-  latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids) & (is.na(latest$revenue_total) | is.na(latest$expenses_total))
-), na.rm = TRUE)
+is_public_nonflagship <- latest$control_label == "Public" & !(as.integer(latest$unitid) %in% flagship_unitids)
+latest$public_campus_risk_score <- row_score(
+  is_public_nonflagship & yes_flag(latest$enrollment_decline_last_3_of_5),
+  is_public_nonflagship & !is.na(latest$enrollment_pct_change_5yr) & latest$enrollment_pct_change_5yr <= -20,
+  is_public_nonflagship & !is.na(latest$staff_total_headcount_pct_change_5yr) & latest$staff_total_headcount_pct_change_5yr < 0,
+  is_public_nonflagship & !is.na(latest$staff_instructional_headcount_pct_change_5yr) & latest$staff_instructional_headcount_pct_change_5yr < 0,
+  is_public_nonflagship & yes_flag(latest$transfer_out_rate_bachelor_increase_5yr),
+  is_public_nonflagship & yes_flag(latest$transfer_out_rate_bachelor_increase_10yr),
+  is_public_nonflagship & !is.na(latest$state_funding_pct_change_5yr) & latest$state_funding_pct_change_5yr < 0,
+  is_public_nonflagship & (is.na(latest$revenue_total) | is.na(latest$expenses_total))
+)
 
 latest$closure_risk_track <- dplyr::case_when(
   latest$control_label == "Public" ~ "Public campus restructuring risk",
@@ -228,94 +149,42 @@ groups_2023 <- list(
   bacc_private_fp = prev_year[prev_year$control_label == "Private for-profit" & prev_year$category == bacc_category_label, , drop = FALSE]
 )
 
-count_by_group <- function(pred) {
-  sapply(groups, function(df) sum(pred(df), na.rm = TRUE))
-}
+summary_metric_specs <- list(
+  list(metric = "Enrollment decline in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5)),
+  list(metric = "Revenue decline in 3 of last 5 years", pred = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5)),
+  list(metric = "In the red in 3 of last 5 years", pred = function(df) yes_flag(df$losses_last_3_of_5)),
+  list(metric = "Enrollment and revenue decline in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5)),
+  list(metric = "Enrollment, revenue decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
+  list(metric = "Enrollment decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
+  list(metric = "Revenue decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
+  list(metric = "Enrollment decline in 2024", pred = function(df) !is.na(df$enrollment_change_1yr) & df$enrollment_change_1yr < 0),
+  list(metric = "Revenue decline in 2024", pred = function(df) !is.na(df$revenue_change_1yr) & df$revenue_change_1yr < 0),
+  list(metric = "In the red in 2024", pred = function(df) yes_flag(df$ended_year_at_loss)),
+  list(metric = "International enrollment increased over past decade", pred = function(df) yes_flag(df$international_enrollment_increase_10yr)),
+  list(metric = "International enrollment increased over past 5 years", pred = function(df) yes_flag(df$international_enrollment_increase_5yr)),
+  list(metric = "Staffing cut over past 5 years", pred = function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, notes = "Using staff headcount"),
+  list(metric = "Instructional staffing cut over past 5 years", pred = function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, notes = "Using staff headcount"),
+  list(metric = "Ended 2024 fiscal year at a loss", pred = function(df) yes_flag(df$ended_year_at_loss)),
+  list(metric = "Net tuition per FTE decreased over past 5 years", pred = function(df) !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0, notes = "Using net tuition per FTE"),
+  list(metric = "State appropriations decreased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0),
+  list(metric = "State appropriations increased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr > 0),
+  list(metric = "Endowment increased over past 5 years", pred = function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr > 0),
+  list(metric = "Endowment decreased over past 5 years", pred = function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0),
+  list(metric = "Enrollment decreased over past 5 years", pred = function(df) !is.na(df$enrollment_pct_change_5yr) & df$enrollment_pct_change_5yr < 0),
+  list(metric = "Revenue decreased over past 5 years", pred = function(df) !is.na(df$revenue_pct_change_5yr) & df$revenue_pct_change_5yr < 0),
+  list(metric = "Transfer-out rate increased over past 5 years", pred = function(df) !is.na(df$transfer_out_rate_bachelor_change_5yr) & df$transfer_out_rate_bachelor_change_5yr > 0)
+)
 
-count_by_group_from <- function(group_list, pred) {
-  sapply(group_list, function(df) sum(pred(df), na.rm = TRUE))
-}
-
-pct_by_group <- function(pred) {
-  sapply(groups, function(df) {
-    if (nrow(df) == 0) return(NA_real_)
-    safe_pct(sum(pred(df), na.rm = TRUE), nrow(df))
-  })
-}
-
-median_by_group <- function(field) {
-  sapply(groups, function(df) {
-    x <- to_num(df[[field]])
-    x <- x[!is.na(x)]
-    if (length(x) == 0) return(NA_real_)
-    median(x, na.rm = TRUE)
-  })
-}
-
-mean_by_group <- function(field) {
-  sapply(groups, function(df) {
-    x <- to_num(df[[field]])
-    x <- x[!is.na(x)]
-    if (length(x) == 0) return(NA_real_)
-    mean(x, na.rm = TRUE)
-  })
-}
-
-weighted_intl_pct <- function(df, num_col, den_col) {
-  keep <- !is.na(df[[num_col]]) & !is.na(df[[den_col]]) & df[[den_col]] > 0
-  if (!any(keep)) return(NA_real_)
-  safe_pct(sum(df[[num_col]][keep], na.rm = TRUE), sum(df[[den_col]][keep], na.rm = TRUE))
-}
-
-top_metric_by_group <- function(metric) {
-  lapply(groups, function(df) {
-    keep <- !is.na(df[[metric]])
-    if (!any(keep)) return(NULL)
-    df <- df[keep, , drop = FALSE]
-    df[order(df[[metric]], decreasing = TRUE), , drop = FALSE][1, , drop = FALSE]
-  })
-}
-
-summary_rows <- do.call(rbind, list())
-
-add_count_pct_rows <- function(metric, pred, notes = "") {
-  counts <- count_by_group(pred)
-  pcts <- pct_by_group(pred)
-  assign("summary_rows", rbind(
-    get("summary_rows", inherits = TRUE),
-    make_row(metric, "count", counts[["all"]], counts[["public"]], counts[["private_nfp"]], counts[["private_fp"]], counts[["bacc_public"]], counts[["bacc_private_nfp"]], counts[["bacc_private_fp"]], notes),
-    make_row(metric, "percent", pcts[["all"]], pcts[["public"]], pcts[["private_nfp"]], pcts[["private_fp"]], pcts[["bacc_public"]], pcts[["bacc_private_nfp"]], pcts[["bacc_private_fp"]], notes)
-  ), envir = .GlobalEnv)
-}
-
-add_count_pct_rows("Enrollment decline in 3 of last 5 years", function(df) yes_flag(df$enrollment_decline_last_3_of_5))
-add_count_pct_rows("Revenue decline in 3 of last 5 years", function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5))
-add_count_pct_rows("In the red in 3 of last 5 years", function(df) yes_flag(df$losses_last_3_of_5))
-add_count_pct_rows("Enrollment and revenue decline in 3 of last 5 years", function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5))
-add_count_pct_rows("Enrollment, revenue decline and in the red in 3 of last 5 years", function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
-add_count_pct_rows("Enrollment decline and in the red in 3 of last 5 years", function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
-add_count_pct_rows("Revenue decline and in the red in 3 of last 5 years", function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
-add_count_pct_rows("Enrollment decline in 2024", function(df) !is.na(df$enrollment_change_1yr) & df$enrollment_change_1yr < 0)
-add_count_pct_rows("Revenue decline in 2024", function(df) !is.na(df$revenue_change_1yr) & df$revenue_change_1yr < 0)
-add_count_pct_rows("In the red in 2024", function(df) yes_flag(df$ended_year_at_loss))
-add_count_pct_rows("International enrollment increased over past decade", function(df) yes_flag(df$international_enrollment_increase_10yr))
-add_count_pct_rows("International enrollment increased over past 5 years", function(df) yes_flag(df$international_enrollment_increase_5yr))
-add_count_pct_rows("Staffing cut over past 5 years", function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, "Using staff headcount")
-add_count_pct_rows("Instructional staffing cut over past 5 years", function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, "Using staff headcount")
-add_count_pct_rows("Ended 2024 fiscal year at a loss", function(df) yes_flag(df$ended_year_at_loss))
-add_count_pct_rows("Net tuition per FTE decreased over past 5 years", function(df) !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0, "Using net tuition per FTE")
-add_count_pct_rows("State appropriations decreased over past 5 years", function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0)
-add_count_pct_rows("State appropriations increased over past 5 years", function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr > 0)
-add_count_pct_rows("Endowment increased over past 5 years", function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr > 0)
-add_count_pct_rows("Endowment decreased over past 5 years", function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0)
-add_count_pct_rows("Enrollment decreased over past 5 years", function(df) !is.na(df$enrollment_pct_change_5yr) & df$enrollment_pct_change_5yr < 0)
-add_count_pct_rows("Revenue decreased over past 5 years", function(df) !is.na(df$revenue_pct_change_5yr) & df$revenue_pct_change_5yr < 0)
-add_count_pct_rows("Transfer-out rate increased over past 5 years", function(df) !is.na(df$transfer_out_rate_bachelor_change_5yr) & df$transfer_out_rate_bachelor_change_5yr > 0)
+summary_rows <- do.call(rbind, lapply(summary_metric_specs, function(spec) {
+  counts <- count_by_group_from(groups, spec$pred)
+  pcts <- pct_by_group_from(groups, spec$pred)
+  make_count_pct_rows(spec$metric, counts, pcts, spec$notes %||% "")
+}))
 
 private_nfp_only <- groups$private_nfp
 disc_count <- sum(!is.na(private_nfp_only$discount_pct_change_5yr) & private_nfp_only$discount_pct_change_5yr > 0, na.rm = TRUE)
 disc_pct <- safe_pct(disc_count, nrow(private_nfp_only))
-summary_rows <- rbind(
+summary_rows <- append_rows(
   summary_rows,
   make_row("Discount rate increased over past 5 years", "count", disc_count, "", disc_count, "", "", sum(!is.na(groups$bacc_private_nfp$discount_pct_change_5yr) & groups$bacc_private_nfp$discount_pct_change_5yr > 0, na.rm = TRUE), "", "Private nonprofit only"),
   make_row("Discount rate increased over past 5 years", "percent", disc_pct, "", disc_pct, "", "", safe_pct(sum(!is.na(groups$bacc_private_nfp$discount_pct_change_5yr) & groups$bacc_private_nfp$discount_pct_change_5yr > 0, na.rm = TRUE), nrow(groups$bacc_private_nfp)), "", "Private nonprofit only")
@@ -325,100 +194,72 @@ intl_all <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_
 intl_grad <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_graduate", den_col = "enrollment_headcount_graduate")
 intl_ug <- sapply(groups, weighted_intl_pct, num_col = "enrollment_nonresident_undergrad", den_col = "enrollment_headcount_undergrad")
 
-summary_rows <- rbind(
+summary_rows <- append_rows(
   summary_rows,
-  make_row("Students who are international", "percent", intl_all[["all"]], intl_all[["public"]], intl_all[["private_nfp"]], intl_all[["private_fp"]], weighted_intl_pct(groups$bacc_public, "enrollment_nonresident_total", "enrollment_headcount_total"), weighted_intl_pct(groups$bacc_private_nfp, "enrollment_nonresident_total", "enrollment_headcount_total"), weighted_intl_pct(groups$bacc_private_fp, "enrollment_nonresident_total", "enrollment_headcount_total")),
-  make_row("Graduate students who are international", "percent", intl_grad[["all"]], intl_grad[["public"]], intl_grad[["private_nfp"]], intl_grad[["private_fp"]], weighted_intl_pct(groups$bacc_public, "enrollment_nonresident_graduate", "enrollment_headcount_graduate"), weighted_intl_pct(groups$bacc_private_nfp, "enrollment_nonresident_graduate", "enrollment_headcount_graduate"), weighted_intl_pct(groups$bacc_private_fp, "enrollment_nonresident_graduate", "enrollment_headcount_graduate")),
-  make_row("Undergraduate students who are international", "percent", intl_ug[["all"]], intl_ug[["public"]], intl_ug[["private_nfp"]], intl_ug[["private_fp"]], weighted_intl_pct(groups$bacc_public, "enrollment_nonresident_undergrad", "enrollment_headcount_undergrad"), weighted_intl_pct(groups$bacc_private_nfp, "enrollment_nonresident_undergrad", "enrollment_headcount_undergrad"), weighted_intl_pct(groups$bacc_private_fp, "enrollment_nonresident_undergrad", "enrollment_headcount_undergrad"))
+  make_group_row("Students who are international", "percent", intl_all),
+  make_group_row("Graduate students who are international", "percent", intl_grad),
+  make_group_row("Undergraduate students who are international", "percent", intl_ug)
 )
 
-repeated_losses_share <- pct_by_group(function(df) yes_flag(df$losses_last_3_of_5))
-revenue_change_median <- median_by_group("revenue_pct_change_5yr")
-net_tuition_per_fte_change_median <- median_by_group("net_tuition_per_fte_change_5yr")
-transfer_out_rate_median <- median_by_group("transfer_out_rate_bachelor")
-transfer_out_change_median <- median_by_group("transfer_out_rate_bachelor_change_5yr")
-staffing_cut_share <- pct_by_group(function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0)
-state_funding_change_median <- median_by_group("state_funding_pct_change_5yr")
+repeated_losses_share <- pct_by_group_from(groups, function(df) yes_flag(df$losses_last_3_of_5))
+revenue_change_median <- numeric_stat_by_group(groups, "revenue_pct_change_5yr")
+net_tuition_per_fte_change_median <- numeric_stat_by_group(groups, "net_tuition_per_fte_change_5yr")
+transfer_out_rate_median <- numeric_stat_by_group(groups, "transfer_out_rate_bachelor")
+transfer_out_change_median <- numeric_stat_by_group(groups, "transfer_out_rate_bachelor_change_5yr")
+staffing_cut_share <- pct_by_group_from(groups, function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0)
+state_funding_change_median <- numeric_stat_by_group(groups, "state_funding_pct_change_5yr")
 
-summary_rows <- rbind(
+summary_rows <- append_rows(
   summary_rows,
-  make_row("Repeated losses national share by sector", "percent", repeated_losses_share[["all"]], repeated_losses_share[["public"]], repeated_losses_share[["private_nfp"]], repeated_losses_share[["private_fp"]], repeated_losses_share[["bacc_public"]], repeated_losses_share[["bacc_private_nfp"]], repeated_losses_share[["bacc_private_fp"]], "Share with losses in 3 of last 5 years"),
-  make_row("5-year revenue change by sector", "median percent", revenue_change_median[["all"]], revenue_change_median[["public"]], revenue_change_median[["private_nfp"]], revenue_change_median[["private_fp"]], revenue_change_median[["bacc_public"]], revenue_change_median[["bacc_private_nfp"]], revenue_change_median[["bacc_private_fp"]], "Median institution-level change"),
-  make_row("5-year net tuition per FTE change by sector", "median percent", net_tuition_per_fte_change_median[["all"]], net_tuition_per_fte_change_median[["public"]], net_tuition_per_fte_change_median[["private_nfp"]], net_tuition_per_fte_change_median[["private_fp"]], net_tuition_per_fte_change_median[["bacc_public"]], net_tuition_per_fte_change_median[["bacc_private_nfp"]], net_tuition_per_fte_change_median[["bacc_private_fp"]], "Median institution-level change"),
-  make_row("Transfer-out rate by sector", "median rate", transfer_out_rate_median[["all"]], transfer_out_rate_median[["public"]], transfer_out_rate_median[["private_nfp"]], transfer_out_rate_median[["private_fp"]], transfer_out_rate_median[["bacc_public"]], transfer_out_rate_median[["bacc_private_nfp"]], transfer_out_rate_median[["bacc_private_fp"]], "Bachelor cohort"),
-  make_row("Transfer-out rate change over past 5 years by sector", "median point change", transfer_out_change_median[["all"]], transfer_out_change_median[["public"]], transfer_out_change_median[["private_nfp"]], transfer_out_change_median[["private_fp"]], transfer_out_change_median[["bacc_public"]], transfer_out_change_median[["bacc_private_nfp"]], transfer_out_change_median[["bacc_private_fp"]], "Bachelor cohort"),
-  make_row("Staffing cuts national share by sector", "percent", staffing_cut_share[["all"]], staffing_cut_share[["public"]], staffing_cut_share[["private_nfp"]], staffing_cut_share[["private_fp"]], staffing_cut_share[["bacc_public"]], staffing_cut_share[["bacc_private_nfp"]], staffing_cut_share[["bacc_private_fp"]], "Share with 5-year staff headcount decline"),
-  make_row("State-funding change by sector", "median percent", state_funding_change_median[["all"]], state_funding_change_median[["public"]], state_funding_change_median[["private_nfp"]], state_funding_change_median[["private_fp"]], state_funding_change_median[["bacc_public"]], state_funding_change_median[["bacc_private_nfp"]], state_funding_change_median[["bacc_private_fp"]], "Mostly meaningful for publics")
+  make_group_row("Repeated losses national share by sector", "percent", repeated_losses_share, "Share with losses in 3 of last 5 years"),
+  make_group_row("5-year revenue change by sector", "median percent", revenue_change_median, "Median institution-level change"),
+  make_group_row("5-year net tuition per FTE change by sector", "median percent", net_tuition_per_fte_change_median, "Median institution-level change"),
+  make_group_row("Transfer-out rate by sector", "median rate", transfer_out_rate_median, "Bachelor cohort"),
+  make_group_row("Transfer-out rate change over past 5 years by sector", "median point change", transfer_out_change_median, "Bachelor cohort"),
+  make_group_row("Staffing cuts national share by sector", "percent", staffing_cut_share, "Share with 5-year staff headcount decline"),
+  make_group_row("State-funding change by sector", "median percent", state_funding_change_median, "Mostly meaningful for publics")
 )
 
 loss_2023_counts <- count_by_group_from(groups_2023, function(df) yes_flag(df$ended_year_at_loss))
-loss_2023_pcts <- sapply(groups_2023, function(df) if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$ended_year_at_loss), na.rm = TRUE), nrow(df)))
-loss_2024_counts <- count_by_group(function(df) yes_flag(df$ended_year_at_loss))
-loss_2024_pcts <- sapply(groups, function(df) if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$ended_year_at_loss), na.rm = TRUE), nrow(df)))
-summary_rows <- rbind(
+loss_2023_pcts <- pct_by_group_from(groups_2023, function(df) yes_flag(df$ended_year_at_loss))
+loss_2024_counts <- count_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
+loss_2024_pcts <- pct_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
+summary_rows <- append_rows(
   summary_rows,
-  make_row("Ended fiscal year at a loss", "2023 count", loss_2023_counts[["all"]], loss_2023_counts[["public"]], loss_2023_counts[["private_nfp"]], loss_2023_counts[["private_fp"]], loss_2023_counts[["bacc_public"]], loss_2023_counts[["bacc_private_nfp"]], loss_2023_counts[["bacc_private_fp"]], "Compared with 2024"),
-  make_row("Ended fiscal year at a loss", "2023 percent", loss_2023_pcts[["all"]], loss_2023_pcts[["public"]], loss_2023_pcts[["private_nfp"]], loss_2023_pcts[["private_fp"]], loss_2023_pcts[["bacc_public"]], loss_2023_pcts[["bacc_private_nfp"]], loss_2023_pcts[["bacc_private_fp"]], "Compared with 2024"),
-  make_row("Ended fiscal year at a loss", "2024 count", loss_2024_counts[["all"]], loss_2024_counts[["public"]], loss_2024_counts[["private_nfp"]], loss_2024_counts[["private_fp"]], loss_2024_counts[["bacc_public"]], loss_2024_counts[["bacc_private_nfp"]], loss_2024_counts[["bacc_private_fp"]], "Compared with 2023"),
-  make_row("Ended fiscal year at a loss", "2024 percent", loss_2024_pcts[["all"]], loss_2024_pcts[["public"]], loss_2024_pcts[["private_nfp"]], loss_2024_pcts[["private_fp"]], loss_2024_pcts[["bacc_public"]], loss_2024_pcts[["bacc_private_nfp"]], loss_2024_pcts[["bacc_private_fp"]], "Compared with 2023"),
-  make_row("Change in institutions ending year at a loss", "count change 2024 minus 2023",
-           loss_2024_counts[["all"]] - loss_2023_counts[["all"]],
-           loss_2024_counts[["public"]] - loss_2023_counts[["public"]],
-           loss_2024_counts[["private_nfp"]] - loss_2023_counts[["private_nfp"]],
-           loss_2024_counts[["private_fp"]] - loss_2023_counts[["private_fp"]],
-           loss_2024_counts[["bacc_public"]] - loss_2023_counts[["bacc_public"]],
-           loss_2024_counts[["bacc_private_nfp"]] - loss_2023_counts[["bacc_private_nfp"]],
-           loss_2024_counts[["bacc_private_fp"]] - loss_2023_counts[["bacc_private_fp"]],
-           "2024 minus 2023")
+  make_group_row("Ended fiscal year at a loss", "2023 count", loss_2023_counts, "Compared with 2024"),
+  make_group_row("Ended fiscal year at a loss", "2023 percent", loss_2023_pcts, "Compared with 2024"),
+  make_group_row("Ended fiscal year at a loss", "2024 count", loss_2024_counts, "Compared with 2023"),
+  make_group_row("Ended fiscal year at a loss", "2024 percent", loss_2024_pcts, "Compared with 2023"),
+  make_group_row("Change in institutions ending year at a loss", "count change 2024 minus 2023", loss_2024_counts - loss_2023_counts, "2024 minus 2023")
 )
 
-top_fed <- top_metric_by_group("federal_grants_contracts_pell_adjusted_pct_core_revenue")
-top_state <- top_metric_by_group("state_funding_pct_core_revenue")
+top_fed <- top_metric_by_group_from(groups, "federal_grants_contracts_pell_adjusted_pct_core_revenue")
+top_state <- top_metric_by_group_from(groups, "state_funding_pct_core_revenue")
 
-summary_rows <- rbind(
+summary_rows <- append_rows(
   summary_rows,
-  make_row(
-    "Highest federal funding share of core revenue", "institution",
-    if (!is.null(top_fed$all)) top_fed$all$institution_name else NA,
-    if (!is.null(top_fed$public)) top_fed$public$institution_name else NA,
-    if (!is.null(top_fed$private_nfp)) top_fed$private_nfp$institution_name else NA,
-    if (!is.null(top_fed$private_fp)) top_fed$private_fp$institution_name else NA,
-    if (!is.null(top_fed$bacc_public)) top_fed$bacc_public$institution_name else NA,
-    if (!is.null(top_fed$bacc_private_nfp)) top_fed$bacc_private_nfp$institution_name else NA,
-    if (!is.null(top_fed$bacc_private_fp)) top_fed$bacc_private_fp$institution_name else NA,
+  make_group_row(
+    "Highest federal funding share of core revenue",
+    "institution",
+    sapply(top_fed, function(row) if (is.null(row)) NA else row$institution_name[[1]]),
     "Pell-adjusted federal grants/contracts"
   ),
-  make_row(
-    "Highest federal funding share of core revenue", "percent",
-    if (!is.null(top_fed$all)) top_fed$all$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$public)) top_fed$public$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$private_nfp)) top_fed$private_nfp$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$private_fp)) top_fed$private_fp$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$bacc_public)) top_fed$bacc_public$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$bacc_private_nfp)) top_fed$bacc_private_nfp$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
-    if (!is.null(top_fed$bacc_private_fp)) top_fed$bacc_private_fp$federal_grants_contracts_pell_adjusted_pct_core_revenue * 100 else NA,
+  make_group_row(
+    "Highest federal funding share of core revenue",
+    "percent",
+    sapply(top_fed, function(row) if (is.null(row)) NA else row$federal_grants_contracts_pell_adjusted_pct_core_revenue[[1]] * 100),
     "Pell-adjusted federal grants/contracts"
   ),
-  make_row(
-    "Highest state funding share of core revenue", "institution",
-    if (!is.null(top_state$all)) top_state$all$institution_name else NA,
-    if (!is.null(top_state$public)) top_state$public$institution_name else NA,
-    if (!is.null(top_state$private_nfp)) top_state$private_nfp$institution_name else NA,
-    if (!is.null(top_state$private_fp)) top_state$private_fp$institution_name else NA,
-    if (!is.null(top_state$bacc_public)) top_state$bacc_public$institution_name else NA,
-    if (!is.null(top_state$bacc_private_nfp)) top_state$bacc_private_nfp$institution_name else NA,
-    if (!is.null(top_state$bacc_private_fp)) top_state$bacc_private_fp$institution_name else NA,
+  make_group_row(
+    "Highest state funding share of core revenue",
+    "institution",
+    sapply(top_state, function(row) if (is.null(row)) NA else row$institution_name[[1]]),
     "State appropriations"
   ),
-  make_row(
-    "Highest state funding share of core revenue", "percent",
-    if (!is.null(top_state$all)) top_state$all$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$public)) top_state$public$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$private_nfp)) top_state$private_nfp$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$private_fp)) top_state$private_fp$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$bacc_public)) top_state$bacc_public$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$bacc_private_nfp)) top_state$bacc_private_nfp$state_funding_pct_core_revenue * 100 else NA,
-    if (!is.null(top_state$bacc_private_fp)) top_state$bacc_private_fp$state_funding_pct_core_revenue * 100 else NA,
+  make_group_row(
+    "Highest state funding share of core revenue",
+    "percent",
+    sapply(top_state, function(row) if (is.null(row)) NA else row$state_funding_pct_core_revenue[[1]] * 100),
     "State appropriations"
   )
 )
@@ -499,7 +340,7 @@ sheet_index_rows <- do.call(rbind, list(
   make_row("Worksheet index", "IntlVulnLarge", "", "", "", "", "", "", "", "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
 ))
 
-summary_rows <- rbind(sheet_index_rows, summary_rows)
+summary_rows <- append_rows(sheet_index_rows, summary_rows)
 
 all_sheet_columns <- c(
   "unitid","institution_name","state","city","control_label","sector","category","urbanization","religious_affiliation","all_programs_distance_education","closure_risk_track","private_closure_risk_score","public_campus_risk_score","staffing_cut_risk_score",
@@ -529,14 +370,6 @@ for (nm in missing_all_sheet_columns) {
 all_sheet <- latest[, all_sheet_columns, drop = FALSE]
 all_sheet_bacc <- all_sheet[all_sheet$category == bacc_category_label, , drop = FALSE]
 
-sort_df <- function(df, cols, decreasing = FALSE) {
-  if (nrow(df) == 0) return(df)
-  ord_args <- c(lapply(cols, function(col) {
-    x <- df[[col]]
-    if (decreasing) -xtfrm(x) else xtfrm(x)
-  }), list(na.last = TRUE))
-  df[do.call(order, ord_args), , drop = FALSE]
-}
 
 enr35 <- sort_df(all_sheet_bacc[all_sheet_bacc$enrollment_decline_last_3_of_5 == "Yes", , drop = FALSE], c("enrollment_pct_change_5yr","revenue_pct_change_5yr","loss_amount"))
 rev35 <- sort_df(all_sheet_bacc[all_sheet_bacc$revenue_10pct_drop_last_3_of_5 == "Yes", , drop = FALSE], c("revenue_pct_change_5yr","loss_amount","enrollment_pct_change_5yr"))
@@ -646,7 +479,7 @@ finance_bad$bad_staff_change <- !is.na(finance_bad$staff_total_headcount_pct_cha
 finance_bad$bad_endowment_change <- !is.na(finance_bad$endowment_pct_change_5yr) & finance_bad$endowment_pct_change_5yr <= -5
 finance_bad$bad_federal_change <- !is.na(finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr) & finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr <= -5
 finance_bad$bad_state_change <- !is.na(finance_bad$state_funding_pct_change_5yr) & finance_bad$state_funding_pct_change_5yr <= -5
-finance_bad$finance_page_bad_count <- rowSums(cbind(
+finance_bad$finance_page_bad_count <- row_score(
   finance_bad$bad_revenue_change,
   finance_bad$bad_latest_loss,
   finance_bad$bad_repeat_losses,
@@ -657,7 +490,7 @@ finance_bad$finance_page_bad_count <- rowSums(cbind(
   finance_bad$bad_endowment_change,
   finance_bad$bad_federal_change,
   finance_bad$bad_state_change
-), na.rm = TRUE)
+)
 
 # Compare institutions with accreditation actions or program cuts against the
 # same 2024 primarily bachelor's tracker universe used throughout the workbook.
@@ -741,65 +574,7 @@ if (nrow(college_cuts_summary_bacc) > 0) {
   ]
 }
 
-summarize_event_subset <- function(df, cohort_label, event_type, control_scope = "All") {
-  median_or_na <- function(x) {
-    x <- to_num(x)
-    x <- x[!is.na(x)]
-    if (length(x) == 0) return(NA_real_)
-    median(x, na.rm = TRUE)
-  }
-
-  data.frame(
-    event_type = event_type,
-    control_scope = control_scope,
-    cohort = cohort_label,
-    institutions = nrow(df),
-    median_finance_page_bad_count = median_or_na(df$finance_page_bad_count),
-    median_warning_score_core = median_or_na(df$warning_score_core),
-    median_enrollment_pct_change_5yr = median_or_na(df$enrollment_pct_change_5yr),
-    enrollment_decline_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$enrollment_decline_last_3_of_5), na.rm = TRUE), nrow(df)),
-    median_revenue_pct_change_5yr = median_or_na(df$revenue_pct_change_5yr),
-    revenue_decreased_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$revenue_decreased_5yr), na.rm = TRUE), nrow(df)),
-    revenue_10pct_drop_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$revenue_10pct_drop_last_3_of_5), na.rm = TRUE), nrow(df)),
-    ended_2024_at_loss_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$ended_year_at_loss), na.rm = TRUE), nrow(df)),
-    losses_last_3_of_5_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$losses_last_3_of_5), na.rm = TRUE), nrow(df)),
-    median_staff_total_headcount_pct_change_5yr = median_or_na(df$staff_total_headcount_pct_change_5yr),
-    staff_total_decline_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, na.rm = TRUE), nrow(df)),
-    median_staff_instructional_headcount_pct_change_5yr = median_or_na(df$staff_instructional_headcount_pct_change_5yr),
-    staff_instructional_decline_5yr_pct = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, na.rm = TRUE), nrow(df)),
-    median_net_tuition_per_fte_change_5yr = median_or_na(df$net_tuition_per_fte_change_5yr),
-    median_tuition_dependence_pct = median_or_na(df$tuition_dependence_pct),
-    median_pct_international_all_pct = median_or_na(df$pct_international_all) * 100,
-    stringsAsFactors = FALSE
-  )
-}
-
-# Build paired "with event" versus "without event" rows so the workbook can
-# show whether institutions with accreditation actions or cuts look different
-# from peers in the same sector slice.
-build_event_xtab <- function(base_df, event_unitids, event_type) {
-  event_unitids <- unique(as.character(event_unitids[!is.na(event_unitids)]))
-  base_df$.__event_flag__ <- as.character(base_df$unitid) %in% event_unitids
-
-  scopes <- list(
-    All = base_df,
-    Public = base_df[base_df$control_label == "Public", , drop = FALSE],
-    `Private not-for-profit` = base_df[base_df$control_label == "Private not-for-profit", , drop = FALSE],
-    `Private for-profit` = base_df[base_df$control_label == "Private for-profit", , drop = FALSE]
-  )
-
-  rows <- lapply(names(scopes), function(scope_name) {
-    scope_df <- scopes[[scope_name]]
-    rbind(
-      summarize_event_subset(scope_df[scope_df$.__event_flag__, , drop = FALSE], "With event", event_type, scope_name),
-      summarize_event_subset(scope_df[!scope_df$.__event_flag__, , drop = FALSE], "Without event", event_type, scope_name)
-    )
-  })
-
-  out <- do.call(rbind, rows)
-  out$event_institution_count <- length(event_unitids)
-  out
-}
+# summarize_event_subset() and build_event_xtab() are in workbook_helpers.R
 
 accreditation_any_unitids <- accreditation_summary_bacc$unitid
 accreditation_warning_unitids <- accreditation_summary_bacc$unitid[trimws(tolower(as.character(accreditation_summary_bacc$has_active_warning_or_notice))) == "true"]
@@ -1019,14 +794,7 @@ calc_distress_compare <- function(year_value) {
     as.integer(read_df$year) == as.integer(year_value) &
       read_df$category == bacc_category_label,
     , drop = FALSE]
-  year_df$warning_score_core <- rowSums(cbind(
-    yes_flag(year_df$enrollment_decline_last_3_of_5),
-    yes_flag(year_df$revenue_10pct_drop_last_3_of_5),
-    yes_flag(year_df$losses_last_3_of_5),
-    yes_flag(year_df$ended_year_at_loss),
-    !is.na(year_df$staff_total_headcount_pct_change_5yr) & year_df$staff_total_headcount_pct_change_5yr < 0,
-    !is.na(year_df$net_tuition_per_fte_change_5yr) & year_df$net_tuition_per_fte_change_5yr < 0
-  ), na.rm = TRUE)
+  year_df$warning_score_core <- compute_warning_score_core(year_df)
   distress_df <- year_df[
     !is.na(year_df$warning_score_core) &
       year_df$warning_score_core >= 4,
@@ -1303,15 +1071,7 @@ worksheets <- list(
   IntlVulnLarge = intl_vulnerable_large
 )
 
-# Drop truly identical worksheet payloads while keeping the last occurrence.
-# This mainly cleans up repeated empty tabs that otherwise all render as the
-# same "No rows" worksheet in the exported workbook.
-worksheet_signature <- function(df) {
-  if (is.null(df) || nrow(df) == 0) {
-    return("EMPTY")
-  }
-  paste(capture.output(dput(df)), collapse = "\n")
-}
+# worksheet_signature(), xml_cell(), worksheet_xml() are in workbook_helpers.R
 
 worksheet_names <- names(worksheets)
 non_summary_names <- setdiff(worksheet_names, "Summary")
@@ -1334,37 +1094,6 @@ if (length(duplicate_worksheet_names) > 0) {
         worksheets$Summary$statistic %in% duplicate_worksheet_names),
     , drop = FALSE
   ]
-}
-
-xml_cell <- function(value, style_id = NULL) {
-  style_attr <- if (is.null(style_id)) "" else paste0(' ss:StyleID="', style_id, '"')
-  if (length(value) == 0 || is.na(value) || identical(as.character(value), "")) {
-    return(paste0('<Cell', style_attr, '><Data ss:Type="String"></Data></Cell>'))
-  }
-  num <- suppressWarnings(as.numeric(value))
-  if (!is.na(num) && !grepl("[A-Za-z]", as.character(value))) {
-    return(paste0('<Cell', style_attr, '><Data ss:Type="Number">', as.character(num), '</Data></Cell>'))
-  }
-  paste0('<Cell', style_attr, '><Data ss:Type="String">', escape_xml(value), '</Data></Cell>')
-}
-
-worksheet_xml <- function(name, df) {
-  if (is.null(df) || nrow(df) == 0) {
-    return(paste0(
-      '<Worksheet ss:Name="', escape_xml(name), '"><Table>',
-      '<Row><Cell ss:StyleID="Header"><Data ss:Type="String">No rows</Data></Cell></Row>',
-      '</Table></Worksheet>'
-    ))
-  }
-  headers <- names(df)
-  out <- c(paste0('<Worksheet ss:Name="', escape_xml(name), '">'), '  <Table>')
-  out <- c(out, paste0('    <Row>', paste(vapply(headers, xml_cell, character(1), style_id = "Header"), collapse = ""), '</Row>'))
-  for (i in seq_len(nrow(df))) {
-    vals <- unname(as.list(df[i, , drop = FALSE]))
-    out <- c(out, paste0('    <Row>', paste(vapply(vals, xml_cell, character(1)), collapse = ""), '</Row>'))
-  }
-  out <- c(out, '  </Table>', '</Worksheet>')
-  paste(out, collapse = "\n")
 }
 
 wb <- c(

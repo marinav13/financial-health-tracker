@@ -1,14 +1,9 @@
 main <- function(cli_args = NULL) {
-  args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
-
-  paths_env <- new.env(parent = baseenv())
-  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-
-  get_arg_value <- function(flag, default = NULL) {
-    idx <- match(flag, args)
-    if (!is.na(idx) && idx < length(args)) args[[idx + 1L]] else default
-  }
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  ipeds         <- load_ipeds_paths()
+  ipeds_layout  <- ipeds$ipeds_layout
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   load_main <- function(path) {
     env <- new.env(parent = globalenv())

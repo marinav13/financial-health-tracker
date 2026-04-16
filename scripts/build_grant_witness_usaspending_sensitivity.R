@@ -1,35 +1,9 @@
 main <- function(cli_args = NULL) {
-  args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
-
-  # Read optional command-line overrides so the same script can run locally
-  # and in scheduled refresh jobs without editing hard-coded paths.
-  get_arg_value <- function(flag, default = NULL) {
-    idx <- match(flag, args)
-    if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
-  }
-
-  # Install/load the small set of packages this analysis needs so the script
-  # remains self-contained in GitHub Actions and local rebuilds.
-  ensure_packages <- function(pkgs) {
-    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
-    if (length(missing) > 0) {
-      install.packages(missing, repos = "https://cloud.r-project.org")
-    }
-    invisible(lapply(pkgs, library, character.only = TRUE))
-  }
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   ensure_packages(c("dplyr", "readr", "tidyr", "stringr", "purrr", "httr", "jsonlite"))
-
-  `%||%` <- function(x, y) if (is.null(x) || length(x) == 0) y else x
-
-  # Write to a temp file first so a failed run never leaves behind a partial
-  # analysis CSV that later scripts might treat as complete.
-  write_csv_atomic <- function(df, path) {
-    tmp <- paste0(path, ".tmp")
-    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
-    readr::write_csv(df, tmp, na = "")
-    file.rename(tmp, path)
-  }
 
   grant_input <- get_arg_value(
     "--grant-input",

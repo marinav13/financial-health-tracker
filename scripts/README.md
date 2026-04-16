@@ -67,6 +67,19 @@ IPEDS remains under `ipeds/`.
 - `publish_to_google_sheets.R`
   - optional Google Sheets publisher for the site-ready CSV
 
+## Lightweight Tests
+
+- `tests/run_shared_helper_smoke_tests.R`
+  - quick smoke coverage for shared helper functions
+  - validates common string cleaning, matching, ID generation, and file-helper behavior
+  - runs without a dedicated test framework
+
+Run it with:
+
+```bash
+Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+```
+
 ## Closure Tabs Expected In Google Sheets
 
 `import_closure_sheet.py` looks for these tab names:

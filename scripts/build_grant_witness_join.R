@@ -1,41 +1,12 @@
 main <- function(cli_args = NULL) {
-  args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
-
-  paths_env <- new.env(parent = baseenv())
-  sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
-  ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-
-  # Allow scheduled jobs and local rebuilds to override inputs without editing
-  # the script body.
-  get_arg_value <- function(flag, default = NULL) {
-    idx <- match(flag, args)
-    if (!is.na(idx) && idx < length(args)) args[[idx + 1]] else default
-  }
-
-  has_flag <- function(flag) {
-    flag %in% args
-  }
-
-  # Package loading is handled here so the script can run as a standalone data
-  # build step in GitHub Actions or from a local shell.
-  ensure_packages <- function(pkgs) {
-    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
-    if (length(missing) > 0) {
-      install.packages(missing, repos = "https://cloud.r-project.org")
-    }
-    invisible(lapply(pkgs, library, character.only = TRUE))
-  }
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args          <- parse_cli_args(cli_args)
+  ipeds         <- load_ipeds_paths()
+  ipeds_layout  <- ipeds$ipeds_layout
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
+  has_flag      <- function(flag)                 arg_has(args, flag)
 
   ensure_packages(c("dplyr", "readr", "stringr", "tidyr"))
-
-  # Write outputs atomically so a failed build never replaces a previously good
-  # joined dataset with a partial CSV.
-  write_csv_atomic <- function(df, path) {
-    tmp <- paste0(path, ".tmp")
-    on.exit(if (file.exists(tmp)) file.remove(tmp), add = TRUE)
-    readr::write_csv(df, tmp, na = "")
-    file.rename(tmp, path)
-  }
 
     financial_input <- get_arg_value(
       "--financial-input",
@@ -93,363 +64,15 @@ main <- function(cli_args = NULL) {
 
   # The matching logic depends on very aggressive name normalization because
   # legal entity names, abbreviations, and punctuation vary across sources.
-  normalize_name <- function(x) {
-    x |>
-      as.character() |>
-      stringr::str_to_lower() |>
-      stringr::str_replace_all("&", " and ") |>
-      stringr::str_replace_all("[^a-z0-9 ]", " ") |>
-      stringr::str_squish()
-  }
 
-  prettify_text <- function(x) {
-    x_chr <- as.character(x)
-    letters_only <- stringr::str_replace_all(x_chr, "[^A-Za-z]", "")
-    upper_only <- stringr::str_replace_all(x_chr, "[^A-Z]", "")
-    upper_share <- dplyr::if_else(
-      nchar(letters_only) > 0,
-      nchar(upper_only) / nchar(letters_only),
-      0
-    )
-    is_shouty <- !is.na(x_chr) &
-      nchar(stringr::str_squish(x_chr)) > 0 &
-      stringr::str_detect(x_chr, "[A-Z]") &
-      (
-        !stringr::str_detect(x_chr, "[a-z]") |
-        upper_share >= 0.7
-      )
-    out <- x_chr
-    out[is_shouty] <- tools::toTitleCase(stringr::str_to_lower(out[is_shouty]))
-    out <- stringr::str_replace_all(out, regex("\\bA\\s*&\\s*M\\b", ignore_case = TRUE), "A&M")
-    out <- stringr::str_replace_all(out, regex("\\bMed Br\\b"), "Medical Branch")
-    out <- stringr::str_replace_all(out, regex("\\bMed Sci(?:ences)?\\b"), "Medical Sciences")
-    out <- stringr::str_replace_all(out, regex("\\bMed Ctr\\b"), "Medical Center")
-    out <- stringr::str_replace_all(out, regex("\\bHlth Sci(?:ence)? C(?:n)?tr\\b"), "Health Sciences Center")
-    out <- stringr::str_replace_all(out, regex("\\bHlth Science Center\\b"), "Health Sciences Center")
-    out <- stringr::str_replace_all(out, regex("\\bHlth Science\\b", ignore_case = TRUE), "Health Science")
-    out <- stringr::str_replace_all(out, regex("\\bHlth\\b"), "Health")
-    out <- stringr::str_replace_all(out, regex("\\bCtr\\b"), "Center")
-    out <- stringr::str_replace_all(out, regex("\\bCntr\\b"), "Center")
-    out <- stringr::str_replace_all(out, regex("\\bSci\\b"), "Science")
-    out <- stringr::str_replace_all(out, regex("\\bScis\\b"), "Sciences")
-    out <- stringr::str_replace_all(out, regex("\\bInst\\b"), "Institute")
-    out <- stringr::str_replace_all(out, regex("\\bSt Univ\\b"), "State University")
-    out <- stringr::str_replace_all(out, regex("\\bUniv\\b"), "University")
-    out <- stringr::str_replace_all(out, regex("\\bSch Of\\b"), "School of")
-    out <- stringr::str_replace_all(out, regex("\\bOf The\\b"), "of the")
-    out <- stringr::str_replace_all(out, regex(", The$"), "")
-    out <- stringr::str_replace_all(out, regex("\\bThe University Of Central Florida Board Of Trustees\\b"), "The University of Central Florida Board of Trustees")
-    out <- stringr::str_replace_all(out, regex("\\bRector & Visitors Of The University Of Virginia\\b"), "Rector & Visitors of the University of Virginia")
-    out <- stringr::str_replace_all(out, regex("\\bRegents Of The University Of Minnesota\\b"), "Regents of the University of Minnesota")
-    out <- stringr::str_replace_all(out, regex("\\bRegents Of The University Of California, San Francisco\\b"), "Regents of the University of California, San Francisco")
-    out <- stringr::str_replace_all(out, regex("\\bPennsylvania State University, The\\b"), "The Pennsylvania State University")
-    out <- stringr::str_replace_all(out, regex("\\bOhio State University\\b"), "The Ohio State University")
-    out <- stringr::str_replace_all(out, regex("\\bUniversity Of Texas Medicalical Branch\\b"), "University of Texas Medical Branch")
-    out <- stringr::str_replace_all(out, regex("\\bUniversity Of Texas Medical Branch Galveston\\b"), "University of Texas Medical Branch Galveston")
-    out <- stringr::str_replace_all(out, regex("\\bUniversity Of Texas Health Science Center\\b"), "University of Texas Health Sciences Center")
-    out <- stringr::str_replace_all(out, regex("\\bUt Southwestern Medical Center\\b"), "UT Southwestern Medical Center")
-    out <- stringr::str_replace_all(out, regex("\\bTexas a&m University\\b", ignore_case = TRUE), "Texas A&M University")
-    out <- stringr::str_replace_all(out, regex("\\bTexas a & m University\\b", ignore_case = TRUE), "Texas A&M University")
-    out <- stringr::str_replace_all(out, regex("\\bInter American University Of Puerto Rico, Inc\\.\\b"), "Inter American University of Puerto Rico, Inc.")
-    out <- stringr::str_replace_all(out, regex("\\bCuny\\b"), "CUNY")
-    out <- stringr::str_replace_all(out, regex("\\bSuny\\b"), "SUNY")
-    out <- stringr::str_replace_all(out, "\\bNyu\\b", "NYU")
-    out <- stringr::str_replace_all(out, "\\bUcsf\\b", "UCSF")
-    out <- stringr::str_replace_all(out, "\\bUcla\\b", "UCLA")
-    out <- stringr::str_replace_all(out, "\\bUt\\b", "UT")
-    out <- stringr::str_replace_all(out, "\\bA&m\\b", "A&M")
-    out <- stringr::str_replace_all(out, "\\bUtah\\b State Higher Education System--University Of Utah\\b", "Utah State Higher Education System--University of Utah")
-    out <- stringr::str_squish(out)
-    out
-  }
+  source(file.path(getwd(), "scripts", "shared", "grant_witness_helpers.R"))
+  # Text normalisation utilities (normalize_name, prettify_text,
+  # simplify_institution_name, classify_status_bucket, maybe_download, etc.)
+  # are in scripts/shared/grant_witness_helpers.R
 
-  prettify_institution_name <- function(x) {
-    out <- prettify_text(x)
-    out <- stringr::str_replace_all(out, regex("^University of Texas Medical Branch Galveston$", ignore_case = TRUE), "University of Texas Medical Branch at Galveston")
-    out <- stringr::str_replace_all(out, regex("^Rector & Visitors of the University of Virginia$", ignore_case = TRUE), "University of Virginia")
-    out <- stringr::str_replace_all(out, regex("^Regents of the University of Minnesota$", ignore_case = TRUE), "University of Minnesota")
-    out <- stringr::str_replace_all(out, regex("^Regents of the University of California, San Francisco,? the?$", ignore_case = TRUE), "University of California, San Francisco")
-    out <- stringr::str_replace_all(out, regex("^The University of Central Florida Board of Trustees$", ignore_case = TRUE), "University of Central Florida")
-    out <- stringr::str_replace_all(out, regex("^Trustees of Indiana University$", ignore_case = TRUE), "Indiana University")
-    out <- stringr::str_replace_all(out, regex("^Board of Trustees of Southern Illinois University$", ignore_case = TRUE), "Southern Illinois University")
-    out <- stringr::str_replace_all(out, regex("^Pennsylvania State University,? the$", ignore_case = TRUE), "Pennsylvania State University")
-    out <- stringr::str_replace_all(out, regex("^The Ohio State University(?:-Main Campus)?$", ignore_case = TRUE), "The Ohio State University")
-    out <- stringr::str_replace_all(out, regex("^Texas a&m University$", ignore_case = TRUE), "Texas A&M University")
-    out <- stringr::str_replace_all(out, regex("^University of Texas Health Sciences Center$", ignore_case = TRUE), "University of Texas Health Sciences Center")
-    out <- stringr::str_replace_all(out, regex("^Northwestern University at Chicago$", ignore_case = TRUE), "Northwestern University")
-    out <- stringr::str_replace_all(out, regex("^University of Washington$", ignore_case = TRUE), "University of Washington")
-    out <- stringr::str_replace_all(out, regex("^University of Colorado at Boulder$", ignore_case = TRUE), "University of Colorado Boulder")
-    out <- stringr::str_replace_all(out, regex("^University of Illinois at Urbana-Champaign$", ignore_case = TRUE), "University of Illinois Urbana-Champaign")
-    out <- stringr::str_replace_all(out, regex("^University of South Carolina at Columbia$", ignore_case = TRUE), "University of South Carolina")
-    out <- stringr::str_replace_all(out, regex("^University of Texas San Antonio$", ignore_case = TRUE), "University of Texas at San Antonio")
-    out <- stringr::str_replace_all(out, regex("^University of Texas El Paso$", ignore_case = TRUE), "University of Texas at El Paso")
-    out <- stringr::str_replace_all(out, regex("^University of Texas Arlington$", ignore_case = TRUE), "University of Texas at Arlington")
-    out <- stringr::str_replace_all(out, regex("^University of Alabama Tuscaloosa$", ignore_case = TRUE), "University of Alabama")
-    out <- stringr::str_replace_all(out, regex("^University of Puerto Rico Medical Sciences$", ignore_case = TRUE), "University of Puerto Rico Medical Sciences")
-    out <- stringr::str_replace_all(out, regex("^Tufts University Boston$", ignore_case = TRUE), "Tufts University")
-    out <- stringr::str_replace_all(out, regex("^University of Puerto Rico Med Sciences$", ignore_case = TRUE), "University of Puerto Rico Medical Sciences")
-    out <- stringr::str_replace_all(out, regex("^Lsu Health Sciences Center$", ignore_case = TRUE), "LSU Health Science Center")
-    out <- stringr::str_squish(out)
-    out
-  }
-
-  is_excluded_higher_ed_name <- function(x) {
-    norm <- normalize_name(x)
-    norm %in% c(
-      "university enterprises incorporated",
-      "american college of obstetricians and gynecologists"
-    )
-  }
-
-  is_noncampus_medical_or_foundation_name <- function(x) {
-    norm <- normalize_name(x)
-    has_campus_anchor <- stringr::str_detect(
-      norm,
-      regex("\\b(university|college|school of medicine|medical college|community college|polytechnic|institute of technology)\\b", ignore_case = TRUE)
-    )
-    stringr::str_detect(
-      norm,
-      regex("\\b(medical center|cancer center|research foundation|foundation)\\b", ignore_case = TRUE)
-    ) & !has_campus_anchor
-  }
-
-  # These phrases are the explicit text cues we use to identify awards that
-  # look like grantmaking/pass-through programs rather than direct university
-  # research grants.
-  pass_through_exclusion_phrases <- c(
-    "grantmaker initiative",
-    "regional grantmaker",
-    "subgrantee",
-    "subgrantees",
-    "pass-through entity",
-    "pass through entity",
-    "pass-through",
-    "manage and distribute funds",
-    "administer subawards",
-    "will administer subawards",
-    "issue subawards",
-    "will issue subawards",
-    "competitive and noncompetitive subgrants",
-    "subaward distribution",
-    "subaward administration"
-  )
-
-  # Return the matched phrase list so the exclusion remains auditable rather
-  # than acting like an opaque boolean flag.
-  detect_pass_through_phrase <- function(project_title, project_abstract) {
-    text <- paste(project_title, project_abstract, sep = " ")
-    text <- text |>
-      as.character() |>
-      stringr::str_to_lower() |>
-      stringr::str_squish()
-
-    matches <- pass_through_exclusion_phrases[
-      vapply(
-        pass_through_exclusion_phrases,
-        function(phrase) stringr::str_detect(text, stringr::fixed(phrase, ignore_case = TRUE)),
-        logical(1)
-      )
-    ]
-
-    if (length(matches) == 0) {
-      NA_character_
-    } else {
-      paste(matches, collapse = "; ")
-    }
-  }
-
-  strip_legal_prefixes <- function(x) {
-    x |>
-      as.character() |>
-      stringr::str_replace(
-        regex("^(the )?(regents of( the)?|trustees of|president and fellows of|board of trustees of|the trustees of)\\s+", ignore_case = TRUE),
-        ""
-      ) |>
-      stringr::str_replace(regex("^the\\s+", ignore_case = TRUE), "") |>
-      stringr::str_squish()
-  }
-
-  simplify_institution_name <- function(x) {
-    out <- x |>
-      as.character() |>
-      strip_legal_prefixes() |>
-      stringr::str_replace(regex("\\bhlth sci cntr\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhlth sci ctr\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhlth science ctr\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhlth science center\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhealth science center\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhealth scis ctr\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bhealth scis center\\b", ignore_case = TRUE), "health sciences center") |>
-      stringr::str_replace(regex("\\bmed ctr\\b", ignore_case = TRUE), "medical center") |>
-      stringr::str_replace(regex("\\bcan ctr\\b", ignore_case = TRUE), "cancer center") |>
-      stringr::str_replace(regex("\\binst\\b", ignore_case = TRUE), "institute") |>
-      stringr::str_replace(regex("\\bst univ\\b", ignore_case = TRUE), "state university") |>
-      stringr::str_replace(regex("\\btech university\\b", ignore_case = TRUE), "technology university") |>
-      stringr::str_replace(regex("\\b(main campus)\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bschool of medicine\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bresearch foundation(,? inc\\.?| incorporated)?\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bfoundation(,? inc\\.?| incorporated)?\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bin st\\.? louis\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("-[[:space:]]*[A-Za-z .']+ campus$", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("-[[:space:]]*ann arbor$", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bat pittsburgh\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bat ann arbor\\b", ignore_case = TRUE), "") |>
-      stringr::str_replace(regex("\\bthe ohio state university\\b", ignore_case = TRUE), "ohio state university") |>
-      stringr::str_replace(regex("\\bharvard college\\b", ignore_case = TRUE), "harvard university") |>
-      stringr::str_replace(regex("\\bvirginia polytechnic inst and st univ\\b", ignore_case = TRUE), "virginia polytechnic institute and state university") |>
-      stringr::str_replace(regex("\\bvirginia polytechnic institute and state universityersity\\b", ignore_case = TRUE), "virginia polytechnic institute and state university") |>
-      stringr::str_replace(regex("\\buniv of maryland\\b", ignore_case = TRUE), "university of maryland") |>
-      stringr::str_replace(regex("\\buniv of\\b", ignore_case = TRUE), "university of") |>
-      stringr::str_replace(regex("\\buniversity of tx\\b", ignore_case = TRUE), "university of texas") |>
-      stringr::str_replace(
-        regex("^university of ([a-z]+) at ([a-z].+)$", ignore_case = TRUE),
-        "university of \\1 \\2"
-      ) |>
-      stringr::str_replace(regex("\\buniv\\b", ignore_case = TRUE), "university") |>
-      stringr::str_replace(regex("\\bhlth\\b", ignore_case = TRUE), "health") |>
-      stringr::str_replace(regex("\\bctr\\b", ignore_case = TRUE), "center") |>
-      stringr::str_replace(regex("\\bcntr\\b", ignore_case = TRUE), "center") |>
-      stringr::str_replace(regex("\\bmed\\b", ignore_case = TRUE), "medical") |>
-      stringr::str_replace(regex("\\bscis\\b", ignore_case = TRUE), "sciences") |>
-      stringr::str_replace(regex("\\btech\\b", ignore_case = TRUE), "technology") |>
-      stringr::str_replace_all(regex("\\s+-\\s+"), " - ") |>
-      stringr::str_squish()
-
-    normalize_name(out)
-  }
-
-  is_likely_higher_ed_name <- function(x) {
-    norm <- normalize_name(x)
-    excluded <- is_excluded_higher_ed_name(x)
-    has_signal <- stringr::str_detect(
-      norm,
-      regex("\\b(university|college|institute of technology|polytechnic|school of medicine|medical college|community college|research foundation|medical center|cancer center|health science center|health sciences)\\b", ignore_case = TRUE)
-    )
-    standalone_medical_or_foundation <- is_noncampus_medical_or_foundation_name(x)
-    has_exclusion <- stringr::str_detect(
-      norm,
-      regex("\\b(department|state of|board of health|commission|authority|office|county|city of|fund|network|corporation|llc|department of health|public health)\\b", ignore_case = TRUE)
-    )
-    has_signal & !has_exclusion & !excluded & !standalone_medical_or_foundation
-  }
-
-  state_lookup <- c(
-    setNames(state.name, state.abb),
-    DC = "District of Columbia",
-    PR = "Puerto Rico",
-    VI = "Virgin Islands",
-    GU = "Guam",
-    MP = "Northern Mariana Islands",
-    AS = "American Samoa",
-    PW = "Palau",
-    FM = "Federated States of Micronesia",
-    MH = "Marshall Islands"
-  )
-
-  abbr_to_state <- function(x) {
-    x_chr <- as.character(x)
-    out <- unname(state_lookup[toupper(x_chr)])
-    out[is.na(out)] <- x_chr[is.na(out)]
-    out
-  }
-
-  to_num <- function(x) {
-    if (is.null(x)) return(rep(NA_real_, length.out = length(x)))
-    x_chr <- trimws(as.character(x))
-    x_chr[x_chr %in% c("", "NA", "NULL", "N/A")] <- NA_character_
-    suppressWarnings(as.numeric(gsub("[,$]", "", x_chr)))
-  }
-
-  null_if_empty <- function(x) {
-    x_chr <- trimws(as.character(x))
-    x_chr[x_chr == ""] <- NA_character_
-    x_chr
-  }
-
-  prettify_location_text <- function(x) {
-    x_chr <- null_if_empty(x)
-    keep <- !is.na(x_chr)
-    x_chr[keep] <- x_chr[keep] |>
-      iconv(from = "", to = "ASCII//TRANSLIT") |>
-      stringr::str_replace_all("\\s+", " ") |>
-      stringr::str_squish() |>
-      stringr::str_to_title()
-    x_chr
-  }
-
-  normalize_city <- function(x) {
-    x |>
-      as.character() |>
-      iconv(from = "", to = "ASCII//TRANSLIT") |>
-      stringr::str_replace_all("[^A-Za-z0-9 ]", " ") |>
-      stringr::str_squish() |>
-      stringr::str_to_lower()
-  }
-
-  normalize_status <- function(x) {
-    x |>
-      as.character() |>
-      iconv(from = "", to = "ASCII//TRANSLIT") |>
-      stringr::str_replace_all("[^A-Za-z ]", " ") |>
-      stringr::str_squish() |>
-      stringr::str_to_lower()
-  }
-
-  # Grant Witness status labels differ slightly by agency, so centralize the
-  # rule that decides whether an award still belongs in the disrupted universe.
-  is_currently_disrupted <- function(agency, status) {
-    status_norm <- normalize_status(status)
-    dplyr::case_when(
-      agency == "nih" ~ status_norm %in% c("terminated", "frozen funding"),
-      agency == "nsf" ~ status_norm %in% c("terminated"),
-      agency == "epa" ~ status_norm %in% c("terminated"),
-      agency == "samhsa" ~ status_norm %in% c("terminated"),
-      agency == "cdc" ~ status_norm %in% c("terminated", "at risk"),
-      TRUE ~ FALSE
-    )
-  }
-
-  classify_status_bucket <- function(agency, status) {
-    status_norm <- normalize_status(status)
-    dplyr::case_when(
-      is_currently_disrupted(agency, status) ~ "currently_disrupted",
-      agency == "nih" & status_norm %in% c("possibly reinstated", "possibly unfrozen funding", "unfrozen funding") ~ "not_currently_disrupted",
-      status_norm %in% c("possibly reinstated", "reinstated") ~ "not_currently_disrupted",
-      TRUE ~ "other"
-    )
-  }
-
-  maybe_download <- function(url, path) {
-    if (skip_download && file.exists(path)) return(invisible(path))
-    live_result <- tryCatch({
-      message("Downloading ", basename(path), " ...")
-      utils::download.file(url, destfile = path, mode = "wb", quiet = FALSE)
-      TRUE
-    }, error = function(e) e)
-
-    if (!inherits(live_result, "error") && file.exists(path) && file.info(path)$size > 0) {
-      return(invisible(path))
-    }
-
-    if (file.exists(path) && file.info(path)$size > 0) {
-      message("Falling back to cached Grant Witness file for ", basename(path))
-      return(invisible(path))
-    }
-
-    if (inherits(live_result, "error")) {
-      stop("Failed to download ", basename(path), ": ", live_result$message)
-    }
-
-    stop("Grant Witness file ", basename(path), " is unavailable and no cache was found.")
-  }
-
-  safe_max <- function(x) {
-    if (length(x) == 0 || all(is.na(x))) return(NA_real_)
-    max(x, na.rm = TRUE)
-  }
 
   for (agency in names(downloads)) {
-    maybe_download(downloads[[agency]], cached_paths[[agency]])
+    maybe_download(downloads[[agency]], cached_paths[[agency]], skip_download = skip_download)
   }
 
   message("Reading financial tracker data ...")
@@ -490,70 +113,52 @@ main <- function(cli_args = NULL) {
       alias = tracker_institution_name
     )
 
-  alias_variants <- financial_latest |>
-    dplyr::transmute(
-      unitid,
-      tracker_institution_name,
-      tracker_city,
-      tracker_state,
-      tracker_control_label,
-      tracker_category,
-      alias_1 = stringr::str_replace(tracker_institution_name, regex("-[[:space:]]*Main Campus$", ignore_case = TRUE), ""),
-      alias_2 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^University of Pittsburgh-Pittsburgh Campus$", ignore_case = TRUE)) ~ "University of Pittsburgh",
-        TRUE ~ NA_character_
+  # Institution-specific name aliases: each row maps a tracker name (regex,
+  # case-insensitive) to one alternative name used in grant data.
+  # Add a row here to register a new alias — no other code changes needed.
+  tracker_name_aliases <- tibble::tribble(
+    ~tracker_pattern,                                         ~alias,
+    "^University of Pittsburgh-Pittsburgh Campus$",           "University of Pittsburgh",
+    "^University of Pittsburgh-Pittsburgh Campus$",           "University of Pittsburgh at Pittsburgh",
+    "^University of Michigan-Ann Arbor$",                     "University of Michigan",
+    "^University of Michigan-Ann Arbor$",                     "Regents of the University of Michigan - Ann Arbor",
+    "^University of Michigan-Ann Arbor$",                     "Regents of the University of Michigan",
+    "^Washington University in St Louis$",                    "Washington University",
+    "^Washington University in St Louis$",                    "Washington University, The",
+    "^Ohio State University-Main Campus$",                    "The Ohio State University",
+    "^Ohio State University-Main Campus$",                    "Ohio State University, The",
+    "^Boston University$",                                    "Trustees of Boston University",
+    "^Harvard University$",                                   "President and Fellows of Harvard College",
+    "^Virginia Polytechnic Institute and State University$",  "Virginia Polytechnic Inst and St Univ"
+  )
+
+  alias_core_cols <- c("unitid", "tracker_institution_name", "tracker_city",
+                       "tracker_state", "tracker_control_label", "tracker_category")
+
+  alias_variants <- dplyr::bind_rows(
+    # Generic: strip "-Main Campus" suffix from all institution names
+    financial_latest |>
+      dplyr::transmute(
+        dplyr::across(dplyr::all_of(alias_core_cols)),
+        alias = stringr::str_replace(tracker_institution_name,
+                                     regex("-[[:space:]]*Main Campus$", ignore_case = TRUE), "")
       ),
-      alias_3 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^University of Pittsburgh-Pittsburgh Campus$", ignore_case = TRUE)) ~ "University of Pittsburgh at Pittsburgh",
-        TRUE ~ NA_character_
-      ),
-      alias_4 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^University of Michigan-Ann Arbor$", ignore_case = TRUE)) ~ "University of Michigan",
-        TRUE ~ NA_character_
-      ),
-      alias_5 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Washington University in St Louis$", ignore_case = TRUE)) ~ "Washington University",
-        TRUE ~ NA_character_
-      ),
-      alias_6 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Ohio State University-Main Campus$", ignore_case = TRUE)) ~ "The Ohio State University",
-        TRUE ~ NA_character_
-      ),
-      alias_7 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Ohio State University-Main Campus$", ignore_case = TRUE)) ~ "Ohio State University, The",
-        TRUE ~ NA_character_
-      ),
-      alias_8 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^University of Michigan-Ann Arbor$", ignore_case = TRUE)) ~ "Regents of the University of Michigan - Ann Arbor",
-        TRUE ~ NA_character_
-      ),
-      alias_9 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^University of Michigan-Ann Arbor$", ignore_case = TRUE)) ~ "Regents of the University of Michigan",
-        TRUE ~ NA_character_
-      ),
-      alias_10 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Boston University$", ignore_case = TRUE)) ~ "Trustees of Boston University",
-        TRUE ~ NA_character_
-      ),
-      alias_11 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Harvard University$", ignore_case = TRUE)) ~ "President and Fellows of Harvard College",
-        TRUE ~ NA_character_
-      ),
-      alias_12 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Washington University in St Louis$", ignore_case = TRUE)) ~ "Washington University, The",
-        TRUE ~ NA_character_
-      ),
-      alias_13 = dplyr::case_when(
-        stringr::str_detect(tracker_institution_name, regex("^Virginia Polytechnic Institute and State University$", ignore_case = TRUE)) ~ "Virginia Polytechnic Inst and St Univ",
-        TRUE ~ NA_character_
+    # Explicit aliases from lookup table — one output row per matched pair
+    purrr::map_dfr(seq_len(nrow(tracker_name_aliases)), function(i) {
+      matched <- financial_latest[
+        stringr::str_detect(
+          financial_latest$tracker_institution_name,
+          stringr::regex(tracker_name_aliases$tracker_pattern[[i]], ignore_case = TRUE)
+        ), ,
+        drop = FALSE
+      ]
+      if (nrow(matched) == 0L) return(tibble::tibble())
+      dplyr::transmute(matched,
+        dplyr::across(dplyr::all_of(alias_core_cols)),
+        alias = tracker_name_aliases$alias[[i]]
       )
-    ) |>
-    tidyr::pivot_longer(
-      cols = dplyr::starts_with("alias_"),
-      names_to = "alias_type",
-      values_to = "alias"
-    ) |>
-    dplyr::select(-alias_type)
+    })
+  )
 
   alias_lookup <- dplyr::bind_rows(alias_seed, alias_variants) |>
     dplyr::filter(!is.na(alias), trimws(alias) != "") |>
@@ -643,137 +248,11 @@ main <- function(cli_args = NULL) {
   }
 
   standardize_grants <- function(agency, df) {
-    agency_name <- agency
-    source_file_name <- basename(cached_paths[[agency_name]])
-
-    if (agency == "nih") {
-      out <- df |>
-        dplyr::transmute(
-          agency = agency_name,
-          source_file = source_file_name,
-          grant_id = as.character(full_award_number),
-          grant_id_core = as.character(core_award_number),
-          status = status,
-          organization_name = org_name,
-          organization_state = abbr_to_state(org_state),
-          organization_city = org_city,
-          organization_type = dplyr::coalesce(org_type, org_traits),
-          project_title = project_title,
-          project_abstract = abstract_text,
-          start_date = targeted_start_date,
-          original_end_date = targeted_end_date,
-          termination_date = termination_date,
-          reinstatement_date = reinstated_est_date,
-          award_value = to_num(total_award),
-          award_outlaid = to_num(total_estimated_outlays),
-          award_remaining = to_num(total_estimated_remaining),
-          remaining_field = "total_estimated_remaining",
-          source_url = usaspending_url,
-          detail_url = reporter_url
-        )
-    } else if (agency == "nsf") {
-      out <- df |>
-        dplyr::transmute(
-          agency = agency_name,
-          source_file = source_file_name,
-          grant_id = as.character(grant_id),
-          grant_id_core = as.character(grant_id),
-          status = status,
-          organization_name = org_name,
-          organization_state = abbr_to_state(org_state),
-          organization_city = org_city,
-          organization_type = award_type,
-          project_title = project_title,
-          project_abstract = abstract,
-          start_date = dplyr::coalesce(nsf_start_date, usasp_start_date),
-          original_end_date = dplyr::coalesce(nsf_end_date, usasp_end_date),
-          termination_date = termination_date,
-          reinstatement_date = reinstatement_date,
-          award_value = to_num(estimated_budget),
-          award_outlaid = to_num(estimated_outlays),
-          award_remaining = to_num(estimated_remaining),
-          remaining_field = "estimated_remaining",
-          source_url = usaspending_url,
-          detail_url = nsf_url
-        )
-    } else if (agency == "epa") {
-      out <- df |>
-        dplyr::transmute(
-          agency = agency_name,
-          source_file = source_file_name,
-          grant_id = as.character(grant_id),
-          grant_id_core = as.character(grant_id),
-          status = status,
-          organization_name = organization,
-          organization_state = abbr_to_state(org_state),
-          organization_city = org_city,
-          organization_type = org_type,
-          project_title = project_title,
-          project_abstract = project_description,
-          start_date = start_date,
-          original_end_date = original_end_date,
-          termination_date = termination_date,
-          reinstatement_date = reinstatement_date,
-          award_value = to_num(award_value),
-          award_outlaid = to_num(award_outlaid),
-          award_remaining = to_num(award_remaining),
-          remaining_field = "award_remaining",
-          source_url = usaspending_url,
-          detail_url = nggs_url
-        )
-    } else if (agency == "samhsa") {
-      out <- df |>
-        dplyr::transmute(
-          agency = agency_name,
-          source_file = source_file_name,
-          grant_id = as.character(grant_id),
-          grant_id_core = as.character(grant_id),
-          status = status,
-          organization_name = org_name,
-          organization_state = abbr_to_state(org_state),
-          organization_city = org_city,
-          organization_type = org_type,
-          project_title = title,
-          project_abstract = abstract,
-          start_date = dplyr::coalesce(project_start_date, first_award_date),
-          original_end_date = project_original_end_date,
-          termination_date = termination_date,
-          reinstatement_date = reinstatement_date,
-          award_value = to_num(award_value),
-          award_outlaid = to_num(award_outlaid),
-          award_remaining = to_num(award_remaining),
-          remaining_field = "award_remaining",
-          source_url = usaspending_url,
-          detail_url = taggs_url
-        )
-    } else if (agency == "cdc") {
-      out <- df |>
-        dplyr::transmute(
-          agency = agency_name,
-          source_file = source_file_name,
-          grant_id = as.character(grant_id),
-          grant_id_core = as.character(grant_id),
-          status = status,
-          organization_name = org_name,
-          organization_state = abbr_to_state(org_state),
-          organization_city = org_city,
-          organization_type = org_type,
-          project_title = title,
-          project_abstract = NA_character_,
-          start_date = project_start_date,
-          original_end_date = project_original_end_date,
-          termination_date = termination_date,
-          reinstatement_date = reinstatement_date,
-          award_value = to_num(award_value),
-          award_outlaid = to_num(award_outlaid),
-          award_remaining = to_num(award_remaining),
-          remaining_field = "award_remaining",
-          source_url = usaspending_url,
-          detail_url = taggs_url
-        )
-    } else {
-      stop("Unsupported agency: ", agency)
-    }
+    out <- standardize_grant_witness_rows(
+      agency = agency,
+      df = df,
+      source_file_name = basename(cached_paths[[agency]])
+    )
 
     out |>
       dplyr::mutate(

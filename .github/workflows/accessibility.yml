@@ -1,0 +1,26 @@
+name: Accessibility Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  accessibility:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install pa11y-ci
+        run: npm install --save-dev pa11y-ci@3 @axe-core/puppeteer@4
+
+      - name: Run accessibility checks
+        run: npx pa11y-ci --config .pa11yci.json

@@ -1,0 +1,35 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "ignore": [
+      "WCAG2AA.Principle3.Guideline3_1.3_1_1.H57.2",
+      "WCAG2AA.Principle1.Guideline1_3.1_3_1.F92.F92.1",
+      "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.A.EmptyNoId",
+      "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.Button.EmptyName",
+      "WCAG2AA.Principle4.Guideline4_1.4_1_2.H91.InputFile.EmptyName",
+      "WCAG2AA.Principle4.Guideline4_1.4.4_1_4.H91.A.ReferencesHiddenText"
+    ]
+  },
+  "urls": [
+    {
+      "url": "file://${GITHUB_WORKSPACE}/index.html",
+      "name": "Homepage"
+    },
+    {
+      "url": "file://${GITHUB_WORKSPACE}/cuts.html",
+      "name": "College Cuts"
+    },
+    {
+      "url": "file://${GITHUB_WORKSPACE}/research.html",
+      "name": "Research Funding Cuts"
+    },
+    {
+      "url": "file://${GITHUB_WORKSPACE}/accreditation.html",
+      "name": "Accreditation"
+    },
+    {
+      "url": "file://${GITHUB_WORKSPACE}/school.html?unitid=222178",
+      "name": "School Detail Page"
+    }
+  ]
+}

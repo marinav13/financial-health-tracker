@@ -123,13 +123,6 @@ body {
   flex: 1 1 auto;
 }
 
-.masthead-subtitle {
-  margin-top: 6px;
-  font-size: 0.98rem;
-  color: #383838;
-  line-height: 1.3;
-}
-
 .masthead-logo {
   background: #111111;
   color: white;
@@ -302,7 +295,7 @@ body {
 }
 
 .download-button:hover {
-  background: #005b8e;
+  background: var(--status-blue-dark);
 }
 
 .school-meta {
@@ -821,10 +814,6 @@ body {
 
   .masthead-logo {
     text-align: center;
-  }
-
-  .masthead-subtitle {
-    margin-top: 8px;
   }
 
   .intro-callout {

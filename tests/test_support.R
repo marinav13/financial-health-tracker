@@ -22,6 +22,7 @@ source(file.path(root, "scripts", "shared", "workbook_helpers.R"))
 source(file.path(root, "scripts", "shared", "ipeds_helpers.R"))
 source(file.path(root, "scripts", "shared", "ipeds_collector_helpers.R"))
 source(file.path(root, "scripts", "shared", "contracts.R"))
+source(file.path(root, "scripts", "shared", "usaspending_sensitivity_helpers.R"))
 
 failures <- character()
 passes <- 0L

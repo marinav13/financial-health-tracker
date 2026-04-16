@@ -119,6 +119,12 @@ MSCHE_CURRENT_STATUS_ACTION_TYPES <- c(
   "Non-Compliance Show Cause" = "show_cause",
   "Adverse Action" = "adverse_action"
 )
+MSCHE_CURRENT_STATUS_URL <- "https://www.msche.org/non-compliance-and-adverse-actions-by-status/"
+MSCHE_RECENT_ACTIONS_URL <- "https://www.msche.org/recent-commission-actions/"
+MSCHE_RECENT_ACTIONS_LINK_PATTERN <- paste0(
+  "<a href=\"(https://www\\.msche\\.org/commission-actions/\\?fd=[0-9]+(?:&amp;|&)ld=[0-9]+)\">",
+  "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})</a>"
+)
 
 HLC_CURRENT_NOTICE_ACTION_LABELS <- c(
   "On Notice" = "On Notice",
@@ -126,20 +132,28 @@ HLC_CURRENT_NOTICE_ACTION_LABELS <- c(
   "Removal of Sanction (past six months)" = "Removal of Sanction",
   "Withdrawal of Accreditation" = "Withdrawal of Accreditation"
 )
+HLC_ACTIONS_URL <- "https://www.hlcommission.org/for-students/accreditation-actions/"
+HLC_CURRENT_NOTICE_BLOCK_PATTERN <- "(?s)<h3 class=\"wp-block-heading\">Current Public Disclosure Notices</h3>(.*?)(?=<h3 class=\"kt-adv-heading|</main>)"
+HLC_NOTICE_PANE_PATTERN <- "(?s)<span class=\"kt-blocks-accordion-title\">(On Notice|On Probation|Removal of Sanction \\(past six months\\)|Withdrawal of Accreditation)</span>.*?<ul class=\"kt-svg-icon-list\">(.*?)</ul>"
+HLC_DETAIL_LINK_PATTERN <- "href=\"(https://www\\.hlcommission\\.org/for-students/accreditation-actions/[a-z]+-20[0-9]{2}(?:-actions)?/?)\">([A-Za-z]+)\\s+([0-9]{4})</a>"
 
 NECHE_TOGGLE_SECTION_PATTERN <- paste0(
   "(?s)<a class=\"elementor-toggle-title\"[^>]*>(.*?)</a>",
   ".*?<div id=\"elementor-tab-content-[^\"]+\" class=\"elementor-tab-content[^\"]*\"[^>]*>(.*?)</div>"
 )
+NECHE_ACTIONS_URL <- "https://www.neche.org/recent-commission-actions/"
 
 WSCUC_ARCHIVE_URLS <- c(
   "https://www.wscuc.org/post/category/commission-actions/",
   "https://www.wscuc.org/post/category/commission-actions/page/2/"
 )
+WSCUC_DETAIL_LINK_PATTERN <- "href=\"(https://www\\.wscuc\\.org/post/[^\"#]+commission-actions/?)\""
 
 SACSCOC_SANCTION_KEYWORD_PATTERN <- "\\bplaced on\\b|\\bcontinued on\\b|\\bremoved from\\b|withdraws from membership|withdrawal"
 SACSCOC_STANDARD_ITEM_PATTERN <- "^(.*?),\\s*([^,]+),\\s*([^,(]+)\\s*\\((.*?)\\)$"
 SACSCOC_WITHDRAWAL_ITEM_PATTERN <- "^(.*?)\\s*\\(([^)]+)\\)\\s*(withdraws from membership)$"
+SACSCOC_LANDING_URL <- "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/"
+SACSCOC_LANDING_LINK_PATTERN <- "<a href=\"(https://sacscoc.org/institutions/accreditation-actions-and-disclosures/[^\"#]+?)\">(December [0-9]{4} Accreditation Actions and Public Disclosure Statements|June [0-9]{4} Accreditation Actions and Public Disclosure Statements)</a>"
 SACSCOC_DISCLOSURE_ITEM_PATTERN <- paste0(
   "(?s)<(?:p|li)>\\s*",
   "<a href=\"(https://sacscoc\\.box\\.com/s/[^\"]+)\">(.*?)</a>,\\s*",
@@ -366,7 +380,7 @@ parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, deta
 }
 
 parse_msche <- function(cache_dir, refresh) {
-  url <- "https://www.msche.org/non-compliance-and-adverse-actions-by-status/"
+  url <- MSCHE_CURRENT_STATUS_URL
   html <- fetch_html_text(url, "msche_status.html", cache_dir, refresh = refresh)
   page_title <- extract_page_title(html)
   page_modified <- extract_page_modified_date(html)
@@ -468,9 +482,9 @@ parse_msche <- function(cache_dir, refresh) {
 
     month_links <- purrr::map_dfr(years, function(one_year) {
       recent_url <- if (one_year == as.integer(format(Sys.Date(), "%Y"))) {
-        "https://www.msche.org/recent-commission-actions/"
+        MSCHE_RECENT_ACTIONS_URL
       } else {
-        paste0("https://www.msche.org/recent-commission-actions/?my=", one_year)
+        paste0(MSCHE_RECENT_ACTIONS_URL, "?my=", one_year)
       }
 
       recent_html <- fetch_html_text(
@@ -482,7 +496,7 @@ parse_msche <- function(cache_dir, refresh) {
 
       links <- stringr::str_match_all(
         recent_html,
-        "<a href=\"(https://www\\.msche\\.org/commission-actions/\\?fd=[0-9]+(?:&amp;|&)ld=[0-9]+)\">(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})</a>"
+        MSCHE_RECENT_ACTIONS_LINK_PATTERN
       )[[1]]
 
       if (nrow(links) == 0) {
@@ -510,14 +524,14 @@ parse_msche <- function(cache_dir, refresh) {
 }
 
 parse_hlc <- function(cache_dir, refresh) {
-  url <- "https://www.hlcommission.org/for-students/accreditation-actions/"
+  url <- HLC_ACTIONS_URL
   html <- fetch_html_text(url, "hlc_actions.html", cache_dir, refresh = refresh)
   page_title <- extract_page_title(html)
   page_modified <- extract_page_modified_date(html)
 
   current_notice_block <- stringr::str_match(
     html,
-    "(?s)<h3 class=\"wp-block-heading\">Current Public Disclosure Notices</h3>(.*?)(?=<h3 class=\"kt-adv-heading|</main>)"
+    HLC_CURRENT_NOTICE_BLOCK_PATTERN
   )[, 2]
 
   current_notice_rows <- if (is.na(current_notice_block)) {
@@ -525,7 +539,7 @@ parse_hlc <- function(cache_dir, refresh) {
   } else {
     pane_matches <- stringr::str_match_all(
       current_notice_block,
-      "(?s)<span class=\"kt-blocks-accordion-title\">(On Notice|On Probation|Removal of Sanction \\(past six months\\)|Withdrawal of Accreditation)</span>.*?<ul class=\"kt-svg-icon-list\">(.*?)</ul>"
+      HLC_NOTICE_PANE_PATTERN
     )[[1]]
 
     if (nrow(pane_matches) == 0) {
@@ -601,7 +615,7 @@ parse_hlc <- function(cache_dir, refresh) {
 
   link_matches <- stringr::str_match_all(
     html,
-    "href=\"(https://www\\.hlcommission\\.org/for-students/accreditation-actions/[a-z]+-20[0-9]{2}(?:-actions)?/?)\">([A-Za-z]+)\\s+([0-9]{4})</a>"
+    HLC_DETAIL_LINK_PATTERN
   )[[1]]
 
   historical_rows <- if (nrow(link_matches) == 0) {
@@ -648,12 +662,12 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
 }
 
 parse_sacscoc <- function(cache_dir, refresh) {
-  landing_url <- "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/"
+  landing_url <- SACSCOC_LANDING_URL
   html <- fetch_html_text(landing_url, "sacscoc_disclosures.html", cache_dir, refresh = refresh)
 
   links <- stringr::str_match_all(
     html,
-    "<a href=\"(https://sacscoc.org/institutions/accreditation-actions-and-disclosures/[^\"#]+?)\">(December [0-9]{4} Accreditation Actions and Public Disclosure Statements|June [0-9]{4} Accreditation Actions and Public Disclosure Statements)</a>"
+    SACSCOC_LANDING_LINK_PATTERN
   )[[1]]
 
   if (nrow(links) == 0) {
@@ -665,7 +679,7 @@ parse_sacscoc <- function(cache_dir, refresh) {
 }
 
 parse_neche <- function(cache_dir, refresh) {
-  url <- "https://www.neche.org/recent-commission-actions/"
+  url <- NECHE_ACTIONS_URL
   html <- fetch_html_text(url, "neche_actions.html", cache_dir, refresh = refresh)
   page_title <- extract_page_title(html)
   page_modified <- extract_page_modified_date(html)
@@ -727,7 +741,7 @@ parse_wscuc <- function(cache_dir, refresh) {
 
     links <- stringr::str_match_all(
       archive_html,
-      "href=\"(https://www\\.wscuc\\.org/post/[^\"#]+commission-actions/?)\""
+      WSCUC_DETAIL_LINK_PATTERN
     )[[1]]
 
     if (nrow(links) == 0) {

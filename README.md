@@ -207,6 +207,7 @@ That suite currently covers:
 - shared helper regressions
 - canonical fixture regressions
 - export fixture regressions
+- college cuts fixture regressions
 - Grant Witness and accreditation pipeline fixtures
 - a reduced canonical-to-export end-to-end fixture
 - source smoke for the main pipeline entry scripts
@@ -246,8 +247,9 @@ Local rebuild outputs that are useful for reporting but are not part of the comm
 This repo does not use a heavyweight test framework yet. Instead it keeps a
 small fast regression harness in `tests/`:
 
-- `test_utils.R`, `test_export_helpers.R`, `test_workbook_helpers.R`, and the other helper tests
+- `test_utils.R`, `test_export_helpers.R`, `test_accreditation_helpers.R`, `test_grant_witness_helpers.R`, and the other shipped-output helper tests
   - validate shared pure helpers directly
+- workbook-specific tests still exist for local reporting, but they are no longer part of the streamlined public smoke gate
 - `test_canonical_pipeline_fixture.R`
   - validates the canonical build on a tiny isolated fixture
 - `test_canonical_pipeline_aux_fixture.R`

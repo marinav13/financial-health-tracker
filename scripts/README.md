@@ -20,7 +20,7 @@ IPEDS remains under `ipeds/`.
 
 - `build_ipeds_canonical_dataset.R`
   - reads the raw IPEDS dataset
-  - computes the derived fields used by the interactive and workbook
+  - computes the derived fields used by the interactive and optional local reporting
   - writes the canonical dataset
 
 - `build_ipeds_dataset.R`
@@ -89,7 +89,7 @@ Current shared helper roles:
 
 - `build_article_workbook.R`
   - optional local reporting script
-  - not part of the streamlined public production path
+  - not part of the shipped-output path or public smoke gate
 
 The sensitivity script no longer maintains multiple proposal variants. Its
 current production purpose is to build the risky continuation filter and a
@@ -119,6 +119,9 @@ small summary of that filter for QA.
 - `tests/test_export_pipeline_fixture.R`
   - tiny fixture-driven regression check for the website export pipeline
   - verifies generated JSON/CSV outputs from a minimal temporary dataset
+- `tests/test_college_cuts_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the college cuts join
+  - verifies cached-table fallback, tracker matching, and summary outputs
 - `tests/test_canonical_pipeline_fixture.R`
   - tiny fixture-driven regression check for the canonical IPEDS build
   - runs the canonical script in a temporary mini-workspace with stubbed dictionary lookups
@@ -206,6 +209,9 @@ you know where to look when something breaks.
 **Joiners** — combine canonical with external data:
 - `build_outcomes_join.R` — adds College Scorecard and graduation rate data
 - `build_college_cuts_join.R` — adds reported college cuts data
+
+`build_article_workbook.R` is intentionally outside the shipped-output map. It
+supports optional local reporting and QA, not the public site handoff.
 
 When a schema change ripples across scripts, update the contracts validator in
 the receiving script first (it will point at the break), then update the sender.

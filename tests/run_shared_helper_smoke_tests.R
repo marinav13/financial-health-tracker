@@ -12,6 +12,7 @@ test_files <- c(
   "test_canonical_pipeline_fixture.R",
   "test_canonical_pipeline_aux_fixture.R",
   "test_export_pipeline_fixture.R",
+  "test_college_cuts_pipeline_fixture.R",
   "test_grant_witness_pipeline_fixture.R",
   "test_accreditation_actions_pipeline_fixture.R",
   "test_collect_pipeline_fixture.R",

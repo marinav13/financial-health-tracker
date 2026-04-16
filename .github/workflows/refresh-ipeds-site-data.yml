@@ -35,19 +35,14 @@ jobs:
         with:
           r-version: "4.5.1"
 
-      - name: Set up R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Cache R packages
+        uses: actions/cache@v4
         with:
-          packages: |
-            any::dplyr
-            any::httr
-            any::jsonlite
-            any::purrr
-            any::readr
-            any::readxl
-            any::stringr
-            any::tidyr
-            any::xml2
+          path: ~/renv/library
+          key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
+
+      - name: Restore R packages
+        run: Rscript -e "renv::restore()"
 
       - name: Run shared helper smoke tests
         shell: bash

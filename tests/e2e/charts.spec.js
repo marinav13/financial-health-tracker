@@ -53,17 +53,23 @@ test.describe('Chart rendering', () => {
     const chartContainer = page.locator('#chart-revenue');
     
     const svg = chartContainer.locator('svg');
-    await expect(svg).toHaveAttribute('role', 'img');
-    await expect(svg).toHaveAttribute(/aria-label/);
+    // Check role on SVG, and aria-label is on the same element per HTML structure
+    const role = await svg.getAttribute('role');
+    const ariaLabel = await svg.getAttribute('aria-label');
+    expect(role).toBe('img');
+    expect(ariaLabel).toBeTruthy();
   });
 
   test('multiple charts render on page load', async ({ page }) => {
     await page.goto('/school.html?unitid=222178');
     
-    // Count visible chart SVGs
-    const chartSvgs = page.locator('.chart-panel svg');
-    const count = await chartSvgs.count();
+    // Verify at least 3 specific chart containers have rendered SVGs
+    const constRevenue = page.locator('#chart-revenue svg');
+    const constTuition = page.locator('#chart-net-tuition svg');
+    const constEnrollment = page.locator('#chart-enrollment svg');
     
-    expect(count).toBeGreaterThanOrEqual(3);
+    await expect(constRevenue).toBeVisible();
+    await expect(constTuition).toBeVisible();
+    await expect(constEnrollment).toBeVisible();
   });
 });

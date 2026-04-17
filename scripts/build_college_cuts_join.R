@@ -213,25 +213,54 @@ main <- function(cli_args = NULL) {
     # Filter out rows with empty institution names
     raw_cuts <- raw_cuts |> dplyr::filter(nzchar(trimws(`Institution`)))
     
-    # Create simple output with normalized columns
+    # Create output matching the joined CSV format expected by build_web_exports.R
+    # Need: id, program_name, cut_type, announcement_date, announcement_year, effective_term,
+    # status, students_affected, faculty_affected, notes, institution_id, institution_name_collegecuts,
+    # institution_city, institution_state_abbr, institution_state_full, institution_control,
+    # institution_url, institution_unitid, matched_unitid, match_method, in_financial_tracker,
+    # source_id, source_url, source_title, source_publication, source_published_at
+    
     output_data <- raw_cuts |>
-      dplyr::transmute(
-        institution_name = `Institution`,
-        state_abbr = `State`,
+      dplyr::mutate(
+        # Generate fake IDs for consistency
+        cut_row = dplyr::row_number(),
+        id = paste0("csv-", cut_row),
+        program_name = `Institution`,
         cut_type = `Cut Type`,
-        program_dept = `Program/Department`,
-        announcement_date = `Announcement Date`,
+        announcement_date = as.character(`Announcement Date`),
+        announcement_year = substr(as.character(`Announcement Date`), 1, 4),
         effective_term = `Effective Term`,
-        students_affected = suppressWarnings(as.integer(`Students Affected`)),
-        staff_affected = suppressWarnings(as.integer(`Faculty/Staff Affected`)),
-        primary_reason = `Primary Reason`,
         status = Status,
+        students_affected = suppressWarnings(as.integer(`Students Affected`)),
+        faculty_affected = suppressWarnings(as.integer(`Faculty/Staff Affected`)),
+        notes = Notes,
+        institution_id = NA_character_,
+        institution_name_collegecuts = `Institution`,
+        institution_city = NA_character_,
+        institution_state_abbr = `State`,
+        institution_state_full = abbr_to_state(`State`),
+        institution_control = NA_character_,
+        institution_url = NA_character_,
+        institution_unitid = NA_integer_,
+        matched_unitid = NA_character_,
+        match_method = "csv_fallback",
+        in_financial_tracker = FALSE,
+        source_id = NA_character_,
         source_url = `Source URL`,
-        notes = Notes
+        source_title = `Program/Department`,
+        source_publication = NA_character_,
+        source_published_at = NA_character_
+      ) |>
+      dplyr::select(
+        id, program_name, cut_type, announcement_date, announcement_year, effective_term,
+        status, students_affected, faculty_affected, notes, institution_id, institution_name_collegecuts,
+        institution_city, institution_state_abbr, institution_state_full, institution_control,
+        institution_url, institution_unitid, matched_unitid, match_method, in_financial_tracker,
+        source_id, source_url, source_title, source_publication, source_published_at
       )
     
-    # Write to output and exit (no IPEDS join needed for CSV fallback)
-    output_path <- paste0(output_prefix, "_csv_fallback.csv")
+    # Write to the same output path that build_web_exports.R expects
+    output_path <- paste0(output_prefix, "_cut_level_joined.csv")
     readr::write_csv(output_data, output_path)
     message("Wrote college cuts to: ", output_path)
     message("Done! (CSV fallback mode - no IPEDS join performed)")

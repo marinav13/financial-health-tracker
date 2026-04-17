@@ -233,3 +233,23 @@ pick_first_present <- function(df, candidates) {
   values <- lapply(present, function(col) as.character(df[[col]]))
   Reduce(function(x, y) dplyr::coalesce(x, y), values)
 }
+
+# Builds a named list of aggregated values by group (e.g., sector).
+# Used to create benchmark lookup tables for sector-level comparisons.
+#
+# PARAMETERS:
+#   df – Data frame containing the data
+#   group_col – Column name to group by (e.g., "sector")
+#   value_col – Column name containing values to aggregate
+#   summarizer – Function to aggregate values (e.g., mean, median)
+#
+# RETURNS: Named list with group values as names and aggregated values
+build_group_value_lookup <- function(df, group_col, value_col, summarizer) {
+  if (!group_col %in% names(df) || !value_col %in% names(df)) {
+    return(setNames(list(NA_real_), "Unknown"))
+  }
+  grouped <- df |>
+    dplyr::group_by(dplyr::pick(dplyr::all_of(group_col))) |>
+    dplyr::summarise(value = summarizer(.data[[value_col]]), .groups = "drop")
+  stats::setNames(as.list(grouped$value), grouped[[group_col]])
+}

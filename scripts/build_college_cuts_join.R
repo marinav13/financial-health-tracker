@@ -61,33 +61,19 @@ main <- function(cli_args = NULL) {
     "--cache-dir",
     file.path(getwd(), "data_pipelines", "college_cuts", "cache")
   )
+  cuts_csv <- get_arg_value(
+    "--cuts-csv",
+    file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_export.csv")
+  )
 
   # -----------------------------------------------------------------------
-  # SUPABASE API CREDENTIALS
-  # Both values must be set as environment variables — no hardcoded fallbacks.
-  # In GitHub Actions, add them as repository secrets:
-  #   COLLEGE_CUTS_SUPABASE_URL
-  #   COLLEGE_CUTS_SUPABASE_ANON_KEY
-  # Locally, export them in your shell before running this script.
+  # SUPABASE API CREDENTIALS (optional - CSV fallback is available)
+  # If credentials are set, use Supabase.
+  # Otherwise, will try CSV fallback if available.
   supabase_url <- Sys.getenv("COLLEGE_CUTS_SUPABASE_URL", unset = "")
   supabase_key <- Sys.getenv("COLLEGE_CUTS_SUPABASE_ANON_KEY", unset = "")
 
-  if (!nzchar(supabase_url)) {
-    stop(
-      "COLLEGE_CUTS_SUPABASE_URL is not set.\n",
-      "Export the environment variable before running this script:\n",
-      "  export COLLEGE_CUTS_SUPABASE_URL=https://your-project.supabase.co\n",
-      "In GitHub Actions, add it as a repository secret and reference it in the workflow."
-    )
-  }
-  if (!nzchar(supabase_key)) {
-    stop(
-      "COLLEGE_CUTS_SUPABASE_ANON_KEY is not set.\n",
-      "Export the environment variable before running this script:\n",
-      "  export COLLEGE_CUTS_SUPABASE_ANON_KEY=your-anon-key\n",
-      "In GitHub Actions, add it as a repository secret and reference it in the workflow."
-    )
-  }
+  # Note: Supabase credential check moved to later in script to allow CSV fallback
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
@@ -209,11 +195,45 @@ main <- function(cli_args = NULL) {
   }
 
   # -----------------------------------------------------------------------
-  # FETCH ALL THREE COLLEGE CUTS TABLES FROM SUPABASE
-  message("Fetching CollegeCuts tables from Supabase ...")
-  institutions <- fetch_table_csv("institutions", order = "name.asc")
-  program_cuts <- fetch_table_csv("program_cuts", order = "announcement_date.desc,id.asc")
-  sources <- fetch_table_csv("sources", order = "published_at.desc,id.asc")
+  # FETCH ALL THREE COLLEGE CUTS TABLES FROM SUPABASE (or CSV fallback)
+  # If Supabase credentials are available, use them.
+  # Otherwise, fall back to CSV export file if it exists.
+  if (nzchar(supabase_url) && nzchar(supabase_key)) {
+    message("Fetching CollegeCuts tables from Supabase ...")
+    institutions <- fetch_table_csv("institutions", order = "name.asc")
+    program_cuts <- fetch_table_csv("program_cuts", order = "announcement_date.desc,id.asc")
+    sources <- fetch_table_csv("sources", order = "published_at.desc,id.asc")
+  } else if (file.exists(cuts_csv)) {
+    message("Using CSV fallback for college cuts: ", cuts_csv)
+    raw_cuts <- readr::read_csv(cuts_csv, show_col_types = FALSE, progress = FALSE)
+    # Filter to confirmed statuses only (exclude rumors)
+    raw_cuts <- raw_cuts |> dplyr::filter(Status %in% c("confirmed", "ongoing", "reversed"))
+    message("Loaded ", nrow(raw_cuts), " confirmed cuts from CSV")
+    # Build minimal structures from CSV
+    # Use backticks for column names with spaces
+    institutions <- raw_cuts |> 
+      dplyr::distinct(`Institution`, .keep_all = TRUE) |>
+      dplyr::transmute(
+        id = NA, 
+        name = `Institution`, 
+        city = NA_character_, 
+        state = `State`, 
+        control = NA_character_
+      )
+    program_cuts <- raw_cuts
+    # Fix column names with spaces - skip date parsing since lubridate may not be loaded
+    sources <- raw_cuts |>
+      dplyr::transmute(
+        id = NA_integer_, 
+        title = NA_character_, 
+        url = `Source URL`,
+        published_at = NA,
+        institution_id = NA_integer_
+      ) |>
+      dplyr::distinct(url, .keep_all = TRUE)
+  } else {
+    stop("No college cuts data: set Supabase credentials or provide --cuts-csv")
+  }
 
   # -----------------------------------------------------------------------
   # LOAD FINANCIAL TRACKER AND PREPARE FOR MATCHING

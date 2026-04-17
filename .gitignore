@@ -55,4 +55,10 @@ data_pipelines/scorecard/*.csv
 Thumbs.db
 .DS_Store
 __pycache__/
-*
+*.pyc
+
+# Local tool/config scratch
+.opencode/
+opencode.jsonc
+debug_workbook_fixture.R
+

@@ -732,3 +732,174 @@ parse_sacscoc <- function(cache_dir, refresh) {
 # Scrapes NECHE accreditation actions from their recent actions page, extracting
 # institutions grouped by action type from toggle/accordion sections.
 parse_neche <- function(cache_dir, refresh) {
+  url <- NECHE_ACTIONS_URL
+  html <- fetch_html_text(url, "neche_actions.html", cache_dir, refresh = refresh)
+  page_title <- extract_page_title(html)
+  page_modified <- extract_page_modified_date(html)
+
+  sections <- extract_regex_heading_sections(html, NECHE_TOGGLE_SECTION_PATTERN)
+  parse_public_action_sections(
+    sections = sections,
+    accreditor = "NECHE",
+    action_date = as.Date(NA),
+    action_year = suppressWarnings(as.integer(stringr::str_extract(page_modified, "^[0-9]{4}"))),
+    source_url = url,
+    source_title = page_title,
+    source_page_url = url,
+    source_page_modified = page_modified
+  )
+}
+
+parse_wscuc_detail_page <- function(url, cache_dir, refresh) {
+  html <- fetch_html_text(
+    url,
+    paste0("wscuc_", basename(gsub("/$", "", url)), ".html"),
+    cache_dir,
+    refresh = refresh
+  )
+  page_title <- extract_page_title(html)
+  page_modified <- extract_page_modified_date(html)
+
+  date_match <- stringr::str_match(
+    clean_text(page_title),
+    "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})"
+  )
+  action_date <- if (!is.na(date_match[1, 1])) {
+    as.Date(paste0(date_match[1, 2], " 01 ", date_match[1, 3]), format = "%B %d %Y")
+  } else {
+    as.Date(NA)
+  }
+
+  sections <- extract_tag_heading_sections(html, heading_tag = "h2")
+  parse_public_action_sections(
+    sections = sections,
+    accreditor = "WSCUC",
+    action_date = action_date,
+    action_year = suppressWarnings(as.integer(format(action_date, "%Y"))),
+    source_url = url,
+    source_title = page_title,
+    source_page_url = url,
+    source_page_modified = page_modified
+  )
+}
+
+parse_wscuc <- function(cache_dir, refresh) {
+  detail_urls <- purrr::map_dfr(seq_along(WSCUC_ARCHIVE_URLS), function(i) {
+    archive_html <- fetch_html_text(
+      WSCUC_ARCHIVE_URLS[[i]],
+      paste0("wscuc_commission_actions_archive_", i, ".html"),
+      cache_dir,
+      refresh = refresh
+    )
+
+    links <- stringr::str_match_all(
+      archive_html,
+      WSCUC_DETAIL_LINK_PATTERN
+    )[[1]]
+
+    if (nrow(links) == 0) {
+      return(tibble::tibble(url = character()))
+    }
+
+    tibble::tibble(url = links[, 2])
+  }) |>
+    dplyr::distinct() |>
+    dplyr::filter(stringr::str_detect(url, "20(24|25|26)")) |>
+    dplyr::pull(url)
+
+  if (length(detail_urls) == 0) {
+    return(tibble::tibble())
+  }
+
+  purrr::map_dfr(detail_urls, function(u) parse_wscuc_detail_page(u, cache_dir, refresh))
+}
+
+build_match_suggestions <- function(unmatched_df, candidates_df, max_candidates = 3L) {
+  if (nrow(unmatched_df) == 0) {
+    return(unmatched_df)
+  }
+
+  purrr::map_dfr(seq_len(nrow(unmatched_df)), function(i) {
+    row <- unmatched_df[i, ]
+    same_state <- candidates_df
+    if (!is.na(row$institution_state_normalized) && nzchar(row$institution_state_normalized)) {
+      same_state <- candidates_df |>
+        dplyr::filter(state_full == row$institution_state_normalized)
+    }
+    pool <- if (nrow(same_state) > 0) same_state else candidates_df
+    dists <- utils::adist(row$institution_name_normalized, pool$norm_name)
+    ord <- order(dists[1, ], pool$institution_name)
+    top_n <- head(ord, max_candidates)
+    suggestions <- paste0(
+      pool$institution_name[top_n],
+      " (",
+      pool$state_full[top_n],
+      "; UNITID ",
+      pool$unitid[top_n],
+      "; distance ",
+      as.integer(dists[1, top_n]),
+      ")"
+    )
+    dplyr::bind_cols(
+      row,
+      tibble::tibble(suggested_matches = paste(suggestions, collapse = " | "))
+    )
+  })
+}
+
+# ---------------------------------------------------------------------------
+# SCRAPE-COUNT REGRESSION GUARD
+# ---------------------------------------------------------------------------
+
+# Compares freshly scraped row counts per accreditor against the previously
+# written output CSV.  Emits a warning for any accreditor whose count has
+# dropped by more than `drop_fraction` (default 40%) relative to the prior
+# run, as long as the prior run produced at least `min_prior_rows` rows for
+# that accreditor.  This catches silent failures where a site's HTML changed
+# and the scraper returned an empty result instead of an error.
+#
+# @param fresh_df      Data frame returned by the combined scrape (must have
+#                      an `accreditor` column).
+# @param prior_csv     Path to the previously written actions CSV.  If the
+#                      file does not exist, the check is skipped silently.
+# @param drop_fraction Fractional drop threshold (0–1) that triggers a
+#                      warning.  Default 0.4 = warn if count fell by >= 40%.
+# @param min_prior_rows Minimum prior-run row count for an accreditor before
+#                       the check is applied.  Avoids false positives for
+#                       accreditors that routinely have very few actions.
+warn_if_scrape_count_dropped <- function(fresh_df,
+                                         prior_csv,
+                                         drop_fraction = 0.4,
+                                         min_prior_rows = 5L) {
+  if (!file.exists(prior_csv)) {
+    return(invisible(NULL))
+  }
+  prior_df <- tryCatch(
+    readr::read_csv(prior_csv, show_col_types = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(prior_df) || !("accreditor" %in% names(prior_df))) {
+    return(invisible(NULL))
+  }
+
+  prior_counts <- table(prior_df$accreditor)
+  fresh_counts <- table(fresh_df$accreditor)
+
+  for (acc in names(prior_counts)) {
+    prior_n <- as.integer(prior_counts[[acc]])
+    if (prior_n < min_prior_rows) next
+    fresh_n  <- as.integer(fresh_counts[[acc]] %||% 0L)
+    if (fresh_n == 0L || (prior_n - fresh_n) / prior_n >= drop_fraction) {
+      warning(sprintf(
+        paste(
+          "warn_if_scrape_count_dropped: %s row count dropped from %d to %d",
+          "(%.0f%% decrease). The accreditor's site structure may have changed,",
+          "or the scraper served a stale cache. Validate output before publishing."
+        ),
+        acc, prior_n, fresh_n,
+        100 * (prior_n - fresh_n) / prior_n
+      ), call. = FALSE)
+    }
+  }
+  invisible(NULL)
+}

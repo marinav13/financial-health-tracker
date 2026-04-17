@@ -45,4 +45,4 @@ This folder does not replace `ipeds/`.
 
 IPEDS remains separate because it is the primary longitudinal source dataset
 for the project, while `data_pipelines/` holds the supporting domain datasets
-that get joined onto the canonical IPEDS build
+that get joined onto the canonical IPEDS build later.

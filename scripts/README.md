@@ -74,4 +74,168 @@ Current shared helper roles:
   - JSON export, index, and bundle-writing helpers
 - `scripts/shared/workbook_helpers.R`
   - workbook summary, benchmark, XML, and worksheet builders for optional local reporting
-- `s
+- `scripts/shared/accreditation_helpers.R`
+  - accreditation text cleanup, classification, and matching helpers
+- `scripts/shared/accreditation_scrapers.R`
+  - accreditor parser functions
+- `scripts/shared/grant_witness_helpers.R`
+  - Grant Witness normalization and config-driven standardization helpers
+
+## Supporting Scripts
+
+- `build_grant_witness_usaspending_sensitivity.R`
+  - supporting research QA analysis used by the scheduled grant workflow
+  - writes the risky continuation filter used by the Grant Witness join
+
+- `build_article_workbook.R`
+  - optional local reporting script
+  - not part of the shipped-output path or public smoke gate
+
+The sensitivity script no longer maintains multiple proposal variants. Its
+current production purpose is to build the risky continuation filter and a
+small summary of that filter for QA.
+
+- `annual_refresh_and_publish.R`
+  - convenience wrapper for a partial refresh
+
+- `publish_to_google_sheets.R`
+  - optional Google Sheets publisher for the site-ready CSV
+
+## Lightweight Tests
+
+- `tests/run_shared_helper_smoke_tests.R`
+  - quick smoke runner for the shared helper tests
+  - sources focused test files under `tests/test_*.R`
+  - runs without a dedicated test framework
+
+- `tests/test_utils.R`
+- `tests/test_export_helpers.R`
+- `tests/test_accreditation_helpers.R`
+- `tests/test_grant_witness_helpers.R`
+- `tests/test_ipeds_helpers.R`
+- `tests/test_pipeline_smoke.R`
+  - focused regression coverage for each shared helper layer
+  - plus a source-level smoke check for the core shipped-output pipeline entry scripts
+- `tests/test_export_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the website export pipeline
+  - verifies generated JSON/CSV outputs from a minimal temporary dataset
+- `tests/test_college_cuts_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the college cuts join
+  - verifies cached-table fallback, tracker matching, and summary outputs
+- `tests/test_canonical_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the canonical IPEDS build
+  - runs the canonical script in a temporary mini-workspace with stubbed dictionary lookups
+  - intended to stay small and easy to extend as helpers change
+- `tests/test_canonical_pipeline_aux_fixture.R`
+  - tiny canonical regression that includes a real EFFY aux-table path
+  - verifies enrollment backfill and derived international-share behavior
+- `tests/test_end_to_end_pipeline_fixture.R`
+  - reduced end-to-end pipeline check
+  - runs canonical build first, then web exports from that generated canonical output
+- `tests/test_grant_witness_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the Grant Witness join
+  - verifies risky continuation exclusions and higher-ed summary outputs
+- `tests/test_accreditation_actions_pipeline_fixture.R`
+  - tiny fixture-driven regression check for the accreditation actions pipeline
+  - verifies matched actions, current-status output, unmatched review, and coverage outputs
+
+Workbook-specific tests still exist for local use, but they are no longer part
+of the streamlined public smoke gate.
+
+Run it with:
+
+```bash
+Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+```
+
+What the test layers mean:
+
+- helper tests
+  - fast checks for pure shared functions
+- fixture pipeline tests
+  - small temp-workspace regressions for canonical and export contracts
+- pipeline smoke
+  - verifies the major scripts still source cleanly and expose `main()`
+
+## Closure Tabs Expected In Google Sheets
+
+`import_closure_sheet.py` looks for these tab names:
+
+- `closure_status_tracker_matches`
+- `running_closures`
+- `main_campus_closures`
+- `branch_campus_closures`
+- `mergers_consolidations`
+- `private_sector_federal_main_closures`
+
+## Data Contracts
+
+`scripts/shared/contracts.R` contains validators that run at script boundaries. They
+fail early with readable errors when a required column disappears or a key
+duplicates. Use them when making schema changes.
+
+Available validators:
+
+| Validator | Where to call it |
+|---|---|
+| `validate_canonical_output(df)` | After `build_ipeds_canonical_dataset.R` finishes |
+| `validate_export_input(df)` | After numeric coercion in `build_web_exports.R` |
+
+`validate_workbook_input(df)` still exists for local workbook reporting, but it
+is not part of the streamlined public production path.
+
+When adding a new required column to the canonical dataset, add it to
+`CANONICAL_REQUIRED_COLS` in `contracts.R` and add at least one fixture test
+case that exercises it before shipping.
+
+## Orchestrators vs. Heavy Transforms
+
+Understanding which scripts own architecture vs. which ones do heavy work helps
+you know where to look when something breaks.
+
+**Orchestrators** — mostly call other scripts or arrange data flow:
+- `build_ipeds_dataset.R` — runs collector → canonical in order
+- `annual_refresh_and_publish.R` — convenience wrapper for partial refresh
+- `build_grant_witness_usaspending_sensitivity.R` - calls the API and computes the risky continuation filter
+
+**Heavy transforms** — do the actual data shaping:
+- `collect_ipeds_data.R` — downloads IPEDS, resolves variable names, writes raw CSV
+- `build_ipeds_canonical_dataset.R` — computes derived fields, writes canonical CSV
+- `build_web_exports.R` — joins non-IPEDS data, writes JSON/CSV for the site
+- `build_article_workbook.R` — assembles Excel workbook with summaries and benchmarks
+- `build_accreditation_actions.R` — scrapes and joins accreditation data
+- `build_grant_witness_join.R` — normalizes and joins Grant Witness data
+
+**Joiners** — combine canonical with external data:
+- `build_outcomes_join.R` — adds College Scorecard and graduation rate data
+- `build_college_cuts_join.R` — adds reported college cuts data
+
+`build_article_workbook.R` is intentionally outside the shipped-output map. It
+supports optional local reporting and QA, not the public site handoff.
+
+When a schema change ripples across scripts, update the contracts validator in
+the receiving script first (it will point at the break), then update the sender.
+
+## How to Safely Refactor
+
+1. **Change a helper function** — run the smoke tests first, change the helper,
+   run the smoke tests again. If a fixture test fails, the failure message points
+   at the exact seam that broke.
+2. **Add a new required column** — add it to the relevant `REQUIRED_COLS` in
+   `contracts.R`, add a fixture test that produces it, then change the code.
+3. **Change a scraper** — add a test case for the new behavior in the relevant
+   `test_accreditation_scrapers.R` section before changing the scraper itself.
+4. **Refactor a large script body** — extract the section into a named helper in
+   `scripts/shared/`, add direct tests for the helper, replace the old inline
+   block with a call to the helper.
+5. **Change the canonical dataset schema** — update `CANONICAL_REQUIRED_COLS` in
+   `contracts.R`, add a test case in `test_canonical_pipeline_fixture.R`, then
+   make the code change.
+
+The smoke test runner is the gate: `Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R`.
+Keep it green.
+
+## Legacy Material
+
+Scripts that are not part of the active interactive build should stay out of
+the main repo surface.

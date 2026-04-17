@@ -15,4 +15,10 @@ test_files <- c(
   "test_export_pipeline_fixture.R",
   "test_college_cuts_pipeline_fixture.R",
   "test_grant_witness_pipeline_fixture.R",
-  "test_accreditation_a
+  "test_accreditation_actions_pipeline_fixture.R",
+  "test_collect_pipeline_fixture.R",
+  "test_end_to_end_pipeline_fixture.R",
+  "test_pipeline_smoke.R"
+)
+
+run_test_files(file.path(root, "tests", test_files))

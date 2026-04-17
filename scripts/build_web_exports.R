@@ -904,6 +904,88 @@ if (!is.null(cuts_paths)) cat(sprintf("Saved college cuts index to %s\n", cuts_p
 if (!is.null(accreditation_paths)) cat(sprintf("Saved accreditation index to %s\n", accreditation_paths$index_path))
 if (!is.null(research_paths)) cat(sprintf("Saved research funding index to %s\n", research_paths$index_path))
 
+# ── Post-write JSON validation ────────────────────────────────────────────────
+# Re-read every output file and confirm it is valid JSON with the expected
+# top-level keys and non-zero record counts.  Any failure stops the script so a
+# broken export is never silently committed to the repo.
+validate_json_output <- function(path, required_keys = character(0),
+                                  min_length = 0L, schools_min = 0L) {
+  if (!file.exists(path)) {
+    stop("Expected output file is missing: ", path, call. = FALSE)
+  }
+  parsed <- tryCatch(
+    jsonlite::fromJSON(path, simplifyVector = FALSE),
+    error = function(e) {
+      stop("Invalid JSON in ", path, ": ", conditionMessage(e), call. = FALSE)
+    }
+  )
+  if (min_length > 0L && length(parsed) < min_length) {
+    stop(
+      "JSON array in ", path, " has ", length(parsed),
+      " entries (expected >= ", min_length, ")", call. = FALSE
+    )
+  }
+  for (key in required_keys) {
+    if (!key %in% names(parsed)) {
+      stop("Missing required key '", key, "' in ", path, call. = FALSE)
+    }
+  }
+  if (schools_min > 0L) {
+    n_schools <- length(parsed[["schools"]])
+    if (n_schools < schools_min) {
+      stop(
+        "'schools' count in ", path, " is ", n_schools,
+        " (expected >= ", schools_min, ")", call. = FALSE
+      )
+    }
+  }
+  invisible(parsed)
+}
+
+cat("\nValidating JSON outputs...\n")
+
+validate_json_output(
+  file.path(data_dir, "schools_index.json"),
+  min_length = 1L
+)
+validate_json_output(
+  file.path(data_dir, "metadata.json"),
+  required_keys = c("generated_at", "title", "files")
+)
+if (!is.null(cuts_paths)) {
+  validate_json_output(
+    cuts_paths$export_path,
+    required_keys = c("generated_at", "schools"),
+    schools_min = 1L
+  )
+  validate_json_output(cuts_paths$index_path, min_length = 1L)
+}
+if (!is.null(accreditation_paths)) {
+  validate_json_output(
+    accreditation_paths$export_path,
+    required_keys = c("generated_at", "schools"),
+    schools_min = 1L
+  )
+  validate_json_output(accreditation_paths$index_path, min_length = 1L)
+}
+if (!is.null(research_paths)) {
+  validate_json_output(
+    research_paths$export_path,
+    required_keys = c("generated_at", "schools"),
+    schools_min = 1L
+  )
+  validate_json_output(research_paths$index_path, min_length = 1L)
+}
+
+n_school_files <- length(list.files(schools_dir, pattern = "\\.json$"))
+if (n_school_files == 0L) {
+  stop("No school JSON files were written to ", schools_dir, call. = FALSE)
+}
+cat(sprintf(
+  "Validation passed: %d school files written, all aggregate exports are valid JSON.\n",
+  n_school_files
+))
+
 invisible(TRUE)
 }
 

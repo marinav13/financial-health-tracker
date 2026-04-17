@@ -381,4 +381,245 @@ GRANT_WITNESS_STATUS_RULES <- list(
   ),
   not_currently_disrupted = list(
     nih = c("possibly reinstated", "possibly unfrozen funding", "unfrozen funding"),
- 
+    .default = c("possibly reinstated", "reinstated")
+  )
+)
+
+status_rule_values <- function(rule_name, agency) {
+  rules <- GRANT_WITNESS_STATUS_RULES[[rule_name]] %||% list()
+  values <- rules[[agency]]
+  if (is.null(values)) {
+    values <- rules[[".default"]]
+  }
+  values %||% character()
+}
+
+status_matches_rule <- function(agency, status, rule_name) {
+  agency <- as.character(agency)
+  status <- as.character(status)
+
+  n <- max(length(agency), length(status))
+  if (n == 0L) {
+    return(logical())
+  }
+
+  if (length(agency) == 1L && n > 1L) {
+    agency <- rep(agency, n)
+  }
+  if (length(status) == 1L && n > 1L) {
+    status <- rep(status, n)
+  }
+
+  vapply(seq_len(n), function(i) {
+    normalize_status(status[[i]]) %in% status_rule_values(rule_name, agency[[i]])
+  }, logical(1))
+}
+
+is_currently_disrupted <- function(agency, status) {
+  status_matches_rule(agency, status, "currently_disrupted")
+}
+
+classify_status_bucket <- function(agency, status) {
+  dplyr::case_when(
+    is_currently_disrupted(agency, status) ~ "currently_disrupted",
+    status_matches_rule(agency, status, "not_currently_disrupted") ~ "not_currently_disrupted",
+    TRUE ~ "other"
+  )
+}
+
+# Column mappings for the raw Grant Witness agency files. Each agency points
+# the standardizer at source columns and lightweight transforms.
+GRANT_WITNESS_STANDARDIZATION_SPECS <- list(
+  nih = list(
+    grant_id = list(columns = "full_award_number"),
+    grant_id_core = list(columns = "core_award_number"),
+    status = list(columns = "status"),
+    organization_name = list(columns = "org_name"),
+    organization_state = list(columns = "org_state", transform = "state"),
+    organization_city = list(columns = "org_city"),
+    organization_type = list(columns = c("org_type", "org_traits")),
+    project_title = list(columns = "project_title"),
+    project_abstract = list(columns = "abstract_text"),
+    start_date = list(columns = "targeted_start_date"),
+    original_end_date = list(columns = "targeted_end_date"),
+    termination_date = list(columns = "termination_date"),
+    reinstatement_date = list(columns = "reinstated_est_date"),
+    award_value = list(columns = "total_award", transform = "numeric"),
+    award_outlaid = list(columns = "total_estimated_outlays", transform = "numeric"),
+    award_remaining = list(columns = "total_estimated_remaining", transform = "numeric"),
+    remaining_field = list(value = "total_estimated_remaining"),
+    source_url = list(columns = "usaspending_url"),
+    detail_url = list(columns = "reporter_url")
+  ),
+  nsf = list(
+    grant_id = list(columns = "grant_id"),
+    grant_id_core = list(columns = "grant_id"),
+    status = list(columns = "status"),
+    organization_name = list(columns = "org_name"),
+    organization_state = list(columns = "org_state", transform = "state"),
+    organization_city = list(columns = "org_city"),
+    organization_type = list(columns = "award_type"),
+    project_title = list(columns = "project_title"),
+    project_abstract = list(columns = "abstract"),
+    start_date = list(columns = c("nsf_start_date", "usasp_start_date")),
+    original_end_date = list(columns = c("nsf_end_date", "usasp_end_date")),
+    termination_date = list(columns = "termination_date"),
+    reinstatement_date = list(columns = "reinstatement_date"),
+    award_value = list(columns = "estimated_budget", transform = "numeric"),
+    award_outlaid = list(columns = "estimated_outlays", transform = "numeric"),
+    award_remaining = list(columns = "estimated_remaining", transform = "numeric"),
+    remaining_field = list(value = "estimated_remaining"),
+    source_url = list(columns = "usaspending_url"),
+    detail_url = list(columns = "nsf_url")
+  ),
+  epa = list(
+    grant_id = list(columns = "grant_id"),
+    grant_id_core = list(columns = "grant_id"),
+    status = list(columns = "status"),
+    organization_name = list(columns = "organization"),
+    organization_state = list(columns = "org_state", transform = "state"),
+    organization_city = list(columns = "org_city"),
+    organization_type = list(columns = "org_type"),
+    project_title = list(columns = "project_title"),
+    project_abstract = list(columns = "project_description"),
+    start_date = list(columns = "start_date"),
+    original_end_date = list(columns = "original_end_date"),
+    termination_date = list(columns = "termination_date"),
+    reinstatement_date = list(columns = "reinstatement_date"),
+    award_value = list(columns = "award_value", transform = "numeric"),
+    award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
+    award_remaining = list(columns = "award_remaining", transform = "numeric"),
+    remaining_field = list(value = "award_remaining"),
+    source_url = list(columns = "usaspending_url"),
+    detail_url = list(columns = "nggs_url")
+  ),
+  samhsa = list(
+    grant_id = list(columns = "grant_id"),
+    grant_id_core = list(columns = "grant_id"),
+    status = list(columns = "status"),
+    organization_name = list(columns = "org_name"),
+    organization_state = list(columns = "org_state", transform = "state"),
+    organization_city = list(columns = "org_city"),
+    organization_type = list(columns = "org_type"),
+    project_title = list(columns = "title"),
+    project_abstract = list(columns = "abstract"),
+    start_date = list(columns = c("project_start_date", "first_award_date")),
+    original_end_date = list(columns = "project_original_end_date"),
+    termination_date = list(columns = "termination_date"),
+    reinstatement_date = list(columns = "reinstatement_date"),
+    award_value = list(columns = "award_value", transform = "numeric"),
+    award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
+    award_remaining = list(columns = "award_remaining", transform = "numeric"),
+    remaining_field = list(value = "award_remaining"),
+    source_url = list(columns = "usaspending_url"),
+    detail_url = list(columns = "taggs_url")
+  ),
+  cdc = list(
+    grant_id = list(columns = "grant_id"),
+    grant_id_core = list(columns = "grant_id"),
+    status = list(columns = "status"),
+    organization_name = list(columns = "org_name"),
+    organization_state = list(columns = "org_state", transform = "state"),
+    organization_city = list(columns = "org_city"),
+    organization_type = list(columns = "org_type"),
+    project_title = list(columns = "title"),
+    project_abstract = list(value = NA_character_),
+    start_date = list(columns = "project_start_date"),
+    original_end_date = list(columns = "project_original_end_date"),
+    termination_date = list(columns = "termination_date"),
+    reinstatement_date = list(columns = "reinstatement_date"),
+    award_value = list(columns = "award_value", transform = "numeric"),
+    award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
+    award_remaining = list(columns = "award_remaining", transform = "numeric"),
+    remaining_field = list(value = "award_remaining"),
+    source_url = list(columns = "usaspending_url"),
+    detail_url = list(columns = "taggs_url")
+  )
+)
+
+pick_grant_witness_columns <- function(df, columns) {
+  present <- columns[columns %in% names(df)]
+  if (!length(present)) {
+    return(rep(NA_character_, nrow(df)))
+  }
+  values <- lapply(present, function(col) as.character(df[[col]]))
+  Reduce(function(x, y) dplyr::coalesce(x, y), values)
+}
+
+transform_grant_witness_field <- function(values, transform = "identity") {
+  switch(
+    transform,
+    identity = as.character(values),
+    numeric = to_num(values),
+    state = abbr_to_state(values),
+    stop("Unsupported Grant Witness field transform: ", transform, call. = FALSE)
+  )
+}
+
+extract_grant_witness_field <- function(df, field_spec) {
+  if (!is.null(field_spec$value)) {
+    return(rep(field_spec$value, nrow(df)))
+  }
+  raw_values <- pick_grant_witness_columns(df, field_spec$columns %||% character())
+  transform_grant_witness_field(raw_values, field_spec$transform %||% "identity")
+}
+
+standardize_grant_witness_rows <- function(agency, df, source_file_name = paste0(agency, "_terminations.csv")) {
+  spec <- GRANT_WITNESS_STANDARDIZATION_SPECS[[agency]]
+  if (is.null(spec)) {
+    stop("Unsupported agency: ", agency, call. = FALSE)
+  }
+
+  tibble::tibble(
+    agency = agency,
+    source_file = source_file_name,
+    grant_id = as.character(extract_grant_witness_field(df, spec$grant_id)),
+    grant_id_core = as.character(extract_grant_witness_field(df, spec$grant_id_core)),
+    status = extract_grant_witness_field(df, spec$status),
+    organization_name = extract_grant_witness_field(df, spec$organization_name),
+    organization_state = extract_grant_witness_field(df, spec$organization_state),
+    organization_city = extract_grant_witness_field(df, spec$organization_city),
+    organization_type = extract_grant_witness_field(df, spec$organization_type),
+    project_title = extract_grant_witness_field(df, spec$project_title),
+    project_abstract = extract_grant_witness_field(df, spec$project_abstract),
+    start_date = extract_grant_witness_field(df, spec$start_date),
+    original_end_date = extract_grant_witness_field(df, spec$original_end_date),
+    termination_date = extract_grant_witness_field(df, spec$termination_date),
+    reinstatement_date = extract_grant_witness_field(df, spec$reinstatement_date),
+    award_value = extract_grant_witness_field(df, spec$award_value),
+    award_outlaid = extract_grant_witness_field(df, spec$award_outlaid),
+    award_remaining = extract_grant_witness_field(df, spec$award_remaining),
+    remaining_field = extract_grant_witness_field(df, spec$remaining_field),
+    source_url = extract_grant_witness_field(df, spec$source_url),
+    detail_url = extract_grant_witness_field(df, spec$detail_url)
+  )
+}
+
+maybe_download <- function(url, path, skip_download = FALSE) {
+  if (skip_download && file.exists(path)) return(invisible(path))
+  live_result <- tryCatch({
+    message("Downloading ", basename(path), " ...")
+    utils::download.file(url, destfile = path, mode = "wb", quiet = FALSE)
+    TRUE
+  }, error = function(e) e)
+
+  if (!inherits(live_result, "error") && file.exists(path) && file.info(path)$size > 0) {
+    return(invisible(path))
+  }
+
+  if (file.exists(path) && file.info(path)$size > 0) {
+    message("Falling back to cached Grant Witness file for ", basename(path))
+    return(invisible(path))
+  }
+
+  if (inherits(live_result, "error")) {
+    stop("Failed to download ", basename(path), ": ", live_result$message)
+  }
+
+  stop("Grant Witness file ", basename(path), " is unavailable and no cache was found.")
+}
+
+safe_max <- function(x) {
+  if (length(x) == 0 || all(is.na(x))) return(NA_real_)
+  max(x, na.rm = TRUE)
+}

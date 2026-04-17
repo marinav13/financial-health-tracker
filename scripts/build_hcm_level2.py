@@ -484,8 +484,10 @@ def main():
     write_csv(OUTPUT_MAR25_STAY, mar25_stay)
     write_csv(OUTPUT_DOWNGRADE, downgrade_rows)
 
-    trump_drop_from = counts_by_snapshot["December 2024"]
-    trump_drop_to = counts_by_snapshot["December 2025"]
+    first_label = SOURCE_FILES[0]["snapshot_label"]
+    latest_label = SOURCE_FILES[-1]["snapshot_label"]
+    trump_drop_from = counts_by_snapshot[first_label]
+    trump_drop_to = counts_by_snapshot[latest_label]
 
     OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     with OUTPUT_JSON.open("w", encoding="utf-8") as handle:
@@ -497,7 +499,7 @@ def main():
                     "counts_by_snapshot": summary_rows,
                     "trump_administration_drop_from": trump_drop_from,
                     "trump_administration_drop_to": trump_drop_to,
-                    "latest_snapshot_label": "December 2025",
+                    "latest_snapshot_label": latest_label,
                     "dec2024_drop_count": len(dec24_drop),
                     "mar2025_drop_count": len(mar25_drop),
                     "jun2025_drop_count": len(jun25_drop),
@@ -516,8 +518,8 @@ def main():
     print(f"Wrote {len(downgrade_rows)} HCM2-to-HCM1 downgrades to {OUTPUT_DOWNGRADE}")
     print(f"Wrote {len(school_lookup)} unitid-matched school histories to {OUTPUT_JSON}")
     print(
-        "HCM2 count fell from "
-        f"{trump_drop_from} in December 2024 to {trump_drop_to} in December 2025."
+        f"HCM2 count fell from "
+        f"{trump_drop_from} in {first_label} to {trump_drop_to} in {latest_label}."
     )
 
 

@@ -66,3 +66,7 @@ jobs:
           python tests/test_import_closure_sheet.py
           python tests/test_build_federal_composite_scores.py
           python tests/test_build_hcm_level2.py
+
+  # Note: Playwright e2e tests are run locally, not in CI.
+  # Run with: npm install && npm run test:e2e
+  # They require a browser and are slower than the fast CI tests above.

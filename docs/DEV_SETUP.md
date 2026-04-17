@@ -60,3 +60,24 @@ To test the import without using Google Sheets:
 ```bash
 python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports
 ```
+
+## Node.js and e2e tests
+
+This project uses Playwright for end-to-end tests (see `tests/e2e/`).
+
+```bash
+# Install dependencies
+npm install
+
+# Run e2e tests (headless)
+npm run test:e2e
+
+# Run e2e tests in browser (headed mode)
+npm run test:e2e:headed
+
+# Run smoke tests (JS structure + charts)
+npm run test:smoke
+
+# Run accessibility tests
+npm run test:a11y
+```

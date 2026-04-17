@@ -81,8 +81,25 @@ docs/                — glossary, refresh cycle docs, and setup guides
 
 ## Testing
 
+**R tests (smoke + regression):**
 ```bash
 Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
 ```
 
-91 tests covering shared helpers, pipeline fixtures, and script smoke checks. Run this before committing.
+**JavaScript tests (structure + charts):**
+```bash
+npm run test:smoke
+```
+
+**Playwright e2e tests (search, navigation, charts):**
+```bash
+npm install
+npm run test:e2e
+```
+
+**Accessibility tests (pa11y):**
+```bash
+npm run test:a11y
+```
+
+Always run at least the R smoke tests before committing.

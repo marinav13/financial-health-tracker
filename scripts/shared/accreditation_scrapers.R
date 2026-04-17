@@ -1,40 +1,10 @@
 ################################################################################
 # scripts/shared/accreditation_scrapers.R
 #
-# PURPOSE:
-#   Per-accreditor HTML scraper functions that extract accreditation action data
-#   from six major accreditors' websites:
-#   - MSCHE (Middle States Commission on Higher Education)
-#   - HLC (Higher Learning Commission)
-#   - SACSCOC (Southern Association of Colleges and Schools Commission on Colleges)
-#   - NECHE (New England Commission of Higher Education)
-#   - WSCUC (Western Association of Schools and Colleges, accrediting commission)
-#
-#   Each accreditor has a different website structure and HTML format, so this
-#   file contains custom scraping logic for each one. All scrapers convert their
-#   output to a standardized table format for downstream processing.
-#
-# USAGE:
-#   Source this inside main() in build_accreditation_actions.R after
-#   accreditation_helpers.R has been sourced. Call the top-level parse_*()
-#   functions for each accreditor (e.g., parse_msche(), parse_hlc(), etc.)
-#   to retrieve accreditation action data.
-#
-# ARCHITECTURE:
-#   Each top-level function takes (cache_dir, refresh) as explicit parameters
-#   so it is a pure function with no hidden state (closures). This makes the
-#   scraping logic easier to test and debug.
-#
-#   The functions nest inner helper functions (like parse_msche_month_page)
-#   to handle specific page structures within each accreditor's site.
-#
-# DEPENDENCIES:
-#   Requires: dplyr, httr2, purrr, readr, stringr, xml2 (loaded by the caller)
-#   Also depends on helper functions from accreditation_helpers.R:
-#   - clean_text(), normalize_name(), extract_name_state_from_item()
-#   - classify_action(), classify_status(), has_public_action_keywords()
-#   - extract_page_title(), extract_page_modified_date(), fetch_html_text()
-#   - state_name()
+# Per-accreditor HTML scraper functions that extract accreditation action data
+# from six major accreditors' websites (MSCHE, HLC, SACSCOC, NECHE, WSCUC).
+# Each accreditor has a different site structure, so this file contains custom
+# scraping logic for each one, all converting output to a standardized table.
 #
 ################################################################################
 
@@ -42,33 +12,9 @@
 # SHARED INNER-LOOP PRIMITIVES FOR HTML PARSING
 # ---------------------------------------------------------------------------
 
-#' Convert list items from HTML to standardized action rows
-#'
-#' Maps raw text items (typically extracted from HTML <li> elements) to a
-#' standardized data frame of accreditation actions. This function is shared
-#' across multiple accreditors that follow the same listing pattern
-#' (heading + list of institutions).
-#'
-#' Used by parse_neche() and parse_wscuc_detail_page() because both iterate
-#' the same structure: find a heading describing an action (e.g., "Probation"),
-#' then process each <li> item below it (each item is an institution).
-#'
-#' @param raw_items character vector. Text strings, each describing one institution
-#'        (typically extracted from <li> tags)
-#' @param accreditor character. Name of the accreditor (e.g., "NECHE", "WSCUC")
-#' @param heading character. The action label from the page heading (e.g., "Warning")
-#' @param action_date Date. When the action took effect (or NA if unknown)
-#' @param action_year integer. Calendar year of the action
-#' @param source_url character. URL to the PDF/document where the action was announced
-#' @param source_title character. Human-readable title of the source page or document
-#' @param source_page_url character. URL of the web page from which this data was scraped
-#' @param source_page_modified character. ISO date when the source page was last modified
-#'
-#' @return tibble with one row per item, columns:
-#'   institution_name_raw, institution_state_raw, accreditor, action_type,
-#'   action_label_raw, action_status, action_date, action_year, source_url,
-#'   source_title, notes (original item text), last_seen_at, source_page_url,
-#'   source_page_modified
+# Converts a heading + list of institution items into standardized action rows.
+# Shared by accreditors that use the same pattern: a heading describing the action
+# (e.g., "Probation"), followed by <li> items for each institution.
 parse_items_to_rows <- function(raw_items, accreditor, heading,
                                 action_date, action_year,
                                 source_url, source_title,
@@ -95,23 +41,8 @@ parse_items_to_rows <- function(raw_items, accreditor, heading,
   })
 }
 
-#' Extract all <li> items from HTML block
-#'
-#' Finds all <li> (list item) elements in a block of HTML and returns their
-#' cleaned text content. Used to extract institution names from lists on
-#' accreditor websites.
-#'
-#' @param html_block character. HTML string to search
-#' @param item_pattern character. Regex pattern to match <li> elements.
-#'        Default matches: <li ...> ... </li> with any attributes.
-#'        The (?s) flag makes . match newlines (for multiline HTML).
-#'
-#' @return character vector. Cleaned text of each <li> item, with empty
-#'         items filtered out. Returns character(0) if no items found.
-#'
-#' @details
-#'   Example HTML: "<ul><li>Boston College, MA</li><li>Tufts, MA</li></ul>"
-#'   Returns: c("Boston College, MA", "Tufts, MA")
+# Extracts all <li> items from an HTML block and returns their cleaned text content.
+# Used to pull institution names from bulleted lists on accreditor pages.
 extract_list_items_from_html <- function(html_block, item_pattern = "(?s)<li[^>]*>(.*?)</li>") {
   # Find all <li> elements and capture their content (group 2)
   item_matches <- stringr::str_match_all(html_block, item_pattern)[[1]]
@@ -125,6 +56,7 @@ extract_list_items_from_html <- function(html_block, item_pattern = "(?s)<li[^>]
   raw_items[nzchar(raw_items)]
 }
 
+# Splits HTML into sections based on a regex pattern that captures heading + body.
 extract_regex_heading_sections <- function(html, section_pattern) {
   matches <- stringr::str_match_all(html, section_pattern)[[1]]
   if (nrow(matches) == 0) {
@@ -136,6 +68,7 @@ extract_regex_heading_sections <- function(html, section_pattern) {
   )
 }
 
+# Splits HTML into sections using HTML heading tags (default h2) to delimit sections.
 extract_tag_heading_sections <- function(html, heading_tag = "h2") {
   heading_pattern <- paste0("(?s)<", heading_tag, ">(.*?)</", heading_tag, ">")
   heading_matches <- stringr::str_match_all(html, heading_pattern)[[1]]
@@ -154,6 +87,8 @@ extract_tag_heading_sections <- function(html, heading_tag = "h2") {
   tibble::tibble(heading = headings, body = bodies)
 }
 
+# Iterates over HTML sections and extracts public action items (filtering by keywords).
+# Only sections whose headings contain public action keywords are processed.
 parse_public_action_sections <- function(sections, accreditor,
                                          action_date, action_year,
                                          source_url, source_title,
@@ -237,11 +172,13 @@ SACSCOC_DISCLOSURE_ITEM_PATTERN <- paste0(
   "</(?:p|li)>"
 )
 
+# Looks up a key in a named vector, returning the value or a default if not found.
 lookup_or_default <- function(key, lookup, default = key) {
   value <- unname(lookup[[key]])
   if (is.null(value) || is.na(value)) default else value
 }
 
+# Parses a single SACSCOC sanction item, extracting institution name, state, and action details.
 parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
   item_clean <- clean_text(item)
   item_no_pdf <- stringr::str_remove(item_clean, "\\s*\\[?PDF\\]?$")
@@ -293,6 +230,7 @@ parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
   tibble::tibble()
 }
 
+# Converts regex matches for public disclosure statements into standardized rows.
 build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, page_title) {
   if (nrow(disclosure_matches) == 0) {
     return(tibble::tibble())
@@ -335,6 +273,7 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
 HLC_DETAIL_ACTION_PREFIX_PATTERN <- "^(Approved|Accepted|Affirmed|Denied|Placed|Continued|Removed|Withdrew|Withdrawn|Issued|Extended|Required)"
 HLC_INSTITUTION_STATE_SUFFIX_PATTERN <- ",\\s*[A-Z]{2}$"
 
+# Builds action rows for HLC from institution name, state, and action text strings.
 build_hlc_action_rows <- function(inst_name, inst_state, actions, action_date, detail_url, detail_title, detail_modified) {
   if (is.null(inst_name) || !nzchar(inst_name)) {
     return(NULL)
@@ -364,6 +303,8 @@ build_hlc_action_rows <- function(inst_name, inst_state, actions, action_date, d
   })
 }
 
+# Tracks the current institution while parsing HLC paragraphs, handling different text layouts.
+# If a paragraph has a link, uses the link text as institution name; otherwise parses from paragraph.
 update_hlc_current_institution <- function(p_text, p_link) {
   current_institution <- NULL
   current_state <- NULL
@@ -397,6 +338,7 @@ update_hlc_current_institution <- function(p_text, p_link) {
   )
 }
 
+# Parses HLC detail page content nodes (p and ul elements), tracking institution context.
 parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, detail_title, detail_modified) {
   current_institution <- NULL
   current_state <- NULL
@@ -453,6 +395,9 @@ parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, deta
   dplyr::bind_rows(rows)
 }
 
+# Scrapes MSCHE accreditation data from two sources: current non-compliance status
+# (from a single status page with H3 sections) and recent commission actions
+# (by iterating monthly pages from 2017 to present, organized by state).
 parse_msche <- function(cache_dir, refresh) {
   url <- MSCHE_CURRENT_STATUS_URL
   html <- fetch_html_text(url, "msche_status.html", cache_dir, refresh = refresh)
@@ -523,6 +468,7 @@ parse_msche <- function(cache_dir, refresh) {
     })
   }
 
+  # Parses a single MSCHE monthly action page, extracting institutions organized by state.
   parse_msche_month_page <- function(month_url, month_label) {
     cache_name <- paste0("msche_", gsub("[^a-z0-9]+", "_", tolower(month_label)), ".html")
     month_html <- fetch_html_text(month_url, cache_name, cache_dir, refresh = refresh)
@@ -574,6 +520,7 @@ parse_msche <- function(cache_dir, refresh) {
     })
   }
 
+  # Scrapes all recent MSCHE commission actions by iterating monthly pages from 2017 to present.
   parse_msche_recent_actions <- function() {
     years <- seq.int(2017L, max(2017L, as.integer(format(Sys.Date(), "%Y"))))
 
@@ -620,6 +567,9 @@ parse_msche <- function(cache_dir, refresh) {
     dplyr::distinct()
 }
 
+# Scrapes HLC accreditation data from two sources: current public disclosure notices
+# (from accordion panels on the main page) and historical action detail pages
+# (links to monthly action pages from 2024 onward).
 parse_hlc <- function(cache_dir, refresh) {
   url <- HLC_ACTIONS_URL
   html <- fetch_html_text(url, "hlc_actions.html", cache_dir, refresh = refresh)
@@ -676,6 +626,7 @@ parse_hlc <- function(cache_dir, refresh) {
     }
   }
 
+  # Parses an HLC monthly action detail page, extracting institution names and their actions.
   parse_hlc_detail_page <- function(detail_url) {
     detail_html <- fetch_html_text(
       detail_url,
@@ -726,6 +677,7 @@ parse_hlc <- function(cache_dir, refresh) {
     dplyr::distinct()
 }
 
+# Scrapes a SACSCOC detail page, extracting both sanction actions and public disclosure statements.
 parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
   html <- fetch_html_text(
     url,
@@ -758,6 +710,8 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
     dplyr::distinct()
 }
 
+# Scrapes SACSCOC by first finding links to June/December action pages from the landing page,
+# then fetching each detail page to extract sanctions and disclosure statements.
 parse_sacscoc <- function(cache_dir, refresh) {
   landing_url <- SACSCOC_LANDING_URL
   html <- fetch_html_text(landing_url, "sacscoc_disclosures.html", cache_dir, refresh = refresh)
@@ -775,4 +729,6 @@ parse_sacscoc <- function(cache_dir, refresh) {
   purrr::map_dfr(detail_urls, function(u) parse_sacscoc_detail_page(u, cache_dir, refresh))
 }
 
+# Scrapes NECHE accreditation actions from their recent actions page, extracting
+# institutions grouped by action type from toggle/accordion sections.
 parse_neche <- function(cache_dir, refresh) {

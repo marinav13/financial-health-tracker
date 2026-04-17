@@ -1,13 +1,4 @@
-# tests/test_support.R
-#
-# Test support utilities and helpers for the entire test suite.
-#
-# A "smoke test" is a quick check to verify that core functionality works
-# before running more comprehensive tests. If smoke tests fail, the whole system
-# needs attention before deeper testing is worthwhile.
-#
-# This file loads shared helper scripts and defines assertion functions that
-# other test files use (run_test, assert_true, assert_identical, etc.).
+# Test support utilities and helpers.
 
 root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 

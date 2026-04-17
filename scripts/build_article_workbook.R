@@ -1,31 +1,11 @@
 ################################################################################
 # build_article_workbook.R
 #
-# PURPOSE:
-#   Generates a comprehensive Excel workbook for journalist research on college
-#   financial health. The workbook combines IPEDS financial data with risk scores,
-#   closure indicators, and accreditation/college cuts tracking data to support
-#   investigative reporting on institutional stability and distress.
+# Generates a 49-sheet Excel workbook for journalist research on college financial
+# health. Combines IPEDS financial data with risk scores, closure indicators, and
+# accreditation/college cuts tracking to support investigative reporting.
 #
-# INPUTS:
-#   - IPEDS financial dataset CSV (default: ./ipeds/raw/ipeds_financial_health_canonical.csv)
-#   - Optional CLI flags: --input (input CSV path), --output (workbook path)
-#
-# OUTPUTS:
-#   - SpreadsheetML workbook (.xls format): ./workbooks/ipeds_financial_health_article_workbook.xls
-#   - Contains 50+ sheets with filtered institution lists, risk scores, and cross-tabulations
-#
-# TO RUN:
-#   Rscript scripts/build_article_workbook.R
-#   Rscript scripts/build_article_workbook.R --input /path/to/data.csv --output ./workbooks/custom.xls
-#
-# DOMAIN CONCEPTS:
-#   - Risk Scores: Count of concerning financial signals; higher = more stress indicators
-#   - Federal Composite Score: Department of Education formula (range -1 to 3);
-#     below 1.5 triggers federal oversight
-#   - HCM Level 2: Heightened Cash Monitoring Level 2, a federal oversight flag for
-#     schools with liquidity concerns
-#   - Closures: Official federal closure dates from IPEDS/PEPS
+# Usage: Rscript scripts/build_article_workbook.R [--input CSV] [--output XLS]
 ################################################################################
 
 main <- function(cli_args = NULL) {
@@ -36,17 +16,14 @@ main <- function(cli_args = NULL) {
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
-  # The workbook is written as SpreadsheetML with an .xls extension so Excel can
-  # open it directly without a manual rename step.
+  # SpreadsheetML with .xls extension opens directly in Excel without rename
   output_workbook <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook.xls")
 
-source(file.path(getwd(), "scripts", "shared", "workbook_helpers.R"))
-source(file.path(getwd(), "scripts", "shared", "contracts.R"))
-# Pure helpers (yes_flag, safe_pct, escape_xml, make_row, sort_df, q75_safe,
-# q25_safe, count_by_group_from, weighted_intl_pct, summarize_event_subset,
-# build_event_xtab, worksheet_signature, xml_cell, worksheet_xml,
-# read_csv_if_exists, read_required_closure_csv) are in
-# scripts/shared/workbook_helpers.R
+  source(file.path(getwd(), "scripts", "shared", "workbook_helpers.R"))
+  source(file.path(getwd(), "scripts", "shared", "contracts.R"))
+
+  # Pipeline: Load data -> Compute risk scores -> Build summary stats ->
+  #           Define sheet specs -> Assemble worksheets -> Write SpreadsheetML
 
 # ============================================================================
 # SECTION: Configuration Constants
@@ -74,19 +51,8 @@ prev_year_num <- 2023L
 #   - Scores reflect common patterns before institutional distress events
 # ============================================================================
 
-# Compute multi-signal score combining enrollment, revenue, losses, and dependencies
-#
-# DESCRIPTION:
-#   Sums 7 financial warning signals that often appear together:
-#   enrollment decline, revenue loss, repeated losses, tuition dependence,
-#   falling net tuition, international reliance, and federal aid dependence
-#
-# PARAMS:
-#   df = Data frame with pre-computed boolean columns (high_tuition_dependence,
-#        high_international_share, high_federal_dependence must exist)
-#
-# RETURNS:
-#   Integer vector: count of warning signals present (0-7)
+# Sums 7 financial warning signals: enrollment decline, revenue loss, repeated losses,
+# tuition dependence, falling net tuition, international reliance, and federal aid dependence.
 compute_multi_signal_score <- function(df) {
   # Depends on df$high_tuition_dependence, df$high_international_share, and
   # df$high_federal_dependence being pre-computed on df before calling.
@@ -101,18 +67,8 @@ compute_multi_signal_score <- function(df) {
   )
 }
 
-# Compute staffing cut risk score identifying institutions likely to reduce staff
-#
-# DESCRIPTION:
-#   Sums 8 warning signals that precede major staffing cuts:
-#   enrollment/revenue decline, losses, low tuition per FTE, high tuition dependence,
-#   endowment decline, and declining instructional staff headcount
-#
-# PARAMS:
-#   df = Data frame with enrollment, revenue, loss, tuition, and staff columns
-#
-# RETURNS:
-#   Integer vector: count of staffing-cut risk signals (0-8)
+# Sums 8 signals that precede major staffing cuts: enrollment/revenue decline, losses,
+# low tuition per FTE, high tuition dependence, endowment decline, and staff cuts.
 compute_staffing_cut_risk_score <- function(df) {
   row_score(
     yes_flag(df$enrollment_decline_last_3_of_5),
@@ -126,22 +82,8 @@ compute_staffing_cut_risk_score <- function(df) {
   )
 }
 
-# Compute private institution closure risk score
-#
-# DESCRIPTION:
-#   Sums 9 financial distress signals specific to private colleges:
-#   enrollment/revenue decline, repeated losses, net tuition loss, high tuition
-#   dependence, weak liquidity, high leverage, endowment decline, and staffing cuts.
-#   Only applies to non-public institutions.
-#
-# PARAMS:
-#   df = Data frame with institutional control and financial columns
-#   tuition_q75 = 75th percentile of tuition dependence (to flag high dependence)
-#   leverage_q75 = 75th percentile of debt leverage (to flag high debt)
-#   liquidity_q25 = 25th percentile of liquid reserves (to flag weak cushion)
-#
-# RETURNS:
-#   Integer vector: count of closure risk signals (0-9)
+# Sums 9 distress signals for private colleges: enrollment decline, losses, net tuition loss,
+# high tuition dependence, weak liquidity, high leverage, endowment decline, and staffing cuts.
 compute_private_closure_risk_score <- function(df, tuition_q75, leverage_q75, liquidity_q25) {
   is_private <- df$control_label != "Public"
   row_score(
@@ -157,19 +99,8 @@ compute_private_closure_risk_score <- function(df, tuition_q75, leverage_q75, li
   )
 }
 
-# Compute public non-flagship campus restructuring risk score
-#
-# DESCRIPTION:
-#   Sums 8 distress signals for public campuses that are not flagship universities.
-#   Focuses on enrollment and staff cuts, transfer-out increases, state funding loss,
-#   and data gaps. Does not apply to main state university flagships.
-#
-# PARAMS:
-#   df = Data frame with control, unitid, and public institution metrics
-#   flagship_unitids = Vector of flagship university UNITID values to exclude
-#
-# RETURNS:
-#   Integer vector: count of restructuring risk signals (0-8)
+# Sums 8 distress signals for non-flagship public campuses: enrollment/staff cuts,
+# rising transfer-out rates, state funding decline, and missing financial data.
 compute_public_campus_risk_score <- function(df, flagship_unitids) {
   is_nonflagship <- df$control_label == "Public" & !(as.integer(df$unitid) %in% flagship_unitids)
   row_score(

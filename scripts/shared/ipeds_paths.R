@@ -13,68 +13,7 @@
 # Path configuration builder
 # ---------------------------------------------------------------------------
 
-# FUNCTION: ipeds_layout
-# PURPOSE: Constructs a comprehensive list of all directory and file paths used
-#          by the IPEDS data pipeline. Centralizes path management so that
-#          changing the directory structure only requires updates here.
-#
-# PARAMETERS:
-#   root – Repository root directory (defaults to current working directory ".")
-#   output_stem – Base name for output files (default "ipeds_financial_health")
-#   start_year – First year in the dataset (default 2014)
-#   end_year – Last year in the dataset (default 2024)
-#
-# RETURNS: Named list containing:
-#   DIRECTORY PATHS:
-#     repo_root – Repository root directory
-#     ipeds_root – Base directory for all IPEDS data
-#     raw_dir – Raw IPEDS downloads (before processing)
-#     manifests_dir – Manifests and metadata files
-#     derived_dir – Cleaned and processed datasets
-#     cache_dir – All cache directories
-#     cache_downloads_dir – Downloaded zip files and extracted contents
-#     cache_data_dir – Cache for raw IPEDS data files
-#     cache_dict_dir – Cache for data dictionaries
-#     cache_extract_dir – Temporary extracted files from zips
-#     cache_year_dir – Year-level cache
-#     cache_aux_dir – Auxiliary data (accreditation, closures, etc.)
-#     cache_aux_data_dir – Cache for auxiliary data files
-#     cache_aux_extract_dir – Temporary extracted auxiliary files
-#
-#   FILE PATHS (with start_year and end_year substituted):
-#     catalog_html – Cached IPEDS data catalog HTML
-#     selected_file_catalog_csv – Filtered list of data tables to use
-#     field_resolution_audit_csv – Mapping of field names across years
-#     raw_csv – Full raw IPEDS dataset CSV
-#     canonical_csv – Canonical cleaned dataset CSV
-#     dataset_csv – Export-ready dataset CSV
-#     legacy_catalog_html – Legacy copy of catalog
-#
-# DIRECTORY STRUCTURE:
-#   ipeds/
-#     raw/                           # Raw downloads
-#     manifests/                      # Metadata and catalogs
-#     derived/                        # Processed datasets
-#     cache/
-#       downloads/
-#         data/                       # Raw IPEDS data cache
-#         dict/                       # Dictionary cache
-#         extracted/                  # Extracted files from downloads
-#       year_cache/                   # Year-level caching
-#       aux/                          # Auxiliary data
-#         data/                       # Aux data files
-#         extracted/                  # Extracted aux files
-#
-# EXAMPLES:
-#   # Standard usage with defaults
-#   paths <- ipeds_layout()
-#
-#   # Custom date range for a specific report
-#   paths <- ipeds_layout(start_year = 2020, end_year = 2024)
-#
-#   # Access specific paths
-#   canonical_file <- paths$canonical_csv
-#   mkdir -p paths$raw_dir
+# Returns a named list of all directories and file paths used by the IPEDS pipeline.
 ipeds_layout <- function(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L) {
   # Normalize the repository root path (resolve symlinks, ensure forward slashes)
   repo_root <- normalizePath(root, winslash = "/", mustWork = TRUE)
@@ -131,33 +70,7 @@ ipeds_layout <- function(root = ".", output_stem = "ipeds_financial_health", sta
 # Directory creation utility
 # ---------------------------------------------------------------------------
 
-# FUNCTION: ensure_ipeds_layout_dirs
-# PURPOSE: Creates all directories defined in the paths list.
-#          Safe to call multiple times (doesn't fail if directories exist).
-#          Should be called early in pipeline scripts to ensure the directory
-#          structure exists before writing files.
-#
-# PARAMETERS:
-#   paths – Named list of directory paths, typically from ipeds_layout()
-#
-# RETURNS: Invisibly returns paths (for chaining)
-#
-# SIDE EFFECTS:
-#   - Creates all directories listed in paths with recursive=TRUE
-#   - Suppresses warnings if directories already exist
-#   - Ensures parent directories are created as needed
-#
-# DETAILS:
-#   Creates the following directories (if not already present):
-#   - Main directories: ipeds, raw, manifests, derived, cache
-#   - Download caches: downloads, data, dict, extracted
-#   - Year caching: year_cache
-#   - Auxiliary data: aux, aux/data, aux/extracted
-#
-# EXAMPLES:
-#   paths <- ipeds_layout()
-#   ensure_ipeds_layout_dirs(paths)  # Create all directories
-#   # Now paths$raw_dir, paths$derived_dir, etc. are ready to use
+# Creates all directories in the paths list. Safe to call repeatedly (idempotent).
 ensure_ipeds_layout_dirs <- function(paths) {
   # Create main IPEDS structure
   dir.create(paths$ipeds_root, recursive = TRUE, showWarnings = FALSE)

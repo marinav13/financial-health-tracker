@@ -50,9 +50,7 @@ main <- function(cli_args = NULL) {
   ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr", "xml2"))
 
   # -----------------------------------------------------------------------
-  # Parse command-line arguments
-  # -----------------------------------------------------------------------
-
+  # PARSE COMMAND-LINE ARGUMENTS
   financial_input <- get_arg_value(
     "--financial-input",
     ipeds_layout(root = ".")$dataset_csv
@@ -71,21 +69,11 @@ main <- function(cli_args = NULL) {
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
 
-  # -----------------------------------------------------------------------
-  # Load helper functions for scraping and text normalization
-  # -----------------------------------------------------------------------
-
   source(file.path(getwd(), "scripts", "shared", "accreditation_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "accreditation_scrapers.R"))
-  # Text utilities are in scripts/shared/accreditation_helpers.R
-  # Per-accreditor scraper functions (parse_msche, parse_hlc, parse_sacscoc,
-  # parse_neche, parse_wscuc, build_match_suggestions) are in
-  # scripts/shared/accreditation_scrapers.R
 
   # -----------------------------------------------------------------------
-  # Load financial tracker data and prepare for matching
-  # -----------------------------------------------------------------------
-
+  # LOAD FINANCIAL TRACKER DATA
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
   latest_year <- suppressWarnings(max(financial_all$year, na.rm = TRUE))
@@ -97,8 +85,7 @@ main <- function(cli_args = NULL) {
       norm_name = normalize_name(institution_name)
     )
 
-  # Build lookup tables for matching accreditor institution names to tracker names.
-  # Strategy 1: exact match on normalized name + state (highest confidence)
+  # Build lookup tables for matching accreditor institution names to tracker names
   lookup_exact <- financial_latest |>
     dplyr::transmute(
       matched_unitid = unitid,
@@ -111,7 +98,7 @@ main <- function(cli_args = NULL) {
     dplyr::filter(candidate_count == 1L) |>
     dplyr::select(-candidate_count)
 
-  # Fallback lookup: match on normalized name only (for multi-state situations)
+  # Fallback lookup: match on normalized name only
   lookup_name_only <- financial_latest |>
     dplyr::transmute(
       matched_unitid = unitid,
@@ -124,9 +111,7 @@ main <- function(cli_args = NULL) {
     dplyr::select(-candidate_count)
 
   # -----------------------------------------------------------------------
-  # Fetch and process accreditation actions from all accreditors
-  # -----------------------------------------------------------------------
-
+  # FETCH AND PROCESS ACCREDITATION ACTIONS FROM ALL ACCREDITORS
   message("Fetching accreditation actions ...")
   raw_actions <- dplyr::bind_rows(
     parse_msche(cache_dir, refresh),
@@ -140,12 +125,9 @@ main <- function(cli_args = NULL) {
       institution_state_raw = clean_text(institution_state_raw),
       institution_name_normalized = normalize_name(institution_name_raw),
       institution_state_normalized = state_name(institution_state_raw),
-      # True if action is a warning-level sanction (strictest actions)
       accreditation_warning = action_type %in% c("warning", "probation", "show_cause"),
-      # True if action is warning-level OR notice (broader sanction set)
       accreditation_warning_or_notice = action_type %in% c("notice", "warning", "probation", "show_cause")
     ) |>
-    # match_institutions_to_tracker() is defined in scripts/shared/accreditation_helpers.R
     match_institutions_to_tracker(lookup_exact, lookup_name_only) |>
     dplyr::select(
       unitid,
@@ -174,9 +156,7 @@ main <- function(cli_args = NULL) {
     dplyr::distinct()
 
   # -----------------------------------------------------------------------
-  # Select financial metrics to attach to each accreditation action
-  # -----------------------------------------------------------------------
-
+  # SELECT FINANCIAL METRICS TO JOIN
   latest_fields <- c(
     "unitid",
     "institution_name",
@@ -213,9 +193,7 @@ main <- function(cli_args = NULL) {
     dplyr::select(dplyr::any_of(latest_fields))
 
   # -----------------------------------------------------------------------
-  # Join actions with financial metrics
-  # -----------------------------------------------------------------------
-
+  # JOIN ACTIONS WITH FINANCIAL METRICS
   actions_joined <- raw_actions |>
     dplyr::left_join(financial_join, by = "unitid")
 
@@ -226,9 +204,7 @@ main <- function(cli_args = NULL) {
   }
 
   # -----------------------------------------------------------------------
-  # Build three summary views of accreditation actions
-  # -----------------------------------------------------------------------
-
+  # BUILD THREE SUMMARY VIEWS OF ACCREDITATION ACTIONS
   # View 1: Institution summary (all actions collapsed per institution)
   institution_summary <- actions_joined |>
     dplyr::filter(!is.na(unitid)) |>
@@ -257,8 +233,6 @@ main <- function(cli_args = NULL) {
       tracker_name
     )
 
-  # build_match_suggestions() is in scripts/shared/accreditation_scrapers.R
-
   # View 3: Unmatched institutions (accreditor data with no tracker match)
   unmatched_for_review <- actions_joined |>
     dplyr::filter(is.na(unitid)) |>
@@ -280,9 +254,7 @@ main <- function(cli_args = NULL) {
     dplyr::count(accreditor, action_type, action_status, sort = TRUE)
 
   # -----------------------------------------------------------------------
-  # Prepare output file paths
-  # -----------------------------------------------------------------------
-
+  # PREPARE OUTPUT FILE PATHS
   outputs <- list(
     actions = paste0(output_prefix, "_actions_joined.csv"),
     summary = paste0(output_prefix, "_institution_summary.csv"),
@@ -297,9 +269,7 @@ main <- function(cli_args = NULL) {
   }
 
   # -----------------------------------------------------------------------
-  # Write CSV outputs
-  # -----------------------------------------------------------------------
-
+  # WRITE CSV OUTPUTS
   write_csv_atomic(actions_joined, outputs$actions)
   write_csv_atomic(institution_summary, outputs$summary)
   write_csv_atomic(current_status, outputs$current)
@@ -307,9 +277,7 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(source_coverage, outputs$coverage)
 
   # -----------------------------------------------------------------------
-  # Write Excel workbook with all tables and documentation
-  # -----------------------------------------------------------------------
-
+  # WRITE EXCEL WORKBOOK
   wb <- openxlsx::createWorkbook()
   openxlsx::addWorksheet(wb, "actions")
   openxlsx::writeData(wb, "actions", actions_joined)
@@ -344,9 +312,7 @@ main <- function(cli_args = NULL) {
   file.rename(workbook_tmp, outputs$workbook)
 
   # -----------------------------------------------------------------------
-  # Log completion
-  # -----------------------------------------------------------------------
-
+  # LOG COMPLETION
   message("Saved:")
   message(" - ", outputs$actions)
   message(" - ", outputs$summary)

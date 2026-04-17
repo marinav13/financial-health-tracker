@@ -218,9 +218,32 @@ main <- function(cli_args = NULL) {
         name = `Institution`, 
         city = NA_character_, 
         state = `State`, 
-        control = NA_character_
+        control = NA_character_,
+        unitid = NA_integer_,
+        url = NA_character_,
+        latitude = NA_real_,
+        longitud = NA_real_,
+        created_at = NA
       )
     program_cuts <- raw_cuts
+    # Fix column names with spaces - normalize to match Supabase format
+    program_cuts <- program_cuts |>
+      dplyr::rename(
+        institution_id = NA,  # placeholder - will be matched by name
+        url = `Source URL`,
+        title = `Program/Department`,
+        announcement_date = `Announcement Date`,
+        effective_term = `Effective Term`,
+        cut_type = `Cut Type`,
+        student_count = `Students Affected`,
+        staff_count = `Faculty/Staff Affected`,
+        primary_reason = `Primary Reason`,
+        status = Status
+      ) |>
+      dplyr::mutate(
+        id = NA_integer_,
+        source_id = NA_integer_
+      )
     # Fix column names with spaces - skip date parsing since lubridate may not be loaded
     sources <- raw_cuts |>
       dplyr::transmute(
@@ -231,8 +254,36 @@ main <- function(cli_args = NULL) {
         institution_id = NA_integer_
       ) |>
       dplyr::distinct(url, .keep_all = TRUE)
-  } else {
-    stop("No college cuts data: set Supabase credentials or provide --cuts-csv")
+} else {
+    message("Using CSV fallback for college cuts: ", cuts_csv)
+    raw_cuts <- readr::read_csv(cuts_csv, show_col_types = FALSE, progress = FALSE)
+    # Filter to confirmed statuses only (exclude rumors)
+    raw_cuts <- raw_cuts |> dplyr::filter(Status %in% c("confirmed", "ongoing", "reversed"))
+    message("Loaded ", nrow(raw_cuts), " confirmed cuts from CSV")
+    
+    # For CSV fallback: just write the filtered data directly
+    # (skip complex join that's tailored to Supabase format)
+    output_data <- raw_cuts |>
+      dplyr::mutate(
+        cut_id = dplyr::row_number(),
+        normalized_institution = `Institution`,
+        state_abbr = `State`,
+        cut_type = `Cut Type`,
+        announcement_date = `Announcement Date`,
+        effective_term = `Effective Term`,
+        students_affected = `Students Affected`,
+        staff_affected = `Faculty/Staff Affected`,
+        primary_reason = `Primary Reason`,
+        status = Status,
+        source_url = `Source URL`,
+        notes = Notes
+      )
+    
+    # Write directly to output
+    output_path <- paste0(output_prefix, "_csv_fallback.csv")
+    readr::write_csv(output_data, output_path)
+    message("Wrote college cuts to: ", output_path)
+    return(invisible(output_path))
   }
 
   # -----------------------------------------------------------------------

@@ -631,18 +631,4 @@
         button.addEventListener("click", () => {
           const key = button.dataset.sortKey || "termination_date";
           const direction = button.dataset.sortDirection || "desc";
-          if (grantSortState.key === key && grantSortState.direction === direction) return;
-          grantSortState = { key, direction };
-          renderDetailTable();
-        });
-      });
-    };
-    renderDetailTable();
-  }
-
-  init().catch((error) => {
-    console.error(error);
-    const container = document.getElementById("research-list");
-    if (container) container.innerHTML = renderEmpty("The research funding cuts data could not be loaded.");
-  });
-})();
+          if (grantSortState.key ===

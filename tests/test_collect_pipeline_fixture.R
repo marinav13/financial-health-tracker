@@ -127,8 +127,4 @@ run_test("IPEDS collector pipeline fixture", function() {
   assert_identical(nrow(audit_subset), 3L)
   assert_identical(audit_subset$resolved_var_name[audit_subset$output == "institution_name"][[1]], "INSTNM")
   assert_identical(audit_subset$resolved_var_name[audit_subset$output == "city"][[1]], "CITY")
-  assert_identical(audit_subset$resolved_var_name[audit_subset$output == "state"][[1]], "STABBR")
-
-  assert_identical(nrow(selected_catalog), 1L)
-  assert_identical(selected_catalog$table_name[[1]], "HD2024")
-})
+  assert_identical(audit_subset$resolved_var_name[audit_subset$

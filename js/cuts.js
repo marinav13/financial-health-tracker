@@ -597,18 +597,4 @@
         button.addEventListener("click", () => {
           const key = button.dataset.sortKey || "announcement_date";
           const direction = button.dataset.sortDirection || "desc";
-          if (detailSortState.key === key && detailSortState.direction === direction) return;
-          detailSortState = { key, direction };
-          renderDetailTable();
-        });
-      });
-    };
-    renderDetailTable();
-  }
-
-  init().catch((error) => {
-    console.error(error);
-    const container = document.getElementById("cuts-list");
-    if (container) container.innerHTML = renderEmpty("The college cuts data could not be loaded.");
-  });
-})();
+          if (det

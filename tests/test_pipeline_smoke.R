@@ -10,6 +10,4 @@ run_test("Pipeline scripts source cleanly", function() {
   for (script_path in script_paths) {
     env <- new.env(parent = globalenv())
     sys.source(script_path, envir = env)
-    assert_true(exists("main", envir = env, inherits = FALSE), paste("Expected main() in", basename(script_path)))
-  }
-})
+    assert_true(exists("main", envir = env, inherits = FALSE), paste("Expected main() in", basename(s

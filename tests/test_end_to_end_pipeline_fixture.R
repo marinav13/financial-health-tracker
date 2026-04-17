@@ -385,13 +385,4 @@ run_test("End-to-end canonical to web export fixture", function() {
 
   school_file <- jsonlite::read_json(file.path(fixture_root, "data", "schools", "100.json"), simplifyVector = TRUE)
   download_csv <- readr::read_csv(file.path(fixture_root, "data", "downloads", "full_dataset.csv"), show_col_types = FALSE)
-  schools_index <- jsonlite::read_json(file.path(fixture_root, "data", "schools_index.json"), simplifyVector = TRUE)
-
-  assert_identical(school_file$profile$institution_name, "Example University")
-  assert_equal(school_file$summary$tuition_dependence_pct, 30)
-  assert_equal(school_file$summary$pct_international_all, 10)
-  assert_equal(school_file$summary$graduation_rate_6yr, 72)
-  assert_identical(nrow(download_csv), 1L)
-  assert_identical(as.character(download_csv$year[[1]]), "2024")
-  assert_identical(schools_index$institution_unique_name[[1]], "Example University | Boston | Massachusetts")
-})
+  schools_index <- jsonlite::read_json(file.pat

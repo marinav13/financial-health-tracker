@@ -188,14 +188,4 @@ run_test("IPEDS canonical pipeline fixture with aux enrollment backfill", functi
     "--expanded-output", extended_out
   ))
 
-  canonical_df <- readr::read_csv(canonical_out, show_col_types = FALSE)
-  row_2024 <- canonical_df[canonical_df$year == 2024, , drop = FALSE]
-  row_2023 <- canonical_df[canonical_df$year == 2023, , drop = FALSE]
-
-  assert_equal(row_2024$enrollment_headcount_total[[1]], 120)
-  assert_equal(row_2024$enrollment_headcount_undergrad[[1]], 90)
-  assert_equal(row_2024$enrollment_nonresident_total[[1]], 12)
-  assert_equal(row_2024$pct_international_all[[1]], 0.1)
-  assert_true(is.na(row_2023$enrollment_headcount_total[[1]]))
-  assert_true(is.na(row_2023$pct_international_all[[1]]))
-})
+  canonical_df <- readr::read

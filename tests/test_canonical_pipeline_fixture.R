@@ -180,12 +180,4 @@ run_test("IPEDS canonical pipeline fixture", function() {
 
   assert_identical(nrow(canonical_df), 2L)
   assert_identical(sort(as.integer(canonical_df$year)), c(2023L, 2024L))
-  assert_identical(unique(canonical_df$institution_unique_name), "Example University | Boston | Massachusetts")
-  assert_identical(unique(canonical_df$control_label), "Public")
-  assert_true(all(c("tuition_dependence_pct", "revenue_total_adjusted", "pct_international_all") %in% names(canonical_df)))
-  assert_true(all(c("operating_margin", "government_funding_total") %in% names(extended_df)))
-  row_2024 <- canonical_df[canonical_df$year == 2024, , drop = FALSE]
-  assert_equal(row_2024$tuition_dependence_pct[[1]], 30)
-  assert_equal(row_2024$loss_amount[[1]], 100)
-  assert_true(is.na(row_2024$pct_international_all[[1]]))
-})
+  assert_identical(unique(canonical_df$institution_unique_name), "Example 

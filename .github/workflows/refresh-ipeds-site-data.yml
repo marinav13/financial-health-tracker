@@ -56,6 +56,9 @@ jobs:
 
       - name: Refresh college cuts with cache fallback
         shell: bash
+        env:
+          COLLEGE_CUTS_SUPABASE_URL: ${{ secrets.COLLEGE_CUTS_SUPABASE_URL }}
+          COLLEGE_CUTS_SUPABASE_ANON_KEY: ${{ secrets.COLLEGE_CUTS_SUPABASE_ANON_KEY }}
         run: >
           Rscript --vanilla ./scripts/build_college_cuts_join.R
 

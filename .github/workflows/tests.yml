@@ -62,4 +62,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run Python tests
-        run: python tests/test_import_closure_sheet.py
+        run: |
+          python tests/test_import_closure_sheet.py
+          python tests/test_build_federal_composite_scores.py
+          python tests/test_build_hcm_level2.py

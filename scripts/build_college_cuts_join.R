@@ -64,19 +64,30 @@ main <- function(cli_args = NULL) {
 
   # -----------------------------------------------------------------------
   # SUPABASE API CREDENTIALS
-  supabase_url <- Sys.getenv(
-    "COLLEGE_CUTS_SUPABASE_URL",
-    unset = "https://nvjhqurarkdcgzwwpbhc.supabase.co"
-  )
-  supabase_key <- Sys.getenv(
-    "COLLEGE_CUTS_SUPABASE_ANON_KEY",
-    unset = paste0(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.",
-      "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52amhxdXJhcmtkY2d6d3dwYmhjIiwicm9sZSI6",
-      "ImFub24iLCJpYXQiOjE3NTA2Mzk4NjcsImV4cCI6MjA2NjIxNTg2N30.",
-      "kaVPHXV33oiDfM0bUEcKYZkqpihUEeVIiokRpL3VC5s"
+  # Both values must be set as environment variables — no hardcoded fallbacks.
+  # In GitHub Actions, add them as repository secrets:
+  #   COLLEGE_CUTS_SUPABASE_URL
+  #   COLLEGE_CUTS_SUPABASE_ANON_KEY
+  # Locally, export them in your shell before running this script.
+  supabase_url <- Sys.getenv("COLLEGE_CUTS_SUPABASE_URL", unset = "")
+  supabase_key <- Sys.getenv("COLLEGE_CUTS_SUPABASE_ANON_KEY", unset = "")
+
+  if (!nzchar(supabase_url)) {
+    stop(
+      "COLLEGE_CUTS_SUPABASE_URL is not set.\n",
+      "Export the environment variable before running this script:\n",
+      "  export COLLEGE_CUTS_SUPABASE_URL=https://your-project.supabase.co\n",
+      "In GitHub Actions, add it as a repository secret and reference it in the workflow."
     )
-  )
+  }
+  if (!nzchar(supabase_key)) {
+    stop(
+      "COLLEGE_CUTS_SUPABASE_ANON_KEY is not set.\n",
+      "Export the environment variable before running this script:\n",
+      "  export COLLEGE_CUTS_SUPABASE_ANON_KEY=your-anon-key\n",
+      "In GitHub Actions, add it as a repository secret and reference it in the workflow."
+    )
+  }
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)

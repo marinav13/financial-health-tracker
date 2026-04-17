@@ -1,0 +1,16 @@
+{
+  "name": "financial-health-tracker",
+  "version": "1.0.0",
+  "description": "College Financial Health Tracker - end-to-end tests for the interactive",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:smoke": "node tests/test_frontend_structure.js && node tests/test_js_charts.js",
+    "test:a11y": "pa11y-ci --config .pa11yci.json"
+  },
+  "devDependencies": {
+    "@axe-core/puppeteer": "^4.11.1",
+    "@playwright/test": "^1.52.0",
+    "pa11y-ci": "^2.3.1"
+  }
+}

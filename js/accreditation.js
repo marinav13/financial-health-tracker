@@ -460,7 +460,7 @@
       .filter((row) => isTrackedAction(row))
       .sort((a, b) => {
         const accreditorCompare = expandAccreditors(a.accreditor || "").localeCompare(expandAccreditors(b.accreditor || ""));
-        if (accredatorCompare !== 0) return accreditorCompare;
+        if (accreditorCompare !== 0) return accreditorCompare;
         const actionCompare = String(a.action_type || "").localeCompare(String(b.action_type || ""));
         if (actionCompare !== 0) return actionCompare;
         return String(a.n || "").localeCompare(String(b.n || ""));

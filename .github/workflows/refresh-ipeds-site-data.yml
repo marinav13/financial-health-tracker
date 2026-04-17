@@ -54,13 +54,15 @@ jobs:
         run: >
           Rscript --vanilla ./scripts/build_accreditation_actions.R
 
-      - name: Refresh college cuts with cache fallback
-        shell: bash
-        env:
-          COLLEGE_CUTS_SUPABASE_URL: ${{ secrets.COLLEGE_CUTS_SUPABASE_URL }}
-          COLLEGE_CUTS_SUPABASE_ANON_KEY: ${{ secrets.COLLEGE_CUTS_SUPABASE_ANON_KEY }}
-        run: >
-          Rscript --vanilla ./scripts/build_college_cuts_join.R
+      # - name: Refresh college cuts with cache fallback
+      #   shell: bash
+      #   env:
+      #     COLLEGE_CUTS_SUPABASE_URL: ${{ secrets.COLLEGE_CUTS_SUPABASE_URL }}
+      #     COLLEGE_CUTS_SUPABASE_ANON_KEY: ${{ secrets.COLLEGE_CUTS_SUPABASE_ANON_KEY }}
+      #   run: >
+      #     Rscript --vanilla ./scripts/build_college_cuts_join.R
+      - name: College cuts (SKIPPED - needs Supabase credentials)
+        run: echo "College cuts refresh skipped - requires Supabase credentials to be added as GitHub secrets"
 
       - name: Build unfiltered research join for USAspending analysis
         shell: bash

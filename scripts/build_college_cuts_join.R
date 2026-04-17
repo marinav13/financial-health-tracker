@@ -203,87 +203,41 @@ main <- function(cli_args = NULL) {
     institutions <- fetch_table_csv("institutions", order = "name.asc")
     program_cuts <- fetch_table_csv("program_cuts", order = "announcement_date.desc,id.asc")
     sources <- fetch_table_csv("sources", order = "published_at.desc,id.asc")
-  } else if (file.exists(cuts_csv)) {
-    message("Using CSV fallback for college cuts: ", cuts_csv)
-    raw_cuts <- readr::read_csv(cuts_csv, show_col_types = FALSE, progress = FALSE)
-    # Filter to confirmed statuses only (exclude rumors)
-    raw_cuts <- raw_cuts |> dplyr::filter(Status %in% c("confirmed", "ongoing", "reversed"))
-    message("Loaded ", nrow(raw_cuts), " confirmed cuts from CSV")
-    # Build minimal structures from CSV
-    # Use backticks for column names with spaces
-    institutions <- raw_cuts |> 
-      dplyr::distinct(`Institution`, .keep_all = TRUE) |>
-      dplyr::transmute(
-        id = NA, 
-        name = `Institution`, 
-        city = NA_character_, 
-        state = `State`, 
-        control = NA_character_,
-        unitid = NA_integer_,
-        url = NA_character_,
-        latitude = NA_real_,
-        longitud = NA_real_,
-        created_at = NA
-      )
-    program_cuts <- raw_cuts
-    # Fix column names with spaces - normalize to match Supabase format
-    program_cuts <- program_cuts |>
-      dplyr::rename(
-        institution_id = NA,  # placeholder - will be matched by name
-        url = `Source URL`,
-        title = `Program/Department`,
-        announcement_date = `Announcement Date`,
-        effective_term = `Effective Term`,
-        cut_type = `Cut Type`,
-        student_count = `Students Affected`,
-        staff_count = `Faculty/Staff Affected`,
-        primary_reason = `Primary Reason`,
-        status = Status
-      ) |>
-      dplyr::mutate(
-        id = NA_integer_,
-        source_id = NA_integer_
-      )
-    # Fix column names with spaces - skip date parsing since lubridate may not be loaded
-    sources <- raw_cuts |>
-      dplyr::transmute(
-        id = NA_integer_, 
-        title = NA_character_, 
-        url = `Source URL`,
-        published_at = NA,
-        institution_id = NA_integer_
-      ) |>
-      dplyr::distinct(url, .keep_all = TRUE)
-} else {
+} else if (file.exists(cuts_csv)) {
     message("Using CSV fallback for college cuts: ", cuts_csv)
     raw_cuts <- readr::read_csv(cuts_csv, show_col_types = FALSE, progress = FALSE)
     # Filter to confirmed statuses only (exclude rumors)
     raw_cuts <- raw_cuts |> dplyr::filter(Status %in% c("confirmed", "ongoing", "reversed"))
     message("Loaded ", nrow(raw_cuts), " confirmed cuts from CSV")
     
-    # For CSV fallback: just write the filtered data directly
-    # (skip complex join that's tailored to Supabase format)
+    # Filter out rows with empty institution names
+    raw_cuts <- raw_cuts |> dplyr::filter(nzchar(trimws(`Institution`)))
+    
+    # Create simple output with normalized columns
     output_data <- raw_cuts |>
-      dplyr::mutate(
-        cut_id = dplyr::row_number(),
-        normalized_institution = `Institution`,
+      dplyr::transmute(
+        institution_name = `Institution`,
         state_abbr = `State`,
         cut_type = `Cut Type`,
+        program_dept = `Program/Department`,
         announcement_date = `Announcement Date`,
         effective_term = `Effective Term`,
-        students_affected = `Students Affected`,
-        staff_affected = `Faculty/Staff Affected`,
+        students_affected = suppressWarnings(as.integer(`Students Affected`)),
+        staff_affected = suppressWarnings(as.integer(`Faculty/Staff Affected`)),
         primary_reason = `Primary Reason`,
         status = Status,
         source_url = `Source URL`,
         notes = Notes
       )
     
-    # Write directly to output
+    # Write to output and exit (no IPEDS join needed for CSV fallback)
     output_path <- paste0(output_prefix, "_csv_fallback.csv")
     readr::write_csv(output_data, output_path)
     message("Wrote college cuts to: ", output_path)
+    message("Done! (CSV fallback mode - no IPEDS join performed)")
     return(invisible(output_path))
+  } else {
+    stop("College cuts CSV not found and Supabase credentials not available: ", cuts_csv)
   }
 
   # -----------------------------------------------------------------------

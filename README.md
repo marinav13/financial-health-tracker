@@ -1,291 +1,88 @@
 # Financial Health Tracker
 
-This repository builds the college financial health interactive.
+Builds the college financial health interactive from federal data sources to the static site files that go on the Hechinger website.
 
-It does four main things:
-
-1. Collects the IPEDS variables we need for 2014-2024.
-2. Builds one raw-but-decoded institution-year dataset.
-3. Derives one authoritative canonical dataset.
-4. Builds the web exports used by the site.
-
-The workbook build still exists for local reporting, but it is not part of the
-streamlined public repo's core production path.
-
-If you are new to the project, start with:
-
-- [WALKTHROUGH_GUIDE.txt](./WALKTHROUGH_GUIDE.txt)
-- [WEBSITE_MANAGER_NOTE.txt](./WEBSITE_MANAGER_NOTE.txt)
-- [`scripts/README.md`](./scripts/README.md)
-
-## What Changed For Closure Data
-
-This repo no longer owns the federal closure scraper.
-
-Instead:
-
-- the closure scraper can live in a separate repo
-- that separate repo publishes cleaned closure outputs into a Google Sheet
-- this repo imports those published closure outputs with `scripts/import_closure_sheet.py`
-
-That keeps this repo smaller and easier to rebuild.
-
-## Main Build Order
-
-If you only remember one thing, remember this order:
-
-1. `scripts/build_ipeds_dataset.R`
-2. supporting joins and profile inputs
-3. `scripts/build_web_exports.R`
-
-Each step writes files used by the next one.
-
-## Build Architecture
-
-The repo is organized around a small number of orchestrator scripts plus a
-shared helper layer:
-
-- `scripts/`
-  - main entrypoints for collection, canonical build, exports, and joins
-- `scripts/shared/`
-  - reusable helper code for IPEDS, exports, accreditation, Grant Witness logic, and optional local reporting
-- `ipeds/`
-  - local IPEDS raw, manifests, derived outputs, and cache
-- `data_pipelines/`
-  - local non-IPEDS rebuild inputs and intermediate joins
-- `data/`
-  - shipped website assets and JSON/CSV exports
-
-If you are trying to understand the codebase quickly:
-
-1. read `scripts/build_ipeds_dataset.R`
-2. read `scripts/build_web_exports.R`
-3. read the join scripts that feed shipped website sections
-4. dip into `scripts/shared/` only when you want the implementation details
-
-## Full Rebuild Order
-
-1. `scripts/build_ipeds_dataset.R`
-   - downloads missing IPEDS zips and dictionaries only when needed
-   - writes the raw decoded dataset and the canonical dataset
-
-2. `scripts/build_outcomes_join.R`
-   - joins College Scorecard outcomes, graduation-rate data, and Grad PLUS data
-
-3. `scripts/build_college_cuts_join.R`
-   - builds the college cuts join for the Cuts tab
-
-4. `scripts/build_accreditation_actions.R`
-   - builds accreditation actions and school-level summaries
-
-5. `scripts/build_grant_witness_join.R`
-   - builds the disrupted research funding join for the Research tab
-
-6. `scripts/build_hcm_level2.py`
-   - builds federal HCM profile data
-
-7. `scripts/import_closure_sheet.py`
-   - imports published closure outputs from Google Sheets
-   - refreshes `data_pipelines/federal_closure/derived/`
-   - refreshes `data/closure_status_by_unitid.json`
-
-8. `scripts/build_federal_composite_scores.py`
-   - builds the federal composite score profile lookup
-
-9. `scripts/build_web_exports.R`
-   - writes the site JSON, download CSV, and school-level files
-
-10. `scripts/build_article_workbook.R`
-   - optional local reporting step only
-   - not part of the streamlined public production path
-
-## Closure Sheet Contract
-
-The closure Google Sheet should contain these tabs:
-
-- `closure_status_tracker_matches`
-- `running_closures`
-- `main_campus_closures`
-- `branch_campus_closures`
-- `mergers_consolidations`
-- `private_sector_federal_main_closures`
-
-The import script downloads those tabs as CSV and writes them into the stable
-paths this repo already uses downstream.
-
-## Project Layout
-
-- `scripts/` contains the active build scripts
-- `data_pipelines/` contains the non-IPEDS local rebuild inputs and intermediate joins
-- `ipeds/raw/` contains the wide raw IPEDS institution-year dataset you rebuild locally when needed
-- `ipeds/manifests/` contains the selected-file catalog and field-resolution audit you keep locally
-- `ipeds/derived/` contains the canonical IPEDS outputs you keep locally for reporting and rebuilds
-- `ipeds/cache/` is the reusable local IPEDS download cache
-- `data/` contains the site JSON exports and indexes
-- `workbooks/` contains the local reporting workbook export
-
-## External Inputs
-
-Normal rebuilds now need far fewer local raw files.
-
-Git in this repo is intentionally strict:
-
-- commit code
-- commit docs
-- commit workflows
-- commit finished site assets in `data/`
-- keep rebuild caches, raw files, intermediate joins, and workbook files local
-
-Required for local rebuilds:
-
-- `data_pipelines/federal_composite/ay_2022_2023_composite_scores.csv`
-
-By default, `scripts/import_closure_sheet.py` imports from the project's
-authoritative closure sheet:
-
-- `https://docs.google.com/spreadsheets/d/1TyVZlzfoD1sr0jID6Rt421-bN5wS_9JjWnCBofmbhi8/edit?gid=0#gid=0`
-
-Only pass `--sheet` if you intentionally want to override that source.
-
-Helpful but still local-only:
-
-- the Scorecard cache files in `data_pipelines/scorecard/cache/`
-- the IPEDS cache in `ipeds/cache/`
-
-The IPEDS cache is local-only:
-
-- keep it on your machine
-- let the scripts reuse it
-- do not commit it to Git
-
-## Useful Commands
-
-Build IPEDS:
+## Quick start
 
 ```r
+# 1. Build IPEDS (first time only — downloads ~2 GB of federal data)
 source("scripts/build_ipeds_dataset.R")
 main(c("--start-year", "2014", "--end-year", "2024"))
+
+# 2. Build supporting joins
+source("scripts/build_outcomes_join.R");          main()
+source("scripts/build_college_cuts_join.R");       main()
+source("scripts/build_accreditation_actions.R");   main()
+source("scripts/build_grant_witness_join.R");      main()
+
+# 3. Import closure data from Google Sheets
+python scripts/import_closure_sheet.py --sheet "YOUR_SHEET_URL"
+
+# 4. Build the site files
+source("scripts/build_web_exports.R"); main()
 ```
 
-Import closure outputs from Google Sheets:
+That's it. Steps 2–4 are rerunnable anytime. Step 1 only needs to run during the IPEDS refresh window (January–April).
 
-```bash
-python scripts/import_closure_sheet.py --sheet "YOUR_GOOGLE_SHEET_URL_OR_ID"
+## What to read first
+
+| If you are... | Read this first |
+|---|---|
+| New to the project | [WALKTHROUGH_GUIDE.txt](./WALKTHROUGH_GUIDE.txt) |
+| Publishing the site | [docs/WEBSITE_MANAGER_NOTE.md](./docs/WEBSITE_MANAGER_NOTE.md) |
+| Understanding the pipeline | [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) |
+| Understanding the code | [scripts/README.md](./scripts/README.md) |
+| Finding a term | [docs/GLOSSARY.md](./docs/GLOSSARY.md) |
+
+## Build order (the one thing to remember)
+
+```
+IPEDS raw download
+    └─► build_ipeds_dataset.R
+
+Supporting joins (each reads canonical + external data)
+    └─► build_outcomes_join.R
+    └─► build_college_cuts_join.R
+    └─► build_accreditation_actions.R
+    └─► build_grant_witness_join.R
+
+External imports
+    └─► import_closure_sheet.py
+    └─► build_federal_composite_scores.py
+    └─► build_hcm_level2.py
+
+Site output
+    └─► build_web_exports.R  →  data/
 ```
 
-Offline smoke test of the closure import using a folder of CSV exports:
+Each script writes files consumed by the next. Run them in order.
 
-```bash
-python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports
+## What the repo commits
+
+This repo is intentionally strict about what it commits:
+
+**Yes — commit:** code, docs, workflows, and finished site assets in `data/`
+
+**No — keep local:** rebuild caches (`ipeds/cache/`), raw IPEDS downloads, intermediate pipeline CSVs, and workbooks
+
+See `docs/REFRESH_CYCLE.md` → "Outputs that are local-only" for the full list.
+
+## Project layout
+
+```
+scripts/             — build entrypoints
+scripts/shared/      — reusable helpers (args, exports, scrapers, etc.)
+data_pipelines/      — non-IPEDS rebuild inputs and intermediate joins
+ipeds/               — IPEDS raw, manifests, derived outputs, and download cache
+data/                — shipped site JSON, CSVs, and indexes
+workbooks/           — local reporting workbook (not part of site production)
+docs/                — glossary, refresh cycle docs, and setup guides
 ```
 
-Build the web exports:
-
-```r
-source("scripts/build_web_exports.R")
-main()
-```
-
-Build the workbook locally if you still want the reporting export:
-
-```r
-source("scripts/build_article_workbook.R")
-main(c(
-  "--input", "./ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv",
-  "--output", "./workbooks/ipeds_financial_health_article_workbook.xls"
-))
-```
-
-Run the lightweight regression suite:
+## Testing
 
 ```bash
 Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
 ```
 
-That suite currently covers:
-
-- shared helper regressions
-- canonical fixture regressions
-- export fixture regressions
-- college cuts fixture regressions
-- Grant Witness and accreditation pipeline fixtures
-- a reduced canonical-to-export end-to-end fixture
-- source smoke for the main pipeline entry scripts
-
-## Main Outputs
-
-Tracked website outputs:
-
-- `data/downloads/full_dataset.csv`
-- `data/schools_index.json`
-- `data/college_cuts.json`
-- `data/accreditation.json`
-- `data/research_funding.json`
-- `data/hcm2_by_unitid.json`
-- `data/closure_status_by_unitid.json`
-- `data/federal_composite_scores_by_unitid.json`
-
-Local rebuild outputs that are useful for reporting but are not part of the committed site handoff:
-
-- `ipeds/raw/ipeds_financial_health_raw_2014_2024.csv`
-- `ipeds/manifests/ipeds_financial_health_selected_file_catalog.csv`
-- `ipeds/manifests/ipeds_financial_health_field_resolution_audit_2014_2024.csv`
-- `ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv`
-- `ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv`
-- `data_pipelines/accreditation/*.csv`
-- `data_pipelines/college_cuts/*.csv`
-- `data_pipelines/grant_witness/grant_witness_*.csv`
-- `data_pipelines/scorecard/*.csv`
-- `data_pipelines/federal_hcm/*.csv`
-- `data_pipelines/federal_hcm/raw/*`
-- `data_pipelines/federal_composite/*.csv`
-- `data_pipelines/federal_closure/derived/*`
-- `workbooks/ipeds_financial_health_article_workbook.xls`
-
-## Testing Notes
-
-This repo does not use a heavyweight test framework yet. Instead it keeps a
-small fast regression harness in `tests/`:
-
-- `test_utils.R`, `test_export_helpers.R`, `test_accreditation_helpers.R`, `test_grant_witness_helpers.R`, and the other shipped-output helper tests
-  - validate shared pure helpers directly
-- workbook-specific tests still exist for local reporting, but they are no longer part of the streamlined public smoke gate
-- `test_canonical_pipeline_fixture.R`
-  - validates the canonical build on a tiny isolated fixture
-- `test_canonical_pipeline_aux_fixture.R`
-  - validates canonical aux-table backfill behavior on a tiny EFFY fixture
-- `test_export_pipeline_fixture.R`
-  - validates website export outputs on a tiny fixture
-- `test_end_to_end_pipeline_fixture.R`
-  - validates a reduced end-to-end canonical-to-export path
-- `test_pipeline_smoke.R`
-  - ensures the main scripts still source cleanly and expose `main()`
-
-## Website Handoff
-
-The website manager should deploy these finished static files into:
-
-- `/interactives/fitness/`
-
-Files to copy:
-
-- `index.html`
-- `school.html`
-- `styles.css`
-- `js/`
-- `data/`
-
-The school page expects URLs like:
-
-- `/interactives/fitness/school.html?unitid=172264`
-
-## Automation
-
-The scheduled site-data workflow now imports closure outputs from the published
-Google Sheet instead of rebuilding them from federal raw files.
-
-That means this repo no longer needs:
-
-- Google Cloud closure-publishing setup in this repo
-- weekly federal closed-school scraping
-- local federal closure raw files for ordinary rebuilds
+91 tests covering shared helpers, pipeline fixtures, and script smoke checks. Run this before committing.

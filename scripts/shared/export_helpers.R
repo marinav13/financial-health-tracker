@@ -80,20 +80,52 @@ or_null_date <- function(x) {
 # Export ID / label normalization
 # ---------------------------------------------------------------------------
 
-# Builds a stable, URL-safe identifier for a school. Uses IPEDS unitid if
-# available, otherwise builds a slug from institution name and state.
+# Normalises an institution name into a stable URL-slug component.
+# Applies the same abbreviation expansions used by the name-matching pipeline
+# (normalize_name in build_college_cuts_join.R) so that minor API-side
+# variations — "St." vs "Saint", leading "The", "&" vs "and" — all produce
+# the same slug and do not silently change a school's public URL.
+#
+# IMPORTANT: do NOT change the output format of this helper once schools are
+# published.  Any change breaks existing bookmarked URLs for unmatched schools.
+slug_institution_name <- function(name) {
+  s <- tolower(trimws(name %||% ""))
+  s <- sub("^the +", "", s)                      # strip leading "The "
+  s <- gsub("\\bst\\.?\\b", "saint", s)          # St / St. → saint
+  s <- gsub("&", "and", s, fixed = TRUE)         # & → and
+  s <- gsub("[^a-z0-9]+", "-", s)                # non-alnum → hyphen
+  s <- gsub("^-+|-+$", "", s)                    # trim edge hyphens
+  s
+}
+
+# Builds a stable, URL-safe identifier for a school.
+#
+# Strategy:
+#   1. If a numeric IPEDS unitid is available it is returned as-is (no prefix).
+#      This is the only stable identifier and must be preserved as-is because
+#      the financial-profile page URL is data/schools/{unitid}.json.
+#   2. Otherwise a deterministic slug is built from the normalised institution
+#      name and state, separated by "--" so the two parts are unambiguous.
+#      The prefix ("cut", "research", etc.) namespaces the slug to avoid
+#      collisions with numeric unitids.
+#
+# When a school transitions from unmatched → matched (gains a unitid), its ID
+# will change from a slug to the numeric unitid.  This is unavoidable without
+# a separate persistent ID store, but it only affects unmatched schools and
+# is logged at export time (see build_web_exports.R).
 make_export_id <- function(prefix, unitid, institution_name, state) {
   raw_unitid <- trimws(as.character(unitid %||% ""))
   if (!identical(raw_unitid, "")) return(raw_unitid)
 
-  # Build slug from name and state
-  base       <- paste(institution_name %||% "", state %||% "", sep = " | ")
-  normalized <- tolower(base)
-  # Replace all non-alphanumeric characters with hyphens
-  normalized <- gsub("[^a-z0-9]+", "-", normalized)
-  # Remove leading/trailing hyphens
-  normalized <- gsub("^-+|-+$",    "",  normalized)
-  paste0(prefix, "-", normalized)
+  # No unitid — build slug from normalised name + state.
+  name_slug  <- slug_institution_name(institution_name)
+  state_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(state %||% "")))
+  state_slug <- gsub("^-+|-+$", "", state_slug)
+
+  # "--" separator makes name and state visually distinct in the URL and avoids
+  # false collisions where a name ends with the same token as the state.
+  body <- if (nzchar(state_slug)) paste0(name_slug, "--", state_slug) else name_slug
+  paste0(prefix, "-", body)
 }
 
 # Standardizes control/ownership labels to canonical display strings
@@ -234,15 +266,34 @@ build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pc
 # Writes an R object to a JSON file with pretty formatting.
 # NA values become JSON null (not "NA"), and single-element vectors stay as scalars.
 # Also strips trailing null bytes that Windows/mounted filesystems sometimes append.
+# Uses atomic write: write to .tmp then rename for crash safety.
 write_json_file <- function(x, path) {
-  jsonlite::write_json(x, path = path, pretty = TRUE, auto_unbox = TRUE, na = "null")
+  tmp_path <- paste0(path, ".tmp")
+  
+  # Clean up orphaned tmp file if it exists
+  if (file.exists(tmp_path)) {
+    file.remove(tmp_path)
+  }
+  
+  jsonlite::write_json(x, path = tmp_path, pretty = TRUE, auto_unbox = TRUE, na = "null")
   # Strip trailing null bytes so browsers can JSON.parse() the file cleanly
-  raw_bytes <- readBin(path, raw(), n = file.info(path)$size)
+  raw_bytes <- readBin(tmp_path, raw(), n = file.info(tmp_path)$size)
   last_valid <- suppressWarnings(max(which(raw_bytes != as.raw(0x00))))
   if (is.finite(last_valid) && last_valid < length(raw_bytes)) {
-    con <- file(path, "wb")
+    con <- file(tmp_path, "wb")
     writeBin(raw_bytes[seq_len(last_valid)], con)
     close(con)
+  }
+  
+  # Atomic rename: fall back to copy+remove on Windows/cross-filesystem failure
+  rename_ok <- tryCatch({
+    file.rename(tmp_path, path)
+  }, error = function(e) FALSE)
+  
+  if (!rename_ok) {
+    if (file.exists(path)) file.remove(path)
+    file.copy(tmp_path, path)
+    file.remove(tmp_path)
   }
 }
 

@@ -144,7 +144,7 @@ main <- function(cli_args = NULL) {
   # It maps the API institution name (as it appears in college-cuts.com) directly
   # to an IPEDS unitid, bypassing name-normalization entirely for known schools.
   # Run the import script whenever new institutions are added to Supabase.
-  supabase_mapping_path <- file.path(root, "data_pipelines", "college_cuts",
+  supabase_mapping_path <- file.path(getwd(), "data_pipelines", "college_cuts",
                                      "supabase_institution_unitid_mapping.csv")
   supabase_lookup <- if (file.exists(supabase_mapping_path)) {
     raw <- readr::read_csv(supabase_mapping_path, show_col_types = FALSE, progress = FALSE)

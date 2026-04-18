@@ -233,8 +233,17 @@ build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pc
 
 # Writes an R object to a JSON file with pretty formatting.
 # NA values become JSON null (not "NA"), and single-element vectors stay as scalars.
+# Also strips trailing null bytes that Windows/mounted filesystems sometimes append.
 write_json_file <- function(x, path) {
   jsonlite::write_json(x, path = path, pretty = TRUE, auto_unbox = TRUE, na = "null")
+  # Strip trailing null bytes so browsers can JSON.parse() the file cleanly
+  raw_bytes <- readBin(path, raw(), n = file.info(path)$size)
+  last_valid <- suppressWarnings(max(which(raw_bytes != as.raw(0x00))))
+  if (is.finite(last_valid) && last_valid < length(raw_bytes)) {
+    con <- file(path, "wb")
+    writeBin(raw_bytes[seq_len(last_valid)], con)
+    close(con)
+  }
 }
 
 # Converts a data frame of (year, value) pairs into the [{year, value}, ...] format

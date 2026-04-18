@@ -113,19 +113,42 @@ main <- function(cli_args = NULL) {
   # -----------------------------------------------------------------------
   # FETCH AND PROCESS ACCREDITATION ACTIONS FROM ALL ACCREDITORS
   message("Fetching accreditation actions ...")
-  raw_actions <- dplyr::bind_rows(
-    parse_msche(cache_dir, refresh),
-    parse_hlc(cache_dir, refresh),
-    parse_sacscoc(cache_dir, refresh),
-    parse_neche(cache_dir, refresh),
-    parse_wscuc(cache_dir, refresh),
-    parse_nwccu(cache_dir, refresh)
-  ) |>
+
+  # Priority 4: per-scraper validation — each parse_* is run individually so
+  # we can detect and warn about any scraper that returns zero rows (likely a
+  # site-structure change) before merging everything together.
+  scraper_results <- list(
+    MSCHE  = parse_msche(cache_dir, refresh),
+    HLC    = parse_hlc(cache_dir, refresh),
+    SACSCOC= parse_sacscoc(cache_dir, refresh),
+    NECHE  = parse_neche(cache_dir, refresh),
+    WSCUC  = parse_wscuc(cache_dir, refresh),
+    NWCCU  = parse_nwccu(cache_dir, refresh)
+  )
+  purrr::iwalk(scraper_results, function(df, name) {
+    if (nrow(df) == 0) {
+      warning(sprintf(
+        "SCRAPER RETURNED 0 ROWS: %s — the accreditor's site structure may have changed, or the scraper is broken. No data will be published for this accreditor.",
+        name
+      ), call. = FALSE)
+    } else {
+      req_cols <- c("institution_name_raw", "accreditor", "action_type")
+      missing_cols <- setdiff(req_cols, names(df))
+      if (length(missing_cols) > 0) {
+        warning(sprintf(
+          "SCRAPER SCHEMA MISMATCH: %s is missing required columns: %s",
+          name, paste(missing_cols, collapse = ", ")
+        ), call. = FALSE)
+      }
+    }
+  })
+  raw_actions <- dplyr::bind_rows(scraper_results) |>
     dplyr::mutate(
       institution_name_raw = clean_text(institution_name_raw),
       institution_state_raw = clean_text(institution_state_raw),
       institution_name_normalized = normalize_name(institution_name_raw),
       institution_state_normalized = state_name(institution_state_raw),
+      action_type = tolower(trimws(action_type)),
       accreditation_warning = action_type %in% c("warning", "probation", "show_cause"),
       accreditation_warning_or_notice = action_type %in% c("notice", "warning", "probation", "show_cause")
     ) |>
@@ -267,6 +290,17 @@ main <- function(cli_args = NULL) {
 
   if (nrow(actions_joined) == 0 || nrow(institution_summary) == 0) {
     stop("Accreditation refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
+  # Priority 4 + 6: Compare fresh scrape row counts against prior run to
+  # catch silent scraper regressions (already defined in accreditation_scrapers.R).
+  warn_if_scrape_count_dropped(raw_actions, outputs$actions)
+
+  # Priority 6: Log per-accreditor action counts for monitoring.
+  accreditor_counts <- sort(table(raw_actions$accreditor), decreasing = TRUE)
+  message("Actions scraped per accreditor:")
+  for (nm in names(accreditor_counts)) {
+    message(sprintf("  %-10s %d rows", nm, accreditor_counts[[nm]]))
   }
 
   # -----------------------------------------------------------------------

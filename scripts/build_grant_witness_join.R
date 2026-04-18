@@ -261,6 +261,14 @@ main <- function(cli_args = NULL) {
         override_tracker_category = dplyr::coalesce(override_tracker_category, financial_tracker_category)
       ) |>
       dplyr::select(-dplyr::starts_with("financial_tracker_"))
+
+    # Validate: check for stale override unitids not in current IPEDS data
+    stale_overrides <- manual_match_overrides |>
+      dplyr::filter(!override_unitid %in% financial_latest$unitid)
+    if (nrow(stale_overrides) > 0) {
+      warning(sprintf("%d manual override unitid(s) not found in current IPEDS data: %s",
+        nrow(stale_overrides), paste(stale_overrides$override_unitid, collapse=", ")))
+    }
   } else {
     data.frame(
       organization_name = character(),

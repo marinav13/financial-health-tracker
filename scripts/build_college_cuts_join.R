@@ -112,11 +112,29 @@ main <- function(cli_args = NULL) {
     if (all(is.na(x))) NA_real_ else sum(x, na.rm = TRUE)
   }
 
+  # HELPER: Max value, return NA (not -Inf) if all inputs are NA
+  safe_max <- function(x) {
+    if (all(is.na(x))) NA_real_ else max(x, na.rm = TRUE)
+  }
+
+  # HELPER: Max/min of Date vector; return NA (not the epoch) when all NA
+  safe_max_date <- function(x) {
+    d <- as.Date(x)
+    valid <- d[!is.na(d)]
+    if (length(valid) == 0) as.Date(NA_character_) else max(valid)
+  }
+  safe_min_date <- function(x) {
+    d <- as.Date(x)
+    valid <- d[!is.na(d)]
+    if (length(valid) == 0) as.Date(NA_character_) else min(valid)
+  }
+
   # -----------------------------------------------------------------------
   # LOAD FINANCIAL TRACKER AND PREPARE FOR MATCHING
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
-  latest_year <- suppressWarnings(max(financial_all$year, na.rm = TRUE))
+  latest_year <- safe_max(financial_all$year)
+  if (is.na(latest_year)) stop("Financial tracker contains no valid year values — check the input CSV.")
   financial_latest <- financial_all |>
     dplyr::filter(year == latest_year) |>
     dplyr::mutate(
@@ -178,71 +196,10 @@ main <- function(cli_args = NULL) {
   # "Columbia University in the City of New York"). These overrides map the
   # normalized API name + state to the correct IPEDS unitid.
   # These supplement the lookup; existing entries are not replaced.
-  manual_aliases <- tibble::tibble(
-    norm_name  = c(
-      # Texas
-      "texas a and m university",
-      "university of texas hsch",
-      "university of texas health science center at houston",
-      # New York
-      "columbia university",
-      # Indiana (API uses bare system name → map to flagship)
-      "indiana university",
-      # New Jersey (API uses bare system name → map to flagship)
-      "rutgers university",
-      # Rhode Island
-      "johnson and wales university",
-      # California
-      "california polytechnic saint university",   # after st→saint expansion
-      "california polytechnic state university",   # alternate without expansion
-      # Washington
-      "washington state university",
-      # Tennessee
-      "vanderbilt university",
-      # Minnesota (API "University of Minnesota" → Twin Cities flagship)
-      "university of minnesota",
-      # Oklahoma (API uses bare name, IPEDS appends "-Norman Campus")
-      "university of oklahoma"
-    ),
-    state_full = c(
-      "Texas", "Texas", "Texas",
-      "New York",
-      "Indiana",
-      "New Jersey",
-      "Rhode Island",
-      "California", "California",
-      "Washington",
-      "Tennessee",
-      "Minnesota",
-      "Oklahoma"
-    ),
-    unitid_candidate = c(
-      228723L, 229300L, 229300L,
-      190150L,
-      151351L,
-      186380L,
-      217235L,
-      110422L, 110422L,
-      236939L,
-      221999L,
-      174066L,
-      207500L
-    ),
-    fallback_tracker_institution_name = c(
-      "Texas A&M University-College Station",
-      "The University of Texas Health Science Center at Houston",
-      "The University of Texas Health Science Center at Houston",
-      "Columbia University in the City of New York",
-      "Indiana University-Bloomington",
-      "Rutgers University-New Brunswick",
-      "Johnson & Wales University-Providence",
-      "California Polytechnic State University-San Luis Obispo",
-      "California Polytechnic State University-San Luis Obispo",
-      "Washington State University",
-      "Vanderbilt University",
-      "University of Minnesota-Twin Cities",
-      "University of Oklahoma-Norman Campus"
-    )
+  # See data_pipelines/college_cuts/manual_aliases.csv
+  manual_aliases <- readr::read_csv(
+    file.path(getwd(), "data_pipelines", "college_cuts", "manual_aliases.csv"),
+    show_col_types = FALSE
   )
   fallback_lookup <- dplyr::bind_rows(
     fallback_lookup,
@@ -270,6 +227,8 @@ main <- function(cli_args = NULL) {
     page <- 1L
     all_rows <- list()
     repeat {
+      MAX_PAGES <- 500L
+      if (page > MAX_PAGES) stop(sprintf("Pagination exceeded %d pages — possible API bug.", MAX_PAGES))
       url <- paste0(
         "https://college-cuts.com/api/cuts",
         "?status=", utils::URLencode(status, reserved = TRUE),
@@ -450,17 +409,32 @@ main <- function(cli_args = NULL) {
     dplyr::left_join(financial_latest_slim, by = c("matched_unitid" = "unitid")) |>
     dplyr::mutate(
       in_financial_tracker = !is.na(tracker_institution_name),
-      announcement_year = suppressWarnings(as.integer(format(as.Date(announcement_date), "%Y"))),
-      financial_warning_count = rowSums(
-        cbind(
-          tracker_enrollment_decline_last_3_of_5 == "Yes",
-          tracker_revenue_10pct_drop_last_3_of_5 == "Yes",
-          tracker_losses_last_3_of_5 == "Yes",
-          tracker_ended_2024_at_loss == "Yes",
-          tracker_enrollment_decreased_5yr == "Yes",
-          tracker_revenue_decreased_5yr == "Yes"
+      announcement_year = {
+        # Parse dates and emit a diagnostic if any are unparseable.
+        parsed_dates <- as.Date(announcement_date, format = "%Y-%m-%d")
+        n_bad <- sum(is.na(parsed_dates) & !is.na(announcement_date))
+        if (n_bad > 0) message(sprintf(
+          "  %d announcement_date value(s) could not be parsed to a date — those rows will have NA announcement_year.",
+          n_bad
+        ))
+        as.integer(format(parsed_dates, "%Y"))
+      },
+      # Return NA (not 0) for institutions not in financial tracker.
+      # rowSums on all-NA columns would silently produce 0 otherwise.
+      financial_warning_count = dplyr::if_else(
+        !is.na(tracker_institution_name),
+        rowSums(
+          cbind(
+            tracker_enrollment_decline_last_3_of_5 == "Yes",
+            tracker_revenue_10pct_drop_last_3_of_5 == "Yes",
+            tracker_losses_last_3_of_5 == "Yes",
+            tracker_ended_2024_at_loss == "Yes",
+            tracker_enrollment_decreased_5yr == "Yes",
+            tracker_revenue_decreased_5yr == "Yes"
+          ),
+          na.rm = TRUE
         ),
-        na.rm = TRUE
+        NA_real_
       )
     ) |>
     dplyr::select(
@@ -544,6 +518,23 @@ main <- function(cli_args = NULL) {
     dplyr::arrange(dplyr::desc(announcement_date), institution_name_collegecuts, program_name)
 
   # -----------------------------------------------------------------------
+  # PRIORITY 2: JOIN CARDINALITY VALIDATION
+  # Check if any single CollegeCuts institution matched multiple IPEDS records,
+  # which would mean cuts are being duplicated across institutions.
+  cardinality_check <- cuts_joined |>
+    dplyr::filter(!is.na(matched_unitid)) |>
+    dplyr::distinct(institution_name_collegecuts, matched_unitid) |>
+    dplyr::count(institution_name_collegecuts) |>
+    dplyr::filter(n > 1)
+  if (nrow(cardinality_check) > 0) {
+    warning(sprintf(
+      "JOIN CARDINALITY: %d CollegeCuts institution(s) matched multiple IPEDS unitids — cuts may be duplicated. Review: %s",
+      nrow(cardinality_check),
+      paste(cardinality_check$institution_name_collegecuts, collapse = "; ")
+    ))
+  }
+
+  # -----------------------------------------------------------------------
   # BUILD INSTITUTION-LEVEL SUMMARY (COLLAPSE CUTS PER INSTITUTION)
   collapse_unique_values <- function(x) {
     vals <- unique(stats::na.omit(as.character(x)))
@@ -562,8 +553,8 @@ main <- function(cli_args = NULL) {
       tracker_control_label = dplyr::first(tracker_control_label),
       cut_records = dplyr::n(),
       cut_types = collapse_unique_values(cut_type),
-      latest_cut_announcement_date = suppressWarnings(max(as.Date(announcement_date), na.rm = TRUE)),
-      first_cut_announcement_date = suppressWarnings(min(as.Date(announcement_date), na.rm = TRUE)),
+      latest_cut_announcement_date = safe_max_date(announcement_date),
+      first_cut_announcement_date = safe_min_date(announcement_date),
       total_students_affected_known = safe_sum(students_affected),
       total_faculty_affected_known = safe_sum(faculty_affected),
       staff_layoff_records = sum(cut_type == "staff_layoff", na.rm = TRUE),
@@ -572,7 +563,7 @@ main <- function(cli_args = NULL) {
       campus_closure_records = sum(cut_type == "campus_closure", na.rm = TRUE),
       institution_closure_records = sum(cut_type == "institution_closure", na.rm = TRUE),
       teach_out_records = sum(cut_type == "teach_out", na.rm = TRUE),
-      financial_warning_count = max(financial_warning_count, na.rm = TRUE),
+      financial_warning_count = safe_max(financial_warning_count),
       tracker_enrollment_pct_change_5yr = dplyr::first(tracker_enrollment_pct_change_5yr),
       tracker_enrollment_decline_last_3_of_5 = dplyr::first(tracker_enrollment_decline_last_3_of_5),
       tracker_revenue_pct_change_5yr = dplyr::first(tracker_revenue_pct_change_5yr),
@@ -705,6 +696,25 @@ main <- function(cli_args = NULL) {
 
   if (nrow(cuts_joined) == 0 || nrow(cuts_institutions_summary) == 0) {
     stop("College cuts refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
+  # -----------------------------------------------------------------------
+  # PRIORITY 3: UNMATCHED RATE THRESHOLD CHECK
+  # Warn loudly if more than 25% of distinct institutions failed to match the
+  # financial tracker — this likely indicates a normalization regression or
+  # data-source change, not just genuinely new institutions.
+  total_institutions  <- dplyr::n_distinct(cuts_joined$institution_name_collegecuts)
+  unmatched_institutions <- dplyr::n_distinct(unmatched_for_review$institution_name_collegecuts)
+  unmatched_rate <- if (total_institutions > 0) unmatched_institutions / total_institutions else 0
+  message(sprintf(
+    "Match rate: %d / %d institutions matched to financial tracker (%.1f%% unmatched)",
+    total_institutions - unmatched_institutions, total_institutions, unmatched_rate * 100
+  ))
+  if (unmatched_rate > 0.25) {
+    warning(sprintf(
+      "HIGH UNMATCHED RATE: %.1f%% of institutions (%d of %d) could not be matched to the financial tracker. \nCheck name normalization, state abbreviations, or whether the Supabase mapping CSV is current.",
+      unmatched_rate * 100, unmatched_institutions, total_institutions
+    ))
   }
 
   # -----------------------------------------------------------------------

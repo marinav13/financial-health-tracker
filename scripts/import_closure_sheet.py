@@ -1,6 +1,7 @@
 import argparse
 import csv
 import json
+import sys
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -140,7 +141,7 @@ def sheet_csv_url(sheet_id, tab_name):
 def read_text_from_google_sheet(sheet_id, tab_name):
     url = sheet_csv_url(sheet_id, tab_name)
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, timeout=30) as response:
             payload = response.read().decode("utf-8-sig")
     except urllib.error.HTTPError as exc:
         raise RuntimeError(
@@ -210,9 +211,12 @@ def normalize_int(value):
 
 def build_closure_status_json(rows, source_label):
     schools = {}
+    skipped = 0
     for row in rows:
         unitid = str(row.get("unitid") or "").strip()
         if not unitid:
+            print(f"  WARNING: Skipping row with no unitid: {row.get('institution_name', '(unknown)')}", file=sys.stderr)
+            skipped += 1
             continue
 
         record = {
@@ -230,6 +234,9 @@ def build_closure_status_json(rows, source_label):
             record["close_date"] = close_date
 
         schools[unitid] = record
+
+    if skipped > 0:
+        print(f"  {skipped} closure rows skipped due to missing unitid", file=sys.stderr)
 
     STATUS_JSON.parent.mkdir(parents=True, exist_ok=True)
     with STATUS_JSON.open("w", encoding="utf-8") as handle:

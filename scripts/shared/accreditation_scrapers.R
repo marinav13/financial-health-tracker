@@ -977,6 +977,7 @@ parse_nwccu <- function(cache_dir, refresh) {
                   nrow(institutions)))
 
   results <- purrr::map_dfr(seq_len(nrow(institutions)), function(i) {
+    Sys.sleep(0.5)  # rate limit to avoid IP ban
     parse_nwccu_institution_page(
       institutions$url[[i]],
       institutions$name[[i]],

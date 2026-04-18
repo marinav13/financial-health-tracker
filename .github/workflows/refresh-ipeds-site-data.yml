@@ -51,47 +51,56 @@ jobs:
 
       - name: Refresh accreditation actions with cache fallback
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_accreditation_actions.R
 
       - name: Sync Supabase institution → unitid mapping
         shell: bash
+        timeout-minutes: 10
         run: >
           python ./scripts/import_supabase_institution_mapping.py
 
       - name: Refresh college cuts from public API
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_college_cuts_join.R
 
       - name: Build unfiltered research join for USAspending analysis
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
 
       - name: Refresh USAspending reinstatement analysis
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
 
       - name: Refresh research cuts with Proposal G filter
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R
 
       - name: Import closure outputs from published Google Sheet
         shell: bash
+        timeout-minutes: 10
         run: >
           python ./scripts/import_closure_sheet.py
           --sheet "${CLOSURE_SHEET_URL}"
 
       - name: Rebuild static web exports
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_web_exports.R
 
       - name: Commit and push updated data
         shell: bash
+        timeout-minutes: 5
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

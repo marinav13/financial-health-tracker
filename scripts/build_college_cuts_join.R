@@ -200,7 +200,9 @@ main <- function(cli_args = NULL) {
       # Tennessee
       "vanderbilt university",
       # Minnesota (API "University of Minnesota" → Twin Cities flagship)
-      "university of minnesota"
+      "university of minnesota",
+      # Oklahoma (API uses bare name, IPEDS appends "-Norman Campus")
+      "university of oklahoma"
     ),
     state_full = c(
       "Texas", "Texas", "Texas",
@@ -211,7 +213,8 @@ main <- function(cli_args = NULL) {
       "California", "California",
       "Washington",
       "Tennessee",
-      "Minnesota"
+      "Minnesota",
+      "Oklahoma"
     ),
     unitid_candidate = c(
       228723L, 229300L, 229300L,
@@ -222,7 +225,8 @@ main <- function(cli_args = NULL) {
       110422L, 110422L,
       236939L,
       221999L,
-      174066L
+      174066L,
+      207500L
     ),
     fallback_tracker_institution_name = c(
       "Texas A&M University-College Station",
@@ -236,7 +240,8 @@ main <- function(cli_args = NULL) {
       "California Polytechnic State University-San Luis Obispo",
       "Washington State University",
       "Vanderbilt University",
-      "University of Minnesota-Twin Cities"
+      "University of Minnesota-Twin Cities",
+      "University of Oklahoma-Norman Campus"
     )
   )
   fallback_lookup <- dplyr::bind_rows(

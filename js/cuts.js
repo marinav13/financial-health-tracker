@@ -276,6 +276,7 @@
           control_label: school.control_label || cut.control_label || "",
           category: school.category || cut.category || "",
           unitid: school.unitid || cut.unitid || "",
+          financial_unitid: school.financial_unitid || null,
           is_primary_tracker: school.is_primary_tracker
         }))
       )

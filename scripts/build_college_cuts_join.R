@@ -2,18 +2,16 @@
 # build_college_cuts_join.R
 # =========================================================================
 #
-# PURPOSE: Retrieve college cuts/layoffs/closures from CollegeCuts database
-#          (Supabase) and match them to the financial tracker dataset.
+# PURPOSE: Retrieve college cuts/layoffs/closures from the public
+#          College Cuts API (college-cuts.com/api/cuts) and match them
+#          to the financial tracker dataset.
 #
 # DOMAIN: College cuts = layoffs, program cuts, hiring freezes, campus/department
 #         closures, and institution closures announced by universities.
 #
 # INPUTS:
 #   - Financial tracker CSV (latest year data with institution info and metrics)
-#   - CollegeCuts Supabase tables:
-#     * institutions  (metadata about each school in the cuts database)
-#     * program_cuts  (individual cut announcements and details)
-#     * sources       (article/publication metadata)
+#   - College Cuts public API: GET /api/cuts?status=confirmed (no auth required)
 #
 # OUTPUTS:
 #   - college_cuts_financial_tracker_cut_level_joined.csv
@@ -23,10 +21,10 @@
 #   - college_cuts_financial_tracker_workbook.xlsx
 #
 # WORKFLOW:
-#   1. Fetch institutions, program_cuts, and sources tables from Supabase
+#   1. Fetch all confirmed cuts from the public API (paginated)
 #   2. Load financial tracker and normalize institution names
-#   3. Build matching lookup tables (direct UNITID, fuzzy name+state match)
-#   4. Join cuts to institutions, then to financial tracker
+#   3. Build matching lookup tables (fuzzy name+state match)
+#   4. Join cuts to financial tracker
 #   5. Calculate financial_warning_count (6 red flags in latest year)
 #   6. Build institution-level summary
 #   7. Extract financial trends for all matched institutions
@@ -34,9 +32,8 @@
 #   9. Write outputs as CSVs and Excel workbook
 #
 # MATCHING STRATEGY:
-#   Priority 1: Direct UNITID from CollegeCuts institutions table
-#   Priority 2: Normalized name + state fallback
-#   Priority 3: Unmatched (flagged for manual review)
+#   Priority 1: Normalized name + state fallback
+#   Priority 2: Unmatched (flagged for manual review)
 
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
@@ -57,103 +54,11 @@ main <- function(cli_args = NULL) {
     "--output-prefix",
     file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_financial_tracker")
   )
-  cache_dir <- get_arg_value(
-    "--cache-dir",
-    file.path(getwd(), "data_pipelines", "college_cuts", "cache")
-  )
-  cuts_csv <- get_arg_value(
-    "--cuts-csv",
-    file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_export.csv")
-  )
-
-  # -----------------------------------------------------------------------
-  # SUPABASE API CREDENTIALS (optional - CSV fallback is available)
-  # If credentials are set, use Supabase.
-  # Otherwise, will try CSV fallback if available.
-  supabase_url <- Sys.getenv("COLLEGE_CUTS_SUPABASE_URL", unset = "")
-  supabase_key <- Sys.getenv("COLLEGE_CUTS_SUPABASE_ANON_KEY", unset = "")
-
-  # Note: Supabase credential check moved to later in script to allow CSV fallback
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
   }
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
-  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-
-  # -----------------------------------------------------------------------
-  # HELPER: Build Supabase REST API URL
-  build_url <- function(table_name) {
-    paste0(
-      supabase_url,
-      "/rest/v1/",
-      utils::URLencode(table_name, reserved = TRUE)
-    )
-  }
-
-  # -----------------------------------------------------------------------
-  # HELPER: Fetch table from Supabase with cache fallback
-  fetch_table_csv <- function(table_name, select = "*", order = NULL, page_size = 1000) {
-    cache_path <- file.path(cache_dir, paste0(table_name, ".csv"))
-    start <- 0L
-    pieces <- list()
-    live_result <- tryCatch({
-      repeat {
-        req <- httr2::request(build_url(table_name)) |>
-          httr2::req_headers(
-            apikey = supabase_key,
-            Authorization = paste("Bearer", supabase_key),
-            Accept = "text/csv",
-            Prefer = "count=exact",
-            Range = paste0(start, "-", start + page_size - 1L),
-            `Range-Unit` = "items"
-          ) |>
-          httr2::req_url_query(select = select)
-
-        if (!is.null(order)) {
-          req <- httr2::req_url_query(req, order = order)
-        }
-
-        resp <- httr2::req_perform(req)
-        body <- httr2::resp_body_string(resp)
-
-        if (!nzchar(trimws(body))) {
-          break
-        }
-
-        batch <- readr::read_csv(I(body), show_col_types = FALSE, progress = FALSE)
-        if (nrow(batch) == 0) {
-          break
-        }
-
-        pieces[[length(pieces) + 1L]] <- batch
-
-        if (nrow(batch) < page_size) {
-          break
-        }
-
-        start <- start + page_size
-      }
-
-      dplyr::bind_rows(pieces)
-    }, error = function(e) e)
-
-    if (!inherits(live_result, "error") && nrow(live_result) > 0) {
-      write_csv_atomic(live_result, cache_path)
-      return(live_result)
-    }
-
-    if (file.exists(cache_path)) {
-      message("Falling back to cached College Cuts table for ", table_name)
-      return(readr::read_csv(cache_path, show_col_types = FALSE, progress = FALSE))
-    }
-
-    if (inherits(live_result, "error")) {
-      stop("Failed to fetch College Cuts table ", table_name, ": ", live_result$message)
-    }
-
-    stop("College Cuts table ", table_name, " returned no rows and no cache was available.")
-  }
 
   # -----------------------------------------------------------------------
   # HELPER: Convert state abbreviations to full names
@@ -179,12 +84,22 @@ main <- function(cli_args = NULL) {
 
   # -----------------------------------------------------------------------
   # HELPER: Normalize institution names for fuzzy matching
+  # Strips common IPEDS name decorations so API names match IPEDS entries:
+  #   - Leading "The " and "SUNY " (IPEDS adds these; API omits them)
+  #   - Trailing " Main Campus" (IPEDS appends this; API uses the bare name)
+  # Examples:
+  #   "Ohio University-Main Campus"   → "ohio university"
+  #   "The University of Texas at Dallas" → "university of texas at dallas"
+  #   "SUNY Buffalo State University"     → "buffalo state university"
   normalize_name <- function(x) {
     x |>
       as.character() |>
       stringr::str_to_lower() |>
+      stringr::str_remove("^the +") |>
+      stringr::str_remove("^suny +") |>
       stringr::str_replace_all("&", " and ") |>
       stringr::str_replace_all("[^a-z0-9 ]", " ") |>
+      stringr::str_remove("\\s+main campus$") |>
       stringr::str_squish()
   }
 
@@ -196,8 +111,6 @@ main <- function(cli_args = NULL) {
 
   # -----------------------------------------------------------------------
   # LOAD FINANCIAL TRACKER AND PREPARE FOR MATCHING
-  # (Loaded before the fetch so both Supabase and API paths can use
-  # fallback_lookup for IPEDS name+state matching.)
   message("Reading financial tracker data ...")
   financial_all <- readr::read_csv(financial_input, show_col_types = FALSE, progress = FALSE)
   latest_year <- suppressWarnings(max(financial_all$year, na.rm = TRUE))
@@ -222,165 +135,119 @@ main <- function(cli_args = NULL) {
     dplyr::select(-candidate_count)
 
   # -----------------------------------------------------------------------
-  # FETCH CUTS DATA — Supabase (if credentials set) or public API (default)
-  if (nzchar(supabase_url) && nzchar(supabase_key)) {
-    # -------------------------------------------------------------------
-    # SUPABASE PATH: fetch three tables and join into cuts_raw
-    message("Fetching CollegeCuts tables from Supabase ...")
-    institutions <- fetch_table_csv("institutions", order = "name.asc")
-    program_cuts <- fetch_table_csv("program_cuts", order = "announcement_date.desc,id.asc")
-    sources <- fetch_table_csv("sources", order = "published_at.desc,id.asc")
+  # FETCH CUTS DATA FROM PUBLIC API
+  # college-cuts.com/api/cuts — no authentication required
+  message("Fetching confirmed college cuts from college-cuts.com public API ...")
 
-    cuts_raw <- program_cuts |>
-      dplyr::left_join(
-        institutions |>
-          dplyr::rename(
-            institution_name_collegecuts = name,
-            institution_city = city,
-            institution_state_abbr = state,
-            institution_control = control,
-            institution_url = url,
-            institution_unitid = unitid,
-            institution_latitude = latitude,
-            institution_longitude = longitud,
-            institution_created_at = created_at
-          ),
-        by = c("institution_id" = "id")
-      ) |>
-      dplyr::left_join(
-        sources |>
-          dplyr::rename(
-            source_url_full = url,
-            source_title = title,
-            source_publication_name = publication,
-            source_published_at = published_at,
-            source_created_at = created_at
-          ),
-        by = c("source_id" = "id")
-      ) |>
-      dplyr::mutate(
-        institution_state_full = abbr_to_state(institution_state_abbr),
-        norm_name = normalize_name(institution_name_collegecuts)
-      ) |>
-      dplyr::left_join(
-        fallback_lookup,
-        by = c("norm_name", "institution_state_full" = "state_full")
-      ) |>
-      dplyr::mutate(
-        matched_unitid = dplyr::coalesce(institution_unitid, unitid_candidate),
-        match_method = dplyr::case_when(
-          !is.na(institution_unitid) ~ "collegecuts_institutions.unitid",
-          is.na(institution_unitid) & !is.na(unitid_candidate) ~ "normalized_name_state_fallback",
-          TRUE ~ "unmatched"
-        )
+  fetch_all_api_cuts <- function(status = "confirmed", limit = 100L) {
+    page <- 1L
+    all_rows <- list()
+    repeat {
+      url <- paste0(
+        "https://college-cuts.com/api/cuts",
+        "?status=", utils::URLencode(status, reserved = TRUE),
+        "&limit=", limit,
+        "&page=", page
       )
-
-  } else {
-    # -------------------------------------------------------------------
-    # PUBLIC API PATH: college-cuts.com/api/cuts (no auth required)
-    # Fetches all confirmed cuts, then runs the same IPEDS name+state match
-    # as the Supabase path so tracker_category and other fields are populated.
-    message("Fetching confirmed college cuts from college-cuts.com public API ...")
-
-    fetch_all_api_cuts <- function(status = "confirmed", limit = 100L) {
-      page <- 1L
-      all_rows <- list()
-      repeat {
-        url <- paste0(
-          "https://college-cuts.com/api/cuts",
-          "?status=", utils::URLencode(status, reserved = TRUE),
-          "&limit=", limit,
-          "&page=", page
-        )
-        resp <- httr2::request(url) |>
-          httr2::req_timeout(30) |>
-          httr2::req_error(is_error = function(r) FALSE) |>
-          httr2::req_perform()
-        if (httr2::resp_status(resp) != 200L) {
-          stop("College Cuts API returned HTTP ", httr2::resp_status(resp),
-               " — cannot continue without cuts data.", call. = FALSE)
-        }
-        body <- httr2::resp_body_json(resp)
-        all_rows <- c(all_rows, body$data)
-        if (page >= body$totalPages || length(body$data) == 0L) break
-        page <- page + 1L
+      resp <- httr2::request(url) |>
+        httr2::req_timeout(30) |>
+        httr2::req_error(is_error = function(r) FALSE) |>
+        httr2::req_perform()
+      if (httr2::resp_status(resp) != 200L) {
+        stop("College Cuts API returned HTTP ", httr2::resp_status(resp),
+             " — cannot continue without cuts data.", call. = FALSE)
       }
-      all_rows
+      body <- httr2::resp_body_json(resp)
+      all_rows <- c(all_rows, body$data)
+      if (page >= body$totalPages || length(body$data) == 0L) break
+      page <- page + 1L
     }
-
-    # Build a human-readable cut label from cutType + affected counts.
-    # The API's programName field mirrors the institution name for all cut types,
-    # so we construct our own label from the structured fields instead.
-    make_program_name <- function(cut_type, faculty_affected, students_affected) {
-      fa <- suppressWarnings(as.integer(faculty_affected))
-      sa <- suppressWarnings(as.integer(students_affected))
-      switch(
-        cut_type %||% "",
-        institution_closure = "Institution closure",
-        department_closure  = "Department closure",
-        hiring_freeze       = "Hiring freeze",
-        staff_layoff = paste0(
-          "Staff layoff",
-          if (!is.na(fa) && fa > 0L) paste0(" (", fa, " positions affected)") else ""
-        ),
-        program_suspension = paste0(
-          "Programs suspended",
-          if (!is.na(sa) && sa > 0L) paste0(" (", sa, " students affected)") else ""
-        ),
-        stringr::str_to_title(gsub("_", " ", cut_type %||% "Unknown"))
-      )
-    }
-
-    api_records <- fetch_all_api_cuts("confirmed")
-    message("Fetched ", length(api_records), " confirmed cuts from API")
-
-    cuts_raw <- dplyr::bind_rows(lapply(api_records, function(x) {
-      fa <- if (!is.null(x$facultyAffected))  suppressWarnings(as.integer(x$facultyAffected))  else NA_integer_
-      sa <- if (!is.null(x$studentsAffected)) suppressWarnings(as.integer(x$studentsAffected)) else NA_integer_
-      tibble::tibble(
-        id                           = x$id %||% NA_character_,
-        program_name                 = make_program_name(x$cutType, fa, sa),
-        cut_type                     = x$cutType %||% NA_character_,
-        announcement_date            = x$announcementDate %||% NA_character_,
-        effective_term               = x$effectiveTerm %||% NA_character_,
-        status                       = x$status %||% NA_character_,
-        students_affected            = sa,
-        faculty_affected             = fa,
-        cip_code                     = x$cipCode %||% NA_character_,
-        notes                        = x$notes %||% NA_character_,
-        institution_id               = NA_character_,
-        institution_name_collegecuts = x$institution %||% NA_character_,
-        institution_city             = NA_character_,
-        institution_state_abbr       = x$state %||% NA_character_,
-        institution_state_full       = abbr_to_state(x$state %||% ""),
-        institution_control          = x$control %||% NA_character_,
-        institution_url              = NA_character_,
-        institution_unitid           = NA_integer_,
-        source_id                    = NA_character_,
-        source_url_full              = x$sourceUrl %||% NA_character_,
-        source_title                 = NA_character_,
-        source_publication_name      = x$sourcePublication %||% NA_character_,
-        source_published_at          = NA_character_
-      )
-    })) |>
-      dplyr::filter(
-        !is.na(institution_name_collegecuts),
-        nzchar(institution_name_collegecuts)
-      ) |>
-      dplyr::mutate(norm_name = normalize_name(institution_name_collegecuts)) |>
-      dplyr::left_join(
-        fallback_lookup,
-        by = c("norm_name", "institution_state_full" = "state_full")
-      ) |>
-      dplyr::mutate(
-        matched_unitid = unitid_candidate,
-        match_method = dplyr::if_else(
-          !is.na(unitid_candidate),
-          "normalized_name_state_fallback",
-          "unmatched"
-        )
-      )
+    all_rows
   }
+
+  # Build a human-readable cut label.
+  # Prefers the API's own programName when it is non-empty and not just a copy
+  # of the institution name (the API sometimes sets programName = institution).
+  # Falls back to a label constructed from cutType + affected counts.
+  make_program_name <- function(api_program_name, institution_name, cut_type,
+                                faculty_affected, students_affected) {
+    fa <- suppressWarnings(as.integer(faculty_affected))
+    sa <- suppressWarnings(as.integer(students_affected))
+    generic_label <- switch(
+      cut_type %||% "",
+      institution_closure = "Institution closure",
+      department_closure  = "Department closure",
+      hiring_freeze       = "Hiring freeze",
+      staff_layoff = paste0(
+        "Staff layoff",
+        if (!is.na(fa) && fa > 0L) paste0(" (", fa, " positions affected)") else ""
+      ),
+      program_suspension = paste0(
+        "Programs suspended",
+        if (!is.na(sa) && sa > 0L) paste0(" (", sa, " students affected)") else ""
+      ),
+      stringr::str_to_title(gsub("_", " ", cut_type %||% "Unknown"))
+    )
+    api_name <- trimws(api_program_name %||% "")
+    inst_name <- trimws(institution_name %||% "")
+    # Use the API program name unless it's blank or just echoes the institution
+    if (nzchar(api_name) && !identical(tolower(api_name), tolower(inst_name))) {
+      api_name
+    } else {
+      generic_label
+    }
+  }
+
+  api_records <- fetch_all_api_cuts("confirmed")
+  message("Fetched ", length(api_records), " confirmed cuts from API")
+
+  cuts_raw <- dplyr::bind_rows(lapply(api_records, function(x) {
+    fa <- if (!is.null(x$facultyAffected))  suppressWarnings(as.integer(x$facultyAffected))  else NA_integer_
+    sa <- if (!is.null(x$studentsAffected)) suppressWarnings(as.integer(x$studentsAffected)) else NA_integer_
+    inst <- x$institution %||% ""
+    tibble::tibble(
+      id                           = x$id %||% NA_character_,
+      program_name                 = make_program_name(x$programName, inst, x$cutType, fa, sa),
+      cut_type                     = x$cutType %||% NA_character_,
+      announcement_date            = x$announcementDate %||% NA_character_,
+      effective_term               = x$effectiveTerm %||% NA_character_,
+      status                       = x$status %||% NA_character_,
+      students_affected            = sa,
+      faculty_affected             = fa,
+      cip_code                     = x$cipCode %||% NA_character_,
+      notes                        = x$notes %||% NA_character_,
+      institution_id               = NA_character_,
+      institution_name_collegecuts = if (nzchar(inst)) inst else NA_character_,
+      institution_city             = NA_character_,
+      institution_state_abbr       = x$state %||% NA_character_,
+      institution_state_full       = abbr_to_state(x$state %||% ""),
+      institution_control          = x$control %||% NA_character_,
+      institution_url              = NA_character_,
+      institution_unitid           = NA_integer_,
+      source_id                    = NA_character_,
+      source_url_full              = x$sourceUrl %||% NA_character_,
+      source_title                 = NA_character_,
+      source_publication_name      = x$sourcePublication %||% NA_character_,
+      source_published_at          = NA_character_
+    )
+  })) |>
+    dplyr::filter(
+      !is.na(institution_name_collegecuts),
+      nzchar(institution_name_collegecuts)
+    ) |>
+    dplyr::mutate(norm_name = normalize_name(institution_name_collegecuts)) |>
+    dplyr::left_join(
+      fallback_lookup,
+      by = c("norm_name", "institution_state_full" = "state_full")
+    ) |>
+    dplyr::mutate(
+      matched_unitid = unitid_candidate,
+      match_method = dplyr::if_else(
+        !is.na(unitid_candidate),
+        "normalized_name_state_fallback",
+        "unmatched"
+      )
+    )
 
   # -----------------------------------------------------------------------
   # SELECT FINANCIAL FIELDS TO ATTACH TO CUT RECORDS
@@ -669,4 +536,96 @@ main <- function(cli_args = NULL) {
       institution_state_abbr,
       institution_state_full,
       institution_control,
-      institut
+      institution_unitid,
+      matched_unitid,
+      match_method,
+      source_url,
+      source_publication
+    ) |>
+    dplyr::arrange(institution_name_collegecuts, dplyr::desc(announcement_date))
+
+  # -----------------------------------------------------------------------
+  # BUILD OVERVIEW SUMMARY TABLE
+  overview <- tibble::tibble(
+    metric = c(
+      "Cuts records",
+      "Distinct institutions in cuts data",
+      "Institutions with direct UNITID from CollegeCuts",
+      "Institutions matched by normalized name/state fallback",
+      "Institutions unmatched to financial tracker",
+      "Institutions matched to financial tracker",
+      "Latest financial tracker year used"
+    ),
+    value = c(
+      nrow(cuts_joined),
+      dplyr::n_distinct(cuts_joined$institution_name_collegecuts),
+      sum(cuts_joined$match_method == "collegecuts_institutions.unitid", na.rm = TRUE),
+      sum(cuts_joined$match_method == "normalized_name_state_fallback", na.rm = TRUE),
+      dplyr::n_distinct(unmatched_for_review$institution_name_collegecuts),
+      dplyr::n_distinct(cuts_joined$matched_unitid[cuts_joined$in_financial_tracker]),
+      latest_year
+    )
+  )
+
+  # -----------------------------------------------------------------------
+  # PREPARE OUTPUT FILE PATHS
+  cut_level_csv <- paste0(output_prefix, "_cut_level_joined.csv")
+  institution_csv <- paste0(output_prefix, "_institution_summary.csv")
+  trends_csv <- paste0(output_prefix, "_financial_trends.csv")
+  unmatched_csv <- paste0(output_prefix, "_unmatched_for_review.csv")
+  workbook_xlsx <- paste0(output_prefix, "_workbook.xlsx")
+
+  if (nrow(cuts_joined) == 0 || nrow(cuts_institutions_summary) == 0) {
+    stop("College cuts refresh produced empty outputs; existing published files were left unchanged.")
+  }
+
+  # -----------------------------------------------------------------------
+  # WRITE CSV OUTPUTS
+  message("Writing outputs ...")
+  write_csv_atomic(cuts_joined, cut_level_csv)
+  write_csv_atomic(cuts_institutions_summary, institution_csv)
+  write_csv_atomic(financial_trends, trends_csv)
+  write_csv_atomic(unmatched_for_review, unmatched_csv)
+
+  # -----------------------------------------------------------------------
+  # WRITE EXCEL WORKBOOK
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, "overview")
+  openxlsx::addWorksheet(wb, "cuts_joined")
+  openxlsx::addWorksheet(wb, "inst_summary")
+  openxlsx::addWorksheet(wb, "fin_trends")
+  openxlsx::addWorksheet(wb, "unmatched")
+
+  openxlsx::writeData(wb, "overview", overview)
+  openxlsx::writeData(wb, "cuts_joined", cuts_joined)
+  openxlsx::writeData(wb, "inst_summary", cuts_institutions_summary)
+  openxlsx::writeData(wb, "fin_trends", financial_trends)
+  openxlsx::writeData(wb, "unmatched", unmatched_for_review)
+  workbook_tmp <- paste0(workbook_xlsx, ".tmp")
+  if (file.exists(workbook_tmp)) file.remove(workbook_tmp)
+  openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)
+  if (file.exists(workbook_xlsx)) file.remove(workbook_xlsx)
+  file.rename(workbook_tmp, workbook_xlsx)
+
+  # -----------------------------------------------------------------------
+  # LOG COMPLETION
+  message("Saved: ", cut_level_csv)
+  message("Saved: ", institution_csv)
+  message("Saved: ", trends_csv)
+  message("Saved: ", unmatched_csv)
+  message("Saved: ", workbook_xlsx)
+
+  invisible(
+    list(
+      overview = overview,
+      cuts_joined = cuts_joined,
+      institution_summary = cuts_institutions_summary,
+      financial_trends = financial_trends,
+      unmatched_for_review = unmatched_for_review
+    )
+  )
+}
+
+if (sys.nframe() == 0) {
+  main()
+}

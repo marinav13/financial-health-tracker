@@ -1,83 +1,181 @@
-institution_name_api,unitid,state_full,tracker_institution_name
-Purdue University,243780,Indiana,Purdue University
-St. Catherine University,175005,Minnesota,St. Catherine University
-St. Cloud State University,174783,Minnesota,St. Cloud State University
-St. Norbert College,239716,Wisconsin,St. Norbert College
-University of Akron,200800,Ohio,University of Akron
-"University of California, Los Angeles",110662,California,"University of California, Los Angeles"
-"University of California, Santa Cruz",110714,California,"University of California, Santa Cruz"
-University of Arizona,104179,Arizona,University of Arizona
-Sonoma State University,123572,California,Sonoma State University
-Buffalo State University,196130,New York,Buffalo State University
-University of Minnesota,174066,Minnesota,University of Minnesota
-University of Minnesota System,174066,Minnesota,University of Minnesota System
-University of New Hampshire,183044,New Hampshire,University of New Hampshire
-University of Southern California,123961,California,University of Southern California
-Indiana University Bloomington,151351,Indiana,Indiana University Bloomington
-Johnson & Wales University,217235,Rhode Island,Johnson & Wales University
-Kent State University,203517,Ohio,Kent State University
-California Polytechnic State University,110422,California,California Polytechnic State University
-University of Wisconsin,240453,Wisconsin,University of Wisconsin
-Pennsylvania State University,214777,Pennsylvania,Pennsylvania State University
-Texas A&M University,483036,Texas,Texas A&M University
-Vanderbilt University Medical Center,221999,Tennessee,Vanderbilt University Medical Center
-American University,131159,District of Columbia,American University
-Jacksonville University,134945,Florida,Jacksonville University
-Columbia College Chicago,144281,Illinois,Columbia College Chicago
-Western Illinois University,149772,Illinois,Western Illinois University
-Ball State University,150136,Indiana,Ball State University
-Ivy Tech Community College,150987,Indiana,Ivy Tech Community College
-Valparaiso University,152600,Indiana,Valparaiso University
-Drake University,153269,Iowa,Drake University
-Johns Hopkins University,162928,Maryland,Johns Hopkins University
-Boston University,164988,Massachusetts,Boston University
-Clark University,165334,Massachusetts,Clark University
-Eastern Nazarene College,165644,Massachusetts,Eastern Nazarene College
-Emerson College,165662,Massachusetts,Emerson College
-Bard College at Simon's Rock,167792,Massachusetts,Bard College at Simon's Rock
-Concordia University Ann Arbor,169363,Michigan,Concordia University Ann Arbor
-Siena Heights University,172264,Michigan,Siena Heights University
-Mississippi College,176053,Mississippi,Mississippi College
-Fontbonne University,177418,Missouri,Fontbonne University
-Lindenwood University,177968,Missouri,Lindenwood University
-Saint Louis University,179159,Missouri,Saint Louis University
-Southern New Hampshire University,183026,New Hampshire,Southern New Hampshire University
-Jamestown Business College,192004,New York,Jamestown Business College
-Monroe Community College,193326,New York,Monroe Community College
-Roberts Wesleyan University,194958,New York,Roberts Wesleyan University
-Wagner College,197197,New York,Wagner College
-University of North Carolina at Greensboro,199148,North Carolina,University of North Carolina at Greensboro
-Saint Augustine's University,199582,North Carolina,Saint Augustine's University
-Eastern Gateway Community College,203331,Ohio,Eastern Gateway Community College
-Marietta College,203845,Ohio,Marietta College
-University of Toledo,206084,Ohio,University of Toledo
-Washington State University,236939,District of Columbia,Washington State University
-Columbia University,190150,New York,Columbia University
-Union Institute & University,206279,Ohio,Union Institute & University
-Wittenberg University,206525,Ohio,Wittenberg University
-University of Oregon,209551,Oregon,University of Oregon
-Portland Community College,209746,Oregon,Portland Community College
-Portland State University,209807,Oregon,Portland State University
-Albright College,210571,Pennsylvania,Albright College
-Drexel University,212054,Pennsylvania,Drexel University
-Elizabethtown College,212197,Pennsylvania,Elizabethtown College
-Keystone College,213303,Pennsylvania,Keystone College
-Mercyhurst University,213987,Pennsylvania,Mercyhurst University
-University of the Arts,215105,Pennsylvania,University of the Arts
-Temple University,216339,Pennsylvania,Temple University
-Limestone University,218238,South Carolina,Limestone University
-Tennessee State University,221838,Tennessee,Tennessee State University
-Utah State University,230728,Utah,Utah State University
-Utah Valley University,230737,Utah,Utah Valley University
-Weber State University,230782,Utah,Weber State University
-Averett University,231420,Virginia,Averett University
-University of Lynchburg,232609,Virginia,University of Lynchburg
-Western Washington University,237011,Washington,Western Washington University
-Whitman College,237057,Washington,Whitman College
-Alverno College,238193,Wisconsin,Alverno College
-Marquette University,239105,Wisconsin,Marquette University
-Northland College,239512,Wisconsin,Northland College
-University of Wisconsin-Green Bay,240277,Wisconsin,University of Wisconsin-Green Bay
-Stanford University,243744,California,Stanford University
-University of Antelope Valley,442930,California,University of Antelope Valley
-Kennesaw State University,486840,Georgia,Kennesaw State University
+institution_name_api,unitid,state_full,tracker_institution_name,match_source
+Purdue University,243780,Indiana,Purdue University,supabase
+St. Catherine University,175005,Minnesota,St. Catherine University,supabase
+St. Cloud State University,174783,Minnesota,St. Cloud State University,supabase
+St. Norbert College,239716,Wisconsin,St. Norbert College,supabase
+University of Akron,200800,Ohio,University of Akron,supabase
+"University of California, Los Angeles",110662,California,"University of California, Los Angeles",supabase
+"University of California, Santa Cruz",110714,California,"University of California, Santa Cruz",supabase
+University of Arizona,104179,Arizona,University of Arizona,supabase
+Sonoma State University,123572,California,Sonoma State University,supabase
+Buffalo State University,196130,New York,Buffalo State University,supabase
+University of Minnesota,174066,Minnesota,University of Minnesota,supabase
+University of Minnesota System,174066,Minnesota,University of Minnesota System,supabase
+University of New Hampshire,183044,New Hampshire,University of New Hampshire,supabase
+University of Southern California,123961,California,University of Southern California,supabase
+Indiana University Bloomington,151351,Indiana,Indiana University Bloomington,supabase
+Johnson & Wales University,217235,Rhode Island,Johnson & Wales University,supabase
+Kent State University,203517,Ohio,Kent State University,supabase
+California Polytechnic State University,110422,California,California Polytechnic State University,supabase
+University of Wisconsin,240453,Wisconsin,University of Wisconsin,supabase
+Pennsylvania State University,214777,Pennsylvania,Pennsylvania State University,supabase
+Texas A&M University,483036,Texas,Texas A&M University,supabase
+Vanderbilt University Medical Center,221999,Tennessee,Vanderbilt University Medical Center,supabase
+American University,131159,District of Columbia,American University,supabase
+Jacksonville University,134945,Florida,Jacksonville University,supabase
+Columbia College Chicago,144281,Illinois,Columbia College Chicago,supabase
+Western Illinois University,149772,Illinois,Western Illinois University,supabase
+Ball State University,150136,Indiana,Ball State University,supabase
+Ivy Tech Community College,150987,Indiana,Ivy Tech Community College,supabase
+Valparaiso University,152600,Indiana,Valparaiso University,supabase
+Drake University,153269,Iowa,Drake University,supabase
+Johns Hopkins University,162928,Maryland,Johns Hopkins University,supabase
+Boston University,164988,Massachusetts,Boston University,supabase
+Clark University,165334,Massachusetts,Clark University,supabase
+Eastern Nazarene College,165644,Massachusetts,Eastern Nazarene College,supabase
+Emerson College,165662,Massachusetts,Emerson College,supabase
+Bard College at Simon's Rock,167792,Massachusetts,Bard College at Simon's Rock,supabase
+Concordia University Ann Arbor,169363,Michigan,Concordia University Ann Arbor,supabase
+Siena Heights University,172264,Michigan,Siena Heights University,supabase
+Mississippi College,176053,Mississippi,Mississippi College,supabase
+Fontbonne University,177418,Missouri,Fontbonne University,supabase
+Lindenwood University,177968,Missouri,Lindenwood University,supabase
+Saint Louis University,179159,Missouri,Saint Louis University,supabase
+Southern New Hampshire University,183026,New Hampshire,Southern New Hampshire University,supabase
+Jamestown Business College,192004,New York,Jamestown Business College,supabase
+Monroe Community College,193326,New York,Monroe Community College,supabase
+Roberts Wesleyan University,194958,New York,Roberts Wesleyan University,supabase
+Wagner College,197197,New York,Wagner College,supabase
+University of North Carolina at Greensboro,199148,North Carolina,University of North Carolina at Greensboro,supabase
+Saint Augustine's University,199582,North Carolina,Saint Augustine's University,supabase
+Eastern Gateway Community College,203331,Ohio,Eastern Gateway Community College,supabase
+Marietta College,203845,Ohio,Marietta College,supabase
+University of Toledo,206084,Ohio,University of Toledo,supabase
+Washington State University,236939,District of Columbia,Washington State University,supabase
+Columbia University,190150,New York,Columbia University,supabase
+Union Institute & University,206279,Ohio,Union Institute & University,supabase
+Wittenberg University,206525,Ohio,Wittenberg University,supabase
+University of Oregon,209551,Oregon,University of Oregon,supabase
+Portland Community College,209746,Oregon,Portland Community College,supabase
+Portland State University,209807,Oregon,Portland State University,supabase
+Albright College,210571,Pennsylvania,Albright College,supabase
+Drexel University,212054,Pennsylvania,Drexel University,supabase
+Elizabethtown College,212197,Pennsylvania,Elizabethtown College,supabase
+Keystone College,213303,Pennsylvania,Keystone College,supabase
+Mercyhurst University,213987,Pennsylvania,Mercyhurst University,supabase
+University of the Arts,215105,Pennsylvania,University of the Arts,supabase
+Temple University,216339,Pennsylvania,Temple University,supabase
+Limestone University,218238,South Carolina,Limestone University,supabase
+Tennessee State University,221838,Tennessee,Tennessee State University,supabase
+Utah State University,230728,Utah,Utah State University,supabase
+Utah Valley University,230737,Utah,Utah Valley University,supabase
+Weber State University,230782,Utah,Weber State University,supabase
+Averett University,231420,Virginia,Averett University,supabase
+University of Lynchburg,232609,Virginia,University of Lynchburg,supabase
+Western Washington University,237011,Washington,Western Washington University,supabase
+Whitman College,237057,Washington,Whitman College,supabase
+Alverno College,238193,Wisconsin,Alverno College,supabase
+Marquette University,239105,Wisconsin,Marquette University,supabase
+Northland College,239512,Wisconsin,Northland College,supabase
+University of Wisconsin-Green Bay,240277,Wisconsin,University of Wisconsin-Green Bay,supabase
+Stanford University,243744,California,Stanford University,supabase
+University of Antelope Valley,442930,California,University of Antelope Valley,supabase
+Kennesaw State University,486840,Georgia,Kennesaw State University,supabase
+University of Connecticut,129020,Connecticut,University of Connecticut,ipeds_name_match
+Wake Forest University,199847,North Carolina,Wake Forest University,ipeds_name_match
+Texas A&M University–Kingsville,228705,Texas,Texas A&M University-Kingsville,ipeds_name_match
+Duke University,198419,North Carolina,Duke University,ipeds_name_match
+Barnard College,189097,New York,Barnard College,ipeds_name_match
+Moody Bible Institute,147369,Illinois,Moody Bible Institute,ipeds_name_match
+Carnegie Mellon University,211440,Pennsylvania,Carnegie Mellon University,ipeds_name_match
+Meredith College,198950,North Carolina,Meredith College,ipeds_name_match
+Princeton University,186131,New Jersey,Princeton University,ipeds_name_match
+Milligan University,486901,Tennessee,Milligan University,ipeds_name_match
+Ohio University,204857,Ohio,Ohio University-Main Campus,ipeds_name_match
+Middlebury College,230959,Vermont,Middlebury College,ipeds_name_match
+Bennington College,230816,Vermont,Bennington College,ipeds_name_match
+University of Texas at Austin,228778,Texas,The University of Texas at Austin,ipeds_name_match
+University of Maine,161253,Maine,University of Maine,ipeds_name_match
+St. Francis College,195173,New York,St. Francis College,ipeds_name_match
+Tuskegee University,102377,Alabama,Tuskegee University,ipeds_name_match
+Franklin & Marshall College,212577,Pennsylvania,Franklin and Marshall College,ipeds_name_match
+Our Lady of the Lake University,227331,Texas,Our Lady of the Lake University,ipeds_name_match
+California Lutheran University,110413,California,California Lutheran University,ipeds_name_match
+Emory University,139658,Georgia,Emory University,ipeds_name_match
+West Virginia University,238032,West Virginia,West Virginia University,ipeds_name_match
+University of New England,161457,Maine,University of New England,ipeds_name_match
+University of North Alabama,101879,Alabama,University of North Alabama,ipeds_name_match
+East Carolina University,198464,North Carolina,East Carolina University,ipeds_name_match
+"University of Maryland, Baltimore",163259,Maryland,"University of Maryland, Baltimore",ipeds_name_match
+"University of Tennessee, Knoxville",221759,Tennessee,The University of Tennessee-Knoxville,ipeds_name_match
+University of Montevallo,101709,Alabama,University of Montevallo,ipeds_name_match
+University of Texas at Dallas,228787,Texas,The University of Texas at Dallas,ipeds_name_match
+University of Houston,225511,Texas,University of Houston,ipeds_name_match
+Southern Oregon University,210146,Oregon,Southern Oregon University,ipeds_name_match
+Prairie View A&M University,227526,Texas,Prairie View A & M University,ipeds_name_match
+University of Utah,230764,Utah,University of Utah,ipeds_name_match
+University of Illinois Urbana-Champaign,145637,Illinois,University of Illinois Urbana-Champaign,ipeds_name_match
+Kalamazoo College,170532,Michigan,Kalamazoo College,ipeds_name_match
+Southern Illinois University Edwardsville,149231,Illinois,Southern Illinois University Edwardsville,ipeds_name_match
+University of Chicago,144050,Illinois,University of Chicago,ipeds_name_match
+University of Wisconsin–Madison,240444,Wisconsin,University of Wisconsin-Madison,ipeds_name_match
+Northwestern University,147767,Illinois,Northwestern University,ipeds_name_match
+St. Andrews University,199698,North Carolina,St. Andrews University,ipeds_name_match
+Michigan State University,171100,Michigan,Michigan State University,ipeds_name_match
+The College of Saint Rose,195234,New York,The College of Saint Rose,ipeds_name_match
+University of Wisconsin-Madison,240444,Wisconsin,University of Wisconsin-Madison,ipeds_name_match
+University of Florida,134130,Florida,University of Florida,ipeds_name_match
+Xavier University,206622,Ohio,Xavier University,ipeds_name_match
+University of Iowa,153658,Iowa,University of Iowa,ipeds_name_match
+Suffolk University,168005,Massachusetts,Suffolk University,ipeds_name_match
+Bowling Green State University,201441,Ohio,Bowling Green State University-Main Campus,ipeds_name_match
+School of Visual Arts,197151,New York,School of Visual Arts,ipeds_name_match
+Stevens Institute of Technology,186867,New Jersey,Stevens Institute of Technology,ipeds_name_match
+California Institute of Technology,110404,California,California Institute of Technology,ipeds_name_match
+Purdue University Fort Wayne,151102,Indiana,Purdue University Fort Wayne,ipeds_name_match
+Brandeis University,165015,Massachusetts,Brandeis University,ipeds_name_match
+University of New Orleans,159939,Louisiana,University of New Orleans,ipeds_name_match
+Cornish College of the Arts,235024,Washington,Cornish College of the Arts,ipeds_name_match
+Brown University,217156,Rhode Island,Brown University,ipeds_name_match
+Washington University in St. Louis,179867,Missouri,Washington University in St Louis,ipeds_name_match
+Berklee College of Music,164748,Massachusetts,Berklee College of Music,ipeds_name_match
+Cleveland State University,202134,Ohio,Cleveland State University,ipeds_name_match
+Bucknell University,211291,Pennsylvania,Bucknell University,ipeds_name_match
+Nebraska Wesleyan University,181446,Nebraska,Nebraska Wesleyan University,ipeds_name_match
+Harvard University,166027,Massachusetts,Harvard University,ipeds_name_match
+Eastern Illinois University,144892,Illinois,Eastern Illinois University,ipeds_name_match
+University of Northern Colorado,127741,Colorado,University of Northern Colorado,ipeds_name_match
+University of Louisiana at Lafayette,160658,Louisiana,University of Louisiana at Lafayette,ipeds_name_match
+Xavier University of Louisiana,160904,Louisiana,Xavier University of Louisiana,ipeds_name_match
+Huntington University,150941,Indiana,Huntington University,ipeds_name_match
+Trinity Christian College,149505,Illinois,Trinity Christian College,ipeds_name_match
+University of St. Francis,148584,Illinois,University of St Francis,ipeds_name_match
+Keene State College,183062,New Hampshire,Keene State College,ipeds_name_match
+Sterling College,231095,Vermont,Sterling College,ipeds_name_match
+Rider University,186283,New Jersey,Rider University,ipeds_name_match
+University of Nebraska-Lincoln,181464,Nebraska,University of Nebraska-Lincoln,ipeds_name_match
+University of Central Florida,132903,Florida,University of Central Florida,ipeds_name_match
+School of the Art Institute of Chicago,143048,Illinois,School of the Art Institute of Chicago,ipeds_name_match
+Cornell College,153162,Iowa,Cornell College,ipeds_name_match
+College of Idaho,142294,Idaho,The College of Idaho,ipeds_name_match
+The College of Idaho,142294,Idaho,The College of Idaho,ipeds_name_match
+Martin University,151810,Indiana,Martin University,ipeds_name_match
+DePaul University,144740,Illinois,DePaul University,ipeds_name_match
+Christian Brothers University,219833,Tennessee,Christian Brothers University,ipeds_name_match
+Eastern Washington University,235097,Washington,Eastern Washington University,ipeds_name_match
+Lincoln University,117557,California,Lincoln University,ipeds_name_match
+California College of the Arts,110370,California,California College of the Arts,ipeds_name_match
+New Jersey City University,185129,New Jersey,New Jersey City University,ipeds_name_match
+Pennsylvania Western University,498571,Pennsylvania,Pennsylvania Western University,ipeds_name_match
+University of Montana,180489,Montana,The University of Montana,ipeds_name_match
+Idaho State University,142276,Idaho,Idaho State University,ipeds_name_match
+Union College,196866,New York,Union College,ipeds_name_match
+College of Wooster,206589,Ohio,The College of Wooster,ipeds_name_match
+Central State University,201690,Ohio,Central State University,ipeds_name_match
+The New School,193654,New York,The New School,ipeds_name_match
+Syracuse University,196413,New York,Syracuse University,ipeds_name_match
+College of St. Scholastica,174899,Minnesota,The College of Saint Scholastica,ipeds_name_match
+University of North Texas,227216,Texas,University of North Texas,ipeds_name_match
+Oakland City University,152099,Indiana,Oakland City University,ipeds_name_match
+Hampshire College,166018,Massachusetts,Hampshire College,ipeds_name_match
+"University of California, Berkeley",110635,California,University of California-Berkeley,ipeds_name_match

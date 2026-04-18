@@ -178,7 +178,7 @@
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => `
       <tr>
-        <td>${financePageLink(cut.unitid, cut.institution_name || "")}</td>
+        <td>${financePageLink(cut.financial_unitid, cut.institution_name || "")}</td>
         <td>${cut.state || ""}</td>
         <td>${cut.control_label || ""}</td>
         <td>${(cut.program_name || "") + formatAffectedCount(cut)}</td>
@@ -525,7 +525,7 @@
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       const closures = buildRecentClosures(closureData, schoolsIndex);
       setSectionVisible("cuts-other-list", true);
-      setSectionVisible("cuts-closures-list", true);
+      setSectionVisible("cuts-closures-list", false);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
       if (closuresTitle) closuresTitle.textContent = "Closures at 4-year institutions, 2024-2026";

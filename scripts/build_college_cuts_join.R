@@ -138,19 +138,69 @@ main <- function(cli_args = NULL) {
     dplyr::select(-candidate_count)
 
   # Manual overrides for API names that can't be auto-matched by name normalization.
+  # The API often uses shorter names than IPEDS (e.g. "Columbia University" vs
+  # "Columbia University in the City of New York"). These overrides map the
+  # normalized API name + state to the correct IPEDS unitid.
   # These supplement the lookup; existing entries are not replaced.
   manual_aliases <- tibble::tibble(
     norm_name  = c(
-      "texas a and m university",          # API: "Texas A&M University" → ambiguous (multiple campuses)
-      "university of texas hsch",          # API: "University of Texas HSCH" → UT Health Science Center Houston
-      "university of texas health science center at houston"  # alternate full-name form
+      # Texas
+      "texas a and m university",
+      "university of texas hsch",
+      "university of texas health science center at houston",
+      # New York
+      "columbia university",
+      # Indiana (API uses bare system name → map to flagship)
+      "indiana university",
+      # New Jersey (API uses bare system name → map to flagship)
+      "rutgers university",
+      # Rhode Island
+      "johnson and wales university",
+      # California
+      "california polytechnic saint university",   # after st→saint expansion
+      "california polytechnic state university",   # alternate without expansion
+      # Washington
+      "washington state university",
+      # Tennessee
+      "vanderbilt university",
+      # Minnesota (API "University of Minnesota" → Twin Cities flagship)
+      "university of minnesota"
     ),
-    state_full = c("Texas", "Texas", "Texas"),
-    unitid_candidate = c(228723L, 229300L, 229300L),
+    state_full = c(
+      "Texas", "Texas", "Texas",
+      "New York",
+      "Indiana",
+      "New Jersey",
+      "Rhode Island",
+      "California", "California",
+      "Washington",
+      "Tennessee",
+      "Minnesota"
+    ),
+    unitid_candidate = c(
+      228723L, 229300L, 229300L,
+      190150L,
+      151351L,
+      186380L,
+      217235L,
+      110422L, 110422L,
+      236939L,
+      221999L,
+      174066L
+    ),
     fallback_tracker_institution_name = c(
       "Texas A&M University-College Station",
       "The University of Texas Health Science Center at Houston",
-      "The University of Texas Health Science Center at Houston"
+      "The University of Texas Health Science Center at Houston",
+      "Columbia University in the City of New York",
+      "Indiana University-Bloomington",
+      "Rutgers University-New Brunswick",
+      "Johnson & Wales University-Providence",
+      "California Polytechnic State University-San Luis Obispo",
+      "California Polytechnic State University-San Luis Obispo",
+      "Washington State University",
+      "Vanderbilt University",
+      "University of Minnesota-Twin Cities"
     )
   )
   fallback_lookup <- dplyr::bind_rows(

@@ -234,22 +234,96 @@ pick_first_present <- function(df, candidates) {
   Reduce(function(x, y) dplyr::coalesce(x, y), values)
 }
 
-# Builds a named list of aggregated values by group (e.g., sector).
-# Used to create benchmark lookup tables for sector-level comparisons.
-#
-# PARAMETERS:
-#   df – Data frame containing the data
-#   group_col – Column name to group by (e.g., "sector")
-#   value_col – Column name containing values to aggregate
-#   summarizer – Function to aggregate values (e.g., mean, median)
-#
-# RETURNS: Named list with group values as names and aggregated values
-build_group_value_lookup <- function(df, group_col, value_col, summarizer) {
-  if (!group_col %in% names(df) || !value_col %in% names(df)) {
-    return(setNames(list(NA_real_), "Unknown"))
+# ---------------------------------------------------------------------------
+# Export bundle helpers
+# ---------------------------------------------------------------------------
+
+# Assembles the common landing-page index fields from a school list object
+# produced by build_*_export(). Extra export-specific fields are passed via
+# `...` and appended after the shared base fields.
+build_school_index_entry <- function(school, ...) {
+  c(
+    list(
+      unitid                  = school$unitid,
+      financial_unitid        = school$financial_unitid,
+      has_financial_profile   = school$has_financial_profile,
+      is_primary_tracker      = school$is_primary_tracker,
+      institution_name        = school$institution_name,
+      institution_unique_name = build_institution_unique_name(
+        school$institution_name,
+        school$city,
+        school$state
+      ),
+      state         = school$state,
+      city          = school$city,
+      control_label = school$control_label,
+      category      = school$category
+    ),
+    list(...)
+  )
+}
+
+# Builds a landing-page index from a list of school export objects, adding any
+# export-specific extra fields returned by `extra_builder`.
+build_school_index <- function(schools, extra_builder = function(school) list()) {
+  lapply(schools, function(school) {
+    extras <- extra_builder(school)
+    if (is.null(extras)) extras <- list()
+    do.call(build_school_index_entry, c(list(school), extras))
+  })
+}
+
+# Writes an export JSON file and, optionally, a matching school index file.
+# Returns NULL when `export_obj` is NULL; otherwise returns the written paths.
+write_export_bundle <- function(export_obj, data_dir, export_filename,
+                                index_filename = NULL,
+                                index_builder = function(school) list()) {
+  if (is.null(export_obj)) return(NULL)
+
+  export_path <- file.path(data_dir, export_filename)
+  write_json_file(export_obj, export_path)
+
+  index_path <- NULL
+  if (!is.null(index_filename)) {
+    index_path <- file.path(data_dir, index_filename)
+    write_json_file(
+      build_school_index(export_obj$schools, index_builder),
+      index_path
+    )
   }
-  grouped <- df |>
-    dplyr::group_by(dplyr::pick(dplyr::all_of(group_col))) |>
-    dplyr::summarise(value = summarizer(.data[[value_col]]), .groups = "drop")
-  stats::setNames(as.list(grouped$value), grouped[[group_col]])
+
+  list(export_path = export_path, index_path = index_path)
+}
+
+# Builds a named lookup vector by summarising `value_col` within `group_col`.
+# `summarizer` receives the grouped vector and should return a scalar numeric.
+build_group_value_lookup <- function(df, group_col, value_col, summarizer) {
+  df %>%
+    dplyr::group_by(.data[[group_col]]) %>%
+    dplyr::summarise(value = summarizer(.data[[value_col]]), .groups = "drop") %>%
+    dplyr::filter(!is.na(.data[[group_col]]), !is.na(value)) %>%
+    { stats::setNames(.$value, .[[group_col]]) }
+}
+
+# Runs a set of export bundle specs, each with a builder plus filenames, and
+# returns a named list of written paths keyed by the spec name.
+write_export_bundles <- function(specs, data_dir) {
+  results <- vector("list", length(specs))
+  names(results) <- names(specs)
+
+  for (nm in names(specs)) {
+    spec     <- specs[[nm]]
+    export_obj     <- spec$builder()
+    index_filename <- if ("index_filename" %in% names(spec)) spec$index_filename else NULL
+    index_builder  <- if ("index_builder"  %in% names(spec)) spec$index_builder  else function(school) list()
+    results[[nm]] <- write_export_bundle(
+      export_obj      = export_obj,
+      data_dir        = data_dir,
+      export_filename = spec$export_filename,
+      index_filename  = index_filename,
+      index_builder   = index_builder
+    )
+  }
+
+  results
 }

@@ -525,18 +525,16 @@
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       const closures = buildRecentClosures(closureData, schoolsIndex);
       setSectionVisible("cuts-other-list", true);
-      // Closures table hidden per request
-      setSectionVisible("cuts-closures-list", false);
+      setSectionVisible("cuts-closures-list", true);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
-      if (closuresTitle) closuresTitle.textContent = "";
+      if (closuresTitle) closuresTitle.textContent = "Closures at 4-year institutions, 2024-2026";
       const primaryFilter = document.getElementById("cuts-filter");
       const otherFilter = document.getElementById("cuts-other-filter");
-      // Closures pagination hidden per request
-      // const closuresFilter = document.getElementById("cuts-closures-filter");
+      const closuresFilter = document.getElementById("cuts-closures-filter");
       setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
       setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
-      // setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, "No tracker-universe closures from 2024-2026 are available.", "cuts-closures-download", "cuts-closures.csv", closuresFilter);
+      setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, "No tracker-universe closures from 2024-2026 are available.", "cuts-closures-download", "cuts-closures.csv", closuresFilter);
       return;
     }
 
@@ -611,4 +609,6 @@
   init().catch((error) => {
     console.error(error);
     const container = document.getElementById("cuts-list");
-    if (container) container.innerHTML = renderEmpty("Th
+    if (container) container.innerHTML = renderEmpty("The college cuts data could not be loaded.");
+  });
+})();

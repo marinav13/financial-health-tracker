@@ -56,7 +56,7 @@ build_cuts_export <- function() {
     mutate(
       matched_unitid = as.character(matched_unitid),
       announcement_date = as.character(announcement_date),
-      announcement_year = as.character(announcement_year),
+      announcement_year = as.integer(announcement_year),   # integer in JSON, not string
       in_financial_tracker = as.character(in_financial_tracker),
       export_unitid = vapply(
         seq_len(n()),
@@ -422,10 +422,10 @@ build_research_export <- function() {
         ),
         character(1)
       ),
-      currently_disrupted = as.character(currently_disrupted),
+      currently_disrupted = as.logical(currently_disrupted),  # normalise; CSV may be read as char or logical
       likely_higher_ed = as.logical(likely_higher_ed)
     ) %>%
-    filter(currently_disrupted == "TRUE")
+    filter(currently_disrupted == TRUE)
 
   if (nrow(summary_df) == 0 || nrow(grants_df) == 0) return(NULL)
 

@@ -275,7 +275,8 @@
           state: school.state || cut.state || "",
           control_label: school.control_label || cut.control_label || "",
           category: school.category || cut.category || "",
-          unitid: school.unitid || cut.unitid || ""
+          unitid: school.unitid || cut.unitid || "",
+          is_primary_tracker: school.is_primary_tracker
         }))
       )
       .filter((cut) => {

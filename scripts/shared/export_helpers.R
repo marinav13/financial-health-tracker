@@ -139,6 +139,32 @@ is_primary_bachelors_category <- function(x) {
     !grepl("not primarily baccalaureate or above", value, ignore.case = TRUE)
 }
 
+# Returns TRUE if an institution name strongly suggests a 2-year / community /
+# technical college that should NOT appear in the primary (4-year) tracker table.
+# Used for unmatched API records that lack a Carnegie classification from IPEDS.
+# False negatives (2-year schools slipping through) are preferable to false
+# positives (4-year schools being hidden), so the patterns are conservative.
+is_likely_2year <- function(x) {
+  value <- trimws(as.character(x %||% ""))
+  grepl(
+    paste(
+      "\\bcommunity college\\b",
+      "\\btechnical college\\b",
+      "\\btechnical community college\\b",
+      "\\bvocational\\b",
+      "\\btech college\\b",
+      "\\bstate college of technology\\b",
+      "\\bcollege of technology\\b",
+      "\\bcc\\b",
+      "ivy tech",
+      sep = "|"
+    ),
+    value,
+    ignore.case = TRUE,
+    perl        = TRUE
+  )
+}
+
 # ---------------------------------------------------------------------------
 # Domain-specific helpers
 # ---------------------------------------------------------------------------

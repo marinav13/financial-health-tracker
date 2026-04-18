@@ -78,7 +78,8 @@ build_cuts_export <- function() {
       ),
       category_display = tracker_category,
       has_financial_profile = !is.na(matched_unitid) & matched_unitid != "" & in_financial_tracker == "TRUE",
-      is_primary_tracker = has_financial_profile & is_primary_bachelors_category(category_display),
+      is_primary_tracker = (has_financial_profile & is_primary_bachelors_category(category_display)) |
+                           (!has_financial_profile & !is_likely_2year(institution_name_display)),
       positions_affected = vapply(
         seq_len(n()),
         function(i) derive_positions_affected(

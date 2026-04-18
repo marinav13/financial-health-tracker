@@ -100,6 +100,9 @@ main <- function(cli_args = NULL) {
       stringr::str_replace_all("&", " and ") |>
       stringr::str_replace_all("[^a-z0-9 ]", " ") |>
       stringr::str_remove("\\s+main campus$") |>
+      # Expand "st" abbreviation so "College of St. Scholastica" matches
+      # "The College of Saint Scholastica" in IPEDS.
+      stringr::str_replace_all("\\bst\\b", "saint") |>
       stringr::str_squish()
   }
 
@@ -133,6 +136,28 @@ main <- function(cli_args = NULL) {
     dplyr::add_count(norm_name, state_full, name = "candidate_count") |>
     dplyr::filter(candidate_count == 1) |>
     dplyr::select(-candidate_count)
+
+  # Manual overrides for API names that can't be auto-matched by name normalization.
+  # These supplement the lookup; existing entries are not replaced.
+  manual_aliases <- tibble::tibble(
+    norm_name  = c(
+      "texas a and m university",          # API: "Texas A&M University" → ambiguous (multiple campuses)
+      "university of texas hsch",          # API: "University of Texas HSCH" → UT Health Science Center Houston
+      "university of texas health science center at houston"  # alternate full-name form
+    ),
+    state_full = c("Texas", "Texas", "Texas"),
+    unitid_candidate = c(228723L, 229300L, 229300L),
+    fallback_tracker_institution_name = c(
+      "Texas A&M University-College Station",
+      "The University of Texas Health Science Center at Houston",
+      "The University of Texas Health Science Center at Houston"
+    )
+  )
+  fallback_lookup <- dplyr::bind_rows(
+    fallback_lookup,
+    manual_aliases |>
+      dplyr::anti_join(fallback_lookup, by = c("norm_name", "state_full"))
+  )
 
   # -----------------------------------------------------------------------
   # FETCH CUTS DATA FROM PUBLIC API

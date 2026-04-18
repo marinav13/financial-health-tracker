@@ -104,21 +104,25 @@ def fetch_institution_mapping(base_url: str, api_key: str) -> list[dict]:
 # Main
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# College Cuts Supabase project (public anon key — intentionally hardcoded)
+# ---------------------------------------------------------------------------
+_DEFAULT_URL = "https://nvjhqurarkdcgzwwpbhc.supabase.co"
+_DEFAULT_KEY = (
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+    "eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52amhxdXJhcmtkY2d6d3dwYmhjIiwicm9sZSI6"
+    "ImFub24iLCJpYXQiOjE3NTA2Mzk4NjcsImV4cCI6MjA2NjIxNTg2N30."
+    "kaVPHXV33oiDfM0bUEcKYZkqpihUEeVIiokRpL3VC5s"
+)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--url", default=os.environ.get("SUPABASE_URL", ""),
+    parser.add_argument("--url", default=os.environ.get("SUPABASE_URL", _DEFAULT_URL),
                         help="Supabase project URL")
-    parser.add_argument("--key", default=os.environ.get("SUPABASE_KEY", ""),
+    parser.add_argument("--key", default=os.environ.get("SUPABASE_KEY", _DEFAULT_KEY),
                         help="Supabase API key (anon or service role)")
     args = parser.parse_args()
-
-    if not args.url or not args.key:
-        print(
-            "ERROR: Supabase URL and key are required.\n"
-            "  Pass --url / --key or set SUPABASE_URL / SUPABASE_KEY env vars.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
 
     print(f"Fetching institution mapping from {args.url} …")
     rows = fetch_institution_mapping(args.url, args.key)

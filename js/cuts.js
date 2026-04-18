@@ -75,6 +75,9 @@
   function formatAffectedCount(cut) {
     const affected = Number(cut.positions_affected || cut.faculty_affected);
     if (!Number.isFinite(affected) || affected <= 0) return "";
+    // Skip if program_name already contains the count (e.g. "Staff layoff (20 positions affected)")
+    const label = cut.program_name || "";
+    if (label.includes("positions affected") || label.includes("students affected")) return "";
     return ` (${affected} positions affected)`;
   }
 

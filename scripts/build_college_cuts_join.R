@@ -540,6 +540,7 @@ main <- function(cli_args = NULL) {
       source_publication = source_publication_name,
       source_published_at
     ) |>
+    dplyr::distinct(cut_id, .keep_all = TRUE) |>
     dplyr::arrange(dplyr::desc(announcement_date), institution_name_collegecuts, program_name)
 
   # -----------------------------------------------------------------------

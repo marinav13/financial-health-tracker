@@ -834,10 +834,10 @@ NWCCU_BASE_URL      <- "https://nwccu.org"
 
 # Regex patterns derived from the live HTML structure (2025).
 # article class: "institution-item nwccu-state-XX nwccu-degree-bachelor ..."
-NWCCU_ARTICLE_PATTERN  <- "(?s)<article[^>]+class="institution-item([^"]*?)"[^>]*>(.*?)</article>"
-NWCCU_LINK_PATTERN     <- "href="(https://nwccu\.org/institutional-directory/[^"]+/)""
-NWCCU_NOTIF_PATTERN    <- "href="(https://nwccu\.(?:box|app\.box)\.com/[^"]+)"[^>]*>[^<]*Institution Notification Letter"
-NWCCU_NOTIF_PATTERN2   <- "Institution Notification Letter[^<]*</[^>]+>[\s\S]{0,200}href="(https://(?:nwccu\.box\.com|app\.box\.com)/[^"]+)""
+NWCCU_ARTICLE_PATTERN  <- "(?s)<article[^>]+class=\"institution-item([^\"]*?)\"[^>]*>(.*?)</article>"
+NWCCU_LINK_PATTERN     <- "href=\"(https://nwccu\.org/institutional-directory/[^\"]+/)\""
+NWCCU_NOTIF_PATTERN    <- "href=\"(https://nwccu\.(?:box|app\.box)\.com/[^\"]+)\"[^>]*>[^<]*Institution Notification Letter"
+NWCCU_NOTIF_PATTERN2   <- "Institution Notification Letter[^<]*</[^>]+>[\\s\\S]{0,200}href=\"(https://(?:nwccu\.box\.com|app\.box\.com)/[^\"]+)\""
 NWCCU_STATUS_PATTERN   <- "Current Accreditation Status</span>\s*<p[^>]*>([^<]+)</p>"
 NWCCU_EVAL_PATTERN     <- "Most Recent Evaluation</span>\s*<span[^>]*>([^<]+)</span>"
 NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\s*<span[^>]*>([^<]+)</span>"
@@ -878,7 +878,7 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
   notif_match  <- stringr::str_match(html, NWCCU_NOTIF_PATTERN)
   notif_url    <- if (!is.na(notif_match[, 2])) notif_match[, 2] else {
     # Try alternate pattern (link text after href)
-    alt <- stringr::str_match(html, "href="(https://[^"]*box\.com[^"]+)"[^>]*>[^<]*Institution Notification")
+    alt <- stringr::str_match(html, "href=\"(https://[^\"]*box\.com[^\"]+)\"[^>]*>[^<]*Institution Notification")
     if (!is.na(alt[, 2])) alt[, 2] else NA_character_
   }
 
@@ -961,7 +961,7 @@ parse_nwccu <- function(cache_dir, refresh) {
     # Institution name: text inside the <a> tag, before the <span> for the arrow
     name_m <- stringr::str_match(
       body,
-      "class="link[^"]*"[^>]*>\s*([^<]+?)\s*<span"
+      "class=\"link[^\"]*\"[^>]*>\\s*([^<]+?)\\s*<span"
     )
     inst_name <- if (!is.na(name_m[, 2])) clean_text(name_m[, 2]) else link_m[, 2]
 

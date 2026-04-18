@@ -814,6 +814,187 @@ parse_wscuc <- function(cache_dir, refresh) {
   purrr::map_dfr(detail_urls, function(u) parse_wscuc_detail_page(u, cache_dir, refresh))
 }
 
+# ---------------------------------------------------------------------------
+# NWCCU (Northwest Commission on Colleges and Universities)
+# ---------------------------------------------------------------------------
+# Strategy:
+#   1. Fetch the institutional directory (single page, 166 institutions).
+#   2. Extract every institution link + degree-level CSS classes.
+#   3. Filter to 4-year institutions (bachelor/master/doctoral degree class).
+#   4. For each 4-year institution, fetch its individual profile page.
+#   5. Extract current accreditation status, most-recent evaluation text,
+#      and the Institution Notification Letter URL (Box.com).
+#   6. Emit a row only when the profile page contains adverse-action keywords
+#      (show cause, warning, probation, notice, withdrawal, closure, adverse,
+#      or "needs improvement" in recommendation language).
+# ---------------------------------------------------------------------------
+
+NWCCU_DIRECTORY_URL <- "https://nwccu.org/institutional-directory/"
+NWCCU_BASE_URL      <- "https://nwccu.org"
+
+# Regex patterns derived from the live HTML structure (2025).
+# article class: "institution-item nwccu-state-XX nwccu-degree-bachelor ..."
+NWCCU_ARTICLE_PATTERN  <- "(?s)<article[^>]+class="institution-item([^"]*?)"[^>]*>(.*?)</article>"
+NWCCU_LINK_PATTERN     <- "href="(https://nwccu\.org/institutional-directory/[^"]+/)""
+NWCCU_NOTIF_PATTERN    <- "href="(https://nwccu\.(?:box|app\.box)\.com/[^"]+)"[^>]*>[^<]*Institution Notification Letter"
+NWCCU_NOTIF_PATTERN2   <- "Institution Notification Letter[^<]*</[^>]+>[\s\S]{0,200}href="(https://(?:nwccu\.box\.com|app\.box\.com)/[^"]+)""
+NWCCU_STATUS_PATTERN   <- "Current Accreditation Status</span>\s*<p[^>]*>([^<]+)</p>"
+NWCCU_EVAL_PATTERN     <- "Most Recent Evaluation</span>\s*<span[^>]*>([^<]+)</span>"
+NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\s*<span[^>]*>([^<]+)</span>"
+
+# Keywords that indicate an actionable adverse finding in page text or eval text
+NWCCU_ADVERSE_KEYWORDS <- paste(
+  "show cause", "warning", "probation", "notice of concern",
+  "withdrawal", "closure", "adverse", "needs improvement",
+  "sanction", "terminated", "withdrawn",
+  sep = "|"
+)
+
+parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh) {
+  slug      <- stringr::str_extract(inst_url, "[^/]+(?=/$|$)")
+  cache_key <- paste0("nwccu_inst_", slug, ".html")
+  html      <- tryCatch(
+    fetch_html_text(inst_url, cache_key, cache_dir, refresh = refresh),
+    error = function(e) {
+      message("  NWCCU: could not fetch ", inst_url, " — ", e$message)
+      return(NULL)
+    }
+  )
+  if (is.null(html) || !nzchar(html)) return(tibble::tibble())
+
+  # Current accreditation status
+  status_match <- stringr::str_match(html, NWCCU_STATUS_PATTERN)
+  current_status <- if (!is.na(status_match[, 2])) clean_text(status_match[, 2]) else ""
+
+  # Most recent evaluation text
+  eval_match <- stringr::str_match(html, NWCCU_EVAL_PATTERN)
+  eval_text  <- if (!is.na(eval_match[, 2])) clean_text(eval_match[, 2]) else ""
+
+  # Reason for accreditation (applicant institutions)
+  reason_match <- stringr::str_match(html, NWCCU_REASON_PATTERN)
+  reason_text  <- if (!is.na(reason_match[, 2])) clean_text(reason_match[, 2]) else ""
+
+  # Institution Notification Letter URL (Box.com link)
+  notif_match  <- stringr::str_match(html, NWCCU_NOTIF_PATTERN)
+  notif_url    <- if (!is.na(notif_match[, 2])) notif_match[, 2] else {
+    # Try alternate pattern (link text after href)
+    alt <- stringr::str_match(html, "href="(https://[^"]*box\.com[^"]+)"[^>]*>[^<]*Institution Notification")
+    if (!is.na(alt[, 2])) alt[, 2] else NA_character_
+  }
+
+  # Combined text to scan for adverse keywords
+  full_text <- paste(current_status, eval_text, reason_text, sep = " ")
+  has_adverse <- stringr::str_detect(
+    stringr::str_to_lower(full_text),
+    NWCCU_ADVERSE_KEYWORDS
+  )
+
+  # Only emit rows for institutions with an adverse finding on the page
+  if (!has_adverse) return(tibble::tibble())
+
+  page_modified <- extract_page_modified_date(html)
+
+  # Build action label from the most informative text available
+  action_label <- dplyr::case_when(
+    nzchar(eval_text)   ~ eval_text,
+    nzchar(reason_text) ~ reason_text,
+    TRUE                ~ current_status
+  )
+
+  # Extract state from page or fall back to NA
+  state_match <- stringr::str_match(html, "nwccu-state-([A-Z]{2})")
+  inst_state  <- if (!is.na(state_match[, 2])) state_match[, 2] else NA_character_
+
+  tibble::tibble(
+    institution_name_raw  = inst_name,
+    institution_state_raw = inst_state,
+    accreditor            = "NWCCU",
+    action_type           = classify_action(action_label),
+    action_label_raw      = action_label,
+    action_status         = classify_status(action_label),
+    action_date           = NA_character_,
+    action_year           = NA_integer_,
+    source_url            = if (!is.na(notif_url)) notif_url else inst_url,
+    source_title          = paste0("NWCCU Institution Notification Letter – ", inst_name),
+    notes                 = stringr::str_glue(
+      "Status: {current_status}. Evaluation: {eval_text}. {reason_text}"
+    ),
+    last_seen_at          = Sys.time(),
+    source_page_url       = inst_url,
+    source_page_modified  = page_modified
+  )
+}
+
+parse_nwccu <- function(cache_dir, refresh) {
+  message("Fetching NWCCU institutional directory …")
+  dir_html <- tryCatch(
+    fetch_html_text(NWCCU_DIRECTORY_URL, "nwccu_directory.html", cache_dir, refresh = refresh),
+    error = function(e) {
+      message("NWCCU: directory fetch failed — ", e$message)
+      return(NULL)
+    }
+  )
+  if (is.null(dir_html) || !nzchar(dir_html)) return(tibble::tibble())
+
+  # Extract all institution articles from the directory
+  article_matches <- stringr::str_match_all(dir_html, NWCCU_ARTICLE_PATTERN)[[1]]
+  if (nrow(article_matches) == 0) {
+    message("NWCCU: no institution articles found in directory — HTML may have changed")
+    return(tibble::tibble())
+  }
+
+  # Build a data frame of (url, name, css_classes) for each article
+  institutions <- purrr::map_dfr(seq_len(nrow(article_matches)), function(i) {
+    classes <- article_matches[i, 2]
+    body    <- article_matches[i, 3]
+
+    # Degree-level classes: nwccu-degree-bachelor, nwccu-degree-master, nwccu-degree-doctoral
+    is_4year <- stringr::str_detect(
+      classes,
+      "nwccu-degree-(bachelor|master|doctoral|graduate|professional)"
+    )
+    if (!is_4year) return(NULL)
+
+    link_m <- stringr::str_match(body, NWCCU_LINK_PATTERN)
+    if (is.na(link_m[, 2])) return(NULL)
+
+    # Institution name: text inside the <a> tag, before the <span> for the arrow
+    name_m <- stringr::str_match(
+      body,
+      "class="link[^"]*"[^>]*>\s*([^<]+?)\s*<span"
+    )
+    inst_name <- if (!is.na(name_m[, 2])) clean_text(name_m[, 2]) else link_m[, 2]
+
+    tibble::tibble(url = link_m[, 2], name = inst_name, classes = classes)
+  })
+
+  if (is.null(institutions) || nrow(institutions) == 0) {
+    message("NWCCU: no 4-year institutions found after degree filter")
+    return(tibble::tibble())
+  }
+
+  message(sprintf("  NWCCU: %d 4-year institutions found; fetching individual pages …",
+                  nrow(institutions)))
+
+  results <- purrr::map_dfr(seq_len(nrow(institutions)), function(i) {
+    parse_nwccu_institution_page(
+      institutions$url[[i]],
+      institutions$name[[i]],
+      cache_dir,
+      refresh
+    )
+  })
+
+  if (nrow(results) == 0) {
+    message("  NWCCU: no adverse actions found")
+    return(tibble::tibble())
+  }
+
+  message(sprintf("  NWCCU: %d adverse-action row(s) extracted", nrow(results)))
+  results
+}
+
+
 build_match_suggestions <- function(unmatched_df, candidates_df, max_candidates = 3L) {
   if (nrow(unmatched_df) == 0) {
     return(unmatched_df)

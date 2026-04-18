@@ -7,7 +7,7 @@
 #
 # INPUTS:
 #   - Financial tracker CSV (latest year data with institution info)
-#   - Scraped data from 5 regional accreditors:
+#   - Scraped data from 6 regional accreditors:
 #     * MSCHE (Middle States), HLC (Higher Learning Commission),
 #     * SACSCOC (Southern Association), NECHE (New England),
 #     * WSCUC (Western Association)
@@ -37,8 +37,8 @@
 #   - Action status: "active" or past/closed
 #   - Unmatched records: often non-4-year schools or name mismatches across sources
 #
-# NOTE: This is intentionally partial coverage (5 of 7 regional accreditors).
-#       NWCCU and ACCJC not yet implemented.
+# NOTE: This is intentionally partial coverage (6 of 7 regional accreditors).
+#       ACCJC (community colleges) not yet implemented.
 
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
@@ -118,7 +118,8 @@ main <- function(cli_args = NULL) {
     parse_hlc(cache_dir, refresh),
     parse_sacscoc(cache_dir, refresh),
     parse_neche(cache_dir, refresh),
-    parse_wscuc(cache_dir, refresh)
+    parse_wscuc(cache_dir, refresh),
+    parse_nwccu(cache_dir, refresh)
   ) |>
     dplyr::mutate(
       institution_name_raw = clean_text(institution_name_raw),
@@ -296,8 +297,8 @@ main <- function(cli_args = NULL) {
     data.frame(
       notes = c(
         "This first version is intentionally partial rather than pretending to be comprehensive.",
-        "Covered accreditors in the current scraper: MSCHE current sanctions page, HLC current public disclosure notices, SACSCOC latest public action/disclosure pages with explicit sanction language, NECHE recent commission actions, and WSCUC commission action posts.",
-        "Still not covered in this build: NWCCU and ACCJC. Their public action data needs a separate scraper or manual curation workflow.",
+        "Covered accreditors in the current scraper: MSCHE current sanctions page, HLC current public disclosure notices, SACSCOC latest public action/disclosure pages with explicit sanction language, NECHE recent commission actions, WSCUC commission action posts, and NWCCU institutional directory pages (4-year institutions, adverse-keyword filter).",
+        "Still not covered in this build: ACCJC (community colleges). NWCCU is now covered via institutional directory page scraping.",
         "HLC uses Notice as a public sanction. Because that is not literally named Warning, the file includes both accreditation_warning and accreditation_warning_or_notice.",
         "WSCUC commission action posts include many routine reaffirmation and report items. This scraper intentionally keeps only action headings with warning, probation, notice, show cause, withdrawal, closure, or adverse language.",
         "Unmatched institutions are often schools outside the four-year tracker scope or schools whose public accreditor name does not exactly match IPEDS naming. Review the unmatched sheet before publication."

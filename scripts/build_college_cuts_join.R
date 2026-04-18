@@ -191,6 +191,14 @@ main <- function(cli_args = NULL) {
                    fallback_tracker_institution_name = character())
   }
 
+  # Warn if mapping file is stale (>10 days old)
+  if (file.exists(supabase_mapping_path)) {
+    file_age_days <- as.numeric(Sys.time() - file.info(supabase_mapping_path)$mtime) / 86400
+    if (file_age_days > 10) {
+      warning(sprintf("Supabase mapping file is stale (%.1f days old). Run import_supabase_institution_mapping.py to refresh.", file_age_days))
+    }
+  }
+
   # Manual overrides for API names that can't be auto-matched by name normalization.
   # The API often uses shorter names than IPEDS (e.g. "Columbia University" vs
   # "Columbia University in the City of New York"). These overrides map the

@@ -191,11 +191,18 @@ main <- function(cli_args = NULL) {
                    fallback_tracker_institution_name = character())
   }
 
-  # Warn if mapping file is stale (>10 days old)
+  # Warn if mapping file is stale (>10 days old) — stop in CI unless --allow-stale flag
+  allow_stale <- arg_has(args, "--allow-stale")
+  in_ci <- identical(Sys.getenv("CI"), "true") || identical(Sys.getenv("GITHUB_ACTIONS"), "true")
   if (file.exists(supabase_mapping_path)) {
     file_age_days <- as.numeric(Sys.time() - file.info(supabase_mapping_path)$mtime) / 86400
     if (file_age_days > 10) {
-      warning(sprintf("Supabase mapping file is stale (%.1f days old). Run import_supabase_institution_mapping.py to refresh.", file_age_days))
+      msg <- sprintf("Supabase mapping file is stale (%.1f days old). Run import_supabase_institution_mapping.py to refresh.", file_age_days)
+      if (in_ci && !allow_stale) {
+        stop(msg)
+      } else {
+        warning(msg)
+      }
     }
   }
 
@@ -232,11 +239,31 @@ main <- function(cli_args = NULL) {
   message("Fetching confirmed college cuts from college-cuts.com public API ...")
 
   fetch_all_api_cuts <- function(status = "confirmed", limit = 100L) {
+    # Safety valve: stop hard rather than loop forever if the API misbehaves.
+    # 500 pages × 100 records = 50 000 cuts, far above any realistic data volume.
+    # If this ever triggers in practice, raise MAX_PAGES and investigate why.
+    MAX_PAGES <- 500L
+    # Warn at 20 % of the ceiling so operators notice growth before it becomes a crisis.
+    WARN_PAGES <- as.integer(MAX_PAGES * 0.20)
+
     page <- 1L
     all_rows <- list()
     repeat {
-      MAX_PAGES <- 500L
-      if (page > MAX_PAGES) stop(sprintf("Pagination exceeded %d pages — possible API bug.", MAX_PAGES))
+      if (page > MAX_PAGES) {
+        stop(sprintf(
+          "Pagination safety limit reached (%d pages, %d records fetched). ",
+          MAX_PAGES, length(all_rows),
+          "Raise MAX_PAGES in fetch_all_api_cuts() if the data volume is legitimate."
+        ), call. = FALSE)
+      }
+      if (page == WARN_PAGES) {
+        warning(sprintf(
+          "fetch_all_api_cuts: reached %d pages (%d%% of MAX_PAGES=%d) with %d records. ",
+          page, as.integer(100 * page / MAX_PAGES), MAX_PAGES, length(all_rows),
+          "Data volume may be growing toward the pagination limit."
+        ), call. = FALSE)
+      }
+
       url <- paste0(
         "https://college-cuts.com/api/cuts",
         "?status=", utils::URLencode(status, reserved = TRUE),
@@ -253,9 +280,26 @@ main <- function(cli_args = NULL) {
       }
       body <- httr2::resp_body_json(resp)
       all_rows <- c(all_rows, body$data)
-      if (page >= body$totalPages || length(body$data) == 0L) break
+
+      # Guard against API responses that omit totalPages (schema drift).
+      total_pages <- body$totalPages
+      if (is.null(total_pages) || !is.numeric(total_pages) || length(total_pages) != 1L) {
+        warning(sprintf(
+          "fetch_all_api_cuts: page %d response missing or malformed totalPages field ",
+          page,
+          "(got: %s). Stopping pagination early.",
+          paste(deparse(total_pages), collapse = "")
+        ), call. = FALSE)
+        break
+      }
+
+      if (page >= total_pages || length(body$data) == 0L) break
       page <- page + 1L
     }
+    message(sprintf(
+      "  Pagination complete: %d page(s), %d record(s) fetched.",
+      page, length(all_rows)
+    ))
     all_rows
   }
 
@@ -418,11 +462,11 @@ main <- function(cli_args = NULL) {
     dplyr::mutate(
       in_financial_tracker = !is.na(tracker_institution_name),
       announcement_year = {
-        # Parse dates and emit a diagnostic if any are unparseable.
+        # Parse dates and halt if any are unparseable.
         parsed_dates <- as.Date(announcement_date, format = "%Y-%m-%d")
         n_bad <- sum(is.na(parsed_dates) & !is.na(announcement_date))
-        if (n_bad > 0) message(sprintf(
-          "  %d announcement_date value(s) could not be parsed to a date — those rows will have NA announcement_year.",
+        if (n_bad > 0) stop(sprintf(
+          "  %d announcement_date value(s) could not be parsed to a date — halting to fix bad data.",
           n_bad
         ))
         as.integer(format(parsed_dates, "%Y"))
@@ -775,3 +819,4 @@ main <- function(cli_args = NULL) {
 if (sys.nframe() == 0) {
   main()
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

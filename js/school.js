@@ -66,10 +66,13 @@ async function loadJsonOrNull(path) {
 }
 
 function toSeries(values) {
-  return (values || []).map((point) => ({
-    year: Number(point.year),
-    value: Number(point.value)
-  })).filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
+  return (values || [])
+    .filter((point) => point != null && point.year != null && point.value != null)
+    .map((point) => ({
+      year: Number(point.year),
+      value: Number(point.value)
+    }))
+    .filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
 }
 
 function latestPoint(values) {

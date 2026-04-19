@@ -265,7 +265,8 @@ build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pc
 
 # Writes an R object to a JSON file with pretty formatting.
 # NA values become JSON null (not "NA"), and single-element vectors stay as scalars.
-# Also strips trailing null bytes that Windows/mounted filesystems sometimes append.
+# Also strips ALL null bytes (not just trailing) that Windows/mounted filesystems sometimes inject,
+# then validates the result parses as JSON before promoting the file.
 # Uses atomic write: write to .tmp then rename for crash safety.
 write_json_file <- function(x, path) {
   tmp_path <- paste0(path, ".tmp")
@@ -276,14 +277,32 @@ write_json_file <- function(x, path) {
   }
   
   jsonlite::write_json(x, path = tmp_path, pretty = TRUE, auto_unbox = TRUE, na = "null")
-  # Strip trailing null bytes so browsers can JSON.parse() the file cleanly
+  # Strip ALL null bytes (not just trailing) so browsers can JSON.parse() the file cleanly.
+  # Null bytes can appear anywhere when Windows/mounted filesystems corrupt writes.
   raw_bytes <- readBin(tmp_path, raw(), n = file.info(tmp_path)$size)
-  last_valid <- suppressWarnings(max(which(raw_bytes != as.raw(0x00))))
-  if (is.finite(last_valid) && last_valid < length(raw_bytes)) {
+  null_positions <- which(raw_bytes == as.raw(0x00))
+  if (length(null_positions) > 0) {
+    if (length(null_positions) > length(raw_bytes) * 0.01) {
+      warning(sprintf(
+        "write_json_file: %d null bytes (%.1f%%) found in %s — possible file corruption",
+        length(null_positions),
+        100 * length(null_positions) / length(raw_bytes),
+        basename(path)
+      ))
+    }
+    clean_bytes <- raw_bytes[-null_positions]
     con <- file(tmp_path, "wb")
-    writeBin(raw_bytes[seq_len(last_valid)], con)
+    writeBin(clean_bytes, con)
     close(con)
   }
+  # Validate the result actually parses as JSON before promoting to final path
+  tryCatch(
+    jsonlite::fromJSON(tmp_path, simplifyVector = FALSE),
+    error = function(e) stop(sprintf(
+      "write_json_file: output file failed JSON validation for %s: %s",
+      basename(path), conditionMessage(e)
+    ))
+  )
   
   # Atomic rename: fall back to copy+remove on Windows/cross-filesystem failure
   rename_ok <- tryCatch({
@@ -397,19 +416,4 @@ write_export_bundles <- function(specs, data_dir) {
   results <- vector("list", length(specs))
   names(results) <- names(specs)
 
-  for (nm in names(specs)) {
-    spec     <- specs[[nm]]
-    export_obj     <- spec$builder()
-    index_filename <- if ("index_filename" %in% names(spec)) spec$index_filename else NULL
-    index_builder  <- if ("index_builder"  %in% names(spec)) spec$index_builder  else function(school) list()
-    results[[nm]] <- write_export_bundle(
-      export_obj      = export_obj,
-      data_dir        = data_dir,
-      export_filename = spec$export_filename,
-      index_filename  = index_filename,
-      index_builder   = index_builder
-    )
-  }
-
-  results
-}
+  for (nm in names(specs))

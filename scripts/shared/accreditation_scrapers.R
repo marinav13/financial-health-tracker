@@ -400,7 +400,24 @@ parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, deta
 # (by iterating monthly pages from 2017 to present, organized by state).
 parse_msche <- function(cache_dir, refresh) {
   url <- MSCHE_CURRENT_STATUS_URL
-  html <- fetch_html_text(url, "msche_status.html", cache_dir, refresh = refresh)
+
+  # Returns TRUE when the HTML looks like a real MSCHE status page (contains at
+  # least one expected H3 heading, or is genuinely empty).  Returns FALSE when
+  # the page is non-empty but has none of the expected headings — the hallmark
+  # of a JavaScript-rendered shell that httr2 cannot execute.
+  msche_html_is_valid <- function(html) {
+    !nzchar(trimws(html)) ||
+      any(vapply(
+        names(MSCHE_CURRENT_STATUS_ACTION_TYPES),
+        function(lbl) grepl(lbl, html, fixed = TRUE),
+        logical(1)
+      ))
+  }
+
+  # Pass the validator so fetch_html_text can intercept a JS-shell response
+  # *before* writing it to cache, preserving any last-known-good cached copy.
+  html <- fetch_html_text(url, "msche_status.html", cache_dir, refresh = refresh,
+                          validate_fn = msche_html_is_valid)
   page_title <- extract_page_title(html)
   page_modified <- extract_page_modified_date(html)
 
@@ -409,27 +426,17 @@ parse_msche <- function(cache_dir, refresh) {
     "(?s)<h3>(Non-Compliance Warning|Non-Compliance Probation|Non-Compliance Show Cause|Adverse Action)</h3>(.*?)(?=<h3>|<div class=\"single-share\"|</article>)"
   )[[1]]
 
-  # Guard: if the page returned non-empty HTML but none of the expected H3
-  # action headings are present, the page was likely rendered by JavaScript and
-  # httr2 received only the pre-JS shell.  Emit a warning so callers know the
+  # Secondary guard for the refresh=FALSE path: if the cached file itself is a
+  # JS-shell (e.g. someone manually saved a bad page), warn so callers know the
   # 0-row result is suspicious rather than a genuine "no actions" outcome.
-  if (nrow(section_matches) == 0 && nzchar(trimws(html))) {
-    has_any_heading <- any(vapply(
-      names(MSCHE_CURRENT_STATUS_ACTION_TYPES),
-      function(lbl) grepl(lbl, html, fixed = TRUE),
-      logical(1)
+  if (nrow(section_matches) == 0 && nzchar(trimws(html)) &&
+      !msche_html_is_valid(html)) {
+    warning(paste(
+      sprintf("parse_msche: HTML for %s contains no expected H3 action headings.", url),
+      "The cached copy may be a JavaScript-rendered shell.",
+      "Re-fetch with a JS-capable tool to refresh the cache.",
+      sep = "\n"
     ))
-    if (!has_any_heading) {
-      warning(sprintf(
-        paste(
-          "parse_msche: fetched %s but found none of the expected H3 action",
-          "headings (%s). The page may be JavaScript-rendered and unavailable",
-          "to httr2. Returning 0 current-status rows \u2014 validate output."
-        ),
-        url,
-        paste(names(MSCHE_CURRENT_STATUS_ACTION_TYPES), collapse = ", ")
-      ))
-    }
   }
 
   current_status_rows <- if (nrow(section_matches) == 0) {
@@ -838,15 +845,27 @@ NWCCU_ARTICLE_PATTERN  <- "(?s)<article[^>]+class=\"institution-item([^\"]*?)\"[
 NWCCU_LINK_PATTERN     <- "href=\"(https://nwccu\.org/institutional-directory/[^\"]+/)\""
 NWCCU_NOTIF_PATTERN    <- "href=\"(https://nwccu\.(?:box|app\.box)\.com/[^\"]+)\"[^>]*>[^<]*Institution Notification Letter"
 NWCCU_NOTIF_PATTERN2   <- "Institution Notification Letter[^<]*</[^>]+>[\\s\\S]{0,200}href=\"(https://(?:nwccu\.box\.com|app\.box\.com)/[^\"]+)\""
-NWCCU_STATUS_PATTERN   <- "Current Accreditation Status</span>\s*<p[^>]*>([^<]+)</p>"
-NWCCU_EVAL_PATTERN     <- "Most Recent Evaluation</span>\s*<span[^>]*>([^<]+)</span>"
-NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\s*<span[^>]*>([^<]+)</span>"
+NWCCU_STATUS_PATTERN   <- "Current Accreditation Status</span>\\s*<p[^>]*>([^<]+)</p>"
+NWCCU_EVAL_PATTERN     <- "Most Recent Evaluation</span>\\s*<span[^>]*>([^<]+)</span>"
+NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\\s*<span[^>]*>([^<]+)</span>"
 
 # Keywords that indicate an actionable adverse finding in page text or eval text
 NWCCU_ADVERSE_KEYWORDS <- paste(
   "show cause", "warning", "probation", "notice of concern",
   "withdrawal", "closure", "adverse", "needs improvement",
   "sanction", "terminated", "withdrawn",
+  sep = "|"
+)
+
+# Boilerplate phrases that appear on every NWCCU institution page and must be
+# removed before adverse-keyword scanning to prevent false positives.
+# "substantially compliant" appears as the standard "Reason for Accreditation"
+# on all fully accredited institutions.  The other two phrases appear in the
+# footer/sidebar of every page.
+NWCCU_BOILERPLATE_PATTERNS <- paste(
+  "substantially compliant",
+  "submit a complaint",
+  "institutional responsibilities",
   sep = "|"
 )
 
@@ -862,35 +881,53 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
   )
   if (is.null(html) || !nzchar(html)) return(tibble::tibble())
 
-  # Current accreditation status
-  status_match <- stringr::str_match(html, NWCCU_STATUS_PATTERN)
+  # ---- Structured fields ----
+  status_match   <- stringr::str_match(html, NWCCU_STATUS_PATTERN)
   current_status <- if (!is.na(status_match[, 2])) clean_text(status_match[, 2]) else ""
 
-  # Most recent evaluation text
   eval_match <- stringr::str_match(html, NWCCU_EVAL_PATTERN)
   eval_text  <- if (!is.na(eval_match[, 2])) clean_text(eval_match[, 2]) else ""
 
-  # Reason for accreditation (applicant institutions)
   reason_match <- stringr::str_match(html, NWCCU_REASON_PATTERN)
   reason_text  <- if (!is.na(reason_match[, 2])) clean_text(reason_match[, 2]) else ""
 
-  # Institution Notification Letter URL (Box.com link)
-  notif_match  <- stringr::str_match(html, NWCCU_NOTIF_PATTERN)
-  notif_url    <- if (!is.na(notif_match[, 2])) notif_match[, 2] else {
-    # Try alternate pattern (link text after href)
-    alt <- stringr::str_match(html, "href=\"(https://[^\"]*box\.com[^\"]+)\"[^>]*>[^<]*Institution Notification")
-    if (!is.na(alt[, 2])) alt[, 2] else NA_character_
+  # ---- Fast-path: status field is present and not "Accredited" ----
+  # Any non-empty, non-accredited status is immediately flagged without needing
+  # keyword matches.  "Accredited" is the only normal terminal state on NWCCU
+  # pages; anything else (e.g., "Probation", "Show Cause") is inherently adverse.
+  status_lower   <- stringr::str_to_lower(trimws(current_status))
+  status_adverse <- nzchar(current_status) &&
+    !stringr::str_detect(status_lower, "^accredited$")
+
+  # ---- Wide scan: strip HTML from the <main> block and keyword-scan ----
+  # This catches adverse text that appears outside the three structured fields
+  # (e.g., a future "Current Sanctions" section NWCCU might add to its pages).
+  # Fall back to the three extracted fields if no <main> block is found.
+  main_block <- stringr::str_match(html, "(?s)<main[^>]*>(.*?)</main>")[, 2]
+  main_text  <- if (!is.na(main_block)) {
+    t <- gsub("<[^>]+>", " ", main_block)      # strip all HTML tags
+    gsub("\\s+", " ", trimws(t))               # collapse whitespace
+  } else {
+    paste(current_status, eval_text, reason_text, sep = " ")
   }
 
-  # Combined text to scan for adverse keywords
-  full_text <- paste(current_status, eval_text, reason_text, sep = " ")
-  has_adverse <- stringr::str_detect(
-    stringr::str_to_lower(full_text),
-    NWCCU_ADVERSE_KEYWORDS
-  )
+  # Remove boilerplate phrases that appear on every NWCCU page to prevent
+  # false positives from words like "compliant" in "substantially compliant".
+  scan_text  <- gsub(NWCCU_BOILERPLATE_PATTERNS, " ", main_text,
+                     ignore.case = TRUE, perl = TRUE)
+  scan_lower <- stringr::str_to_lower(scan_text)
+
+  has_adverse_keyword <- stringr::str_detect(scan_lower, NWCCU_ADVERSE_KEYWORDS)
 
   # Only emit rows for institutions with an adverse finding on the page
-  if (!has_adverse) return(tibble::tibble())
+  if (!status_adverse && !has_adverse_keyword) return(tibble::tibble())
+
+  # ---- Institution Notification Letter URL (Box.com link) ----
+  notif_match <- stringr::str_match(html, NWCCU_NOTIF_PATTERN)
+  notif_url   <- if (!is.na(notif_match[, 2])) notif_match[, 2] else {
+    alt <- stringr::str_match(html, "href=\"(https://[^\"]*box\\.com[^\"]+)\"[^>]*>[^<]*Institution Notification")
+    if (!is.na(alt[, 2])) alt[, 2] else NA_character_
+  }
 
   page_modified <- extract_page_modified_date(html)
 
@@ -1080,8 +1117,4 @@ warn_if_scrape_count_dropped <- function(fresh_df,
         ),
         acc, prior_n, fresh_n,
         100 * (prior_n - fresh_n) / prior_n
-      ), call. = FALSE)
-    }
-  }
-  invisible(NULL)
-}
+    

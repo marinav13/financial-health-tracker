@@ -50,8 +50,82 @@ OUTPUT_COLUMNS = [
     "unitid",
     "state_full",
     "tracker_institution_name",
-    "match_source",   # "supabase" | "ipeds_name_match"
+    "match_source",   # "supabase" | "ipeds_name_match" | "manual_alias"
 ]
+
+# ---------------------------------------------------------------------------
+# Manual aliases  (Pass 3 — applied after Supabase unitids and IPEDS name match)
+#
+# Keyed by (api_name_exact, state_full) → IPEDS unitid string.
+# Use this for institutions whose Supabase API name cannot be normalised to
+# match the IPEDS name automatically.
+#
+# Annotations:
+#   [canonical]  unitid is in ipeds_financial_health_canonical_2014_2024.csv
+#                → full financial profile available
+#   [ipeds-only] unitid exists in raw IPEDS data but NOT in canonical CSV
+#                (closed, 2-year, health-science, or specialty institution)
+#                → appears in cuts tracker but no financial profile page
+# ---------------------------------------------------------------------------
+MANUAL_ALIASES: dict[tuple[str, str], str] = {
+    # ── Name-variant mismatches (institution IS in canonical) ────────────────
+    ("University of Illinois UC",                          "Illinois")     : "145637",  # [canonical] Univ. of Illinois Urbana-Champaign
+    ("University of Oklahoma",                             "Oklahoma")     : "207500",  # [canonical] Univ. of Oklahoma-Norman Campus
+    ("Rutgers University",                                 "New Jersey")   : "186380",  # [canonical] Rutgers Univ.-New Brunswick (main campus)
+    ("Indiana University",                                 "Indiana")      : "151351",  # [canonical] Indiana Univ.-Bloomington (main campus)
+    ("University of Wisconsin-Platteville Baraboo Sauk County", "Wisconsin"): "240462", # [canonical] Univ. of Wisconsin-Platteville (main campus)
+    ("University of Texas HSCH",                           "Texas")        : "229300",  # [canonical] UT Health Science Center at Houston
+
+    # ── Branch-campus entries whose parent unitid is in canonical ─────────────
+    ("Johnson University Florida",                         "Florida")      : "132879",  # [ipeds-only] Johnson Univ. Florida campus
+
+    # ── Closed 4-year institutions — in raw IPEDS, not in canonical ───────────
+    ("Birmingham-Southern College",                        "Alabama")      : "100937",  # [ipeds-only] closed May 2023
+    ("Hodges University",                                  "Florida")      : "367884",  # [ipeds-only] closed 2023
+    ("Cabrini University",                                 "Pennsylvania") : "211352",  # [ipeds-only] closed May 2024
+    ("Goddard College",                                    "Vermont")      : "230889",  # [ipeds-only] suspended/closed 2023–24
+    ("Wells College",                                      "New York")     : "197230",  # [ipeds-only] closed December 2024
+    ("Notre Dame College",                                 "Ohio")         : "204468",  # [ipeds-only] closed May 2024
+    ("Delaware College of Art and Design",                 "Delaware")     : "432524",  # [ipeds-only] closed 2020
+    ("The King's College",                                 "New York")     : "454184",  # [ipeds-only] closed Aug 2023
+
+    # ── Specialty / small / not-primarily-baccalaureate — in raw IPEDS ────────
+    ("Sullivan University",                                "Kentucky")     : "157793",  # [ipeds-only] primarily associate/certificate
+    ("Magdalen College of the Liberal Arts",               "New Hampshire"): "182917",  # [ipeds-only] very small liberal-arts college
+    ("Bacone College",                                     "Oklahoma")     : "206817",  # [ipeds-only] tribal college (2-year & 4-year)
+    ("Pittsburgh Technical College",                       "Pennsylvania") : "215415",  # [ipeds-only] technical/for-profit college
+    ("University of Saint Katherine",                      "California")   : "488785",  # [ipeds-only] small Catholic institution
+    ("Oak Point University",                               "Illinois")     : "149763",  # [ipeds-only] health-sciences institution (BSN/MSN)
+}
+
+# ---------------------------------------------------------------------------
+# Explicitly excluded institutions
+#
+# Keyed by (api_name_exact, state_full) → plain-English reason.
+# These are Supabase institutions that fall outside the 4-year financial
+# tracker scope and will never have a matching IPEDS unitid in our dataset.
+# They are logged at run time but omitted from the output CSV and from the
+# "Still unmatched" count, keeping the review list focused on real problems.
+# ---------------------------------------------------------------------------
+EXCLUDED_INSTITUTIONS: dict[tuple[str, str], str] = {
+    # 2-year / community / technical colleges
+    ("Santa Monica College",              "California")     : "2-year community college",
+    ("Napa Valley College",               "California")     : "2-year community college",
+    ("Cuyahoga Community College",        "Ohio")           : "2-year community college",
+    ("Harrisburg Area Community College", "Pennsylvania")   : "2-year community college",
+    ("Tarrant County College",            "Texas")          : "2-year community college",
+    ("Salt Lake Community College",       "Utah")           : "2-year community college",
+    ("Milwaukee Area Technical College",  "Wisconsin")      : "2-year technical college",
+    ("Western Wyoming Community College", "Wyoming")        : "2-year community college",
+
+    # Non-degree-granting / sub-units / system offices
+    ("University of Minnesota Extension", "Minnesota")      : "extension service, not a degree-granting institution",
+    ("University of Wisconsin Law School","Wisconsin")      : "law school sub-unit of UW-Madison, not a standalone institution",
+    ("State University of New York",      "New York")       : "SUNY system office; individual campuses are tracked separately",
+
+    # International / outside IPEDS scope
+    ("Texas A&M University at Qatar",     "Non-US")         : "international branch campus, not in IPEDS",
+}
 
 # State abbreviation → full name
 STATE_ABBREV = {
@@ -104,8 +178,38 @@ def normalize_name(s: str) -> str:
 # ---------------------------------------------------------------------------
 
 def expand_state(state_raw: str) -> str:
+    import sys
     s = (state_raw or "").strip()
-    return STATE_ABBREV.get(s.upper(), s)
+    result = STATE_ABBREV.get(s.upper(), s)
+    # Warn about unknown state codes
+    if s.upper() and s.upper() not in STATE_ABBREV and result == s:
+        print(f"  WARNING: Unknown state code '{s}' passed through unchanged", file=sys.stderr)
+    return result
+
+
+def fetch_with_retry(url: str, headers: dict, max_attempts: int = 3) -> dict:
+    """Fetch URL with exponential backoff retry."""
+    import time
+    import sys
+    
+    last_error = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            req = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                return json.loads(resp.read().decode())
+        except Exception as e:
+            last_error = e
+            if attempt < max_attempts:
+                wait = 2 ** attempt  # exponential backoff: 2, 4, 8 seconds
+                print(f"  Attempt {attempt}/{max_attempts} failed: {e}. Retrying in {wait}s...", file=sys.stderr)
+                time.sleep(wait)
+            else:
+                break
+    
+    raise RuntimeError(
+        f"Failed to fetch {url} after {max_attempts} attempts: {last_error}"
+    ) from last_error
 
 
 def fetch_all_supabase_institutions(base_url: str, api_key: str) -> list[dict]:
@@ -114,17 +218,13 @@ def fetch_all_supabase_institutions(base_url: str, api_key: str) -> list[dict]:
         f"{base_url.rstrip('/')}/rest/v1/institutions"
         f"?select=name,unitid,state&limit=10000"
     )
-    req = urllib.request.Request(
-        url,
-        headers={
-            "apikey":        api_key,
-            "Authorization": f"Bearer {api_key}",
-            "Accept":        "application/json",
-        },
-    )
-    with urllib.request.urlopen(req, timeout=30) as resp:
-        rows = json.loads(resp.read().decode())
-
+    headers = {
+        "apikey":        api_key,
+        "Authorization": f"Bearer {api_key}",
+        "Accept":        "application/json",
+    }
+    rows = fetch_with_retry(url, headers)
+    
     out = []
     for row in rows:
         name = (row.get("name") or "").strip()
@@ -184,7 +284,17 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default=os.environ.get("SUPABASE_URL", _DEFAULT_URL))
     parser.add_argument("--key", default=os.environ.get("SUPABASE_KEY", _DEFAULT_KEY))
+    parser.add_argument("--skip-stale-check", action="store_true",
+                        help="Skip freshness check and force re-run even if file is recent")
     args = parser.parse_args()
+    
+    # Check if output file is recent (skip stale check if flag set)
+    if not args.skip_stale_check and os.path.exists(OUTPUT_PATH):
+        import time
+        file_age_days = (time.time() - os.path.getmtime(OUTPUT_PATH)) / 86400
+        if file_age_days < 1:
+            print(f"Output file is fresh ({file_age_days:.1f} days old). Use --skip-stale-check to force re-run.")
+            return
 
     # 1. Fetch all Supabase institutions
     print(f"Fetching all institutions from {args.url} …")
@@ -213,24 +323,82 @@ def main():
         })
 
     # Pass 2 — IPEDS name match for those missing unitids
-    matched = unmatched = 0
+    # Build a set of (api_name, state) already resolved by Pass 1 so we don't double-count.
+    resolved_names: set[tuple[str, str]] = {
+        (r["institution_name_api"], r["state_full"]) for r in results
+    }
+
+    ipeds_matched: list[dict] = []
+    pass2_unresolved: list[dict] = []
     for r in without_uid:
+        identity = (r["api_name"], r["state_full"])
+        if identity in resolved_names:
+            continue
         key = (normalize_name(r["api_name"]), r["state_full"])
         hit = ipeds_lookup.get(key)
         if hit:
-            results.append({
+            row = {
                 "institution_name_api":     r["api_name"],
                 "unitid":                   hit["unitid"],
                 "state_full":               r["state_full"],
                 "tracker_institution_name": hit["ipeds_name"],
                 "match_source":             "ipeds_name_match",
-            })
-            matched += 1
+            }
+            results.append(row)
+            resolved_names.add(identity)
+            ipeds_matched.append(row)
         else:
-            unmatched += 1
+            pass2_unresolved.append(r)
 
-    print(f"  IPEDS fallback: {matched} matched, {unmatched} still unmatched")
+    print(f"  IPEDS fallback: {len(ipeds_matched)} matched, {len(pass2_unresolved)} still unresolved")
+
+    # Pass 3 — Manual aliases for institutions whose names can't be auto-normalised
+    alias_matched: list[dict] = []
+    still_unresolved: list[dict] = []
+    for r in pass2_unresolved:
+        identity = (r["api_name"], r["state_full"])
+        unitid = MANUAL_ALIASES.get(identity)
+        if unitid:
+            row = {
+                "institution_name_api":     r["api_name"],
+                "unitid":                   unitid,
+                "state_full":               r["state_full"],
+                "tracker_institution_name": r["api_name"],
+                "match_source":             "manual_alias",
+            }
+            results.append(row)
+            resolved_names.add(identity)
+            alias_matched.append(row)
+        else:
+            still_unresolved.append(r)
+
+    print(f"  Manual aliases:  {len(alias_matched)} matched")
+
+    # Separate the truly unresolved from the explicitly excluded
+    excluded   = [r for r in still_unresolved
+                  if (r["api_name"], r["state_full"]) in EXCLUDED_INSTITUTIONS]
+    unresolved = [r for r in still_unresolved
+                  if (r["api_name"], r["state_full"]) not in EXCLUDED_INSTITUTIONS]
+
+    print(f"  Explicitly excluded (out of scope): {len(excluded)}")
+    print(f"  Genuinely unresolved: {len(unresolved)}")
     print(f"  Total output rows: {len(results)}")
+
+    # Priority 3: Unmatched-rate threshold check
+    # Excluded institutions are intentionally out of scope; only truly unresolved
+    # ones count against the threshold.
+    import sys
+    total = len(supabase_rows)
+    unmatched_count = len(unresolved)
+    unmatched_rate = unmatched_count / total if total > 0 else 0
+    print(f"  Unmatched rate (excl. excluded): {unmatched_rate:.1%}  ({unmatched_count}/{total})")
+    if unmatched_rate > 0.20:
+        print(
+            f"  WARNING: HIGH UNMATCHED RATE — {unmatched_rate:.1%} of Supabase institutions "
+            f"({unmatched_count} of {total}) could not be matched to IPEDS.\n"
+            f"  Check name normalization or whether the IPEDS canonical CSV is current.",
+            file=sys.stderr,
+        )
 
     # 4. Write CSV
     out = os.path.normpath(OUTPUT_PATH)
@@ -242,12 +410,17 @@ def main():
 
     print(f"  Written to {out}")
 
-    # 5. Report unmatched so they can be reviewed / added as manual aliases
-    still_missing = [r for r in without_uid
-                     if (normalize_name(r["api_name"]), r["state_full"]) not in ipeds_lookup]
-    if still_missing:
-        print(f"\nStill unmatched ({len(still_missing)}) — consider manual aliases in build_college_cuts_join.R:")
-        for r in sorted(still_missing, key=lambda x: x["state_full"]):
+    # 5. Report excluded institutions (informational — expected, not bugs)
+    if excluded:
+        print(f"\nExplicitly excluded from mapping ({len(excluded)}) — out of tracker scope:")
+        for r in sorted(excluded, key=lambda x: x["state_full"]):
+            reason = EXCLUDED_INSTITUTIONS.get((r["api_name"], r["state_full"]), "unknown")
+            print(f"  {r['state_full']:20s}  {r['api_name']}  [{reason}]")
+
+    # 6. Report genuinely unresolved institutions — these need attention
+    if unresolved:
+        print(f"\nStill unresolved ({len(unresolved)}) — consider adding to MANUAL_ALIASES:")
+        for r in sorted(unresolved, key=lambda x: x["state_full"]):
             print(f"  {r['state_full']:20s}  {r['api_name']}")
 
 

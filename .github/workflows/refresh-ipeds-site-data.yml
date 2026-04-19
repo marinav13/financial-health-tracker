@@ -59,7 +59,12 @@ jobs:
         shell: bash
         timeout-minutes: 10
         run: >
-          python ./scripts/import_supabase_institution_mapping.py
+          python ./scripts/import_supabase_institution_mapping.py --skip-stale-check
+
+      - name: Verify Supabase mapping exists
+        shell: bash
+        run: |
+          test -s data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || { echo "Missing Supabase mapping CSV"; exit 1; }
 
       - name: Refresh college cuts from public API
         shell: bash

@@ -244,14 +244,30 @@ build_accreditation_export <- function() {
     tibble::tibble()
   }
 
+  # Accreditation export IDs follow the same stability rules as make_export_id
+  # in export_helpers.R: numeric unitid when available, normalised slug otherwise.
+  # Accreditation slugs additionally include the accreditor code so that the same
+  # institution's HLC and MSCHE entries get distinct IDs when both are unmatched.
   make_accreditation_export_id <- function(unitid, institution_name, state, accreditor) {
     raw_unitid <- trimws(as.character(unitid %||% ""))
     if (!identical(raw_unitid, "")) return(raw_unitid)
-    base <- paste(institution_name %||% "", state %||% "", accreditor %||% "", sep = " | ")
-    normalized <- tolower(base)
-    normalized <- gsub("[^a-z0-9]+", "-", normalized)
-    normalized <- gsub("^-+|-+$", "", normalized)
-    paste0("accred-", normalized)
+
+    # Use the same name normalisation as slug_institution_name() in export_helpers.R
+    name_slug <- tolower(trimws(institution_name %||% ""))
+    name_slug <- sub("^the +", "", name_slug)
+    name_slug <- gsub("\\bst\\.?\\b", "saint", name_slug)
+    name_slug <- gsub("&", "and", name_slug, fixed = TRUE)
+    name_slug <- gsub("[^a-z0-9]+", "-", name_slug)
+    name_slug <- gsub("^-+|-+$", "", name_slug)
+
+    state_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(state %||% "")))
+    state_slug <- gsub("^-+|-+$", "", state_slug)
+
+    accred_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(accreditor %||% "")))
+    accred_slug <- gsub("^-+|-+$", "", accred_slug)
+
+    parts <- Filter(nzchar, c(name_slug, state_slug, accred_slug))
+    paste0("accred-", paste(parts, collapse = "--"))
   }
 
   summary_df <- summary_df %>%
@@ -884,6 +900,39 @@ cuts_paths <- export_paths$cuts
 accreditation_paths <- export_paths$accreditation
 research_paths <- export_paths$research
 
+# ── H1: Slug-ID stability diagnostic ─────────────────────────────────────────
+# Count how many exported school IDs are name-based slugs (unmatched, potentially
+# unstable) vs. numeric IPEDS unitids (matched, stable).  Reads from the small
+# per-section index files so we don't have to parse the full export JSON.
+# Logged each run so regressions — e.g. a batch of previously-matched schools
+# losing their unitid — are immediately visible in CI logs.
+{
+  all_export_ids <- character(0)
+  for (.ep in list(cuts_paths, accreditation_paths, research_paths)) {
+    if (!is.null(.ep) && file.exists(.ep$index_path)) {
+      .idx <- tryCatch(
+        jsonlite::fromJSON(.ep$index_path, simplifyVector = FALSE),
+        error = function(e) NULL
+      )
+      if (!is.null(.idx)) all_export_ids <- c(all_export_ids, names(.idx))
+    }
+  }
+  n_slug_ids   <- sum(grepl("^(cut|accred|research)-", all_export_ids))
+  n_unitid_ids <- sum(grepl("^[0-9]+$",               all_export_ids))
+  n_other_ids  <- length(all_export_ids) - n_slug_ids - n_unitid_ids
+  message(sprintf(
+    "Export ID stability: %d numeric unitid IDs (stable), %d name-slug IDs (unmatched / potentially unstable URL), %d other",
+    n_unitid_ids, n_slug_ids, n_other_ids
+  ))
+  if (n_slug_ids > 0) {
+    slug_examples <- head(all_export_ids[grepl("^(cut|accred|research)-", all_export_ids)], 5)
+    message("  Sample slug IDs: ", paste(slug_examples, collapse = ", "))
+    message("  These schools have no matched IPEDS unitid. Their public URLs may change if the API name changes.")
+    message("  To stabilise: add a manual alias or Supabase unitid for each institution.")
+  }
+  rm(.ep, .idx, all_export_ids, n_slug_ids, n_unitid_ids, n_other_ids)
+}
+
 by_school <- df %>%
   dplyr::group_by(unitid) %>%
   dplyr::group_split(.keep = TRUE)
@@ -992,3 +1041,4 @@ invisible(TRUE)
 if (sys.nframe() == 0) {
   main()
 }
+                              

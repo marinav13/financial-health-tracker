@@ -1,4 +1,4 @@
-﻿# Test support utilities and helpers.
+# Test support utilities and helpers.
 
 root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 

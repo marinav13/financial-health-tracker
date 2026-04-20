@@ -169,10 +169,44 @@ run_test("College Cuts join pipeline fixture", function() {
   setwd(fixture_root)
   cuts_env <- new.env(parent = globalenv())
   sys.source(file.path(fixture_root, "scripts", "build_college_cuts_join.R"), envir = cuts_env)
+  # Write a minimal stub API cuts CSV so the fixture doesn't hit the live API
+  api_cuts_csv <- file.path(fixture_root, "data_pipelines", "college_cuts", "fixture_api_cuts.csv")
+  readr::write_csv(
+    data.frame(
+      id                           = "10",
+      program_name                 = "Twelve faculty positions affected (Staff Layoff)",
+      cut_type                     = "staff_layoff",
+      announcement_date            = "2024-02-15",
+      effective_term               = "Fall 2024",
+      status                       = "confirmed",
+      students_affected            = NA_integer_,
+      faculty_affected             = 12L,
+      cip_code                     = "24.0101",
+      notes                        = "Twelve faculty positions affected",
+      institution_id               = NA_character_,
+      institution_name_collegecuts = "Example University",
+      institution_city             = "Boston",
+      institution_state_abbr       = "MA",
+      institution_state_full       = "Massachusetts",
+      institution_control          = "Public",
+      institution_url              = NA_character_,
+      institution_unitid           = NA_integer_,
+      source_id                    = NA_character_,
+      source_url_full              = "https://example.org/cuts",
+      source_title                 = NA_character_,
+      source_publication_name      = "Example News",
+      source_published_at          = NA_character_,
+      stringsAsFactors = FALSE
+    ),
+    api_cuts_csv,
+    na = ""
+  )
+
   cuts_env$main(c(
     "--financial-input", financial_input,
     "--output-prefix", output_prefix,
-    "--cache-dir", cache_dir
+    "--cache-dir", cache_dir,
+    "--api-cuts-csv", api_cuts_csv
   ))
 
   cut_level_path <- paste0(output_prefix, "_cut_level_joined.csv")

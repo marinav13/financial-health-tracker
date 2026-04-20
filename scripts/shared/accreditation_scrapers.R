@@ -866,10 +866,10 @@ NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\\s*<span[^>]*>([^<]+)
 
 # Keywords that indicate an actionable adverse finding in page text or eval text
 NWCCU_ADVERSE_KEYWORDS <- paste(
-  "show cause", "warning", "probation", "notice of concern",
-  "notice of warning", "summary suspension", "denial of accreditation",
-  "withdrawal of accreditation", "terminate", "termination",
-  "loses", "loss of", "no longer", "current accreditation status is",
+  c("show cause", "warning", "probation", "notice of concern",
+    "notice of warning", "summary suspension", "denial of accreditation",
+    "withdrawal of accreditation", "terminate", "termination",
+    "loses", "loss of", "no longer", "current accreditation status is"),
   collapse = "|"
 )
 

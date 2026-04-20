@@ -359,6 +359,39 @@ main <- function(cli_args = NULL) {
     }
   }
 
+  # --api-cuts-csv allows tests and offline runs to supply a pre-built CSV
+  # (same column schema as cuts_raw below) instead of calling the live API.
+  api_cuts_csv_path <- get_arg_value("--api-cuts-csv")
+
+  if (!is.null(api_cuts_csv_path)) {
+    message("Reading pre-built API cuts from: ", api_cuts_csv_path, " (skipping live API)")
+    cuts_raw <- readr::read_csv(
+      api_cuts_csv_path,
+      show_col_types = FALSE, progress = FALSE,
+      col_types = readr::cols(
+        students_affected = readr::col_integer(),
+        faculty_affected  = readr::col_integer(),
+        institution_unitid = readr::col_integer(),
+        .default = readr::col_character()
+      )
+    ) |>
+      dplyr::filter(!is.na(institution_name_collegecuts), nzchar(institution_name_collegecuts)) |>
+      dplyr::mutate(norm_name = normalize_name(institution_name_collegecuts)) |>
+      dplyr::left_join(
+        fallback_lookup,
+        by = c("norm_name", "institution_state_full" = "state_full")
+      ) |>
+      dplyr::mutate(
+        matched_unitid = unitid_candidate,
+        match_method = dplyr::if_else(
+          !is.na(unitid_candidate),
+          "normalized_name_state_fallback",
+          "unmatched"
+        )
+      )
+    message("Loaded ", nrow(cuts_raw), " cut record(s) from local CSV")
+  } else {
+
   api_records <- fetch_all_api_cuts("confirmed")
   message("Fetched ", length(api_records), " confirmed cuts from API")
 
@@ -409,6 +442,7 @@ main <- function(cli_args = NULL) {
         "unmatched"
       )
     )
+  } # end else (live API path)
 
   # -----------------------------------------------------------------------
   # SELECT FINANCIAL FIELDS TO ATTACH TO CUT RECORDS

@@ -196,3 +196,127 @@ run_test("College Cuts join pipeline fixture", function() {
   assert_identical(as.character(trends_df$unitid[[1]]), "100")
   assert_identical(nrow(unmatched_df), 0L)
 })
+
+run_test("College Cuts join: duplicate unitid in financial tracker raises stop()", function() {
+  fixture_root <- tempfile("college-cuts-dup-unitid-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "scripts"),
+    file.path(fixture_root, "scripts", "shared"),
+    file.path(fixture_root, "data_pipelines"),
+    file.path(fixture_root, "data_pipelines", "college_cuts")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R")) {
+    file.copy(
+      file.path(root, "scripts", nm),
+      file.path(fixture_root, "scripts", nm),
+      overwrite = TRUE
+    )
+  }
+  file.copy(
+    file.path(root, "scripts", "build_college_cuts_join.R"),
+    file.path(fixture_root, "scripts", "build_college_cuts_join.R"),
+    overwrite = TRUE
+  )
+
+  # Financial tracker with two rows sharing the same unitid for the same year.
+  # This should trigger the H13 pre-join cardinality guard before the API call.
+  financial_input <- file.path(fixture_root, "fixture_financial_dup.csv")
+  output_prefix   <- file.path(fixture_root, "data_pipelines", "college_cuts", "fixture_cc_dup")
+
+  one_row <- data.frame(
+    unitid = "100",
+    institution_name = "Example University",
+    institution_unique_name = "Example University | Boston | Massachusetts",
+    year = 2024,
+    control_label = "Public",
+    sector = "Public, 4-year or above",
+    level = "4-year",
+    urbanization = "City",
+    category = "Degree-granting, primarily baccalaureate or above",
+    state = "Massachusetts",
+    city = "Boston",
+    enrollment_headcount_total = 120,
+    enrollment_headcount_undergrad = 100,
+    enrollment_headcount_graduate = 20,
+    pct_international_all = 0.10,
+    pct_international_undergraduate = 0.08,
+    pct_international_graduate = 0.20,
+    international_enrollment_pct_change_5yr = 15,
+    international_enrollment_pct_change_10yr = 25,
+    share_grad_students = 0.17,
+    staff_headcount_total = 60,
+    staff_headcount_instructional = 15,
+    staff_total_headcount_pct_change_5yr = -2,
+    staff_instructional_headcount_pct_change_5yr = -1,
+    revenue_total = 1050,
+    expenses_total = 950,
+    loss_amount = 0,
+    ended_2024_at_loss = "No",
+    losses_last_3_of_5 = "No",
+    loss_years_last_5 = 0,
+    loss_years_last_10 = 0,
+    revenue_10pct_drop_last_3_of_5 = "No",
+    revenue_pct_change_5yr = -3,
+    revenue_decreased_5yr = "Yes",
+    enrollment_decline_last_3_of_5 = "Yes",
+    enrollment_pct_change_5yr = -5,
+    enrollment_decreased_5yr = "Yes",
+    net_tuition_per_fte = 3000,
+    net_tuition_per_fte_change_5yr = 2,
+    tuition_dependence_pct = 30,
+    discount_rate = 0.25,
+    discount_pct_change_5yr = 1,
+    federal_grants_contracts_pell_adjusted = 200,
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = 0.25,
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = 6,
+    state_funding = 150,
+    state_funding_pct_core_revenue = 0.12,
+    state_funding_pct_change_5yr = 4,
+    endowment_value = 800,
+    endowment_pct_change_5yr = 3,
+    liquidity = 0.9,
+    liquidity_percentile_private_nfp = 40,
+    leverage = 0.3,
+    leverage_percentile_private_nfp = 55,
+    loan_pct_undergrad_federal_latest = 25,
+    loan_count_undergrad_federal_latest = 40,
+    loan_avg_undergrad_federal_latest = 10000,
+    stringsAsFactors = FALSE
+  )
+  # Bind two identical rows — same unitid, same year
+  financial_df <- rbind(one_row, one_row)
+  readr::write_csv(financial_df, financial_input, na = "")
+
+  setwd(fixture_root)
+  cuts_env <- new.env(parent = globalenv())
+  sys.source(
+    file.path(fixture_root, "scripts", "build_college_cuts_join.R"),
+    envir = cuts_env
+  )
+
+  error_msg <- NULL
+  tryCatch(
+    cuts_env$main(c(
+      "--financial-input", financial_input,
+      "--output-prefix", output_prefix
+    )),
+    error = function(e) { error_msg <<- conditionMessage(e) }
+  )
+
+  assert_true(
+    !is.null(error_msg),
+    "main() should stop() when financial tracker has duplicate unitids for the same year."
+  )
+  assert_true(
+    grepl("duplicate unitid", error_msg, ignore.case = TRUE),
+    paste0("Error message should mention 'duplicate unitid'. Got: ", error_msg)
+  )
+})

@@ -142,6 +142,29 @@ main <- function(cli_args = NULL) {
       state_full = as.character(state)
     )
 
+  # -----------------------------------------------------------------------
+  # H13: PRE-JOIN CARDINALITY GUARD
+  # The left_join below attaches financial data to each cut row by unitid.
+  # If the financial tracker has two rows for the same unitid in the latest
+  # year, every cut matched to that institution would be silently doubled,
+  # corrupting all downstream counts and summaries.  Fail here — before the
+  # API fetch — so the error is immediate and actionable.
+  dup_unitids <- financial_latest |>
+    dplyr::count(unitid, name = "n_rows") |>
+    dplyr::filter(n_rows > 1L)
+  if (nrow(dup_unitids) > 0L) {
+    stop(sprintf(
+      paste(
+        "Financial tracker has %d duplicate unitid(s) for year %d.",
+        "Duplicate unitids would silently inflate cut records after the join.",
+        "Duplicated unitids: %s"
+      ),
+      nrow(dup_unitids),
+      latest_year,
+      paste(dup_unitids$unitid, collapse = ", ")
+    ), call. = FALSE)
+  }
+
   # Build fallback lookup: unique normalized-name + state → unitid.
   # Only keeps entries where the name+state pair is unambiguous (one candidate).
   fallback_lookup <- financial_latest |>

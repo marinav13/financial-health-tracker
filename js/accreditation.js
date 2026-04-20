@@ -330,7 +330,7 @@
       });
   }
 
-  function renderActionTablePage(actions, page, pageSize, emptyMessage) {
+  function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
     const totalPages = Math.max(1, Math.ceil(actions.length / pageSize));
     const safePage = Math.min(Math.max(1, page), totalPages);
     const start = (safePage - 1) * pageSize;
@@ -343,7 +343,7 @@
     const rows = pageRows
       .map((action) => `
         <tr>
-          <td>${financePageLink(action.unitid, escapeHtml(action.institution_name))}</td>
+          <td>${linkNames ? financePageLink(action.unitid, escapeHtml(action.institution_name)) : escapeHtml(action.institution_name || "")}</td>
           <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
           <td>${escapeHtml(action.action_label || action.action_type || "")}</td>
           <td>${escapeHtml(action.state || "")}</td>
@@ -384,14 +384,14 @@
     `;
   }
 
-  function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null) {
+  function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
     if (!container) return;
     let currentPage = 1;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
 
     const render = () => {
       const filteredActions = filterByInstitution(actions, searchInput?.value || "");
-      container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage);
+      container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage, linkNames);
       // Move focus to pagination for screen reader announcements
       setTimeout(() => {
         const pagination = container.querySelector(".pagination");
@@ -531,7 +531,8 @@
         "No accreditation actions from 2019 to the present are available for other institutions.",
         "accreditation-other-download",
         "accreditation-other.csv",
-        otherFilter
+        otherFilter,
+        false  // institution names in the "other" table are plain text, not links
       );
       return;
     }

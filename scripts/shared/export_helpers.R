@@ -83,7 +83,7 @@ or_null_date <- function(x) {
 # Normalises an institution name into a stable URL-slug component.
 # Applies the same abbreviation expansions used by the name-matching pipeline
 # (normalize_name in build_college_cuts_join.R) so that minor API-side
-# variations — "St." vs "Saint", leading "The", "&" vs "and" — all produce
+# variations â€” "St." vs "Saint", leading "The", "&" vs "and" â€” all produce
 # the same slug and do not silently change a school's public URL.
 #
 # IMPORTANT: do NOT change the output format of this helper once schools are
@@ -91,9 +91,9 @@ or_null_date <- function(x) {
 slug_institution_name <- function(name) {
   s <- tolower(trimws(name %||% ""))
   s <- sub("^the +", "", s)                      # strip leading "The "
-  s <- gsub("\\bst\\.?\\b", "saint", s)          # St / St. → saint
-  s <- gsub("&", "and", s, fixed = TRUE)         # & → and
-  s <- gsub("[^a-z0-9]+", "-", s)                # non-alnum → hyphen
+  s <- gsub("\\bst\\.?\\b", "saint", s)          # St / St. â†’ saint
+  s <- gsub("&", "and", s, fixed = TRUE)         # & â†’ and
+  s <- gsub("[^a-z0-9]+", "-", s)                # non-alnum â†’ hyphen
   s <- gsub("^-+|-+$", "", s)                    # trim edge hyphens
   s
 }
@@ -109,7 +109,7 @@ slug_institution_name <- function(name) {
 #      The prefix ("cut", "research", etc.) namespaces the slug to avoid
 #      collisions with numeric unitids.
 #
-# When a school transitions from unmatched → matched (gains a unitid), its ID
+# When a school transitions from unmatched â†’ matched (gains a unitid), its ID
 # will change from a slug to the numeric unitid.  This is unavoidable without
 # a separate persistent ID store, but it only affects unmatched schools and
 # is logged at export time (see build_web_exports.R).
@@ -117,7 +117,7 @@ make_export_id <- function(prefix, unitid, institution_name, state) {
   raw_unitid <- trimws(as.character(unitid %||% ""))
   if (!identical(raw_unitid, "")) return(raw_unitid)
 
-  # No unitid — build slug from normalised name + state.
+  # No unitid â€” build slug from normalised name + state.
   name_slug  <- slug_institution_name(institution_name)
   state_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(state %||% "")))
   state_slug <- gsub("^-+|-+$", "", state_slug)
@@ -284,7 +284,7 @@ write_json_file <- function(x, path) {
   if (length(null_positions) > 0) {
     if (length(null_positions) > length(raw_bytes) * 0.01) {
       warning(sprintf(
-        "write_json_file: %d null bytes (%.1f%%) found in %s — possible file corruption",
+        "write_json_file: %d null bytes (%.1f%%) found in %s â€” possible file corruption",
         length(null_positions),
         100 * length(null_positions) / length(raw_bytes),
         basename(path)
@@ -493,7 +493,7 @@ validate_json_schema <- function(path,
         }
       }
     }
-    # An empty container is not an error — the file might legitimately have
+    # An empty container is not an error â€” the file might legitimately have
     # zero entries (e.g., no college cuts yet this cycle).
   }
 
@@ -570,7 +570,7 @@ EXPORT_SCHEMAS <- list(
   list(
     filename            = "metadata.json",
     required_top_keys   = c("generated_at", "files"),
-    path_to_entries     = NULL,   # 'files' is a name→path dict, not an array of objects
+    path_to_entries     = NULL,   # 'files' is a nameâ†’path dict, not an array of objects
     required_entry_keys = character(0)
   ),
   list(
@@ -592,7 +592,7 @@ validate_all_export_schemas <- function(data_dir) {
 
   for (schema in EXPORT_SCHEMAS) {
     path <- file.path(data_dir, schema$filename)
-    if (!file.exists(path)) next   # not built in this run — skip silently
+    if (!file.exists(path)) next   # not built in this run â€” skip silently
 
     errs <- validate_json_schema(
       path                = path,
@@ -624,26 +624,6 @@ validate_all_export_schemas <- function(data_dir) {
 # Runs a set of export bundle specs, each with a builder plus filenames, and
 # returns a named list of written paths keyed by the spec name.
 write_export_bundles <- function(specs, data_dir) {
-  results <- vector("list", length(specs))
-  names(results) <- names(specs)
-
-  for (nm in names(specs)) {
-    spec           <- specs[[nm]]
-    export_obj     <- spec$builder()
-    index_filename <- if ("index_filename" %in% names(spec)) spec$index_filename else NULL
-    index_builder  <- if ("index_builder"  %in% names(spec)) spec$index_builder  else function(school) list()
-    results[[nm]] <- write_export_bundle(
-      export_obj      = export_obj,
-      data_dir        = data_dir,
-      export_filename = spec$export_filename,
-      index_filename  = index_filename,
-      index_builder   = index_builder
-    )
-  }
-
-  results
-}
-
   results <- vector("list", length(specs))
   names(results) <- names(specs)
 

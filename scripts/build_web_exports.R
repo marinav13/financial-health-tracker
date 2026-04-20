@@ -772,13 +772,16 @@ for (nm in c(
 )) {
   if (!(nm %in% names(outcomes_summary))) outcomes_summary[[nm]] <- NA
 }
+outcomes_cols_to_join <- setdiff(outcomes_join_fields, "unitid")
 df <- df %>%
+  dplyr::select(-dplyr::any_of(outcomes_cols_to_join)) %>%
   mutate(unitid = as.character(unitid)) %>%
   left_join(
     outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
 latest_2024 <- latest_2024 %>%
+  dplyr::select(-dplyr::any_of(outcomes_cols_to_join)) %>%
   mutate(unitid = as.character(unitid)) %>%
   left_join(
     outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),

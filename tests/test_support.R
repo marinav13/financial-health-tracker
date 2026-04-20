@@ -84,8 +84,4 @@ run_test_files <- function(test_paths) {
   }
   cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
   if (length(failures) > 0L) quit(status = 1L)
-  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
-  if (length(failures) > 0L) quit(status = 1L)
-  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
-  if (length(failures) > 0L) quit(status = 1L)
 }

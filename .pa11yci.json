@@ -2,7 +2,7 @@
   "defaults": {
     "standard": "WCAG2AA",
     "chromeLaunchConfig": {
-      "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+  "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
     },
     "ignore": [
       "WCAG2AA.Principle3.Guideline3_1.3_1_1.H57.2",

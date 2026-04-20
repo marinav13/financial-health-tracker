@@ -157,17 +157,13 @@ run_test("College Cuts join pipeline fixture", function() {
     COLLEGE_CUTS_SUPABASE_ANON_KEY = "fixture-key"
   )
 
-  # Create required input files that build_college_cuts_join.R reads from getwd()
-  readr::write_csv(
-    data.frame(
-      norm_name = character(0),
-      state_full = character(0),
-      unitid_candidate = character(0),
-      fallback_tracker_institution_name = character(0),
-      stringsAsFactors = FALSE
-    ),
+  # Create required input files that build_college_cuts_join.R reads from getwd().
+  # Copy the real manual_aliases.csv so readr parses unitid_candidate as double
+  # (an empty stub would be read as character, causing bind_rows type conflicts).
+  file.copy(
+    file.path(root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
     file.path(fixture_root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
-    na = ""
+    overwrite = TRUE
   )
 
   setwd(fixture_root)

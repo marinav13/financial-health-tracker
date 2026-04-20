@@ -50,6 +50,7 @@ data_pipelines/grant_witness/analysis/*
 !data_pipelines/grant_witness/manual_match_overrides.csv
 !data_pipelines/grant_witness/analysis/grant_witness_usaspending_risky_continuation_filter.csv
 data_pipelines/scorecard/*.csv
+!data_pipelines/scorecard/tracker_outcomes_joined.csv
 
 # OS/editor noise
 Thumbs.db

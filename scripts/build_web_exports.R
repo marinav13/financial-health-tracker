@@ -303,7 +303,11 @@ build_accreditation_export <- function() {
   actions_df <- actions_df %>%
     filter(display_action %in% TRUE)
 
-  covered_accreditors <- sort(unique(c(summary_df$accreditors, actions_df$accreditor)))
+  # Always include all accreditors the project actively tracks, even if the
+  # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying
+  # 4-year bachelor's institutions under action right now).
+  ALL_TRACKED_ACCREDITORS <- c("HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC")
+  covered_accreditors <- sort(unique(c(ALL_TRACKED_ACCREDITORS, summary_df$accreditors, actions_df$accreditor)))
   covered_accreditors <- covered_accreditors[!is.na(covered_accreditors) & covered_accreditors != ""]
 
   not_covered <- list(

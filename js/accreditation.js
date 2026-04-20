@@ -25,6 +25,16 @@
     ACCJC: "Accrediting Commission for Community and Junior Colleges"
   };
 
+  const ACCREDITOR_URLS = {
+    HLC:     "https://www.hlcommission.org/",
+    MSCHE:   "https://www.msche.org/",
+    SACSCOC: "https://sacscoc.org/",
+    NECHE:   "https://www.neche.org/",
+    NWCCU:   "https://nwccu.org/",
+    WSCUC:   "https://www.wscuc.org/",
+    ACCJC:   "https://accjc.org/"
+  };
+
   const OTHER_ACCREDITORS = [
     { short: "ACCJC", name: "Accrediting Commission for Community and Junior Colleges", url: "https://accjc.org/" }
   ];
@@ -441,6 +451,8 @@
 
   function renderLimitations(data) {
     const representedStates = [...new Set(Object.values(data.schools || {}).map((school) => school.state).filter(Boolean))].sort();
+
+    // Collect accreditor codes from the JSON (covered_accreditors is the canonical list).
     const accreditorCodes = new Set();
     (data.covered_accreditors || []).forEach((value) => {
       String(value || "")
@@ -449,43 +461,31 @@
         .filter(Boolean)
         .forEach((part) => accreditorCodes.add(part));
     });
-    (data.source_coverage || []).forEach((row) => {
-      const code = String(row.accreditor || "").trim();
-      if (code) accreditorCodes.add(code);
-    });
-    const trackedNames = [...accreditorCodes]
-      .map((code) => ACCREDITOR_NAMES[code] || code)
-      .sort((a, b) => a.localeCompare(b));
-    const sortedCoverage = [...(data.source_coverage || [])]
-      .filter((row) => isTrackedAction(row))
-      .sort((a, b) => {
-        const accreditorCompare = expandAccreditors(a.accreditor || "").localeCompare(expandAccreditors(b.accreditor || ""));
-        if (accreditorCompare !== 0) return accreditorCompare;
-        const actionCompare = String(a.action_type || "").localeCompare(String(b.action_type || ""));
-        if (actionCompare !== 0) return actionCompare;
-        return String(a.n || "").localeCompare(String(b.n || ""));
+
+    // Build a linked list of tracked accreditors, sorted alphabetically by name.
+    const trackedLinks = [...accreditorCodes]
+      .filter((code) => ACCREDITOR_NAMES[code])
+      .sort((a, b) => (ACCREDITOR_NAMES[a] || a).localeCompare(ACCREDITOR_NAMES[b] || b))
+      .map((code) => {
+        const name = ACCREDITOR_NAMES[code] || code;
+        const url = ACCREDITOR_URLS[code];
+        return url
+          ? `<li><a href="${url}" target="_blank" rel="noopener">${name}</a></li>`
+          : `<li>${name}</li>`;
       });
-    const covered = trackedNames.length
-      ? `<p><strong>Currently tracked accreditors:</strong> ${trackedNames.join(", ")}</p>`
+
+    const covered = trackedLinks.length
+      ? `<p><strong>Currently tracked accreditors:</strong></p><ul class="link-list">${trackedLinks.join("")}</ul>`
       : "";
+
     const accreditedNote = `<p>Currently, a college can still be accredited while also being under warning, notice, monitoring, probation, or another public follow-up action. That is why this page emphasizes recent actions instead of a simple accredited / not accredited label.</p>`;
     const stateNote = representedStates.length
       ? `<p>In the current version of this page, matched institutions appear in these states: ${representedStates.join(", ")}.</p>`
       : "";
-    const coverageRows = sortedCoverage.length
-      ? `<div class="history-table-wrap"><table class="history-table"><thead><tr><th>Accreditor</th><th>Action type</th></tr></thead><tbody>${
-          sortedCoverage.map((row) => `<tr><td>${expandAccreditors(row.accreditor || "")}</td><td>${row.action_type || ""}</td></tr>`).join("")
-        }</tbody></table></div>`
-      : "";
-    const otherBodies = OTHER_ACCREDITORS.length
-      ? `<p><strong>Other institutional accreditors:</strong></p><ul class="link-list">${
-          OTHER_ACCREDITORS.map((row) => `<li><a href="${row.url}" target="_blank" rel="noopener">${row.name}</a></li>`).join("")
-        }</ul>`
-      : "";
     const helpText = `<p>This page currently reflects only the accreditors and action types already collected in this project. The main table focuses on 4-year, primarily bachelor's-degree-granting institutions in the financial tracker, with a smaller secondary table for other institutions. The display is limited to warning, notice, monitoring, probation, removal-from-those actions, closure or teach-out decisions, and commission actions that explicitly require additional reports from 2019 to the present.</p>
         <p>A missing result here does not mean an institution has no accreditation history or current accreditation.</p>
         <p>If your college is not included here, students should check the institution's own accreditation webpage, the accreditor's institution directory or public actions page, and the institution's consumer-information or disclosure page.</p>`;
-    return `${covered}${accreditedNote}${stateNote}${helpText}${coverageRows}${otherBodies}`;
+    return `${covered}${accreditedNote}${stateNote}${helpText}`;
   }
 
   // ------ Initialization ------

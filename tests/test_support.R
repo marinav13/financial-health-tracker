@@ -1,4 +1,4 @@
-# Test support utilities and helpers.
+﻿# Test support utilities and helpers.
 
 root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 
@@ -82,6 +82,10 @@ run_test_files <- function(test_paths) {
   for (path in test_paths) {
     sys.source(path, envir = globalenv())
   }
+  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
+  if (length(failures) > 0L) quit(status = 1L)
+  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
+  if (length(failures) > 0L) quit(status = 1L)
   cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
   if (length(failures) > 0L) quit(status = 1L)
 }

@@ -627,4 +627,19 @@ write_export_bundles <- function(specs, data_dir) {
   results <- vector("list", length(specs))
   names(results) <- names(specs)
 
-  for (nm in names(specs))
+  for (nm in names(specs)) {
+    spec           <- specs[[nm]]
+    export_obj     <- spec$builder()
+    index_filename <- if ("index_filename" %in% names(spec)) spec$index_filename else NULL
+    index_builder  <- if ("index_builder"  %in% names(spec)) spec$index_builder  else function(school) list()
+    results[[nm]] <- write_export_bundle(
+      export_obj      = export_obj,
+      data_dir        = data_dir,
+      export_filename = spec$export_filename,
+      index_filename  = index_filename,
+      index_builder   = index_builder
+    )
+  }
+
+  results
+}

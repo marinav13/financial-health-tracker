@@ -82,4 +82,6 @@ run_test_files <- function(test_paths) {
   for (path in test_paths) {
     sys.source(path, envir = globalenv())
   }
-  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, len
+  cat(sprintf("\nShared helper smoke tests: %d passed, %d failed.\n", passes, length(failures)))
+  if (length(failures) > 0L) quit(status = 1L)
+}

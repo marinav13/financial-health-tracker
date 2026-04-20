@@ -229,7 +229,7 @@ main <- function(cli_args = NULL) {
   }
 
   manual_match_overrides <- if (file.exists(manual_match_overrides_path)) {
-    readr::read_csv(manual_match_overrides_path, show_col_types = FALSE, progress = FALSE) |>
+    mo <- readr::read_csv(manual_match_overrides_path, show_col_types = FALSE, progress = FALSE) |>
       dplyr::transmute(
         organization_name,
         organization_name_display = prettify_institution_name(organization_name),
@@ -263,12 +263,13 @@ main <- function(cli_args = NULL) {
       dplyr::select(-dplyr::starts_with("financial_tracker_"))
 
     # Validate: check for stale override unitids not in current IPEDS data
-    stale_overrides <- manual_match_overrides |>
+    stale_overrides <- mo |>
       dplyr::filter(!override_unitid %in% financial_latest$unitid)
     if (nrow(stale_overrides) > 0) {
       warning(sprintf("%d manual override unitid(s) not found in current IPEDS data: %s",
         nrow(stale_overrides), paste(stale_overrides$override_unitid, collapse=", ")))
     }
+    mo
   } else {
     data.frame(
       organization_name = character(),

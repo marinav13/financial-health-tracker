@@ -364,9 +364,9 @@ run_test("End-to-end canonical to web export fixture", function() {
     na = ""
   )
 
-  readr::write_file("{}", file.path(fixture_root, "data", "closure_status_by_unitid.json"))
-  readr::write_file("{}", file.path(fixture_root, "data", "hcm2_by_unitid.json"))
-  readr::write_file("{}", file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
 
   setwd(fixture_root)
 

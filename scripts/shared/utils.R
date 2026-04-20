@@ -213,5 +213,9 @@ first_non_null <- function(x, default = NULL) {
   for (val in x) {
     if (!is.null(val) && length(val) > 0 && !is.na(val)) return(val)
   }
+  # Return a type-appropriate NA from the input vector rather than NULL, so
+  # callers don't encounter 'missing value where TRUE/FALSE needed' when the
+  # result is used in a conditional (e.g. if (is.na(fte_undergrad))).
+  if (is.null(default) && is.atomic(x) && length(x) > 0) return(x[NA_integer_])
   default
 }

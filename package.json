@@ -11,6 +11,8 @@
   "devDependencies": {
     "@axe-core/puppeteer": "^4.11.1",
     "@playwright/test": "^1.52.0",
-    "pa11y-ci": "^2.3.1"
+    "http-server": "^14.1.1",
+    "pa11y-ci": "^2.3.1",
+    "wait-on": "^8.0.1"
   }
 }

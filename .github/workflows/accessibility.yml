@@ -19,8 +19,14 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Install pa11y-ci
-        run: npm install --save-dev pa11y-ci@3 @axe-core/puppeteer@4
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start local server
+        run: npx http-server -p 8000 &
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:8000 --timeout 15000
 
       - name: Run accessibility checks
         run: npx pa11y-ci --config .pa11yci.json

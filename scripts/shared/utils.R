@@ -145,5 +145,59 @@ load_ipeds_paths <- function(root = ".") {
 # Safely converts values to numeric, returning NA for inputs that can't be parsed.
 # Useful for handling inconsistent data types in raw data.
 to_num <- function(x) {
-  suppressWarnings(as.numeric(as.character(x)))
+  suppressWarnings(as.numeric(gsub(",", "", as.character(x))))
+}
+
+# ---------------------------------------------------------------------------
+# Safe numeric arithmetic
+# ---------------------------------------------------------------------------
+
+# Divides x by y. Returns NA_real_ if y is zero, NA, or NULL, preventing
+# "division by zero" errors in rate and percentage calculations.
+safe_divide <- function(x, y) {
+  if (is.null(y) || length(y) == 0 || is.na(y) || y == 0) return(NA_real_)
+  x / y
+}
+
+# Computes ((new_val - old_val) / old_val) * 100 safely, returning NA_real_
+# if old_val is zero or missing. Used for year-over-year / 5-year change fields.
+safe_pct_change <- function(new_val, old_val) {
+  safe_divide(new_val - old_val, old_val) * 100
+}
+
+# ---------------------------------------------------------------------------
+# Data frame field extractors
+# ---------------------------------------------------------------------------
+
+# Extracts a single numeric value from column `col` of data frame `df`.
+# Returns NA_real_ if the column is absent, the data frame is NULL,
+# or the value cannot be coerced to numeric.
+get_number <- function(df, col) {
+  if (is.null(df) || is.null(col) || length(col) == 0 || is.na(col)) return(NA_real_)
+  if (!col %in% names(df)) return(NA_real_)
+  to_num(df[[col]][[1L]])
+}
+
+# Extracts a single string value from column `col` of data frame `df`.
+# Returns NA_character_ if the column is absent, empty string, or the data
+# frame is NULL.
+get_string <- function(df, col) {
+  if (is.null(df) || is.null(col) || length(col) == 0 || is.na(col)) return(NA_character_)
+  if (!col %in% names(df)) return(NA_character_)
+  val <- df[[col]][[1L]]
+  if (is.na(val) || nchar(as.character(val)) == 0L) return(NA_character_)
+  as.character(val)
+}
+
+# ---------------------------------------------------------------------------
+# String helpers
+# ---------------------------------------------------------------------------
+
+# Collapses non-NA unique values of x into a single string separated by `sep`,
+# sorted alphabetically. Returns NA_character_ if all values are NA.
+# E.g. collapse_unique_values(c("b", NA, "a", "b")) -> "a; b"
+collapse_unique_values <- function(x, sep = "; ") {
+  vals <- sort(unique(x[!is.na(x)]))
+  if (length(vals) == 0L) return(NA_character_)
+  paste(vals, collapse = sep)
 }

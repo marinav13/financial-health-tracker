@@ -86,7 +86,17 @@ state_name <- function(x) {
 # Fetches HTML from URL with disk caching and graceful fallback to cache on network failures.
 # Caching is essential here because accreditor websites are often slow or temporarily unavailable;
 # falling back to cached data from a previous run is better than failing entirely.
-fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE) {
+# validate_fn, when provided, is called with the raw response body (string).
+# It should return TRUE if the content is usable and FALSE if it looks like a
+# JavaScript-rendered shell or is otherwise invalid.
+#
+# When validate_fn returns FALSE:
+#   - The cache is NOT overwritten (preserving last-known-good data).
+#   - If a cached copy exists, a warning is emitted and the cached copy is
+#     returned so the pipeline continues with stale-but-valid data.
+#   - If no cached copy exists, stop() is called with actionable instructions.
+fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
+                            validate_fn = NULL) {
   cache_path <- file.path(cache_dir, cache_name)
   # Quick return if not refreshing and cache exists
   if (!refresh && file.exists(cache_path)) {
@@ -98,6 +108,32 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE) {
       httr2::req_user_agent("FinancialHealthProject/1.0") |>
       httr2::req_perform()
     body <- httr2::resp_body_string(resp)
+
+    # Content validation: if the caller supplied a validator and the fresh
+    # response fails it, do NOT write to cache — fall back to existing cache or
+    # stop with instructions if no cache is available.
+    if (!is.null(validate_fn) && !isTRUE(validate_fn(body))) {
+      if (file.exists(cache_path)) {
+        cache_mtime <- format(file.info(cache_path)$mtime, "%Y-%m-%d %H:%M")
+        warning(paste(
+          sprintf("fetch_html_text: fresh response from %s failed content validation", url),
+          sprintf("(possible JavaScript-rendered shell). Cache NOT overwritten."),
+          sprintf("Falling back to cached copy last updated %s.", cache_mtime),
+          "Re-fetch the page with a JS-capable tool to refresh the cache.",
+          sep = "\n"
+        ), call. = FALSE)
+        return(readr::read_file(cache_path))
+      } else {
+        stop(paste(
+          sprintf("fetch_html_text: fresh response from %s failed content validation", url),
+          "(possible JavaScript-rendered shell) and no cached fallback exists.",
+          "Re-fetch the page with a JS-capable tool (e.g. chromote or browser",
+          sprintf("automation) and save the rendered HTML to:\n  %s", cache_path),
+          sep = "\n"
+        ), call. = FALSE)
+      }
+    }
+
     # Save the response to cache for future use
     readr::write_file(body, cache_path)
     body

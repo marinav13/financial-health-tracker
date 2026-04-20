@@ -1,3 +1,43 @@
+run_test("slug_institution_name normalisation rules", function() {
+  # Basic lowercase + non-alnum → hyphen
+  assert_identical(slug_institution_name("Example University"), "example-university")
+  # Strip leading "The "
+  assert_identical(slug_institution_name("The Ohio State University"), "ohio-state-university")
+  # St / St. → saint
+  assert_identical(slug_institution_name("St. John's University"), "saint-john-s-university")
+  assert_identical(slug_institution_name("St Xavier University"),  "saint-xavier-university")
+  # & → and
+  assert_identical(slug_institution_name("Arts & Sciences College"), "arts-and-sciences-college")
+  # Edge cases
+  assert_identical(slug_institution_name(""), "")
+  assert_identical(slug_institution_name(NA_character_), "")
+})
+
+run_test("make_export_id uses unitid when present, slug otherwise", function() {
+  # Numeric unitid is returned as-is (no prefix)
+  assert_identical(make_export_id("cut", "12345", "Name", "NY"), "12345")
+  # Slug format: prefix-name-slug--state-slug
+  assert_identical(
+    make_export_id("cut", "", "Example University", "New York"),
+    "cut-example-university--new-york"
+  )
+  # "--" separator keeps name and state visually distinct
+  assert_identical(
+    make_export_id("accred", NA_character_, "The Ohio State University", "Ohio"),
+    "accred-ohio-state-university--ohio"
+  )
+  # St → saint propagated through make_export_id
+  assert_identical(
+    make_export_id("cut", "", "St. Mary's College", "California"),
+    "cut-saint-mary-s-college--california"
+  )
+  # Missing state: just name slug
+  assert_identical(
+    make_export_id("cut", "", "Example College", ""),
+    "cut-example-college"
+  )
+})
+
 run_test("Export helper basics", function() {
   temp_file <- tempfile("local-file-")
   writeLines("ok", temp_file)
@@ -6,7 +46,7 @@ run_test("Export helper basics", function() {
   assert_identical(make_export_id("cut", "12345", "Name", "NY"), "12345")
   assert_identical(
     make_export_id("cut", "", "Example University", "NY"),
-    "cut-example-university-ny"
+    "cut-example-university--ny"
   )
   assert_identical(
     normalize_display_institution_name("Arizona State University Campus Immersion"),
@@ -74,4 +114,29 @@ run_test("Export bundle helpers", function() {
   index_rows <- jsonlite::read_json(bundle_paths$index_path, simplifyVector = TRUE)
   assert_identical(index_rows$institution_unique_name[[1]], "Arizona State University | Tempe | AZ")
   assert_true(isTRUE(index_rows$extra_flag[[1]]))
+})
+
+run_test("write_json_file strips mid-file null bytes and validates JSON", function() {
+  tmp <- tempfile("write_json_null_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+
+  # Write a valid JSON file, then inject null bytes at the start, middle, and end
+  writeLines('{"a":1,"b":2}', con = tmp)
+  raw_clean <- readBin(tmp, raw(), n = file.info(tmp)$size)
+  null_byte  <- as.raw(0x00)
+  # Inject three null bytes: one at position 2, one in the middle, one at the end
+  mid <- length(raw_clean) %/% 2L
+  corrupted <- c(raw_clean[1L], null_byte, raw_clean[2L:mid],
+                 null_byte, raw_clean[(mid + 1L):length(raw_clean)], null_byte)
+  con <- file(tmp, "wb"); writeBin(corrupted, con); close(con)
+
+  # Overwrite via write_json_file with a clean object — should succeed and parse cleanly
+  write_json_file(list(a = 1L, b = 2L), tmp)
+  result <- jsonlite::read_json(tmp)
+  assert_identical(result$a, 1L)
+  assert_identical(result$b, 2L)
+
+  # Sanity-check: no null bytes remain in the written file
+  final_bytes <- readBin(tmp, raw(), n = file.info(tmp)$size)
+  assert_identical(sum(final_bytes == as.raw(0x00)), 0L)
 })

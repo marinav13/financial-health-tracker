@@ -1035,6 +1035,9 @@ cat(sprintf(
   n_school_files
 ))
 
+# H8: deep schema validation — catches field renames and structural regressions
+validate_all_export_schemas(data_dir)
+
 invisible(TRUE)
 }
 

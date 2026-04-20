@@ -44,8 +44,30 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Run JS tests
-        run: node tests/test_frontend_structure.js
+      - name: Run JS unit tests
+        run: |
+          node tests/test_frontend_structure.js
+          node tests/test_js_charts.js
+
+  e2e-tests:
+    name: E2E tests (Playwright)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: Run Playwright e2e tests
+        run: npm run test:e2e
 
   python-tests:
     name: Python tests

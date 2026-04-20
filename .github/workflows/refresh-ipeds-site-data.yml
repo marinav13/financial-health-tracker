@@ -74,12 +74,15 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript ./scripts/build_college_cuts_join.R
+          --financial-input data/downloads/full_dataset.csv
 
       - name: Build unfiltered research join for USAspending analysis
         shell: bash
         timeout-minutes: 60
         run: >
-          Rscript ./scripts/build_grant_witness_join.R --skip-usaspending-filter
+          Rscript ./scripts/build_grant_witness_join.R
+          --financial-input data/downloads/full_dataset.csv
+          --skip-usaspending-filter
 
       - name: Refresh USAspending reinstatement analysis
         shell: bash
@@ -92,6 +95,7 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript ./scripts/build_grant_witness_join.R
+          --financial-input data/downloads/full_dataset.csv
 
       - name: Import closure outputs from published Google Sheet
         shell: bash

@@ -56,6 +56,7 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript ./scripts/build_accreditation_actions.R
+          --financial-input data/downloads/full_dataset.csv
 
       - name: Sync Supabase institution → unitid mapping
         shell: bash

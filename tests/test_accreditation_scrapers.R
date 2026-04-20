@@ -275,7 +275,10 @@ run_test("fetch_html_text validate_fn: JS-shell does not overwrite good cache", 
 
 # Helper: write a fixture HTML file and return the inst URL whose slug matches
 nwccu_fixture <- function(cache_dir, slug, html) {
-  writeLines(html, file.path(cache_dir, paste0("nwccu_inst_", slug, ".html")))
+  # Cache filename must match what parse_nwccu_institution_page() generates:
+  # paste0("nwccu_", gsub("[^a-z]", "_", slug), ".html")
+  cache_name <- paste0("nwccu_", gsub("[^a-z]", "_", slug), ".html")
+  writeLines(html, file.path(cache_dir, cache_name))
   paste0("https://nwccu.org/institutional-directory/", slug, "/")
 }
 

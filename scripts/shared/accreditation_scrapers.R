@@ -874,7 +874,7 @@ NWCCU_ADVERSE_KEYWORDS <- paste(
 )
 
 parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh = FALSE) {
-  cache_file <- file.path(cache_dir, paste0("nwccu_", gsub("[^a-z]", "_", basename(inst_url)), ".html"))
+  cache_file <- file.path(cache_dir, paste0("nwccu_", gsub("[^a-z]", "_", basename(sub("/$", "", inst_url))), ".html"))
   html <- fetch_html_text(inst_url, cache_file, cache_dir, refresh = refresh)
   if (is.null(html) || nchar(html) < 100) {
     return(tibble::tibble())

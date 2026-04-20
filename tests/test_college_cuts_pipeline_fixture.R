@@ -157,6 +157,19 @@ run_test("College Cuts join pipeline fixture", function() {
     COLLEGE_CUTS_SUPABASE_ANON_KEY = "fixture-key"
   )
 
+  # Create required input files that build_college_cuts_join.R reads from getwd()
+  readr::write_csv(
+    data.frame(
+      norm_name = character(0),
+      state_full = character(0),
+      unitid_candidate = character(0),
+      fallback_tracker_institution_name = character(0),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
+    na = ""
+  )
+
   setwd(fixture_root)
   cuts_env <- new.env(parent = globalenv())
   sys.source(file.path(fixture_root, "scripts", "build_college_cuts_join.R"), envir = cuts_env)

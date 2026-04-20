@@ -155,14 +155,13 @@ to_num <- function(x) {
 # Divides x by y. Returns NA_real_ if y is zero, NA, or NULL, preventing
 # "division by zero" errors in rate and percentage calculations.
 safe_divide <- function(x, y) {
-  if (is.null(y) || length(y) == 0 || is.na(y) || y == 0) return(NA_real_)
-  x / y
+  ifelse(is.na(y) | y == 0, NA_real_, x / y)
 }
 
 # Computes ((new_val - old_val) / old_val) * 100 safely, returning NA_real_
 # if old_val is zero or missing. Used for year-over-year / 5-year change fields.
 safe_pct_change <- function(new_val, old_val) {
-  safe_divide(new_val - old_val, old_val) * 100
+  ifelse(is.na(old_val) | old_val == 0, NA_real_, ((new_val - old_val) / old_val) * 100)
 }
 
 # ---------------------------------------------------------------------------
@@ -200,4 +199,19 @@ collapse_unique_values <- function(x, sep = "; ") {
   vals <- sort(unique(x[!is.na(x)]))
   if (length(vals) == 0L) return(NA_character_)
   paste(vals, collapse = sep)
+}
+
+# ---------------------------------------------------------------------------
+# first_non_null
+# ---------------------------------------------------------------------------
+
+# Returns the first non-NULL, non-NA element from a list or vector.
+# Returns the default (NULL) if every element is NULL or NA.
+# Useful for choosing between alternate field names in IPEDS tables, e.g.:
+#   fte_undergrad <- first_non_null(c(get_number(df, "EFTEUG"), get_number(df, "FTEUG")))
+first_non_null <- function(x, default = NULL) {
+  for (val in x) {
+    if (!is.null(val) && length(val) > 0 && !is.na(val)) return(val)
+  }
+  default
 }

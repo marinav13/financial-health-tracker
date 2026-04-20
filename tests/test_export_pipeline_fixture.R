@@ -251,9 +251,9 @@ run_test("Web export pipeline fixture", function() {
     na = ""
   )
 
-  readr::write_file("{}", file.path(fixture_root, "data", "closure_status_by_unitid.json"))
-  readr::write_file("{}", file.path(fixture_root, "data", "hcm2_by_unitid.json"))
-  readr::write_file("{}", file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
 
   export_env <- new.env(parent = globalenv())
   sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)

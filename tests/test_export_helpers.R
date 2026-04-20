@@ -140,3 +140,120 @@ run_test("write_json_file strips mid-file null bytes and validates JSON", functi
   final_bytes <- readBin(tmp, raw(), n = file.info(tmp)$size)
   assert_identical(sum(final_bytes == as.raw(0x00)), 0L)
 })
+
+# ---------------------------------------------------------------------------
+# H8: JSON schema validation
+# ---------------------------------------------------------------------------
+
+run_test("validate_json_schema: valid object file passes", function() {
+  tmp <- tempfile("schema_valid_obj_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+  writeLines('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","institution_name":"Example U","cuts":[]}}}', tmp)
+
+  errs <- validate_json_schema(
+    path                = tmp,
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "cuts")
+  )
+  assert_identical(length(errs), 0L)
+})
+
+run_test("validate_json_schema: valid top-level array passes", function() {
+  tmp <- tempfile("schema_valid_arr_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+  writeLines('[{"unitid":"100","institution_name":"Example U","state":"MA"}]', tmp)
+
+  errs <- validate_json_schema(
+    path                = tmp,
+    required_top_keys   = character(0),
+    path_to_entries     = list(),
+    required_entry_keys = c("unitid", "institution_name", "state")
+  )
+  assert_identical(length(errs), 0L)
+})
+
+run_test("validate_json_schema: missing required top-level key is caught", function() {
+  tmp <- tempfile("schema_missing_top_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+  # 'generated_at' intentionally omitted
+  writeLines('{"schools":{}}', tmp)
+
+  errs <- validate_json_schema(
+    path                = tmp,
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = NULL,
+    required_entry_keys = character(0)
+  )
+  assert_true(length(errs) >= 1L)
+  assert_true(any(grepl("generated_at", errs)))
+})
+
+run_test("validate_json_schema: missing required entry key is caught", function() {
+  tmp <- tempfile("schema_missing_entry_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+  # entry missing the 'cuts' key
+  writeLines('{"generated_at":"2024","schools":{"100":{"unitid":"100","institution_name":"Example U"}}}', tmp)
+
+  errs <- validate_json_schema(
+    path                = tmp,
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "cuts")
+  )
+  assert_true(length(errs) >= 1L)
+  assert_true(any(grepl("cuts", errs)))
+})
+
+run_test("validate_json_schema: missing file returns error string", function() {
+  errs <- validate_json_schema(
+    path                = "/nonexistent/path/file.json",
+    required_top_keys   = c("generated_at"),
+    path_to_entries     = NULL,
+    required_entry_keys = character(0)
+  )
+  assert_true(length(errs) >= 1L)
+  assert_true(any(grepl("does not exist", errs)))
+})
+
+run_test("validate_json_schema: empty schools container skips entry check", function() {
+  tmp <- tempfile("schema_empty_schools_", fileext = ".json")
+  on.exit(unlink(tmp), add = TRUE)
+  # schools is an empty dict — no entry to validate against
+  writeLines('{"generated_at":"2024","schools":{}}', tmp)
+
+  errs <- validate_json_schema(
+    path                = tmp,
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "cuts")
+  )
+  assert_identical(length(errs), 0L)
+})
+
+run_test("validate_all_export_schemas: passes against actual data directory", function() {
+  # Resolve the data directory relative to the repo root.
+  # This test only runs when the exported JSON files are present; it is skipped
+  # silently when none of the known files exist (e.g., fresh CI before first
+  # export build).
+  data_dir <- file.path(root, "data")
+
+  present <- vapply(EXPORT_SCHEMAS, function(s) {
+    file.exists(file.path(data_dir, s$filename))
+  }, logical(1L))
+
+  if (!any(present)) {
+    message("validate_all_export_schemas: no export files found in data/ — skipping live check")
+    return(invisible(NULL))
+  }
+
+  # Should complete without stopping
+  result <- tryCatch(
+    validate_all_export_schemas(data_dir),
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(
+    isTRUE(result),
+    paste0("validate_all_export_schemas() failed against data/:\n", result)
+  )
+})

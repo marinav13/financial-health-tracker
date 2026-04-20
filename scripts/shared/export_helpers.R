@@ -410,6 +410,217 @@ build_group_value_lookup <- function(df, group_col, value_col, summarizer) {
     { stats::setNames(.$value, .[[group_col]]) }
 }
 
+# ---------------------------------------------------------------------------
+# H8: JSON schema validation for exported files
+# ---------------------------------------------------------------------------
+
+# Navigates a parsed JSON object along a list of string keys, then returns the
+# first entry from the resulting container (which may be a positional array or
+# a named dict).  Returns NULL if the path is unreachable or the container is
+# empty.
+#
+# Examples:
+#   get_first_entry(obj, list())            -> obj[[1]]   (obj is array or dict)
+#   get_first_entry(obj, list("schools"))   -> obj$schools[[1]]
+#   get_first_entry(obj, list("files"))     -> obj$files[[1]]
+.get_first_json_entry <- function(obj, path_to_entries) {
+  current <- obj
+  for (key in path_to_entries) {
+    if (!is.list(current) || !key %in% names(current)) return(NULL)
+    current <- current[[key]]
+  }
+  if (length(current) == 0L) return(NULL)
+  current[[1L]]
+}
+
+# Validates a single JSON export file against a lightweight schema.
+#
+# Arguments:
+#   path              : absolute path to the JSON file
+#   required_top_keys : character vector of keys that must exist at the top
+#                       level of the JSON object (ignored when the top-level
+#                       value is an array rather than an object)
+#   path_to_entries   : list of string keys used to navigate from the top-level
+#                       object to the container of individual entries.
+#                       Use list() to treat the top-level value itself as the
+#                       entries container (handles both arrays and dicts).
+#                       Use list("schools") to drill into obj$schools first.
+#                       Set to NULL to skip entry-level validation entirely.
+#   required_entry_keys : character vector of keys that must appear in each
+#                         entry (checked against the FIRST entry only; an
+#                         empty/missing container skips this check)
+#   label             : human-readable label used in error messages (defaults
+#                       to the file's basename)
+#
+# Returns a character vector of error strings (length 0 when valid).
+validate_json_schema <- function(path,
+                                  required_top_keys   = character(0),
+                                  path_to_entries     = NULL,
+                                  required_entry_keys = character(0),
+                                  label               = basename(path)) {
+  errors <- character(0)
+
+  if (!file.exists(path)) {
+    return(sprintf("%s: file does not exist", label))
+  }
+
+  obj <- tryCatch(
+    jsonlite::fromJSON(path, simplifyVector = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(obj)) {
+    return(sprintf("%s: file is not valid JSON", label))
+  }
+
+  # Top-level key checks (only meaningful when obj is an object, not an array)
+  if (is.list(obj) && !is.null(names(obj))) {
+    for (k in required_top_keys) {
+      if (!k %in% names(obj)) {
+        errors <- c(errors, sprintf("%s: missing required top-level key '%s'", label, k))
+      }
+    }
+  }
+
+  # Entry-level key checks
+  if (!is.null(path_to_entries) && length(required_entry_keys) > 0L) {
+    first_entry <- .get_first_json_entry(obj, path_to_entries)
+    if (!is.null(first_entry)) {
+      for (k in required_entry_keys) {
+        if (!k %in% names(first_entry)) {
+          errors <- c(errors, sprintf(
+            "%s: entry missing required key '%s'", label, k
+          ))
+        }
+      }
+    }
+    # An empty container is not an error — the file might legitimately have
+    # zero entries (e.g., no college cuts yet this cycle).
+  }
+
+  errors
+}
+
+# Canonical schemas for every standard export file written by build_web_exports.R.
+# Each entry is a named list with:
+#   filename            : basename of the JSON file in the data directory
+#   required_top_keys   : see validate_json_schema()
+#   path_to_entries     : see validate_json_schema()
+#   required_entry_keys : see validate_json_schema()
+EXPORT_SCHEMAS <- list(
+  list(
+    filename            = "schools_index.json",
+    required_top_keys   = character(0),   # top level is an array
+    path_to_entries     = list(),         # array IS the entries
+    required_entry_keys = c("unitid", "institution_name", "state")
+  ),
+  list(
+    filename            = "accreditation.json",
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "actions")
+  ),
+  list(
+    filename            = "accreditation_index.json",
+    required_top_keys   = character(0),   # top level is a unitid-keyed dict
+    path_to_entries     = list(),
+    required_entry_keys = c("unitid", "institution_name", "action_count")
+  ),
+  list(
+    filename            = "college_cuts.json",
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "cuts")
+  ),
+  list(
+    filename            = "college_cuts_index.json",
+    required_top_keys   = character(0),
+    path_to_entries     = list(),
+    required_entry_keys = c("unitid", "institution_name", "cut_count")
+  ),
+  list(
+    filename            = "research_funding.json",
+    required_top_keys   = c("generated_at", "agencies", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name", "grants")
+  ),
+  list(
+    filename            = "research_funding_index.json",
+    required_top_keys   = character(0),
+    path_to_entries     = list(),
+    required_entry_keys = c("unitid", "institution_name", "total_disrupted_grants")
+  ),
+  list(
+    filename            = "closure_status_by_unitid.json",
+    required_top_keys   = c("as_of_date", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name")
+  ),
+  list(
+    filename            = "federal_composite_scores_by_unitid.json",
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name")
+  ),
+  list(
+    filename            = "hcm2_by_unitid.json",
+    required_top_keys   = c("generated_at", "schools"),
+    path_to_entries     = list("schools"),
+    required_entry_keys = c("unitid", "institution_name")
+  ),
+  list(
+    filename            = "metadata.json",
+    required_top_keys   = c("generated_at", "files"),
+    path_to_entries     = NULL,   # 'files' is a name→path dict, not an array of objects
+    required_entry_keys = character(0)
+  ),
+  list(
+    filename            = "rankings.json",
+    required_top_keys   = c("generated_at", "lists"),
+    path_to_entries     = NULL,           # 'lists' has a non-standard structure
+    required_entry_keys = character(0)
+  )
+)
+
+# Validates all standard export JSON files in `data_dir` against EXPORT_SCHEMAS.
+# Skips files that do not exist (they may not have been built yet in this run).
+# Stops with a combined error message listing all schema violations found.
+#
+# Call this at the end of build_web_exports.R to catch structural regressions
+# early, before the broken files are deployed.
+validate_all_export_schemas <- function(data_dir) {
+  all_errors <- character(0)
+
+  for (schema in EXPORT_SCHEMAS) {
+    path <- file.path(data_dir, schema$filename)
+    if (!file.exists(path)) next   # not built in this run — skip silently
+
+    errs <- validate_json_schema(
+      path                = path,
+      required_top_keys   = schema$required_top_keys,
+      path_to_entries     = schema$path_to_entries,
+      required_entry_keys = schema$required_entry_keys
+    )
+    all_errors <- c(all_errors, errs)
+  }
+
+  if (length(all_errors) > 0L) {
+    stop(
+      paste0(
+        "H8 JSON schema validation failed for ", length(all_errors),
+        " check(s):\n  ",
+        paste(all_errors, collapse = "\n  ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  message(sprintf(
+    "H8: all export JSON schemas valid (%d file(s) checked)",
+    sum(vapply(EXPORT_SCHEMAS, function(s) file.exists(file.path(data_dir, s$filename)), logical(1)))
+  ))
+  invisible(TRUE)
+}
+
 # Runs a set of export bundle specs, each with a builder plus filenames, and
 # returns a named list of written paths keyed by the spec name.
 write_export_bundles <- function(specs, data_dir) {

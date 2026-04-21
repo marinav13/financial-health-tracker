@@ -125,12 +125,22 @@ main <- function(cli_args = NULL) {
     WSCUC  = parse_wscuc(cache_dir, refresh),
     NWCCU  = parse_nwccu(cache_dir, refresh)
   )
+  
+  # Accreditors that may legitimately return 0 rows (no qualifying institutions under action).
+  # Used to differentiate between "nothing qualifies" vs "scraper broken" when zero rows returned.
+  ZERO_IS_EXPECTED <- c("NWCCU")
+  
   purrr::iwalk(scraper_results, function(df, name) {
     if (nrow(df) == 0) {
-      warning(sprintf(
-        "SCRAPER RETURNED 0 ROWS: %s — the accreditor's site structure may have changed, or the scraper is broken. No data will be published for this accreditor.",
-        name
-      ), call. = FALSE)
+      if (name %in% ZERO_IS_EXPECTED) {
+        # Soft notice for accreditors where 0 is expected (no qualifying institutions)
+        message(sprintf("  %s: no qualifying institutions under action (expected when no adverse findings)", name))
+      } else {
+        warning(sprintf(
+          "SCRAPER RETURNED 0 ROWS: %s — the accreditor's site structure may have changed, or the scraper is broken. Verify output before publishing.",
+          name
+        ), call. = FALSE)
+      }
     } else {
       req_cols <- c("institution_name_raw", "accreditor", "action_type")
       missing_cols <- setdiff(req_cols, names(df))

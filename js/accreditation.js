@@ -6,7 +6,7 @@
  */
 
 (function () {
-  const { loadJson, schoolUrl } = window.TrackerApp;
+  const { loadJson, schoolUrl, safeUrl } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
 
@@ -359,7 +359,7 @@
           <td>${escapeHtml(action.state || "")}</td>
           <td>${escapeHtml(action.control_label || "")}</td>
           <td>${escapeHtml(action.action_date || action.action_year || "")}</td>
-          <td>${action.source_url ? `<a href="${action.source_url}" target="_blank" rel="noopener">Source link</a>` : ""}</td>
+          <td>${safeUrl(action.source_url) ? `<a href="${safeUrl(action.source_url)}" target="_blank" rel="noopener">Source link</a>` : ""}</td>
         </tr>
       `)
       .join("");

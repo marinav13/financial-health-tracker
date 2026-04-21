@@ -1,5 +1,5 @@
 (function () {
-  const { loadJson, schoolUrl } = window.TrackerApp;
+  const { loadJson, schoolUrl, escapeHtml, safeUrl } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
 
@@ -242,11 +242,11 @@
     const rows = sortGrants(visibleGrants, sortState).map((grant) => `
       <tr>
         <td>${agencyLabel(grant.agency)}</td>
-        <td>${grant.project_title || ""}</td>
-        <td>${grant.grant_id || ""}</td>
+        <td>${escapeHtml(grant.project_title)}</td>
+        <td>${escapeHtml(grant.grant_id)}</td>
         <td>${formatCurrency(grant.award_remaining)}</td>
         <td>${formatDate(grant.termination_date)}</td>
-        <td>${grant.source_url ? `<a href="${grant.source_url}" target="_blank" rel="noopener">Source</a>` : ""}</td>
+        <td>${safeUrl(grant.source_url) ? `<a href="${safeUrl(grant.source_url)}" target="_blank" rel="noopener">Source</a>` : ""}</td>
       </tr>
     `).join("");
     return `
@@ -413,7 +413,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => `
       <tr>
-        <td>${researchPageLink(item.unitid, item.institution_name || "")}</td>
+        <td>${researchPageLink(item.unitid, escapeHtml(item.institution_name))}</td>
         <td>${item.state || ""}</td>
         <td>${item.control_label || ""}</td>
         <td>${Number(item.total_disrupted_grants || 0)}</td>

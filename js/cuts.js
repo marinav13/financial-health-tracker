@@ -1,5 +1,5 @@
 (function () {
-  const { loadJson, schoolUrl } = window.TrackerApp;
+  const { loadJson, schoolUrl, escapeHtml, safeUrl } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
   const CLOSURE_PAGE_SIZE = 10;
@@ -41,8 +41,8 @@
   function renderCutItem(cut) {
     const metaParts = [cut.announcement_date || cut.announcement_year, cut.cut_type, cut.status].filter(Boolean);
     const term = cut.effective_term ? `<p class="small-meta">Effective term: ${cut.effective_term}</p>` : "";
-    const source = cut.source_url
-      ? `<p class="small-meta"><a href="${cut.source_url}" target="_blank" rel="noopener">Source</a>${cut.source_publication ? ` | ${cut.source_publication}` : ""}</p>`
+    const source = safeUrl(cut.source_url)
+      ? `<p class="small-meta"><a href="${safeUrl(cut.source_url)}" target="_blank" rel="noopener">Source</a>${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
       : "";
     return `
       <article class="data-card">
@@ -181,12 +181,12 @@
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => `
       <tr>
-        <td>${financePageLink(cut.financial_unitid, cut.institution_name || "")}</td>
-        <td>${cut.state || ""}</td>
-        <td>${cut.control_label || ""}</td>
-        <td>${(cut.program_name || "") + formatAffectedCount(cut)}</td>
+        <td>${financePageLink(cut.financial_unitid, escapeHtml(cut.institution_name))}</td>
+        <td>${escapeHtml(cut.state)}</td>
+        <td>${escapeHtml(cut.control_label)}</td>
+        <td>${escapeHtml(cut.program_name || "") + formatAffectedCount(cut)}</td>
         <td>${cut.announcement_date || cut.announcement_year || ""}</td>
-        <td>${cut.source_url ? `<a href="${cut.source_url}" target="_blank" rel="noopener">Source</a>` : ""}</td>
+        <td>${safeUrl(cut.source_url) ? `<a href="${safeUrl(cut.source_url)}" target="_blank" rel="noopener">Source</a>` : ""}</td>
       </tr>
     `).join("");
     return `
@@ -236,9 +236,9 @@
     if (!items || !items.length) return renderEmpty("No matched closures are available.");
     const rows = items.map((closure) => `
       <tr>
-        <td>${financePageLink(closure.unitid, closure.institution_name || "")}</td>
-        <td>${closure.state || ""}</td>
-        <td>${closure.control_label || ""}</td>
+        <td>${financePageLink(closure.unitid, escapeHtml(closure.institution_name))}</td>
+        <td>${escapeHtml(closure.state)}</td>
+        <td>${escapeHtml(closure.control_label)}</td>
         <td>${closure.close_date_display || closure.close_date || ""}</td>
         <td>Federal data</td>
       </tr>
@@ -565,7 +565,7 @@
     const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
-      overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${school.institution_name}. ${financeLinkText}</p>`;
+      overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${escapeHtml(school.institution_name)}. ${financeLinkText}</p>`;
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);

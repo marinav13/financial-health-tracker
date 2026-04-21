@@ -5,6 +5,17 @@
  * Uses unitid (federal college ID) to navigate to specific school pages.
  */
 
+// ------ Shared Utilities ------
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // ------ Search Index Loading ------
 
 // Loads JSON index file from data/ folder
@@ -187,8 +198,8 @@ async function initSearch() {
     results.setAttribute("aria-label", `${matches.length} search result${matches.length !== 1 ? "s" : ""}`);
     results.innerHTML = matches.map((row) => `
       <button type="button" class="result-item" role="option" data-unitid="${row.unitid}" tabindex="-1">
-        <span>${getMatchText(row)}</span>
-        ${getResultBadge(row) ? `<small class="small-meta">${getResultBadge(row)}</small>` : ""}
+        <span>${escapeHtml(getMatchText(row))}</span>
+        ${getResultBadge(row) ? `<small class="small-meta">${escapeHtml(getResultBadge(row))}</small>` : ""}
       </button>
     `).join("");
 
@@ -232,3 +243,10 @@ initSearch().catch((error) => {
 window.TrackerApp = window.TrackerApp || {};
 window.TrackerApp.loadJson = loadJson;
 window.TrackerApp.schoolUrl = schoolUrl;
+
+window.TrackerApp.escapeHtml = escapeHtml;
+
+window.TrackerApp.safeUrl = function safeUrl(url) {
+  const u = String(url ?? "").trim();
+  return /^https?:\/\//i.test(u) ? u : "";
+};

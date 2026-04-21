@@ -169,13 +169,9 @@
     const activeDirection = activeKey === key ? sortState.direction : "";
     const upClass = activeDirection === "asc" ? " is-active" : "";
     const downClass = activeDirection === "desc" ? " is-active" : "";
-    return `
-      <span class="sort-header-label">${label}</span>
-      <span class="sort-controls" aria-label="Sort ${label}">
-        <button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button>
-        <button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button>
-      </span>
-    `;
+    // aria-sort: none by default, ascending/descending when active
+    const ariaSort = activeDirection === "asc" ? "ascending" : activeDirection === "desc" ? "descending" : "none";
+    return `<th aria-sort="${ariaSort}"><span class="sort-header-label">${label}</span><span class="sort-controls" aria-label="Sort ${label}"><button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button><button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button></span></th>`;
   }
 
   function renderCutsTable(items, sortState) {
@@ -195,12 +191,12 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
-              <th>${renderSortControls("state", sortState, "State")}</th>
-              <th>Sector</th>
-              <th>Cut</th>
-              <th>${renderSortControls("announcement_date", sortState, "Date")}</th>
-              <th>Source</th>
+              ${renderSortControls("institution_name", sortState, "Institution")}
+              ${renderSortControls("state", sortState, "State")}
+              <th aria-sort="none">Sector</th>
+              <th aria-sort="none">Cut</th>
+              ${renderSortControls("announcement_date", sortState, "Date")}
+              <th aria-sort="none">Source</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -249,11 +245,11 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
-              <th>${renderSortControls("state", sortState, "State")}</th>
-              <th>Sector</th>
-              <th>${renderSortControls("close_date", sortState, "Closure date")}</th>
-              <th>Source</th>
+              ${renderSortControls("institution_name", sortState, "Institution")}
+              ${renderSortControls("state", sortState, "State")}
+              <th aria-sort="none">Sector</th>
+              ${renderSortControls("close_date", sortState, "Closure date")}
+              <th aria-sort="none">Source</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>

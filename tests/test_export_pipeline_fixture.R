@@ -27,7 +27,7 @@ run_test("Web export pipeline fixture", function() {
     urbanization = c("City", "City"),
     religious_affiliation = c(NA, NA),
     all_programs_distance_education = c("No", "No"),
-    year = c("2023", "2024"),
+    year = c("2024", "2025"),
     enrollment_pct_change_5yr = c("-4", "-5"),
     enrollment_decline_last_3_of_5 = c("Yes", "Yes"),
     revenue_pct_change_5yr = c("-2", "-3"),
@@ -41,7 +41,7 @@ run_test("Web export pipeline fixture", function() {
     loss_years_last_10 = c("0", "0"),
     tuition_dependence_pct = c("29", "30"),
     sector_median_tuition_dependence_pct = c("28", "29"),
-    tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2023", "Sample sentence 2024"),
+    tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
     share_grad_students = c("0.24", "0.25"),
     research_expense = c("40", "50"),
     research_expense_per_fte = c("0.4", "0.5"),
@@ -55,7 +55,7 @@ run_test("Web export pipeline fixture", function() {
     pct_international_graduate = c("0.18", "0.20"),
     international_student_count_change_5yr = c("8", "10"),
     international_enrollment_pct_change_5yr = c("12", "15"),
-    international_students_sentence = c("In 2023, 9% of students were international.", "In 2024, 10% of students were international."),
+    international_students_sentence = c("In 2024, 9% of students were international.", "In 2025, 10% of students were international."),
     federal_loan_pct_most_recent = c("20", "25"),
     federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.20", "0.25"),
     state_funding_pct_core_revenue = c("0.10", "0.12"),
@@ -283,7 +283,7 @@ run_test("Web export pipeline fixture", function() {
   assert_identical(metadata$title, "College Financial Health Tracker")
   assert_true(!is.null(metadata$generated_at) && nzchar(metadata$generated_at),
     "metadata$generated_at should be a non-empty date string.")
-  assert_identical(as.integer(metadata$latest_year), 2024L)
+  assert_identical(as.integer(metadata$latest_year), 2025L)
   assert_true(!is.null(metadata$files) && is.list(metadata$files),
     "metadata$files should be a named list.")
   required_meta_files <- c("schools_index", "college_cuts", "accreditation",
@@ -400,8 +400,9 @@ run_test("Web export pipeline fixture", function() {
     assert_true(is.list(entry) && "year" %in% names(entry),
       sprintf("school_file$series$%s should be a list with a 'year' array.", f))
   }
-  assert_identical(as.integer(school_file$series$revenue_total_adjusted$year), c(2023L, 2024L))
-  assert_identical(as.integer(school_file$series$expenses_total_adjusted$year), c(2023L, 2024L))
+  assert_identical(as.integer(school_file$summary$latest_year), 2025L)
+  assert_identical(as.integer(school_file$series$revenue_total_adjusted$year), c(2024L, 2025L))
+  assert_identical(as.integer(school_file$series$expenses_total_adjusted$year), c(2024L, 2025L))
 
   # ── Section export schemas ───────────────────────────────────────────────────
   assert_equal(school_file$summary$tuition_dependence_pct, 30)

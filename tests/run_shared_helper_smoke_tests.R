@@ -10,6 +10,7 @@ test_files <- c(
   "test_ipeds_helpers.R",
   "test_ipeds_collector_helpers.R",
   "test_usaspending_sensitivity_helpers.R",
+  "test_workbook_helpers.R",
   "test_canonical_pipeline_fixture.R",
   "test_canonical_pipeline_aux_fixture.R",
   "test_export_pipeline_fixture.R",

@@ -436,6 +436,8 @@ const basicConfig = {
     const el = dom.getElementById("chart-escape");
     assert(!el.innerHTML.includes("<img"), "chart markup should not contain raw img tags");
     assert(!el.innerHTML.includes("<svg onload"), "chart markup should not contain raw event-handler SVG");
+    assert(!el.innerHTML.includes('onerror="'), "chart markup should not retain raw event handler attributes from malicious title");
+    assert(!el.innerHTML.includes('onload="'), "chart markup should not retain raw event handler attributes from labels/colors");
     assert(el.innerHTML.includes("&lt;img"), "title should be escaped as text");
     assert(el.innerHTML.includes("&lt;svg"), "series label should be escaped as text");
     assert(el.innerHTML.includes('stroke="#005ab5"'), "unsafe color should fall back to the default palette");
@@ -445,6 +447,7 @@ const basicConfig = {
     assert(svg && tooltip, "tooltip-enabled chart should render SVG and tooltip elements");
     svg._listeners.mousemove[0]({ clientX: 0 });
     assert(!tooltip.innerHTML.includes("<img"), "tooltip should not contain raw custom-row tags");
+    assert(!tooltip.innerHTML.includes("onerror"), "tooltip should strip malicious tag attributes from custom rows");
     assert(tooltip.innerHTML.includes("Unsafe &amp; row"), "tooltip row text should be escaped");
   });
   if (ok) passed++; else failed++;

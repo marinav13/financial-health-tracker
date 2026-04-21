@@ -495,14 +495,6 @@
 
     const data = await loadJson("data/accreditation.json");
     document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
-    const topIntro = document.getElementById("accreditation-intro-top");
-    const bottomIntro = document.getElementById("accreditation-intro-bottom");
-    if (topIntro) {
-      topIntro.innerHTML = "Accrediting bodies oversee whether colleges are following educational standards. Explore whether an institution has received a warning, been put on probation, sought approval for closure or exited probation.<br><br>The first table below shows accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions. Scroll further down the page to see recent accreditation actions at other institutions.";
-    }
-    if (bottomIntro) {
-      bottomIntro.textContent = "";
-    }
 
     if (!unitid) {
       // Landing page: show all recent actions split by institution type

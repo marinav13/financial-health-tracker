@@ -46,6 +46,27 @@ jobs:
       - name: Restore R packages
         run: Rscript -e "renv::restore()"
 
+      - name: Compute weekly cache key
+        id: cache-week
+        shell: bash
+        run: echo "week=$(date +%Y-W%V)" >> $GITHUB_OUTPUT
+
+      - name: Cache accreditation scraped HTML
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/accreditation/cache
+          key: accreditation-cache-v1-${{ steps.cache-week.outputs.week }}
+          restore-keys: |
+            accreditation-cache-v1-
+
+      - name: Cache Grant Witness downloads and USAspending responses
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/grant_witness/cache
+          key: grant-witness-cache-v1-${{ steps.cache-week.outputs.week }}
+          restore-keys: |
+            grant-witness-cache-v1-
+
       - name: Run shared helper smoke tests
         shell: bash
         run: >

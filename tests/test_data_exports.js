@@ -10,6 +10,7 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
+const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -57,11 +58,13 @@ run("school JSON files keep multi-year revenue series when five-year summaries e
   );
 });
 
-run("sample school chart series covers the 2014-2024 IPEDS range", () => {
+run("sample school chart series spans the committed IPEDS range", () => {
   const sample = JSON.parse(fs.readFileSync(path.join(SCHOOLS_DIR, "101709.json"), "utf8"));
   const years = numericSeries(sample, "revenue_total_adjusted").map((point) => point.year);
-  assert(years[0] === 2014, `Expected first revenue year to be 2014, got ${years[0]}`);
-  assert(years[years.length - 1] === 2024, `Expected latest revenue year to be 2024, got ${years[years.length - 1]}`);
+  const latestYear = Number(METADATA.latest_year || years[years.length - 1]);
+  assert(years.length >= 10, `Expected at least 10 revenue years, got ${years.length}`);
+  assert(years[0] < latestYear, `Expected first revenue year to predate latest year ${latestYear}, got ${years[0]}`);
+  assert(years[years.length - 1] === latestYear, `Expected latest revenue year to be ${latestYear}, got ${years[years.length - 1]}`);
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

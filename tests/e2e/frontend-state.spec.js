@@ -50,6 +50,21 @@ test.describe('Frontend state synchronization', () => {
     expect(firstState.length).toBeGreaterThan(0);
   });
 
+  test('cuts sortable headers move aria-sort with the active sort state', async ({ page }) => {
+    await page.goto('/cuts.html');
+
+    const list = page.locator('#cuts-list');
+    await expect(list.locator('table.history-table')).toBeVisible();
+
+    await expect(list.locator('th[aria-sort="descending"]')).toHaveCount(1);
+    await expect(list.locator('th[aria-sort="descending"]')).toContainText('Date');
+
+    await list.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
+
+    await expect(list.locator('th[aria-sort]')).toHaveCount(1);
+    await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
+  });
+
   test('hidden secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
     await page.goto('/cuts.html');
 
@@ -67,6 +82,19 @@ test.describe('Frontend state synchronization', () => {
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
     await expect(closuresSection).toHaveClass(/is-hidden/);
     await expect(closuresSection).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('accreditation secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
+    await page.goto('/accreditation.html');
+
+    const otherSection = page.locator('#accreditation-other-status').locator('xpath=ancestor::section[1]');
+    await expect(otherSection).not.toHaveClass(/is-hidden/);
+    await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
+
+    await page.goto('/accreditation.html?unitid=104717');
+
+    await expect(otherSection).toHaveClass(/is-hidden/);
+    await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
   });
 
   test('rendered source links use safe http URLs and hardened rel attributes', async ({ page }) => {

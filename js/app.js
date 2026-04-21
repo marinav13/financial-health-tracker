@@ -246,17 +246,19 @@ window.TrackerApp.schoolUrl = schoolUrl;
 
 window.TrackerApp.escapeHtml = escapeHtml;
 
-window.TrackerApp.safeUrl = function safeUrl(url) {
+window.TrackerApp.safeExternalUrl = function safeExternalUrl(url) {
   const value = String(url ?? "").trim();
   if (!value) return "";
+  if (!/^https?:\/\//i.test(value)) return "";
   try {
-    const base = window.location?.origin || "https://example.invalid";
-    const parsed = new URL(value, base);
+    const parsed = new URL(value);
     return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
   } catch (_) {
     return "";
   }
 };
+
+window.TrackerApp.safeUrl = window.TrackerApp.safeExternalUrl;
 
 function renderAnchorHtml(attrs, label) {
   const cleanAttrs = Object.entries(attrs || {})
@@ -278,7 +280,7 @@ function renderAnchorHtml(attrs, label) {
 }
 
 window.TrackerApp.renderExternalLink = function renderExternalLink(url, label = "Source") {
-  const href = window.TrackerApp.safeUrl(url);
+  const href = window.TrackerApp.safeExternalUrl(url);
   if (!href) return "";
   return renderAnchorHtml(
     { href, target: "_blank", rel: "noopener noreferrer" },

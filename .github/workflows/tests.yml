@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   r-tests:
     name: R tests
@@ -44,10 +48,11 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Install dependencies
+        run: npm install
+
       - name: Run JS unit tests
-        run: |
-          node tests/test_frontend_structure.js
-          node tests/test_js_charts.js
+        run: npm run test:smoke
 
   e2e-tests:
     name: E2E tests (Playwright)

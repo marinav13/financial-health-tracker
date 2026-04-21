@@ -80,13 +80,29 @@ function latestPoint(values) {
   return series.length ? series[series.length - 1] : null;
 }
 
+function latestYearFromSeries(series) {
+  const years = Object.values(series || {})
+    .flatMap((values) => toSeries(values).map((point) => point.year))
+    .filter((year) => Number.isFinite(year));
+  return years.length ? Math.max(...years) : null;
+}
+
+function yearPhrase(year) {
+  return Number.isFinite(year) ? `in ${year}` : "in the latest year";
+}
+
 function hasNegativePoint(values) {
   return toSeries(values).some((point) => point.value < 0);
 }
 
 function recentFiveYearRangeText(seriesValues) {
   const values = toSeries(seriesValues);
-  if (values.length < 6) return "from 2019 to 2024";
+  if (values.length === 0) return "over the most recent available period";
+  if (values.length < 6) {
+    const start = values[0].year;
+    const end = values[values.length - 1].year;
+    return start === end ? `in ${end}` : `from ${start} to ${end}`;
+  }
   const end = values[values.length - 1].year;
   const start = values[values.length - 6].year;
   return `from ${start} to ${end}`;
@@ -110,11 +126,26 @@ function applyStrip(id, text, state = "neutral") {
   const node = document.getElementById(id);
   if (!node) return;
   node.className = `metric-strip ${state}`;
-  node.innerHTML = `<div class="metric-statement">${text}</div>`;
+  node.textContent = "";
+  const statement = document.createElement("div");
+  statement.className = "metric-statement";
+  statement.textContent = text ?? "";
+  node.appendChild(statement);
 }
 
 function applyQuestionValueStrip(id, question, value, state = "neutral") {
-  applyStrip(id, `${question}<br><strong>${value}</strong>`, state);
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.className = `metric-strip ${state}`;
+  node.textContent = "";
+  const statement = document.createElement("div");
+  statement.className = "metric-statement";
+  statement.append(document.createTextNode(question ?? ""));
+  statement.append(document.createElement("br"));
+  const strong = document.createElement("strong");
+  strong.textContent = value ?? "";
+  statement.append(strong);
+  node.appendChild(statement);
 }
 
 function setHidden(id, hidden) {
@@ -130,12 +161,12 @@ function setClosestMetricHidden(id, hidden) {
   metric.classList.toggle("is-hidden", Boolean(hidden));
 }
 
-function buildIntlSentence(summary, series) {
+function buildIntlSentence(summary, series, latestDataYear) {
   const all = asNumber(summary.pct_international_all);
   const ug = asNumber(summary.pct_international_undergraduate);
   const grad = asNumber(summary.pct_international_graduate);
-  const latestYear = latestPoint(series.enrollment_headcount_total)?.year || 2024;
-  const prefixLatestYear = `In ${latestYear}, `;
+  const latestYear = latestPoint(series.enrollment_headcount_total)?.year || latestDataYear;
+  const prefixLatestYear = Number.isFinite(latestYear) ? `In ${latestYear}, ` : "In the latest year, ";
 
   if (summary.international_students_sentence && /^In \d{4},/i.test(summary.international_students_sentence)) {
     return summary.international_students_sentence;
@@ -159,12 +190,13 @@ function buildIntlSentence(summary, series) {
   return "International student data are not available.";
 }
 
-function buildResearchSpendingSentence(profile, summary) {
+function buildResearchSpendingSentence(profile, summary, latestDataYear) {
   const perFte = asNumber(summary.research_expense_per_fte);
   const sectorLabel = String(profile.control_label || profile.sector || "").toLowerCase();
   const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
   const sectorMedian = asNumber(summary.sector_median_research_expense_per_fte_positive);
   const reportingShare = asNumber(summary.sector_research_spending_reporting_share_pct);
+  const latestYearPhrase = yearPhrase(latestDataYear);
 
   if (perFte === null) {
     return "Research spending data are not available.";
@@ -188,20 +220,21 @@ function buildResearchSpendingSentence(profile, summary) {
 
   if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
     const sectorPhrase = sectorLabel ? `${sectorLabel} colleges` : "colleges in the same sector";
-    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`;
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`;
   }
 
   if (shareOfCoreExpenses !== null) {
-    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research in 2024.`;
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}.`;
   }
 
-  return `This institution spent about ${fmtCurrency(perFte)} per full-time student on research in 2024.`;
+  return `This institution spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}.`;
 }
 
-function buildTuitionDependenceSentence(profile, summary) {
+function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   const tuitionDependence = asNumber(summary.tuition_dependence_pct);
   const sectorMedian = asNumber(summary.sector_median_tuition_dependence_pct);
   const sectorLabel = String(profile.control_label || "").toLowerCase();
+  const latestYearPhrase = yearPhrase(latestDataYear);
 
   if (tuitionDependence === null) {
     return summary.tuition_dependence_vs_sector_median_sentence || "No tuition dependence benchmark is available.";
@@ -209,10 +242,10 @@ function buildTuitionDependenceSentence(profile, summary) {
 
   if (sectorMedian !== null && sectorLabel) {
     const relation = tuitionDependence >= sectorMedian ? "above" : "below";
-    return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition in 2024, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`;
+    return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`;
   }
 
-  return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition in 2024.`;
+  return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}.`;
 }
 
 function buildGradLoanSentence(profile, summary) {
@@ -238,12 +271,13 @@ function buildGradLoanSentence(profile, summary) {
   return sentences.join(" ");
 }
 
-function buildInstructionalStaffRatioSentence(profile, summary) {
+function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) {
   const ratio = asNumber(summary.students_per_instructional_staff_fte);
   const benchmark = asNumber(summary.sector_median_students_per_instructional_staff_fte);
   const sectorLabel = String(profile.control_label || "").toLowerCase();
   if (ratio === null || benchmark === null || !sectorLabel) return null;
-  return `In 2024, this institution had about ${fmtNumber(ratio)} students per 1 instructional staff member, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`;
+  const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}` : "In the latest year";
+  return `${prefix}, this institution had about ${fmtNumber(ratio)} students per 1 instructional staff member, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`;
 }
 
 function federalCompositeState(score) {
@@ -459,6 +493,7 @@ async function init() {
   const p = school.profile;
   const s = school.summary;
   const series = school.series;
+  const latestDataYear = asNumber(s.latest_year) || latestYearFromSeries(series);
   const composite = compositeLookup?.schools?.[unitid] || null;
   const hcmRecord = hcmLookup?.schools?.[unitid] || null;
   const closureRecord = closureLookup?.schools?.[unitid] || null;
@@ -528,7 +563,7 @@ async function init() {
 
   applyStrip(
     "tuition-sentence-card",
-    buildTuitionDependenceSentence(p, s),
+    buildTuitionDependenceSentence(p, s, latestDataYear),
     "neutral"
   );
   const hasTuitionSentence = asNumber(s.tuition_dependence_pct) !== null || !!s.tuition_dependence_vs_sector_median_sentence;
@@ -536,7 +571,7 @@ async function init() {
 
   applyStrip(
     "research-spending-card",
-    buildResearchSpendingSentence(p, s),
+    buildResearchSpendingSentence(p, s, latestDataYear),
     "neutral"
   );
 
@@ -564,7 +599,7 @@ async function init() {
     ...intlUndergradSeries
   ].some((point) => point.value > 0);
 
-  applyStrip("intl-sentence-card", buildIntlSentence(s, series), "neutral");
+  applyStrip("intl-sentence-card", buildIntlSentence(s, series, latestDataYear), "neutral");
   const hasIntlSentence = asNumber(s.pct_international_all) !== null || (latestPoint(series.enrollment_nonresident_total) && latestPoint(series.enrollment_headcount_total));
   setHidden("intl-sentence-card", !hasIntlSentence);
 
@@ -596,7 +631,7 @@ async function init() {
   const hasStaffCard = asNumber(s.staff_total_headcount_pct_change_5yr) !== null;
   setHidden("staff-change-card", !hasStaffCard);
 
-  const ratioSentence = buildInstructionalStaffRatioSentence(p, s);
+  const ratioSentence = buildInstructionalStaffRatioSentence(p, s, latestDataYear);
   setHidden("staff-ratio-card", !ratioSentence);
   if (ratioSentence) {
     applyStrip("staff-ratio-card", ratioSentence, "neutral");
@@ -659,7 +694,7 @@ async function init() {
   if (hasFederal) {
     applyStrip(
       "federal-share-card",
-      `${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants, in 2024.`,
+      `${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants, ${yearPhrase(latestDataYear)}.`,
       "neutral"
     );
 
@@ -693,7 +728,7 @@ async function init() {
   if (hasResearchSpending) {
     applyStrip(
       "research-spending-card",
-      buildResearchSpendingSentence(p, s),
+      buildResearchSpendingSentence(p, s, latestDataYear),
       "neutral"
     );
   }

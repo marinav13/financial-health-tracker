@@ -283,6 +283,7 @@ run_test("Web export pipeline fixture", function() {
   assert_identical(metadata$title, "College Financial Health Tracker")
   assert_true(!is.null(metadata$generated_at) && nzchar(metadata$generated_at),
     "metadata$generated_at should be a non-empty date string.")
+  assert_identical(as.integer(metadata$latest_year), 2024L)
   assert_true(!is.null(metadata$files) && is.list(metadata$files),
     "metadata$files should be a named list.")
   required_meta_files <- c("schools_index", "college_cuts", "accreditation",
@@ -366,7 +367,7 @@ run_test("Web export pipeline fixture", function() {
   # summary section — required fields present.
   required_summary_fields <- c("enrollment_pct_change_5yr", "revenue_pct_change_5yr",
     "tuition_dependence_pct", "ended_year_at_loss", "losses_last_3_of_5",
-    "share_grad_students", "federal_grants_contracts_pell_adjusted_pct_core_revenue",
+    "latest_year", "share_grad_students", "federal_grants_contracts_pell_adjusted_pct_core_revenue",
     "state_funding_pct_core_revenue", "endowment_pct_change_5yr")
   for (f in required_summary_fields) {
     assert_true(f %in% names(school_file$summary),
@@ -468,7 +469,7 @@ run_test("Web export pipeline fixture", function() {
 
   # ── Download CSV ────────────────────────────────────────────────────────────
   assert_identical(nrow(download_csv), 1L)
-  assert_identical(as.character(download_csv$year[[1]]), "2024")
+  assert_identical(as.integer(download_csv$year[[1]]), as.integer(metadata$latest_year))
   assert_true("unitid" %in% names(download_csv), "Download CSV must have 'unitid' column.")
   assert_true("year" %in% names(download_csv), "Download CSV must have 'year' column.")
   assert_true(

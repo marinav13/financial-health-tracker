@@ -26,7 +26,7 @@ validate_multi_year_web_input <- function(df, input_path) {
         "year(s):",
         paste(years, collapse = ", "),
         sprintf("Input: %s", input_path),
-        "Use ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv or",
+        "Use the multi-year file in ipeds/derived/ or",
         "rebuild the canonical dataset before exporting the static site."
       ),
       call. = FALSE
@@ -547,53 +547,6 @@ build_research_export <- function() {
   )
 }
 
-build_outcomes_export <- function() {
-  # Outcomes are now used mainly as finance-page blocks, but this helper still
-  # assembles the joined payload while the repo transitions off the old page.
-  require_local_file(
-    outcomes_summary_path,
-    "scorecard and graduation-rate join",
-    "Run `Rscript --vanilla ./scripts/build_outcomes_join.R` first."
-  )
-
-  outcomes <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
-    mutate(
-      unitid = as.character(unitid),
-      has_financial_profile = TRUE,
-      is_primary_tracker = is_primary_bachelors_category(category)
-    ) %>%
-    filter(is_primary_tracker)
-
-  if (nrow(outcomes) == 0) return(NULL)
-
-  schools <- lapply(seq_len(nrow(outcomes)), function(i) {
-    row <- outcomes[i, , drop = FALSE]
-    list(
-      unitid = row$unitid[[1]],
-      financial_unitid = row$unitid[[1]],
-      has_financial_profile = TRUE,
-      is_primary_tracker = isTRUE(row$is_primary_tracker[[1]]),
-      institution_name = row$institution_name[[1]],
-      city = row$city[[1]],
-      state = row$state[[1]],
-      control_label = row$control_label[[1]],
-      category = row$category[[1]],
-      urbanization = row$urbanization[[1]],
-      graduation_rate_6yr = row$graduation_rate_6yr[[1]],
-      median_earnings_10yr = row$median_earnings_10yr[[1]],
-      median_debt_completers = row$median_debt_completers[[1]],
-      outcomes_data_available = isTRUE(row$outcomes_data_available[[1]]),
-      scorecard_data_updated = row$scorecard_data_updated[[1]],
-      ipeds_graduation_rate_year = row$ipeds_graduation_rate_year[[1]],
-      ipeds_graduation_rate_label = row$ipeds_graduation_rate_label[[1]]
-    )
-  })
-
-  list(
-    schools = stats::setNames(schools, vapply(schools, function(item) item$unitid, character(1)))
-  )
-}
-
 build_school_file <- function(df) {
   latest <- df %>% filter(year == max(year, na.rm = TRUE)) %>% slice(1)
   pct_international_all <- scale_ratio_to_pct(latest$pct_international_all[[1]])
@@ -652,6 +605,7 @@ build_school_file <- function(df) {
       all_programs_distance_education = latest$all_programs_distance_education[[1]]
     ),
     summary = list(
+      latest_year = latest$year[[1]],
       enrollment_pct_change_5yr = latest$enrollment_pct_change_5yr[[1]],
       enrollment_decline_last_3_of_5 = latest$enrollment_decline_last_3_of_5[[1]],
       revenue_pct_change_5yr = latest$revenue_pct_change_5yr[[1]],
@@ -771,7 +725,8 @@ validate_multi_year_web_input(df, input_path)
 df <- df %>% arrange(unitid, year)
 # Join the latest outcomes fields onto the finance dataframe so the finance
 # page can render the three outcomes blocks from the same school JSON.
-latest_2024 <- df %>% filter(year == 2024)
+latest_year <- max(df$year, na.rm = TRUE)
+latest_financial <- df %>% filter(year == latest_year)
 outcomes_summary <- readr::read_csv(outcomes_summary_path, show_col_types = FALSE) %>%
   mutate(unitid = as.character(unitid))
 outcomes_join_fields <- c(
@@ -804,7 +759,7 @@ df <- df %>%
     outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
-latest_2024 <- latest_2024 %>%
+latest_financial <- latest_financial %>%
   dplyr::select(-dplyr::any_of(outcomes_cols_to_join)) %>%
   mutate(unitid = as.character(unitid)) %>%
   left_join(
@@ -827,7 +782,7 @@ benchmark_specs <- list(
 )
 benchmark_values <- lapply(benchmark_specs, function(spec) {
   build_group_value_lookup(
-    latest_2024,
+    latest_financial,
     group_col = "sector",
     value_col = spec$value_col,
     summarizer = spec$summarizer
@@ -837,7 +792,7 @@ sector_loan_benchmarks <- benchmark_values$sector_loan_benchmarks
 sector_grad_share_benchmarks <- benchmark_values$sector_grad_share_benchmarks
 sector_grad_plus_benchmarks <- benchmark_values$sector_grad_plus_benchmarks
 
-schools_index <- latest_2024 %>%
+schools_index <- latest_financial %>%
   transmute(
     unitid = as.character(unitid),
     institution_name = vapply(institution_name, normalize_display_institution_name, character(1)),
@@ -857,6 +812,7 @@ schools_index <- latest_2024 %>%
 
 metadata <- list(
   generated_at = as.character(Sys.Date()),
+  latest_year = latest_year,
   title = "College Financial Health Tracker",
   dataset = "IPEDS Financial Health Canonical Dataset",
   methodology_note = "This website prototype uses the filtered public-facing canonical IPEDS dataset from the project repo.",
@@ -880,7 +836,7 @@ write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
 # Write the site metadata first, then each section export and the school-level
 # JSON files consumed by the static frontend.
 write_json_file(metadata, file.path(data_dir, "metadata.json"))
-readr::write_csv(latest_2024, file.path(downloads_dir, "full_dataset.csv"), na = "")
+readr::write_csv(latest_financial, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
 export_bundle_specs <- list(
   cuts = list(

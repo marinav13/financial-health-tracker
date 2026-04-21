@@ -10,6 +10,7 @@ const vm = require("vm");
 
 const ROOT = path.resolve(__dirname, "..");
 const APP_SRC = fs.readFileSync(path.join(ROOT, "js", "app.js"), "utf8");
+const SCHOOL_SRC = fs.readFileSync(path.join(ROOT, "js", "school.js"), "utf8");
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -99,6 +100,17 @@ run("safeUrl rejects executable and non-web URL schemes", () => {
   assert(app.safeUrl("ftp://example.edu/file") === "", "Expected ftp: URL to be rejected");
 });
 
+run("safeUrl rejects relative URLs for external-link contexts", () => {
+  assert(app.safeUrl("/foo") === "", "Expected root-relative URL to be rejected");
+  assert(app.safeUrl("foo/bar") === "", "Expected path-relative URL to be rejected");
+  assert(app.safeUrl("//example.edu/path") === "", "Expected protocol-relative URL to be rejected");
+});
+
+run("renderExternalLink omits links for relative URLs", () => {
+  assert(app.renderExternalLink("/foo", "Source") === "", "Expected root-relative source link to be omitted");
+  assert(app.renderExternalLink("foo/bar", "Source") === "", "Expected path-relative source link to be omitted");
+});
+
 run("renderExternalLink escapes label text and href attribute context", () => {
   const html = app.renderExternalLink(
     'https://example.edu/" onmouseover="alert(1)',
@@ -140,6 +152,10 @@ run("renderSchoolLink escapes labels at the helper boundary", () => {
   assert(!html.includes("<svg"), "Expected label markup to be escaped");
   assert(!html.includes('" onload="'), "Expected no injected onload attribute");
   assert(html.includes("&lt;svg"), "Expected escaped label in link text");
+});
+
+run("school.js avoids direct innerHTML sinks for JSON-backed narrative text", () => {
+  assert(!/\binnerHTML\b/.test(SCHOOL_SRC), "Expected school.js to avoid innerHTML assignments");
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

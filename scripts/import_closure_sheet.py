@@ -268,6 +268,14 @@ def write_summary(source_label, row_counts):
 
 def main():
     args = parse_args()
+    
+    # Check if committed closure JSON is stale (>30 days old)
+    if STATUS_JSON.exists():
+        import time
+        file_age_days = (time.time() - STATUS_JSON.stat().st_mtime) / 86400
+        if file_age_days > 30:
+            print(f"WARNING: closure_status_by_unitid.json is {file_age_days:.0f} days old — source data may be stale", file=sys.stderr)
+    
     from_dir = Path(args.from_dir).expanduser().resolve() if args.from_dir else None
     if from_dir and not from_dir.exists():
         raise FileNotFoundError(

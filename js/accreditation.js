@@ -33,6 +33,16 @@
     ACCJC: "Accrediting Commission for Community and Junior Colleges"
   };
 
+  const ACCREDITOR_STATES = {
+    HLC:     "Arizona, Arkansas, Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Mississippi, Missouri, Nebraska, New Mexico, North Dakota, Ohio, Oklahoma, South Dakota, West Virginia, Wisconsin, Wyoming",
+    MSCHE:   "Delaware, District of Columbia, Maryland, New Jersey, New York, Pennsylvania, Puerto Rico, U.S. Virgin Islands",
+    NECHE:   "Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont",
+    NWCCU:   "Alaska, Idaho, Montana, Nevada, Oregon, Washington",
+    SACSCOC: "Alabama, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee, Texas, Virginia",
+    WSCUC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of Northern Mariana Islands",
+    ACCJC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of Northern Mariana Islands"
+  };
+
   const ACCREDITOR_URLS = {
     HLC:     "https://www.hlcommission.org/",
     MSCHE:   "https://www.msche.org/",
@@ -438,9 +448,11 @@
       .map((code) => {
         const name = ACCREDITOR_NAMES[code] || code;
         const url = ACCREDITOR_URLS[code];
+        const states = ACCREDITOR_STATES[code];
+        const statesNote = states ? ` (${states})` : "";
         return url
-          ? `<li><a href="${url}" target="_blank" rel="noopener">${name}</a></li>`
-          : `<li>${name}</li>`;
+          ? `<li><a href="${url}" target="_blank" rel="noopener">${name}</a>${statesNote}</li>`
+          : `<li>${name}${statesNote}</li>`;
       });
 
     const covered = trackedLinks.length

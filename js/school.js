@@ -121,6 +121,7 @@ function setHidden(id, hidden) {
   const node = document.getElementById(id);
   if (!node) return;
   node.classList.toggle("is-hidden", Boolean(hidden));
+  node.setAttribute("aria-hidden", hidden ? "true" : "false");
 }
 
 function setClosestMetricHidden(id, hidden) {
@@ -128,6 +129,7 @@ function setClosestMetricHidden(id, hidden) {
   const metric = node?.closest(".metric-strip");
   if (!metric) return;
   metric.classList.toggle("is-hidden", Boolean(hidden));
+  metric.setAttribute("aria-hidden", hidden ? "true" : "false");
 }
 
 function buildIntlSentence(summary, series) {
@@ -350,6 +352,7 @@ function setSectionVisibility(id, show) {
   const node = document.getElementById(id);
   if (!node) return;
   node.classList.toggle("is-hidden", !show);
+  node.setAttribute("aria-hidden", show ? "false" : "true");
 }
 
 function csvEscape(value) {

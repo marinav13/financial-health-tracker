@@ -16,6 +16,13 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
+// Sets aria-hidden based on visibility state
+function setHidden(el, isHidden) {
+  if (!el) return;
+  el.classList.toggle("is-hidden", isHidden);
+  el.setAttribute("aria-hidden", isHidden ? "true" : "false");
+}
+
 // ------ Search Index Loading ------
 
 // Loads JSON index file from data/ folder

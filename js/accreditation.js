@@ -113,6 +113,7 @@
     const section = node ? node.closest(".data-card") : null;
     if (section) {
       section.classList.toggle("is-hidden", !show);
+      section.setAttribute("aria-hidden", show ? "false" : "true");
     }
   }
 
@@ -413,6 +414,7 @@
       const pageRows = filteredActions.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageRows.length === 0);
+        downloadButton.setAttribute("aria-hidden", pageRows.length === 0 ? "true" : "false");
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
@@ -506,6 +508,7 @@
       // Landing page: show all recent actions split by institution type
       document.getElementById("accreditation-school-name").textContent = "";
       document.getElementById("accreditation-school-name").classList.add("is-hidden");
+      document.getElementById("accreditation-school-name").setAttribute("aria-hidden", "true");
       const allActions = buildDefaultActionRows(data);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
@@ -539,12 +542,14 @@
     if (!school) {
       document.getElementById("accreditation-school-name").textContent = "No tracked accreditation record found";
       document.getElementById("accreditation-school-name").classList.remove("is-hidden");
+      document.getElementById("accreditation-school-name").setAttribute("aria-hidden", "false");
       document.getElementById("accreditation-status").innerHTML = renderEmpty("No accreditation actions found.");
       return;
     }
 
     document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
     document.getElementById("accreditation-school-name").classList.remove("is-hidden");
+      document.getElementById("accreditation-school-name").setAttribute("aria-hidden", "false");
     setText("accreditation-school-location", [school.city, school.state].filter(Boolean).join(", "));
     setText("accreditation-school-control", school.control_label || "");
     setText("accreditation-school-category", school.category || "");
@@ -554,6 +559,7 @@
       : "This institution appears here because it has matched accreditation actions data, even though it falls outside the main 4-year financial tracker universe.";
     if (accreditationOverview) {
       accreditationOverview.classList.remove("is-hidden");
+      accreditationOverview.setAttribute("aria-hidden", "false");
       accreditationOverview.innerHTML = `<p>${scopeText}</p>`;
     }
     setSectionVisible("accreditation-other-status", false);
@@ -561,8 +567,14 @@
     const otherTitle = document.getElementById("accreditation-other-title");
     const mainDownload = document.getElementById("accreditation-table-download");
     const otherDownload = document.getElementById("accreditation-other-download");
-    if (mainDownload) mainDownload.classList.add("is-hidden");
-    if (otherDownload) otherDownload.classList.add("is-hidden");
+    if (mainDownload) {
+      mainDownload.classList.add("is-hidden");
+      mainDownload.setAttribute("aria-hidden", "true");
+    }
+    if (otherDownload) {
+      otherDownload.classList.add("is-hidden");
+      otherDownload.setAttribute("aria-hidden", "true");
+    }
     if (otherStatus) otherStatus.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
     document.getElementById("accreditation-status").innerHTML = renderSchoolActions(getEffectiveActions(school), school.unitid, school.state, school.control_label, school.financial_unitid);

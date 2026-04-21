@@ -78,6 +78,7 @@ class MockElement {
     this._attrs = {};
     this._html = "";
     this._style = {};
+    this._listeners = {};
   }
 
   get innerHTML() { return this._html; }
@@ -86,6 +87,7 @@ class MockElement {
     this.children = [];
     this._parseHTML(this._html);
   }
+  get style() { return this._style; }
 
   // Minimal HTML tokenizer — extracts opening tags, attributes, and closing tags.
   _parseHTML(html) {
@@ -147,7 +149,10 @@ class MockElement {
     return results;
   }
 
-  addEventListener() {}
+  addEventListener(type, handler) {
+    this._listeners[type] = this._listeners[type] || [];
+    this._listeners[type].push(handler);
+  }
   classList_contains(c) { return (this._attrs.class || "").includes(c); }
   getAttribute(name) { return this._attrs[name] ?? null; }
   setAttribute(name, val) { this._attrs[name] = val; }
@@ -294,6 +299,8 @@ const basicConfig = {
     const el = dom.getElementById("chart-basic");
     assert(el.innerHTML.includes('role="img"'), "should have role='img'");
     assert(el.innerHTML.includes('aria-label="Revenue Over Time"'), "should have aria-label from title");
+    assert(el.innerHTML.includes('aria-describedby="chart-basic-desc"'), "should reference hidden description");
+    assert(!/id="chart-basic-desc"[^>]*aria-hidden/.test(el.innerHTML), "description should not be aria-hidden");
   });
   if (ok) passed++; else failed++;
 })();
@@ -404,6 +411,41 @@ const basicConfig = {
     const pathMatches = el.innerHTML.match(/<path/g);
     assert(pathMatches && pathMatches.length === 2, `should contain 2 paths, got ${pathMatches ? pathMatches.length : 0}`);
     assert(el.innerHTML.includes("#005b8e") && el.innerHTML.includes("#d94a4a"), "should contain both series colors");
+  });
+  if (ok) passed++; else failed++;
+})();
+
+// -----------------------------------------------------------------------
+// renderLineChart: escaping and tooltip safety
+// -----------------------------------------------------------------------
+(function() {
+  const ok = runChartTest("escapes chart title, series labels, and tooltip rows", {
+    containerId: "chart-escape",
+    title: '<img src=x onerror="alert(1)">Revenue',
+    showLegend: true,
+    showTooltip: true,
+    series: [
+      {
+        label: '<svg onload="alert(1)">Revenue</svg>',
+        color: 'red" onload="alert(1)',
+        values: [{ year: "2024", value: "100" }]
+      }
+    ],
+    tooltipRows: () => ['<img src=x onerror="alert(1)">Unsafe & row']
+  }, (dom) => {
+    const el = dom.getElementById("chart-escape");
+    assert(!el.innerHTML.includes("<img"), "chart markup should not contain raw img tags");
+    assert(!el.innerHTML.includes("<svg onload"), "chart markup should not contain raw event-handler SVG");
+    assert(el.innerHTML.includes("&lt;img"), "title should be escaped as text");
+    assert(el.innerHTML.includes("&lt;svg"), "series label should be escaped as text");
+    assert(el.innerHTML.includes('stroke="#005ab5"'), "unsafe color should fall back to the default palette");
+
+    const svg = el.querySelector("svg");
+    const tooltip = el.querySelector(".chart-tooltip");
+    assert(svg && tooltip, "tooltip-enabled chart should render SVG and tooltip elements");
+    svg._listeners.mousemove[0]({ clientX: 0 });
+    assert(!tooltip.innerHTML.includes("<img"), "tooltip should not contain raw custom-row tags");
+    assert(tooltip.innerHTML.includes("Unsafe &amp; row"), "tooltip row text should be escaped");
   });
   if (ok) passed++; else failed++;
 })();

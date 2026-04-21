@@ -128,6 +128,43 @@ run_test("Workbook helper report answers builder", function() {
   assert_identical(report_answers$value[[16]], "11")
 })
 
+run_test("Workbook report answers labels follow supplied years", function() {
+  distress_compare <- data.frame(
+    year = c(2025L, 2020L, 2015L),
+    distress_count = c(13, 10, 0),
+    distress_pct = c(16, 12, NA),
+    enrollment_drop_10pct_count = c(8, 6, 0),
+    revenue_drop_10pct_count = c(7, 5, 0),
+    distress_students = c(5100, 4300, 0),
+    longrun_count = c(4, 3, 0),
+    longrun_students = c(1300, 950, 0),
+    comparison_note = c("2025 comparable", "2020 comparable", "2015 not comparable"),
+    stringsAsFactors = FALSE
+  )
+  staff_cut_yoy <- data.frame(
+    year = c(2024L, 2025L),
+    institutions_cutting_staff = c(8, 12),
+    stringsAsFactors = FALSE
+  )
+
+  report_answers <- build_report_answers(
+    distress_compare = distress_compare,
+    distress_intl10 = data.frame(unitid = integer(), stringsAsFactors = FALSE),
+    flagship_cuts = data.frame(total_disrupted_award_remaining = numeric(), stringsAsFactors = FALSE),
+    staff_cut_yoy = staff_cut_yoy,
+    latest_year = 2025L,
+    comparison_year = 2020L,
+    baseline_year = 2015L,
+    prior_year = 2024L
+  )
+
+  assert_true(grepl("2025 distressed institutions", report_answers$question[[1]], fixed = TRUE))
+  assert_true(grepl("2020 distressed institutions", report_answers$question[[8]], fixed = TRUE))
+  assert_true(grepl("2015 comparison note", report_answers$question[[12]], fixed = TRUE))
+  assert_true(grepl("2024 to 2025", report_answers$question[[16]], fixed = TRUE))
+  assert_identical(report_answers$value[[16]], "12")
+})
+
 run_test("Workbook helper state breakdown builder", function() {
   all_sheet_bacc <- data.frame(
     control_label = c("Public", "Public", "Public", "Private not-for-profit"),

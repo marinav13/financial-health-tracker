@@ -254,65 +254,72 @@ build_benchmark_tab <- function(group_list, label_prefix = "") {
 }
 
 # Builds the ReportAnswers tab: 16 key topline statistics with interpretation notes.
-build_report_answers <- function(distress_compare, distress_intl10, flagship_cuts, staff_cut_yoy) {
+build_report_answers <- function(distress_compare, distress_intl10, flagship_cuts, staff_cut_yoy,
+                                 latest_year = 2024L, comparison_year = latest_year - 5L,
+                                 baseline_year = latest_year - 10L, prior_year = latest_year - 1L) {
   value_for_year <- function(field, year_value) {
-    distress_compare[[field]][distress_compare$year == year_value]
+    value <- distress_compare[[field]][distress_compare$year == year_value]
+    if (length(value) == 0) NA else value[[1]]
+  }
+  staff_cutting_value <- function(year_value) {
+    value <- staff_cut_yoy$institutions_cutting_staff[staff_cut_yoy$year == year_value]
+    if (length(value) == 0) NA else value[[1]]
   }
 
   data.frame(
     question = c(
-      "2024 distressed institutions in the primarily baccalaureate universe",
-      "2024 distressed institutions as a share of the primarily baccalaureate universe",
-      "2024 institutions with at least a 10% five-year enrollment drop",
-      "2024 institutions with at least a 10% five-year revenue drop",
-      "2024 students enrolled at distressed institutions",
-      "2024 long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years",
-      "2024 students enrolled at those long-running challenge institutions",
-      "2019 distressed institutions in the same universe",
-      "2019 institutions with at least a 10% five-year enrollment drop",
-      "2019 institutions with at least a 10% five-year revenue drop",
-      "2019 long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years",
-      "2014 comparison note",
+      sprintf("%s distressed institutions in the primarily baccalaureate universe", latest_year),
+      sprintf("%s distressed institutions as a share of the primarily baccalaureate universe", latest_year),
+      sprintf("%s institutions with at least a 10%% five-year enrollment drop", latest_year),
+      sprintf("%s institutions with at least a 10%% five-year revenue drop", latest_year),
+      sprintf("%s students enrolled at distressed institutions", latest_year),
+      sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", latest_year),
+      sprintf("%s students enrolled at those long-running challenge institutions", latest_year),
+      sprintf("%s distressed institutions in the same universe", comparison_year),
+      sprintf("%s institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      sprintf("%s institutions with at least a 10%% five-year revenue drop", comparison_year),
+      sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", comparison_year),
+      sprintf("%s comparison note", baseline_year),
       "Colleges in distress with rising international enrollment over 10 years",
       "Public flagships with still-disrupted federal research cuts",
       "Public flagships with at least $1M still disrupted in federal research cuts",
-      "Institutions cutting staffing from 2023 to 2024"
+      sprintf("Institutions cutting staffing from %s to %s", prior_year, latest_year)
     ),
     value = c(
-      value_for_year("distress_count", 2024L),
-      value_for_year("distress_pct", 2024L),
-      value_for_year("enrollment_drop_10pct_count", 2024L),
-      value_for_year("revenue_drop_10pct_count", 2024L),
-      value_for_year("distress_students", 2024L),
-      value_for_year("longrun_count", 2024L),
-      value_for_year("longrun_students", 2024L),
-      value_for_year("distress_count", 2019L),
-      value_for_year("enrollment_drop_10pct_count", 2019L),
-      value_for_year("revenue_drop_10pct_count", 2019L),
-      value_for_year("longrun_count", 2019L),
-      value_for_year("comparison_note", 2014L),
+      value_for_year("distress_count", latest_year),
+      value_for_year("distress_pct", latest_year),
+      value_for_year("enrollment_drop_10pct_count", latest_year),
+      value_for_year("revenue_drop_10pct_count", latest_year),
+      value_for_year("distress_students", latest_year),
+      value_for_year("longrun_count", latest_year),
+      value_for_year("longrun_students", latest_year),
+      value_for_year("distress_count", comparison_year),
+      value_for_year("enrollment_drop_10pct_count", comparison_year),
+      value_for_year("revenue_drop_10pct_count", comparison_year),
+      value_for_year("longrun_count", comparison_year),
+      value_for_year("comparison_note", baseline_year),
       nrow(distress_intl10),
       nrow(flagship_cuts),
       if (nrow(flagship_cuts) == 0) 0 else sum(flagship_cuts$total_disrupted_award_remaining >= 1e6, na.rm = TRUE),
-      staff_cut_yoy$institutions_cutting_staff[staff_cut_yoy$year == 2024]
+      staff_cutting_value(latest_year)
     ),
     note = c(
-      "warning_score_core >= 4 in the 2024 primarily baccalaureate workbook universe.",
-      "Share of the 2024 primarily baccalaureate workbook universe with warning_score_core >= 4.",
-      "Count of 2024 primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.",
-      "Count of 2024 primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.",
-      "Sum of 2024 enrollment_headcount_total for institutions in the distress group.",
-      "Count of 2024 institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.",
-      "Sum of 2024 enrollment_headcount_total for institutions with both enrollment declines and repeated losses.",
-      "warning_score_core >= 4 in the 2019 primarily baccalaureate workbook universe.",
-      "Count of 2019 primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.",
-      "Count of 2019 primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.",
-      "Count of 2019 institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.",
-      "2014 lacks populated five-year trend fields in the canonical dataset, so it is not directly comparable to 2019 and 2024 on this framing.",
+      sprintf("warning_score_core >= 4 in the %s primarily baccalaureate workbook universe.", latest_year),
+      sprintf("Share of the %s primarily baccalaureate workbook universe with warning_score_core >= 4.", latest_year),
+      sprintf("Count of %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", latest_year),
+      sprintf("Count of %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", latest_year),
+      sprintf("Sum of %s enrollment_headcount_total for institutions in the distress group.", latest_year),
+      sprintf("Count of %s institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", latest_year),
+      sprintf("Sum of %s enrollment_headcount_total for institutions with both enrollment declines and repeated losses.", latest_year),
+      sprintf("warning_score_core >= 4 in the %s primarily baccalaureate workbook universe.", comparison_year),
+      sprintf("Count of %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", comparison_year),
+      sprintf("Count of %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", comparison_year),
+      sprintf("Count of %s institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", comparison_year),
+      sprintf("%s lacks populated five-year trend fields in the canonical dataset, so it is not directly comparable to %s and %s on this framing.", baseline_year, comparison_year, latest_year),
       "Same distress definition, limited to institutions with international_enrollment_increase_10yr == Yes.",
       "Matched Grant Witness research-funding schools to the predefined flagship unitid list and kept positive still-disrupted totals only.",
       "Subset of public flagships with positive still-disrupted totals of at least $1 million.",
-      "Counts institutions whose 2024 staff_headcount_total is below 2023."
+      sprintf("Counts institutions whose %s staff_headcount_total is below %s.", latest_year, prior_year)
     ),
     stringsAsFactors = FALSE
   )

@@ -27,6 +27,25 @@ function formatChartValue(value, format = "number") {
   }).format(value);
 }
 
+function escapeChartHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function safeChartColor(value, fallback = "#005ab5") {
+  const color = String(value || "").trim();
+  return /^#[0-9a-f]{3,8}$/i.test(color) ? color : fallback;
+}
+
+function renderTooltipRow(value) {
+  const text = String(value ?? "").replace(/<[^>]*>/g, "");
+  return `<span class="chart-tooltip-row">${escapeChartHtml(text)}</span>`;
+}
+
 // ------ Axis Scaling ------
 
 // Calculates "nice" ceiling for Y-axis (1, 2, 5, or 10 × 10^n)
@@ -52,7 +71,12 @@ function renderLineChart(containerId, config) {
   const showTooltip = config.showTooltip !== false;
   const showLegend = config.showLegend !== false;
 
-  const seriesList = (config.series || []).filter((s) => Array.isArray(s.values) && s.values.length > 0);
+  const seriesList = (config.series || [])
+    .filter((s) => Array.isArray(s.values) && s.values.length > 0)
+    .map((series, index) => ({
+      ...series,
+      color: safeChartColor(series.color, index === 1 ? "#dc3220" : "#005ab5")
+    }));
   if (!seriesList.length) {
     container.innerHTML = `<p class="metric-copy">No data available.</p>`;
     return;
@@ -117,24 +141,25 @@ function renderLineChart(containerId, config) {
     const x = xScale(Number(point.year));
     const y = yScale(Number(point.value));
     const title = showTooltip
-      ? `<title>${series.label}: ${formatChartValue(Number(point.value), format)} (${point.year})</title>`
+      ? `<title>${escapeChartHtml(series.label)}: ${escapeChartHtml(formatChartValue(Number(point.value), format))} (${escapeChartHtml(point.year)})</title>`
       : "";
     return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9">${title}</circle>`;
   }).join("")).join("");
 
-  const title = config.title ? `<p class="chart-title">${config.title}</p>` : "";
+  const safeTitle = escapeChartHtml(config.title || "Chart");
+  const title = config.title ? `<p class="chart-title">${safeTitle}</p>` : "";
   const legend = seriesList.map((series) => (
-    `<span><span class="legend-dot" style="background:${series.color}"></span>${series.label}</span>`
+    `<span><span class="legend-dot" style="background:${series.color}"></span>${escapeChartHtml(series.label)}</span>`
   )).join("");
-  const descriptionId = `${containerId}-desc`;
-  const descriptionText = config.title || "Chart";
-  const description = `<p id="${descriptionId}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;" aria-hidden="true">${descriptionText}. Data: ${seriesList.map((s) => `${s.label}: ${s.values.map((p) => `${p.year}: ${formatChartValue(Number(p.value), format)}`).join(", ")}`).join(". ")}</p>`;
+  const descriptionId = `${String(containerId).replace(/[^\w-]/g, "-")}-desc`;
+  const descriptionText = safeTitle;
+  const description = `<p id="${descriptionId}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">${descriptionText}. Data: ${seriesList.map((s) => `${escapeChartHtml(s.label)}: ${s.values.map((p) => `${escapeChartHtml(p.year)}: ${escapeChartHtml(formatChartValue(Number(p.value), format))}`).join(", ")}`).join(". ")}</p>`;
 
   container.innerHTML = `
     ${title}
     ${description}
     ${showTooltip ? '<div class="chart-tooltip" aria-hidden="true"></div>' : ""}
-    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${config.title || "Chart"}" role="img">
+    <svg class="chart-svg" viewBox="0 0 ${width} ${height}" aria-label="${safeTitle}" aria-describedby="${descriptionId}" role="img">
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
       ${yTicks.join("")}
@@ -173,7 +198,7 @@ function renderLineChart(containerId, config) {
     const rows = seriesList.map((series) => {
       const point = series.values.find((value) => Number(value.year) === bestYear);
       if (!point) return null;
-      return `<span class="chart-tooltip-row">${series.label}: ${formatChartValue(Number(point.value), format)}</span>`;
+      return `${series.label}: ${formatChartValue(Number(point.value), format)}`;
     }).filter(Boolean);
 
     const customRows = typeof config.tooltipRows === "function"
@@ -183,7 +208,7 @@ function renderLineChart(containerId, config) {
 
     if (!tooltipRows.length) return;
 
-    tooltip.innerHTML = `<strong>${bestYear}</strong>${tooltipRows.join("")}`;
+    tooltip.innerHTML = `<strong>${escapeChartHtml(bestYear)}</strong>${tooltipRows.map(renderTooltipRow).join("")}`;
     tooltip.style.left = `${((xScale(bestYear) / width) * 100).toFixed(1)}%`;
     tooltip.style.display = "block";
   };

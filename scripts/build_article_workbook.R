@@ -39,9 +39,10 @@ flagship_unitids <- c(
   218663,219471,221759,228778,230764,234076,231174,236948,240444,238032,240727
 )
 
-# Latest data year and prior comparison year for year-over-year framing.
-latest_year   <- 2024L
-prev_year_num <- 2023L
+# Latest data year and prior comparison year are derived from the input data
+# after load so the workbook advances with the committed IPEDS extract.
+latest_year   <- NA_integer_
+prev_year_num <- NA_integer_
 
 # ============================================================================
 # SECTION: Risk Score Computation Functions
@@ -122,9 +123,23 @@ compute_public_campus_risk_score <- function(df, flagship_unitids) {
 
 # Load the full IPEDS financial dataset across all years
 read_df <- read.csv(input_csv, stringsAsFactors = FALSE, check.names = FALSE, na.strings = c("", "NA"))
+available_years <- sort(unique(suppressWarnings(as.integer(read_df$year))))
+available_years <- available_years[!is.na(available_years)]
+if (!length(available_years)) {
+  stop("Workbook input must include at least one valid year value.")
+}
+latest_year <- max(available_years)
+prev_year_num <- latest_year - 1L
+
 # Filter for latest and prior year separately for comparisons
 latest    <- read_df[as.character(read_df$year) == as.character(latest_year),   , drop = FALSE]
 prev_year <- read_df[as.character(read_df$year) == as.character(prev_year_num), , drop = FALSE]
+if (nrow(latest) == 0) {
+  stop(sprintf("Workbook input does not include rows for latest year %s.", latest_year))
+}
+if (nrow(prev_year) == 0) {
+  stop(sprintf("Workbook input must include prior year %s for year-over-year comparisons.", prev_year_num))
+}
 
 # List of columns that should be stored as numbers (not text)
 # These include percentages, headcounts, dollar amounts, and calculated ratios
@@ -229,7 +244,7 @@ groups <- list(
 )
 
 # Same grouping for prior year to enable year-over-year comparisons
-groups_2023 <- list(
+groups_prev_year <- list(
   all = prev_year,
   public = prev_year[prev_year$control_label == "Public", , drop = FALSE],
   private_nfp = prev_year[prev_year$control_label == "Private not-for-profit", , drop = FALSE],
@@ -254,14 +269,14 @@ summary_metric_specs <- list(
   list(metric = "Enrollment, revenue decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
   list(metric = "Enrollment decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
   list(metric = "Revenue decline and in the red in 3 of last 5 years", pred = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)),
-  list(metric = "Enrollment decline in 2024", pred = function(df) !is.na(df$enrollment_change_1yr) & df$enrollment_change_1yr < 0),
-  list(metric = "Revenue decline in 2024", pred = function(df) !is.na(df$revenue_change_1yr) & df$revenue_change_1yr < 0),
-  list(metric = "In the red in 2024", pred = function(df) yes_flag(df$ended_year_at_loss)),
+  list(metric = sprintf("Enrollment decline in %s", latest_year), pred = function(df) !is.na(df$enrollment_change_1yr) & df$enrollment_change_1yr < 0),
+  list(metric = sprintf("Revenue decline in %s", latest_year), pred = function(df) !is.na(df$revenue_change_1yr) & df$revenue_change_1yr < 0),
+  list(metric = sprintf("In the red in %s", latest_year), pred = function(df) yes_flag(df$ended_year_at_loss)),
   list(metric = "International enrollment increased over past decade", pred = function(df) yes_flag(df$international_enrollment_increase_10yr)),
   list(metric = "International enrollment increased over past 5 years", pred = function(df) yes_flag(df$international_enrollment_increase_5yr)),
   list(metric = "Staffing cut over past 5 years", pred = function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, notes = "Using staff headcount"),
   list(metric = "Instructional staffing cut over past 5 years", pred = function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, notes = "Using staff headcount"),
-  list(metric = "Ended 2024 fiscal year at a loss", pred = function(df) yes_flag(df$ended_year_at_loss)),
+  list(metric = sprintf("Ended %s fiscal year at a loss", latest_year), pred = function(df) yes_flag(df$ended_year_at_loss)),
   list(metric = "Net tuition per FTE decreased over past 5 years", pred = function(df) !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0, notes = "Using net tuition per FTE"),
   list(metric = "State appropriations decreased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0),
   list(metric = "State appropriations increased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr > 0),
@@ -321,17 +336,17 @@ summary_rows <- append_rows(
   make_group_row("State-funding change by sector", "median percent", state_funding_change_median, "Mostly meaningful for publics")
 )
 
-loss_2023_counts <- count_by_group_from(groups_2023, function(df) yes_flag(df$ended_year_at_loss))
-loss_2023_pcts <- pct_by_group_from(groups_2023, function(df) yes_flag(df$ended_year_at_loss))
-loss_2024_counts <- count_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
-loss_2024_pcts <- pct_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
+loss_prev_counts <- count_by_group_from(groups_prev_year, function(df) yes_flag(df$ended_year_at_loss))
+loss_prev_pcts <- pct_by_group_from(groups_prev_year, function(df) yes_flag(df$ended_year_at_loss))
+loss_latest_counts <- count_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
+loss_latest_pcts <- pct_by_group_from(groups, function(df) yes_flag(df$ended_year_at_loss))
 summary_rows <- append_rows(
   summary_rows,
-  make_group_row("Ended fiscal year at a loss", "2023 count", loss_2023_counts, "Compared with 2024"),
-  make_group_row("Ended fiscal year at a loss", "2023 percent", loss_2023_pcts, "Compared with 2024"),
-  make_group_row("Ended fiscal year at a loss", "2024 count", loss_2024_counts, "Compared with 2023"),
-  make_group_row("Ended fiscal year at a loss", "2024 percent", loss_2024_pcts, "Compared with 2023"),
-  make_group_row("Change in institutions ending year at a loss", "count change 2024 minus 2023", loss_2024_counts - loss_2023_counts, "2024 minus 2023")
+  make_group_row("Ended fiscal year at a loss", sprintf("%s count", prev_year_num), loss_prev_counts, sprintf("Compared with %s", latest_year)),
+  make_group_row("Ended fiscal year at a loss", sprintf("%s percent", prev_year_num), loss_prev_pcts, sprintf("Compared with %s", latest_year)),
+  make_group_row("Ended fiscal year at a loss", sprintf("%s count", latest_year), loss_latest_counts, sprintf("Compared with %s", prev_year_num)),
+  make_group_row("Ended fiscal year at a loss", sprintf("%s percent", latest_year), loss_latest_pcts, sprintf("Compared with %s", prev_year_num)),
+  make_group_row("Change in institutions ending year at a loss", sprintf("count change %s minus %s", latest_year, prev_year_num), loss_latest_counts - loss_prev_counts, sprintf("%s minus %s", latest_year, prev_year_num))
 )
 
 top_fed <- top_metric_by_group_from(groups, "federal_grants_contracts_pell_adjusted_pct_core_revenue")
@@ -373,7 +388,7 @@ summary_rows <- append_rows(
 sheet_index_specs <- list(
   list(name = "Summary", description = "Top-level counts and sector shares. Includes all filtered institutions plus baccalaureate-only breakouts."),
   list(name = "ReportAnswers", description = "Topline reporting answers, counts, and notes explaining how each figure was calculated."),
-  list(name = "All_2024", description = "All 2024 predominantly baccalaureate institutions included in the workbook universe."),
+  list(name = "All_2024", description = sprintf("All %s predominantly baccalaureate institutions included in the workbook universe.", latest_year)),
   list(name = "EnrollDecl3of5", description = "Predominantly baccalaureate colleges with enrollment declines in 3 of the last 5 years."),
   list(name = "RevDecl3of5", description = "Predominantly baccalaureate colleges with revenue declines in 3 of the last 5 years."),
   list(name = "Red3of5", description = "Predominantly baccalaureate colleges that ended 3 of the last 5 years at a loss."),
@@ -385,7 +400,7 @@ sheet_index_specs <- list(
   list(name = "Flagships", description = "Predominantly baccalaureate public flagships ranked by core stress signals such as enrollment, revenue, and losses."),
   list(name = "FlagshipFed", description = "Predominantly baccalaureate public flagships ranked by dependence on Pell-adjusted federal grants and contracts."),
   list(name = "ResearchLeaders", description = "Predominantly baccalaureate colleges ranked by research spending per FTE, with research spending levels and research spending as a share of core expenses."),
-  list(name = "Loss2024", description = "Predominantly baccalaureate colleges that ended 2024 at a loss."),
+  list(name = "Loss2024", description = sprintf("Predominantly baccalaureate colleges that ended %s at a loss.", latest_year)),
   list(name = "StateDown5yr", description = "Predominantly baccalaureate colleges with declining state appropriations over the past 5 years."),
   list(name = "EndowDown5yr", description = "Predominantly baccalaureate colleges with declining endowment value over the past 5 years."),
   list(name = "DiscRateUp5yr", description = "Predominantly baccalaureate colleges with rising discount rates over the past 5 years."),
@@ -394,7 +409,7 @@ sheet_index_specs <- list(
   list(name = "StaffDown5yr", description = "Predominantly baccalaureate colleges ranked by biggest total staff headcount decline over the past 5 years."),
   list(name = "InstrStaffDown5yr", description = "Predominantly baccalaureate colleges ranked by biggest instructional staff headcount decline over the past 5 years."),
   list(name = "StaffNetTuitionDown", description = "Predominantly baccalaureate colleges with both total staff headcount cuts and falling net tuition revenue per FTE over the past 5 years."),
-  list(name = "StaffCutRisk", description = "Predominantly baccalaureate colleges ranked by the risk factors that most often show up before major staffing cuts: enrollment decline, revenue decline, repeated losses, ending 2024 at a loss, falling net tuition per FTE, high tuition dependence, endowment decline, and instructional staffing cuts."),
+  list(name = "StaffCutRisk", description = sprintf("Predominantly baccalaureate colleges ranked by the risk factors that most often show up before major staffing cuts: enrollment decline, revenue decline, repeated losses, ending %s at a loss, falling net tuition per FTE, high tuition dependence, endowment decline, and instructional staffing cuts.", latest_year)),
   list(name = "TransferOutUp5yr", description = "Predominantly baccalaureate colleges with rising transfer-out rates over the past 5 years."),
   list(name = "TransferOutUp10yr", description = "Predominantly baccalaureate colleges with rising transfer-out rates over the past 10 years."),
   list(name = "FedDepend", description = "Predominantly baccalaureate colleges ranked by dependence on Pell-adjusted federal grants and contracts."),
@@ -408,7 +423,7 @@ sheet_index_specs <- list(
   list(name = "HighDebt", description = "Predominantly baccalaureate colleges ranked by leverage."),
   list(name = "FedAndIntl", description = "Predominantly baccalaureate colleges with both high federal dependence and high international share."),
   list(name = "MultiSignal", description = "Predominantly baccalaureate colleges with the highest combined warning-signal score."),
-  list(name = "PrivateCloseRisk", description = "Predominantly baccalaureate private colleges ranked by a transparent closure-risk score built from enrollment decline, repeated losses, ending 2024 at a loss, net tuition decline, high tuition dependence, weak liquidity, high leverage, endowment decline, and instructional staffing cuts."),
+  list(name = "PrivateCloseRisk", description = sprintf("Predominantly baccalaureate private colleges ranked by a transparent closure-risk score built from enrollment decline, repeated losses, ending %s at a loss, net tuition decline, high tuition dependence, weak liquidity, high leverage, endowment decline, and instructional staffing cuts.", latest_year)),
   list(name = "PublicCampusRisk", description = "Predominantly baccalaureate non-flagship public campuses ranked by a restructuring-risk score built from enrollment decline, large 5-year enrollment losses, staffing cuts, rising transfer-out rates, falling state funding, and missing campus-level revenue or expense data."),
   list(name = "PublicFinBad50", description = "Top 50 public institutions with the most finance-page indicators currently styled as bad on the site."),
   list(name = "PrivateFinBad50", description = "Top 50 private institutions with the most finance-page indicators currently styled as bad on the site."),
@@ -423,9 +438,9 @@ sheet_index_specs <- list(
   list(name = "PublicGradTop", description = "Public universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
   list(name = "StudPerInstr50", description = "Top 50 universities with the highest students-per-instructional-staff ratio, using the FTE-based IPEDS measure."),
   list(name = "FlagshipCuts", description = "Public flagships matched to still-disrupted federal research cuts from Grant Witness."),
-  list(name = "DistressCompare", description = "Year comparison for the distress paragraph framing, including 2024 toplines and 2019/2014 context."),
+  list(name = "DistressCompare", description = sprintf("Year comparison for the distress paragraph framing, including %s toplines and %s/%s context.", latest_year, latest_year - 5L, latest_year - 10L)),
   list(name = "IntlOffset10yr", description = "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
-  list(name = "BiggestDropsNoIntl", description = "All ranked institutions where 2014-2024 enrollment would have fallen further without international enrollment growth, sorted by the biggest implied domestic drops."),
+  list(name = "BiggestDropsNoIntl", description = sprintf("All ranked institutions where %s-%s enrollment would have fallen further without international enrollment growth, sorted by the biggest implied domestic drops.", latest_year - 10L, latest_year)),
   list(name = "AccredFinanceXtab", description = "Finance, enrollment, and staffing comparison for institutions with versus without accreditation actions."),
   list(name = "AccredMatches", description = "Matched 4-year primarily bachelor's institutions with accreditation actions and finance metrics."),
   list(name = "CutsFinanceXtab", description = "Finance, enrollment, and staffing comparison for institutions with versus without college cuts."),
@@ -693,7 +708,7 @@ theme_sheets <- build_workbook_sheets(all_sheet_bacc, theme_sheet_specs)
 distress_intl10 <- theme_sheets$DistressIntl10
 
 # Compare institutions with accreditation actions or program cuts against the
-# same 2024 primarily bachelor's tracker universe used throughout the workbook.
+# same latest-year primarily bachelor's tracker universe used throughout the workbook.
 accreditation_summary <- read_csv_if_exists("./data_pipelines/accreditation/accreditation_tracker_institution_summary.csv")
 college_cuts_summary <- read_csv_if_exists("./data_pipelines/college_cuts/college_cuts_financial_tracker_institution_summary.csv")
 hcm_summary <- read_csv_if_exists("./data_pipelines/federal_hcm/hcm_level2_summary.csv")
@@ -791,9 +806,9 @@ cuts_finance_xtab <- build_event_xtab(finance_bad, college_cuts_any_unitids, "An
 
 # Year-over-year staffing cuts: keep the existing institution counts, but also
 # sum the actual headcount reductions so the workbook shows how many jobs were
-# cut rather than only how many campuses reported a decline. Include 2014 as
-# the visible staffing baseline, then show later years as cuts relative to the
-# prior year's staffing base.
+# cut rather than only how many campuses reported a decline. Include the
+# 10-year baseline, then show later years as cuts relative to the prior year's
+# staffing base.
 staff_cut_yoy <- build_staff_cut_yoy(read_df, start_year = latest_year - 10L, end_year = latest_year)
 
 graduate_sheet_specs <- list(
@@ -856,10 +871,10 @@ if (nrow(flagship_cuts) > 0) {
 
 distress_compare <- build_distress_compare(read_df, bacc_category_label, years = c(latest_year, latest_year - 5L, latest_year - 10L))
 
-intl_base_2014 <- read_df[as.integer(read_df$year) == latest_year - 10L, c("unitid","enrollment_headcount_total"), drop = FALSE]
-names(intl_base_2014)[2] <- "enrollment_headcount_total_2014"
-intl_offset_10yr <- merge(all_sheet_bacc, intl_base_2014, by = "unitid", all.x = TRUE)
-intl_offset_10yr$total_change_10yr_proxy <- intl_offset_10yr$enrollment_headcount_total - intl_offset_10yr$enrollment_headcount_total_2014
+intl_base_10yr <- read_df[as.integer(read_df$year) == latest_year - 10L, c("unitid","enrollment_headcount_total"), drop = FALSE]
+names(intl_base_10yr)[2] <- "enrollment_headcount_total_baseline"
+intl_offset_10yr <- merge(all_sheet_bacc, intl_base_10yr, by = "unitid", all.x = TRUE)
+intl_offset_10yr$total_change_10yr_proxy <- intl_offset_10yr$enrollment_headcount_total - intl_offset_10yr$enrollment_headcount_total_baseline
 intl_offset_10yr$domestic_change_10yr_proxy <- intl_offset_10yr$total_change_10yr_proxy - intl_offset_10yr$international_enrollment_change_10yr
 intl_offset_10yr$pct_international_all_pct <- intl_offset_10yr$pct_international_all * 100
 intl_offset_10yr <- intl_offset_10yr[
@@ -898,7 +913,11 @@ report_answers <- build_report_answers(
   distress_compare = distress_compare,
   distress_intl10 = distress_intl10,
   flagship_cuts = flagship_cuts,
-  staff_cut_yoy = staff_cut_yoy
+  staff_cut_yoy = staff_cut_yoy,
+  latest_year = latest_year,
+  comparison_year = latest_year - 5L,
+  baseline_year = latest_year - 10L,
+  prior_year = prev_year_num
 )
 
 state_breakdown <- build_state_breakdown(all_sheet_bacc)

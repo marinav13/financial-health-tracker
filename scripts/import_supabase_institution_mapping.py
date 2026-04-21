@@ -25,11 +25,13 @@ Usage (no arguments needed — credentials are hardcoded):
 Override via CLI or env vars if needed:
     python scripts/import_supabase_institution_mapping.py \\
         --url "https://<project>.supabase.co" \\
-        --key "<anon_key>"
+        --key "<anon_key>" \\
+        --ipeds-canonical "ipeds/derived/ipeds_financial_health_canonical_2015_2025.csv"
 """
 
 import argparse
 import csv
+import glob
 import io
 import json
 import os
@@ -41,10 +43,11 @@ OUTPUT_PATH = os.path.join(
     os.path.dirname(__file__),
     "..", "data_pipelines", "college_cuts", "supabase_institution_unitid_mapping.csv"
 )
-IPEDS_CANONICAL_PATH = os.path.join(
+IPEDS_DERIVED_DIR = os.path.join(
     os.path.dirname(__file__),
-    "..", "ipeds", "derived", "ipeds_financial_health_canonical_2014_2024.csv"
+    "..", "ipeds", "derived"
 )
+IPEDS_CANONICAL_PATTERN = "ipeds_financial_health_canonical_*.csv"
 OUTPUT_COLUMNS = [
     "institution_name_api",
     "unitid",
@@ -61,7 +64,7 @@ OUTPUT_COLUMNS = [
 # match the IPEDS name automatically.
 #
 # Annotations:
-#   [canonical]  unitid is in ipeds_financial_health_canonical_2014_2024.csv
+#   [canonical]  unitid is in the current ipeds_financial_health_canonical_*.csv
 #                → full financial profile available
 #   [ipeds-only] unitid exists in raw IPEDS data but NOT in canonical CSV
 #                (closed, 2-year, health-science, or specialty institution)
@@ -242,14 +245,39 @@ def fetch_all_supabase_institutions(base_url: str, api_key: str) -> list[dict]:
 # IPEDS canonical lookup — build norm_name → (unitid, ipeds_name) index
 # ---------------------------------------------------------------------------
 
+def _canonical_sort_key(path: str) -> tuple:
+    """Sort canonical IPEDS files by parsed end year, then file mtime."""
+    name = os.path.basename(path)
+    match = re.search(r"canonical_(\d{4})_(\d{4})\.csv$", name)
+    if match:
+        start_year, end_year = (int(match.group(1)), int(match.group(2)))
+    else:
+        start_year, end_year = (0, 0)
+    try:
+        mtime = os.path.getmtime(path)
+    except OSError:
+        mtime = 0
+    return (end_year, start_year, mtime, name)
+
+
+def find_latest_ipeds_canonical_path(search_dir: str = IPEDS_DERIVED_DIR) -> str:
+    """Return the newest committed canonical IPEDS CSV in the derived directory."""
+    pattern = os.path.join(search_dir, IPEDS_CANONICAL_PATTERN)
+    candidates = [path for path in glob.glob(pattern) if os.path.isfile(path)]
+    if not candidates:
+        raise FileNotFoundError(
+            f"No canonical IPEDS CSV found matching {os.path.normpath(pattern)}"
+        )
+    return os.path.normpath(sorted(candidates, key=_canonical_sort_key)[-1])
+
+
 def load_ipeds_lookup(ipeds_path: str) -> dict:
     """
     Returns {(norm_name, state_full): {"unitid": ..., "ipeds_name": ...}}
     Only includes unambiguous entries (exactly one unitid per norm_name+state).
     """
     if not os.path.exists(ipeds_path):
-        print(f"  Warning: IPEDS canonical dataset not found at {ipeds_path}")
-        return {}
+        raise FileNotFoundError(f"IPEDS canonical dataset not found at {ipeds_path}")
 
     with open(ipeds_path, "rb") as f:
         raw = f.read().replace(b"\x00", b"")
@@ -284,6 +312,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default=os.environ.get("SUPABASE_URL", _DEFAULT_URL))
     parser.add_argument("--key", default=os.environ.get("SUPABASE_KEY", _DEFAULT_KEY))
+    parser.add_argument("--ipeds-canonical",
+                        default=os.environ.get("IPEDS_CANONICAL_PATH"),
+                        help="Optional explicit canonical IPEDS CSV path")
     parser.add_argument("--skip-stale-check", action="store_true",
                         help="Skip freshness check and force re-run even if file is recent")
     args = parser.parse_args()
@@ -304,8 +335,8 @@ def main():
     print(f"  Total: {len(supabase_rows)}  |  with unitid: {len(with_uid)}  |  missing: {len(without_uid)}")
 
     # 2. Load IPEDS lookup for fallback matching
-    ipeds_path = os.path.normpath(IPEDS_CANONICAL_PATH)
-    print(f"Loading IPEDS canonical dataset …")
+    ipeds_path = os.path.normpath(args.ipeds_canonical) if args.ipeds_canonical else find_latest_ipeds_canonical_path()
+    print(f"Loading IPEDS canonical dataset: {ipeds_path}")
     ipeds_lookup = load_ipeds_lookup(ipeds_path)
     print(f"  {len(ipeds_lookup)} unambiguous IPEDS (norm_name, state) entries")
 

@@ -8,6 +8,7 @@ Run with: python tests/test_import_supabase.py
 """
 
 import sys
+import tempfile
 from pathlib import Path
 
 # Add repo root to path so we can import the script's module-level objects
@@ -19,6 +20,8 @@ from import_supabase_institution_mapping import (  # noqa: E402
     normalize_name,
     MANUAL_ALIASES,
     EXCLUDED_INSTITUTIONS,
+    find_latest_ipeds_canonical_path,
+    load_ipeds_lookup,
 )
 
 
@@ -288,6 +291,40 @@ def test_baseline_sets_cover_previously_unmatched():
 
 
 # ---------------------------------------------------------------------------
+# Canonical IPEDS lookup path selection
+# ---------------------------------------------------------------------------
+
+def test_find_latest_ipeds_canonical_path_uses_newest_end_year():
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        older = root / "ipeds_financial_health_canonical_2014_2024.csv"
+        newer = root / "ipeds_financial_health_canonical_2015_2025.csv"
+        older.write_text("unitid,institution_name,state\n", encoding="utf-8")
+        newer.write_text("unitid,institution_name,state\n", encoding="utf-8")
+
+        assert Path(find_latest_ipeds_canonical_path(str(root))).name == newer.name
+
+
+def test_find_latest_ipeds_canonical_path_fails_when_missing():
+    with tempfile.TemporaryDirectory() as tmp:
+        try:
+            find_latest_ipeds_canonical_path(tmp)
+        except FileNotFoundError as exc:
+            assert "No canonical IPEDS CSV found" in str(exc)
+        else:
+            raise AssertionError("Expected FileNotFoundError for missing canonical CSV")
+
+
+def test_load_ipeds_lookup_fails_when_file_missing():
+    try:
+        load_ipeds_lookup("missing-canonical-file.csv")
+    except FileNotFoundError as exc:
+        assert "IPEDS canonical dataset not found" in str(exc)
+    else:
+        raise AssertionError("Expected FileNotFoundError for missing canonical CSV")
+
+
+# ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
 
@@ -314,6 +351,9 @@ if __name__ == "__main__":
         test_excluded_institutions_retain_baseline_coverage,
         test_baseline_sets_are_disjoint,
         test_baseline_sets_cover_previously_unmatched,
+        test_find_latest_ipeds_canonical_path_uses_newest_end_year,
+        test_find_latest_ipeds_canonical_path_fails_when_missing,
+        test_load_ipeds_lookup_fails_when_file_missing,
     ]
 
     passed = failed = 0

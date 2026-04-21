@@ -108,9 +108,13 @@
     const activeDirection = activeKey === key ? sortState.direction : "";
     const upClass = activeDirection === "asc" ? " is-active" : "";
     const downClass = activeDirection === "desc" ? " is-active" : "";
-    // aria-sort: none by default, ascending/descending when active
-    const ariaSort = activeDirection === "asc" ? "ascending" : activeDirection === "desc" ? "descending" : "none";
-    return `<th aria-sort="${ariaSort}"><span class="sort-header-label">${label}</span><span class="sort-controls" aria-label="Sort ${label}"><button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button><button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button></span></th>`;
+    return `
+      <span class="sort-header-label">${label}</span>
+      <span class="sort-controls" aria-label="Sort ${label}">
+        <button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button>
+        <button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button>
+      </span>
+    `;
   }
 
   function formatCurrency(value) {
@@ -253,12 +257,12 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th aria-sort="none">Agency</th>
-              <th aria-sort="none">Grant</th>
-              <th aria-sort="none">Grant ID</th>
-              <th aria-sort="none">Funding still disrupted</th>
-              ${renderSortControls("termination_date", sortState, "Termination date")}
-              <th aria-sort="none">Source</th>
+              <th>Agency</th>
+              <th>Grant</th>
+              <th>Grant ID</th>
+              <th>Funding still disrupted</th>
+              <th>${renderSortControls("termination_date", sortState, "Termination date")}</th>
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -372,10 +376,10 @@
         <table class="history-table">
           <thead>
             <tr>
-              ${renderSortControls("state", sortState, "State")}
-              ${renderSortControls("public_funding", sortState, "Public cuts")}
-              ${renderSortControls("private_funding", sortState, "Private cuts")}
-              ${renderSortControls("total_funding", sortState, "Total cuts")}
+              <th>${renderSortControls("state", sortState, "State")}</th>
+              <th>${renderSortControls("public_funding", sortState, "Public cuts")}</th>
+              <th>${renderSortControls("private_funding", sortState, "Private cuts")}</th>
+              <th>${renderSortControls("total_funding", sortState, "Total cuts")}</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -424,11 +428,11 @@
         <table class="history-table">
           <thead>
             <tr>
-              ${renderSortControls("institution_name", sortState, "Institution")}
-              ${renderSortControls("state", sortState, "State")}
-              ${renderSortControls("sector", sortState, "Sector")}
-              ${renderSortControls("disrupted_grants", sortState, "Disrupted grants")}
-              ${renderSortControls("funding", sortState, "Funding cut or frozen")}
+              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
+              <th>${renderSortControls("state", sortState, "State")}</th>
+              <th>${renderSortControls("sector", sortState, "Sector")}</th>
+              <th>${renderSortControls("disrupted_grants", sortState, "Disrupted grants")}</th>
+              <th>${renderSortControls("funding", sortState, "Funding cut or frozen")}</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>

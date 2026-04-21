@@ -221,32 +221,6 @@
     return (items || []).filter((item) => normalizeSector(item.control_label) === sector);
   }
 
-  // Sector filter button state
-  let currentSector = "both";
-
-  function setupSectorFilter() {
-    const filterGroup = document.querySelector("#research-sector-filter .filter-button-group");
-    if (!filterGroup) return;
-    // Set initial aria-pressed state
-    filterGroup.querySelectorAll(".filter-button").forEach((btn) => {
-      const isActive = btn.classList.contains("is-active");
-      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-    });
-    filterGroup.querySelectorAll(".filter-button").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const sector = btn.dataset.sector;
-        currentSector = sector;
-        // Update aria-pressed
-        filterGroup.querySelectorAll(".filter-button").forEach((b) => {
-          b.classList.toggle("is-active", b.dataset.sector === sector);
-          b.setAttribute("aria-pressed", b.dataset.sector === sector ? "true" : "false");
-        });
-        currentPage = 1;
-        render();
-      });
-    });
-  }
-
   function sortGrants(grants, sortState) {
     const sorted = (grants || []).slice();
     const direction = sortState?.direction === "desc" ? -1 : 1;
@@ -597,11 +571,7 @@ if (title) {
       if (otherTitle) otherTitle.textContent = "";
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
-      if (filterWrap) {
-        filterWrap.classList.remove("is-hidden");
-        filterWrap.setAttribute("aria-hidden", "false");
-      }
-      setupSectorFilter();
+      if (filterWrap) filterWrap.classList.add("is-hidden");
       renderLanding();
       return;
     }

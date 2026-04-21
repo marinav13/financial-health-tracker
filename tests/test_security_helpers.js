@@ -138,6 +138,63 @@ run("paginateItems clamps pages and returns the current slice", () => {
   assert(page.pageItems.length === 1 && page.pageItems[0] === "e", "Expected final page slice");
 });
 
+run("setupPaginatedTable renders filtered rows and wires downloads", () => {
+  const listeners = {};
+  const searchInput = {
+    value: "",
+    dataset: {},
+    addEventListener(type, handler) {
+      listeners[type] = handler;
+    }
+  };
+  const downloadButton = {
+    hidden: null,
+    classList: {
+      toggle(name, state) {
+        if (name === "is-hidden") downloadButton.hidden = state;
+      }
+    },
+    onclick: null
+  };
+  const container = {
+    innerHTML: "",
+    querySelector: () => null,
+    querySelectorAll: () => []
+  };
+  let downloadedRows = null;
+
+  app.setupPaginatedTable({
+    container,
+    items: [
+      { name: "Beta", score: 2 },
+      { name: "Alpha", score: 3 },
+      { name: "Gamma", score: 1 }
+    ],
+    pageSize: 2,
+    searchInput,
+    initialSortState: { key: "score", direction: "desc" },
+    filterItems: (rows, term) => rows.filter((row) => row.name.toLowerCase().includes(term.toLowerCase())),
+    sortItems: (rows, sortState) => [...rows].sort((a, b) => sortState.direction === "desc" ? b.score - a.score : a.score - b.score),
+    renderPage: (rows, page, size) => {
+      const state = app.paginateItems(rows, page, size);
+      return state.pageItems.map((row) => row.name).join(",");
+    },
+    downloadButton,
+    downloadRows: (rows) => {
+      downloadedRows = rows.map((row) => row.name);
+    }
+  });
+
+  assert(container.innerHTML === "Alpha,Beta", "Expected first page to use supplied sort and page size");
+  assert(downloadButton.hidden === false, "Expected download button to be shown for non-empty pages");
+  downloadButton.onclick();
+  assert(downloadedRows.join(",") === "Alpha,Beta", "Expected download to receive current page rows");
+
+  searchInput.value = "ga";
+  listeners.input();
+  assert(container.innerHTML === "Gamma", "Expected search input to filter and reset table render");
+});
+
 run("renderSortableHeader puts aria-sort on the active table header only", () => {
   const active = app.renderSortableHeader("funding", { key: "funding", direction: "desc" }, "Funding cut");
   const inactive = app.renderSortableHeader("state", { key: "funding", direction: "desc" }, "State");

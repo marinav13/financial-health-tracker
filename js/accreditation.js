@@ -13,8 +13,7 @@
     renderSchoolLink,
     renderPaginationButtons,
     paginateItems,
-    focusAfterRender,
-    bindPaginationControls
+    setupPaginatedTable
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -394,21 +393,19 @@
 
   function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
     if (!container) return;
-    let currentPage = 1;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-
-    const render = () => {
-      const filteredActions = filterByInstitution(actions, searchInput?.value || "");
-      container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage, linkNames);
-      focusAfterRender(container, ".pagination");
-      const pageState = paginateItems(filteredActions, currentPage, pageSize);
-      currentPage = pageState.currentPage;
-      if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
-        downloadButton.onclick = () => downloadRowsCsv(
+    setupPaginatedTable({
+      container,
+      items: actions,
+      pageSize,
+      searchInput,
+      filterItems: filterByInstitution,
+      renderPage: (filteredActions, currentPage, size) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
           ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
-          pageState.pageItems.map((action) => [
+        pageItems.map((action) => [
             action.institution_name || "",
             expandAccreditors(action.accreditor || ""),
             action.action_label || action.action_type || "",
@@ -417,23 +414,8 @@
             action.action_date || action.action_year || "",
             action.source_url || ""
           ])
-        );
-      }
-      bindPaginationControls(container, currentPage, (nextPage) => {
-        currentPage = nextPage;
-        render();
-      });
-    };
-
-    if (searchInput && !searchInput.dataset.boundFilter) {
-      searchInput.addEventListener("input", () => {
-        currentPage = 1;
-        render();
-      });
-      searchInput.dataset.boundFilter = "true";
-    }
-
-    render();
+      )
+    });
   }
 
   function renderLimitations(data) {

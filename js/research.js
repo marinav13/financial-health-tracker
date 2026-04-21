@@ -9,8 +9,8 @@
     renderSortableHeader,
     paginateItems,
     focusAfterRender,
-    bindPaginationControls,
-    bindSortControls
+    bindSortControls,
+    setupPaginatedTable
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -437,51 +437,30 @@
 
   function setupPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, ariaLabel, searchInput = null) {
     if (!container) return;
-    let currentPage = 1;
-    let sortState = { key: "funding", direction: "desc" };
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-
-    const render = () => {
-      const filteredItems = filterByInstitution(items, searchInput?.value || "");
-      const sortedItems = sortInstitutionRows(filteredItems, sortState);
-      container.innerHTML = renderTablePage(sortedItems, currentPage, pageSize, emptyMessage, ariaLabel, sortState);
-      focusAfterRender(container, ".pagination");
-      const pageState = paginateItems(sortedItems, currentPage, pageSize);
-      currentPage = pageState.currentPage;
-      if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
-        downloadButton.onclick = () => downloadRowsCsv(
+    setupPaginatedTable({
+      container,
+      items,
+      pageSize,
+      searchInput,
+      initialSortState: { key: "funding", direction: "desc" },
+      defaultSortState: { key: "funding", direction: "desc" },
+      filterItems: filterByInstitution,
+      sortItems: sortInstitutionRows,
+      renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, ariaLabel, sortState),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Disrupted grants", "Funding still disrupted"],
-          pageState.pageItems.map((item) => [
+        pageItems.map((item) => [
             item.institution_name || "",
             item.state || "",
             item.control_label || "",
             Number(item.total_disrupted_grants || 0),
             item.total_disrupted_award_remaining || ""
           ])
-        );
-      }
-      bindPaginationControls(container, currentPage, (nextPage) => {
-        currentPage = nextPage;
-        render();
-      });
-      bindSortControls(container, sortState, { key: "funding", direction: "desc" }, (nextSortState) => {
-        sortState = nextSortState;
-        currentPage = 1;
-        render();
-      });
-    };
-
-    if (searchInput && !searchInput.dataset.boundFilter) {
-      searchInput.addEventListener("input", () => {
-        currentPage = 1;
-        render();
-      });
-      searchInput.dataset.boundFilter = "true";
-    }
-
-    render();
+      )
+    });
   }
 
   async function init() {

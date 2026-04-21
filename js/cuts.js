@@ -8,9 +8,7 @@
     renderPaginationButtons,
     renderSortableHeader,
     paginateItems,
-    focusAfterRender,
-    bindPaginationControls,
-    bindSortControls
+    setupPaginatedTable
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -324,23 +322,22 @@
 
   function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv", searchInput = null) {
     if (!container) return;
-    let currentPage = 1;
-    let sortState = { key: "announcement_date", direction: "desc" };
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-
-    const render = () => {
-      const filteredItems = filterByInstitution(items, searchInput?.value || "");
-      const sortedItems = sortCuts(filteredItems, sortState);
-      container.innerHTML = renderCutsTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
-      focusAfterRender(container, ".pagination");
-      const pageState = paginateItems(sortedItems, currentPage, pageSize);
-      currentPage = pageState.currentPage;
-      if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
-        downloadButton.onclick = () => downloadRowsCsv(
+    setupPaginatedTable({
+      container,
+      items,
+      pageSize,
+      searchInput,
+      initialSortState: { key: "announcement_date", direction: "desc" },
+      defaultSortState: { key: "announcement_date", direction: "desc" },
+      filterItems: filterByInstitution,
+      sortItems: sortCuts,
+      renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Cut", "Date", "Source"],
-          pageState.pageItems.map((cut) => [
+        pageItems.map((cut) => [
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
@@ -348,77 +345,36 @@
             cut.announcement_date || cut.announcement_year || "",
             cut.source_url || ""
           ])
-        );
-      }
-      bindPaginationControls(container, currentPage, (nextPage) => {
-        currentPage = nextPage;
-        render();
-      });
-      bindSortControls(container, sortState, { key: "announcement_date", direction: "desc" }, (nextSortState) => {
-        sortState = nextSortState;
-        currentPage = 1;
-        render();
-      });
-    };
-
-    if (searchInput && !searchInput.dataset.boundFilter) {
-      searchInput.addEventListener("input", () => {
-        currentPage = 1;
-        render();
-      });
-      searchInput.dataset.boundFilter = "true";
-    }
-
-    render();
+      )
+    });
   }
 
   function setupClosurePagination(container, items, pageSize = CLOSURE_PAGE_SIZE, emptyMessage = "No tracker-universe closures from 2024-2026 are available.", downloadButtonId = null, downloadFilename = "college-closures.csv", searchInput = null) {
     if (!container) return;
-    let currentPage = 1;
-    let sortState = { key: "close_date", direction: "asc" };
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-
-    const render = () => {
-      const filteredItems = filterByInstitution(items, searchInput?.value || "");
-      const sortedItems = sortClosures(filteredItems, sortState);
-      container.innerHTML = renderClosuresTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
-      focusAfterRender(container, ".pagination");
-      const pageState = paginateItems(sortedItems, currentPage, pageSize);
-      currentPage = pageState.currentPage;
-      if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
-        downloadButton.onclick = () => downloadRowsCsv(
+    setupPaginatedTable({
+      container,
+      items,
+      pageSize,
+      searchInput,
+      initialSortState: { key: "close_date", direction: "asc" },
+      defaultSortState: { key: "close_date", direction: "asc" },
+      filterItems: filterByInstitution,
+      sortItems: sortClosures,
+      renderPage: (sortedItems, currentPage, size, sortState) => renderClosuresTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Closure date", "Source"],
-          pageState.pageItems.map((closure) => [
+        pageItems.map((closure) => [
             closure.institution_name || "",
             closure.state || "",
             closure.control_label || "",
             closure.close_date_display || closure.close_date || "",
             "Federal data"
           ])
-        );
-      }
-      bindPaginationControls(container, currentPage, (nextPage) => {
-        currentPage = nextPage;
-        render();
-      });
-      bindSortControls(container, sortState, { key: "close_date", direction: "asc" }, (nextSortState) => {
-        sortState = nextSortState;
-        currentPage = 1;
-        render();
-      });
-    };
-
-    if (searchInput && !searchInput.dataset.boundFilter) {
-      searchInput.addEventListener("input", () => {
-        currentPage = 1;
-        render();
-      });
-      searchInput.dataset.boundFilter = "true";
-    }
-
-    render();
+      )
+    });
   }
 
   function formatDateLong(dateText) {

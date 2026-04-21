@@ -352,6 +352,68 @@ window.TrackerApp.bindSortControls = function bindSortControls(container, sortSt
   });
 };
 
+window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
+  const {
+    container,
+    items,
+    pageSize,
+    searchInput = null,
+    filterItems = (rows) => rows,
+    sortItems = (rows) => rows,
+    renderPage,
+    initialSortState = null,
+    defaultSortState = initialSortState,
+    downloadButton = null,
+    downloadRows = null,
+    focusSelector = ".pagination"
+  } = options || {};
+
+  if (!container || typeof renderPage !== "function") return null;
+
+  let currentPage = 1;
+  let sortState = initialSortState ? { ...initialSortState } : null;
+  const sourceItems = Array.isArray(items) ? items : [];
+
+  const render = () => {
+    const filteredItems = filterItems(sourceItems, searchInput?.value || "");
+    const sortedItems = sortItems(filteredItems, sortState);
+    container.innerHTML = renderPage(sortedItems, currentPage, pageSize, sortState);
+    window.TrackerApp.focusAfterRender(container, focusSelector);
+
+    const pageState = window.TrackerApp.paginateItems(sortedItems, currentPage, pageSize);
+    currentPage = pageState.currentPage;
+
+    if (downloadButton && typeof downloadRows === "function") {
+      downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
+      downloadButton.onclick = () => downloadRows(pageState.pageItems);
+    }
+
+    window.TrackerApp.bindPaginationControls(container, currentPage, (nextPage) => {
+      currentPage = nextPage;
+      render();
+    });
+
+    if (sortState) {
+      window.TrackerApp.bindSortControls(container, sortState, defaultSortState, (nextSortState) => {
+        sortState = nextSortState;
+        currentPage = 1;
+        render();
+      });
+    }
+  };
+
+  if (searchInput && !searchInput.dataset.boundPaginatedTable) {
+    searchInput.addEventListener("input", () => {
+      currentPage = 1;
+      render();
+    });
+    searchInput.dataset.boundPaginatedTable = "true";
+  }
+
+  render();
+  return { render };
+};
+
 window.TrackerApp.renderSortableHeader = function renderSortableHeader(key, sortState, label) {
   const safeKey = escapeHtml(key || "");
   const safeLabel = escapeHtml(label || "");

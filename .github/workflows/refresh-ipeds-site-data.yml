@@ -139,4 +139,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/ data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || tru
+          git add -f data/ data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
+          git diff --staged --quiet || git commit -m "chore: refresh data [skip ci]"
+          git push

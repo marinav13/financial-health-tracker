@@ -540,7 +540,6 @@
     const summaryGrid = document.getElementById("research-summary-grid");
     const title = document.getElementById("research-section-title");
     const otherTitle = document.getElementById("research-other-section-title");
-    const filterWrap = document.getElementById("research-sector-filter");
     const searchInput = document.getElementById("research-filter");
 
     if (!unitid) {
@@ -570,7 +569,6 @@
       if (otherTitle) otherTitle.textContent = "";
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
-      if (filterWrap) filterWrap.classList.add("is-hidden");
       renderLanding();
       return;
     }
@@ -602,7 +600,6 @@
 
     title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;
     if (title) title.classList.remove("is-hidden");
-    if (filterWrap) filterWrap.classList.add("is-hidden");
     if (stateSummaryCard) stateSummaryCard.classList.add("is-hidden");
     setSectionVisible("research-other-list", false);
     const mainDownload = document.getElementById("research-table-download");

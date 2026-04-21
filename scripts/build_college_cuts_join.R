@@ -37,6 +37,7 @@
 
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  source(file.path(getwd(), "scripts", "shared", "contracts.R"))
   args          <- parse_cli_args(cli_args)
   ipeds         <- load_ipeds_paths()
   ipeds_layout  <- ipeds$ipeds_layout
@@ -149,21 +150,7 @@ main <- function(cli_args = NULL) {
   # year, every cut matched to that institution would be silently doubled,
   # corrupting all downstream counts and summaries.  Fail here — before the
   # API fetch — so the error is immediate and actionable.
-  dup_unitids <- financial_latest |>
-    dplyr::count(unitid, name = "n_rows") |>
-    dplyr::filter(n_rows > 1L)
-  if (nrow(dup_unitids) > 0L) {
-    stop(sprintf(
-      paste(
-        "Financial tracker has %d duplicate unitid(s) for year %d.",
-        "Duplicate unitids would silently inflate cut records after the join.",
-        "Duplicated unitids: %s"
-      ),
-      nrow(dup_unitids),
-      latest_year,
-      paste(dup_unitids$unitid, collapse = ", ")
-    ), call. = FALSE)
-  }
+  assert_latest_financial_unique_unitid(financial_latest, latest_year, "college cuts latest financial tracker")
 
   # Build fallback lookup: unique normalized-name + state → unitid.
   # Only keeps entries where the name+state pair is unambiguous (one candidate).

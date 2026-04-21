@@ -78,6 +78,15 @@ run_test("Web export pipeline fixture", function() {
     endowment_spending_current_use = c("35", "40"),
     federal_grants_contracts_pell_adjusted_adjusted = c("190", "200"),
     state_funding_adjusted = c("140", "150"),
+    # Stale outcomes fields simulate rerunning the export after a previous
+    # outcomes join. The exporter should replace these, not create .x/.y pairs.
+    graduation_rate_6yr = c("11", "12"),
+    median_earnings_10yr = c("11111", "22222"),
+    median_debt_completers = c("3333", "4444"),
+    outcomes_data_available = c(FALSE, FALSE),
+    scorecard_data_updated = c("stale", "stale"),
+    ipeds_graduation_rate_year = c("stale", "stale"),
+    ipeds_graduation_rate_label = c("stale", "stale"),
     stringsAsFactors = FALSE
   )
   readr::write_csv(canonical_df, canonical_path, na = "")
@@ -394,6 +403,7 @@ run_test("Web export pipeline fixture", function() {
   # ── Section export schemas ───────────────────────────────────────────────────
   assert_equal(school_file$summary$tuition_dependence_pct, 30)
   assert_equal(school_file$summary$graduation_rate_6yr, 72)
+  assert_equal(school_file$summary$median_earnings_10yr, 56000)
 
   # ── college_cuts.json ────────────────────────────────────────────────────────
   assert_identical(length(cuts_export$schools), 1L)
@@ -459,6 +469,10 @@ run_test("Web export pipeline fixture", function() {
   assert_identical(as.character(download_csv$year[[1]]), "2024")
   assert_true("unitid" %in% names(download_csv), "Download CSV must have 'unitid' column.")
   assert_true("year" %in% names(download_csv), "Download CSV must have 'year' column.")
+  assert_true(
+    !any(grepl("\\.(x|y)$", names(download_csv))),
+    paste("Download CSV should not contain suffixed join-collision columns:", paste(names(download_csv), collapse = ", "))
+  )
   # The download CSV must have more columns than just unitid + year.
   assert_true(ncol(download_csv) > 5,
     sprintf("Download CSV should have substantial data columns (found %d).", ncol(download_csv)))

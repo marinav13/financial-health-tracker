@@ -71,6 +71,41 @@ assert_column_types <- function(df, type_specs, label = "data frame") {
   )
 }
 
+# Checks the latest-year financial tracker shape used by joins that attach one
+# current financial profile to each matched institution.
+assert_latest_financial_unique_unitid <- function(df, year = NULL, label = "latest financial tracker") {
+  assert_columns(df, "unitid", label)
+
+  unitids <- as.character(df$unitid)
+  unitids[is.na(unitids)] <- "<NA>"
+  counts <- table(unitids)
+  dupes <- names(counts[counts > 1L])
+
+  if (length(dupes) == 0L) return(invisible(df))
+
+  preview <- paste(head(dupes, 10L), collapse = ", ")
+  year_text <- if (!is.null(year) && length(year) > 0L && !is.na(year)) {
+    sprintf(" for year %s", year)
+  } else {
+    ""
+  }
+  stop(
+    sprintf(
+      paste(
+        "Contract violation in %s%s: duplicate unitid key(s) found (%d total).",
+        "Latest financial joins require one row per unitid; duplicates would silently inflate joined records.",
+        "Duplicated unitids: %s%s"
+      ),
+      label,
+      year_text,
+      length(dupes),
+      preview,
+      if (length(dupes) > 10L) sprintf(", ... and %d more", length(dupes) - 10L) else ""
+    ),
+    call. = FALSE
+  )
+}
+
 # ---------------------------------------------------------------------------
 # Column-spec constants
 # ---------------------------------------------------------------------------

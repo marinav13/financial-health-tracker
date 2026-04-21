@@ -1,5 +1,17 @@
 (function () {
-  const { loadJson, schoolUrl, escapeHtml, safeUrl } = window.TrackerApp;
+  const {
+    loadJson,
+    schoolUrl,
+    escapeHtml,
+    renderExternalLink,
+    renderSchoolLink,
+    renderPaginationButtons,
+    renderSortableHeader,
+    paginateItems,
+    focusAfterRender,
+    bindPaginationControls,
+    bindSortControls
+  } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
 
@@ -34,13 +46,20 @@
   }
 
   function renderEmpty(message) {
-    return `<div class="empty-state"><p>${message}</p></div>`;
+    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
   }
 
   function setSectionVisible(id, show) {
     const node = document.getElementById(id);
     const section = node ? node.closest(".data-card") : null;
-    if (section) section.classList.toggle("is-hidden", !show);
+    if (section) {
+      section.classList.toggle("is-hidden", !show);
+      if (show) {
+        section.removeAttribute("aria-hidden");
+      } else {
+        section.setAttribute("aria-hidden", "true");
+      }
+    }
   }
 
   function csvEscape(value) {
@@ -71,12 +90,6 @@
     return String(b || "").localeCompare(String(a || ""));
   }
 
-  function researchPageLink(unitid, label) {
-    return unitid
-      ? `<a href="${schoolUrl(unitid, "research.html")}">${label || ""}</a>`
-      : (label || "");
-  }
-
   function normalizeQuery(value) {
     return String(value || "").trim().toLowerCase();
   }
@@ -98,20 +111,6 @@
 
   function filterPositiveFundingGrants(grants) {
     return (grants || []).filter((grant) => hasPositiveFunding(grant.award_remaining));
-  }
-
-  function renderSortControls(key, sortState, label) {
-    const activeKey = sortState?.key || "";
-    const activeDirection = activeKey === key ? sortState.direction : "";
-    const upClass = activeDirection === "asc" ? " is-active" : "";
-    const downClass = activeDirection === "desc" ? " is-active" : "";
-    return `
-      <span class="sort-header-label">${label}</span>
-      <span class="sort-controls" aria-label="Sort ${label}">
-        <button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button>
-        <button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button>
-      </span>
-    `;
   }
 
   function formatCurrency(value) {
@@ -148,10 +147,10 @@
 
   function renderInstitutionLinks(unitid, financialUnitid) {
     const financeLink = financialUnitid
-      ? `<li><a href="${schoolUrl(financialUnitid, "school.html")}">Finances</a></li>`
+      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
       : "";
     const cutsLink = (!String(unitid).startsWith("research-") && unitid)
-      ? `<li><a href="${schoolUrl(unitid, "cuts.html")}">College Cuts</a></li>`
+      ? `<li>${renderSchoolLink(unitid, "College Cuts", "cuts.html")}</li>`
       : "";
     const list = [financeLink, cutsLink].filter(Boolean).join("");
     if (!list) return "";
@@ -217,11 +216,6 @@
     return "other";
   }
 
-  function filterBySector(items, sector) {
-    if (sector === "both") return items;
-    return (items || []).filter((item) => normalizeSector(item.control_label) === sector);
-  }
-
   function sortGrants(grants, sortState) {
     const sorted = (grants || []).slice();
     const direction = sortState?.direction === "desc" ? -1 : 1;
@@ -246,7 +240,7 @@
         <td>${escapeHtml(grant.grant_id)}</td>
         <td>${formatCurrency(grant.award_remaining)}</td>
         <td>${formatDate(grant.termination_date)}</td>
-        <td>${safeUrl(grant.source_url) ? `<a href="${safeUrl(grant.source_url)}" target="_blank" rel="noopener">Source</a>` : ""}</td>
+        <td>${renderExternalLink(grant.source_url, "Source")}</td>
       </tr>
     `).join("");
     return `
@@ -258,7 +252,7 @@
               <th>Grant</th>
               <th>Grant ID</th>
               <th>Funding still disrupted</th>
-              <th>${renderSortControls("termination_date", sortState, "Termination date")}</th>
+              ${renderSortableHeader("termination_date", sortState, "Termination date")}
               <th>Source</th>
             </tr>
           </thead>
@@ -362,7 +356,7 @@
     if (!items || !items.length) return renderEmpty("No state summary is available.");
     const rows = sortStateSummaryRows(items, sortState).map((item) => `
       <tr>
-        <td>${item.state || ""}</td>
+        <td>${escapeHtml(item.state || "")}</td>
         <td>${formatCurrency(item.publicFunding)}</td>
         <td>${formatCurrency(item.privateFunding)}</td>
         <td>${formatCurrency(item.totalFunding)}</td>
@@ -373,10 +367,10 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("state", sortState, "State")}</th>
-              <th>${renderSortControls("public_funding", sortState, "Public cuts")}</th>
-              <th>${renderSortControls("private_funding", sortState, "Private cuts")}</th>
-              <th>${renderSortControls("total_funding", sortState, "Total cuts")}</th>
+              ${renderSortableHeader("state", sortState, "State")}
+              ${renderSortableHeader("public_funding", sortState, "Public cuts")}
+              ${renderSortableHeader("private_funding", sortState, "Private cuts")}
+              ${renderSortableHeader("total_funding", sortState, "Total cuts")}
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -391,19 +385,10 @@
     const render = () => {
       const stateRows = buildStateSummaryRows(items);
       container.innerHTML = renderStateSummaryTable(stateRows, sortState);
-      // Move focus to the table so screen readers announce the updated sort
-      setTimeout(() => {
-        const table = container.querySelector(".history-table");
-        if (table) table.focus();
-      }, 0);
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "public_funding";
-          const direction = button.dataset.sortDirection || "desc";
-          if (sortState.key === key && sortState.direction === direction) return;
-          sortState = { key, direction };
-          render();
-        });
+      focusAfterRender(container, ".history-table");
+      bindSortControls(container, sortState, { key: "public_funding", direction: "desc" }, (nextSortState) => {
+        sortState = nextSortState;
+        render();
       });
     };
     render();
@@ -413,9 +398,9 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => `
       <tr>
-        <td>${researchPageLink(item.unitid, escapeHtml(item.institution_name))}</td>
-        <td>${item.state || ""}</td>
-        <td>${item.control_label || ""}</td>
+        <td>${renderSchoolLink(item.unitid, item.institution_name, "research.html")}</td>
+        <td>${escapeHtml(item.state || "")}</td>
+        <td>${escapeHtml(item.control_label || "")}</td>
         <td>${Number(item.total_disrupted_grants || 0)}</td>
         <td>${formatCurrency(item.total_disrupted_award_remaining)}</td>
       </tr>
@@ -425,11 +410,11 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
-              <th>${renderSortControls("state", sortState, "State")}</th>
-              <th>${renderSortControls("sector", sortState, "Sector")}</th>
-              <th>${renderSortControls("disrupted_grants", sortState, "Disrupted grants")}</th>
-              <th>${renderSortControls("funding", sortState, "Funding cut or frozen")}</th>
+              ${renderSortableHeader("institution_name", sortState, "Institution")}
+              ${renderSortableHeader("state", sortState, "State")}
+              ${renderSortableHeader("sector", sortState, "Sector")}
+              ${renderSortableHeader("disrupted_grants", sortState, "Disrupted grants")}
+              ${renderSortableHeader("funding", sortState, "Funding cut or frozen")}
             </tr>
           </thead>
           <tbody>${rows}</tbody>
@@ -439,25 +424,13 @@
   }
 
   function renderTablePage(items, page, pageSize, emptyMessage, ariaLabel, sortState) {
-    const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
-    const safePage = Math.min(Math.max(1, page), totalPages);
-    const start = (safePage - 1) * pageSize;
-    const pageItems = items.slice(start, start + pageSize);
+    const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
     if (!pageItems.length) return renderEmpty(emptyMessage);
-
-    const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
-      .map((pageNumber) => {
-        const isCurrent = pageNumber === safePage;
-        const currentAttr = isCurrent ? ' aria-current="page"' : "";
-        const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
-        return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${ariaLabel}"${currentAttr}>${pageNumber}</button>`;
-      })
-      .join("");
 
     return `
       ${renderDefaultTable(pageItems, sortState)}
       <div class="pagination" aria-label="${ariaLabel}">
-        ${pagination}
+        ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
     `;
   }
@@ -472,21 +445,15 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortInstitutionRows(filteredItems, sortState);
       container.innerHTML = renderTablePage(sortedItems, currentPage, pageSize, emptyMessage, ariaLabel, sortState);
-      // Move focus to the pagination region so screen readers announce the updated content
-      setTimeout(() => {
-        const pagination = container.querySelector(".pagination");
-        if (pagination) pagination.focus();
-      }, 0);
-      const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
-      const safePage = Math.min(Math.max(1, currentPage), totalPages);
-      const start = (safePage - 1) * pageSize;
-      const pageItems = sortedItems.slice(start, start + pageSize);
+      focusAfterRender(container, ".pagination");
+      const pageState = paginateItems(sortedItems, currentPage, pageSize);
+      currentPage = pageState.currentPage;
       if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
+        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Disrupted grants", "Funding still disrupted"],
-          pageItems.map((item) => [
+          pageState.pageItems.map((item) => [
             item.institution_name || "",
             item.state || "",
             item.control_label || "",
@@ -495,24 +462,14 @@
           ])
         );
       }
-      container.querySelectorAll(".pagination-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextPage = Number(button.dataset.page || "1");
-          if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
-            currentPage = nextPage;
-            render();
-          }
-        });
+      bindPaginationControls(container, currentPage, (nextPage) => {
+        currentPage = nextPage;
+        render();
       });
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "funding";
-          const direction = button.dataset.sortDirection || "desc";
-          if (sortState.key === key && sortState.direction === direction) return;
-          sortState = { key, direction };
-          currentPage = 1;
-          render();
-        });
+      bindSortControls(container, sortState, { key: "funding", direction: "desc" }, (nextSortState) => {
+        sortState = nextSortState;
+        currentPage = 1;
+        render();
       });
     };
 
@@ -557,7 +514,7 @@
           container,
           filtered,
           PAGE_SIZE,
-          "No currently disrupted research grants are available for this sector filter.",
+          "No currently disrupted research grants are available.",
           "research-table-download",
           "research-funding.csv",
           "Research funding pages",
@@ -626,14 +583,9 @@
     let grantSortState = { key: "termination_date", direction: "desc" };
     const renderDetailTable = () => {
       container.innerHTML = renderGrantTable(school.grants || [], grantSortState) + renderInstitutionLinks(school.unitid, school.financial_unitid);
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "termination_date";
-          const direction = button.dataset.sortDirection || "desc";
-          if (grantSortState.key === key && grantSortState.direction === direction) return;
-          grantSortState = { key, direction };
-          renderDetailTable();
-        });
+      bindSortControls(container, grantSortState, { key: "termination_date", direction: "desc" }, (nextSortState) => {
+        grantSortState = nextSortState;
+        renderDetailTable();
       });
     };
     renderDetailTable();

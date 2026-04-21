@@ -71,6 +71,51 @@ run_test("assert_no_duplicate_keys skips gracefully when key col absent", functi
 })
 
 # ---------------------------------------------------------------------------
+# assert_latest_financial_unique_unitid
+# ---------------------------------------------------------------------------
+
+run_test("assert_latest_financial_unique_unitid passes for unique latest financial rows", function() {
+  df <- data.frame(
+    unitid = c("100", "200"),
+    year = c(2024, 2024),
+    institution_name = c("A College", "B University"),
+    stringsAsFactors = FALSE
+  )
+  result <- assert_latest_financial_unique_unitid(df, 2024, "latest financial")
+  assert_identical(result, df)
+})
+
+run_test("assert_latest_financial_unique_unitid stops on duplicate unitid", function() {
+  df <- data.frame(
+    unitid = c("100", "100"),
+    year = c(2024, 2024),
+    stringsAsFactors = FALSE
+  )
+  err <- tryCatch(
+    assert_latest_financial_unique_unitid(df, 2024, "latest financial"),
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(grepl("latest financial", err))
+  assert_true(grepl("duplicate unitid", err))
+  assert_true(grepl("100", err))
+  assert_true(grepl("silently inflate", err))
+})
+
+run_test("assert_latest_financial_unique_unitid documents unitid-only latest-stage uniqueness", function() {
+  df <- data.frame(
+    unitid = c("100", "100"),
+    year = c(2023, 2024),
+    stringsAsFactors = FALSE
+  )
+  err <- tryCatch(
+    assert_latest_financial_unique_unitid(df, NULL, "latest-stage sample"),
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(grepl("latest-stage sample", err))
+  assert_true(grepl("100", err))
+})
+
+# ---------------------------------------------------------------------------
 # assert_column_types
 # ---------------------------------------------------------------------------
 

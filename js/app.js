@@ -247,6 +247,107 @@ window.TrackerApp.schoolUrl = schoolUrl;
 window.TrackerApp.escapeHtml = escapeHtml;
 
 window.TrackerApp.safeUrl = function safeUrl(url) {
-  const u = String(url ?? "").trim();
-  return /^https?:\/\//i.test(u) ? u : "";
+  const value = String(url ?? "").trim();
+  if (!value) return "";
+  try {
+    const base = window.location?.origin || "https://example.invalid";
+    const parsed = new URL(value, base);
+    return ["http:", "https:"].includes(parsed.protocol) ? parsed.href : "";
+  } catch (_) {
+    return "";
+  }
+};
+
+window.TrackerApp.renderExternalLink = function renderExternalLink(url, label = "Source") {
+  const href = window.TrackerApp.safeUrl(url);
+  if (!href) return "";
+  return `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+};
+
+window.TrackerApp.renderSchoolLink = function renderSchoolLink(unitid, label, page = "school.html") {
+  const safeLabel = escapeHtml(label || "");
+  if (!unitid) return safeLabel;
+  return `<a href="${escapeHtml(schoolUrl(unitid, page))}">${safeLabel}</a>`;
+};
+
+window.TrackerApp.renderPaginationButtons = function renderPaginationButtons({ currentPage, totalPages }) {
+  const pageCount = Math.max(1, Number(totalPages) || 1);
+  const safePage = Math.min(Math.max(1, Number(currentPage) || 1), pageCount);
+  return Array.from({ length: pageCount }, (_, idx) => {
+    const pageNumber = idx + 1;
+    const isCurrent = pageNumber === safePage;
+    const currentAttr = isCurrent ? ' aria-current="page"' : "";
+    const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
+    return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${escapeHtml(ariaLabel)}"${currentAttr}>${pageNumber}</button>`;
+  }).join("");
+};
+
+window.TrackerApp.paginateItems = function paginateItems(items, page, pageSize) {
+  const rows = Array.isArray(items) ? items : [];
+  const size = Math.max(1, Number(pageSize) || rows.length || 1);
+  const totalPages = Math.max(1, Math.ceil(rows.length / size));
+  const currentPage = Math.min(Math.max(1, Number(page) || 1), totalPages);
+  const start = (currentPage - 1) * size;
+  return {
+    totalPages,
+    currentPage,
+    start,
+    pageItems: rows.slice(start, start + size)
+  };
+};
+
+window.TrackerApp.focusAfterRender = function focusAfterRender(container, selector) {
+  setTimeout(() => {
+    const node = container?.querySelector(selector);
+    if (!node) return;
+    if (!node.hasAttribute("tabindex")) node.setAttribute("tabindex", "-1");
+    node.focus();
+  }, 0);
+};
+
+window.TrackerApp.bindPaginationControls = function bindPaginationControls(container, currentPage, onPageChange) {
+  container?.querySelectorAll(".pagination-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextPage = Number(button.dataset.page || "1");
+      if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
+        onPageChange(nextPage);
+      }
+    });
+  });
+};
+
+window.TrackerApp.bindSortControls = function bindSortControls(container, sortState, fallback, onSortChange) {
+  const fallbackKey = typeof fallback === "string" ? fallback : fallback?.key;
+  const fallbackDirection = typeof fallback === "string" ? "desc" : (fallback?.direction || "desc");
+  container?.querySelectorAll(".sort-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.sortKey || fallbackKey;
+      const direction = button.dataset.sortDirection || fallbackDirection;
+      if (!key || (sortState?.key === key && sortState?.direction === direction)) return;
+      onSortChange({ key, direction });
+    });
+  });
+};
+
+window.TrackerApp.renderSortableHeader = function renderSortableHeader(key, sortState, label) {
+  const safeKey = escapeHtml(key || "");
+  const safeLabel = escapeHtml(label || "");
+  const activeKey = sortState?.key || "";
+  const activeDirection = activeKey === key ? sortState.direction : "";
+  const ariaSort = activeDirection === "asc"
+    ? ' aria-sort="ascending"'
+    : activeDirection === "desc"
+      ? ' aria-sort="descending"'
+      : "";
+  const upClass = activeDirection === "asc" ? " is-active" : "";
+  const downClass = activeDirection === "desc" ? " is-active" : "";
+  return `
+    <th${ariaSort}>
+      <span class="sort-header-label">${safeLabel}</span>
+      <span class="sort-controls" aria-label="Sort ${safeLabel}">
+        <button type="button" class="sort-button${upClass}" data-sort-key="${safeKey}" data-sort-direction="asc" aria-label="Sort ${safeLabel} ascending">▲</button>
+        <button type="button" class="sort-button${downClass}" data-sort-key="${safeKey}" data-sort-direction="desc" aria-label="Sort ${safeLabel} descending">▼</button>
+      </span>
+    </th>
+  `;
 };

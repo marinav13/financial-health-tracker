@@ -6,7 +6,16 @@
  */
 
 (function () {
-  const { loadJson, schoolUrl, safeUrl } = window.TrackerApp;
+  const {
+    loadJson,
+    schoolUrl,
+    renderExternalLink,
+    renderSchoolLink,
+    renderPaginationButtons,
+    paginateItems,
+    focusAfterRender,
+    bindPaginationControls
+  } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
 
@@ -89,13 +98,7 @@
   }
 
   function renderEmpty(message) {
-    return `<div class="empty-state"><p>${message}</p></div>`;
-  }
-
-  function financePageLink(unitid, label) {
-    return unitid
-      ? `<a href="${schoolUrl(unitid, "school.html")}">${label || ""}</a>`
-      : (label || "");
+    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
   }
 
   function normalizeQuery(value) {
@@ -113,6 +116,11 @@
     const section = node ? node.closest(".data-card") : null;
     if (section) {
       section.classList.toggle("is-hidden", !show);
+      if (show) {
+        section.removeAttribute("aria-hidden");
+      } else {
+        section.setAttribute("aria-hidden", "true");
+      }
     }
   }
 
@@ -262,15 +270,15 @@
   function renderInstitutionLinks(unitid, financialUnitid) {
     if (!unitid) return "";
     const financeLink = financialUnitid
-      ? `<li><a href="${schoolUrl(financialUnitid, "school.html")}">Finances</a></li>`
+      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
       : "";
     return `
       <div class="related-links">
         <p><strong>Explore this institution:</strong></p>
         <ul class="link-list">
           ${financeLink}
-          <li><a href="${schoolUrl(unitid, "cuts.html")}">College Cuts</a></li>
-          <li><a href="${schoolUrl(financialUnitid || unitid, "research.html")}">Research Funding Cuts</a></li>
+          <li>${renderSchoolLink(unitid, "College Cuts", "cuts.html")}</li>
+          <li>${renderSchoolLink(financialUnitid || unitid, "Research Funding Cuts", "research.html")}</li>
         </ul>
       </div>
     `;
@@ -286,12 +294,12 @@
       .sort((a, b) => String(formatActionDate(b)).localeCompare(String(formatActionDate(a))))
       .map((action) => `
         <tr>
-          <td>${expandAccreditors(action.accreditor || "")}</td>
-          <td>${action.action_label || action.action_label_raw || action.action_type || ""}</td>
+          <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
+          <td>${escapeHtml(action.action_label || action.action_label_raw || action.action_type || "")}</td>
           <td>${escapeHtml(state || "")}</td>
           <td>${escapeHtml(controlLabel || "")}</td>
-          <td>${formatActionDate(action)}</td>
-          <td>${getActionLink(action) ? `<a href="${getActionLink(action)}" target="_blank" rel="noopener">Source link</a>` : ""}</td>
+          <td>${escapeHtml(formatActionDate(action))}</td>
+          <td>${renderExternalLink(getActionLink(action), "Source link")}</td>
         </tr>
       `).join("");
     return `
@@ -341,36 +349,24 @@
   }
 
   function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
-    const totalPages = Math.max(1, Math.ceil(actions.length / pageSize));
-    const safePage = Math.min(Math.max(1, page), totalPages);
-    const start = (safePage - 1) * pageSize;
-    const pageRows = actions.slice(start, start + pageSize);
+    const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
 
-    if (!pageRows.length) {
+    if (!pageItems.length) {
       return renderEmpty(emptyMessage);
     }
 
-    const rows = pageRows
+    const rows = pageItems
       .map((action) => `
         <tr>
-          <td>${linkNames ? financePageLink(action.unitid, escapeHtml(action.institution_name)) : escapeHtml(action.institution_name || "")}</td>
+          <td>${linkNames ? renderSchoolLink(action.unitid, action.institution_name, "school.html") : escapeHtml(action.institution_name || "")}</td>
           <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
           <td>${escapeHtml(action.action_label || action.action_type || "")}</td>
           <td>${escapeHtml(action.state || "")}</td>
           <td>${escapeHtml(action.control_label || "")}</td>
           <td>${escapeHtml(action.action_date || action.action_year || "")}</td>
-          <td>${safeUrl(action.source_url) ? `<a href="${safeUrl(action.source_url)}" target="_blank" rel="noopener">Source link</a>` : ""}</td>
+          <td>${renderExternalLink(action.source_url, "Source link")}</td>
         </tr>
       `)
-      .join("");
-
-    const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
-      .map((pageNumber) => {
-        const isCurrent = pageNumber === safePage;
-        const currentAttr = isCurrent ? ' aria-current="page"' : "";
-        const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
-        return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${ariaLabel}"${currentAttr}>${pageNumber}</button>`;
-      })
       .join("");
 
     return `
@@ -391,7 +387,7 @@
         </table>
       </div>
       <div class="pagination" aria-label="Accreditation actions pages">
-        ${pagination}
+        ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
     `;
   }
@@ -404,21 +400,15 @@
     const render = () => {
       const filteredActions = filterByInstitution(actions, searchInput?.value || "");
       container.innerHTML = renderActionTablePage(filteredActions, currentPage, pageSize, emptyMessage, linkNames);
-      // Move focus to pagination for screen reader announcements
-      setTimeout(() => {
-        const pagination = container.querySelector(".pagination");
-        if (pagination) pagination.focus();
-      }, 0);
-      const totalPages = Math.max(1, Math.ceil(filteredActions.length / pageSize));
-      const safePage = Math.min(Math.max(1, currentPage), totalPages);
-      const start = (safePage - 1) * pageSize;
-      const pageRows = filteredActions.slice(start, start + pageSize);
+      focusAfterRender(container, ".pagination");
+      const pageState = paginateItems(filteredActions, currentPage, pageSize);
+      currentPage = pageState.currentPage;
       if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageRows.length === 0);
+        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
-          pageRows.map((action) => [
+          pageState.pageItems.map((action) => [
             action.institution_name || "",
             expandAccreditors(action.accreditor || ""),
             action.action_label || action.action_type || "",
@@ -429,14 +419,9 @@
           ])
         );
       }
-      container.querySelectorAll(".pagination-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextPage = Number(button.dataset.page || "1");
-          if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
-            currentPage = nextPage;
-            render();
-          }
-        });
+      bindPaginationControls(container, currentPage, (nextPage) => {
+        currentPage = nextPage;
+        render();
       });
     };
 

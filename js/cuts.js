@@ -1,5 +1,17 @@
 (function () {
-  const { loadJson, schoolUrl, escapeHtml, safeUrl } = window.TrackerApp;
+  const {
+    loadJson,
+    schoolUrl,
+    escapeHtml,
+    renderExternalLink,
+    renderSchoolLink,
+    renderPaginationButtons,
+    renderSortableHeader,
+    paginateItems,
+    focusAfterRender,
+    bindPaginationControls,
+    bindSortControls
+  } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
   const CLOSURE_PAGE_SIZE = 10;
@@ -40,16 +52,17 @@
 
   function renderCutItem(cut) {
     const metaParts = [cut.announcement_date || cut.announcement_year, cut.cut_type, cut.status].filter(Boolean);
-    const term = cut.effective_term ? `<p class="small-meta">Effective term: ${cut.effective_term}</p>` : "";
-    const source = safeUrl(cut.source_url)
-      ? `<p class="small-meta"><a href="${safeUrl(cut.source_url)}" target="_blank" rel="noopener">Source</a>${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
+    const term = cut.effective_term ? `<p class="small-meta">Effective term: ${escapeHtml(cut.effective_term)}</p>` : "";
+    const sourceLink = renderExternalLink(cut.source_url, "Source");
+    const source = sourceLink
+      ? `<p class="small-meta">${sourceLink}${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
       : "";
     return `
       <article class="data-card">
-        <h3>${cut.program_name || "Unnamed cut"}</h3>
-        <p class="small-meta">${metaParts.join(" | ")}</p>
+        <h3>${escapeHtml(cut.program_name || "Unnamed cut")}</h3>
+        <p class="small-meta">${escapeHtml(metaParts.join(" | "))}</p>
         ${term}
-        ${cut.notes ? `<p>${cut.notes}</p>` : ""}
+        ${cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : ""}
         ${source}
       </article>
     `;
@@ -58,15 +71,15 @@
   function renderInstitutionLinks(unitid, financialUnitid) {
     if (!unitid) return "";
     const financeLink = financialUnitid
-      ? `<li><a href="${schoolUrl(financialUnitid, "school.html")}">Finances</a></li>`
+      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
       : "";
     return `
       <div class="related-links">
         <p><strong>Explore this institution:</strong></p>
         <ul class="link-list">
           ${financeLink}
-          <li><a href="${schoolUrl(unitid, "accreditation.html")}">Accreditation</a></li>
-          <li><a href="${schoolUrl(financialUnitid || unitid, "research.html")}">Research Funding Cuts</a></li>
+          <li>${renderSchoolLink(unitid, "Accreditation", "accreditation.html")}</li>
+          <li>${renderSchoolLink(financialUnitid || unitid, "Research Funding Cuts", "research.html")}</li>
         </ul>
       </div>
     `;
@@ -82,7 +95,7 @@
   }
 
   function renderEmpty(message) {
-    return `<div class="empty-state"><p>${message}</p></div>`;
+    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
   }
 
   function setSectionVisible(id, show) {
@@ -90,6 +103,11 @@
     const section = node ? node.closest(".data-card") : null;
     if (section) {
       section.classList.toggle("is-hidden", !show);
+      if (show) {
+        section.removeAttribute("aria-hidden");
+      } else {
+        section.setAttribute("aria-hidden", "true");
+      }
     }
   }
 
@@ -119,12 +137,6 @@
 
   function compareDateDesc(a, b) {
     return String(b || "").localeCompare(String(a || ""));
-  }
-
-  function financePageLink(unitid, label) {
-    return unitid
-      ? `<a href="${schoolUrl(unitid, "school.html")}">${label || ""}</a>`
-      : (label || "");
   }
 
   function normalizeQuery(value) {
@@ -163,30 +175,16 @@
     return sorted;
   }
 
-  function renderSortControls(key, sortState, label) {
-    const activeKey = sortState?.key || "";
-    const activeDirection = activeKey === key ? sortState.direction : "";
-    const upClass = activeDirection === "asc" ? " is-active" : "";
-    const downClass = activeDirection === "desc" ? " is-active" : "";
-    return `
-      <span class="sort-header-label">${label}</span>
-      <span class="sort-controls" aria-label="Sort ${label}">
-        <button type="button" class="sort-button${upClass}" data-sort-key="${key}" data-sort-direction="asc" aria-label="Sort ${label} ascending">▲</button>
-        <button type="button" class="sort-button${downClass}" data-sort-key="${key}" data-sort-direction="desc" aria-label="Sort ${label} descending">▼</button>
-      </span>
-    `;
-  }
-
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => `
       <tr>
-        <td>${financePageLink(cut.financial_unitid, escapeHtml(cut.institution_name))}</td>
+        <td>${renderSchoolLink(cut.financial_unitid, cut.institution_name, "school.html")}</td>
         <td>${escapeHtml(cut.state)}</td>
         <td>${escapeHtml(cut.control_label)}</td>
         <td>${escapeHtml(cut.program_name || "") + formatAffectedCount(cut)}</td>
-        <td>${cut.announcement_date || cut.announcement_year || ""}</td>
-        <td>${safeUrl(cut.source_url) ? `<a href="${safeUrl(cut.source_url)}" target="_blank" rel="noopener">Source</a>` : ""}</td>
+        <td>${escapeHtml(cut.announcement_date || cut.announcement_year || "")}</td>
+        <td>${renderExternalLink(cut.source_url, "Source")}</td>
       </tr>
     `).join("");
     return `
@@ -194,11 +192,11 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
-              <th>${renderSortControls("state", sortState, "State")}</th>
+              ${renderSortableHeader("institution_name", sortState, "Institution")}
+              ${renderSortableHeader("state", sortState, "State")}
               <th>Sector</th>
               <th>Cut</th>
-              <th>${renderSortControls("announcement_date", sortState, "Date")}</th>
+              ${renderSortableHeader("announcement_date", sortState, "Date")}
               <th>Source</th>
             </tr>
           </thead>
@@ -236,10 +234,10 @@
     if (!items || !items.length) return renderEmpty("No matched closures are available.");
     const rows = items.map((closure) => `
       <tr>
-        <td>${financePageLink(closure.unitid, escapeHtml(closure.institution_name))}</td>
+        <td>${renderSchoolLink(closure.unitid, closure.institution_name, "school.html")}</td>
         <td>${escapeHtml(closure.state)}</td>
         <td>${escapeHtml(closure.control_label)}</td>
-        <td>${closure.close_date_display || closure.close_date || ""}</td>
+        <td>${escapeHtml(closure.close_date_display || closure.close_date || "")}</td>
         <td>Federal data</td>
       </tr>
     `).join("");
@@ -248,10 +246,10 @@
         <table class="history-table">
           <thead>
             <tr>
-              <th>${renderSortControls("institution_name", sortState, "Institution")}</th>
-              <th>${renderSortControls("state", sortState, "State")}</th>
+              ${renderSortableHeader("institution_name", sortState, "Institution")}
+              ${renderSortableHeader("state", sortState, "State")}
               <th>Sector</th>
-              <th>${renderSortControls("close_date", sortState, "Closure date")}</th>
+              ${renderSortableHeader("close_date", sortState, "Closure date")}
               <th>Source</th>
             </tr>
           </thead>
@@ -295,55 +293,31 @@
   }
 
   function renderCutsTablePage(items, page, pageSize, emptyMessage, sortState) {
-    const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
-    const safePage = Math.min(Math.max(1, page), totalPages);
-    const start = (safePage - 1) * pageSize;
-    const pageItems = items.slice(start, start + pageSize);
+    const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
 
     if (!pageItems.length) {
       return renderEmpty(emptyMessage);
     }
 
-    const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
-      .map((pageNumber) => {
-        const isCurrent = pageNumber === safePage;
-        const currentAttr = isCurrent ? ' aria-current="page"' : "";
-        const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
-        return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${ariaLabel}"${currentAttr}>${pageNumber}</button>`;
-      })
-      .join("");
-
     return `
       ${renderCutsTable(pageItems, sortState)}
       <div class="pagination" aria-label="College cuts pages">
-        ${pagination}
+        ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
     `;
   }
 
   function renderClosuresTablePage(items, page, pageSize, emptyMessage, sortState) {
-    const totalPages = Math.max(1, Math.ceil(items.length / pageSize));
-    const safePage = Math.min(Math.max(1, page), totalPages);
-    const start = (safePage - 1) * pageSize;
-    const pageItems = items.slice(start, start + pageSize);
+    const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
 
     if (!pageItems.length) {
       return renderEmpty(emptyMessage);
     }
 
-    const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
-      .map((pageNumber) => {
-        const isCurrent = pageNumber === safePage;
-        const currentAttr = isCurrent ? ' aria-current="page"' : "";
-        const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
-        return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${ariaLabel}"${currentAttr}>${pageNumber}</button>`;
-      })
-      .join("");
-
     return `
       ${renderClosuresTable(pageItems, sortState)}
       <div class="pagination" aria-label="Closure pages">
-        ${pagination}
+        ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
     `;
   }
@@ -358,21 +332,15 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortCuts(filteredItems, sortState);
       container.innerHTML = renderCutsTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
-      // Move focus to the pagination region so screen readers announce the updated content
-      setTimeout(() => {
-        const pagination = container.querySelector(".pagination");
-        if (pagination) pagination.focus();
-      }, 0);
-      const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
-      const safePage = Math.min(Math.max(1, currentPage), totalPages);
-      const start = (safePage - 1) * pageSize;
-      const pageItems = sortedItems.slice(start, start + pageSize);
+      focusAfterRender(container, ".pagination");
+      const pageState = paginateItems(sortedItems, currentPage, pageSize);
+      currentPage = pageState.currentPage;
       if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
+        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Cut", "Date", "Source"],
-          pageItems.map((cut) => [
+          pageState.pageItems.map((cut) => [
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
@@ -382,24 +350,14 @@
           ])
         );
       }
-      container.querySelectorAll(".pagination-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextPage = Number(button.dataset.page || "1");
-          if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
-            currentPage = nextPage;
-            render();
-          }
-        });
+      bindPaginationControls(container, currentPage, (nextPage) => {
+        currentPage = nextPage;
+        render();
       });
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "announcement_date";
-          const direction = button.dataset.sortDirection || "desc";
-          if (sortState.key === key && sortState.direction === direction) return;
-          sortState = { key, direction };
-          currentPage = 1;
-          render();
-        });
+      bindSortControls(container, sortState, { key: "announcement_date", direction: "desc" }, (nextSortState) => {
+        sortState = nextSortState;
+        currentPage = 1;
+        render();
       });
     };
 
@@ -424,21 +382,15 @@
       const filteredItems = filterByInstitution(items, searchInput?.value || "");
       const sortedItems = sortClosures(filteredItems, sortState);
       container.innerHTML = renderClosuresTablePage(sortedItems, currentPage, pageSize, emptyMessage, sortState);
-      // Move focus to the pagination region so screen readers announce the updated content
-      setTimeout(() => {
-        const pagination = container.querySelector(".pagination");
-        if (pagination) pagination.focus();
-      }, 0);
-      const totalPages = Math.max(1, Math.ceil(sortedItems.length / pageSize));
-      const safePage = Math.min(Math.max(1, currentPage), totalPages);
-      const start = (safePage - 1) * pageSize;
-      const pageItems = sortedItems.slice(start, start + pageSize);
+      focusAfterRender(container, ".pagination");
+      const pageState = paginateItems(sortedItems, currentPage, pageSize);
+      currentPage = pageState.currentPage;
       if (downloadButton) {
-        downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
+        downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Closure date", "Source"],
-          pageItems.map((closure) => [
+          pageState.pageItems.map((closure) => [
             closure.institution_name || "",
             closure.state || "",
             closure.control_label || "",
@@ -447,24 +399,14 @@
           ])
         );
       }
-      container.querySelectorAll(".pagination-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const nextPage = Number(button.dataset.page || "1");
-          if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
-            currentPage = nextPage;
-            render();
-          }
-        });
+      bindPaginationControls(container, currentPage, (nextPage) => {
+        currentPage = nextPage;
+        render();
       });
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "close_date";
-          const direction = button.dataset.sortDirection || "asc";
-          if (sortState.key === key && sortState.direction === direction) return;
-          sortState = { key, direction };
-          currentPage = 1;
-          render();
-        });
+      bindSortControls(container, sortState, { key: "close_date", direction: "asc" }, (nextSortState) => {
+        sortState = nextSortState;
+        currentPage = 1;
+        render();
       });
     };
 
@@ -564,8 +506,8 @@
       ? "This institution appears in the main tracker universe because it is a 4-year, primarily bachelor's-degree-granting school with finance data in this project."
       : "This institution appears here because it has matched college cuts data, even though it falls outside the main 4-year financial tracker universe.";
     const financeLinkText = school.financial_unitid
-      ? `You can switch back to <a href="${schoolUrl(school.financial_unitid, "school.html")}">financial trends</a>, open <a href="${schoolUrl(unitid, "accreditation.html")}">accreditation</a>, or view <a href="${schoolUrl(school.financial_unitid, "research.html")}">research funding cuts</a>.`
-      : `You can also open <a href="${schoolUrl(unitid, "accreditation.html")}">accreditation</a> for this institution.`;
+      ? `You can switch back to ${renderSchoolLink(school.financial_unitid, "financial trends", "school.html")}, open ${renderSchoolLink(unitid, "accreditation", "accreditation.html")}, or view ${renderSchoolLink(school.financial_unitid, "research funding cuts", "research.html")}.`
+      : `You can also open ${renderSchoolLink(unitid, "accreditation", "accreditation.html")} for this institution.`;
     const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
@@ -601,14 +543,9 @@
       container.innerHTML = school.cuts.map(renderCutItem).join("") +
         renderCutsTable(detailRows, detailSortState) +
         renderInstitutionLinks(school.unitid, school.financial_unitid);
-      container.querySelectorAll(".sort-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          const key = button.dataset.sortKey || "announcement_date";
-          const direction = button.dataset.sortDirection || "desc";
-          if (detailSortState.key === key && detailSortState.direction === direction) return;
-          detailSortState = { key, direction };
-          renderDetailTable();
-        });
+      bindSortControls(container, detailSortState, { key: "announcement_date", direction: "desc" }, (nextSortState) => {
+        detailSortState = nextSortState;
+        renderDetailTable();
       });
     };
     renderDetailTable();

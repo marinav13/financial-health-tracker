@@ -15,6 +15,25 @@ ensure_packages(c("dplyr", "jsonlite", "readr"))
 source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
+validate_multi_year_web_input <- function(df, input_path) {
+  years <- sort(unique(stats::na.omit(as.integer(df$year))))
+  if (length(years) < 2L) {
+    stop(
+      paste(
+        "build_web_exports requires the multi-year canonical IPEDS dataset so",
+        "school detail charts can show decade trends. The selected input has",
+        length(years),
+        "year(s):",
+        paste(years, collapse = ", "),
+        sprintf("Input: %s", input_path),
+        "Use ipeds/derived/ipeds_financial_health_dataset_2014_2024.csv or",
+        "rebuild the canonical dataset before exporting the static site."
+      ),
+      call. = FALSE
+    )
+  }
+}
+
 input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 
@@ -747,6 +766,7 @@ for (nm in intersect(numeric_cols, names(df))) {
 }
 
 validate_export_input(df)
+validate_multi_year_web_input(df, input_path)
 
 df <- df %>% arrange(unitid, year)
 # Join the latest outcomes fields onto the finance dataframe so the finance

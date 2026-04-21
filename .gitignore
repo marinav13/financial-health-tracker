@@ -4,6 +4,7 @@
 .Rproj.user/
 
 # Local caches
+node_modules/
 .renv-cache/
 .renv_cache/
 renv/library/
@@ -18,6 +19,9 @@ tmp_*.zip
 temp_*.html
 temp_*.json
 temp_*.zip
+test-results/
+pa11y-output.txt
+nul
 
 # Derived local extraction/download workspaces
 # Keep these caches locally so rebuilds are faster, but do not commit them.
@@ -62,4 +66,3 @@ __pycache__/
 .opencode/
 opencode.jsonc
 debug_workbook_fixture.R
-

@@ -11,6 +11,39 @@ const vm = require("vm");
 const ROOT = path.resolve(__dirname, "..");
 const APP_SRC = fs.readFileSync(path.join(ROOT, "js", "app.js"), "utf8");
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function createTestElement(tagName) {
+  const attributes = {};
+  return {
+    _textContent: "",
+    setAttribute(name, value) {
+      attributes[name] = String(value);
+    },
+    get textContent() {
+      return this._textContent;
+    },
+    set textContent(value) {
+      this._textContent = String(value ?? "");
+    },
+    get outerHTML() {
+      const attrText = Object.entries(attributes)
+        .map(([name, value]) => ` ${name}="${escapeHtml(value)}"`)
+        .join("");
+      return `<${tagName}${attrText}>${escapeHtml(this._textContent)}</${tagName}>`;
+    },
+    click() {},
+    remove() {}
+  };
+}
+
 function loadTrackerApp() {
   const context = {
     console: { error() {} },
@@ -22,7 +55,7 @@ function loadTrackerApp() {
     document: {
       body: { dataset: {} },
       getElementById: () => null,
-      createElement: () => ({ click() {}, remove() {} })
+      createElement: createTestElement
     },
     window: {
       location: { origin: "https://tracker.test", search: "" },

@@ -1,5 +1,24 @@
 source(file.path(root, "scripts", "shared", "accreditation_scrapers.R"))
 
+run_test("Accreditation scraper action schema helper", function() {
+  empty_rows <- ensure_accreditation_action_schema(tibble::tibble(), "empty fixture")
+  assert_identical(nrow(empty_rows), 0L)
+  assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(empty_rows)))
+
+  err <- tryCatch(
+    {
+      ensure_accreditation_action_schema(
+        tibble::tibble(institution_name_raw = "Missing columns University"),
+        "broken fixture"
+      )
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(!is.null(err) && grepl("broken fixture", err, fixed = TRUE))
+  assert_true(grepl("source_url", err, fixed = TRUE))
+})
+
 run_test("Accreditation scraper section extractors", function() {
   regex_html <- paste0(
     '<a class="elementor-toggle-title">Warning</a>',

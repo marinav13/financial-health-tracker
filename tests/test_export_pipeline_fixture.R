@@ -399,6 +399,8 @@ run_test("Web export pipeline fixture", function() {
     assert_true(is.list(entry) && "year" %in% names(entry),
       sprintf("school_file$series$%s should be a list with a 'year' array.", f))
   }
+  assert_identical(as.integer(school_file$series$revenue_total_adjusted$year), c(2023L, 2024L))
+  assert_identical(as.integer(school_file$series$expenses_total_adjusted$year), c(2023L, 2024L))
 
   # ── Section export schemas ───────────────────────────────────────────────────
   assert_equal(school_file$summary$tuition_dependence_pct, 30)

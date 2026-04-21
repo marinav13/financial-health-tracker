@@ -125,6 +125,10 @@ main <- function(cli_args = NULL) {
     WSCUC  = parse_wscuc(cache_dir, refresh),
     NWCCU  = parse_nwccu(cache_dir, refresh)
   )
+  scraper_results <- purrr::imap(
+    scraper_results,
+    ~ ensure_accreditation_action_schema(.x, sprintf("%s scraper output", .y))
+  )
   
   # Accreditors that may legitimately return 0 rows (no qualifying institutions under action).
   # Used to differentiate between "nothing qualifies" vs "scraper broken" when zero rows returned.

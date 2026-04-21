@@ -63,10 +63,61 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [],
-    "expenses_total_adjusted": [],
-    "net_tuition_per_fte_adjusted": [],
+    "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 1178235.2087
+      }
+    ],
+    "expenses_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 1228493.3446
+      }
+    ],
+    "net_tuition_per_fte_adjusted": [
+      {
+        "year": 2014,
+        "value": 10786.637
+      }
+    ],
     "enrollment_headcount_total": [
+      {
+        "year": 2014,
+        "value": 87
+      },
+      {
+        "year": 2015,
+        "value": 99
+      },
+      {
+        "year": 2016,
+        "value": 129
+      },
+      {
+        "year": 2017,
+        "value": 72
+      },
+      {
+        "year": 2019,
+        "value": 97
+      },
+      {
+        "year": 2020,
+        "value": 86
+      },
+      {
+        "year": 2021,
+        "value": 61
+      },
+      {
+        "year": 2022,
+        "value": 72
+      },
+      {
+        "year": 2023,
+        "value": 73
+      },
       {
         "year": 2024,
         "value": 52
@@ -74,23 +125,120 @@
     ],
     "enrollment_nonresident_total": [
       {
+        "year": 2014,
+        "value": 4
+      },
+      {
+        "year": 2015,
+        "value": 3
+      },
+      {
+        "year": 2016,
+        "value": 1
+      },
+      {
+        "year": 2017,
+        "value": 1
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 2
+      },
+      {
+        "year": 2023,
+        "value": 1
+      },
+      {
         "year": 2024,
         "value": 1
       }
     ],
     "enrollment_nonresident_undergrad": [
       {
+        "year": 2014,
+        "value": 4
+      },
+      {
+        "year": 2015,
+        "value": 3
+      },
+      {
+        "year": 2016,
+        "value": 1
+      },
+      {
+        "year": 2017,
+        "value": 1
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 2
+      },
+      {
+        "year": 2023,
+        "value": 1
+      },
+      {
         "year": 2024,
         "value": 1
       }
     ],
     "enrollment_nonresident_graduate": [],
-    "staff_headcount_total": [],
-    "staff_headcount_instructional": [],
-    "endowment_value_adjusted": [],
+    "staff_headcount_total": [
+      {
+        "year": 2014,
+        "value": 27
+      }
+    ],
+    "staff_headcount_instructional": [
+      {
+        "year": 2014,
+        "value": 18
+      }
+    ],
+    "endowment_value_adjusted": [
+      {
+        "year": 2014,
+        "value": 111999.2271
+      }
+    ],
     "endowment_spending_current_use": [],
     "endowment_spending_current_use_pct_core_revenue": [],
-    "federal_grants_contracts_pell_adjusted_adjusted": [],
-    "state_funding_adjusted": []
+    "federal_grants_contracts_pell_adjusted_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      }
+    ],
+    "state_funding_adjusted": [
+      {
+        "year": 2014,
+        "value": 0
+      }
+    ]
   }
 }

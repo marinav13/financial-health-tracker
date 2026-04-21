@@ -258,16 +258,37 @@ window.TrackerApp.safeUrl = function safeUrl(url) {
   }
 };
 
+function renderAnchorHtml(attrs, label) {
+  const cleanAttrs = Object.entries(attrs || {})
+    .filter(([, value]) => value !== null && value !== undefined && value !== "");
+
+  if (typeof document !== "undefined" && document.createElement) {
+    const anchor = document.createElement("a");
+    cleanAttrs.forEach(([name, value]) => {
+      anchor.setAttribute(name, String(value));
+    });
+    anchor.textContent = label ?? "";
+    if (typeof anchor.outerHTML === "string") return anchor.outerHTML;
+  }
+
+  const attrText = cleanAttrs
+    .map(([name, value]) => ` ${name}="${escapeHtml(value)}"`)
+    .join("");
+  return `<a${attrText}>${escapeHtml(label ?? "")}</a>`;
+}
+
 window.TrackerApp.renderExternalLink = function renderExternalLink(url, label = "Source") {
   const href = window.TrackerApp.safeUrl(url);
   if (!href) return "";
-  return `<a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+  return renderAnchorHtml(
+    { href, target: "_blank", rel: "noopener noreferrer" },
+    label
+  );
 };
 
 window.TrackerApp.renderSchoolLink = function renderSchoolLink(unitid, label, page = "school.html") {
-  const safeLabel = escapeHtml(label || "");
-  if (!unitid) return safeLabel;
-  return `<a href="${escapeHtml(schoolUrl(unitid, page))}">${safeLabel}</a>`;
+  if (!unitid) return escapeHtml(label || "");
+  return renderAnchorHtml({ href: schoolUrl(unitid, page) }, label || "");
 };
 
 window.TrackerApp.renderPaginationButtons = function renderPaginationButtons({ currentPage, totalPages }) {

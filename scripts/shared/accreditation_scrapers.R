@@ -12,6 +12,64 @@
 # SHARED INNER-LOOP PRIMITIVES FOR HTML PARSING
 # ---------------------------------------------------------------------------
 
+ACCREDITATION_ACTION_COLUMNS <- c(
+  "institution_name_raw",
+  "institution_state_raw",
+  "accreditor",
+  "action_type",
+  "action_label_raw",
+  "action_status",
+  "action_date",
+  "action_year",
+  "source_url",
+  "source_title",
+  "notes",
+  "last_seen_at",
+  "source_page_url",
+  "source_page_modified"
+)
+
+empty_accreditation_action_rows <- function() {
+  tibble::tibble(
+    institution_name_raw = character(),
+    institution_state_raw = character(),
+    accreditor = character(),
+    action_type = character(),
+    action_label_raw = character(),
+    action_status = character(),
+    action_date = as.Date(character()),
+    action_year = integer(),
+    source_url = character(),
+    source_title = character(),
+    notes = character(),
+    last_seen_at = character(),
+    source_page_url = character(),
+    source_page_modified = character()
+  )
+}
+
+ensure_accreditation_action_schema <- function(df, context = "accreditation scraper output") {
+  if (is.null(df) || (nrow(df) == 0L && ncol(df) == 0L)) {
+    return(empty_accreditation_action_rows())
+  }
+
+  missing_cols <- setdiff(ACCREDITATION_ACTION_COLUMNS, names(df))
+  if (length(missing_cols) > 0L && nrow(df) > 0L) {
+    stop(
+      sprintf(
+        "%s is missing required accreditation action columns: %s",
+        context,
+        paste(missing_cols, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  for (nm in missing_cols) df[[nm]] <- NA
+  df$last_seen_at <- as.character(df$last_seen_at)
+  df[, c(ACCREDITATION_ACTION_COLUMNS, setdiff(names(df), ACCREDITATION_ACTION_COLUMNS)), drop = FALSE]
+}
+
 # Converts a heading + list of institution items into standardized action rows.
 # Shared by accreditors that use the same pattern: a heading describing the action
 # (e.g., "Probation"), followed by <li> items for each institution.

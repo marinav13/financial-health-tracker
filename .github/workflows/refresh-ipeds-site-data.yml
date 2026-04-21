@@ -44,7 +44,7 @@ jobs:
             r-${{ runner.os }}-
 
       - name: Restore R packages
-        run: Rscript -e "renv::restore()"
+        run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
 
       - name: Compute weekly cache key
         id: cache-week

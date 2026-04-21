@@ -367,8 +367,10 @@
 
     const pagination = Array.from({ length: totalPages }, (_, idx) => idx + 1)
       .map((pageNumber) => {
-        const currentAttr = pageNumber === safePage ? ' aria-current="page"' : "";
-        return `<button type="button" class="pagination-button${pageNumber === safePage ? " is-active" : ""}" data-page="${pageNumber}" aria-label="Page ${pageNumber}"${currentAttr}>${pageNumber}</button>`;
+        const isCurrent = pageNumber === safePage;
+        const currentAttr = isCurrent ? ' aria-current="page"' : "";
+        const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
+        return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${ariaLabel}"${currentAttr}>${pageNumber}</button>`;
       })
       .join("");
 

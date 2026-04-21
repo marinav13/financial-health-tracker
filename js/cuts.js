@@ -90,7 +90,6 @@
     const section = node ? node.closest(".data-card") : null;
     if (section) {
       section.classList.toggle("is-hidden", !show);
-      section.setAttribute("aria-hidden", show ? "false" : "true");
     }
   }
 
@@ -370,7 +369,6 @@
       const pageItems = sortedItems.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
-        downloadButton.setAttribute("aria-hidden", pageItems.length === 0 ? "true" : "false");
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Cut", "Date", "Source"],
@@ -437,7 +435,6 @@
       const pageItems = sortedItems.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
-        downloadButton.setAttribute("aria-hidden", pageItems.length === 0 ? "true" : "false");
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Closure date", "Source"],
@@ -531,7 +528,6 @@
     if (!unitid) {
       document.getElementById("cuts-school-name").textContent = "";
       document.getElementById("cuts-school-name").classList.add("is-hidden");
-      document.getElementById("cuts-school-name").setAttribute("aria-hidden", "true");
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
@@ -554,7 +550,6 @@
     if (!school) {
       document.getElementById("cuts-school-name").textContent = "No matched cuts found";
       document.getElementById("cuts-school-name").classList.remove("is-hidden");
-      document.getElementById("cuts-school-name").setAttribute("aria-hidden", "false");
       container.innerHTML = renderEmpty("No matched college cuts were found for this institution in the current dataset.");
       title.textContent = "Cuts";
       return;
@@ -562,7 +557,6 @@
 
     document.getElementById("cuts-school-name").textContent = school.institution_name || "College Cuts";
     document.getElementById("cuts-school-name").classList.remove("is-hidden");
-      document.getElementById("cuts-school-name").setAttribute("aria-hidden", "false");
     textOrEmpty("cuts-school-location", [school.city, school.state].filter(Boolean).join(", "));
     textOrEmpty("cuts-school-control", school.control_label || "");
     textOrEmpty("cuts-school-category", school.category || "");
@@ -575,7 +569,6 @@
     const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
-      overview.setAttribute("aria-hidden", "false");
       overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${escapeHtml(school.institution_name)}. ${financeLinkText}</p>`;
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
@@ -584,18 +577,9 @@
     const mainDownload = document.getElementById("cuts-table-download");
     const otherDownload = document.getElementById("cuts-other-download");
     const closuresDownload = document.getElementById("cuts-closures-download");
-    if (mainDownload) {
-      mainDownload.classList.add("is-hidden");
-      mainDownload.setAttribute("aria-hidden", "true");
-    }
-    if (otherDownload) {
-      otherDownload.classList.add("is-hidden");
-      otherDownload.setAttribute("aria-hidden", "true");
-    }
-    if (closuresDownload) {
-      closuresDownload.classList.add("is-hidden");
-      closuresDownload.setAttribute("aria-hidden", "true");
-    }
+    if (mainDownload) mainDownload.classList.add("is-hidden");
+    if (otherDownload) otherDownload.classList.add("is-hidden");
+    if (closuresDownload) closuresDownload.classList.add("is-hidden");
     if (otherContainer) otherContainer.innerHTML = "";
     if (closuresContainer) closuresContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";

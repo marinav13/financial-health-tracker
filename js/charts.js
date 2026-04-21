@@ -186,13 +186,11 @@ function renderLineChart(containerId, config) {
     tooltip.innerHTML = `<strong>${bestYear}</strong>${tooltipRows.join("")}`;
     tooltip.style.left = `${((xScale(bestYear) / width) * 100).toFixed(1)}%`;
     tooltip.style.display = "block";
-    tooltip.setAttribute("aria-hidden", "false");
   };
 
   svg.addEventListener("mousemove", renderTooltip);
   svg.addEventListener("mouseenter", renderTooltip);
   svg.addEventListener("mouseleave", () => {
     tooltip.style.display = "none";
-    tooltip.setAttribute("aria-hidden", "true");
   });
 }

@@ -40,10 +40,7 @@
   function setSectionVisible(id, show) {
     const node = document.getElementById(id);
     const section = node ? node.closest(".data-card") : null;
-    if (section) {
-      section.classList.toggle("is-hidden", !show);
-      section.setAttribute("aria-hidden", show ? "false" : "true");
-    }
+    if (section) section.classList.toggle("is-hidden", !show);
   }
 
   function csvEscape(value) {
@@ -486,7 +483,6 @@
       const pageItems = sortedItems.slice(start, start + pageSize);
       if (downloadButton) {
         downloadButton.classList.toggle("is-hidden", pageItems.length === 0);
-        downloadButton.setAttribute("aria-hidden", pageItems.length === 0 ? "true" : "false");
         downloadButton.onclick = () => downloadRowsCsv(
           downloadFilename,
           ["Institution", "State", "Sector", "Disrupted grants", "Funding still disrupted"],
@@ -550,14 +546,13 @@
     if (!unitid) {
       document.getElementById("research-school-name").textContent = "";
       document.getElementById("research-school-name").classList.add("is-hidden");
-      document.getElementById("research-school-name").setAttribute("aria-hidden", "true");
       const ranked = sortByAmountThenName(schools);
       const renderLanding = () => {
         const filtered = sortByAmountThenName(ranked);
         if (summaryGrid) summaryGrid.innerHTML = renderLandingSummaryGrid(filtered);
-if (title) {
+        if (title) {
+          title.textContent = "";
           title.classList.add("is-hidden");
-          title.setAttribute("aria-hidden", "true");
         }
         setupPagination(
           container,
@@ -584,7 +579,6 @@ if (title) {
     if (!school) {
       document.getElementById("research-school-name").textContent = "No tracked research funding cuts found";
       document.getElementById("research-school-name").classList.remove("is-hidden");
-      document.getElementById("research-school-name").setAttribute("aria-hidden", "false");
       if (summaryGrid) summaryGrid.innerHTML = renderEmpty("No current research funding cuts were found for this institution.");
       if (container) container.innerHTML = renderEmpty("No current research funding cuts were found for this institution.");
       if (stateSummaryCard) stateSummaryCard.classList.add("is-hidden");
@@ -595,7 +589,6 @@ if (title) {
 
     document.getElementById("research-school-name").textContent = school.institution_name || "Research Funding Cuts";
     document.getElementById("research-school-name").classList.remove("is-hidden");
-      document.getElementById("research-school-name").setAttribute("aria-hidden", "false");
     setText("research-school-location", [school.city, school.state].filter(Boolean).join(", "));
     setText("research-school-control", school.control_label || "");
     setText("research-school-category", school.category || "");

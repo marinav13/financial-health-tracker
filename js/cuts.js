@@ -468,7 +468,7 @@
     const closuresTitle = document.getElementById("cuts-closures-section-title");
 
     if (!unitid) {
-      document.getElementById("cuts-school-name").textContent = "";
+      document.getElementById("cuts-school-name").textContent = "College cuts";
       document.getElementById("cuts-school-name").classList.add("is-hidden");
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);

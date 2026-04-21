@@ -483,7 +483,7 @@
 
     if (!unitid) {
       // Landing page: show all recent actions split by institution type
-      document.getElementById("accreditation-school-name").textContent = "";
+      document.getElementById("accreditation-school-name").textContent = "Accreditation actions";
       document.getElementById("accreditation-school-name").classList.add("is-hidden");
       const allActions = buildDefaultActionRows(data);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);

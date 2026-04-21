@@ -500,14 +500,14 @@
     const searchInput = document.getElementById("research-filter");
 
     if (!unitid) {
-      document.getElementById("research-school-name").textContent = "";
+      document.getElementById("research-school-name").textContent = "Research funding cuts";
       document.getElementById("research-school-name").classList.add("is-hidden");
       const ranked = sortByAmountThenName(schools);
       const renderLanding = () => {
         const filtered = sortByAmountThenName(ranked);
         if (summaryGrid) summaryGrid.innerHTML = renderLandingSummaryGrid(filtered);
         if (title) {
-          title.textContent = "";
+          title.textContent = "Research funding cuts by institution";
           title.classList.add("is-hidden");
         }
         setupPagination(
@@ -523,7 +523,7 @@
       };
       setSectionVisible("research-other-list", false);
       if (otherContainer) otherContainer.innerHTML = "";
-      if (otherTitle) otherTitle.textContent = "";
+      if (otherTitle) otherTitle.textContent = "Research funding cuts at other higher-ed institutions";
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
       renderLanding();

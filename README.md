@@ -83,7 +83,7 @@ docs/                — glossary, refresh cycle docs, and setup guides
 
 **R tests (smoke + regression):**
 ```bash
-Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+Rscript ./tests/run_shared_helper_smoke_tests.R
 ```
 
 **JavaScript tests (structure + charts):**

@@ -61,7 +61,7 @@ The raw data stays in `ipeds/raw/`. The derived data goes in `ipeds/derived/` an
 A quick check that the code runs without crashing, rather than testing every possible input. This project has a lightweight smoke test runner:
 
 ```bash
-Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+Rscript ./tests/run_shared_helper_smoke_tests.R
 ```
 
 It runs ~91 small tests in a few seconds and is the gate before any commit.

@@ -22,16 +22,16 @@ jobs:
       - name: Cache R packages
         uses: actions/cache@v4
         with:
-          path: ${{ env.R_LIBS_USER }}
+          path: renv/library
           key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
           restore-keys: |
             r-${{ runner.os }}-
 
       - name: Restore R packages
-        run: Rscript -e "renv::restore()"
+        run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
 
       - name: Run R tests
-        run: Rscript --vanilla tests/run_shared_helper_smoke_tests.R
+        run: Rscript tests/run_shared_helper_smoke_tests.R
 
   js-tests:
     name: JS tests

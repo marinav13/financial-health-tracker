@@ -145,7 +145,7 @@ The scripts tell you what they need. Work backward:
 ## Run the smoke tests
 
 ```bash
-Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+Rscript ./tests/run_shared_helper_smoke_tests.R
 ```
 
 Run this before committing anything.

@@ -145,7 +145,7 @@ of the streamlined public smoke gate.
 Run it with:
 
 ```bash
-Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
+Rscript ./tests/run_shared_helper_smoke_tests.R
 ```
 
 What the test layers mean:
@@ -232,7 +232,7 @@ the receiving script first (it will point at the break), then update the sender.
    `contracts.R`, add a test case in `test_canonical_pipeline_fixture.R`, then
    make the code change.
 
-The smoke test runner is the gate: `Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R`.
+The smoke test runner is the gate: `Rscript ./tests/run_shared_helper_smoke_tests.R`.
 Keep it green.
 
 ## Legacy Material

@@ -45,7 +45,9 @@ jobs:
           packages: |
             any::dplyr
             any::httr
+            any::httr2
             any::jsonlite
+            any::openxlsx
             any::purrr
             any::readr
             any::readxl

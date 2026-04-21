@@ -496,7 +496,7 @@
     const topIntro = document.getElementById("accreditation-intro-top");
     const bottomIntro = document.getElementById("accreditation-intro-bottom");
     if (topIntro) {
-      topIntro.innerHTML = "Accreditating bodies oversee whether colleges are following educational standards. Explore whether an institution has received a warning, been put on probation, sought approval for closure or exited probation.<br><br>The first table below shows accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions. Scroll further down the page to see recent accreditation actions at other institutions.";
+      topIntro.innerHTML = "Accrediting bodies oversee whether colleges are following educational standards. Explore whether an institution has received a warning, been put on probation, sought approval for closure or exited probation.<br><br>The first table below shows accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions. Scroll further down the page to see recent accreditation actions at other institutions.";
     }
     if (bottomIntro) {
       bottomIntro.textContent = "";

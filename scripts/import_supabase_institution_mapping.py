@@ -287,7 +287,7 @@ def main():
     parser.add_argument("--skip-stale-check", action="store_true",
                         help="Skip freshness check and force re-run even if file is recent")
     args = parser.parse_args()
-    
+
     # Check if output file is recent (skip stale check if flag set)
     if not args.skip_stale_check and os.path.exists(OUTPUT_PATH):
         import time

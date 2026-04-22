@@ -246,12 +246,9 @@
       financialUnitid: school.financial_unitid,
       current: "cuts"
     });
-    const overview = document.getElementById("cuts-overview");
+const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
-      const copy = document.createElement("p");
-      copy.textContent = `This page shows the latest matched college cuts for ${school.institution_name || "this institution"}.`;
-      overview.replaceChildren(copy);
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);

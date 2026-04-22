@@ -296,7 +296,6 @@ function isRecentDisplayAction(action) {
     const rows = pageItems
       .map((action) => [
         linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "school.html") : action.institution_name || "",
-        expandAccreditors(action.accreditor || ""),
         action.action_label || action.action_type || "",
         action.state || "",
         action.control_label || "",
@@ -309,7 +308,6 @@ function isRecentDisplayAction(action) {
         ariaLabel: linkNames ? "Recent accreditation actions by institution" : "Recent accreditation actions",
         headers: [
           "<th>Institution</th>",
-          "<th>Accreditor</th>",
           "<th>Action</th>",
           "<th>State</th>",
           "<th>Sector</th>",
@@ -337,10 +335,9 @@ function isRecentDisplayAction(action) {
       downloadButton,
       downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
-          ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
+          ["Institution", "Action", "State", "Sector", "Date", "Source"],
         pageItems.map((action) => [
             action.institution_name || "",
-            expandAccreditors(action.accreditor || ""),
             action.action_label || action.action_type || "",
             action.state || "",
             action.control_label || "",

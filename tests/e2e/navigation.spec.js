@@ -48,34 +48,27 @@ test.describe('School navigation', () => {
     expect(nameText.length).toBeGreaterThan(0);
   });
 
-  test('tabs switch content', async ({ page }) => {
+  test('top tabs navigate to section landing pages from school detail', async ({ page }) => {
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     // Default tab is finances - verify it's active
     const financesTab = page.locator('#tab-finances');
     await expect(financesTab).toHaveClass(/is-active/);
     
-    // Click research tab
-    const researchTab = page.locator('#tab-research');
-    await researchTab.click();
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
+    await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
+    await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
     
-    // Research tab should now be active
-    await expect(researchTab).toHaveClass(/is-active/);
-    await expect(financesTab).not.toHaveClass(/is-active/);
-    
-    // Accreditation tab
-    const accreditationTab = page.locator('#tab-accreditation');
-    await accreditationTab.click();
-    await expect(accreditationTab).toHaveClass(/is-active/);
+    await page.locator('#tab-research').click();
+    await expect(page).toHaveURL(/\/research\.html$/);
   });
 
-  test('cuts tab switches correctly', async ({ page }) => {
+  test('top cuts tab opens the cuts landing page from school detail', async ({ page }) => {
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
-    const cutsTab = page.locator('#tab-cuts');
-    await cutsTab.click();
-    
-    // Tab should become active (even if no data shown)
-    await expect(cutsTab).toHaveClass(/is-active/);
+    await page.locator('#tab-cuts').click();
+    await expect(page).toHaveURL(/\/cuts\.html$/);
+    await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
   });
 });

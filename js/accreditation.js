@@ -286,7 +286,7 @@ function isRecentDisplayAction(action) {
       });
   }
 
-  function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
+function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
     const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
 
     if (!pageItems.length) {
@@ -322,6 +322,40 @@ function isRecentDisplayAction(action) {
     `;
   }
 
+  function renderOtherActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
+    const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
+
+    if (!pageItems.length) {
+      return renderEmpty(emptyMessage);
+    }
+
+    const rows = pageItems
+      .map((action) => [
+        linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
+        action.action_label || action.action_type || "",
+        action.state || "",
+        action.action_date || action.action_year || "",
+        renderExternalLinkCell(action.source_url, "Source link")
+      ]);
+
+    return `
+      ${renderHistoryTable({
+        ariaLabel: linkNames ? "Recent accreditation actions at other institutions" : "Recent accreditation actions",
+        headers: [
+          "<th>Institution</th>",
+          "<th>Action</th>",
+          "<th>State</th>",
+          "<th>Date</th>",
+          "<th>Link</th>"
+        ],
+        rows
+      })}
+      <div class="pagination" aria-label="Accreditation actions pages">
+        ${renderPaginationButtons({ currentPage, totalPages })}
+      </div>
+    `;
+  }
+
   function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
     if (!container) return;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
@@ -341,6 +375,31 @@ function isRecentDisplayAction(action) {
             action.action_label || action.action_type || "",
             action.state || "",
             action.control_label || "",
+            action.action_date || action.action_year || "",
+            action.source_url || ""
+          ])
+      )
+});
+  }
+
+  function setupOtherPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
+    if (!container) return;
+    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
+    setupPaginatedTable({
+      container,
+      items: actions,
+      pageSize,
+      searchInput,
+      filterItems: filterByInstitution,
+      renderPage: (filteredActions, currentPage, size) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
+          downloadFilename,
+          ["Institution", "Action", "State", "Date", "Source"],
+        pageItems.map((action) => [
+            action.institution_name || "",
+            action.action_label || action.action_type || "",
+            action.state || "",
             action.action_date || action.action_year || "",
             action.source_url || ""
           ])
@@ -418,7 +477,7 @@ function isRecentDisplayAction(action) {
         "accreditation-primary.csv",
         primaryFilter
       );
-      setupPagination(
+      setupOtherPagination(
         document.getElementById("accreditation-other-status"),
         otherActions,
         OTHER_PAGE_SIZE,

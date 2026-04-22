@@ -26,6 +26,56 @@
   font-weight: 900;
 }
 
+@font-face {
+  font-family: "Tiempos Text";
+  src:
+    local("Tiempos Text Regular"),
+    local("TiemposText-Regular"),
+    url("assets/fonts/tiempos-text-regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Tiempos Text";
+  src:
+    local("Tiempos Text Regular Italic"),
+    local("TiemposText-RegularItalic"),
+    url("assets/fonts/tiempos-text-regular-italic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Tiempos Text";
+  src:
+    local("Tiempos Text Bold"),
+    local("TiemposText-Bold"),
+    url("assets/fonts/tiempos-text-bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src:
+    local("Tiempos Headline Regular"),
+    local("TiemposHeadline-Regular"),
+    url("assets/fonts/tiempos-headline-regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Tiempos Headline";
+  src:
+    local("Tiempos Headline Bold"),
+    local("TiemposHeadline-Bold"),
+    url("assets/fonts/tiempos-headline-bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+
 :root {
   --font-body: "National", "Tiempos Text", "Tiempos", Arial, Helvetica, sans-serif;
   --font-display: "National", "Tiempos Headline", "Tiempos", Arial, Helvetica, sans-serif;

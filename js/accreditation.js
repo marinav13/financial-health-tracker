@@ -437,12 +437,9 @@ function isRecentDisplayAction(action) {
       return;
     }
 
-    document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
+document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
     syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
     document.getElementById("accreditation-school-name").classList.remove("is-hidden");
-    setText("accreditation-school-location", [school.city, school.state].filter(Boolean).join(", "));
-    setText("accreditation-school-control", school.control_label || "");
-    setText("accreditation-school-category", school.category || "");
     const accreditationOverview = document.getElementById("accreditation-overview");
     if (accreditationOverview) {
       accreditationOverview.classList.add("is-hidden");

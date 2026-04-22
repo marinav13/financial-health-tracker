@@ -392,9 +392,12 @@
     const stateSummaryContainer = document.getElementById("research-state-summary");
     const stateSummaryCard = document.getElementById("research-state-summary-card");
     const summaryGrid = document.getElementById("research-summary-grid");
-    const title = document.getElementById("research-section-title");
+const title = document.getElementById("research-section-title");
     const otherTitle = document.getElementById("research-other-section-title");
     const searchInput = document.getElementById("research-filter");
+    const searchLabel = document.querySelector('label[for="research-filter"]');
+    if (searchLabel) searchLabel.classList.toggle("is-hidden", !!unitid);
+    if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
 
     if (!unitid) {
       document.getElementById("research-school-name").textContent = "Research funding cuts";

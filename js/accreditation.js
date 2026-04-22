@@ -450,10 +450,8 @@ document.getElementById("accreditation-school-name").textContent = school.instit
     const otherTitle = document.getElementById("accreditation-other-title");
     const mainDownload = document.getElementById("accreditation-table-download");
     const otherDownload = document.getElementById("accreditation-other-download");
-    const mainToolbar = document.getElementById("accreditation-filter")?.closest(".table-toolbar");
+const mainToolbar = document.getElementById("accreditation-filter")?.closest(".table-toolbar");
     if (mainToolbar) mainToolbar.classList.add("is-hidden");
-    if (mainDownload) mainDownload.classList.add("is-hidden");
-    if (otherDownload) otherDownload.classList.add("is-hidden");
     if (otherStatus) otherStatus.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
     document.getElementById("accreditation-status").innerHTML = renderSchoolActions(getEffectiveActions(school), school.unitid, school.state, school.control_label, school.financial_unitid);

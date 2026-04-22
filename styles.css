@@ -602,7 +602,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 12px 16px;
   margin: 0 0 14px;
 }
@@ -611,9 +611,8 @@ body {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 10px;
-  margin-left: auto;
 }
 
 .table-toolbar-spacer {

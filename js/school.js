@@ -670,9 +670,9 @@ async function init() {
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
   const enrollmentFlag = deriveEnrollmentFlag(s, series);
-  setText(
+setText(
     "enrollment-total",
-    latestEnrollment ? `Total enrollment for ${latestEnrollment.year}: ${fmtNumber(latestEnrollment.value, 0)}` : ""
+    latestEnrollment ? `Total enrollment for ${latestEnrollment.year}: <strong>${fmtNumber(latestEnrollment.value, 0)}</strong>` : ""
   );
   setHidden("enrollment-total", !latestEnrollment);
   setText("enrollment-flag", enrollmentFlag);

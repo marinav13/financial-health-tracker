@@ -242,11 +242,7 @@ document.getElementById("cuts-school-name").textContent = school.institution_nam
       current: "cuts"
 });
     title.textContent = school.cut_count === 1 ? "College program or staffing cut" : `College program or staffing cuts (${school.cut_count})`;
-    setSectionVisible("cuts-other-list", false);
-    const mainDownload = document.getElementById("cuts-table-download");
-    const otherDownload = document.getElementById("cuts-other-download");
-    if (mainDownload) mainDownload.classList.add("is-hidden");
-    if (otherDownload) otherDownload.classList.add("is-hidden");
+setSectionVisible("cuts-other-list", false);
     if (otherContainer) otherContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
     if (!(school.cuts || []).length) {

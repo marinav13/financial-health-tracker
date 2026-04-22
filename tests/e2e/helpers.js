@@ -56,6 +56,20 @@ function schoolWithoutEndowment() {
   throw new Error('No school without endowment series available for e2e tests');
 }
 
+function latestEnrollmentText(unitid) {
+  const school = readJson(path.join('data', 'schools', `${unitid}.json`));
+  const points = (school.series?.enrollment_headcount_total || [])
+    .filter((point) => point && point.year != null && point.value != null)
+    .map((point) => ({ year: Number(point.year), value: Number(point.value) }))
+    .filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
+  if (!points.length) return '';
+  const latest = points[points.length - 1];
+  return `Total enrollment for ${latest.year}: ${new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(latest.value)}`;
+}
+
 function schoolWithClosureStatus() {
   const closure = readJson('data/closure_status_by_unitid.json');
   const schoolsDir = path.join(ROOT, 'data', 'schools');
@@ -182,6 +196,7 @@ module.exports = {
   searchTermFor,
   schoolWithCharts,
   schoolWithoutEndowment,
+  latestEnrollmentText,
   schoolWithClosureStatus,
   schoolWithRelatedPages,
   schoolWithoutRelatedPages,

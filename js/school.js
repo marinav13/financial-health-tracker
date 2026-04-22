@@ -544,6 +544,7 @@ async function init() {
   const staffTotalSeries = toSeries(series.staff_headcount_total);
   const staffInstructionalSeries = toSeries(series.staff_headcount_instructional);
   const endowmentValueSeries = toSeries(series.endowment_value_adjusted);
+  const latestEnrollment = latestPoint(series.enrollment_headcount_total);
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -631,6 +632,11 @@ async function init() {
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
   const enrollmentFlag = deriveEnrollmentFlag(s, series);
+  setText(
+    "enrollment-total",
+    latestEnrollment ? `Total enrollment for ${latestEnrollment.year}: ${fmtNumber(latestEnrollment.value, 0)}` : ""
+  );
+  setHidden("enrollment-total", !latestEnrollment);
   setText("enrollment-flag", enrollmentFlag);
   styleAnswerCard("enrollment-flag", enrollmentFlag);
   setClosestMetricHidden("enrollment-flag", enrollmentFlag === "No data");

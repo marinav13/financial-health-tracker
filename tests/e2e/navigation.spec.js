@@ -13,6 +13,7 @@ const {
   firstSchoolIndexEntry,
   searchTermFor,
   schoolWithCharts,
+  latestEnrollmentText,
   schoolWithRelatedPages,
   schoolWithoutRelatedPages,
   relatedPagesForSchool
@@ -21,6 +22,7 @@ const {
 const searchTarget = firstSchoolIndexEntry();
 const searchTerm = searchTermFor(searchTarget);
 const chartSchoolUnitid = schoolWithCharts();
+const chartSchoolEnrollmentText = latestEnrollmentText(chartSchoolUnitid);
 const relatedSchoolUnitid = schoolWithRelatedPages();
 const noRelatedSchoolUnitid = schoolWithoutRelatedPages();
 
@@ -55,6 +57,7 @@ test.describe('School navigation', () => {
     const nameText = await schoolName.textContent();
     expect(nameText).toBeTruthy();
     expect(nameText.length).toBeGreaterThan(0);
+    await expect(page.locator('#enrollment-total')).toHaveText(chartSchoolEnrollmentText);
   });
 
   test('school detail hides the landing intro callout', async ({ page }) => {

@@ -48,6 +48,15 @@ test.describe('School navigation', () => {
     expect(nameText.length).toBeGreaterThan(0);
   });
 
+  test('school detail hides the landing intro callout', async ({ page }) => {
+    await page.goto('/school.html');
+    await expect(page.locator('#school-intro-callout')).not.toHaveClass(/is-hidden/);
+
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
+    await expect(page.locator('#school-name')).toBeVisible();
+    await expect(page.locator('#school-intro-callout')).toHaveClass(/is-hidden/);
+  });
+
   test('top tabs navigate to section landing pages from school detail', async ({ page }) => {
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     

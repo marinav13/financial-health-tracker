@@ -451,6 +451,7 @@ async function init() {
 
   const unitid = getParam("unitid");
   window.TrackerApp.syncTabs(unitid, { active: "finances" });
+  setHidden("school-intro-callout", Boolean(unitid));
   if (!unitid) {
     setText("school-name", "No school selected");
     return;

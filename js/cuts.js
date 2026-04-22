@@ -62,7 +62,7 @@
     // Skip if program_name already contains the count (e.g. "Staff layoff (20 positions affected)")
     const label = cut.program_name || "";
     if (label.includes("positions affected") || label.includes("students affected")) return "";
-    return ` (${affected} positions affected)`;
+    return ` (${affected} affected)`;
   }
 
   function renderEmpty(message) {
@@ -101,23 +101,21 @@
 
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
-    const rows = items.map((cut) => [
+const rows = items.map((cut) => [
       renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "school.html"),
       cut.state,
       cut.control_label,
       (cut.program_name || "") + formatAffectedCount(cut),
-      cut.announcement_date || cut.announcement_year || "",
-      renderExternalLinkCell(cut.source_url, "Source")
+      cut.announcement_date || cut.announcement_year || ""
     ]);
-    return renderHistoryTable({
+return renderHistoryTable({
       ariaLabel: "College cuts by institution",
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
         renderSortableHeader("state", sortState, "State"),
         "<th>Sector</th>",
-        "<th>Cut</th>",
-        renderSortableHeader("announcement_date", sortState, "Date"),
-        "<th>Source</th>"
+        "<th>College program or staffing cut</th>",
+        renderSortableHeader("announcement_date", sortState, "Date")
       ],
       rows
     });
@@ -245,12 +243,8 @@
       unitid: school.unitid,
       financialUnitid: school.financial_unitid,
       current: "cuts"
-    });
-const overview = document.getElementById("cuts-overview");
-    if (overview) {
-      overview.classList.remove("is-hidden");
-    }
-    title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
+});
+    title.textContent = school.cut_count === 1 ? "College program or staffing cut" : `College program or staffing cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);
     const mainDownload = document.getElementById("cuts-table-download");
     const otherDownload = document.getElementById("cuts-other-download");

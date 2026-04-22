@@ -19,6 +19,22 @@ run_test("IPEDS sector benchmarks", function() {
   assert_true(grepl("net tuition", enriched$tuition_dependence_vs_sector_median_sentence[[1]], fixed = TRUE))
 })
 
+run_test("IPEDS layout honors configurable default year range", function() {
+  old_start <- Sys.getenv("IPEDS_START_YEAR", unset = NA_character_)
+  old_end <- Sys.getenv("IPEDS_END_YEAR", unset = NA_character_)
+  on.exit({
+    if (is.na(old_start)) Sys.unsetenv("IPEDS_START_YEAR") else Sys.setenv(IPEDS_START_YEAR = old_start)
+    if (is.na(old_end)) Sys.unsetenv("IPEDS_END_YEAR") else Sys.setenv(IPEDS_END_YEAR = old_end)
+  }, add = TRUE)
+
+  Sys.setenv(IPEDS_START_YEAR = "2015", IPEDS_END_YEAR = "2025")
+  ipeds <- load_ipeds_paths()
+  paths <- ipeds$ipeds_layout(root = root, output_stem = "fixture_ipeds")
+
+  assert_true(grepl("fixture_ipeds_raw_2015_2025.csv", paths$raw_csv, fixed = TRUE))
+  assert_true(grepl("fixture_ipeds_canonical_2015_2025.csv", paths$canonical_csv, fixed = TRUE))
+})
+
 run_test("IPEDS canonical row builder", function() {
   row <- data.frame(
     unitid = "100",

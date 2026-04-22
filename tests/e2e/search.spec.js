@@ -9,6 +9,10 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { firstSchoolIndexEntry, searchTermFor } = require('./helpers');
+
+const searchTarget = firstSchoolIndexEntry();
+const searchTerm = searchTermFor(searchTarget);
 
 test.describe('Search functionality', () => {
   test('shows search input on index page', async ({ page }) => {
@@ -23,22 +27,16 @@ test.describe('Search functionality', () => {
     await page.goto('/index.html');
     
     const searchInput = page.locator('#school-search');
-    await searchInput.fill('Georgetown');
-    await searchInput.press('Enter');
-    
-    // Wait for search to complete
-    await page.waitForTimeout(500);
+    await searchInput.fill(searchTerm);
     
     const results = page.locator('#search-results');
     await expect(results).toBeVisible();
     
-    // Verify results contain Georgetown
     const resultItems = results.locator('.result-item:not(.is-empty)');
-    const count = await resultItems.count();
-    expect(count).toBeGreaterThan(0);
+    await expect(resultItems.first()).toBeVisible();
     
     const firstResult = await resultItems.first().textContent();
-    expect(firstResult).toContain('Georgetown');
+    expect(firstResult.toLowerCase()).toContain(searchTerm.toLowerCase());
   });
 
   test('shows no results for unknown school', async ({ page }) => {
@@ -46,14 +44,8 @@ test.describe('Search functionality', () => {
     
     const searchInput = page.locator('#school-search');
     await searchInput.fill('XYZNONEXISTENTSCHOOL12345');
-    await searchInput.press('Enter');
     
-    await page.waitForTimeout(1000);
-    
-    // Verify search completes without error (actual UI behavior varies)
-    // This mainly confirms the search doesn't crash
-    const searchResults = page.locator('#search-results');
-    await expect(searchResults).toBeAttached();
+    await expect(page.locator('#search-results .result-item.is-empty')).toContainText('No matching institutions found');
   });
 
   test('search works on school page', async ({ page }) => {
@@ -62,16 +54,12 @@ test.describe('Search functionality', () => {
     const searchInput = page.locator('#school-search');
     await expect(searchInput).toBeVisible();
     
-    await searchInput.fill('Harvard');
-    await searchInput.press('Enter');
-    
-    await page.waitForTimeout(500);
+    await searchInput.fill(searchTerm);
     
     const results = page.locator('#search-results');
     await expect(results).toBeVisible();
     
     const resultItems = results.locator('.result-item:not(.is-empty)');
-    const count = await resultItems.count();
-    expect(count).toBeGreaterThan(0);
+    await expect(resultItems.first()).toBeVisible();
   });
 });

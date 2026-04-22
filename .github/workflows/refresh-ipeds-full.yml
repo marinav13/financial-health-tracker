@@ -9,6 +9,8 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  IPEDS_START_YEAR: "2014"
+  IPEDS_END_YEAR: "2024"
 
 permissions:
   contents: write
@@ -25,6 +27,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
 
       - name: Restore IPEDS download cache
         uses: actions/cache@v4
@@ -57,51 +69,68 @@ jobs:
 
       - name: Run shared helper smoke tests
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R
 
       - name: Rebuild canonical IPEDS dataset
         shell: bash
+        timeout-minutes: 180
         run: >
-          Rscript --vanilla ./scripts/build_ipeds_dataset.R --start-year 2014 --end-year 2024
+          Rscript --vanilla ./scripts/build_ipeds_dataset.R --start-year "${IPEDS_START_YEAR}" --end-year "${IPEDS_END_YEAR}"
 
       - name: Rebuild Scorecard and graduation-rate joins
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_outcomes_join.R --download-missing TRUE
 
       - name: Refresh accreditation actions with cache fallback
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_accreditation_actions.R
 
       - name: Refresh college cuts with cache fallback
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_college_cuts_join.R
 
       - name: Build unfiltered research join for USAspending analysis
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
 
       - name: Refresh USAspending reinstatement analysis
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
 
       - name: Refresh research cuts with Proposal G filter
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R
 
       - name: Rebuild static web exports
         shell: bash
+        timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_web_exports.R
 
+      - name: Validate rebuilt artifacts
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          node ./tests/test_data_exports.js
+          python ./tests/test_import_supabase.py
+
       - name: Commit and push updated data
         shell: bash
+        timeout-minutes: 5
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

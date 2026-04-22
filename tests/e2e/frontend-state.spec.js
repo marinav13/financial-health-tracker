@@ -7,6 +7,11 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { schoolWithCuts, schoolWithAccreditation, schoolWithResearchSource } = require('./helpers');
+
+const cutsUnitid = schoolWithCuts();
+const accreditationUnitid = schoolWithAccreditation();
+const researchUnitid = schoolWithResearchSource();
 
 test.describe('Frontend state synchronization', () => {
   test('research pagination exposes exactly one current page and changes table rows', async ({ page }) => {
@@ -76,7 +81,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(closuresSection).toHaveClass(/is-hidden/);
     await expect(closuresSection).toHaveAttribute('aria-hidden', 'true');
 
-    await page.goto('/cuts.html?unitid=101709');
+    await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
@@ -91,14 +96,14 @@ test.describe('Frontend state synchronization', () => {
     await expect(otherSection).not.toHaveClass(/is-hidden/);
     await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
 
-    await page.goto('/accreditation.html?unitid=104717');
+    await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
   });
 
   test('rendered source links use safe http URLs and hardened rel attributes', async ({ page }) => {
-    await page.goto('/research.html?unitid=100654');
+    await page.goto(`/research.html?unitid=${researchUnitid}`);
 
     const sourceLinks = page.locator('#research-list tbody a', { hasText: 'Source' });
     await expect(sourceLinks.first()).toBeVisible();

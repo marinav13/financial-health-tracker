@@ -9,10 +9,13 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { schoolWithCharts } = require('./helpers');
+
+const chartSchoolUnitid = schoolWithCharts();
 
 test.describe('Chart rendering', () => {
   test('revenue chart renders', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     const chartContainer = page.locator('#chart-revenue');
     await expect(chartContainer).toBeVisible();
@@ -28,7 +31,7 @@ test.describe('Chart rendering', () => {
   });
 
   test('net tuition chart renders', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     const chartContainer = page.locator('#chart-net-tuition');
     await expect(chartContainer).toBeVisible();
@@ -38,7 +41,7 @@ test.describe('Chart rendering', () => {
   });
 
   test('enrollment chart renders', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     const chartContainer = page.locator('#chart-enrollment');
     await expect(chartContainer).toBeVisible();
@@ -48,7 +51,7 @@ test.describe('Chart rendering', () => {
   });
 
   test('chart has accessibility attributes', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     const chartContainer = page.locator('#chart-revenue');
     
@@ -61,7 +64,7 @@ test.describe('Chart rendering', () => {
   });
 
   test('multiple charts render on page load', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     // Verify at least 3 specific chart containers have rendered SVGs
     const constRevenue = page.locator('#chart-revenue svg');

@@ -32,7 +32,6 @@ const PAGES = [
     ],
   },
   {
-    name: "School Detail (school.html)",
     name: "College Cuts (cuts.html)",
     file: "cuts.html",
     checks: [
@@ -178,6 +177,9 @@ if (fs.existsSync(appJsPath)) {
   check("app.js", /ArrowDown/, appJs, "arrow key navigation: ArrowDown handler");
   check("app.js", /Escape/, appJs, "Escape key closes results");
   check("app.js", /aria-label.*search result/, appJs, "aria-label on search results container");
+  check("app.js", /Search is temporarily unavailable/, appJs, "user-visible search load failure message");
+  check("app.js", /downloadRowsCsv/, appJs, "shared CSV download helper");
+  check("app.js", /setDataCardVisible/, appJs, "shared data-card visibility helper");
   check("app.js", /initSearch/, appJs, "initSearch function");
 } else {
   console.log("  FAIL: js/app.js not found");

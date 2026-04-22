@@ -24,7 +24,7 @@ jobs:
           node-version: "24"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Start local server
         run: npx http-server -p 8000 &

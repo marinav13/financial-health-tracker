@@ -386,15 +386,6 @@ function setSectionVisibility(id, show) {
   node.classList.toggle("is-hidden", !show);
 }
 
-function csvEscape(value) {
-  if (value === null || value === undefined) return "";
-  const text = String(value);
-  if (/[",\n]/.test(text)) {
-    return `"${text.replace(/"/g, '""')}"`;
-  }
-  return text;
-}
-
 function slugify(value) {
   return String(value || "college")
     .toLowerCase()
@@ -419,16 +410,11 @@ function downloadSchoolCsv(school) {
     });
   });
 
-  const csv = rows.map((row) => row.map(csvEscape).join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = `${slugify(school.profile?.institution_name)}-displayed-data.csv`;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
+  window.TrackerApp.downloadRowsCsv(
+    `${slugify(school.profile?.institution_name)}-displayed-data.csv`,
+    rows[0],
+    rows.slice(1)
+  );
 }
 
 function syncSearchToggle() {

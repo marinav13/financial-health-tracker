@@ -20,7 +20,7 @@ main <- function(cli_args = NULL) {
 
   # ---------------------------------------------------------------------------
   # PARSE COMMAND-LINE ARGUMENTS AND SET UP PATHS
-  default_paths        <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
+  default_paths        <- ipeds_layout(root = ".", output_stem = "ipeds_financial_health")
   raw_csv              <- get_arg_value("--raw",             default_paths$raw_csv)
   catalog_csv          <- get_arg_value("--catalog",         default_paths$selected_file_catalog_csv)
   output_csv           <- get_arg_value("--output",          default_paths$canonical_csv)
@@ -31,7 +31,7 @@ main <- function(cli_args = NULL) {
   catalog_path <- normalizePath(catalog_csv, winslash = "/", mustWork = TRUE)
   output_path <- normalizePath(output_csv, winslash = "/", mustWork = FALSE)
   expanded_output_path <- normalizePath(expanded_output_csv, winslash = "/", mustWork = FALSE)
-  resolved_paths <- ipeds_layout(root = root, output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L)
+  resolved_paths <- ipeds_layout(root = root, output_stem = "ipeds_financial_health")
   ensure_ipeds_layout_dirs(resolved_paths)
   dir.create(dirname(output_path), recursive = TRUE, showWarnings = FALSE)
   dir.create(dirname(expanded_output_path), recursive = TRUE, showWarnings = FALSE)
@@ -77,28 +77,35 @@ main <- function(cli_args = NULL) {
 
   # ---------------------------------------------------------------------------
   # LOAD IPEDS DICTIONARY ARCHIVES FOR DECODING
-  hd2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "HD2024.zip")
-  ic2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "IC2024.zip")
-  flags2024_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", "FLAGS2024.zip")
-  try(ensure_dictionary_archive("HD2024", hd2024_dict), silent = TRUE)
-  try(ensure_dictionary_archive("IC2024", ic2024_dict), silent = TRUE)
-  try(ensure_dictionary_archive("FLAGS2024", flags2024_dict), silent = TRUE)
+  latest_dictionary_year <- suppressWarnings(max(c(raw_rows$year, catalog$year), na.rm = TRUE))
+  if (!is.finite(latest_dictionary_year)) {
+    latest_dictionary_year <- as.integer(Sys.getenv("IPEDS_END_YEAR", "2024"))
+  }
+  hd_table <- paste0("HD", latest_dictionary_year)
+  ic_table <- paste0("IC", latest_dictionary_year)
+  flags_table <- paste0("FLAGS", latest_dictionary_year)
+  hd_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(hd_table, ".zip"))
+  ic_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(ic_table, ".zip"))
+  flags_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(flags_table, ".zip"))
+  try(ensure_dictionary_archive(hd_table, hd_dict, latest_dictionary_year), silent = TRUE)
+  try(ensure_dictionary_archive(ic_table, ic_dict, latest_dictionary_year), silent = TRUE)
+  try(ensure_dictionary_archive(flags_table, flags_dict, latest_dictionary_year), silent = TRUE)
 
-  hd_sector_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "SECTOR", aux_extract_root) else character()
-  hd_level_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ICLEVEL", aux_extract_root) else character()
-  hd_act_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "ACT", aux_extract_root) else character()
-  hd_active_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CYACTIVE", aux_extract_root) else character()
-  hd_hbcu_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "HBCU", aux_extract_root) else character()
-  hd_tribal_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "TRIBAL", aux_extract_root) else character()
-  hd_grad_offering_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "GROFFER", aux_extract_root) else character()
-  hd_category_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "INSTCAT", aux_extract_root) else character()
-  hd_locale_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "LOCALE", aux_extract_root) else character()
-  hd_access_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESAEC", aux_extract_root) else character()
-  hd_size_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIESIZE", aux_extract_root) else character()
-  hd_ug_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEAPM", aux_extract_root) else character()
-  hd_grad_mix_lookup <- if (file.exists(hd2024_dict)) get_frequency_lookup(hd2024_dict, "HD2024", "CARNEGIEGPM", aux_extract_root) else character()
-  ic_religious_affiliation_lookup <- if (file.exists(ic2024_dict)) get_frequency_lookup(ic2024_dict, "IC2024", "RELAFFIL", aux_extract_root) else character()
-  flags_form_lookup <- if (file.exists(flags2024_dict)) get_frequency_lookup(flags2024_dict, "FLAGS2024", "FORM_F", aux_extract_root) else character()
+  hd_sector_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "SECTOR", aux_extract_root) else character()
+  hd_level_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "ICLEVEL", aux_extract_root) else character()
+  hd_act_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "ACT", aux_extract_root) else character()
+  hd_active_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "CYACTIVE", aux_extract_root) else character()
+  hd_hbcu_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "HBCU", aux_extract_root) else character()
+  hd_tribal_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "TRIBAL", aux_extract_root) else character()
+  hd_grad_offering_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "GROFFER", aux_extract_root) else character()
+  hd_category_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "INSTCAT", aux_extract_root) else character()
+  hd_locale_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "LOCALE", aux_extract_root) else character()
+  hd_access_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "CARNEGIESAEC", aux_extract_root) else character()
+  hd_size_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "CARNEGIESIZE", aux_extract_root) else character()
+  hd_ug_mix_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "CARNEGIEAPM", aux_extract_root) else character()
+  hd_grad_mix_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "CARNEGIEGPM", aux_extract_root) else character()
+  ic_religious_affiliation_lookup <- if (file.exists(ic_dict)) get_frequency_lookup(ic_dict, ic_table, "RELAFFIL", aux_extract_root) else character()
+  flags_form_lookup <- if (file.exists(flags_dict)) get_frequency_lookup(flags_dict, flags_table, "FORM_F", aux_extract_root) else character()
 
   # ---------------------------------------------------------------------------
   # HELPER: Load a supplemental IPEDS table from catalog entry

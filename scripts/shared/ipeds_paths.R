@@ -14,7 +14,7 @@
 # ---------------------------------------------------------------------------
 
 # Returns a named list of all directories and file paths used by the IPEDS pipeline.
-ipeds_layout <- function(root = ".", output_stem = "ipeds_financial_health", start_year = 2014L, end_year = 2024L) {
+ipeds_layout <- function(root = ".", output_stem = "ipeds_financial_health", start_year = as.integer(Sys.getenv("IPEDS_START_YEAR", "2014")), end_year = as.integer(Sys.getenv("IPEDS_END_YEAR", "2024"))) {
   # Normalize the repository root path (resolve symlinks, ensure forward slashes)
   repo_root <- normalizePath(root, winslash = "/", mustWork = TRUE)
 

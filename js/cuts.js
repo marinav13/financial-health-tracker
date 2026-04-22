@@ -8,7 +8,11 @@
     renderPaginationButtons,
     renderSortableHeader,
     paginateItems,
-    setupPaginatedTable
+    bindSortControls,
+    setupPaginatedTable,
+    filterByInstitution,
+    setDataCardVisible,
+    downloadRowsCsv
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -97,36 +101,7 @@
   }
 
   function setSectionVisible(id, show) {
-    const node = document.getElementById(id);
-    const section = node ? node.closest(".data-card") : null;
-    if (section) {
-      section.classList.toggle("is-hidden", !show);
-      if (show) {
-        section.removeAttribute("aria-hidden");
-      } else {
-        section.setAttribute("aria-hidden", "true");
-      }
-    }
-  }
-
-  function csvEscape(value) {
-    const text = String(value ?? "");
-    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-  }
-
-  function downloadRowsCsv(filename, headers, rows) {
-    const csv = [headers, ...rows]
-      .map((row) => row.map(csvEscape).join(","))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
+    setDataCardVisible(id, show);
   }
 
   function compareText(a, b) {
@@ -135,16 +110,6 @@
 
   function compareDateDesc(a, b) {
     return String(b || "").localeCompare(String(a || ""));
-  }
-
-  function normalizeQuery(value) {
-    return String(value || "").trim().toLowerCase();
-  }
-
-  function filterByInstitution(items, query) {
-    const normalized = normalizeQuery(query);
-    if (!normalized) return items || [];
-    return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
   }
 
   function sortCuts(items, sortState) {

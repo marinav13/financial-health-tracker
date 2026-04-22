@@ -24,8 +24,8 @@ main <- function(cli_args = NULL) {
 
   # ---------------------------------------------------------------------------
   # PARSE COMMAND-LINE ARGUMENTS
-  start_year <- get_arg_value("--start-year", "2014")
-  end_year <- get_arg_value("--end-year", "2024")
+  start_year <- get_arg_value("--start-year", Sys.getenv("IPEDS_START_YEAR", "2014"))
+  end_year <- get_arg_value("--end-year", Sys.getenv("IPEDS_END_YEAR", "2024"))
   output_stem <- get_arg_value("--output-stem", "ipeds_financial_health")
   force_rebuild <- get_arg_value("--force-rebuild", "FALSE")
   paths <- ipeds_layout(

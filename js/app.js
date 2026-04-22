@@ -238,6 +238,17 @@ async function initSearch() {
 
 initSearch().catch((error) => {
   console.error("Search initialization failed:", error);
+  const input = document.getElementById("school-search");
+  const results = document.getElementById("search-results");
+  if (input) {
+    input.disabled = true;
+    input.setAttribute("aria-disabled", "true");
+  }
+  if (results) {
+    results.setAttribute("role", "status");
+    results.setAttribute("aria-live", "polite");
+    results.innerHTML = '<div class="result-item is-empty">Search is temporarily unavailable.</div>';
+  }
 });
 
 window.TrackerApp = window.TrackerApp || {};
@@ -245,6 +256,48 @@ window.TrackerApp.loadJson = loadJson;
 window.TrackerApp.schoolUrl = schoolUrl;
 
 window.TrackerApp.escapeHtml = escapeHtml;
+
+window.TrackerApp.normalizeQuery = function normalizeQuery(value) {
+  return String(value || "").trim().toLowerCase();
+};
+
+window.TrackerApp.filterByInstitution = function filterByInstitution(items, query) {
+  const normalized = window.TrackerApp.normalizeQuery(query);
+  if (!normalized) return items || [];
+  return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
+};
+
+window.TrackerApp.setDataCardVisible = function setDataCardVisible(id, show) {
+  const node = document.getElementById(id);
+  const section = node ? node.closest(".data-card") : null;
+  if (!section) return;
+  section.classList.toggle("is-hidden", !show);
+  if (show) {
+    section.removeAttribute("aria-hidden");
+  } else {
+    section.setAttribute("aria-hidden", "true");
+  }
+};
+
+window.TrackerApp.csvEscape = function csvEscape(value) {
+  const text = String(value ?? "");
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
+
+window.TrackerApp.downloadRowsCsv = function downloadRowsCsv(filename, headers, rows) {
+  const csv = [headers, ...rows]
+    .map((row) => row.map(window.TrackerApp.csvEscape).join(","))
+    .join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+};
 
 window.TrackerApp.safeExternalUrl = function safeExternalUrl(url) {
   const value = String(url ?? "").trim();

@@ -9,19 +9,21 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { firstSchoolIndexEntry, searchTermFor, schoolWithCharts } = require('./helpers');
+
+const searchTarget = firstSchoolIndexEntry();
+const searchTerm = searchTermFor(searchTarget);
+const chartSchoolUnitid = schoolWithCharts();
 
 test.describe('School navigation', () => {
   test('navigates from search to school page', async ({ page }) => {
     await page.goto('/index.html');
     
-    // Search for Georgetown
     const searchInput = page.locator('#school-search');
-    await searchInput.fill('Georgetown');
-    await searchInput.press('Enter');
-    await page.waitForTimeout(500);
+    await searchInput.fill(searchTerm);
     
-    // Click first result
     const firstResult = page.locator('#search-results .result-item:not(.is-empty)').first();
+    await expect(firstResult).toBeVisible();
     await firstResult.click();
     
     // Should navigate to school page
@@ -35,8 +37,7 @@ test.describe('School navigation', () => {
   });
 
   test('school page loads with data', async ({ page }) => {
-    // Load a known school
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     // Should show institution name
     const schoolName = page.locator('#school-name');
@@ -48,7 +49,7 @@ test.describe('School navigation', () => {
   });
 
   test('tabs switch content', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     // Default tab is finances - verify it's active
     const financesTab = page.locator('#tab-finances');
@@ -69,7 +70,7 @@ test.describe('School navigation', () => {
   });
 
   test('cuts tab switches correctly', async ({ page }) => {
-    await page.goto('/school.html?unitid=222178');
+    await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     const cutsTab = page.locator('#tab-cuts');
     await cutsTab.click();

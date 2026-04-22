@@ -10,7 +10,10 @@
     paginateItems,
     focusAfterRender,
     bindSortControls,
-    setupPaginatedTable
+    setupPaginatedTable,
+    filterByInstitution,
+    setDataCardVisible,
+    downloadRowsCsv
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -50,36 +53,7 @@
   }
 
   function setSectionVisible(id, show) {
-    const node = document.getElementById(id);
-    const section = node ? node.closest(".data-card") : null;
-    if (section) {
-      section.classList.toggle("is-hidden", !show);
-      if (show) {
-        section.removeAttribute("aria-hidden");
-      } else {
-        section.setAttribute("aria-hidden", "true");
-      }
-    }
-  }
-
-  function csvEscape(value) {
-    const text = String(value ?? "");
-    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-  }
-
-  function downloadRowsCsv(filename, headers, rows) {
-    const csv = [headers, ...rows]
-      .map((row) => row.map(csvEscape).join(","))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
+    setDataCardVisible(id, show);
   }
 
   function compareText(a, b) {
@@ -88,16 +62,6 @@
 
   function compareDateDesc(a, b) {
     return String(b || "").localeCompare(String(a || ""));
-  }
-
-  function normalizeQuery(value) {
-    return String(value || "").trim().toLowerCase();
-  }
-
-  function filterByInstitution(items, query) {
-    const normalized = normalizeQuery(query);
-    if (!normalized) return items || [];
-    return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
   }
 
   function hasPositiveFunding(value) {
@@ -187,7 +151,7 @@
     const agencies = visibleAgencySummary
       .map((item) => `
           <article class="metric-strip neutral">
-            <div class="metric-question">${item.agency_label}</div>
+            <div class="metric-question">${escapeHtml(item.agency_label)}</div>
           <div class="metric-statement">${Number(item.disrupted_grants || 0)} grants<br>${formatCurrency(item.disrupted_award_remaining)}</div>
         </article>
       `)
@@ -235,7 +199,7 @@
     if (!visibleGrants.length) return renderEmpty("No currently disrupted grants are available.");
     const rows = sortGrants(visibleGrants, sortState).map((grant) => `
       <tr>
-        <td>${agencyLabel(grant.agency)}</td>
+        <td>${escapeHtml(agencyLabel(grant.agency))}</td>
         <td>${escapeHtml(grant.project_title)}</td>
         <td>${escapeHtml(grant.grant_id)}</td>
         <td>${formatCurrency(grant.award_remaining)}</td>

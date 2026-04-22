@@ -13,7 +13,11 @@
     renderSchoolLink,
     renderPaginationButtons,
     paginateItems,
-    setupPaginatedTable
+    setupPaginatedTable,
+    escapeHtml,
+    filterByInstitution,
+    setDataCardVisible,
+    downloadRowsCsv
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -110,57 +114,8 @@
     return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
   }
 
-  function normalizeQuery(value) {
-    return String(value || "").trim().toLowerCase();
-  }
-
-  function filterByInstitution(items, query) {
-    const normalized = normalizeQuery(query);
-    if (!normalized) return items || [];
-    return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
-  }
-
   function setSectionVisible(id, show) {
-    const node = document.getElementById(id);
-    const section = node ? node.closest(".data-card") : null;
-    if (section) {
-      section.classList.toggle("is-hidden", !show);
-      if (show) {
-        section.removeAttribute("aria-hidden");
-      } else {
-        section.setAttribute("aria-hidden", "true");
-      }
-    }
-  }
-
-  // CSV escaping: quotes values containing commas, quotes, or newlines
-  function csvEscape(value) {
-    const text = String(value ?? "");
-    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-  }
-
-  function downloadRowsCsv(filename, headers, rows) {
-    const csv = [headers, ...rows]
-      .map((row) => row.map(csvEscape).join(","))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
+    setDataCardVisible(id, show);
   }
 
   function expandAccreditors(value) {

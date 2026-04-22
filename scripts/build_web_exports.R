@@ -57,6 +57,8 @@ closure_status_json_path <- file.path(data_dir, "closure_status_by_unitid.json")
 hcm_json_path <- file.path(data_dir, "hcm2_by_unitid.json")
 federal_composite_json_path <- file.path(data_dir, "federal_composite_scores_by_unitid.json")
 
+research_min_public_award_remaining <- 100
+
 
 # Helper functions (require_local_file, ensure_columns, null_if_empty,
 # write_json_file, build_series, etc.) are in scripts/shared/export_helpers.R
@@ -468,7 +470,7 @@ build_research_export <- function() {
       # the export rather than being silently filtered out.
       is_primary_tracker = has_financial_profile & is_primary_bachelors_category(tracker_category)
     ) %>%
-    filter(likely_higher_ed, total_disrupted_award_remaining > 0)
+    filter(likely_higher_ed)
 
   grants_df <- readr::read_csv(
     research_grants_path,
@@ -493,10 +495,19 @@ build_research_export <- function() {
       ),
       currently_disrupted = as.logical(currently_disrupted),  # normalise; CSV may be read as char or logical
       likely_higher_ed = as.logical(likely_higher_ed)
-    ) %>%
-    filter(currently_disrupted == TRUE)
+  ) %>%
+    filter(
+      currently_disrupted == TRUE,
+      !is.na(award_remaining),
+      award_remaining >= research_min_public_award_remaining
+    )
 
   if (nrow(summary_df) == 0 || nrow(grants_df) == 0) return(NULL)
+
+  summary_df <- summary_df %>%
+    semi_join(grants_df %>% distinct(export_unitid), by = "export_unitid")
+
+  if (nrow(summary_df) == 0) return(NULL)
 
   agencies <- c("nih", "nsf", "epa", "samhsa", "cdc")
   agency_labels <- c(
@@ -514,13 +525,12 @@ build_research_export <- function() {
       arrange(desc(termination_date), desc(award_remaining), agency, project_title)
 
     agency_summary <- lapply(agencies, function(agency) {
-      grant_col <- paste0(agency, "_disrupted_grants")
-      amount_col <- paste0(agency, "_disrupted_award_remaining")
+      agency_grants <- school_grants %>% filter(.data$agency == !!agency)
       list(
         agency = agency,
         agency_label = agency_labels[[agency]],
-        disrupted_grants = unname(latest[[grant_col]][[1]] %||% 0),
-        disrupted_award_remaining = unname(latest[[amount_col]][[1]] %||% 0)
+        disrupted_grants = nrow(agency_grants),
+        disrupted_award_remaining = sum(agency_grants$award_remaining, na.rm = TRUE)
       )
     })
 
@@ -540,8 +550,8 @@ build_research_export <- function() {
       control_label = or_null(latest$tracker_control_label),
       category = or_null(latest$tracker_category),
       latest_termination_date = or_null(latest_termination$termination_date),
-      total_disrupted_grants = unname(latest$total_disrupted_grants[[1]] %||% 0),
-      total_disrupted_award_remaining = unname(latest$total_disrupted_award_remaining[[1]] %||% 0),
+      total_disrupted_grants = nrow(school_grants),
+      total_disrupted_award_remaining = sum(school_grants$award_remaining, na.rm = TRUE),
       agency_summary = agency_summary,
       grants = lapply(seq_len(nrow(school_grants)), function(i) {
         list(

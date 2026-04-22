@@ -52,6 +52,9 @@ function makeDocument(ids) {
     getElementById(id) {
       if (!elements.has(id)) elements.set(id, makeElement(id));
       return elements.get(id);
+    },
+    querySelector() {
+      return null;
     }
   };
 }

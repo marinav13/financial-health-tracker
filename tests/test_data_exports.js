@@ -12,9 +12,11 @@ const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
+const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding_index.json"), "utf8"));
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
 const HCM_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "hcm2_by_unitid.json"), "utf8"));
 const FEDERAL_COMPOSITE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "federal_composite_scores_by_unitid.json"), "utf8"));
+const MIN_RESEARCH_AWARD_REMAINING = 100;
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -97,6 +99,39 @@ run("research export excludes Dartmouth award with zero live remaining funding",
     )
   );
   assert(!staleAward, "Dartmouth award F31DA060690 should not appear after live USAspending zeroes out the remaining amount");
+});
+
+run("research export excludes de minimis disrupted grant balances", () => {
+  const smallAwards = [];
+  for (const school of Object.values(RESEARCH_FUNDING.schools || {})) {
+    for (const grant of school.grants || []) {
+      const amount = Number(grant.award_remaining);
+      if (Number.isFinite(amount) && amount < MIN_RESEARCH_AWARD_REMAINING) {
+        smallAwards.push(`${school.institution_name || school.unitid}: ${grant.grant_id || grant.source_url} (${amount})`);
+      }
+    }
+  }
+  assert(
+    smallAwards.length === 0,
+    `Research export should not include grants below $${MIN_RESEARCH_AWARD_REMAINING}: ${smallAwards.slice(0, 10).join(", ")}`
+  );
+});
+
+run("research export totals match displayed grants after de minimis filtering", () => {
+  for (const [unitid, school] of Object.entries(RESEARCH_FUNDING.schools || {})) {
+    const grants = school.grants || [];
+    const grantTotal = grants.reduce((sum, grant) => sum + Number(grant.award_remaining || 0), 0);
+    const grantCount = grants.length;
+    const exportedTotal = Number(school.total_disrupted_award_remaining || 0);
+    const exportedCount = Number(school.total_disrupted_grants || 0);
+    const indexTotal = Number(RESEARCH_FUNDING_INDEX[unitid]?.total_disrupted_award_remaining || 0);
+    const indexCount = Number(RESEARCH_FUNDING_INDEX[unitid]?.total_disrupted_grants || 0);
+
+    assert(exportedCount === grantCount, `${school.institution_name || unitid} grant count ${exportedCount} does not match displayed rows ${grantCount}`);
+    assert(Math.abs(exportedTotal - grantTotal) < 0.01, `${school.institution_name || unitid} total ${exportedTotal} does not match displayed rows ${grantTotal}`);
+    assert(indexCount === grantCount, `${school.institution_name || unitid} index grant count ${indexCount} does not match displayed rows ${grantCount}`);
+    assert(Math.abs(indexTotal - grantTotal) < 0.01, `${school.institution_name || unitid} index total ${indexTotal} does not match displayed rows ${grantTotal}`);
+  }
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

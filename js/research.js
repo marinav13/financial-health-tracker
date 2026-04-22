@@ -290,12 +290,17 @@
   function setupStateSummary(container, items) {
     if (!container) return;
     let sortState = { key: "public_funding", direction: "desc" };
+    let shouldFocusAfterRender = false;
     const render = () => {
       const stateRows = buildStateSummaryRows(items);
       container.innerHTML = renderStateSummaryTable(stateRows, sortState);
-      focusAfterRender(container, ".history-table");
+      if (shouldFocusAfterRender) {
+        focusAfterRender(container, ".history-table");
+        shouldFocusAfterRender = false;
+      }
       bindSortControls(container, sortState, { key: "public_funding", direction: "desc" }, (nextSortState) => {
         sortState = nextSortState;
+        shouldFocusAfterRender = true;
         render();
       });
     };
@@ -364,8 +369,19 @@
     });
   }
 
+  function resetLandingScrollPosition() {
+    if (window.location.hash) return;
+    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    scrollTop();
+    window.requestAnimationFrame(scrollTop);
+    window.setTimeout(scrollTop, 50);
+  }
+
   async function init() {
     const unitid = getParam("unitid");
+    if (!unitid && "scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
     syncTabs(unitid, { active: "research" });
 
     const data = await loadJson("data/research_funding.json");
@@ -419,6 +435,7 @@
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
       renderLanding();
+      resetLandingScrollPosition();
       return;
     }
 

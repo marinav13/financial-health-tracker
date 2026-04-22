@@ -62,6 +62,25 @@ test.describe('School navigation', () => {
     
     await page.locator('#tab-research').click();
     await expect(page).toHaveURL(/\/research\.html$/);
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
+  });
+
+  test('research landing page does not auto-scroll to state summary on load', async ({ page }) => {
+    await page.goto('/research.html');
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
+  });
+
+  test('research landing page resets browser scroll restoration on reload', async ({ page }) => {
+    await page.goto('/research.html');
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, 1200));
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(1000);
+
+    await page.reload();
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
   });
 
   test('top cuts tab opens the cuts landing page from school detail', async ({ page }) => {

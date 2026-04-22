@@ -346,6 +346,31 @@ run_test("parse_nwccu_institution_page: non-Accredited status triggers fast-path
   }
 })
 
+run_test("parse_nwccu_institution_page: non-empty rows satisfy accreditation schema", function() {
+  cache_dir <- tempfile("nwccu_schema_")
+  dir.create(cache_dir, showWarnings = FALSE)
+  on.exit(unlink(cache_dir, recursive = TRUE, force = TRUE), add = TRUE)
+
+  url <- nwccu_fixture(cache_dir, "schema-university", paste0(
+    '<html><body><main>',
+    '<span class="block">Current Accreditation Status</span>',
+    '<p class="h5 block">Probation</p>',
+    '<span class="block super">Most Recent Evaluation</span>',
+    '<span class="block flex">Fall 2025 Special Visit</span>',
+    '<span class="block">Reason for Accreditation</span>',
+    '<span class="block flex">Financial resources and governance concerns.</span>',
+    '<a href="https://nwccu.box.com/s/abc">Institution Notification Letter</a>',
+    '</main></body></html>'
+  ))
+
+  result <- parse_nwccu_institution_page(url, "Schema University", cache_dir, refresh = FALSE)
+  checked <- ensure_accreditation_action_schema(result, "NWCCU non-empty fixture")
+  assert_identical(nrow(checked), 1L)
+  assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(checked)))
+  assert_identical(checked$source_page_url[[1]], url)
+  assert_true(grepl("Financial resources", checked$notes[[1]], fixed = TRUE))
+})
+
 run_test("parse_nwccu_institution_page: adverse keyword in new page section is detected", function() {
   cache_dir <- tempfile("nwccu_widebodyscan_")
   dir.create(cache_dir, showWarnings = FALSE)

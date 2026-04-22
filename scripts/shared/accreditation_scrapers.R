@@ -978,6 +978,11 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
   }
 
   source_url <- if (!is.na(notif_match[1, 2])) notif_match[1, 2] else inst_url
+  notes <- paste(na.omit(c(
+    if (!is.na(status)) paste("Status:", status) else NA_character_,
+    if (!is.na(eval)) paste("Evaluation:", eval) else NA_character_,
+    if (!is.na(reason)) paste("Reason:", reason) else NA_character_
+  )), collapse = " | ")
 
   tibble::tibble(
     institution_name_raw = inst_name,
@@ -985,12 +990,15 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
     accreditor            = "NWCCU",
     action_type           = action_type,
     action_label_raw      = paste0(ifelse(!is.na(status), status, "Accreditation action"), ifelse(!is.na(eval), paste0(" – ", eval), "")),
-    action_status        = status,
+    action_status         = ifelse(!is.na(status), status, "active"),
     action_date           = NA_character_,
     action_year           = NA_integer_,
-    institution_url       = inst_url,
+    source_page_url       = inst_url,
     source_title          = paste0("NWCCU Institution Notification Letter – ", inst_name),
-    source_url           = source_url
+    source_url            = source_url,
+    notes                 = notes,
+    last_seen_at          = as.character(Sys.Date()),
+    source_page_modified  = NA_character_
   )
 }
 

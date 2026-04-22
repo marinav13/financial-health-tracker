@@ -159,7 +159,8 @@ main <- function(cli_args = NULL) {
       unitid_candidate = unitid,
       fallback_tracker_institution_name = institution_name,
       norm_name,
-      state_full
+      state_full,
+      match_method_candidate = "normalized_name_state_fallback"
     ) |>
     dplyr::add_count(norm_name, state_full, name = "candidate_count") |>
     dplyr::filter(candidate_count == 1) |>
@@ -180,25 +181,32 @@ main <- function(cli_args = NULL) {
         all(c("institution_name_api", "unitid", "state_full",
               "tracker_institution_name") %in% names(raw))) {
       message("  Using Supabase mapping: ", nrow(raw), " institutions")
+      if (!"match_source" %in% names(raw)) raw$match_source <- "supabase_mapping"
       raw |>
         dplyr::filter(!is.na(unitid), nzchar(institution_name_api)) |>
         dplyr::transmute(
           norm_name  = normalize_name(institution_name_api),
           state_full = as.character(state_full),
           unitid_candidate = as.integer(unitid),
-          fallback_tracker_institution_name = tracker_institution_name
+          fallback_tracker_institution_name = tracker_institution_name,
+          match_method_candidate = dplyr::coalesce(
+            dplyr::if_else(nzchar(as.character(match_source)), as.character(match_source), NA_character_),
+            "supabase_mapping"
+          )
         )
     } else {
       message("  Supabase mapping file empty or wrong schema — skipping")
       tibble::tibble(norm_name = character(), state_full = character(),
                      unitid_candidate = integer(),
-                     fallback_tracker_institution_name = character())
+                     fallback_tracker_institution_name = character(),
+                     match_method_candidate = character())
     }
   } else {
     message("  No Supabase mapping file found at ", supabase_mapping_path)
     tibble::tibble(norm_name = character(), state_full = character(),
                    unitid_candidate = integer(),
-                   fallback_tracker_institution_name = character())
+                   fallback_tracker_institution_name = character(),
+                   match_method_candidate = character())
   }
 
   # Warn if mapping file is stale (>10 days old) — stop in CI unless --allow-stale flag
@@ -229,6 +237,7 @@ main <- function(cli_args = NULL) {
   fallback_lookup <- dplyr::bind_rows(
     fallback_lookup,
     manual_aliases |>
+      dplyr::mutate(match_method_candidate = "manual_alias") |>
       dplyr::anti_join(fallback_lookup, by = c("norm_name", "state_full"))
   )
 
@@ -372,7 +381,7 @@ main <- function(cli_args = NULL) {
         matched_unitid = unitid_candidate,
         match_method = dplyr::if_else(
           !is.na(unitid_candidate),
-          "normalized_name_state_fallback",
+          match_method_candidate,
           "unmatched"
         )
       )
@@ -425,7 +434,7 @@ main <- function(cli_args = NULL) {
       matched_unitid = unitid_candidate,
       match_method = dplyr::if_else(
         !is.na(unitid_candidate),
-        "normalized_name_state_fallback",
+        match_method_candidate,
         "unmatched"
       )
     )
@@ -765,7 +774,8 @@ main <- function(cli_args = NULL) {
     metric = c(
       "Cuts records",
       "Distinct institutions in cuts data",
-      "Institutions with direct UNITID from CollegeCuts",
+      "Institutions matched by Supabase mapping",
+      "Institutions matched by manual alias",
       "Institutions matched by normalized name/state fallback",
       "Institutions unmatched to financial tracker",
       "Institutions matched to financial tracker",
@@ -774,7 +784,8 @@ main <- function(cli_args = NULL) {
     value = c(
       nrow(cuts_joined),
       dplyr::n_distinct(cuts_joined$institution_name_collegecuts),
-      sum(cuts_joined$match_method == "collegecuts_institutions.unitid", na.rm = TRUE),
+      sum(cuts_joined$match_method %in% c("supabase", "supabase_mapping"), na.rm = TRUE),
+      sum(cuts_joined$match_method == "manual_alias", na.rm = TRUE),
       sum(cuts_joined$match_method == "normalized_name_state_fallback", na.rm = TRUE),
       dplyr::n_distinct(unmatched_for_review$institution_name_collegecuts),
       dplyr::n_distinct(cuts_joined$matched_unitid[cuts_joined$in_financial_tracker]),

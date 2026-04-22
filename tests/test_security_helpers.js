@@ -203,12 +203,16 @@ run("renderSortableHeader puts aria-sort on the active table header only", () =>
   assert(active.includes('data-sort-key="funding"'), "Expected sort key data attribute");
 });
 
-run("renderHistoryTable escapes table metadata while preserving safe cell HTML", () => {
+run("renderHistoryTable escapes table metadata while rendering structured link cells", () => {
   const html = app.renderHistoryTable({
     caption: '<script>alert("caption")</script>',
     tableClass: 'history-table" onclick="alert(1)',
     headers: ["<th>Institution</th>", app.renderSortableHeader("date", { key: "date", direction: "desc" }, "Date")],
-    rows: [["<b>Bad cell</b>", app.renderHtmlCell(app.renderSchoolLink("123", "Test U", "school.html")), app.renderHtmlCell(app.renderExternalLink("https://example.edu", "Source"))]]
+    rows: [[
+      "<b>Bad cell</b>",
+      app.renderSchoolLinkCell("123", "Test U", "school.html"),
+      app.renderExternalLinkCell("https://example.edu", "Source")
+    ]]
   });
   assert(html.includes("&lt;script&gt;alert(&quot;caption&quot;)&lt;/script&gt;"), "Expected caption text to be escaped");
   assert(!html.includes('" onclick="'), "Expected table class to stay inside one escaped attribute");
@@ -217,6 +221,25 @@ run("renderHistoryTable escapes table metadata while preserving safe cell HTML",
   assert(html.includes("<th>Institution</th>"), "Expected caller-provided header HTML to render");
   assert(html.includes('href="school.html?unitid=123"'), "Expected safe link cell HTML to render");
   assert(html.includes('href="https://example.edu/"'), "Expected safe external link cell HTML to render");
+});
+
+run("renderRelatedInstitutionLinks suppresses page links for namespaced unmatched ids", () => {
+  const unmatched = app.renderRelatedInstitutionLinks({
+    unitid: "research-example-college--ca",
+    financialUnitid: "",
+    current: "research"
+  });
+  assert(!unmatched.includes("cuts.html?unitid=research-"), "Expected no guessed cuts link for research-only id");
+  assert(!unmatched.includes("school.html?unitid=research-"), "Expected no guessed finance link for research-only id");
+
+  const matched = app.renderRelatedInstitutionLinks({
+    unitid: "100654",
+    financialUnitid: "100654",
+    current: "research"
+  });
+  assert(matched.includes("school.html?unitid=100654"), "Expected matched finance link");
+  assert(matched.includes("cuts.html?unitid=100654"), "Expected matched cuts link");
+  assert(matched.includes("accreditation.html?unitid=100654"), "Expected matched accreditation link");
 });
 
 run("renderSchoolLink escapes labels at the helper boundary", () => {

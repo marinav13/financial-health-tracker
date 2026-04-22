@@ -39,6 +39,25 @@ test.describe('Search functionality', () => {
     expect(firstResult.toLowerCase()).toContain(searchTerm.toLowerCase());
   });
 
+  test('search exposes combobox state and keyboard active option', async ({ page }) => {
+    await page.goto('/index.html');
+
+    const searchInput = page.locator('#school-search');
+    const results = page.locator('#search-results');
+    await expect(searchInput).toHaveAttribute('role', 'combobox');
+    await expect(searchInput).toHaveAttribute('aria-controls', 'search-results');
+    await expect(searchInput).toHaveAttribute('aria-expanded', 'false');
+
+    await searchInput.fill(searchTerm);
+    await expect(searchInput).toHaveAttribute('aria-expanded', 'true');
+    await expect(results).toHaveAttribute('role', 'listbox');
+
+    await searchInput.press('ArrowDown');
+    const activeId = await searchInput.getAttribute('aria-activedescendant');
+    expect(activeId).toMatch(/^search-results-option-/);
+    await expect(page.locator(`#${activeId}`)).toBeFocused();
+  });
+
   test('shows no results for unknown school', async ({ page }) => {
     await page.goto('/index.html');
     

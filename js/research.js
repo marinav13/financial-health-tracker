@@ -1,10 +1,7 @@
 (function () {
   const {
     loadJson,
-    schoolUrl,
     escapeHtml,
-    renderExternalLink,
-    renderSchoolLink,
     renderPaginationButtons,
     renderSortableHeader,
     paginateItems,
@@ -17,7 +14,10 @@
     compareText,
     compareDateDesc,
     renderHistoryTable,
-    renderHtmlCell
+    renderSchoolLinkCell,
+    renderExternalLinkCell,
+    syncTabs,
+    renderRelatedInstitutionLinks
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -29,27 +29,6 @@
   function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value || "";
-  }
-
-  function syncTabs(unitid, financialUnitid) {
-    const finances = document.getElementById("tab-finances");
-    if (finances) {
-      finances.href = financialUnitid
-        ? `school.html?unitid=${encodeURIComponent(financialUnitid)}`
-        : "index.html";
-    }
-    const cuts = document.getElementById("tab-cuts");
-    if (cuts) {
-      cuts.href = "cuts.html";
-    }
-    const accreditation = document.getElementById("tab-accreditation");
-    if (accreditation) {
-      accreditation.href = "accreditation.html";
-    }
-    const research = document.getElementById("tab-research");
-    if (research) {
-      research.href = "research.html";
-    }
   }
 
   function renderEmpty(message) {
@@ -103,23 +82,6 @@
       if (amountDiff !== 0) return amountDiff;
       return String(a.institution_name || "").localeCompare(String(b.institution_name || ""));
     });
-  }
-
-  function renderInstitutionLinks(unitid, financialUnitid) {
-    const financeLink = financialUnitid
-      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
-      : "";
-    const cutsLink = (!String(unitid).startsWith("research-") && unitid)
-      ? `<li>${renderSchoolLink(unitid, "College Cuts", "cuts.html")}</li>`
-      : "";
-    const list = [financeLink, cutsLink].filter(Boolean).join("");
-    if (!list) return "";
-    return `
-      <div class="related-links">
-        <p><strong>Explore this institution:</strong></p>
-        <ul class="link-list">${list}</ul>
-      </div>
-    `;
   }
 
   function renderSummaryGrid(school) {
@@ -199,7 +161,7 @@
       grant.grant_id,
       formatCurrency(grant.award_remaining),
       formatDate(grant.termination_date),
-      renderHtmlCell(renderExternalLink(grant.source_url, "Source"))
+      renderExternalLinkCell(grant.source_url, "Source")
     ]);
     return renderHistoryTable({
       headers: [
@@ -341,7 +303,7 @@
   function renderDefaultTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
-      renderHtmlCell(renderSchoolLink(item.unitid, item.institution_name, "research.html")),
+      renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
       item.state || "",
       item.control_label || "",
       Number(item.total_disrupted_grants || 0),
@@ -401,10 +363,10 @@
 
   async function init() {
     const unitid = getParam("unitid");
-    syncTabs(unitid);
+    syncTabs(unitid, { active: "research" });
 
-      const data = await loadJson("data/research_funding.json");
-      const schools = filterPositiveFundingInstitutions(Object.values(data.schools || {}));
+    const data = await loadJson("data/research_funding.json");
+    const schools = filterPositiveFundingInstitutions(Object.values(data.schools || {}));
     const container = document.getElementById("research-list");
     const otherContainer = document.getElementById("research-other-list");
     const stateSummaryContainer = document.getElementById("research-state-summary");
@@ -445,7 +407,7 @@
       return;
     }
 
-      const school = schools.find((item) => String(item.unitid) === String(unitid));
+    const school = schools.find((item) => String(item.unitid) === String(unitid));
     if (!school) {
       document.getElementById("research-school-name").textContent = "No tracked research funding cuts found";
       document.getElementById("research-school-name").classList.remove("is-hidden");
@@ -455,7 +417,7 @@
       return;
     }
 
-    syncTabs(unitid, school.financial_unitid);
+    syncTabs(unitid, { active: "research", financialUnitid: school.financial_unitid });
 
     document.getElementById("research-school-name").textContent = school.institution_name || "Research Funding Cuts";
     document.getElementById("research-school-name").classList.remove("is-hidden");
@@ -476,15 +438,15 @@
     setSectionVisible("research-other-list", false);
     const mainDownload = document.getElementById("research-table-download");
     const otherDownload = document.getElementById("research-other-download");
-      if (mainDownload) {
-        mainDownload.classList.remove("is-hidden");
-        mainDownload.onclick = () => downloadRowsCsv(
-          `${String(school.institution_name || "research-funding").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-research-funding.csv`,
-          ["Agency", "Grant", "Grant ID", "Funding still disrupted", "Termination date", "Source"],
-          filterPositiveFundingGrants(school.grants || []).map((grant) => [
-            agencyLabel(grant.agency),
-            grant.project_title || "",
-            grant.grant_id || "",
+    if (mainDownload) {
+      mainDownload.classList.remove("is-hidden");
+      mainDownload.onclick = () => downloadRowsCsv(
+        `${String(school.institution_name || "research-funding").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-research-funding.csv`,
+        ["Agency", "Grant", "Grant ID", "Funding still disrupted", "Termination date", "Source"],
+        filterPositiveFundingGrants(school.grants || []).map((grant) => [
+          agencyLabel(grant.agency),
+          grant.project_title || "",
+          grant.grant_id || "",
           grant.award_remaining || "",
           grant.termination_date || "",
           grant.source_url || ""
@@ -497,7 +459,11 @@
 
     let grantSortState = { key: "termination_date", direction: "desc" };
     const renderDetailTable = () => {
-      container.innerHTML = renderGrantTable(school.grants || [], grantSortState) + renderInstitutionLinks(school.unitid, school.financial_unitid);
+      container.innerHTML = renderGrantTable(school.grants || [], grantSortState) + renderRelatedInstitutionLinks({
+        unitid: school.unitid,
+        financialUnitid: school.financial_unitid,
+        current: "research"
+      });
       bindSortControls(container, grantSortState, { key: "termination_date", direction: "desc" }, (nextSortState) => {
         grantSortState = nextSortState;
         renderDetailTable();

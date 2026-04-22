@@ -363,6 +363,32 @@ const basicConfig = {
   if (ok) passed++; else failed++;
 })();
 
+(function() {
+  const ok = runChartTest("supports negative values without clipping points", {
+    containerId: "chart-negative",
+    title: "State Funding",
+    format: "currency",
+    showTooltip: false,
+    series: [
+      { label: "State funding", color: "#005b8e", values: [
+        { year: "2022", value: "-500000" },
+        { year: "2023", value: "250000" },
+        { year: "2024", value: "-100000" }
+      ]}
+    ]
+  }, (dom) => {
+    const el = dom.getElementById("chart-negative");
+    const circles = [...el.querySelectorAll("circle")];
+    assert(circles.length === 3, `should render 3 points, got ${circles.length}`);
+    circles.forEach((circle) => {
+      const cy = Number(circle.getAttribute("cy"));
+      assert(cy >= 18 && cy <= 226, `point y coordinate should stay inside plot area, got ${cy}`);
+    });
+    assert(el.innerHTML.includes("-$500,000"), "hidden chart description should include negative values");
+  });
+  if (ok) passed++; else failed++;
+})();
+
 // -----------------------------------------------------------------------
 // renderLineChart: legend
 // -----------------------------------------------------------------------

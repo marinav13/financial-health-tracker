@@ -89,9 +89,10 @@ function renderLineChart(containerId, config) {
 
   const minYear = Math.min(...years);
   const maxYear = Math.max(...years);
+  const rawMinY = Math.min(...values);
   const rawMaxY = Math.max(...values);
-  const minY = 0;
-  const maxY = niceCeiling((rawMaxY <= 0 ? 1 : rawMaxY) * 1.05); // 5% padding above max
+  const minY = rawMinY < 0 ? -niceCeiling(Math.abs(rawMinY) * 1.05) : 0;
+  const maxY = rawMaxY > 0 ? niceCeiling(rawMaxY * 1.05) : 0; // 5% padding above max
 
   const width = 760;
   const height = 260;
@@ -163,7 +164,7 @@ function renderLineChart(containerId, config) {
       <rect x="0" y="0" width="${width}" height="${height}" fill="#fbfdff"></rect>
       ${gridLines.join("")}
       ${yTicks.join("")}
-      <line x1="${pad.left}" y1="${height - pad.bottom}" x2="${width - pad.right}" y2="${height - pad.bottom}" stroke="#94a3b8" />
+      <line x1="${pad.left}" y1="${yScale(0)}" x2="${width - pad.right}" y2="${yScale(0)}" stroke="#94a3b8" />
       <line x1="${pad.left}" y1="${pad.top}" x2="${pad.left}" y2="${height - pad.bottom}" stroke="#94a3b8" />
       ${paths}
       ${pointGroups}

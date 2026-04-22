@@ -20,7 +20,7 @@ const PAGES = [
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
       { pattern: /class="masthead"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /<a[^>]+href="index\.html"[^>]*>Finances<\/a>/, message: "Finances nav tab" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /<a[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "College Cuts nav tab" },
       { pattern: /<a[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Accreditation nav tab" },
       { pattern: /<a[^>]+href="research\.html"[^>]*>Research Funding Cuts<\/a>/, message: "Research nav tab" },
@@ -39,7 +39,7 @@ const PAGES = [
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
       { pattern: /class="masthead"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab" },
+      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
       { pattern: /id="cuts-other-list"[^>]*aria-live="polite"/, message: 'cuts-other-list with aria-live="polite"' },
       { pattern: /id="cuts-filter"/, message: "Primary filter input" },
@@ -57,7 +57,7 @@ const PAGES = [
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
       { pattern: /class="masthead"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="research\.html"[^>]*>Research Funding Cuts<\/a>/, message: "Active Research nav tab" },
+      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="research\.html"[^>]+aria-current="page"[^>]*>Research Funding Cuts<\/a>/, message: "Active Research nav tab with aria-current" },
       { pattern: /id="research-list"[^>]*aria-live="polite"/, message: 'research-list with aria-live="polite"' },
       { pattern: /id="research-other-list"[^>]*aria-live="polite"/, message: 'research-other-list with aria-live="polite"' },
       { pattern: /id="research-state-summary"[^>]*aria-live="polite"/, message: 'research-state-summary with aria-live="polite"' },
@@ -74,7 +74,7 @@ const PAGES = [
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
       { pattern: /class="masthead"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab" },
+      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]+aria-current="page"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab with aria-current" },
       { pattern: /id="accreditation-status"[^>]*aria-live="polite"/, message: 'accreditation-status with aria-live="polite"' },
       { pattern: /id="accreditation-other-status"[^>]*aria-live="polite"/, message: 'accreditation-other-status with aria-live="polite"' },
       { pattern: /id="accreditation-filter"/, message: "Primary accreditation filter input" },
@@ -92,7 +92,7 @@ const PAGES = [
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
       { pattern: /class="masthead"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /<a[^>]+href="school\.html"[^>]*>Finances<\/a>/, message: "Finances nav tab" },
+      { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
       { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Financial Trends<\/h2>/, message: "Financial Trends h2" },
@@ -171,6 +171,13 @@ const appJsPath = path.join(ROOT, "js", "app.js");
 if (fs.existsSync(appJsPath)) {
   const appJs = fs.readFileSync(appJsPath, "utf8");
   check("app.js", /setAttribute\("role", "listbox"\)/, appJs, 'Search results role="listbox" set via setAttribute');
+  check("app.js", /setAttribute\("role", "combobox"\)/, appJs, 'Search input role="combobox" set via setAttribute');
+  check("app.js", /aria-expanded/, appJs, "search input aria-expanded state");
+  check("app.js", /aria-activedescendant/, appJs, "search input aria-activedescendant state");
+  check("app.js", /syncTabs/, appJs, "shared tab synchronization helper");
+  check("app.js", /renderRelatedInstitutionLinks/, appJs, "shared related institution links helper");
+  check("app.js", /renderSchoolLinkCell/, appJs, "structured school link table cell helper");
+  check("app.js", /renderExternalLinkCell/, appJs, "structured external link table cell helper");
   check("app.js", /setActiveButton/, appJs, "roving tabindex: setActiveButton function");
   check("app.js", /ArrowDown/, appJs, "arrow key navigation: ArrowDown handler");
   check("app.js", /Escape/, appJs, "Escape key closes results");

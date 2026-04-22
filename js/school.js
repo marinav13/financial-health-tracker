@@ -427,28 +427,6 @@ function syncSearchToggle() {
   }
 }
 
-function syncTabs(unitid) {
-  const finances = document.getElementById("tab-finances");
-  if (finances) {
-    finances.href = unitid ? `school.html?unitid=${encodeURIComponent(unitid)}` : "index.html";
-  }
-
-  const cuts = document.getElementById("tab-cuts");
-  if (cuts) {
-    cuts.href = "cuts.html";
-  }
-
-  const accreditation = document.getElementById("tab-accreditation");
-  if (accreditation) {
-    accreditation.href = "accreditation.html";
-  }
-
-  const research = document.getElementById("tab-research");
-  if (research) {
-    research.href = "research.html";
-  }
-}
-
 function styleAnswerCard(answerId, value) {
   const answer = document.getElementById(answerId);
   if (!answer) return;
@@ -464,7 +442,7 @@ async function init() {
   window.addEventListener("resize", syncSearchToggle);
 
   const unitid = getParam("unitid");
-  syncTabs(unitid);
+  window.TrackerApp.syncTabs(unitid, { active: "finances" });
   if (!unitid) {
     setText("school-name", "No school selected");
     return;

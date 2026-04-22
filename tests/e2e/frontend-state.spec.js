@@ -7,11 +7,21 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { schoolWithCuts, schoolWithAccreditation, schoolWithResearchSource } = require('./helpers');
+const {
+  schoolWithCuts,
+  schoolWithAccreditation,
+  schoolWithResearchSource,
+  unmatchedCutSchool,
+  unmatchedResearchSchool,
+  unmatchedAccreditationSchool
+} = require('./helpers');
 
 const cutsUnitid = schoolWithCuts();
 const accreditationUnitid = schoolWithAccreditation();
 const researchUnitid = schoolWithResearchSource();
+const unmatchedCutUnitid = unmatchedCutSchool();
+const unmatchedResearchUnitid = unmatchedResearchSchool();
+const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
 
 test.describe('Frontend state synchronization', () => {
   test('research pagination exposes exactly one current page and changes table rows', async ({ page }) => {
@@ -113,6 +123,24 @@ test.describe('Frontend state synchronization', () => {
       expect(href).toMatch(/^https?:\/\//);
       expect(rel || '').toContain('noopener');
       expect(rel || '').toContain('noreferrer');
+    }
+  });
+
+  test('unmatched section records do not guess cross-page institution links', async ({ page }) => {
+    const cases = [
+      { url: `/cuts.html?unitid=${unmatchedCutUnitid}`, prefix: 'cut-' },
+      { url: `/research.html?unitid=${unmatchedResearchUnitid}`, prefix: 'research-' },
+      { url: `/accreditation.html?unitid=${unmatchedAccreditationUnitid}`, prefix: 'accred-' }
+    ];
+
+    for (const item of cases) {
+      await page.goto(item.url);
+      const relatedLinks = page.locator('.related-links a');
+      const count = await relatedLinks.count();
+      for (let i = 0; i < count; i += 1) {
+        const href = await relatedLinks.nth(i).getAttribute('href');
+        expect(href || '').not.toContain(`unitid=${item.prefix}`);
+      }
     }
   });
 });

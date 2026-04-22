@@ -1,10 +1,8 @@
 (function () {
   const {
     loadJson,
-    schoolUrl,
     escapeHtml,
     renderExternalLink,
-    renderSchoolLink,
     renderPaginationButtons,
     renderSortableHeader,
     paginateItems,
@@ -16,7 +14,10 @@
     compareText,
     compareDateDesc,
     renderHistoryTable,
-    renderHtmlCell
+    renderSchoolLinkCell,
+    renderExternalLinkCell,
+    syncTabs,
+    renderRelatedInstitutionLinks
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -30,25 +31,6 @@
   function textOrEmpty(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value || "";
-  }
-
-  function syncTabs(unitid) {
-    const finances = document.getElementById("tab-finances");
-    if (finances) {
-      finances.href = unitid ? `school.html?unitid=${encodeURIComponent(unitid)}` : "index.html";
-    }
-    const cuts = document.getElementById("tab-cuts");
-    if (cuts) {
-      cuts.href = "cuts.html";
-    }
-    const accreditation = document.getElementById("tab-accreditation");
-    if (accreditation) {
-      accreditation.href = "accreditation.html";
-    }
-    const research = document.getElementById("tab-research");
-    if (research) {
-      research.href = "research.html";
-    }
   }
 
   function isPrimaryBachelorsInstitution(record) {
@@ -70,23 +52,6 @@
         ${cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : ""}
         ${source}
       </article>
-    `;
-  }
-
-  function renderInstitutionLinks(unitid, financialUnitid) {
-    if (!unitid) return "";
-    const financeLink = financialUnitid
-      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
-      : "";
-    return `
-      <div class="related-links">
-        <p><strong>Explore this institution:</strong></p>
-        <ul class="link-list">
-          ${financeLink}
-          <li>${renderSchoolLink(unitid, "Accreditation", "accreditation.html")}</li>
-          <li>${renderSchoolLink(financialUnitid || unitid, "Research Funding Cuts", "research.html")}</li>
-        </ul>
-      </div>
     `;
   }
 
@@ -136,12 +101,12 @@
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => [
-      renderHtmlCell(renderSchoolLink(cut.financial_unitid, cut.institution_name, "school.html")),
+      renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "school.html"),
       cut.state,
       cut.control_label,
       (cut.program_name || "") + formatAffectedCount(cut),
       cut.announcement_date || cut.announcement_year || "",
-      renderHtmlCell(renderExternalLink(cut.source_url, "Source"))
+      renderExternalLinkCell(cut.source_url, "Source")
     ]);
     return renderHistoryTable({
       headers: [
@@ -235,7 +200,7 @@
 
   async function init() {
     const unitid = getParam("unitid");
-    syncTabs(unitid);
+    syncTabs(unitid, { active: "cuts" });
 
     const cutsData = await loadJson("data/college_cuts.json");
     const container = document.getElementById("cuts-list");
@@ -276,13 +241,16 @@
     const scopeText = school.is_primary_tracker
       ? "This institution appears in the main tracker universe because it is a 4-year, primarily bachelor's-degree-granting school with finance data in this project."
       : "This institution appears here because it has matched college cuts data, even though it falls outside the main 4-year financial tracker universe.";
-    const financeLinkText = school.financial_unitid
-      ? `You can switch back to ${renderSchoolLink(school.financial_unitid, "financial trends", "school.html")}, open ${renderSchoolLink(unitid, "accreditation", "accreditation.html")}, or view ${renderSchoolLink(school.financial_unitid, "research funding cuts", "research.html")}.`
-      : `You can also open ${renderSchoolLink(unitid, "accreditation", "accreditation.html")} for this institution.`;
+    syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });
+    const relatedLinks = renderRelatedInstitutionLinks({
+      unitid: school.unitid,
+      financialUnitid: school.financial_unitid,
+      current: "cuts"
+    });
     const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
-      overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${escapeHtml(school.institution_name)}. ${financeLinkText}</p>`;
+      overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${escapeHtml(school.institution_name)}.</p>`;
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);
@@ -303,12 +271,13 @@
       institution_name: school.institution_name,
       state: school.state,
       control_label: school.control_label,
-      unitid: school.unitid
+      unitid: school.unitid,
+      financial_unitid: school.financial_unitid
     }));
     const renderDetailTable = () => {
       container.innerHTML = school.cuts.map(renderCutItem).join("") +
         renderCutsTable(detailRows, detailSortState) +
-        renderInstitutionLinks(school.unitid, school.financial_unitid);
+        relatedLinks;
       bindSortControls(container, detailSortState, { key: "announcement_date", direction: "desc" }, (nextSortState) => {
         detailSortState = nextSortState;
         renderDetailTable();

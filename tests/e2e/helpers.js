@@ -59,11 +59,35 @@ function schoolWithResearchSource() {
   );
 }
 
+function namespacedDataSchool(relativePath, prefix, predicate = () => true) {
+  const data = readJson(relativePath);
+  const found = Object.entries(data.schools || {}).find(([unitid, school]) =>
+    String(unitid).startsWith(prefix) && predicate(school)
+  );
+  if (!found) throw new Error(`No ${prefix} unmatched school in ${relativePath}`);
+  return found[0];
+}
+
+function unmatchedCutSchool() {
+  return namespacedDataSchool('data/college_cuts.json', 'cut-', (school) => Array.isArray(school.cuts) && school.cuts.length > 0);
+}
+
+function unmatchedResearchSchool() {
+  return namespacedDataSchool('data/research_funding.json', 'research-', (school) => Array.isArray(school.grants) && school.grants.length > 0);
+}
+
+function unmatchedAccreditationSchool() {
+  return namespacedDataSchool('data/accreditation.json', 'accred-', (school) => Array.isArray(school.actions) && school.actions.length > 0);
+}
+
 module.exports = {
   firstSchoolIndexEntry,
   searchTermFor,
   schoolWithCharts,
   schoolWithCuts,
   schoolWithAccreditation,
-  schoolWithResearchSource
+  schoolWithResearchSource,
+  unmatchedCutSchool,
+  unmatchedResearchSchool,
+  unmatchedAccreditationSchool
 };

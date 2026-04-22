@@ -43,7 +43,7 @@ All asset paths in the HTML are relative, so the files work correctly at any bas
 
 ## Recommended launch steps
 
-1. Clone or download the repo (`codex/refresh-closure-wif` branch, or `main` after merge).
+1. Clone or download the repo from `main`.
 2. Copy the static files listed above into the server's `interactives/fitness/` directory.
 3. Remove or repoint the existing redirect from `hechinger.org/interactives/fitness/` to `tuitiontracker.org/fitness/`.
 4. **Test on staging first** before cutting over the live URL.
@@ -62,7 +62,17 @@ All asset paths in the HTML are relative, so the files work correctly at any bas
 - [ ] Tuition tab link opens tuitiontracker.org in a new tab
 - [ ] Layout looks correct on mobile (375px width)
 - [ ] Methodology panels expand
+- [ ] Methodology text is final on every public page
+- [ ] Page-level `meta name="robots"` tags are switched from `noindex, nofollow, noarchive, nosnippet` to the production indexing policy
 - [ ] `robots.txt` is updated from `noindex` to `index, follow` once ready to go public
+
+### Launch Gates Still Intentional
+
+The repository currently keeps noindex directives in both `robots.txt` and the
+HTML page metadata so unfinished staging pages are not indexed. The methodology
+panels also remain editorial launch gates. Do not remove those blockers until
+the replacement methodology copy is complete and the site is cleared for public
+indexing.
 
 **Test schools to verify breadth:**
 - A private nonprofit (e.g., Columbia University, unitid=190150)

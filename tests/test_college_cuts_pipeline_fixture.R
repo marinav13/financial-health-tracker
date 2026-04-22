@@ -165,6 +165,18 @@ run_test("College Cuts join pipeline fixture", function() {
     file.path(fixture_root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
     overwrite = TRUE
   )
+  readr::write_csv(
+    data.frame(
+      institution_name_api = "Example University",
+      unitid = 100,
+      state_full = "Massachusetts",
+      tracker_institution_name = "Example University",
+      match_source = "supabase_mapping",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "supabase_institution_unitid_mapping.csv"),
+    na = ""
+  )
 
   setwd(fixture_root)
   cuts_env <- new.env(parent = globalenv())
@@ -226,7 +238,7 @@ run_test("College Cuts join pipeline fixture", function() {
 
   assert_identical(nrow(cuts_joined), 1L)
   assert_identical(as.character(cuts_joined$matched_unitid[[1]]), "100")
-  assert_identical(cuts_joined$match_method[[1]], "normalized_name_state_fallback")
+  assert_identical(cuts_joined$match_method[[1]], "supabase_mapping")
   assert_true(isTRUE(cuts_joined$in_financial_tracker[[1]]), "Fixture cut row should match into the financial tracker.")
   assert_identical(cuts_joined$tracker_institution_name[[1]], "Example University")
 

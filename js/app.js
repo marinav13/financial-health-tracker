@@ -50,6 +50,80 @@ function schoolUrl(unitid, page = getSearchTargetPage()) {
   return `${page}?unitid=${encodeURIComponent(unitid)}`;
 }
 
+function isNumericUnitid(value) {
+  return /^[0-9]+$/.test(String(value || ""));
+}
+
+function relatedPageUnitid(unitid, financialUnitid) {
+  if (isNumericUnitid(unitid)) return String(unitid);
+  if (isNumericUnitid(financialUnitid)) return String(financialUnitid);
+  return "";
+}
+
+function syncTabs(unitid = "", options = {}) {
+  const active = options.active || document.body.dataset.activeTab || (
+    document.body.dataset.searchSource || "finances"
+  );
+  const financialUnitid = options.financialUnitid || "";
+  const financeUnitid = isNumericUnitid(financialUnitid) ? financialUnitid : (isNumericUnitid(unitid) ? unitid : "");
+  const pageUnitid = relatedPageUnitid(unitid, financialUnitid);
+  const tabs = {
+    finances: document.getElementById("tab-finances"),
+    cuts: document.getElementById("tab-cuts"),
+    accreditation: document.getElementById("tab-accreditation"),
+    research: document.getElementById("tab-research")
+  };
+
+  if (tabs.finances) tabs.finances.href = financeUnitid ? schoolUrl(financeUnitid, "school.html") : "index.html";
+  if (tabs.cuts) tabs.cuts.href = pageUnitid ? schoolUrl(pageUnitid, "cuts.html") : "cuts.html";
+  if (tabs.accreditation) tabs.accreditation.href = pageUnitid ? schoolUrl(pageUnitid, "accreditation.html") : "accreditation.html";
+  if (tabs.research) tabs.research.href = pageUnitid ? schoolUrl(pageUnitid, "research.html") : "research.html";
+
+  Object.entries(tabs).forEach(([name, tab]) => {
+    if (!tab) return;
+    const isActive = name === active;
+    tab.classList.toggle("is-active", isActive);
+    if (isActive) {
+      tab.setAttribute("aria-current", "page");
+    } else {
+      tab.removeAttribute("aria-current");
+    }
+  });
+}
+
+function renderRelatedInstitutionLinks(options = {}) {
+  const {
+    unitid = "",
+    financialUnitid = "",
+    current = "",
+    include = ["finances", "cuts", "accreditation", "research"]
+  } = options;
+  const financeUnitid = isNumericUnitid(financialUnitid) ? financialUnitid : (isNumericUnitid(unitid) ? unitid : "");
+  const pageUnitid = relatedPageUnitid(unitid, financialUnitid);
+  const links = [];
+
+  if (include.includes("finances") && current !== "finances" && financeUnitid) {
+    links.push(window.TrackerApp.renderSchoolLink(financeUnitid, "Finances", "school.html"));
+  }
+  if (include.includes("cuts") && current !== "cuts" && pageUnitid) {
+    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "College Cuts", "cuts.html"));
+  }
+  if (include.includes("accreditation") && current !== "accreditation" && pageUnitid) {
+    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "Accreditation", "accreditation.html"));
+  }
+  if (include.includes("research") && current !== "research" && pageUnitid) {
+    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "Research Funding Cuts", "research.html"));
+  }
+
+  if (!links.length) return "";
+  return `
+    <div class="related-links">
+      <p><strong>Explore this institution:</strong></p>
+      <ul class="link-list">${links.map((link) => `<li>${link}</li>`).join("")}</ul>
+    </div>
+  `;
+}
+
 // ------ Search Tokenization & Matching ------
 
 // Splits query into searchable tokens (alphanumeric only, lowercase)
@@ -95,6 +169,11 @@ async function initSearch() {
   // Mark the results container as a listbox so screen readers announce
   // individual items (role="option") as selectable choices.
   results.setAttribute("role", "listbox");
+  if (!results.id) results.id = "search-results";
+  input.setAttribute("role", "combobox");
+  input.setAttribute("aria-autocomplete", "list");
+  input.setAttribute("aria-controls", results.id);
+  input.setAttribute("aria-expanded", "false");
 
   const page = getSearchTargetPage();
   const sourceKind = getSearchSourceKind();
@@ -114,6 +193,8 @@ async function initSearch() {
   function clearResults() {
     results.innerHTML = "";
     activeIndex = -1;
+    input.setAttribute("aria-expanded", "false");
+    input.removeAttribute("aria-activedescendant");
   }
 
   function getMatchText(row) {
@@ -149,6 +230,7 @@ async function initSearch() {
     buttons.forEach((btn, i) => {
       btn.setAttribute("tabindex", i === activeIndex ? "0" : "-1");
     });
+    input.setAttribute("aria-activedescendant", buttons[activeIndex].id);
     buttons[activeIndex].focus();
   }
 
@@ -190,14 +272,17 @@ async function initSearch() {
 
     if (!matches.length) {
       clearResults();
-      results.innerHTML = `<div class="result-item is-empty" role="option" tabindex="-1">No matching institutions found.</div>`;
+      input.setAttribute("aria-expanded", "true");
+      results.innerHTML = `<div id="${results.id}-empty" class="result-item is-empty" role="option" tabindex="-1">No matching institutions found.</div>`;
       return;
     }
 
     activeIndex = -1;
+    input.setAttribute("aria-expanded", "true");
+    input.removeAttribute("aria-activedescendant");
     results.setAttribute("aria-label", `${matches.length} search result${matches.length !== 1 ? "s" : ""}`);
-    results.innerHTML = matches.map((row) => `
-      <button type="button" class="result-item" role="option" data-unitid="${row.unitid}" tabindex="-1">
+    results.innerHTML = matches.map((row, idx) => `
+      <button type="button" id="${results.id}-option-${idx}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1">
         <span>${escapeHtml(getMatchText(row))}</span>
         ${getResultBadge(row) ? `<small class="small-meta">${escapeHtml(getResultBadge(row))}</small>` : ""}
       </button>
@@ -227,9 +312,19 @@ async function initSearch() {
     renderMatches(e.target.value);
   });
 
-  // Escape key dismisses the results dropdown and returns focus to the input.
+  // Arrow keys begin from the input; result buttons continue the same pattern.
   input.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!getAllResultButtons().length) renderMatches(input.value);
+      setActiveButton(activeIndex + 1);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!getAllResultButtons().length) renderMatches(input.value);
+      setActiveButton(activeIndex <= 0 ? getAllResultButtons().length - 1 : activeIndex - 1);
+    } else if (e.key === "Enter") {
+      navigateToActive();
+    } else if (e.key === "Escape") {
       clearResults();
       input.focus();
     }
@@ -254,6 +349,9 @@ initSearch().catch((error) => {
 window.TrackerApp = window.TrackerApp || {};
 window.TrackerApp.loadJson = loadJson;
 window.TrackerApp.schoolUrl = schoolUrl;
+window.TrackerApp.isNumericUnitid = isNumericUnitid;
+window.TrackerApp.syncTabs = syncTabs;
+window.TrackerApp.renderRelatedInstitutionLinks = renderRelatedInstitutionLinks;
 
 window.TrackerApp.escapeHtml = escapeHtml;
 
@@ -311,6 +409,30 @@ window.TrackerApp.renderHtmlCell = function renderHtmlCell(html) {
   return { __trackerHtml: String(html ?? "") };
 };
 
+window.TrackerApp.renderTextCell = function renderTextCell(value) {
+  return { __trackerCell: "text", value };
+};
+
+window.TrackerApp.renderSchoolLinkCell = function renderSchoolLinkCell(unitid, label, page = "school.html") {
+  return { __trackerCell: "school-link", unitid, label, page };
+};
+
+window.TrackerApp.renderExternalLinkCell = function renderExternalLinkCell(url, label = "Source") {
+  return { __trackerCell: "external-link", url, label };
+};
+
+function renderStructuredCell(cell) {
+  if (!cell || typeof cell !== "object" || !cell.__trackerCell) return null;
+  if (cell.__trackerCell === "text") return escapeHtml(cell.value);
+  if (cell.__trackerCell === "school-link") {
+    return window.TrackerApp.renderSchoolLink(cell.unitid, cell.label, cell.page);
+  }
+  if (cell.__trackerCell === "external-link") {
+    return window.TrackerApp.renderExternalLink(cell.url, cell.label);
+  }
+  return escapeHtml(cell.value);
+}
+
 window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {}) {
   const {
     headers = [],
@@ -323,9 +445,12 @@ window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {})
   const rowHtml = (rows || []).map((row) => {
     if (Array.isArray(row)) {
       return `<tr>${row.map((cell) => {
-        const cellHtml = cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
-          ? cell.__trackerHtml
-          : escapeHtml(cell);
+        const structuredCell = renderStructuredCell(cell);
+        const cellHtml = structuredCell !== null
+          ? structuredCell
+          : cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
+            ? cell.__trackerHtml
+            : escapeHtml(cell);
         return `<td>${cellHtml}</td>`;
       }).join("")}</tr>`;
     }

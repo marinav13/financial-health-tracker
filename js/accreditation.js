@@ -8,9 +8,6 @@
 (function () {
   const {
     loadJson,
-    schoolUrl,
-    renderExternalLink,
-    renderSchoolLink,
     renderPaginationButtons,
     paginateItems,
     setupPaginatedTable,
@@ -19,7 +16,10 @@
     setDataCardVisible,
     downloadRowsCsv,
     renderHistoryTable,
-    renderHtmlCell
+    renderSchoolLinkCell,
+    renderExternalLinkCell,
+    syncTabs,
+    renderRelatedInstitutionLinks
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -86,25 +86,6 @@
   function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value || "";
-  }
-
-  function syncTabs(unitid) {
-    const finances = document.getElementById("tab-finances");
-    if (finances) {
-      finances.href = unitid ? `school.html?unitid=${encodeURIComponent(unitid)}` : "index.html";
-    }
-    const cuts = document.getElementById("tab-cuts");
-    if (cuts) {
-      cuts.href = "cuts.html";
-    }
-    const accreditation = document.getElementById("tab-accreditation");
-    if (accreditation) {
-      accreditation.href = "accreditation.html";
-    }
-    const research = document.getElementById("tab-research");
-    if (research) {
-      research.href = "research.html";
-    }
   }
 
   function isPrimaryBachelorsInstitution(record) {
@@ -233,23 +214,6 @@
     return dedupeActions(Array.isArray(school?.actions) ? school.actions : []);
   }
 
-  function renderInstitutionLinks(unitid, financialUnitid) {
-    if (!unitid) return "";
-    const financeLink = financialUnitid
-      ? `<li>${renderSchoolLink(financialUnitid, "Finances", "school.html")}</li>`
-      : "";
-    return `
-      <div class="related-links">
-        <p><strong>Explore this institution:</strong></p>
-        <ul class="link-list">
-          ${financeLink}
-          <li>${renderSchoolLink(unitid, "College Cuts", "cuts.html")}</li>
-          <li>${renderSchoolLink(financialUnitid || unitid, "Research Funding Cuts", "research.html")}</li>
-        </ul>
-      </div>
-    `;
-  }
-
   // ------ Table Rendering ------
 
   function renderSchoolActions(actions, unitid, state, controlLabel, financialUnitid) {
@@ -264,7 +228,7 @@
         state || "",
         controlLabel || "",
         formatActionDate(action),
-        renderHtmlCell(renderExternalLink(getActionLink(action), "Source link"))
+        renderExternalLinkCell(getActionLink(action), "Source link")
       ]);
     return `${renderHistoryTable({
       headers: [
@@ -276,7 +240,7 @@
         "<th>Link</th>"
       ],
       rows
-    })}${renderInstitutionLinks(unitid, financialUnitid)}`;
+    })}${renderRelatedInstitutionLinks({ unitid, financialUnitid, current: "accreditation" })}`;
   }
 
   function buildDefaultActionRows(data) {
@@ -315,13 +279,13 @@
 
     const rows = pageItems
       .map((action) => [
-        linkNames ? renderHtmlCell(renderSchoolLink(action.unitid, action.institution_name, "school.html")) : action.institution_name || "",
+        linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "school.html") : action.institution_name || "",
         expandAccreditors(action.accreditor || ""),
         action.action_label || action.action_type || "",
         action.state || "",
         action.control_label || "",
         action.action_date || action.action_year || "",
-        renderHtmlCell(renderExternalLink(action.source_url, "Source link"))
+        renderExternalLinkCell(action.source_url, "Source link")
       ]);
 
     return `
@@ -413,7 +377,7 @@
 
   async function init() {
     const unitid = getParam("unitid");
-    syncTabs(unitid);
+    syncTabs(unitid, { active: "accreditation" });
 
     const data = await loadJson("data/accreditation.json");
     document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
@@ -460,6 +424,7 @@
     }
 
     document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
+    syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
     document.getElementById("accreditation-school-name").classList.remove("is-hidden");
     setText("accreditation-school-location", [school.city, school.state].filter(Boolean).join(", "));
     setText("accreditation-school-control", school.control_label || "");

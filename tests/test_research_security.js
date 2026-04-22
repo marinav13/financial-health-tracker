@@ -146,14 +146,26 @@ async function renderResearchFixture() {
         compareText: (a, b) => String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" }),
         compareDateDesc: (a, b) => String(b || "").localeCompare(String(a || "")),
         renderHtmlCell: (html) => ({ __trackerHtml: String(html ?? "") }),
+        renderTextCell: (value) => ({ __trackerCell: "text", value }),
+        renderSchoolLinkCell: (unitid, label, page = "school.html") => ({ __trackerCell: "school-link", unitid, label, page }),
+        renderExternalLinkCell: (url, label = "Source") => ({ __trackerCell: "external-link", url, label }),
         renderHistoryTable: ({ headers = [], rows = [] } = {}) => `
           <div class="history-table-wrap">
             <table class="history-table">
               <thead><tr>${headers.join("")}</tr></thead>
               <tbody>${rows.map((row) => `<tr>${row.map((cell) => {
-                const cellHtml = cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
-                  ? cell.__trackerHtml
-                  : escapeHtml(cell);
+                let cellHtml = "";
+                if (cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")) {
+                  cellHtml = cell.__trackerHtml;
+                } else if (cell && typeof cell === "object" && cell.__trackerCell === "text") {
+                  cellHtml = escapeHtml(cell.value);
+                } else if (cell && typeof cell === "object" && cell.__trackerCell === "school-link") {
+                  cellHtml = context.window.TrackerApp.renderSchoolLink(cell.unitid, cell.label, cell.page);
+                } else if (cell && typeof cell === "object" && cell.__trackerCell === "external-link") {
+                  cellHtml = context.window.TrackerApp.renderExternalLink(cell.url, cell.label);
+                } else {
+                  cellHtml = escapeHtml(cell);
+                }
                 return `<td>${cellHtml}</td>`;
               }).join("")}</tr>`).join("")}</tbody>
             </table>
@@ -168,7 +180,9 @@ async function renderResearchFixture() {
         },
         filterByInstitution: (items) => items,
         setDataCardVisible: () => {},
-        downloadRowsCsv: () => {}
+        downloadRowsCsv: () => {},
+        syncTabs: () => {},
+        renderRelatedInstitutionLinks: () => ""
       }
     }
   };

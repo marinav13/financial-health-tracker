@@ -108,6 +108,16 @@ def parse_args():
             "downloading from Google Sheets."
         ),
     )
+    parser.add_argument(
+        "--output-root",
+        default=str(REPO_ROOT),
+        help=(
+            "Root folder for generated data/ and data_pipelines/ outputs. "
+            "Defaults to the repository root. Tests using --from-dir should "
+            "write to a temporary output root so fixture data cannot overwrite "
+            "committed site data."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -209,7 +219,7 @@ def normalize_int(value):
         return None
 
 
-def build_closure_status_json(rows, source_label):
+def build_closure_status_json(rows, source_label, status_json):
     schools = {}
     skipped = 0
     for row in rows:
@@ -238,23 +248,28 @@ def build_closure_status_json(rows, source_label):
     if skipped > 0:
         print(f"  {skipped} closure rows skipped due to missing unitid", file=sys.stderr)
 
-    STATUS_JSON.parent.mkdir(parents=True, exist_ok=True)
-    with STATUS_JSON.open("w", encoding="utf-8") as handle:
-        json.dump(
-            {
-                "source_file": source_label,
-                "as_of_date": date.today().isoformat(),
-                "schools": schools,
-            },
-            handle,
-            indent=2,
-            ensure_ascii=False,
-        )
+    close_years = [
+        record["close_year"]
+        for record in schools.values()
+        if isinstance(record.get("close_year"), int)
+    ]
+    payload = {
+        "source_file": source_label,
+        "as_of_date": date.today().isoformat(),
+        "schools": schools,
+    }
+    if close_years:
+        payload["min_close_year"] = min(close_years)
+        payload["max_close_year"] = max(close_years)
+
+    status_json.parent.mkdir(parents=True, exist_ok=True)
+    with status_json.open("w", encoding="utf-8") as handle:
+        json.dump(payload, handle, indent=2, ensure_ascii=False)
 
 
-def write_summary(source_label, row_counts):
-    SUMMARY_JSON.parent.mkdir(parents=True, exist_ok=True)
-    with SUMMARY_JSON.open("w", encoding="utf-8") as handle:
+def write_summary(source_label, row_counts, summary_json):
+    summary_json.parent.mkdir(parents=True, exist_ok=True)
+    with summary_json.open("w", encoding="utf-8") as handle:
         json.dump(
             {
                 "source": source_label,
@@ -268,15 +283,27 @@ def write_summary(source_label, row_counts):
 
 def main():
     args = parse_args()
-    
+
+    output_root = Path(args.output_root).expanduser().resolve()
+    derived_dir = output_root / "data_pipelines" / "federal_closure" / "derived"
+    status_json = output_root / "data" / "closure_status_by_unitid.json"
+    summary_json = derived_dir / "closure_pipeline_summary.json"
+
+    from_dir = Path(args.from_dir).expanduser().resolve() if args.from_dir else None
+    if from_dir and output_root == REPO_ROOT:
+        raise RuntimeError(
+            "Offline --from-dir imports must pass --output-root pointing to a "
+            "temporary or staging folder. This prevents fixture CSVs from "
+            "overwriting committed production closure data."
+        )
+
     # Check if committed closure JSON is stale (>30 days old)
-    if STATUS_JSON.exists():
+    if status_json.exists():
         import time
-        file_age_days = (time.time() - STATUS_JSON.stat().st_mtime) / 86400
+        file_age_days = (time.time() - status_json.stat().st_mtime) / 86400
         if file_age_days > 30:
             print(f"WARNING: closure_status_by_unitid.json is {file_age_days:.0f} days old — source data may be stale", file=sys.stderr)
-    
-    from_dir = Path(args.from_dir).expanduser().resolve() if args.from_dir else None
+
     if from_dir and not from_dir.exists():
         raise FileNotFoundError(
             f"The --from-dir folder does not exist:\n{from_dir}"
@@ -285,7 +312,7 @@ def main():
     sheet_id = None if from_dir else extract_sheet_id(args.sheet)
     source_label = str(from_dir) if from_dir else f"google_sheet:{sheet_id}"
 
-    DERIVED_DIR.mkdir(parents=True, exist_ok=True)
+    derived_dir.mkdir(parents=True, exist_ok=True)
     row_counts = {}
     status_rows = []
 
@@ -302,21 +329,22 @@ def main():
             export["required_columns"],
         )
 
-        export["output"].write_text(csv_text, encoding="utf-8", newline="")
+        output_path = derived_dir / f"{tab_name}.csv"
+        output_path.write_text(csv_text, encoding="utf-8", newline="")
         row_counts[tab_name] = len(rows)
 
         if tab_name == "closure_status_tracker_matches":
             status_rows = rows
 
-    build_closure_status_json(status_rows, source_label)
-    write_summary(source_label, row_counts)
+    build_closure_status_json(status_rows, source_label, status_json)
+    write_summary(source_label, row_counts, summary_json)
 
     print(
         json.dumps(
             {
                 "source": source_label,
                 "row_counts": row_counts,
-                "status_json": str(STATUS_JSON),
+                "status_json": str(status_json),
             },
             indent=2,
         )

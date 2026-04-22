@@ -22,6 +22,7 @@
   const OTHER_PAGE_SIZE = 5;
   const CLOSURE_PAGE_SIZE = 10;
   const MIN_DEFAULT_YEAR = 2024;
+  const MIN_CLOSURE_YEAR = 2024;
 
   function getParam(name) {
     const params = new URLSearchParams(window.location.search);
@@ -294,7 +295,7 @@
     });
   }
 
-  function setupClosurePagination(container, items, pageSize = CLOSURE_PAGE_SIZE, emptyMessage = "No tracker-universe closures from 2024-2026 are available.", downloadButtonId = null, downloadFilename = "college-closures.csv", searchInput = null) {
+  function setupClosurePagination(container, items, pageSize = CLOSURE_PAGE_SIZE, emptyMessage = `No tracker-universe closures from ${MIN_CLOSURE_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-closures.csv", searchInput = null) {
     if (!container) return;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
     setupPaginatedTable({
@@ -334,8 +335,27 @@
     return /4-year or above/i.test(category) || /primarily baccalaureate or above/i.test(category);
   }
 
+  function getClosureYearRange(closureData) {
+    const explicitMin = Number(closureData?.min_close_year || "");
+    const explicitMax = Number(closureData?.max_close_year || "");
+    const years = Object.values(closureData?.schools || {})
+      .map((closure) => Number(closure.close_year || ""))
+      .filter(Number.isFinite);
+    const minYear = Number.isFinite(explicitMin) ? explicitMin : MIN_CLOSURE_YEAR;
+    const maxYear = Number.isFinite(explicitMax) ? explicitMax : (years.length ? Math.max(...years) : new Date().getFullYear());
+    return {
+      min: Math.max(MIN_CLOSURE_YEAR, minYear),
+      max: Math.max(MIN_CLOSURE_YEAR, maxYear)
+    };
+  }
+
+  function formatYearRange(range) {
+    return range.max > range.min ? `${range.min}-${range.max}` : String(range.min);
+  }
+
   function buildRecentClosures(closureData, schoolsIndex) {
     const schoolLookup = new Map((schoolsIndex || []).map((school) => [String(school.unitid || ""), school]));
+    const range = getClosureYearRange(closureData);
     return Object.values(closureData?.schools || {})
       .map((closure) => {
         const school = schoolLookup.get(String(closure.unitid || "")) || {};
@@ -350,7 +370,7 @@
       })
       .filter((closure) => {
         const year = Number(closure.close_year || "");
-        return Number.isFinite(year) && year >= 2024 && year <= 2026 && isFourYearInstitution(closure);
+        return Number.isFinite(year) && year >= range.min && year <= range.max && isFourYearInstitution(closure);
       });
   }
 
@@ -375,17 +395,18 @@
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       const closures = buildRecentClosures(closureData, schoolsIndex);
+      const closureYearRange = formatYearRange(getClosureYearRange(closureData));
       setSectionVisible("cuts-other-list", true);
       setSectionVisible("cuts-closures-list", false);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
-      if (closuresTitle) closuresTitle.textContent = "Closures at 4-year institutions, 2024-2026";
+      if (closuresTitle) closuresTitle.textContent = `Closures at 4-year institutions, ${closureYearRange}`;
       const primaryFilter = document.getElementById("cuts-filter");
       const otherFilter = document.getElementById("cuts-other-filter");
       const closuresFilter = document.getElementById("cuts-closures-filter");
       setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
       setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
-      setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, "No tracker-universe closures from 2024-2026 are available.", "cuts-closures-download", "cuts-closures.csv", closuresFilter);
+      setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, `No tracker-universe closures from ${closureYearRange} are available.`, "cuts-closures-download", "cuts-closures.csv", closuresFilter);
       return;
     }
 

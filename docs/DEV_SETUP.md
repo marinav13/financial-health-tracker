@@ -58,7 +58,7 @@ Pass `--sheet "YOUR_URL"` to `import_closure_sheet.py` only if you want to overr
 To test the import without using Google Sheets:
 
 ```bash
-python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports
+python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports --output-root path/to/staging_output
 ```
 
 ## Node.js and e2e tests

@@ -66,7 +66,7 @@ python scripts/build_federal_composite_scores.py
 To test the closure import without Google Sheets:
 
 ```bash
-python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports
+python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports --output-root path/to/staging_output
 ```
 
 ### 4. Build Site Exports

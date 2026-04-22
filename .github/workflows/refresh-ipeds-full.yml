@@ -11,6 +11,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
+  CLOSURE_SHEET_URL: "https://docs.google.com/spreadsheets/d/1TyVZlzfoD1sr0jID6Rt421-bN5wS_9JjWnCBofmbhi8/edit?gid=0#gid=0"
 
 permissions:
   contents: write
@@ -32,6 +33,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Install Python packages
+        shell: bash
+        timeout-minutes: 5
+        run: pip install -r requirements.txt
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -114,6 +120,26 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_grant_witness_join.R
+
+      - name: Import closure outputs from published Google Sheet
+        shell: bash
+        timeout-minutes: 10
+        continue-on-error: true
+        run: >
+          python ./scripts/import_closure_sheet.py
+          --sheet "${CLOSURE_SHEET_URL}"
+
+      - name: Rebuild HCM lookup
+        shell: bash
+        timeout-minutes: 10
+        run: >
+          python ./scripts/build_hcm_level2.py
+
+      - name: Rebuild federal composite score lookup
+        shell: bash
+        timeout-minutes: 10
+        run: >
+          python ./scripts/build_federal_composite_scores.py
 
       - name: Rebuild static web exports
         shell: bash

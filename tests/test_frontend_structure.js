@@ -125,7 +125,8 @@ let failed = 0;
 const failures = [];
 
 function check(name, pattern, content, message) {
-  if (pattern.test(content)) {
+  const passedCheck = typeof pattern === "function" ? pattern(content) : pattern.test(content);
+  if (passedCheck) {
     console.log(`  PASS: ${message}`);
     passed++;
   } else {
@@ -184,6 +185,32 @@ if (fs.existsSync(appJsPath)) {
 } else {
   console.log("  FAIL: js/app.js not found");
   failures.push("app.js: File not found");
+  failed++;
+}
+
+console.log("\n\njs/accreditation.js:");
+const accreditationJsPath = path.join(ROOT, "js", "accreditation.js");
+if (fs.existsSync(accreditationJsPath)) {
+  const accreditationJs = fs.readFileSync(accreditationJsPath, "utf8");
+  check("accreditation.js", /function showLoadError/, accreditationJs, "user-visible accreditation load failure handler");
+  check("accreditation.js", /Accreditation actions could not be loaded/, accreditationJs, "accreditation load failure message");
+  check("accreditation.js", /init\(\)\.catch\(showLoadError\)/, accreditationJs, "accreditation init uses visible error handler");
+} else {
+  console.log("  FAIL: js/accreditation.js not found");
+  failures.push("accreditation.js: File not found");
+  failed++;
+}
+
+console.log("\n\njs/cuts.js:");
+const cutsJsPath = path.join(ROOT, "js", "cuts.js");
+if (fs.existsSync(cutsJsPath)) {
+  const cutsJs = fs.readFileSync(cutsJsPath, "utf8");
+  check("cuts.js", /function getClosureYearRange/, cutsJs, "data-driven closure year range helper");
+  check("cuts.js", /formatYearRange\(getClosureYearRange\(closureData\)\)/, cutsJs, "closure title uses data-derived range");
+  check("cuts.js", (content) => !/2024-2026/.test(content), cutsJs, "no hard-coded 2024-2026 closure copy");
+} else {
+  console.log("  FAIL: js/cuts.js not found");
+  failures.push("cuts.js: File not found");
   failed++;
 }
 

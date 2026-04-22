@@ -484,7 +484,32 @@
     document.getElementById("accreditation-status").innerHTML = renderSchoolActions(getEffectiveActions(school), school.unitid, school.state, school.control_label, school.financial_unitid);
   }
 
-  init().catch((error) => {
+  function showLoadError(error) {
     console.error(error);
-  });
+    const heading = document.getElementById("accreditation-school-name");
+    const mainStatus = document.getElementById("accreditation-status");
+    const otherStatus = document.getElementById("accreditation-other-status");
+    const limitations = document.getElementById("accreditation-limitations");
+    const mainDownload = document.getElementById("accreditation-table-download");
+    const otherDownload = document.getElementById("accreditation-other-download");
+
+    if (heading) {
+      heading.textContent = "Accreditation data unavailable";
+      heading.classList.remove("is-hidden");
+    }
+    if (mainStatus) {
+      mainStatus.innerHTML = renderEmpty("Accreditation actions could not be loaded. Please try again later.");
+    }
+    if (otherStatus) {
+      otherStatus.innerHTML = "";
+    }
+    if (limitations) {
+      limitations.innerHTML = renderEmpty("Methodology details could not be loaded with the accreditation data.");
+    }
+    if (mainDownload) mainDownload.classList.add("is-hidden");
+    if (otherDownload) otherDownload.classList.add("is-hidden");
+    setSectionVisible("accreditation-other-status", false);
+  }
+
+  init().catch(showLoadError);
 })();

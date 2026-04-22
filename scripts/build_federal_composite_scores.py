@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 from pathlib import Path
 
 
@@ -17,7 +18,16 @@ SCORE_COLUMN = " Composite Score for Institution's  Fiscal Year Ending Between 0
 # The raw IPEDS export already carries OPEID alongside UNITID, so we can map
 # the federal workbook onto our school pages without rebuilding the full IPEDS
 # pipeline.
-IPEDS_RAW = ROOT / "ipeds" / "raw" / "ipeds_financial_health_raw_2014_2024.csv"
+def resolve_ipeds_raw_path(start_year=None, end_year=None, explicit_path=None):
+    explicit = explicit_path or os.getenv("IPEDS_RAW_PATH")
+    if explicit:
+        return Path(explicit).expanduser().resolve()
+    start = str(start_year or os.getenv("IPEDS_START_YEAR", "2014"))
+    end = str(end_year or os.getenv("IPEDS_END_YEAR", "2024"))
+    return ROOT / "ipeds" / "raw" / f"ipeds_financial_health_raw_{start}_{end}.csv"
+
+
+IPEDS_RAW = resolve_ipeds_raw_path()
 
 # The school page only needs a lightweight lookup keyed by UNITID.
 OUTPUT_JSON = ROOT / "data" / "federal_composite_scores_by_unitid.json"

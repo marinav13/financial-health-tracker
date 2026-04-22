@@ -11,6 +11,9 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
+const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
+const HCM_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "hcm2_by_unitid.json"), "utf8"));
+const FEDERAL_COMPOSITE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "federal_composite_scores_by_unitid.json"), "utf8"));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -65,6 +68,23 @@ run("sample school chart series spans the committed IPEDS range", () => {
   assert(years.length >= 10, `Expected at least 10 revenue years, got ${years.length}`);
   assert(years[0] < latestYear, `Expected first revenue year to predate latest year ${latestYear}, got ${years[0]}`);
   assert(years[years.length - 1] === latestYear, `Expected latest revenue year to be ${latestYear}, got ${years[years.length - 1]}`);
+});
+
+run("closure status export is not a fixture artifact", () => {
+  const source = String(CLOSURE_STATUS.source_file || CLOSURE_STATUS.source || "");
+  const schools = CLOSURE_STATUS.schools || {};
+  const names = Object.values(schools).map((school) => String(school.institution_name || ""));
+  assert(!/closure-fixture|\/tmp|\\tmp/i.test(source), `Closure status source looks like a fixture path: ${source}`);
+  assert(Object.keys(schools).length > 2, `Closure status export is suspiciously small: ${Object.keys(schools).length} rows`);
+  assert(Number.isFinite(Number(CLOSURE_STATUS.min_close_year)), "Closure status export is missing min_close_year");
+  assert(Number.isFinite(Number(CLOSURE_STATUS.max_close_year)), "Closure status export is missing max_close_year");
+  assert(!names.includes("Example State University"), "Closure status export contains fixture school Example State University");
+  assert(!names.includes("Sample College"), "Closure status export contains fixture school Sample College");
+});
+
+run("source-versioned side exports include source version labels", () => {
+  assert(HCM_STATUS.source_version_label, "HCM export is missing source_version_label");
+  assert(FEDERAL_COMPOSITE.source_version_label, "Federal composite export is missing source_version_label");
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

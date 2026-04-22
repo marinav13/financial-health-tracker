@@ -70,16 +70,33 @@ def make_fixture_dir():
     return fixture
 
 
+def make_output_root():
+    """Create an isolated output root with data/ and data_pipelines/ below it."""
+    return Path(tempfile.mkdtemp(prefix="closure-output-"))
+
+
+def run_import(fixture, output_root):
+    return subprocess.run(
+        [
+            sys.executable,
+            str(SCRIPT),
+            "--from-dir",
+            str(fixture),
+            "--output-root",
+            str(output_root),
+        ],
+        capture_output=True,
+        text=True,
+        cwd=str(REPO_ROOT),
+    )
+
+
 def test_script_exits_zero_with_valid_fixture():
     """Script should exit 0 when given valid fixture CSVs."""
     fixture = make_fixture_dir()
+    output_root = make_output_root()
     try:
-        result = subprocess.run(
-            [sys.executable, str(SCRIPT), "--from-dir", str(fixture)],
-            capture_output=True,
-            text=True,
-            cwd=str(REPO_ROOT),
-        )
+        result = run_import(fixture, output_root)
         print(f"\nstdout:\n{result.stdout}")
         if result.returncode != 0:
             print(f"stderr:\n{result.stderr}")
@@ -88,10 +105,11 @@ def test_script_exits_zero_with_valid_fixture():
         )
     finally:
         shutil.rmtree(fixture, ignore_errors=True)
+        shutil.rmtree(output_root, ignore_errors=True)
 
 
-def test_closure_status_json_structure():
-    """The closure_status_by_unitid.json should have correct structure."""
+def test_from_dir_requires_isolated_output_root():
+    """Fixture imports should not be allowed to write to committed data paths."""
     fixture = make_fixture_dir()
     try:
         result = subprocess.run(
@@ -100,10 +118,23 @@ def test_closure_status_json_structure():
             text=True,
             cwd=str(REPO_ROOT),
         )
+        assert result.returncode != 0, "Expected --from-dir without --output-root to fail"
+        assert "temporary or staging folder" in result.stderr, (
+            f"Expected fixture-safety error. Got: {result.stderr}"
+        )
+    finally:
+        shutil.rmtree(fixture, ignore_errors=True)
+
+
+def test_closure_status_json_structure():
+    """The closure_status_by_unitid.json should have correct structure."""
+    fixture = make_fixture_dir()
+    output_root = make_output_root()
+    try:
+        result = run_import(fixture, output_root)
         assert result.returncode == 0, f"Script failed: {result.stderr}"
 
-        # Output is written to REPO_ROOT / data / closure_status_by_unitid.json
-        status_json = REPO_ROOT / "data" / "closure_status_by_unitid.json"
+        status_json = output_root / "data" / "closure_status_by_unitid.json"
         assert status_json.exists(), (
             f"closure_status_by_unitid.json was not created at {status_json}"
         )
@@ -114,6 +145,8 @@ def test_closure_status_json_structure():
         # Top-level keys must include source_file, as_of_date, schools
         assert "source_file" in data, "JSON should have 'source_file' key"
         assert "as_of_date" in data, "JSON should have 'as_of_date' key"
+        assert data["min_close_year"] == 2024
+        assert data["max_close_year"] == 2025
         assert "schools" in data, "JSON should have 'schools' key"
         assert isinstance(data["schools"], dict), "'schools' should be a dict (unitid-keyed)"
 
@@ -132,26 +165,19 @@ def test_closure_status_json_structure():
         # Rows with no unitid should be silently skipped (not crash)
         # The script handles empty/missing unitid gracefully.
 
-        # Clean up the generated file so repeated runs are idempotent
-        status_json.unlink(missing_ok=True)
     finally:
         shutil.rmtree(fixture, ignore_errors=True)
-        status_json = REPO_ROOT / "data" / "closure_status_by_unitid.json"
-        status_json.unlink(missing_ok=True)
+        shutil.rmtree(output_root, ignore_errors=True)
 
 
 def test_pipeline_summary_json_structure():
     """The closure_pipeline_summary.json should have correct structure."""
     fixture = make_fixture_dir()
-    derived_dir = REPO_ROOT / "data_pipelines" / "federal_closure" / "derived"
+    output_root = make_output_root()
+    derived_dir = output_root / "data_pipelines" / "federal_closure" / "derived"
     summary_json = derived_dir / "closure_pipeline_summary.json"
     try:
-        result = subprocess.run(
-            [sys.executable, str(SCRIPT), "--from-dir", str(fixture)],
-            capture_output=True,
-            text=True,
-            cwd=str(REPO_ROOT),
-        )
+        result = run_import(fixture, output_root)
         assert result.returncode == 0, f"Script failed: {result.stderr}"
         assert summary_json.exists(), (
             f"closure_pipeline_summary.json was not created at {summary_json}"
@@ -169,14 +195,15 @@ def test_pipeline_summary_json_structure():
         assert "closure_status_tracker_matches" in data["row_counts"]
         assert data["row_counts"]["closure_status_tracker_matches"] == 2
 
-        summary_json.unlink(missing_ok=True)
     finally:
         shutil.rmtree(fixture, ignore_errors=True)
+        shutil.rmtree(output_root, ignore_errors=True)
 
 
 def test_exits_nonzero_on_missing_required_column():
     """Script should exit non-zero if a required column is absent."""
     fixture = Path(tempfile.mkdtemp(prefix="closure-bad-fixture-"))
+    output_root = make_output_root()
     try:
         # Write a CSV missing required columns
         (fixture / "running_closures.csv").write_text(
@@ -207,7 +234,14 @@ def test_exits_nonzero_on_missing_required_column():
         )
 
         result = subprocess.run(
-            [sys.executable, str(SCRIPT), "--from-dir", str(fixture)],
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--from-dir",
+                str(fixture),
+                "--output-root",
+                str(output_root),
+            ],
             capture_output=True,
             text=True,
             cwd=str(REPO_ROOT),
@@ -222,11 +256,13 @@ def test_exits_nonzero_on_missing_required_column():
         )
     finally:
         shutil.rmtree(fixture, ignore_errors=True)
+        shutil.rmtree(output_root, ignore_errors=True)
 
 
 def test_exits_nonzero_on_missing_tab_file():
     """Script should exit non-zero when a required tab CSV is absent."""
     fixture = Path(tempfile.mkdtemp(prefix="closure-missing-tab-"))
+    output_root = make_output_root()
     try:
         # Only write some tabs, not all
         (fixture / "running_closures.csv").write_text(
@@ -235,7 +271,14 @@ def test_exits_nonzero_on_missing_tab_file():
             encoding="utf-8",
         )
         result = subprocess.run(
-            [sys.executable, str(SCRIPT), "--from-dir", str(fixture)],
+            [
+                sys.executable,
+                str(SCRIPT),
+                "--from-dir",
+                str(fixture),
+                "--output-root",
+                str(output_root),
+            ],
             capture_output=True,
             text=True,
             cwd=str(REPO_ROOT),
@@ -248,11 +291,13 @@ def test_exits_nonzero_on_missing_tab_file():
         )
     finally:
         shutil.rmtree(fixture, ignore_errors=True)
+        shutil.rmtree(output_root, ignore_errors=True)
 
 
 if __name__ == "__main__":
     tests = [
         test_script_exits_zero_with_valid_fixture,
+        test_from_dir_requires_isolated_output_root,
         test_closure_status_json_structure,
         test_pipeline_summary_json_structure,
         test_exits_nonzero_on_missing_required_column,

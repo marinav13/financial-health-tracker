@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
@@ -49,7 +50,16 @@ SOURCE_FILES = [
     },
 ]
 
-IPEDS_RAW = ROOT / "ipeds" / "raw" / "ipeds_financial_health_raw_2014_2024.csv"
+def resolve_ipeds_raw_path(start_year=None, end_year=None, explicit_path=None):
+    explicit = explicit_path or os.getenv("IPEDS_RAW_PATH")
+    if explicit:
+        return Path(explicit).expanduser().resolve()
+    start = str(start_year or os.getenv("IPEDS_START_YEAR", "2014"))
+    end = str(end_year or os.getenv("IPEDS_END_YEAR", "2024"))
+    return ROOT / "ipeds" / "raw" / f"ipeds_financial_health_raw_{start}_{end}.csv"
+
+
+IPEDS_RAW = resolve_ipeds_raw_path()
 TRACKER_INDEX = ROOT / "data" / "schools_index.json"
 
 OUTPUT_DIR = DATA_PIPELINES / "federal_hcm"

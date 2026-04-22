@@ -58,6 +58,14 @@ run("weekly refresh treats closure sheet import as optional external input", () 
   assert(block.includes("--sheet"), "Expected workflow to pass explicit sheet URL");
 });
 
+run("full refresh treats closure sheet import as optional but validates committed fallback", () => {
+  const block = stepBlock(FULL, "Import closure outputs from published Google Sheet");
+  assert(block.includes("continue-on-error: true"), "Expected full refresh to tolerate closure sheet outages");
+  assert(block.includes("--sheet"), "Expected workflow to pass explicit sheet URL");
+  const validateBlock = stepBlock(FULL, "Validate rebuilt artifacts");
+  assert(validateBlock.includes("node ./tests/test_data_exports.js"), "Expected fallback closure data to be validated before commit");
+});
+
 run("weekly external-data steps have bounded timeouts", () => {
   const names = [
     "Refresh accreditation actions with cache fallback",
@@ -85,6 +93,9 @@ run("full refresh external and build steps have bounded timeouts", () => {
     "Build unfiltered research join for USAspending analysis",
     "Refresh USAspending reinstatement analysis",
     "Refresh research cuts with Proposal G filter",
+    "Import closure outputs from published Google Sheet",
+    "Rebuild HCM lookup",
+    "Rebuild federal composite score lookup",
     "Rebuild static web exports",
     "Validate rebuilt artifacts",
     "Commit and push updated data"
@@ -144,6 +155,22 @@ run("refresh workflows validate rebuilt artifacts before committing", () => {
     assert(block.includes("node ./tests/test_data_exports.js"), "Expected static data export validation");
     assert(block.includes("python ./tests/test_import_supabase.py"), "Expected Supabase mapping validation");
   });
+});
+
+run("full refresh rebuilds side data lookups before static web exports", () => {
+  const rebuildIndex = FULL.indexOf("- name: Rebuild static web exports");
+  [
+    "Import closure outputs from published Google Sheet",
+    "Rebuild HCM lookup",
+    "Rebuild federal composite score lookup"
+  ].forEach((name) => {
+    const stepIndex = FULL.indexOf(`- name: ${name}`);
+    assert(stepIndex >= 0, `Expected full refresh step: ${name}`);
+    assert(stepIndex < rebuildIndex, `Expected ${name} before static web exports`);
+    const block = stepBlock(FULL, name);
+    assert(block.includes("timeout-minutes:"), `Expected timeout-minutes for ${name}`);
+  });
+  assert(FULL.includes("pip install -r requirements.txt"), "Expected Python dependencies before HCM/composite rebuilds");
 });
 
 run("full refresh IPEDS year range is workflow-configurable", () => {

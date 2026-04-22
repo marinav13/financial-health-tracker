@@ -24,6 +24,7 @@ spec.loader.exec_module(mod)
 
 normalize_opeid = mod.normalize_opeid
 map_sector_label = mod.map_sector_label
+resolve_ipeds_raw_path = mod.resolve_ipeds_raw_path
 first_missing_snapshot = mod.first_missing_snapshot
 build_histories = mod.build_histories
 make_transition_rows = mod.make_transition_rows
@@ -97,6 +98,16 @@ class TestMapSectorLabel(unittest.TestCase):
 
     def test_empty_string_returns_empty_string(self):
         self.assertEqual(map_sector_label(""), "")
+
+
+class TestIpedsRawPath(unittest.TestCase):
+    def test_future_end_year_changes_default_raw_filename(self):
+        path = resolve_ipeds_raw_path(start_year="2014", end_year="2026")
+        self.assertEqual(path.name, "ipeds_financial_health_raw_2014_2026.csv")
+
+    def test_explicit_path_overrides_years(self):
+        path = resolve_ipeds_raw_path(start_year="2014", end_year="2026", explicit_path="tmp/custom.csv")
+        self.assertEqual(path.name, "custom.csv")
 
 
 class TestFirstMissingSnapshot(unittest.TestCase):

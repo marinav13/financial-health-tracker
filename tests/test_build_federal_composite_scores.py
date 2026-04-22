@@ -28,6 +28,7 @@ normalize_opeid = mod.normalize_opeid
 parse_float = mod.parse_float
 composite_status = mod.composite_status
 composite_status_label = mod.composite_status_label
+resolve_ipeds_raw_path = mod.resolve_ipeds_raw_path
 
 
 class TestNormalizeOpeid(unittest.TestCase):
@@ -76,6 +77,16 @@ class TestParseFloat(unittest.TestCase):
 
     def test_none_returns_none(self):
         self.assertIsNone(parse_float(None))
+
+
+class TestIpedsRawPath(unittest.TestCase):
+    def test_future_end_year_changes_default_raw_filename(self):
+        path = resolve_ipeds_raw_path(start_year="2014", end_year="2026")
+        self.assertEqual(path.name, "ipeds_financial_health_raw_2014_2026.csv")
+
+    def test_explicit_path_overrides_years(self):
+        path = resolve_ipeds_raw_path(start_year="2014", end_year="2026", explicit_path="tmp/custom.csv")
+        self.assertEqual(path.name, "custom.csv")
 
 
 class TestCompositeStatus(unittest.TestCase):

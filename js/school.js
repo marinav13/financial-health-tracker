@@ -164,6 +164,69 @@ function setClosestMetricHidden(id, hidden) {
   metric.classList.toggle("is-hidden", Boolean(hidden));
 }
 
+function hasIndexedRelatedRecord(record, countField) {
+  if (!record) return false;
+  const count = asNumber(record[countField]);
+  return count === null ? true : count > 0;
+}
+
+function findRelatedIndexRecord(index, unitid, countField) {
+  const numericUnitid = String(unitid || "");
+  if (!numericUnitid) return null;
+  const direct = index?.[numericUnitid];
+  if (hasIndexedRelatedRecord(direct, countField)) return direct;
+  return Object.values(index || {}).find((record) =>
+    String(record?.financial_unitid || "") === numericUnitid &&
+    hasIndexedRelatedRecord(record, countField)
+  ) || null;
+}
+
+function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
+  const section = document.getElementById("school-related-section");
+  const container = document.getElementById("school-related-pages");
+  if (!section || !container) return;
+
+  const relatedPages = [
+    {
+      label: "College Cuts",
+      page: "cuts.html",
+      record: findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
+    },
+    {
+      label: "Accreditation",
+      page: "accreditation.html",
+      record: findRelatedIndexRecord(relatedIndexes.accreditation, unitid, "action_count")
+    },
+    {
+      label: "Research Funding Cuts",
+      page: "research.html",
+      record: findRelatedIndexRecord(relatedIndexes.research, unitid, "total_disrupted_grants")
+    }
+  ].filter((relatedPage) => relatedPage.record);
+
+  if (!relatedPages.length) {
+    container.textContent = "";
+    setSectionVisibility("school-related-section", false);
+    return;
+  }
+
+  const copy = document.createElement("p");
+  copy.textContent = "Browse related institution profiles in this tracker.";
+  const list = document.createElement("ul");
+  list.className = "link-list";
+  relatedPages.forEach((relatedPage) => {
+    const relatedUnitid = relatedPage.record.unitid || unitid;
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`;
+    link.textContent = relatedPage.label;
+    item.appendChild(link);
+    list.appendChild(item);
+  });
+  container.replaceChildren(copy, list);
+  setSectionVisibility("school-related-section", true);
+}
+
 function buildIntlSentence(summary, series, latestDataYear) {
   const all = asNumber(summary.pct_international_all);
   const ug = asNumber(summary.pct_international_undergraduate);
@@ -457,11 +520,14 @@ async function init() {
     return;
   }
 
-  const [school, compositeLookup, hcmLookup, closureLookup] = await Promise.all([
+  const [school, compositeLookup, hcmLookup, closureLookup, cutsIndex, accreditationIndex, researchIndex] = await Promise.all([
     loadJson(`data/schools/${unitid}.json`),
     loadJsonOrNull("data/federal_composite_scores_by_unitid.json"),
     loadJsonOrNull("data/hcm2_by_unitid.json"),
-    SHOW_CLOSURE_FLAGS ? loadJsonOrNull("data/closure_status_by_unitid.json") : Promise.resolve(null)
+    SHOW_CLOSURE_FLAGS ? loadJsonOrNull("data/closure_status_by_unitid.json") : Promise.resolve(null),
+    loadJsonOrNull("data/college_cuts_index.json"),
+    loadJsonOrNull("data/accreditation_index.json"),
+    loadJsonOrNull("data/research_funding_index.json")
   ]);
   const p = school.profile;
   const s = school.summary;
@@ -483,6 +549,12 @@ async function init() {
   if (downloadButton) {
     downloadButton.onclick = () => downloadSchoolCsv(school);
   }
+
+  renderSchoolRelatedPages(unitid, {
+    cuts: cutsIndex,
+    accreditation: accreditationIndex,
+    research: researchIndex
+  });
 
   setText("school-name", p.institution_name);
   const closureSentence = buildClosureSentence(closureRecord);

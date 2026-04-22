@@ -9,11 +9,20 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { firstSchoolIndexEntry, searchTermFor, schoolWithCharts } = require('./helpers');
+const {
+  firstSchoolIndexEntry,
+  searchTermFor,
+  schoolWithCharts,
+  schoolWithRelatedPages,
+  schoolWithoutRelatedPages,
+  relatedPagesForSchool
+} = require('./helpers');
 
 const searchTarget = firstSchoolIndexEntry();
 const searchTerm = searchTermFor(searchTarget);
 const chartSchoolUnitid = schoolWithCharts();
+const relatedSchoolUnitid = schoolWithRelatedPages();
+const noRelatedSchoolUnitid = schoolWithoutRelatedPages();
 
 test.describe('School navigation', () => {
   test('navigates from search to school page', async ({ page }) => {
@@ -98,5 +107,30 @@ test.describe('School navigation', () => {
     await page.locator('#tab-cuts').click();
     await expect(page).toHaveURL(/\/cuts\.html$/);
     await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
+  });
+
+  test('school related pages link only datasets with records', async ({ page }) => {
+    const expectedLinks = relatedPagesForSchool(relatedSchoolUnitid);
+    expect(expectedLinks.length).toBeGreaterThan(0);
+
+    await page.goto(`/school.html?unitid=${relatedSchoolUnitid}`);
+    const section = page.locator('#school-related-section');
+    await expect(section).toBeVisible();
+    await expect(section).not.toHaveAttribute('aria-hidden', 'true');
+
+    const links = section.locator('a');
+    await expect(links).toHaveCount(expectedLinks.length);
+    for (let index = 0; index < expectedLinks.length; index += 1) {
+      await expect(links.nth(index)).toHaveText(expectedLinks[index].label);
+      await expect(links.nth(index)).toHaveAttribute('href', expectedLinks[index].href);
+    }
+  });
+
+  test('school related pages section is hidden when no side records exist', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${noRelatedSchoolUnitid}`);
+    const section = page.locator('#school-related-section');
+    await expect(section).toBeHidden();
+    await expect(section).toHaveAttribute('aria-hidden', 'true');
+    await expect(section.locator('a')).toHaveCount(0);
   });
 });

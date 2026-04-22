@@ -66,6 +66,74 @@ function schoolWithClosureStatus() {
   return found;
 }
 
+function indexedRelatedRecord(index, unitid, countField) {
+  const direct = index[String(unitid)];
+  const hasRecord = (record) => {
+    if (!record) return false;
+    const count = Number(record[countField]);
+    return Number.isFinite(count) ? count > 0 : true;
+  };
+  if (hasRecord(direct)) return direct;
+  return Object.values(index).find((record) =>
+    String(record.financial_unitid || '') === String(unitid) && hasRecord(record)
+  );
+}
+
+function relatedPagesForSchool(unitid) {
+  const specs = [
+    {
+      label: 'College Cuts',
+      page: 'cuts.html',
+      index: readJson('data/college_cuts_index.json'),
+      countField: 'cut_count'
+    },
+    {
+      label: 'Accreditation',
+      page: 'accreditation.html',
+      index: readJson('data/accreditation_index.json'),
+      countField: 'action_count'
+    },
+    {
+      label: 'Research Funding Cuts',
+      page: 'research.html',
+      index: readJson('data/research_funding_index.json'),
+      countField: 'total_disrupted_grants'
+    }
+  ];
+  return specs
+    .map((spec) => {
+      const record = indexedRelatedRecord(spec.index, unitid, spec.countField);
+      if (!record) return null;
+      return {
+        label: spec.label,
+        href: `${spec.page}?unitid=${encodeURIComponent(record.unitid || unitid)}`
+      };
+    })
+    .filter(Boolean);
+}
+
+function schoolWithRelatedPages() {
+  const schools = readJson('data/schools_index.json');
+  const found = schools.find((school) =>
+    school.unitid &&
+    fs.existsSync(path.join(ROOT, 'data', 'schools', `${school.unitid}.json`)) &&
+    relatedPagesForSchool(school.unitid).length > 0
+  );
+  if (!found) throw new Error('No school with related side pages available for e2e tests');
+  return found.unitid;
+}
+
+function schoolWithoutRelatedPages() {
+  const schools = readJson('data/schools_index.json');
+  const found = schools.find((school) =>
+    school.unitid &&
+    fs.existsSync(path.join(ROOT, 'data', 'schools', `${school.unitid}.json`)) &&
+    relatedPagesForSchool(school.unitid).length === 0
+  );
+  if (!found) throw new Error('No school without related side pages available for e2e tests');
+  return found.unitid;
+}
+
 function firstDataSchool(relativePath, predicate) {
   const data = readJson(relativePath);
   const entries = Object.entries(data.schools || {});
@@ -115,6 +183,9 @@ module.exports = {
   schoolWithCharts,
   schoolWithoutEndowment,
   schoolWithClosureStatus,
+  schoolWithRelatedPages,
+  schoolWithoutRelatedPages,
+  relatedPagesForSchool,
   schoolWithCuts,
   schoolWithAccreditation,
   schoolWithResearchSource,

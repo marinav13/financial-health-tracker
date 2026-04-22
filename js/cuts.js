@@ -103,18 +103,18 @@
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
 const rows = items.map((cut) => [
       renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
+      (cut.program_name || "") + formatAffectedCount(cut),
       cut.state,
       cut.control_label,
-      (cut.program_name || "") + formatAffectedCount(cut),
       cut.announcement_date || cut.announcement_year || ""
     ]);
-return renderHistoryTable({
+    return renderHistoryTable({
       ariaLabel: "College cuts by institution",
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
+        "<th>College program or staffing cut</th>",
         renderSortableHeader("state", sortState, "State"),
         "<th>Sector</th>",
-        "<th>College program or staffing cut</th>",
         renderSortableHeader("announcement_date", sortState, "Date")
       ],
       rows

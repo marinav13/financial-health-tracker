@@ -1,0 +1,41 @@
+name: Deployed Pages Parity
+
+on:
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deployed-pages-parity:
+    name: Deployed GitHub Pages parity check
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Wait briefly for Pages CDN propagation
+        run: sleep 30
+
+      - name: Compare deployed Pages with committed artifacts
+        env:
+          PAGES_BASE_URL: https://marinav13.github.io/financial-health-tracker
+          PAGES_PARITY_ATTEMPTS: "6"
+          PAGES_PARITY_RETRY_MS: "10000"
+        run: npm run test:pages

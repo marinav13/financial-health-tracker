@@ -5,7 +5,9 @@
   "scripts": {
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
-    "test:smoke": "node tests/test_frontend_structure.js && node tests/test_js_charts.js && node tests/test_security_helpers.js && node tests/test_research_security.js && node tests/test_accreditation_rendering.js && node tests/test_data_exports.js && node tests/test_refresh_workflows.js",
+    "test:lint": "node tests/test_static_analysis.js",
+    "test:smoke": "npm run test:lint && node tests/test_frontend_structure.js && node tests/test_js_charts.js && node tests/test_security_helpers.js && node tests/test_research_security.js && node tests/test_accreditation_rendering.js && node tests/test_data_exports.js && node tests/test_refresh_workflows.js",
+    "test:pages": "node tests/test_deployed_pages_parity.js",
     "test:a11y": "pa11y-ci --config .pa11yci.json"
   },
   "devDependencies": {

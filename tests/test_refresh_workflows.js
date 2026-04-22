@@ -13,6 +13,8 @@ const WEEKLY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-
 const FULL = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-ipeds-full.yml"), "utf8");
 const TESTS = fs.readFileSync(path.join(ROOT, ".github", "workflows", "tests.yml"), "utf8");
 const ACCESSIBILITY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "accessibility.yml"), "utf8");
+const PAGES_PARITY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "pages-parity.yml"), "utf8");
+const PACKAGE_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -183,10 +185,23 @@ run("full refresh IPEDS year range is workflow-configurable", () => {
 });
 
 run("Node CI workflows use deterministic npm ci installs", () => {
-  [TESTS, ACCESSIBILITY].forEach((workflow) => {
+  [TESTS, ACCESSIBILITY, PAGES_PARITY].forEach((workflow) => {
     assert(workflow.includes("npm ci"), "Expected npm ci in Node workflow");
     assert(!workflow.includes("npm install"), "Expected npm install to be absent from Node workflow");
   });
+});
+
+run("JS smoke tests include lightweight static analysis", () => {
+  assert(PACKAGE_JSON.scripts["test:lint"] === "node tests/test_static_analysis.js", "Expected test:lint script");
+  assert(PACKAGE_JSON.scripts["test:smoke"].startsWith("npm run test:lint &&"), "Expected test:smoke to run static analysis first");
+});
+
+run("deployed Pages parity workflow compares live site to committed artifacts", () => {
+  assert(PAGES_PARITY.includes('workflows: ["pages build and deployment"]'), "Expected workflow_run trigger after Pages deployment");
+  assert(PAGES_PARITY.includes("workflow_dispatch:"), "Expected manual parity trigger");
+  assert(PAGES_PARITY.includes("npm run test:pages"), "Expected deployed parity npm script");
+  assert(PAGES_PARITY.includes("PAGES_BASE_URL: https://marinav13.github.io/financial-health-tracker"), "Expected explicit GitHub Pages URL");
+  assert(PACKAGE_JSON.scripts["test:pages"] === "node tests/test_deployed_pages_parity.js", "Expected test:pages script");
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

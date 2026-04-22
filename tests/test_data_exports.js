@@ -11,6 +11,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
+const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
 const HCM_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "hcm2_by_unitid.json"), "utf8"));
 const FEDERAL_COMPOSITE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "federal_composite_scores_by_unitid.json"), "utf8"));
@@ -85,6 +86,17 @@ run("closure status export is not a fixture artifact", () => {
 run("source-versioned side exports include source version labels", () => {
   assert(HCM_STATUS.source_version_label, "HCM export is missing source_version_label");
   assert(FEDERAL_COMPOSITE.source_version_label, "Federal composite export is missing source_version_label");
+});
+
+run("research export excludes Dartmouth award with zero live remaining funding", () => {
+  const dartmouth = RESEARCH_FUNDING.schools?.["182670"];
+  assert(dartmouth, "Dartmouth College research record is missing");
+  const staleAward = (dartmouth.grants || []).find((grant) =>
+    /F31DA060690|ASST_NON_F31DA060690_7529/.test(
+      `${grant.grant_id || ""} ${grant.grant_id_core || ""} ${grant.source_url || ""}`
+    )
+  );
+  assert(!staleAward, "Dartmouth award F31DA060690 should not appear after live USAspending zeroes out the remaining amount");
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

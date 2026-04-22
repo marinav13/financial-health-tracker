@@ -12,6 +12,7 @@
 #   - Financial tracker CSV
 #   - Grant Witness CSV files (nih, nsf, epa, samhsa, cdc terminations)
 #   - Manual inclusion/override lists (optional)
+#   - Manual amount corrections from live USAspending spot checks (optional)
 #   - USAspending sensitivity filter
 #
 # OUTPUTS:
@@ -66,6 +67,10 @@ main <- function(cli_args = NULL) {
   manual_match_overrides_path <- get_arg_value(
     "--manual-match-overrides",
     file.path(getwd(), "data_pipelines", "grant_witness", "manual_match_overrides.csv")
+  )
+  amount_corrections_path <- get_arg_value(
+    "--amount-corrections",
+    file.path(getwd(), "data_pipelines", "grant_witness", "manual_amount_corrections.csv")
   )
   usaspending_filter_path <- get_arg_value(
     "--usaspending-filter",
@@ -286,6 +291,52 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  amount_corrections <- if (file.exists(amount_corrections_path)) {
+    ac_raw <- readr::read_csv(
+      amount_corrections_path,
+      col_types = readr::cols(.default = readr::col_character()),
+      progress = FALSE
+    )
+    if (!"award_id_string" %in% names(ac_raw)) {
+      stop("Amount corrections file must include award_id_string: ", amount_corrections_path)
+    }
+
+    duplicate_corrections <- ac_raw |>
+      dplyr::mutate(award_id_string = trimws(as.character(award_id_string))) |>
+      dplyr::filter(!is.na(award_id_string), award_id_string != "") |>
+      dplyr::count(award_id_string, name = "n") |>
+      dplyr::filter(n > 1)
+    if (nrow(duplicate_corrections) > 0) {
+      stop(
+        "Duplicate award_id_string values in amount corrections file: ",
+        paste(duplicate_corrections$award_id_string, collapse = ", ")
+      )
+    }
+
+    pick_correction_col <- function(df, col) {
+      if (col %in% names(df)) as.character(df[[col]]) else rep(NA_character_, nrow(df))
+    }
+
+    ac_raw |>
+      dplyr::transmute(
+        award_id_string = trimws(as.character(award_id_string)),
+        correction_award_value = suppressWarnings(as.numeric(pick_correction_col(ac_raw, "award_value"))),
+        correction_award_outlaid = suppressWarnings(as.numeric(pick_correction_col(ac_raw, "award_outlaid"))),
+        correction_award_remaining = suppressWarnings(as.numeric(pick_correction_col(ac_raw, "award_remaining"))),
+        correction_remaining_field = dplyr::na_if(trimws(pick_correction_col(ac_raw, "remaining_field")), "")
+      ) |>
+      dplyr::filter(!is.na(award_id_string), award_id_string != "")
+  } else {
+    data.frame(
+      award_id_string = character(),
+      correction_award_value = numeric(),
+      correction_award_outlaid = numeric(),
+      correction_award_remaining = numeric(),
+      correction_remaining_field = character(),
+      stringsAsFactors = FALSE
+    )
+  }
+
   # -----------------------------------------------------------------------
   # HELPER: Read CSV with UTF-8 encoding
   read_csv_utf8 <- function(path) {
@@ -477,6 +528,23 @@ main <- function(cli_args = NULL) {
       match_method,
       in_financial_tracker
     )
+
+  if (nrow(amount_corrections) > 0) {
+    grants_joined <- grants_joined |>
+      dplyr::left_join(amount_corrections, by = "award_id_string") |>
+      dplyr::mutate(
+        award_value = dplyr::coalesce(correction_award_value, award_value),
+        award_outlaid = dplyr::coalesce(correction_award_outlaid, award_outlaid),
+        award_remaining = dplyr::coalesce(correction_award_remaining, award_remaining),
+        remaining_field = dplyr::coalesce(correction_remaining_field, remaining_field)
+      ) |>
+      dplyr::select(
+        -correction_award_value,
+        -correction_award_outlaid,
+        -correction_award_remaining,
+        -correction_remaining_field
+      )
+  }
 
   # -----------------------------------------------------------------------
   # DEDUPLICATION: Keep one best row per award/institution pair

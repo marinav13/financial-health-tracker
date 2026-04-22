@@ -50,28 +50,33 @@ run_test("Grant Witness join pipeline fixture", function() {
   readr::write_csv(financial_df, financial_input, na = "")
 
   nih_df <- data.frame(
-    full_award_number = c("NIH-001", "NIH-002"),
-    core_award_number = c("NIH-001", "NIH-002"),
-    status = c("terminated", "terminated"),
-    org_name = c("Example University", "Sample College"),
-    org_state = c("MA", "MA"),
-    org_city = c("Boston", "Springfield"),
-    org_type = c("University", "College"),
-    org_traits = c(NA, NA),
-    project_title = c("Immune Response Study", "Campus Health Study"),
-    abstract_text = c("Research abstract", "More research"),
-    targeted_start_date = c("2024-01-01", "2024-02-01"),
-    targeted_end_date = c("2025-12-31", "2025-12-31"),
-    termination_date = c("2025-01-15", "2025-01-20"),
-    reinstated_est_date = c(NA, NA),
-    total_award = c(1000000, 500000),
-    total_estimated_outlays = c(400000, 100000),
-    total_estimated_remaining = c(600000, 400000),
+    full_award_number = c("NIH-001", "NIH-002", "NIH-003"),
+    core_award_number = c("NIH-001", "NIH-002", "NIH-003"),
+    status = c("terminated", "terminated", "terminated"),
+    org_name = c("Example University", "Sample College", "Sample College"),
+    org_state = c("MA", "MA", "MA"),
+    org_city = c("Boston", "Springfield", "Springfield"),
+    org_type = c("University", "College", "College"),
+    org_traits = c(NA, NA, NA),
+    project_title = c("Immune Response Study", "Campus Health Study", "Corrected Zero Study"),
+    abstract_text = c("Research abstract", "More research", "Stale amount"),
+    targeted_start_date = c("2024-01-01", "2024-02-01", "2024-03-01"),
+    targeted_end_date = c("2025-12-31", "2025-12-31", "2025-12-31"),
+    termination_date = c("2025-01-15", "2025-01-20", "2025-02-01"),
+    reinstated_est_date = c(NA, NA, NA),
+    total_award = c(1000000, 500000, 48974),
+    total_estimated_outlays = c(400000, 100000, 48973.15),
+    total_estimated_remaining = c(600000, 400000, 0.85),
     usaspending_url = c(
       "https://www.usaspending.gov/award/AWARD1",
-      "https://www.usaspending.gov/award/AWARD2"
+      "https://www.usaspending.gov/award/AWARD2",
+      "https://www.usaspending.gov/award/AWARD3"
     ),
-    reporter_url = c("https://grant-witness.us/nih/1", "https://grant-witness.us/nih/2"),
+    reporter_url = c(
+      "https://grant-witness.us/nih/1",
+      "https://grant-witness.us/nih/2",
+      "https://grant-witness.us/nih/3"
+    ),
     stringsAsFactors = FALSE
   )
   readr::write_csv(nih_df, file.path(cache_dir, "nih_terminations.csv"), na = "")
@@ -105,6 +110,21 @@ run_test("Grant Witness join pipeline fixture", function() {
     risky_filter_path,
     na = ""
   )
+  amount_corrections_path <- file.path(
+    fixture_root, "data_pipelines", "grant_witness", "manual_amount_corrections.csv"
+  )
+  readr::write_csv(
+    data.frame(
+      award_id_string = "AWARD3",
+      award_value = 48973.15,
+      award_outlaid = 48973.15,
+      award_remaining = 0,
+      remaining_field = "usaspending_live_total_obligation_minus_total_outlay",
+      stringsAsFactors = FALSE
+    ),
+    amount_corrections_path,
+    na = ""
+  )
 
   setwd(fixture_root)
   join_env <- new.env(parent = globalenv())
@@ -113,6 +133,7 @@ run_test("Grant Witness join pipeline fixture", function() {
     "--financial-input", financial_input,
     "--output-prefix", output_prefix,
     "--cache-dir", cache_dir,
+    "--amount-corrections", amount_corrections_path,
     "--usaspending-filter", risky_filter_path,
     "--skip-download"
   ))
@@ -132,6 +153,7 @@ run_test("Grant Witness join pipeline fixture", function() {
   assert_equal(nrow(excluded_risky), 1L, "Fixture should exclude exactly one risky continuation grant.")
   assert_true("AWARD1" %in% excluded_risky$award_id_string, "Excluded risky file should contain AWARD1.")
   assert_true(!("AWARD1" %in% grants_joined$award_id_string), "Joined grants should not retain filtered award AWARD1.")
+  assert_true(!("AWARD3" %in% grants_joined$award_id_string), "Joined grants should not retain amount-corrected zero award AWARD3.")
   assert_true("AWARD2" %in% grants_joined$award_id_string, "Joined grants should retain non-filtered award AWARD2.")
   assert_true(nrow(higher_ed_summary) == 1L, "Higher-ed summary should contain one retained institution.")
   assert_true("Sample College" %in% higher_ed_summary$display_name, "Retained summary row should be Sample College.")

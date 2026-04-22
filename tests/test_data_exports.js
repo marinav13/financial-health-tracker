@@ -11,6 +11,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
+const ACCREDITATION = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "accreditation.json"), "utf8"));
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
 const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding_index.json"), "utf8"));
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
@@ -88,6 +89,21 @@ run("closure status export is not a fixture artifact", () => {
 run("source-versioned side exports include source version labels", () => {
   assert(HCM_STATUS.source_version_label, "HCM export is missing source_version_label");
   assert(FEDERAL_COMPOSITE.source_version_label, "Federal composite export is missing source_version_label");
+});
+
+run("matched research and accreditation main-table records keep sector fields", () => {
+  for (const [label, exportData] of [
+    ["research", RESEARCH_FUNDING],
+    ["accreditation", ACCREDITATION]
+  ]) {
+    const primarySchools = Object.values(exportData.schools || {})
+      .filter((school) => school.is_primary_tracker === true);
+    const missingSector = primarySchools
+      .filter((school) => !String(school.control_label || "").trim())
+      .map((school) => school.institution_name || school.unitid);
+    assert(primarySchools.length > 0, `${label} export has no primary tracker records`);
+    assert(missingSector.length === 0, `${label} primary tracker records missing sector: ${missingSector.slice(0, 10).join(", ")}`);
+  }
 });
 
 run("research export excludes Dartmouth award with zero live remaining funding", () => {

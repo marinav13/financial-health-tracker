@@ -58,7 +58,13 @@
 
     <section class="data-card is-hidden" aria-hidden="true">
       <h2 id="research-other-section-title">Research funding cuts at other higher-ed institutions</h2>
-      <button id="research-other-download" class="download-button" type="button">Download Displayed Table</button>
+      <div class="table-toolbar">
+        <div class="table-toolbar-actions">
+          <label class="table-filter-label" for="research-other-filter">Institution:</label>
+          <input id="research-other-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+          <button id="research-other-download" class="download-button" type="button">Download Displayed Table</button>
+        </div>
+      </div>
       <div id="research-other-list" aria-live="polite"></div>
     </section>
 

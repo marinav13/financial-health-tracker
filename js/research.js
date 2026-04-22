@@ -395,6 +395,7 @@
 const title = document.getElementById("research-section-title");
     const otherTitle = document.getElementById("research-other-section-title");
     const searchInput = document.getElementById("research-filter");
+    const otherSearchInput = document.getElementById("research-other-filter");
     const searchLabel = document.querySelector('label[for="research-filter"]');
     if (searchLabel) searchLabel.classList.toggle("is-hidden", !!unitid);
     if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
@@ -430,7 +431,7 @@ const title = document.getElementById("research-section-title");
           "research-other-download",
           "research-funding-other.csv",
           "Research funding pages for other higher-ed institutions",
-          null,
+          otherSearchInput,
           "Research funding cuts at other higher-ed institutions"
         );
       };

@@ -400,11 +400,14 @@ function isRecentDisplayAction(action) {
       // Landing page: show all recent actions split by institution type
       document.getElementById("accreditation-school-name").textContent = "Accreditation actions";
       document.getElementById("accreditation-school-name").classList.add("is-hidden");
+      const primaryFilter = document.getElementById("accreditation-filter");
+      const primaryFilterLabel = document.querySelector('label[for="accreditation-filter"]');
+      if (primaryFilter) primaryFilter.classList.remove("is-hidden");
+      if (primaryFilterLabel) primaryFilterLabel.classList.remove("is-hidden");
       const allActions = buildDefaultActionRows(data);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
       setSectionVisible("accreditation-other-status", true);
-      const primaryFilter = document.getElementById("accreditation-filter");
       const otherFilter = document.getElementById("accreditation-other-filter");
       setupPagination(
         document.getElementById("accreditation-status"),
@@ -449,12 +452,29 @@ document.getElementById("accreditation-school-name").textContent = school.instit
     const otherStatus = document.getElementById("accreditation-other-status");
     const otherTitle = document.getElementById("accreditation-other-title");
     const mainDownload = document.getElementById("accreditation-table-download");
-    const otherDownload = document.getElementById("accreditation-other-download");
-const mainToolbar = document.getElementById("accreditation-filter")?.closest(".table-toolbar");
-    if (mainToolbar) mainToolbar.classList.add("is-hidden");
+    const primaryFilter = document.getElementById("accreditation-filter");
+    const primaryFilterLabel = document.querySelector('label[for="accreditation-filter"]');
+    if (primaryFilter) primaryFilter.classList.add("is-hidden");
+    if (primaryFilterLabel) primaryFilterLabel.classList.add("is-hidden");
     if (otherStatus) otherStatus.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
-    document.getElementById("accreditation-status").innerHTML = renderSchoolActions(getEffectiveActions(school), school.unitid, school.state, school.control_label, school.financial_unitid);
+    const schoolActions = getEffectiveActions(school).filter(isRecentDisplayAction);
+    document.getElementById("accreditation-status").innerHTML = renderSchoolActions(schoolActions, school.unitid, school.state, school.control_label, school.financial_unitid);
+    if (mainDownload) {
+      mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
+      mainDownload.onclick = () => downloadRowsCsv(
+        `${String(school.institution_name || "accreditation").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-accreditation.csv`,
+        ["Accreditor", "Action", "State", "Sector", "Date", "Source"],
+        schoolActions.map((action) => [
+          expandAccreditors(action.accreditor || ""),
+          action.action_label || action.action_label_raw || action.action_type || "",
+          school.state || "",
+          school.control_label || "",
+          formatActionDate(action),
+          getActionLink(action)
+        ])
+      );
+    }
   }
 
   function showLoadError(error) {

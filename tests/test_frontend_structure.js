@@ -110,6 +110,7 @@ const CSS_CHECKS = [
   { pattern: /\.table-filter-label/, message: ".table-filter-label class" },
   { pattern: /\.top-tab:focus-visible/, message: ".top-tab:focus-visible" },
   { pattern: /\.result-item:focus-visible/, message: ".result-item:focus-visible" },
+  { pattern: /\.pagination-button:focus-visible/, message: ".pagination-button:focus-visible" },
   { pattern: /\.sort-button:focus-visible/, message: ".sort-button:focus-visible" },
   { pattern: /\.filter-button:focus-visible/, message: ".filter-button:focus-visible" },
   { pattern: /\.skip-link/, message: ".skip-link class" },

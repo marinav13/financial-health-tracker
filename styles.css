@@ -564,6 +564,11 @@ body {
   border-color: rgba(217, 164, 65, 0.45);
 }
 
+.pagination-button:focus-visible {
+  outline: 2px solid var(--status-blue);
+  outline-offset: 2px;
+}
+
 .pagination-button.is-active {
   background: var(--yellow);
   border-color: rgba(217, 164, 65, 0.75);

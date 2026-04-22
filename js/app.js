@@ -595,7 +595,7 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
     defaultSortState = initialSortState,
     downloadButton = null,
     downloadRows = null,
-    focusSelector = ".pagination"
+    focusSelector = '.pagination-button[aria-current="page"]'
   } = options || {};
 
   if (!container || typeof renderPage !== "function") return null;
@@ -603,12 +603,16 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
   let currentPage = 1;
   let sortState = initialSortState ? { ...initialSortState } : null;
   const sourceItems = Array.isArray(items) ? items : [];
+  let shouldFocusAfterRender = false;
 
   const render = () => {
     const filteredItems = filterItems(sourceItems, searchInput?.value || "");
     const sortedItems = sortItems(filteredItems, sortState);
     container.innerHTML = renderPage(sortedItems, currentPage, pageSize, sortState);
-    window.TrackerApp.focusAfterRender(container, focusSelector);
+    if (shouldFocusAfterRender) {
+      window.TrackerApp.focusAfterRender(container, focusSelector);
+      shouldFocusAfterRender = false;
+    }
 
     const pageState = window.TrackerApp.paginateItems(sortedItems, currentPage, pageSize);
     currentPage = pageState.currentPage;
@@ -620,6 +624,7 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
 
     window.TrackerApp.bindPaginationControls(container, currentPage, (nextPage) => {
       currentPage = nextPage;
+      shouldFocusAfterRender = true;
       render();
     });
 
@@ -627,6 +632,7 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
       window.TrackerApp.bindSortControls(container, sortState, defaultSortState, (nextSortState) => {
         sortState = nextSortState;
         currentPage = 1;
+        shouldFocusAfterRender = true;
         render();
       });
     }

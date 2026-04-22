@@ -420,13 +420,15 @@ body {
 }
 
 .secondary-button {
-  background: var(--cyan);
-  color: #111;
-  border: 1px solid var(--cyan-dark);
+  background: var(--paper);
+  color: var(--status-blue);
+  border: 2px solid var(--status-blue);
 }
 
 .secondary-button:hover {
-  background: #25c4ff;
+  background: #eef5ff;
+  color: var(--status-blue-dark);
+  border-color: var(--status-blue-dark);
 }
 
 .school-meta {

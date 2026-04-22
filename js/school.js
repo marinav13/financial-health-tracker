@@ -58,6 +58,11 @@ function setText(id, value) {
   if (node) node.textContent = value ?? "No data";
 }
 
+function setHtml(id, value) {
+  const node = document.getElementById(id);
+  if (node) node.innerHTML = value ?? "No data";
+}
+
 async function loadJsonOrNull(path) {
   try {
     return await loadJson(path);
@@ -670,7 +675,7 @@ async function init() {
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
   const enrollmentFlag = deriveEnrollmentFlag(s, series);
-setText(
+setHtml(
     "enrollment-total",
     latestEnrollment ? `Total enrollment for ${latestEnrollment.year}: <strong>${fmtNumber(latestEnrollment.value, 0)}</strong>` : ""
   );

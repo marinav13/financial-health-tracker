@@ -8,6 +8,8 @@
   --yellow: #f7d564;
   --yellow-soft: #fae9a8;
   --gold: #d9a441;
+  --cyan: #00aeef;
+  --cyan-dark: #008fc5;
   --status-blue: #005ab5;
   --status-blue-dark: #00478f;
   --status-orange: #dc3220;
@@ -339,13 +341,13 @@ body {
 }
 
 .secondary-button {
-  background: #fff;
+  background: var(--cyan);
   color: #111;
-  border: 1px solid rgba(17, 17, 17, 0.55);
+  border: 1px solid var(--cyan-dark);
 }
 
 .secondary-button:hover {
-  background: #f8f8f8;
+  background: #25c4ff;
 }
 
 .school-meta {
@@ -382,6 +384,7 @@ body {
   margin: var(--space-2) auto;
   max-width: 620px;
   font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-style: italic;
   line-height: 1.3;
   color: #333;
 }
@@ -427,7 +430,7 @@ body {
 
 .metric-strip.positive .metric-question,
 .metric-strip.positive .metric-statement {
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .metric-strip.positive .metric-answer {
@@ -445,6 +448,7 @@ body {
 
 .metric-strip .metric-question {
   font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 10px;
   color: inherit;
 }
@@ -462,6 +466,7 @@ body {
 
 .metric-strip .metric-statement {
   font-size: clamp(1rem, 2vw, 1.15rem);
+  font-weight: 700;
   line-height: 1.25;
   color: inherit;
 }

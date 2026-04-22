@@ -136,8 +136,47 @@
     return !Number.isNaN(year) && year >= MIN_ACTION_YEAR && year <= TODAY.getFullYear();
   }
 
-  function isDisplayAction(action) {
+function isDisplayAction(action) {
     return action?.display_action !== false;
+  }
+
+  // Normalize action text for matching
+  function normalizeActionText(text) {
+    return String(text || "").toLowerCase().replace(/\s+/g, " ").trim();
+  }
+
+  // Complex regex patterns to identify significant actions (warnings, probations, monitoring, closures)
+  // while filtering out minor actions like substantive changes or program additions
+  function isTrackedAction(action) {
+    const type = normalizeActionText(action.action_type);
+    const label = normalizeActionText(action.action_label || action.action_label_raw);
+    const notes = normalizeActionText(action.notes);
+    const haystack = `${type} ${label} ${notes}`;
+    const contentOnly = `${label} ${notes}`;
+    const excludedPattern = /substantive change|program addition/;
+    if (excludedPattern.test(haystack)) return false;
+
+    const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
+    const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-out plan|removed from membership/;
+    const requiredReportPattern = /require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report/;
+    const standaloneLowSignalPattern = /^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$/;
+    const hasSpecialVisit = /special visit/.test(haystack);
+    const hasSanctionDecision = statusActionPattern.test(contentOnly) || closureActionPattern.test(contentOnly) || requiredReportPattern.test(contentOnly);
+
+    if (hasSpecialVisit && !hasSanctionDecision) return false;
+
+    if (statusActionPattern.test(contentOnly) || closureActionPattern.test(contentOnly) || requiredReportPattern.test(contentOnly)) {
+      return true;
+    }
+    if (standaloneLowSignalPattern.test(label)) return false;
+
+    return ["warning", "probation", "monitoring", "notice"].includes(type) ||
+      /removed from membership|teach-?out|institutional closure/.test(haystack);
+  }
+
+  function isRecentTrackedAction(action) {
+    const year = getActionYear(action);
+    return isTrackedAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
   }
 
   function formatActionDate(action) {
@@ -163,9 +202,9 @@
     return STATE_ABBR_TO_NAME[match[1]] || "";
   }
 
-  function isRecentDisplayAction(action) {
+function isRecentDisplayAction(action) {
     const year = getActionYear(action);
-    return isDisplayAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
+    return isDisplayAction(action) && isRecentTrackedAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
   }
 
   // Deduplication key: accreditor + action label + date + URL

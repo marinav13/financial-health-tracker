@@ -295,7 +295,7 @@ function isRecentDisplayAction(action) {
 
     const rows = pageItems
       .map((action) => [
-        linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "school.html") : action.institution_name || "",
+        linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
         action.action_label || action.action_type || "",
         action.state || "",
         action.control_label || "",

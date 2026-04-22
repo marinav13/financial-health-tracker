@@ -37,6 +37,25 @@ function schoolWithCharts() {
   throw new Error('No school with chart series available for e2e tests');
 }
 
+function hasMeaningfulSeries(series, field) {
+  return (series[field] || []).some((point) => {
+    const value = Number(point && point.value);
+    return Number.isFinite(value) && value !== 0;
+  });
+}
+
+function schoolWithoutEndowment() {
+  const schoolsDir = path.join(ROOT, 'data', 'schools');
+  const files = fs.readdirSync(schoolsDir).filter((file) => file.endsWith('.json')).sort();
+  for (const file of files) {
+    const school = JSON.parse(fs.readFileSync(path.join(schoolsDir, file), 'utf8'));
+    if (!hasMeaningfulSeries(school.series || {}, 'endowment_value_adjusted')) {
+      return school.unitid || path.basename(file, '.json');
+    }
+  }
+  throw new Error('No school without endowment series available for e2e tests');
+}
+
 function firstDataSchool(relativePath, predicate) {
   const data = readJson(relativePath);
   const entries = Object.entries(data.schools || {});
@@ -84,6 +103,7 @@ module.exports = {
   firstSchoolIndexEntry,
   searchTermFor,
   schoolWithCharts,
+  schoolWithoutEndowment,
   schoolWithCuts,
   schoolWithAccreditation,
   schoolWithResearchSource,

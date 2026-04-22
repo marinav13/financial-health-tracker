@@ -175,9 +175,12 @@ if (fs.existsSync(appJsPath)) {
   check("app.js", /aria-expanded/, appJs, "search input aria-expanded state");
   check("app.js", /aria-activedescendant/, appJs, "search input aria-activedescendant state");
   check("app.js", /syncTabs/, appJs, "shared tab synchronization helper");
+  check("app.js", /isPrimaryTrackerInstitution/, appJs, "shared primary tracker classification helper");
+  check("app.js", /normalizeSearchText/, appJs, "shared diacritic-normalized search helper");
   check("app.js", /renderRelatedInstitutionLinks/, appJs, "shared related institution links helper");
   check("app.js", /renderSchoolLinkCell/, appJs, "structured school link table cell helper");
   check("app.js", /renderExternalLinkCell/, appJs, "structured external link table cell helper");
+  check("app.js", /ariaLabel/, appJs, "accessible table label support");
   check("app.js", /setActiveButton/, appJs, "roving tabindex: setActiveButton function");
   check("app.js", /ArrowDown/, appJs, "arrow key navigation: ArrowDown handler");
   check("app.js", /Escape/, appJs, "Escape key closes results");
@@ -189,6 +192,19 @@ if (fs.existsSync(appJsPath)) {
 } else {
   console.log("  FAIL: js/app.js not found");
   failures.push("app.js: File not found");
+  failed++;
+}
+
+console.log("\n\njs/school.js:");
+const schoolJsPath = path.join(ROOT, "js", "school.js");
+if (fs.existsSync(schoolJsPath)) {
+  const schoolJs = fs.readFileSync(schoolJsPath, "utf8");
+  check("school.js", /function setSectionVisibility/, schoolJs, "school section visibility helper");
+  check("school.js", /setAttribute\("aria-hidden", "true"\)/, schoolJs, "school hidden sections set aria-hidden");
+  check("school.js", /removeAttribute\("aria-hidden"\)/, schoolJs, "school visible sections remove aria-hidden");
+} else {
+  console.log("  FAIL: js/school.js not found");
+  failures.push("school.js: File not found");
   failed++;
 }
 

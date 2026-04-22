@@ -149,6 +149,7 @@ async function renderResearchFixture() {
         renderTextCell: (value) => ({ __trackerCell: "text", value }),
         renderSchoolLinkCell: (unitid, label, page = "school.html") => ({ __trackerCell: "school-link", unitid, label, page }),
         renderExternalLinkCell: (url, label = "Source") => ({ __trackerCell: "external-link", url, label }),
+        isPrimaryTrackerInstitution: (record) => record?.is_primary_tracker === true,
         renderHistoryTable: ({ headers = [], rows = [] } = {}) => `
           <div class="history-table-wrap">
             <table class="history-table">

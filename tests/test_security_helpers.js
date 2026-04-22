@@ -68,6 +68,44 @@ function loadTrackerApp() {
   return context.window.TrackerApp;
 }
 
+function loadSchoolHelpers() {
+  const helperSource = SCHOOL_SRC.split("async function init()")[0];
+  const elements = new Map();
+  const context = {
+    console,
+    URLSearchParams,
+    window: { TrackerApp: {} },
+    document: {
+      getElementById(id) {
+        if (!elements.has(id)) {
+          const attrs = {};
+          elements.set(id, {
+            className: "",
+            attrs,
+            classList: {
+              toggle(name, state) {
+                const classes = new Set(String(elements.get(id).className || "").split(/\s+/).filter(Boolean));
+                if (state) classes.add(name);
+                else classes.delete(name);
+                elements.get(id).className = Array.from(classes).join(" ");
+              }
+            },
+            setAttribute(name, value) {
+              attrs[name] = String(value);
+            },
+            removeAttribute(name) {
+              delete attrs[name];
+            }
+          });
+        }
+        return elements.get(id);
+      }
+    }
+  };
+  vm.runInNewContext(helperSource, context, { filename: "js/school.js" });
+  return { context, elements };
+}
+
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
@@ -138,6 +176,29 @@ run("paginateItems clamps pages and returns the current slice", () => {
   assert(page.pageItems.length === 1 && page.pageItems[0] === "e", "Expected final page slice");
 });
 
+run("search normalization matches diacritics and primary tracker flag is explicit", () => {
+  assert(app.normalizeSearchText("São José") === "sao jose", "Expected diacritics to normalize for search");
+  assert(app.tokenizeSearch("São-José!").join("|") === "sao|jose", "Expected normalized search tokens");
+  assert(app.filterByInstitution([{ institution_name: "São José University" }], "Sao Jose").length === 1, "Expected table filter to normalize diacritics");
+  assert(app.isPrimaryTrackerInstitution({ is_primary_tracker: true }) === true, "Expected true flag to pass");
+  assert(app.isPrimaryTrackerInstitution({ category: "Primarily baccalaureate or above" }) === false, "Expected category text alone not to pass");
+});
+
+run("school visibility and yes/no helpers handle non-string values", () => {
+  const { context, elements } = loadSchoolHelpers();
+  assert(context.yesNoClass(true) === "negative", "Expected boolean true to be treated like Yes");
+  assert(context.yesNoClass(1) === "negative", "Expected numeric 1 to be treated like Yes");
+  assert(context.yesNoClass(false) === "positive", "Expected boolean false to be treated like No");
+  assert(context.yesNoClass(0) === "positive", "Expected numeric 0 to be treated like No");
+
+  context.setSectionVisibility("sample-section", false);
+  assert(elements.get("sample-section").className.includes("is-hidden"), "Expected hidden class");
+  assert(elements.get("sample-section").attrs["aria-hidden"] === "true", "Expected aria-hidden when hidden");
+  context.setSectionVisibility("sample-section", true);
+  assert(!elements.get("sample-section").className.includes("is-hidden"), "Expected hidden class to be removed");
+  assert(!("aria-hidden" in elements.get("sample-section").attrs), "Expected aria-hidden to be removed when shown");
+});
+
 run("setupPaginatedTable renders filtered rows and wires downloads", () => {
   const listeners = {};
   const searchInput = {
@@ -206,6 +267,7 @@ run("renderSortableHeader puts aria-sort on the active table header only", () =>
 run("renderHistoryTable escapes table metadata while rendering structured link cells", () => {
   const html = app.renderHistoryTable({
     caption: '<script>alert("caption")</script>',
+    ariaLabel: '<img src=x onerror="alert(1)">',
     tableClass: 'history-table" onclick="alert(1)',
     headers: ["<th>Institution</th>", app.renderSortableHeader("date", { key: "date", direction: "desc" }, "Date")],
     rows: [[
@@ -215,6 +277,7 @@ run("renderHistoryTable escapes table metadata while rendering structured link c
     ]]
   });
   assert(html.includes("&lt;script&gt;alert(&quot;caption&quot;)&lt;/script&gt;"), "Expected caption text to be escaped");
+  assert(html.includes('aria-label="&lt;img src=x onerror=&quot;alert(1)&quot;&gt;"'), "Expected table aria-label to be escaped");
   assert(!html.includes('" onclick="'), "Expected table class to stay inside one escaped attribute");
   assert(html.includes("&lt;b&gt;Bad cell&lt;/b&gt;"), "Expected primitive cell values to be escaped by default");
   assert(!html.includes("<b>Bad cell</b>"), "Expected primitive cell HTML not to render");

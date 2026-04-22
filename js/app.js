@@ -60,6 +60,10 @@ function relatedPageUnitid(unitid, financialUnitid) {
   return "";
 }
 
+function isPrimaryTrackerInstitution(record) {
+  return record?.is_primary_tracker === true;
+}
+
 function syncTabs(unitid = "", options = {}) {
   const active = options.active || document.body.dataset.activeTab || (
     document.body.dataset.searchSource || "finances"
@@ -126,10 +130,16 @@ function renderRelatedInstitutionLinks(options = {}) {
 
 // ------ Search Tokenization & Matching ------
 
-// Splits query into searchable tokens (alphanumeric only, lowercase)
-function tokenizeSearch(value) {
+function normalizeSearchText(value) {
   return String(value || "")
     .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+// Splits query into searchable tokens (alphanumeric only, lowercase)
+function tokenizeSearch(value) {
+  return normalizeSearchText(value)
     .split(/[^a-z0-9]+/)
     .filter(Boolean);
 }
@@ -144,7 +154,9 @@ function buildSearchHaystack(row) {
   ]
     .filter(Boolean)
     .join(" ")
-    .toLowerCase();
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 // ------ Search Initialization & Rendering ------
@@ -244,7 +256,7 @@ async function initSearch() {
   // Multi-token matching: all tokens must appear in haystack
   // Results sorted by relevance (name starts with query = higher priority)
   function renderMatches(query) {
-    const q = query.trim().toLowerCase();
+    const q = normalizeSearchText(query).trim();
     const tokens = tokenizeSearch(query);
     if (!q || !tokens.length) {
       clearResults();
@@ -254,14 +266,14 @@ async function initSearch() {
     const matches = schools
       .filter((row) => tokens.every((token) => row._searchHaystack.includes(token)))
       .sort((a, b) => {
-        const aName = String(a.institution_name || "").toLowerCase();
-        const bName = String(b.institution_name || "").toLowerCase();
+        const aName = normalizeSearchText(a.institution_name || "");
+        const bName = normalizeSearchText(b.institution_name || "");
         const aStarts = aName.startsWith(q) ? 1 : 0;
         const bStarts = bName.startsWith(q) ? 1 : 0;
         if (aStarts !== bStarts) return bStarts - aStarts;
 
-        const aUniqueStarts = String(a.institution_unique_name || "").toLowerCase().startsWith(q) ? 1 : 0;
-        const bUniqueStarts = String(b.institution_unique_name || "").toLowerCase().startsWith(q) ? 1 : 0;
+        const aUniqueStarts = normalizeSearchText(a.institution_unique_name || "").startsWith(q) ? 1 : 0;
+        const bUniqueStarts = normalizeSearchText(b.institution_unique_name || "").startsWith(q) ? 1 : 0;
         if (aUniqueStarts !== bUniqueStarts) return bUniqueStarts - aUniqueStarts;
 
         return String(a.institution_unique_name || a.institution_name || "").localeCompare(
@@ -350,19 +362,22 @@ window.TrackerApp = window.TrackerApp || {};
 window.TrackerApp.loadJson = loadJson;
 window.TrackerApp.schoolUrl = schoolUrl;
 window.TrackerApp.isNumericUnitid = isNumericUnitid;
+window.TrackerApp.isPrimaryTrackerInstitution = isPrimaryTrackerInstitution;
 window.TrackerApp.syncTabs = syncTabs;
 window.TrackerApp.renderRelatedInstitutionLinks = renderRelatedInstitutionLinks;
 
 window.TrackerApp.escapeHtml = escapeHtml;
+window.TrackerApp.normalizeSearchText = normalizeSearchText;
+window.TrackerApp.tokenizeSearch = tokenizeSearch;
 
 window.TrackerApp.normalizeQuery = function normalizeQuery(value) {
-  return String(value || "").trim().toLowerCase();
+  return normalizeSearchText(value).trim();
 };
 
 window.TrackerApp.filterByInstitution = function filterByInstitution(items, query) {
   const normalized = window.TrackerApp.normalizeQuery(query);
   if (!normalized) return items || [];
-  return (items || []).filter((item) => String(item.institution_name || "").toLowerCase().includes(normalized));
+  return (items || []).filter((item) => normalizeSearchText(item.institution_name || "").includes(normalized));
 };
 
 window.TrackerApp.setDataCardVisible = function setDataCardVisible(id, show) {
@@ -438,9 +453,11 @@ window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {})
     headers = [],
     rows = [],
     caption = "",
+    ariaLabel = "",
     tableClass = "history-table"
   } = options;
   const captionHtml = caption ? `<caption>${escapeHtml(caption)}</caption>` : "";
+  const ariaLabelAttr = ariaLabel ? ` aria-label="${escapeHtml(ariaLabel)}"` : "";
   const headerHtml = (headers || []).map((header) => String(header || "")).join("");
   const rowHtml = (rows || []).map((row) => {
     if (Array.isArray(row)) {
@@ -459,7 +476,7 @@ window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {})
 
   return `
     <div class="history-table-wrap">
-      <table class="${escapeHtml(tableClass)}">
+      <table class="${escapeHtml(tableClass)}"${ariaLabelAttr}>
         ${captionHtml}
         <thead><tr>${headerHtml}</tr></thead>
         <tbody>${rowHtml}</tbody>

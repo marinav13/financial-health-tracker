@@ -66,6 +66,34 @@ run_test("Accreditation scraper public action section parser", function() {
   assert_identical(rows$institution_state_raw[[2]], "California")
 })
 
+run_test("Accreditation scraper public action parser handles phrasing variants", function() {
+  sections <- tibble::tibble(
+    heading = c("Accepted Teach-Out Plan", "Denied Reaffirmation", "Campus celebration"),
+    body = c(
+      "<ul><li>Gamma College, Austin, TX</li></ul>",
+      "<ul><li>Delta University, Salem, OR</li></ul>",
+      "<ul><li>Should be ignored, CA</li></ul>"
+    )
+  )
+
+  rows <- parse_public_action_sections(
+    sections = sections,
+    accreditor = "Fixture",
+    action_date = as.Date("2025-02-01"),
+    action_year = 2025L,
+    source_url = "https://example.com/actions",
+    source_title = "Example Actions",
+    source_page_url = "https://example.com/actions",
+    source_page_modified = "2025-02-15"
+  )
+
+  assert_identical(nrow(rows), 2L)
+  assert_identical(rows$institution_name_raw[[1]], "Gamma College")
+  assert_identical(rows$institution_state_raw[[1]], "Texas")
+  assert_identical(rows$action_type[[1]], "adverse_action")
+  assert_identical(rows$action_type[[2]], "adverse_action")
+})
+
 run_test("Accreditation scraper SACSCOC sanction item parser", function() {
   standard_row <- parse_sacscoc_sanction_item(
     "Alpha College, City, Georgia (Placed on Warning)",

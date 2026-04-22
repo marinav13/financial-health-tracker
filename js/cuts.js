@@ -16,6 +16,7 @@
     renderHistoryTable,
     renderSchoolLinkCell,
     renderExternalLinkCell,
+    isPrimaryTrackerInstitution,
     syncTabs,
     renderRelatedInstitutionLinks
   } = window.TrackerApp;
@@ -34,7 +35,7 @@
   }
 
   function isPrimaryBachelorsInstitution(record) {
-    return record?.is_primary_tracker === true;
+    return isPrimaryTrackerInstitution(record);
   }
 
   function renderCutItem(cut) {
@@ -109,6 +110,7 @@
       renderExternalLinkCell(cut.source_url, "Source")
     ]);
     return renderHistoryTable({
+      ariaLabel: "College cuts by institution",
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
         renderSortableHeader("state", sortState, "State"),

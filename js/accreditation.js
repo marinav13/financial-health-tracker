@@ -18,6 +18,7 @@
     renderHistoryTable,
     renderSchoolLinkCell,
     renderExternalLinkCell,
+    isPrimaryTrackerInstitution,
     syncTabs,
     renderRelatedInstitutionLinks
   } = window.TrackerApp;
@@ -89,8 +90,7 @@
   }
 
   function isPrimaryBachelorsInstitution(record) {
-    const category = String(record?.category || "");
-    return /primarily baccalaureate or above/i.test(category) && !/not primarily baccalaureate or above/i.test(category);
+    return isPrimaryTrackerInstitution(record);
   }
 
   function renderEmpty(message) {
@@ -231,6 +231,7 @@
         renderExternalLinkCell(getActionLink(action), "Source link")
       ]);
     return `${renderHistoryTable({
+      ariaLabel: "Accreditation actions for this institution",
       headers: [
         "<th>Accreditor</th>",
         "<th>Action</th>",
@@ -253,6 +254,7 @@
           state: school.state || inferStateFromNotes(action.notes),
           control_label: school.control_label || "",
           category: school.category || "",
+          is_primary_tracker: school.is_primary_tracker === true,
           accreditor: action.accreditor || "",
           action_label: action.action_label || action.action_label_raw || action.action_type || "",
           action_type: action.action_type || "",
@@ -290,6 +292,7 @@
 
     return `
       ${renderHistoryTable({
+        ariaLabel: linkNames ? "Recent accreditation actions by institution" : "Recent accreditation actions",
         headers: [
           "<th>Institution</th>",
           "<th>Accreditor</th>",

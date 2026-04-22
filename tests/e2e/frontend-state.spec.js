@@ -11,6 +11,7 @@ const {
   schoolWithCuts,
   schoolWithAccreditation,
   schoolWithResearchSource,
+  schoolWithoutEndowment,
   unmatchedCutSchool,
   unmatchedResearchSchool,
   unmatchedAccreditationSchool
@@ -19,6 +20,7 @@ const {
 const cutsUnitid = schoolWithCuts();
 const accreditationUnitid = schoolWithAccreditation();
 const researchUnitid = schoolWithResearchSource();
+const noEndowmentUnitid = schoolWithoutEndowment();
 const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
 const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
@@ -107,6 +109,19 @@ test.describe('Frontend state synchronization', () => {
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
   });
 
+  test('research secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
+    await page.goto('/research.html');
+
+    const otherSection = page.locator('#research-other-list').locator('xpath=ancestor::section[1]');
+    await expect(otherSection).not.toHaveClass(/is-hidden/);
+    await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
+
+    await page.goto(`/research.html?unitid=${researchUnitid}`);
+
+    await expect(otherSection).toHaveClass(/is-hidden/);
+    await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+  });
+
   test('rendered source links use safe http URLs and hardened rel attributes', async ({ page }) => {
     await page.goto(`/research.html?unitid=${researchUnitid}`);
 
@@ -142,5 +157,13 @@ test.describe('Frontend state synchronization', () => {
         expect(href || '').not.toContain(`unitid=${item.prefix}`);
       }
     }
+  });
+
+  test('school detail hidden sections synchronize aria-hidden', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${noEndowmentUnitid}`);
+
+    const endowmentSection = page.locator('#endowment-section');
+    await expect(endowmentSection).toHaveClass(/is-hidden/);
+    await expect(endowmentSection).toHaveAttribute('aria-hidden', 'true');
   });
 });

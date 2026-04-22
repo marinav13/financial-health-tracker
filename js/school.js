@@ -117,8 +117,9 @@ function sentimentClass(value) {
 }
 
 function yesNoClass(value) {
-  if (value === "Yes") return "negative";
-  if (value === "No") return "positive";
+  const normalized = String(value).trim().toLowerCase();
+  if (value === true || value === 1 || normalized === "yes" || normalized === "1") return "negative";
+  if (value === false || value === 0 || normalized === "no" || normalized === "0") return "positive";
   return "neutral";
 }
 
@@ -384,6 +385,11 @@ function setSectionVisibility(id, show) {
   const node = document.getElementById(id);
   if (!node) return;
   node.classList.toggle("is-hidden", !show);
+  if (show) {
+    node.removeAttribute("aria-hidden");
+  } else {
+    node.setAttribute("aria-hidden", "true");
+  }
 }
 
 function slugify(value) {

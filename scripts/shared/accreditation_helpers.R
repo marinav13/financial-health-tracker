@@ -189,7 +189,7 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     # "Show Cause": most serious short of actual withdrawal
     stringr::str_detect(txt, "show cause") ~ "show_cause",
     # "Adverse Action": accreditation withdrawn, membership removed, or institution closed
-    stringr::str_detect(txt, "closure") ~ "adverse_action",
+    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation") ~ "adverse_action",
     stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)
     stringr::str_detect(txt, "probation") ~ "probation",
@@ -224,7 +224,7 @@ has_public_action_keywords <- function(x) {
   txt <- stringr::str_to_lower(as.character(x))
   stringr::str_detect(
     txt,
-    "warning|probation|show cause|notice of concern|notice|withdrawal of accreditation|withdraws from membership|closure|adverse"
+    "warning|probation|show cause|notice of concern|notice|withdrawal of accreditation|withdraws from membership|closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|adverse"
   )
 }
 

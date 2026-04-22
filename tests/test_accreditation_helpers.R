@@ -12,8 +12,14 @@ run_test("Accreditation text and classification", function() {
   assert_identical(unname(parsed$institution_name_raw), "Example College")
   assert_identical(unname(parsed$institution_state_raw), "Massachusetts")
   assert_identical(classify_action("Placed on probation"), "probation")
+  assert_identical(classify_action("Continued on High Probation"), "probation")
+  assert_identical(classify_action("Issue a Notice of Concern"), "notice")
+  assert_identical(classify_action("Accepted Teach-Out Plan"), "adverse_action")
+  assert_identical(classify_action("Denied Reaffirmation"), "adverse_action")
   assert_identical(classify_status("Removed from probation"), "resolved")
   assert_true(has_public_action_keywords("Public Notice of Concern"))
+  assert_true(has_public_action_keywords("Accepted teach-out plan"))
+  assert_true(has_public_action_keywords("Denied reaffirmation"))
 })
 
 run_test("Accreditation tracker matching", function() {

@@ -56,6 +56,16 @@ function schoolWithoutEndowment() {
   throw new Error('No school without endowment series available for e2e tests');
 }
 
+function schoolWithClosureStatus() {
+  const closure = readJson('data/closure_status_by_unitid.json');
+  const schoolsDir = path.join(ROOT, 'data', 'schools');
+  const found = Object.keys(closure.schools || {}).find((unitid) =>
+    fs.existsSync(path.join(schoolsDir, `${unitid}.json`))
+  );
+  if (!found) throw new Error('No closure-status school with school detail JSON available for e2e tests');
+  return found;
+}
+
 function firstDataSchool(relativePath, predicate) {
   const data = readJson(relativePath);
   const entries = Object.entries(data.schools || {});
@@ -104,6 +114,7 @@ module.exports = {
   searchTermFor,
   schoolWithCharts,
   schoolWithoutEndowment,
+  schoolWithClosureStatus,
   schoolWithCuts,
   schoolWithAccreditation,
   schoolWithResearchSource,

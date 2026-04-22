@@ -181,7 +181,8 @@ if (fs.existsSync(appJsPath)) {
   check("app.js", /renderSchoolLinkCell/, appJs, "structured school link table cell helper");
   check("app.js", /renderExternalLinkCell/, appJs, "structured external link table cell helper");
   check("app.js", /ariaLabel/, appJs, "accessible table label support");
-  check("app.js", /setActiveButton/, appJs, "roving tabindex: setActiveButton function");
+  check("app.js", /setActiveOption/, appJs, "combobox active option helper");
+  check("app.js", /aria-selected/, appJs, "search active option aria-selected state");
   check("app.js", /ArrowDown/, appJs, "arrow key navigation: ArrowDown handler");
   check("app.js", /Escape/, appJs, "Escape key closes results");
   check("app.js", /aria-label.*search result/, appJs, "aria-label on search results container");

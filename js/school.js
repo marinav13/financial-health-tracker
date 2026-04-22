@@ -2,6 +2,8 @@ function getParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
+const SHOW_CLOSURE_FLAGS = false;
+
 function asNumber(value) {
   if (value === null || value === undefined || value === "") return null;
   const n = Number(value);
@@ -458,7 +460,7 @@ async function init() {
     loadJson(`data/schools/${unitid}.json`),
     loadJsonOrNull("data/federal_composite_scores_by_unitid.json"),
     loadJsonOrNull("data/hcm2_by_unitid.json"),
-    loadJsonOrNull("data/closure_status_by_unitid.json")
+    SHOW_CLOSURE_FLAGS ? loadJsonOrNull("data/closure_status_by_unitid.json") : Promise.resolve(null)
   ]);
   const p = school.profile;
   const s = school.summary;
@@ -466,7 +468,7 @@ async function init() {
   const latestDataYear = asNumber(s.latest_year) || latestYearFromSeries(series);
   const composite = compositeLookup?.schools?.[unitid] || null;
   const hcmRecord = hcmLookup?.schools?.[unitid] || null;
-  const closureRecord = closureLookup?.schools?.[unitid] || null;
+  const closureRecord = SHOW_CLOSURE_FLAGS ? closureLookup?.schools?.[unitid] || null : null;
   const fiveYearRangeText = recentFiveYearRangeText(series.revenue_total_adjusted || series.enrollment_headcount_total || []);
   const revenueSeries = toSeries(series.revenue_total_adjusted);
   const expensesSeries = toSeries(series.expenses_total_adjusted);

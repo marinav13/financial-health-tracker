@@ -234,16 +234,15 @@ async function initSearch() {
     return Array.from(results.querySelectorAll(".result-item[data-unitid]"));
   }
 
-  // Roving tabindex pattern: only active button has tabindex="0"
-  function setActiveButton(newIndex) {
+  function setActiveOption(newIndex) {
     const buttons = getAllResultButtons();
     if (!buttons.length) return;
     activeIndex = Math.max(0, Math.min(newIndex, buttons.length - 1));
     buttons.forEach((btn, i) => {
-      btn.setAttribute("tabindex", i === activeIndex ? "0" : "-1");
+      btn.setAttribute("tabindex", "-1");
+      btn.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
     });
     input.setAttribute("aria-activedescendant", buttons[activeIndex].id);
-    buttons[activeIndex].focus();
   }
 
   function navigateToActive() {
@@ -294,7 +293,7 @@ async function initSearch() {
     input.removeAttribute("aria-activedescendant");
     results.setAttribute("aria-label", `${matches.length} search result${matches.length !== 1 ? "s" : ""}`);
     results.innerHTML = matches.map((row, idx) => `
-      <button type="button" id="${results.id}-option-${idx}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1">
+      <button type="button" id="${results.id}-option-${idx}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1" aria-selected="false">
         <span>${escapeHtml(getMatchText(row))}</span>
         ${getResultBadge(row) ? `<small class="small-meta">${escapeHtml(getResultBadge(row))}</small>` : ""}
       </button>
@@ -305,14 +304,15 @@ async function initSearch() {
         window.location.href = schoolUrl(button.dataset.unitid, page);
       });
 
-      // Arrow key navigation with roving tabindex
       button.addEventListener("keydown", (e) => {
         if (e.key === "ArrowDown") {
           e.preventDefault();
-          setActiveButton(i + 1);
+          setActiveOption(i + 1);
+          input.focus();
         } else if (e.key === "ArrowUp") {
           e.preventDefault();
-          setActiveButton(i - 1);
+          setActiveOption(i - 1);
+          input.focus();
         } else if (e.key === "Enter" || e.key === " ") {
           window.location.href = schoolUrl(button.dataset.unitid, page);
         }
@@ -329,11 +329,11 @@ async function initSearch() {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       if (!getAllResultButtons().length) renderMatches(input.value);
-      setActiveButton(activeIndex + 1);
+      setActiveOption(activeIndex + 1);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (!getAllResultButtons().length) renderMatches(input.value);
-      setActiveButton(activeIndex <= 0 ? getAllResultButtons().length - 1 : activeIndex - 1);
+      setActiveOption(activeIndex <= 0 ? getAllResultButtons().length - 1 : activeIndex - 1);
     } else if (e.key === "Enter") {
       navigateToActive();
     } else if (e.key === "Escape") {
@@ -420,10 +420,6 @@ window.TrackerApp.compareDateDesc = function compareDateDesc(a, b) {
   return String(b || "").localeCompare(String(a || ""));
 };
 
-window.TrackerApp.renderHtmlCell = function renderHtmlCell(html) {
-  return { __trackerHtml: String(html ?? "") };
-};
-
 window.TrackerApp.renderTextCell = function renderTextCell(value) {
   return { __trackerCell: "text", value };
 };
@@ -465,9 +461,7 @@ window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {})
         const structuredCell = renderStructuredCell(cell);
         const cellHtml = structuredCell !== null
           ? structuredCell
-          : cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
-            ? cell.__trackerHtml
-            : escapeHtml(cell);
+          : escapeHtml(cell);
         return `<td>${cellHtml}</td>`;
       }).join("")}</tr>`;
     }

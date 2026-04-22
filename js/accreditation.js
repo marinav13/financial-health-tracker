@@ -111,11 +111,6 @@
       .join(", ");
   }
 
-  function normalizeActionText(value) {
-    return String(value || "").toLowerCase();
-  }
-
-  // Handles both YYYY-MM-DD and YYYY-MM formats
   function parseActionDate(action) {
     const raw = String(action.action_date || "").trim();
     if (!raw) return null;
@@ -127,6 +122,10 @@
       const parsed = new Date(`${raw}-01T00:00:00`);
       return Number.isNaN(parsed.getTime()) ? null : parsed;
     }
+    const parsedMonthDate = new Date(raw);
+    if (!Number.isNaN(parsedMonthDate.getTime())) {
+      return parsedMonthDate;
+    }
     return null;
   }
 
@@ -137,33 +136,8 @@
     return !Number.isNaN(year) && year >= MIN_ACTION_YEAR && year <= TODAY.getFullYear();
   }
 
-  // Complex regex patterns to identify significant actions (warnings, probations, monitoring, etc.)
-  // while filtering out minor actions like substantive changes or program additions
-  function isTrackedAction(action) {
-    const type = normalizeActionText(action.action_type);
-    const label = normalizeActionText(action.action_label || action.action_label_raw);
-    const notes = normalizeActionText(action.notes);
-    const haystack = `${type} ${label} ${notes}`;
-    const contentOnly = `${label} ${notes}`;
-    const excludedPattern = /substantive change|program addition/;
-    if (excludedPattern.test(haystack)) return false;
-
-    const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
-    const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-out plan|removed from membership/;
-    const requiredReportPattern = /require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report/;
-    const standaloneLowSignalPattern = /^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$/;
-    const hasSpecialVisit = /special visit/.test(haystack);
-    const hasSanctionDecision = statusActionPattern.test(contentOnly) || closureActionPattern.test(contentOnly) || requiredReportPattern.test(contentOnly);
-
-    if (hasSpecialVisit && !hasSanctionDecision) return false;
-
-    if (statusActionPattern.test(contentOnly) || closureActionPattern.test(contentOnly) || requiredReportPattern.test(contentOnly)) {
-      return true;
-    }
-    if (standaloneLowSignalPattern.test(label)) return false;
-
-    return ["warning", "probation", "monitoring", "notice"].includes(type) ||
-      /removed from membership|teach-?out|institutional closure/.test(haystack);
+  function isDisplayAction(action) {
+    return action?.display_action !== false;
   }
 
   function formatActionDate(action) {
@@ -189,9 +163,9 @@
     return STATE_ABBR_TO_NAME[match[1]] || "";
   }
 
-  function isRecentTrackedAction(action) {
+  function isRecentDisplayAction(action) {
     const year = getActionYear(action);
-    return isTrackedAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
+    return isDisplayAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
   }
 
   // Deduplication key: accreditor + action label + date + URL
@@ -217,7 +191,7 @@
   // ------ Table Rendering ------
 
   function renderSchoolActions(actions, unitid, state, controlLabel, financialUnitid) {
-    const filtered = (actions || []).filter(isRecentTrackedAction);
+    const filtered = (actions || []).filter(isRecentDisplayAction);
     if (!filtered.length) return renderEmpty("No accreditation actions found.");
     const rows = filtered
       .slice()
@@ -247,7 +221,7 @@
   function buildDefaultActionRows(data) {
     return Object.values(data.schools || {})
       .flatMap((school) =>
-        getEffectiveActions(school).filter(isRecentTrackedAction).map((action) => ({
+        getEffectiveActions(school).filter(isRecentDisplayAction).map((action) => ({
           unitid: school.unitid,
           institution_name: school.institution_name || "",
           city: school.city || "",
@@ -260,6 +234,7 @@
           action_type: action.action_type || "",
           action_date: action.action_date || "",
           action_year: action.action_year || "",
+          display_action: action.display_action !== false,
           source_url: getActionLink(action)
         }))
       )

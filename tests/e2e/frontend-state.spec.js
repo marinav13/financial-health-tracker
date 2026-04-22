@@ -12,6 +12,7 @@ const {
   schoolWithAccreditation,
   schoolWithResearchSource,
   schoolWithoutEndowment,
+  schoolWithClosureStatus,
   unmatchedCutSchool,
   unmatchedResearchSchool,
   unmatchedAccreditationSchool
@@ -21,6 +22,7 @@ const cutsUnitid = schoolWithCuts();
 const accreditationUnitid = schoolWithAccreditation();
 const researchUnitid = schoolWithResearchSource();
 const noEndowmentUnitid = schoolWithoutEndowment();
+const closureStatusUnitid = schoolWithClosureStatus();
 const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
 const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
@@ -165,5 +167,13 @@ test.describe('Frontend state synchronization', () => {
     const endowmentSection = page.locator('#endowment-section');
     await expect(endowmentSection).toHaveClass(/is-hidden/);
     await expect(endowmentSection).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('school closure status remains hidden while closure display is disabled', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${closureStatusUnitid}`);
+
+    const closureFlag = page.locator('#school-closure-flag');
+    await expect(closureFlag).toHaveClass(/is-hidden/);
+    await expect(closureFlag).toBeEmpty();
   });
 });

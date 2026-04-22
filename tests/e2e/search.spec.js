@@ -55,7 +55,8 @@ test.describe('Search functionality', () => {
     await searchInput.press('ArrowDown');
     const activeId = await searchInput.getAttribute('aria-activedescendant');
     expect(activeId).toMatch(/^search-results-option-/);
-    await expect(page.locator(`#${activeId}`)).toBeFocused();
+    await expect(searchInput).toBeFocused();
+    await expect(page.locator(`#${activeId}`)).toHaveAttribute('aria-selected', 'true');
   });
 
   test('shows no results for unknown school', async ({ page }) => {

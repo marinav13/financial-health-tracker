@@ -145,7 +145,6 @@ async function renderResearchFixture() {
         renderSortableHeader: (key, sortState, label) => `<th>${escapeHtml(label)}</th>`,
         compareText: (a, b) => String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" }),
         compareDateDesc: (a, b) => String(b || "").localeCompare(String(a || "")),
-        renderHtmlCell: (html) => ({ __trackerHtml: String(html ?? "") }),
         renderTextCell: (value) => ({ __trackerCell: "text", value }),
         renderSchoolLinkCell: (unitid, label, page = "school.html") => ({ __trackerCell: "school-link", unitid, label, page }),
         renderExternalLinkCell: (url, label = "Source") => ({ __trackerCell: "external-link", url, label }),
@@ -156,9 +155,7 @@ async function renderResearchFixture() {
               <thead><tr>${headers.join("")}</tr></thead>
               <tbody>${rows.map((row) => `<tr>${row.map((cell) => {
                 let cellHtml = "";
-                if (cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")) {
-                  cellHtml = cell.__trackerHtml;
-                } else if (cell && typeof cell === "object" && cell.__trackerCell === "text") {
+                if (cell && typeof cell === "object" && cell.__trackerCell === "text") {
                   cellHtml = escapeHtml(cell.value);
                 } else if (cell && typeof cell === "object" && cell.__trackerCell === "school-link") {
                   cellHtml = context.window.TrackerApp.renderSchoolLink(cell.unitid, cell.label, cell.page);

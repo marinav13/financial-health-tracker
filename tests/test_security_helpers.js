@@ -265,6 +265,7 @@ run("renderSortableHeader puts aria-sort on the active table header only", () =>
 });
 
 run("renderHistoryTable escapes table metadata while rendering structured link cells", () => {
+  assert(typeof app.renderHtmlCell === "undefined", "Raw HTML table-cell bypass should not be exposed");
   const html = app.renderHistoryTable({
     caption: '<script>alert("caption")</script>',
     ariaLabel: '<img src=x onerror="alert(1)">',

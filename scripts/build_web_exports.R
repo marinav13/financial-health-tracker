@@ -207,6 +207,35 @@ build_accreditation_export <- function() {
     )
   }
 
+  normalize_accreditation_date <- function(x) {
+    vapply(x, function(value) {
+      if (length(value) == 0 || is.na(value)) return(NA_character_)
+      text <- trimws(as.character(value))
+      if (!nzchar(text)) return(NA_character_)
+      if (grepl("^\\d{4}-\\d{2}-\\d{2}$", text)) return(text)
+      if (grepl("^\\d{4}-\\d{2}$", text)) return(paste0(text, "-01"))
+
+      month_formats <- c(
+        "%B %d, %Y",
+        "%b %d, %Y",
+        "%d %B %Y",
+        "%d %b %Y"
+      )
+      for (fmt in month_formats) {
+        parsed <- as.Date(text, format = fmt)
+        if (!is.na(parsed)) return(as.character(parsed))
+      }
+
+      month_year_formats <- c("%B %Y", "%b %Y")
+      for (fmt in month_year_formats) {
+        parsed <- as.Date(paste("1", text), format = paste("%d", fmt))
+        if (!is.na(parsed)) return(as.character(parsed))
+      }
+
+      text
+    }, character(1), USE.NAMES = FALSE)
+  }
+
   summary_df <- readr::read_csv(accreditation_summary_path, show_col_types = FALSE) %>%
     ensure_columns(list(
       accreditors = NA_character_,
@@ -222,7 +251,7 @@ build_accreditation_export <- function() {
     mutate(
       unitid = as.character(unitid),
       accreditors = normalize_accreditor_name(accreditors),
-      latest_action_date = na_if(as.character(latest_action_date), ""),
+      latest_action_date = normalize_accreditation_date(latest_action_date),
       latest_action_year = na_if(as.character(latest_action_year), "")
     )
   actions_df <- readr::read_csv(accreditation_actions_path, show_col_types = FALSE) %>%
@@ -246,7 +275,7 @@ build_accreditation_export <- function() {
     mutate(
       unitid = as.character(unitid),
       accreditor = normalize_accreditor_name(accreditor),
-      action_date = na_if(as.character(action_date), ""),
+      action_date = normalize_accreditation_date(action_date),
       action_year = na_if(as.character(action_year), ""),
       source_page_modified = na_if(as.character(source_page_modified), ""),
       display_action = as.logical(display_action),
@@ -375,6 +404,7 @@ build_accreditation_export <- function() {
           source_title = or_null(df$source_title[i]),
           source_page_url = or_null(df$source_page_url[i]),
           source_page_modified = or_null(df$source_page_modified[i]),
+          display_action = isTRUE(df$display_action[i]),
           has_financial_profile = isTRUE(df$has_financial_profile[i]),
           is_primary_tracker = isTRUE(df$is_primary_tracker[i])
         )

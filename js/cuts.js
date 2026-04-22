@@ -233,11 +233,8 @@ return renderHistoryTable({
       return;
     }
 
-    document.getElementById("cuts-school-name").textContent = school.institution_name || "College Cuts";
+document.getElementById("cuts-school-name").textContent = school.institution_name || "College Cuts";
     document.getElementById("cuts-school-name").classList.remove("is-hidden");
-    textOrEmpty("cuts-school-location", [school.city, school.state].filter(Boolean).join(", "));
-    textOrEmpty("cuts-school-control", school.control_label || "");
-    textOrEmpty("cuts-school-category", school.category || "");
     syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });
     const relatedLinks = renderRelatedInstitutionLinks({
       unitid: school.unitid,

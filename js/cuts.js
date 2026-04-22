@@ -240,9 +240,6 @@
     textOrEmpty("cuts-school-location", [school.city, school.state].filter(Boolean).join(", "));
     textOrEmpty("cuts-school-control", school.control_label || "");
     textOrEmpty("cuts-school-category", school.category || "");
-    const scopeText = school.is_primary_tracker
-      ? "This institution appears in the main tracker universe because it is a 4-year, primarily bachelor's-degree-granting school with finance data in this project."
-      : "This institution appears here because it has matched college cuts data, even though it falls outside the main 4-year financial tracker universe.";
     syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });
     const relatedLinks = renderRelatedInstitutionLinks({
       unitid: school.unitid,
@@ -252,7 +249,9 @@
     const overview = document.getElementById("cuts-overview");
     if (overview) {
       overview.classList.remove("is-hidden");
-      overview.innerHTML = `<p>${scopeText}</p><p>This page shows the latest matched college cuts for ${escapeHtml(school.institution_name)}.</p>`;
+      const copy = document.createElement("p");
+      copy.textContent = `This page shows the latest matched college cuts for ${school.institution_name || "this institution"}.`;
+      overview.replaceChildren(copy);
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);

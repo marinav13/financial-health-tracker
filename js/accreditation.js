@@ -444,12 +444,9 @@ function isRecentDisplayAction(action) {
     setText("accreditation-school-control", school.control_label || "");
     setText("accreditation-school-category", school.category || "");
     const accreditationOverview = document.getElementById("accreditation-overview");
-    const scopeText = school.is_primary_tracker
-      ? "This institution appears in the main tracker universe because it is a 4-year, primarily bachelor's-degree-granting school with finance data in this project."
-      : "This institution appears here because it has matched accreditation actions data, even though it falls outside the main 4-year financial tracker universe.";
     if (accreditationOverview) {
-      accreditationOverview.classList.remove("is-hidden");
-      accreditationOverview.innerHTML = `<p>${scopeText}</p>`;
+      accreditationOverview.classList.add("is-hidden");
+      accreditationOverview.textContent = "";
     }
     setSectionVisible("accreditation-other-status", false);
     const otherStatus = document.getElementById("accreditation-other-status");

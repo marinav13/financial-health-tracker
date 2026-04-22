@@ -96,6 +96,7 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#cuts-overview')).not.toContainText('This institution appears');
   });
 
   test('accreditation secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
@@ -109,6 +110,8 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#accreditation-overview')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#accreditation-overview')).not.toContainText('This institution appears');
   });
 
   test('research secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {

@@ -102,7 +102,7 @@
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
 const rows = items.map((cut) => [
-      renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "school.html"),
+      renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
       cut.state,
       cut.control_label,
       (cut.program_name || "") + formatAffectedCount(cut),

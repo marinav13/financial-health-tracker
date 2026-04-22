@@ -6,9 +6,19 @@ main <- function(cli_args = NULL) {
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
   # This script joins the latest College Scorecard earnings/debt values and the
-  # latest IPEDS graduation-rate file onto the 2024 finance tracker cohort.
-  # By default it expects those source files to already exist in the local
-  # scorecard cache so the build is reproducible without a live download.
+  # selected IPEDS graduation-rate file onto a source-versioned finance tracker
+  # cohort. These labels deliberately describe the published source files in use;
+  # they should be bumped together with the cached source files and downstream
+  # copy when the project adopts a newer outcomes source vintage.
+  tracker_cohort_year <- 2024L
+  scorecard_release_date <- "2026-03-23"
+  scorecard_release_stamp <- "03232026"
+  source_ipeds_graduation_rate_year <- 2024L
+  grad_plus_award_year_label <- "AY 2025-2026 Q2"
+  grad_plus_source_slug <- "ay2025-2026-q2"
+
+  # By default this script expects those source files to already exist in the
+  # local scorecard cache so the build is reproducible without a live download.
   ensure_packages(c("dplyr", "readr", "readxl", "stringr"))
   source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
 
@@ -23,21 +33,33 @@ main <- function(cli_args = NULL) {
   dir.create(outcomes_root, recursive = TRUE, showWarnings = FALSE)
   dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
-  scorecard_url <- "https://ed-public-download.scorecard.network/downloads/Most-Recent-Cohorts-Institution_03232026.zip"
-  scorecard_zip <- file.path(cache_dir, "Most-Recent-Cohorts-Institution_03232026.zip")
+  scorecard_url <- sprintf(
+    "https://ed-public-download.scorecard.network/downloads/Most-Recent-Cohorts-Institution_%s.zip",
+    scorecard_release_stamp
+  )
+  scorecard_zip <- file.path(cache_dir, sprintf("Most-Recent-Cohorts-Institution_%s.zip", scorecard_release_stamp))
   scorecard_csv <- file.path(cache_dir, "Most-Recent-Cohorts-Institution.csv")
 
-  drvgr_url <- "https://nces.ed.gov/ipeds/data-generator?year=2024&tableName=DRVGR2024&HasRV=0&type=csv&t=639095446135801851"
-  drvgr_zip <- file.path(cache_dir, "DRVGR2024.zip")
-  drvgr_csv <- file.path(cache_dir, "drvgr2024.csv")
+  drvgr_table <- sprintf("DRVGR%s", source_ipeds_graduation_rate_year)
+  drvgr_url <- sprintf(
+    "https://nces.ed.gov/ipeds/data-generator?year=%s&tableName=%s&HasRV=0&type=csv&t=639095446135801851",
+    source_ipeds_graduation_rate_year,
+    drvgr_table
+  )
+  drvgr_zip <- file.path(cache_dir, sprintf("%s.zip", drvgr_table))
+  drvgr_csv <- file.path(cache_dir, sprintf("%s.csv", tolower(drvgr_table)))
 
-  grad_plus_url <- "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/dl-dashboard-ay2025-2026-q2.xls"
-  grad_plus_xls <- file.path(cache_dir, "dl-dashboard-ay2025-2026-q2.xls")
+  grad_plus_url <- sprintf(
+    "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/dl-dashboard-%s.xls",
+    grad_plus_source_slug
+  )
+  grad_plus_xls <- file.path(cache_dir, sprintf("dl-dashboard-%s.xls", grad_plus_source_slug))
 
-  hd2024_url <- "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip"
-  hd2024_zip <- file.path(cache_dir, "HD2024.zip")
-  hd2024_csv <- file.path(cache_dir, "hd2024.csv")
-  hd2024_local_csv <- file.path(root, "ipeds", "cache", "downloads", "extracted", "data_HD2024", "hd2024.csv")
+  hd_table <- sprintf("HD%s", tracker_cohort_year)
+  hd_url <- sprintf("https://nces.ed.gov/ipeds/datacenter/data/%s.zip", hd_table)
+  hd_zip <- file.path(cache_dir, sprintf("%s.zip", hd_table))
+  hd_csv <- file.path(cache_dir, sprintf("%s.csv", tolower(hd_table)))
+  hd_local_csv <- file.path(root, "ipeds", "cache", "downloads", "extracted", sprintf("data_%s", hd_table), sprintf("%s.csv", tolower(hd_table)))
 
   # Helpers for downloading, extraction, and numeric cleanup.
   download_if_needed <- function(url, path) {
@@ -56,10 +78,10 @@ main <- function(cli_args = NULL) {
   }
 
   resolve_hd2024_csv <- function() {
-    if (file.exists(hd2024_csv)) return(hd2024_csv)
-    if (file.exists(hd2024_local_csv)) return(hd2024_local_csv)
-    download_if_needed(hd2024_url, hd2024_zip)
-    extract_first_matching_file_from_zip(hd2024_zip, "^hd2024\\.csv$", cache_dir)
+    if (file.exists(hd_csv)) return(hd_csv)
+    if (file.exists(hd_local_csv)) return(hd_local_csv)
+    download_if_needed(hd_url, hd_zip)
+    extract_first_matching_file_from_zip(hd_zip, sprintf("^%s\\.csv$", tolower(hd_table)), cache_dir)
   }
 
   to_num <- function(x) {
@@ -95,7 +117,7 @@ main <- function(cli_args = NULL) {
 # attach these values directly to each finance-page school record.
 tracker <- readr::read_csv(input_path, show_col_types = FALSE) %>%
   mutate(unitid = as.character(unitid)) %>%
-  filter(year == 2024) %>%
+  filter(year == tracker_cohort_year) %>%
   distinct(unitid, .keep_all = TRUE)
 
 scorecard <- readr::read_csv(scorecard_csv_path, show_col_types = FALSE) %>%
@@ -190,9 +212,9 @@ grad_plus <- fsa_grad_plus %>%
       scorecard_institution_name = normalize_display_institution_name(scorecard_institution_name),
       state = coalesce(state, scorecard_state),
       outcomes_data_available = !is.na(median_earnings_10yr) | !is.na(median_debt_completers) | !is.na(graduation_rate_6yr) | !is.na(grad_plus_recipients) | !is.na(grad_plus_disbursements_amt),
-      scorecard_data_updated = "2026-03-23",
-      grad_plus_data_updated = "AY 2025-2026 Q2",
-      ipeds_graduation_rate_year = 2024L,
+      scorecard_data_updated = scorecard_release_date,
+      grad_plus_data_updated = grad_plus_award_year_label,
+      ipeds_graduation_rate_year = source_ipeds_graduation_rate_year,
       ipeds_graduation_rate_label = "Bachelor degree within 6 years, total"
     ) %>%
     arrange(institution_name)

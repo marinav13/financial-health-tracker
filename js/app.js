@@ -299,6 +299,50 @@ window.TrackerApp.downloadRowsCsv = function downloadRowsCsv(filename, headers, 
   URL.revokeObjectURL(url);
 };
 
+window.TrackerApp.compareText = function compareText(a, b) {
+  return String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
+};
+
+window.TrackerApp.compareDateDesc = function compareDateDesc(a, b) {
+  return String(b || "").localeCompare(String(a || ""));
+};
+
+window.TrackerApp.renderHtmlCell = function renderHtmlCell(html) {
+  return { __trackerHtml: String(html ?? "") };
+};
+
+window.TrackerApp.renderHistoryTable = function renderHistoryTable(options = {}) {
+  const {
+    headers = [],
+    rows = [],
+    caption = "",
+    tableClass = "history-table"
+  } = options;
+  const captionHtml = caption ? `<caption>${escapeHtml(caption)}</caption>` : "";
+  const headerHtml = (headers || []).map((header) => String(header || "")).join("");
+  const rowHtml = (rows || []).map((row) => {
+    if (Array.isArray(row)) {
+      return `<tr>${row.map((cell) => {
+        const cellHtml = cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
+          ? cell.__trackerHtml
+          : escapeHtml(cell);
+        return `<td>${cellHtml}</td>`;
+      }).join("")}</tr>`;
+    }
+    return String(row || "");
+  }).join("");
+
+  return `
+    <div class="history-table-wrap">
+      <table class="${escapeHtml(tableClass)}">
+        ${captionHtml}
+        <thead><tr>${headerHtml}</tr></thead>
+        <tbody>${rowHtml}</tbody>
+      </table>
+    </div>
+  `;
+};
+
 window.TrackerApp.safeExternalUrl = function safeExternalUrl(url) {
   const value = String(url ?? "").trim();
   if (!value) return "";

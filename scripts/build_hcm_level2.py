@@ -11,9 +11,11 @@ from openpyxl import load_workbook
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PIPELINES = ROOT / "data_pipelines"
 
-# Federal Student Aid publishes HCM files quarterly. We keep the raw files in
-# the repo so the normalization step can be rerun without depending on a live
-# site download.
+# Federal Student Aid publishes HCM files quarterly. This script is intentionally
+# source-versioned to the raw snapshot workbooks listed below, not to a generic
+# calendar year. Add a new SOURCE_FILES entry and update the output/version label
+# when a newer quarterly workbook is adopted.
+SOURCE_VERSION_LABEL = "December 2024 through December 2025 HCM quarterly snapshots"
 SOURCE_FILES = [
     {
         "snapshot_date": "2024-12-01",
@@ -494,6 +496,7 @@ def main():
         json.dump(
             {
                 "generated_at": date.today().isoformat(),
+                "source_version_label": SOURCE_VERSION_LABEL,
                 "source_files": [str(item["path"].relative_to(ROOT)).replace("\\", "/") for item in SOURCE_FILES],
                 "summary": {
                     "counts_by_snapshot": summary_rows,

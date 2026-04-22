@@ -13,7 +13,11 @@
     setupPaginatedTable,
     filterByInstitution,
     setDataCardVisible,
-    downloadRowsCsv
+    downloadRowsCsv,
+    compareText,
+    compareDateDesc,
+    renderHistoryTable,
+    renderHtmlCell
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -54,14 +58,6 @@
 
   function setSectionVisible(id, show) {
     setDataCardVisible(id, show);
-  }
-
-  function compareText(a, b) {
-    return String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
-  }
-
-  function compareDateDesc(a, b) {
-    return String(b || "").localeCompare(String(a || ""));
   }
 
   function hasPositiveFunding(value) {
@@ -197,33 +193,25 @@
   function renderGrantTable(grants, sortState = { key: "termination_date", direction: "desc" }) {
     const visibleGrants = filterPositiveFundingGrants(grants);
     if (!visibleGrants.length) return renderEmpty("No currently disrupted grants are available.");
-    const rows = sortGrants(visibleGrants, sortState).map((grant) => `
-      <tr>
-        <td>${escapeHtml(agencyLabel(grant.agency))}</td>
-        <td>${escapeHtml(grant.project_title)}</td>
-        <td>${escapeHtml(grant.grant_id)}</td>
-        <td>${formatCurrency(grant.award_remaining)}</td>
-        <td>${formatDate(grant.termination_date)}</td>
-        <td>${renderExternalLink(grant.source_url, "Source")}</td>
-      </tr>
-    `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Agency</th>
-              <th>Grant</th>
-              <th>Grant ID</th>
-              <th>Funding still disrupted</th>
-              ${renderSortableHeader("termination_date", sortState, "Termination date")}
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+    const rows = sortGrants(visibleGrants, sortState).map((grant) => [
+      agencyLabel(grant.agency),
+      grant.project_title,
+      grant.grant_id,
+      formatCurrency(grant.award_remaining),
+      formatDate(grant.termination_date),
+      renderHtmlCell(renderExternalLink(grant.source_url, "Source"))
+    ]);
+    return renderHistoryTable({
+      headers: [
+        "<th>Agency</th>",
+        "<th>Grant</th>",
+        "<th>Grant ID</th>",
+        "<th>Funding still disrupted</th>",
+        renderSortableHeader("termination_date", sortState, "Termination date"),
+        "<th>Source</th>"
+      ],
+      rows
+    });
   }
 
   function sortInstitutionRows(items, sortState) {
@@ -318,29 +306,21 @@
 
   function renderStateSummaryTable(items, sortState = { key: "public_funding", direction: "desc" }) {
     if (!items || !items.length) return renderEmpty("No state summary is available.");
-    const rows = sortStateSummaryRows(items, sortState).map((item) => `
-      <tr>
-        <td>${escapeHtml(item.state || "")}</td>
-        <td>${formatCurrency(item.publicFunding)}</td>
-        <td>${formatCurrency(item.privateFunding)}</td>
-        <td>${formatCurrency(item.totalFunding)}</td>
-      </tr>
-    `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              ${renderSortableHeader("state", sortState, "State")}
-              ${renderSortableHeader("public_funding", sortState, "Public cuts")}
-              ${renderSortableHeader("private_funding", sortState, "Private cuts")}
-              ${renderSortableHeader("total_funding", sortState, "Total cuts")}
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+    const rows = sortStateSummaryRows(items, sortState).map((item) => [
+      item.state || "",
+      formatCurrency(item.publicFunding),
+      formatCurrency(item.privateFunding),
+      formatCurrency(item.totalFunding)
+    ]);
+    return renderHistoryTable({
+      headers: [
+        renderSortableHeader("state", sortState, "State"),
+        renderSortableHeader("public_funding", sortState, "Public cuts"),
+        renderSortableHeader("private_funding", sortState, "Private cuts"),
+        renderSortableHeader("total_funding", sortState, "Total cuts")
+      ],
+      rows
+    });
   }
 
   function setupStateSummary(container, items) {
@@ -360,31 +340,23 @@
 
   function renderDefaultTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
-    const rows = items.map((item) => `
-      <tr>
-        <td>${renderSchoolLink(item.unitid, item.institution_name, "research.html")}</td>
-        <td>${escapeHtml(item.state || "")}</td>
-        <td>${escapeHtml(item.control_label || "")}</td>
-        <td>${Number(item.total_disrupted_grants || 0)}</td>
-        <td>${formatCurrency(item.total_disrupted_award_remaining)}</td>
-      </tr>
-    `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              ${renderSortableHeader("institution_name", sortState, "Institution")}
-              ${renderSortableHeader("state", sortState, "State")}
-              ${renderSortableHeader("sector", sortState, "Sector")}
-              ${renderSortableHeader("disrupted_grants", sortState, "Disrupted grants")}
-              ${renderSortableHeader("funding", sortState, "Funding cut or frozen")}
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+    const rows = items.map((item) => [
+      renderHtmlCell(renderSchoolLink(item.unitid, item.institution_name, "research.html")),
+      item.state || "",
+      item.control_label || "",
+      Number(item.total_disrupted_grants || 0),
+      formatCurrency(item.total_disrupted_award_remaining)
+    ]);
+    return renderHistoryTable({
+      headers: [
+        renderSortableHeader("institution_name", sortState, "Institution"),
+        renderSortableHeader("state", sortState, "State"),
+        renderSortableHeader("sector", sortState, "Sector"),
+        renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
+        renderSortableHeader("funding", sortState, "Funding cut or frozen")
+      ],
+      rows
+    });
   }
 
   function renderTablePage(items, page, pageSize, emptyMessage, ariaLabel, sortState) {

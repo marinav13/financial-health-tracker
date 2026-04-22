@@ -143,6 +143,22 @@ async function renderResearchFixture() {
         renderSchoolLink: (unitid, label, page = "school.html") => `<a href="${page}?unitid=${encodeURIComponent(unitid)}">${escapeHtml(label)}</a>`,
         renderPaginationButtons: () => "",
         renderSortableHeader: (key, sortState, label) => `<th>${escapeHtml(label)}</th>`,
+        compareText: (a, b) => String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" }),
+        compareDateDesc: (a, b) => String(b || "").localeCompare(String(a || "")),
+        renderHtmlCell: (html) => ({ __trackerHtml: String(html ?? "") }),
+        renderHistoryTable: ({ headers = [], rows = [] } = {}) => `
+          <div class="history-table-wrap">
+            <table class="history-table">
+              <thead><tr>${headers.join("")}</tr></thead>
+              <tbody>${rows.map((row) => `<tr>${row.map((cell) => {
+                const cellHtml = cell && typeof cell === "object" && Object.prototype.hasOwnProperty.call(cell, "__trackerHtml")
+                  ? cell.__trackerHtml
+                  : escapeHtml(cell);
+                return `<td>${cellHtml}</td>`;
+              }).join("")}</tr>`).join("")}</tbody>
+            </table>
+          </div>
+        `,
         paginateItems: (items) => ({ totalPages: 1, currentPage: 1, pageItems: items || [] }),
         focusAfterRender: () => {},
         bindSortControls: () => {},

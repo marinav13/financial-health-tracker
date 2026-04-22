@@ -12,7 +12,11 @@
     setupPaginatedTable,
     filterByInstitution,
     setDataCardVisible,
-    downloadRowsCsv
+    downloadRowsCsv,
+    compareText,
+    compareDateDesc,
+    renderHistoryTable,
+    renderHtmlCell
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -104,14 +108,6 @@
     setDataCardVisible(id, show);
   }
 
-  function compareText(a, b) {
-    return String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
-  }
-
-  function compareDateDesc(a, b) {
-    return String(b || "").localeCompare(String(a || ""));
-  }
-
   function sortCuts(items, sortState) {
     const sorted = (items || []).slice();
     const direction = sortState?.direction === "desc" ? -1 : 1;
@@ -140,33 +136,25 @@
 
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
-    const rows = items.map((cut) => `
-      <tr>
-        <td>${renderSchoolLink(cut.financial_unitid, cut.institution_name, "school.html")}</td>
-        <td>${escapeHtml(cut.state)}</td>
-        <td>${escapeHtml(cut.control_label)}</td>
-        <td>${escapeHtml(cut.program_name || "") + formatAffectedCount(cut)}</td>
-        <td>${escapeHtml(cut.announcement_date || cut.announcement_year || "")}</td>
-        <td>${renderExternalLink(cut.source_url, "Source")}</td>
-      </tr>
-    `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              ${renderSortableHeader("institution_name", sortState, "Institution")}
-              ${renderSortableHeader("state", sortState, "State")}
-              <th>Sector</th>
-              <th>Cut</th>
-              ${renderSortableHeader("announcement_date", sortState, "Date")}
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+    const rows = items.map((cut) => [
+      renderHtmlCell(renderSchoolLink(cut.financial_unitid, cut.institution_name, "school.html")),
+      cut.state,
+      cut.control_label,
+      (cut.program_name || "") + formatAffectedCount(cut),
+      cut.announcement_date || cut.announcement_year || "",
+      renderHtmlCell(renderExternalLink(cut.source_url, "Source"))
+    ]);
+    return renderHistoryTable({
+      headers: [
+        renderSortableHeader("institution_name", sortState, "Institution"),
+        renderSortableHeader("state", sortState, "State"),
+        "<th>Sector</th>",
+        "<th>Cut</th>",
+        renderSortableHeader("announcement_date", sortState, "Date"),
+        "<th>Source</th>"
+      ],
+      rows
+    });
   }
 
   function sortClosures(items, sortState) {
@@ -195,31 +183,23 @@
 
   function renderClosuresTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched closures are available.");
-    const rows = items.map((closure) => `
-      <tr>
-        <td>${renderSchoolLink(closure.unitid, closure.institution_name, "school.html")}</td>
-        <td>${escapeHtml(closure.state)}</td>
-        <td>${escapeHtml(closure.control_label)}</td>
-        <td>${escapeHtml(closure.close_date_display || closure.close_date || "")}</td>
-        <td>Federal data</td>
-      </tr>
-    `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              ${renderSortableHeader("institution_name", sortState, "Institution")}
-              ${renderSortableHeader("state", sortState, "State")}
-              <th>Sector</th>
-              ${renderSortableHeader("close_date", sortState, "Closure date")}
-              <th>Source</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
-    `;
+    const rows = items.map((closure) => [
+      renderHtmlCell(renderSchoolLink(closure.unitid, closure.institution_name, "school.html")),
+      closure.state,
+      closure.control_label,
+      closure.close_date_display || closure.close_date || "",
+      "Federal data"
+    ]);
+    return renderHistoryTable({
+      headers: [
+        renderSortableHeader("institution_name", sortState, "Institution"),
+        renderSortableHeader("state", sortState, "State"),
+        "<th>Sector</th>",
+        renderSortableHeader("close_date", sortState, "Closure date"),
+        "<th>Source</th>"
+      ],
+      rows
+    });
   }
 
   function getAnnouncementYear(cut) {

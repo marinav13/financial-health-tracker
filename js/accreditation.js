@@ -17,7 +17,9 @@
     escapeHtml,
     filterByInstitution,
     setDataCardVisible,
-    downloadRowsCsv
+    downloadRowsCsv,
+    renderHistoryTable,
+    renderHtmlCell
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -256,33 +258,25 @@
     const rows = filtered
       .slice()
       .sort((a, b) => String(formatActionDate(b)).localeCompare(String(formatActionDate(a))))
-      .map((action) => `
-        <tr>
-          <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
-          <td>${escapeHtml(action.action_label || action.action_label_raw || action.action_type || "")}</td>
-          <td>${escapeHtml(state || "")}</td>
-          <td>${escapeHtml(controlLabel || "")}</td>
-          <td>${escapeHtml(formatActionDate(action))}</td>
-          <td>${renderExternalLink(getActionLink(action), "Source link")}</td>
-        </tr>
-      `).join("");
-    return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Accreditor</th>
-              <th>Action</th>
-              <th>State</th>
-              <th>Sector</th>
-              <th>Date</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>${renderInstitutionLinks(unitid, financialUnitid)}
-    `;
+      .map((action) => [
+        expandAccreditors(action.accreditor || ""),
+        action.action_label || action.action_label_raw || action.action_type || "",
+        state || "",
+        controlLabel || "",
+        formatActionDate(action),
+        renderHtmlCell(renderExternalLink(getActionLink(action), "Source link"))
+      ]);
+    return `${renderHistoryTable({
+      headers: [
+        "<th>Accreditor</th>",
+        "<th>Action</th>",
+        "<th>State</th>",
+        "<th>Sector</th>",
+        "<th>Date</th>",
+        "<th>Link</th>"
+      ],
+      rows
+    })}${renderInstitutionLinks(unitid, financialUnitid)}`;
   }
 
   function buildDefaultActionRows(data) {
@@ -320,36 +314,29 @@
     }
 
     const rows = pageItems
-      .map((action) => `
-        <tr>
-          <td>${linkNames ? renderSchoolLink(action.unitid, action.institution_name, "school.html") : escapeHtml(action.institution_name || "")}</td>
-          <td>${escapeHtml(expandAccreditors(action.accreditor || ""))}</td>
-          <td>${escapeHtml(action.action_label || action.action_type || "")}</td>
-          <td>${escapeHtml(action.state || "")}</td>
-          <td>${escapeHtml(action.control_label || "")}</td>
-          <td>${escapeHtml(action.action_date || action.action_year || "")}</td>
-          <td>${renderExternalLink(action.source_url, "Source link")}</td>
-        </tr>
-      `)
-      .join("");
+      .map((action) => [
+        linkNames ? renderHtmlCell(renderSchoolLink(action.unitid, action.institution_name, "school.html")) : action.institution_name || "",
+        expandAccreditors(action.accreditor || ""),
+        action.action_label || action.action_type || "",
+        action.state || "",
+        action.control_label || "",
+        action.action_date || action.action_year || "",
+        renderHtmlCell(renderExternalLink(action.source_url, "Source link"))
+      ]);
 
     return `
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Institution</th>
-              <th>Accreditor</th>
-              <th>Action</th>
-              <th>State</th>
-              <th>Sector</th>
-              <th>Date</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>
+      ${renderHistoryTable({
+        headers: [
+          "<th>Institution</th>",
+          "<th>Accreditor</th>",
+          "<th>Action</th>",
+          "<th>State</th>",
+          "<th>Sector</th>",
+          "<th>Date</th>",
+          "<th>Link</th>"
+        ],
+        rows
+      })}
       <div class="pagination" aria-label="Accreditation actions pages">
         ${renderPaginationButtons({ currentPage, totalPages })}
       </div>

@@ -1,105 +1,79 @@
 # Financial Health Tracker
 
-Builds the college financial health interactive from federal data sources to the static site files that go on the Hechinger website.
+Static website and data pipeline for the college financial health interactive.
+The site lets users search four-year, primarily bachelor's-degree-granting
+institutions and inspect decade-scale financial trends, accreditation actions,
+college cuts, research funding cuts, closures, HCM status, and federal composite
+scores.
 
-## Quick start
+## Start Here
 
-```r
-# 1. Build IPEDS (first time only — downloads ~2 GB of federal data)
-source("scripts/build_ipeds_dataset.R")
-main(c("--start-year", "2014", "--end-year", "2024"))
-
-# 2. Build supporting joins
-source("scripts/build_outcomes_join.R");          main()
-source("scripts/build_college_cuts_join.R");       main()
-source("scripts/build_accreditation_actions.R");   main()
-source("scripts/build_grant_witness_join.R");      main()
-
-# 3. Import closure data from Google Sheets
-python scripts/import_closure_sheet.py --sheet "YOUR_SHEET_URL"
-
-# 4. Build the site files
-source("scripts/build_web_exports.R"); main()
-```
-
-That's it. Steps 2–4 are rerunnable anytime. Step 1 only needs to run during the IPEDS refresh window (January–April).
-
-## What to read first
-
-| If you are... | Read this first |
+| Need | Read |
 |---|---|
-| New to the project | [WALKTHROUGH_GUIDE.txt](./WALKTHROUGH_GUIDE.txt) |
-| Publishing the site | [docs/WEBSITE_MANAGER_NOTE.md](./docs/WEBSITE_MANAGER_NOTE.md) |
-| Understanding the pipeline | [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) |
-| Understanding the code | [scripts/README.md](./scripts/README.md) |
-| Finding a term | [docs/GLOSSARY.md](./docs/GLOSSARY.md) |
+| Rebuild the project step by step | [docs/WALKTHROUGH.md](./docs/WALKTHROUGH.md) |
+| Understand data flow and rerun safety | [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) |
+| Set up a local dev machine | [docs/DEV_SETUP.md](./docs/DEV_SETUP.md) |
+| Publish or hand off the static site | [docs/WEBSITE_MANAGER_NOTE.md](./docs/WEBSITE_MANAGER_NOTE.md) |
+| Diagnose weekly refresh failures | [docs/RUNBOOK_WEEKLY_REFRESH.md](./docs/RUNBOOK_WEEKLY_REFRESH.md) |
+| Find definitions | [docs/GLOSSARY.md](./docs/GLOSSARY.md) |
+| Work on build scripts | [scripts/README.md](./scripts/README.md) |
 
-## Build order (the one thing to remember)
+## Repository Shape
 
-```
-IPEDS raw download
-    └─► build_ipeds_dataset.R
+| Path | Purpose |
+|---|---|
+| `index.html`, `school.html`, `cuts.html`, `research.html`, `accreditation.html` | Static site entry points served by GitHub Pages |
+| `styles.css`, `js/` | Browser UI code, no bundler required |
+| `data/` | Committed site JSON, indexes, school files, and download CSVs |
+| `scripts/` | R/Python build and import entry points |
+| `scripts/shared/` | Reusable pipeline helpers and contracts |
+| `data_pipelines/` | Supporting source domains, committed source-versioned inputs, and ignored local caches |
+| `ipeds/` | Local IPEDS raw/cache/derived workspace, mostly ignored |
+| `tests/` | R, Python, Node, Playwright, and accessibility checks |
+| `docs/` | Walkthroughs, runbooks, setup notes, and glossary |
 
-Supporting joins (each reads canonical + external data)
-    └─► build_outcomes_join.R
-    └─► build_college_cuts_join.R
-    └─► build_accreditation_actions.R
-    └─► build_grant_witness_join.R
+Root files that look like tooling files are intentionally root-level:
+`package.json`, `package-lock.json`, `playwright.config.js`, `requirements.txt`,
+`renv.lock`, `.Rprofile`, `.pa11yci.json`, and GitHub Pages files need to stay
+where their tools expect them.
 
-External imports
-    └─► import_closure_sheet.py
-    └─► build_federal_composite_scores.py
-    └─► build_hcm_level2.py
+## What Gets Committed
 
-Site output
-    └─► build_web_exports.R  →  data/
-```
+Commit code, docs, workflows, tests, and finished site assets in `data/`.
 
-Each script writes files consumed by the next. Run them in order.
+Keep local caches, raw downloads, scratch outputs, and workbooks out of Git.
+The main ignored local folders are `node_modules/`, `renv/library/`,
+`ipeds/cache/`, `ipeds/raw/`, `ipeds/derived/`, `data_pipelines/*/cache/`,
+`test-results/`, and `workbooks/`.
 
-## What the repo commits
+See [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) for the longer output map.
 
-This repo is intentionally strict about what it commits:
+## Fast Commands
 
-**Yes — commit:** code, docs, workflows, and finished site assets in `data/`
-
-**No — keep local:** rebuild caches (`ipeds/cache/`), raw IPEDS downloads, intermediate pipeline CSVs, and workbooks
-
-See `docs/REFRESH_CYCLE.md` → "Outputs that are local-only" for the full list.
-
-## Project layout
-
-```
-scripts/             — build entrypoints
-scripts/shared/      — reusable helpers (args, exports, scrapers, etc.)
-data_pipelines/      — non-IPEDS rebuild inputs and intermediate joins
-ipeds/               — IPEDS raw, manifests, derived outputs, and download cache
-data/                — shipped site JSON, CSVs, and indexes
-workbooks/           — local reporting workbook (not part of site production)
-docs/                — glossary, refresh cycle docs, and setup guides
-```
-
-## Testing
-
-**R tests (smoke + regression):**
 ```bash
+# R smoke and fixture tests
 Rscript ./tests/run_shared_helper_smoke_tests.R
-```
 
-**JavaScript tests (structure + charts):**
-```bash
+# JS structure/security/data workflow tests
 npm run test:smoke
-```
 
-**Playwright e2e tests (search, navigation, charts):**
-```bash
-npm install
+# Browser interaction tests
 npm run test:e2e
-```
 
-**Accessibility tests (pa11y):**
-```bash
+# Static pa11y URL checks
 npm run test:a11y
 ```
 
-Always run at least the R smoke tests before committing.
+Use `npm ci` on fresh machines or in CI. Use `npm install` only when you intend
+to update `package-lock.json`.
+
+## Build Entry Point
+
+The full rebuild sequence lives in [docs/WALKTHROUGH.md](./docs/WALKTHROUGH.md).
+The short version is:
+
+1. Build or refresh the canonical IPEDS dataset.
+2. Rebuild supporting joins for outcomes, cuts, accreditation, research, HCM,
+   closures, and federal composite scores.
+3. Run `scripts/build_web_exports.R` to write the committed static data files.
+4. Run smoke, browser, and accessibility checks before pushing.

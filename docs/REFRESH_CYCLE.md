@@ -54,8 +54,8 @@ Federal closure (Google Sheet)
              └─► data_pipelines/federal_closure/derived/closure_pipeline_summary.json
 
 External JSON
-    ├─► data/hcm2_by_unitid.json          ← build_federal_hcm.py (separate repo)
-    └─► data/federal_composite_scores_by_unitid.json  ← build_federal_composite_scores.py (separate repo)
+    ├─► data/hcm2_by_unitid.json          ← build_hcm_level2.py
+    └─► data/federal_composite_scores_by_unitid.json  ← build_federal_composite_scores.py
 
 All above outputs
     └─► build_web_exports.R

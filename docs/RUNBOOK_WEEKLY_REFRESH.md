@@ -136,7 +136,7 @@ a failed `fetch()` call — that points directly to the broken data file.
 
 | Resource | Location |
 |---|---|
-| Full pipeline walkthrough | `WALKTHROUGH_GUIDE.txt` |
+| Full pipeline walkthrough | `docs/WALKTHROUGH.md` |
 | Refresh cycle and data sources | `docs/REFRESH_CYCLE.md` |
 | Accreditor scraper logic | `scripts/shared/accreditation_scrapers.R` |
 | CollegeCuts Supabase project | Set in repo secrets — ask the data team for access |

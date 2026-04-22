@@ -66,8 +66,8 @@ python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports
 This project uses Playwright for end-to-end tests (see `tests/e2e/`).
 
 ```bash
-# Install dependencies
-npm install
+# Install dependencies from the lockfile
+npm ci
 
 # Run e2e tests (headless)
 npm run test:e2e

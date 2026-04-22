@@ -108,6 +108,14 @@ run("weekly refresh runs R smoke tests through activated renv library", () => {
   assert(!block.includes("--vanilla"), "Expected weekly smoke tests not to bypass renv activation with --vanilla");
 });
 
+run("weekly refresh caches the same renv library path as test workflow", () => {
+  const weeklyBlock = stepBlock(WEEKLY, "Cache R packages");
+  const testsBlock = stepBlock(TESTS, "Cache R packages");
+  assert(weeklyBlock.includes("path: renv/library"), "Expected weekly refresh to cache renv/library");
+  assert(testsBlock.includes("path: renv/library"), "Expected tests workflow to cache renv/library");
+  assert(!weeklyBlock.includes("R_LIBS_USER"), "Expected weekly refresh not to cache a divergent R_LIBS_USER path");
+});
+
 run("full refresh explicitly installs packages used by --vanilla R scripts", () => {
   const dependencyBlock = stepBlock(FULL, "Set up R dependencies");
   ["dplyr", "httr2", "jsonlite", "openxlsx", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"].forEach((pkg) => {

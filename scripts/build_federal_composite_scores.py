@@ -9,7 +9,10 @@ DATA_PIPELINES = ROOT / "data_pipelines"
 # The federal score file is a one-sheet extract from Federal Student Aid's
 # published composite score workbook for institutions with fiscal years ending
 # between July 1, 2022 and June 30, 2023.
+SOURCE_VERSION_LABEL = "Fiscal years ending July 1, 2022 through June 30, 2023"
+SOURCE_YEAR_LABEL = "2022-23"
 SOURCE_CSV = DATA_PIPELINES / "federal_composite" / "ay_2022_2023_composite_scores.csv"
+SCORE_COLUMN = " Composite Score for Institution's  Fiscal Year Ending Between 07/01/2022 - 6/30/2023"
 
 # The raw IPEDS export already carries OPEID alongside UNITID, so we can map
 # the federal workbook onto our school pages without rebuilding the full IPEDS
@@ -133,7 +136,7 @@ def main():
         reader = csv.DictReader(handle, fieldnames=headers)
         for row in reader:
             opeid = normalize_opeid(row.get("OPEID", ""))
-            score = parse_float(row.get(" Composite Score for Institution's  Fiscal Year Ending Between 07/01/2022 - 6/30/2023", ""))
+            score = parse_float(row.get(SCORE_COLUMN, ""))
             if not opeid or score is None:
                 continue
             match = ipeds_by_opeid.get(opeid)
@@ -150,7 +153,7 @@ def main():
                 "institution_type": row.get("Institution Type", ""),
                 "fiscal_year_end_excel_serial": row.get("Institution Fiscal Year End", ""),
                 "federal_composite_score_2022_2023": score,
-                "federal_composite_score_year_label": "2022-23",
+                "federal_composite_score_year_label": SOURCE_YEAR_LABEL,
                 "federal_composite_score_status": status,
                 "federal_composite_score_status_label": composite_status_label(status),
                 "source": "Federal Student Aid composite scores"
@@ -161,6 +164,7 @@ def main():
         json.dump(
             {
                 "generated_at": __import__("datetime").date.today().isoformat(),
+                "source_version_label": SOURCE_VERSION_LABEL,
                 "source_file": str(SOURCE_CSV.relative_to(ROOT)).replace("\\", "/"),
                 "schools": rows_by_unitid
             },

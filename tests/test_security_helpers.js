@@ -203,6 +203,22 @@ run("renderSortableHeader puts aria-sort on the active table header only", () =>
   assert(active.includes('data-sort-key="funding"'), "Expected sort key data attribute");
 });
 
+run("renderHistoryTable escapes table metadata while preserving safe cell HTML", () => {
+  const html = app.renderHistoryTable({
+    caption: '<script>alert("caption")</script>',
+    tableClass: 'history-table" onclick="alert(1)',
+    headers: ["<th>Institution</th>", app.renderSortableHeader("date", { key: "date", direction: "desc" }, "Date")],
+    rows: [["<b>Bad cell</b>", app.renderHtmlCell(app.renderSchoolLink("123", "Test U", "school.html")), app.renderHtmlCell(app.renderExternalLink("https://example.edu", "Source"))]]
+  });
+  assert(html.includes("&lt;script&gt;alert(&quot;caption&quot;)&lt;/script&gt;"), "Expected caption text to be escaped");
+  assert(!html.includes('" onclick="'), "Expected table class to stay inside one escaped attribute");
+  assert(html.includes("&lt;b&gt;Bad cell&lt;/b&gt;"), "Expected primitive cell values to be escaped by default");
+  assert(!html.includes("<b>Bad cell</b>"), "Expected primitive cell HTML not to render");
+  assert(html.includes("<th>Institution</th>"), "Expected caller-provided header HTML to render");
+  assert(html.includes('href="school.html?unitid=123"'), "Expected safe link cell HTML to render");
+  assert(html.includes('href="https://example.edu/"'), "Expected safe external link cell HTML to render");
+});
+
 run("renderSchoolLink escapes labels at the helper boundary", () => {
   const html = app.renderSchoolLink("123", '<svg onload="alert(1)">Bad U</svg>', "school.html");
   assert(html.includes('href="school.html?unitid=123"'), "Expected school link");

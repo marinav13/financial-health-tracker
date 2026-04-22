@@ -22,6 +22,7 @@
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
+  const MIN_PUBLIC_AWARD_REMAINING = 100;
 
   function getParam(name) {
     return new URLSearchParams(window.location.search).get(name);
@@ -42,7 +43,7 @@
 
   function hasPositiveFunding(value) {
     const amount = Number(value);
-    return Number.isFinite(amount) && amount > 0;
+    return Number.isFinite(amount) && amount >= MIN_PUBLIC_AWARD_REMAINING;
   }
 
   function filterPositiveFundingInstitutions(items) {
@@ -453,16 +454,7 @@
 
     document.getElementById("research-school-name").textContent = school.institution_name || "Research Funding Cuts";
     document.getElementById("research-school-name").classList.remove("is-hidden");
-    setText("research-school-location", [school.city, school.state].filter(Boolean).join(", "));
-    setText("research-school-control", school.control_label || "");
-    setText("research-school-category", school.category || "");
     if (summaryGrid) summaryGrid.innerHTML = renderSummaryGrid(school);
-
-    const overview = document.getElementById("research-overview");
-    if (overview) {
-      overview.classList.remove("is-hidden");
-      overview.innerHTML = "";
-    }
 
     title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;
     if (title) title.classList.remove("is-hidden");

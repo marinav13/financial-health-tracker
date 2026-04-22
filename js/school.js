@@ -488,6 +488,40 @@ function downloadSchoolCsv(school) {
   );
 }
 
+function schoolProfileUrl(unitid) {
+  const url = new URL("school.html", window.location.href);
+  url.search = "";
+  url.searchParams.set("unitid", unitid);
+  return url.href;
+}
+
+async function shareSchoolProfile(school, unitid) {
+  const status = document.getElementById("share-school-status");
+  const name = school.profile?.institution_name || "this college";
+  const url = schoolProfileUrl(unitid);
+  const shareData = {
+    title: `${name} profile`,
+    text: `View ${name}'s College Financial Health Explorer profile:`,
+    url
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      if (status) status.textContent = "Share options opened.";
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+      console.warn("Native share failed; falling back to link copy/email.", error);
+    }
+  }
+
+  const subject = encodeURIComponent(`${name} profile`);
+  const body = encodeURIComponent(`${shareData.text}\n\n${url}`);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  if (status) status.textContent = "Email share opened.";
+}
+
 function syncSearchToggle() {
   const wrap = document.getElementById("school-search-wrap");
   if (!wrap) return;
@@ -549,6 +583,10 @@ async function init() {
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
     downloadButton.onclick = () => downloadSchoolCsv(school);
+  }
+  const shareButton = document.getElementById("share-school-profile");
+  if (shareButton) {
+    shareButton.onclick = () => shareSchoolProfile(school, unitid);
   }
 
   renderSchoolRelatedPages(unitid, {

@@ -100,6 +100,8 @@ const PAGES = [
       { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
       { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      { pattern: /id="share-school-profile"/, message: "Share profile button" },
+      { pattern: /id="share-school-status"[^>]*aria-live="polite"/, message: "Share status live region" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Financial Trends<\/h2>/, message: "Financial Trends h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
@@ -209,6 +211,8 @@ if (fs.existsSync(schoolJsPath)) {
   check("school.js", /function setSectionVisibility/, schoolJs, "school section visibility helper");
   check("school.js", /setAttribute\("aria-hidden", "true"\)/, schoolJs, "school hidden sections set aria-hidden");
   check("school.js", /removeAttribute\("aria-hidden"\)/, schoolJs, "school visible sections remove aria-hidden");
+  check("school.js", /navigator\.share/, schoolJs, "native profile share helper");
+  check("school.js", /mailto:\?subject=/, schoolJs, "profile share email fallback");
 } else {
   console.log("  FAIL: js/school.js not found");
   failures.push("school.js: File not found");

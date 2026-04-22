@@ -591,6 +591,13 @@ body {
   text-align: center;
 }
 
+#school-outcomes-section.data-card {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
 .table-toolbar {
   display: flex;
   flex-wrap: wrap;

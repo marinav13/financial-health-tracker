@@ -3,8 +3,9 @@
 Static website and data pipeline for the college financial health interactive.
 The site lets users search four-year, primarily bachelor's-degree-granting
 institutions and inspect decade-scale financial trends, accreditation actions,
-college cuts, research funding cuts, closures, HCM status, and federal composite
-scores.
+college cuts, research funding cuts, HCM status, and federal composite scores.
+Closure import plumbing remains in the repo, but closure records are not shown
+on the public site until the separate closure scraper is ready.
 
 ## Start Here
 
@@ -74,6 +75,6 @@ The short version is:
 
 1. Build or refresh the canonical IPEDS dataset.
 2. Rebuild supporting joins for outcomes, cuts, accreditation, research, HCM,
-   closures, and federal composite scores.
+   closure source artifacts, and federal composite scores.
 3. Run `scripts/build_web_exports.R` to write the committed static data files.
 4. Run smoke, browser, and accessibility checks before pushing.

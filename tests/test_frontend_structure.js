@@ -42,13 +42,10 @@ const PAGES = [
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
       { pattern: /id="cuts-other-list"[^>]*aria-live="polite"/, message: 'cuts-other-list with aria-live="polite"' },
-      { pattern: /id="cuts-closures-list"[^>]*aria-live="polite"/, message: 'cuts-closures-list with aria-live="polite"' },
       { pattern: /id="cuts-filter"/, message: "Primary filter input" },
       { pattern: /id="cuts-other-filter"/, message: "Other filter input" },
-      { pattern: /id="cuts-closures-filter"/, message: "Closures filter input" },
       { pattern: /class="table-filter-label"[^>]+for="cuts-filter"/, message: 'Visible label for cuts-filter' },
       { pattern: /class="table-filter-label"[^>]+for="cuts-other-filter"/, message: 'Visible label for cuts-other-filter' },
-      { pattern: /class="table-filter-label"[^>]+for="cuts-closures-filter"/, message: 'Visible label for cuts-closures-filter' },
       { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
     ],
   },
@@ -198,19 +195,6 @@ if (fs.existsSync(accreditationJsPath)) {
 } else {
   console.log("  FAIL: js/accreditation.js not found");
   failures.push("accreditation.js: File not found");
-  failed++;
-}
-
-console.log("\n\njs/cuts.js:");
-const cutsJsPath = path.join(ROOT, "js", "cuts.js");
-if (fs.existsSync(cutsJsPath)) {
-  const cutsJs = fs.readFileSync(cutsJsPath, "utf8");
-  check("cuts.js", /function getClosureYearRange/, cutsJs, "data-driven closure year range helper");
-  check("cuts.js", /formatYearRange\(getClosureYearRange\(closureData\)\)/, cutsJs, "closure title uses data-derived range");
-  check("cuts.js", (content) => !/2024-2026/.test(content), cutsJs, "no hard-coded 2024-2026 closure copy");
-} else {
-  console.log("  FAIL: js/cuts.js not found");
-  failures.push("cuts.js: File not found");
   failed++;
 }
 

@@ -20,9 +20,7 @@
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
-  const CLOSURE_PAGE_SIZE = 10;
   const MIN_DEFAULT_YEAR = 2024;
-  const MIN_CLOSURE_YEAR = 2024;
 
   function getParam(name) {
     const params = new URLSearchParams(window.location.search);
@@ -158,51 +156,6 @@
     });
   }
 
-  function sortClosures(items, sortState) {
-    const sorted = (items || []).slice();
-    const direction = sortState?.direction === "desc" ? -1 : 1;
-    sorted.sort((a, b) => {
-      if (sortState?.key === "institution_name") {
-        const primary = compareText(a.institution_name, b.institution_name) * direction;
-        if (primary !== 0) return primary;
-        return compareText(a.close_date, b.close_date);
-      }
-      if (sortState?.key === "state") {
-        const primary = compareText(a.state, b.state) * direction;
-        if (primary !== 0) return primary;
-        return compareText(a.institution_name, b.institution_name);
-      }
-      if (sortState?.key === "close_date") {
-        const primary = compareText(a.close_date, b.close_date) * direction;
-        if (primary !== 0) return primary;
-        return compareText(a.institution_name, b.institution_name);
-      }
-      return compareText(a.close_date, b.close_date);
-    });
-    return sorted;
-  }
-
-  function renderClosuresTable(items, sortState) {
-    if (!items || !items.length) return renderEmpty("No matched closures are available.");
-    const rows = items.map((closure) => [
-      renderHtmlCell(renderSchoolLink(closure.unitid, closure.institution_name, "school.html")),
-      closure.state,
-      closure.control_label,
-      closure.close_date_display || closure.close_date || "",
-      "Federal data"
-    ]);
-    return renderHistoryTable({
-      headers: [
-        renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("state", sortState, "State"),
-        "<th>Sector</th>",
-        renderSortableHeader("close_date", sortState, "Closure date"),
-        "<th>Source</th>"
-      ],
-      rows
-    });
-  }
-
   function getAnnouncementYear(cut) {
     const explicitYear = Number(cut.announcement_year || "");
     if (!Number.isNaN(explicitYear) && explicitYear > 0) return explicitYear;
@@ -251,21 +204,6 @@
     `;
   }
 
-  function renderClosuresTablePage(items, page, pageSize, emptyMessage, sortState) {
-    const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
-
-    if (!pageItems.length) {
-      return renderEmpty(emptyMessage);
-    }
-
-    return `
-      ${renderClosuresTable(pageItems, sortState)}
-      <div class="pagination" aria-label="Closure pages">
-        ${renderPaginationButtons({ currentPage, totalPages })}
-      </div>
-    `;
-  }
-
   function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv", searchInput = null) {
     if (!container) return;
     const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
@@ -295,98 +233,15 @@
     });
   }
 
-  function setupClosurePagination(container, items, pageSize = CLOSURE_PAGE_SIZE, emptyMessage = `No tracker-universe closures from ${MIN_CLOSURE_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-closures.csv", searchInput = null) {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    setupPaginatedTable({
-      container,
-      items,
-      pageSize,
-      searchInput,
-      initialSortState: { key: "close_date", direction: "asc" },
-      defaultSortState: { key: "close_date", direction: "asc" },
-      filterItems: filterByInstitution,
-      sortItems: sortClosures,
-      renderPage: (sortedItems, currentPage, size, sortState) => renderClosuresTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
-      downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "State", "Sector", "Closure date", "Source"],
-        pageItems.map((closure) => [
-            closure.institution_name || "",
-            closure.state || "",
-            closure.control_label || "",
-            closure.close_date_display || closure.close_date || "",
-            "Federal data"
-          ])
-      )
-    });
-  }
-
-  function formatDateLong(dateText) {
-    if (!dateText) return "";
-    const parsed = new Date(`${dateText}T00:00:00`);
-    if (Number.isNaN(parsed.getTime())) return dateText;
-    return parsed.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-  }
-
-  function isFourYearInstitution(record) {
-    const category = String(record?.category || "");
-    return /4-year or above/i.test(category) || /primarily baccalaureate or above/i.test(category);
-  }
-
-  function getClosureYearRange(closureData) {
-    const explicitMin = Number(closureData?.min_close_year || "");
-    const explicitMax = Number(closureData?.max_close_year || "");
-    const years = Object.values(closureData?.schools || {})
-      .map((closure) => Number(closure.close_year || ""))
-      .filter(Number.isFinite);
-    const minYear = Number.isFinite(explicitMin) ? explicitMin : MIN_CLOSURE_YEAR;
-    const maxYear = Number.isFinite(explicitMax) ? explicitMax : (years.length ? Math.max(...years) : new Date().getFullYear());
-    return {
-      min: Math.max(MIN_CLOSURE_YEAR, minYear),
-      max: Math.max(MIN_CLOSURE_YEAR, maxYear)
-    };
-  }
-
-  function formatYearRange(range) {
-    return range.max > range.min ? `${range.min}-${range.max}` : String(range.min);
-  }
-
-  function buildRecentClosures(closureData, schoolsIndex) {
-    const schoolLookup = new Map((schoolsIndex || []).map((school) => [String(school.unitid || ""), school]));
-    const range = getClosureYearRange(closureData);
-    return Object.values(closureData?.schools || {})
-      .map((closure) => {
-        const school = schoolLookup.get(String(closure.unitid || "")) || {};
-        return {
-          ...closure,
-          institution_name: school.institution_name || closure.institution_name || "",
-          state: school.state || closure.state || "",
-          control_label: school.control_label || "",
-          category: school.category || "",
-          close_date_display: formatDateLong(closure.close_date || "")
-        };
-      })
-      .filter((closure) => {
-        const year = Number(closure.close_year || "");
-        return Number.isFinite(year) && year >= range.min && year <= range.max && isFourYearInstitution(closure);
-      });
-  }
-
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid);
 
     const cutsData = await loadJson("data/college_cuts.json");
-    const closureData = await loadJson("data/closure_status_by_unitid.json");
-    const schoolsIndex = await loadJson("data/schools_index.json");
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
-    const closuresContainer = document.getElementById("cuts-closures-list");
     const title = document.getElementById("cuts-section-title");
     const otherTitle = document.getElementById("cuts-other-section-title");
-    const closuresTitle = document.getElementById("cuts-closures-section-title");
 
     if (!unitid) {
       document.getElementById("cuts-school-name").textContent = "College cuts";
@@ -394,19 +249,13 @@
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
-      const closures = buildRecentClosures(closureData, schoolsIndex);
-      const closureYearRange = formatYearRange(getClosureYearRange(closureData));
       setSectionVisible("cuts-other-list", true);
-      setSectionVisible("cuts-closures-list", false);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
-      if (closuresTitle) closuresTitle.textContent = `Closures at 4-year institutions, ${closureYearRange}`;
       const primaryFilter = document.getElementById("cuts-filter");
       const otherFilter = document.getElementById("cuts-other-filter");
-      const closuresFilter = document.getElementById("cuts-closures-filter");
       setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
       setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
-      setupClosurePagination(closuresContainer, closures, CLOSURE_PAGE_SIZE, `No tracker-universe closures from ${closureYearRange} are available.`, "cuts-closures-download", "cuts-closures.csv", closuresFilter);
       return;
     }
 
@@ -437,17 +286,12 @@
     }
     title.textContent = school.cut_count === 1 ? "Cut" : `Cuts (${school.cut_count})`;
     setSectionVisible("cuts-other-list", false);
-    setSectionVisible("cuts-closures-list", false);
     const mainDownload = document.getElementById("cuts-table-download");
     const otherDownload = document.getElementById("cuts-other-download");
-    const closuresDownload = document.getElementById("cuts-closures-download");
     if (mainDownload) mainDownload.classList.add("is-hidden");
     if (otherDownload) otherDownload.classList.add("is-hidden");
-    if (closuresDownload) closuresDownload.classList.add("is-hidden");
     if (otherContainer) otherContainer.innerHTML = "";
-    if (closuresContainer) closuresContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
-    if (closuresTitle) closuresTitle.textContent = "";
     if (!(school.cuts || []).length) {
       container.innerHTML = renderEmpty("No matched cuts were found for this institution.");
       return;

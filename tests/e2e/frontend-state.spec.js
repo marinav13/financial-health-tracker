@@ -74,19 +74,14 @@ test.describe('Frontend state synchronization', () => {
     await page.goto('/cuts.html');
 
     const otherSection = page.locator('#cuts-other-list').locator('xpath=ancestor::section[1]');
-    const closuresSection = page.locator('#cuts-closures-list').locator('xpath=ancestor::section[1]');
 
     await expect(otherSection).not.toHaveClass(/is-hidden/);
     await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
-    await expect(closuresSection).toHaveClass(/is-hidden/);
-    await expect(closuresSection).toHaveAttribute('aria-hidden', 'true');
 
     await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
-    await expect(closuresSection).toHaveClass(/is-hidden/);
-    await expect(closuresSection).toHaveAttribute('aria-hidden', 'true');
   });
 
   test('accreditation secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {

@@ -8,7 +8,9 @@ setup, use [DEV_SETUP.md](./DEV_SETUP.md).
 
 1. Downloads and decodes IPEDS data into a canonical finance dataset.
 2. Joins supporting source domains: outcomes, college cuts, accreditation,
-   research cuts, closures, HCM status, and federal composite scores.
+   research cuts, HCM status, and federal composite scores. Closure import
+   artifacts are retained for future use but are not currently displayed on the
+   public site.
 3. Writes static JSON, indexes, per-school files, and CSV downloads under
    `data/`.
 4. Serves the site directly from static HTML, CSS, JavaScript, and JSON.
@@ -143,7 +145,7 @@ school.html?unitid=172264
 - Several school pages load with charts and metadata.
 - Cuts, accreditation, and research landing tables populate.
 - Filter, sort, pagination, and CSV download controls still work.
-- HCM, closure, outcomes, and federal composite fields appear where expected.
+- HCM, outcomes, and federal composite fields appear where expected.
 - `npm run test:a11y` and the Playwright accessibility-state tests pass.
 
 ## If Something Breaks

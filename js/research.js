@@ -308,9 +308,9 @@
     render();
   }
 
-  function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts by institution") {
+function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts by institution") {
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
-const rows = items.map((item) => [
+    const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
       formatCurrency(item.total_disrupted_award_remaining),
       Number(item.total_disrupted_grants || 0),
@@ -330,12 +330,44 @@ const rows = items.map((item) => [
     });
   }
 
-  function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, sortState, tableLabel = "Research funding cuts by institution") {
+  function renderOtherInstitutionsTable(items, sortState, ariaLabel = "Research funding cuts at other institutions") {
+    if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
+    const rows = items.map((item) => [
+      renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
+      formatCurrency(item.total_disrupted_award_remaining),
+      Number(item.total_disrupted_grants || 0),
+      item.state || ""
+    ]);
+    return renderHistoryTable({
+      ariaLabel,
+      headers: [
+        renderSortableHeader("institution_name", sortState, "Institution"),
+        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
+        renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
+        renderSortableHeader("state", sortState, "State")
+      ],
+      rows
+    });
+  }
+
+function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, sortState, tableLabel = "Research funding cuts by institution") {
     const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
     if (!pageItems.length) return renderEmpty(emptyMessage);
 
     return `
       ${renderDefaultTable(pageItems, sortState, tableLabel)}
+      <div class="pagination" aria-label="${paginationLabel}">
+        ${renderPaginationButtons({ currentPage, totalPages })}
+      </div>
+    `;
+  }
+
+  function renderOtherTablePage(items, page, pageSize, emptyMessage, paginationLabel, sortState, tableLabel = "Research funding cuts at other institutions") {
+    const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
+    if (!pageItems.length) return renderEmpty(emptyMessage);
+
+    return `
+      ${renderOtherInstitutionsTable(pageItems, sortState, tableLabel)}
       <div class="pagination" aria-label="${paginationLabel}">
         ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
@@ -370,12 +402,40 @@ downloadRows: (pageItems) => downloadRowsCsv(
     });
   }
 
-  function resetLandingScrollPosition() {
+function resetLandingScrollPosition() {
     if (window.location.hash) return;
     const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     scrollTop();
     window.requestAnimationFrame(scrollTop);
     window.setTimeout(scrollTop, 50);
+  }
+
+  function setupOtherPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts at other institutions") {
+    if (!container) return;
+    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
+    const searchInputEl = searchInput;
+    setupPaginatedTable({
+      container,
+      items,
+      pageSize,
+      searchInput: searchInputEl,
+      initialSortState: { key: "funding", direction: "desc" },
+      defaultSortState: { key: "funding", direction: "desc" },
+      filterItems: filterByInstitution,
+      sortItems: sortInstitutionRows,
+      renderPage: (sortedItems, currentPage, size, sortState) => renderOtherTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
+      downloadButton,
+      downloadRows: (pageItems) => downloadRowsCsv(
+          downloadFilename,
+          ["Institution", "Funding cut or frozen", "Disrupted grants", "State"],
+        pageItems.map((item) => [
+            item.institution_name || "",
+            item.total_disrupted_award_remaining || "",
+            Number(item.total_disrupted_grants || 0),
+            item.state || ""
+          ])
+      )
+    });
   }
 
   async function init() {
@@ -423,7 +483,7 @@ const title = document.getElementById("research-section-title");
           searchInput,
           "Research funding cuts at 4-year institutions"
         );
-        setupPagination(
+setupOtherPagination(
           otherContainer,
           other,
           OTHER_PAGE_SIZE,

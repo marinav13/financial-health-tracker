@@ -310,21 +310,21 @@
 
   function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts by institution") {
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
-    const rows = items.map((item) => [
+const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
-      item.state || "",
-      item.control_label || "",
+      formatCurrency(item.total_disrupted_award_remaining),
       Number(item.total_disrupted_grants || 0),
-      formatCurrency(item.total_disrupted_award_remaining)
+      item.state || "",
+      item.control_label || ""
     ]);
     return renderHistoryTable({
       ariaLabel,
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("state", sortState, "State"),
-        renderSortableHeader("sector", sortState, "Sector"),
+        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
         renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
-        renderSortableHeader("funding", sortState, "Funding cut or frozen")
+        renderSortableHeader("state", sortState, "State"),
+        renderSortableHeader("sector", sortState, "Sector")
       ],
       rows
     });
@@ -356,15 +356,15 @@
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
       downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
+downloadRows: (pageItems) => downloadRowsCsv(
           downloadFilename,
-          ["Institution", "State", "Sector", "Disrupted grants", "Funding still disrupted"],
+          ["Institution", "Funding cut or frozen", "Disrupted grants", "State", "Sector"],
         pageItems.map((item) => [
             item.institution_name || "",
-            item.state || "",
-            item.control_label || "",
+            item.total_disrupted_award_remaining || "",
             Number(item.total_disrupted_grants || 0),
-            item.total_disrupted_award_remaining || ""
+            item.state || "",
+            item.control_label || ""
           ])
       )
     });

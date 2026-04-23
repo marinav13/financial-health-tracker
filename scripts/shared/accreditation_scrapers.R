@@ -1076,7 +1076,8 @@ parse_nwccu <- function(cache_dir, refresh = FALSE) {
 warn_if_scrape_count_dropped <- function(fresh_df,
                                          prior_csv,
                                          drop_fraction = 0.4,
-                                         min_prior_rows = 5L) {
+                                         min_prior_rows = 5L,
+                                         fail = FALSE) {
   if (!file.exists(prior_csv)) {
     return(invisible(NULL))
   }
@@ -1094,9 +1095,9 @@ warn_if_scrape_count_dropped <- function(fresh_df,
   for (acc in names(prior_counts)) {
     prior_n <- as.integer(prior_counts[[acc]])
     if (prior_n < min_prior_rows) next
-    fresh_n  <- as.integer(fresh_counts[[acc]] %||% 0L)
+    fresh_n <- if (acc %in% names(fresh_counts)) as.integer(fresh_counts[[acc]]) else 0L
     if (fresh_n == 0L || (prior_n - fresh_n) / prior_n >= drop_fraction) {
-      warning(sprintf(
+      msg <- sprintf(
         paste(
           "warn_if_scrape_count_dropped: %s row count dropped from %d to %d",
           "(%.0f%% decrease). The accreditor's site structure may have changed,",
@@ -1104,8 +1105,85 @@ warn_if_scrape_count_dropped <- function(fresh_df,
         ),
         acc, prior_n, fresh_n,
         100 * (prior_n - fresh_n) / prior_n
-      ), call. = FALSE)
+      )
+      if (isTRUE(fail)) {
+        stop(msg, call. = FALSE)
+      }
+      warning(msg, call. = FALSE)
     }
+  }
+  invisible(NULL)
+}
+
+# ---------------------------------------------------------------------------
+# Finer-grained scraper-drift detector.
+#
+# warn_if_scrape_count_dropped compares totals per accreditor. That catches the
+# case "accreditor returned nothing", but not the case "accreditor X's parser
+# for action_type Y silently returned 0 rows because that sub-page's markup
+# changed, while the other sub-pages still work."
+#
+# This helper compares (accreditor, action_type) pair counts between the prior
+# and fresh runs and emits a warning when a pair that previously had at least
+# `min_prior_rows` drops to 0 in the fresh run. A full-disappearance signal is
+# a much cleaner scraper-breakage indicator than a fractional drop.
+#
+# The pair-level check is deliberately strict (drop-to-zero) to minimise
+# false positives from normal month-to-month churn.
+warn_if_action_type_dropped <- function(fresh_df,
+                                        prior_csv,
+                                        min_prior_rows = 3L,
+                                        fail = FALSE) {
+  if (!file.exists(prior_csv)) {
+    return(invisible(NULL))
+  }
+  prior_df <- tryCatch(
+    readr::read_csv(prior_csv, show_col_types = FALSE),
+    error = function(e) NULL
+  )
+  if (is.null(prior_df) || nrow(prior_df) == 0L) {
+    return(invisible(NULL))
+  }
+  required <- c("accreditor", "action_type")
+  if (!all(required %in% names(prior_df)) ||
+      !all(required %in% names(fresh_df))) {
+    return(invisible(NULL))
+  }
+
+  prior_pairs <- as.data.frame(table(
+    accreditor  = prior_df$accreditor,
+    action_type = prior_df$action_type
+  ), stringsAsFactors = FALSE)
+  fresh_pairs <- as.data.frame(table(
+    accreditor  = fresh_df$accreditor,
+    action_type = fresh_df$action_type
+  ), stringsAsFactors = FALSE)
+  names(prior_pairs)[3] <- "prior_n"
+  names(fresh_pairs)[3] <- "fresh_n"
+  joined <- merge(prior_pairs, fresh_pairs,
+                  by = c("accreditor", "action_type"),
+                  all.x = TRUE)
+  joined$fresh_n[is.na(joined$fresh_n)] <- 0L
+
+  dropped <- joined[joined$prior_n >= min_prior_rows & joined$fresh_n == 0L, ,
+                    drop = FALSE]
+  if (nrow(dropped) == 0L) return(invisible(NULL))
+
+  for (i in seq_len(nrow(dropped))) {
+    row <- dropped[i, , drop = FALSE]
+    msg <- sprintf(
+      paste(
+        "warn_if_action_type_dropped: %s / %s dropped from %d rows to 0.",
+        "This (accreditor, action_type) combination disappeared from the fresh",
+        "scrape. The accreditor's site or the scraper likely changed.",
+        "Validate output before publishing."
+      ),
+      row$accreditor, row$action_type, as.integer(row$prior_n)
+    )
+    if (isTRUE(fail)) {
+      stop(msg, call. = FALSE)
+    }
+    warning(msg, call. = FALSE)
   }
   invisible(NULL)
 }

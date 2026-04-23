@@ -99,10 +99,36 @@ run_test("Accreditation actions pipeline fixture", function() {
   setwd(fixture_root)
   acc_env <- new.env(parent = globalenv())
   sys.source(file.path(fixture_root, "scripts", "build_accreditation_actions.R"), envir = acc_env)
+
+  old_ci <- Sys.getenv("CI", unset = NA_character_)
+  old_actions <- Sys.getenv("GITHUB_ACTIONS", unset = NA_character_)
+  on.exit({
+    if (is.na(old_ci)) Sys.unsetenv("CI") else Sys.setenv(CI = old_ci)
+    if (is.na(old_actions)) Sys.unsetenv("GITHUB_ACTIONS") else Sys.setenv(GITHUB_ACTIONS = old_actions)
+  }, add = TRUE)
+  Sys.setenv(CI = "true")
+
+  ci_err <- tryCatch(
+    {
+      acc_env$main(c(
+        "--financial-input", financial_input,
+        "--output-prefix", output_prefix,
+        "--refresh", "false"
+      ))
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(
+    !is.null(ci_err) && grepl("SCRAPER RETURNED 0 ROWS: HLC", ci_err, fixed = TRUE),
+    "CI accreditation refresh should fail when an unexpected scraper returns zero rows."
+  )
+
   acc_env$main(c(
     "--financial-input", financial_input,
     "--output-prefix", output_prefix,
-    "--refresh", "false"
+    "--refresh", "false",
+    "--allow-partial-accreditation"
   ))
 
   actions_path <- paste0(output_prefix, "_actions_joined.csv")

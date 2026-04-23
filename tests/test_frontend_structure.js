@@ -25,7 +25,11 @@ const PAGES = [
       { pattern: /<a[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "College Cuts nav tab" },
       { pattern: /<a[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Accreditation nav tab" },
       { pattern: /<a[^>]+href="research\.html"[^>]*>Research Funding Cuts<\/a>/, message: "Research nav tab" },
-      { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      // Requirement change: index.html is the only page where the masthead
+      // doubles as the page heading (other pages have their own h1), so we
+      // promote it from a <div> to an <h1> to give the landing page a real
+      // top-level heading.
+      { pattern: /<h1[^>]*class="masthead-title"[^>]*>College Financial Health Explorer<\/h1>/, message: "Masthead title as h1 (index landing heading)" },
       { pattern: /class="search-panel"/, message: "Search panel" },
       { pattern: /id="school-search"/, message: "Search input" },
       { pattern: /id="search-results"/, message: "Search results container" },

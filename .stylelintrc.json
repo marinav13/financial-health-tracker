@@ -1,0 +1,15 @@
+{
+  "extends": ["stylelint-config-recommended"],
+  "ignoreFiles": [
+    "node_modules/**/*",
+    "coverage/**/*",
+    "playwright-report/**/*",
+    "renv/**/*",
+    "**/*.min.css"
+  ],
+  "rules": {
+    "block-no-empty": true,
+    "no-duplicate-selectors": true,
+    "no-descending-specificity": null
+  }
+}

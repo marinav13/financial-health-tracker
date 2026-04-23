@@ -126,7 +126,6 @@ jobs:
       - name: Import closure outputs from published Google Sheet
         shell: bash
         timeout-minutes: 10
-        continue-on-error: true
         run: >
           python ./scripts/import_closure_sheet.py
           --sheet "${CLOSURE_SHEET_URL}"

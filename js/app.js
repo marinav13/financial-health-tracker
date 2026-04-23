@@ -68,6 +68,7 @@ function syncTabs(unitid = "", options = {}) {
   const active = options.active || document.body.dataset.activeTab || (
     document.body.dataset.searchSource || "finances"
   );
+  const { financialUnitid = "" } = options;
   const tabs = {
     finances: document.getElementById("tab-finances"),
     cuts: document.getElementById("tab-cuts"),
@@ -75,10 +76,29 @@ function syncTabs(unitid = "", options = {}) {
     research: document.getElementById("tab-research")
   };
 
-  if (tabs.finances) tabs.finances.href = "index.html";
-  if (tabs.cuts) tabs.cuts.href = "cuts.html";
-  if (tabs.accreditation) tabs.accreditation.href = "accreditation.html";
-  if (tabs.research) tabs.research.href = "research.html";
+  // When a school is in view, deep-link the other tabs to the same institution.
+  // finances may use a different unitid than the cuts/accreditation/research
+  // pages (e.g. system-level aggregated finances); use financialUnitid when
+  // provided, otherwise fall back to the page unitid when it is numeric.
+  // Non-numeric (e.g. namespaced unmatched) ids fall back to plain landing
+  // hrefs so we never produce links that won't resolve on arrival.
+  const financeUnitid = isNumericUnitid(financialUnitid)
+    ? String(financialUnitid)
+    : (isNumericUnitid(unitid) ? String(unitid) : "");
+  const pageUnitid = relatedPageUnitid(unitid, financialUnitid);
+
+  if (tabs.finances) tabs.finances.href = financeUnitid
+    ? schoolUrl(financeUnitid, "school.html")
+    : "index.html";
+  if (tabs.cuts) tabs.cuts.href = pageUnitid
+    ? schoolUrl(pageUnitid, "cuts.html")
+    : "cuts.html";
+  if (tabs.accreditation) tabs.accreditation.href = pageUnitid
+    ? schoolUrl(pageUnitid, "accreditation.html")
+    : "accreditation.html";
+  if (tabs.research) tabs.research.href = pageUnitid
+    ? schoolUrl(pageUnitid, "research.html")
+    : "research.html";
 
   Object.entries(tabs).forEach(([name, tab]) => {
     if (!tab) return;
@@ -355,8 +375,46 @@ initSearch().catch((error) => {
   }
 });
 
+// Renders a "Data as of <date>" line into a placeholder element.
+// Accepts an ISO YYYY-MM-DD string from the pipeline's `generated_at`. Leaves
+// the element hidden if the value is missing or cannot be parsed, so the UI
+// never shows "Invalid Date" or a stale placeholder.
+function renderDataAsOf(elementId, generatedAt) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  if (typeof generatedAt !== "string" || !generatedAt) {
+    el.hidden = true;
+    el.textContent = "";
+    return;
+  }
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(generatedAt);
+  if (!match) {
+    el.hidden = true;
+    el.textContent = "";
+    return;
+  }
+  const year = Number(match[1]);
+  const month = Number(match[2]) - 1;
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month, day));
+  if (Number.isNaN(date.getTime())) {
+    el.hidden = true;
+    el.textContent = "";
+    return;
+  }
+  const formatted = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC"
+  });
+  el.textContent = `Data as of ${formatted}.`;
+  el.hidden = false;
+}
+
 window.TrackerApp = window.TrackerApp || {};
 window.TrackerApp.loadJson = loadJson;
+window.TrackerApp.renderDataAsOf = renderDataAsOf;
 window.TrackerApp.schoolUrl = schoolUrl;
 window.TrackerApp.isNumericUnitid = isNumericUnitid;
 window.TrackerApp.isPrimaryTrackerInstitution = isPrimaryTrackerInstitution;
@@ -648,6 +706,58 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
 
   render();
   return { render };
+};
+
+// Convenience factory that wraps setupPaginatedTable with the boilerplate
+// shared by every table page (cuts, research, accreditation):
+//   - Resolves `downloadButton` from either an Element or an element-id string.
+//   - Defaults `filterItems` to the shared filterByInstitution behavior.
+//   - Builds the CSV `downloadRows` function from a headers array + row mapper
+//     when the caller supplies those instead of a full rows function.
+//
+// Use this instead of calling setupPaginatedTable directly from page scripts;
+// keeping the shared helper means filter/paginate/download/sort behavior stays
+// consistent and can't drift between cuts.js, research.js, and accreditation.js.
+window.TrackerApp.makeTableController = function makeTableController(options) {
+  if (!options) return null;
+  const container = typeof options.container === "string"
+    ? document.getElementById(options.container)
+    : options.container;
+  if (!container) return null;
+
+  const downloadButton = typeof options.downloadButton === "string"
+    ? document.getElementById(options.downloadButton)
+    : options.downloadButton || null;
+
+  let downloadRows = options.downloadRows;
+  if (!downloadRows
+      && options.downloadFilename
+      && Array.isArray(options.downloadHeaders)
+      && typeof options.downloadRow === "function") {
+    const filename = options.downloadFilename;
+    const headers = options.downloadHeaders;
+    const rowFn = options.downloadRow;
+    downloadRows = (pageItems) => window.TrackerApp.downloadRowsCsv(
+      filename,
+      headers,
+      pageItems.map(rowFn)
+    );
+  }
+
+  return window.TrackerApp.setupPaginatedTable({
+    container,
+    items: options.items,
+    pageSize: options.pageSize,
+    searchInput: options.searchInput || null,
+    filterItems: options.filterItems || window.TrackerApp.filterByInstitution,
+    sortItems: options.sortItems,
+    renderPage: options.renderPage,
+    initialSortState: options.initialSortState || null,
+    defaultSortState: options.defaultSortState || options.initialSortState || null,
+    downloadButton,
+    downloadRows,
+    focusSelector: options.focusSelector
+  });
 };
 
 window.TrackerApp.renderSortableHeader = function renderSortableHeader(key, sortState, label) {

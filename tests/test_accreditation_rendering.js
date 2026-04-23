@@ -141,6 +141,7 @@ async function renderAccreditationFixture() {
     isPrimaryTrackerInstitution: (record) => record?.is_primary_tracker === true,
     syncTabs: () => {},
     renderRelatedInstitutionLinks: () => "",
+    renderDataAsOf: () => {},
     renderSchoolLinkCell: (unitid, label, page = "school.html") => ({ __trackerCell: "school-link", unitid, label, page }),
     renderExternalLinkCell: (url, label = "Source") => ({ __trackerCell: "external-link", url, label }),
     renderSchoolLink: (unitid, label, page = "school.html") => `<a href="${page}?unitid=${encodeURIComponent(unitid)}">${escapeHtml(label)}</a>`,

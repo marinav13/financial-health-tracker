@@ -7,8 +7,6 @@
     paginateItems,
     focusAfterRender,
     bindSortControls,
-    setupPaginatedTable,
-    filterByInstitution,
     setDataCardVisible,
     downloadRowsCsv,
     compareText,
@@ -18,7 +16,9 @@
     renderExternalLinkCell,
     isPrimaryTrackerInstitution,
     syncTabs,
-    renderRelatedInstitutionLinks
+    renderRelatedInstitutionLinks,
+    renderDataAsOf,
+    makeTableController
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -375,30 +375,24 @@ function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, s
   }
 
   function setupPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts by institution") {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    setupPaginatedTable({
+    return makeTableController({
       container,
       items,
       pageSize,
       searchInput,
       initialSortState: { key: "funding", direction: "desc" },
-      defaultSortState: { key: "funding", direction: "desc" },
-      filterItems: filterByInstitution,
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
-      downloadButton,
-downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "Funding cut or frozen", "Disrupted grants", "State", "Sector"],
-        pageItems.map((item) => [
-            item.institution_name || "",
-            item.total_disrupted_award_remaining || "",
-            Number(item.total_disrupted_grants || 0),
-            item.state || "",
-            item.control_label || ""
-          ])
-      )
+      downloadButton: downloadButtonId,
+      downloadFilename,
+      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State", "Sector"],
+      downloadRow: (item) => [
+        item.institution_name || "",
+        item.total_disrupted_award_remaining || "",
+        Number(item.total_disrupted_grants || 0),
+        item.state || "",
+        item.control_label || ""
+      ]
     });
   }
 
@@ -411,30 +405,23 @@ function resetLandingScrollPosition() {
   }
 
   function setupOtherPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts at other institutions") {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    const searchInputEl = searchInput;
-    setupPaginatedTable({
+    return makeTableController({
       container,
       items,
       pageSize,
-      searchInput: searchInputEl,
+      searchInput,
       initialSortState: { key: "funding", direction: "desc" },
-      defaultSortState: { key: "funding", direction: "desc" },
-      filterItems: filterByInstitution,
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderOtherTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
-      downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "Funding cut or frozen", "Disrupted grants", "State"],
-        pageItems.map((item) => [
-            item.institution_name || "",
-            item.total_disrupted_award_remaining || "",
-            Number(item.total_disrupted_grants || 0),
-            item.state || ""
-          ])
-      )
+      downloadButton: downloadButtonId,
+      downloadFilename,
+      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State"],
+      downloadRow: (item) => [
+        item.institution_name || "",
+        item.total_disrupted_award_remaining || "",
+        Number(item.total_disrupted_grants || 0),
+        item.state || ""
+      ]
     });
   }
 
@@ -446,6 +433,7 @@ function resetLandingScrollPosition() {
     syncTabs(unitid, { active: "research" });
 
     const data = await loadJson("data/research_funding.json");
+    renderDataAsOf("research-data-as-of", data?.generated_at);
     const schools = filterPositiveFundingInstitutions(Object.values(data.schools || {}));
     const container = document.getElementById("research-list");
     const otherContainer = document.getElementById("research-other-list");
@@ -461,8 +449,12 @@ const title = document.getElementById("research-section-title");
     if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
 
     if (!unitid) {
-      document.getElementById("research-school-name").textContent = "Research funding cuts";
-      document.getElementById("research-school-name").classList.add("is-hidden");
+      // Landing view: retain a real document heading for screen-reader users
+      // but keep it visually hidden so the existing banner layout is unchanged.
+      const landingHeading = document.getElementById("research-school-name");
+      landingHeading.textContent = "Research funding cuts";
+      landingHeading.classList.add("sr-only");
+      landingHeading.classList.remove("is-hidden");
       const ranked = sortByAmountThenName(schools);
       const primary = ranked.filter(isPrimaryBachelorsInstitution);
       const other = ranked.filter((school) => !isPrimaryBachelorsInstitution(school));
@@ -506,8 +498,10 @@ setupOtherPagination(
 
     const school = schools.find((item) => String(item.unitid) === String(unitid));
     if (!school) {
-      document.getElementById("research-school-name").textContent = "No tracked research funding cuts found";
-      document.getElementById("research-school-name").classList.remove("is-hidden");
+      const missingHeading = document.getElementById("research-school-name");
+      missingHeading.textContent = "No tracked research funding cuts found";
+      missingHeading.classList.remove("is-hidden");
+      missingHeading.classList.remove("sr-only");
       if (summaryGrid) summaryGrid.innerHTML = renderEmpty("No current research funding cuts were found for this institution.");
       if (container) container.innerHTML = renderEmpty("No current research funding cuts were found for this institution.");
       if (stateSummaryCard) stateSummaryCard.classList.add("is-hidden");
@@ -516,8 +510,10 @@ setupOtherPagination(
 
     syncTabs(unitid, { active: "research", financialUnitid: school.financial_unitid });
 
-    document.getElementById("research-school-name").textContent = school.institution_name || "Research Funding Cuts";
-    document.getElementById("research-school-name").classList.remove("is-hidden");
+    const schoolHeading = document.getElementById("research-school-name");
+    schoolHeading.textContent = school.institution_name || "Research Funding Cuts";
+    schoolHeading.classList.remove("is-hidden");
+    schoolHeading.classList.remove("sr-only");
     if (summaryGrid) summaryGrid.innerHTML = renderSummaryGrid(school);
 
     title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;

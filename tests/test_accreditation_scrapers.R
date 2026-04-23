@@ -19,6 +19,147 @@ run_test("Accreditation scraper action schema helper", function() {
   assert_true(grepl("source_url", err, fixed = TRUE))
 })
 
+run_test("Accreditation scrape count guard warns by default", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  readr::write_csv(
+    tibble::tibble(accreditor = c(rep("HLC", 10), rep("MSCHE", 2))),
+    prior_csv
+  )
+  fresh <- tibble::tibble(accreditor = c(rep("HLC", 2), rep("MSCHE", 2)))
+
+  warned <- FALSE
+  withCallingHandlers(
+    warn_if_scrape_count_dropped(fresh, prior_csv),
+    warning = function(w) {
+      if (grepl("HLC row count dropped from 10 to 2", conditionMessage(w), fixed = TRUE)) {
+        warned <<- TRUE
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+
+  assert_true(warned, "Expected scrape-count drop guard to warn by default.")
+})
+
+run_test("Accreditation scrape count guard can fail closed", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  readr::write_csv(
+    tibble::tibble(accreditor = rep("SACSCOC", 8)),
+    prior_csv
+  )
+  fresh <- tibble::tibble(accreditor = character())
+
+  err <- tryCatch(
+    {
+      warn_if_scrape_count_dropped(fresh, prior_csv, fail = TRUE)
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+
+  assert_true(!is.null(err), "Expected scrape-count drop guard to stop when fail=TRUE.")
+  assert_true(grepl("SACSCOC row count dropped from 8 to 0", err, fixed = TRUE))
+})
+
+run_test("Accreditation action-type drop guard warns on pair-level disappearance", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  readr::write_csv(
+    tibble::tibble(
+      accreditor  = c(rep("MSCHE", 5), rep("MSCHE", 5)),
+      action_type = c(rep("probation", 5), rep("warning", 5))
+    ),
+    prior_csv
+  )
+  # Fresh run keeps the warning rows but loses the probation rows entirely.
+  fresh <- tibble::tibble(
+    accreditor  = rep("MSCHE", 5),
+    action_type = rep("warning", 5)
+  )
+
+  warned <- FALSE
+  withCallingHandlers(
+    warn_if_action_type_dropped(fresh, prior_csv),
+    warning = function(w) {
+      if (grepl("MSCHE / probation dropped from 5 rows to 0",
+                conditionMessage(w), fixed = TRUE)) {
+        warned <<- TRUE
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+
+  assert_true(
+    warned,
+    "Expected action-type drop guard to warn when a (accreditor, action_type) pair disappears."
+  )
+})
+
+run_test("Accreditation action-type drop guard can fail closed", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  readr::write_csv(
+    tibble::tibble(
+      accreditor  = rep("HLC", 4),
+      action_type = rep("notice", 4)
+    ),
+    prior_csv
+  )
+  fresh <- tibble::tibble(
+    accreditor  = character(),
+    action_type = character()
+  )
+
+  err <- tryCatch(
+    {
+      warn_if_action_type_dropped(fresh, prior_csv, fail = TRUE)
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+
+  assert_true(!is.null(err), "Expected action-type drop guard to stop when fail=TRUE.")
+  assert_true(grepl("HLC / notice dropped from 4 rows to 0", err, fixed = TRUE))
+})
+
+run_test("Accreditation action-type drop guard ignores low-volume pairs", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  # Prior run has a pair with only 1 row. A drop from 1 to 0 is noisy and
+  # should NOT trigger the guard at its default min_prior_rows threshold.
+  readr::write_csv(
+    tibble::tibble(
+      accreditor  = "NECHE",
+      action_type = "show_cause"
+    ),
+    prior_csv
+  )
+  fresh <- tibble::tibble(
+    accreditor  = character(),
+    action_type = character()
+  )
+
+  got_warning <- FALSE
+  withCallingHandlers(
+    warn_if_action_type_dropped(fresh, prior_csv),
+    warning = function(w) {
+      got_warning <<- TRUE
+      invokeRestart("muffleWarning")
+    }
+  )
+  assert_true(
+    !got_warning,
+    "Expected action-type drop guard to stay quiet when the prior count is below min_prior_rows."
+  )
+})
+
 run_test("Accreditation scraper section extractors", function() {
   regex_html <- paste0(
     '<a class="elementor-toggle-title">Warning</a>',

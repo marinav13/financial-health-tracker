@@ -10,6 +10,7 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
+const SCHOOL_CONTRACT = JSON.parse(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "school_contract.json"), "utf8"));
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
 const ACCREDITATION = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "accreditation.json"), "utf8"));
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
@@ -45,6 +46,87 @@ function numericSeries(school, key) {
 }
 
 console.log("\n=== Static Data Export Smoke Tests ===\n");
+
+run("school JSON files match the frozen shape contract", () => {
+  // This is the pipeline-to-frontend contract: the R export pipeline writes
+  // data/schools/<unitid>.json; js/school.js and js/charts.js read specific
+  // keys off `profile`, `summary`, and `series`. If the pipeline silently
+  // drops a field (rename, refactor, bad join), users get broken pages.
+  //
+  // The contract in tests/fixtures/school_contract.json is the set of keys
+  // that must appear in EVERY school file. When you intentionally add or
+  // remove a field, regenerate it with:
+  //   node tests/tools/update_school_contract.js
+  // and review the diff in the same PR that changes the pipeline.
+
+  const files = fs.readdirSync(SCHOOLS_DIR).filter((file) => file.endsWith(".json"));
+  assert(files.length > 0, "No school JSON files found to validate against the contract.");
+
+  const required = {
+    top_level: SCHOOL_CONTRACT.top_level || [],
+    profile: SCHOOL_CONTRACT.profile || [],
+    summary: SCHOOL_CONTRACT.summary || [],
+    series: SCHOOL_CONTRACT.series || []
+  };
+
+  const missing = [];           // keys the contract requires but a file is missing
+  const unexpectedCandidates = { profile: new Map(), summary: new Map(), series: new Map() };
+  const observedTopLevel = new Set();
+  let fileCount = 0;
+
+  for (const file of files) {
+    const school = JSON.parse(fs.readFileSync(path.join(SCHOOLS_DIR, file), "utf8"));
+    fileCount++;
+
+    for (const key of required.top_level) {
+      if (!Object.prototype.hasOwnProperty.call(school, key)) {
+        missing.push(`${file}: top-level.${key}`);
+      }
+    }
+    for (const key of Object.keys(school)) observedTopLevel.add(key);
+
+    for (const nested of ["profile", "summary", "series"]) {
+      const value = school[nested];
+      if (value == null || typeof value !== "object" || Array.isArray(value)) continue;
+      for (const key of required[nested]) {
+        if (!Object.prototype.hasOwnProperty.call(value, key)) {
+          missing.push(`${file}: ${nested}.${key}`);
+        }
+      }
+      for (const key of Object.keys(value)) {
+        const counter = unexpectedCandidates[nested];
+        counter.set(key, (counter.get(key) || 0) + 1);
+      }
+    }
+  }
+
+  assert(
+    missing.length === 0,
+    `School JSON is missing contract keys in ${missing.length} place(s). First 10: ${missing.slice(0, 10).join("; ")}. ` +
+    `If the pipeline intentionally removed a field, run: node tests/tools/update_school_contract.js and review the diff.`
+  );
+
+  // Additions: any key that appears in EVERY file but isn't in the contract
+  // is new shared schema that the frontend should know about. Flag it so new
+  // fields can't silently ship without updating the contract.
+  const addedTopLevel = Array.from(observedTopLevel)
+    .filter((key) => !required.top_level.includes(key));
+  const addedNested = [];
+  for (const nested of ["profile", "summary", "series"]) {
+    for (const [key, count] of unexpectedCandidates[nested]) {
+      if (count === fileCount && !required[nested].includes(key)) {
+        addedNested.push(`${nested}.${key}`);
+      }
+    }
+  }
+
+  assert(
+    addedTopLevel.length === 0 && addedNested.length === 0,
+    `School JSON has new keys present in every file that aren't in the contract: ` +
+    `${[...addedTopLevel.map((k) => `top-level.${k}`), ...addedNested].join(", ")}. ` +
+    `If these are intentional, run: node tests/tools/update_school_contract.js and update the snapshot.`
+  );
+});
 
 run("school JSON files keep multi-year revenue series when five-year summaries exist", () => {
   const files = fs.readdirSync(SCHOOLS_DIR).filter((file) => file.endsWith(".json"));

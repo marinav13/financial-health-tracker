@@ -38,39 +38,21 @@ clean_text <- function(x) {
     stringr::str_squish()
 }
 
-# Normalizes institution names for fuzzy matching: lowercases, expands "&" to "and",
-# abbreviates "Saint" to "St", and strips special characters.
-normalize_name <- function(x) {
-  x |>
-    as.character() |>
-    stringr::str_to_lower() |>
-    # Hawaiian okina/curly apostrophe variants appear in accreditor data but
-    # not in IPEDS names; remove internal apostrophes before punctuation
-    # stripping so "Hawai'i" normalizes to "hawaii" rather than "hawai i".
-    stringr::str_replace_all("(?<=[a-z])[\u2018\u2019\u02bb\u02bc'](?=[a-z])", "") |>
-    # Expand ampersand to full word for matching (e.g., "A&M" -> "a and m")
-    stringr::str_replace_all("&", " and ") |>
-    # Abbreviate "Saint" (word boundary to match) to "St"
-    stringr::str_replace_all("\\bsaint\\b", "st") |>
-    # Remove all special characters except alphanumeric and space
-    stringr::str_replace_all("[^a-z0-9 ]", " ") |>
-    # Clean up any resulting whitespace issues
-    stringr::str_squish() |>
-    # Normalize leading/trailing "The" variants from accreditor names such
-    # as "Catholic University of America, The" while preserving interior words.
-    stringr::str_replace("^the\\s+", "") |>
-    stringr::str_replace("\\s+the$", "") |>
-    # IPEDS often appends campus descriptors that accreditor pages omit for
-    # the same primary institution name.
-    stringr::str_replace("\\s+main campus$", "") |>
-    stringr::str_replace("\\s+campus immersion$", "") |>
-    stringr::str_squish() |>
-    # WSCUC has emitted "University of Hawai'i, Hilo"; IPEDS uses
-    # "University of Hawaii at Hilo".
-    stringr::str_replace_all("^university of hawaii hilo$", "university of hawaii at hilo")
+# Normalizes institution names for accreditor-to-IPEDS fuzzy matching.
+# Implementation is centralized in scripts/shared/name_normalization.R so
+# that all three pipeline name-matching forms (accreditation, cuts,
+# grant_witness) live side by side and can't silently drift.
+if (!exists("normalize_name_accreditation", mode = "function")) {
+  .accred_shared_dir <- if (exists("root", inherits = TRUE)) {
+    file.path(root, "scripts", "shared")
+  } else {
+    file.path(getwd(), "scripts", "shared")
+  }
+  source(file.path(.accred_shared_dir, "name_normalization.R"))
+  rm(.accred_shared_dir)
 }
-
-normalize_accreditation_name <- normalize_name
+normalize_name <- normalize_name_accreditation
+normalize_accreditation_name <- normalize_name_accreditation
 
 # ---------------------------------------------------------------------------
 # STATE ABBREVIATION LOOKUP

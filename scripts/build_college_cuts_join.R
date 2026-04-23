@@ -84,28 +84,13 @@ main <- function(cli_args = NULL) {
   }
 
   # -----------------------------------------------------------------------
-  # HELPER: Normalize institution names for fuzzy matching
-  # Strips common IPEDS name decorations so API names match IPEDS entries:
-  #   - Leading "The " and "SUNY " (IPEDS adds these; API omits them)
-  #   - Trailing " Main Campus" (IPEDS appends this; API uses the bare name)
-  # Examples:
-  #   "Ohio University-Main Campus"   → "ohio university"
-  #   "The University of Texas at Dallas" → "university of texas at dallas"
-  #   "SUNY Buffalo State University"     → "buffalo state university"
-  normalize_name <- function(x) {
-    x |>
-      as.character() |>
-      stringr::str_to_lower() |>
-      stringr::str_remove("^the +") |>
-      stringr::str_remove("^suny +") |>
-      stringr::str_replace_all("&", " and ") |>
-      stringr::str_replace_all("[^a-z0-9 ]", " ") |>
-      stringr::str_remove("\\s+main campus$") |>
-      # Expand "st" abbreviation so "College of St. Scholastica" matches
-      # "The College of Saint Scholastica" in IPEDS.
-      stringr::str_replace_all("\\bst\\b", "saint") |>
-      stringr::str_squish()
-  }
+  # HELPER: Normalize institution names for fuzzy matching.
+  # Implementation is centralized in scripts/shared/name_normalization.R
+  # and kept byte-for-byte in sync with the Python mirror in
+  # scripts/import_supabase_institution_mapping.py. See that file for the
+  # list of transformations and the rationale for each.
+  source(file.path(getwd(), "scripts", "shared", "name_normalization.R"))
+  normalize_name <- normalize_name_cuts
 
   # -----------------------------------------------------------------------
   # HELPER: Sum values, return NA if all inputs are NA

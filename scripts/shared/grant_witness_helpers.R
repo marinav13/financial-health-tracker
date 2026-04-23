@@ -8,14 +8,20 @@
 # Note: to_num here strips "$" and "," which differs slightly from utils.R;
 # it intentionally shadows the version from utils.R in this script's scope.
 
-normalize_name <- function(x) {
-  x |>
-    as.character() |>
-    stringr::str_to_lower() |>
-    stringr::str_replace_all("&", " and ") |>
-    stringr::str_replace_all("[^a-z0-9 ]", " ") |>
-    stringr::str_squish()
+# Normalizes institution names for Grant Witness / USAspending matching.
+# Implementation is centralized in scripts/shared/name_normalization.R so
+# that all three pipeline name-matching forms (accreditation, cuts,
+# grant_witness) live side by side and can't silently drift.
+if (!exists("normalize_name_grant_witness", mode = "function")) {
+  .gw_shared_dir <- if (exists("root", inherits = TRUE)) {
+    file.path(root, "scripts", "shared")
+  } else {
+    file.path(getwd(), "scripts", "shared")
+  }
+  source(file.path(.gw_shared_dir, "name_normalization.R"))
+  rm(.gw_shared_dir)
 }
+normalize_name <- normalize_name_grant_witness
 
 # ---------------------------------------------------------------------------
 # Keyword constants for institution classification

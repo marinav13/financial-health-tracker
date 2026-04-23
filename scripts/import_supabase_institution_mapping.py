@@ -161,8 +161,14 @@ _DEFAULT_KEY = (
 
 
 # ---------------------------------------------------------------------------
-# Name normalisation  (mirrors normalize_name() in build_college_cuts_join.R)
+# Name normalisation
 # ---------------------------------------------------------------------------
+#
+# CONTRACT: This function mirrors `normalize_name_cuts()` in
+# scripts/shared/name_normalization.R byte-for-byte. When you edit one,
+# edit the other in the same commit. The drift guard in
+# tests/test_name_normalization.py feeds identical fixtures to both sides
+# and fails CI if they disagree.
 
 def normalize_name(s: str) -> str:
     s = (s or "").lower()
@@ -215,30 +221,65 @@ def fetch_with_retry(url: str, headers: dict, max_attempts: int = 3) -> dict:
     ) from last_error
 
 
-def fetch_all_supabase_institutions(base_url: str, api_key: str) -> list[dict]:
-    """Return all rows from the Supabase institutions table."""
-    url = (
-        f"{base_url.rstrip('/')}/rest/v1/institutions"
-        f"?select=name,unitid,state&limit=10000"
-    )
+def fetch_all_supabase_institutions(
+    base_url: str,
+    api_key: str,
+    page_size: int = 1000,
+    hard_cap: int = 100_000,
+) -> list[dict]:
+    """Return all rows from the Supabase institutions table.
+
+    Supabase (PostgREST) caps single-response results at a server-configured
+    maximum (1,000 by default). The previous implementation used `?limit=10000`,
+    which silently truncates once the table exceeds whatever cap the server
+    enforces. We now page explicitly with `limit`/`offset` and stop when we
+    receive a short page. The `hard_cap` is a paranoia guard against a runaway
+    loop, not a real upper bound; raise it if the table ever grows past it.
+    """
+    import sys
+
+    base = base_url.rstrip("/")
     headers = {
         "apikey":        api_key,
         "Authorization": f"Bearer {api_key}",
         "Accept":        "application/json",
     }
-    rows = fetch_with_retry(url, headers)
-    
-    out = []
-    for row in rows:
-        name = (row.get("name") or "").strip()
-        if not name:
-            continue
-        out.append({
-            "api_name":   name,
-            "unitid":     row.get("unitid"),       # may be None
-            "state_full": expand_state(row.get("state") or ""),
-        })
-    return out
+
+    out: list[dict] = []
+    offset = 0
+    while offset < hard_cap:
+        url = (
+            f"{base}/rest/v1/institutions"
+            f"?select=name,unitid,state"
+            f"&order=unitid.asc.nullslast"
+            f"&limit={page_size}&offset={offset}"
+        )
+        rows = fetch_with_retry(url, headers)
+        if not isinstance(rows, list):
+            raise RuntimeError(
+                f"Supabase returned a non-list payload at offset={offset}: {rows!r}"
+            )
+        for row in rows:
+            name = (row.get("name") or "").strip()
+            if not name:
+                continue
+            out.append({
+                "api_name":   name,
+                "unitid":     row.get("unitid"),       # may be None
+                "state_full": expand_state(row.get("state") or ""),
+            })
+        if len(rows) < page_size:
+            return out
+        offset += page_size
+        print(
+            f"  Supabase: fetched {offset} rows, continuing...",
+            file=sys.stderr,
+        )
+
+    raise RuntimeError(
+        f"Supabase pagination exceeded hard_cap={hard_cap}; either the table "
+        f"has grown unexpectedly large or the loop is not advancing."
+    )
 
 
 # ---------------------------------------------------------------------------

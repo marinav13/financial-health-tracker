@@ -69,21 +69,26 @@ test.describe('School navigation', () => {
     await expect(page.locator('#school-intro-callout')).toHaveClass(/is-hidden/);
   });
 
-  test('top tabs navigate to section landing pages from school detail', async ({ page }) => {
+  test('top tabs deep-link to the same school from school detail', async ({ page }) => {
+    // Requirement change (2026-04-23): syncTabs previously stripped the unitid
+    // from top-nav hrefs on school-context pages because it silently ignored the
+    // unitid arg (and the financialUnitid option callers were passing). Now that
+    // syncTabs honors both, top tabs on school.html?unitid=<numeric> must keep
+    // the user inside the same school rather than dumping them to the bare
+    // landing pages. This test locks the corrected behavior.
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
-    
-    // Default tab is finances - verify it's active
+
     const financesTab = page.locator('#tab-finances');
     await expect(financesTab).toHaveClass(/is-active/);
-    
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
-    await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
-    await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
-    await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
-    
+
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', `school.html?unitid=${chartSchoolUnitid}`);
+    await expect(page.locator('#tab-cuts')).toHaveAttribute('href', `cuts.html?unitid=${chartSchoolUnitid}`);
+    await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', `accreditation.html?unitid=${chartSchoolUnitid}`);
+    await expect(page.locator('#tab-research')).toHaveAttribute('href', `research.html?unitid=${chartSchoolUnitid}`);
+
     await page.locator('#tab-research').click();
-    await expect(page).toHaveURL(/\/research\.html$/);
-    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`/research\\.html\\?unitid=${chartSchoolUnitid}$`));
+    await expect(page.locator('#research-list table.history-table, #research-content')).toBeVisible();
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
   });
 
@@ -104,11 +109,14 @@ test.describe('School navigation', () => {
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
   });
 
-  test('top cuts tab opens the cuts landing page from school detail', async ({ page }) => {
+  test('top cuts tab carries the school unitid forward from school detail', async ({ page }) => {
+    // Requirement change (2026-04-23): corrected syncTabs keeps the current
+    // school in the URL when switching sections, so this click now lands on
+    // cuts.html?unitid=<same> rather than the bare cuts landing page.
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
-    
+
     await page.locator('#tab-cuts').click();
-    await expect(page).toHaveURL(/\/cuts\.html$/);
+    await expect(page).toHaveURL(new RegExp(`/cuts\\.html\\?unitid=${chartSchoolUnitid}$`));
     await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
   });
 

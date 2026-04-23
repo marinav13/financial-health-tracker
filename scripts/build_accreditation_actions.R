@@ -60,6 +60,8 @@ main <- function(cli_args = NULL) {
     file.path(getwd(), "data_pipelines", "accreditation", "accreditation_tracker")
   )
   refresh <- tolower(get_arg_value("--refresh", "true")) %in% c("true", "1", "yes", "y")
+  allow_partial_accreditation <- arg_has(args, "--allow-partial-accreditation")
+  in_ci <- identical(Sys.getenv("CI"), "true") || identical(Sys.getenv("GITHUB_ACTIONS"), "true")
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
@@ -141,10 +143,14 @@ main <- function(cli_args = NULL) {
         # Soft notice for accreditors where 0 is expected (no qualifying institutions)
         message(sprintf("  %s: no qualifying institutions under action (expected when no adverse findings)", name))
       } else {
-        warning(sprintf(
+        msg <- sprintf(
           "SCRAPER RETURNED 0 ROWS: %s — the accreditor's site structure may have changed, or the scraper is broken. Verify output before publishing.",
           name
-        ), call. = FALSE)
+        )
+        if (in_ci && !allow_partial_accreditation) {
+          stop(msg, call. = FALSE)
+        }
+        warning(msg, call. = FALSE)
       }
     } else {
       req_cols <- c("institution_name_raw", "accreditor", "action_type")
@@ -321,7 +327,19 @@ main <- function(cli_args = NULL) {
 
   # Priority 4 + 6: Compare fresh scrape row counts against prior run to
   # catch silent scraper regressions (already defined in accreditation_scrapers.R).
-  warn_if_scrape_count_dropped(raw_actions, outputs$actions)
+  warn_if_scrape_count_dropped(
+    raw_actions,
+    outputs$actions,
+    fail = in_ci && !allow_partial_accreditation
+  )
+  # Finer-grained check: if a specific (accreditor, action_type) pair drops
+  # from non-trivial-prior to zero, flag it. Catches sub-page scraper breakage
+  # that the per-accreditor aggregate check can miss.
+  warn_if_action_type_dropped(
+    raw_actions,
+    outputs$actions,
+    fail = in_ci && !allow_partial_accreditation
+  )
 
   # Priority 6: Log per-accreditor action counts for monitoring.
   accreditor_counts <- sort(table(raw_actions$accreditor), decreasing = TRUE)

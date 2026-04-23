@@ -183,7 +183,8 @@ async function renderResearchFixture() {
         setDataCardVisible: () => {},
         downloadRowsCsv: () => {},
         syncTabs: () => {},
-        renderRelatedInstitutionLinks: () => ""
+        renderRelatedInstitutionLinks: () => "",
+        renderDataAsOf: () => {}
       }
     }
   };

@@ -7,6 +7,7 @@ test_files <- c(
   "test_accreditation_helpers.R",
   "test_accreditation_scrapers.R",
   "test_grant_witness_helpers.R",
+  "test_name_normalization.R",
   "test_ipeds_helpers.R",
   "test_ipeds_collector_helpers.R",
   "test_usaspending_sensitivity_helpers.R",

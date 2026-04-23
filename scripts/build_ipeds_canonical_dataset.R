@@ -87,9 +87,25 @@ main <- function(cli_args = NULL) {
   hd_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(hd_table, ".zip"))
   ic_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(ic_table, ".zip"))
   flags_dict <- file.path(root, "ipeds", "cache", "downloads", "dict", paste0(flags_table, ".zip"))
-  try(ensure_dictionary_archive(hd_table, hd_dict, latest_dictionary_year), silent = TRUE)
-  try(ensure_dictionary_archive(ic_table, ic_dict, latest_dictionary_year), silent = TRUE)
-  try(ensure_dictionary_archive(flags_table, flags_dict, latest_dictionary_year), silent = TRUE)
+  # Dictionary archives feed every decoded field (SECTOR, ICLEVEL, HBCU, TRIBAL,
+  # CARNEGIE*, FORM_F, ...). If any archive is missing, the downstream
+  # get_frequency_lookup() calls silently return character() and every decoded
+  # field becomes NA. Fail loudly instead of publishing a dataset with all
+  # decoded fields blank.
+  require_dictionary_archive <- function(table_name, out_file) {
+    tryCatch(
+      ensure_dictionary_archive(table_name, out_file, latest_dictionary_year),
+      error = function(e) {
+        stop(sprintf(
+          "Required IPEDS dictionary archive %s could not be obtained: %s\nFix the network/cache and re-run, or pre-populate %s from a known-good build.",
+          table_name, conditionMessage(e), out_file
+        ), call. = FALSE)
+      }
+    )
+  }
+  require_dictionary_archive(hd_table,    hd_dict)
+  require_dictionary_archive(ic_table,    ic_dict)
+  require_dictionary_archive(flags_table, flags_dict)
 
   hd_sector_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "SECTOR", aux_extract_root) else character()
   hd_level_lookup <- if (file.exists(hd_dict)) get_frequency_lookup(hd_dict, hd_table, "ICLEVEL", aux_extract_root) else character()

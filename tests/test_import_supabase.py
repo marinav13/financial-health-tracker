@@ -7,6 +7,7 @@ dictionaries without hitting the live Supabase API or writing any files.
 Run with: python tests/test_import_supabase.py
 """
 
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -67,6 +68,30 @@ def test_normalize_name_empty_string():
 
 def test_normalize_name_none():
     assert normalize_name(None) == ""
+
+
+def test_normalize_name_cuts_shared_fixtures():
+    """Drift guard: Python normalize_name() must match every case in
+    tests/fixtures/name_normalization_cuts.json, which is also consumed by
+    the R test `test_name_normalization.R`. If either side changes behavior
+    without updating the fixture, whichever side still matches keeps
+    passing and the other side fails. Fix the mismatch or update the
+    fixture (in which case both sides are forced to stay in sync)."""
+    fixture_path = REPO_ROOT / "tests" / "fixtures" / "name_normalization_cuts.json"
+    with fixture_path.open("r", encoding="utf-8") as handle:
+        fixture = json.load(handle)
+    mismatches = []
+    for case in fixture["cases"]:
+        input_value = case["input"]
+        expected = case["expected"]
+        actual = normalize_name(input_value)
+        if actual != expected:
+            mismatches.append((input_value, expected, actual))
+    assert not mismatches, (
+        "Python normalize_name() drifted from shared fixtures. "
+        "R mirror is in scripts/shared/name_normalization.R::normalize_name_cuts. "
+        f"Mismatches: {mismatches}"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -339,6 +364,7 @@ if __name__ == "__main__":
         test_normalize_name_collapses_whitespace,
         test_normalize_name_empty_string,
         test_normalize_name_none,
+        test_normalize_name_cuts_shared_fixtures,
         test_manual_aliases_keys_are_tuples_of_strings,
         test_manual_alias_unitids_are_numeric_strings,
         test_manual_alias_unitids_are_plausible_ipeds_range,

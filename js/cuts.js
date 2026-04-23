@@ -7,8 +7,6 @@
     renderSortableHeader,
     paginateItems,
     bindSortControls,
-    setupPaginatedTable,
-    filterByInstitution,
     setDataCardVisible,
     downloadRowsCsv,
     compareText,
@@ -18,7 +16,9 @@
     renderExternalLinkCell,
     isPrimaryTrackerInstitution,
     syncTabs,
-    renderRelatedInstitutionLinks
+    renderRelatedInstitutionLinks,
+    renderDataAsOf,
+    makeTableController
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -180,31 +180,25 @@ const rows = items.map((cut) => [
   }
 
   function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv", searchInput = null) {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    setupPaginatedTable({
+    return makeTableController({
       container,
       items,
       pageSize,
       searchInput,
       initialSortState: { key: "announcement_date", direction: "desc" },
-      defaultSortState: { key: "announcement_date", direction: "desc" },
-      filterItems: filterByInstitution,
       sortItems: sortCuts,
       renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
-      downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "State", "Sector", "Cut", "Date", "Source"],
-        pageItems.map((cut) => [
-            cut.institution_name || "",
-            cut.state || "",
-            cut.control_label || "",
-            (cut.program_name || "") + formatAffectedCount(cut),
-            cut.announcement_date || cut.announcement_year || "",
-            cut.source_url || ""
-          ])
-      )
+      downloadButton: downloadButtonId,
+      downloadFilename,
+      downloadHeaders: ["Institution", "State", "Sector", "Cut", "Date", "Source"],
+      downloadRow: (cut) => [
+        cut.institution_name || "",
+        cut.state || "",
+        cut.control_label || "",
+        (cut.program_name || "") + formatAffectedCount(cut),
+        cut.announcement_date || cut.announcement_year || "",
+        cut.source_url || ""
+      ]
     });
   }
 
@@ -213,6 +207,7 @@ const rows = items.map((cut) => [
     syncTabs(unitid, { active: "cuts" });
 
     const cutsData = await loadJson("data/college_cuts.json");
+    renderDataAsOf("cuts-data-as-of", cutsData?.generated_at);
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
     const title = document.getElementById("cuts-section-title");
@@ -220,8 +215,12 @@ const rows = items.map((cut) => [
     const mainToolbar = document.getElementById("cuts-table-download")?.closest(".table-toolbar");
 
     if (!unitid) {
-      document.getElementById("cuts-school-name").textContent = "College cuts";
-      document.getElementById("cuts-school-name").classList.add("is-hidden");
+      // Landing view: keep a real document heading for screen-reader navigation,
+      // but hide it visually so the existing masthead/banner layout is unchanged.
+      const landingHeading = document.getElementById("cuts-school-name");
+      landingHeading.textContent = "College cuts";
+      landingHeading.classList.add("sr-only");
+      landingHeading.classList.remove("is-hidden");
       if (mainToolbar) mainToolbar.classList.remove("is-hidden");
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
@@ -238,15 +237,19 @@ const rows = items.map((cut) => [
 
     const school = cutsData.schools?.[unitid];
     if (!school) {
-      document.getElementById("cuts-school-name").textContent = "No matched cuts found";
-      document.getElementById("cuts-school-name").classList.remove("is-hidden");
+      const missingHeading = document.getElementById("cuts-school-name");
+      missingHeading.textContent = "No matched cuts found";
+      missingHeading.classList.remove("is-hidden");
+      missingHeading.classList.remove("sr-only");
       container.innerHTML = renderEmpty("No matched college cuts were found for this institution in the current dataset.");
       title.textContent = "Cuts";
       return;
     }
 
-document.getElementById("cuts-school-name").textContent = school.institution_name || "College Cuts";
-    document.getElementById("cuts-school-name").classList.remove("is-hidden");
+    const schoolHeading = document.getElementById("cuts-school-name");
+    schoolHeading.textContent = school.institution_name || "College Cuts";
+    schoolHeading.classList.remove("is-hidden");
+    schoolHeading.classList.remove("sr-only");
     if (mainToolbar) mainToolbar.classList.add("is-hidden");
     syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });
     const relatedLinks = renderRelatedInstitutionLinks({

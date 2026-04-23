@@ -1,0 +1,23 @@
+{
+  "_description": "Drift-guard fixtures for the college-cuts name normalizer. Both scripts/shared/name_normalization.R::normalize_name_cuts and scripts/import_supabase_institution_mapping.py::normalize_name MUST produce the expected output for every case below. If you intentionally change the normalizer, update this file too and both sides are forced to stay in sync.",
+  "_consumers": [
+    "tests/test_name_normalization.R (R side)",
+    "tests/test_import_supabase.py::test_normalize_name_cuts_shared_fixtures (Python side)"
+  ],
+  "cases": [
+    { "input": "Harvard University", "expected": "harvard university" },
+    { "input": "The Ohio State University", "expected": "ohio state university" },
+    { "input": "SUNY Buffalo", "expected": "buffalo" },
+    { "input": "St. John's University", "expected": "saint john s university" },
+    { "input": "St Xavier University", "expected": "saint xavier university" },
+    { "input": "Arts & Sciences College", "expected": "arts and sciences college" },
+    { "input": "MIT - Main Campus", "expected": "mit" },
+    { "input": "  Example  College  ", "expected": "example college" },
+    { "input": "", "expected": "" },
+    { "input": "The College of Saint Scholastica", "expected": "college of saint scholastica" },
+    { "input": "College of St. Scholastica", "expected": "college of saint scholastica" },
+    { "input": "Ohio University-Main Campus", "expected": "ohio university" },
+    { "input": "The University of Texas at Dallas", "expected": "university of texas at dallas" },
+    { "input": "SUNY Buffalo State University", "expected": "buffalo state university" }
+  ]
+}

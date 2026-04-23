@@ -280,6 +280,13 @@ body {
   margin-bottom: 0;
 }
 
+.intro-box .data-as-of {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: #555;
+  font-style: italic;
+}
+
 .search-panel {
   background: var(--paper);
   border: 1px solid var(--border);
@@ -477,8 +484,6 @@ body {
 .section-copy strong {
   font-style: normal;
   font-weight: 700;
-}
-  color: #333;
 }
 
 .chart-note {

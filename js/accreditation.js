@@ -10,9 +10,7 @@
     loadJson,
     renderPaginationButtons,
     paginateItems,
-    setupPaginatedTable,
     escapeHtml,
-    filterByInstitution,
     setDataCardVisible,
     downloadRowsCsv,
     renderHistoryTable,
@@ -20,7 +18,9 @@
     renderExternalLinkCell,
     isPrimaryTrackerInstitution,
     syncTabs,
-    renderRelatedInstitutionLinks
+    renderRelatedInstitutionLinks,
+    renderDataAsOf,
+    makeTableController
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -357,53 +357,43 @@ function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames 
   }
 
   function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    setupPaginatedTable({
+    makeTableController({
       container,
       items: actions,
       pageSize,
       searchInput,
-      filterItems: filterByInstitution,
       renderPage: (filteredActions, currentPage, size) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
-      downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "Action", "State", "Sector", "Date", "Source"],
-        pageItems.map((action) => [
-            action.institution_name || "",
-            action.action_label || action.action_type || "",
-            action.state || "",
-            action.control_label || "",
-            action.action_date || action.action_year || "",
-            action.source_url || ""
-          ])
-      )
-});
+      downloadButton: downloadButtonId,
+      downloadFilename,
+      downloadHeaders: ["Institution", "Action", "State", "Sector", "Date", "Source"],
+      downloadRow: (action) => [
+        action.institution_name || "",
+        action.action_label || action.action_type || "",
+        action.state || "",
+        action.control_label || "",
+        action.action_date || action.action_year || "",
+        action.source_url || ""
+      ]
+    });
   }
 
   function setupOtherPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
-    if (!container) return;
-    const downloadButton = downloadButtonId ? document.getElementById(downloadButtonId) : null;
-    setupPaginatedTable({
+    makeTableController({
       container,
       items: actions,
       pageSize,
       searchInput,
-      filterItems: filterByInstitution,
       renderPage: (filteredActions, currentPage, size) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
-      downloadButton,
-      downloadRows: (pageItems) => downloadRowsCsv(
-          downloadFilename,
-          ["Institution", "Action", "State", "Date", "Source"],
-        pageItems.map((action) => [
-            action.institution_name || "",
-            action.action_label || action.action_type || "",
-            action.state || "",
-            action.action_date || action.action_year || "",
-            action.source_url || ""
-          ])
-      )
+      downloadButton: downloadButtonId,
+      downloadFilename,
+      downloadHeaders: ["Institution", "Action", "State", "Date", "Source"],
+      downloadRow: (action) => [
+        action.institution_name || "",
+        action.action_label || action.action_type || "",
+        action.state || "",
+        action.action_date || action.action_year || "",
+        action.source_url || ""
+      ]
     });
   }
 
@@ -453,12 +443,16 @@ function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames 
     syncTabs(unitid, { active: "accreditation" });
 
     const data = await loadJson("data/accreditation.json");
+    renderDataAsOf("accreditation-data-as-of", data?.generated_at);
     document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
 
     if (!unitid) {
-      // Landing page: show all recent actions split by institution type
-      document.getElementById("accreditation-school-name").textContent = "Accreditation actions";
-      document.getElementById("accreditation-school-name").classList.add("is-hidden");
+      // Landing page: retain a real document heading for screen-reader users
+      // but keep it visually hidden so the existing banner layout is unchanged.
+      const landingHeading = document.getElementById("accreditation-school-name");
+      landingHeading.textContent = "Accreditation actions";
+      landingHeading.classList.add("sr-only");
+      landingHeading.classList.remove("is-hidden");
       const primaryFilter = document.getElementById("accreditation-filter");
       const primaryFilterLabel = document.querySelector('label[for="accreditation-filter"]');
       if (primaryFilter) primaryFilter.classList.remove("is-hidden");
@@ -493,15 +487,19 @@ function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames 
     // School-specific view
     const school = data.schools?.[unitid];
     if (!school) {
-      document.getElementById("accreditation-school-name").textContent = "No tracked accreditation record found";
-      document.getElementById("accreditation-school-name").classList.remove("is-hidden");
+      const missingHeading = document.getElementById("accreditation-school-name");
+      missingHeading.textContent = "No tracked accreditation record found";
+      missingHeading.classList.remove("is-hidden");
+      missingHeading.classList.remove("sr-only");
       document.getElementById("accreditation-status").innerHTML = renderEmpty("No accreditation actions found.");
       return;
     }
 
-document.getElementById("accreditation-school-name").textContent = school.institution_name || "Accreditation";
+    const schoolHeading = document.getElementById("accreditation-school-name");
+    schoolHeading.textContent = school.institution_name || "Accreditation";
     syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
-    document.getElementById("accreditation-school-name").classList.remove("is-hidden");
+    schoolHeading.classList.remove("is-hidden");
+    schoolHeading.classList.remove("sr-only");
     const accreditationOverview = document.getElementById("accreditation-overview");
     if (accreditationOverview) {
       accreditationOverview.classList.add("is-hidden");
@@ -548,6 +546,7 @@ document.getElementById("accreditation-school-name").textContent = school.instit
     if (heading) {
       heading.textContent = "Accreditation data unavailable";
       heading.classList.remove("is-hidden");
+      heading.classList.remove("sr-only");
     }
     if (mainStatus) {
       mainStatus.innerHTML = renderEmpty("Accreditation actions could not be loaded. Please try again later.");

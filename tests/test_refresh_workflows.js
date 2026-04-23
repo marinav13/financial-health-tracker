@@ -54,18 +54,25 @@ run("weekly refresh verifies Supabase mapping output before downstream joins", (
   assert(block.includes("exit 1"), "Expected missing mapping to fail the workflow");
 });
 
-run("weekly refresh treats closure sheet import as optional external input", () => {
+run("weekly refresh fails loudly when closure sheet import breaks", () => {
+  // Requirement change: the closure-sheet step previously carried
+  // `continue-on-error: true`, which silently masked import failures and let
+  // stale or empty closure data ship to production. The workflow now fails
+  // the run if the import step fails, so users see the error instead of
+  // silently degraded data.
   const block = stepBlock(WEEKLY, "Import closure outputs from published Google Sheet");
-  assert(block.includes("continue-on-error: true"), "Expected closure sheet import to be allowed to fail without killing source refresh");
+  assert(!block.includes("continue-on-error: true"), "Closure sheet import must not be marked continue-on-error; failures should surface");
   assert(block.includes("--sheet"), "Expected workflow to pass explicit sheet URL");
 });
 
-run("full refresh treats closure sheet import as optional but validates committed fallback", () => {
+run("full refresh fails loudly when closure sheet import breaks", () => {
+  // See note above: closure-sheet failures must surface rather than be
+  // swallowed. The committed fallback is still validated after rebuild.
   const block = stepBlock(FULL, "Import closure outputs from published Google Sheet");
-  assert(block.includes("continue-on-error: true"), "Expected full refresh to tolerate closure sheet outages");
+  assert(!block.includes("continue-on-error: true"), "Closure sheet import must not be marked continue-on-error in full refresh");
   assert(block.includes("--sheet"), "Expected workflow to pass explicit sheet URL");
   const validateBlock = stepBlock(FULL, "Validate rebuilt artifacts");
-  assert(validateBlock.includes("node ./tests/test_data_exports.js"), "Expected fallback closure data to be validated before commit");
+  assert(validateBlock.includes("node ./tests/test_data_exports.js"), "Expected rebuilt closure data to be validated before commit");
 });
 
 run("weekly external-data steps have bounded timeouts", () => {
@@ -194,6 +201,26 @@ run("Node CI workflows use deterministic npm ci installs", () => {
 run("JS smoke tests include lightweight static analysis", () => {
   assert(PACKAGE_JSON.scripts["test:lint"] === "node tests/test_static_analysis.js", "Expected test:lint script");
   assert(PACKAGE_JSON.scripts["test:smoke"].startsWith("npm run test:lint &&"), "Expected test:smoke to run static analysis first");
+});
+
+run("Playwright e2e tests run as a dedicated CI job separate from smoke", () => {
+  // Guard against accidental removal or merger of the browser-test job. The
+  // smoke/e2e split is deliberate: smoke must stay fast and dependency-light
+  // (no browser download, no server boot), and e2e must stay an independent
+  // signal that can fail without blocking the quick JS/static checks.
+  assert(PACKAGE_JSON.scripts["test:e2e"] === "playwright test", "Expected test:e2e script to invoke playwright");
+  assert(!PACKAGE_JSON.scripts["test:smoke"].includes("test:e2e"), "test:smoke must not chain into test:e2e — keep browser tests in their own CI job");
+  assert(!PACKAGE_JSON.scripts["test:smoke"].includes("playwright"), "test:smoke must not invoke Playwright directly");
+
+  const e2eBlock = stepBlockContaining(TESTS, "Run Playwright e2e tests");
+  assert(e2eBlock.includes("npm run test:e2e"), "Expected CI to run npm run test:e2e");
+  const installBlock = stepBlockContaining(TESTS, "Install Playwright browsers");
+  assert(installBlock.includes("playwright install"), "Expected CI to install Playwright browsers before the e2e step");
+  // The e2e job must be a top-level job, not a step inside js-tests. Match
+  // the header at the same 2-space indent as other jobs; multiline mode is
+  // needed because the workflow file may use CRLF line endings.
+  assert(/^  e2e-tests:\s*$/m.test(TESTS), "Expected a top-level e2e-tests job separate from js-tests");
+  assert(/^  js-tests:\s*$/m.test(TESTS), "Expected js-tests to remain as its own job (sanity check for the split)");
 });
 
 run("deployed Pages parity workflow compares live site to committed artifacts", () => {

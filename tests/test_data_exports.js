@@ -198,7 +198,8 @@ run("trailing-The accreditation aliases stay in the primary tracker table", () =
     ["195234", "The College of Saint Rose"],
     ["197285", "The College of Westchester"],
     ["202763", "The University of Findlay"],
-    ["237312", "University of Charleston"]
+    ["237312", "University of Charleston"],
+    ["164988", "Boston University"]
   ];
 
   for (const [unitid, name] of expectedAccreditationMatches) {

@@ -160,7 +160,19 @@ main <- function(cli_args = NULL) {
   raw_actions <- dplyr::bind_rows(scraper_results) |>
     dplyr::mutate(
       institution_name_raw = clean_text(institution_name_raw),
-      institution_state_raw = clean_text(institution_state_raw),
+      institution_state_raw = clean_text(institution_state_raw)
+    ) |>
+    dplyr::mutate(
+      parsed_from_name = purrr::map(institution_name_raw, extract_name_state_from_item),
+      embedded_name_raw = purrr::map_chr(parsed_from_name, ~ .x$institution_name_raw),
+      embedded_state_raw = purrr::map_chr(parsed_from_name, ~ .x$institution_state_raw),
+      has_state = !is.na(institution_state_raw) & nzchar(institution_state_raw),
+      has_embedded_state = !is.na(embedded_state_raw) & nzchar(embedded_state_raw),
+      institution_name_raw = dplyr::if_else(!has_state & has_embedded_state, embedded_name_raw, institution_name_raw),
+      institution_state_raw = dplyr::if_else(!has_state & has_embedded_state, embedded_state_raw, institution_state_raw)
+    ) |>
+    dplyr::select(-parsed_from_name, -embedded_name_raw, -embedded_state_raw, -has_state, -has_embedded_state) |>
+    dplyr::mutate(
       institution_name_normalized = normalize_accreditation_name(institution_name_raw),
       institution_state_normalized = state_name(institution_state_raw),
       action_type = tolower(trimws(action_type)),

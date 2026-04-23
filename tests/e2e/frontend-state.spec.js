@@ -96,7 +96,7 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
-    await expect(page.locator('#cuts-overview')).not.toContainText('This institution appears');
+    await expect(page.locator('#cuts-overview')).toHaveCount(0);
   });
 
   test('accreditation secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {

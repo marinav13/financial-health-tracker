@@ -106,6 +106,110 @@ run("matched research and accreditation main-table records keep sector fields", 
   }
 });
 
+run("known research institution aliases stay in the primary tracker table", () => {
+  const expectedResearchMatches = [
+    ["199148", "University of North Carolina at Greensboro"],
+    ["240444", "University of Wisconsin-Madison"],
+    ["240453", "University of Wisconsin-Milwaukee"],
+    ["141574", "University of Hawaii at Manoa"],
+    ["102553", "University of Alaska Anchorage"],
+    ["102614", "University of Alaska Fairbanks"],
+    ["229115", "Texas Tech University"],
+    ["145637", "University of Illinois Urbana-Champaign"],
+    ["146719", "Loyola University Chicago"],
+    ["126562", "University of Colorado Denver/Anschutz Medical Campus"],
+    ["230764", "University of Utah"],
+    ["161253", "University of Maine"],
+    ["166629", "University of Massachusetts-Amherst"],
+    ["166638", "University of Massachusetts-Boston"],
+    ["178420", "University of Missouri-St Louis"],
+    ["200332", "North Dakota State University-Main Campus"],
+    ["120883", "University of the Pacific"],
+    ["100751", "The University of Alabama"],
+    ["129020", "University of Connecticut"],
+    ["209551", "University of Oregon"],
+    ["163338", "University of Maryland Eastern Shore"],
+    ["135726", "University of Miami"],
+    ["219976", "Lipscomb University"],
+    ["243744", "Stanford University"],
+    ["231174", "University of Vermont"],
+    ["215293", "University of Pittsburgh-Pittsburgh Campus"],
+    ["155317", "University of Kansas"],
+    ["110422", "California Polytechnic State University-San Luis Obispo"],
+    ["139931", "Georgia Southern University"],
+    ["228644", "The University of Texas Health Science Center at San Antonio"],
+    ["492689", "Texas Tech University Health Sciences Center-El Paso"],
+    ["132903", "University of Central Florida"]
+  ];
+
+  for (const [unitid, name] of expectedResearchMatches) {
+    const school = RESEARCH_FUNDING.schools?.[unitid];
+    assert(school, `Research export is missing expected matched school ${name} (${unitid})`);
+    assert(school.is_primary_tracker === true, `${name} should be in the primary tracker table`);
+    assert(school.has_financial_profile === true, `${name} should link to a financial profile`);
+    assert(school.financial_unitid === unitid, `${name} should keep financial_unitid ${unitid}`);
+  }
+
+  const unmatchedNames = Object.values(RESEARCH_FUNDING.schools || {})
+    .filter((school) => school.is_primary_tracker !== true)
+    .map((school) => school.institution_name);
+  for (const staleName of [
+    "University of North Carolina Greensboro",
+    "University of Wisconsin System",
+    "University of Hawaii",
+    "University of Alaska Anchorage Campus",
+    "Texas Tech University System",
+    "University of Illinois",
+    "Loyola University of Chicago",
+    "University of Colorado at Denver-Downtown Campus",
+    "Utah State Higher Education System--University of Utah",
+    "University of Maine System",
+    "University of Mass at Boston",
+    "University of Missouri-Saint Louis",
+    "University of Oregon Eugene",
+    "University of Alabama in Tuscaloosa",
+    "University of Connecticut Storrs",
+    "University of Miami Coral Gables",
+    "University of Maryland Es"
+  ]) {
+    assert(!unmatchedNames.includes(staleName), `${staleName} should not appear in the research "other institutions" table`);
+  }
+});
+
+run("University of Hawai'i at Hilo accreditation actions match the primary tracker", () => {
+  const hilo = ACCREDITATION.schools?.["141565"];
+  assert(hilo, "Accreditation export is missing University of Hawaii at Hilo");
+  assert(hilo.is_primary_tracker === true, "University of Hawaii at Hilo should be in the primary accreditation table");
+  assert(hilo.has_financial_profile === true, "University of Hawaii at Hilo should link to a financial profile");
+  assert(hilo.financial_unitid === "141565", "University of Hawaii at Hilo should keep financial_unitid 141565");
+
+  const unmatchedHilo = Object.values(ACCREDITATION.schools || {})
+    .filter((school) => school.is_primary_tracker !== true)
+    .map((school) => school.institution_name)
+    .filter((name) => /Hawai.i.*Hilo|Hawaii.*Hilo/i.test(name || ""));
+  assert(unmatchedHilo.length === 0, `Hilo accreditation aliases should not appear in "other institutions": ${unmatchedHilo.join(", ")}`);
+});
+
+run("trailing-The accreditation aliases stay in the primary tracker table", () => {
+  const expectedAccreditationMatches = [
+    ["131283", "The Catholic University of America"],
+    ["131469", "George Washington University"],
+    ["187134", "The College of New Jersey"],
+    ["195234", "The College of Saint Rose"],
+    ["197285", "The College of Westchester"],
+    ["202763", "The University of Findlay"],
+    ["237312", "University of Charleston"]
+  ];
+
+  for (const [unitid, name] of expectedAccreditationMatches) {
+    const school = ACCREDITATION.schools?.[unitid];
+    assert(school, `Accreditation export is missing expected matched school ${name} (${unitid})`);
+    assert(school.is_primary_tracker === true, `${name} should be in the primary accreditation table`);
+    assert(school.has_financial_profile === true, `${name} should link to a financial profile`);
+    assert(school.financial_unitid === unitid, `${name} should keep financial_unitid ${unitid}`);
+  }
+});
+
 run("research export excludes Dartmouth award with zero live remaining funding", () => {
   const dartmouth = RESEARCH_FUNDING.schools?.["182670"];
   assert(dartmouth, "Dartmouth College research record is missing");

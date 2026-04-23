@@ -80,9 +80,10 @@ main <- function(cli_args = NULL) {
   financial_latest <- financial_all |>
     dplyr::filter(year == latest_year) |>
     dplyr::mutate(
+      unitid = as.character(unitid),
       institution_name_tracker = institution_name,
       state_full = state_name(state),
-      norm_name = normalize_name(institution_name)
+      norm_name = normalize_accreditation_name(institution_name)
     )
 
   # Build lookup tables for matching accreditor institution names to tracker names
@@ -160,7 +161,7 @@ main <- function(cli_args = NULL) {
     dplyr::mutate(
       institution_name_raw = clean_text(institution_name_raw),
       institution_state_raw = clean_text(institution_state_raw),
-      institution_name_normalized = normalize_name(institution_name_raw),
+      institution_name_normalized = normalize_accreditation_name(institution_name_raw),
       institution_state_normalized = state_name(institution_state_raw),
       action_type = tolower(trimws(action_type)),
       accreditation_warning = action_type %in% c("warning", "probation", "show_cause"),

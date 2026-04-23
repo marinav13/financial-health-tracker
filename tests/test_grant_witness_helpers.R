@@ -7,6 +7,14 @@ run_test("Grant Witness name helpers", function() {
     simplify_institution_name("Board of Trustees of Southern Illinois University"),
     "southern illinois university"
   )
+  assert_identical(
+    simplify_institution_name("University of North Carolina at Greensboro"),
+    "university of north carolina greensboro"
+  )
+  assert_identical(
+    simplify_institution_name("University of North Carolina Greensboro"),
+    "university of north carolina greensboro"
+  )
   assert_true(
     grepl(
       "subaward",

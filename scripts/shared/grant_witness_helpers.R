@@ -191,7 +191,7 @@ SIMPLIFY_ABBREV <- c(
   "(?i)\\buniv of maryland\\b"      = "university of maryland",
   "(?i)\\buniv of\\b"               = "university of",
   "(?i)\\buniversity of tx\\b"      = "university of texas",
-  "(?i)^university of ([a-z]+) at ([a-z].+)$" = "university of \\1 \\2",
+  "(?i)^university of ([a-z]+(?: [a-z]+)*) at ([a-z].+)$" = "university of \\1 \\2",
   "(?i)\\buniv\\b"                  = "university",
   "(?i)\\bhlth\\b"                  = "health",
   "(?i)\\bctr\\b"                   = "center",

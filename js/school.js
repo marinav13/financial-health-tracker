@@ -58,11 +58,6 @@ function setText(id, value) {
   if (node) node.textContent = value ?? "No data";
 }
 
-function setHtml(id, value) {
-  const node = document.getElementById(id);
-  if (node) node.innerHTML = value ?? "No data";
-}
-
 async function loadJsonOrNull(path) {
   try {
     return await loadJson(path);
@@ -160,6 +155,18 @@ function setHidden(id, hidden) {
   const node = document.getElementById(id);
   if (!node) return;
   node.classList.toggle("is-hidden", Boolean(hidden));
+  node.setAttribute("aria-hidden", hidden ? "true" : "false");
+}
+
+function setEnrollmentTotal(id, latestEnrollment) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.replaceChildren();
+  if (!latestEnrollment) return;
+  node.append(`Total enrollment for ${latestEnrollment.year}: `);
+  const value = document.createElement("strong");
+  value.textContent = fmtNumber(latestEnrollment.value, 0);
+  node.append(value);
 }
 
 function setClosestMetricHidden(id, hidden) {
@@ -675,10 +682,7 @@ async function init() {
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
   const enrollmentFlag = deriveEnrollmentFlag(s, series);
-setHtml(
-    "enrollment-total",
-    latestEnrollment ? `Total enrollment for ${latestEnrollment.year}: <strong>${fmtNumber(latestEnrollment.value, 0)}</strong>` : ""
-  );
+  setEnrollmentTotal("enrollment-total", latestEnrollment);
   setHidden("enrollment-total", !latestEnrollment);
   setText("enrollment-flag", enrollmentFlag);
   styleAnswerCard("enrollment-flag", enrollmentFlag);

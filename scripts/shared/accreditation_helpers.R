@@ -44,6 +44,10 @@ normalize_name <- function(x) {
   x |>
     as.character() |>
     stringr::str_to_lower() |>
+    # Hawaiian okina/curly apostrophe variants appear in accreditor data but
+    # not in IPEDS names; remove internal apostrophes before punctuation
+    # stripping so "Hawai'i" normalizes to "hawaii" rather than "hawai i".
+    stringr::str_replace_all("(?<=[a-z])[\u2018\u2019\u02bb\u02bc'](?=[a-z])", "") |>
     # Expand ampersand to full word for matching (e.g., "A&M" -> "a and m")
     stringr::str_replace_all("&", " and ") |>
     # Abbreviate "Saint" (word boundary to match) to "St"
@@ -51,8 +55,22 @@ normalize_name <- function(x) {
     # Remove all special characters except alphanumeric and space
     stringr::str_replace_all("[^a-z0-9 ]", " ") |>
     # Clean up any resulting whitespace issues
-    stringr::str_squish()
+    stringr::str_squish() |>
+    # Normalize leading/trailing "The" variants from accreditor names such
+    # as "Catholic University of America, The" while preserving interior words.
+    stringr::str_replace("^the\\s+", "") |>
+    stringr::str_replace("\\s+the$", "") |>
+    # IPEDS often appends campus descriptors that accreditor pages omit for
+    # the same primary institution name.
+    stringr::str_replace("\\s+main campus$", "") |>
+    stringr::str_replace("\\s+campus immersion$", "") |>
+    stringr::str_squish() |>
+    # WSCUC has emitted "University of Hawai'i, Hilo"; IPEDS uses
+    # "University of Hawaii at Hilo".
+    stringr::str_replace_all("^university of hawaii hilo$", "university of hawaii at hilo")
 }
+
+normalize_accreditation_name <- normalize_name
 
 # ---------------------------------------------------------------------------
 # STATE ABBREVIATION LOOKUP
@@ -278,8 +296,10 @@ extract_name_state_from_item <- function(x) {
 # ---------------------------------------------------------------------------
 
 # Two-pass fuzzy match of scraped institution names to tracker database.
-# Pass 1: normalized name + state (most specific). Pass 2: name only (fallback for
-# multi-campus or state-mismatched entries. Returns unitid, tracker_name, tracker_state, and match_method.
+# Pass 1: normalized name + state (most specific). Pass 2: normalized name
+# only, but only when the accreditor did not supply a state or the tracker
+# state agrees. This avoids unsafe matches between same-named institutions in
+# different states. Returns unitid, tracker_name, tracker_state, and match_method.
 match_institutions_to_tracker <- function(actions_df, lookup_exact, lookup_name_only) {
   actions_df |>
     # Pass 1: Try exact match (name + state)
@@ -307,6 +327,16 @@ match_institutions_to_tracker <- function(actions_df, lookup_exact, lookup_name_
       name_only_tracker_name  = tracker_name,
       name_only_tracker_state = tracker_state
     ) |>
+    dplyr::mutate(
+      exact_unitid = as.character(exact_unitid),
+      name_only_unitid = as.character(name_only_unitid),
+      name_only_state_eligible = is.na(institution_state_normalized) |
+        !nzchar(institution_state_normalized) |
+        institution_state_normalized == name_only_tracker_state,
+      name_only_unitid = dplyr::if_else(name_only_state_eligible, name_only_unitid, NA_character_),
+      name_only_tracker_name = dplyr::if_else(name_only_state_eligible, name_only_tracker_name, NA_character_),
+      name_only_tracker_state = dplyr::if_else(name_only_state_eligible, name_only_tracker_state, NA_character_)
+    ) |>
     # Merge the results: use exact match if found, fall back to name-only
     dplyr::mutate(
       unitid       = dplyr::coalesce(exact_unitid, name_only_unitid),
@@ -322,6 +352,7 @@ match_institutions_to_tracker <- function(actions_df, lookup_exact, lookup_name_
     # Clean up temporary columns created during the join
     dplyr::select(
       -exact_unitid, -exact_tracker_name, -exact_tracker_state,
-      -name_only_unitid, -name_only_tracker_name, -name_only_tracker_state
+      -name_only_unitid, -name_only_tracker_name, -name_only_tracker_state,
+      -name_only_state_eligible
     )
 }

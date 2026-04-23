@@ -234,11 +234,16 @@ main <- function(cli_args = NULL) {
   }
 
   manual_match_overrides <- if (file.exists(manual_match_overrides_path)) {
-    mo <- readr::read_csv(manual_match_overrides_path, show_col_types = FALSE, progress = FALSE) |>
+    mo_raw <- readr::read_csv(manual_match_overrides_path, show_col_types = FALSE, progress = FALSE)
+    if (!"organization_city" %in% names(mo_raw)) {
+      mo_raw$organization_city <- NA_character_
+    }
+    mo <- mo_raw |>
       dplyr::transmute(
         organization_name,
         organization_name_display = prettify_institution_name(organization_name),
         organization_state = null_if_empty(organization_state),
+        organization_city = prettify_location_text(null_if_empty(organization_city)),
         override_unitid = as.character(unitid),
         override_tracker_institution_name = institution_name_override,
         override_tracker_state = state_override,
@@ -269,7 +274,7 @@ main <- function(cli_args = NULL) {
 
     # Validate: check for stale override unitids not in current IPEDS data
     stale_overrides <- mo |>
-      dplyr::filter(!override_unitid %in% financial_latest$unitid)
+      dplyr::filter(!is.na(override_unitid), !override_unitid %in% financial_latest$unitid)
     if (nrow(stale_overrides) > 0) {
       warning(sprintf("%d manual override unitid(s) not found in current IPEDS data: %s",
         nrow(stale_overrides), paste(stale_overrides$override_unitid, collapse=", ")))
@@ -280,6 +285,7 @@ main <- function(cli_args = NULL) {
       organization_name = character(),
       organization_name_display = character(),
       organization_state = character(),
+      organization_city = character(),
       override_unitid = character(),
       override_tracker_institution_name = character(),
       override_tracker_city = character(),
@@ -430,12 +436,61 @@ main <- function(cli_args = NULL) {
     # Matching priority 5: manual name override
     dplyr::left_join(
       manual_match_overrides |>
-        dplyr::select(-organization_name_display),
+        dplyr::filter(!is.na(organization_city)) |>
+        dplyr::distinct(organization_name, organization_state, organization_city, .keep_all = TRUE) |>
+        dplyr::select(
+          organization_name,
+          organization_state,
+          organization_city,
+          city_override_unitid = override_unitid,
+          city_override_tracker_institution_name = override_tracker_institution_name,
+          city_override_tracker_city = override_tracker_city,
+          city_override_tracker_state = override_tracker_state,
+          city_override_tracker_control_label = override_tracker_control_label,
+          city_override_tracker_category = override_tracker_category,
+          city_override_likely_higher_ed = override_likely_higher_ed
+        ),
+      by = c("organization_name", "organization_state", "organization_city")
+    ) |>
+    dplyr::left_join(
+      manual_match_overrides |>
+        dplyr::filter(is.na(organization_city)) |>
+        dplyr::distinct(organization_name, organization_state, .keep_all = TRUE) |>
+        dplyr::select(-organization_name_display, -organization_city),
       by = c("organization_name", "organization_state")
     ) |>
     # Matching priority 6: manual display name override
     dplyr::left_join(
       manual_match_overrides |>
+        dplyr::filter(!is.na(organization_city)) |>
+        dplyr::distinct(organization_name_display, organization_state, organization_city, .keep_all = TRUE) |>
+        dplyr::rename(
+          display_city_override_unitid = override_unitid,
+          display_city_override_tracker_institution_name = override_tracker_institution_name,
+          display_city_override_tracker_city = override_tracker_city,
+          display_city_override_tracker_state = override_tracker_state,
+          display_city_override_tracker_control_label = override_tracker_control_label,
+          display_city_override_tracker_category = override_tracker_category,
+          display_city_override_likely_higher_ed = override_likely_higher_ed
+        ) |>
+        dplyr::select(
+          organization_name_display,
+          organization_state,
+          organization_city,
+          display_city_override_unitid,
+          display_city_override_tracker_institution_name,
+          display_city_override_tracker_city,
+          display_city_override_tracker_state,
+          display_city_override_tracker_control_label,
+          display_city_override_tracker_category,
+          display_city_override_likely_higher_ed
+        ),
+      by = c("organization_name_display", "organization_state", "organization_city")
+    ) |>
+    dplyr::left_join(
+      manual_match_overrides |>
+        dplyr::filter(is.na(organization_city)) |>
+        dplyr::distinct(organization_name_display, organization_state, .keep_all = TRUE) |>
         dplyr::rename(
           display_override_unitid = override_unitid,
           display_override_tracker_institution_name = override_tracker_institution_name,
@@ -460,16 +515,16 @@ main <- function(cli_args = NULL) {
     ) |>
     # Coalesce all matching attempts into single columns
     dplyr::mutate(
-      matched_unitid = dplyr::coalesce(city_unitid, unitid, alias_unitid, override_unitid, display_override_unitid),
-      tracker_institution_name = dplyr::coalesce(city_tracker_institution_name, tracker_institution_name, alias_tracker_institution_name, override_tracker_institution_name, display_override_tracker_institution_name),
-      tracker_city = dplyr::coalesce(city_tracker_city, tracker_city, alias_tracker_city, override_tracker_city, display_override_tracker_city),
-      tracker_state = dplyr::coalesce(city_tracker_state, tracker_state, alias_tracker_state, override_tracker_state, display_override_tracker_state),
-      tracker_control_label = dplyr::coalesce(city_tracker_control_label, tracker_control_label, alias_tracker_control_label, override_tracker_control_label, display_override_tracker_control_label),
-      tracker_category = dplyr::coalesce(city_tracker_category, tracker_category, alias_tracker_category, override_tracker_category, display_override_tracker_category),
+      matched_unitid = dplyr::coalesce(city_unitid, unitid, alias_unitid, city_override_unitid, override_unitid, display_city_override_unitid, display_override_unitid),
+      tracker_institution_name = dplyr::coalesce(city_tracker_institution_name, tracker_institution_name, alias_tracker_institution_name, city_override_tracker_institution_name, override_tracker_institution_name, display_city_override_tracker_institution_name, display_override_tracker_institution_name),
+      tracker_city = dplyr::coalesce(city_tracker_city, tracker_city, alias_tracker_city, city_override_tracker_city, override_tracker_city, display_city_override_tracker_city, display_override_tracker_city),
+      tracker_state = dplyr::coalesce(city_tracker_state, tracker_state, alias_tracker_state, city_override_tracker_state, override_tracker_state, display_city_override_tracker_state, display_override_tracker_state),
+      tracker_control_label = dplyr::coalesce(city_tracker_control_label, tracker_control_label, alias_tracker_control_label, city_override_tracker_control_label, override_tracker_control_label, display_city_override_tracker_control_label, display_override_tracker_control_label),
+      tracker_category = dplyr::coalesce(city_tracker_category, tracker_category, alias_tracker_category, city_override_tracker_category, override_tracker_category, display_city_override_tracker_category, display_override_tracker_category),
       likely_higher_ed = dplyr::if_else(
         is_noncampus_medical_or_foundation_name(organization_name),
         FALSE,
-        dplyr::coalesce(override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, likely_higher_ed)
+        dplyr::coalesce(city_override_likely_higher_ed, override_likely_higher_ed, display_city_override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, likely_higher_ed)
       ),
       pass_through_keyword_match = vapply(
         seq_len(dplyr::n()),
@@ -482,8 +537,10 @@ main <- function(cli_args = NULL) {
         !is.na(city_unitid) ~ "normalized_name_city_state",
         is.na(city_unitid) & !is.na(unitid) ~ "normalized_name_state_fallback",
         is.na(city_unitid) & is.na(unitid) & !is.na(alias_unitid) ~ "alias_name_state_fallback",
-        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & !is.na(override_unitid) ~ "manual_name_override",
-        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(override_unitid) & !is.na(display_override_unitid) ~ "manual_display_name_override",
+        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & !is.na(city_override_unitid) ~ "manual_name_city_override",
+        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & !is.na(override_unitid) ~ "manual_name_override",
+        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & is.na(override_unitid) & !is.na(display_city_override_unitid) ~ "manual_display_name_city_override",
+        is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & is.na(override_unitid) & is.na(display_city_override_unitid) & !is.na(display_override_unitid) ~ "manual_display_name_override",
         include_in_dataset %in% TRUE ~ "manual_include_unmatched",
         likely_higher_ed ~ "likely_higher_ed_unmatched",
         TRUE ~ "unmatched"
@@ -554,11 +611,13 @@ main <- function(cli_args = NULL) {
         match_method == "normalized_name_city_state" ~ 1L,
         match_method == "normalized_name_state_fallback" ~ 2L,
         match_method == "alias_name_state_fallback" ~ 3L,
-        match_method == "manual_name_override" ~ 4L,
-        match_method == "manual_display_name_override" ~ 5L,
-        match_method == "manual_include_unmatched" ~ 6L,
-        match_method == "likely_higher_ed_unmatched" ~ 7L,
-        TRUE ~ 8L
+        match_method == "manual_name_city_override" ~ 4L,
+        match_method == "manual_name_override" ~ 5L,
+        match_method == "manual_display_name_city_override" ~ 6L,
+        match_method == "manual_display_name_override" ~ 7L,
+        match_method == "manual_include_unmatched" ~ 8L,
+        match_method == "likely_higher_ed_unmatched" ~ 9L,
+        TRUE ~ 10L
       ),
       grant_match_key = dplyr::if_else(
         !is.na(matched_unitid) & trimws(matched_unitid) != "",

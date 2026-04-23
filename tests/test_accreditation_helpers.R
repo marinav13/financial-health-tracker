@@ -8,6 +8,10 @@ run_test("Accreditation text and classification", function() {
   assert_identical(unname(extract_page_title(html)), "Example Title")
   assert_identical(unname(extract_page_modified_date(html)), "2025-02-03")
   assert_identical(state_name("MA"), "Massachusetts")
+  assert_identical(normalize_accreditation_name("University of Hawai’i at Hilo"), "university of hawaii at hilo")
+  assert_identical(normalize_accreditation_name("University of Hawai’i, Hilo"), "university of hawaii at hilo")
+  assert_identical(normalize_accreditation_name("Catholic University of America, The"), "catholic university of america")
+  assert_identical(normalize_accreditation_name("The George Washington University"), "george washington university")
   parsed <- extract_name_state_from_item("Example College, Boston, MA")
   assert_identical(unname(parsed$institution_name_raw), "Example College")
   assert_identical(unname(parsed$institution_state_raw), "Massachusetts")
@@ -24,8 +28,8 @@ run_test("Accreditation text and classification", function() {
 
 run_test("Accreditation tracker matching", function() {
   actions_df <- data.frame(
-    institution_name_normalized = c("example college", "name only match"),
-    institution_state_normalized = c("Massachusetts", "Texas"),
+    institution_name_normalized = c("example college", "name only match", "name only match", "same name different state"),
+    institution_state_normalized = c("Massachusetts", NA, "California", "Texas"),
     stringsAsFactors = FALSE
   )
   lookup_exact <- data.frame(
@@ -37,10 +41,10 @@ run_test("Accreditation tracker matching", function() {
     stringsAsFactors = FALSE
   )
   lookup_name_only <- data.frame(
-    matched_unitid = "200",
-    tracker_name = "Name Only Match University",
-    tracker_state = "California",
-    norm_name = "name only match",
+    matched_unitid = c("200", "300"),
+    tracker_name = c("Name Only Match University", "Same Name Different State"),
+    tracker_state = c("California", "California"),
+    norm_name = c("name only match", "same name different state"),
     stringsAsFactors = FALSE
   )
 
@@ -49,4 +53,8 @@ run_test("Accreditation tracker matching", function() {
   assert_identical(matched$match_method[[1]], "normalized_name_plus_state")
   assert_identical(matched$unitid[[2]], "200")
   assert_identical(matched$match_method[[2]], "normalized_name_only")
+  assert_identical(matched$unitid[[3]], "200")
+  assert_identical(matched$match_method[[3]], "normalized_name_only")
+  assert_true(is.na(matched$unitid[[4]]))
+  assert_identical(matched$match_method[[4]], "unmatched")
 })

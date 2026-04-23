@@ -12,10 +12,12 @@
 #
 # The college-cuts variant (`normalize_name_cuts`) is kept byte-for-byte in
 # sync with `normalize_name()` in `scripts/import_supabase_institution_mapping.py`.
-# When one changes, the other MUST change. See the contract comment on
-# `normalize_name_cuts` below, and the mirror test in
-# `tests/test_name_normalization.R` that pins both sides against shared
-# fixtures.
+# When one changes, the other MUST change. Drift is caught on both sides:
+# `tests/test_name_normalization.R` pins the R side, and
+# `tests/test_import_supabase.py::test_normalize_name_cuts_shared_fixtures`
+# pins the Python side. Both read the same fixtures from
+# `tests/fixtures/name_normalization_cuts.json`, so any unilateral change
+# fails CI.
 
 # ---------------------------------------------------------------------------
 # Accreditation data

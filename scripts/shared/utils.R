@@ -219,3 +219,71 @@ first_non_null <- function(x, default = NULL) {
   if (is.null(default) && is.atomic(x) && length(x) > 0) return(x[NA_integer_])
   default
 }
+
+# ---------------------------------------------------------------------------
+# Resilient downloads
+# ---------------------------------------------------------------------------
+
+# Downloads `url` to `destfile` with an explicit per-attempt timeout and
+# exponential-backoff retry. Used for fetching upstream files from flaky
+# mirrors (IPEDS dictionary generator, Grant Witness) where a stalled
+# connection can otherwise hang the refresh workflow indefinitely.
+#
+# R's `utils::download.file` honors the global `options("timeout")` setting
+# rather than a per-call argument, so this helper temporarily overrides the
+# option and restores it on exit.
+#
+# Returns `destfile` invisibly on success. On final failure, stops with the
+# last error message so the caller can decide whether to fall back to a
+# cached copy or abort.
+#
+# Parameters:
+#   url       - URL to fetch
+#   destfile  - local path to write to
+#   mode      - download mode, default "wb" (binary, required for ZIPs)
+#   quiet     - suppress progress output, default TRUE
+#   timeout   - per-attempt timeout in seconds, default 300 (5 minutes)
+#   retries   - total attempt count including the first, default 3
+download_with_retry <- function(url, destfile, mode = "wb", quiet = TRUE,
+                                timeout = 300L, retries = 3L) {
+  if (!is.numeric(retries) || retries < 1L) {
+    stop("download_with_retry: retries must be >= 1", call. = FALSE)
+  }
+
+  prior_timeout <- getOption("timeout")
+  options(timeout = timeout)
+  on.exit(options(timeout = prior_timeout), add = TRUE)
+
+  last_error <- NULL
+  for (attempt in seq_len(as.integer(retries))) {
+    result <- tryCatch(
+      {
+        # On Windows/wininet, download.file() reports failures as warnings and
+        # a non-zero return code rather than hard errors. Promote both to errors
+        # so the retry loop treats them uniformly across platforms.
+        rc <- utils::download.file(url, destfile = destfile, mode = mode, quiet = quiet)
+        if (rc != 0L) stop(sprintf("download.file returned non-zero status %d", rc), call. = FALSE)
+        NULL
+      },
+      warning = function(w) simpleError(conditionMessage(w)),
+      error   = function(e) e
+    )
+    if (is.null(result)) return(invisible(destfile))
+    last_error <- result
+    if (attempt < retries) {
+      # Exponential backoff: 2s, 4s, 8s, ... between successive attempts.
+      Sys.sleep(2 ^ attempt)
+      message(sprintf(
+        "download_with_retry: attempt %d/%d failed for %s; retrying (%s)",
+        attempt, retries, url, conditionMessage(result)
+      ))
+    }
+  }
+  stop(
+    sprintf(
+      "download.file(%s) failed after %d attempts: %s",
+      url, as.integer(retries), conditionMessage(last_error)
+    ),
+    call. = FALSE
+  )
+}

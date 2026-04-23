@@ -36,9 +36,12 @@ normalize_name_accreditation <- function(x) {
     as.character() |>
     stringr::str_to_lower() |>
     # Hawaiian okina/curly apostrophe variants appear in accreditor data but
-    # not in IPEDS names; remove internal apostrophes before punctuation
-    # stripping so "Hawai'i" normalizes to "hawaii" rather than "hawai i".
-    stringr::str_replace_all("(?<=[a-z])[\u2018\u2019\u02bb\u02bc'](?=[a-z])", "") |>
+    # not in IPEDS names; remove these before punctuation stripping so
+    # "Hawai\u2019i" normalizes to "hawaii" rather than "hawai i". The plain
+    # ASCII apostrophe is intentionally excluded: it marks English possessives
+    # ("Mary's") and is handled by the [^a-z0-9 ] step below, producing
+    # "mary s" to align with the shared fixture contract.
+    stringr::str_replace_all("(?<=[a-z])[\u2018\u2019\u02bb\u02bc](?=[a-z])", "") |>
     # Expand ampersand to full word for matching (e.g., "A&M" -> "a and m")
     stringr::str_replace_all("&", " and ") |>
     # Abbreviate "Saint" (word boundary to match) to "St"

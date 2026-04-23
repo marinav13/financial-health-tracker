@@ -15,7 +15,8 @@ run_test("College Cuts join pipeline fixture", function() {
   )
   invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
 
-  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R")) {
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R",
+               "shared/name_normalization.R")) {
     file.copy(
       file.path(root, "scripts", nm),
       file.path(fixture_root, "scripts", nm),
@@ -268,7 +269,8 @@ run_test("College Cuts join: duplicate unitid in financial tracker raises stop()
   )
   invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
 
-  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R")) {
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R",
+               "shared/name_normalization.R")) {
     file.copy(
       file.path(root, "scripts", nm),
       file.path(fixture_root, "scripts", nm),

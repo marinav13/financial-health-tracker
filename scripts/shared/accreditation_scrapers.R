@@ -1154,16 +1154,25 @@ warn_if_action_type_dropped <- function(fresh_df,
     accreditor  = prior_df$accreditor,
     action_type = prior_df$action_type
   ), stringsAsFactors = FALSE)
-  fresh_pairs <- as.data.frame(table(
-    accreditor  = fresh_df$accreditor,
-    action_type = fresh_df$action_type
-  ), stringsAsFactors = FALSE)
   names(prior_pairs)[3] <- "prior_n"
-  names(fresh_pairs)[3] <- "fresh_n"
-  joined <- merge(prior_pairs, fresh_pairs,
-                  by = c("accreditor", "action_type"),
-                  all.x = TRUE)
-  joined$fresh_n[is.na(joined$fresh_n)] <- 0L
+
+  # table() on zero-length vectors produces a 1D result in R >= 4.5, so skip
+  # the table() call when fresh_df is empty and treat all prior pairs as
+  # having dropped to 0.
+  if (nrow(fresh_df) == 0L) {
+    joined <- prior_pairs
+    joined$fresh_n <- 0L
+  } else {
+    fresh_pairs <- as.data.frame(table(
+      accreditor  = fresh_df$accreditor,
+      action_type = fresh_df$action_type
+    ), stringsAsFactors = FALSE)
+    names(fresh_pairs)[3] <- "fresh_n"
+    joined <- merge(prior_pairs, fresh_pairs,
+                    by = c("accreditor", "action_type"),
+                    all.x = TRUE)
+    joined$fresh_n[is.na(joined$fresh_n)] <- 0L
+  }
 
   dropped <- joined[joined$prior_n >= min_prior_rows & joined$fresh_n == 0L, ,
                     drop = FALSE]

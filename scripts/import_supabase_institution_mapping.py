@@ -59,47 +59,74 @@ OUTPUT_COLUMNS = [
 # ---------------------------------------------------------------------------
 # Manual aliases  (Pass 3 — applied after Supabase unitids and IPEDS name match)
 #
+# Source of truth: data_pipelines/college_cuts/supabase_manual_aliases.csv
+#
 # Keyed by (api_name_exact, state_full) → IPEDS unitid string.
 # Use this for institutions whose Supabase API name cannot be normalised to
 # match the IPEDS name automatically.
 #
-# Annotations:
-#   [canonical]  unitid is in the current ipeds_financial_health_canonical_*.csv
-#                → full financial profile available
-#   [ipeds-only] unitid exists in raw IPEDS data but NOT in canonical CSV
-#                (closed, 2-year, health-science, or specialty institution)
-#                → appears in cuts tracker but no financial profile page
+# The CSV has columns:
+#   api_name     — exact Supabase institution_name string
+#   state_full   — expanded state name (matches expand_state output)
+#   unitid       — IPEDS unitid as a 6-digit numeric string
+#   in_canonical — "true" if the unitid appears in ipeds_financial_health_canonical_*.csv
+#                  (full financial profile available); "false" if the unitid
+#                  exists only in raw IPEDS data (closed, 2-year, health-science,
+#                  or specialty institution — appears in cuts tracker but no
+#                  financial profile page)
+#   notes        — free-form human-readable explanation
+#
+# Edit the CSV, not this file, to add or remove aliases. The structural
+# invariants in tests/test_import_supabase.py still guard the loaded dict.
 # ---------------------------------------------------------------------------
-MANUAL_ALIASES: dict[tuple[str, str], str] = {
-    # ── Name-variant mismatches (institution IS in canonical) ────────────────
-    ("University of Illinois UC",                          "Illinois")     : "145637",  # [canonical] Univ. of Illinois Urbana-Champaign
-    ("University of Oklahoma",                             "Oklahoma")     : "207500",  # [canonical] Univ. of Oklahoma-Norman Campus
-    ("Rutgers University",                                 "New Jersey")   : "186380",  # [canonical] Rutgers Univ.-New Brunswick (main campus)
-    ("Indiana University",                                 "Indiana")      : "151351",  # [canonical] Indiana Univ.-Bloomington (main campus)
-    ("University of Wisconsin-Platteville Baraboo Sauk County", "Wisconsin"): "240462", # [canonical] Univ. of Wisconsin-Platteville (main campus)
-    ("University of Texas HSCH",                           "Texas")        : "229300",  # [canonical] UT Health Science Center at Houston
+MANUAL_ALIASES_CSV_PATH = os.path.join(
+    os.path.dirname(__file__),
+    "..", "data_pipelines", "college_cuts", "supabase_manual_aliases.csv"
+)
 
-    # ── Branch-campus entries whose parent unitid is in canonical ─────────────
-    ("Johnson University Florida",                         "Florida")      : "132879",  # [ipeds-only] Johnson Univ. Florida campus
 
-    # ── Closed 4-year institutions — in raw IPEDS, not in canonical ───────────
-    ("Birmingham-Southern College",                        "Alabama")      : "100937",  # [ipeds-only] closed May 2023
-    ("Hodges University",                                  "Florida")      : "367884",  # [ipeds-only] closed 2023
-    ("Cabrini University",                                 "Pennsylvania") : "211352",  # [ipeds-only] closed May 2024
-    ("Goddard College",                                    "Vermont")      : "230889",  # [ipeds-only] suspended/closed 2023–24
-    ("Wells College",                                      "New York")     : "197230",  # [ipeds-only] closed December 2024
-    ("Notre Dame College",                                 "Ohio")         : "204468",  # [ipeds-only] closed May 2024
-    ("Delaware College of Art and Design",                 "Delaware")     : "432524",  # [ipeds-only] closed 2020
-    ("The King's College",                                 "New York")     : "454184",  # [ipeds-only] closed Aug 2023
+def _load_manual_aliases(csv_path: str) -> dict[tuple[str, str], str]:
+    """Loads the (api_name, state_full) → unitid table from a CSV.
 
-    # ── Specialty / small / not-primarily-baccalaureate — in raw IPEDS ────────
-    ("Sullivan University",                                "Kentucky")     : "157793",  # [ipeds-only] primarily associate/certificate
-    ("Magdalen College of the Liberal Arts",               "New Hampshire"): "182917",  # [ipeds-only] very small liberal-arts college
-    ("Bacone College",                                     "Oklahoma")     : "206817",  # [ipeds-only] tribal college (2-year & 4-year)
-    ("Pittsburgh Technical College",                       "Pennsylvania") : "215415",  # [ipeds-only] technical/for-profit college
-    ("University of Saint Katherine",                      "California")   : "488785",  # [ipeds-only] small Catholic institution
-    ("Oak Point University",                               "Illinois")     : "149763",  # [ipeds-only] health-sciences institution (BSN/MSN)
-}
+    Raises with a pointed message if the file is missing, malformed, or
+    contains duplicate keys, so a broken CSV never silently degrades the
+    Pass-3 mapping to an empty dict.
+    """
+    if not os.path.exists(csv_path):
+        raise FileNotFoundError(
+            f"Manual-alias CSV not found: {csv_path}. "
+            "This file is the authoritative source for Supabase → IPEDS "
+            "manual mappings and must exist for the import to run."
+        )
+    required_columns = {"api_name", "state_full", "unitid"}
+    aliases: dict[tuple[str, str], str] = {}
+    with open(csv_path, newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        missing = required_columns - set(reader.fieldnames or [])
+        if missing:
+            raise ValueError(
+                f"Manual-alias CSV {csv_path} is missing required columns: "
+                f"{sorted(missing)}"
+            )
+        for row_num, row in enumerate(reader, start=2):  # header is row 1
+            api_name = (row.get("api_name") or "").strip()
+            state_full = (row.get("state_full") or "").strip()
+            unitid = (row.get("unitid") or "").strip()
+            if not (api_name and state_full and unitid):
+                raise ValueError(
+                    f"{csv_path} row {row_num}: api_name, state_full, and "
+                    f"unitid are all required (got {row!r})"
+                )
+            key = (api_name, state_full)
+            if key in aliases:
+                raise ValueError(
+                    f"{csv_path} row {row_num}: duplicate key {key!r}"
+                )
+            aliases[key] = unitid
+    return aliases
+
+
+MANUAL_ALIASES: dict[tuple[str, str], str] = _load_manual_aliases(MANUAL_ALIASES_CSV_PATH)
 
 # ---------------------------------------------------------------------------
 # Explicitly excluded institutions
@@ -166,9 +193,11 @@ _DEFAULT_KEY = (
 #
 # CONTRACT: This function mirrors `normalize_name_cuts()` in
 # scripts/shared/name_normalization.R byte-for-byte. When you edit one,
-# edit the other in the same commit. The drift guard in
-# tests/test_name_normalization.py feeds identical fixtures to both sides
-# and fails CI if they disagree.
+# edit the other in the same commit. The Python drift guard lives in
+# `tests/test_import_supabase.py::test_normalize_name_cuts_shared_fixtures`;
+# the R side is `tests/test_name_normalization.R`. Both feed the shared
+# fixtures in `tests/fixtures/name_normalization_cuts.json` and fail CI
+# if either implementation disagrees with the pinned expectations.
 
 def normalize_name(s: str) -> str:
     s = (s or "").lower()

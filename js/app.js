@@ -464,7 +464,11 @@ window.TrackerApp.downloadRowsCsv = function downloadRowsCsv(filename, headers, 
   document.body.appendChild(anchor);
   anchor.click();
   anchor.remove();
-  URL.revokeObjectURL(url);
+  // Defer revocation so the click-triggered download has time to read the
+  // blob URL. Current Chromium doesn't cancel an in-flight download when
+  // the URL is revoked synchronously, but Safari and Firefox have shipped
+  // regressions here; a zero-delay setTimeout is the defensive choice.
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 };
 
 window.TrackerApp.compareText = function compareText(a, b) {

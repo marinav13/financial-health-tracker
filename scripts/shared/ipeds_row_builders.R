@@ -595,10 +595,12 @@ get_state_name <- function(state_abbr) {
 # ---------------------------------------------------------------------------
 
 # Downloads `url` to `out_file` if the file does not already exist.
+# Uses the shared `download_with_retry` helper (utils.R) so a hanging
+# mirror can't stall the refresh workflow indefinitely.
 download_if_missing <- function(url, out_file) {
   if (file.exists(out_file)) return(invisible(out_file))
   url <- gsub("&amp;", "&", as.character(url), fixed = TRUE)
-  utils::download.file(url, destfile = out_file, mode = "wb", quiet = TRUE)
+  download_with_retry(url, destfile = out_file, mode = "wb", quiet = TRUE)
   out_file
 }
 

@@ -60,10 +60,6 @@
     ACCJC:   "https://accjc.org/"
   };
 
-  const OTHER_ACCREDITORS = [
-    { short: "ACCJC", name: "Accrediting Commission for Community and Junior Colleges", url: "https://accjc.org/" }
-  ];
-
   const STATE_ABBR_TO_NAME = {
     AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado",
     CT: "Connecticut", DE: "Delaware", FL: "Florida", GA: "Georgia", HI: "Hawaii", ID: "Idaho",
@@ -136,7 +132,7 @@
     return !Number.isNaN(year) && year >= MIN_ACTION_YEAR && year <= TODAY.getFullYear();
   }
 
-function isDisplayAction(action) {
+  function isDisplayAction(action) {
     return action?.display_action !== false;
   }
 
@@ -202,7 +198,7 @@ function isDisplayAction(action) {
     return STATE_ABBR_TO_NAME[match[1]] || "";
   }
 
-function isRecentDisplayAction(action) {
+  function isRecentDisplayAction(action) {
     const year = getActionYear(action);
     return isDisplayAction(action) && isRecentTrackedAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
   }
@@ -286,7 +282,7 @@ function isRecentDisplayAction(action) {
       });
   }
 
-function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
+  function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
     const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
 
     if (!pageItems.length) {

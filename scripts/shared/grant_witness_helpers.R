@@ -605,7 +605,10 @@ maybe_download <- function(url, path, skip_download = FALSE) {
   if (skip_download && file.exists(path)) return(invisible(path))
   live_result <- tryCatch({
     message("Downloading ", basename(path), " ...")
-    utils::download.file(url, destfile = path, mode = "wb", quiet = FALSE)
+    # `download_with_retry` (utils.R) adds a per-attempt timeout and
+    # exponential-backoff retry. On exhaustion it raises; we catch the
+    # error below and fall back to the cached copy if one exists.
+    download_with_retry(url, destfile = path, mode = "wb", quiet = FALSE)
     TRUE
   }, error = function(e) e)
 

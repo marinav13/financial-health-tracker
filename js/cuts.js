@@ -101,7 +101,7 @@
 
   function renderCutsTable(items, sortState) {
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
-const rows = items.map((cut) => [
+    const rows = items.map((cut) => [
       renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
       (cut.program_name || "") + formatAffectedCount(cut),
       cut.state,
@@ -256,9 +256,10 @@ const rows = items.map((cut) => [
       unitid: school.unitid,
       financialUnitid: school.financial_unitid,
       current: "cuts"
-});
-    title.textContent = school.cut_count === 1 ? "College program or staffing cut" : `College program or staffing cuts (${school.cut_count})`;
-setSectionVisible("cuts-other-list", false);
+    });
+    const cutCount = school.cut_count ?? 0;
+    title.textContent = cutCount === 1 ? "College program or staffing cut" : `College program or staffing cuts (${cutCount})`;
+    setSectionVisible("cuts-other-list", false);
     if (otherContainer) otherContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
     if (!(school.cuts || []).length) {

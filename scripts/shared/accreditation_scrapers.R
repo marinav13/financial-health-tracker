@@ -70,6 +70,48 @@ ensure_accreditation_action_schema <- function(df, context = "accreditation scra
   df[, c(ACCREDITATION_ACTION_COLUMNS, setdiff(names(df), ACCREDITATION_ACTION_COLUMNS)), drop = FALSE]
 }
 
+# Per-site empty-result guard. Emits a warning when a scraper returns zero
+# rows but the input HTML was substantive — the shape that indicates either a
+# selector regression, a JS-rendered page the scraper can't see, or a silent
+# content change. A genuine "no public actions right now" outcome and a
+# silent regression look identical at the row-count level; comparing row
+# count to HTML size is the cheapest signal that distinguishes them.
+#
+# This complements the category-level cross-run guards in
+# warn_if_scrape_count_dropped and warn_if_action_type_dropped, which only
+# fire after a prior CSV exists to compare against. The per-site warning
+# surfaces the same class of bug on a first-run or fresh-cache refresh.
+#
+# Parameters:
+#   accreditor       - accreditor label used in the warning message.
+#   source_url       - URL whose parse returned zero rows.
+#   rows             - the candidate result tibble (or any object with nrow()).
+#   html             - the HTML body the parser consumed; accepts character
+#                      vectors (HTML_chunks concatenated) or NULL.
+#   threshold_bytes  - minimum HTML size at which 0 rows is considered
+#                      suspicious. Default 2000 avoids false positives on
+#                      tiny error pages or maintenance banners that
+#                      legitimately carry no action data.
+#   detail           - optional extra context appended to the warning.
+#
+# Returns invisible(NULL). Never interrupts the caller — a suspicious empty
+# result is still a valid empty tibble from the caller's perspective.
+warn_on_empty_parse <- function(accreditor, source_url, rows, html,
+                                threshold_bytes = 2000L, detail = NULL) {
+  if (!is.null(rows) && is.data.frame(rows) && nrow(rows) > 0L) return(invisible(NULL))
+  html_bytes <- if (is.null(html)) 0L else sum(nchar(html))
+  if (html_bytes < threshold_bytes) return(invisible(NULL))
+  warning(
+    sprintf(
+      "%s: parsed 0 rows from %s (HTML %d bytes)%s. Returning empty table \u2014 validate scraper output.",
+      accreditor, source_url, html_bytes,
+      if (is.null(detail)) "" else paste0(" \u2014 ", detail)
+    ),
+    call. = FALSE
+  )
+  invisible(NULL)
+}
+
 # Converts a heading + list of institution items into standardized action rows.
 # Shared by accreditors that use the same pattern: a heading describing the action
 # (e.g., "Probation"), followed by <li> items for each institution.
@@ -731,8 +773,10 @@ parse_hlc <- function(cache_dir, refresh) {
     purrr::map_dfr(detail_urls, parse_hlc_detail_page)
   }
 
-  dplyr::bind_rows(current_notice_rows, historical_rows) |>
+  combined <- dplyr::bind_rows(current_notice_rows, historical_rows) |>
     dplyr::distinct()
+  warn_on_empty_parse("HLC", url, combined, html)
+  combined
 }
 
 # Scrapes a SACSCOC detail page, extracting both sanction actions and public disclosure statements.
@@ -780,11 +824,17 @@ parse_sacscoc <- function(cache_dir, refresh) {
   )[[1]]
 
   if (nrow(links) == 0) {
+    warn_on_empty_parse(
+      "SACSCOC", landing_url, tibble::tibble(), html,
+      detail = "no detail-page links found on landing page"
+    )
     return(tibble::tibble())
   }
 
   detail_urls <- unique(links[, 2])
-  purrr::map_dfr(detail_urls, function(u) parse_sacscoc_detail_page(u, cache_dir, refresh))
+  rows <- purrr::map_dfr(detail_urls, function(u) parse_sacscoc_detail_page(u, cache_dir, refresh))
+  warn_on_empty_parse("SACSCOC", landing_url, rows, html)
+  rows
 }
 
 # Scrapes NECHE accreditation actions from their recent actions page, extracting
@@ -796,7 +846,7 @@ parse_neche <- function(cache_dir, refresh) {
   page_modified <- extract_page_modified_date(html)
 
   sections <- extract_regex_heading_sections(html, NECHE_TOGGLE_SECTION_PATTERN)
-  parse_public_action_sections(
+  rows <- parse_public_action_sections(
     sections = sections,
     accreditor = "NECHE",
     action_date = as.Date(NA),
@@ -806,6 +856,11 @@ parse_neche <- function(cache_dir, refresh) {
     source_page_url = url,
     source_page_modified = page_modified
   )
+  warn_on_empty_parse(
+    "NECHE", url, rows, html,
+    detail = if (length(sections) == 0L) "no toggle sections matched on page" else NULL
+  )
+  rows
 }
 
 parse_wscuc_detail_page <- function(url, cache_dir, refresh) {
@@ -842,7 +897,10 @@ parse_wscuc_detail_page <- function(url, cache_dir, refresh) {
 }
 
 parse_wscuc <- function(cache_dir, refresh) {
-  detail_urls <- purrr::map_dfr(seq_along(WSCUC_ARCHIVE_URLS), function(i) {
+  # Collect both the detail URLs and the archive HTML sizes so the per-site
+  # empty guard can distinguish between "archives were blank (expected 0)"
+  # and "archives were substantive but no detail links matched (suspicious)".
+  archive_scan <- purrr::map(seq_along(WSCUC_ARCHIVE_URLS), function(i) {
     archive_html <- fetch_html_text(
       WSCUC_ARCHIVE_URLS[[i]],
       paste0("wscuc_commission_actions_archive_", i, ".html"),
@@ -855,21 +913,31 @@ parse_wscuc <- function(cache_dir, refresh) {
       WSCUC_DETAIL_LINK_PATTERN
     )[[1]]
 
-    if (nrow(links) == 0) {
-      return(tibble::tibble(url = character()))
-    }
+    list(
+      urls = if (nrow(links) == 0) character() else links[, 2],
+      html = archive_html
+    )
+  })
+  combined_html <- paste(vapply(archive_scan, function(x) {
+    if (is.null(x$html)) "" else as.character(x$html)[[1L]]
+  }, character(1)), collapse = "")
 
-    tibble::tibble(url = links[, 2])
-  }) |>
+  detail_urls <- tibble::tibble(url = unlist(lapply(archive_scan, `[[`, "urls"))) |>
     dplyr::distinct() |>
     dplyr::filter(stringr::str_detect(url, "20(24|25|26)")) |>
     dplyr::pull(url)
 
   if (length(detail_urls) == 0) {
+    warn_on_empty_parse(
+      "WSCUC", WSCUC_ARCHIVE_URLS[[1]], tibble::tibble(), combined_html,
+      detail = "no detail-page links matched in any commission-actions archive"
+    )
     return(tibble::tibble())
   }
 
-  purrr::map_dfr(detail_urls, function(u) parse_wscuc_detail_page(u, cache_dir, refresh))
+  rows <- purrr::map_dfr(detail_urls, function(u) parse_wscuc_detail_page(u, cache_dir, refresh))
+  warn_on_empty_parse("WSCUC", WSCUC_ARCHIVE_URLS[[1]], rows, combined_html)
+  rows
 }
 
 build_match_suggestions <- function(unmatched_df, candidates_df, max_candidates = 3L) {
@@ -1018,7 +1086,17 @@ parse_nwccu <- function(cache_dir, refresh = FALSE) {
   institutions <- dplyr::filter(institutions, stringr::str_detect(article_class, "nwccu-degree-bachelor"))
 
   if (nrow(institutions) == 0) {
-    message("NWCCU: no 4-year institutions found after degree filter")
+    # Non-empty directory HTML but no bachelor-tagged articles — either the
+    # CSS class convention changed or the directory was rendered by JS. Emit a
+    # warning so the refresh workflow surfaces the regression.
+    warning(
+      sprintf(
+        "NWCCU: parsed 0 4-year institutions from %s (directory HTML %d bytes). Returning empty table \u2014 validate selector 'nwccu-degree-bachelor'.",
+        NWCCU_DIRECTORY_URL,
+        nchar(dir_html)
+      ),
+      call. = FALSE
+    )
     return(tibble::tibble())
   }
 
@@ -1184,8 +1262,8 @@ warn_if_action_type_dropped <- function(fresh_df,
       paste(
         "warn_if_action_type_dropped: %s / %s dropped from %d rows to 0.",
         "This (accreditor, action_type) combination disappeared from the fresh",
-        "scrape. The accreditor's site or the scraper likely changed.",
-        "Validate output before publishing."
+        "scrape. The accreditor's markup may have changed, or a sub-parser",
+        "quietly failed. Validate output before publishing."
       ),
       row$accreditor, row$action_type, as.integer(row$prior_n)
     )

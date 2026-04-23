@@ -19,6 +19,50 @@ run_test("Accreditation scraper action schema helper", function() {
   assert_true(grepl("source_url", err, fixed = TRUE))
 })
 
+run_test("Per-site warn_on_empty_parse fires on non-trivial HTML", function() {
+  big_html <- strrep("x", 5000L)
+  warned <- FALSE
+  captured_msg <- ""
+  withCallingHandlers(
+    warn_on_empty_parse("TEST-ACC", "https://example.org/actions",
+                        tibble::tibble(), big_html),
+    warning = function(w) {
+      warned <<- TRUE
+      captured_msg <<- conditionMessage(w)
+      invokeRestart("muffleWarning")
+    }
+  )
+  assert_true(warned, "Expected per-site empty-result guard to warn on 5000-byte HTML.")
+  assert_true(grepl("TEST-ACC", captured_msg, fixed = TRUE))
+  assert_true(grepl("5000", captured_msg, fixed = TRUE))
+})
+
+run_test("Per-site warn_on_empty_parse stays silent on tiny HTML", function() {
+  # A 200-byte error page legitimately carries no actions; the guard should
+  # not cry wolf on pages below the threshold.
+  tiny_html <- strrep("x", 200L)
+  warned <- FALSE
+  withCallingHandlers(
+    warn_on_empty_parse("TEST-ACC", "https://example.org/down",
+                        tibble::tibble(), tiny_html),
+    warning = function(w) { warned <<- TRUE; invokeRestart("muffleWarning") }
+  )
+  assert_true(!warned, "Expected per-site guard to stay silent on tiny HTML.")
+})
+
+run_test("Per-site warn_on_empty_parse stays silent on non-empty rows", function() {
+  # Non-empty result is never suspicious regardless of HTML size.
+  big_html <- strrep("x", 5000L)
+  non_empty <- tibble::tibble(institution_name_raw = "Example U")
+  warned <- FALSE
+  withCallingHandlers(
+    warn_on_empty_parse("TEST-ACC", "https://example.org/ok",
+                        non_empty, big_html),
+    warning = function(w) { warned <<- TRUE; invokeRestart("muffleWarning") }
+  )
+  assert_true(!warned, "Expected per-site guard to stay silent when rows are non-empty.")
+})
+
 run_test("Accreditation scrape count guard warns by default", function() {
   prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
   on.exit(unlink(prior_csv), add = TRUE)

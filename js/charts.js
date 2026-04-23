@@ -38,7 +38,9 @@ function escapeChartHtml(value) {
 
 function safeChartColor(value, fallback = "#005ab5") {
   const color = String(value || "").trim();
-  return /^#[0-9a-f]{3,8}$/i.test(color) ? color : fallback;
+  // Valid CSS hex colors are exactly 3, 4, 6, or 8 hex digits. The prior
+  // {3,8} quantifier accepted 5 and 7, which no browser renders.
+  return /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(color) ? color : fallback;
 }
 
 function renderTooltipRow(value) {

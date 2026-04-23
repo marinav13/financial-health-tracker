@@ -36,11 +36,30 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
   },
   
-  // Projects for different browsers
+  // Projects for different browsers and viewports.
+  //
+  // Chromium runs the full spec suite — the primary coverage tier.
+  //
+  // Firefox and mobile-chrome each run a single canary spec (navigation) to
+  // catch regressions that would only surface under a non-Chromium engine or
+  // under a phone-sized viewport. Expanding these two tiers to the full spec
+  // suite triples CI time for limited additional signal, so we keep them
+  // narrowly scoped. If a spec starts hitting cross-browser or responsive
+  // issues, add it to the testMatch list below rather than broadening to `/`.
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+      testMatch: /navigation\.spec\.js$/,
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 7'] },
+      testMatch: /navigation\.spec\.js$/,
     },
   ],
   

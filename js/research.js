@@ -308,7 +308,7 @@
     render();
   }
 
-function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts by institution") {
+  function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts by institution") {
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
@@ -350,7 +350,7 @@ function renderDefaultTable(items, sortState, ariaLabel = "Research funding cuts
     });
   }
 
-function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, sortState, tableLabel = "Research funding cuts by institution") {
+  function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, sortState, tableLabel = "Research funding cuts by institution") {
     const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
     if (!pageItems.length) return renderEmpty(emptyMessage);
 
@@ -396,7 +396,7 @@ function renderTablePage(items, page, pageSize, emptyMessage, paginationLabel, s
     });
   }
 
-function resetLandingScrollPosition() {
+  function resetLandingScrollPosition() {
     if (window.location.hash) return;
     const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     scrollTop();
@@ -440,7 +440,7 @@ function resetLandingScrollPosition() {
     const stateSummaryContainer = document.getElementById("research-state-summary");
     const stateSummaryCard = document.getElementById("research-state-summary-card");
     const summaryGrid = document.getElementById("research-summary-grid");
-const title = document.getElementById("research-section-title");
+    const title = document.getElementById("research-section-title");
     const otherTitle = document.getElementById("research-other-section-title");
     const searchInput = document.getElementById("research-filter");
     const otherSearchInput = document.getElementById("research-other-filter");
@@ -475,7 +475,7 @@ const title = document.getElementById("research-section-title");
           searchInput,
           "Research funding cuts at 4-year institutions"
         );
-setupOtherPagination(
+        setupOtherPagination(
           otherContainer,
           other,
           OTHER_PAGE_SIZE,

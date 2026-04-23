@@ -73,7 +73,7 @@ main <- function(cli_args = NULL) {
         call. = FALSE
       )
     }
-    utils::download.file(url, destfile = path, mode = "wb", quiet = TRUE)
+    download_with_retry(url, destfile = path, mode = "wb", quiet = TRUE)
     invisible(path)
   }
 

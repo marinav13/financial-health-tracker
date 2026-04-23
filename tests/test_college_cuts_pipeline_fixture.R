@@ -373,7 +373,4 @@ run_test("College Cuts join: duplicate unitid in financial tracker raises stop()
     "main() should stop() when financial tracker has duplicate unitids for the same year."
   )
   assert_true(
-    grepl("duplicate unitid", error_msg, ignore.case = TRUE),
-    paste0("Error message should mention 'duplicate unitid'. Got: ", error_msg)
-  )
-})
+    grepl("duplicate unitid", error_msg, 

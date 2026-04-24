@@ -398,10 +398,14 @@
 
   function resetLandingScrollPosition() {
     if (window.location.hash) return;
-    const scrollTop = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    scrollTop();
-    window.requestAnimationFrame(scrollTop);
-    window.setTimeout(scrollTop, 50);
+    // history.scrollRestoration is set to "manual" before data loads,
+    // so the browser won't restore a saved position on reload or
+    // back-nav. Deferring the explicit scroll to rAF ensures it runs
+    // after the freshly rendered table has been laid out, which is the
+    // only moment where scroll could otherwise drift from 0.
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
   }
 
   function setupOtherPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts at other institutions") {
@@ -449,21 +453,15 @@
     if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
 
     if (!unitid) {
-      // Landing view: retain a real document heading for screen-reader users
-      // but keep it visually hidden so the existing banner layout is unchanged.
-      const landingHeading = document.getElementById("research-school-name");
-      landingHeading.textContent = "Research funding cuts";
-      landingHeading.classList.add("sr-only");
-      landingHeading.classList.remove("is-hidden");
+      // Landing view: the h1#research-school-name ships with class="sr-only"
+      // in research.html, so the heading is already correct for screen-reader
+      // users without being visually present. The h2#research-section-title
+      // ships with class="is-hidden" and stays hidden on the landing view.
       const ranked = sortByAmountThenName(schools);
       const primary = ranked.filter(isPrimaryBachelorsInstitution);
       const other = ranked.filter((school) => !isPrimaryBachelorsInstitution(school));
       const renderLanding = () => {
         if (summaryGrid) summaryGrid.innerHTML = renderLandingSummaryGrid(ranked);
-        if (title) {
-          title.textContent = "Research funding cuts at 4-year institutions that primarily grant bachelor's degrees";
-          title.classList.add("is-hidden");
-        }
         setupPagination(
           container,
           primary,

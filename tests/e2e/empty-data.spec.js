@@ -22,6 +22,7 @@
  */
 
 const { test, expect } = require('@playwright/test');
+const { expectAriaHiddenInSync: expectAriaHiddenInSyncShared } = require('./helpers');
 
 // Empty-but-valid fixtures. Shapes mirror the live exports at the structural
 // level so page controllers hit the empty branch rather than throwing on
@@ -80,38 +81,11 @@ async function expectNoPlaceholderLeaks(page) {
 }
 
 /**
- * Asserts that every element with aria-hidden="true" is actually hidden (or
- * has zero bounding box), and that no element with aria-hidden="false" is
- * invisible. Templating regressions that flip visibility without updating
- * aria-hidden are invisible to sighted users but break screen readers.
+ * Thin wrapper so existing call sites keep their signature — the shared
+ * helper lives in tests/e2e/helpers.js and takes (page, expect, label).
  */
 async function expectAriaHiddenInSync(page) {
-  const mismatches = await page.evaluate(() => {
-    const violations = [];
-    document.querySelectorAll('[aria-hidden]').forEach((el) => {
-      const claim = el.getAttribute('aria-hidden');
-      const style = window.getComputedStyle(el);
-      const visuallyHidden =
-        style.display === 'none' ||
-        style.visibility === 'hidden' ||
-        el.hasAttribute('hidden');
-      if (claim === 'true' && !visuallyHidden) {
-        // Allow aria-hidden="true" on purely decorative visible elements
-        // (icons, dividers). Heuristic: if it has no text content and no
-        // interactive descendants, don't flag.
-        const txt = (el.textContent || '').trim();
-        const interactive = el.querySelector('a, button, input, select, textarea');
-        if (txt.length > 0 || interactive) {
-          violations.push(`aria-hidden="true" but visible with text: ${el.id || el.tagName}`);
-        }
-      }
-      if (claim === 'false' && visuallyHidden) {
-        violations.push(`aria-hidden="false" but hidden: ${el.id || el.tagName}`);
-      }
-    });
-    return violations;
-  });
-  expect(mismatches, mismatches.join('\n')).toEqual([]);
+  await expectAriaHiddenInSyncShared(page, expect);
 }
 
 test.describe('Empty-data rendering', () => {

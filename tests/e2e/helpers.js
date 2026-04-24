@@ -191,6 +191,46 @@ function unmatchedAccreditationSchool() {
   return namespacedDataSchool('data/accreditation.json', 'accred-', (school) => Array.isArray(school.actions) && school.actions.length > 0);
 }
 
+/**
+ * Asserts that every element with aria-hidden="true" is actually hidden (or
+ * has zero bounding box), and that no element with aria-hidden="false" is
+ * invisible. Templating regressions that flip visibility without updating
+ * aria-hidden are invisible to sighted users but break screen readers.
+ *
+ * Callers pass their Playwright `page` and `expect`. We take `expect` as an
+ * argument instead of requiring '@playwright/test' here so this module stays
+ * importable from non-test contexts.
+ */
+async function expectAriaHiddenInSync(page, expect, label = '') {
+  const mismatches = await page.evaluate(() => {
+    const violations = [];
+    document.querySelectorAll('[aria-hidden]').forEach((el) => {
+      const claim = el.getAttribute('aria-hidden');
+      const style = window.getComputedStyle(el);
+      const visuallyHidden =
+        style.display === 'none' ||
+        style.visibility === 'hidden' ||
+        el.hasAttribute('hidden');
+      if (claim === 'true' && !visuallyHidden) {
+        // Allow aria-hidden="true" on purely decorative visible elements
+        // (icons, dividers). Heuristic: if it has no text content and no
+        // interactive descendants, don't flag.
+        const txt = (el.textContent || '').trim();
+        const interactive = el.querySelector('a, button, input, select, textarea');
+        if (txt.length > 0 || interactive) {
+          violations.push(`aria-hidden="true" but visible with text: ${el.id || el.tagName}`);
+        }
+      }
+      if (claim === 'false' && visuallyHidden) {
+        violations.push(`aria-hidden="false" but hidden: ${el.id || el.tagName}`);
+      }
+    });
+    return violations;
+  });
+  const header = label ? `aria-hidden sync [${label}]:\n` : '';
+  expect(mismatches, `${header}${mismatches.join('\n')}`).toEqual([]);
+}
+
 module.exports = {
   firstSchoolIndexEntry,
   searchTermFor,
@@ -206,5 +246,6 @@ module.exports = {
   schoolWithResearchSource,
   unmatchedCutSchool,
   unmatchedResearchSchool,
-  unmatchedAccreditationSchool
+  unmatchedAccreditationSchool,
+  expectAriaHiddenInSync
 };

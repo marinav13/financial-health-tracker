@@ -10,7 +10,8 @@ const { test, expect } = require('@playwright/test');
 const {
   schoolWithCuts,
   schoolWithAccreditation,
-  schoolWithResearchSource
+  schoolWithResearchSource,
+  expectAriaHiddenInSync
 } = require('./helpers');
 
 const axeSource = fs.readFileSync(require.resolve('axe-core'), 'utf8');
@@ -44,18 +45,22 @@ test.describe('Stateful accessibility checks', () => {
     await page.goto('/research.html');
     const list = page.locator('#research-list');
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'research initial');
 
     const filterTerm = await firstUsefulWord(list.locator('tbody tr td:first-child'));
     await page.locator('#research-filter').fill(filterTerm);
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'research filtered');
 
     await list.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
+    await expectAriaHiddenInSync(page, expect, 'research sorted');
 
     const secondPage = list.locator('.pagination-button[data-page="2"]');
     if (await secondPage.isVisible()) {
       await secondPage.click();
       await expect(list.locator('.pagination-button[aria-current="page"]')).toHaveText('2');
+      await expectAriaHiddenInSync(page, expect, 'research paginated');
     }
 
     await runAxe(page, 'research filtered/sorted/paginated state');
@@ -65,17 +70,21 @@ test.describe('Stateful accessibility checks', () => {
     await page.goto('/cuts.html');
     const list = page.locator('#cuts-list');
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'cuts initial');
 
     const filterTerm = await firstUsefulWord(list.locator('tbody tr td:first-child'));
     await page.locator('#cuts-filter').fill(filterTerm);
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'cuts filtered');
 
     await list.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
+    await expectAriaHiddenInSync(page, expect, 'cuts sorted');
     await runAxe(page, 'cuts filtered/sorted state');
 
     await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
     await expect(page.locator('#cuts-list table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'cuts detail');
     await runAxe(page, 'cuts detail state');
   });
 
@@ -83,29 +92,35 @@ test.describe('Stateful accessibility checks', () => {
     await page.goto('/accreditation.html');
     const list = page.locator('#accreditation-status');
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'accreditation initial');
 
     const filterTerm = await firstUsefulWord(list.locator('tbody tr td:first-child'));
     await page.locator('#accreditation-filter').fill(filterTerm);
     await expect(list.locator('table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'accreditation filtered');
 
     const secondPage = list.locator('.pagination-button[data-page="2"]');
     if (await secondPage.isVisible()) {
       await secondPage.click();
       await expect(list.locator('.pagination-button[aria-current="page"]')).toHaveText('2');
+      await expectAriaHiddenInSync(page, expect, 'accreditation paginated');
     }
 
     await runAxe(page, 'accreditation filtered/paginated state');
 
     await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
     await expect(page.locator('#accreditation-status')).toContainText(/Accreditor|No accreditation actions found/);
+    await expectAriaHiddenInSync(page, expect, 'accreditation detail');
     await runAxe(page, 'accreditation detail state');
   });
 
   test('research detail grant table state has no axe violations', async ({ page }) => {
     await page.goto(`/research.html?unitid=${researchUnitid}`);
     await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    await expectAriaHiddenInSync(page, expect, 'research detail initial');
     await page.locator('#research-list button[data-sort-key="termination_date"][data-sort-direction="asc"]').click();
     await expect(page.locator('#research-list th[aria-sort="ascending"]')).toContainText('Termination date');
+    await expectAriaHiddenInSync(page, expect, 'research detail sorted');
     await runAxe(page, 'research detail grant table state');
   });
 });

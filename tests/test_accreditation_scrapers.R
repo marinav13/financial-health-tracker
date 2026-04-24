@@ -364,23 +364,73 @@ run_test("Accreditation scraper SACSCOC sanction item parser", function() {
   assert_identical(withdrawal_row$action_type[[1]], "adverse_action")
 })
 
-run_test("Accreditation scraper SACSCOC disclosure builder", function() {
+run_test("Accreditation scraper SACSCOC disclosure builder uses anchor text as institution name", function() {
+  # Live SACSCOC disclosure paragraphs (every cached June/December action page
+  # we have, back through 2024 at least) name the institution inside the
+  # anchor itself:
+  #   <a href="...box.com/s/...">University of Lynchburg</a>, Lynchburg, VA [PDF]
+  # SACSCOC_DISCLOSURE_ITEM_PATTERN's capture groups land as:
+  #   [, 3] = anchor text (institution name)
+  #   [, 4] = post-anchor token (typically the city)
+  #   [, 5] = state
+  #
+  # A previous refactor (commit 8602839b, "Refactor helpers, add pipeline
+  # fixture tests, rename Proposal G") silently swapped the builder from
+  # column 3 to column 4, which made every disclosure row take the CITY as
+  # its institution name ("Lynchburg", "Emory", "Charlotte", ...). IPEDS has
+  # no entity called "Lynchburg", so every such row fell through to an
+  # unmatched orphan unitid like accred-lynchburg--virginia--sacscoc. This
+  # test pins the correct behavior; the fixture mirrors the Dec 2025 cached
+  # page shape for University of Lynchburg.
   disclosure_matches <- matrix(
     c(
-      "<p><a href=\"https://sacscoc.box.com/s/abc\">PDF</a>, Alpha College, GA</p>",
+      "<p><a href=\"https://sacscoc.box.com/s/ez0994\">University of Lynchburg</a>, Lynchburg, VA [<a href=\"https://sacscoc.box.com/s/ez0994\">PDF</a>]</p>",
+      "https://sacscoc.box.com/s/ez0994",
+      "University of Lynchburg",
+      "Lynchburg",
+      "VA"
+    ),
+    ncol = 5,
+    byrow = TRUE
+  )
+
+  rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = as.Date("2025-12-01"),
+    url = "https://example.com/sacscoc/december-2025",
+    page_title = "December 2025 Actions"
+  )
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "University of Lynchburg")
+  assert_identical(rows$institution_state_raw[[1]], "Virginia")
+  assert_identical(rows$action_label_raw[[1]], "Public Disclosure Statement")
+  assert_identical(rows$source_url[[1]], "https://sacscoc.box.com/s/ez0994")
+})
+
+run_test("Accreditation scraper SACSCOC disclosure builder deduplicates and drops header rows", function() {
+  # Two identical rows for the same institution should collapse to one via
+  # the normalized-name + source_url + label distinct() step, and any
+  # capture whose institution-name slot is a page header token ("Accreditation
+  # Actions" or "Public Disclosure Statements") should be filtered out
+  # entirely. This replaces a previous fixture that mistakenly pinned the
+  # column-4 bug as "correct" behavior.
+  disclosure_matches <- matrix(
+    c(
+      "<p><a href=\"https://sacscoc.box.com/s/abc\">Alpha College</a>, Athens, GA [<a href=\"https://sacscoc.box.com/s/abc\">PDF</a>]</p>",
       "https://sacscoc.box.com/s/abc",
-      "PDF",
       "Alpha College",
+      "Athens",
       "GA",
-      "<p><a href=\"https://sacscoc.box.com/s/abc\">PDF</a>, Alpha College, GA</p>",
+      "<p><a href=\"https://sacscoc.box.com/s/abc\">Alpha College</a>, Athens, GA [<a href=\"https://sacscoc.box.com/s/abc\">PDF</a>]</p>",
       "https://sacscoc.box.com/s/abc",
-      "PDF",
       "Alpha College",
+      "Athens",
       "GA",
-      "<p><a href=\"https://sacscoc.box.com/s/def\">PDF</a>, Public Disclosure Statements, GA</p>",
+      "<p><a href=\"https://sacscoc.box.com/s/def\">Public Disclosure Statements</a>, page, GA</p>",
       "https://sacscoc.box.com/s/def",
-      "PDF",
       "Public Disclosure Statements",
+      "page",
       "GA"
     ),
     ncol = 5,

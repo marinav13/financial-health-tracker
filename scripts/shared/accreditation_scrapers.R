@@ -340,6 +340,18 @@ parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
 }
 
 # Converts regex matches for public disclosure statements into standardized rows.
+#
+# SACSCOC disclosure paragraphs name the institution inside the anchor itself:
+#   <a href="...box.com/s/...">University of Lynchburg</a>, Lynchburg, VA [PDF]
+# SACSCOC_DISCLOSURE_ITEM_PATTERN's capture groups are therefore:
+#   [, 2] = box.com URL
+#   [, 3] = anchor text (the institution name)
+#   [, 4] = post-anchor token (typically the city)
+#   [, 5] = state (abbreviation or full name)
+# Reading column 4 instead of column 3 would name every row after its CITY
+# ("Lynchburg", "Emory", "Charlotte", etc.), which silently breaks IPEDS
+# matching — a regression introduced and then pinned by a test in an earlier
+# refactor. Reverted here; the tests now assert the correct shape.
 build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, page_title) {
   if (nrow(disclosure_matches) == 0) {
     return(tibble::tibble())
@@ -347,7 +359,7 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
 
   purrr::map_dfr(seq_len(nrow(disclosure_matches)), function(i) {
     tibble::tibble(
-      institution_name_raw = clean_text(disclosure_matches[i, 4]),
+      institution_name_raw = clean_text(disclosure_matches[i, 3]),
       institution_state_raw = state_name(clean_text(disclosure_matches[i, 5])),
       accreditor = "SACSCOC",
       action_type = "other",
@@ -357,7 +369,11 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
       action_year = as.integer(format(action_date, "%Y")),
       source_url = disclosure_matches[i, 2],
       source_title = paste(page_title, "- Public Disclosure Statement"),
-      notes = clean_text(paste(disclosure_matches[i, 4], disclosure_matches[i, 5])),
+      notes = clean_text(paste(
+        disclosure_matches[i, 3],
+        disclosure_matches[i, 4],
+        disclosure_matches[i, 5]
+      )),
       last_seen_at = Sys.time(),
       source_page_url = url,
       source_page_modified = NA_character_

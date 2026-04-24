@@ -450,6 +450,183 @@ run_test("Accreditation scraper SACSCOC disclosure builder deduplicates and drop
   assert_identical(rows$action_label_raw[[1]], "Public Disclosure Statement")
 })
 
+run_test("Accreditation scraper box_shared_static_pdf_url rewrites /s/<id> URLs", function() {
+  # SACSCOC disclosure anchor hrefs are box.com short links. For direct download
+  # (pdftools can't follow box's interstitial HTML page) we rewrite them to the
+  # /shared/static/<id>.pdf form. Already-rewritten and non-box URLs must pass
+  # through unchanged.
+  assert_identical(
+    box_shared_static_pdf_url("https://sacscoc.box.com/s/ez0994"),
+    "https://sacscoc.box.com/shared/static/ez0994.pdf"
+  )
+  assert_identical(
+    box_shared_static_pdf_url("https://sacscoc.box.com/shared/static/ez0994.pdf"),
+    "https://sacscoc.box.com/shared/static/ez0994.pdf"
+  )
+  assert_identical(
+    box_shared_static_pdf_url("https://example.com/not-a-box-url"),
+    "https://example.com/not-a-box-url"
+  )
+})
+
+run_test("Accreditation scraper parses Lynchburg disclosure PDF from fixture", function() {
+  # Pins the restored PDF-enrichment pathway. The fixture is the real
+  # December 2025 Lynchburg disclosure PDF; we stage it into a temp cache dir
+  # under the exact cache name parse_sacscoc_disclosure_pdf constructs, so
+  # that fetch_binary_file returns the cached path rather than hitting the
+  # network (refresh = FALSE). The cache slug can be any stable string here;
+  # this test exercises parse_sacscoc_disclosure_pdf directly rather than
+  # going through build_sacscoc_disclosure_rows.
+  cache_dir <- tempfile("sacscoc_cache_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  institution_name <- "University of Lynchburg"
+  cache_slug <- "university_of_lynchburg_virginia"
+  cache_name <- paste0("sacscoc_disclosure_", cache_slug, ".pdf")
+  file.copy(
+    file.path(root, "tests", "fixtures", "sacscoc_disclosure_university_of_lynchburg_virginia.pdf"),
+    file.path(cache_dir, cache_name)
+  )
+
+  parsed <- parse_sacscoc_disclosure_pdf(
+    source_url = "https://sacscoc.box.com/s/ez0994",
+    institution_name_raw = institution_name,
+    cache_slug = cache_slug,
+    cache_dir = cache_dir,
+    refresh = FALSE
+  )
+
+  assert_true(!is.null(parsed), "Expected PDF parse to return a non-NULL list.")
+  assert_identical(parsed$action_date, as.Date("2025-12-07"))
+  assert_true(
+    grepl("denied reaffirmation", parsed$action_label_raw, fixed = TRUE),
+    "Expected action_label_raw to contain 'denied reaffirmation'."
+  )
+  # The PDF body reads '... continued the University of Lynchburg on Warning
+  # ...'. A naive substring replacement of 'University of Lynchburg' with
+  # 'the institution' leaves behind a 'the the institution' artifact, which
+  # matches the pre-refactor monolith's behavior. We assert the positive
+  # token 'the institution' exists somewhere and the original name is gone;
+  # we intentionally do NOT over-specify the surrounding text so the test
+  # isn't brittle to the 'the the' quirk or to future phrasing tweaks.
+  assert_true(
+    grepl("the institution", parsed$action_label_raw, fixed = TRUE),
+    "Expected 'the institution' token to appear in action label after replacement."
+  )
+  assert_true(
+    !grepl("University of Lynchburg", parsed$action_label_raw, fixed = TRUE),
+    "Expected institution name to NOT appear in action label after replacement."
+  )
+})
+
+run_test("Accreditation scraper SACSCOC disclosure rows enriched with PDF-derived fields", function() {
+  # End-to-end: build_sacscoc_disclosure_rows, given a cache_dir with a staged
+  # PDF, must upgrade the row from the 'Public Disclosure Statement' stub to
+  # the real board action sentence and pick a non-'other' action_type. The
+  # stub's action_date is set to a bogus landing-page date (2025-06-01) to
+  # prove the enriched row carries the PDF's real date (2025-12-07).
+  #
+  # The cache filename must match what build_sacscoc_disclosure_rows
+  # constructs internally: normalize_name(institution_name + state abbrev).
+  # Our disclosure_matches mock uses "VA" in column 5 (matching live HTML),
+  # so the slug becomes normalize_name("University of Lynchburg VA").
+  cache_dir <- tempfile("sacscoc_cache_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  institution_name <- "University of Lynchburg"
+  cache_slug <- normalize_name(paste(institution_name, "VA"))
+  file.copy(
+    file.path(root, "tests", "fixtures", "sacscoc_disclosure_university_of_lynchburg_virginia.pdf"),
+    file.path(cache_dir, paste0("sacscoc_disclosure_", cache_slug, ".pdf"))
+  )
+
+  disclosure_matches <- matrix(
+    c(
+      "<p><a href=\"https://sacscoc.box.com/s/ez0994\">University of Lynchburg</a>, Lynchburg, VA [<a href=\"https://sacscoc.box.com/s/ez0994\">PDF</a>]</p>",
+      "https://sacscoc.box.com/s/ez0994",
+      "University of Lynchburg",
+      "Lynchburg",
+      "VA"
+    ),
+    ncol = 5,
+    byrow = TRUE
+  )
+
+  rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = as.Date("2025-06-01"),
+    url = "https://example.com/sacscoc/december-2025",
+    page_title = "December 2025 Actions",
+    cache_dir = cache_dir,
+    refresh = FALSE
+  )
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "University of Lynchburg")
+  assert_identical(rows$institution_state_raw[[1]], "Virginia")
+  assert_identical(rows$action_date[[1]], as.Date("2025-12-07"))
+  assert_identical(rows$action_year[[1]], 2025L)
+  assert_true(
+    rows$action_label_raw[[1]] != "Public Disclosure Statement",
+    "Expected enriched row to carry a real PDF-derived action label, not the stub."
+  )
+  assert_true(
+    grepl("denied reaffirmation", rows$action_label_raw[[1]], fixed = TRUE),
+    "Expected enriched action label to contain 'denied reaffirmation'."
+  )
+  assert_true(
+    rows$action_type[[1]] != "other",
+    "Expected enriched row to classify as a real action type, not 'other'."
+  )
+})
+
+run_test("Accreditation scraper SACSCOC disclosure rows fall back to stub when PDF unavailable", function() {
+  # When cache_dir is supplied but the PDF can't be parsed (not a real PDF
+  # body — here we stage an HTML error page at the cache path to simulate
+  # box.com returning a 404 page), the builder must preserve the existing
+  # fallback: a 'Public Disclosure Statement' row with action_type='other'
+  # and the landing-page action_date. This keeps the pipeline working when
+  # box.com is unreachable and prevents regressions in offline test
+  # environments. refresh=FALSE + pre-staged cache avoids any network call.
+  cache_dir <- tempfile("sacscoc_cache_bad_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  institution_name <- "Alpha College"
+  cache_slug <- normalize_name(paste(institution_name, "GA"))
+  cache_name <- paste0("sacscoc_disclosure_", cache_slug, ".pdf")
+  writeLines("<html><body>Not found</body></html>", file.path(cache_dir, cache_name))
+
+  disclosure_matches <- matrix(
+    c(
+      "<p><a href=\"https://sacscoc.box.com/s/doesnotexist999\">Alpha College</a>, Athens, GA [<a href=\"https://sacscoc.box.com/s/doesnotexist999\">PDF</a>]</p>",
+      "https://sacscoc.box.com/s/doesnotexist999",
+      "Alpha College",
+      "Athens",
+      "GA"
+    ),
+    ncol = 5,
+    byrow = TRUE
+  )
+
+  rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = as.Date("2025-06-01"),
+    url = "https://example.com/sacscoc/june-2025",
+    page_title = "June 2025 Actions",
+    cache_dir = cache_dir,
+    refresh = FALSE
+  )
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "Alpha College")
+  assert_identical(rows$action_label_raw[[1]], "Public Disclosure Statement")
+  assert_identical(rows$action_type[[1]], "other")
+  assert_identical(rows$action_date[[1]], as.Date("2025-06-01"))
+})
+
 run_test("Accreditation scraper HLC paragraph state updater", function() {
   doc <- xml2::read_html(paste0(
     "<html><body>",

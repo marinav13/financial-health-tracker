@@ -287,6 +287,167 @@ lookup_or_default <- function(key, lookup, default = key) {
   if (is.null(value) || is.na(value)) default else value
 }
 
+# ---------------------------------------------------------------------------
+# SACSCOC DISCLOSURE PDF ENRICHMENT HELPERS
+# ---------------------------------------------------------------------------
+#
+# SACSCOC publishes a single-page "Public Disclosure Statement" PDF per
+# institution on box.com. The landing page and detail pages only give us the
+# institution name, city, state, and an anchor URL. The actual board action
+# (e.g. "denied reaffirmation, continued the institution on Warning") and the
+# exact action date are only present inside the PDF body.
+#
+# Prior to the refactor that split this file out of the monolithic
+# build_accreditation_actions.R, every SACSCOC disclosure row was enriched by
+# downloading the PDF and extracting action text + date. The refactor dropped
+# these helpers, which silently downgraded every disclosure row to a generic
+# "Public Disclosure Statement" stub with action_type="other". These helpers
+# restore that behavior; callers must fall back to the stub on fetch/parse
+# failure so the pipeline still works when box.com is unreachable.
+
+# Rewrites a SACSCOC box.com short URL (https://sacscoc.box.com/s/<id>) to the
+# corresponding direct-download URL (https://sacscoc.box.com/shared/static/<id>.pdf).
+# Returns the input unchanged if it doesn't match the short-URL shape or is
+# already in /shared/static/ form.
+box_shared_static_pdf_url <- function(url) {
+  url <- as.character(url)
+  if (is.na(url) || !nzchar(url)) return(url)
+  if (stringr::str_detect(url, "/shared/static/")) return(url)
+  box_id <- stringr::str_match(url, "box\\.com/s/([A-Za-z0-9]+)")[, 2]
+  ifelse(
+    is.na(box_id),
+    url,
+    paste0("https://sacscoc.box.com/shared/static/", box_id, ".pdf")
+  )
+}
+
+# Fetches a binary file (e.g. a PDF) with disk caching and graceful fallback
+# to cache on network failures. Mirrors fetch_html_text's contract but returns
+# the local file path rather than file contents, since binary content is
+# typically processed by libraries that take paths (e.g. pdftools::pdf_text).
+# Caching is essential because box.com is occasionally slow or unreachable.
+fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
+  cache_path <- file.path(cache_dir, cache_name)
+  if (!refresh && file.exists(cache_path)) {
+    return(cache_path)
+  }
+  tryCatch(
+    {
+      resp <- httr2::request(url) |>
+        httr2::req_user_agent("FinancialHealthProject/1.0") |>
+        httr2::req_perform()
+      raw_body <- httr2::resp_body_raw(resp)
+      writeBin(raw_body, cache_path)
+      cache_path
+    },
+    error = function(e) {
+      if (file.exists(cache_path)) {
+        message("Falling back to cached binary for ", url)
+        cache_path
+      } else {
+        stop("Failed to fetch ", url, ": ", e$message)
+      }
+    }
+  )
+}
+
+# Extracts the first Month-Day-Year date occurrence anywhere in a block of
+# text, regardless of surrounding context. Used as a fallback when the
+# structured "On <date>, the SACSCOC Board of Trustees ..." sentence is not
+# present (e.g. PDFs with slightly different phrasing).
+extract_date_from_text_anywhere <- function(x) {
+  txt <- as.character(x)
+  match <- stringr::str_match(
+    txt,
+    "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{1,2})(?:-[0-9]{1,2})?,\\s+([0-9]{4})"
+  )
+  parsed_text <- ifelse(
+    !is.na(match[, 1]),
+    paste(match[, 2], match[, 3], match[, 4]),
+    NA_character_
+  )
+  suppressWarnings(as.Date(parsed_text, format = "%B %d %Y"))
+}
+
+# Downloads and parses a SACSCOC disclosure PDF, returning a list with
+# `action_label_raw`, `action_date`, and `raw_text`, or NULL if the PDF can't
+# be fetched, isn't a valid PDF, or doesn't contain a recognizable action
+# sentence. Callers should fall back to the stub "Public Disclosure Statement"
+# behavior when NULL is returned.
+#
+# Institution name replacement: we strip the institution's own name out of the
+# extracted action text and replace it with "the institution", so that the
+# action_label_raw is a portable sentence about the action itself rather than
+# a sentence that mentions "University of Lynchburg was continued on Warning".
+# This keeps downstream search/classification focused on the action keywords.
+parse_sacscoc_disclosure_pdf <- function(source_url, institution_name_raw, cache_slug,
+                                         cache_dir, refresh = TRUE) {
+  pdf_url <- box_shared_static_pdf_url(source_url)
+  pdf_path <- tryCatch(
+    fetch_binary_file(
+      pdf_url,
+      paste0("sacscoc_disclosure_", cache_slug, ".pdf"),
+      cache_dir = cache_dir,
+      refresh = refresh
+    ),
+    error = function(e) NA_character_
+  )
+  if (is.na(pdf_path) || !file.exists(pdf_path)) {
+    return(NULL)
+  }
+
+  header_raw <- tryCatch(readBin(pdf_path, what = "raw", n = 5), error = function(e) raw())
+  if (length(header_raw) < 4 || rawToChar(header_raw[1:4]) != "%PDF") {
+    return(NULL)
+  }
+
+  pdf_pages <- tryCatch(
+    pdftools::pdf_text(pdf_path),
+    error = function(e) character()
+  )
+  if (length(pdf_pages) == 0) {
+    return(NULL)
+  }
+
+  raw_text <- paste(pdf_pages, collapse = "\n")
+  action_match <- stringr::str_match(
+    raw_text,
+    "(?s)On\\s+((?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+[0-9]{1,2},\\s+[0-9]{4}),\\s+the SACSCOC Board of Trustees\\s+(.*?)\\."
+  )
+
+  action_date <- if (!is.na(action_match[1, 2])) {
+    suppressWarnings(as.Date(action_match[1, 2], format = "%B %d, %Y"))
+  } else {
+    extract_date_from_text_anywhere(raw_text)
+  }
+
+  action_text <- clean_text(action_match[1, 3])
+  if (is.na(action_text) || !nzchar(action_text)) {
+    action_text <- clean_text(stringr::str_match(
+      raw_text,
+      "(?s)What is the accreditation status of .*?\\?\\s+(.*?)\\."
+    )[, 2])
+  }
+  if (is.na(action_text) || !nzchar(action_text)) {
+    return(NULL)
+  }
+
+  if (!is.na(institution_name_raw) && nzchar(institution_name_raw)) {
+    action_text <- stringr::str_replace_all(
+      action_text,
+      stringr::regex(institution_name_raw, ignore_case = TRUE),
+      "the institution"
+    )
+    action_text <- clean_text(action_text)
+  }
+
+  list(
+    action_label_raw = action_text,
+    action_date = action_date,
+    raw_text = raw_text
+  )
+}
+
 # Parses a single SACSCOC sanction item, extracting institution name, state, and action details.
 parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
   item_clean <- clean_text(item)
@@ -352,22 +513,68 @@ parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
 # ("Lynchburg", "Emory", "Charlotte", etc.), which silently breaks IPEDS
 # matching — a regression introduced and then pinned by a test in an earlier
 # refactor. Reverted here; the tests now assert the correct shape.
-build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, page_title) {
+#
+# PDF enrichment: when cache_dir is supplied, each row's linked box.com PDF is
+# downloaded and parsed to recover the real board action sentence (e.g.
+# "denied reaffirmation, continued the institution on Warning") and the exact
+# action date. On fetch/parse failure we fall back to the generic "Public
+# Disclosure Statement" stub so the pipeline still works when box.com is
+# unreachable. When cache_dir is NULL (e.g. from unit tests that don't want to
+# hit the network), enrichment is skipped entirely.
+build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, page_title,
+                                          cache_dir = NULL, refresh = TRUE) {
   if (nrow(disclosure_matches) == 0) {
     return(tibble::tibble())
   }
 
   purrr::map_dfr(seq_len(nrow(disclosure_matches)), function(i) {
+    institution_name <- clean_text(disclosure_matches[i, 3])
+    source_url <- disclosure_matches[i, 2]
+
+    enriched <- if (!is.null(cache_dir)) {
+      tryCatch(
+        parse_sacscoc_disclosure_pdf(
+          source_url = source_url,
+          institution_name_raw = institution_name,
+          cache_slug = normalize_name(paste(
+            institution_name,
+            clean_text(disclosure_matches[i, 5])
+          )),
+          cache_dir = cache_dir,
+          refresh = refresh
+        ),
+        error = function(e) NULL
+      )
+    } else {
+      NULL
+    }
+
+    action_label_raw <- if (!is.null(enriched) && nzchar(enriched$action_label_raw)) {
+      enriched$action_label_raw
+    } else {
+      "Public Disclosure Statement"
+    }
+    action_type <- if (!is.null(enriched)) {
+      classify_action(action_label_raw)
+    } else {
+      "other"
+    }
+    row_action_date <- if (!is.null(enriched) && !is.na(enriched$action_date)) {
+      enriched$action_date
+    } else {
+      action_date
+    }
+
     tibble::tibble(
-      institution_name_raw = clean_text(disclosure_matches[i, 3]),
+      institution_name_raw = institution_name,
       institution_state_raw = state_name(clean_text(disclosure_matches[i, 5])),
       accreditor = "SACSCOC",
-      action_type = "other",
-      action_label_raw = "Public Disclosure Statement",
-      action_status = "active",
-      action_date = action_date,
-      action_year = as.integer(format(action_date, "%Y")),
-      source_url = disclosure_matches[i, 2],
+      action_type = action_type,
+      action_label_raw = action_label_raw,
+      action_status = classify_status(action_label_raw),
+      action_date = row_action_date,
+      action_year = as.integer(format(row_action_date, "%Y")),
+      source_url = source_url,
       source_title = paste(page_title, "- Public Disclosure Statement"),
       notes = clean_text(paste(
         disclosure_matches[i, 3],
@@ -813,6 +1020,7 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
     refresh = refresh
   )
   page_title <- extract_page_title(html)
+  page_modified <- extract_page_modified_date(html)
 
   date_match <- stringr::str_match(clean_text(page_title), "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})")
   action_date <- if (!is.na(date_match[1, 1])) {
@@ -831,10 +1039,23 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
   }
 
   disclosure_matches <- stringr::str_match_all(html, SACSCOC_DISCLOSURE_ITEM_PATTERN)[[1]]
-  disclosure_rows <- build_sacscoc_disclosure_rows(disclosure_matches, action_date = action_date, url = url, page_title = page_title)
+  disclosure_rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = action_date,
+    url = url,
+    page_title = page_title,
+    cache_dir = cache_dir,
+    refresh = refresh
+  )
 
-  dplyr::bind_rows(sanction_rows, disclosure_rows) |>
+  combined <- dplyr::bind_rows(sanction_rows, disclosure_rows) |>
     dplyr::distinct()
+
+  if (nrow(combined) > 0 && !is.na(page_modified)) {
+    combined$source_page_modified <- page_modified
+  }
+
+  combined
 }
 
 # Scrapes SACSCOC by first finding links to June/December action pages from the landing page,

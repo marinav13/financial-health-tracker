@@ -47,7 +47,7 @@ main <- function(cli_args = NULL) {
   ipeds_layout  <- ipeds$ipeds_layout
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
 
-  ensure_packages(c("dplyr", "httr2", "openxlsx", "purrr", "readr", "stringr", "tidyr", "xml2"))
+  ensure_packages(c("dplyr", "httr2", "openxlsx", "pdftools", "purrr", "readr", "stringr", "tidyr", "xml2"))
 
   # -----------------------------------------------------------------------
   # PARSE COMMAND-LINE ARGUMENTS

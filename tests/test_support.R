@@ -4,7 +4,7 @@ root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 
 source(file.path(root, "scripts", "shared", "utils.R"))
 
-required_pkgs <- c("dplyr", "jsonlite", "purrr", "readr", "readxl", "stringr", "xml2", "httr2")
+required_pkgs <- c("dplyr", "jsonlite", "pdftools", "purrr", "readr", "readxl", "stringr", "xml2", "httr2")
 missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1L), quietly = TRUE)]
 if (length(missing_pkgs) > 0L) {
   stop(

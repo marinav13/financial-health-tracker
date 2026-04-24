@@ -77,18 +77,31 @@ jobs:
         run: >
           Rscript ./tests/run_shared_helper_smoke_tests.R
 
+      # All subsequent scraper / refresh steps `tee` their stdout+stderr
+      # into a single log file that the drift-warning gate (at the end of
+      # the job) scans for known `warn_*` patterns. Keeping every scraper
+      # log in one place means one grep catches drift no matter which
+      # pipeline emitted it. See docs/SCRAPER_DRIFT_RUNBOOK.md.
+      - name: Create refresh log directory
+        shell: bash
+        run: |
+          mkdir -p refresh-logs
+          : > refresh-logs/combined.log
+
       - name: Refresh accreditation actions with cache fallback
         shell: bash
         timeout-minutes: 60
-        run: >
-          Rscript ./scripts/build_accreditation_actions.R
-          --financial-input data/downloads/full_dataset.csv
+        run: |
+          Rscript ./scripts/build_accreditation_actions.R \
+            --financial-input data/downloads/full_dataset.csv \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Sync Supabase institution → unitid mapping
         shell: bash
         timeout-minutes: 10
-        run: >
-          python ./scripts/import_supabase_institution_mapping.py --skip-stale-check
+        run: |
+          python ./scripts/import_supabase_institution_mapping.py --skip-stale-check \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Verify Supabase mapping exists
         shell: bash
@@ -98,30 +111,34 @@ jobs:
       - name: Refresh college cuts from public API
         shell: bash
         timeout-minutes: 60
-        run: >
-          Rscript ./scripts/build_college_cuts_join.R
-          --financial-input data/downloads/full_dataset.csv
+        run: |
+          Rscript ./scripts/build_college_cuts_join.R \
+            --financial-input data/downloads/full_dataset.csv \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Build unfiltered research join for USAspending analysis
         shell: bash
         timeout-minutes: 60
-        run: >
-          Rscript ./scripts/build_grant_witness_join.R
-          --financial-input data/downloads/full_dataset.csv
-          --skip-usaspending-filter
+        run: |
+          Rscript ./scripts/build_grant_witness_join.R \
+            --financial-input data/downloads/full_dataset.csv \
+            --skip-usaspending-filter \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Refresh USAspending reinstatement analysis
         shell: bash
         timeout-minutes: 60
-        run: >
-          Rscript ./scripts/build_grant_witness_usaspending_sensitivity.R
+        run: |
+          Rscript ./scripts/build_grant_witness_usaspending_sensitivity.R \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Refresh research cuts with Proposal G filter
         shell: bash
         timeout-minutes: 60
-        run: >
-          Rscript ./scripts/build_grant_witness_join.R
-          --financial-input data/downloads/full_dataset.csv
+        run: |
+          Rscript ./scripts/build_grant_witness_join.R \
+            --financial-input data/downloads/full_dataset.csv \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Import closure outputs from published Google Sheet
         shell: bash
@@ -143,6 +160,50 @@ jobs:
         run: |
           node ./tests/test_data_exports.js
           python ./tests/test_import_supabase.py
+
+      # Drift-warning gate. Scrapers emit named warnings whenever a structural
+      # assumption breaks (site layout change, action type disappears, parse
+      # returns 0 rows from a non-empty page). We fail the refresh job if any
+      # of these surface so nobody silently publishes partial data. See
+      # docs/SCRAPER_DRIFT_RUNBOOK.md for remediation steps per pattern.
+      - name: Check for scraper drift warnings
+        shell: bash
+        run: |
+          set -o pipefail
+          LOG=refresh-logs/combined.log
+          if [ ! -s "$LOG" ]; then
+            echo "Refresh log $LOG is empty — scrapers produced no output, failing to be safe."
+            exit 1
+          fi
+          # grep -E so the alternation works; -n for line numbers; || true so
+          # grep's "no match" exit code doesn't abort the step before we can
+          # decide. Patterns:
+          #   - the three named scraper drift warnings from the warn_* helpers
+          #   - the tail of warn_on_empty_parse's message (which does not
+          #     include the function name)
+          #   - "SCRAPER RETURNED 0 ROWS" from build_accreditation_actions.R.
+          #     In normal CI mode this path stop()s and fails the step
+          #     directly, but --allow-partial-accreditation demotes it to a
+          #     warning(), so we catch it here as a backstop.
+          MATCHES=$(grep -nE \
+            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS' \
+            "$LOG" || true)
+          if [ -n "$MATCHES" ]; then
+            echo "Scraper drift warning(s) detected — refresh FAILED:"
+            echo "$MATCHES"
+            echo
+            echo "See docs/SCRAPER_DRIFT_RUNBOOK.md for triage."
+            exit 1
+          fi
+          echo "No scraper drift warnings found."
+
+      - name: Upload refresh logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: refresh-logs
+          path: refresh-logs/
+          retention-days: 30
 
       - name: Commit and push updated data
         shell: bash

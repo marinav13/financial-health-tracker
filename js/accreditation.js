@@ -414,11 +414,15 @@
         const name = ACCREDITOR_NAMES[code] || code;
         const url = ACCREDITOR_URLS[code];
         const states = ACCREDITOR_STATES[code];
-        const statesNote = states ? ` (${states})` : "";
         const codeLabel = ACCREDITOR_NAMES[code] ? `(${code})` : "";
-        return url
-          ? `<li><a href="${url}" target="_blank" rel="noopener">${name} ${codeLabel}</a>${statesNote}</li>`
-          : `<li>${name} ${codeLabel}${statesNote}</li>`;
+        const rawLinkLabel = `${name} ${codeLabel}`.trim();
+        const safeStatesNote = states ? ` (${escapeHtml(states)})` : "";
+        if (url) {
+          const linkHtml = window.TrackerApp.renderExternalLink(url, rawLinkLabel)
+            || escapeHtml(rawLinkLabel);
+          return `<li>${linkHtml}${safeStatesNote}</li>`;
+        }
+        return `<li>${escapeHtml(rawLinkLabel)}${safeStatesNote}</li>`;
       });
 
     const covered = trackedLinks.length

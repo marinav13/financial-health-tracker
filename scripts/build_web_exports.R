@@ -201,14 +201,6 @@ build_accreditation_export <- function() {
     "Run `Rscript --vanilla ./scripts/build_accreditation_actions.R` first."
   )
 
-  normalize_accreditor_name <- function(x) {
-    dplyr::case_when(
-      is.na(x) ~ x,
-      x == "WSCUC" ~ "WASC Senior College and University Commission",
-      TRUE ~ x
-    )
-  }
-
   normalize_accreditation_date <- function(x) {
     vapply(x, function(value) {
       if (length(value) == 0 || is.na(value)) return(NA_character_)
@@ -252,7 +244,6 @@ build_accreditation_export <- function() {
     )) %>%
     mutate(
       unitid = as.character(unitid),
-      accreditors = normalize_accreditor_name(accreditors),
       latest_action_date = normalize_accreditation_date(latest_action_date),
       latest_action_year = na_if(as.character(latest_action_year), "")
     )
@@ -276,7 +267,6 @@ build_accreditation_export <- function() {
     )) %>%
     mutate(
       unitid = as.character(unitid),
-      accreditor = normalize_accreditor_name(accreditor),
       action_date = normalize_accreditation_date(action_date),
       action_year = na_if(as.character(action_year), ""),
       source_page_modified = na_if(as.character(source_page_modified), ""),
@@ -288,8 +278,7 @@ build_accreditation_export <- function() {
       action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L)
     )
   coverage_df <- if (file.exists(accreditation_coverage_path)) {
-    readr::read_csv(accreditation_coverage_path, show_col_types = FALSE) %>%
-      mutate(accreditor = normalize_accreditor_name(accreditor))
+    readr::read_csv(accreditation_coverage_path, show_col_types = FALSE)
   } else {
     tibble::tibble()
   }

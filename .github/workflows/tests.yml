@@ -75,7 +75,12 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium --with-deps
+        # playwright.config.js declares three projects: chromium (full suite),
+        # firefox (navigation.spec.js canary), and mobile-chrome (navigation
+        # canary on Pixel 7 emulation). mobile-chrome uses the Chromium engine
+        # so no separate install is needed; firefox is a distinct browser and
+        # must be installed explicitly or its project will fail at runtime.
+        run: npx playwright install chromium firefox --with-deps
 
       - name: Run Playwright e2e tests
         run: npm run test:e2e

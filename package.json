@@ -7,7 +7,7 @@
     "test:e2e:headed": "playwright test --headed",
     "test:lint": "node tests/test_static_analysis.js",
     "test:css": "stylelint \"**/*.css\"",
-    "test:smoke": "npm run test:lint && npm run test:css && node tests/test_frontend_structure.js && node tests/test_js_charts.js && node tests/test_security_helpers.js && node tests/test_research_security.js && node tests/test_data_exports.js && node tests/test_refresh_workflows.js && node tests/test_sync_tabs.js",
+    "test:smoke": "npm run test:lint && npm run test:css && node tests/test_r_truncation.js && node tests/test_frontend_structure.js && node tests/test_js_charts.js && node tests/test_security_helpers.js && node tests/test_research_security.js && node tests/test_data_exports.js && node tests/test_refresh_workflows.js && node tests/test_sync_tabs.js",
     "test:pages": "node tests/test_deployed_pages_parity.js",
     "test:a11y": "pa11y-ci --config .pa11yci.json"
   },

@@ -94,21 +94,30 @@ ensure_accreditation_action_schema <- function(df, context = "accreditation scra
 #                      legitimately carry no action data.
 #   detail           - optional extra context appended to the warning.
 #
-# Returns invisible(NULL). Never interrupts the caller — a suspicious empty
-# result is still a valid empty tibble from the caller's perspective.
+# Returns invisible(NULL). By default emits a warning() and keeps running so
+# local/exploratory scraper iteration is not disrupted. When `fail = TRUE`
+# (or the process-level option `tracker.fail_on_empty_parse` is TRUE), the
+# helper stop()s instead. The publish path in build_accreditation_actions.R
+# flips that option on in CI (unless --allow-partial-accreditation is set),
+# so a CI refresh fails fast at the parser site rather than continuing
+# through every downstream step and only being caught by the workflow's log
+# grep gate at the end. Symmetric with warn_if_scrape_count_dropped and
+# warn_if_action_type_dropped, which expose the same fail= surface.
 warn_on_empty_parse <- function(accreditor, source_url, rows, html,
-                                threshold_bytes = 2000L, detail = NULL) {
+                                threshold_bytes = 2000L, detail = NULL,
+                                fail = getOption("tracker.fail_on_empty_parse", FALSE)) {
   if (!is.null(rows) && is.data.frame(rows) && nrow(rows) > 0L) return(invisible(NULL))
   html_bytes <- if (is.null(html)) 0L else sum(nchar(html))
   if (html_bytes < threshold_bytes) return(invisible(NULL))
-  warning(
-    sprintf(
-      "%s: parsed 0 rows from %s (HTML %d bytes)%s. Returning empty table \u2014 validate scraper output.",
-      accreditor, source_url, html_bytes,
-      if (is.null(detail)) "" else paste0(" \u2014 ", detail)
-    ),
-    call. = FALSE
+  msg <- sprintf(
+    "%s: parsed 0 rows from %s (HTML %d bytes)%s. Returning empty table \u2014 validate scraper output.",
+    accreditor, source_url, html_bytes,
+    if (is.null(detail)) "" else paste0(" \u2014 ", detail)
   )
+  if (isTRUE(fail)) {
+    stop(msg, call. = FALSE)
+  }
+  warning(msg, call. = FALSE)
   invisible(NULL)
 }
 

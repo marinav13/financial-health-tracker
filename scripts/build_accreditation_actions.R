@@ -63,6 +63,14 @@ main <- function(cli_args = NULL) {
   allow_partial_accreditation <- arg_has(args, "--allow-partial-accreditation")
   in_ci <- identical(Sys.getenv("CI"), "true") || identical(Sys.getenv("GITHUB_ACTIONS"), "true")
 
+  # Per-site warn_on_empty_parse() reads this option as its default `fail`.
+  # In CI (without the --allow-partial-accreditation override) we want a
+  # suspicious empty parse to stop() at the call site, so the refresh fails
+  # fast instead of running every downstream scraper and only being caught
+  # by the workflow's log-grep drift gate. Symmetric with the fail= usage
+  # for warn_if_scrape_count_dropped / warn_if_action_type_dropped below.
+  options(tracker.fail_on_empty_parse = in_ci && !allow_partial_accreditation)
+
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
   }

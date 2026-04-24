@@ -63,6 +63,70 @@ run_test("Per-site warn_on_empty_parse stays silent on non-empty rows", function
   assert_true(!warned, "Expected per-site guard to stay silent when rows are non-empty.")
 })
 
+run_test("Per-site warn_on_empty_parse can fail closed via fail=TRUE", function() {
+  big_html <- strrep("x", 5000L)
+  err <- tryCatch(
+    {
+      warn_on_empty_parse("TEST-ACC", "https://example.org/actions",
+                          tibble::tibble(), big_html, fail = TRUE)
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(!is.null(err),
+    "Expected per-site guard to stop() when fail = TRUE on substantive empty HTML.")
+  assert_true(grepl("TEST-ACC", err, fixed = TRUE))
+  assert_true(grepl("parsed 0 rows", err, fixed = TRUE))
+  assert_true(grepl("Returning empty table", err, fixed = TRUE))
+})
+
+run_test("Per-site warn_on_empty_parse picks up tracker.fail_on_empty_parse option", function() {
+  # Publish path sets options(tracker.fail_on_empty_parse = TRUE) in CI. The
+  # helper must default its `fail` argument off that option so per-site
+  # callers don't need to thread a flag through every parse_* signature.
+  prior <- getOption("tracker.fail_on_empty_parse", NULL)
+  on.exit(
+    if (is.null(prior)) {
+      options(tracker.fail_on_empty_parse = NULL)
+    } else {
+      options(tracker.fail_on_empty_parse = prior)
+    },
+    add = TRUE
+  )
+  options(tracker.fail_on_empty_parse = TRUE)
+
+  big_html <- strrep("x", 5000L)
+  err <- tryCatch(
+    {
+      warn_on_empty_parse("TEST-ACC", "https://example.org/actions",
+                          tibble::tibble(), big_html)
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(!is.null(err),
+    "Expected helper to stop() when tracker.fail_on_empty_parse is TRUE, without fail= being passed.")
+  assert_true(grepl("TEST-ACC", err, fixed = TRUE))
+})
+
+run_test("Per-site warn_on_empty_parse respects tiny-HTML guard even with fail=TRUE", function() {
+  # A 200-byte page is below the substantive-HTML threshold. A fail-closed
+  # helper must NOT stop on this path or every local test-page fetch would
+  # become fatal in CI. Expected-zero exception is preserved at the
+  # threshold_bytes layer.
+  tiny_html <- strrep("x", 200L)
+  err <- tryCatch(
+    {
+      warn_on_empty_parse("TEST-ACC", "https://example.org/down",
+                          tibble::tibble(), tiny_html, fail = TRUE)
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+  assert_true(is.null(err),
+    "Expected per-site guard to stay silent on tiny HTML even when fail = TRUE.")
+})
+
 run_test("Accreditation scrape count guard warns by default", function() {
   prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
   on.exit(unlink(prior_csv), add = TRUE)

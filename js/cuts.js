@@ -2,6 +2,8 @@
   const {
     loadJson,
     escapeHtml,
+    getParam,
+    renderEmpty,
     renderExternalLink,
     renderPaginationButtons,
     renderSortableHeader,
@@ -23,16 +25,6 @@
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
   const MIN_DEFAULT_YEAR = 2024;
-
-  function getParam(name) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name);
-  }
-
-  function textOrEmpty(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value || "";
-  }
 
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
@@ -63,14 +55,6 @@
     const label = cut.program_name || "";
     if (label.includes("positions affected") || label.includes("students affected")) return "";
     return ` (${affected} affected)`;
-  }
-
-  function renderEmpty(message) {
-    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
-  }
-
-  function setSectionVisible(id, show) {
-    setDataCardVisible(id, show);
   }
 
   function sortCuts(items, sortState) {
@@ -225,7 +209,7 @@
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
-      setSectionVisible("cuts-other-list", true);
+      setDataCardVisible("cuts-other-list", true);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at 4-year institutions that primarily grant bachelors degrees`;
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
       const primaryFilter = document.getElementById("cuts-filter");
@@ -259,7 +243,7 @@
     });
     const cutCount = school.cut_count ?? 0;
     title.textContent = cutCount === 1 ? "College program or staffing cut" : `College program or staffing cuts (${cutCount})`;
-    setSectionVisible("cuts-other-list", false);
+    setDataCardVisible("cuts-other-list", false);
     if (otherContainer) otherContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
     if (!(school.cuts || []).length) {

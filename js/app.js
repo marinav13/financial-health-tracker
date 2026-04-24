@@ -440,6 +440,14 @@ window.TrackerApp.setDataCardVisible = function setDataCardVisible(id, show) {
   }
 };
 
+window.TrackerApp.getParam = function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+};
+
+window.TrackerApp.renderEmpty = function renderEmpty(message) {
+  return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
+};
+
 window.TrackerApp.csvEscape = function csvEscape(value) {
   const text = String(value ?? "");
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;

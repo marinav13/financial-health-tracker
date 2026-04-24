@@ -2,6 +2,8 @@
   const {
     loadJson,
     escapeHtml,
+    getParam,
+    renderEmpty,
     renderPaginationButtons,
     renderSortableHeader,
     paginateItems,
@@ -23,23 +25,6 @@
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
   const MIN_PUBLIC_AWARD_REMAINING = 100;
-
-  function getParam(name) {
-    return new URLSearchParams(window.location.search).get(name);
-  }
-
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value || "";
-  }
-
-  function renderEmpty(message) {
-    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
-  }
-
-  function setSectionVisible(id, show) {
-    setDataCardVisible(id, show);
-  }
 
   function hasPositiveFunding(value) {
     const amount = Number(value);
@@ -485,7 +470,7 @@
           "Research funding cuts at other higher-ed institutions"
         );
       };
-      setSectionVisible("research-other-list", other.length > 0);
+      setDataCardVisible("research-other-list", other.length > 0);
       if (otherTitle) otherTitle.textContent = "Research funding cuts at other higher-ed institutions";
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
@@ -517,7 +502,7 @@
     title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;
     if (title) title.classList.remove("is-hidden");
     if (stateSummaryCard) stateSummaryCard.classList.add("is-hidden");
-    setSectionVisible("research-other-list", false);
+    setDataCardVisible("research-other-list", false);
     const mainDownload = document.getElementById("research-table-download");
     const otherDownload = document.getElementById("research-other-download");
     if (mainDownload) {

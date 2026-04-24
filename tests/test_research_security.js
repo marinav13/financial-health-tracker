@@ -142,6 +142,8 @@ async function renderResearchFixture() {
         loadJson: async () => fixture,
         schoolUrl: (unitid, page = "school.html") => `${page}?unitid=${encodeURIComponent(unitid)}`,
         escapeHtml,
+        getParam: (name) => new URLSearchParams(context.window.location.search).get(name),
+        renderEmpty: (message) => `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`,
         renderExternalLink: (url, label = "Source") => `<a href="${escapeHtml(url)}">${escapeHtml(label)}</a>`,
         renderSchoolLink: (unitid, label, page = "school.html") => `<a href="${page}?unitid=${encodeURIComponent(unitid)}">${escapeHtml(label)}</a>`,
         renderPaginationButtons: () => "",

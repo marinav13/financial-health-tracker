@@ -11,6 +11,8 @@
     renderPaginationButtons,
     paginateItems,
     escapeHtml,
+    getParam,
+    renderEmpty,
     setDataCardVisible,
     downloadRowsCsv,
     renderHistoryTable,
@@ -75,26 +77,8 @@
 
   // ------ Utility Functions ------
 
-  function getParam(name) {
-    const params = new URLSearchParams(window.location.search);
-    return params.get(name);
-  }
-
-  function setText(id, value) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value || "";
-  }
-
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
-  }
-
-  function renderEmpty(message) {
-    return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
-  }
-
-  function setSectionVisible(id, show) {
-    setDataCardVisible(id, show);
   }
 
   function expandAccreditors(value) {
@@ -461,7 +445,7 @@
       const allActions = buildDefaultActionRows(data);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
-      setSectionVisible("accreditation-other-status", true);
+      setDataCardVisible("accreditation-other-status", true);
       const otherFilter = document.getElementById("accreditation-other-filter");
       setupPagination(
         document.getElementById("accreditation-status"),
@@ -506,7 +490,7 @@
       accreditationOverview.classList.add("is-hidden");
       accreditationOverview.textContent = "";
     }
-    setSectionVisible("accreditation-other-status", false);
+    setDataCardVisible("accreditation-other-status", false);
     const otherStatus = document.getElementById("accreditation-other-status");
     const otherTitle = document.getElementById("accreditation-other-title");
     const mainDownload = document.getElementById("accreditation-table-download");
@@ -560,7 +544,7 @@
     }
     if (mainDownload) mainDownload.classList.add("is-hidden");
     if (otherDownload) otherDownload.classList.add("is-hidden");
-    setSectionVisible("accreditation-other-status", false);
+    setDataCardVisible("accreditation-other-status", false);
   }
 
   init().catch(showLoadError);

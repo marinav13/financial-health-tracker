@@ -68,7 +68,6 @@ function syncTabs(unitid = "", options = {}) {
   const active = options.active || document.body.dataset.activeTab || (
     document.body.dataset.searchSource || "finances"
   );
-  const { financialUnitid = "" } = options;
   const tabs = {
     finances: document.getElementById("tab-finances"),
     cuts: document.getElementById("tab-cuts"),
@@ -76,29 +75,23 @@ function syncTabs(unitid = "", options = {}) {
     research: document.getElementById("tab-research")
   };
 
-  // When a school is in view, deep-link the other tabs to the same institution.
-  // finances may use a different unitid than the cuts/accreditation/research
-  // pages (e.g. system-level aggregated finances); use financialUnitid when
-  // provided, otherwise fall back to the page unitid when it is numeric.
-  // Non-numeric (e.g. namespaced unmatched) ids fall back to plain landing
-  // hrefs so we never produce links that won't resolve on arrival.
-  const financeUnitid = isNumericUnitid(financialUnitid)
-    ? String(financialUnitid)
-    : (isNumericUnitid(unitid) ? String(unitid) : "");
-  const pageUnitid = relatedPageUnitid(unitid, financialUnitid);
-
-  if (tabs.finances) tabs.finances.href = financeUnitid
-    ? schoolUrl(financeUnitid, "school.html")
-    : "index.html";
-  if (tabs.cuts) tabs.cuts.href = pageUnitid
-    ? schoolUrl(pageUnitid, "cuts.html")
-    : "cuts.html";
-  if (tabs.accreditation) tabs.accreditation.href = pageUnitid
-    ? schoolUrl(pageUnitid, "accreditation.html")
-    : "accreditation.html";
-  if (tabs.research) tabs.research.href = pageUnitid
-    ? schoolUrl(pageUnitid, "research.html")
-    : "research.html";
+  // The top nav is site-level navigation: every tab always points at the
+  // section's main landing page, never at a school-specific URL. Deep-linking
+  // the nav to the current school was surfacing empty "No X found" pages for
+  // schools not tracked in the destination dataset (the majority of schools
+  // aren't in cuts/accreditation/research), which is a dead-end UX.
+  //
+  // Per-school navigation lives in the in-body "Explore this institution"
+  // block (see renderRelatedInstitutionLinks and school.js's
+  // renderSchoolRelatedPages), which only links to sections where the
+  // school actually has data.
+  //
+  // The `unitid` / `financialUnitid` args are retained for call-site
+  // backward compatibility and future use, but no longer influence hrefs.
+  if (tabs.finances) tabs.finances.href = "index.html";
+  if (tabs.cuts) tabs.cuts.href = "cuts.html";
+  if (tabs.accreditation) tabs.accreditation.href = "accreditation.html";
+  if (tabs.research) tabs.research.href = "research.html";
 
   Object.entries(tabs).forEach(([name, tab]) => {
     if (!tab) return;

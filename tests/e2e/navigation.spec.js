@@ -69,25 +69,28 @@ test.describe('School navigation', () => {
     await expect(page.locator('#school-intro-callout')).toHaveClass(/is-hidden/);
   });
 
-  test('top tabs deep-link to the same school from school detail', async ({ page }) => {
-    // Requirement change (2026-04-23): syncTabs previously stripped the unitid
-    // from top-nav hrefs on school-context pages because it silently ignored the
-    // unitid arg (and the financialUnitid option callers were passing). Now that
-    // syncTabs honors both, top tabs on school.html?unitid=<numeric> must keep
-    // the user inside the same school rather than dumping them to the bare
-    // landing pages. This test locks the corrected behavior.
+  test('top tabs are site-level navigation, never deep-linked to a school', async ({ page }) => {
+    // Requirement: the top nav is site-level navigation only — every tab
+    // points at its section's landing page regardless of the school in view.
+    // A prior iteration deep-linked the tabs to the current unitid, which
+    // dumped users onto empty "No X found" states on cuts/accreditation/
+    // research for the majority of schools that aren't tracked in those
+    // datasets. Per-school navigation now lives exclusively in the in-body
+    // "Explore this institution" block (#school-related-section on
+    // school.html, and renderRelatedInstitutionLinks on the detail pages),
+    // which only surfaces sections with actual data for the school.
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
 
     const financesTab = page.locator('#tab-finances');
     await expect(financesTab).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', `school.html?unitid=${chartSchoolUnitid}`);
-    await expect(page.locator('#tab-cuts')).toHaveAttribute('href', `cuts.html?unitid=${chartSchoolUnitid}`);
-    await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', `accreditation.html?unitid=${chartSchoolUnitid}`);
-    await expect(page.locator('#tab-research')).toHaveAttribute('href', `research.html?unitid=${chartSchoolUnitid}`);
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
+    await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
+    await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
 
     await page.locator('#tab-research').click();
-    await expect(page).toHaveURL(new RegExp(`/research\\.html\\?unitid=${chartSchoolUnitid}$`));
+    await expect(page).toHaveURL(/\/research\.html$/);
     await expect(page.locator('#research-list table.history-table, #research-content')).toBeVisible();
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
   });
@@ -109,14 +112,16 @@ test.describe('School navigation', () => {
     await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(5);
   });
 
-  test('top cuts tab carries the school unitid forward from school detail', async ({ page }) => {
-    // Requirement change (2026-04-23): corrected syncTabs keeps the current
-    // school in the URL when switching sections, so this click now lands on
-    // cuts.html?unitid=<same> rather than the bare cuts landing page.
+  test('top cuts tab goes to the cuts landing page, not a school-specific cuts URL', async ({ page }) => {
+    // The top nav is site-level: clicking College Cuts from any school
+    // detail page lands on cuts.html (the cross-institution view), never
+    // cuts.html?unitid=<id>. Per-school cuts navigation is available via
+    // the in-body "Explore this institution" block when the school has
+    // tracked cuts.
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
 
     await page.locator('#tab-cuts').click();
-    await expect(page).toHaveURL(new RegExp(`/cuts\\.html\\?unitid=${chartSchoolUnitid}$`));
+    await expect(page).toHaveURL(/\/cuts\.html$/);
     await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
   });
 

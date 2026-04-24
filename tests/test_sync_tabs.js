@@ -3,10 +3,18 @@
  *
  * These execute the real js/app.js `syncTabs` against a minimal DOM so we
  * assert the *actual* rendered hrefs, not just the presence of the symbol.
- * Previously all callers passed { financialUnitid: ... } and the function
- * silently ignored it, so cross-tab navigation on a school-context page
- * stripped the unitid from every tab link. A regression of that bug would
- * now fail one of the deep-link assertions below.
+ *
+ * Requirement (set: no-deep-link top nav): the top-nav tabs are pure
+ * site-level navigation — each tab always points at its section's landing
+ * page, regardless of whether a school is in view. Per-school navigation
+ * lives in the in-body "Explore this institution" block, which only
+ * surfaces links to sections that actually contain the school.
+ *
+ * An earlier iteration deep-linked the top nav to the current school. That
+ * regressed UX for the majority of schools, which aren't tracked in
+ * cuts/accreditation/research, because clicking a top tab from a school
+ * detail page would land on an empty "No X found" state. Reverted; these
+ * tests lock the landing-page-only contract.
  */
 
 const fs = require("fs");
@@ -119,43 +127,35 @@ run("with no unitid, tabs point to landing pages", () => {
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
 });
 
-run("with numeric unitid, tabs deep-link to the same school", () => {
+run("with numeric unitid, tabs still point to landing pages (no deep-link)", () => {
   const { tabs, trackerApp } = loadAppInContext();
   trackerApp.syncTabs("100654", { active: "cuts" });
-  assert(tabs["tab-finances"].href === "school.html?unitid=100654", `finances href=${tabs["tab-finances"].href}`);
-  assert(tabs["tab-cuts"].href === "cuts.html?unitid=100654", `cuts href=${tabs["tab-cuts"].href}`);
-  assert(tabs["tab-accreditation"].href === "accreditation.html?unitid=100654", `accreditation href=${tabs["tab-accreditation"].href}`);
-  assert(tabs["tab-research"].href === "research.html?unitid=100654", `research href=${tabs["tab-research"].href}`);
-});
-
-run("with financialUnitid option, finances tab uses the finance unitid while others use the page unitid", () => {
-  const { tabs, trackerApp } = loadAppInContext();
-  // This is the exact call shape cuts.js/research.js/accreditation.js use on
-  // school-context pages: the page unitid differs from the finances unitid
-  // (e.g. a system member whose finances roll up to a parent unitid).
-  trackerApp.syncTabs("100654", { active: "cuts", financialUnitid: "100663" });
-  assert(tabs["tab-finances"].href === "school.html?unitid=100663", `finances href=${tabs["tab-finances"].href}`);
-  assert(tabs["tab-cuts"].href === "cuts.html?unitid=100654", `cuts href=${tabs["tab-cuts"].href}`);
-  assert(tabs["tab-accreditation"].href === "accreditation.html?unitid=100654", `accreditation href=${tabs["tab-accreditation"].href}`);
-  assert(tabs["tab-research"].href === "research.html?unitid=100654", `research href=${tabs["tab-research"].href}`);
-});
-
-run("with non-numeric namespaced unitid, tabs fall back to landing pages", () => {
-  const { tabs, trackerApp } = loadAppInContext();
-  // Namespaced unmatched ids (e.g. "cut-abc123") should never produce deep
-  // links — renderRelatedInstitutionLinks also suppresses them via the
-  // shared `relatedPageUnitid` helper, and syncTabs must stay consistent.
-  trackerApp.syncTabs("cut-abc123", { active: "cuts" });
   assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
   assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
 });
 
-run("with unitid but no financialUnitid, finances tab uses the page unitid", () => {
+run("financialUnitid option does not change top-nav hrefs", () => {
   const { tabs, trackerApp } = loadAppInContext();
-  trackerApp.syncTabs("100654", { active: "finances" });
-  assert(tabs["tab-finances"].href === "school.html?unitid=100654", `finances href=${tabs["tab-finances"].href}`);
+  // This is the exact call shape cuts.js/research.js/accreditation.js use on
+  // school-context pages (a system member whose finances roll up to a parent
+  // unitid). Top nav is site-level only — financialUnitid does not influence
+  // hrefs. Per-school routing happens in the in-body related-pages block.
+  trackerApp.syncTabs("100654", { active: "cuts", financialUnitid: "100663" });
+  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
+  assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
+  assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
+});
+
+run("with non-numeric namespaced unitid, tabs still point to landing pages", () => {
+  const { tabs, trackerApp } = loadAppInContext();
+  trackerApp.syncTabs("cut-abc123", { active: "cuts" });
+  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
+  assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
+  assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
 });
 
 run("aria-current is applied only to the active tab", () => {
@@ -165,15 +165,6 @@ run("aria-current is applied only to the active tab", () => {
   assert(tabs["tab-finances"].getAttribute("aria-current") === null, "finances tab should not carry aria-current");
   assert(tabs["tab-cuts"].getAttribute("aria-current") === null, "cuts tab should not carry aria-current");
   assert(tabs["tab-research"].getAttribute("aria-current") === null, "research tab should not carry aria-current");
-});
-
-run("encodes URL-unsafe characters in unitid", () => {
-  const { tabs, trackerApp } = loadAppInContext();
-  // Numeric-only unitids are the only ones that deep-link (see
-  // `isNumericUnitid` in app.js). Non-numeric should fall back to landing
-  // pages rather than producing a potentially malformed URL.
-  trackerApp.syncTabs("abc def", { active: "cuts" });
-  assert(tabs["tab-cuts"].href === "cuts.html", `non-numeric unitid should not deep-link, got ${tabs["tab-cuts"].href}`);
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

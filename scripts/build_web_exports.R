@@ -250,6 +250,7 @@ build_accreditation_export <- function() {
   actions_df <- readr::read_csv(accreditation_actions_path, show_col_types = FALSE) %>%
     ensure_columns(list(
       accreditor = NA_character_,
+      action_status = NA_character_,
       action_date = NA_character_,
       action_year = NA_character_,
       source_page_modified = NA_character_,
@@ -270,6 +271,21 @@ build_accreditation_export <- function() {
       action_date = normalize_accreditation_date(action_date),
       action_year = na_if(as.character(action_year), ""),
       source_page_modified = na_if(as.character(source_page_modified), ""),
+      # Some accreditor sources (MSCHE's non-compliance status page, HLC's
+      # monitoring list) publish the institution's current status without a
+      # per-row action date. Without a date the frontend's isRecentTrackedAction
+      # filter silently drops the row. For active statuses only, fall back to
+      # the source page's last-modified date so these rows remain visible.
+      action_date = dplyr::if_else(
+        is.na(action_date) & !is.na(action_status) & action_status == "active" & !is.na(source_page_modified),
+        source_page_modified,
+        action_date
+      ),
+      action_year = dplyr::if_else(
+        is.na(action_year) & !is.na(action_status) & action_status == "active" & !is.na(source_page_modified),
+        substr(source_page_modified, 1L, 4L),
+        action_year
+      ),
       display_action = as.logical(display_action),
       accreditors = dplyr::coalesce(accreditors, accreditor),
       latest_action_date = dplyr::coalesce(latest_action_date, action_date),

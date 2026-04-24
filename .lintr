@@ -1,0 +1,12 @@
+linters: linters_with_defaults(
+    defaults = list(),
+    seq_linter = seq_linter(),
+    unreachable_code_linter = unreachable_code_linter(),
+    T_and_F_symbol_linter = T_and_F_symbol_linter(),
+    equals_na_linter = equals_na_linter(),
+    duplicate_argument_linter = duplicate_argument_linter()
+  )
+exclusions: list(
+    "renv",
+    "tests/fixtures"
+  )

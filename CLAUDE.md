@@ -10,6 +10,8 @@ Pages include:
 - `cuts.html`
 - `research.html`
 
+When you click on an individual institution, when you navigate to cuts, it should bring you to the main cuts page. Not a cuts page for the institution. Instead there are links at the bottom of the page that appear if they do exist. We don't need blank cut URLS for institutions without cuts. 
+
 JavaScript is framework-free and shared logic should be centralized where practical.
 
 ---

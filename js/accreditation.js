@@ -199,8 +199,9 @@
   }
 
   function isRecentDisplayAction(action) {
-    const year = getActionYear(action);
-    return isDisplayAction(action) && isRecentTrackedAction(action) && !Number.isNaN(year) && year >= MIN_ACTION_YEAR && hasOccurred(action);
+    // isRecentTrackedAction already checks year validity, MIN_ACTION_YEAR floor,
+    // and hasOccurred — no need to re-check them here.
+    return isDisplayAction(action) && isRecentTrackedAction(action);
   }
 
   // Deduplication key: accreditor + action label + date + URL

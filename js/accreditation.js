@@ -277,6 +277,7 @@
     const rows = pageItems
       .map((action) => [
         linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
+        expandAccreditors(action.accreditor || ""),
         action.action_label || action.action_type || "",
         action.state || "",
         action.control_label || "",
@@ -289,6 +290,7 @@
         ariaLabel: linkNames ? "Recent accreditation actions by institution" : "Recent accreditation actions",
         headers: [
           "<th>Institution</th>",
+          "<th>Accreditor</th>",
           "<th>Action</th>",
           "<th>State</th>",
           "<th>Sector</th>",
@@ -346,9 +348,10 @@
       renderPage: (filteredActions, currentPage, size) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Action", "State", "Sector", "Date", "Source"],
+      downloadHeaders: ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
       downloadRow: (action) => [
         action.institution_name || "",
+        expandAccreditors(action.accreditor || ""),
         action.action_label || action.action_type || "",
         action.state || "",
         action.control_label || "",

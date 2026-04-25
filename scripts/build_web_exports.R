@@ -247,7 +247,21 @@ build_accreditation_export <- function() {
       latest_action_date = normalize_accreditation_date(latest_action_date),
       latest_action_year = na_if(as.character(latest_action_year), "")
     )
-  actions_df <- readr::read_csv(accreditation_actions_path, show_col_types = FALSE) %>%
+  actions_df <- readr::read_csv(
+    accreditation_actions_path,
+    show_col_types = FALSE,
+    # action_scope is populated by NECHE program-level rows only (a handful of
+    # rows in a CSV that's >7000 rows long, all sitting after the >5000 MSCHE
+    # rows that have empty action_scope). readr's default guess_max = 1000
+    # types the column as logical from those leading empties, then silently
+    # coerces the real strings that appear later to NA -- which is exactly
+    # what surfaced the "BU NECHE row has no scope subtitle" UI bug. Pin the
+    # type explicitly so the values survive the read.
+    col_types = readr::cols(
+      action_scope = readr::col_character(),
+      .default = readr::col_guess()
+    )
+  ) %>%
     ensure_columns(list(
       accreditor = NA_character_,
       action_status = NA_character_,

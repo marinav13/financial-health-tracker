@@ -492,15 +492,6 @@ window.TrackerApp.renderExternalLinkCell = function renderExternalLinkCell(url, 
   return { __trackerCell: "external-link", url, label };
 };
 
-// Renders a primary value with a smaller secondary line beneath it. Both
-// halves are escaped by renderStructuredCell so callers must NOT pre-format
-// HTML; pass plain strings only. detailClass is whitelisted for the small
-// set of known classes the site uses.
-window.TrackerApp.renderTextWithDetailCell = function renderTextWithDetailCell(value, detail, options = {}) {
-  const { detailClass = "" } = options;
-  return { __trackerCell: "text-with-detail", value, detail, detailClass };
-};
-
 function renderStructuredCell(cell) {
   if (!cell || typeof cell !== "object" || !cell.__trackerCell) return null;
   if (cell.__trackerCell === "text") return escapeHtml(cell.value);
@@ -509,14 +500,6 @@ function renderStructuredCell(cell) {
   }
   if (cell.__trackerCell === "external-link") {
     return window.TrackerApp.renderExternalLink(cell.url, cell.label);
-  }
-  if (cell.__trackerCell === "text-with-detail") {
-    const detailText = String(cell.detail || "").trim();
-    const valueHtml = escapeHtml(cell.value);
-    if (!detailText) return valueHtml;
-    const cls = String(cell.detailClass || "").trim();
-    const classAttr = cls ? ` class="${escapeHtml(cls)}"` : "";
-    return `${valueHtml}<div${classAttr}>${escapeHtml(detailText)}</div>`;
   }
   return escapeHtml(cell.value);
 }

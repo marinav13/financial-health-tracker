@@ -122,18 +122,17 @@
 
   // Builds the action cell. When the scraper captured a scope qualifier
   // (e.g. "Master of Social Work degree at its Bedford, Cape Cod, and Fall
-  // River locations" for NECHE program-level actions) we render it on a
-  // second line under the action label so readers don't mistake a
-  // program-scope action for an institution-wide one. Both fields are
-  // escaped by renderHistoryTable's text-with-detail cell handler.
+  // River locations" for NECHE program-level actions) we append it inline
+  // in parentheses after the action label so readers don't mistake a
+  // program-scope action for an institution-wide one. The combined string
+  // is returned as plain text; renderHistoryTable's default branch runs it
+  // through escapeHtml.
   function actionLabelCell(action) {
     const label = action.action_label || action.action_label_raw || action.action_type || "";
-    const scope = action.action_scope || "";
-    const trimmedScope = String(scope || "").trim();
-    if (!trimmedScope) return label;
-    return window.TrackerApp.renderTextWithDetailCell(label, trimmedScope, {
-      detailClass: "action-scope"
-    });
+    const scope = String(action.action_scope || "").trim();
+    if (!scope) return label;
+    if (!label) return `(${scope})`;
+    return `${label} (${scope})`;
   }
 
   // Normalize action text for matching

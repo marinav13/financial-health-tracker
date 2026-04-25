@@ -262,6 +262,21 @@ MSCHE_CURRENT_STATUS_ACTION_TYPES <- c(
 )
 MSCHE_CURRENT_STATUS_URL <- "https://www.msche.org/non-compliance-and-adverse-actions-by-status/"
 MSCHE_RECENT_ACTIONS_URL <- "https://www.msche.org/recent-commission-actions/"
+
+# Per-institution page parsing. Verified across Saint Rose (closed),
+# Centro de Estudios Avanzados (currently sanctioned), and Princeton
+# (routine/healthy): every per-institution page renders its full board
+# action history inside <ul id="accreditation_actions"> as a flat list of
+# <li><strong>Month DD, YYYY</strong><br />Body text</li> entries, 10 per
+# page, with WordPress wp-pagenavi pagination at the bottom and an
+# `?ipf_action_paged=N` URL parameter for additional pages. The
+# per-institution page is the source of truth for the board action date
+# (the monthly index conflates multiple actions on the same date) and
+# carries the full history including pre-2017 entries.
+MSCHE_INSTITUTION_PATH_PATTERN <- "/institution/([0-9]+)/?"
+MSCHE_INSTITUTION_PAGINATION_PATTERN <- "ipf_action_paged=([0-9]+)"
+MSCHE_INSTITUTION_DATE_FORMAT <- "%B %d, %Y"
+
 MSCHE_RECENT_ACTIONS_LINK_PATTERN <- paste0(
   "<a href=\"(https://www\\.msche\\.org/commission-actions/\\?fd=[0-9]+(?:&amp;|&)ld=[0-9]+)\">",
   "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})</a>"
@@ -814,9 +829,147 @@ parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, deta
   dplyr::bind_rows(rows)
 }
 
+# Pure helper: extracts (action_date, action_body) rows from a single
+# MSCHE per-institution page's HTML by iterating <ul id="accreditation_actions">/li.
+# Returns an empty tibble (with correct column types) if the container is
+# missing or every <li> fails to parse. Module-level so it can be tested
+# in isolation without staging cache files.
+extract_msche_institution_actions <- function(html) {
+  empty <- tibble::tibble(action_date = as.Date(character()), action_body = character())
+  if (is.null(html) || !nzchar(html)) return(empty)
+  doc <- tryCatch(xml2::read_html(html), error = function(e) NULL)
+  if (is.null(doc)) return(empty)
+  ul <- xml2::xml_find_first(doc, "//ul[@id='accreditation_actions']")
+  if (inherits(ul, "xml_missing")) return(empty)
+  li_nodes <- xml2::xml_find_all(ul, "./li")
+  if (length(li_nodes) == 0L) return(empty)
+
+  rows <- purrr::map(li_nodes, function(li) {
+    strong_node <- xml2::xml_find_first(li, "./strong")
+    if (inherits(strong_node, "xml_missing")) return(NULL)
+    date_text <- clean_text(xml2::xml_text(strong_node))
+    parsed_date <- suppressWarnings(as.Date(date_text, format = MSCHE_INSTITUTION_DATE_FORMAT))
+    if (is.na(parsed_date)) return(NULL)
+    # xml_text on the full <li> returns the visible text including the date
+    # prefix. Strip the leading date so action_body is the action sentence
+    # alone; xml2 already collapses tag boundaries and decodes entities.
+    full_text <- clean_text(xml2::xml_text(li))
+    body_text <- stringr::str_remove(
+      full_text,
+      paste0("^", stringr::fixed(date_text), "\\s*")
+    )
+    body_text <- stringr::str_squish(body_text)
+    if (!nzchar(body_text)) return(NULL)
+    tibble::tibble(action_date = parsed_date, action_body = body_text)
+  })
+  rows <- purrr::compact(rows)
+  if (length(rows) == 0L) return(empty)
+  dplyr::bind_rows(rows)
+}
+
+# Pure helper: returns the highest paged-URL number referenced in a
+# per-institution page (i.e., total page count). Defaults to 1 when no
+# pagination block is present (institution has <= 10 actions).
+discover_msche_institution_page_count <- function(html) {
+  if (is.null(html) || !nzchar(html)) return(1L)
+  matches <- stringr::str_match_all(html, MSCHE_INSTITUTION_PAGINATION_PATTERN)[[1]]
+  if (nrow(matches) == 0L) return(1L)
+  page_nums <- suppressWarnings(as.integer(matches[, 2]))
+  page_nums <- page_nums[!is.na(page_nums)]
+  if (length(page_nums) == 0L) return(1L)
+  as.integer(max(c(1L, page_nums)))
+}
+
+# Fetches and parses every paginated page of a single MSCHE per-institution
+# page, returning one row per board action conforming to
+# ACCREDITATION_ACTION_COLUMNS (action_scope = NA, accreditor = "MSCHE").
+# Returns NULL when the page-1 fetch fails or yields zero parseable
+# actions; callers should fall back to the monthly-index "Commission
+# action" stub on NULL.
+#
+# Caching: page 1 is cached as `msche_institution_<id>.html`; pagination
+# pages 2+ are cached as `msche_institution_<id>_p<N>.html`. Cache id is
+# the numeric MSCHE institution id parsed from the URL, with a
+# normalized-name fallback when the URL doesn't match the expected shape.
+# A 0.5s sleep between pagination fetches mirrors parse_nwccu's rate
+# limit.
+parse_msche_institution_page <- function(institution_url,
+                                         institution_name,
+                                         institution_state,
+                                         cache_dir,
+                                         refresh = TRUE) {
+  if (is.null(institution_url) || is.na(institution_url) || !nzchar(institution_url)) {
+    return(NULL)
+  }
+  cache_id_match <- stringr::str_match(institution_url, MSCHE_INSTITUTION_PATH_PATTERN)
+  cache_id <- if (!is.na(cache_id_match[1, 2])) {
+    cache_id_match[1, 2]
+  } else {
+    normalize_name(institution_name %||% "unknown")
+  }
+
+  page_one_cache <- paste0("msche_institution_", cache_id, ".html")
+  page_one_html <- tryCatch(
+    fetch_html_text(institution_url, page_one_cache, cache_dir, refresh = refresh),
+    error = function(e) NULL
+  )
+  if (is.null(page_one_html) || nchar(page_one_html) < 200L) return(NULL)
+
+  page_one_modified <- extract_page_modified_date(page_one_html)
+  page_count <- discover_msche_institution_page_count(page_one_html)
+
+  all_actions <- extract_msche_institution_actions(page_one_html)
+  if (page_count > 1L) {
+    base_url <- sub("/$", "", institution_url)
+    for (n in seq.int(2L, page_count)) {
+      Sys.sleep(0.5)
+      page_url <- paste0(base_url, "?ipf_action_paged=", n)
+      page_cache <- paste0("msche_institution_", cache_id, "_p", n, ".html")
+      page_html <- tryCatch(
+        fetch_html_text(page_url, page_cache, cache_dir, refresh = refresh),
+        error = function(e) NULL
+      )
+      if (is.null(page_html) || nchar(page_html) < 200L) next
+      all_actions <- dplyr::bind_rows(
+        all_actions,
+        extract_msche_institution_actions(page_html)
+      )
+    }
+  }
+
+  if (nrow(all_actions) == 0L) return(NULL)
+
+  # Dedupe across pages by (date, body). Some sites occasionally repeat
+  # the page-1 list when ipf_action_paged exceeds the real count; the
+  # explicit dedupe protects against that without changing semantics
+  # when pagination is well-behaved.
+  all_actions <- dplyr::distinct(all_actions, action_date, action_body, .keep_all = TRUE)
+
+  tibble::tibble(
+    institution_name_raw = institution_name,
+    institution_state_raw = institution_state,
+    accreditor = "MSCHE",
+    action_type = classify_action(all_actions$action_body, "MSCHE"),
+    action_label_raw = all_actions$action_body,
+    action_status = classify_status(all_actions$action_body),
+    action_date = all_actions$action_date,
+    action_year = as.integer(format(all_actions$action_date, "%Y")),
+    action_scope = NA_character_,
+    source_url = institution_url,
+    source_title = paste("MSCHE Statement of Accreditation Status -", institution_name),
+    notes = all_actions$action_body,
+    last_seen_at = as.character(Sys.time()),
+    source_page_url = institution_url,
+    source_page_modified = page_one_modified
+  )
+}
+
 # Scrapes MSCHE accreditation data from two sources: current non-compliance status
 # (from a single status page with H3 sections) and recent commission actions
-# (by iterating monthly pages from 2017 to present, organized by state).
+# (by iterating monthly pages, then fetching each unique institution's per-institution
+# page for the actual board-action sentences). The monthly index alone gives only
+# institution name + month; the per-institution page is the source of truth for
+# action text and date.
 parse_msche <- function(cache_dir, refresh) {
   url <- MSCHE_CURRENT_STATUS_URL
   html <- fetch_html_text(url, "msche_status.html", cache_dir, refresh = refresh)
@@ -887,7 +1040,11 @@ parse_msche <- function(cache_dir, refresh) {
     })
   }
 
-  # Parses a single MSCHE monthly action page, extracting institutions organized by state.
+  # Discovery-only: returns one row per (institution, month) tuple seen on
+  # this monthly index page. No action text is set here -- the per-institution
+  # parser (called below) is the source of truth for action label, type, and
+  # date. The monthly index date is preserved as `monthly_action_date` for
+  # use as a stub fallback when the per-institution fetch fails.
   parse_msche_month_page <- function(month_url, month_label) {
     cache_name <- paste0("msche_", gsub("[^a-z0-9]+", "_", tolower(month_label)), ".html")
     month_html <- fetch_html_text(month_url, cache_name, cache_dir, refresh = refresh)
@@ -920,26 +1077,23 @@ parse_msche <- function(cache_dir, refresh) {
         entry_date <- suppressWarnings(as.Date(stringr::str_remove_all(date_match[, 1], "[()]"), format = "%B %d, %Y"))
 
         tibble::tibble(
+          institution_url = xml2::xml_attr(inst_link, "href"),
           institution_name_raw = inst_name_clean,
           institution_state_raw = state_name(state_label),
-          accreditor = "MSCHE",
-          action_type = "commission_action",
-          action_label_raw = "Commission action",
-          action_status = NA_character_,
-          action_date = entry_date,
-          action_year = suppressWarnings(as.integer(format(entry_date, "%Y"))),
-          source_url = xml2::xml_attr(inst_link, "href"),
-          source_title = paste("MSCHE Statement of Accreditation Status -", inst_name_clean),
-          notes = paste("Recent Commission Action:", month_label),
-          last_seen_at = Sys.time(),
           source_page_url = month_url,
-          source_page_modified = page_modified_month
+          source_page_modified = page_modified_month,
+          month_label = month_label,
+          monthly_action_date = entry_date
         )
       })
     })
   }
 
-  # Scrapes all recent MSCHE commission actions by iterating monthly pages from 2017 to present.
+  # Discovery-only: walks the per-year monthly index pages from 2017 to
+  # present and returns the union of institution-discovery tuples emitted
+  # by parse_msche_month_page across all months. Deduping happens in the
+  # caller (build_msche_per_institution_rows) since it needs the full
+  # tuple list to construct stub fallbacks per month.
   parse_msche_recent_actions <- function() {
     years <- seq.int(2017L, max(2017L, as.integer(format(Sys.Date(), "%Y"))))
 
@@ -982,7 +1136,86 @@ parse_msche <- function(cache_dir, refresh) {
     })
   }
 
-  dplyr::bind_rows(current_status_rows, parse_msche_recent_actions()) |>
+  # Constructs the stub fallback rows for one institution when its
+  # per-institution page fetch/parse fails. One stub row per (institution,
+  # month) tuple from the discoveries -- preserves the existing
+  # "Commission action" shape so coverage doesn't disappear when the
+  # institution page is unavailable.
+  build_stub_fallback <- function(inst_discoveries) {
+    tibble::tibble(
+      institution_name_raw = inst_discoveries$institution_name_raw,
+      institution_state_raw = inst_discoveries$institution_state_raw,
+      accreditor = "MSCHE",
+      action_type = "commission_action",
+      action_label_raw = "Commission action",
+      action_status = NA_character_,
+      action_date = inst_discoveries$monthly_action_date,
+      action_year = suppressWarnings(as.integer(format(inst_discoveries$monthly_action_date, "%Y"))),
+      action_scope = NA_character_,
+      source_url = inst_discoveries$institution_url,
+      source_title = paste("MSCHE Statement of Accreditation Status -", inst_discoveries$institution_name_raw),
+      notes = paste("Recent Commission Action:", inst_discoveries$month_label),
+      last_seen_at = as.character(Sys.time()),
+      source_page_url = inst_discoveries$source_page_url,
+      source_page_modified = inst_discoveries$source_page_modified
+    )
+  }
+
+  # Orchestrator: dedupe institutions across the monthly index, fetch
+  # each per-institution page once (with pagination), and emit the full
+  # per-action history. Falls back to the monthly-index "Commission
+  # action" stubs when a per-institution page can't be fetched or yields
+  # zero parseable actions.
+  build_msche_per_institution_rows <- function(discoveries) {
+    if (is.null(discoveries) || nrow(discoveries) == 0L) {
+      return(tibble::tibble())
+    }
+    unique_inst <- discoveries |>
+      dplyr::filter(!is.na(institution_url) & nzchar(institution_url)) |>
+      dplyr::distinct(institution_url, .keep_all = TRUE)
+    if (nrow(unique_inst) == 0L) return(tibble::tibble())
+
+    message(sprintf(
+      "  MSCHE: parsing %d unique institution pages (per-action enrichment)...",
+      nrow(unique_inst)
+    ))
+
+    purrr::map_dfr(seq_len(nrow(unique_inst)), function(i) {
+      Sys.sleep(0.5)  # rate limit per institution; pagination adds its own
+      r <- unique_inst[i, ]
+      result <- tryCatch(
+        parse_msche_institution_page(
+          institution_url = r$institution_url,
+          institution_name = r$institution_name_raw,
+          institution_state = r$institution_state_raw,
+          cache_dir = cache_dir,
+          refresh = refresh
+        ),
+        error = function(e) {
+          warning(sprintf(
+            "MSCHE: per-institution parse errored for %s: %s",
+            r$institution_url, conditionMessage(e)
+          ), call. = FALSE)
+          NULL
+        }
+      )
+      if (is.null(result) || nrow(result) == 0L) {
+        fallback <- discoveries |>
+          dplyr::filter(institution_url == r$institution_url)
+        warning(sprintf(
+          "MSCHE: per-institution parse returned no actions for %s -- falling back to %d stub row(s)",
+          r$institution_url, nrow(fallback)
+        ), call. = FALSE)
+        return(build_stub_fallback(fallback))
+      }
+      result
+    })
+  }
+
+  discoveries <- parse_msche_recent_actions()
+  per_institution_rows <- build_msche_per_institution_rows(discoveries)
+
+  dplyr::bind_rows(current_status_rows, per_institution_rows) |>
     dplyr::distinct()
 }
 

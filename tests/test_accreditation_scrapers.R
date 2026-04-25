@@ -947,6 +947,276 @@ run_test("parse_msche returns correct rows from fixture HTML", function() {
   assert_identical(rows$source_url[[1]], "https://www.msche.org/institution/100/")
 })
 
+# ---------------------------------------------------------------------------
+# MSCHE per-institution page parser
+# ---------------------------------------------------------------------------
+#
+# The verified live structure (Saint Rose, Centro de Estudios Avanzados,
+# Princeton, sampled 2026-04-25) is uniform: every per-institution page
+# renders its full board action history as <li><strong>Date</strong><br />
+# Body</li> entries inside <ul id="accreditation_actions">, 10 per page,
+# with WordPress wp-pagenavi pagination via ?ipf_action_paged=N. These
+# tests pin that contract.
+
+run_test("extract_msche_institution_actions parses dated <li> rows from the accreditation_actions ul", function() {
+  fixture_html <- paste0(
+    "<html><body>",
+    "<ul id=\"accreditation_actions\" class=\"tab-content-container active\">",
+    "<li><strong>June 22, 2023</strong><br />",
+    "To warn the institution that its accreditation may be in jeopardy ",
+    "because of insufficient evidence that the institution is currently ",
+    "in compliance with Standard VI.</li>",
+    "<li><strong>April 25, 2024</strong><br />",
+    "To approve the teach-out plan and agreements with (1) Iona University, ",
+    "New Rochelle, NY; (2) Niagara University, Niagara University, NY.</li>",
+    "<li><strong>February 20, 2024</strong><br />",
+    "To acknowledge receipt of the substantive change request for ",
+    "institutional closure.</li>",
+    # An <li> WITHOUT a leading <strong> date prefix must be silently
+    # skipped, not crash the parser.
+    "<li>Bylaws (as of July 1, 2025)</li>",
+    "</ul></body></html>"
+  )
+
+  rows <- extract_msche_institution_actions(fixture_html)
+  assert_identical(nrow(rows), 3L,
+    "Three dated <li> rows expected (the bylaws <li> with no date prefix should be skipped).")
+  assert_identical(rows$action_date[[1]], as.Date("2023-06-22"))
+  assert_identical(rows$action_date[[2]], as.Date("2024-04-25"))
+  assert_identical(rows$action_date[[3]], as.Date("2024-02-20"))
+  assert_true(grepl("warn the institution", rows$action_body[[1]], fixed = TRUE))
+  assert_true(grepl("teach-out plan", rows$action_body[[2]], fixed = TRUE))
+  # Body must NOT include the date prefix (xml_text returns it; we strip it).
+  assert_true(!grepl("^June 22, 2023", rows$action_body[[1]]),
+    "action_body must have the leading date prefix stripped.")
+})
+
+run_test("extract_msche_institution_actions returns an empty tibble when the container is missing", function() {
+  empty <- extract_msche_institution_actions("<html><body><p>Page chrome only</p></body></html>")
+  assert_identical(nrow(empty), 0L)
+  assert_true(all(c("action_date", "action_body") %in% names(empty)))
+  assert_true(inherits(empty$action_date, "Date"))
+})
+
+run_test("discover_msche_institution_page_count returns max paged number from wp-pagenavi", function() {
+  no_nav <- "<html><body><p>only one page</p></body></html>"
+  assert_identical(discover_msche_institution_page_count(no_nav), 1L)
+
+  three_pages <- paste0(
+    "<div class=\"wp-pagenavi\">",
+    "<a href=\"https://www.msche.org/institution/0635?ipf_action_paged=2\">2</a>",
+    "<a href=\"https://www.msche.org/institution/0635?ipf_action_paged=3\">3</a>",
+    "</div>"
+  )
+  assert_identical(discover_msche_institution_page_count(three_pages), 3L)
+})
+
+run_test("parse_msche_institution_page returns ACCREDITATION_ACTION_COLUMNS-conforming rows from cache", function() {
+  cache_dir <- tempfile("msche_inst_happy_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  inst_url <- "https://www.msche.org/institution/0296/"
+  writeLines(
+    paste0(
+      "<html><head>",
+      "<meta property=\"article:modified_time\" content=\"2026-01-15T00:00:00+00:00\">",
+      "</head><body>",
+      "<ul id=\"accreditation_actions\">",
+      "<li><strong>April 25, 2024</strong><br />",
+      "To approve the teach-out plan and agreements with several institutions.</li>",
+      "<li><strong>June 22, 2023</strong><br />",
+      "To warn the institution that its accreditation may be in jeopardy.</li>",
+      "</ul></body></html>"
+    ),
+    file.path(cache_dir, "msche_institution_0296.html")
+  )
+
+  rows <- parse_msche_institution_page(
+    institution_url = inst_url,
+    institution_name = "The College of Saint Rose",
+    institution_state = "New York",
+    cache_dir = cache_dir,
+    refresh = FALSE
+  )
+
+  assert_identical(nrow(rows), 2L)
+  checked <- ensure_accreditation_action_schema(rows, "MSCHE per-institution fixture")
+  assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(checked)))
+  assert_identical(rows$action_type[[1]], "adverse_action")
+  assert_identical(rows$action_type[[2]], "warning")
+  assert_identical(rows$accreditor[[1]], "MSCHE")
+  assert_identical(rows$source_url[[1]], inst_url)
+  assert_identical(rows$source_page_modified[[1]], "2026-01-15")
+  assert_true(grepl("teach-out plan", rows$action_label_raw[[1]], fixed = TRUE))
+  assert_true(rows$action_label_raw[[1]] != "Commission action")
+})
+
+run_test("parse_msche_institution_page returns NULL when the page has no accreditation_actions ul", function() {
+  cache_dir <- tempfile("msche_inst_empty_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  writeLines(
+    paste0(
+      "<html><body>",
+      strrep("<p>chrome paragraph</p>", 30),
+      "</body></html>"
+    ),
+    file.path(cache_dir, "msche_institution_999.html")
+  )
+
+  result <- parse_msche_institution_page(
+    institution_url = "https://www.msche.org/institution/999/",
+    institution_name = "Empty Page Institution",
+    institution_state = "New Jersey",
+    cache_dir = cache_dir,
+    refresh = FALSE
+  )
+  assert_true(is.null(result),
+    "parse_msche_institution_page must return NULL when no actions parse, so the orchestrator falls back to the stub.")
+})
+
+run_test("parse_msche orchestrator emits real per-institution rows and falls back to stub on failure", function() {
+  cache_dir <- tempfile("msche_orch_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html><head>",
+      "<title>Non-Compliance and Adverse Actions By Status | MSCHE</title>",
+      "</head><body><article>",
+      "<h3>Non-Compliance Warning</h3><p>No institutions in this status</p>",
+      "<h3>Non-Compliance Probation</h3><p>No institutions in this status</p>",
+      "<h3>Non-Compliance Show Cause</h3><p>No institutions in this status</p>",
+      "<h3>Adverse Action</h3><p>No institutions in this status</p>",
+      "<div class=\"single-share\">end</div>",
+      "</article></body></html>"
+    ),
+    file.path(cache_dir, "msche_status.html")
+  )
+
+  current_year <- as.integer(format(Sys.Date(), "%Y"))
+  month_url <- "https://www.msche.org/commission-actions/?fd=1717200000&ld=1719792000"
+  for (yr in seq.int(2017L, current_year)) {
+    if (yr == current_year) {
+      yearly_html <- paste0(
+        "<html><body>",
+        "<a href=\"", month_url, "\">June ", current_year, "</a>",
+        "</body></html>"
+      )
+    } else {
+      yearly_html <- "<html><body></body></html>"
+    }
+    writeLines(
+      yearly_html,
+      file.path(cache_dir, paste0("msche_recent_actions_", yr, ".html"))
+    )
+  }
+
+  month_cache_name <- paste0(
+    "msche_",
+    gsub("[^a-z0-9]+", "_", tolower(paste("June", current_year))),
+    ".html"
+  )
+  writeLines(
+    paste0(
+      "<html><body>",
+      "<h3 id=\"state-ny\">New York</h3>",
+      "<ul>",
+      "<li><a href=\"https://www.msche.org/institution/0100/\">",
+      "Real Institution, NY</a> (June 5, ", current_year, ")</li>",
+      "<li><a href=\"https://www.msche.org/institution/0999/\">",
+      "Stub Institution, NY</a> (June 12, ", current_year, ")</li>",
+      "</ul></body></html>"
+    ),
+    file.path(cache_dir, month_cache_name)
+  )
+
+  writeLines(
+    paste0(
+      "<html><body><ul id=\"accreditation_actions\">",
+      "<li><strong>June 5, ", current_year, "</strong><br />",
+      "To warn the institution that its accreditation may be in jeopardy.</li>",
+      "<li><strong>March 1, ", current_year, "</strong><br />",
+      "To approve the teach-out plan with another university.</li>",
+      "</ul></body></html>"
+    ),
+    file.path(cache_dir, "msche_institution_0100.html")
+  )
+
+  writeLines(
+    paste0(
+      "<html><body>",
+      strrep("<p>chrome</p>", 30),
+      "</body></html>"
+    ),
+    file.path(cache_dir, "msche_institution_0999.html")
+  )
+
+  warned <- FALSE
+  rows <- withCallingHandlers(
+    parse_msche(cache_dir, refresh = FALSE),
+    warning = function(w) {
+      if (grepl("falling back to.*stub row", conditionMessage(w))) {
+        warned <<- TRUE
+      }
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  assert_true(warned,
+    "Orchestrator must warn when it falls back to the stub for an institution.")
+  assert_identical(nrow(rows), 3L)
+
+  real_rows <- rows[rows$source_url == "https://www.msche.org/institution/0100/", ]
+  assert_identical(nrow(real_rows), 2L)
+  assert_true(any(real_rows$action_type == "warning"))
+  assert_true(any(real_rows$action_type == "adverse_action"))
+  assert_true(all(real_rows$action_label_raw != "Commission action"))
+
+  stub_rows <- rows[rows$source_url == "https://www.msche.org/institution/0999/", ]
+  assert_identical(nrow(stub_rows), 1L)
+  assert_identical(stub_rows$action_label_raw[[1]], "Commission action")
+  assert_identical(stub_rows$action_type[[1]], "commission_action")
+})
+
+run_test("classify_action handles MSCHE phrasings", function() {
+  # Pin classification for the verbs MSCHE uses on per-institution pages.
+  # "Withdraw the substantive change request" must NOT misclassify as
+  # adverse_action -- it's an administrative withdrawal of a *request*,
+  # not of accreditation.
+  assert_identical(
+    classify_action("To warn the institution that its accreditation may be in jeopardy."),
+    "warning"
+  )
+  assert_identical(
+    classify_action("To place the institution on Probation due to non-compliance."),
+    "probation"
+  )
+  assert_identical(
+    classify_action("To approve the teach-out plan and agreements with several institutions."),
+    "adverse_action"
+  )
+  assert_identical(
+    classify_action("To note that the institution will close effective June 30, 2024."),
+    "adverse_action"
+  )
+  assert_identical(
+    classify_action("To remove the institution from Probation."),
+    "removed"
+  )
+  assert_identical(
+    classify_action("To withdraw the substantive change request as requested by the institution."),
+    "other"
+  )
+  assert_identical(
+    classify_action("To acknowledge receipt of the supplemental information report."),
+    "other"
+  )
+})
+
 run_test("parse_msche warns when cached page has no expected H3 headings (refresh=FALSE)", function() {
   cache_dir <- tempfile("msche_jsshell_")
   dir.create(cache_dir)

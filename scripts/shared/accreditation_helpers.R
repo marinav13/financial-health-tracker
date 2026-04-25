@@ -182,19 +182,27 @@ extract_page_title <- function(html) {
 # Matching is case-insensitive and order-dependent (earlier patterns take precedence).
 classify_action <- function(raw_action, accreditor = NA_character_) {
   txt <- stringr::str_to_lower(as.character(raw_action))
+  # MSCHE per-institution pages use verb-form phrasings ("to warn the
+  # institution", "to remove the institution from probation", "the
+  # institution will close") that the noun-form patterns ("warning",
+  # "removed from probation", "closure") do NOT match. The added
+  # alternatives below cover MSCHE's verbatim phrasings without
+  # introducing broad word-stem matches that would risk false positives
+  # on adjacent verb forms (notably "withdraw the substantive change
+  # request", which must continue to fall through to "other").
   dplyr::case_when(
     # "Removed" actions: a previous action has been lifted or resolved
-    stringr::str_detect(txt, "removed from warning|remove notice of concern|removal of sanction") ~ "removed",
-    stringr::str_detect(txt, "removed from probation") ~ "removed",
+    stringr::str_detect(txt, "removed from warning|remove the institution from warning|remove notice of concern|removal of sanction") ~ "removed",
+    stringr::str_detect(txt, "removed from probation|remove the institution from probation") ~ "removed",
     # "Show Cause": most serious short of actual withdrawal
     stringr::str_detect(txt, "show cause") ~ "show_cause",
     # "Adverse Action": accreditation withdrawn, membership removed, or institution closed
-    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation") ~ "adverse_action",
+    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|the institution will close|will close (?:effective|all locations)|decision to close") ~ "adverse_action",
     stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)
     stringr::str_detect(txt, "probation") ~ "probation",
     # "Warning": institution must fix issues but accreditation not yet threatened
-    stringr::str_detect(txt, "warning") ~ "warning",
+    stringr::str_detect(txt, "warning|warn the institution") ~ "warning",
     # "Notice": formal notice of concern or non-compliance
     stringr::str_detect(txt, "notice of concern") ~ "notice",
     stringr::str_detect(txt, "notice") ~ "notice",

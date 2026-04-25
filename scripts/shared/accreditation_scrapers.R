@@ -21,6 +21,12 @@ ACCREDITATION_ACTION_COLUMNS <- c(
   "action_status",
   "action_date",
   "action_year",
+  # Per-row qualifier (e.g. "Master of Social Work degree at its Bedford, Cape
+  # Cod, and Fall River locations") so the UI can avoid implying that a
+  # program-level NECHE/WSCUC action is institution-wide. Set by
+  # parse_items_to_rows; scrapers that bypass that helper emit NA and
+  # ensure_accreditation_action_schema fills the column with NA.
+  "action_scope",
   "source_url",
   "source_title",
   "notes",
@@ -39,6 +45,7 @@ empty_accreditation_action_rows <- function() {
     action_status = character(),
     action_date = as.Date(character()),
     action_year = integer(),
+    action_scope = character(),
     source_url = character(),
     source_title = character(),
     notes = character(),
@@ -51,6 +58,20 @@ empty_accreditation_action_rows <- function() {
 ensure_accreditation_action_schema <- function(df, context = "accreditation scraper output") {
   if (is.null(df) || (nrow(df) == 0L && ncol(df) == 0L)) {
     return(empty_accreditation_action_rows())
+  }
+
+  # Newly added columns whose absence is non-fatal: scrapers that bypass
+  # parse_items_to_rows (MSCHE current-status + monthly, HLC, SACSCOC,
+  # NWCCU) build their result tibbles inline and don't know about
+  # action_scope. We pad it here with NA_character_ rather than asking
+  # every scraper to spell it out, while keeping the fail-closed stop()
+  # below for every other required column the rest of the pipeline
+  # genuinely depends on (institution_name_raw, accreditor, source_url,
+  # ...). Keeping this allowlist explicit prevents the helper from
+  # silently swallowing future schema drift.
+  paddable_cols <- "action_scope"
+  for (nm in intersect(paddable_cols, setdiff(ACCREDITATION_ACTION_COLUMNS, names(df)))) {
+    df[[nm]] <- NA_character_
   }
 
   missing_cols <- setdiff(ACCREDITATION_ACTION_COLUMNS, names(df))
@@ -140,6 +161,7 @@ parse_items_to_rows <- function(raw_items, accreditor, heading,
       action_status         = classify_status(heading),
       action_date           = action_date,
       action_year           = action_year,
+      action_scope          = extract_item_scope(item),
       source_url            = source_url,
       source_title          = source_title,
       notes                 = item,
@@ -178,8 +200,9 @@ extract_regex_heading_sections <- function(html, section_pattern) {
 }
 
 # Splits HTML into sections using HTML heading tags (default h2) to delimit sections.
+# Matches opening tags with or without attributes (e.g. `<h2>` or `<h2 class="...">`).
 extract_tag_heading_sections <- function(html, heading_tag = "h2") {
-  heading_pattern <- paste0("(?s)<", heading_tag, ">(.*?)</", heading_tag, ">")
+  heading_pattern <- paste0("(?s)<", heading_tag, "(?:\\s[^>]*)?>(.*?)</", heading_tag, ">")
   heading_matches <- stringr::str_match_all(html, heading_pattern)[[1]]
   heading_locs <- stringr::str_locate_all(html, heading_pattern)[[1]]
   if (nrow(heading_matches) == 0 || nrow(heading_locs) == 0) {
@@ -260,6 +283,16 @@ NECHE_TOGGLE_SECTION_PATTERN <- paste0(
   ".*?<div id=\"elementor-tab-content-[^\"]+\" class=\"elementor-tab-content[^\"]*\"[^>]*>(.*?)</div>"
 )
 NECHE_ACTIONS_URL <- "https://www.neche.org/recent-commission-actions/"
+
+# Matches a meeting date inside a NECHE H2 heading. NECHE uses two formats:
+#   "Actions Following November 20-21, 2025 Meeting"
+#   "February 20, 2026 Action of the Executive Committee of the Commission"
+# For multi-day meetings we anchor the action_date to the first day so that
+# "November 20-21, 2025" becomes 2025-11-20.
+NECHE_MEETING_DATE_PATTERN <- paste0(
+  "(January|February|March|April|May|June|July|August|September|October|November|December)",
+  "\\s+(\\d{1,2})(?:-\\d{1,2})?,\\s*(\\d{4})"
+)
 
 WSCUC_ARCHIVE_URLS <- c(
   "https://www.wscuc.org/post/category/commission-actions/",
@@ -1084,27 +1117,48 @@ parse_sacscoc <- function(cache_dir, refresh) {
 }
 
 # Scrapes NECHE accreditation actions from their recent actions page, extracting
-# institutions grouped by action type from toggle/accordion sections.
+# institutions grouped by action type from toggle/accordion sections. The page
+# is first split into meeting sections by H2 headings so that each row inherits
+# its meeting's action date (rather than the page-last-modified date).
 parse_neche <- function(cache_dir, refresh) {
   url <- NECHE_ACTIONS_URL
   html <- fetch_html_text(url, "neche_actions.html", cache_dir, refresh = refresh)
   page_title <- extract_page_title(html)
   page_modified <- extract_page_modified_date(html)
 
-  sections <- extract_regex_heading_sections(html, NECHE_TOGGLE_SECTION_PATTERN)
-  rows <- parse_public_action_sections(
-    sections = sections,
-    accreditor = "NECHE",
-    action_date = as.Date(NA),
-    action_year = suppressWarnings(as.integer(stringr::str_extract(page_modified, "^[0-9]{4}"))),
-    source_url = url,
-    source_title = page_title,
-    source_page_url = url,
-    source_page_modified = page_modified
-  )
+  meeting_sections <- extract_tag_heading_sections(html, heading_tag = "h2")
+
+  rows <- purrr::map_dfr(seq_len(nrow(meeting_sections)), function(i) {
+    heading <- meeting_sections$heading[[i]]
+    body <- meeting_sections$body[[i]]
+
+    date_match <- stringr::str_match(heading, NECHE_MEETING_DATE_PATTERN)
+    meeting_date <- if (is.na(date_match[1, 1])) {
+      as.Date(NA)
+    } else {
+      as.Date(
+        paste(date_match[1, 4], date_match[1, 3], date_match[1, 2]),
+        format = "%Y %d %B"
+      )
+    }
+    meeting_year <- suppressWarnings(as.integer(format(meeting_date, "%Y")))
+
+    toggle_sections <- extract_regex_heading_sections(body, NECHE_TOGGLE_SECTION_PATTERN)
+    parse_public_action_sections(
+      sections = toggle_sections,
+      accreditor = "NECHE",
+      action_date = meeting_date,
+      action_year = meeting_year,
+      source_url = url,
+      source_title = page_title,
+      source_page_url = url,
+      source_page_modified = page_modified
+    )
+  })
+
   warn_on_empty_parse(
     "NECHE", url, rows, html,
-    detail = if (length(sections) == 0L) "no toggle sections matched on page" else NULL
+    detail = if (nrow(meeting_sections) == 0L) "no meeting H2 headings matched on page" else NULL
   )
   rows
 }

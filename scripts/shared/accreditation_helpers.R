@@ -273,6 +273,32 @@ extract_name_state_from_item <- function(x) {
        institution_state_raw = NA_character_)
 }
 
+# Extracts a trailing parenthetical *scope* note from an accreditor list item,
+# e.g. the "(Master of Social Work degree at its Bedford ... locations)" suffix
+# that NECHE attaches to program-level actions. Returns NA_character_ when the
+# parenthetical is location metadata (e.g. "(Boston, MA)") or one of the known
+# administrative notes that `extract_name_state_from_item` already discards.
+extract_item_scope <- function(x) {
+  items <- clean_text(x)
+  match <- stringr::str_match(items, "\\(([^)]+)\\)\\s*$")
+  scope <- match[, 2]
+  missing <- is.na(scope) | !nzchar(scope)
+  # Location parenthetical: ends in a 2-letter state abbreviation.
+  is_location <- !missing & stringr::str_detect(scope, "[A-Z]{2}\\s*$")
+  # Administrative notes filtered by extract_name_state_from_item.
+  is_metadata <- !missing & stringr::str_detect(
+    tolower(scope),
+    "^(next review|letter dated|closure of|two proposals)"
+  )
+  scope[missing | is_location | is_metadata] <- NA_character_
+  # decode_html()/clean_text() runs through vapply(..., USE.NAMES = TRUE),
+  # which auto-names the output by the input character values; those names
+  # ride through str_match() into the captured column. Strip them so the
+  # helper returns a plain unnamed character vector (callers like
+  # parse_items_to_rows treat this column as data, not a lookup map).
+  unname(scope)
+}
+
 # ---------------------------------------------------------------------------
 # INSTITUTION MATCHING TO TRACKER DATABASE
 # ---------------------------------------------------------------------------

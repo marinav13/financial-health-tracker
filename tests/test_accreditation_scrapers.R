@@ -916,3 +916,95 @@ run_test("parse_nwccu_institution_page: show-cause keyword in eval field is dete
   assert_identical(nrow(result), 1L,
     "Adverse keyword appearing in the eval text field should be caught.")
 })
+
+run_test("extract_item_scope returns trailing program parenthetical", function() {
+  # NECHE attaches a program-level qualifier in parentheses for actions that
+  # apply only to a specific degree or location. We want to surface that
+  # qualifier so the UI can disambiguate "Boston University accepted teach-out
+  # plan" (false: institution-wide) from the actual program-scoped action.
+  bu_item <- paste(
+    "Boston University, Boston, MA",
+    "(Master of Social Work degree at its Bedford, Cape Cod,",
+    "and Fall River locations)"
+  )
+  assert_identical(
+    extract_item_scope(bu_item),
+    "Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations"
+  )
+})
+
+run_test("extract_item_scope filters out location parentheticals", function() {
+  # "Alpha College, Boston, MA" has no trailing scope parenthetical; the only
+  # parenthetical-shaped tail is the bare state code, which must be filtered.
+  assert_true(is.na(extract_item_scope("Alpha College, Boston, MA")))
+  # Explicit (City, ST) tail must also be filtered: it's location, not scope.
+  assert_true(is.na(extract_item_scope("Beta College (Boston, MA)")))
+})
+
+run_test("extract_item_scope filters out admin-metadata parentheticals", function() {
+  # extract_name_state_from_item already discards these phrases as scope-noise;
+  # the action_scope column should not resurrect them.
+  assert_true(is.na(extract_item_scope("Gamma U (next review 2027)")))
+  assert_true(is.na(extract_item_scope("Delta U (letter dated June 1, 2025)")))
+})
+
+run_test("parse_neche extracts meeting date from H2 heading and per-row scope", function() {
+  cache_dir <- tempfile("neche_fixture_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  # Fixture mirrors NECHE's recent-actions structure: H2 meeting headings
+  # delimit sections; inside each section, an elementor toggle anchor names
+  # the action type and the toggle body holds <li> items. Two meetings cover
+  # both the multi-day form ("November 20-21, 2025" -> first day) and the
+  # single-day Executive Committee form. The BU-style scope parenthetical
+  # exercises the action_scope plumbing end-to-end.
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html><head>",
+      "<title>Recent Commission Actions | NECHE</title>",
+      "<meta property=\"article:modified_time\" content=\"2026-03-01T00:00:00+00:00\">",
+      "</head><body>",
+      "<h2 class=\"elementor-heading-title\">Actions Following November 20-21, 2025 Meeting</h2>",
+      "<a class=\"elementor-toggle-title\" href=\"#\">Accepted Teach-Out Plan</a>",
+      "<div id=\"elementor-tab-content-1\" class=\"elementor-tab-content\">",
+      "<ul><li>Boston University, Boston, MA ",
+      "(Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations)</li></ul>",
+      "</div>",
+      "<h2 class=\"elementor-heading-title\">February 20, 2026 Action of the Executive Committee of the Commission</h2>",
+      "<a class=\"elementor-toggle-title\" href=\"#\">Continued Probation</a>",
+      "<div id=\"elementor-tab-content-2\" class=\"elementor-tab-content\">",
+      "<ul><li>Example College, Providence, RI</li></ul>",
+      "</div>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "neche_actions.html")
+  )
+
+  rows <- parse_neche(cache_dir, refresh = FALSE)
+
+  assert_identical(nrow(rows), 2L)
+
+  # Filter by action label rather than parsed institution_name_raw:
+  # extract_name_state_from_item only strips a narrow allowlist of trailing
+  # parentheticals, so "Boston University, Boston, MA (MSW degree ...)" still
+  # resolves to a name that includes the city and state — that's a separate
+  # concern from the meeting-date / scope plumbing this test is covering.
+  bu <- rows[rows$action_label_raw == "Accepted Teach-Out Plan", ]
+  assert_identical(nrow(bu), 1L)
+  # Multi-day meeting must anchor to the first day, not page-modified date.
+  assert_identical(bu$action_date[[1]], as.Date("2025-11-20"))
+  assert_identical(bu$action_year[[1]], 2025L)
+  # Scope must round-trip the program-level parenthetical.
+  assert_identical(
+    bu$action_scope[[1]],
+    "Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations"
+  )
+
+  example <- rows[rows$action_label_raw == "Continued Probation", ]
+  assert_identical(nrow(example), 1L)
+  assert_identical(example$action_date[[1]], as.Date("2026-02-20"))
+  assert_identical(example$action_year[[1]], 2026L)
+  # No trailing parenthetical: scope must be NA, not the empty string.
+  assert_true(is.na(example$action_scope[[1]]))
+})

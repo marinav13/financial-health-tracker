@@ -450,6 +450,199 @@ run_test("Accreditation scraper SACSCOC disclosure builder deduplicates and drop
   assert_identical(rows$action_label_raw[[1]], "Public Disclosure Statement")
 })
 
+run_test("SACSCOC_DISCLOSURE_ITEM_PATTERN does not stitch landing-PDF anchor across paragraphs", function() {
+  # On the live SACSCOC December 2025 detail page, the layout opens with a
+  # paragraph wrapping the landing-PDF link, followed by several body
+  # paragraphs, followed by the institution rows in <li> elements:
+  #
+  #   <p><a href="...box.com/s/landing">December 2025 Accreditation Actions</a> [PDF]</p>
+  #   <p>At its meeting on December 7, 2025, the Board of Trustees ...</p>
+  #   ...
+  #   <li><a href="...box.com/s/ks">Kentucky State University</a>, Frankfort, Kentucky (Probation)</li>
+  #
+  # The previous non-greedy `(.*?)</a>` backtracked across the body paragraphs
+  # and stitched the landing-PDF anchor's </a> to Kentucky State's
+  # `, Frankfort, Kentucky`, producing a phantom row whose institution name
+  # was a multi-hundred-character body blob. That blob then flowed into
+  # parse_sacscoc_disclosure_pdf via cache_slug = normalize_name(name + state),
+  # producing a Windows-illegal cache filename and a "cannot open file ...
+  # Invalid argument" warning at refresh time. The downstream str_detect
+  # filter dropped the phantom from final output, but the bad fetch attempt
+  # remained. Tempered greedy tokens stop the match at the next <p|li>
+  # boundary and prevent the stitch.
+  fixture_html <- paste0(
+    "<p><a href=\"https://sacscoc.box.com/s/landingpdf\">",
+    "<strong>December 2025 Accreditation Actions</strong></a>&nbsp;[PDF]</p>\n",
+    "<p>At its meeting on December 7, 2025, the Board of Trustees of SACSCOC ",
+    "took a number of actions regarding the accreditation status of candidate ",
+    "and member institutions. (Click onto ",
+    "<a href=\"https://sacscoc.box.com/s/landingpdf\">December 2025 Accreditation Actions</a> [PDF]).</p>\n",
+    "<li><a href=\"https://sacscoc.box.com/s/kentuckystate\">Kentucky State University</a>, ",
+    "Frankfort, Kentucky (placed on Probation Good Cause)</li>\n",
+    "<li><a href=\"https://sacscoc.box.com/s/lynchburg\">University of Lynchburg</a>, ",
+    "Lynchburg, Virginia [PDF]</li>"
+  )
+
+  matches <- stringr::str_match_all(fixture_html, SACSCOC_DISCLOSURE_ITEM_PATTERN)[[1]]
+
+  # Two real institutions, zero phantom rows. The landing-PDF paragraph must
+  # NOT match because no `, City, State` follows the anchor inside its own <p>.
+  # `clean_text()` runs through `decode_html()` -> `vapply(USE.NAMES = TRUE)`
+  # which auto-names character output by the input string values; strip those
+  # names so `assert_identical` against a bare scalar passes.
+  assert_identical(nrow(matches), 2L)
+  assert_identical(unname(clean_text(matches[1, 3])), "Kentucky State University")
+  assert_identical(unname(clean_text(matches[1, 4])), "Frankfort")
+  assert_identical(unname(clean_text(matches[1, 5])), "Kentucky")
+  assert_identical(unname(clean_text(matches[2, 3])), "University of Lynchburg")
+
+  # Defense in depth: every captured institution name is bounded (no row
+  # carries a blob longer than a real institution name).
+  for (i in seq_len(nrow(matches))) {
+    assert_true(
+      nchar(clean_text(matches[i, 3])) <= 120L,
+      sprintf("Captured institution name in row %d should be <= 120 chars; got %d.",
+              i, nchar(clean_text(matches[i, 3])))
+    )
+  }
+})
+
+run_test("build_sacscoc_disclosure_rows skips PDF fetch when institution name exceeds the length cap", function() {
+  # Symmetric guardrail at the fetch boundary: even if a future regex
+  # regression slips a multi-paragraph blob into disclosure_matches[, 3],
+  # build_sacscoc_disclosure_rows must NOT call parse_sacscoc_disclosure_pdf
+  # with that blob -- doing so produced a Windows-illegal cache filename
+  # ("cannot open file ... Invalid argument") on the live December 2025
+  # detail page. Cap the name at 120 chars and emit a warning.
+  long_name <- paste0(rep("Way Too Long Name ", 20), collapse = "")
+  assert_true(nchar(long_name) > 120L, "Fixture name must exceed the 120-char cap.")
+
+  cache_dir <- tempfile("sacscoc_namecap_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  disclosure_matches <- matrix(
+    c(
+      sprintf("<p><a href=\"https://sacscoc.box.com/s/longname\">%s</a>, City, GA [PDF]</p>", long_name),
+      "https://sacscoc.box.com/s/longname",
+      long_name,
+      "City",
+      "GA"
+    ),
+    ncol = 5,
+    byrow = TRUE
+  )
+
+  warned <- FALSE
+  rows <- withCallingHandlers(
+    build_sacscoc_disclosure_rows(
+      disclosure_matches,
+      action_date = as.Date("2025-12-01"),
+      url = "https://example.com/sacscoc/december-2025",
+      page_title = "December 2025 Actions",
+      cache_dir = cache_dir,
+      refresh = FALSE
+    ),
+    warning = function(w) {
+      if (grepl("skipping PDF enrichment", conditionMessage(w), fixed = TRUE)) {
+        warned <<- TRUE
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+
+  assert_true(warned, "Expected an over-length warning when the institution name exceeds the cap.")
+  assert_identical(nrow(rows), 1L)
+  # Falls back to the stub: enrichment was skipped, no PDF-derived label.
+  assert_identical(rows$action_label_raw[[1]], "Public Disclosure Statement")
+  # No cache file should have been created (cap fired before fetch).
+  assert_identical(length(list.files(cache_dir)), 0L)
+})
+
+run_test("NWCCU directory selector matches the live `nwccu-degree-baccalaureate` class", function() {
+  # NWCCU renamed the per-article CSS class from `nwccu-degree-bachelor` to
+  # `nwccu-degree-baccalaureate` sometime in 2025/26. The old selector
+  # silently dropped parse_nwccu's row count to zero on the live HTML.
+  # NWCCU is in ZERO_IS_EXPECTED in build_accreditation_actions.R so the CI
+  # gate did NOT fail closed -- the regression went undetected for two
+  # refresh cycles. Pin the selector against a fixture that mirrors the
+  # live class string.
+  fixture_html <- paste0(
+    "<article id=\"post-1\" class=\"institution-item nwccu-state-washington ",
+    "nwccu-type-private-not-for-profit nwccu-type-four-year ",
+    "nwccu-degree-associates nwccu-degree-baccalaureate nwccu-degree-masters \">",
+    "<h3>Alpha University</h3>",
+    "<a href=\"https://nwccu.org/institutional-directory/alpha-university/\">profile</a>",
+    "</article>",
+    "<article id=\"post-2\" class=\"institution-item nwccu-state-oregon ",
+    "nwccu-type-public nwccu-type-two-year nwccu-degree-associates \">",
+    "<h3>Beta Community College</h3>",
+    "</article>"
+  )
+
+  matches <- stringr::str_match_all(fixture_html, NWCCU_ARTICLE_PATTERN)[[1]]
+  assert_identical(nrow(matches), 2L)
+
+  baccalaureate_articles <- matches[
+    stringr::str_detect(matches[, 2], stringr::fixed(NWCCU_BACCALAUREATE_CLASS)),
+    ,
+    drop = FALSE
+  ]
+  assert_identical(nrow(baccalaureate_articles), 1L,
+    "Only Alpha University carries the baccalaureate class flag in the fixture.")
+
+  # Negative pin: the OLD class string must not be in the constant. If
+  # someone reverts the rename, this assertion blows up immediately.
+  assert_true(
+    NWCCU_BACCALAUREATE_CLASS != "nwccu-degree-bachelor",
+    "NWCCU_BACCALAUREATE_CLASS must reflect the post-2025 schema rename."
+  )
+})
+
+run_test("parse_nwccu warns when the directory carries no baccalaureate-tagged articles", function() {
+  # If NWCCU renames the class again or pre-renders the directory in JS, the
+  # filter returns zero rows. The fail-loud warning is the user-facing
+  # signal that the selector needs updating; we lock it against a fixture
+  # whose articles deliberately omit the baccalaureate class.
+  cache_dir <- tempfile("nwccu_directory_warn_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  # >100 chars so parse_nwccu reaches the filter step rather than early
+  # returning on the "could not fetch directory" path.
+  filler <- strrep("X", 200L)
+  writeLines(
+    paste0(
+      "<html><body>", filler,
+      "<article id=\"post-99\" class=\"institution-item nwccu-state-idaho ",
+      "nwccu-type-public nwccu-type-two-year nwccu-degree-associates \">",
+      "<h3>Gamma Community College</h3></article>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "nwccu_directory.html")
+  )
+
+  warned <- FALSE
+  captured <- ""
+  withCallingHandlers(
+    parse_nwccu(cache_dir, refresh = FALSE),
+    warning = function(w) {
+      msg <- conditionMessage(w)
+      if (grepl("validate selector", msg, fixed = TRUE)) {
+        warned <<- TRUE
+        captured <<- msg
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+
+  assert_true(warned, "Expected the directory selector warning to fire.")
+  assert_true(
+    grepl(NWCCU_BACCALAUREATE_CLASS, captured, fixed = TRUE),
+    "Warning should name the current selector constant so the next maintainer knows what to update."
+  )
+})
+
 run_test("Accreditation scraper box_shared_static_pdf_url rewrites /s/<id> URLs", function() {
   # SACSCOC disclosure anchor hrefs are box.com short links. For direct download
   # (pdftools can't follow box's interstitial HTML page) we rewrite them to the

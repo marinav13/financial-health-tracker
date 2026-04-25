@@ -55,7 +55,11 @@ run_test("Accreditation actions pipeline fixture", function() {
     "parse_hlc <- function(cache_dir, refresh) fixture_action_tbl()[0, ]",
     "parse_sacscoc <- function(cache_dir, refresh) fixture_action_tbl()[0, ]",
     "parse_neche <- function(cache_dir, refresh) fixture_action_tbl()[0, ]",
-    "parse_wscuc <- function(cache_dir, refresh) fixture_action_tbl()[0, ]"
+    "parse_wscuc <- function(cache_dir, refresh) fixture_action_tbl()[0, ]",
+    # parse_nwccu must be stubbed too; otherwise the test walks the live
+    # NWCCU directory (134 institutions at Sys.sleep(0.5) each) and the test
+    # becomes ~67 seconds + network-dependent.
+    "parse_nwccu <- function(cache_dir, refresh) fixture_action_tbl()[0, ]"
   )
   writeLines(scraper_override, file.path(fixture_root, "scripts", "shared", "accreditation_scrapers.R"), useBytes = TRUE)
 

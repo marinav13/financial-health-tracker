@@ -306,11 +306,21 @@ SACSCOC_WITHDRAWAL_ITEM_PATTERN <- "^(.*?)\\s*\\(([^)]+)\\)\\s*(withdraws from m
 SACSCOC_LANDING_URL <- "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/"
 SACSCOC_LANDING_LINK_PATTERN <- "<a href=\"(https://sacscoc.org/institutions/accreditation-actions-and-disclosures/[^\"#]+?)\">(December [0-9]{4} Accreditation Actions and Public Disclosure Statements|June [0-9]{4} Accreditation Actions and Public Disclosure Statements)</a>"
 SACSCOC_DISCLOSURE_ITEM_PATTERN <- paste0(
+  # The captured anchor text and the post-state filler must NOT be allowed to
+  # cross a <p>/<li> boundary, or the non-greedy `.*?` backtracks across the
+  # SACSCOC landing-PDF paragraph and stitches its anchor's </a> to the first
+  # institution row's `, City, ST` further down the page. That was producing
+  # a phantom row whose institution name was a several-hundred-character body
+  # blob (caught downstream by an institution-name str_detect filter, but only
+  # after parse_sacscoc_disclosure_pdf was already called with the blob and
+  # constructed a Windows-illegal cache filename). Tempered greedy tokens stop
+  # the match at the next paragraph/list-item boundary in either direction.
   "(?s)<(?:p|li)>\\s*",
-  "<a href=\"(https://sacscoc\\.box\\.com/s/[^\"]+)\">(.*?)</a>,\\s*",
+  "<a href=\"(https://sacscoc\\.box\\.com/s/[^\"]+)\">",
+  "((?:(?!</?(?:p|li)\\b).)*?)</a>,\\s*",
   "([^,<]+),\\s*",
   "([A-Z]{2}|[A-Za-z ]+)",
-  ".*?",
+  "(?:(?!</?(?:p|li)\\b).)*?",
   "</(?:p|li)>"
 )
 
@@ -560,11 +570,25 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
     return(tibble::tibble())
   }
 
+  # Cap on institution_name length before PDF fetch. cache_slug is built via
+  # normalize_name(paste(name, state)) and used as the cache filename. A real
+  # SACSCOC institution name fits comfortably under 100 chars; if a regex
+  # regression produces a multi-paragraph blob, we don't want to construct a
+  # 4 KB filename that Windows refuses with "Invalid argument" mid-build.
+  # Skip the PDF fetch on overlong names and let the row fall back to the
+  # "Public Disclosure Statement" stub. The institution-name str_detect
+  # filter further down already drops the row from the final output for the
+  # known phantom-blob case; this cap is the symmetric guardrail at the
+  # fetch boundary.
+  MAX_INSTITUTION_NAME_LEN <- 120L
+
   purrr::map_dfr(seq_len(nrow(disclosure_matches)), function(i) {
     institution_name <- clean_text(disclosure_matches[i, 3])
     source_url <- disclosure_matches[i, 2]
 
-    enriched <- if (!is.null(cache_dir)) {
+    name_too_long <- !is.na(institution_name) && nchar(institution_name) > MAX_INSTITUTION_NAME_LEN
+
+    enriched <- if (!is.null(cache_dir) && !name_too_long) {
       tryCatch(
         parse_sacscoc_disclosure_pdf(
           source_url = source_url,
@@ -579,6 +603,12 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
         error = function(e) NULL
       )
     } else {
+      if (name_too_long) {
+        warning(sprintf(
+          "build_sacscoc_disclosure_rows: institution_name_raw is %d chars (cap %d); skipping PDF enrichment to avoid an oversized cache filename. Source: %s",
+          nchar(institution_name), MAX_INSTITUTION_NAME_LEN, source_url
+        ), call. = FALSE)
+      }
       NULL
     }
 
@@ -1280,8 +1310,17 @@ build_match_suggestions <- function(unmatched_df, candidates_df, max_candidates 
 NWCCU_DIRECTORY_URL <- "https://nwccu.org/institutional-directory/"
 NWCCU_BASE_URL      <- "https://nwccu.org"
 
+# CSS class on each <article class="institution-item ..."> entry that flags
+# institutions granting bachelor's-equivalent degrees. NWCCU renamed this
+# class from "nwccu-degree-bachelor" -> "nwccu-degree-baccalaureate"
+# sometime in 2025/26, which silently dropped parse_nwccu's row count to
+# zero (the older selector matched nothing on the new HTML, and NWCCU was
+# in ZERO_IS_EXPECTED so the CI gate didn't fail closed). Hoisted into a
+# constant so the warning string and the filter stay in sync.
+NWCCU_BACCALAUREATE_CLASS <- "nwccu-degree-baccalaureate"
+
 # Regex patterns derived from the live HTML structure (2025).
-# article class: "institution-item nwccu-state-XX nwccu-degree-bachelor ..."
+# article class: "institution-item nwccu-state-XX nwccu-degree-baccalaureate ..."
 NWCCU_ARTICLE_PATTERN  <- "(?s)<article[^>]+class=\"institution-item([^\"]*?)\"[^>]*>(.*?)</article>"
 NWCCU_LINK_PATTERN     <- "href=\"(https://nwccu\\.org/institutional-directory/[^\"]+/)\""
 NWCCU_NOTIF_PATTERN    <- "href=\"(https://nwccu\\.(?:box|app\\.box)\\.com/[^\"]+)\"[^>]*>[^<]*Institution Notification Letter"
@@ -1321,10 +1360,38 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
   eval    <- if (!is.na(eval_match[1, 2]))     eval_match[1, 2]     else NA
   reason  <- if (!is.na(reason_match[1, 2])) reason_match[1, 2]   else NA
 
-  # Check for adverse keywords in the main text
-  main_text <- paste(html, collapse = " ")
-  scan_text  <- gsub("\\s+", " ", main_text)
-  has_adverse_keyword <- stringr::str_detect(tolower(scan_text), NWCCU_ADVERSE_KEYWORDS)
+  # Check for adverse keywords in the main text. The earlier implementation
+  # scanned the entire raw HTML, which silently flagged every NWCCU
+  # institution page as adverse: inline <script> on every page contains the
+  # Web Worker call `r.terminate()` (matches "terminate"), and a featured
+  # news item carries the phrase "is no longer a desired trait" (matches
+  # "no longer"). With the directory selector now correctly returning 134
+  # baccalaureate institutions, that wide scan would emit 134 false-positive
+  # adverse rows. Restrict the scan to the parsed text content of <main>,
+  # excluding <script>/<style>, so only actual page copy (status field,
+  # eval text, "Current Sanctions" sections, etc.) is considered.
+  scan_text <- tryCatch(
+    {
+      doc <- xml2::read_html(html)
+      main_node <- xml2::xml_find_first(doc, "//main")
+      if (inherits(main_node, "xml_missing")) {
+        # Fall back to the full body if the page lacks a <main>; still strip
+        # script/style so JS doesn't bleed into the scan.
+        main_node <- xml2::xml_find_first(doc, "//body")
+      }
+      if (!inherits(main_node, "xml_missing")) {
+        for (junk in xml2::xml_find_all(main_node, ".//script|.//style")) {
+          xml2::xml_remove(junk)
+        }
+        gsub("\\s+", " ", tolower(xml2::xml_text(main_node)))
+      } else {
+        ""
+      }
+    },
+    error = function(e) ""
+  )
+  has_adverse_keyword <- nzchar(scan_text) &&
+    stringr::str_detect(scan_text, NWCCU_ADVERSE_KEYWORDS)
 
   # Determine action type from status and keywords
   action_type <- "other"
@@ -1359,7 +1426,13 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
     action_type           = action_type,
     action_label_raw      = paste0(ifelse(!is.na(status), status, "Accreditation action"), ifelse(!is.na(eval), paste0(" – ", eval), "")),
     action_status         = ifelse(!is.na(status), status, "active"),
-    action_date           = NA_character_,
+    # Date type must match the other scrapers (NECHE/HLC/SACSCOC/WSCUC all emit
+    # `as.Date(NA)` when no per-row date is available). Emitting NA_character_
+    # here breaks dplyr::bind_rows in build_accreditation_actions.R with
+    # "Can't combine action_date <date> and action_date <character>". This was
+    # masked while parse_nwccu returned zero rows from the broken
+    # nwccu-degree-bachelor selector.
+    action_date           = as.Date(NA),
     action_year           = NA_integer_,
     source_page_url       = inst_url,
     source_title          = paste0("NWCCU Institution Notification Letter – ", inst_name),
@@ -1377,30 +1450,37 @@ parse_nwccu <- function(cache_dir, refresh = FALSE) {
     return(tibble::tibble())
   }
 
-  # Extract 4-year institutions
+  # Extract baccalaureate-granting institutions. The class flag is hoisted
+  # into NWCCU_BACCALAUREATE_CLASS so a future schema rename (like the 2025
+  # `bachelor` -> `baccalaureate` rename that caused this scraper to silently
+  # drop to zero rows) only requires updating the constant.
   article_matches <- stringr::str_match_all(dir_html, NWCCU_ARTICLE_PATTERN)[[1]]
   institutions <- tibble::tibble(
     article_class = article_matches[, 2],
     article_html  = article_matches[, 3]
   )
-  institutions <- dplyr::filter(institutions, stringr::str_detect(article_class, "nwccu-degree-bachelor"))
+  institutions <- dplyr::filter(
+    institutions,
+    stringr::str_detect(article_class, stringr::fixed(NWCCU_BACCALAUREATE_CLASS))
+  )
 
   if (nrow(institutions) == 0) {
-    # Non-empty directory HTML but no bachelor-tagged articles — either the
-    # CSS class convention changed or the directory was rendered by JS. Emit a
-    # warning so the refresh workflow surfaces the regression.
+    # Non-empty directory HTML but no baccalaureate-tagged articles -- either
+    # the CSS class convention changed again or the directory was rendered by
+    # JS. Emit a warning so the refresh workflow surfaces the regression.
     warning(
       sprintf(
-        "NWCCU: parsed 0 4-year institutions from %s (directory HTML %d bytes). Returning empty table \u2014 validate selector 'nwccu-degree-bachelor'.",
+        "NWCCU: parsed 0 baccalaureate-granting institutions from %s (directory HTML %d bytes). Returning empty table \u2014 validate selector '%s'.",
         NWCCU_DIRECTORY_URL,
-        nchar(dir_html)
+        nchar(dir_html),
+        NWCCU_BACCALAUREATE_CLASS
       ),
       call. = FALSE
     )
     return(tibble::tibble())
   }
 
-  message(sprintf("  NWCCU: %d 4-year institutions found; fetching individual pages …", nrow(institutions)))
+  message(sprintf("  NWCCU: %d baccalaureate-granting institutions found; fetching individual pages …", nrow(institutions)))
 
   results <- purrr::map_dfr(seq_len(nrow(institutions)), function(i) {
     Sys.sleep(0.5)  # rate limit to avoid IP ban
@@ -1459,8 +1539,19 @@ warn_if_scrape_count_dropped <- function(fresh_df,
   if (!file.exists(prior_csv)) {
     return(invisible(NULL))
   }
+  # Only `accreditor` is needed for the per-accreditor count comparison.
+  # Reading the full CSV trips readr's type-inference on sparsely-populated
+  # columns (action_scope is logical-from-NA across the leading 1000 rows
+  # then chokes on the few real strings later) and emits a generic
+  # "parsing issues, call `problems()`" warning that's confusing because
+  # this helper doesn't care about anything except the accreditor column.
+  # cols_only skips every other column entirely.
   prior_df <- tryCatch(
-    readr::read_csv(prior_csv, show_col_types = FALSE),
+    readr::read_csv(
+      prior_csv,
+      show_col_types = FALSE,
+      col_types = readr::cols_only(accreditor = readr::col_character())
+    ),
     error = function(e) NULL
   )
   if (is.null(prior_df) || !("accreditor" %in% names(prior_df))) {
@@ -1515,8 +1606,18 @@ warn_if_action_type_dropped <- function(fresh_df,
   if (!file.exists(prior_csv)) {
     return(invisible(NULL))
   }
+  # Only `accreditor` and `action_type` are used for the (accreditor,
+  # action_type) pair comparison. Same readr-autodetect-on-sparse-columns
+  # rationale as warn_if_scrape_count_dropped above.
   prior_df <- tryCatch(
-    readr::read_csv(prior_csv, show_col_types = FALSE),
+    readr::read_csv(
+      prior_csv,
+      show_col_types = FALSE,
+      col_types = readr::cols_only(
+        accreditor = readr::col_character(),
+        action_type = readr::col_character()
+      )
+    ),
     error = function(e) NULL
   )
   if (is.null(prior_df) || nrow(prior_df) == 0L) {

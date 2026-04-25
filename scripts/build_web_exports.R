@@ -247,20 +247,31 @@ build_accreditation_export <- function() {
       latest_action_date = normalize_accreditation_date(latest_action_date),
       latest_action_year = na_if(as.character(latest_action_year), "")
     )
+  # action_scope is populated by NECHE program-level rows only (a handful of
+  # rows in a CSV that's >7000 rows long, all sitting after the >5000 MSCHE
+  # rows that have empty action_scope). readr's default guess_max = 1000
+  # types the column as logical from those leading empties, then silently
+  # coerces the real strings that appear later to NA -- which is exactly
+  # what surfaced the "BU NECHE row has no scope subtitle" UI bug. Pin the
+  # type explicitly when the column is present. Some test fixtures use
+  # older CSVs that pre-date the action_scope column; emitting a named
+  # col_types entry for a column that doesn't exist warns "named parsers
+  # don't match the column names", so peek the header first and only pin
+  # the type when the column is actually there.
+  actions_header <- readr::read_csv(
+    accreditation_actions_path,
+    n_max = 0L,
+    show_col_types = FALSE
+  )
+  actions_col_types <- if ("action_scope" %in% names(actions_header)) {
+    readr::cols(action_scope = readr::col_character(), .default = readr::col_guess())
+  } else {
+    readr::cols(.default = readr::col_guess())
+  }
   actions_df <- readr::read_csv(
     accreditation_actions_path,
     show_col_types = FALSE,
-    # action_scope is populated by NECHE program-level rows only (a handful of
-    # rows in a CSV that's >7000 rows long, all sitting after the >5000 MSCHE
-    # rows that have empty action_scope). readr's default guess_max = 1000
-    # types the column as logical from those leading empties, then silently
-    # coerces the real strings that appear later to NA -- which is exactly
-    # what surfaced the "BU NECHE row has no scope subtitle" UI bug. Pin the
-    # type explicitly so the values survive the read.
-    col_types = readr::cols(
-      action_scope = readr::col_character(),
-      .default = readr::col_guess()
-    )
+    col_types = actions_col_types
   ) %>%
     ensure_columns(list(
       accreditor = NA_character_,

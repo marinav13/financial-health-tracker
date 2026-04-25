@@ -729,6 +729,17 @@ body {
   border-top: 0;
 }
 
+/* Per-row scope qualifier shown beneath an action label, e.g. NECHE program-
+   level actions like "(Master of Social Work degree at its Bedford, Cape
+   Cod, and Fall River locations)". Smaller and dimmer than the main label
+   so the label still reads as the primary content. */
+.action-scope {
+  font-size: 0.85em;
+  color: #555;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
 .sort-header-label {
   display: inline-block;
   margin-right: 6px;

@@ -120,6 +120,22 @@
     return action?.display_action !== false;
   }
 
+  // Builds the action cell. When the scraper captured a scope qualifier
+  // (e.g. "Master of Social Work degree at its Bedford, Cape Cod, and Fall
+  // River locations" for NECHE program-level actions) we render it on a
+  // second line under the action label so readers don't mistake a
+  // program-scope action for an institution-wide one. Both fields are
+  // escaped by renderHistoryTable's text-with-detail cell handler.
+  function actionLabelCell(action) {
+    const label = action.action_label || action.action_label_raw || action.action_type || "";
+    const scope = action.action_scope || "";
+    const trimmedScope = String(scope || "").trim();
+    if (!trimmedScope) return label;
+    return window.TrackerApp.renderTextWithDetailCell(label, trimmedScope, {
+      detailClass: "action-scope"
+    });
+  }
+
   // Normalize action text for matching
   function normalizeActionText(text) {
     return String(text || "").toLowerCase().replace(/\s+/g, " ").trim();
@@ -218,7 +234,7 @@
       .sort((a, b) => String(formatActionDate(b)).localeCompare(String(formatActionDate(a))))
       .map((action) => [
         expandAccreditors(action.accreditor || ""),
-        action.action_label || action.action_label_raw || action.action_type || "",
+        actionLabelCell(action),
         state || "",
         controlLabel || "",
         formatActionDate(action),
@@ -251,6 +267,7 @@
           is_primary_tracker: school.is_primary_tracker === true,
           accreditor: action.accreditor || "",
           action_label: action.action_label || action.action_label_raw || action.action_type || "",
+          action_scope: action.action_scope || "",
           action_type: action.action_type || "",
           action_date: action.action_date || "",
           action_year: action.action_year || "",
@@ -278,7 +295,7 @@
       .map((action) => [
         linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
         expandAccreditors(action.accreditor || ""),
-        action.action_label || action.action_type || "",
+        actionLabelCell(action),
         action.state || "",
         action.control_label || "",
         action.action_date || action.action_year || "",
@@ -315,7 +332,7 @@
     const rows = pageItems
       .map((action) => [
         linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
-        action.action_label || action.action_type || "",
+        actionLabelCell(action),
         action.state || "",
         action.action_date || action.action_year || "",
         renderExternalLinkCell(action.source_url, "Source link")
@@ -348,11 +365,12 @@
       renderPage: (filteredActions, currentPage, size) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Accreditor", "Action", "State", "Sector", "Date", "Source"],
+      downloadHeaders: ["Institution", "Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],
       downloadRow: (action) => [
         action.institution_name || "",
         expandAccreditors(action.accreditor || ""),
         action.action_label || action.action_type || "",
+        action.action_scope || "",
         action.state || "",
         action.control_label || "",
         action.action_date || action.action_year || "",
@@ -370,10 +388,11 @@
       renderPage: (filteredActions, currentPage, size) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Action", "State", "Date", "Source"],
+      downloadHeaders: ["Institution", "Action", "Scope", "State", "Date", "Source"],
       downloadRow: (action) => [
         action.institution_name || "",
         action.action_label || action.action_type || "",
+        action.action_scope || "",
         action.state || "",
         action.action_date || action.action_year || "",
         action.source_url || ""
@@ -509,10 +528,11 @@
       mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
       mainDownload.onclick = () => downloadRowsCsv(
         `${String(school.institution_name || "accreditation").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-accreditation.csv`,
-        ["Accreditor", "Action", "State", "Sector", "Date", "Source"],
+        ["Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],
         schoolActions.map((action) => [
           expandAccreditors(action.accreditor || ""),
           action.action_label || action.action_label_raw || action.action_type || "",
+          action.action_scope || "",
           school.state || "",
           school.control_label || "",
           formatActionDate(action),

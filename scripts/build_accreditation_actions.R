@@ -209,6 +209,7 @@ main <- function(cli_args = NULL) {
       action_status,
       action_date,
       action_year,
+      action_scope,
       accreditation_warning,
       accreditation_warning_or_notice,
       source_url,

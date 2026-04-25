@@ -253,6 +253,7 @@ build_accreditation_export <- function() {
       action_status = NA_character_,
       action_date = NA_character_,
       action_year = NA_character_,
+      action_scope = NA_character_,
       source_page_modified = NA_character_,
       display_action = TRUE,
       accreditors = NA_character_,
@@ -394,8 +395,18 @@ build_accreditation_export <- function() {
         has_active_warning = or_null(latest$has_active_warning),
         has_active_warning_or_notice = or_null(latest$has_active_warning_or_notice),
         has_active_adverse_action = or_null(latest$has_active_adverse_action),
-        latest_action_date = or_null_date(pick_first_present(latest, c("latest_action_date", "action_date"))),
-        latest_action_year = or_null(pick_first_present(latest, c("latest_action_year", "action_year"))),
+        # Use the rescued max date from the per-school action subset (df) so
+        # institutions whose only actions are MSCHE non-compliance / HLC
+        # current-status rows -- which arrive without a per-row date and are
+        # backfilled from source_page_modified above -- still surface a date
+        # on the school-detail header. The summary CSV's latest_action_date
+        # is computed before that rescue runs and is therefore stale.
+        latest_action_date = or_null_date(
+          if (all(is.na(df$action_date))) NA_character_ else max(df$action_date, na.rm = TRUE)
+        ),
+        latest_action_year = or_null(
+          if (all(is.na(df$action_year))) NA_character_ else max(df$action_year, na.rm = TRUE)
+        ),
         action_count = or_null(latest$action_count)
       ),
       actions = lapply(seq_len(nrow(df)), function(i) {
@@ -403,6 +414,7 @@ build_accreditation_export <- function() {
           accreditor = or_null(df$accreditor[i]),
           action_type = or_null(df$action_type[i]),
           action_label = or_null(df$action_label_raw[i]),
+          action_scope = or_null(df$action_scope[i]),
           action_status = or_null(df$action_status[i]),
           action_date = or_null_date(df$action_date[i]),
           action_year = or_null(df$action_year[i]),

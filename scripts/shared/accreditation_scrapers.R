@@ -315,11 +315,35 @@ SACSCOC_DISCLOSURE_ITEM_PATTERN <- paste0(
   # after parse_sacscoc_disclosure_pdf was already called with the blob and
   # constructed a Windows-illegal cache filename). Tempered greedy tokens stop
   # the match at the next paragraph/list-item boundary in either direction.
+  #
+  # Capture groups:
+  #   2 = box.com short URL
+  #   3 = anchor text (institution name)
+  #   4 = city (or "campus, city" for institutions whose published name
+  #       continues into a campus designator after </a>, e.g.
+  #       "State College of Florida</a>, Manatee-Sarasota, Bradenton,
+  #       Florida [PDF]". The city group is non-greedy and may contain
+  #       commas; backtracking pushes state to the LAST comma-separated
+  #       token before the [PDF] marker or the closing tag.)
+  #   5 = state (allows multi-word state names like "North Carolina";
+  #       postal abbreviation tried first via the alternation)
+  #
+  # State anchor: a zero-width tempered lookahead asserting "no further
+  # `, Letter` continuation token before </p>/</li>". That's the actual
+  # invariant for "state is the LAST comma-separated location token" --
+  # parentheticals like "(placed on Probation Good Cause)" and inner
+  # anchors like "[<a href='...'>PDF</a>]" between state and the close
+  # tag are both fine because they don't start a new comma+letter
+  # continuation. Earlier attempts that required `\s*\[` (the [PDF]
+  # marker) failed on December rows whose state was followed by a
+  # parenthetical instead, and a "no `<` until close" lookahead failed
+  # on December rows whose [PDF] link is wrapped in its own anchor tag.
   "(?s)<(?:p|li)>\\s*",
   "<a href=\"(https://sacscoc\\.box\\.com/s/[^\"]+)\">",
   "((?:(?!</?(?:p|li)\\b).)*?)</a>,\\s*",
-  "([^,<]+),\\s*",
-  "([A-Z]{2}|[A-Za-z ]+)",
+  "([^<]+?),\\s*",
+  "([A-Z]{2}|[A-Za-z][A-Za-z ]*[A-Za-z])",
+  "(?=(?:(?!,\\s+[a-zA-Z]|</(?:p|li)\\b).)*</(?:p|li)>)",
   "(?:(?!</?(?:p|li)\\b).)*?",
   "</(?:p|li)>"
 )
@@ -1419,13 +1443,28 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
     if (!is.na(reason)) paste("Reason:", reason) else NA_character_
   )), collapse = " | ")
 
+  # Pull the page-modified date from the institution page so downstream
+  # date-rescue paths in build_web_exports.R can backfill action_date
+  # from source_page_modified. NWCCU institution pages carry an Open
+  # Graph article:modified_time meta tag (verified across the cached
+  # corpus) that extract_page_modified_date already understands.
+  page_modified <- extract_page_modified_date(html)
+
   tibble::tibble(
     institution_name_raw = inst_name,
     institution_state_raw = NA_character_,
     accreditor            = "NWCCU",
     action_type           = action_type,
     action_label_raw      = paste0(ifelse(!is.na(status), status, "Accreditation action"), ifelse(!is.na(eval), paste0(" – ", eval), "")),
-    action_status         = ifelse(!is.na(status), status, "active"),
+    # build_web_exports.R's date-rescue path (action_date backfill from
+    # source_page_modified) only fires when action_status == "active". The
+    # structured NWCCU status string ("Accredited", "Probation", etc.) is
+    # the institution's overall accreditation status -- not the status of
+    # this specific row's adverse signal. We've already classified the
+    # action as adverse (action_type != "other") to reach this point, so
+    # mark the row as actively flagged. The original status string moves
+    # to notes (already captured above) where the audit trail is preserved.
+    action_status         = "active",
     # Date type must match the other scrapers (NECHE/HLC/SACSCOC/WSCUC all emit
     # `as.Date(NA)` when no per-row date is available). Emitting NA_character_
     # here breaks dplyr::bind_rows in build_accreditation_actions.R with
@@ -1439,7 +1478,7 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
     source_url            = source_url,
     notes                 = notes,
     last_seen_at          = as.character(Sys.Date()),
-    source_page_modified  = NA_character_
+    source_page_modified  = page_modified
   )
 }
 

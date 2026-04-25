@@ -559,6 +559,43 @@ run_test("build_sacscoc_disclosure_rows skips PDF fetch when institution name ex
   assert_identical(length(list.files(cache_dir)), 0L)
 })
 
+run_test("SACSCOC_DISCLOSURE_ITEM_PATTERN resolves state on multi-token location rows", function() {
+  # Some SACSCOC member institutions publish their official name with a
+  # campus designator after a comma, e.g. "State College of Florida,
+  # Manatee-Sarasota". On the live SACSCOC June 2025 detail page that
+  # produces a 4-part location after the </a>:
+  #   <a>State College of Florida</a>, Manatee-Sarasota, Bradenton, Florida [PDF]
+  # The previous regex assumed a strict 3-part `Name</a>, City, State`
+  # layout and pinned state to the SECOND post-anchor token, which gave
+  # state="Bradenton" (a city) instead of state="Florida" -- silently
+  # breaking the IPEDS state match. The new regex anchors state as the
+  # LAST comma-separated token before [PDF]/</p> via a tempered lookahead.
+  fixture_html <- paste0(
+    "<p><a href=\"https://sacscoc.box.com/s/scfm\">State College of Florida</a>, ",
+    "Manatee-Sarasota, Bradenton, Florida [<a href=\"https://example.com\">PDF</a>]</p>\n",
+    # Standard 2-part layout must still resolve correctly:
+    "<li><a href=\"https://sacscoc.box.com/s/alpha\">Alpha College</a>, ",
+    "Boston, MA</li>\n",
+    # Layout with parenthetical comment after state (no [PDF] marker):
+    "<li><a href=\"https://sacscoc.box.com/s/beta\">Beta University</a>, ",
+    "Frankfort, Kentucky (placed on Probation Good Cause)</li>"
+  )
+
+  matches <- stringr::str_match_all(fixture_html, SACSCOC_DISCLOSURE_ITEM_PATTERN)[[1]]
+  assert_identical(nrow(matches), 3L)
+
+  # State College of Florida: state must be Florida, not Bradenton.
+  assert_identical(unname(clean_text(matches[1, 3])), "State College of Florida")
+  assert_identical(unname(clean_text(matches[1, 5])), "Florida")
+  # Standard 2-part:
+  assert_identical(unname(clean_text(matches[2, 3])), "Alpha College")
+  assert_identical(unname(clean_text(matches[2, 4])), "Boston")
+  assert_identical(unname(clean_text(matches[2, 5])), "MA")
+  # Parenthetical-after-state:
+  assert_identical(unname(clean_text(matches[3, 3])), "Beta University")
+  assert_identical(unname(clean_text(matches[3, 5])), "Kentucky")
+})
+
 run_test("NWCCU directory selector matches the live `nwccu-degree-baccalaureate` class", function() {
   # NWCCU renamed the per-article CSS class from `nwccu-degree-bachelor` to
   # `nwccu-degree-baccalaureate` sometime in 2025/26. The old selector
@@ -1066,6 +1103,46 @@ run_test("parse_nwccu_institution_page: non-empty rows satisfy accreditation sch
   assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(checked)))
   assert_identical(checked$source_page_url[[1]], url)
   assert_true(grepl("Financial resources", checked$notes[[1]], fixed = TRUE))
+})
+
+run_test("parse_nwccu_institution_page: action_status is 'active' so date-rescue can fire downstream", function() {
+  # build_web_exports.R's date-rescue path backfills action_date from
+  # source_page_modified only when action_status == "active". The previous
+  # implementation set action_status to the structured NWCCU status string
+  # ("Accredited", "Probation", etc.), which did not match the literal
+  # "active" check -- so flagged NWCCU rows shipped with action_date = NA
+  # and were dropped by the JS isRecentTrackedAction filter on the year
+  # floor. Pin the new contract: every emitted NWCCU row carries
+  # action_status = "active" (the row would not exist if action_type were
+  # "other") and source_page_modified is populated from the institution
+  # page's article:modified_time meta tag so the date rescue can actually
+  # fire downstream. The original NWCCU status string moves to notes.
+  cache_dir <- tempfile("nwccu_visibility_")
+  dir.create(cache_dir, showWarnings = FALSE)
+  on.exit(unlink(cache_dir, recursive = TRUE, force = TRUE), add = TRUE)
+
+  url <- nwccu_fixture(cache_dir, "visibility-university", paste0(
+    '<html><head>',
+    '<meta property="article:modified_time" content="2026-02-15T10:00:00+00:00" />',
+    '</head><body><main>',
+    '<span class="block">Current Accreditation Status</span>',
+    '<p class="h5 block">Probation</p>',
+    '<span class="block super">Most Recent Evaluation</span>',
+    '<span class="block flex">Fall 2025 Special Visit</span>',
+    '</main></body></html>'
+  ))
+
+  result <- parse_nwccu_institution_page(url, "Visibility University", cache_dir, refresh = FALSE)
+  assert_identical(nrow(result), 1L)
+  assert_identical(result$action_status[[1]], "active",
+    "NWCCU rows must carry action_status='active' so build_web_exports.R can backfill action_date.")
+  assert_identical(result$source_page_modified[[1]], "2026-02-15",
+    "NWCCU rows must carry source_page_modified from article:modified_time so the rescue path has a date to use.")
+  # Audit trail: the original structured status string is preserved in notes.
+  assert_true(
+    grepl("Status: Probation", result$notes[[1]], fixed = TRUE),
+    "Notes should preserve the original NWCCU structured status string for audit."
+  )
 })
 
 run_test("parse_nwccu_institution_page: adverse keyword in new page section is detected", function() {

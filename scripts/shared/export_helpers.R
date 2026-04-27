@@ -702,7 +702,7 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   # fallback. Surfacing the merging partner is more informative than
   # falling through to the generic "change of legal status" boilerplate.
   m_merger <- stringr::str_match(raw, stringr::regex(
-    "merger of [^,.]+ with ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    "merger of [^,.]+ (?:with|into) ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
     ignore_case = TRUE
   ))
   if (!is.na(m_merger[1, 1])) {
@@ -717,6 +717,23 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   if (!is.na(m_legal_status[1, 1])) {
     eff_date <- stringr::str_squish(m_legal_status[1, 2])
     return(paste0("Change of Legal Status (effective ", eff_date, ")"))
+  }
+
+  # ----- Pattern 0a-2: Institutional Closure with effective date -----
+  # MSCHE phrasing for closure board actions: "To note the institution
+  # will close all locations on <date>" or "To note that the institution
+  # will close ... effective <date>". Saint Rose's April 25, 2024 row
+  # carries this shape inside a multi-sentence body that begins with
+  # "To acknowledge receipt of the substantive change request..." and
+  # only the SECOND or later sentence carries the closure date. The
+  # match is deliberately not anchored to start-of-string.
+  m_closure <- stringr::str_match(raw, stringr::regex(
+    "to note (?:that )?the institution will close [^.]*?on ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_closure[1, 1])) {
+    eff_date <- stringr::str_squish(m_closure[1, 2])
+    return(paste0("Approved Institutional Closure (effective ", eff_date, ")"))
   }
 
   # ----- Pattern 0b: Approved Teach-Out Agreement with named partner -----
@@ -817,6 +834,38 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
       }
     }
     return("Continued on Warning")
+  }
+
+  # ----- Pattern 6: Show Cause / Continued Show Cause with deadline -----
+  # MSCHE phrasing for show-cause action rows wraps the substantive
+  # action ("To require the institution to continue to show cause by
+  # February 27, 2026 to demonstrate why its accreditation should not
+  # be withdrawn...") in a multi-sentence body that begins with "To
+  # acknowledge receipt of the show cause report" and "To note the
+  # follow-up team visit ...". Without this pattern the fallback
+  # strips the acknowledge-receipt preamble and returns the follow-up-
+  # visit sentence, which the JS procedural filter then drops -- which
+  # erases the show cause status from the global table even though
+  # classify_action has correctly typed the row show_cause.
+  m_showcause <- stringr::str_match(raw, stringr::regex(
+    "to require the institution to (continue to )?show cause by ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_showcause[1, 1])) {
+    is_continued <- !is.na(m_showcause[1, 2]) && nzchar(m_showcause[1, 2])
+    by_date <- stringr::str_squish(m_showcause[1, 3])
+    return(paste0(
+      if (is_continued) "Continued Show Cause" else "Required to Show Cause",
+      " (by ", by_date, ")"
+    ))
+  }
+  # Fallback show cause when no deadline is captured.
+  if (stringr::str_detect(raw, stringr::regex(
+        "to require the institution to (?:continue to )?show cause",
+        ignore_case = TRUE))) {
+    is_continued <- stringr::str_detect(raw, stringr::regex(
+      "continue to show cause", ignore_case = TRUE))
+    return(if (is_continued) "Continued Show Cause" else "Required to Show Cause")
   }
 
   # ----- Fallback -----

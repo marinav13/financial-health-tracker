@@ -522,9 +522,46 @@ run_test("derive_action_label_short Phase 4: agreement pattern does NOT swallow 
 })
 
 
+run_test("derive_action_label_short Phase 4 hotfix v3: Pattern 6 — Show Cause / Continued Show Cause with deadline", function() {
+  # Metropolitan College of New York row (MSCHE, Nov 20, 2025): the
+  # action has a multi-sentence body that begins with an
+  # acknowledge-receipt preamble plus a "to note the follow-up team
+  # visit" sentence. Without this pattern the fallback strips the
+  # preamble and returns the follow-up-visit sentence, which the JS
+  # procedural filter then drops -- erasing the show cause status from
+  # the global table.
+  metny_text <- paste0(
+    "To acknowledge receipt of the show cause report. ",
+    "To note the follow-up team visit by Commission representatives ",
+    "to the main campus at 60 West Street on October 8-9, 2025. ",
+    "To require the institution to continue to show cause by ",
+    "February 27, 2026 to demonstrate why its accreditation should ",
+    "not be withdrawn for non-compliance with Standards III, IV, V, and VII."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", metny_text, "MSCHE"),
+    "Continued Show Cause (by February 27, 2026)"
+  )
+  # First-time show cause (no "continue to") emits "Required to Show Cause".
+  first_time_text <- paste0(
+    "To require the institution to show cause by April 1, 2026 ",
+    "to demonstrate why its accreditation should not be withdrawn."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", first_time_text, "MSCHE"),
+    "Required to Show Cause (by April 1, 2026)"
+  )
+  # Show cause without a captured deadline still surfaces the status.
+  no_date_text <- "To require the institution to show cause why its accreditation should not be withdrawn."
+  assert_identical(
+    derive_action_label_short("show_cause", no_date_text, "MSCHE"),
+    "Required to Show Cause"
+  )
+})
+
 run_test("derive_action_label_short Phase 4 hotfix: 'Staff acted on behalf' preamble stripped unconditionally", function() {
   # St. Francis College row (MSCHE): the preamble has "Staff acted on behalf
-  # of the Commission to REQUEST" — not "to acknowledge receipt of". The old
+  # of the Commission to REQUEST" -- not "to acknowledge receipt of". The old
   # fallback only stripped the acknowledge-receipt shape, so action_label_short
   # retained the full preamble and the JS isTrackedAction procedural filter
   # (anchored at "^to request") could not match. Phase 4 hotfix strips the

@@ -195,7 +195,15 @@
     // institutions (federal regulation 34 CFR 602.23(f)(1)(ii)). These
     // are accreditation-application paperwork, not real teach-outs
     // with named partner institutions.
-    /^\s*to approve the teach-?out plan as required of candidate/i
+    /^\s*to approve the teach-?out plan as required of candidate/i,
+    // Phase 4 v2: rejection of a previously-required teach-out plan
+    // submission. This is procedural feedback ("the plan you submitted
+    // wasn't acceptable; submit another"), not a sanction action.
+    /^\s*to reject the teach-?out plan/i,
+    // Phase 4 v2: supplemental info report deemed inadequate. Same
+    // procedural-feedback shape as above; the institution is still
+    // operating under whatever sanction prompted the report request.
+    /^\s*to note that the supplemental information report was not conducive/i
   ];
   const TRUSTED_ACTION_TYPES = new Set([
     "adverse_action", "warning", "probation", "show_cause", "removed", "notice"

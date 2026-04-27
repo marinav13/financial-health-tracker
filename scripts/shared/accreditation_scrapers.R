@@ -958,7 +958,12 @@ parse_msche_institution_page <- function(institution_url,
     source_url = institution_url,
     source_title = paste("MSCHE Statement of Accreditation Status -", institution_name),
     notes = all_actions$action_body,
-    last_seen_at = as.character(Sys.time()),
+    # Match the POSIXct shape every other scraper emits (parse_items_to_rows,
+    # parse_sacscoc_*, build_hlc_action_rows). ensure_accreditation_action_schema
+    # coerces last_seen_at to character at the boundary; emitting character
+    # here breaks dplyr::bind_rows when combining with current_status_rows
+    # (which uses bare Sys.time()).
+    last_seen_at = Sys.time(),
     source_page_url = institution_url,
     source_page_modified = page_one_modified
   )
@@ -1155,7 +1160,9 @@ parse_msche <- function(cache_dir, refresh) {
       source_url = inst_discoveries$institution_url,
       source_title = paste("MSCHE Statement of Accreditation Status -", inst_discoveries$institution_name_raw),
       notes = paste("Recent Commission Action:", inst_discoveries$month_label),
-      last_seen_at = as.character(Sys.time()),
+      # Match the POSIXct shape used by the other branch + every other
+      # scraper. Schema helper coerces to character at the boundary.
+      last_seen_at = Sys.time(),
       source_page_url = inst_discoveries$source_page_url,
       source_page_modified = inst_discoveries$source_page_modified
     )

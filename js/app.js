@@ -586,16 +586,57 @@ window.TrackerApp.renderSchoolLink = function renderSchoolLink(unitid, label, pa
   return renderAnchorHtml({ href: schoolUrl(unitid, page) }, label || "");
 };
 
+// Windowed pagination: First | Prev | 1 ... [window around current] ... last | Next | Last.
+// Replaces the prior "render every page button from 1..N" approach which produced
+// 100+ buttons under tall tables (e.g. the 111-page "Recent accreditation actions
+// at other institutions" table). For totalPages <= 7 we still render every page
+// (no ellipsis needed); for larger sets we show the first/last anchors plus a
+// 3-page window around currentPage with ellipsis fillers. Buttons all carry
+// data-page so existing click handlers continue to work; ellipsis fillers are
+// non-interactive <span>s.
 window.TrackerApp.renderPaginationButtons = function renderPaginationButtons({ currentPage, totalPages }) {
   const pageCount = Math.max(1, Number(totalPages) || 1);
   const safePage = Math.min(Math.max(1, Number(currentPage) || 1), pageCount);
-  return Array.from({ length: pageCount }, (_, idx) => {
-    const pageNumber = idx + 1;
-    const isCurrent = pageNumber === safePage;
+
+  const renderPage = (n) => {
+    const isCurrent = n === safePage;
     const currentAttr = isCurrent ? ' aria-current="page"' : "";
-    const ariaLabel = isCurrent ? `Current page, page ${pageNumber}` : `Go to page ${pageNumber}`;
-    return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${pageNumber}" aria-label="${escapeHtml(ariaLabel)}"${currentAttr}>${pageNumber}</button>`;
-  }).join("");
+    const ariaLabel = isCurrent ? `Current page, page ${n}` : `Go to page ${n}`;
+    return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${n}" aria-label="${escapeHtml(ariaLabel)}"${currentAttr}>${n}</button>`;
+  };
+  const renderEllipsis = () => `<span class="pagination-ellipsis" aria-hidden="true">…</span>`;
+  const renderNav = (pageTarget, label, ariaLabel, disabled) => {
+    const disabledAttr = disabled ? " disabled" : "";
+    const disabledClass = disabled ? " is-disabled" : "";
+    return `<button type="button" class="pagination-button pagination-nav${disabledClass}" data-page="${pageTarget}" aria-label="${escapeHtml(ariaLabel)}"${disabledAttr}>${label}</button>`;
+  };
+
+  const parts = [];
+  parts.push(renderNav(1, "« First", "Go to first page", safePage === 1));
+  parts.push(renderNav(Math.max(1, safePage - 1), "‹ Prev", "Go to previous page", safePage === 1));
+
+  if (pageCount <= 7) {
+    for (let n = 1; n <= pageCount; n++) parts.push(renderPage(n));
+  } else if (safePage <= 4) {
+    for (let n = 1; n <= 5; n++) parts.push(renderPage(n));
+    parts.push(renderEllipsis());
+    parts.push(renderPage(pageCount));
+  } else if (safePage >= pageCount - 3) {
+    parts.push(renderPage(1));
+    parts.push(renderEllipsis());
+    for (let n = pageCount - 4; n <= pageCount; n++) parts.push(renderPage(n));
+  } else {
+    parts.push(renderPage(1));
+    parts.push(renderEllipsis());
+    for (let n = safePage - 1; n <= safePage + 1; n++) parts.push(renderPage(n));
+    parts.push(renderEllipsis());
+    parts.push(renderPage(pageCount));
+  }
+
+  parts.push(renderNav(Math.min(pageCount, safePage + 1), "Next ›", "Go to next page", safePage === pageCount));
+  parts.push(renderNav(pageCount, "Last »", "Go to last page", safePage === pageCount));
+
+  return parts.join("");
 };
 
 window.TrackerApp.paginateItems = function paginateItems(items, page, pageSize) {

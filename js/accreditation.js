@@ -252,8 +252,39 @@
     });
   }
 
+  // By-status snapshot pages emit short category labels per institution
+  // (HLC's current public disclosure notices block, MSCHE's
+  // non-compliance-by-status page). When the same school also has
+  // per-institution detail rows from the same accreditor with the actual
+  // board-action sentence, the snapshot row is redundant noise; drop it.
+  // When the snapshot is the ONLY signal for that accreditor (e.g. an
+  // institution that's only ever shown up on the by-status page) we keep
+  // it so the row isn't lost.
+  const SNAPSHOT_STUB_LABELS = new Set([
+    "On Notice",
+    "On Probation",
+    "Removal of Sanction",
+    "Withdrawal of Accreditation",
+    "Non-Compliance Warning",
+    "Non-Compliance Probation",
+    "Non-Compliance Show Cause",
+    "Adverse Action"
+  ]);
+
   function getEffectiveActions(school) {
-    return dedupeActions(Array.isArray(school?.actions) ? school.actions : []);
+    const actions = dedupeActions(Array.isArray(school?.actions) ? school.actions : []);
+    if (actions.length === 0) return actions;
+    const detailAccreditors = new Set(
+      actions
+        .filter((a) => !SNAPSHOT_STUB_LABELS.has(a.action_label || a.action_label_raw))
+        .map((a) => String(a.accreditor || "").toUpperCase())
+    );
+    return actions.filter((action) => {
+      const label = action.action_label || action.action_label_raw;
+      if (!SNAPSHOT_STUB_LABELS.has(label)) return true;
+      const acc = String(action.accreditor || "").toUpperCase();
+      return !detailAccreditors.has(acc);
+    });
   }
 
   // ------ Table Rendering ------

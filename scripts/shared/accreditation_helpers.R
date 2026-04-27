@@ -197,7 +197,13 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     # "Show Cause": most serious short of actual withdrawal
     stringr::str_detect(txt, "show cause") ~ "show_cause",
     # "Adverse Action": accreditation withdrawn, membership removed, or institution closed
-    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|the institution will close|will close (?:effective|all locations)|decision to close") ~ "adverse_action",
+    # Phase 3: extended with "cease instruction" / "intention to cease" /
+    # "intent to cease" to catch MSCHE phrasings like Saint Rose's
+    # December 2023 row ("notification ... of its intention to cease
+    # instruction at all locations on June 30, 2024") that previously
+    # fell through to "other" because the body uses "cease" rather
+    # than "close"/"closure".
+    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|the institution will close|will close (?:effective|all locations)|decision to close|cease instruction|intention to cease|intent to cease") ~ "adverse_action",
     stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)
     stringr::str_detect(txt, "probation") ~ "probation",

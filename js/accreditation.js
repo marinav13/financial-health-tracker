@@ -120,15 +120,25 @@
     return action?.display_action !== false;
   }
 
-  // Builds the action cell. When the scraper captured a scope qualifier
-  // (e.g. "Master of Social Work degree at its Bedford, Cape Cod, and Fall
-  // River locations" for NECHE program-level actions) we append it inline
-  // in parentheses after the action label so readers don't mistake a
-  // program-scope action for an institution-wide one. The combined string
-  // is returned as plain text; renderHistoryTable's default branch runs it
-  // through escapeHtml.
+  // Builds the action cell for the GLOBAL recent-actions table. Prefers
+  // action_label_short (the compact bucket label set by build_web_exports.R
+  // for MSCHE per-institution rows whose verbatim sentences are too long
+  // for a table view) and falls back through action_label, action_label_raw,
+  // and action_type. The per-school detail view must NOT use this helper --
+  // it explicitly references action_label_raw / action_label so the full
+  // source sentence stays visible one click away.
+  //
+  // When the scraper captured a scope qualifier (e.g. "Master of Social
+  // Work degree at its Bedford, Cape Cod, and Fall River locations" for
+  // NECHE program-level actions) we append it inline in parentheses after
+  // the label. Returned as plain text; renderHistoryTable's default branch
+  // runs it through escapeHtml.
   function actionLabelCell(action) {
-    const label = action.action_label || action.action_label_raw || action.action_type || "";
+    const label = action.action_label_short
+      || action.action_label
+      || action.action_label_raw
+      || action.action_type
+      || "";
     const scope = String(action.action_scope || "").trim();
     if (!scope) return label;
     if (!label) return `(${scope})`;
@@ -142,14 +152,37 @@
 
   // Complex regex patterns to identify significant actions (warnings, probations, monitoring, closures)
   // while filtering out minor actions like substantive changes or program additions
+  // Phase 1: types the R-side classifier upgrades from raw text are
+  // trusted as real actions, regardless of any "substantive change"
+  // wording in the body. Without this exemption, Saint Rose's Feb 20 +
+  // Dec 18 2023/2024 closure-prep rows (whose bodies say "substantive
+  // change request for institutional closure") got dropped by the
+  // keyword exclusion despite classify_action correctly tagging them
+  // as adverse_action.
+  const TRUSTED_ACTION_TYPES = new Set([
+    "adverse_action", "warning", "probation", "show_cause", "removed", "notice"
+  ]);
+
   function isTrackedAction(action) {
     const type = normalizeActionText(action.action_type);
+    const accreditor = String(action.accreditor || "").toUpperCase();
     const label = normalizeActionText(action.action_label || action.action_label_raw);
     const notes = normalizeActionText(action.notes);
     const haystack = `${type} ${label} ${notes}`;
     const contentOnly = `${label} ${notes}`;
+
+    // Phase 1: MSCHE per-institution rows that classify as "monitoring"
+    // are routine "acknowledged the monitoring report" administrative
+    // updates -- not the warnings/probation/closure scope this page
+    // advertises in its intro text. Drop them from BOTH the global
+    // recent-actions table and the per-school detail view to avoid
+    // burying the meaningful sanction rows. HLC and SACSCOC monitoring
+    // signals are kept since they represent more substantive monitoring
+    // statuses, not routine receipt acknowledgements.
+    if (accreditor === "MSCHE" && type === "monitoring") return false;
+
     const excludedPattern = /substantive change|program addition/;
-    if (excludedPattern.test(haystack)) return false;
+    if (excludedPattern.test(haystack) && !TRUSTED_ACTION_TYPES.has(type)) return false;
 
     const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
     const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-out plan|removed from membership/;
@@ -224,21 +257,34 @@
   }
 
   // ------ Table Rendering ------
-
-  function renderSchoolActions(actions, unitid, state, controlLabel, financialUnitid) {
+function renderSchoolActions(actions, unitid, state, controlLabel, financialUnitid) {
     const filtered = (actions || []).filter(isRecentDisplayAction);
     if (!filtered.length) return renderEmpty("No accreditation actions found.");
     const rows = filtered
       .slice()
       .sort((a, b) => String(formatActionDate(b)).localeCompare(String(formatActionDate(a))))
-      .map((action) => [
-        expandAccreditors(action.accreditor || ""),
-        actionLabelCell(action),
-        state || "",
-        controlLabel || "",
-        formatActionDate(action),
-        renderExternalLinkCell(getActionLink(action), "Source link")
-      ]);
+      .map((action) => {
+        // Per-school detail must show the FULL board-action language, not
+        // the compact bucket label used in the global table. Explicit
+        // reference to action_label_raw documents the intent for future
+        // maintainers; action_label_short is intentionally NOT consulted.
+        const fullLabel = action.action_label
+          || action.action_label_raw
+          || action.action_type
+          || "";
+        const scope = String(action.action_scope || "").trim();
+        const labelCell = scope
+          ? (fullLabel ? `${fullLabel} (${scope})` : `(${scope})`)
+          : fullLabel;
+        return [
+          expandAccreditors(action.accreditor || ""),
+          labelCell,
+          state || "",
+          controlLabel || "",
+          formatActionDate(action),
+          renderExternalLinkCell(getActionLink(action), "Source link")
+        ];
+      });
     return `${renderHistoryTable({
       ariaLabel: "Accreditation actions for this institution",
       headers: [
@@ -266,6 +312,7 @@
           is_primary_tracker: school.is_primary_tracker === true,
           accreditor: action.accreditor || "",
           action_label: action.action_label || action.action_label_raw || action.action_type || "",
+          action_label_short: action.action_label_short || "",
           action_scope: action.action_scope || "",
           action_type: action.action_type || "",
           action_date: action.action_date || "",
@@ -524,7 +571,7 @@
     const schoolActions = getEffectiveActions(school).filter(isRecentDisplayAction);
     document.getElementById("accreditation-status").innerHTML = renderSchoolActions(schoolActions, school.unitid, school.state, school.control_label, school.financial_unitid);
     if (mainDownload) {
-      mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
+mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
       mainDownload.onclick = () => downloadRowsCsv(
         `${String(school.institution_name || "accreditation").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-accreditation.csv`,
         ["Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],

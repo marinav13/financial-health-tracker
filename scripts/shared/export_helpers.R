@@ -643,3 +643,167 @@ write_export_bundles <- function(specs, data_dir) {
 
   results
 }
+
+
+# ---------------------------------------------------------------------------
+# Compact display label for the global "Recent accreditation actions" table.
+# ---------------------------------------------------------------------------
+#
+# Phase 2 of the action-label-short rollout. Non-MSCHE accreditors pass
+# through unchanged because their scrapers extract concise informative
+# labels at scrape time (HLC's "On Probation", NECHE's "Accepted Teach-Out
+# Plan", SACSCOC's PDF-derived sentence, etc.). MSCHE per-institution rows
+# carry verbatim 200-500 char board-action sentences; we apply a small
+# controlled pattern set to extract a readable summary, plus a clean
+# fallback (strip the "acknowledge receipt of ..." preamble, return the
+# first remaining sentence) when no pattern matches.
+#
+# Patterns are deliberately verb+noun anchored to avoid the naive-keyword
+# false positives the Phase 1 attempt produced (notably matching
+# "teach-out plan ... not necessary" as a teach-out approval). Each pattern
+# is paired with a regression test in tests/test_export_helpers.R.
+
+# Word-form -> integer for "Continued on Warning for twelve months" style
+# duration rendering. Limited to 1-12 because that's the corpus of values
+# MSCHE actually uses; out-of-range words drop to no-duration output.
+.MSCHE_DURATION_WORD_TO_NUM <- c(
+  one = 1L, two = 2L, three = 3L, four = 4L, five = 5L,
+  six = 6L, seven = 7L, eight = 8L, nine = 9L, ten = 10L,
+  eleven = 11L, twelve = 12L
+)
+
+# Scalar-only on purpose: callers iterate per-action via mapply/lapply.
+derive_action_label_short <- function(action_type, action_label_raw, accreditor = NA_character_) {
+  acc_norm <- toupper(trimws(as.character(accreditor %||% "")))
+
+  # Non-MSCHE: passthrough action_label_raw verbatim. Other accreditors'
+  # scrape-time labels are already informative; do not rewrite them.
+  if (!identical(acc_norm, "MSCHE")) {
+    if (!is.na(action_label_raw) && nzchar(action_label_raw)) {
+      return(as.character(action_label_raw))
+    }
+    if (!is.na(action_type) && nzchar(action_type)) {
+      return(as.character(action_type))
+    }
+    return("Action")
+  }
+
+  raw <- as.character(action_label_raw %||% "")
+  if (is.na(raw) || !nzchar(raw)) {
+    if (!is.na(action_type) && nzchar(action_type)) return(as.character(action_type))
+    return("Action")
+  }
+
+  # ----- Pattern 1: Approved Teach-Out Plan with extracted scope -----
+  # MSCHE phrasing: "To approve the teach-out plan for <scope>." or
+  # "To approve the teach-out plan and agreements with <scope>."
+  # Negative case (must NOT match): "teach-out plan and teach-out agreements
+  # are not necessary" -- the regex requires the verb "to approve" and the
+  # connector "for"/"with", so the negation phrasing falls through.
+  m_teachout <- stringr::str_match(
+    raw,
+    stringr::regex(
+      paste0(
+        "to\\s+approve\\s+(?:the\\s+)?teach-?out\\s+plan",
+        "(?:\\s+and\\s+(?:the\\s+)?teach-?out\\s+agreements)?",
+        "\\s+(for|with)\\s+([^.]+?)\\s*\\."
+      ),
+      ignore_case = TRUE
+    )
+  )
+  if (!is.na(m_teachout[1, 1])) {
+    scope <- stringr::str_squish(m_teachout[1, 3])
+    return(paste0("Approved Teach-Out Plan (", scope, ")"))
+  }
+
+  # ----- Pattern 2: Voluntarily Surrendered Accreditation -----
+  # MSCHE phrasing: "voluntarily surrender [its] accreditation".
+  # Catches both "intent to ... voluntarily surrender accreditation" and
+  # "To accept the institution's request to voluntarily surrender its
+  # accreditation".
+  if (stringr::str_detect(raw,
+        stringr::regex("voluntar(?:ily|y)\\s+surrender", ignore_case = TRUE))) {
+    return("Voluntarily Surrendered Accreditation")
+  }
+
+  # ----- Pattern 3: Warning, with Standard reference if present -----
+  # MSCHE phrasing: "To warn the institution that its accreditation may
+  # be in jeopardy because of insufficient evidence ... in compliance
+  # with Standard <Roman>". Standard ref is ALL-CAPS Roman numerals so we
+  # match case-sensitively (avoids matching "standard" as a generic noun).
+  if (stringr::str_detect(raw,
+        stringr::regex("to\\s+warn\\s+the\\s+institution", ignore_case = TRUE))) {
+    standard <- stringr::str_match(raw, "Standard\\s+([IVX]+)")[1, 2]
+    if (!is.na(standard) && nzchar(standard)) {
+      return(paste0("Warning (Standard ", standard, ")"))
+    }
+    return("Warning")
+  }
+
+  # ----- Pattern 4: Removed from Probation -----
+  # MSCHE phrasing: "To remove the institution from Probation."
+  if (stringr::str_detect(raw,
+        stringr::regex(
+          "to\\s+remove\\s+the\\s+institution\\s+from\\s+probation",
+          ignore_case = TRUE))) {
+    return("Removed from Probation")
+  }
+
+  # ----- Pattern 5: Continued on Warning, with duration if present -----
+  # MSCHE phrasing: "continue the institution on Warning for twelve months"
+  # (or "continue ... on Warning for 12 months"). Duration capture handles
+  # both word and numeric forms; if neither maps cleanly, drop the
+  # parenthetical.
+  m_continue <- stringr::str_match(
+    raw,
+    stringr::regex(
+      paste0(
+        "continue\\s+the\\s+institution\\s+on\\s+warning",
+        "(?:\\s+for\\s+([a-z]+|\\d+)\\s+(month|week|year)s?)?"
+      ),
+      ignore_case = TRUE
+    )
+  )
+  if (!is.na(m_continue[1, 1])) {
+    n_raw <- m_continue[1, 2]
+    unit  <- m_continue[1, 3]
+    if (!is.na(n_raw) && !is.na(unit) && nzchar(n_raw) && nzchar(unit)) {
+      n_num <- suppressWarnings(as.integer(n_raw))
+      if (is.na(n_num)) {
+        n_num <- unname(.MSCHE_DURATION_WORD_TO_NUM[tolower(n_raw)])
+      }
+      if (!is.na(n_num) && nzchar(unit)) {
+        return(paste0("Continued on Warning (", n_num, " ", tolower(unit), "s)"))
+      }
+    }
+    return("Continued on Warning")
+  }
+
+  # ----- Fallback -----
+  # Strip a leading "Staff acted on behalf of the Commission to acknowledge
+  # receipt of <X>." or a leading "To acknowledge receipt of <X>." sentence
+  # (administrative preamble that almost never carries the substantive
+  # action), then return the FIRST remaining sentence. Final safety net is
+  # the original text trimmed and length-capped so the table never gets a
+  # 500-char monster from an unanticipated phrasing.
+  stripped <- stringr::str_remove(
+    raw,
+    stringr::regex(
+      "^staff acted on behalf of the commission to acknowledge receipt of [^.]*\\.\\s*",
+      ignore_case = TRUE
+    )
+  )
+  stripped <- stringr::str_remove(
+    stripped,
+    stringr::regex(
+      "^to acknowledge receipt of [^.]*\\.\\s*",
+      ignore_case = TRUE
+    )
+  )
+  first <- stringr::str_match(stripped, "^([^.]+\\.)")[1, 2]
+  if (!is.na(first)) {
+    first <- stringr::str_squish(first)
+    if (nzchar(first)) return(first)
+  }
+  trimws(stringr::str_sub(raw, 1L, 200L))
+}

@@ -201,33 +201,17 @@ build_accreditation_export <- function() {
     "Run `Rscript --vanilla ./scripts/build_accreditation_actions.R` first."
   )
 
-  # Phase 1 (this PR): action_label_short is a passthrough of
-  # action_label_raw. The first attempt mapped action_type to a compact
-  # bucket label ("Warning", "Probation", "Teach-Out Plan", etc.), but
-  # that erased meaningful detail in non-MSCHE rows whose
-  # action_label_raw was already informative -- e.g. SACSCOC's
-  # "denied reaffirmation, continued accreditation, and continued the
-  # University of Lynchburg on Warning for twelve months", or NECHE's
-  # "Accepted Teach-Out Plans (Master of Social Work degree at its
-  # Bedford, Cape Cod, and Fall River locations)" with the scope
-  # parenthetical the per-row scope plumbing already attaches.
-  #
-  # Phase 2 (separate PR) will reintroduce an MSCHE-only summarizer
-  # that extracts the primary action verb plus scope/duration from the
-  # verbatim board-action sentence (e.g. "Approved Teach-Out Plan
-  # (closure of additional location at DeSales Institute of Philosophy
-  # and Religion, Bangalore, India)"). For now MSCHE rows still display
-  # the full sentence rather than risk a half-baked bucket label across
-  # 12,000+ rows.
-  derive_action_label_short <- function(action_type, action_label_raw) {
-    if (!is.na(action_label_raw) && nzchar(action_label_raw)) {
-      return(as.character(action_label_raw))
-    }
-    if (!is.na(action_type) && nzchar(action_type)) {
-      return(as.character(action_type))
-    }
-    "Action"
-  }
+  # Phase 2: derive_action_label_short() is now defined at module scope
+  # in scripts/shared/export_helpers.R (sourced near the top of this
+  # file). Non-MSCHE accreditors continue to pass through their
+  # scrape-time action_label_raw verbatim. MSCHE rows now run through a
+  # small set of verb+noun anchored summarization patterns (approved
+  # teach-out with scope, voluntarily surrendered accreditation, warning
+  # with optional Standard reference, removed-from-probation, continued-
+  # on-warning with duration) and a clean fallback that strips the
+  # "acknowledge receipt of ..." preamble and returns the first
+  # remaining sentence. Patterns are pinned by tests in
+  # tests/test_export_helpers.R; do not modify here.
 
   normalize_accreditation_date <- function(x) {
     vapply(x, function(value) {
@@ -469,9 +453,12 @@ build_accreditation_export <- function() {
           action_label = or_null(df$action_label_raw[i]),
           # Compact display label for the global recent-actions table; the
           # per-school detail view continues to render the full
-          # action_label above.
+          # action_label above. Helper is module-scope in
+          # scripts/shared/export_helpers.R; passing accreditor lets it
+          # apply MSCHE-specific summarization while leaving every other
+          # accreditor's label untouched.
           action_label_short = derive_action_label_short(
-            df$action_type[i], df$action_label_raw[i]
+            df$action_type[i], df$action_label_raw[i], df$accreditor[i]
           ),
           action_scope = or_null(df$action_scope[i]),
           action_status = or_null(df$action_status[i]),

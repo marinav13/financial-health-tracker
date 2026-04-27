@@ -252,19 +252,30 @@
     });
   }
 
-  // By-status snapshot pages emit short category labels per institution
-  // (HLC's current public disclosure notices block, MSCHE's
-  // non-compliance-by-status page). When the same school also has
-  // per-institution detail rows from the same accreditor with the actual
-  // board-action sentence, the snapshot row is redundant noise; drop it.
-  // When the snapshot is the ONLY signal for that accreditor (e.g. an
-  // institution that's only ever shown up on the by-status page) we keep
-  // it so the row isn't lost.
-  const SNAPSHOT_STUB_LABELS = new Set([
+  // Per-accreditor de-duplication for institutions that appear in BOTH a
+  // by-status snapshot row and a per-institution detail row.
+  //
+  // HLC's snapshot labels are concise current-status summaries ("On
+  // Notice", "On Probation") that read better than the detail page's
+  // verbose restatement ("Placed on Probation. The institution was
+  // notified of this action on November 11, 2025. Information was
+  // posted for the public on November 12, 2025..."). When both
+  // exist, prefer the snapshot and drop the detail.
+  //
+  // MSCHE's snapshot labels are bare category strings ("Non-Compliance
+  // Probation") with no action context; the per-institution detail rows
+  // carry the actual board action sentence. When both exist, prefer
+  // the detail and drop the snapshot.
+  //
+  // For institutions that only have one shape of row, nothing is
+  // dropped -- the lone row surfaces regardless of accreditor.
+  const HLC_SNAPSHOT_LABELS = new Set([
     "On Notice",
     "On Probation",
     "Removal of Sanction",
-    "Withdrawal of Accreditation",
+    "Withdrawal of Accreditation"
+  ]);
+  const MSCHE_SNAPSHOT_LABELS = new Set([
     "Non-Compliance Warning",
     "Non-Compliance Probation",
     "Non-Compliance Show Cause",
@@ -274,16 +285,32 @@
   function getEffectiveActions(school) {
     const actions = dedupeActions(Array.isArray(school?.actions) ? school.actions : []);
     if (actions.length === 0) return actions;
-    const detailAccreditors = new Set(
-      actions
-        .filter((a) => !SNAPSHOT_STUB_LABELS.has(a.action_label || a.action_label_raw))
-        .map((a) => String(a.accreditor || "").toUpperCase())
+
+    const isHlcSnapshot = (a) =>
+      String(a.accreditor || "").toUpperCase() === "HLC" &&
+      HLC_SNAPSHOT_LABELS.has(a.action_label || a.action_label_raw);
+    const isMscheSnapshot = (a) =>
+      String(a.accreditor || "").toUpperCase() === "MSCHE" &&
+      MSCHE_SNAPSHOT_LABELS.has(a.action_label || a.action_label_raw);
+
+    const hlcHasSnapshot = actions.some(isHlcSnapshot);
+    const hlcHasDetail = actions.some((a) =>
+      String(a.accreditor || "").toUpperCase() === "HLC" && !isHlcSnapshot(a)
     );
+    const mscheHasSnapshot = actions.some(isMscheSnapshot);
+    const mscheHasDetail = actions.some((a) =>
+      String(a.accreditor || "").toUpperCase() === "MSCHE" && !isMscheSnapshot(a)
+    );
+
     return actions.filter((action) => {
-      const label = action.action_label || action.action_label_raw;
-      if (!SNAPSHOT_STUB_LABELS.has(label)) return true;
       const acc = String(action.accreditor || "").toUpperCase();
-      return !detailAccreditors.has(acc);
+      if (acc === "HLC" && hlcHasSnapshot && hlcHasDetail && !isHlcSnapshot(action)) {
+        return false;
+      }
+      if (acc === "MSCHE" && mscheHasSnapshot && mscheHasDetail && isMscheSnapshot(action)) {
+        return false;
+      }
+      return true;
     });
   }
 

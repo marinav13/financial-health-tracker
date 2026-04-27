@@ -257,3 +257,197 @@ run_test("validate_all_export_schemas: passes against actual data directory", fu
     paste0("validate_all_export_schemas() failed against data/:\n", result)
   )
 })
+
+
+# ---------------------------------------------------------------------------
+# derive_action_label_short — Phase 2 MSCHE summarization
+# ---------------------------------------------------------------------------
+
+run_test("derive_action_label_short: non-MSCHE passthrough", function() {
+  # HLC and other accreditors must keep their scrape-time label verbatim.
+  assert_identical(
+    derive_action_label_short("warning", "On Probation", "HLC"),
+    "On Probation"
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action",
+      "Accepted Teach-Out Plans (Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations)",
+      "NECHE"),
+    "Accepted Teach-Out Plans (Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations)"
+  )
+  assert_identical(
+    derive_action_label_short("warning",
+      "denied reaffirmation, continued accreditation, and continued the University of Lynchburg on Warning for twelve months",
+      "SACSCOC"),
+    "denied reaffirmation, continued accreditation, and continued the University of Lynchburg on Warning for twelve months"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pattern 1 — Approved Teach-Out Plan with extracted scope", function() {
+  # DeSales (MSCHE) — closure of an additional location.
+  assert_identical(
+    derive_action_label_short(
+      "adverse_action",
+      "To approve the teach-out plan for the closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India.",
+      "MSCHE"
+    ),
+    "Approved Teach-Out Plan (closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India)"
+  )
+  # Saint Rose (MSCHE) — multi-institution agreements connector "and agreements with".
+  assert_identical(
+    derive_action_label_short(
+      "adverse_action",
+      "To approve the teach-out plan and agreements with several institutions.",
+      "MSCHE"
+    ),
+    "Approved Teach-Out Plan (several institutions)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pattern 1 NEGATIVE — 'teach-out plan ... not necessary' must NOT classify", function() {
+  # Swarthmore-style voluntary surrender mentions teach-out only to say
+  # one is not required. Must NOT bucket as Teach-Out Plan; should
+  # match Pattern 2 (voluntary surrender) instead.
+  swarthmore_text <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+    "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+    "voluntarily surrender accreditation, and terminate membership. ",
+    "To note that a teach-out plan and teach-out agreements are not necessary because ",
+    "the institution will retain its degree-granting authority."
+  )
+  result <- derive_action_label_short("adverse_action", swarthmore_text, "MSCHE")
+  assert_true(
+    !grepl("Teach-Out Plan", result, fixed = TRUE),
+    paste0("'teach-out ... not necessary' phrasing must not bucket as Teach-Out Plan. Got: ", result)
+  )
+  assert_identical(result, "Voluntarily Surrendered Accreditation")
+})
+
+run_test("derive_action_label_short: MSCHE pattern 2 — Voluntarily Surrendered Accreditation", function() {
+  # Bard-style notification of intent to change accreditor.
+  bard_text <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+    "dated March 3, 2026, of the institution's intent to change their primary accreditor, ",
+    "voluntarily surrender accreditation, and terminate membership."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", bard_text, "MSCHE"),
+    "Voluntarily Surrendered Accreditation"
+  )
+  # Word-form variant ("voluntary surrender") should also match.
+  assert_identical(
+    derive_action_label_short(
+      "adverse_action",
+      "To accept the institution's request for voluntary surrender of its accreditation.",
+      "MSCHE"
+    ),
+    "Voluntarily Surrendered Accreditation"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pattern 3 — Warning with Standard reference when present", function() {
+  # Saint Rose 2023-06-22.
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      "To warn the institution that its accreditation may be in jeopardy because of insufficient evidence that the institution is currently in compliance with Standard VI.",
+      "MSCHE"
+    ),
+    "Warning (Standard VI)"
+  )
+  # No Standard reference -> bare "Warning"
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      "To warn the institution that its accreditation may be in jeopardy.",
+      "MSCHE"
+    ),
+    "Warning"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pattern 4 — Removed from Probation", function() {
+  assert_identical(
+    derive_action_label_short(
+      "removed",
+      "To remove the institution from Probation.",
+      "MSCHE"
+    ),
+    "Removed from Probation"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pattern 5 — Continued on Warning with duration", function() {
+  # Word-form duration ("twelve months") normalizes to numeric ("12 months").
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      "To continue the institution on Warning for twelve months.",
+      "MSCHE"
+    ),
+    "Continued on Warning (12 months)"
+  )
+  # Numeric duration passes through unchanged.
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      "To continue the institution on Warning for 6 months.",
+      "MSCHE"
+    ),
+    "Continued on Warning (6 months)"
+  )
+  # No duration -> bare "Continued on Warning"
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      "To continue the institution on Warning.",
+      "MSCHE"
+    ),
+    "Continued on Warning"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE fallback — strip 'acknowledge receipt of' preamble, return first remaining sentence", function() {
+  # Common MSCHE shape: an "acknowledge receipt of <X>." preamble
+  # followed by the substantive action sentence.
+  text <- paste0(
+    "To acknowledge receipt of the substantive change request requested by the Commission action of December 18, 2023. ",
+    "To include the institutional closure within the institution's scope of accreditation."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "MSCHE"),
+    "To include the institutional closure within the institution's scope of accreditation."
+  )
+  # 'Staff acted on behalf of the Commission to acknowledge receipt of <X>.' prefix.
+  text2 <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
+    "The next evaluation visit is scheduled for 2032-2033."
+  )
+  assert_identical(
+    derive_action_label_short("monitoring", text2, "MSCHE"),
+    "The next evaluation visit is scheduled for 2032-2033."
+  )
+})
+
+run_test("derive_action_label_short: 'withdraw the substantive change request' must NOT be summarized as adverse", function() {
+  # Negative pin paired with the classify_action negative test in
+  # test_accreditation_scrapers.R. The summarizer must not invent an
+  # adverse-sounding label out of administrative withdrawal phrasing.
+  text <- "To withdraw the substantive change request as requested by the institution received on February 20, 2024."
+  result <- derive_action_label_short("other", text, "MSCHE")
+  assert_true(
+    !grepl("Teach-Out Plan|Surrendered|Withdrawal of Accreditation", result),
+    paste0("Substantive-change withdrawal must not surface adverse summary keywords. Got: ", result)
+  )
+})
+
+run_test("derive_action_label_short: empty raw label falls back to action_type or 'Action'", function() {
+  assert_identical(
+    derive_action_label_short("warning", NA_character_, "HLC"),
+    "warning"
+  )
+  assert_identical(
+    derive_action_label_short(NA_character_, "", "MSCHE"),
+    "Action"
+  )
+})

@@ -159,6 +159,44 @@
   // change request for institutional closure") got dropped by the
   // keyword exclusion despite classify_action correctly tagging them
   // as adverse_action.
+// MSCHE administrative/procedural action shapes that don't fit the
+  // page's stated scope (warnings/probation/closure/sanction-removed).
+  // These are not sanctions or status changes -- they're procedural
+  // requests for follow-up reports, scheduled visit notes, or candidate
+  // assessment paperwork. Drop them from the global table even when
+  // classify_action upstream typed them as adverse_action (because the
+  // body mentions a closure-related noun like "teach-out plan" in a
+  // requirement-to-submit context, not an approval context).
+  const MSCHE_PROCEDURAL_DROP_PATTERNS = [
+    // Phase 4 hotfix: optional staff-acted prefix is "Staff acted on
+    // behalf of the Commission " (no trailing "to") -- the "to" comes
+    // from the verb that follows. Earlier shape "(commission to )?"
+    // double-consumed "to" when the prefix was present. R-side fallback
+    // also strips this prefix from action_label_short, but action_label
+    // still carries the full text so we cover both via labelText below.
+    /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report/i,
+    /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report/i,
+    /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?candidate assessment/i,
+    /^\s*(?:staff acted on behalf of the commission )?to request an? updated teach-?out plan/i,
+    // Length cap raised from 80 to 200 because Rider-style preambles
+    // ("To require that the institution complete and submit for
+    // approval, by June 1, 2026, an updated, comprehensive, and
+    // implementable") regularly run 100-150 chars before "teach-out plan".
+    // Use [^.] instead of . to avoid crossing sentence boundaries.
+    /^\s*to require [^.]{0,200}?teach-?out plan/i,
+    /^\s*to request [^.]{0,200}?teach-?out plan/i,
+    /^\s*to note the follow-up team visit/i,
+    /^\s*to note that the complex substantive change visit occurred/i,
+    /^\s*to note that an? updated teach-?out plan [^.]{0,80}? will not be required/i,
+    // COVID-19 / pandemic distance-learning waiver -- temporary
+    // procedural relief, not a sanction or status change.
+    /^\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy/i,
+    // Generic regulatory teach-out plan compliance for candidate
+    // institutions (federal regulation 34 CFR 602.23(f)(1)(ii)). These
+    // are accreditation-application paperwork, not real teach-outs
+    // with named partner institutions.
+    /^\s*to approve the teach-?out plan as required of candidate/i
+  ];
   const TRUSTED_ACTION_TYPES = new Set([
     "adverse_action", "warning", "probation", "show_cause", "removed", "notice"
   ]);
@@ -180,6 +218,28 @@
     // signals are kept since they represent more substantive monitoring
     // statuses, not routine receipt acknowledgements.
     if (accreditor === "MSCHE" && type === "monitoring") return false;
+
+    // Phase 4: drop procedural MSCHE rows (request-for-report,
+    // requirement-to-submit-teach-out-plan, follow-up-visit notes,
+    // candidate-assessment paperwork) from the global table. These
+    // are administrative procedure, not sanctions or status changes.
+    if (accreditor === "MSCHE") {
+      // Check action_label_short FIRST: R-side helper has stripped the
+      // "Staff acted on behalf of the Commission" preamble there, so
+      // anchored-at-start patterns match cleanly. Fall through to
+      // action_label / action_label_raw as a safety net if the helper
+      // output is missing or unexpected.
+      const candidateLabels = [
+        action.action_label_short,
+        action.action_label,
+        action.action_label_raw
+      ].filter(function (s) { return typeof s === "string" && s.length > 0; });
+      for (const pat of MSCHE_PROCEDURAL_DROP_PATTERNS) {
+        if (candidateLabels.some(function (label) { return pat.test(label); })) {
+          return false;
+        }
+      }
+    }
 
     const excludedPattern = /substantive change|program addition/;
     if (excludedPattern.test(haystack) && !TRUSTED_ACTION_TYPES.has(type)) return false;

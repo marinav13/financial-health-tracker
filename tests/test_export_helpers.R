@@ -451,3 +451,99 @@ run_test("derive_action_label_short: empty raw label falls back to action_type o
     "Action"
   )
 })
+
+
+# ---------------------------------------------------------------------------
+# Phase 4: derive_action_label_short — merger + teach-out agreement patterns
+# ---------------------------------------------------------------------------
+
+run_test("derive_action_label_short Phase 4: Pattern 0a — Merger with named partner + effective date", function() {
+  # Albany College of Pharmacy and Health Sciences row (MSCHE, Feb 26, 2026):
+  # body explicitly names the merging partner and the effective date.
+  albany_text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership ",
+    "within the institution's scope of accreditation, effective June 1, 2026. ",
+    "To note the complex substantive change request includes the merger of ",
+    "Albany College of Pharmacy and Health Sciences with Russell Sage College, ",
+    "effective June 1, 2026, the anticipated date of the transaction."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", albany_text, "MSCHE"),
+    "Merger with Russell Sage College (effective June 1, 2026)"
+  )
+})
+
+run_test("derive_action_label_short Phase 4: Pattern 0a fallback — Change of Legal Status when merger partner not named", function() {
+  # Drexel-style row (MSCHE): change in legal status without a named
+  # merging counterparty. Falls through to the broader change-of-status
+  # bucket so the effective date still surfaces.
+  drexel_text <- paste0(
+    "To include the change in legal status, form of control, and ownership ",
+    "within the institution's scope of accreditation, effective June 30, 2024."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", drexel_text, "MSCHE"),
+    "Change of Legal Status (effective June 30, 2024)"
+  )
+})
+
+run_test("derive_action_label_short Phase 4: Pattern 0b — Approved Teach-Out Agreement with named partner", function() {
+  # Albany College of Pharmacy second action (MSCHE, Feb 26, 2026): the
+  # teach-out AGREEMENT with a single named partner is meaningfully
+  # different from a teach-out PLAN approval (which Pattern 1 catches
+  # for multi-institution batches).
+  albany_agreement <- paste0(
+    "To acknowledge receipt of the teach-out plan and teach-out agreement. ",
+    "To approve the teach-out plan. ",
+    "To approve the teach-out agreement with Russell Sage College, Troy, NY. ",
+    "To note that Albany College of Pharmacy and Health Sciences' accreditation ",
+    "cease date will be determined after the United States Department of Education ",
+    "has approved the merger application."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", albany_agreement, "MSCHE"),
+    "Approved Teach-Out Agreement with Russell Sage College"
+  )
+})
+
+run_test("derive_action_label_short Phase 4: agreement pattern does NOT swallow teach-out PLAN rows", function() {
+  # Pattern 0b matches "approve the teach-out AGREEMENT with X" specifically;
+  # the older "approve the teach-out PLAN for X" / "...plan and agreements
+  # with X" shapes (Pattern 1) must continue to win for those rows.
+  desales_text <- paste0(
+    "To approve the teach-out plan for the closure of the additional location ",
+    "at DeSales Institute of Philosophy and Religion, Bangalore, India."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", desales_text, "MSCHE"),
+    "Approved Teach-Out Plan (closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India)"
+  )
+})
+
+
+run_test("derive_action_label_short Phase 4 hotfix: 'Staff acted on behalf' preamble stripped unconditionally", function() {
+  # St. Francis College row (MSCHE): the preamble has "Staff acted on behalf
+  # of the Commission to REQUEST" — not "to acknowledge receipt of". The old
+  # fallback only stripped the acknowledge-receipt shape, so action_label_short
+  # retained the full preamble and the JS isTrackedAction procedural filter
+  # (anchored at "^to request") could not match. Phase 4 hotfix strips the
+  # staff-acted phrase regardless of the verb that follows.
+  st_francis_text <- paste0(
+    "Staff acted on behalf of the Commission to request a supplemental ",
+    "information report, due April 13, 2026, providing information on key ",
+    "data indicators (financial health and federal financial responsibility)."
+  )
+  result <- derive_action_label_short("other", st_francis_text, "MSCHE")
+  assert_true(
+    !grepl("^Staff acted on behalf", result, fixed = TRUE),
+    paste0("Staff-acted preamble must be stripped from fallback output. Got: ", result)
+  )
+  # First-letter capitalization: post-strip the next char is "to" (lowercase
+  # in the original); the helper should capitalize so the output reads as
+  # a standalone sentence.
+  assert_true(
+    grepl("^To request a supplemental information report", result),
+    paste0("Post-strip output should start with capitalized 'To request'. Got: ", result)
+  )
+})

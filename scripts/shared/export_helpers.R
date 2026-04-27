@@ -694,6 +694,46 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
     return("Action")
   }
 
+  # ----- Pattern 0a: Merger / change of control with effective date -----
+  # MSCHE complex-substantive-change rows describe institutional mergers
+  # in two shapes: an explicit "merger of <X> with <Y>, effective <date>"
+  # sentence (when present), or a "to include the change in legal status,
+  # form of control, and ownership ... effective <date>" sentence as a
+  # fallback. Surfacing the merging partner is more informative than
+  # falling through to the generic "change of legal status" boilerplate.
+  m_merger <- stringr::str_match(raw, stringr::regex(
+    "merger of [^,.]+ with ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_merger[1, 1])) {
+    partner <- stringr::str_squish(m_merger[1, 2])
+    eff_date <- stringr::str_squish(m_merger[1, 3])
+    return(paste0("Merger with ", partner, " (effective ", eff_date, ")"))
+  }
+  m_legal_status <- stringr::str_match(raw, stringr::regex(
+    "to include the change in legal status[^.]*?effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_legal_status[1, 1])) {
+    eff_date <- stringr::str_squish(m_legal_status[1, 2])
+    return(paste0("Change of Legal Status (effective ", eff_date, ")"))
+  }
+
+  # ----- Pattern 0b: Approved Teach-Out Agreement with named partner -----
+  # Distinct from Pattern 1 (teach-out PLAN approval). MSCHE phrasing:
+  # "To approve the teach-out agreement with <Partner>, <city>, <state>".
+  # The named-partner shape is meaningfully different from the multi-
+  # institution plan approval ("...and agreements with several
+  # institutions") so it gets its own bucket.
+  m_agreement <- stringr::str_match(raw, stringr::regex(
+    "to approve the teach-?out agreement with ([^,.]+?)(?:,|\\.)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_agreement[1, 1])) {
+    partner <- stringr::str_squish(m_agreement[1, 2])
+    return(paste0("Approved Teach-Out Agreement with ", partner))
+  }
+
   # ----- Pattern 1: Approved Teach-Out Plan with extracted scope -----
   # MSCHE phrasing: "To approve the teach-out plan for <scope>." or
   # "To approve the teach-out plan and agreements with <scope>."
@@ -780,25 +820,32 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   }
 
   # ----- Fallback -----
-  # Strip a leading "Staff acted on behalf of the Commission to acknowledge
-  # receipt of <X>." or a leading "To acknowledge receipt of <X>." sentence
-  # (administrative preamble that almost never carries the substantive
-  # action), then return the FIRST remaining sentence. Final safety net is
-  # the original text trimmed and length-capped so the table never gets a
-  # 500-char monster from an unanticipated phrasing.
+  # Three preamble strips, then return the first remaining sentence.
+  # Final safety net is the original text trimmed and length-capped so
+  # the table never gets a 500-char monster from an unanticipated phrasing.
+  #
+  # Phase 4 hotfix: strip "Staff acted on behalf of the Commission "
+  # UNCONDITIONALLY (any verb, not just acknowledge-receipt). The phrase
+  # is bureaucratic boilerplate; what follows is the substantive action
+  # regardless of verb. Without this, rows like St. Francis's "Staff
+  # acted on behalf of the Commission to request a supplemental
+  # information report..." retained the preamble in action_label_short
+  # and the JS isTrackedAction procedural filter (which anchors at
+  # "^to request") could not match.
   stripped <- stringr::str_remove(
     raw,
-    stringr::regex(
-      "^staff acted on behalf of the commission to acknowledge receipt of [^.]*\\.\\s*",
-      ignore_case = TRUE
-    )
+    stringr::regex("^staff acted on behalf of the commission ", ignore_case = TRUE)
   )
   stripped <- stringr::str_remove(
     stripped,
-    stringr::regex(
-      "^to acknowledge receipt of [^.]*\\.\\s*",
-      ignore_case = TRUE
-    )
+    stringr::regex("^to acknowledge receipt of [^.]*\\.\\s*", ignore_case = TRUE)
+  )
+  # Capitalize the first letter so post-strip output reads like a
+  # standalone sentence (the unconditional staff-acted strip leaves a
+  # lowercase "to" at the start when the original phrase ended with
+  # "Commission to <verb>...").
+  stripped <- stringr::str_replace(
+    stripped, "^([a-z])", function(m) toupper(m)
   )
   first <- stringr::str_match(stripped, "^([^.]+\\.)")[1, 2]
   if (!is.na(first)) {

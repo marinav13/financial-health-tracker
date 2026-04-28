@@ -164,3 +164,30 @@ run_test("Accreditation actions pipeline fixture", function() {
   assert_true(nrow(unmatched_df) == 1L, "Fixture should produce one unmatched institution for review.")
   assert_true(nrow(coverage_df) >= 1L, "Coverage output should contain at least one row.")
 })
+
+run_test("Accreditation workbook sanitiser truncates overlong cells intentionally", function() {
+  acc_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_accreditation_actions.R"), envir = acc_env)
+
+  long_text <- paste(rep("x", 33050), collapse = "")
+  result <- acc_env$sanitize_excel_workbook_frame(
+    data.frame(
+      notes = c(long_text, "ok"),
+      stringsAsFactors = FALSE
+    ),
+    "actions"
+  )
+
+  assert_true(is.data.frame(result$data), "Workbook sanitiser should return a data frame.")
+  assert_true(nchar(result$data$notes[[1]], type = "chars") <= 32767L,
+    "Workbook sanitiser should keep text within Excel's cell limit.")
+  assert_true(grepl("\\[truncated for Excel cell limit\\]$", result$data$notes[[1]]),
+    "Workbook sanitiser should append an explicit truncation marker.")
+  assert_equal(nrow(result$truncations), 1L,
+    "Workbook sanitiser should record one sheet/column truncation entry.")
+  assert_equal(result$truncations$sheet[[1]], "actions")
+  assert_equal(result$truncations$column[[1]], "notes")
+  assert_equal(result$truncations$count[[1]], 1L)
+  assert_true(result$truncations$max_original_chars[[1]] > 32767L,
+    "Workbook truncation log should retain original max character length.")
+})

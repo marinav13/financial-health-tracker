@@ -40,6 +40,97 @@
 # NOTE: This is intentionally partial coverage (6 of 7 regional accreditors).
 #       ACCJC (community colleges) not yet implemented.
 
+# Excel's cell limit is 32767 characters, but openxlsx serializes cell text
+# into XML where characters expand (for example apostrophes become &apos;),
+# and its internal handling still appears to need a small safety margin even
+# after accounting for escaping. Keep the workbook-only copy comfortably below
+# the hard limit so writeData() stays warning-free.
+EXCEL_CELL_CHAR_LIMIT <- 30000L
+EXCEL_CELL_TRUNCATION_SUFFIX <- " ...[truncated for Excel cell limit]"
+
+excel_xml_escape_text <- function(text) {
+  out <- gsub("&", "&amp;", text, fixed = TRUE)
+  out <- gsub("<", "&lt;", out, fixed = TRUE)
+  out <- gsub(">", "&gt;", out, fixed = TRUE)
+  out <- gsub("\"", "&quot;", out, fixed = TRUE)
+  gsub("'", "&apos;", out, fixed = TRUE)
+}
+
+excel_xml_text_length <- function(text) {
+  nchar(excel_xml_escape_text(text), type = "chars")
+}
+
+truncate_excel_cell_text <- function(value,
+                                     limit = EXCEL_CELL_CHAR_LIMIT,
+                                     suffix = EXCEL_CELL_TRUNCATION_SUFFIX) {
+  if (length(value) == 0 || is.na(value)) return(value)
+  text <- as.character(value)
+  if (excel_xml_text_length(text) <= limit) return(text)
+
+  suffix_chars <- excel_xml_text_length(suffix)
+  keep_limit <- max(0L, limit - suffix_chars)
+  lo <- 0L
+  hi <- nchar(text, type = "chars")
+
+  while (lo < hi) {
+    mid <- as.integer(ceiling((lo + hi) / 2))
+    candidate <- substr(text, 1L, mid)
+    if (excel_xml_text_length(candidate) <= keep_limit) {
+      lo <- mid
+    } else {
+      hi <- mid - 1L
+    }
+  }
+
+  paste0(substr(text, 1L, lo), suffix)
+}
+
+sanitize_excel_workbook_frame <- function(df,
+                                          sheet_name,
+                                          limit = EXCEL_CELL_CHAR_LIMIT,
+                                          suffix = EXCEL_CELL_TRUNCATION_SUFFIX) {
+  out <- df
+  truncations <- list()
+
+  if (!is.data.frame(out) || nrow(out) == 0L) {
+    return(list(data = out, truncations = data.frame()))
+  }
+
+  char_cols <- names(out)[vapply(out, function(col) is.character(col) || is.factor(col), logical(1))]
+  if (length(char_cols) == 0L) {
+    return(list(data = out, truncations = data.frame()))
+  }
+
+  for (col_name in char_cols) {
+    values <- as.character(out[[col_name]])
+    char_counts <- ifelse(is.na(values), NA_integer_, nchar(values, type = "chars"))
+    over_limit <- !is.na(char_counts) & char_counts > limit
+    if (!any(over_limit)) next
+
+    values[over_limit] <- vapply(
+      values[over_limit],
+      truncate_excel_cell_text,
+      character(1),
+      limit = limit,
+      suffix = suffix,
+      USE.NAMES = FALSE
+    )
+    out[[col_name]] <- values
+    truncations[[length(truncations) + 1L]] <- data.frame(
+      sheet = sheet_name,
+      column = col_name,
+      count = sum(over_limit),
+      max_original_chars = max(char_counts[over_limit]),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  list(
+    data = out,
+    truncations = if (length(truncations)) dplyr::bind_rows(truncations) else data.frame()
+  )
+}
+
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args          <- parse_cli_args(cli_args)
@@ -367,22 +458,13 @@ main <- function(cli_args = NULL) {
 
   # -----------------------------------------------------------------------
   # WRITE EXCEL WORKBOOK
-  wb <- openxlsx::createWorkbook()
-  openxlsx::addWorksheet(wb, "actions")
-  openxlsx::writeData(wb, "actions", actions_joined)
-  openxlsx::addWorksheet(wb, "summary")
-  openxlsx::writeData(wb, "summary", institution_summary)
-  openxlsx::addWorksheet(wb, "current")
-  openxlsx::writeData(wb, "current", current_status)
-  openxlsx::addWorksheet(wb, "unmatched")
-  openxlsx::writeData(wb, "unmatched", unmatched_for_review)
-  openxlsx::addWorksheet(wb, "coverage")
-  openxlsx::writeData(wb, "coverage", source_coverage)
-  openxlsx::addWorksheet(wb, "notes")
-  openxlsx::writeData(
-    wb,
-    "notes",
-    data.frame(
+  workbook_frames <- list(
+    actions = actions_joined,
+    summary = institution_summary,
+    current = current_status,
+    unmatched = unmatched_for_review,
+    coverage = source_coverage,
+    notes = data.frame(
       notes = c(
         "This first version is intentionally partial rather than pretending to be comprehensive.",
         "Covered accreditors in the current scraper: MSCHE current sanctions page, HLC current public disclosure notices, SACSCOC latest public action/disclosure pages with explicit sanction language, NECHE recent commission actions, WSCUC commission action posts, and NWCCU institutional directory pages (4-year institutions, adverse-keyword filter).",
@@ -394,6 +476,43 @@ main <- function(cli_args = NULL) {
       stringsAsFactors = FALSE
     )
   )
+  workbook_payloads <- lapply(names(workbook_frames), function(sheet_name) {
+    sanitize_excel_workbook_frame(workbook_frames[[sheet_name]], sheet_name)
+  })
+  names(workbook_payloads) <- names(workbook_frames)
+  workbook_truncations <- dplyr::bind_rows(lapply(workbook_payloads, `[[`, "truncations"))
+  if (nrow(workbook_truncations) > 0L) {
+    total_cells <- sum(workbook_truncations$count, na.rm = TRUE)
+    message(sprintf(
+      "Workbook text truncated for Excel cell limit: %d cell(s) across %d sheet/column combination(s).",
+      total_cells,
+      nrow(workbook_truncations)
+    ))
+    apply(workbook_truncations, 1L, function(row) {
+      message(sprintf(
+        "  %s.%s: %s cell(s) truncated (max original length %s chars)",
+        row[["sheet"]],
+        row[["column"]],
+        row[["count"]],
+        row[["max_original_chars"]]
+      ))
+      NULL
+    })
+  }
+
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, "actions")
+  openxlsx::writeData(wb, "actions", workbook_payloads$actions$data)
+  openxlsx::addWorksheet(wb, "summary")
+  openxlsx::writeData(wb, "summary", workbook_payloads$summary$data)
+  openxlsx::addWorksheet(wb, "current")
+  openxlsx::writeData(wb, "current", workbook_payloads$current$data)
+  openxlsx::addWorksheet(wb, "unmatched")
+  openxlsx::writeData(wb, "unmatched", workbook_payloads$unmatched$data)
+  openxlsx::addWorksheet(wb, "coverage")
+  openxlsx::writeData(wb, "coverage", workbook_payloads$coverage$data)
+  openxlsx::addWorksheet(wb, "notes")
+  openxlsx::writeData(wb, "notes", workbook_payloads$notes$data)
   workbook_tmp <- paste0(outputs$workbook, ".tmp")
   if (file.exists(workbook_tmp)) file.remove(workbook_tmp)
   openxlsx::saveWorkbook(wb, workbook_tmp, overwrite = TRUE)

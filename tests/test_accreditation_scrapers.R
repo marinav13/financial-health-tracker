@@ -1292,6 +1292,37 @@ run_test("fetch_html_text validate_fn: JS-shell does not overwrite good cache", 
     "refresh=FALSE should return cached content even when validate_fn is supplied.")
 })
 
+run_test("fetch_html_text refresh=FALSE logs cached copy age", function() {
+  cache_dir <- tempfile("fetch_cache_log_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  cache_path <- file.path(cache_dir, "cached_page.html")
+  writeLines("<html><body><h3>Cached</h3></body></html>", cache_path)
+
+  logged <- NULL
+  withCallingHandlers(
+    {
+      returned <- fetch_html_text("https://example.com/cached", "cached_page.html", cache_dir, refresh = FALSE)
+      assert_true(grepl("Cached", returned, fixed = TRUE),
+        "refresh=FALSE should return the cached HTML body.")
+    },
+    message = function(m) {
+      logged <<- c(logged, conditionMessage(m))
+      invokeRestart("muffleMessage")
+    }
+  )
+
+  assert_true(
+    any(grepl("Using cached copy for https://example.com/cached", logged, fixed = TRUE)),
+    "Expected fetch_html_text(refresh=FALSE) to log that it used the cached copy."
+  )
+  assert_true(
+    any(grepl("days old", logged, fixed = TRUE)),
+    "Expected cached-copy log to include cache age."
+  )
+})
+
 # ---------------------------------------------------------------------------
 # NWCCU institution page parser
 # ---------------------------------------------------------------------------

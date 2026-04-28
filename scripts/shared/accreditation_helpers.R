@@ -83,6 +83,21 @@ state_name <- function(x) {
 # HTTP FETCHING WITH CACHE FALLBACK
 # ---------------------------------------------------------------------------
 
+cache_freshness_label <- function(cache_path, now = Sys.time()) {
+  info <- file.info(cache_path)
+  mtime <- info$mtime[[1]]
+  if (is.na(mtime)) return("last updated at an unknown time")
+
+  age_days <- as.numeric(difftime(now, mtime, units = "days"))
+  if (!is.finite(age_days)) return(sprintf("last updated %s", format(mtime, "%Y-%m-%d %H:%M")))
+
+  sprintf(
+    "last updated %s (%.1f days old)",
+    format(mtime, "%Y-%m-%d %H:%M"),
+    age_days
+  )
+}
+
 # Fetches HTML from URL with disk caching and graceful fallback to cache on network failures.
 # Caching is essential here because accreditor websites are often slow or temporarily unavailable;
 # falling back to cached data from a previous run is better than failing entirely.
@@ -100,6 +115,11 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
   cache_path <- file.path(cache_dir, cache_name)
   # Quick return if not refreshing and cache exists
   if (!refresh && file.exists(cache_path)) {
+    message(sprintf(
+      "Using cached copy for %s (%s)",
+      url,
+      cache_freshness_label(cache_path)
+    ))
     return(readr::read_file(cache_path))
   }
   tryCatch({
@@ -114,11 +134,10 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
     # stop with instructions if no cache is available.
     if (!is.null(validate_fn) && !isTRUE(validate_fn(body))) {
       if (file.exists(cache_path)) {
-        cache_mtime <- format(file.info(cache_path)$mtime, "%Y-%m-%d %H:%M")
         warning(paste(
           sprintf("fetch_html_text: fresh response from %s failed content validation", url),
           sprintf("(possible JavaScript-rendered shell). Cache NOT overwritten."),
-          sprintf("Falling back to cached copy last updated %s.", cache_mtime),
+          sprintf("Falling back to cached copy %s.", cache_freshness_label(cache_path)),
           "Re-fetch the page with a JS-capable tool to refresh the cache.",
           sep = "\n"
         ), call. = FALSE)
@@ -140,7 +159,11 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
   }, error = function(e) {
     # On network error, try to use cached copy as fallback
     if (file.exists(cache_path)) {
-      message("Falling back to cached copy for ", url)
+      message(sprintf(
+        "Falling back to cached copy for %s (%s)",
+        url,
+        cache_freshness_label(cache_path)
+      ))
       readr::read_file(cache_path)
     } else {
       # No cache available, so the fetch failure is fatal

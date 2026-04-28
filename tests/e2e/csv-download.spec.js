@@ -88,7 +88,7 @@ test.describe('CSV download content', () => {
     expect(parsed.length).toBeGreaterThanOrEqual(2); // header + at least one data row
 
     const [header, ...dataRows] = parsed;
-    expect(header).toEqual(['Institution', 'Action', 'State', 'Sector', 'Date', 'Source']);
+    expect(header).toEqual(['Institution', 'Accreditor', 'Action', 'Scope', 'State', 'Sector', 'Date', 'Source']);
 
     // Download exports the displayed page, so row counts must match.
     expect(dataRows.length).toBe(visibleRowCount);

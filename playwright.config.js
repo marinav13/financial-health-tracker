@@ -34,6 +34,12 @@ module.exports = defineConfig({
   use: {
     baseURL: 'http://localhost:8080',
     trace: 'on-first-retry',
+    // Bypass CSP for test instrumentation. The app ships a strict
+    // Content-Security-Policy meta tag (script-src 'self') which blocks
+    // Playwright's page.addScriptTag({ content: ... }) used by axe-core
+    // injection in accessibility-states.spec.js. CSP still applies in
+    // production; this only affects what test harnesses can inject.
+    bypassCSP: true,
   },
   
   // Projects for different browsers and viewports.

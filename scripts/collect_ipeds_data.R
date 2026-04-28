@@ -105,11 +105,11 @@ get_varlist <- function(dictionary_archive, table_name) {
     transmute(
       var_number     = A,
       var_name       = B,
-      data_type      = if ("C" %in% names(raw)) C else NA_character_,
-      field_width    = if ("D" %in% names(raw)) D else NA_character_,
-      format         = if ("E" %in% names(raw)) E else NA_character_,
-      imputation_var = if ("F" %in% names(raw)) F else NA_character_,
-      var_title      = if ("G" %in% names(raw)) G else NA_character_
+      data_type      = if ("C" %in% names(raw)) .data[["C"]] else NA_character_,
+      field_width    = if ("D" %in% names(raw)) .data[["D"]] else NA_character_,
+      format         = if ("E" %in% names(raw)) .data[["E"]] else NA_character_,
+      imputation_var = if ("F" %in% names(raw)) .data[["F"]] else NA_character_,
+      var_title      = if ("G" %in% names(raw)) .data[["G"]] else NA_character_
     )
 }
 

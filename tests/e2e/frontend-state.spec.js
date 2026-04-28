@@ -33,14 +33,14 @@ test.describe('Frontend state synchronization', () => {
 
     const list = page.locator('#research-list');
     await expect(list.locator('table.history-table')).toBeVisible();
-    await expect(list.locator('.pagination-button[data-page="2"]')).toBeVisible();
+    await expect(list.locator('.pagination-button:not(.pagination-nav)[data-page="2"]')).toBeVisible();
 
     const currentBefore = list.locator('.pagination-button[aria-current="page"]');
     await expect(currentBefore).toHaveCount(1);
     await expect(currentBefore).toHaveText('1');
 
     const firstInstitutionBefore = await list.locator('tbody tr:first-child td:first-child').textContent();
-    await list.locator('.pagination-button[data-page="2"]').click();
+    await list.locator('.pagination-button:not(.pagination-nav)[data-page="2"]').click();
 
     const currentAfter = list.locator('.pagination-button[aria-current="page"]');
     await expect(currentAfter).toHaveCount(1);

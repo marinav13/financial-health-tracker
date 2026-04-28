@@ -772,7 +772,7 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
     stringr::regex(
       paste0(
         "to\\s+approve\\s+(?:the\\s+)?teach-?out\\s+plan",
-        "(?:\\s+and\\s+(?:the\\s+)?teach-?out\\s+agreements)?",
+        "(?:\\s+and\\s+(?:the\\s+)?(?:teach-?out\\s+)?agreements)?",
         # Optional leading article on the scope: "for THE closure..."
         # consumes the article so the captured scope reads cleanly
         # ("Approved Teach-Out Plan (closure of...)" not "(the closure of...)").

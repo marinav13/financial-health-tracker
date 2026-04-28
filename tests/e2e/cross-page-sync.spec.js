@@ -18,7 +18,7 @@
 const { test, expect } = require('@playwright/test');
 const {
   schoolWithCuts,
-  schoolWithAccreditation,
+  schoolWithVisibleAccreditation,
   schoolWithResearchSource,
   unmatchedCutSchool,
   unmatchedAccreditationSchool,
@@ -26,7 +26,7 @@ const {
 } = require('./helpers');
 
 const cutsUnitid = schoolWithCuts();
-const accredUnitid = schoolWithAccreditation();
+const accredUnitid = schoolWithVisibleAccreditation();
 const researchUnitid = schoolWithResearchSource();
 const unmatchedCuts = unmatchedCutSchool();
 const unmatchedAccred = unmatchedAccreditationSchool();

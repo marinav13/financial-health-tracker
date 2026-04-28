@@ -9,7 +9,7 @@
 const { test, expect } = require('@playwright/test');
 const {
   schoolWithCuts,
-  schoolWithAccreditation,
+  schoolWithVisibleAccreditation,
   schoolWithResearchSource,
   schoolWithoutEndowment,
   schoolWithClosureStatus,
@@ -19,7 +19,7 @@ const {
 } = require('./helpers');
 
 const cutsUnitid = schoolWithCuts();
-const accreditationUnitid = schoolWithAccreditation();
+const accreditationUnitid = schoolWithVisibleAccreditation();
 const researchUnitid = schoolWithResearchSource();
 const noEndowmentUnitid = schoolWithoutEndowment();
 const closureStatusUnitid = schoolWithClosureStatus();
@@ -178,5 +178,34 @@ test.describe('Frontend state synchronization', () => {
     const closureFlag = page.locator('#school-closure-flag');
     await expect(closureFlag).toHaveClass(/is-hidden/);
     await expect(closureFlag).toBeEmpty();
+  });
+
+  test('school page without unitid shows a clean empty state', async ({ page }) => {
+    await page.goto('/school.html');
+
+    await expect(page.locator('#school-name')).toHaveText('No school selected');
+    await expect(page.locator('#school-meta-wrap')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#financial-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#enrollment-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#staffing-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#endowment-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#aid-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#download-school-data')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#share-school-profile')).toHaveClass(/is-hidden/);
+  });
+
+  test('school page with invalid unitid shows a clean load-error state', async ({ page }) => {
+    await page.goto('/school.html?unitid=does-not-exist');
+
+    await expect(page.locator('#school-name')).toHaveText('This school page could not be loaded.');
+    await expect(page.locator('#school-meta-wrap')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#school-outcomes-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#financial-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#enrollment-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#staffing-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#endowment-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#aid-section')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#download-school-data')).toHaveClass(/is-hidden/);
+    await expect(page.locator('#share-school-profile')).toHaveClass(/is-hidden/);
   });
 });

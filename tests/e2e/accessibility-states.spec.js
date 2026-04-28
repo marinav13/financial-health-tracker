@@ -9,14 +9,14 @@ const fs = require('fs');
 const { test, expect } = require('@playwright/test');
 const {
   schoolWithCuts,
-  schoolWithAccreditation,
+  schoolWithVisibleAccreditation,
   schoolWithResearchSource,
   expectAriaHiddenInSync
 } = require('./helpers');
 
 const axeSource = fs.readFileSync(require.resolve('axe-core'), 'utf8');
 const cutsUnitid = schoolWithCuts();
-const accreditationUnitid = schoolWithAccreditation();
+const accreditationUnitid = schoolWithVisibleAccreditation();
 const researchUnitid = schoolWithResearchSource();
 
 async function runAxe(page, label) {
@@ -109,7 +109,7 @@ test.describe('Stateful accessibility checks', () => {
     await runAxe(page, 'accreditation filtered/paginated state');
 
     await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
-    await expect(page.locator('#accreditation-status')).toContainText(/Accreditor|No accreditation actions found/);
+    await expect(page.locator('#accreditation-status table.history-table')).toBeVisible();
     await expectAriaHiddenInSync(page, expect, 'accreditation detail');
     await runAxe(page, 'accreditation detail state');
   });

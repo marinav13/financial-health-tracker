@@ -77,6 +77,9 @@ for (const file of files) {
       cwd: ROOT,
       encoding: "utf8"
     });
+    if (result.error) {
+      throw new Error(`spawn failed: ${result.error.message}`);
+    }
     assert(result.status === 0, (result.stderr || result.stdout || "").trim());
   });
 

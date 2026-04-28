@@ -160,8 +160,119 @@ function schoolWithCuts() {
   return firstDataSchool('data/college_cuts.json', (school) => Array.isArray(school.cuts) && school.cuts.length > 0);
 }
 
-function schoolWithAccreditation() {
-  return firstDataSchool('data/accreditation.json', (school) => Array.isArray(school.actions) && school.actions.length > 0);
+function parseAccreditationActionDate(action) {
+  const raw = String(action.action_date || '').trim();
+  if (!raw) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    const parsed = new Date(`${raw}T00:00:00`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  if (/^\d{4}-\d{2}$/.test(raw)) {
+    const parsed = new Date(`${raw}-01T00:00:00`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  const parsed = new Date(raw);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+function accreditationActionYear(action) {
+  const explicitYear = Number(action.action_year || '');
+  if (!Number.isNaN(explicitYear) && explicitYear > 0) return explicitYear;
+  const dateText = String(action.action_date || '');
+  const match = dateText.match(/\b(19|20)\d{2}\b/);
+  return match ? Number(match[0]) : NaN;
+}
+
+function normalizeAccreditationActionText(text) {
+  return String(text || '').toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+const MSCHE_PROCEDURAL_DROP_PATTERNS = [
+  /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report/i,
+  /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report/i,
+  /^\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?candidate assessment/i,
+  /^\s*(?:staff acted on behalf of the commission )?to request an? updated teach-?out plan/i,
+  /^\s*to require [^.]{0,200}?teach-?out plan/i,
+  /^\s*to request [^.]{0,200}?teach-?out plan/i,
+  /^\s*to note the follow-up team visit/i,
+  /^\s*to note that the complex substantive change visit occurred/i,
+  /^\s*to note that an? updated teach-?out plan [^.]{0,80}? will not be required/i,
+  /^\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy/i,
+  /^\s*to approve the teach-?out plan as required of candidate/i,
+  /^\s*to reject the teach-?out plan/i,
+  /^\s*to note that the supplemental information report was not conducive/i
+];
+
+const TRUSTED_ACCREDITATION_ACTION_TYPES = new Set([
+  'adverse_action', 'warning', 'probation', 'show_cause', 'removed', 'notice'
+]);
+
+function hasAccreditationActionOccurred(action) {
+  const actionDate = parseAccreditationActionDate(action);
+  if (actionDate) return actionDate.getTime() <= Date.now();
+  const year = accreditationActionYear(action);
+  return !Number.isNaN(year) && year >= 2019 && year <= new Date().getFullYear();
+}
+
+function isVisibleAccreditationAction(action) {
+  const type = normalizeAccreditationActionText(action.action_type);
+  const accreditor = String(action.accreditor || '').toUpperCase();
+  const label = normalizeAccreditationActionText(action.action_label || action.action_label_raw);
+  const notes = normalizeAccreditationActionText(action.notes);
+  const haystack = `${type} ${label} ${notes}`;
+  const contentOnly = `${label} ${notes}`;
+
+  if (accreditor === 'MSCHE' && type === 'monitoring') return false;
+
+  if (accreditor === 'MSCHE') {
+    const candidateLabels = [
+      action.action_label_short,
+      action.action_label,
+      action.action_label_raw
+    ].filter((value) => typeof value === 'string' && value.length > 0);
+    for (const pattern of MSCHE_PROCEDURAL_DROP_PATTERNS) {
+      if (candidateLabels.some((candidate) => pattern.test(candidate))) {
+        return false;
+      }
+    }
+  }
+
+  if (/substantive change|program addition/.test(haystack) && !TRUSTED_ACCREDITATION_ACTION_TYPES.has(type)) {
+    return false;
+  }
+
+  const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
+  const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-?out plan|removed from membership/;
+  const requiredReportPattern = /require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report/;
+  const standaloneLowSignalPattern = /^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$/;
+  const hasSpecialVisit = /special visit/.test(haystack);
+  const hasSanctionDecision =
+    statusActionPattern.test(contentOnly) ||
+    closureActionPattern.test(contentOnly) ||
+    requiredReportPattern.test(contentOnly);
+
+  if (hasSpecialVisit && !hasSanctionDecision) return false;
+  if (statusActionPattern.test(contentOnly) || closureActionPattern.test(contentOnly) || requiredReportPattern.test(contentOnly)) {
+    return true;
+  }
+  if (standaloneLowSignalPattern.test(label)) return false;
+
+  return ['warning', 'probation', 'monitoring', 'notice'].includes(type) ||
+    /removed from membership|teach-?out|institutional closure/.test(haystack);
+}
+
+function schoolWithVisibleAccreditation() {
+  return firstDataSchool('data/accreditation.json', (school) =>
+    Array.isArray(school.actions) &&
+    school.actions.some((action) =>
+      action &&
+      action.display_action !== false &&
+      !Number.isNaN(accreditationActionYear(action)) &&
+      accreditationActionYear(action) >= 2019 &&
+      hasAccreditationActionOccurred(action) &&
+      isVisibleAccreditationAction(action)
+    )
+  );
 }
 
 function schoolWithResearchSource() {
@@ -242,7 +353,7 @@ module.exports = {
   schoolWithoutRelatedPages,
   relatedPagesForSchool,
   schoolWithCuts,
-  schoolWithAccreditation,
+  schoolWithVisibleAccreditation,
   schoolWithResearchSource,
   unmatchedCutSchool,
   unmatchedResearchSchool,

@@ -466,6 +466,28 @@ function setSectionVisibility(id, show) {
   }
 }
 
+function showSchoolLoadError(message) {
+  setText("school-name", message);
+  setText("school-location", "");
+  setText("school-urbanization", "");
+  setText("school-control", "");
+  setText("school-closure-flag", "");
+  setHidden("school-closure-flag", true);
+  setHidden("school-intro-callout", false);
+  setHidden("school-meta-wrap", true);
+  setSectionVisibility("school-outcomes-section", false);
+  setSectionVisibility("financial-section", false);
+  setSectionVisibility("enrollment-section", false);
+  setSectionVisibility("staffing-section", false);
+  setSectionVisibility("endowment-section", false);
+  setSectionVisibility("aid-section", false);
+  setSectionVisibility("federal-composite-section", false);
+  setSectionVisibility("hcm2-section", false);
+  setSectionVisibility("school-related-section", false);
+  setHidden("download-school-data", true);
+  setHidden("share-school-profile", true);
+}
+
 function slugify(value) {
   return String(value || "college")
     .toLowerCase()
@@ -558,8 +580,9 @@ async function init() {
   const unitid = getParam("unitid");
   window.TrackerApp.syncTabs(unitid, { active: "finances" });
   setHidden("school-intro-callout", Boolean(unitid));
+  setHidden("school-meta-wrap", false);
   if (!unitid) {
-    setText("school-name", "No school selected");
+    showSchoolLoadError("No school selected");
     return;
   }
 
@@ -978,6 +1001,5 @@ async function init() {
 
 init().catch((error) => {
   console.error(error);
-  setText("school-name", "This school page could not be loaded.");
+  showSchoolLoadError("This school page could not be loaded.");
 });
-

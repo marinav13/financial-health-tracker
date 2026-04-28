@@ -215,17 +215,18 @@ main <- function(cli_args = NULL) {
   # -----------------------------------------------------------------------
   # FETCH AND PROCESS ACCREDITATION ACTIONS FROM ALL ACCREDITORS
   message("Fetching accreditation actions ...")
+  reset_accreditation_fetch_telemetry()
 
   # Priority 4: per-scraper validation — each parse_* is run individually so
   # we can detect and warn about any scraper that returns zero rows (likely a
   # site-structure change) before merging everything together.
   scraper_results <- list(
-    MSCHE  = parse_msche(cache_dir, refresh),
-    HLC    = parse_hlc(cache_dir, refresh),
-    SACSCOC= parse_sacscoc(cache_dir, refresh),
-    NECHE  = parse_neche(cache_dir, refresh),
-    WSCUC  = parse_wscuc(cache_dir, refresh),
-    NWCCU  = parse_nwccu(cache_dir, refresh)
+    MSCHE  = with_accreditation_fetch_context("MSCHE", parse_msche(cache_dir, refresh)),
+    HLC    = with_accreditation_fetch_context("HLC", parse_hlc(cache_dir, refresh)),
+    SACSCOC= with_accreditation_fetch_context("SACSCOC", parse_sacscoc(cache_dir, refresh)),
+    NECHE  = with_accreditation_fetch_context("NECHE", parse_neche(cache_dir, refresh)),
+    WSCUC  = with_accreditation_fetch_context("WSCUC", parse_wscuc(cache_dir, refresh)),
+    NWCCU  = with_accreditation_fetch_context("NWCCU", parse_nwccu(cache_dir, refresh))
   )
   scraper_results <- purrr::imap(
     scraper_results,
@@ -406,9 +407,120 @@ main <- function(cli_args = NULL) {
     ) |>
     build_match_suggestions(financial_latest)
 
-  # Coverage summary: count of actions by accreditor/type/status
-  source_coverage <- actions_joined |>
-    dplyr::count(accreditor, action_type, action_status, sort = TRUE)
+  # Coverage summary: preserve the existing action counts, then append
+  # per-accreditor fetch/cache telemetry so freshness can be reviewed.
+  action_counts <- actions_joined |>
+    dplyr::count(accreditor, action_type, action_status, sort = TRUE) |>
+    dplyr::mutate(
+      row_type = "action_count",
+      resource_type = NA_character_,
+      fetch_total_count = NA_integer_,
+      fetch_fresh_count = NA_integer_,
+      fetch_cache_read_count = NA_integer_,
+      fetch_cache_fallback_count = NA_integer_,
+      fetch_cache_age_min_days = NA_real_,
+      fetch_cache_age_max_days = NA_real_,
+      scrape_row_count = NA_integer_
+    ) |>
+    dplyr::select(
+      row_type,
+      accreditor,
+      action_type,
+      action_status,
+      n,
+      resource_type,
+      fetch_total_count,
+      fetch_fresh_count,
+      fetch_cache_read_count,
+      fetch_cache_fallback_count,
+      fetch_cache_age_min_days,
+      fetch_cache_age_max_days,
+      scrape_row_count
+    )
+
+  fetch_telemetry <- get_accreditation_fetch_telemetry()
+  scraper_row_counts <- data.frame(
+    accreditor = names(scraper_results),
+    scrape_row_count = vapply(scraper_results, nrow, integer(1)),
+    stringsAsFactors = FALSE
+  )
+
+  fetch_summary <- if (nrow(fetch_telemetry) == 0L) {
+    scraper_row_counts |>
+      dplyr::mutate(
+        row_type = "fetch_summary",
+        action_type = NA_character_,
+        action_status = NA_character_,
+        n = NA_integer_,
+        resource_type = NA_character_,
+        fetch_total_count = 0L,
+        fetch_fresh_count = 0L,
+        fetch_cache_read_count = 0L,
+        fetch_cache_fallback_count = 0L,
+        fetch_cache_age_min_days = NA_real_,
+        fetch_cache_age_max_days = NA_real_
+      ) |>
+      dplyr::select(
+        row_type,
+        accreditor,
+        action_type,
+        action_status,
+        n,
+        resource_type,
+        fetch_total_count,
+        fetch_fresh_count,
+        fetch_cache_read_count,
+        fetch_cache_fallback_count,
+        fetch_cache_age_min_days,
+        fetch_cache_age_max_days,
+        scrape_row_count
+      )
+  } else {
+    fetch_telemetry |>
+      dplyr::mutate(
+        cache_age_days = suppressWarnings(as.numeric(cache_age_days))
+      ) |>
+      dplyr::group_by(accreditor, resource_type) |>
+      dplyr::summarise(
+        fetch_total_count = dplyr::n(),
+        fetch_fresh_count = sum(outcome == "fresh_fetch", na.rm = TRUE),
+        fetch_cache_read_count = sum(outcome == "cache_read", na.rm = TRUE),
+        fetch_cache_fallback_count = sum(outcome == "cache_fallback", na.rm = TRUE),
+        fetch_cache_age_min_days = {
+          vals <- cache_age_days[!is.na(cache_age_days) & outcome %in% c("cache_read", "cache_fallback")]
+          if (length(vals) == 0L) NA_real_ else min(vals)
+        },
+        fetch_cache_age_max_days = {
+          vals <- cache_age_days[!is.na(cache_age_days) & outcome %in% c("cache_read", "cache_fallback")]
+          if (length(vals) == 0L) NA_real_ else max(vals)
+        },
+        .groups = "drop"
+      ) |>
+      dplyr::left_join(scraper_row_counts, by = "accreditor") |>
+      dplyr::mutate(
+        row_type = "fetch_summary",
+        action_type = NA_character_,
+        action_status = NA_character_,
+        n = NA_integer_
+      ) |>
+      dplyr::select(
+        row_type,
+        accreditor,
+        action_type,
+        action_status,
+        n,
+        resource_type,
+        fetch_total_count,
+        fetch_fresh_count,
+        fetch_cache_read_count,
+        fetch_cache_fallback_count,
+        fetch_cache_age_min_days,
+        fetch_cache_age_max_days,
+        scrape_row_count
+      )
+  }
+
+  source_coverage <- dplyr::bind_rows(action_counts, fetch_summary)
 
   # -----------------------------------------------------------------------
   # PREPARE OUTPUT FILE PATHS
@@ -446,6 +558,26 @@ main <- function(cli_args = NULL) {
   message("Actions scraped per accreditor:")
   for (nm in names(accreditor_counts)) {
     message(sprintf("  %-10s %d rows", nm, accreditor_counts[[nm]]))
+  }
+  if (exists("fetch_summary") && nrow(fetch_summary) > 0L) {
+    message("Fetch/cache summary by accreditor:")
+    for (i in seq_len(nrow(fetch_summary))) {
+      row <- fetch_summary[i, , drop = FALSE]
+      message(sprintf(
+        "  %-10s %-6s fresh=%d cache=%d fallback=%d rows=%d%s",
+        row$accreditor[[1]],
+        ifelse(is.na(row$resource_type[[1]]), "all", row$resource_type[[1]]),
+        as.integer(row$fetch_fresh_count[[1]] %||% 0L),
+        as.integer(row$fetch_cache_read_count[[1]] %||% 0L),
+        as.integer(row$fetch_cache_fallback_count[[1]] %||% 0L),
+        as.integer(row$scrape_row_count[[1]] %||% 0L),
+        if (!is.na(row$fetch_cache_age_max_days[[1]])) {
+          sprintf(" cache-age %.1f-%.1f days", row$fetch_cache_age_min_days[[1]], row$fetch_cache_age_max_days[[1]])
+        } else {
+          ""
+        }
+      ))
+    }
   }
 
   # -----------------------------------------------------------------------

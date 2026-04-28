@@ -410,7 +410,9 @@ box_shared_static_pdf_url <- function(url) {
 # Caching is essential because box.com is occasionally slow or unreachable.
 fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
   cache_path <- file.path(cache_dir, cache_name)
+  accreditor <- getOption("tracker.current_accreditor", default = NA_character_)
   if (!refresh && file.exists(cache_path)) {
+    record_accreditation_fetch_event(accreditor, url, "binary", "cache_read", cache_path)
     return(cache_path)
   }
   tryCatch(
@@ -420,10 +422,12 @@ fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
         httr2::req_perform()
       raw_body <- httr2::resp_body_raw(resp)
       writeBin(raw_body, cache_path)
+      record_accreditation_fetch_event(accreditor, url, "binary", "fresh_fetch", cache_path)
       cache_path
     },
     error = function(e) {
       if (file.exists(cache_path)) {
+        record_accreditation_fetch_event(accreditor, url, "binary", "cache_fallback", cache_path)
         message("Falling back to cached binary for ", url)
         cache_path
       } else {

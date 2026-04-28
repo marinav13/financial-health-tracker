@@ -98,6 +98,66 @@ cache_freshness_label <- function(cache_path, now = Sys.time()) {
   )
 }
 
+cache_age_days <- function(cache_path, now = Sys.time()) {
+  info <- file.info(cache_path)
+  mtime <- info$mtime[[1]]
+  if (is.na(mtime)) return(NA_real_)
+  age_days <- as.numeric(difftime(now, mtime, units = "days"))
+  if (!is.finite(age_days)) return(NA_real_)
+  age_days
+}
+
+.accreditation_fetch_telemetry <- new.env(parent = emptyenv())
+.accreditation_fetch_telemetry$events <- list()
+
+reset_accreditation_fetch_telemetry <- function() {
+  .accreditation_fetch_telemetry$events <- list()
+  invisible(NULL)
+}
+
+record_accreditation_fetch_event <- function(accreditor,
+                                             url,
+                                             resource_type,
+                                             outcome,
+                                             cache_path = NA_character_) {
+  cache_age <- if (!is.na(cache_path) && nzchar(cache_path) && file.exists(cache_path)) {
+    cache_age_days(cache_path)
+  } else {
+    NA_real_
+  }
+
+  .accreditation_fetch_telemetry$events[[length(.accreditation_fetch_telemetry$events) + 1L]] <- data.frame(
+    accreditor = as.character(accreditor %||% NA_character_),
+    url = as.character(url %||% NA_character_),
+    resource_type = as.character(resource_type %||% NA_character_),
+    outcome = as.character(outcome %||% NA_character_),
+    cache_age_days = cache_age,
+    stringsAsFactors = FALSE
+  )
+  invisible(NULL)
+}
+
+get_accreditation_fetch_telemetry <- function() {
+  if (length(.accreditation_fetch_telemetry$events) == 0L) {
+    return(data.frame(
+      accreditor = character(),
+      url = character(),
+      resource_type = character(),
+      outcome = character(),
+      cache_age_days = numeric(),
+      stringsAsFactors = FALSE
+    ))
+  }
+  dplyr::bind_rows(.accreditation_fetch_telemetry$events)
+}
+
+with_accreditation_fetch_context <- function(accreditor, expr) {
+  old <- getOption("tracker.current_accreditor", default = NA_character_)
+  options(tracker.current_accreditor = accreditor)
+  on.exit(options(tracker.current_accreditor = old), add = TRUE)
+  force(expr)
+}
+
 # Fetches HTML from URL with disk caching and graceful fallback to cache on network failures.
 # Caching is essential here because accreditor websites are often slow or temporarily unavailable;
 # falling back to cached data from a previous run is better than failing entirely.
@@ -113,8 +173,10 @@ cache_freshness_label <- function(cache_path, now = Sys.time()) {
 fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
                             validate_fn = NULL) {
   cache_path <- file.path(cache_dir, cache_name)
+  accreditor <- getOption("tracker.current_accreditor", default = NA_character_)
   # Quick return if not refreshing and cache exists
   if (!refresh && file.exists(cache_path)) {
+    record_accreditation_fetch_event(accreditor, url, "html", "cache_read", cache_path)
     message(sprintf(
       "Using cached copy for %s (%s)",
       url,
@@ -134,6 +196,7 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
     # stop with instructions if no cache is available.
     if (!is.null(validate_fn) && !isTRUE(validate_fn(body))) {
       if (file.exists(cache_path)) {
+        record_accreditation_fetch_event(accreditor, url, "html", "cache_fallback", cache_path)
         warning(paste(
           sprintf("fetch_html_text: fresh response from %s failed content validation", url),
           sprintf("(possible JavaScript-rendered shell). Cache NOT overwritten."),
@@ -155,10 +218,12 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
 
     # Save the response to cache for future use
     readr::write_file(body, cache_path)
+    record_accreditation_fetch_event(accreditor, url, "html", "fresh_fetch", cache_path)
     body
   }, error = function(e) {
     # On network error, try to use cached copy as fallback
     if (file.exists(cache_path)) {
+      record_accreditation_fetch_event(accreditor, url, "html", "cache_fallback", cache_path)
       message(sprintf(
         "Falling back to cached copy for %s (%s)",
         url,

@@ -1354,6 +1354,28 @@ run_test("fetch_html_text refresh=FALSE logs cached copy age", function() {
   )
 })
 
+run_test("fetch_html_text records cache telemetry under accreditor context", function() {
+  cache_dir <- tempfile("fetch_cache_telemetry_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  cache_path <- file.path(cache_dir, "cached_page.html")
+  writeLines("<html><body><h3>Cached</h3></body></html>", cache_path)
+
+  reset_accreditation_fetch_telemetry()
+  with_accreditation_fetch_context("MSCHE", {
+    fetch_html_text("https://example.com/cached", "cached_page.html", cache_dir, refresh = FALSE)
+  })
+  telemetry <- get_accreditation_fetch_telemetry()
+
+  assert_equal(nrow(telemetry), 1L)
+  assert_equal(telemetry$accreditor[[1]], "MSCHE")
+  assert_equal(telemetry$resource_type[[1]], "html")
+  assert_equal(telemetry$outcome[[1]], "cache_read")
+  assert_true(is.finite(telemetry$cache_age_days[[1]]),
+    "Expected fetch telemetry to record cache age in days.")
+})
+
 # ---------------------------------------------------------------------------
 # NWCCU institution page parser
 # ---------------------------------------------------------------------------

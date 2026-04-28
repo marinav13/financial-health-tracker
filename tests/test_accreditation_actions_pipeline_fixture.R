@@ -163,6 +163,12 @@ run_test("Accreditation actions pipeline fixture", function() {
   assert_true("Example University" %in% current_df$tracker_name, "Current status should include Example University.")
   assert_true(nrow(unmatched_df) == 1L, "Fixture should produce one unmatched institution for review.")
   assert_true(nrow(coverage_df) >= 1L, "Coverage output should contain at least one row.")
+  assert_true("row_type" %in% names(coverage_df), "Coverage output should include row_type metadata.")
+  assert_true(any(coverage_df$row_type == "action_count"), "Coverage output should preserve action-count rows.")
+  assert_true(any(coverage_df$row_type == "fetch_summary"), "Coverage output should include fetch-summary rows.")
+  fetch_rows <- coverage_df[coverage_df$row_type == "fetch_summary", , drop = FALSE]
+  assert_true(all(fetch_rows$fetch_total_count == 0L),
+    "Stubbed fixture scrapers should emit zero-fetch summary rows.")
 })
 
 run_test("Accreditation workbook sanitiser truncates overlong cells intentionally", function() {

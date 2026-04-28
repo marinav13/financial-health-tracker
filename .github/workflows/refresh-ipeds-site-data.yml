@@ -152,7 +152,7 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript ./scripts/build_web_exports.R
-          --input data/downloads/full_dataset.csv
+          --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
 
       - name: Validate rebuilt artifacts
         shell: bash

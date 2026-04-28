@@ -52,6 +52,8 @@ IPEDS remains under `ipeds/`.
 
 - `build_web_exports.R`
   - writes the site JSON, CSV downloads, and school-level files
+  - must read the multi-year canonical IPEDS file from `ipeds/derived/`
+  - do not pass `data/downloads/full_dataset.csv`; that file is a one-year output artifact used for downloads, not the export input
 
 
 ## Shared Helper Layout

@@ -702,13 +702,23 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   # fallback. Surfacing the merging partner is more informative than
   # falling through to the generic "change of legal status" boilerplate.
   m_merger <- stringr::str_match(raw, stringr::regex(
-    "merger of [^,.]+ (?:with|into) ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    "merger of ([^,.]+?) (with|into) ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
     ignore_case = TRUE
   ))
   if (!is.na(m_merger[1, 1])) {
-    partner <- stringr::str_squish(m_merger[1, 2])
-    eff_date <- stringr::str_squish(m_merger[1, 3])
-    return(paste0("Merger with ", partner, " (effective ", eff_date, ")"))
+    # Surface BOTH institution names so the label is unambiguous on
+    # either party's accreditation page. The earlier shape captured
+    # only the partner name and emitted "Merger with <Y>", which read
+    # as a self-reference on <Y>'s own row (e.g. Russell Sage's page
+    # showed "Merger with Russell Sage College").
+    inst_a   <- stringr::str_squish(m_merger[1, 2])
+    connector <- tolower(stringr::str_squish(m_merger[1, 3]))
+    inst_b   <- stringr::str_squish(m_merger[1, 4])
+    eff_date <- stringr::str_squish(m_merger[1, 5])
+    return(paste0(
+      "Merger of ", inst_a, " ", connector, " ", inst_b,
+      " (effective ", eff_date, ")"
+    ))
   }
   m_legal_status <- stringr::str_match(raw, stringr::regex(
     "to include the change in legal status[^.]*?effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",

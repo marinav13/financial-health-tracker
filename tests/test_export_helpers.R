@@ -470,7 +470,21 @@ run_test("derive_action_label_short Phase 4: Pattern 0a — Merger with named pa
   )
   assert_identical(
     derive_action_label_short("adverse_action", albany_text, "MSCHE"),
-    "Merger with Russell Sage College (effective June 1, 2026)"
+    "Merger of Albany College of Pharmacy and Health Sciences with Russell Sage College (effective June 1, 2026)"
+  )
+  # Symmetry check: the same MSCHE action body appears on Russell Sage's
+  # accreditation page. Naming both institutions in the label ensures
+  # the row reads correctly regardless of whose page it is shown on
+  # (the prior "Merger with <Y>" shape rendered as a self-reference on
+  # Y's own row).
+  russell_sage_text <- paste0(
+    "To note the complex substantive change request includes the merger of ",
+    "Albany College of Pharmacy and Health Sciences with Russell Sage College, ",
+    "effective June 1, 2026, the anticipated date of the transaction."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", russell_sage_text, "MSCHE"),
+    "Merger of Albany College of Pharmacy and Health Sciences with Russell Sage College (effective June 1, 2026)"
   )
 })
 

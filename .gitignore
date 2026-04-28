@@ -44,6 +44,10 @@ data_pipelines/accreditation/*.xlsx
 data_pipelines/college_cuts/cache/
 data_pipelines/college_cuts/*.csv
 data_pipelines/college_cuts/*.xlsx
+# Exceptions: hand-curated source-of-truth files (committed to track changes)
+!data_pipelines/college_cuts/manual_aliases.csv
+!data_pipelines/college_cuts/supabase_manual_aliases.csv
+!data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv
 data_pipelines/federal_hcm/raw/
 data_pipelines/federal_hcm/*.csv
 data_pipelines/federal_composite/*.csv

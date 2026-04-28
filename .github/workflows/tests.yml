@@ -34,11 +34,12 @@ jobs:
       - name: Restore R packages
         run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
 
-      - name: Install missing smoke-test packages
-        run: Rscript -e "required <- c('dplyr','jsonlite','pdftools','purrr','readr','readxl','stringr','xml2','httr2'); missing <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]; if (length(missing)) install.packages(missing, repos = 'https://packagemanager.posit.co/cran/latest')"
-
-      - name: Install lintr (CI-only, not in renv)
-        run: Rscript -e "if (!requireNamespace('lintr', quietly = TRUE)) install.packages('lintr', repos = 'https://packagemanager.posit.co/cran/latest')"
+      - name: Set up CI-only R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::pdftools
+            any::lintr
 
       - name: Lint R sources
         run: Rscript tests/run_lintr.R

@@ -53,10 +53,7 @@ function fmtNumber(value, digits = 1) {
   }).format(n);
 }
 
-function setText(id, value) {
-  const node = document.getElementById(id);
-  if (node) node.textContent = value ?? "No data";
-}
+const setText = window.TrackerApp.setText;
 
 async function loadJsonOrNull(path) {
   try {

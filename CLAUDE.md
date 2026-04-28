@@ -86,6 +86,49 @@ But do:
 
 ---
 
+## Accreditation action pipeline (3 layers)
+MSCHE board-action rows go through three independent stages between scrape
+and render. A row's final fate depends on all three. When debugging a
+missing or mislabeled action, always inspect each layer in order.
+
+1. **classify** — `classify_action()` in `scripts/shared/accreditation_helpers.R`
+   assigns `action_type` (e.g. `warning`, `probation`, `show_cause`,
+   `adverse_action`, `monitoring`, `other`) by keyword match against the
+   raw board-action text.
+
+2. **summarize** — `derive_action_label_short()` in
+   `scripts/shared/export_helpers.R` produces the short table label.
+   For MSCHE rows, nine ordered named patterns (Pattern 0a, 0a-2, 0b,
+   1, 2, 3, 4, 5, 6) try to extract a structured summary; on miss,
+   the fallback strips boilerplate preambles ("Staff acted on behalf
+   of the Commission ", "To acknowledge receipt of ...") and returns
+   the first remaining sentence with a length cap.
+
+3. **drop** — `MSCHE_PROCEDURAL_DROP_PATTERNS` in `js/accreditation.js`
+   filters routine-procedural rows (supplemental info report requests,
+   follow-up visit notes, candidate-assessment paperwork, COVID-era
+   waivers) from the global table. Drops are anchored at start of
+   string and matched against `action_label_short` first, then
+   `action_label` / `action_label_raw` as a safety net.
+
+When a known action does not surface on the page, check in this order:
+- Was it scraped at all? (check `data_pipelines/accreditation/*.csv`)
+- What `action_type` did `classify_action` assign?
+- What did `derive_action_label_short` emit?
+- Did a procedural drop pattern match the emitted label?
+
+If the drop layer matches but the underlying action is substantive
+(e.g. `show_cause` types preamble-strip into something that looks
+procedural), the right fix is a new pattern in stage 2 that produces
+a summary which does not match any drop pattern -- not loosening the
+drop array. `TRUSTED_ACTION_TYPES` in `js/accreditation.js` already
+exempts adverse types from the keyword-substring filter at the bottom
+of `isTrackedAction`, but does NOT exempt them from
+`MSCHE_PROCEDURAL_DROP_PATTERNS`. Hold the override-CSV line for
+unmatched outliers; do not grow the regex layer indefinitely.
+
+---
+
 ## Refactoring rules
 Refactor only when it reduces duplication, drift, or risk.
 
@@ -109,6 +152,10 @@ For non-trivial changes:
 
 Favor tests that verify behavior, state synchronization, rendering safety, and failure handling.
 Do not write brittle tests that only mirror implementation details.
+
+R lintr is upstream of R smoke; investigate both when either fails.
+A red lintr step blocks the smoke step from ever running on CI, which
+can mask latent test failures locally and on `main` for weeks.
 
 ---
 

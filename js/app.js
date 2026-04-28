@@ -448,6 +448,13 @@ window.TrackerApp.renderEmpty = function renderEmpty(message) {
   return `<div class="empty-state"><p>${escapeHtml(message)}</p></div>`;
 };
 
+// Sets textContent on a DOM node by id; falls back to "No data" when value is
+// nullish so callers can pass through pipeline values without inline guards.
+window.TrackerApp.setText = function setText(id, value) {
+  const node = document.getElementById(id);
+  if (node) node.textContent = value ?? "No data";
+};
+
 window.TrackerApp.csvEscape = function csvEscape(value) {
   const text = String(value ?? "");
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
@@ -604,7 +611,7 @@ window.TrackerApp.renderPaginationButtons = function renderPaginationButtons({ c
     const ariaLabel = isCurrent ? `Current page, page ${n}` : `Go to page ${n}`;
     return `<button type="button" class="pagination-button${isCurrent ? " is-active" : ""}" data-page="${n}" aria-label="${escapeHtml(ariaLabel)}"${currentAttr}>${n}</button>`;
   };
-  const renderEllipsis = () => `<span class="pagination-ellipsis" aria-hidden="true">…</span>`;
+  const renderEllipsis = () => `<span class="pagination-ellipsis">…</span>`;
   const renderNav = (pageTarget, label, ariaLabel, disabled) => {
     const disabledAttr = disabled ? " disabled" : "";
     const disabledClass = disabled ? " is-disabled" : "";

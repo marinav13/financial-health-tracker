@@ -268,6 +268,37 @@ run_test("Accreditation action-type drop guard ignores low-volume pairs", functi
   )
 })
 
+run_test("Accreditation action-type drop guard ignores synthetic commission_action stubs", function() {
+  prior_csv <- tempfile("prior-accreditation-", fileext = ".csv")
+  on.exit(unlink(prior_csv), add = TRUE)
+
+  readr::write_csv(
+    tibble::tibble(
+      accreditor = rep("MSCHE", 4),
+      action_type = rep("commission_action", 4)
+    ),
+    prior_csv
+  )
+  fresh <- tibble::tibble(
+    accreditor = rep("MSCHE", 4),
+    action_type = rep("other", 4)
+  )
+
+  got_warning <- FALSE
+  withCallingHandlers(
+    warn_if_action_type_dropped(fresh, prior_csv),
+    warning = function(w) {
+      got_warning <<- TRUE
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  assert_true(
+    !got_warning,
+    "Expected action-type drop guard to ignore commission_action stub disappearance."
+  )
+})
+
 run_test("Accreditation scraper section extractors", function() {
   regex_html <- paste0(
     '<a class="elementor-toggle-title">Warning</a>',

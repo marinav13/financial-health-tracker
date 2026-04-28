@@ -1881,6 +1881,7 @@ warn_if_scrape_count_dropped <- function(fresh_df,
 warn_if_action_type_dropped <- function(fresh_df,
                                         prior_csv,
                                         min_prior_rows = 3L,
+                                        ignore_action_types = c("commission_action"),
                                         fail = FALSE) {
   if (!file.exists(prior_csv)) {
     return(invisible(NULL))
@@ -1932,8 +1933,13 @@ warn_if_action_type_dropped <- function(fresh_df,
     joined$fresh_n[is.na(joined$fresh_n)] <- 0L
   }
 
-  dropped <- joined[joined$prior_n >= min_prior_rows & joined$fresh_n == 0L, ,
-                    drop = FALSE]
+  dropped <- joined[
+    joined$prior_n >= min_prior_rows &
+      joined$fresh_n == 0L &
+      !(joined$action_type %in% ignore_action_types),
+    ,
+    drop = FALSE
+  ]
   if (nrow(dropped) == 0L) return(invisible(NULL))
 
   for (i in seq_len(nrow(dropped))) {

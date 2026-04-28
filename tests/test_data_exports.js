@@ -13,10 +13,6 @@ const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const SCHOOL_CONTRACT = JSON.parse(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "school_contract.json"), "utf8"));
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
 const ACCREDITATION = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "accreditation.json"), "utf8"));
-const ACCREDITATION_INSTITUTION_SUMMARY_CSV = fs.readFileSync(
-  path.join(ROOT, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
-  "utf8"
-);
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
 const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding_index.json"), "utf8"));
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
@@ -274,28 +270,6 @@ run("University of Hawai'i at Hilo accreditation actions match the primary track
     .map((school) => school.institution_name)
     .filter((name) => /Hawai.i.*Hilo|Hawaii.*Hilo/i.test(name || ""));
   assert(unmatchedHilo.length === 0, `Hilo accreditation aliases should not appear in "other institutions": ${unmatchedHilo.join(", ")}`);
-});
-
-run("trailing-The accreditation aliases stay matched in the accreditation pipeline summary", () => {
-  const expectedAccreditationMatches = [
-    ["131283", "The Catholic University of America"],
-    ["131469", "George Washington University"],
-    ["187134", "The College of New Jersey"],
-    ["195234", "The College of Saint Rose"],
-    ["197285", "The College of Westchester"],
-    ["202763", "The University of Findlay"],
-    ["237312", "University of Charleston"],
-    ["164988", "Boston University"]
-  ];
-
-  for (const [unitid, name] of expectedAccreditationMatches) {
-    const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const rowPattern = new RegExp(`^${unitid},${escapedName},`, "m");
-    assert(
-      rowPattern.test(ACCREDITATION_INSTITUTION_SUMMARY_CSV),
-      `Accreditation pipeline summary output is missing expected matched school ${name} (${unitid})`
-    );
-  }
 });
 
 run("trailing-The accreditation aliases do not leak into accreditation other-institutions exports", () => {

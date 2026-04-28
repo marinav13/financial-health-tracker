@@ -1,4 +1,40 @@
-run_test("Pipeline scripts source cleanly", function() {
+run_test("Pipeline scripts parse cleanly", function() {
+  script_paths <- sort(list.files(
+    file.path(root, "scripts"),
+    pattern = "\\.R$",
+    recursive = TRUE,
+    full.names = TRUE
+  ))
+  assert_true(length(script_paths) > 0L, "Expected at least one R script under scripts/.")
+
+  parse_failures <- character()
+  for (script_path in script_paths) {
+    err <- tryCatch(
+      {
+        parse(file = script_path)
+        NULL
+      },
+      error = function(e) conditionMessage(e)
+    )
+    if (!is.null(err)) {
+      rel_path <- sub(paste0("^", gsub("([][{}()+*^$|\\\\?.])", "\\\\\\1", root), "/"), "", normalizePath(script_path, winslash = "/", mustWork = TRUE))
+      parse_failures <- c(parse_failures, sprintf("%s: %s", rel_path, err))
+    }
+  }
+
+  if (length(parse_failures) > 0L) {
+    stop(
+      paste(
+        "One or more scripts/ R files failed to parse:",
+        paste(parse_failures, collapse = "\n"),
+        sep = "\n"
+      ),
+      call. = FALSE
+    )
+  }
+})
+
+run_test("Pipeline entry scripts source cleanly", function() {
   script_paths <- c(
     file.path(root, "scripts", "build_web_exports.R"),
     file.path(root, "scripts", "build_grant_witness_join.R"),

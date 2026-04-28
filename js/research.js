@@ -359,7 +359,20 @@
     `;
   }
 
-  function setupPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts by institution") {
+  // Options bag (replaces 9-positional-arg signature). All keys optional except container + items.
+  // Shared keys with accreditation.js / cuts.js so future shared extraction is trivial.
+  // paginationLabel and tableLabel are research-specific; the others are common.
+  function setupPagination({
+    container,
+    items,
+    pageSize,
+    emptyMessage,
+    downloadButtonId,
+    downloadFilename,
+    paginationLabel,
+    searchInput = null,
+    tableLabel = "Research funding cuts by institution"
+  }) {
     return makeTableController({
       container,
       items,
@@ -393,7 +406,17 @@
     });
   }
 
-  function setupOtherPagination(container, items, pageSize, emptyMessage, downloadButtonId, downloadFilename, paginationLabel, searchInput = null, tableLabel = "Research funding cuts at other institutions") {
+  function setupOtherPagination({
+    container,
+    items,
+    pageSize,
+    emptyMessage,
+    downloadButtonId,
+    downloadFilename,
+    paginationLabel,
+    searchInput = null,
+    tableLabel = "Research funding cuts at other institutions"
+  }) {
     return makeTableController({
       container,
       items,
@@ -447,28 +470,28 @@
       const other = ranked.filter((school) => !isPrimaryBachelorsInstitution(school));
       const renderLanding = () => {
         if (summaryGrid) summaryGrid.innerHTML = renderLandingSummaryGrid(ranked);
-        setupPagination(
+        setupPagination({
           container,
-          primary,
-          PAGE_SIZE,
-          "No currently disrupted research grants are available for 4-year, primarily bachelor's-degree-granting institutions.",
-          "research-table-download",
-          "research-funding-primary.csv",
-          "Research funding pages",
+          items: primary,
+          pageSize: PAGE_SIZE,
+          emptyMessage: "No currently disrupted research grants are available for 4-year, primarily bachelor's-degree-granting institutions.",
+          downloadButtonId: "research-table-download",
+          downloadFilename: "research-funding-primary.csv",
+          paginationLabel: "Research funding pages",
           searchInput,
-          "Research funding cuts at 4-year institutions"
-        );
-        setupOtherPagination(
-          otherContainer,
-          other,
-          OTHER_PAGE_SIZE,
-          "No currently disrupted research grants are available for other higher-ed institutions.",
-          "research-other-download",
-          "research-funding-other.csv",
-          "Research funding pages for other higher-ed institutions",
-          otherSearchInput,
-          "Research funding cuts at other higher-ed institutions"
-        );
+          tableLabel: "Research funding cuts at 4-year institutions"
+        });
+        setupOtherPagination({
+          container: otherContainer,
+          items: other,
+          pageSize: OTHER_PAGE_SIZE,
+          emptyMessage: "No currently disrupted research grants are available for other higher-ed institutions.",
+          downloadButtonId: "research-other-download",
+          downloadFilename: "research-funding-other.csv",
+          paginationLabel: "Research funding pages for other higher-ed institutions",
+          searchInput: otherSearchInput,
+          tableLabel: "Research funding cuts at other higher-ed institutions"
+        });
       };
       setDataCardVisible("research-other-list", other.length > 0);
       if (otherTitle) otherTitle.textContent = "Research funding cuts at other higher-ed institutions";

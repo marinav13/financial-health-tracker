@@ -528,7 +528,18 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     `;
   }
 
-  function setupPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
+  // Options bag (replaces 8-positional-arg signature). All keys optional except container + actions.
+  // Shared keys with cuts.js / research.js so a future shared extraction is trivial.
+  function setupPagination({
+    container,
+    actions,
+    pageSize = PAGE_SIZE,
+    emptyMessage = "No accreditation actions found.",
+    downloadButtonId = null,
+    downloadFilename = "accreditation-actions.csv",
+    searchInput = null,
+    linkNames = true
+  }) {
     makeTableController({
       container,
       items: actions,
@@ -551,7 +562,16 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     });
   }
 
-  function setupOtherPagination(container, actions, pageSize = PAGE_SIZE, emptyMessage = "No accreditation actions found.", downloadButtonId = null, downloadFilename = "accreditation-actions.csv", searchInput = null, linkNames = true) {
+  function setupOtherPagination({
+    container,
+    actions,
+    pageSize = PAGE_SIZE,
+    emptyMessage = "No accreditation actions found.",
+    downloadButtonId = null,
+    downloadFilename = "accreditation-actions.csv",
+    searchInput = null,
+    linkNames = true
+  }) {
     makeTableController({
       container,
       items: actions,
@@ -641,25 +661,24 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
       setDataCardVisible("accreditation-other-status", true);
       const otherFilter = document.getElementById("accreditation-other-filter");
-      setupPagination(
-        document.getElementById("accreditation-status"),
-        primaryActions,
-        PAGE_SIZE,
-        "No accreditation actions from 2019 to the present are available for 4-year, primarily bachelor's-degree-granting institutions.",
-        "accreditation-table-download",
-        "accreditation-primary.csv",
-        primaryFilter
-      );
-      setupOtherPagination(
-        document.getElementById("accreditation-other-status"),
-        otherActions,
-        OTHER_PAGE_SIZE,
-        "No accreditation actions from 2019 to the present are available for other institutions.",
-        "accreditation-other-download",
-        "accreditation-other.csv",
-        otherFilter,
-        false  // institution names in the "other" table are plain text, not links
-      );
+      setupPagination({
+        container: document.getElementById("accreditation-status"),
+        actions: primaryActions,
+        emptyMessage: "No accreditation actions from 2019 to the present are available for 4-year, primarily bachelor's-degree-granting institutions.",
+        downloadButtonId: "accreditation-table-download",
+        downloadFilename: "accreditation-primary.csv",
+        searchInput: primaryFilter
+      });
+      setupOtherPagination({
+        container: document.getElementById("accreditation-other-status"),
+        actions: otherActions,
+        pageSize: OTHER_PAGE_SIZE,
+        emptyMessage: "No accreditation actions from 2019 to the present are available for other institutions.",
+        downloadButtonId: "accreditation-other-download",
+        downloadFilename: "accreditation-other.csv",
+        searchInput: otherFilter,
+        linkNames: false
+      });
       return;
     }
 

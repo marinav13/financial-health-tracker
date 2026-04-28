@@ -163,7 +163,17 @@
     `;
   }
 
-  function setupPagination(container, items, pageSize = PAGE_SIZE, emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`, downloadButtonId = null, downloadFilename = "college-cuts.csv", searchInput = null) {
+  // Options bag (replaces 7-positional-arg signature). All keys optional except container + items.
+  // Shared keys with accreditation.js / research.js so future shared extraction is trivial.
+  function setupPagination({
+    container,
+    items,
+    pageSize = PAGE_SIZE,
+    emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`,
+    downloadButtonId = null,
+    downloadFilename = "college-cuts.csv",
+    searchInput = null
+  }) {
     return makeTableController({
       container,
       items,
@@ -214,8 +224,23 @@
       if (otherTitle) otherTitle.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at other institutions`;
       const primaryFilter = document.getElementById("cuts-filter");
       const otherFilter = document.getElementById("cuts-other-filter");
-      setupPagination(container, primary, PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`, "cuts-table-download", "cuts-primary.csv", primaryFilter);
-      setupPagination(otherContainer, other, OTHER_PAGE_SIZE, `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`, "cuts-other-download", "cuts-other.csv", otherFilter);
+      setupPagination({
+        container,
+        items: primary,
+        emptyMessage: `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`,
+        downloadButtonId: "cuts-table-download",
+        downloadFilename: "cuts-primary.csv",
+        searchInput: primaryFilter
+      });
+      setupPagination({
+        container: otherContainer,
+        items: other,
+        pageSize: OTHER_PAGE_SIZE,
+        emptyMessage: `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`,
+        downloadButtonId: "cuts-other-download",
+        downloadFilename: "cuts-other.csv",
+        searchInput: otherFilter
+      });
       return;
     }
 

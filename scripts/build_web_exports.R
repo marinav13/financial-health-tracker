@@ -242,6 +242,130 @@ build_accreditation_export <- function() {
     }, character(1), USE.NAMES = FALSE)
   }
 
+  MIN_PUBLIC_ACTION_YEAR <- 2019L
+  TODAY <- Sys.Date()
+  TRUSTED_ACTION_TYPES <- c("adverse_action", "warning", "probation", "show_cause", "removed", "notice")
+  MSCHE_PROCEDURAL_DROP_PATTERNS <- c(
+    "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report",
+    "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report",
+    "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?candidate assessment",
+    "^\\s*(?:staff acted on behalf of the commission )?to request an? updated teach-?out plan",
+    "^\\s*to require [^.]{0,200}?teach-?out plan",
+    "^\\s*to request [^.]{0,200}?teach-?out plan",
+    "^\\s*to note the follow-up team visit",
+    "^\\s*to note that the complex substantive change visit occurred",
+    "^\\s*to note that an? updated teach-?out plan [^.]{0,80}? will not be required",
+    "^\\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy",
+    "^\\s*to approve the teach-?out plan as required of candidate",
+    "^\\s*to reject the teach-?out plan",
+    "^\\s*to note that the supplemental information report was not conducive"
+  )
+
+  normalize_accreditation_text <- function(x) {
+    value <- tolower(trimws(as.character(x %||% "")))
+    gsub("\\s+", " ", value)
+  }
+
+  parse_public_action_date <- function(x) {
+    if (length(x) == 0 || is.na(x)) return(as.Date(NA))
+    text <- trimws(as.character(x))
+    if (!nzchar(text)) return(as.Date(NA))
+    if (grepl("^\\d{4}-\\d{2}-\\d{2}$", text)) return(as.Date(text))
+    if (grepl("^\\d{4}-\\d{2}$", text)) return(as.Date(paste0(text, "-01")))
+    parsed <- suppressWarnings(as.Date(text))
+    if (!is.na(parsed)) return(parsed)
+    as.Date(NA)
+  }
+
+  get_public_action_year <- function(action_year, action_date) {
+    explicit_year <- suppressWarnings(as.integer(action_year))
+    if (!is.na(explicit_year) && explicit_year > 0L) return(explicit_year)
+    date_text <- trimws(as.character(action_date %||% ""))
+    match <- regmatches(date_text, regexpr("\\b(19|20)\\d{2}\\b", date_text, perl = TRUE))
+    if (length(match) == 0L || is.na(match) || !nzchar(match)) return(NA_integer_)
+    suppressWarnings(as.integer(match))
+  }
+
+  public_action_has_occurred <- function(action_year, action_date) {
+    parsed_date <- parse_public_action_date(action_date)
+    if (!is.na(parsed_date)) return(parsed_date <= TODAY)
+    year <- get_public_action_year(action_year, action_date)
+    !is.na(year) && year >= MIN_PUBLIC_ACTION_YEAR && year <= as.integer(format(TODAY, "%Y"))
+  }
+
+  is_tracked_public_action <- function(action_type, accreditor, action_label_raw, notes) {
+    type <- normalize_accreditation_text(action_type)
+    accreditor_code <- toupper(trimws(as.character(accreditor %||% "")))
+    label <- normalize_accreditation_text(action_label_raw)
+    label_short <- normalize_accreditation_text(
+      derive_action_label_short(action_type, action_label_raw, accreditor)
+    )
+    notes_text <- normalize_accreditation_text(notes)
+    haystack <- trimws(paste(type, label, notes_text))
+    content_only <- trimws(paste(label, notes_text))
+
+    if (accreditor_code == "MSCHE" && identical(type, "monitoring")) return(FALSE)
+
+    if (accreditor_code == "MSCHE") {
+      candidate_labels <- unique(Filter(nzchar, c(label_short, label)))
+      for (pattern in MSCHE_PROCEDURAL_DROP_PATTERNS) {
+        if (any(vapply(candidate_labels, function(candidate) {
+          grepl(pattern, candidate, ignore.case = TRUE, perl = TRUE)
+        }, logical(1)))) {
+          return(FALSE)
+        }
+      }
+    }
+
+    if (
+      grepl("substantive change|program addition", haystack, ignore.case = TRUE, perl = TRUE) &&
+      !type %in% TRUSTED_ACTION_TYPES
+    ) {
+      return(FALSE)
+    }
+
+    status_action_pattern <- paste(
+      "warning|probation|formal notice of concern|notice of concern|\\bmonitoring\\b|",
+      "removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|",
+      "removed from membership|placed on probation|issue a notice of concern|continue a warning|",
+      "continued on warning|continued on probation|denied reaffirmation",
+      sep = ""
+    )
+    closure_action_pattern <- "accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-?out plan|removed from membership"
+    required_report_pattern <- "require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report"
+    standalone_low_signal_pattern <- "^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$"
+
+    has_special_visit <- grepl("special visit", haystack, ignore.case = TRUE, perl = TRUE)
+    has_sanction_decision <-
+      grepl(status_action_pattern, content_only, ignore.case = TRUE, perl = TRUE) ||
+      grepl(closure_action_pattern, content_only, ignore.case = TRUE, perl = TRUE) ||
+      grepl(required_report_pattern, content_only, ignore.case = TRUE, perl = TRUE)
+
+    if (has_special_visit && !has_sanction_decision) return(FALSE)
+
+    if (
+      grepl(status_action_pattern, content_only, ignore.case = TRUE, perl = TRUE) ||
+      grepl(closure_action_pattern, content_only, ignore.case = TRUE, perl = TRUE) ||
+      grepl(required_report_pattern, content_only, ignore.case = TRUE, perl = TRUE)
+    ) {
+      return(TRUE)
+    }
+
+    if (grepl(standalone_low_signal_pattern, label, ignore.case = TRUE, perl = TRUE)) return(FALSE)
+
+    type %in% c("warning", "probation", "monitoring", "notice") ||
+      grepl("removed from membership|teach-?out|institutional closure", haystack, ignore.case = TRUE, perl = TRUE)
+  }
+
+  is_recent_public_action <- function(action_type, accreditor, action_label_raw, notes, action_year, action_date, display_action) {
+    year <- get_public_action_year(action_year, action_date)
+    isTRUE(display_action) &&
+      is_tracked_public_action(action_type, accreditor, action_label_raw, notes) &&
+      !is.na(year) &&
+      year >= MIN_PUBLIC_ACTION_YEAR &&
+      public_action_has_occurred(action_year, action_date)
+  }
+
   summary_df <- readr::read_csv(accreditation_summary_path, show_col_types = FALSE) %>%
     ensure_columns(list(
       accreditors = NA_character_,
@@ -394,7 +518,27 @@ build_accreditation_export <- function() {
     filter(!is.na(export_unitid), export_unitid != "")
 
   actions_df <- actions_df %>%
-    filter(display_action %in% TRUE)
+    mutate(
+      action_label_short = vapply(
+        seq_len(n()),
+        function(i) derive_action_label_short(action_type[[i]], action_label_raw[[i]], accreditor[[i]]),
+        character(1)
+      ),
+      is_public_display_action = vapply(
+        seq_len(n()),
+        function(i) is_recent_public_action(
+          action_type[[i]],
+          accreditor[[i]],
+          action_label_raw[[i]],
+          notes[[i]],
+          action_year[[i]],
+          action_date[[i]],
+          display_action[[i]]
+        ),
+        logical(1)
+      )
+    ) %>%
+    filter(is_public_display_action %in% TRUE)
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying
@@ -411,6 +555,8 @@ build_accreditation_export <- function() {
     df <- df %>% arrange(desc(action_date), desc(action_year))
     summary_row <- summary_df %>% filter(export_unitid == df$export_unitid[[1]]) %>% slice(1)
     latest <- if (nrow(summary_row) > 0) summary_row else df %>% slice(1)
+    active_types <- df$action_type[df$action_status == "active"]
+    latest_action_year <- suppressWarnings(as.integer(df$action_year))
 
     sources <- df %>%
       distinct(accreditor, source_title, source_url, source_page_url, .keep_all = FALSE)
@@ -426,12 +572,12 @@ build_accreditation_export <- function() {
       control_label = or_null(latest$export_control_label),
       category = or_null(latest$export_category),
       latest_status = list(
-        accreditors = or_null(latest$accreditors),
-        action_labels = or_null(latest$action_labels),
-        active_actions = or_null(latest$active_actions),
-        has_active_warning = or_null(latest$has_active_warning),
-        has_active_warning_or_notice = or_null(latest$has_active_warning_or_notice),
-        has_active_adverse_action = or_null(latest$has_active_adverse_action),
+        accreditors = or_null(collapse_unique_values(df$accreditor)),
+        action_labels = or_null(collapse_unique_values(df$action_label_raw)),
+        active_actions = or_null(collapse_unique_values(active_types)),
+        has_active_warning = any(df$action_status == "active" & df$action_type == "warning", na.rm = TRUE),
+        has_active_warning_or_notice = any(df$action_status == "active" & df$action_type %in% c("warning", "notice"), na.rm = TRUE),
+        has_active_adverse_action = any(df$action_status == "active" & df$action_type == "adverse_action", na.rm = TRUE),
         # Use the rescued max date from the per-school action subset (df) so
         # institutions whose only actions are MSCHE non-compliance / HLC
         # current-status rows -- which arrive without a per-row date and are
@@ -442,9 +588,9 @@ build_accreditation_export <- function() {
           if (all(is.na(df$action_date))) NA_character_ else max(df$action_date, na.rm = TRUE)
         ),
         latest_action_year = or_null(
-          if (all(is.na(df$action_year))) NA_character_ else max(df$action_year, na.rm = TRUE)
+          if (all(is.na(latest_action_year))) NA_character_ else as.character(max(latest_action_year, na.rm = TRUE))
         ),
-        action_count = or_null(latest$action_count)
+        action_count = nrow(df)
       ),
       actions = lapply(seq_len(nrow(df)), function(i) {
         list(
@@ -457,9 +603,7 @@ build_accreditation_export <- function() {
           # scripts/shared/export_helpers.R; passing accreditor lets it
           # apply MSCHE-specific summarization while leaving every other
           # accreditor's label untouched.
-          action_label_short = derive_action_label_short(
-            df$action_type[i], df$action_label_raw[i], df$accreditor[i]
-          ),
+          action_label_short = or_null(df$action_label_short[i]),
           action_scope = or_null(df$action_scope[i]),
           action_status = or_null(df$action_status[i]),
           action_date = or_null_date(df$action_date[i]),
@@ -958,7 +1102,7 @@ export_bundle_specs <- list(
     index_filename = "accreditation_index.json",
     index_builder = function(school) {
       latest_action_label <- if (!is.null(school$actions) && length(school$actions) > 0) {
-        school$actions[[1]]$action_label
+        school$actions[[1]]$action_label_short %||% school$actions[[1]]$action_label
       } else {
         school$latest_status$action_labels
       }

@@ -130,14 +130,14 @@ run_test("Web export pipeline fixture", function() {
       control_label = "Public",
       category = "Degree-granting, primarily baccalaureate or above",
       accreditors = "MSCHE",
-      latest_action_date = "April 2026",
+      latest_action_date = "May 2026",
       latest_action_year = "2026",
-      action_labels = "Warning",
-      active_actions = "Warning",
+      action_labels = "Program Addition; Substantive Change; Warning",
+      active_actions = "program_addition; warning",
       has_active_warning = TRUE,
       has_active_warning_or_notice = TRUE,
       has_active_adverse_action = FALSE,
-      action_count = 1L,
+      action_count = 3L,
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
@@ -146,24 +146,36 @@ run_test("Web export pipeline fixture", function() {
 
   readr::write_csv(
     data.frame(
-      unitid = c("100", "100"),
-      institution_name = c("Example University", "Example University"),
-      state = c("Massachusetts", "Massachusetts"),
-      city = c("Boston", "Boston"),
-      control_label = c("Public", "Public"),
-      category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
-      accreditor = c("MSCHE", "MSCHE"),
-      action_type = c("warning", "program_addition"),
-      action_label_raw = c("Warning", "Program Addition"),
-      action_status = c("active", "routine"),
-      action_date = c("April 2026", "2026-05-01"),
-      action_year = c("", "2026"),
-      notes = c("Public warning issued", "Routine program addition should not display"),
-      source_url = c("https://example.org/accreditation", "https://example.org/program-addition"),
-      source_title = c("MSCHE action", "MSCHE routine action"),
-      source_page_url = c("https://example.org/accreditation-page", "https://example.org/accreditation-page"),
-      source_page_modified = c("2024-03-02", "2024-03-02"),
-      display_action = c(TRUE, FALSE),
+      unitid = c("100", "100", "100"),
+      institution_name = c("Example University", "Example University", "Example University"),
+      state = c("Massachusetts", "Massachusetts", "Massachusetts"),
+      city = c("Boston", "Boston", "Boston"),
+      control_label = c("Public", "Public", "Public"),
+      category = c(
+        "Degree-granting, primarily baccalaureate or above",
+        "Degree-granting, primarily baccalaureate or above",
+        "Degree-granting, primarily baccalaureate or above"
+      ),
+      accreditor = c("MSCHE", "MSCHE", "MSCHE"),
+      action_type = c("warning", "program_addition", "program_addition"),
+      action_label_raw = c("Warning", "Program Addition", "Substantive Change Request Approved"),
+      action_status = c("active", "routine", "routine"),
+      action_date = c("April 2026", "2026-05-01", "2026-05-15"),
+      action_year = c("", "2026", "2026"),
+      notes = c(
+        "Public warning issued",
+        "Routine program addition should not display",
+        "Routine substantive change approval should not display"
+      ),
+      source_url = c(
+        "https://example.org/accreditation",
+        "https://example.org/program-addition-hidden",
+        "https://example.org/program-addition-public"
+      ),
+      source_title = c("MSCHE action", "MSCHE hidden routine action", "MSCHE visible-but-routine action"),
+      source_page_url = c("https://example.org/accreditation-page", "https://example.org/accreditation-page", "https://example.org/accreditation-page"),
+      source_page_modified = c("2024-03-02", "2024-03-02", "2024-03-02"),
+      display_action = c(TRUE, FALSE, TRUE),
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
@@ -446,6 +458,8 @@ run_test("Web export pipeline fixture", function() {
   assert_identical(length(accreditation_export$schools), 1L)
   school_accred <- accreditation_export$schools[[1]]
   assert_identical(school_accred$latest_status$action_count, 1L)
+  assert_identical(school_accred$latest_status$latest_action_date, "2026-04-01")
+  assert_identical(school_accred$latest_status$action_labels, "Warning")
   assert_true("latest_status" %in% names(school_accred),
     "accreditation_export school entry should have 'latest_status'.")
   for (f in c("accreditors", "action_labels", "has_active_warning", "action_count")) {
@@ -461,6 +475,17 @@ run_test("Web export pipeline fixture", function() {
     "display_action should be exported with accreditation actions.")
   assert_true(isTRUE(school_accred$actions$display_action[[1]]),
     "displayed accreditation action should carry display_action=true.")
+
+  accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
+  if (is.data.frame(accred_index_row)) {
+    assert_identical(accred_index_row$action_count[[1]], 1L)
+    assert_identical(accred_index_row$latest_action_date[[1]], "2026-04-01")
+    assert_identical(accred_index_row$latest_action_label[[1]], "Warning")
+  } else {
+    assert_identical(accred_index_row$action_count, 1L)
+    assert_identical(accred_index_row$latest_action_date, "2026-04-01")
+    assert_identical(accred_index_row$latest_action_label, "Warning")
+  }
 
   # ── research_funding.json ───────────────────────────────────────────────────
   assert_identical(length(research_export$schools), 1L)

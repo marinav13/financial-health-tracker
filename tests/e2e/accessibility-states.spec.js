@@ -56,7 +56,7 @@ test.describe('Stateful accessibility checks', () => {
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
     await expectAriaHiddenInSync(page, expect, 'research sorted');
 
-    const secondPage = list.locator('.pagination-button[data-page="2"]');
+    const secondPage = list.locator('.pagination-button:not(.pagination-nav)[data-page="2"]');
     if (await secondPage.isVisible()) {
       await secondPage.click();
       await expect(list.locator('.pagination-button[aria-current="page"]')).toHaveText('2');
@@ -99,7 +99,7 @@ test.describe('Stateful accessibility checks', () => {
     await expect(list.locator('table.history-table')).toBeVisible();
     await expectAriaHiddenInSync(page, expect, 'accreditation filtered');
 
-    const secondPage = list.locator('.pagination-button[data-page="2"]');
+    const secondPage = list.locator('.pagination-button:not(.pagination-nav)[data-page="2"]');
     if (await secondPage.isVisible()) {
       await secondPage.click();
       await expect(list.locator('.pagination-button[aria-current="page"]')).toHaveText('2');

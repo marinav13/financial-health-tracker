@@ -301,6 +301,8 @@ const basicConfig = {
     assert(el.innerHTML.includes('aria-label="Revenue Over Time"'), "should have aria-label from title");
     assert(el.innerHTML.includes('aria-describedby="chart-basic-desc"'), "should reference hidden description");
     assert(!/id="chart-basic-desc"[^>]*aria-hidden/.test(el.innerHTML), "description should not be aria-hidden");
+    assert(/id="chart-basic-desc"[^>]*class="sr-only"/.test(el.innerHTML), "description should use the shared sr-only class");
+    assert(!/id="chart-basic-desc"[^>]*style=/.test(el.innerHTML), "description should not rely on inline styles");
   });
   if (ok) passed++; else failed++;
 })();
@@ -378,8 +380,9 @@ const basicConfig = {
     ]
   }, (dom) => {
     const el = dom.getElementById("chart-negative");
-    const circles = [...el.querySelectorAll("circle")];
-    assert(circles.length === 3, `should render 3 points, got ${circles.length}`);
+    const pointMatches = el.innerHTML.match(/<circle cx="[^"]+" cy="[^"]+" r="3\.5" fill="/g) || [];
+    assert(pointMatches.length === 3, `should render 3 data points, got ${pointMatches.length}`);
+    const circles = [...el.querySelectorAll("circle")].filter((circle) => circle.getAttribute("r") === "3.5");
     circles.forEach((circle) => {
       const cy = Number(circle.getAttribute("cy"));
       assert(cy >= 18 && cy <= 226, `point y coordinate should stay inside plot area, got ${cy}`);
@@ -405,6 +408,8 @@ const basicConfig = {
     assert(el.innerHTML.includes("Revenue"), "legend should contain 'Revenue'");
     assert(el.innerHTML.includes("Expenses"), "legend should contain 'Expenses'");
     assert(el.innerHTML.includes('class="chart-legend"'), "should have chart-legend class");
+    assert(el.innerHTML.includes('<svg class="legend-dot"'), "legend should render SVG color markers");
+    assert(!el.innerHTML.includes('style="background:'), "legend should not rely on inline background styles");
   });
   if (ok) passed++; else failed++;
 })();

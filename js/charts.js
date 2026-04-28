@@ -48,6 +48,25 @@ function renderTooltipRow(value) {
   return `<span class="chart-tooltip-row">${escapeChartHtml(text)}</span>`;
 }
 
+function setElementClassState(element, className, shouldHaveClass) {
+  if (!element) return;
+  if (element.classList && typeof element.classList.toggle === "function") {
+    element.classList.toggle(className, shouldHaveClass);
+    return;
+  }
+
+  const current = String(element.getAttribute?.("class") || "")
+    .split(/\s+/)
+    .filter(Boolean);
+  const next = shouldHaveClass
+    ? Array.from(new Set([...current, className]))
+    : current.filter((token) => token !== className);
+
+  if (typeof element.setAttribute === "function") {
+    element.setAttribute("class", next.join(" "));
+  }
+}
+
 // ------ Axis Scaling ------
 
 // Calculates "nice" ceiling for Y-axis (1, 2, 5, or 10 × 10^n)
@@ -152,11 +171,11 @@ function renderLineChart(containerId, config) {
   const safeTitle = escapeChartHtml(config.title || "Chart");
   const title = config.title ? `<p class="chart-title">${safeTitle}</p>` : "";
   const legend = seriesList.map((series) => (
-    `<span><span class="legend-dot" style="background:${series.color}"></span>${escapeChartHtml(series.label)}</span>`
+    `<span><svg class="legend-dot" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="5" fill="${series.color}"></circle></svg>${escapeChartHtml(series.label)}</span>`
   )).join("");
   const descriptionId = `${String(containerId).replace(/[^\w-]/g, "-")}-desc`;
   const descriptionText = safeTitle;
-  const description = `<p id="${descriptionId}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">${descriptionText}. Data: ${seriesList.map((s) => `${escapeChartHtml(s.label)}: ${s.values.map((p) => `${escapeChartHtml(p.year)}: ${escapeChartHtml(formatChartValue(Number(p.value), format))}`).join(", ")}`).join(". ")}</p>`;
+  const description = `<p id="${descriptionId}" class="sr-only">${descriptionText}. Data: ${seriesList.map((s) => `${escapeChartHtml(s.label)}: ${s.values.map((p) => `${escapeChartHtml(p.year)}: ${escapeChartHtml(formatChartValue(Number(p.value), format))}`).join(", ")}`).join(". ")}</p>`;
 
   container.innerHTML = `
     ${title}
@@ -213,12 +232,12 @@ function renderLineChart(containerId, config) {
 
     tooltip.innerHTML = `<strong>${escapeChartHtml(bestYear)}</strong>${tooltipRows.map(renderTooltipRow).join("")}`;
     tooltip.style.left = `${((xScale(bestYear) / width) * 100).toFixed(1)}%`;
-    tooltip.style.display = "block";
+    setElementClassState(tooltip, "visible", true);
   };
 
   svg.addEventListener("mousemove", renderTooltip);
   svg.addEventListener("mouseenter", renderTooltip);
   svg.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
+    setElementClassState(tooltip, "visible", false);
   });
 }

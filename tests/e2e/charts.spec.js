@@ -21,7 +21,7 @@ test.describe('Chart rendering', () => {
     await expect(chartContainer).toBeVisible();
     
     // Should have SVG inside
-    const svg = chartContainer.locator('svg');
+    const svg = chartContainer.locator('.chart-svg');
     await expect(svg).toBeVisible();
     
     // Should have chart title
@@ -36,7 +36,7 @@ test.describe('Chart rendering', () => {
     const chartContainer = page.locator('#chart-net-tuition');
     await expect(chartContainer).toBeVisible();
     
-    const svg = chartContainer.locator('svg');
+    const svg = chartContainer.locator('.chart-svg');
     await expect(svg).toBeVisible();
   });
 
@@ -46,7 +46,7 @@ test.describe('Chart rendering', () => {
     const chartContainer = page.locator('#chart-enrollment');
     await expect(chartContainer).toBeVisible();
     
-    const svg = chartContainer.locator('svg');
+    const svg = chartContainer.locator('.chart-svg');
     await expect(svg).toBeVisible();
   });
 
@@ -55,7 +55,7 @@ test.describe('Chart rendering', () => {
     
     const chartContainer = page.locator('#chart-revenue');
     
-    const svg = chartContainer.locator('svg');
+    const svg = chartContainer.locator('.chart-svg');
     // Check role on SVG, and aria-label is on the same element per HTML structure
     const role = await svg.getAttribute('role');
     const ariaLabel = await svg.getAttribute('aria-label');
@@ -67,9 +67,9 @@ test.describe('Chart rendering', () => {
     await page.goto(`/school.html?unitid=${chartSchoolUnitid}`);
     
     // Verify at least 3 specific chart containers have rendered SVGs
-    const constRevenue = page.locator('#chart-revenue svg');
-    const constTuition = page.locator('#chart-net-tuition svg');
-    const constEnrollment = page.locator('#chart-enrollment svg');
+    const constRevenue = page.locator('#chart-revenue .chart-svg');
+    const constTuition = page.locator('#chart-net-tuition .chart-svg');
+    const constEnrollment = page.locator('#chart-enrollment .chart-svg');
     
     await expect(constRevenue).toBeVisible();
     await expect(constTuition).toBeVisible();

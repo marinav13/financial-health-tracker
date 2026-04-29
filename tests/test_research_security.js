@@ -101,6 +101,7 @@ async function renderResearchFixture() {
   ]);
 
   const fixture = {
+    generated_at: "2025-12-01",
     schools: {
       "malicious-1": {
         unitid: "malicious-1",
@@ -131,6 +132,18 @@ async function renderResearchFixture() {
       }
     }
   };
+  const indexFixture = {
+    "malicious-1": {
+      unitid: "malicious-1",
+      financial_unitid: "123456",
+      institution_name: "Malicious Fixture University",
+      state: "NY",
+      control_label: "Private nonprofit",
+      category: "Primarily baccalaureate or above",
+      total_disrupted_award_remaining: 1000,
+      total_disrupted_grants: 1
+    }
+  };
 
   const context = {
     console,
@@ -139,7 +152,14 @@ async function renderResearchFixture() {
     window: {
       location: { search: "?unitid=malicious-1" },
       TrackerApp: {
-        loadJson: async () => fixture,
+        loadJson: async (path) => {
+          if (path === "data/research_funding.json") return fixture;
+          if (path === "data/research_funding_index.json") return indexFixture;
+          if (path === "data/metadata.json") return { generated_at: "2025-12-01" };
+          if (path === "data/college_cuts_index.json") return {};
+          if (path === "data/accreditation_index.json") return {};
+          throw new Error(`Unexpected fixture path: ${path}`);
+        },
         schoolUrl: (unitid, page = "school.html") => `${page}?unitid=${encodeURIComponent(unitid)}`,
         escapeHtml,
         getParam: (name) => new URLSearchParams(context.window.location.search).get(name),
@@ -153,6 +173,13 @@ async function renderResearchFixture() {
         renderTextCell: (value) => ({ __trackerCell: "text", value }),
         renderSchoolLinkCell: (unitid, label, page = "school.html") => ({ __trackerCell: "school-link", unitid, label, page }),
         renderExternalLinkCell: (url, label = "Source") => ({ __trackerCell: "external-link", url, label }),
+        findRelatedIndexRecord: (index, unitid, countField) => {
+          const record = index?.[String(unitid)];
+          if (!record) return null;
+          const count = Number(record[countField]);
+          return Number.isFinite(count) ? (count > 0 ? record : null) : record;
+        },
+        isNumericUnitid: (value) => /^[0-9]+$/.test(String(value || "")),
         isPrimaryTrackerInstitution: (record) => record?.is_primary_tracker === true,
         renderHistoryTable: ({ headers = [], rows = [] } = {}) => `
           <div class="history-table-wrap">

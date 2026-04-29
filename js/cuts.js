@@ -16,6 +16,8 @@
     renderHistoryTable,
     renderSchoolLinkCell,
     renderExternalLinkCell,
+    findRelatedIndexRecord,
+    isNumericUnitid,
     isPrimaryTrackerInstitution,
     syncTabs,
     renderRelatedInstitutionLinks,
@@ -199,9 +201,6 @@
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid, { active: "cuts" });
-
-    const cutsData = await loadJson("data/college_cuts.json");
-    renderDataAsOf("cuts-data-as-of", cutsData?.generated_at);
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
     const title = document.getElementById("cuts-section-title");
@@ -216,6 +215,8 @@
       landingHeading.classList.add("sr-only");
       landingHeading.classList.remove("is-hidden");
       if (mainToolbar) mainToolbar.classList.remove("is-hidden");
+      const cutsData = await loadJson("data/college_cuts.json");
+      renderDataAsOf("cuts-data-as-of", cutsData?.generated_at);
       const recent = buildRecentCuts(cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
@@ -244,7 +245,27 @@
       return;
     }
 
-    const school = cutsData.schools?.[unitid];
+    const [cutsIndex, accreditationIndex, researchIndex, metadata] = await Promise.all([
+      loadJson("data/college_cuts_index.json"),
+      loadJson("data/accreditation_index.json"),
+      loadJson("data/research_funding_index.json"),
+      loadJson("data/metadata.json")
+    ]);
+    renderDataAsOf("cuts-data-as-of", metadata?.generated_at);
+    const relatedIndexes = {
+      cuts: cutsIndex,
+      accreditation: accreditationIndex,
+      research: researchIndex
+    };
+    const indexedSchool = findRelatedIndexRecord(cutsIndex, unitid, "cut_count");
+    let school = null;
+
+    if (indexedSchool || !isNumericUnitid(unitid)) {
+      const cutsData = await loadJson("data/college_cuts.json");
+      renderDataAsOf("cuts-data-as-of", cutsData?.generated_at);
+      school = cutsData.schools?.[indexedSchool?.unitid || unitid];
+    }
+
     if (!school) {
       const missingHeading = document.getElementById("cuts-school-name");
       missingHeading.textContent = "No matched cuts found";
@@ -264,7 +285,8 @@
     const relatedLinks = renderRelatedInstitutionLinks({
       unitid: school.unitid,
       financialUnitid: school.financial_unitid,
-      current: "cuts"
+      current: "cuts",
+      relatedIndexes
     });
     const cutCount = school.cut_count ?? 0;
     title.textContent = cutCount === 1 ? "College program or staffing cut" : `College program or staffing cuts (${cutCount})`;

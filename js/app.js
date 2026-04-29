@@ -64,6 +64,23 @@ function isPrimaryTrackerInstitution(record) {
   return record?.is_primary_tracker === true;
 }
 
+function hasIndexedRelatedRecord(record, countField) {
+  if (!record) return false;
+  const count = Number(record[countField]);
+  return Number.isFinite(count) ? count > 0 : true;
+}
+
+function findRelatedIndexRecord(index, unitid, countField) {
+  const normalizedUnitid = String(unitid || "");
+  if (!normalizedUnitid) return null;
+  const direct = index?.[normalizedUnitid];
+  if (hasIndexedRelatedRecord(direct, countField)) return direct;
+  return Object.values(index || {}).find((record) =>
+    String(record?.financial_unitid || "") === normalizedUnitid &&
+    hasIndexedRelatedRecord(record, countField)
+  ) || null;
+}
+
 function syncTabs(unitid = "", options = {}) {
   const active = options.active || document.body.dataset.activeTab || (
     document.body.dataset.searchSource || "finances"
@@ -110,23 +127,29 @@ function renderRelatedInstitutionLinks(options = {}) {
     unitid = "",
     financialUnitid = "",
     current = "",
-    include = ["finances", "cuts", "accreditation", "research"]
+    include = ["finances", "cuts", "accreditation", "research"],
+    relatedIndexes = {}
   } = options;
   const financeUnitid = isNumericUnitid(financialUnitid) ? financialUnitid : (isNumericUnitid(unitid) ? unitid : "");
-  const pageUnitid = relatedPageUnitid(unitid, financialUnitid);
   const links = [];
+  const cutsRecord = findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
+    || findRelatedIndexRecord(relatedIndexes.cuts, financialUnitid, "cut_count");
+  const accreditationRecord = findRelatedIndexRecord(relatedIndexes.accreditation, unitid, "action_count")
+    || findRelatedIndexRecord(relatedIndexes.accreditation, financialUnitid, "action_count");
+  const researchRecord = findRelatedIndexRecord(relatedIndexes.research, unitid, "total_disrupted_grants")
+    || findRelatedIndexRecord(relatedIndexes.research, financialUnitid, "total_disrupted_grants");
 
   if (include.includes("finances") && current !== "finances" && financeUnitid) {
     links.push(window.TrackerApp.renderSchoolLink(financeUnitid, "Finances", "school.html"));
   }
-  if (include.includes("cuts") && current !== "cuts" && pageUnitid) {
-    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "College Cuts", "cuts.html"));
+  if (include.includes("cuts") && current !== "cuts" && cutsRecord?.unitid) {
+    links.push(window.TrackerApp.renderSchoolLink(cutsRecord.unitid, "College Cuts", "cuts.html"));
   }
-  if (include.includes("accreditation") && current !== "accreditation" && pageUnitid) {
-    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "Accreditation", "accreditation.html"));
+  if (include.includes("accreditation") && current !== "accreditation" && accreditationRecord?.unitid) {
+    links.push(window.TrackerApp.renderSchoolLink(accreditationRecord.unitid, "Accreditation", "accreditation.html"));
   }
-  if (include.includes("research") && current !== "research" && pageUnitid) {
-    links.push(window.TrackerApp.renderSchoolLink(pageUnitid, "Research Funding Cuts", "research.html"));
+  if (include.includes("research") && current !== "research" && researchRecord?.unitid) {
+    links.push(window.TrackerApp.renderSchoolLink(researchRecord.unitid, "Research Funding Cuts", "research.html"));
   }
 
   if (!links.length) return "";
@@ -411,6 +434,7 @@ window.TrackerApp.renderDataAsOf = renderDataAsOf;
 window.TrackerApp.schoolUrl = schoolUrl;
 window.TrackerApp.isNumericUnitid = isNumericUnitid;
 window.TrackerApp.isPrimaryTrackerInstitution = isPrimaryTrackerInstitution;
+window.TrackerApp.findRelatedIndexRecord = findRelatedIndexRecord;
 window.TrackerApp.syncTabs = syncTabs;
 window.TrackerApp.renderRelatedInstitutionLinks = renderRelatedInstitutionLinks;
 

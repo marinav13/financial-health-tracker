@@ -63,11 +63,52 @@ const FIXTURE = {
   }
 };
 
+const INDEX_FIXTURE = {
+  '100': {
+    unitid: '100',
+    financial_unitid: '100',
+    has_financial_profile: true,
+    is_primary_tracker: true,
+    institution_name: 'Example University',
+    state: 'Massachusetts',
+    control_label: 'Public',
+    action_count: 1
+  }
+};
+
 test.describe('Accreditation display_action + date parsing', () => {
   test.beforeEach(async ({ page }) => {
     // Intercept the JSON fetch before any navigation so the controller sees
     // the fixture rather than the production export. Using `**/data/...` so
     // the route matches regardless of host/port.
+    await page.route('**/data/accreditation_index.json', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify(INDEX_FIXTURE)
+      });
+    });
+    await page.route('**/data/college_cuts_index.json', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify({})
+      });
+    });
+    await page.route('**/data/research_funding_index.json', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify({})
+      });
+    });
+    await page.route('**/data/metadata.json', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json; charset=utf-8',
+        body: JSON.stringify({ generated_at: '2025-12-01' })
+      });
+    });
     await page.route('**/data/accreditation.json', (route) => {
       route.fulfill({
         status: 200,

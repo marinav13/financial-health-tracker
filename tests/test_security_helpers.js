@@ -296,11 +296,16 @@ run("renderHistoryTable escapes table metadata while rendering structured link c
   assert(html.includes('href="https://example.edu/"'), "Expected safe external link cell HTML to render");
 });
 
-run("renderRelatedInstitutionLinks suppresses page links for namespaced unmatched ids", () => {
+run("renderRelatedInstitutionLinks only includes indexed related pages", () => {
   const unmatched = app.renderRelatedInstitutionLinks({
     unitid: "research-example-college--ca",
     financialUnitid: "",
-    current: "research"
+    current: "research",
+    relatedIndexes: {
+      cuts: {},
+      accreditation: {},
+      research: {}
+    }
   });
   assert(!unmatched.includes("cuts.html?unitid=research-"), "Expected no guessed cuts link for research-only id");
   assert(!unmatched.includes("school.html?unitid=research-"), "Expected no guessed finance link for research-only id");
@@ -308,11 +313,39 @@ run("renderRelatedInstitutionLinks suppresses page links for namespaced unmatche
   const matched = app.renderRelatedInstitutionLinks({
     unitid: "100654",
     financialUnitid: "100654",
-    current: "research"
+    current: "research",
+    relatedIndexes: {
+      cuts: {
+        "100654": { unitid: "100654", cut_count: 2 }
+      },
+      accreditation: {
+        "100654": { unitid: "100654", action_count: 1 }
+      },
+      research: {}
+    }
   });
   assert(matched.includes("school.html?unitid=100654"), "Expected matched finance link");
   assert(matched.includes("cuts.html?unitid=100654"), "Expected matched cuts link");
   assert(matched.includes("accreditation.html?unitid=100654"), "Expected matched accreditation link");
+  assert(!matched.includes("research.html?unitid=100654"), "Expected current page link to stay hidden");
+
+  const missingSidePage = app.renderRelatedInstitutionLinks({
+    unitid: "185262",
+    financialUnitid: "185262",
+    current: "accreditation",
+    relatedIndexes: {
+      cuts: {},
+      accreditation: {
+        "185262": { unitid: "185262", action_count: 1 }
+      },
+      research: {
+        "185262": { unitid: "185262", total_disrupted_grants: 2 }
+      }
+    }
+  });
+  assert(missingSidePage.includes("school.html?unitid=185262"), "Expected finances link for numeric school");
+  assert(!missingSidePage.includes("cuts.html?unitid=185262"), "Expected no cuts link when cuts index has no record");
+  assert(missingSidePage.includes("research.html?unitid=185262"), "Expected research link when research index has a record");
 });
 
 run("renderSchoolLink escapes labels at the helper boundary", () => {

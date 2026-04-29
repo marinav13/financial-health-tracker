@@ -13,6 +13,7 @@ const {
   schoolWithResearchSource,
   schoolWithoutEndowment,
   schoolWithClosureStatus,
+  relatedPagesForSchool,
   unmatchedCutSchool,
   unmatchedResearchSchool,
   unmatchedAccreditationSchool
@@ -82,6 +83,28 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(list.locator('th[aria-sort]')).toHaveCount(1);
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
+  });
+
+  test('accreditation sortable headers move aria-sort in landing and detail tables', async ({ page }) => {
+    await page.goto('/accreditation.html');
+
+    const landingList = page.locator('#accreditation-status');
+    await expect(landingList.locator('table.history-table')).toBeVisible();
+    await expect(landingList.locator('th[aria-sort="descending"]')).toContainText('Date');
+
+    await landingList.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
+    await expect(landingList.locator('th[aria-sort]')).toHaveCount(1);
+    await expect(landingList.locator('th[aria-sort="ascending"]')).toContainText('State');
+
+    await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
+
+    const detailList = page.locator('#accreditation-status');
+    await expect(detailList.locator('table.history-table')).toBeVisible();
+    await expect(detailList.locator('th[aria-sort="descending"]')).toContainText('Date');
+
+    await detailList.locator('button[data-sort-key="accreditor"][data-sort-direction="asc"]').click();
+    await expect(detailList.locator('th[aria-sort]')).toHaveCount(1);
+    await expect(detailList.locator('th[aria-sort="ascending"]')).toContainText('Accreditor');
   });
 
   test('hidden secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
@@ -161,6 +184,30 @@ test.describe('Frontend state synchronization', () => {
         const href = await relatedLinks.nth(i).getAttribute('href');
         expect(href || '').not.toContain(`unitid=${item.prefix}`);
       }
+    }
+  });
+
+  test('cuts detail only shows related institution pages with corresponding records', async ({ page }) => {
+    const expectedLinks = relatedPagesForSchool(cutsUnitid).filter((item) => item.label !== 'College Cuts');
+
+    await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
+    const links = page.locator('.related-links a');
+    await expect(links).toHaveCount(expectedLinks.length);
+    for (let index = 0; index < expectedLinks.length; index += 1) {
+      await expect(links.nth(index)).toHaveText(expectedLinks[index].label);
+      await expect(links.nth(index)).toHaveAttribute('href', expectedLinks[index].href);
+    }
+  });
+
+  test('accreditation detail only shows related institution pages with corresponding records', async ({ page }) => {
+    const expectedLinks = relatedPagesForSchool(accreditationUnitid).filter((item) => item.label !== 'Accreditation');
+
+    await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
+    const links = page.locator('.related-links a');
+    await expect(links).toHaveCount(expectedLinks.length);
+    for (let index = 0; index < expectedLinks.length; index += 1) {
+      await expect(links.nth(index)).toHaveText(expectedLinks[index].label);
+      await expect(links.nth(index)).toHaveAttribute('href', expectedLinks[index].href);
     }
   });
 

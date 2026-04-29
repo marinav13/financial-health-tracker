@@ -58,4 +58,18 @@ test.describe('Accreditation filter input', () => {
     await filter.fill('');
     await expect.poll(() => rows.count()).toBe(initialCount);
   });
+
+  test('other-institutions filter resolves Warner Pacific University instead of a blank institution row', async ({ page }) => {
+    await page.goto('/accreditation.html');
+
+    const otherTable = page.locator('#accreditation-other-status table.history-table');
+    await expect(otherTable).toBeVisible();
+
+    const filter = page.locator('#accreditation-other-filter');
+    await filter.fill('Warner Pacific');
+
+    const rows = otherTable.locator('tbody tr');
+    await expect.poll(() => rows.count()).toBeGreaterThan(0);
+    await expect(otherTable).toContainText('Warner Pacific University');
+  });
 });

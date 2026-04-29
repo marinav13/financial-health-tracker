@@ -16,6 +16,8 @@
     renderHistoryTable,
     renderSchoolLinkCell,
     renderExternalLinkCell,
+    findRelatedIndexRecord,
+    isNumericUnitid,
     isPrimaryTrackerInstitution,
     syncTabs,
     renderRelatedInstitutionLinks,
@@ -444,9 +446,12 @@
     }
     syncTabs(unitid, { active: "research" });
 
-    const data = await loadJson("data/research_funding.json");
-    renderDataAsOf("research-data-as-of", data?.generated_at);
-    const schools = filterPositiveFundingInstitutions(Object.values(data.schools || {}));
+    const [researchIndex, metadata] = await Promise.all([
+      loadJson("data/research_funding_index.json"),
+      loadJson("data/metadata.json")
+    ]);
+    renderDataAsOf("research-data-as-of", metadata?.generated_at);
+    const schools = filterPositiveFundingInstitutions(Object.values(researchIndex || {}));
     const container = document.getElementById("research-list");
     const otherContainer = document.getElementById("research-other-list");
     const stateSummaryContainer = document.getElementById("research-state-summary");
@@ -502,7 +507,23 @@
       return;
     }
 
-    const school = schools.find((item) => String(item.unitid) === String(unitid));
+    const [cutsIndex, accreditationIndex] = await Promise.all([
+      loadJson("data/college_cuts_index.json"),
+      loadJson("data/accreditation_index.json")
+    ]);
+    const relatedIndexes = {
+      cuts: cutsIndex,
+      accreditation: accreditationIndex,
+      research: researchIndex
+    };
+    const indexedSchool = findRelatedIndexRecord(researchIndex, unitid, "total_disrupted_grants");
+    let school = null;
+    if (indexedSchool || !isNumericUnitid(unitid)) {
+      const data = await loadJson("data/research_funding.json");
+      renderDataAsOf("research-data-as-of", data?.generated_at);
+      school = data.schools?.[indexedSchool?.unitid || unitid] || null;
+    }
+
     if (!school) {
       const missingHeading = document.getElementById("research-school-name");
       missingHeading.textContent = "No tracked research funding cuts found";
@@ -552,7 +573,8 @@
       container.innerHTML = renderGrantTable(school.grants || [], grantSortState) + renderRelatedInstitutionLinks({
         unitid: school.unitid,
         financialUnitid: school.financial_unitid,
-        current: "research"
+        current: "research",
+        relatedIndexes
       });
       bindSortControls(container, grantSortState, { key: "termination_date", direction: "desc" }, (nextSortState) => {
         grantSortState = nextSortState;

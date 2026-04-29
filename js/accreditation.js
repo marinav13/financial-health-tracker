@@ -13,11 +13,17 @@
     escapeHtml,
     getParam,
     renderEmpty,
+    renderSortableHeader,
+    bindSortControls,
     setDataCardVisible,
     downloadRowsCsv,
+    compareText,
+    compareDateDesc,
     renderHistoryTable,
     renderSchoolLinkCell,
     renderExternalLinkCell,
+    findRelatedIndexRecord,
+    isNumericUnitid,
     isPrimaryTrackerInstitution,
     syncTabs,
     renderRelatedInstitutionLinks,
@@ -79,6 +85,38 @@
 
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
+  }
+
+  function titleCaseSlug(slug) {
+    return String(slug || "")
+      .split("-")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(" ");
+  }
+
+  function inferInstitutionNameFromUrl(url) {
+    const value = String(url || "").trim();
+    if (!value) return "";
+    try {
+      const parsed = new URL(value, window.location.origin);
+      const segments = parsed.pathname.split("/").filter(Boolean);
+      const slug = segments[segments.length - 1] || "";
+      if (!slug || !/[a-z]/i.test(slug)) return "";
+      return titleCaseSlug(slug);
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function resolveInstitutionName(rawName, action = {}) {
+    const direct = String(rawName || "").trim();
+    if (direct) return direct;
+    const sourceTitle = String(action.source_title || "").trim();
+    const titleMatch = sourceTitle.match(/\s(?:\u2013|-)\s(.+)$/);
+    const titleName = String(titleMatch?.[1] || "").trim();
+    if (titleName && !/^n\/?a$/i.test(titleName)) return titleName;
+    return inferInstitutionNameFromUrl(action.source_page_url || action.source_url || "");
   }
 
   function expandAccreditors(value) {
@@ -143,6 +181,10 @@
     if (!scope) return label;
     if (!label) return `(${scope})`;
     return `${label} (${scope})`;
+  }
+
+  function actionSortLabel(action) {
+    return String(actionLabelCell(action) || "").trim();
   }
 
   // Normalize action text for matching
@@ -383,12 +425,56 @@
   }
 
   // ------ Table Rendering ------
-function renderSchoolActions(actions, unitid, state, controlLabel, financialUnitid) {
+  function sortAccreditationActions(items, sortState) {
+    const sorted = (items || []).slice();
+    const direction = sortState?.direction === "asc" ? 1 : -1;
+    sorted.sort((a, b) => {
+      if (sortState?.key === "institution_name") {
+        const primary = compareText(a.institution_name, b.institution_name) * direction;
+        if (primary !== 0) return primary;
+        return compareDateDesc(a.action_date || a.action_year, b.action_date || b.action_year);
+      }
+      if (sortState?.key === "accreditor") {
+        const primary = compareText(expandAccreditors(a.accreditor || ""), expandAccreditors(b.accreditor || "")) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "action_label") {
+        const primary = compareText(actionSortLabel(a), actionSortLabel(b)) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "state") {
+        const primary = compareText(a.state, b.state) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "control_label") {
+        const primary = compareText(a.control_label, b.control_label) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      if (sortState?.key === "action_date") {
+        const primary = compareDateDesc(a.action_date || a.action_year, b.action_date || b.action_year) * direction;
+        if (primary !== 0) return primary;
+        return compareText(a.institution_name, b.institution_name);
+      }
+      return compareDateDesc(a.action_date || a.action_year, b.action_date || b.action_year);
+    });
+    return sorted;
+  }
+
+function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     const filtered = (actions || []).filter(isRecentDisplayAction);
     if (!filtered.length) return renderEmpty("No accreditation actions found.");
-    const rows = filtered
-      .slice()
-      .sort((a, b) => String(formatActionDate(b)).localeCompare(String(formatActionDate(a))))
+    const schoolName = resolveInstitutionName(school?.institution_name, filtered[0]);
+    const detailRows = filtered.map((action) => ({
+      ...action,
+      institution_name: schoolName,
+      state: school?.state || inferStateFromNotes(action.notes),
+      control_label: school?.control_label || ""
+    }));
+    const rows = sortAccreditationActions(detailRows, sortState)
       .map((action) => {
         // Per-school detail must show the FULL board-action language, not
         // the compact bucket label used in the global table. Explicit
@@ -405,8 +491,8 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
         return [
           expandAccreditors(action.accreditor || ""),
           labelCell,
-          state || "",
-          controlLabel || "",
+          action.state || "",
+          action.control_label || "",
           formatActionDate(action),
           renderExternalLinkCell(getActionLink(action), "Source link")
         ];
@@ -414,15 +500,20 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     return `${renderHistoryTable({
       ariaLabel: "Accreditation actions for this institution",
       headers: [
-        "<th>Accreditor</th>",
-        "<th>Action</th>",
-        "<th>State</th>",
-        "<th>Sector</th>",
-        "<th>Date</th>",
+        renderSortableHeader("accreditor", sortState, "Accreditor"),
+        renderSortableHeader("action_label", sortState, "Action"),
+        renderSortableHeader("state", sortState, "State"),
+        renderSortableHeader("control_label", sortState, "Sector"),
+        renderSortableHeader("action_date", sortState, "Date"),
         "<th>Link</th>"
       ],
       rows
-    })}${renderRelatedInstitutionLinks({ unitid, financialUnitid, current: "accreditation" })}`;
+    })}${renderRelatedInstitutionLinks({
+      unitid: school?.unitid,
+      financialUnitid: school?.financial_unitid,
+      current: "accreditation",
+      relatedIndexes
+    })}`;
   }
 
   function buildDefaultActionRows(data) {
@@ -430,7 +521,7 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       .flatMap((school) =>
         getEffectiveActions(school).filter(isRecentDisplayAction).map((action) => ({
           unitid: school.unitid,
-          institution_name: school.institution_name || "",
+          institution_name: resolveInstitutionName(school.institution_name, action),
           city: school.city || "",
           state: school.state || inferStateFromNotes(action.notes),
           control_label: school.control_label || "",
@@ -456,7 +547,7 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       });
   }
 
-  function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
+  function renderActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true, sortState = { key: "action_date", direction: "desc" }) {
     const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
 
     if (!pageItems.length) {
@@ -478,12 +569,12 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       ${renderHistoryTable({
         ariaLabel: linkNames ? "Recent accreditation actions by institution" : "Recent accreditation actions",
         headers: [
-          "<th>Institution</th>",
-          "<th>Accreditor</th>",
-          "<th>Action</th>",
-          "<th>State</th>",
-          "<th>Sector</th>",
-          "<th>Date</th>",
+          renderSortableHeader("institution_name", sortState, "Institution"),
+          renderSortableHeader("accreditor", sortState, "Accreditor"),
+          renderSortableHeader("action_label", sortState, "Action"),
+          renderSortableHeader("state", sortState, "State"),
+          renderSortableHeader("control_label", sortState, "Sector"),
+          renderSortableHeader("action_date", sortState, "Date"),
           "<th>Link</th>"
         ],
         rows
@@ -494,7 +585,7 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     `;
   }
 
-  function renderOtherActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true) {
+  function renderOtherActionTablePage(actions, page, pageSize, emptyMessage, linkNames = true, sortState = { key: "action_date", direction: "desc" }) {
     const { totalPages, currentPage, pageItems } = paginateItems(actions, page, pageSize);
 
     if (!pageItems.length) {
@@ -514,10 +605,10 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       ${renderHistoryTable({
         ariaLabel: linkNames ? "Recent accreditation actions at other institutions" : "Recent accreditation actions",
         headers: [
-          "<th>Institution</th>",
-          "<th>Action</th>",
-          "<th>State</th>",
-          "<th>Date</th>",
+          renderSortableHeader("institution_name", sortState, "Institution"),
+          renderSortableHeader("action_label", sortState, "Action"),
+          renderSortableHeader("state", sortState, "State"),
+          renderSortableHeader("action_date", sortState, "Date"),
           "<th>Link</th>"
         ],
         rows
@@ -545,7 +636,9 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       items: actions,
       pageSize,
       searchInput,
-      renderPage: (filteredActions, currentPage, size) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
+      initialSortState: { key: "action_date", direction: "desc" },
+      sortItems: sortAccreditationActions,
+      renderPage: (filteredActions, currentPage, size, sortState) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames, sortState),
       downloadButton: downloadButtonId,
       downloadFilename,
       downloadHeaders: ["Institution", "Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],
@@ -577,7 +670,9 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       items: actions,
       pageSize,
       searchInput,
-      renderPage: (filteredActions, currentPage, size) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames),
+      initialSortState: { key: "action_date", direction: "desc" },
+      sortItems: sortAccreditationActions,
+      renderPage: (filteredActions, currentPage, size, sortState) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames, sortState),
       downloadButton: downloadButtonId,
       downloadFilename,
       downloadHeaders: ["Institution", "Action", "Scope", "State", "Date", "Source"],
@@ -641,11 +736,10 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     const unitid = getParam("unitid");
     syncTabs(unitid, { active: "accreditation" });
 
-    const data = await loadJson("data/accreditation.json");
-    renderDataAsOf("accreditation-data-as-of", data?.generated_at);
-    document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
-
     if (!unitid) {
+      const data = await loadJson("data/accreditation.json");
+      renderDataAsOf("accreditation-data-as-of", data?.generated_at);
+      document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
       // Landing page: retain a real document heading for screen-reader users
       // but keep it visually hidden so the existing banner layout is unchanged.
       const landingHeading = document.getElementById("accreditation-school-name");
@@ -682,8 +776,37 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
       return;
     }
 
+    const [accreditationIndex, cutsIndex, researchIndex, metadata] = await Promise.all([
+      loadJson("data/accreditation_index.json"),
+      loadJson("data/college_cuts_index.json"),
+      loadJson("data/research_funding_index.json"),
+      loadJson("data/metadata.json")
+    ]);
+    renderDataAsOf("accreditation-data-as-of", metadata?.generated_at);
+    const limitations = document.getElementById("accreditation-limitations");
+    if (limitations) {
+      limitations.innerHTML = renderLimitations({
+        covered_accreditors: Object.keys(ACCREDITOR_NAMES),
+        schools: {}
+      });
+    }
+    const relatedIndexes = {
+      cuts: cutsIndex,
+      accreditation: accreditationIndex,
+      research: researchIndex
+    };
+    const indexedSchool = findRelatedIndexRecord(accreditationIndex, unitid, "action_count");
+    let data = null;
+    let school = null;
+
+    if (indexedSchool || !isNumericUnitid(unitid)) {
+      data = await loadJson("data/accreditation.json");
+      renderDataAsOf("accreditation-data-as-of", data?.generated_at);
+      if (limitations) limitations.innerHTML = renderLimitations(data);
+      school = data.schools?.[indexedSchool?.unitid || unitid];
+    }
+
     // School-specific view
-    const school = data.schools?.[unitid];
     if (!school) {
       const missingHeading = document.getElementById("accreditation-school-name");
       missingHeading.textContent = "No tracked accreditation record found";
@@ -694,7 +817,9 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     }
 
     const schoolHeading = document.getElementById("accreditation-school-name");
-    schoolHeading.textContent = school.institution_name || "Accreditation";
+    const schoolActions = getEffectiveActions(school).filter(isRecentDisplayAction);
+    const schoolName = resolveInstitutionName(school.institution_name, schoolActions[0]);
+    schoolHeading.textContent = schoolName || "Accreditation";
     syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
@@ -713,12 +838,29 @@ function renderSchoolActions(actions, unitid, state, controlLabel, financialUnit
     if (primaryFilterLabel) primaryFilterLabel.classList.add("is-hidden");
     if (otherStatus) otherStatus.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";
-    const schoolActions = getEffectiveActions(school).filter(isRecentDisplayAction);
-    document.getElementById("accreditation-status").innerHTML = renderSchoolActions(schoolActions, school.unitid, school.state, school.control_label, school.financial_unitid);
+    let detailSortState = { key: "action_date", direction: "desc" };
+    const renderDetailTable = () => {
+      document.getElementById("accreditation-status").innerHTML = renderSchoolActions(
+        schoolActions,
+        { ...school, institution_name: schoolName },
+        detailSortState,
+        relatedIndexes
+      );
+      bindSortControls(
+        document.getElementById("accreditation-status"),
+        detailSortState,
+        { key: "action_date", direction: "desc" },
+        (nextSortState) => {
+          detailSortState = nextSortState;
+          renderDetailTable();
+        }
+      );
+    };
+    renderDetailTable();
     if (mainDownload) {
-mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
+      mainDownload.classList.toggle("is-hidden", schoolActions.length === 0);
       mainDownload.onclick = () => downloadRowsCsv(
-        `${String(school.institution_name || "accreditation").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-accreditation.csv`,
+        `${String(schoolName || "accreditation").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-accreditation.csv`,
         ["Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],
         schoolActions.map((action) => [
           expandAccreditors(action.accreditor || ""),

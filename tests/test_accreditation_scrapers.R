@@ -37,6 +37,36 @@ run_test("Per-site warn_on_empty_parse fires on non-trivial HTML", function() {
   assert_true(grepl("5000", captured_msg, fixed = TRUE))
 })
 
+run_test("NECHE PDF URL regex tolerates iframe query strings", function() {
+  html <- paste(
+    '<iframe data-src="https://www.neche.org/wp-content/uploads/2025/11/Joint-Statement-Nov-2025-SLT.pdf?t=1763651066&#038;t=1763651066" class="lazyload"></iframe>'
+  )
+  m <- stringr::str_match(html, NECHE_STATEMENT_PDF_URL_PATTERN)
+  assert_true(!is.na(m[1, 1]), "Expected NECHE PDF regex to match iframe URLs with query strings.")
+  assert_identical(
+    m[1, 2],
+    "https://www.neche.org/wp-content/uploads/2025/11/Joint-Statement-Nov-2025-SLT.pdf"
+  )
+})
+
+run_test("NECHE action extractor strips title block but keeps first action paragraph", function() {
+  raw <- paste(
+    "New England Commission of Higher Education",
+    "301 Edgewater Place, Suite 210, Wakefield, MA 01880",
+    "Tel: 781-425-7785 I www.neche.org",
+    "",
+    "Joint Statement",
+    "New England Commission of Higher Education and Hampshire College",
+    "On March 5, 2026, the New England Commission of Higher Education (NECHE) took action to require Hampshire College to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation.",
+    "",
+    "In response to the Commission's decision, Hampshire College's President said the college would respond.",
+    sep = "\n"
+  )
+  action <- extract_neche_statement_action_text(raw)
+  assert_true(grepl("^On March 5, 2026", action), "Expected extractor to keep the first action sentence.")
+  assert_true(grepl("show cause", action, ignore.case = TRUE), "Expected extractor to retain the NECHE action wording.")
+})
+
 run_test("Per-site warn_on_empty_parse stays silent on tiny HTML", function() {
   # A 200-byte error page legitimately carries no actions; the guard should
   # not cry wolf on pages below the threshold.
@@ -1605,6 +1635,15 @@ run_test("parse_neche extracts meeting date from H2 heading and per-row scope", 
     file.path(cache_dir, "neche_actions.html")
   )
 
+  # Stub commission-statements cache so parse_neche's secondary fetch is
+  # served from disk and does not hit the network during smoke tests. The
+  # body is intentionally below the warn_on_empty_parse threshold so the
+  # legitimate "no statements in this fixture" outcome stays silent.
+  writeLines(
+    "<html><body>(no statements in this fixture)</body></html>",
+    file.path(cache_dir, "neche_commission_statements.html")
+  )
+
   rows <- parse_neche(cache_dir, refresh = FALSE)
 
   assert_identical(nrow(rows), 2L)
@@ -1631,4 +1670,192 @@ run_test("parse_neche extracts meeting date from H2 heading and per-row scope", 
   assert_identical(example$action_year[[1]], 2026L)
   # No trailing parenthetical: scope must be NA, not the empty string.
   assert_true(is.na(example$action_scope[[1]]))
+})
+
+run_test("extract_neche_statement_institution recognizes the six known title shapes", function() {
+  # The six landing-page title shapes that have actually appeared on
+  # neche.org/commission-statements/ since 2021. If NECHE introduces a
+  # new shape, this test stays green and the runtime warning surfaces it.
+  cases <- list(
+    list(
+      title = "Joint Statement by Anna Maria College and the Commission March 21, 2025",
+      institution = "Anna Maria College",
+      kind = "joint_statement"
+    ),
+    list(
+      # Em-dash variant from the Connecticut State row; clean_text decodes
+      # the &#8211; entity so the regex sees a literal en-dash.
+      title = "Joint Statement by Connecticut State Community College and the Commission – March 8, 2022",
+      institution = "Connecticut State Community College",
+      kind = "joint_statement"
+    ),
+    list(
+      title = "Joint Press Release by Bay State College and the Commission, May 20, 2021",
+      institution = "Bay State College",
+      kind = "joint_press_release"
+    ),
+    list(
+      title = "Commission Statement on Connecticut State Community College June 19, 2023",
+      institution = "Connecticut State Community College",
+      kind = "commission_statement"
+    ),
+    list(
+      title = "Statement on Bay State College January 16, 2023",
+      institution = "Bay State College",
+      kind = "statement_dated"
+    ),
+    list(
+      title = "Public Statement by the Commission Regarding Accreditation Status of Bay State College",
+      institution = "Bay State College",
+      kind = "public_statement_re"
+    ),
+    list(
+      title = "Public Statement on Becker College",
+      institution = "Becker College",
+      kind = "public_statement_on"
+    )
+  )
+  for (tc in cases) {
+    parsed <- extract_neche_statement_institution(tc$title)
+    assert_identical(
+      parsed$institution_name_raw,
+      tc$institution,
+      sprintf("Institution mismatch for title: %s", tc$title)
+    )
+    assert_identical(
+      parsed$statement_kind,
+      tc$kind,
+      sprintf("Statement kind mismatch for title: %s", tc$title)
+    )
+  }
+})
+
+run_test("extract_neche_statement_institution returns NA on unknown shapes", function() {
+  # If the title doesn't match any known prefix, the helper must return
+  # NA values so parse_neche_commission_statements can warn-and-skip
+  # rather than emit a garbage institution. This is the drift signal.
+  parsed <- extract_neche_statement_institution("Some Brand-New NECHE Notice Format March 2027")
+  assert_true(is.na(parsed$institution_name_raw))
+  assert_true(is.na(parsed$statement_kind))
+})
+
+run_test("parse_neche_statement_date handles full and month-only formats", function() {
+  assert_identical(parse_neche_statement_date("April 27, 2026"), as.Date("2026-04-27"))
+  assert_identical(parse_neche_statement_date("November 14, 2025"), as.Date("2025-11-14"))
+  # Month + year without a day defensively floors to the first of the month;
+  # the landing page has not used this shape yet but the parser supports it
+  # so a future format change does not silently drop the row's date.
+  assert_identical(parse_neche_statement_date("April 2026"), as.Date("2026-04-01"))
+  # Garbage in => NA out; never raise.
+  assert_true(is.na(parse_neche_statement_date("not a date")))
+})
+
+run_test("parse_neche_commission_statements parses landing-page cards", function() {
+  cache_dir <- tempfile("neche_commission_statements_fixture_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  # Fixture mirrors the JetEngine card shape on
+  # https://www.neche.org/commission-statements/. Each card emits one
+  # data-url, one card <h2>, and one publication-date <p>. The fixture
+  # also includes a year-divider <h2> ("2022 and Older") between cards
+  # to verify the regex's `(?!data-url=)` clamp keeps a divider from
+  # being misread as the next card's title.
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html><head>",
+      "<title>Commission Statements | NECHE</title>",
+      "<meta property=\"article:modified_time\" content=\"2026-04-28T00:00:00+00:00\">",
+      "</head><body>",
+      "<div class=\"jet-engine-listing-overlay-wrap\" data-url=\"https://www.neche.org/commission-statements/joint-statement-by-anna-maria-college-and-the-commission-march-21-2025/\">",
+      "<h2 class=\"elementor-heading-title elementor-size-default\">Joint Statement by Anna Maria College and the Commission March 21, 2025</h2>",
+      "<p class=\"elementor-heading-title elementor-size-default\">March 21, 2025</p>",
+      "</div>",
+      "<h2 class=\"elementor-heading-title elementor-size-default\">2022 and Older</h2>",
+      "<div class=\"jet-engine-listing-overlay-wrap\" data-url=\"https://www.neche.org/commission-statements/public-statement-on-becker-college/\">",
+      "<h2 class=\"elementor-heading-title elementor-size-default\">Public Statement on Becker College</h2>",
+      "<p class=\"elementor-heading-title elementor-size-default\">March 2, 2021</p>",
+      "</div>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "neche_commission_statements.html")
+  )
+
+  rows <- parse_neche_commission_statements(cache_dir, refresh = FALSE)
+
+  assert_identical(nrow(rows), 2L)
+  assert_true(all(rows$accreditor == "NECHE"))
+  # Both rows must be type="notice" so they pass the export filter; we
+  # cannot reliably classify the underlying sanction from the landing
+  # HTML alone, but we must not silently drop either row.
+  assert_true(all(rows$action_type == "notice"))
+  # source_page_url must be the commission-statements landing for both
+  # rows (used by the UI to link back to the canonical surface).
+  assert_true(all(rows$source_page_url == "https://www.neche.org/commission-statements/"))
+
+  anna <- rows[grepl("Anna Maria", rows$institution_name_raw, fixed = TRUE), ]
+  assert_identical(nrow(anna), 1L)
+  assert_identical(anna$institution_name_raw[[1]], "Anna Maria College")
+  assert_identical(anna$action_date[[1]], as.Date("2025-03-21"))
+  assert_identical(anna$action_year[[1]], 2025L)
+  # source_url must be the per-statement detail URL, not the landing.
+  assert_identical(
+    anna$source_url[[1]],
+    "https://www.neche.org/commission-statements/joint-statement-by-anna-maria-college-and-the-commission-march-21-2025/"
+  )
+
+  becker <- rows[grepl("Becker", rows$institution_name_raw, fixed = TRUE), ]
+  assert_identical(nrow(becker), 1L)
+  # The "Public Statement on" prefix must NOT pull the year-divider H2
+  # ("2022 and Older") through as the institution name — that's the
+  # regression the inter-card clamp guards against.
+  assert_identical(becker$institution_name_raw[[1]], "Becker College")
+  assert_identical(becker$action_date[[1]], as.Date("2021-03-02"))
+})
+
+run_test("parse_neche unions recent-actions and commission-statements rows", function() {
+  # End-to-end check: parse_neche must surface BOTH the recent-actions
+  # toggle rows and the commission-statements landing rows. A previous
+  # version of this scraper only fetched the recent-actions page, so
+  # commission-statement-only institutions (e.g. Anna Maria's Notation,
+  # Hampshire's Probation) were silently dropped from the export entirely.
+  cache_dir <- tempfile("neche_combined_fixture_")
+  dir.create(cache_dir)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html><head>",
+      "<title>Recent Commission Actions | NECHE</title>",
+      "<meta property=\"article:modified_time\" content=\"2026-03-01T00:00:00+00:00\">",
+      "</head><body>",
+      "<h2 class=\"elementor-heading-title\">February 20, 2026 Action of the Executive Committee of the Commission</h2>",
+      "<a class=\"elementor-toggle-title\" href=\"#\">Continued Probation</a>",
+      "<div id=\"elementor-tab-content-1\" class=\"elementor-tab-content\">",
+      "<ul><li>Example College, Providence, RI</li></ul>",
+      "</div>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "neche_actions.html")
+  )
+
+  writeLines(
+    paste0(
+      "<!DOCTYPE html><html><head>",
+      "<title>Commission Statements | NECHE</title>",
+      "<meta property=\"article:modified_time\" content=\"2026-04-28T00:00:00+00:00\">",
+      "</head><body>",
+      "<div class=\"jet-engine-listing-overlay-wrap\" data-url=\"https://www.neche.org/commission-statements/joint-statement-by-anna-maria-college-and-the-commission-march-21-2025/\">",
+      "<h2 class=\"elementor-heading-title elementor-size-default\">Joint Statement by Anna Maria College and the Commission March 21, 2025</h2>",
+      "<p class=\"elementor-heading-title elementor-size-default\">March 21, 2025</p>",
+      "</div>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "neche_commission_statements.html")
+  )
+
+  rows <- parse_neche(cache_dir, refresh = FALSE)
+  assert_true(nrow(rows) >= 2L)
+  assert_true(any(grepl("Example College", rows$institution_name_raw, fixed = TRUE)))
+  assert_true(any(grepl("Anna Maria College", rows$institution_name_raw, fixed = TRUE)))
 })

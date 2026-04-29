@@ -390,7 +390,18 @@ build_accreditation_export <- function() {
       "continued on warning|continued on probation|denied reaffirmation",
       sep = ""
     )
-    closure_action_pattern <- "accepted notification of institutional closure|accept(?:ed)? teach-?out plan|approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|teach out plan|teach-?out plan|removed from membership|will transfer from .* to "
+    closure_action_pattern <- paste(
+      "accepted notification of institutional closure|",
+      "accepted voluntary withdrawal of accreditation|",
+      "voluntar(?:ily|y) withdraw(?:al)? of accreditation|",
+      "withdraw(?:al)? of accreditation|",
+      "accept(?:ed)? teach-?out plan|",
+      "approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|",
+      "teach out plan|teach-?out plan|",
+      "removed from membership|",
+      "will transfer from .* to ",
+      sep = ""
+    )
     required_report_pattern <- "require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report"
     standalone_low_signal_pattern <- "^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$"
 

@@ -174,6 +174,70 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
                             validate_fn = NULL) {
   cache_path <- file.path(cache_dir, cache_name)
   accreditor <- getOption("tracker.current_accreditor", default = NA_character_)
+  fetch_fresh_body <- function() {
+    primary_err <- NULL
+    body <- tryCatch(
+      {
+        resp <- httr2::request(url) |>
+          httr2::req_user_agent("FinancialHealthProject/1.0") |>
+          httr2::req_perform()
+        httr2::resp_body_string(resp)
+      },
+      error = function(e) {
+        primary_err <<- e
+        NULL
+      }
+    )
+    if (!is.null(body)) {
+      return(list(body = body, method = "httr2"))
+    }
+
+    tmp_path <- tempfile("html-fetch-", tmpdir = cache_dir, fileext = ".html")
+    on.exit(unlink(tmp_path), add = TRUE)
+    fallback_err <- tryCatch(
+      {
+        download_with_retry(url, tmp_path, mode = "wb", quiet = TRUE, timeout = 60L, retries = 2L)
+        NULL
+      },
+      error = function(e) e
+    )
+    if (is.null(fallback_err) && file.exists(tmp_path)) {
+      return(list(body = readr::read_file(tmp_path), method = "download.file"))
+    }
+
+    python_bin <- Sys.which(c("python", "python3"))
+    python_bin <- python_bin[nzchar(python_bin)][1]
+    if (!is.na(python_bin) && nzchar(python_bin)) {
+      py_code <- paste(
+        "import pathlib,sys,urllib.request;",
+        "req=urllib.request.Request(sys.argv[1], headers={'User-Agent':'FinancialHealthProject/1.0'});",
+        "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+      )
+      py_out <- tryCatch(
+        system2(
+          python_bin,
+          c("-c", py_code, url, tmp_path),
+          stdout = TRUE,
+          stderr = TRUE
+        ),
+        error = function(e) structure(conditionMessage(e), status = 1L)
+      )
+      py_status <- attr(py_out, "status", exact = TRUE)
+      if (is.null(py_status) && file.exists(tmp_path)) {
+        return(list(body = readr::read_file(tmp_path), method = "python"))
+      }
+      python_err <- paste(py_out, collapse = "\n")
+    } else {
+      python_err <- "python interpreter not found"
+    }
+
+    stop(
+      "Failed to fetch ", url, ": ", conditionMessage(primary_err),
+      "; download.file fallback also failed: ", conditionMessage(fallback_err),
+      "; python fallback also failed: ", python_err,
+      call. = FALSE
+    )
+  }
   # Quick return if not refreshing and cache exists
   if (!refresh && file.exists(cache_path)) {
     record_accreditation_fetch_event(accreditor, url, "html", "cache_read", cache_path)
@@ -185,11 +249,12 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
     return(readr::read_file(cache_path))
   }
   tryCatch({
-    # Perform HTTP GET request with a User-Agent header to identify our requests
-    resp <- httr2::request(url) |>
-      httr2::req_user_agent("FinancialHealthProject/1.0") |>
-      httr2::req_perform()
-    body <- httr2::resp_body_string(resp)
+    # Perform HTTP GET request with a User-Agent header to identify our
+    # requests. Some NECHE detail pages fail under httr2 on Windows while
+    # still succeeding via download.file/libcurl, so keep a second fetch
+    # path before falling back to stale cache.
+    fresh <- fetch_fresh_body()
+    body <- fresh$body
 
     # Content validation: if the caller supplied a validator and the fresh
     # response fails it, do NOT write to cache — fall back to existing cache or
@@ -218,7 +283,13 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
 
     # Save the response to cache for future use
     readr::write_file(body, cache_path)
-    record_accreditation_fetch_event(accreditor, url, "html", "fresh_fetch", cache_path)
+    status <- switch(
+      fresh$method,
+      "download.file" = "fresh_fetch_download_file",
+      "python" = "fresh_fetch_python",
+      "fresh_fetch"
+    )
+    record_accreditation_fetch_event(accreditor, url, "html", status, cache_path)
     body
   }, error = function(e) {
     # On network error, try to use cached copy as fallback

@@ -49,7 +49,7 @@ empty_accreditation_action_rows <- function() {
     source_url = character(),
     source_title = character(),
     notes = character(),
-    last_seen_at = character(),
+    last_seen_at = as.POSIXct(character()),
     source_page_url = character(),
     source_page_modified = character()
   )
@@ -309,6 +309,80 @@ NECHE_MEETING_DATE_PATTERN <- paste0(
   "\\s+(\\d{1,2})(?:-\\d{1,2})?,\\s*(\\d{4})"
 )
 
+# NECHE also publishes "Commission Statements" — joint statements, public
+# statements, and press releases issued whenever an institution is placed on
+# Notation, Probation, Show Cause, or has its accreditation withdrawn /
+# accepted notification of closure. The detail page renders the body as a
+# PDF iframe rather than inline HTML, so to surface the actual action
+# wording we follow each card's detail URL, find the iframe's PDF source,
+# download the PDF, and pull the first informative sentence of body text.
+# The card title is retained as a fallback for rows where the PDF can't be
+# reached or doesn't contain a recognizable action sentence.
+NECHE_COMMISSION_STATEMENTS_URL <- "https://www.neche.org/commission-statements/"
+
+# Iframes on the detail page lazy-load via `data-src=`; older statements
+# may use `src=` directly. We capture both so the parser does not regress
+# the day NECHE switches lazy-load plugins. Any wp-content/uploads PDF
+# is acceptable; only the first match per page is used.
+NECHE_STATEMENT_PDF_URL_PATTERN <-
+  "(?:data-src|src)=\"(https://www\\.neche\\.org/wp-content/uploads/[^\"#]+?\\.pdf)(?:[^\"]*)\""
+
+# Matches one JetEngine listing card on the commission-statements landing.
+# Each card emits exactly one `data-url=` (the detail-page URL), one card
+# `<h2>` with the post title, and one `<p>` with the visible publication
+# date. The `(?:(?!data-url=).)*?` clamp keeps the match from backtracking
+# across into the next card and accidentally pairing one card's URL with
+# the next card's title — that matters because year-divider H2s (e.g.
+# "2022 and Older") sit between cards and could otherwise be captured as
+# a card title.
+#
+# Capture groups:
+#   1 = detail-page URL
+#   2 = card title (institution + statement type + date phrasing)
+#   3 = visible publication date ("Month DD, YYYY")
+NECHE_COMMISSION_STATEMENT_CARD_PATTERN <- paste0(
+  "(?s)data-url=\"(https://www\\.neche\\.org/commission-statements/[^\"#?]+/)\"",
+  "(?:(?!data-url=).)*?",
+  "<h2 class=\"elementor-heading-title[^\"]*\">([^<]+)</h2>",
+  "(?:(?!data-url=).)*?",
+  "<p class=\"elementor-heading-title[^\"]*\">([^<]+)</p>"
+)
+
+# Title-prefix patterns we recognize, in priority order. Each captures the
+# institution name in group 2 (group 1 is the prefix). Date suffixes are
+# tolerated but never consumed into the institution name. Patterns are
+# anchored at start to avoid mid-string matches. The final two patterns
+# cover commission-issued statements that do not include a date in the
+# title (e.g. "Public Statement on Becker College").
+NECHE_COMMISSION_STATEMENT_TITLE_PATTERNS <- c(
+  joint_statement       = "^(Joint Statement) by (.*?) and the Commission(?:\\b|[\\s,–—-])",
+  joint_press_release   = "^(Joint Press Release) by (.*?) and the Commission(?:\\b|[\\s,–—-])",
+  commission_statement  = "^(Commission Statement) on (.*?)(?:\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d|$)",
+  statement_dated       = "^(Statement) on (.*?)(?:\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\s+\\d|$)",
+  public_statement_re   = "^(Public Statement) by the Commission Regarding Accreditation Status of (.+)$",
+  public_statement_on   = "^(Public Statement) on (.+)$"
+)
+
+# Default action_type per recognized title prefix. Every commission-statement
+# row is keyed to "notice" because that is the only NECHE-friendly type the
+# build_web_exports.R "is_tracked_public_action" gate accepts on a bare
+# label: its type allowlist for non-keyword rows is
+# {warning, probation, monitoring, notice}. Emitting "adverse_action" for
+# closure-style statements would silently drop those rows. PDF enrichment
+# may upgrade the action_type to {warning, probation, show_cause, removed}
+# when the body text contains a verb pattern that classify_action()
+# already recognizes; for closures the body almost always contains
+# "withdraw" / "cease academic operations" / "removed from membership" so
+# the keyword gate carries it through even though the type stays "notice".
+NECHE_COMMISSION_STATEMENT_ACTION_TYPES <- c(
+  joint_statement       = "notice",
+  joint_press_release   = "notice",
+  commission_statement  = "notice",
+  statement_dated       = "notice",
+  public_statement_re   = "notice",
+  public_statement_on   = "notice"
+)
+
 WSCUC_ARCHIVE_URLS <- c(
   "https://www.wscuc.org/post/category/commission-actions/",
   "https://www.wscuc.org/post/category/commission-actions/page/2/"
@@ -417,12 +491,72 @@ fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
   }
   tryCatch(
     {
-      resp <- httr2::request(url) |>
-        httr2::req_user_agent("FinancialHealthProject/1.0") |>
-        httr2::req_perform()
-      raw_body <- httr2::resp_body_raw(resp)
+      method <- "httr2"
+      raw_body <- tryCatch(
+        {
+          resp <- httr2::request(url) |>
+            httr2::req_user_agent("FinancialHealthProject/1.0") |>
+            httr2::req_perform()
+          httr2::resp_body_raw(resp)
+        },
+        error = function(primary_err) {
+          tmp_path <- tempfile("binary-fetch-", tmpdir = cache_dir, fileext = ".bin")
+          on.exit(unlink(tmp_path), add = TRUE)
+          fallback_err <- tryCatch(
+            {
+              download_with_retry(url, tmp_path, mode = "wb", quiet = TRUE, timeout = 60L, retries = 2L)
+              NULL
+            },
+            error = function(e) e
+          )
+          if (is.null(fallback_err) && file.exists(tmp_path)) {
+            method <<- "download.file"
+            return(readBin(tmp_path, what = "raw", n = file.info(tmp_path)$size))
+          }
+
+          python_bin <- Sys.which(c("python", "python3"))
+          python_bin <- python_bin[nzchar(python_bin)][1]
+          if (!is.na(python_bin) && nzchar(python_bin)) {
+            py_code <- paste(
+              "import pathlib,sys,urllib.request;",
+              "req=urllib.request.Request(sys.argv[1], headers={'User-Agent':'FinancialHealthProject/1.0'});",
+              "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+            )
+            py_out <- tryCatch(
+              system2(
+                python_bin,
+                c("-c", py_code, url, tmp_path),
+                stdout = TRUE,
+                stderr = TRUE
+              ),
+              error = function(e) structure(conditionMessage(e), status = 1L)
+            )
+            py_status <- attr(py_out, "status", exact = TRUE)
+            if (is.null(py_status) && file.exists(tmp_path)) {
+              method <<- "python"
+              return(readBin(tmp_path, what = "raw", n = file.info(tmp_path)$size))
+            }
+            python_err <- paste(py_out, collapse = "\n")
+          } else {
+            python_err <- "python interpreter not found"
+          }
+
+          stop(
+            "Failed to fetch ", url, ": ", conditionMessage(primary_err),
+            "; download.file fallback also failed: ", conditionMessage(fallback_err),
+            "; python fallback also failed: ", python_err,
+            call. = FALSE
+          )
+        }
+      )
       writeBin(raw_body, cache_path)
-      record_accreditation_fetch_event(accreditor, url, "binary", "fresh_fetch", cache_path)
+      status <- switch(
+        method,
+        "download.file" = "fresh_fetch_download_file",
+        "python" = "fresh_fetch_python",
+        "fresh_fetch"
+      )
+      record_accreditation_fetch_event(accreditor, url, "binary", status, cache_path)
       cache_path
     },
     error = function(e) {
@@ -1414,10 +1548,401 @@ parse_sacscoc <- function(cache_dir, refresh) {
   rows
 }
 
+# Parses a cleaned commission-statement card title into (institution_name,
+# statement_kind) where statement_kind is the lookup key used by
+# NECHE_COMMISSION_STATEMENT_ACTION_TYPES. Returns NA values if no pattern
+# matches so the caller can decide whether to drop the row or fall back to
+# the URL slug.
+extract_neche_statement_institution <- function(title) {
+  txt <- clean_text(title)
+  for (kind in names(NECHE_COMMISSION_STATEMENT_TITLE_PATTERNS)) {
+    pat <- NECHE_COMMISSION_STATEMENT_TITLE_PATTERNS[[kind]]
+    m <- stringr::str_match(txt, pat)
+    if (!is.na(m[1, 1])) {
+      institution <- unname(stringr::str_squish(m[1, 3]))
+      # Trim accidental trailing punctuation and "and the Commission" remnants.
+      institution <- stringr::str_replace(institution, ",\\s*$", "")
+      if (nzchar(institution)) {
+        return(list(institution_name_raw = institution, statement_kind = kind))
+      }
+    }
+  }
+  list(institution_name_raw = NA_character_, statement_kind = NA_character_)
+}
+
+# Parses a card's visible publication date string ("Month DD, YYYY", or
+# "Month YYYY" as a fallback) into a Date. Returns NA on no match so the
+# caller can decide whether to skip or rescue the row from another field.
+parse_neche_statement_date <- function(date_text) {
+  txt <- clean_text(date_text)
+  m <- stringr::str_match(
+    txt,
+    paste0(
+      "(January|February|March|April|May|June|July|August|September|October|November|December)",
+      "\\s+(\\d{1,2}),\\s*(\\d{4})"
+    )
+  )
+  if (!is.na(m[1, 1])) {
+    return(as.Date(paste(m[1, 4], m[1, 3], m[1, 2]), format = "%Y %d %B"))
+  }
+  m2 <- stringr::str_match(
+    txt,
+    paste0(
+      "(January|February|March|April|May|June|July|August|September|October|November|December)",
+      "\\s+(\\d{4})"
+    )
+  )
+  if (!is.na(m2[1, 1])) {
+    return(as.Date(paste(m2[1, 3], "01", m2[1, 2]), format = "%Y %d %B"))
+  }
+  as.Date(NA)
+}
+
+# Builds a filesystem-safe cache slug from a NECHE commission-statement
+# detail URL. Slugs include the trailing path segment of the URL, with any
+# non-alphanumeric character replaced by an underscore so the slug stays
+# valid on Windows where ':' and a few other characters are illegal.
+neche_statement_cache_slug <- function(detail_url) {
+  raw <- basename(gsub("/$", "", as.character(detail_url)))
+  if (is.na(raw) || !nzchar(raw)) return("unknown")
+  slug <- gsub("[^A-Za-z0-9_-]+", "_", raw)
+  if (!nzchar(slug)) "unknown" else slug
+}
+
+# Fetches a NECHE commission-statement detail page and extracts the iframe
+# PDF source. Returns a list with `pdf_url`, `page_title`, and
+# `page_modified`. Network failures fall back to the cached HTML; only a
+# completely unreachable detail page (no cache, no fresh) returns NA fields.
+parse_neche_statement_detail_page <- function(detail_url, cache_dir, refresh) {
+  cache_name <- paste0("neche_statement_", neche_statement_cache_slug(detail_url), ".html")
+  html <- tryCatch(
+    fetch_html_text(detail_url, cache_name, cache_dir, refresh = refresh),
+    error = function(e) NA_character_
+  )
+  if (is.na(html) || !nzchar(html)) {
+    return(list(pdf_url = NA_character_, page_title = NA_character_, page_modified = NA_character_))
+  }
+  pdf_match <- stringr::str_match(html, NECHE_STATEMENT_PDF_URL_PATTERN)
+  list(
+    pdf_url = if (!is.na(pdf_match[1, 1])) pdf_match[1, 2] else NA_character_,
+    page_title = extract_page_title(html),
+    page_modified = extract_page_modified_date(html)
+  )
+}
+
+# Picks the first informative sentence from a block of PDF-extracted text.
+# "Informative" = ≥ 30 chars, contains an action verb (issued / placed /
+# accepted / withdrew / etc.) or a NECHE-specific noun (Notation / Probation
+# / Show Cause). Falls back to the first non-trivial sentence. Caps the
+# result at ~280 chars at a clause boundary so the table cell stays
+# readable. Returns NA on blank input.
+NECHE_STATEMENT_ACTION_KEYWORDS <- paste0(
+  "(?i)\\b(",
+  "issued|issues|issue|",
+  "placed|places|place(?: on)?|",
+  "accepted|accepts|accept(?: notification| the| a| an)?|",
+  "denied|denies|deny|",
+  "removed|removes|remove(?: from)?|",
+  "voted|votes|vote(?:d)?|",
+  "withdrew|withdraws|withdraw(?:ing|n|al)?|",
+  "granted|grants|grant(?:ing|ed)?|",
+  "reaffirmed|reaffirms|reaffirm|",
+  "continued|continues|continue(?:d)?|",
+  "declined|declines|decline|",
+  "terminated|terminates|terminate(?:d)?|",
+  "ceased|ceases|cease(?: academic operations| instruction)?|",
+  "announced|announces|announce(?:d)?|",
+  "received|receives|receive(?: notification)?|",
+  "approved|approves|approve(?:d)?|",
+  "directed|directs|direct(?:ed)?|",
+  "required|requires|require(?:d)?|",
+  "Notation|Probation|Show Cause|Notice of Concern|teach-?out plan|",
+  "voluntarily withdraw|formal request to withdraw|",
+  "cease academic operations|cease instruction|will close",
+  ")\\b"
+)
+
+extract_neche_statement_action_text <- function(raw_text, max_chars = 280L) {
+  if (is.null(raw_text) || is.na(raw_text)) return(NA_character_)
+  txt <- as.character(raw_text)
+  if (!nzchar(txt)) return(NA_character_)
+
+  # Drop carriage returns and form-feeds; keep newlines so we can split
+  # paragraphs. Letterhead and the title line are typically separated
+  # from the body by one or more blank lines.
+  txt <- gsub("[\r\f]", "", txt)
+
+  # Some NECHE PDFs place the title block and the first action paragraph in
+  # the same "paragraph" separated only by line breaks. Strip everything
+  # before the first likely action-sentence opener so we do not discard the
+  # actual action paragraph when removing the header block.
+  txt <- sub(
+    paste0(
+      "(?s)^.*?(?=(",
+      "On\\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)\\b|",
+      "At\\s+its\\s+meeting\\b|",
+      "The\\s+New\\s+England\\s+Commission\\s+of\\s+Higher\\s+Education\\b|",
+      "NECHE\\b",
+      "))"
+    ),
+    "",
+    txt,
+    perl = TRUE
+  )
+
+  # Split on blank-line separators (one or more empty lines, with optional
+  # whitespace). Each resulting paragraph is then squished to a single
+  # whitespace run.
+  paragraphs <- strsplit(txt, "\\n[\\t ]*\\n+", perl = TRUE)[[1]]
+  paragraphs <- vapply(paragraphs, stringr::str_squish, character(1L), USE.NAMES = FALSE)
+  paragraphs <- paragraphs[nzchar(paragraphs)]
+  if (length(paragraphs) == 0L) return(NA_character_)
+
+  # Drop boilerplate header / footer paragraphs:
+  #   - short lines (< 60 chars) are almost always section labels
+  #   - address blocks (phone formats, URLs, email addresses)
+  #   - bare "Joint Statement" / "Public Statement" / etc. titles
+  #   - the closing "Further information about NECHE may be found at..."
+  #     paragraph that appears at the end of every PDF
+  is_letterhead <- function(p) {
+    if (nchar(p) < 60L) return(TRUE)
+    if (grepl("\\bTel:|\\bFax:|\\bwww\\.neche\\.org\\b|@|\\b\\d{3}-\\d{3}-\\d{4}\\b", p, perl = TRUE)) return(TRUE)
+    if (grepl("^(Joint Statement|Public Statement|Commission Statement|Joint Press Release|Statement)\\b", p, perl = TRUE)) return(TRUE)
+    if (grepl("^Further information about", p, perl = TRUE)) return(TRUE)
+    FALSE
+  }
+  body_paragraphs <- paragraphs[!vapply(paragraphs, is_letterhead, logical(1L))]
+  if (length(body_paragraphs) == 0L) {
+    # Single-paragraph PDF or aggressively-stripped layout: treat the
+    # whole thing as one body paragraph rather than returning NA.
+    body_paragraphs <- stringr::str_squish(paste(paragraphs, collapse = " "))
+  }
+
+  # Sentence-split the FIRST body paragraph. The first body paragraph of a
+  # NECHE statement consistently leads with the action sentence ("On
+  # <date>, <institution> announced..." or "At its meeting on <date>,
+  # NECHE issued <institution> a <Sanction>...").
+  candidate <- body_paragraphs[[1]]
+  sentences <- stringr::str_split(candidate, "(?<=[.!?])\\s+(?=[A-Z(])")[[1]]
+  sentences <- sentences[!is.na(sentences) & nchar(sentences) >= 30L]
+  if (length(sentences) == 0L) sentences <- candidate
+
+  truncate_sentence <- function(s) {
+    if (nchar(s) <= max_chars) return(stringr::str_squish(s))
+    cut_at <- max_chars - 1L
+    head_text <- substr(s, 1L, cut_at)
+    last_space <- max(c(0L, stringr::str_locate_all(head_text, "\\s+")[[1]][, 2]))
+    if (last_space > 0L && (cut_at - last_space) < 80L) {
+      head_text <- substr(head_text, 1L, last_space - 1L)
+    }
+    paste0(stringr::str_squish(head_text), "…")
+  }
+
+  # Search the first ~6 sentences of the body paragraph for one that
+  # contains an action keyword. Fall through to the first non-trivial
+  # sentence if nothing matches (rare; happens when the body opens with a
+  # narrative scene-setter rather than a verb-led action sentence).
+  for (s in head(sentences, 6L)) {
+    if (stringr::str_detect(s, NECHE_STATEMENT_ACTION_KEYWORDS)) {
+      return(truncate_sentence(s))
+    }
+  }
+  truncate_sentence(sentences[[1]])
+}
+
+# Downloads and parses a NECHE commission-statement PDF. Returns a list
+# with `action_text` (a one-sentence summary suitable for action_label_raw),
+# `pdf_text` (raw extracted text, kept around in case callers want the full
+# body), and `action_type_hint` (a coarse classify_action() call on the
+# extracted text). Returns NULL when the PDF can't be reached, the file
+# isn't a real PDF, or no usable sentence can be extracted.
+parse_neche_statement_pdf <- function(pdf_url, cache_slug, cache_dir, refresh) {
+  if (is.null(pdf_url) || is.na(pdf_url) || !nzchar(pdf_url)) return(NULL)
+  pdf_path <- tryCatch(
+    fetch_binary_file(
+      pdf_url,
+      paste0("neche_statement_", cache_slug, ".pdf"),
+      cache_dir = cache_dir,
+      refresh = refresh
+    ),
+    error = function(e) NA_character_
+  )
+  if (is.na(pdf_path) || !file.exists(pdf_path)) return(NULL)
+
+  header_raw <- tryCatch(readBin(pdf_path, what = "raw", n = 5), error = function(e) raw())
+  if (length(header_raw) < 4L || rawToChar(header_raw[1:4]) != "%PDF") return(NULL)
+
+  pdf_pages <- tryCatch(pdftools::pdf_text(pdf_path), error = function(e) character())
+  if (length(pdf_pages) == 0L) return(NULL)
+
+  raw_text <- paste(pdf_pages, collapse = "\n")
+  action_text <- extract_neche_statement_action_text(raw_text)
+  if (is.na(action_text) || !nzchar(action_text)) return(NULL)
+
+  list(
+    action_text = action_text,
+    pdf_text = raw_text,
+    action_type_hint = classify_action(raw_text, accreditor = "NECHE")
+  )
+}
+
+# Scrapes NECHE's commission-statements landing page. Each card on that page
+# represents a public statement NECHE issues whenever an institution is
+# placed on Notation, Probation, Show Cause, has its accreditation withdrawn,
+# or is the subject of a closure / merger announcement. For every card we
+# also fetch the detail page, find its iframe PDF, and pull a one-sentence
+# action summary out of the PDF body — that summary becomes the
+# action_label_raw users see in the UI. Falls back to the card title if any
+# step in the enrichment chain (detail fetch / PDF download / text parse)
+# fails, so the row is never silently dropped on a single broken PDF.
+parse_neche_commission_statements <- function(cache_dir, refresh) {
+  url <- NECHE_COMMISSION_STATEMENTS_URL
+  html <- fetch_html_text(url, "neche_commission_statements.html", cache_dir, refresh = refresh)
+  page_title <- extract_page_title(html)
+  page_modified <- extract_page_modified_date(html)
+
+  cards <- stringr::str_match_all(html, NECHE_COMMISSION_STATEMENT_CARD_PATTERN)[[1]]
+  if (nrow(cards) == 0L) {
+    warn_on_empty_parse(
+      "NECHE", url, tibble::tibble(), html,
+      detail = "no commission-statement cards matched on landing page"
+    )
+    return(empty_accreditation_action_rows())
+  }
+
+  rows <- purrr::map_dfr(seq_len(nrow(cards)), function(i) {
+    detail_url <- cards[i, 2]
+    title_raw <- cards[i, 3]
+    date_raw <- cards[i, 4]
+
+    title_clean <- clean_text(title_raw)
+    parsed <- extract_neche_statement_institution(title_clean)
+    institution_name <- parsed$institution_name_raw
+    statement_kind <- parsed$statement_kind
+
+    # If we cannot recognise the title shape, drop the row rather than emit
+    # garbage. extract_neche_statement_institution covers the six shapes
+    # NECHE has used since 2021; a brand-new shape is a scraper-drift
+    # signal worth surfacing in the cache rather than papering over here.
+    if (is.na(institution_name) || !nzchar(institution_name)) {
+      warning(
+        sprintf(
+          "parse_neche_commission_statements: unrecognised title shape %s (%s); skipping row",
+          dQuote(title_clean), detail_url
+        ),
+        call. = FALSE
+      )
+      return(tibble::tibble())
+    }
+
+    action_date <- parse_neche_statement_date(date_raw)
+    action_year <- suppressWarnings(as.integer(format(action_date, "%Y")))
+    # Single-bracket subscript returns NA (not error) for unknown keys, so a
+    # future statement_kind we forget to wire into the action-type map falls
+    # back to "notice" instead of stopping the whole NECHE parse.
+    action_type_lookup <- unname(NECHE_COMMISSION_STATEMENT_ACTION_TYPES[statement_kind])
+    action_type <- if (length(action_type_lookup) == 1L && !is.na(action_type_lookup) &&
+                       nzchar(action_type_lookup)) {
+      action_type_lookup
+    } else {
+      "notice"
+    }
+
+    # Default to the card title; enrichment may override below. Notes
+    # always carry the title so the UI can show statement_kind context
+    # (Joint Statement / Public Statement / Commission Statement) even
+    # when the label has been replaced with a PDF-derived sentence.
+    action_label <- title_clean
+    detail_page_modified <- page_modified
+
+    detail <- tryCatch(
+      parse_neche_statement_detail_page(detail_url, cache_dir, refresh),
+      error = function(e) {
+        warning(
+          sprintf(
+            "parse_neche_statement_detail_page failed for %s: %s",
+            detail_url, conditionMessage(e)
+          ),
+          call. = FALSE
+        )
+        list(pdf_url = NA_character_, page_title = NA_character_, page_modified = NA_character_)
+      }
+    )
+    if (!is.null(detail$page_modified) && !is.na(detail$page_modified) && nzchar(detail$page_modified)) {
+      detail_page_modified <- detail$page_modified
+    }
+
+    pdf_parsed <- if (!is.null(detail$pdf_url) && !is.na(detail$pdf_url) && nzchar(detail$pdf_url)) {
+      tryCatch(
+        parse_neche_statement_pdf(
+          detail$pdf_url,
+          neche_statement_cache_slug(detail_url),
+          cache_dir,
+          refresh
+        ),
+        error = function(e) {
+          warning(
+            sprintf(
+              "parse_neche_statement_pdf failed for %s: %s",
+              detail$pdf_url, conditionMessage(e)
+            ),
+            call. = FALSE
+          )
+          NULL
+        }
+      )
+    } else {
+      NULL
+    }
+
+    if (!is.null(pdf_parsed) && !is.na(pdf_parsed$action_text) && nzchar(pdf_parsed$action_text)) {
+      action_label <- pdf_parsed$action_text
+      # Upgrade action_type from the body-text hint when classify_action
+      # found a stronger signal than "other"; keep the default "notice"
+      # otherwise so the export gate still surfaces the row.
+      hint <- pdf_parsed$action_type_hint
+      if (!is.na(hint) && nzchar(hint) && hint %in% c("warning", "probation", "show_cause", "removed")) {
+        action_type <- hint
+      }
+    }
+
+    tibble::tibble(
+      institution_name_raw  = institution_name,
+      institution_state_raw = NA_character_,
+      accreditor            = "NECHE",
+      action_type           = action_type,
+      action_label_raw      = action_label,
+      action_status         = "active",
+      action_date           = action_date,
+      action_year           = action_year,
+      action_scope          = NA_character_,
+      source_url            = detail_url,
+      source_title          = title_clean,
+      notes                 = title_clean,
+      # Match parse_items_to_rows: POSIXct here, coerced to character in
+      # ensure_accreditation_action_schema downstream. Returning a
+      # character directly here makes dplyr::bind_rows() refuse to
+      # combine the recent-actions rows (POSIXct) with these rows.
+      last_seen_at          = Sys.time(),
+      source_page_url       = url,
+      source_page_modified  = detail_page_modified
+    )
+  })
+
+  warn_on_empty_parse(
+    "NECHE", url, rows, html,
+    detail = "all commission-statement cards had unrecognised title shapes"
+  )
+  rows
+}
+
 # Scrapes NECHE accreditation actions from their recent actions page, extracting
 # institutions grouped by action type from toggle/accordion sections. The page
 # is first split into meeting sections by H2 headings so that each row inherits
-# its meeting's action date (rather than the page-last-modified date).
+# its meeting's action date (rather than the page-last-modified date). The
+# commission-statements page is queried alongside the recent-actions page and
+# its rows are unioned in; both are NECHE-published surfaces and the export
+# pipeline expects every public NECHE action to flow through parse_neche.
 parse_neche <- function(cache_dir, refresh) {
   url <- NECHE_ACTIONS_URL
   html <- fetch_html_text(url, "neche_actions.html", cache_dir, refresh = refresh)
@@ -1426,7 +1951,7 @@ parse_neche <- function(cache_dir, refresh) {
 
   meeting_sections <- extract_tag_heading_sections(html, heading_tag = "h2")
 
-  rows <- purrr::map_dfr(seq_len(nrow(meeting_sections)), function(i) {
+  recent_rows <- purrr::map_dfr(seq_len(nrow(meeting_sections)), function(i) {
     heading <- meeting_sections$heading[[i]]
     body <- meeting_sections$body[[i]]
 
@@ -1455,10 +1980,49 @@ parse_neche <- function(cache_dir, refresh) {
   })
 
   warn_on_empty_parse(
-    "NECHE", url, rows, html,
+    "NECHE", url, recent_rows, html,
     detail = if (nrow(meeting_sections) == 0L) "no meeting H2 headings matched on page" else NULL
   )
-  rows
+
+  # Pull commission statements separately. A failure on either surface must
+  # not silently zero the other, so we keep them in independent
+  # tryCatch envelopes and bind whatever each one produced.
+  statement_rows <- tryCatch(
+    parse_neche_commission_statements(cache_dir, refresh),
+    error = function(e) {
+      warning(
+        sprintf(
+          "parse_neche_commission_statements failed: %s — recent-actions rows still emitted",
+          conditionMessage(e)
+        ),
+        call. = FALSE
+      )
+      empty_accreditation_action_rows()
+    }
+  )
+
+  state_lookup <- recent_rows %>%
+    dplyr::filter(
+      !is.na(institution_name_raw), institution_name_raw != "",
+      !is.na(institution_state_raw), institution_state_raw != ""
+    ) %>%
+    dplyr::distinct(institution_name_raw, institution_state_raw) %>%
+    dplyr::add_count(institution_name_raw, name = "state_count") %>%
+    dplyr::filter(state_count == 1L) %>%
+    dplyr::select(institution_name_raw, inferred_state = institution_state_raw)
+
+  statement_rows <- statement_rows %>%
+    dplyr::left_join(state_lookup, by = "institution_name_raw") %>%
+    dplyr::mutate(
+      institution_state_raw = dplyr::if_else(
+        is.na(institution_state_raw) | institution_state_raw == "",
+        inferred_state,
+        institution_state_raw
+      )
+    ) %>%
+    dplyr::select(-inferred_state)
+
+  dplyr::bind_rows(recent_rows, statement_rows)
 }
 
 parse_wscuc_detail_page <- function(url, cache_dir, refresh) {

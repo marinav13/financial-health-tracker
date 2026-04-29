@@ -52,6 +52,50 @@ test.describe('Frontend state synchronization', () => {
     expect(firstInstitutionAfter).not.toBe(firstInstitutionBefore);
   });
 
+  test('landing pages use index payloads without requesting full side-data exports', async ({ page }) => {
+    const requested = [];
+    page.on('request', (request) => requested.push(request.url()));
+
+    await page.goto('/cuts.html');
+    await expect(page.locator('#cuts-list table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/college_cuts_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/college_cuts.json'))).toBe(false);
+
+    requested.length = 0;
+    await page.goto('/accreditation.html');
+    await expect(page.locator('#accreditation-status table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/accreditation_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/accreditation.json'))).toBe(false);
+
+    requested.length = 0;
+    await page.goto('/research.html');
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/research_funding_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/research_funding.json'))).toBe(false);
+  });
+
+  test('detail pages lazy-load full exports after index presence checks', async ({ page }) => {
+    const requested = [];
+    page.on('request', (request) => requested.push(request.url()));
+
+    await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
+    await expect(page.locator('#cuts-list table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/college_cuts_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/college_cuts.json'))).toBe(true);
+
+    requested.length = 0;
+    await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
+    await expect(page.locator('#accreditation-status table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/accreditation_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/accreditation.json'))).toBe(true);
+
+    requested.length = 0;
+    await page.goto(`/research.html?unitid=${researchUnitid}`);
+    await expect(page.locator('#research-list table.history-table')).toBeVisible();
+    expect(requested.some((url) => url.endsWith('/data/research_funding_index.json'))).toBe(true);
+    expect(requested.some((url) => url.endsWith('/data/research_funding.json'))).toBe(true);
+  });
+
   test('sortable headers move aria-sort with the active sort state', async ({ page }) => {
     await page.goto('/research.html');
 

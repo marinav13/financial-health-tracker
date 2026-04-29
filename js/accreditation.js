@@ -517,9 +517,13 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
   }
 
   function buildDefaultActionRows(data) {
-    return Object.values(data.schools || {})
-      .flatMap((school) =>
-        getEffectiveActions(school).filter(isRecentDisplayAction).map((action) => ({
+    const schools = data?.schools || data || {};
+    return Object.values(schools)
+      .flatMap((school) => {
+        const actionRows = Array.isArray(school.landing_actions)
+          ? school.landing_actions
+          : getEffectiveActions(school).filter(isRecentDisplayAction);
+        return actionRows.map((action) => ({
           unitid: school.unitid,
           institution_name: resolveInstitutionName(school.institution_name, action),
           city: school.city || "",
@@ -536,8 +540,8 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
           action_year: action.action_year || "",
           display_action: action.display_action !== false,
           source_url: getActionLink(action)
-        }))
-      )
+        }));
+      })
       .sort((a, b) => {
         const dateCompare = String(b.action_date || b.action_year || "").localeCompare(String(a.action_date || a.action_year || ""));
         if (dateCompare !== 0) return dateCompare;
@@ -737,9 +741,15 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     syncTabs(unitid, { active: "accreditation" });
 
     if (!unitid) {
-      const data = await loadJson("data/accreditation.json");
-      renderDataAsOf("accreditation-data-as-of", data?.generated_at);
-      document.getElementById("accreditation-limitations").innerHTML = renderLimitations(data);
+      const [accreditationIndex, metadata] = await Promise.all([
+        loadJson("data/accreditation_index.json"),
+        loadJson("data/metadata.json")
+      ]);
+      renderDataAsOf("accreditation-data-as-of", metadata?.generated_at);
+      document.getElementById("accreditation-limitations").innerHTML = renderLimitations({
+        covered_accreditors: Object.keys(ACCREDITOR_NAMES),
+        schools: {}
+      });
       // Landing page: retain a real document heading for screen-reader users
       // but keep it visually hidden so the existing banner layout is unchanged.
       const landingHeading = document.getElementById("accreditation-school-name");
@@ -750,7 +760,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
       const primaryFilterLabel = document.querySelector('label[for="accreditation-filter"]');
       if (primaryFilter) primaryFilter.classList.remove("is-hidden");
       if (primaryFilterLabel) primaryFilterLabel.classList.remove("is-hidden");
-      const allActions = buildDefaultActionRows(data);
+      const allActions = buildDefaultActionRows(accreditationIndex);
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
       setDataCardVisible("accreditation-other-status", true);

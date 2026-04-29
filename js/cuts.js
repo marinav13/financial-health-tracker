@@ -115,10 +115,10 @@
     return match ? Number(match[0]) : NaN;
   }
 
-  function buildRecentCuts(cutsData) {
-    return Object.values(cutsData.schools || {})
+  function buildRecentCuts(cutsIndex) {
+    return Object.values(cutsIndex || {})
       .flatMap((school) =>
-        (school.cuts || []).map((cut) => ({
+        (school.landing_cuts || []).map((cut) => ({
           ...cut,
           institution_name: school.institution_name || cut.institution_name || "",
           state: school.state || cut.state || "",
@@ -215,9 +215,12 @@
       landingHeading.classList.add("sr-only");
       landingHeading.classList.remove("is-hidden");
       if (mainToolbar) mainToolbar.classList.remove("is-hidden");
-      const cutsData = await loadJson("data/college_cuts.json");
-      renderDataAsOf("cuts-data-as-of", cutsData?.generated_at);
-      const recent = buildRecentCuts(cutsData);
+      const [cutsIndex, metadata] = await Promise.all([
+        loadJson("data/college_cuts_index.json"),
+        loadJson("data/metadata.json")
+      ]);
+      renderDataAsOf("cuts-data-as-of", metadata?.generated_at);
+      const recent = buildRecentCuts(cutsIndex);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       setDataCardVisible("cuts-other-list", true);

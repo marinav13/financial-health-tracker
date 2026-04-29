@@ -1093,7 +1093,15 @@ export_bundle_specs <- list(
     index_builder = function(school) list(
       latest_cut_date = school$latest_cut_date,
       latest_cut_label = school$latest_cut_label,
-      cut_count = school$cut_count
+      cut_count = school$cut_count,
+      landing_cuts = lapply(school$cuts %||% list(), function(cut) list(
+        announcement_date = cut$announcement_date,
+        announcement_year = cut$announcement_year,
+        program_name = cut$program_name,
+        positions_affected = cut$positions_affected,
+        faculty_affected = cut$faculty_affected,
+        source_url = cut$source_url
+      ))
     )
   ),
   accreditation = list(
@@ -1109,7 +1117,21 @@ export_bundle_specs <- list(
       list(
         latest_action_date = school$latest_status$latest_action_date,
         latest_action_label = latest_action_label,
-        action_count = school$latest_status$action_count
+        action_count = school$latest_status$action_count,
+        landing_actions = lapply(school$actions %||% list(), function(action) list(
+          accreditor = action$accreditor,
+          action_label = action$action_label,
+          action_label_short = action$action_label_short,
+          action_scope = action$action_scope,
+          action_type = action$action_type,
+          action_date = action$action_date,
+          action_year = action$action_year,
+          display_action = action$display_action,
+          notes = action$notes,
+          source_url = action$source_url %||% action$source_page_url,
+          source_page_url = action$source_page_url,
+          source_title = action$source_title
+        ))
       )
     }
   ),

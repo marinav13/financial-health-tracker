@@ -345,6 +345,36 @@ run_test("Web export pipeline fixture", function() {
   }
 
   # ── Individual school JSON schema ────────────────────────────────────────────
+  first_cut_index <- cuts_index[[1]]
+  assert_true("landing_cuts" %in% names(first_cut_index),
+    "cuts_index entries should expose landing_cuts for the landing-page table.")
+  assert_true(is.list(first_cut_index$landing_cuts),
+    "cuts_index$landing_cuts should be a list.")
+  if (length(first_cut_index$landing_cuts) > 0) {
+    first_cut_row_names <- if (is.data.frame(first_cut_index$landing_cuts)) {
+      names(first_cut_index$landing_cuts)
+    } else {
+      names(first_cut_index$landing_cuts[[1]])
+    }
+    assert_true(all(c("program_name", "announcement_date", "announcement_year", "source_url") %in% first_cut_row_names),
+      "landing_cuts rows should include the compact row-level fields used by cuts.html.")
+  }
+
+  first_accred_index <- accred_index[[1]]
+  assert_true("landing_actions" %in% names(first_accred_index),
+    "accreditation_index entries should expose landing_actions for the landing-page table.")
+  assert_true(is.list(first_accred_index$landing_actions),
+    "accreditation_index$landing_actions should be a list.")
+  if (length(first_accred_index$landing_actions) > 0) {
+    first_action_row_names <- if (is.data.frame(first_accred_index$landing_actions)) {
+      names(first_accred_index$landing_actions)
+    } else {
+      names(first_accred_index$landing_actions[[1]])
+    }
+    assert_true(all(c("accreditor", "action_label", "action_date", "source_url") %in% first_action_row_names),
+      "landing_actions rows should include the compact row-level fields used by accreditation.html.")
+  }
+
   assert_identical(school_file$profile$institution_name, "Example University")
 
   # Top-level sections must be present.

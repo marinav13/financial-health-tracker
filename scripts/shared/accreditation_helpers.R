@@ -192,7 +192,7 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
       return(list(body = body, method = "httr2"))
     }
 
-    tmp_path <- tempfile("html-fetch-", tmpdir = cache_dir, fileext = ".html")
+    tmp_path <- tempfile("html-fetch-", fileext = ".html")
     on.exit(unlink(tmp_path), add = TRUE)
     fallback_err <- tryCatch(
       {
@@ -208,15 +208,22 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
     python_bin <- Sys.which(c("python", "python3"))
     python_bin <- python_bin[nzchar(python_bin)][1]
     if (!is.na(python_bin) && nzchar(python_bin)) {
-      py_code <- paste(
-        "import pathlib,sys,urllib.request;",
-        "req=urllib.request.Request(sys.argv[1], headers={'User-Agent':'FinancialHealthProject/1.0'});",
-        "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+      py_script <- tempfile("html-fetch-", fileext = ".py")
+      writeLines(
+        c(
+          "import pathlib",
+          "import sys",
+          "import urllib.request",
+          "req = urllib.request.Request(sys.argv[1], headers={'User-Agent': 'FinancialHealthProject/1.0'})",
+          "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+        ),
+        py_script
       )
+      on.exit(unlink(py_script), add = TRUE)
       py_out <- tryCatch(
         system2(
           python_bin,
-          c("-c", py_code, url, tmp_path),
+          c(py_script, url, tmp_path),
           stdout = TRUE,
           stderr = TRUE
         ),

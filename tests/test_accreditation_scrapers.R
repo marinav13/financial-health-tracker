@@ -811,6 +811,42 @@ run_test("Accreditation scraper parses Lynchburg disclosure PDF from fixture", f
   )
 })
 
+run_test("Accreditation scraper parses SACSCOC combined BOT report text into detailed action rows", function() {
+  fixture_text <- paste(
+    "Southern Association of Colleges and Schools",
+    "Commission on Colleges",
+    "Accreditation Actions taken by the SACSCOC Board of Trustees",
+    "At its meeting on December 8, 2024, the SACSCOC Board of Trustees took the following actions regarding the accreditation status of institutions:",
+    "The Board denied reaffirmation, continued in accreditation, and placed the following institution on Warning:",
+    "University of Lynchburg, Lynchburg, VA",
+    "For twelve months failure to comply with Core Requirement 13.2 (Financial documents), Standard 7.3 (Administrative effectiveness), Standard 8.2.a (Student outcomes: educational programs), Standard 8.2.c (Student outcomes: academic and student services) and Standard 13.3 (Financial responsibility) of the Principles of Accreditation. A Special Committee was not authorized to visit the institution.",
+    sep = "\n"
+  )
+
+  rows <- parse_sacscoc_combined_report_text(
+    raw_text = fixture_text,
+    source_url = "https://web.archive.org/web/20241217015000/https://sacscoc.org/app/uploads/2024/12/Combined-BOT-Report-12_8_2024-FINAL.pdf",
+    source_title = "Combined-BOT-Report-12_8_2024-FINAL.pdf"
+  )
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "University of Lynchburg")
+  assert_identical(rows$institution_state_raw[[1]], "Virginia")
+  assert_identical(rows$action_date[[1]], as.Date("2024-12-08"))
+  assert_identical(
+    rows$source_url[[1]],
+    "https://web.archive.org/web/20241217015000/https://sacscoc.org/app/uploads/2024/12/Combined-BOT-Report-12_8_2024-FINAL.pdf"
+  )
+  assert_true(
+    grepl("Denied reaffirmation, continued in accreditation, and placed on Warning", rows$action_label_raw[[1]], fixed = TRUE),
+    "Expected the combined-report row to preserve the detailed warning heading."
+  )
+  assert_true(
+    grepl("for twelve months for failure to comply", rows$action_label_raw[[1]], ignore.case = TRUE),
+    "Expected the combined-report row to append the detailed failure-to-comply clause."
+  )
+})
+
 run_test("Accreditation scraper SACSCOC disclosure rows enriched with PDF-derived fields", function() {
   # End-to-end: build_sacscoc_disclosure_rows, given a cache_dir with a staged
   # PDF, must upgrade the row from the 'Public Disclosure Statement' stub to
@@ -870,6 +906,56 @@ run_test("Accreditation scraper SACSCOC disclosure rows enriched with PDF-derive
   assert_true(
     rows$action_type[[1]] != "other",
     "Expected enriched row to classify as a real action type, not 'other'."
+  )
+})
+
+run_test("Accreditation scraper SACSCOC disclosure rows prefer combined BOT report enrichment when supplied", function() {
+  disclosure_matches <- matrix(
+    c(
+      "<p><a href=\"https://sacscoc.box.com/s/0s4spq5vwwcsnecoxwi6o9d6qzinj6c1\">University of Lynchburg</a>, Lynchburg, VA</p>",
+      "https://sacscoc.box.com/s/0s4spq5vwwcsnecoxwi6o9d6qzinj6c1",
+      "University of Lynchburg",
+      "Lynchburg",
+      "VA"
+    ),
+    ncol = 5,
+    byrow = TRUE
+  )
+
+  combined_report <- list(
+    rows = tibble::tibble(
+      institution_name_raw = "University of Lynchburg",
+      institution_state_raw = "Virginia",
+      action_label_raw = paste(
+        "Denied reaffirmation, continued in accreditation, and placed on Warning",
+        "for twelve months for failure to comply with Standard 13.3."
+      ),
+      action_date = as.Date("2024-12-08"),
+      source_url = "https://web.archive.org/web/20241217015000/https://sacscoc.org/app/uploads/2024/12/Combined-BOT-Report-12_8_2024-FINAL.pdf",
+      source_title = "Combined-BOT-Report-12_8_2024-FINAL.pdf"
+    )
+  )
+
+  rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = as.Date("2024-12-01"),
+    url = "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+    page_title = "December 2024 Accreditation Actions and Public Disclosure Statements",
+    cache_dir = NULL,
+    refresh = FALSE,
+    combined_report = combined_report
+  )
+
+  assert_identical(nrow(rows), 1L)
+  assert_identical(rows$institution_name_raw[[1]], "University of Lynchburg")
+  assert_identical(rows$action_date[[1]], as.Date("2024-12-08"))
+  assert_identical(
+    rows$source_url[[1]],
+    "https://web.archive.org/web/20241217015000/https://sacscoc.org/app/uploads/2024/12/Combined-BOT-Report-12_8_2024-FINAL.pdf"
+  )
+  assert_true(
+    grepl("Denied reaffirmation", rows$action_label_raw[[1]], fixed = TRUE),
+    "Expected the combined-report action label to override the generic disclosure stub."
   )
 })
 

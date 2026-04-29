@@ -394,6 +394,24 @@ SACSCOC_STANDARD_ITEM_PATTERN <- "^(.*?),\\s*([^,]+),\\s*([^,(]+)\\s*\\((.*?)\\)
 SACSCOC_WITHDRAWAL_ITEM_PATTERN <- "^(.*?)\\s*\\(([^)]+)\\)\\s*(withdraws from membership)$"
 SACSCOC_LANDING_URL <- "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/"
 SACSCOC_LANDING_LINK_PATTERN <- "<a href=\"(https://sacscoc.org/institutions/accreditation-actions-and-disclosures/[^\"#]+?)\">(December [0-9]{4} Accreditation Actions and Public Disclosure Statements|June [0-9]{4} Accreditation Actions and Public Disclosure Statements)</a>"
+SACSCOC_COMBINED_REPORT_PDF_PATTERN <- paste0(
+  "https://sacscoc\\.org/app/uploads/[0-9]{4}/[0-9]{2}/",
+  "(?:Combined-BOT-Report[^\"'#? ]*|June-[0-9]{4}-Actions)\\.pdf"
+)
+SACSCOC_ARCHIVED_BACKFILL_SOURCES <- tibble::tribble(
+  ~source_kind,   ~archive_timestamp, ~original_url, ~cache_name,
+  "combined_pdf", "20201026222456", "https://sacscoc.org/app/uploads/2020/06/June-2020-Actions.pdf", "sacscoc_archive_june_2020_actions.pdf",
+  "detail_page",  "20201026214205", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/september-2020-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_september_2020.html",
+  "detail_page",  "20210117150616", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2020-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_december_2020.html",
+  "detail_page",  "20210618190638", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2021-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_june_2021.html",
+  "detail_page",  "20220124132855", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2021-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_december_2021.html",
+  "detail_page",  "20220703182506", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2022-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_june_2022.html",
+  "detail_page",  "20230129125326", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2022-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_december_2022.html",
+  "detail_page",  "20230630122514", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2023-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_june_2023.html",
+  "detail_page",  "20240223043409", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_december_2023.html",
+  "detail_page",  "20240626193756", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2024-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_june_2024.html",
+  "detail_page",  "20241220085302", "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/", "sacscoc_archive_december_2024.html"
+)
 SACSCOC_DISCLOSURE_ITEM_PATTERN <- paste0(
   # The captured anchor text and the post-state filler must NOT be allowed to
   # cross a <p>/<li> boundary, or the non-greedy `.*?` backtracks across the
@@ -477,6 +495,279 @@ box_shared_static_pdf_url <- function(url) {
   )
 }
 
+wayback_raw_replay_url <- function(original_url, archive_timestamp) {
+  paste0(
+    "https://web.archive.org/web/",
+    as.character(archive_timestamp),
+    "id_/",
+    as.character(original_url)
+  )
+}
+
+extract_sacscoc_combined_report_url <- function(html, action_date = as.Date(NA)) {
+  hits <- unique(stringr::str_extract_all(html, SACSCOC_COMBINED_REPORT_PDF_PATTERN)[[1]])
+  hits <- hits[nzchar(hits)]
+  if (length(hits) == 0) {
+    return(NA_character_)
+  }
+
+  if (!is.na(action_date)) {
+    action_year <- format(action_date, "%Y")
+    year_hits <- hits[stringr::str_detect(hits, stringr::fixed(action_year))]
+    if (length(year_hits) > 0) {
+      return(year_hits[[1]])
+    }
+  }
+
+  hits[[1]]
+}
+
+normalize_sacscoc_combined_report_heading <- function(heading) {
+  txt <- clean_text(heading)
+  txt <- stringr::str_remove(txt, "^The Board\\s+")
+  txt <- stringr::str_replace(
+    txt,
+    "^reaffirmed accreditation for the following institutions? and requested it submit a Monitoring Report within (six|twelve) \\([0-9]+\\) months:?$",
+    "reaffirmed accreditation and requested a Monitoring Report within \\1 months"
+  )
+  txt <- stringr::str_replace_all(txt, "\\bthe following institutions?\\b", "")
+  txt <- stringr::str_replace(txt, ":$", "")
+  txt <- stringr::str_replace_all(txt, "\\s+,", ",")
+  txt <- clean_text(txt)
+  if (!nzchar(txt)) {
+    return(txt)
+  }
+  paste0(stringr::str_to_upper(substr(txt, 1, 1)), substr(txt, 2, nchar(txt)))
+}
+
+extract_sacscoc_combined_report_name_state <- function(line) {
+  txt <- clean_text(line)
+  match <- stringr::str_match(
+    txt,
+    "^(.*),\\s*([^,]+),\\s*([A-Z]{2}|[A-Za-z][A-Za-z .'-]*[A-Za-z.])$"
+  )
+  if (!is.na(match[1, 1])) {
+    return(list(
+      institution_name_raw = clean_text(match[1, 2]),
+      institution_state_raw = unname(state_name(clean_text(match[1, 4])))
+    ))
+  }
+
+  extract_name_state_from_item(txt)
+}
+
+is_sacscoc_combined_report_institution_line <- function(line) {
+  txt <- clean_text(line)
+  if (!nzchar(txt)) {
+    return(FALSE)
+  }
+  stringr::str_detect(
+    txt,
+    ".*,\\s*[^,]+,\\s*(?:[A-Z]{2}|[A-Za-z][A-Za-z .'-]*[A-Za-z.])$"
+  )
+}
+
+build_sacscoc_combined_report_action_label <- function(heading, detail_text = NA_character_) {
+  label <- normalize_sacscoc_combined_report_heading(heading)
+  detail <- clean_text(detail_text)
+
+  if (!is.na(detail) && nzchar(detail)) {
+    detail <- stringr::str_replace(
+      detail,
+      "^For\\s+([^.]*)\\s+failure to comply\\b",
+      "for \\1 for failure to comply"
+    )
+    detail <- stringr::str_replace(detail, "^For\\s+", "for ")
+    detail <- stringr::str_replace(detail, "^Reviewed\\s+", "reviewed ")
+    label <- clean_text(paste(label, detail))
+  }
+
+  if (!nzchar(label)) {
+    return(NA_character_)
+  }
+  if (!stringr::str_detect(label, "[.!?]$")) {
+    label <- paste0(label, ".")
+  }
+  label
+}
+
+parse_sacscoc_combined_report_text <- function(raw_text, source_url, source_title) {
+  action_date <- extract_date_from_text_anywhere(raw_text)
+  lines <- unlist(strsplit(raw_text, "\n", fixed = TRUE))
+  lines <- clean_text(lines)
+  lines <- lines[!is.na(lines)]
+  lines <- lines[nzchar(lines)]
+  lines <- lines[!stringr::str_detect(lines, "^[0-9]+$")]
+  lines <- lines[!stringr::str_detect(
+    lines,
+    "^(Southern Association of Colleges and Schools|Commission on Colleges|Accreditation Actions taken by the SACSCOC Board of Trustees)$"
+  )]
+
+  sections <- list()
+  i <- 1L
+  while (i <= length(lines)) {
+    if (!stringr::str_starts(lines[[i]], "The Board ")) {
+      i <- i + 1L
+      next
+    }
+
+    heading_lines <- lines[[i]]
+    j <- i + 1L
+    while (j <= length(lines) &&
+           !stringr::str_detect(heading_lines[[length(heading_lines)]], ":$") &&
+           !is_sacscoc_combined_report_institution_line(lines[[j]]) &&
+           !stringr::str_starts(lines[[j]], "The Board ")) {
+      heading_lines <- c(heading_lines, lines[[j]])
+      j <- j + 1L
+    }
+
+    body_lines <- character()
+    while (j <= length(lines) && !stringr::str_starts(lines[[j]], "The Board ")) {
+      body_lines <- c(body_lines, lines[[j]])
+      j <- j + 1L
+    }
+
+    sections[[length(sections) + 1L]] <- list(
+      heading = clean_text(paste(heading_lines, collapse = " ")),
+      body_lines = body_lines
+    )
+    i <- j
+  }
+
+  rows <- purrr::map_dfr(sections, function(section) {
+    current_line <- NULL
+    detail_lines <- character()
+    parsed_rows <- list()
+
+    flush_current <- function() {
+      if (is.null(current_line)) {
+        return(NULL)
+      }
+      parsed <- extract_sacscoc_combined_report_name_state(current_line)
+      action_label <- build_sacscoc_combined_report_action_label(
+        section$heading,
+        paste(detail_lines, collapse = " ")
+      )
+      if (!nzchar(action_label)) {
+        return(NULL)
+      }
+
+      parsed_rows[[length(parsed_rows) + 1L]] <<- tibble::tibble(
+        institution_name_raw = parsed$institution_name_raw,
+        institution_state_raw = parsed$institution_state_raw,
+        accreditor = "SACSCOC",
+        action_type = classify_action(action_label),
+        action_label_raw = action_label,
+        action_status = classify_status(action_label),
+        action_date = action_date,
+        action_year = suppressWarnings(as.integer(format(action_date, "%Y"))),
+        action_scope = NA_character_,
+        source_url = source_url,
+        source_title = source_title,
+        notes = clean_text(paste(current_line, paste(detail_lines, collapse = " "), sep = " ")),
+        last_seen_at = Sys.time(),
+        source_page_url = source_url,
+        source_page_modified = NA_character_
+      )
+      NULL
+    }
+
+    for (line in section$body_lines) {
+      if (is_sacscoc_combined_report_institution_line(line)) {
+        flush_current()
+        current_line <- line
+        detail_lines <- character()
+      } else if (!is.null(current_line)) {
+        detail_lines <- c(detail_lines, line)
+      }
+    }
+    flush_current()
+
+    if (length(parsed_rows) == 0) {
+      return(tibble::tibble())
+    }
+    dplyr::bind_rows(parsed_rows)
+  })
+
+  if (nrow(rows) == 0) {
+    return(rows)
+  }
+
+  rows |>
+    dplyr::filter(action_type != "other") |>
+    dplyr::distinct(
+      institution_name_raw,
+      institution_state_raw,
+      action_label_raw,
+      action_date,
+      source_url,
+      .keep_all = TRUE
+    )
+}
+
+parse_sacscoc_combined_report_pdf <- function(source_url, cache_slug, cache_dir, refresh = TRUE) {
+  pdf_path <- tryCatch(
+    fetch_binary_file(
+      source_url,
+      paste0("sacscoc_combined_report_", cache_slug, ".pdf"),
+      cache_dir = cache_dir,
+      refresh = refresh
+    ),
+    error = function(e) NA_character_
+  )
+  if (is.na(pdf_path) || !file.exists(pdf_path)) {
+    return(NULL)
+  }
+
+  header_raw <- tryCatch(readBin(pdf_path, what = "raw", n = 5), error = function(e) raw())
+  if (length(header_raw) < 4 || rawToChar(header_raw[1:4]) != "%PDF") {
+    return(NULL)
+  }
+
+  pdf_pages <- tryCatch(
+    pdftools::pdf_text(pdf_path),
+    error = function(e) character()
+  )
+  if (length(pdf_pages) == 0) {
+    return(NULL)
+  }
+
+  raw_text <- paste(pdf_pages, collapse = "\n")
+  rows <- parse_sacscoc_combined_report_text(
+    raw_text = raw_text,
+    source_url = source_url,
+    source_title = basename(source_url)
+  )
+
+  list(
+    action_date = extract_date_from_text_anywhere(raw_text),
+    rows = rows,
+    source_url = source_url,
+    source_title = basename(source_url),
+    raw_text = raw_text
+  )
+}
+
+lookup_sacscoc_combined_report_entry <- function(combined_report, institution_name_raw, institution_state_raw) {
+  if (is.null(combined_report) || is.null(combined_report$rows) || nrow(combined_report$rows) == 0) {
+    return(NULL)
+  }
+
+  matches <- combined_report$rows |>
+    dplyr::filter(
+      normalize_name(institution_name_raw) == normalize_name(!!institution_name_raw),
+      normalize_name(institution_state_raw) == normalize_name(!!institution_state_raw)
+    )
+  if (nrow(matches) == 0) {
+    matches <- combined_report$rows |>
+      dplyr::filter(normalize_name(institution_name_raw) == normalize_name(!!institution_name_raw))
+  }
+  if (nrow(matches) == 0) {
+    return(NULL)
+  }
+  matches[1, , drop = FALSE]
+}
+
 # Fetches a binary file (e.g. a PDF) with disk caching and graceful fallback
 # to cache on network failures. Mirrors fetch_html_text's contract but returns
 # the local file path rather than file contents, since binary content is
@@ -500,7 +791,7 @@ fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
           httr2::resp_body_raw(resp)
         },
         error = function(primary_err) {
-          tmp_path <- tempfile("binary-fetch-", tmpdir = cache_dir, fileext = ".bin")
+          tmp_path <- tempfile("binary-fetch-", fileext = ".bin")
           on.exit(unlink(tmp_path), add = TRUE)
           fallback_err <- tryCatch(
             {
@@ -517,15 +808,22 @@ fetch_binary_file <- function(url, cache_name, cache_dir, refresh = TRUE) {
           python_bin <- Sys.which(c("python", "python3"))
           python_bin <- python_bin[nzchar(python_bin)][1]
           if (!is.na(python_bin) && nzchar(python_bin)) {
-            py_code <- paste(
-              "import pathlib,sys,urllib.request;",
-              "req=urllib.request.Request(sys.argv[1], headers={'User-Agent':'FinancialHealthProject/1.0'});",
-              "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+            py_script <- tempfile("binary-fetch-", fileext = ".py")
+            writeLines(
+              c(
+                "import pathlib",
+                "import sys",
+                "import urllib.request",
+                "req = urllib.request.Request(sys.argv[1], headers={'User-Agent': 'FinancialHealthProject/1.0'})",
+                "pathlib.Path(sys.argv[2]).write_bytes(urllib.request.urlopen(req, timeout=60).read())"
+              ),
+              py_script
             )
+            on.exit(unlink(py_script), add = TRUE)
             py_out <- tryCatch(
               system2(
                 python_bin,
-                c("-c", py_code, url, tmp_path),
+                c(py_script, url, tmp_path),
                 stdout = TRUE,
                 stderr = TRUE
               ),
@@ -742,7 +1040,8 @@ parse_sacscoc_sanction_item <- function(item, action_date, url, page_title) {
 # unreachable. When cache_dir is NULL (e.g. from unit tests that don't want to
 # hit the network), enrichment is skipped entirely.
 build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, page_title,
-                                          cache_dir = NULL, refresh = TRUE) {
+                                          cache_dir = NULL, refresh = TRUE,
+                                          combined_report = NULL) {
   if (nrow(disclosure_matches) == 0) {
     return(tibble::tibble())
   }
@@ -761,12 +1060,33 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
 
   purrr::map_dfr(seq_len(nrow(disclosure_matches)), function(i) {
     institution_name <- clean_text(disclosure_matches[i, 3])
+    institution_state <- state_name(clean_text(disclosure_matches[i, 5]))
     source_url <- disclosure_matches[i, 2]
 
     name_too_long <- !is.na(institution_name) && nchar(institution_name) > MAX_INSTITUTION_NAME_LEN
 
-    enriched <- if (!is.null(cache_dir) && !name_too_long) {
-      tryCatch(
+    enriched <- if (!is.null(combined_report)) {
+      combined_match <- lookup_sacscoc_combined_report_entry(
+        combined_report = combined_report,
+        institution_name_raw = institution_name,
+        institution_state_raw = institution_state
+      )
+      if (!is.null(combined_match) && nrow(combined_match) > 0) {
+        list(
+          action_label_raw = combined_match$action_label_raw[[1]],
+          action_date = combined_match$action_date[[1]],
+          override_source_url = combined_match$source_url[[1]],
+          override_source_title = combined_match$source_title[[1]]
+        )
+      } else {
+        NULL
+      }
+    } else {
+      NULL
+    }
+
+    if (is.null(enriched) && !is.null(cache_dir) && !name_too_long) {
+      enriched <- tryCatch(
         parse_sacscoc_disclosure_pdf(
           source_url = source_url,
           institution_name_raw = institution_name,
@@ -779,14 +1099,11 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
         ),
         error = function(e) NULL
       )
-    } else {
-      if (name_too_long) {
-        warning(sprintf(
-          "build_sacscoc_disclosure_rows: institution_name_raw is %d chars (cap %d); skipping PDF enrichment to avoid an oversized cache filename. Source: %s",
-          nchar(institution_name), MAX_INSTITUTION_NAME_LEN, source_url
-        ), call. = FALSE)
-      }
-      NULL
+    } else if (is.null(enriched) && name_too_long) {
+      warning(sprintf(
+        "build_sacscoc_disclosure_rows: institution_name_raw is %d chars (cap %d); skipping PDF enrichment to avoid an oversized cache filename. Source: %s",
+        nchar(institution_name), MAX_INSTITUTION_NAME_LEN, source_url
+      ), call. = FALSE)
     }
 
     action_label_raw <- if (!is.null(enriched) && nzchar(enriched$action_label_raw)) {
@@ -804,18 +1121,32 @@ build_sacscoc_disclosure_rows <- function(disclosure_matches, action_date, url, 
     } else {
       action_date
     }
+    row_source_url <- if (!is.null(enriched) &&
+                          !is.null(enriched$override_source_url) &&
+                          nzchar(enriched$override_source_url)) {
+      enriched$override_source_url
+    } else {
+      source_url
+    }
+    row_source_title <- if (!is.null(enriched) &&
+                            !is.null(enriched$override_source_title) &&
+                            nzchar(enriched$override_source_title)) {
+      enriched$override_source_title
+    } else {
+      paste(page_title, "- Public Disclosure Statement")
+    }
 
     tibble::tibble(
       institution_name_raw = institution_name,
-      institution_state_raw = state_name(clean_text(disclosure_matches[i, 5])),
+      institution_state_raw = institution_state,
       accreditor = "SACSCOC",
       action_type = action_type,
       action_label_raw = action_label_raw,
       action_status = classify_status(action_label_raw),
       action_date = row_action_date,
       action_year = as.integer(format(row_action_date, "%Y")),
-      source_url = source_url,
-      source_title = paste(page_title, "- Public Disclosure Statement"),
+      source_url = row_source_url,
+      source_title = row_source_title,
       notes = clean_text(paste(
         disclosure_matches[i, 3],
         disclosure_matches[i, 4],
@@ -1493,6 +1824,17 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
   } else {
     as.Date(NA)
   }
+  combined_report_url <- extract_sacscoc_combined_report_url(html, action_date = action_date)
+  combined_report <- if (!is.na(combined_report_url) && nzchar(combined_report_url)) {
+    parse_sacscoc_combined_report_pdf(
+      source_url = combined_report_url,
+      cache_slug = normalize_name(paste0(basename(gsub("/$", "", url)), "_combined_report")),
+      cache_dir = cache_dir,
+      refresh = refresh
+    )
+  } else {
+    NULL
+  }
 
   li_matches <- stringr::str_match_all(html, "(?s)<li>(.*?)</li>")[[1]]
   sanction_rows <- if (nrow(li_matches) == 0) {
@@ -1510,7 +1852,8 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
     url = url,
     page_title = page_title,
     cache_dir = cache_dir,
-    refresh = refresh
+    refresh = refresh,
+    combined_report = combined_report
   )
 
   combined <- dplyr::bind_rows(sanction_rows, disclosure_rows) |>
@@ -1521,6 +1864,85 @@ parse_sacscoc_detail_page <- function(url, cache_dir, refresh) {
   }
 
   combined
+}
+
+parse_sacscoc_archived_detail_page <- function(source, cache_dir, refresh) {
+  archive_url <- wayback_raw_replay_url(source$original_url[[1]], source$archive_timestamp[[1]])
+  html <- fetch_html_text(
+    archive_url,
+    source$cache_name[[1]],
+    cache_dir,
+    refresh = refresh
+  )
+
+  tmp_path <- file.path(cache_dir, source$cache_name[[1]])
+  if (!file.exists(tmp_path)) {
+    readr::write_file(html, tmp_path)
+  }
+
+  page_title <- extract_page_title(html)
+  page_modified <- extract_page_modified_date(html)
+  date_match <- stringr::str_match(clean_text(page_title), "(January|February|March|April|May|June|July|August|September|October|November|December)\\s+([0-9]{4})")
+  action_date <- if (!is.na(date_match[1, 1])) {
+    as.Date(paste0(date_match[1, 2], " 01 ", date_match[1, 3]), format = "%B %d %Y")
+  } else {
+    as.Date(NA)
+  }
+
+  combined_report_url <- extract_sacscoc_combined_report_url(html, action_date = action_date)
+  combined_report <- if (!is.na(combined_report_url) && nzchar(combined_report_url)) {
+    parse_sacscoc_combined_report_pdf(
+      source_url = wayback_raw_replay_url(combined_report_url, source$archive_timestamp[[1]]),
+      cache_slug = normalize_name(paste0(basename(gsub("/$", "", source$original_url[[1]])), "_combined_report")),
+      cache_dir = cache_dir,
+      refresh = refresh
+    )
+  } else {
+    NULL
+  }
+
+  li_matches <- stringr::str_match_all(html, "(?s)<li>(.*?)</li>")[[1]]
+  sanction_rows <- if (nrow(li_matches) == 0) {
+    tibble::tibble()
+  } else {
+    raw_items <- clean_text(li_matches[, 2])
+    raw_items <- raw_items[stringr::str_detect(raw_items, SACSCOC_SANCTION_KEYWORD_PATTERN)]
+    purrr::map_dfr(raw_items, parse_sacscoc_sanction_item, action_date = action_date, url = archive_url, page_title = page_title)
+  }
+
+  disclosure_matches <- stringr::str_match_all(html, SACSCOC_DISCLOSURE_ITEM_PATTERN)[[1]]
+  disclosure_rows <- build_sacscoc_disclosure_rows(
+    disclosure_matches,
+    action_date = action_date,
+    url = archive_url,
+    page_title = page_title,
+    cache_dir = cache_dir,
+    refresh = refresh,
+    combined_report = combined_report
+  )
+
+  combined <- dplyr::bind_rows(sanction_rows, disclosure_rows) |>
+    dplyr::distinct()
+
+  if (nrow(combined) > 0 && !is.na(page_modified)) {
+    combined$source_page_modified <- page_modified
+  }
+
+  combined
+}
+
+parse_sacscoc_archived_combined_pdf <- function(source, cache_dir, refresh) {
+  archive_url <- wayback_raw_replay_url(source$original_url[[1]], source$archive_timestamp[[1]])
+  parsed <- parse_sacscoc_combined_report_pdf(
+    source_url = archive_url,
+    cache_slug = normalize_name(basename(source$original_url[[1]])),
+    cache_dir = cache_dir,
+    refresh = refresh
+  )
+  if (is.null(parsed) || is.null(parsed$rows) || nrow(parsed$rows) == 0) {
+    return(tibble::tibble())
+  }
+  parsed$rows
 }
 
 # Scrapes SACSCOC by first finding links to June/December action pages from the landing page,
@@ -1543,7 +1965,33 @@ parse_sacscoc <- function(cache_dir, refresh) {
   }
 
   detail_urls <- unique(links[, 2])
-  rows <- purrr::map_dfr(detail_urls, function(u) parse_sacscoc_detail_page(u, cache_dir, refresh))
+  live_rows <- purrr::map_dfr(detail_urls, function(u) parse_sacscoc_detail_page(u, cache_dir, refresh))
+  archived_rows <- purrr::map_dfr(seq_len(nrow(SACSCOC_ARCHIVED_BACKFILL_SOURCES)), function(i) {
+    source <- SACSCOC_ARCHIVED_BACKFILL_SOURCES[i, , drop = FALSE]
+    tryCatch(
+      {
+        if (source$source_kind[[1]] == "detail_page") {
+          parse_sacscoc_archived_detail_page(source, cache_dir, refresh)
+        } else {
+          parse_sacscoc_archived_combined_pdf(source, cache_dir, refresh)
+        }
+      },
+      error = function(e) {
+        warning(
+          sprintf(
+            "SACSCOC archive backfill skipped %s (%s): %s",
+            source$original_url[[1]],
+            source$archive_timestamp[[1]],
+            conditionMessage(e)
+          ),
+          call. = FALSE
+        )
+        tibble::tibble()
+      }
+    )
+  })
+  rows <- dplyr::bind_rows(live_rows, archived_rows) |>
+    dplyr::distinct()
   warn_on_empty_parse("SACSCOC", landing_url, rows, html)
   rows
 }

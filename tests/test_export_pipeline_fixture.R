@@ -130,13 +130,13 @@ run_test("Web export pipeline fixture", function() {
       control_label = "Public",
       category = "Degree-granting, primarily baccalaureate or above",
       accreditors = "MSCHE",
-      latest_action_date = "May 2026",
+      latest_action_date = "2026-04-24",
       latest_action_year = "2026",
-      action_labels = "Program Addition; Substantive Change; Warning",
-      active_actions = "program_addition; warning",
-      has_active_warning = TRUE,
-      has_active_warning_or_notice = TRUE,
-      has_active_adverse_action = FALSE,
+      action_labels = "Program Addition; Substantive Change; Voluntarily Surrendered Accreditation",
+      active_actions = "program_addition; adverse_action",
+      has_active_warning = FALSE,
+      has_active_warning_or_notice = FALSE,
+      has_active_adverse_action = TRUE,
       action_count = 3L,
       stringsAsFactors = FALSE
     ),
@@ -157,13 +157,23 @@ run_test("Web export pipeline fixture", function() {
         "Degree-granting, primarily baccalaureate or above"
       ),
       accreditor = c("MSCHE", "MSCHE", "MSCHE"),
-      action_type = c("warning", "program_addition", "program_addition"),
-      action_label_raw = c("Warning", "Program Addition", "Substantive Change Request Approved"),
+      action_type = c("adverse_action", "program_addition", "program_addition"),
+      action_label_raw = c(
+        paste0(
+          "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+          "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+          "voluntarily surrender accreditation, and terminate membership. ",
+          "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
+          "terminate its membership effective May 31, 2026."
+        ),
+        "Program Addition",
+        "Substantive Change Request Approved"
+      ),
       action_status = c("active", "routine", "routine"),
-      action_date = c("April 2026", "2026-05-01", "2026-05-15"),
+      action_date = c("2026-04-24", "2026-05-01", "2026-05-15"),
       action_year = c("", "2026", "2026"),
       notes = c(
-        "Public warning issued",
+        "Voluntary surrender of accreditation",
         "Routine program addition should not display",
         "Routine substantive change approval should not display"
       ),
@@ -488,33 +498,48 @@ run_test("Web export pipeline fixture", function() {
   assert_identical(length(accreditation_export$schools), 1L)
   school_accred <- accreditation_export$schools[[1]]
   assert_identical(school_accred$latest_status$action_count, 1L)
-  assert_identical(school_accred$latest_status$latest_action_date, "2026-04-01")
-  assert_identical(school_accred$latest_status$action_labels, "Warning")
+  assert_identical(school_accred$latest_status$latest_action_date, "2026-04-24")
+  assert_identical(school_accred$latest_status$action_labels, paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+    "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+    "voluntarily surrender accreditation, and terminate membership. ",
+    "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
+    "terminate its membership effective May 31, 2026."
+  ))
   assert_true("latest_status" %in% names(school_accred),
     "accreditation_export school entry should have 'latest_status'.")
-  for (f in c("accreditors", "action_labels", "has_active_warning", "action_count")) {
+  for (f in c("accreditors", "action_labels", "has_active_warning", "has_active_adverse_action", "action_count")) {
     assert_true(f %in% names(school_accred$latest_status),
       sprintf("latest_status should have field '%s'.", f))
   }
   assert_true(!is.null(school_accred$actions) && is.data.frame(school_accred$actions),
     "accreditation_export actions should be a data.frame.")
   assert_identical(nrow(school_accred$actions), 1L)
-  assert_identical(school_accred$actions$action_label[[1]], "Warning")
-  assert_identical(school_accred$actions$action_date[[1]], "2026-04-01")
+  assert_identical(school_accred$actions$action_label[[1]], paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+    "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+    "voluntarily surrender accreditation, and terminate membership. ",
+    "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
+    "terminate its membership effective May 31, 2026."
+  ))
+  assert_identical(school_accred$actions$action_label_short[[1]], "Voluntarily Surrendered Accreditation")
+  assert_identical(school_accred$actions$action_date[[1]], "2026-04-24")
   assert_true("display_action" %in% names(school_accred$actions),
     "display_action should be exported with accreditation actions.")
   assert_true(isTRUE(school_accred$actions$display_action[[1]]),
     "displayed accreditation action should carry display_action=true.")
+  assert_true(isTRUE(school_accred$latest_status$has_active_adverse_action),
+    "voluntary surrender row should count as an active adverse action.")
 
   accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
   if (is.data.frame(accred_index_row)) {
     assert_identical(accred_index_row$action_count[[1]], 1L)
-    assert_identical(accred_index_row$latest_action_date[[1]], "2026-04-01")
-    assert_identical(accred_index_row$latest_action_label[[1]], "Warning")
+    assert_identical(accred_index_row$latest_action_date[[1]], "2026-04-24")
+    assert_identical(accred_index_row$latest_action_label[[1]], "Voluntarily Surrendered Accreditation")
   } else {
     assert_identical(accred_index_row$action_count, 1L)
-    assert_identical(accred_index_row$latest_action_date, "2026-04-01")
-    assert_identical(accred_index_row$latest_action_label, "Warning")
+    assert_identical(accred_index_row$latest_action_date, "2026-04-24")
+    assert_identical(accred_index_row$latest_action_label, "Voluntarily Surrendered Accreditation")
   }
 
   # ── research_funding.json ───────────────────────────────────────────────────
@@ -544,4 +569,334 @@ run_test("Web export pipeline fixture", function() {
   # The download CSV must have more columns than just unitid + year.
   assert_true(ncol(download_csv) > 5,
     sprintf("Download CSV should have substantial data columns (found %d).", ncol(download_csv)))
+})
+
+run_test("Web export pipeline drops generic HLC current-status rows when a dated action exists", function() {
+  fixture_root <- tempfile("web-export-hlc-dedupe-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "data"),
+    file.path(fixture_root, "data", "schools"),
+    file.path(fixture_root, "data", "downloads"),
+    file.path(fixture_root, "data_pipelines", "college_cuts"),
+    file.path(fixture_root, "data_pipelines", "accreditation"),
+    file.path(fixture_root, "data_pipelines", "grant_witness"),
+    file.path(fixture_root, "data_pipelines", "scorecard")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  canonical_path <- file.path(fixture_root, "fixture_canonical.csv")
+  canonical_df <- data.frame(
+    unitid = c("200", "200"),
+    institution_name = c("Example HLC University", "Example HLC University"),
+    institution_unique_name = c("Example HLC University | Springfield | Ohio", "Example HLC University | Springfield | Ohio"),
+    city = c("Springfield", "Springfield"),
+    state = c("Ohio", "Ohio"),
+    control_label = c("Private not-for-profit", "Private not-for-profit"),
+    sector = c("Private not-for-profit, 4-year or above", "Private not-for-profit, 4-year or above"),
+    category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+    urbanization = c("City", "City"),
+    religious_affiliation = c(NA, NA),
+    all_programs_distance_education = c("No", "No"),
+    year = c("2024", "2025"),
+    enrollment_pct_change_5yr = c("-4", "-4"),
+    enrollment_decline_last_3_of_5 = c("No", "No"),
+    revenue_pct_change_5yr = c("1", "1"),
+    net_tuition_per_fte_change_5yr = c("2", "2"),
+    staff_total_headcount_pct_change_5yr = c("0", "0"),
+    staff_instructional_headcount_pct_change_5yr = c("0", "0"),
+    students_per_instructional_staff_fte = c("12", "12"),
+    sector_median_students_per_instructional_staff_fte = c("13", "13"),
+    ended_year_at_loss = c("No", "No"),
+    losses_last_3_of_5 = c("No", "No"),
+    loss_years_last_10 = c("0", "0"),
+    tuition_dependence_pct = c("45", "45"),
+    sector_median_tuition_dependence_pct = c("40", "40"),
+    tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+    share_grad_students = c("0.15", "0.15"),
+    research_expense = c("0", "0"),
+    research_expense_per_fte = c("0", "0"),
+    research_expense_pct_core_expenses = c("0", "0"),
+    sector_research_spending_n = c("0", "0"),
+    sector_research_spending_positive_n = c("0", "0"),
+    sector_research_spending_reporting_share_pct = c("0", "0"),
+    sector_median_research_expense_per_fte_positive = c("0", "0"),
+    pct_international_all = c("0.01", "0.01"),
+    pct_international_undergraduate = c("0.01", "0.01"),
+    pct_international_graduate = c("0.02", "0.02"),
+    international_student_count_change_5yr = c("0", "0"),
+    international_enrollment_pct_change_5yr = c("0", "0"),
+    international_students_sentence = c("In 2024, 1% of students were international.", "In 2025, 1% of students were international."),
+    federal_loan_pct_most_recent = c("40", "40"),
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.10", "0.10"),
+    state_funding_pct_core_revenue = c("0.02", "0.02"),
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = c("0", "0"),
+    state_funding_pct_change_5yr = c("0", "0"),
+    endowment_pct_change_5yr = c("0", "0"),
+    endowment_spending_current_use_pct_core_revenue = c("0.01", "0.01"),
+    revenue_total = c("100", "100"),
+    expenses_total = c("90", "90"),
+    revenue_total_adjusted = c("100", "100"),
+    expenses_total_adjusted = c("90", "90"),
+    net_tuition_per_fte_adjusted = c("3", "3"),
+    enrollment_headcount_total = c("100", "100"),
+    enrollment_nonresident_total = c("1", "1"),
+    enrollment_nonresident_undergrad = c("1", "1"),
+    enrollment_nonresident_graduate = c("0", "0"),
+    staff_headcount_total = c("20", "20"),
+    staff_headcount_instructional = c("8", "8"),
+    endowment_value_adjusted = c("50", "50"),
+    endowment_spending_current_use = c("1", "1"),
+    federal_grants_contracts_pell_adjusted_adjusted = c("10", "10"),
+    state_funding_adjusted = c("2", "2"),
+    graduation_rate_6yr = c("60", "60"),
+    median_earnings_10yr = c("50000", "50000"),
+    median_debt_completers = c("20000", "20000"),
+    outcomes_data_available = c(TRUE, TRUE),
+    scorecard_data_updated = c("2024-01-01", "2024-01-01"),
+    ipeds_graduation_rate_year = c("2024", "2024"),
+    ipeds_graduation_rate_label = c("2024 cohort", "2024 cohort"),
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(canonical_df, canonical_path, na = "")
+
+  readr::write_csv(
+    data.frame(
+      matched_unitid = "200",
+      announcement_date = "2024-02-15",
+      announcement_year = "2024",
+      in_financial_tracker = "TRUE",
+      tracker_institution_name = "Example HLC University",
+      institution_name_collegecuts = "Example HLC University",
+      institution_state_full = "Ohio",
+      institution_city = "Springfield",
+      tracker_control_label = "Private not-for-profit",
+      institution_control = "Private not-for-profit",
+      tracker_category = "Degree-granting, primarily baccalaureate or above",
+      faculty_affected = "1",
+      notes = "One faculty position affected",
+      source_title = "Budget update",
+      program_name = "Humanities",
+      cut_type = "faculty_layoff",
+      status = "announced",
+      effective_term = "Fall 2024",
+      source_url = "https://example.org/cuts",
+      source_publication = "Example News",
+      source_published_at = "2024-02-15",
+      students_affected = "",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      institution_name = "Example HLC University",
+      state = "Ohio",
+      city = "Springfield",
+      control_label = "Private not-for-profit",
+      category = "Degree-granting, primarily baccalaureate or above",
+      accreditors = "HLC",
+      latest_action_date = "2026-04-28",
+      latest_action_year = "2026",
+      action_labels = paste(
+        "On Probation",
+        "Placed on Probation. The institution was notified of this action on November 11, 2025.",
+        "Approved the institution's provisional plan and teach-out agreements.",
+        sep = "; "
+      ),
+      active_actions = "probation; adverse_action",
+      has_active_warning = FALSE,
+      has_active_warning_or_notice = FALSE,
+      has_active_adverse_action = TRUE,
+      action_count = 3L,
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("200", "200", "200"),
+      institution_name = c("Example HLC University", "Example HLC University", "Example HLC University"),
+      state = c("Ohio", "Ohio", "Ohio"),
+      city = c("Springfield", "Springfield", "Springfield"),
+      control_label = c("Private not-for-profit", "Private not-for-profit", "Private not-for-profit"),
+      category = c(
+        "Degree-granting, primarily baccalaureate or above",
+        "Degree-granting, primarily baccalaureate or above",
+        "Degree-granting, primarily baccalaureate or above"
+      ),
+      accreditor = c("HLC", "HLC", "HLC"),
+      action_type = c("probation", "probation", "adverse_action"),
+      action_label_raw = c(
+        "On Probation",
+        "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.",
+        "Approved the institution's provisional plan and teach-out agreements."
+      ),
+      action_status = c("active", "active", "active"),
+      action_date = c("", "2025-11-01", "2024-11-01"),
+      action_year = c("", "2025", "2024"),
+      notes = c(
+        "On Probation",
+        "Placed on Probation",
+        "Approved the institution's provisional plan and teach-out agreements."
+      ),
+      source_url = c(
+        "https://www.hlcommission.org/institution/1610/",
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/",
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+      ),
+      source_title = c(
+        "Accreditation Actions | The Higher Learning Commission - On Probation",
+        "November 2025 Actions | The Higher Learning Commission",
+        "November 2024 Actions | The Higher Learning Commission"
+      ),
+      source_page_url = c(
+        "https://www.hlcommission.org/for-students/accreditation-actions/",
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/",
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+      ),
+      source_page_modified = c("2026-04-28", "2026-03-03", "2025-04-03"),
+      display_action = c(TRUE, TRUE, TRUE),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      accreditor = "HLC",
+      source_url = "https://www.hlcommission.org/for-students/accreditation-actions/",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      matched_unitid = "200",
+      display_name = "Example HLC University",
+      display_city = "Springfield",
+      display_state = "Ohio",
+      tracker_control_label = "Private not-for-profit",
+      tracker_category = "Degree-granting, primarily baccalaureate or above",
+      likely_higher_ed = TRUE,
+      total_disrupted_grants = 1L,
+      total_disrupted_award_remaining = 50000,
+      nih_disrupted_grants = 1L,
+      nih_disrupted_award_remaining = 50000,
+      nsf_disrupted_grants = 0L,
+      nsf_disrupted_award_remaining = 0,
+      epa_disrupted_grants = 0L,
+      epa_disrupted_award_remaining = 0,
+      samhsa_disrupted_grants = 0L,
+      samhsa_disrupted_award_remaining = 0,
+      cdc_disrupted_grants = 0L,
+      cdc_disrupted_award_remaining = 0,
+      institution_key = "unitid:200",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      matched_unitid = "200",
+      tracker_institution_name = "Example HLC University",
+      tracker_state = "Ohio",
+      agency = "nih",
+      grant_id = "G-1",
+      grant_id_core = "G-1",
+      status = "terminated",
+      organization_name = "Example HLC University",
+      organization_city = "Springfield",
+      organization_state = "Ohio",
+      organization_type = "Higher education",
+      project_title = "Example project",
+      project_abstract = "Example abstract",
+      start_date = "2024-01-01",
+      original_end_date = "2025-12-31",
+      termination_date = "2024-04-01",
+      award_value = "100000",
+      award_outlaid = "50000",
+      award_remaining = "50000",
+      remaining_field = "award_remaining",
+      currently_disrupted = TRUE,
+      likely_higher_ed = TRUE,
+      source_url = "https://example.org/grant",
+      detail_url = "https://example.org/grant-detail",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      graduation_rate_6yr = "72",
+      median_earnings_10yr = "56000",
+      median_debt_completers = "21000",
+      grad_plus_recipients = "6",
+      grad_plus_disbursements_amt = "60000",
+      grad_plus_disbursements_per_recipient = "10000",
+      outcomes_data_available = TRUE,
+      scorecard_data_updated = "2024-01-01",
+      grad_plus_data_updated = "2024-01-01",
+      ipeds_graduation_rate_year = "2024",
+      ipeds_graduation_rate_label = "2024 cohort",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+    na = ""
+  )
+
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+
+  export_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
+  export_env$main(c("--input", canonical_path, "--output-dir", fixture_root))
+
+  accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = TRUE)
+  accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
+
+  school_accred <- accreditation_export$schools[[1]]
+  assert_identical(nrow(school_accred$actions), 2L)
+  assert_true(!any(school_accred$actions$action_label == "On Probation"),
+    "Generic HLC current-status row should be dropped when a dated probation action exists.")
+  assert_true(any(grepl("^Placed on Probation", school_accred$actions$action_label)),
+    "Detailed dated HLC probation row should be retained.")
+  assert_identical(school_accred$latest_status$action_count, 2L)
+  assert_identical(school_accred$latest_status$latest_action_date, "2025-11-01")
+
+  accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
+  if (is.data.frame(accred_index_row)) {
+    assert_identical(accred_index_row$action_count[[1]], 2L)
+    assert_identical(accred_index_row$latest_action_date[[1]], "2025-11-01")
+    assert_identical(accred_index_row$latest_action_label[[1]], "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.")
+    landing_actions <- accred_index_row$landing_actions[[1]]
+  } else {
+    assert_identical(accred_index_row$action_count, 2L)
+    assert_identical(accred_index_row$latest_action_date, "2025-11-01")
+    assert_identical(accred_index_row$latest_action_label, "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.")
+    landing_actions <- accred_index_row$landing_actions
+  }
+  if (is.data.frame(landing_actions)) {
+    assert_true(!any(landing_actions$action_label == "On Probation"),
+      "Landing actions should not include the generic HLC current-status duplicate.")
+  } else {
+    assert_true(!any(vapply(landing_actions, function(action) identical(action$action_label, "On Probation"), logical(1))),
+      "Landing actions should not include the generic HLC current-status duplicate.")
+  }
 })

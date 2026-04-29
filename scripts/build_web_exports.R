@@ -245,6 +245,13 @@ build_accreditation_export <- function() {
   MIN_PUBLIC_ACTION_YEAR <- 2019L
   TODAY <- Sys.Date()
   TRUSTED_ACTION_TYPES <- c("adverse_action", "warning", "probation", "show_cause", "removed", "notice")
+  HLC_ACTIONS_LANDING_URL_PATTERN <- "^https://www\\.hlcommission\\.org/for-students/accreditation-actions/?$"
+  HLC_GENERIC_CURRENT_STATUS_LABELS <- c(
+    "on notice",
+    "on probation",
+    "removal of sanction",
+    "withdrawal of accreditation"
+  )
   MSCHE_PROCEDURAL_DROP_PATTERNS <- c(
     "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report",
     "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report",
@@ -276,7 +283,9 @@ build_accreditation_export <- function() {
   MSCHE_SUBSTANTIVE_KEEP_PATTERN <- paste0(
     "^\\s*(?:merger of|accepted teach-?out plan|",
     "to approve the (?:updated )?teach-?out plan(?! as required of candidate)|",
-    "to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?)"
+    "to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?|",
+    "voluntar(?:ily|y) surrender(?:ed)? accreditation|",
+    "voluntary surrender of (?:its )?accreditation)"
   )
   MSCHE_PROCEDURAL_CONTENT_PATTERNS <- c(
     "addition or change of primary accreditor to msche procedures",
@@ -287,6 +296,38 @@ build_accreditation_export <- function() {
   normalize_accreditation_text <- function(x) {
     value <- tolower(trimws(as.character(x %||% "")))
     gsub("\\s+", " ", value)
+  }
+
+  hlc_action_family <- function(action_type, action_label_raw) {
+    type <- normalize_accreditation_text(action_type)
+    label <- normalize_accreditation_text(action_label_raw)
+    text <- trimws(paste(type, label))
+
+    if (grepl("removal of sanction|removed from (warning|probation|notice)", text, ignore.case = TRUE, perl = TRUE) ||
+        identical(type, "removed")) {
+      return("removed")
+    }
+    if (grepl("withdrawal of accreditation|withdraw", text, ignore.case = TRUE, perl = TRUE)) {
+      return("withdrawal")
+    }
+    if (grepl("\\bprobation\\b", text, ignore.case = TRUE, perl = TRUE) || identical(type, "probation")) {
+      return("probation")
+    }
+    if (grepl("\\bnotice\\b", text, ignore.case = TRUE, perl = TRUE) || identical(type, "notice")) {
+      return("notice")
+    }
+    NA_character_
+  }
+
+  is_hlc_generic_current_status_row <- function(accreditor, source_page_url, action_label_raw) {
+    accreditor_code <- toupper(trimws(as.character(accreditor %||% "")))
+    page_url <- trimws(as.character(source_page_url %||% ""))
+    label <- normalize_accreditation_text(action_label_raw)
+
+    identical(accreditor_code, "HLC") &&
+      nzchar(page_url) &&
+      grepl(HLC_ACTIONS_LANDING_URL_PATTERN, page_url, ignore.case = TRUE, perl = TRUE) &&
+      label %in% HLC_GENERIC_CURRENT_STATUS_LABELS
   }
 
   parse_public_action_date <- function(x) {
@@ -609,6 +650,36 @@ build_accreditation_export <- function() {
       )
     ) %>%
     filter(is_public_display_action %in% TRUE)
+
+  actions_df <- actions_df %>%
+    mutate(
+      hlc_action_family = vapply(
+        seq_len(n()),
+        function(i) hlc_action_family(action_type[[i]], action_label_raw[[i]]),
+        character(1)
+      ),
+      hlc_is_generic_current_status = vapply(
+        seq_len(n()),
+        function(i) is_hlc_generic_current_status_row(
+          accreditor[[i]],
+          source_page_url[[i]],
+          action_label_raw[[i]]
+        ),
+        logical(1)
+      )
+    ) %>%
+    dplyr::group_by(export_unitid, accreditor, hlc_action_family) %>%
+    dplyr::mutate(
+      hlc_has_detailed_same_family = any(
+        toupper(trimws(as.character(accreditor %||% ""))) == "HLC" &
+          !hlc_is_generic_current_status &
+          !is.na(hlc_action_family) &
+          nzchar(hlc_action_family)
+      )
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::filter(!(hlc_is_generic_current_status & hlc_has_detailed_same_family)) %>%
+    dplyr::select(-hlc_action_family, -hlc_is_generic_current_status, -hlc_has_detailed_same_family)
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying

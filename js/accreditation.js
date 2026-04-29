@@ -265,7 +265,7 @@
     /^\s*to grant a delay of the monitoring report/i,
     /^\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor/i
   ];
-  const MSCHE_SUBSTANTIVE_KEEP_PATTERN = /^\s*(?:merger of|accepted teach-?out plan|to approve the (?:updated )?teach-?out plan(?! as required of candidate)|to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?)/i;
+  const MSCHE_SUBSTANTIVE_KEEP_PATTERN = /^\s*(?:merger of|accepted teach-?out plan|to approve the (?:updated )?teach-?out plan(?! as required of candidate)|to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?|voluntarily surrendered accreditation|to accept [^.]{0,160}?voluntar(?:ily|y)\s+surrender)/i;
   const MSCHE_PROCEDURAL_CONTENT_PATTERNS = [
     /addition or change of primary accreditor to msche procedures/i,
     /candidate assessment report/i,
@@ -346,7 +346,7 @@
     if (excludedPattern.test(haystack) && !TRUSTED_ACTION_TYPES.has(type)) return false;
 
     const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
-    const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|teach out plan|teach-out plan|removed from membership|will transfer from .* to /;
+    const closureActionPattern = /accepted notification of institutional closure|voluntarily surrendered accreditation|voluntar(?:ily|y)\s+surrender(?:ed)? accreditation|accept(?:ed)? [^.]{0,160}?voluntar(?:ily|y)\s+surrender|accept(?:ed)? teach-?out plan|approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|teach out plan|teach-out plan|removed from membership|will transfer from .* to /;
     const requiredReportPattern = /require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report/;
     const standaloneLowSignalPattern = /^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$/;
     const hasSpecialVisit = /special visit/.test(haystack);

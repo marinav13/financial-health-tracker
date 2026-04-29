@@ -415,11 +415,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 28,
-      "fetch_fresh_count": 28,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 28,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.061,
+      "fetch_cache_age_max_days": 0.0611,
       "scrape_row_count": 1653
     },
     {
@@ -430,11 +430,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 1583,
-      "fetch_fresh_count": 1583,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 1583,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0611,
+      "fetch_cache_age_max_days": 0.0679,
       "scrape_row_count": 12018
     },
     {
@@ -445,11 +445,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 1,
-      "fetch_fresh_count": 1,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 1,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0605,
+      "fetch_cache_age_max_days": 0.0605,
       "scrape_row_count": 15
     },
     {
@@ -460,11 +460,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 135,
-      "fetch_fresh_count": 135,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 135,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0598,
+      "fetch_cache_age_max_days": 0.0605,
       "scrape_row_count": 1
     },
     {
@@ -475,11 +475,11 @@
       "n": null,
       "resource_type": "binary",
       "fetch_total_count": 26,
-      "fetch_fresh_count": 26,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 26,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0605,
+      "fetch_cache_age_max_days": 0.061,
       "scrape_row_count": 28
     },
     {
@@ -490,11 +490,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 3,
-      "fetch_fresh_count": 3,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 3,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0609,
+      "fetch_cache_age_max_days": 0.061,
       "scrape_row_count": 28
     },
     {
@@ -505,11 +505,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 26,
-      "fetch_fresh_count": 26,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 26,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 0.0605,
+      "fetch_cache_age_max_days": 0.0605,
       "scrape_row_count": 32
     }
   ],
@@ -5349,6 +5349,56 @@
         }
       ]
     },
+    "199582": {
+      "unitid": "199582",
+      "financial_unitid": "199582",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Saint Augustine's University",
+      "city": "Raleigh",
+      "state": "North Carolina",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "SACSCOC",
+        "action_labels": "removed from membership",
+        "active_actions": "adverse_action",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": true,
+        "latest_action_date": "2025-12-01",
+        "latest_action_year": "2025",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "adverse_action",
+          "action_label": "removed from membership",
+          "action_label_short": "removed from membership",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2025-12-01",
+          "action_year": "2025",
+          "notes": "Saint Augustine’s University, Raleigh, North Carolina (removed from membership)",
+          "source_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
+          "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+          "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
+          "source_page_modified": "2026-01-16",
+          "display_action": true,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "SACSCOC",
+          "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+          "source_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
+          "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/"
+        }
+      ]
+    },
     "202514": {
       "unitid": "202514",
       "financial_unitid": "202514",
@@ -8122,6 +8172,56 @@
           "source_title": "February 2025 Commission Actions - WSCUC",
           "source_url": "https://www.wscuc.org/post/february-2025-commission-actions/",
           "source_page_url": "https://www.wscuc.org/post/february-2025-commission-actions/"
+        }
+      ]
+    },
+    "491631": {
+      "unitid": "491631",
+      "financial_unitid": "491631",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Women's Institute of Torah Seminary and College",
+      "city": "Baltimore",
+      "state": "Maryland",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
+        "active_actions": "adverse_action",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": true,
+        "latest_action_date": "2021-06-24",
+        "latest_action_year": "2021",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "adverse_action",
+          "action_label": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
+          "action_label_short": "To request an updated Accreditation Readiness Report, due December 1, 2021.",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2021-06-24",
+          "action_year": "2021",
+          "notes": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
+          "source_url": "https://www.msche.org/institution/9274/",
+          "source_title": "MSCHE Statement of Accreditation Status - Women’s Institute of Torah Seminary & College",
+          "source_page_url": "https://www.msche.org/institution/9274/",
+          "source_page_modified": "2026-04-24",
+          "display_action": true,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "MSCHE Statement of Accreditation Status - Women’s Institute of Torah Seminary & College",
+          "source_url": "https://www.msche.org/institution/9274/",
+          "source_page_url": "https://www.msche.org/institution/9274/"
         }
       ]
     },
@@ -16739,56 +16839,6 @@
         }
       ]
     },
-    "accred-saint-augustine-s-university--north-carolina--sacscoc": {
-      "unitid": "accred-saint-augustine-s-university--north-carolina--sacscoc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Saint Augustine’s University",
-      "city": null,
-      "state": "North Carolina",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "SACSCOC",
-        "action_labels": "removed from membership",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-12-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "SACSCOC",
-          "action_type": "adverse_action",
-          "action_label": "removed from membership",
-          "action_label_short": "removed from membership",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-12-01",
-          "action_year": "2025",
-          "notes": "Saint Augustine’s University, Raleigh, North Carolina (removed from membership)",
-          "source_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
-          "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",
-          "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
-          "source_page_modified": "2026-01-16",
-          "display_action": true,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "SACSCOC",
-          "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",
-          "source_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
-          "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/"
-        }
-      ]
-    },
     "accred-saint-john-s-university--new-york--msche": {
       "unitid": "accred-saint-john-s-university--new-york--msche",
       "financial_unitid": null,
@@ -19984,56 +20034,6 @@
           "source_title": "October 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/"
-        }
-      ]
-    },
-    "accred-women-s-institute-of-torah-seminary-and-college--maryland--msche": {
-      "unitid": "accred-women-s-institute-of-torah-seminary-and-college--maryland--msche",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Women’s Institute of Torah Seminary & College",
-      "city": null,
-      "state": "Maryland",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "MSCHE",
-        "action_labels": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2021-06-24",
-        "latest_action_year": "2021",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "MSCHE",
-          "action_type": "adverse_action",
-          "action_label": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
-          "action_label_short": "To request an updated Accreditation Readiness Report, due December 1, 2021.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2021-06-24",
-          "action_year": "2021",
-          "notes": "To acknowledge receipt of the Accreditation Readiness Report. To request an updated Accreditation Readiness Report, due December 1, 2021. To request that the institution complete and submit for approval a comprehensive and implementable teach-out plan, also due December 1, 2021. To direct an applicant assessment team visit following submission of the report.",
-          "source_url": "https://www.msche.org/institution/9274/",
-          "source_title": "MSCHE Statement of Accreditation Status - Women’s Institute of Torah Seminary & College",
-          "source_page_url": "https://www.msche.org/institution/9274/",
-          "source_page_modified": "2026-04-24",
-          "display_action": true,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "MSCHE",
-          "source_title": "MSCHE Statement of Accreditation Status - Women’s Institute of Torah Seminary & College",
-          "source_url": "https://www.msche.org/institution/9274/",
-          "source_page_url": "https://www.msche.org/institution/9274/"
         }
       ]
     },

@@ -15,7 +15,7 @@ run_test("Accreditation actions pipeline fixture", function() {
   )
   invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
 
-  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/accreditation_helpers.R")) {
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/name_normalization.R", "shared/accreditation_helpers.R")) {
     file.copy(
       file.path(root, "scripts", nm),
       file.path(fixture_root, "scripts", nm),
@@ -34,20 +34,20 @@ run_test("Accreditation actions pipeline fixture", function() {
     "",
     "fixture_action_tbl <- function() {",
     "  tibble::tibble(",
-    "    institution_name_raw = c('Example University', 'Unknown Institute'),",
-    "    institution_state_raw = c('MA', 'CA'),",
-    "    accreditor = c('MSCHE', 'MSCHE'),",
-    "    action_type = c('probation', 'notice'),",
-    "    action_label_raw = c('Probation', 'Notice'),",
-    "    action_status = c('active', 'active'),",
-    "    action_date = as.Date(c('2024-06-01', '2024-05-01')),",
-    "    action_year = c(2024L, 2024L),",
-    "    source_url = c('https://example.org/action1', 'https://example.org/action2'),",
-    "    source_title = c('Fixture action 1', 'Fixture action 2'),",
-    "    notes = c(NA_character_, NA_character_),",
-    "    source_page_url = c('https://example.org/page1', 'https://example.org/page2'),",
-    "    source_page_modified = c('2024-06-02', '2024-05-02'),",
-    "    last_seen_at = c('2024-06-03', '2024-05-03')",
+    "    institution_name_raw = c('Saint Augustine\u2019s University', 'Women\u2019s Institute of Torah Seminary & College', 'Unknown Institute'),",
+    "    institution_state_raw = c('NC', 'MD', 'CA'),",
+    "    accreditor = c('MSCHE', 'MSCHE', 'MSCHE'),",
+    "    action_type = c('probation', 'notice', 'notice'),",
+    "    action_label_raw = c('Probation', 'Notice', 'Notice'),",
+    "    action_status = c('active', 'active', 'active'),",
+    "    action_date = as.Date(c('2024-06-01', '2024-05-15', '2024-05-01')),",
+    "    action_year = c(2024L, 2024L, 2024L),",
+    "    source_url = c('https://example.org/action1', 'https://example.org/action2', 'https://example.org/action3'),",
+    "    source_title = c('Fixture action 1', 'Fixture action 2', 'Fixture action 3'),",
+    "    notes = c(NA_character_, NA_character_, NA_character_),",
+    "    source_page_url = c('https://example.org/page1', 'https://example.org/page2', 'https://example.org/page3'),",
+    "    source_page_modified = c('2024-06-02', '2024-05-16', '2024-05-02'),",
+    "    last_seen_at = c('2024-06-03', '2024-05-17', '2024-05-03')",
     "  )",
     "}",
     "",
@@ -67,35 +67,35 @@ run_test("Accreditation actions pipeline fixture", function() {
   output_prefix <- file.path(fixture_root, "data_pipelines", "accreditation", "fixture_accreditation")
 
   financial_df <- data.frame(
-    unitid = "100",
-    institution_name = "Example University",
-    year = 2024,
-    control_label = "Public",
-    sector = "Public, 4-year or above",
-    level = "Four or more years",
-    urbanization = "City",
-    category = "R1",
-    state = "Massachusetts",
-    city = "Boston",
-    enrollment_pct_change_5yr = -4.2,
-    revenue_pct_change_5yr = -3.1,
-    revenue_decreased_5yr = "Yes",
-    enrollment_decreased_5yr = "Yes",
-    revenue_10pct_drop_last_3_of_5 = "No",
-    enrollment_decline_last_3_of_5 = "Yes",
-    ended_2024_at_loss = "No",
-    losses_last_3_of_5 = "No",
-    loss_years_last_10 = 1,
-    net_tuition_per_fte_change_5yr = 2.1,
-    tuition_dependence_pct = 45,
-    state_funding_pct_core_revenue = 0.15,
-    federal_grants_contracts_pell_adjusted_pct_core_revenue = 0.12,
-    pct_international_all = 0.08,
-    staff_total_headcount_pct_change_5yr = -1.5,
-    discount_pct_change_5yr = 0.5,
-    endowment_pct_change_5yr = 6.2,
-    liquidity = 0.4,
-    leverage = 0.3,
+    unitid = c("100", "200"),
+    institution_name = c("Saint Augustine's University", "Women's Institute of Torah Seminary and College"),
+    year = c(2024, 2024),
+    control_label = c("Public", "Private"),
+    sector = c("Public, 4-year or above", "Private not-for-profit, 4-year or above"),
+    level = c("Four or more years", "Four or more years"),
+    urbanization = c("City", "City"),
+    category = c("R1", "Faith-based"),
+    state = c("North Carolina", "Maryland"),
+    city = c("Raleigh", "Baltimore"),
+    enrollment_pct_change_5yr = c(-4.2, -1.1),
+    revenue_pct_change_5yr = c(-3.1, 2.3),
+    revenue_decreased_5yr = c("Yes", "No"),
+    enrollment_decreased_5yr = c("Yes", "No"),
+    revenue_10pct_drop_last_3_of_5 = c("No", "No"),
+    enrollment_decline_last_3_of_5 = c("Yes", "No"),
+    ended_2024_at_loss = c("No", "No"),
+    losses_last_3_of_5 = c("No", "No"),
+    loss_years_last_10 = c(1, 0),
+    net_tuition_per_fte_change_5yr = c(2.1, 1.4),
+    tuition_dependence_pct = c(45, 68),
+    state_funding_pct_core_revenue = c(0.15, 0.02),
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = c(0.12, 0.01),
+    pct_international_all = c(0.08, 0.03),
+    staff_total_headcount_pct_change_5yr = c(-1.5, 0.2),
+    discount_pct_change_5yr = c(0.5, 1.1),
+    endowment_pct_change_5yr = c(6.2, 3.4),
+    liquidity = c(0.4, 0.7),
+    leverage = c(0.3, 0.2),
     stringsAsFactors = FALSE
   )
   readr::write_csv(financial_df, financial_input, na = "")
@@ -155,12 +155,17 @@ run_test("Accreditation actions pipeline fixture", function() {
   unmatched_df <- readr::read_csv(unmatched_path, show_col_types = FALSE)
   coverage_df <- readr::read_csv(coverage_path, show_col_types = FALSE)
 
-  assert_equal(nrow(actions_df), 2L, "Fixture should produce two accreditation action rows.")
-  assert_true("100" %in% as.character(actions_df$unitid), "Matched action should retain unitid 100.")
+  assert_equal(nrow(actions_df), 3L, "Fixture should produce three accreditation action rows.")
+  assert_true("100" %in% as.character(actions_df$unitid), "Curly-apostrophe Saint Augustine fixture should match unitid 100.")
+  assert_true("200" %in% as.character(actions_df$unitid), "Curly-apostrophe Women's fixture should match unitid 200.")
   assert_true(any(is.na(actions_df$unitid)), "Fixture should leave one unmatched action for review.")
-  assert_true(nrow(summary_df) == 1L, "Fixture should produce one matched institution summary row.")
-  assert_true(summary_df$has_active_warning[[1]], "Matched institution should have an active warning.")
-  assert_true("Example University" %in% current_df$tracker_name, "Current status should include Example University.")
+  assert_true(nrow(summary_df) == 2L, "Fixture should produce two matched institution summary rows.")
+  assert_true(
+    all(c("100", "200") %in% as.character(summary_df$unitid)),
+    "Matched summary output should retain both apostrophe-variant tracker unitids."
+  )
+  assert_true("Saint Augustine's University" %in% current_df$tracker_name, "Current status should include Saint Augustine's University.")
+  assert_true("Women's Institute of Torah Seminary and College" %in% current_df$tracker_name, "Current status should include Women's Institute of Torah Seminary and College.")
   assert_true(nrow(unmatched_df) == 1L, "Fixture should produce one unmatched institution for review.")
   assert_true(nrow(coverage_df) >= 1L, "Coverage output should contain at least one row.")
   assert_true("row_type" %in% names(coverage_df), "Coverage output should include row_type metadata.")

@@ -34,8 +34,12 @@ run_test("Name normalization: accreditation variant covers known quirks", functi
   # break cross-accreditor matching.
   assert_identical(normalize_name_accreditation("University of Hawai\u2019i, Hilo"), "university of hawaii at hilo")
   assert_identical(normalize_name_accreditation("Catholic University of America, The"), "catholic university of america")
-  assert_identical(normalize_name_accreditation("Saint Mary's College"), "st mary s college")
+  assert_identical(normalize_name_accreditation("Saint Mary's College"), "st marys college")
   assert_identical(normalize_name_accreditation("Texas A&M University-College Station Main Campus"), "texas a and m university college station")
+  assert_identical(normalize_name_accreditation("Saint Augustine\u2019s University"), "st augustines university")
+  assert_identical(normalize_name_accreditation("Saint Augustine's University"), "st augustines university")
+  assert_identical(normalize_name_accreditation("Women\u2019s Institute of Torah Seminary & College"), "womens institute of torah seminary and college")
+  assert_identical(normalize_name_accreditation("Women's Institute of Torah Seminary and College"), "womens institute of torah seminary and college")
 })
 
 run_test("Name normalization: grant_witness variant stays minimal", function() {

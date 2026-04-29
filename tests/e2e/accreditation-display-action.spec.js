@@ -72,7 +72,27 @@ const INDEX_FIXTURE = {
     institution_name: 'Example University',
     state: 'Massachusetts',
     control_label: 'Public',
-    action_count: 1
+    action_count: 1,
+    landing_actions: [
+      {
+        accreditor: 'MSCHE',
+        action_type: 'warning',
+        action_label: 'Landing warning',
+        action_date: '2020-01-01',
+        notes: 'Visible landing row',
+        source_url: 'https://example.org/accreditation',
+        display_action: true
+      },
+      {
+        accreditor: 'MSCHE',
+        action_type: 'warning',
+        action_label: 'Hidden landing action',
+        action_date: '2020-01-02',
+        notes: 'This landing row should stay hidden.',
+        source_url: 'https://example.org/hidden-landing',
+        display_action: false
+      }
+    ]
   }
 };
 
@@ -146,5 +166,14 @@ test.describe('Accreditation display_action + date parsing', () => {
     // The month-name date must render somewhere in the table cell. Strict
     // ISO-only parsing would drop this action; we need to see it in the DOM.
     await expect(statusSection).toContainText('January 2020');
+  });
+
+  test('landing view suppresses display_action=false index rows', async ({ page }) => {
+    await page.goto('/accreditation.html');
+
+    const statusSection = page.locator('#accreditation-status');
+    await expect(statusSection).toBeVisible();
+    await expect(statusSection).toContainText('Landing warning');
+    await expect(statusSection).not.toContainText('Hidden landing action');
   });
 });

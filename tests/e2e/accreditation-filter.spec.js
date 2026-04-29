@@ -72,4 +72,12 @@ test.describe('Accreditation filter input', () => {
     await expect.poll(() => rows.count()).toBeGreaterThan(0);
     await expect(otherTable).toContainText('Warner Pacific University');
   });
+
+  test('other-institutions table excludes Puerto Rico rows', async ({ page }) => {
+    await page.goto('/accreditation.html');
+
+    const otherTable = page.locator('#accreditation-other-status table.history-table');
+    await expect(otherTable).toBeVisible();
+    await expect(otherTable).not.toContainText('Puerto Rico');
+  });
 });

@@ -28,6 +28,10 @@ run_test("Grant Witness name helpers", function() {
   )
   assert_identical(abbr_to_state("IL"), "Illinois")
   assert_identical(normalize_city("San Juan, PR"), "san juan pr")
+  assert_true(is_noncampus_medical_or_foundation_name("The Water Research Foundation"))
+  assert_true(is_noncampus_medical_or_foundation_name("Oklahoma Medical Research Foundation"))
+  assert_true(!is_likely_higher_ed_name("The Water Research Foundation"))
+  assert_true(!is_likely_higher_ed_name("Oklahoma Medical Research Foundation"))
   assert_true(is_currently_disrupted("nih", "Frozen Funding"))
   assert_true(!is_currently_disrupted("nsf", "Reinstated"))
   assert_equal(

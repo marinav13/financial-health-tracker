@@ -87,6 +87,11 @@
     return isPrimaryTrackerInstitution(record);
   }
 
+  function isExcludedLandingJurisdiction(state) {
+    const normalized = String(state || "").trim().toLowerCase();
+    return normalized === "puerto rico" || normalized === "pr";
+  }
+
   function titleCaseSlug(slug) {
     return String(slug || "")
       .split("-")
@@ -455,7 +460,8 @@
         return compareText(a.institution_name, b.institution_name);
       }
       if (sortState?.key === "action_date") {
-        const primary = compareDateDesc(a.action_date || a.action_year, b.action_date || b.action_year) * direction;
+        const primary = compareDateDesc(a.action_date || a.action_year, b.action_date || b.action_year)
+          * (sortState?.direction === "asc" ? -1 : 1);
         if (primary !== 0) return primary;
         return compareText(a.institution_name, b.institution_name);
       }
@@ -521,7 +527,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     return Object.values(schools)
       .flatMap((school) => {
         const actionRows = Array.isArray(school.landing_actions)
-          ? school.landing_actions
+          ? dedupeActions(school.landing_actions).filter(isRecentDisplayAction)
           : getEffectiveActions(school).filter(isRecentDisplayAction);
         return actionRows.map((action) => ({
           unitid: school.unitid,
@@ -760,7 +766,8 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
       const primaryFilterLabel = document.querySelector('label[for="accreditation-filter"]');
       if (primaryFilter) primaryFilter.classList.remove("is-hidden");
       if (primaryFilterLabel) primaryFilterLabel.classList.remove("is-hidden");
-      const allActions = buildDefaultActionRows(accreditationIndex);
+      const allActions = buildDefaultActionRows(accreditationIndex)
+        .filter((action) => !isExcludedLandingJurisdiction(action.state));
       const primaryActions = allActions.filter(isPrimaryBachelorsInstitution);
       const otherActions = allActions.filter((action) => !isPrimaryBachelorsInstitution(action));
       setDataCardVisible("accreditation-other-status", true);

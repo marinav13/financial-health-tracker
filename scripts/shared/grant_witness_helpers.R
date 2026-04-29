@@ -43,6 +43,17 @@ NONCAMPUS_MEDICAL_KEYWORDS <- c(
   "medical center", "cancer center", "research foundation", "foundation"
 )
 
+# Campus anchors are the higher-ed signals that indicate an institution name
+# is tied to an actual college or university rather than a standalone
+# foundation or medical entity. Intentionally excludes generic foundation /
+# medical-center phrases so names like "Oklahoma Medical Research Foundation"
+# still classify as non-higher-ed unless they explicitly reference a campus.
+CAMPUS_ANCHOR_KEYWORDS <- c(
+  "university", "college", "school of medicine", "medical college",
+  "community college", "polytechnic", "institute of technology",
+  "health science center", "health sciences"
+)
+
 # Exclusion keywords: institution names containing these (even with signal
 # keywords) are NOT higher-ed institutions.
 HIGHER_ED_EXCLUSION_KEYWORDS <- c(
@@ -250,7 +261,7 @@ is_noncampus_medical_or_foundation_name <- function(x) {
   norm <- normalize_name(x)
   has_campus_anchor <- stringr::str_detect(
     norm,
-    regex(paste0("\\b(", paste(HIGHER_ED_SIGNAL_KEYWORDS, collapse = "|"), ")\\b"),
+    regex(paste0("\\b(", paste(CAMPUS_ANCHOR_KEYWORDS, collapse = "|"), ")\\b"),
           ignore_case = TRUE)
   )
   stringr::str_detect(

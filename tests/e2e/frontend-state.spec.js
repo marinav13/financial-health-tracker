@@ -135,6 +135,13 @@ test.describe('Frontend state synchronization', () => {
     const landingList = page.locator('#accreditation-status');
     await expect(landingList.locator('table.history-table')).toBeVisible();
     await expect(landingList.locator('th[aria-sort="descending"]')).toContainText('Date');
+    const landingDates = await landingList.locator('tbody tr td:nth-child(6)').evaluateAll((cells) =>
+      cells.slice(0, 5).map((cell) => (cell.textContent || '').trim())
+    );
+    expect(landingDates.length).toBeGreaterThan(1);
+    for (let index = 1; index < landingDates.length; index += 1) {
+      expect(landingDates[index - 1] >= landingDates[index]).toBe(true);
+    }
 
     await landingList.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
     await expect(landingList.locator('th[aria-sort]')).toHaveCount(1);
@@ -145,6 +152,15 @@ test.describe('Frontend state synchronization', () => {
     const detailList = page.locator('#accreditation-status');
     await expect(detailList.locator('table.history-table')).toBeVisible();
     await expect(detailList.locator('th[aria-sort="descending"]')).toContainText('Date');
+    const detailDates = await detailList.locator('tbody tr td:nth-child(5)').evaluateAll((cells) =>
+      cells.slice(0, 5).map((cell) => (cell.textContent || '').trim())
+    );
+    expect(detailDates.length).toBeGreaterThan(0);
+    if (detailDates.length > 1) {
+      for (let index = 1; index < detailDates.length; index += 1) {
+        expect(detailDates[index - 1] >= detailDates[index]).toBe(true);
+      }
+    }
 
     await detailList.locator('button[data-sort-key="accreditor"][data-sort-direction="asc"]').click();
     await expect(detailList.locator('th[aria-sort]')).toHaveCount(1);
@@ -192,6 +208,19 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(otherSection).toHaveClass(/is-hidden/);
     await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('research other higher-ed table excludes standalone foundation organizations', async ({ page }) => {
+    await page.goto('/research.html');
+
+    const otherSection = page.locator('#research-other-list');
+    await expect(otherSection.locator('table.history-table')).toBeVisible();
+
+    const filter = page.locator('#research-other-filter');
+    await filter.fill('foundation');
+
+    await expect(otherSection).not.toContainText('The Water Research Foundation');
+    await expect(otherSection).not.toContainText('Oklahoma Medical Research Foundation');
   });
 
   test('rendered source links use safe http URLs and hardened rel attributes', async ({ page }) => {

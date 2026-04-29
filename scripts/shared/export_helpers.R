@@ -702,7 +702,7 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   # fallback. Surfacing the merging partner is more informative than
   # falling through to the generic "change of legal status" boilerplate.
   m_merger <- stringr::str_match(raw, stringr::regex(
-    "merger of ([^,.]+?) (with|into) ([^,.]+?),\\s*effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    "merger of ([^,.]+?) (with|into) ([^,.]+?),\\s*effective,?\\s*([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
     ignore_case = TRUE
   ))
   if (!is.na(m_merger[1, 1])) {

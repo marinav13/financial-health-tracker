@@ -502,6 +502,22 @@ run_test("derive_action_label_short Phase 4: Pattern 0a fallback — Change of L
   )
 })
 
+run_test("derive_action_label_short Phase 4: Pattern 0a handles merger rows with comma after 'effective'", function() {
+  saint_josephs_text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership ",
+    "within the institution's scope of accreditation, effective January 3, 2024. ",
+    "To note the complex substantive change request includes the merger of ",
+    "Pennsylvania College of Health Sciences with Saint Joseph's University, ",
+    "effective, January 3, 2024, the anticipated date of the transaction. ",
+    "To note that Saint Joseph's University is the surviving institution."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", saint_josephs_text, "MSCHE"),
+    "Merger of Pennsylvania College of Health Sciences with Saint Joseph's University (effective January 3, 2024)"
+  )
+})
+
 run_test("derive_action_label_short Phase 4: Pattern 0b — Approved Teach-Out Agreement with named partner", function() {
   # Albany College of Pharmacy second action (MSCHE, Feb 26, 2026): the
   # teach-out AGREEMENT with a single named partner is meaningfully

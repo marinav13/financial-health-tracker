@@ -91,6 +91,55 @@ const INDEX_FIXTURE = {
         notes: 'This landing row should stay hidden.',
         source_url: 'https://example.org/hidden-landing',
         display_action: false
+      },
+      {
+        accreditor: 'MSCHE',
+        action_type: 'adverse_action',
+        action_label: 'Staff acted to acknowledge receipt of the supplemental information report requested by the Commission action of November 7, 2025.',
+        action_date: '2026-02-27',
+        notes: 'Procedural-only landing row',
+        source_url: 'https://example.org/procedural-landing',
+        display_action: true
+      },
+      {
+        accreditor: 'MSCHE',
+        action_type: 'adverse_action',
+        action_label_short: "To approve the teach-out plan as required of candidate institutions in accordance with the Commission's Teach-Out Plans and Agreement(s) Policy and Procedures and federal regulation.",
+        action_label: "To acknowledge receipt of the teach-out plan. To approve the teach-out plan as required of candidate institutions in accordance with the Commission's Teach-Out Plans and Agreement(s) Policy and Procedures and federal regulation.",
+        action_date: '2023-03-09',
+        notes: 'Candidate institution compliance row should stay hidden.',
+        source_url: 'https://example.org/candidate-teachout',
+        display_action: true
+      },
+      {
+        accreditor: 'MSCHE',
+        action_type: 'adverse_action',
+        action_label_short: 'Change of Legal Status (effective January 3, 2024)',
+        action_label: 'To include the change in legal status, form of control, or ownership within the institution\'s scope of accreditation effective January 3, 2024.',
+        action_date: '2023-09-25',
+        notes: 'Generic legal-status row should stay hidden.',
+        source_url: 'https://example.org/legal-status',
+        display_action: true
+      },
+      {
+        accreditor: 'MSCHE',
+        action_type: 'adverse_action',
+        action_label_short: 'Merger of Example College with State University (effective June 30, 2025)',
+        action_label: 'To include the change in legal status, form of control, or ownership within the institution\'s scope of accreditation effective June 30, 2025. To note the complex substantive change request includes the merger of Example College with State University, effective June 30, 2025, the anticipated date of the transaction. To note that State University is the surviving institution.',
+        action_date: '2025-04-24',
+        notes: 'Merger row should remain visible.',
+        source_url: 'https://example.org/merger',
+        display_action: true
+      },
+      {
+        accreditor: 'NWCCU',
+        action_type: 'warning',
+        action_label_short: 'Accredited – Spring 2026 Policies, Regulations, and Financial Review',
+        action_label: 'Accredited – Spring 2026 Policies, Regulations, and Financial Review',
+        action_date: '2026-04-28',
+        notes: 'Status: Accredited | Evaluation: Spring 2026 Policies, Regulations, and Financial Review | Reason: As of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.',
+        source_url: 'https://example.org/nwccu-accredited',
+        display_action: true
       }
     ]
   }
@@ -174,6 +223,11 @@ test.describe('Accreditation display_action + date parsing', () => {
     const statusSection = page.locator('#accreditation-status');
     await expect(statusSection).toBeVisible();
     await expect(statusSection).toContainText('Landing warning');
+    await expect(statusSection).toContainText('Merger of Example College with State University');
     await expect(statusSection).not.toContainText('Hidden landing action');
+    await expect(statusSection).not.toContainText('supplemental information report requested by the Commission action of November 7, 2025');
+    await expect(statusSection).not.toContainText('teach-out plan as required of candidate institutions');
+    await expect(statusSection).not.toContainText('Change of Legal Status (effective January 3, 2024)');
+    await expect(statusSection).not.toContainText('Policies, Regulations, and Financial Review');
   });
 });

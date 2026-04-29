@@ -258,7 +258,30 @@ build_accreditation_export <- function() {
     "^\\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy",
     "^\\s*to approve the teach-?out plan as required of candidate",
     "^\\s*to reject the teach-?out plan",
-    "^\\s*to note that the supplemental information report was not conducive"
+    "^\\s*to note that the supplemental information report was not conducive",
+    "^\\s*(?:staff acted (?:on behalf of the commission )?)?to acknowledge receipt of",
+    "^\\s*to note the (?:show cause |follow-?up |on-site |virtual )?visit by the commission'?s representatives",
+    "^\\s*to note that .* hosted a virtual site visit",
+    "^\\s*to note that .* (?:will not be continuing as|is now due|are now due|was not received)",
+    "^\\s*to note that the institution received the notification of adverse action",
+    "^\\s*to note that the administrator of the appeal",
+    "^\\s*to postpone a decision on",
+    "^\\s*to reject the supplemental information report",
+    "^\\s*to request submission of signed teach-?out agreements",
+    "^\\s*to request an updated accreditation readiness report",
+    "^\\s*to remind the institution of",
+    "^\\s*to grant a delay of the monitoring report",
+    "^\\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor"
+  )
+  MSCHE_SUBSTANTIVE_KEEP_PATTERN <- paste0(
+    "^\\s*(?:merger of|accepted teach-?out plan|",
+    "to approve the (?:updated )?teach-?out plan(?! as required of candidate)|",
+    "to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?)"
+  )
+  MSCHE_PROCEDURAL_CONTENT_PATTERNS <- c(
+    "addition or change of primary accreditor to msche procedures",
+    "candidate assessment report",
+    "reasonable cause determination for multiple accreditation"
   )
 
   normalize_accreditation_text <- function(x) {
@@ -308,13 +331,49 @@ build_accreditation_export <- function() {
 
     if (accreditor_code == "MSCHE") {
       candidate_labels <- unique(Filter(nzchar, c(label_short, label)))
+      combined_label_text <- paste(candidate_labels, collapse = " ")
+      short_label <- if (length(candidate_labels) > 0L) candidate_labels[[1]] else ""
+      has_explicit_keep_label <- any(vapply(candidate_labels, function(candidate) {
+        grepl(MSCHE_SUBSTANTIVE_KEEP_PATTERN, candidate, ignore.case = TRUE, perl = TRUE)
+      }, logical(1)))
+      has_merger_legal_status <-
+        grepl("^\\s*change of legal status", short_label, ignore.case = TRUE, perl = TRUE) &&
+        grepl("merger|surviving institution|anticipated date of the transaction", combined_label_text, ignore.case = TRUE, perl = TRUE)
+      if (
+        grepl("^\\s*change of legal status", combined_label_text, ignore.case = TRUE, perl = TRUE) &&
+        !has_merger_legal_status
+      ) {
+        return(FALSE)
+      }
       for (pattern in MSCHE_PROCEDURAL_DROP_PATTERNS) {
-        if (any(vapply(candidate_labels, function(candidate) {
-          grepl(pattern, candidate, ignore.case = TRUE, perl = TRUE)
-        }, logical(1)))) {
+        if (
+          any(vapply(candidate_labels, function(candidate) {
+            grepl(pattern, candidate, ignore.case = TRUE, perl = TRUE)
+          }, logical(1))) &&
+          !has_explicit_keep_label &&
+          !has_merger_legal_status
+        ) {
           return(FALSE)
         }
       }
+      if (
+        any(vapply(MSCHE_PROCEDURAL_CONTENT_PATTERNS, function(pattern) {
+          grepl(pattern, combined_label_text, ignore.case = TRUE, perl = TRUE)
+        }, logical(1))) &&
+        !has_explicit_keep_label &&
+        !has_merger_legal_status
+      ) {
+        return(FALSE)
+      }
+      if (has_explicit_keep_label || has_merger_legal_status) return(TRUE)
+    }
+
+    if (
+      accreditor_code == "NWCCU" &&
+      grepl("policies, regulations, and financial review", content_only, ignore.case = TRUE, perl = TRUE) &&
+      grepl("substantially compliant", notes_text, ignore.case = TRUE, perl = TRUE)
+    ) {
+      return(FALSE)
     }
 
     if (
@@ -331,7 +390,7 @@ build_accreditation_export <- function() {
       "continued on warning|continued on probation|denied reaffirmation",
       sep = ""
     )
-    closure_action_pattern <- "accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-?out plan|removed from membership"
+    closure_action_pattern <- "accepted notification of institutional closure|accept(?:ed)? teach-?out plan|approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|teach out plan|teach-?out plan|removed from membership|will transfer from .* to "
     required_report_pattern <- "require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report"
     standalone_low_signal_pattern <- "^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$"
 

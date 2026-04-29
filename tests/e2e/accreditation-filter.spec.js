@@ -59,18 +59,20 @@ test.describe('Accreditation filter input', () => {
     await expect.poll(() => rows.count()).toBe(initialCount);
   });
 
-  test('other-institutions filter resolves Warner Pacific University instead of a blank institution row', async ({ page }) => {
+  test('other-institutions filter excludes Warner Pacific University policy-review rows', async ({ page }) => {
     await page.goto('/accreditation.html');
 
-    const otherTable = page.locator('#accreditation-other-status table.history-table');
+    const otherSection = page.locator('#accreditation-other-status');
+    const otherTable = otherSection.locator('table.history-table');
     await expect(otherTable).toBeVisible();
 
     const filter = page.locator('#accreditation-other-filter');
     await filter.fill('Warner Pacific');
 
     const rows = otherTable.locator('tbody tr');
-    await expect.poll(() => rows.count()).toBeGreaterThan(0);
-    await expect(otherTable).toContainText('Warner Pacific University');
+    await expect.poll(() => rows.count()).toBe(0);
+    await expect(otherSection).not.toContainText('Warner Pacific University');
+    await expect(otherSection).toContainText('No accreditation actions from 2019 to the present are available for other institutions.');
   });
 
   test('other-institutions table excludes Puerto Rico rows', async ({ page }) => {

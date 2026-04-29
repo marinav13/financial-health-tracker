@@ -250,7 +250,26 @@
     // Phase 4 v2: supplemental info report deemed inadequate. Same
     // procedural-feedback shape as above; the institution is still
     // operating under whatever sanction prompted the report request.
-    /^\s*to note that the supplemental information report was not conducive/i
+    /^\s*to note that the supplemental information report was not conducive/i,
+    /^\s*(?:staff acted (?:on behalf of the commission )?)?to acknowledge receipt of/i,
+    /^\s*to note the (?:show cause |follow-?up |on-site |virtual )?visit by the commission'?s representatives/i,
+    /^\s*to note that .* hosted a virtual site visit/i,
+    /^\s*to note that .* (?:will not be continuing as|is now due|are now due|was not received)/i,
+    /^\s*to note that the institution received the notification of adverse action/i,
+    /^\s*to note that the administrator of the appeal/i,
+    /^\s*to postpone a decision on/i,
+    /^\s*to reject the supplemental information report/i,
+    /^\s*to request submission of signed teach-?out agreements/i,
+    /^\s*to request an updated accreditation readiness report/i,
+    /^\s*to remind the institution of/i,
+    /^\s*to grant a delay of the monitoring report/i,
+    /^\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor/i
+  ];
+  const MSCHE_SUBSTANTIVE_KEEP_PATTERN = /^\s*(?:merger of|accepted teach-?out plan|to approve the (?:updated )?teach-?out plan(?! as required of candidate)|to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?)/i;
+  const MSCHE_PROCEDURAL_CONTENT_PATTERNS = [
+    /addition or change of primary accreditor to msche procedures/i,
+    /candidate assessment report/i,
+    /reasonable cause determination for multiple accreditation/i
   ];
   const TRUSTED_ACTION_TYPES = new Set([
     "adverse_action", "warning", "probation", "show_cause", "removed", "notice"
@@ -289,18 +308,45 @@
         action.action_label,
         action.action_label_raw
       ].filter(function (s) { return typeof s === "string" && s.length > 0; });
+      const shortLabel = candidateLabels[0] || "";
+      const combinedLabelText = candidateLabels.join(" ");
+      const hasExplicitKeepLabel = candidateLabels.some(function (label) {
+        return MSCHE_SUBSTANTIVE_KEEP_PATTERN.test(label);
+      });
+      const hasMergerLegalStatus = /^\s*change of legal status/i.test(shortLabel) &&
+        /merger|surviving institution|anticipated date of the transaction/i.test(combinedLabelText);
+      if (/^\s*change of legal status/i.test(combinedLabelText) &&
+          !hasMergerLegalStatus) {
+        return false;
+      }
       for (const pat of MSCHE_PROCEDURAL_DROP_PATTERNS) {
-        if (candidateLabels.some(function (label) { return pat.test(label); })) {
+        if (candidateLabels.some(function (label) { return pat.test(label); }) &&
+            !hasExplicitKeepLabel &&
+            !hasMergerLegalStatus) {
           return false;
         }
       }
+      if (MSCHE_PROCEDURAL_CONTENT_PATTERNS.some(function (pattern) {
+        return pattern.test(combinedLabelText);
+      }) && !hasExplicitKeepLabel && !hasMergerLegalStatus) {
+        return false;
+      }
+      if (hasExplicitKeepLabel || hasMergerLegalStatus) {
+        return true;
+      }
+    }
+
+    if (accreditor === "NWCCU" &&
+        /policies, regulations, and financial review/i.test(contentOnly) &&
+        /substantially compliant/i.test(notes)) {
+      return false;
     }
 
     const excludedPattern = /substantive change|program addition/;
     if (excludedPattern.test(haystack) && !TRUSTED_ACTION_TYPES.has(type)) return false;
 
     const statusActionPattern = /warning|probation|formal notice of concern|notice of concern|\bmonitoring\b|removed from (warning|probation|formal notice of concern|notice of concern|notice|monitoring)|removed from membership|placed on probation|issue a notice of concern|continue a warning|continued on warning|continued on probation|denied reaffirmation/;
-    const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|teach out plan|teach-out plan|removed from membership/;
+    const closureActionPattern = /accepted notification of institutional closure|accept(?:ed)? teach-?out plan|approve(?:d)? (?:the )?(?:updated )?teach-?out (?:plan|agreement|agreements)|teach out plan|teach-out plan|removed from membership|will transfer from .* to /;
     const requiredReportPattern = /require (?:the institution to provide )?(?:an )?(?:interim|progress|follow-?up|monitoring) report/;
     const standaloneLowSignalPattern = /^(special visit|interim report|progress report|accepted progress report|accepted interim report|follow-?up report|monitoring report|second monitoring report|third monitoring report)$/;
     const hasSpecialVisit = /special visit/.test(haystack);

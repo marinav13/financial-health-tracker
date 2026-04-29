@@ -160,6 +160,15 @@ run("renderExternalLink escapes label text and href attribute context", () => {
   assert(html.includes("&lt;img"), "Expected escaped label text");
 });
 
+run("csvEscape neutralizes spreadsheet formula prefixes before quoting", () => {
+  assert(app.csvEscape("=1+1") === "'=1+1", "Expected leading equals to be prefixed");
+  assert(app.csvEscape("+SUM(A1:A2)") === "'+SUM(A1:A2)", "Expected leading plus to be prefixed");
+  assert(app.csvEscape("-10") === "'-10", "Expected leading minus to be prefixed");
+  assert(app.csvEscape("@cmd") === "'@cmd", "Expected leading at-sign to be prefixed");
+  assert(app.csvEscape('=1,"x"') === `"'=1,""x"""`, "Expected dangerous formulas to stay quoted after sanitization");
+  assert(app.csvEscape("safe value") === "safe value", "Expected safe values to remain unchanged");
+});
+
 run("renderPaginationButtons marks only the current page", () => {
   const html = app.renderPaginationButtons({ currentPage: 2, totalPages: 3 });
   const currentMatches = html.match(/aria-current="page"/g) || [];

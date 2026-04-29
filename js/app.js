@@ -457,7 +457,8 @@ window.TrackerApp.setText = function setText(id, value) {
 
 window.TrackerApp.csvEscape = function csvEscape(value) {
   const text = String(value ?? "");
-  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  const sanitized = /^[=+\-@]/.test(text) ? `'${text}` : text;
+  return /[",\n]/.test(sanitized) ? `"${sanitized.replace(/"/g, '""')}"` : sanitized;
 };
 
 window.TrackerApp.downloadRowsCsv = function downloadRowsCsv(filename, headers, rows) {

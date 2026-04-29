@@ -46,12 +46,16 @@ files where possible.
 
 These scripts read canonical IPEDS data plus their source-domain inputs:
 
-```r
-source("scripts/build_outcomes_join.R"); main()
-source("scripts/build_college_cuts_join.R"); main()
-source("scripts/build_accreditation_actions.R"); main()
-source("scripts/build_grant_witness_join.R"); main()
+```bash
+Rscript --vanilla ./scripts/build_outcomes_join.R
+Rscript --vanilla ./scripts/build_college_cuts_join.R
+Rscript --vanilla ./scripts/build_accreditation_actions.R
+Rscript --vanilla ./scripts/build_grant_witness_join.R
 ```
+
+By default, these scripts read the latest canonical multi-year IPEDS dataset
+from `ipeds/derived/`. Only pass `--financial-input` when you intentionally
+need to override that default with another canonical CSV.
 
 Outcomes, HCM, and federal composite sources are source-versioned. When changing
 their source years or workbook vintages, update the constants in the relevant
@@ -73,9 +77,8 @@ python scripts/import_closure_sheet.py --from-dir path/to/closure_csv_exports --
 
 ### 4. Build Site Exports
 
-```r
-source("scripts/build_web_exports.R")
-main()
+```bash
+Rscript --vanilla ./scripts/build_web_exports.R
 ```
 
 This writes the committed static files under `data/`, including search indexes,
@@ -87,14 +90,14 @@ For weekly-style source refreshes, follow the same order as the scheduled
 workflow:
 
 ```bash
-Rscript ./scripts/build_accreditation_actions.R --financial-input data/downloads/full_dataset.csv
+Rscript --vanilla ./scripts/build_accreditation_actions.R
 python ./scripts/import_supabase_institution_mapping.py --skip-stale-check
-Rscript ./scripts/build_college_cuts_join.R --financial-input data/downloads/full_dataset.csv
-Rscript ./scripts/build_grant_witness_join.R --financial-input data/downloads/full_dataset.csv --skip-usaspending-filter
-Rscript ./scripts/build_grant_witness_usaspending_sensitivity.R
-Rscript ./scripts/build_grant_witness_join.R --financial-input data/downloads/full_dataset.csv
+Rscript --vanilla ./scripts/build_college_cuts_join.R
+Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
+Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
+Rscript --vanilla ./scripts/build_grant_witness_join.R
 python ./scripts/import_closure_sheet.py --sheet "YOUR_GOOGLE_SHEET_URL_OR_ID"
-Rscript ./scripts/build_web_exports.R --input data/downloads/full_dataset.csv
+Rscript --vanilla ./scripts/build_web_exports.R
 ```
 
 The USAspending sensitivity step overwrites the risky-continuation filter used

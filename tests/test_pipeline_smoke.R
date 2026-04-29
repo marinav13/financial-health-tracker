@@ -49,3 +49,27 @@ run_test("Pipeline entry scripts source cleanly", function() {
     assert_true(exists("main", envir = env, inherits = FALSE), paste("Expected main() in", basename(script_path)))
   }
 })
+
+run_test("Deprecated college cuts JSON exporter hard-stops before writing production data", function() {
+  script_path <- file.path(root, "scripts", "build_college_cuts_json.R")
+  env <- new.env(parent = globalenv())
+  sys.source(script_path, envir = env)
+  assert_true(exists("main", envir = env, inherits = FALSE), "Expected main() in build_college_cuts_json.R")
+
+  err <- tryCatch(
+    {
+      env$main()
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+
+  assert_true(
+    !is.null(err) && grepl("deprecated and intentionally blocked", err, fixed = TRUE),
+    "Deprecated college cuts JSON exporter should stop with an explicit deprecation message."
+  )
+  assert_true(
+    grepl("build_web_exports.R", err, fixed = TRUE),
+    "Deprecated exporter stop message should redirect maintainers to build_web_exports.R."
+  )
+})

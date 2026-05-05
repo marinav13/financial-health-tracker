@@ -1,6 +1,6 @@
 {
   "unitid": "162760",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hood College",
     "institution_unique_name": "Hood College | Frederick | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.7538,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 119.0951,
-    "net_tuition_per_fte_change_5yr": -20.9166,
+    "net_tuition_per_fte_change_5yr": -37.6416,
     "staff_total_headcount_pct_change_5yr": 0.9852,
     "staff_instructional_headcount_pct_change_5yr": 2.9046,
     "students_per_instructional_staff_fte": 10.9487,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 19.3366,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 15.4518,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.3898,
+    "unfunded_discount_pct_change_5yr": 30.0329,
     "share_grad_students": 45.2251,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 18481.8435
+        "value": 18709.1273
       },
       {
         "year": 2016,
-        "value": 18703.6841
+        "value": 18927.905
       },
       {
         "year": 2017,
-        "value": 18955.9264
+        "value": 19142.0584
       },
       {
         "year": 2018,
-        "value": 18864.8083
+        "value": 19101.3014
       },
       {
         "year": 2019,
-        "value": 19021.7313
+        "value": 19276.9515
       },
       {
         "year": 2020,
-        "value": 19881.279
+        "value": 20111.564
       },
       {
         "year": 2021,
-        "value": 18605.8595
+        "value": 19287.214
       },
       {
         "year": 2022,
-        "value": 16162.2719
+        "value": 17757.0864
       },
       {
         "year": 2023,
-        "value": 15559.3036
+        "value": 15473.6918
       },
       {
         "year": 2024,
-        "value": 15043.0398
+        "value": 12020.8012
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.6777
+      },
+      {
+        "year": 2015,
+        "value": 43.371
+      },
+      {
+        "year": 2016,
+        "value": 41.6443
+      },
+      {
+        "year": 2017,
+        "value": 41.871
+      },
+      {
+        "year": 2018,
+        "value": 41.5246
+      },
+      {
+        "year": 2019,
+        "value": 41.8277
+      },
+      {
+        "year": 2020,
+        "value": 43.3369
+      },
+      {
+        "year": 2021,
+        "value": 45.2378
+      },
+      {
+        "year": 2022,
+        "value": 47.8297
+      },
+      {
+        "year": 2023,
+        "value": 46.3545
+      },
+      {
+        "year": 2024,
+        "value": 54.3898
       }
     ],
     "enrollment_headcount_total": [

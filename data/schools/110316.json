@@ -1,6 +1,6 @@
 {
   "unitid": "110316",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "California Institute of Integral Studies",
     "institution_unique_name": "California Institute of Integral Studies | San Francisco | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 50.0312,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.7951,
-    "net_tuition_per_fte_change_5yr": -18.8409,
+    "net_tuition_per_fte_change_5yr": -15.6418,
     "staff_total_headcount_pct_change_5yr": 3.7143,
     "staff_instructional_headcount_pct_change_5yr": -14.4279,
     "students_per_instructional_staff_fte": 12.523,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 80.9012,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 80.7744,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 3.5836,
+    "unfunded_discount_pct_change_5yr": -13.7335,
     "share_grad_students": 96.0033,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 26278.6681
+        "value": 26429.545
       },
       {
         "year": 2015,
-        "value": 27127.1603
+        "value": 26563.7145
       },
       {
         "year": 2016,
-        "value": 24800.575
+        "value": 24372.8768
       },
       {
         "year": 2017,
-        "value": 31622.8154
+        "value": 31554.9476
       },
       {
         "year": 2018,
-        "value": 33539.7596
+        "value": 32139.981
       },
       {
         "year": 2019,
-        "value": 33804.6745
+        "value": 32471.7634
       },
       {
         "year": 2020,
-        "value": 34170.0131
+        "value": 33080.0365
       },
       {
         "year": 2021,
-        "value": 31894.2234
+        "value": 30548.1246
       },
       {
         "year": 2022,
-        "value": 31157.153
+        "value": 30768.7744
       },
       {
         "year": 2023,
-        "value": 25802.1024
+        "value": 25151.2551
       },
       {
         "year": 2024,
-        "value": 27435.5855
+        "value": 27392.6068
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 6.6394
+      },
+      {
+        "year": 2015,
+        "value": 7.9942
+      },
+      {
+        "year": 2016,
+        "value": 6.5827
+      },
+      {
+        "year": 2017,
+        "value": 5.6836
+      },
+      {
+        "year": 2018,
+        "value": 4.4779
+      },
+      {
+        "year": 2019,
+        "value": 4.1541
+      },
+      {
+        "year": 2020,
+        "value": 3.5945
+      },
+      {
+        "year": 2021,
+        "value": 3.962
+      },
+      {
+        "year": 2022,
+        "value": 1.9705
+      },
+      {
+        "year": 2023,
+        "value": 3.6237
+      },
+      {
+        "year": 2024,
+        "value": 3.5836
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "211440",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Carnegie Mellon University",
     "institution_unique_name": "Carnegie Mellon University | Pittsburgh | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 10.9093,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.9364,
-    "net_tuition_per_fte_change_5yr": -5.6334,
+    "net_tuition_per_fte_change_5yr": -5.3574,
     "staff_total_headcount_pct_change_5yr": 7.3735,
     "staff_instructional_headcount_pct_change_5yr": 6.5789,
     "students_per_instructional_staff_fte": 11.8215,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 37.7412,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.8516,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 19.8688,
+    "unfunded_discount_pct_change_5yr": -2.2317,
     "share_grad_students": 53.248,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 289912501,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 42562.9174
+        "value": 42713.1964
       },
       {
         "year": 2021,
-        "value": 42075.3581
+        "value": 42229.7173
       },
       {
         "year": 2022,
-        "value": 39457.7706
+        "value": 39602.4704
       },
       {
         "year": 2023,
-        "value": 39844.6949
+        "value": 39986.9751
       },
       {
         "year": 2024,
-        "value": 39440.6237
+        "value": 39556.0134
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.6571
+      },
+      {
+        "year": 2015,
+        "value": 19.7137
+      },
+      {
+        "year": 2016,
+        "value": 19.1402
+      },
+      {
+        "year": 2017,
+        "value": 19.8459
+      },
+      {
+        "year": 2018,
+        "value": 20.2994
+      },
+      {
+        "year": 2019,
+        "value": 20.3224
+      },
+      {
+        "year": 2020,
+        "value": 19.9801
+      },
+      {
+        "year": 2021,
+        "value": 21.226
+      },
+      {
+        "year": 2022,
+        "value": 19.8107
+      },
+      {
+        "year": 2023,
+        "value": 19.1066
+      },
+      {
+        "year": 2024,
+        "value": 19.8688
       }
     ],
     "enrollment_headcount_total": [

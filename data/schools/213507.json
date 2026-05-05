@@ -1,6 +1,6 @@
 {
   "unitid": "213507",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lebanon Valley College",
     "institution_unique_name": "Lebanon Valley College | Annville | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.074,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 6.9831,
-    "net_tuition_per_fte_change_5yr": -18.633,
+    "net_tuition_per_fte_change_5yr": -18.5678,
     "staff_total_headcount_pct_change_5yr": 7.1283,
     "staff_instructional_headcount_pct_change_5yr": 10.2362,
     "students_per_instructional_staff_fte": 11.1372,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 48.868,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.1574,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.5472,
+    "unfunded_discount_pct_change_5yr": 4.2433,
     "share_grad_students": 23.7201,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25429.9113
+        "value": 25508.6749
       },
       {
         "year": 2015,
-        "value": 26193.3963
+        "value": 26285.9871
       },
       {
         "year": 2016,
-        "value": 25429.1446
+        "value": 25524.8525
       },
       {
         "year": 2017,
-        "value": 24334.0137
+        "value": 24417.342
       },
       {
         "year": 2018,
-        "value": 23311.8497
+        "value": 23401.4806
       },
       {
         "year": 2019,
-        "value": 24126.2918
+        "value": 24249.7421
       },
       {
         "year": 2020,
-        "value": 24205.8401
+        "value": 24328.2609
       },
       {
         "year": 2021,
-        "value": 24041.3174
+        "value": 22825.4507
       },
       {
         "year": 2022,
-        "value": 21542.1906
+        "value": 21669.2643
       },
       {
         "year": 2023,
-        "value": 20179.5686
+        "value": 20291.262
       },
       {
         "year": 2024,
-        "value": 19630.8299
+        "value": 19747.0886
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.3671
+      },
+      {
+        "year": 2015,
+        "value": 43.8256
+      },
+      {
+        "year": 2016,
+        "value": 46.625
+      },
+      {
+        "year": 2017,
+        "value": 49.481
+      },
+      {
+        "year": 2018,
+        "value": 51.799
+      },
+      {
+        "year": 2019,
+        "value": 53.2861
+      },
+      {
+        "year": 2020,
+        "value": 53.8477
+      },
+      {
+        "year": 2021,
+        "value": 55.4666
+      },
+      {
+        "year": 2022,
+        "value": 55.0916
+      },
+      {
+        "year": 2023,
+        "value": 54.411
+      },
+      {
+        "year": 2024,
+        "value": 55.5472
       }
     ],
     "enrollment_headcount_total": [

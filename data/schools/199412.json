@@ -1,6 +1,6 @@
 {
   "unitid": "199412",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Queens University of Charlotte",
     "institution_unique_name": "Queens University of Charlotte | Charlotte | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 36.3045,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.7444,
+    "unfunded_discount_pct_change_5yr": 18.0562,
     "share_grad_students": 30.0999,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -183,11 +185,11 @@
       },
       {
         "year": 2020,
-        "value": 15737.4396
+        "value": 15851.1034
       },
       {
         "year": 2021,
-        "value": 17095.7685
+        "value": 17151.367
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15339.544
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.2084
+      },
+      {
+        "year": 2015,
+        "value": 31.5932
+      },
+      {
+        "year": 2016,
+        "value": 32.9051
+      },
+      {
+        "year": 2017,
+        "value": 34.6481
+      },
+      {
+        "year": 2018,
+        "value": 36.3974
+      },
+      {
+        "year": 2019,
+        "value": 37.0539
+      },
+      {
+        "year": 2020,
+        "value": 38.5476
+      },
+      {
+        "year": 2021,
+        "value": 36.5301
+      },
+      {
+        "year": 2022,
+        "value": 38.5207
+      },
+      {
+        "year": 2023,
+        "value": 38.4464
+      },
+      {
+        "year": 2024,
+        "value": 43.7444
       }
     ],
     "enrollment_headcount_total": [

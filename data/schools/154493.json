@@ -1,6 +1,6 @@
 {
   "unitid": "154493",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Upper Iowa University",
     "institution_unique_name": "Upper Iowa University | Fayette | Iowa",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 64.0941,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.9501,
+    "unfunded_discount_pct_change_5yr": -8.9666,
     "share_grad_students": 27.5769,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 9882.5303
+        "value": 9985.2131
       },
       {
         "year": 2015,
-        "value": 11344.4468
+        "value": 11257.2284
       },
       {
         "year": 2016,
-        "value": 12239.6046
+        "value": 12187.1435
       },
       {
         "year": 2017,
-        "value": 12399.3411
+        "value": 12562.4645
       },
       {
         "year": 2018,
-        "value": 12089.0166
+        "value": 12322.8157
       },
       {
         "year": 2019,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 12550.3635
+        "value": 11990.7191
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11094.7889
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8074
+      },
+      {
+        "year": 2015,
+        "value": 27.4446
+      },
+      {
+        "year": 2016,
+        "value": 25.4756
+      },
+      {
+        "year": 2017,
+        "value": 23.0356
+      },
+      {
+        "year": 2018,
+        "value": 26.5992
+      },
+      {
+        "year": 2019,
+        "value": 29.6046
+      },
+      {
+        "year": 2020,
+        "value": 33.9147
+      },
+      {
+        "year": 2021,
+        "value": 31.7542
+      },
+      {
+        "year": 2022,
+        "value": 34.6844
+      },
+      {
+        "year": 2023,
+        "value": 36.519
+      },
+      {
+        "year": 2024,
+        "value": 26.9501
       }
     ],
     "enrollment_headcount_total": [

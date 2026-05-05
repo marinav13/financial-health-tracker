@@ -1,6 +1,6 @@
 {
   "unitid": "233426",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Roanoke College",
     "institution_unique_name": "Roanoke College | Salem | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.611,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 3.6088,
-    "net_tuition_per_fte_change_5yr": -19.3094,
+    "net_tuition_per_fte_change_5yr": -18.1275,
     "staff_total_headcount_pct_change_5yr": -11.5,
     "staff_instructional_headcount_pct_change_5yr": -12.3153,
     "students_per_instructional_staff_fte": 12.8481,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 34.1939,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.1423,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.6496,
+    "unfunded_discount_pct_change_5yr": -21.0104,
     "share_grad_students": 1.1083,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 147705,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21012.4015
+        "value": 22260.3293
       },
       {
         "year": 2015,
-        "value": 21075.7415
+        "value": 22404.4911
       },
       {
         "year": 2016,
-        "value": 20996.1931
+        "value": 22222.0202
       },
       {
         "year": 2017,
-        "value": 20730.2547
+        "value": 21980.4743
       },
       {
         "year": 2018,
-        "value": 19716.0613
+        "value": 20992.618
       },
       {
         "year": 2019,
-        "value": 18920.5763
+        "value": 20255.36
       },
       {
         "year": 2020,
-        "value": 18504.3786
+        "value": 20355.4868
       },
       {
         "year": 2021,
-        "value": 18246.769
+        "value": 20147.7985
       },
       {
         "year": 2022,
-        "value": 17324.6438
+        "value": 20039.714
       },
       {
         "year": 2023,
-        "value": 15596.0176
+        "value": 16903.7644
       },
       {
         "year": 2024,
-        "value": 15267.1325
+        "value": 16583.5631
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.014
+      },
+      {
+        "year": 2015,
+        "value": 46.0287
+      },
+      {
+        "year": 2016,
+        "value": 47.4226
+      },
+      {
+        "year": 2017,
+        "value": 48.9481
+      },
+      {
+        "year": 2018,
+        "value": 52.4558
+      },
+      {
+        "year": 2019,
+        "value": 53.9939
+      },
+      {
+        "year": 2020,
+        "value": 54.902
+      },
+      {
+        "year": 2021,
+        "value": 55.0828
+      },
+      {
+        "year": 2022,
+        "value": 54.8077
+      },
+      {
+        "year": 2023,
+        "value": 43.7373
+      },
+      {
+        "year": 2024,
+        "value": 42.6496
       }
     ],
     "enrollment_headcount_total": [

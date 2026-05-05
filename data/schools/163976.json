@@ -1,6 +1,6 @@
 {
   "unitid": "163976",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. John's College",
     "institution_unique_name": "St. John's College | Annapolis | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.4104,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 103.2726,
-    "net_tuition_per_fte_change_5yr": -25.8788,
+    "net_tuition_per_fte_change_5yr": -25.3839,
     "staff_total_headcount_pct_change_5yr": 2.2989,
     "staff_instructional_headcount_pct_change_5yr": 18.75,
     "students_per_instructional_staff_fte": 8.6835,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 9.9004,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 10% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.7304,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.7791,
+    "unfunded_discount_pct_change_5yr": -44.94,
     "share_grad_students": 27.5762,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27769.6372
+        "value": 29472.8439
       },
       {
         "year": 2015,
-        "value": 24777.2693
+        "value": 26364.4884
       },
       {
         "year": 2016,
-        "value": 23416.7412
+        "value": 24884.468
       },
       {
         "year": 2017,
-        "value": 20619.2055
+        "value": 22004.6968
       },
       {
         "year": 2018,
-        "value": 18053.7087
+        "value": 19563.8723
       },
       {
         "year": 2019,
-        "value": 19886.2988
+        "value": 21410.4262
       },
       {
         "year": 2020,
-        "value": 18916.4571
+        "value": 20561.5819
       },
       {
         "year": 2021,
-        "value": 18304.5921
+        "value": 19928.1269
       },
       {
         "year": 2022,
-        "value": 16038.1676
+        "value": 17363.1443
       },
       {
         "year": 2023,
-        "value": 14560.9087
+        "value": 16007.1004
       },
       {
         "year": 2024,
-        "value": 14739.962
+        "value": 15975.6212
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.8978
+      },
+      {
+        "year": 2015,
+        "value": 40.5338
+      },
+      {
+        "year": 2016,
+        "value": 43.605
+      },
+      {
+        "year": 2017,
+        "value": 48.9585
+      },
+      {
+        "year": 2018,
+        "value": 53.6664
+      },
+      {
+        "year": 2019,
+        "value": 50.4524
+      },
+      {
+        "year": 2020,
+        "value": 37.0759
+      },
+      {
+        "year": 2021,
+        "value": 23.4605
+      },
+      {
+        "year": 2022,
+        "value": 27.0987
+      },
+      {
+        "year": 2023,
+        "value": 20.6079
+      },
+      {
+        "year": 2024,
+        "value": 27.7791
       }
     ],
     "enrollment_headcount_total": [

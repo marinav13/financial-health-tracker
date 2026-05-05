@@ -1,6 +1,6 @@
 {
   "unitid": "231095",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Sterling College",
     "institution_unique_name": "Sterling College | Craftsbury Common | Vermont",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -54.2222,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.1945,
-    "net_tuition_per_fte_change_5yr": -24.7493,
+    "net_tuition_per_fte_change_5yr": -16.5206,
     "staff_total_headcount_pct_change_5yr": -12.5,
     "staff_instructional_headcount_pct_change_5yr": -57.8947,
     "students_per_instructional_staff_fte": 10.0909,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 12.374,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 13.355,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.3887,
+    "unfunded_discount_pct_change_5yr": 7.3582,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 18851.1128
+        "value": 18990.2526
       },
       {
         "year": 2018,
-        "value": 17951.3463
+        "value": 17158.4343
       },
       {
         "year": 2019,
-        "value": 15007.3936
+        "value": 14600.582
       },
       {
         "year": 2020,
-        "value": 9585.3217
+        "value": 14634.4314
       },
       {
         "year": 2021,
-        "value": 7761.6162
+        "value": 9384.9859
       },
       {
         "year": 2022,
-        "value": 7120.864
+        "value": 10338.8757
       },
       {
         "year": 2023,
-        "value": 10326.739
+        "value": 11817.3927
       },
       {
         "year": 2024,
-        "value": 11293.1622
+        "value": 12188.473
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 56.248
+      },
+      {
+        "year": 2015,
+        "value": 55.674
+      },
+      {
+        "year": 2016,
+        "value": 53.2435
+      },
+      {
+        "year": 2017,
+        "value": 57.8129
+      },
+      {
+        "year": 2018,
+        "value": 60.371
+      },
+      {
+        "year": 2019,
+        "value": 63.7014
+      },
+      {
+        "year": 2020,
+        "value": 61.6202
+      },
+      {
+        "year": 2021,
+        "value": 72.5068
+      },
+      {
+        "year": 2022,
+        "value": 75.7474
+      },
+      {
+        "year": 2023,
+        "value": 70.4247
+      },
+      {
+        "year": 2024,
+        "value": 68.3887
       }
     ],
     "enrollment_headcount_total": [

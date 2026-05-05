@@ -1,6 +1,6 @@
 {
   "unitid": "188429",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Adelphi University",
     "institution_unique_name": "Adelphi University | Garden City | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.0523,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.788,
-    "net_tuition_per_fte_change_5yr": -18.7684,
+    "net_tuition_per_fte_change_5yr": -18.7274,
     "staff_total_headcount_pct_change_5yr": -9.5856,
     "staff_instructional_headcount_pct_change_5yr": -6.0932,
     "students_per_instructional_staff_fte": 12.355,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 69.6362,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.0129,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.2821,
+    "unfunded_discount_pct_change_5yr": 40.5501,
     "share_grad_students": 34.083,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1729317,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29083.9053
+        "value": 29232.719
       },
       {
         "year": 2015,
-        "value": 29951.4428
+        "value": 30102.1973
       },
       {
         "year": 2016,
-        "value": 31303.6371
+        "value": 31469.7529
       },
       {
         "year": 2017,
-        "value": 30768.1658
+        "value": 30940.9658
       },
       {
         "year": 2018,
-        "value": 31465.0603
+        "value": 31599.6843
       },
       {
         "year": 2019,
-        "value": 31142.5934
+        "value": 31295.257
       },
       {
         "year": 2020,
-        "value": 31029.8147
+        "value": 31172.4891
       },
       {
         "year": 2021,
-        "value": 29449.0877
+        "value": 29646.3127
       },
       {
         "year": 2022,
-        "value": 27625.9062
+        "value": 27778.6037
       },
       {
         "year": 2023,
-        "value": 25881.0052
+        "value": 26065.8858
       },
       {
         "year": 2024,
-        "value": 25297.6145
+        "value": 25434.4612
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8695
+      },
+      {
+        "year": 2015,
+        "value": 23.8186
+      },
+      {
+        "year": 2016,
+        "value": 24.5416
+      },
+      {
+        "year": 2017,
+        "value": 26.5968
+      },
+      {
+        "year": 2018,
+        "value": 26.3407
+      },
+      {
+        "year": 2019,
+        "value": 27.9488
+      },
+      {
+        "year": 2020,
+        "value": 28.9099
+      },
+      {
+        "year": 2021,
+        "value": 31.139
+      },
+      {
+        "year": 2022,
+        "value": 35.0625
+      },
+      {
+        "year": 2023,
+        "value": 37.0255
+      },
+      {
+        "year": 2024,
+        "value": 39.2821
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "183239",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Anselm College",
     "institution_unique_name": "Saint Anselm College | Manchester | New Hampshire",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 5.3589,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 11.4489,
-    "net_tuition_per_fte_change_5yr": -24.2832,
+    "net_tuition_per_fte_change_5yr": -21.7816,
     "staff_total_headcount_pct_change_5yr": -15.0761,
     "staff_instructional_headcount_pct_change_5yr": 5.5046,
     "students_per_instructional_staff_fte": 12.3736,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 31.5105,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 31.3795,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.9531,
+    "unfunded_discount_pct_change_5yr": 12.7529,
     "share_grad_students": 1.2599,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22334.5823
+        "value": 17097.4749
       },
       {
         "year": 2015,
-        "value": 24684.6023
+        "value": 19579.6265
       },
       {
         "year": 2016,
-        "value": 25156.7789
+        "value": 25311.0192
       },
       {
         "year": 2017,
-        "value": 24916.1302
+        "value": 25066.7112
       },
       {
         "year": 2018,
-        "value": 24529.925
+        "value": 24134.792
       },
       {
         "year": 2019,
-        "value": 23551.7192
+        "value": 22703.7076
       },
       {
         "year": 2020,
-        "value": 21275.1375
+        "value": 20254.2178
       },
       {
         "year": 2021,
-        "value": 20396.3076
+        "value": 19414.0738
       },
       {
         "year": 2022,
-        "value": 18603.449
+        "value": 18260.134
       },
       {
         "year": 2023,
-        "value": 17646.0441
+        "value": 16469.1468
       },
       {
         "year": 2024,
-        "value": 17832.5997
+        "value": 17758.4666
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 50.297
+      },
+      {
+        "year": 2015,
+        "value": 46.7457
+      },
+      {
+        "year": 2016,
+        "value": 41.452
+      },
+      {
+        "year": 2017,
+        "value": 42.4152
+      },
+      {
+        "year": 2018,
+        "value": 45.0094
+      },
+      {
+        "year": 2019,
+        "value": 48.7376
+      },
+      {
+        "year": 2020,
+        "value": 49.7722
+      },
+      {
+        "year": 2021,
+        "value": 52.0292
+      },
+      {
+        "year": 2022,
+        "value": 52.5619
+      },
+      {
+        "year": 2023,
+        "value": 56.6167
+      },
+      {
+        "year": 2024,
+        "value": 54.9531
       }
     ],
     "enrollment_headcount_total": [

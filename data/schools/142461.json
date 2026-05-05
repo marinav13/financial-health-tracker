@@ -1,6 +1,6 @@
 {
   "unitid": "142461",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northwest Nazarene University",
     "institution_unique_name": "Northwest Nazarene University | Nampa | Idaho",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 37.5571,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.2184,
-    "net_tuition_per_fte_change_5yr": -9.7161,
+    "net_tuition_per_fte_change_5yr": -11.4328,
     "staff_total_headcount_pct_change_5yr": -9.2545,
     "staff_instructional_headcount_pct_change_5yr": -14.9485,
     "students_per_instructional_staff_fte": 24.2535,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 51.0442,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.0736,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.4946,
+    "unfunded_discount_pct_change_5yr": 4.7063,
     "share_grad_students": 7.5315,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 284440,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 11723.8442
+        "value": 11560.5356
       },
       {
         "year": 2024,
-        "value": 11130.7091
+        "value": 10919.0672
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.1911
+      },
+      {
+        "year": 2015,
+        "value": 30.4023
+      },
+      {
+        "year": 2016,
+        "value": 33.4098
+      },
+      {
+        "year": 2017,
+        "value": 34.601
+      },
+      {
+        "year": 2018,
+        "value": 37.2411
+      },
+      {
+        "year": 2019,
+        "value": 32.9441
+      },
+      {
+        "year": 2020,
+        "value": 34.804
+      },
+      {
+        "year": 2021,
+        "value": 37.4795
+      },
+      {
+        "year": 2022,
+        "value": 37.0783
+      },
+      {
+        "year": 2023,
+        "value": 34.4235
+      },
+      {
+        "year": 2024,
+        "value": 34.4946
       }
     ],
     "enrollment_headcount_total": [

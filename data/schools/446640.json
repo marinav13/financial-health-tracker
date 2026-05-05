@@ -1,6 +1,6 @@
 {
   "unitid": "446640",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Harrisburg University of Science and Technology",
     "institution_unique_name": "Harrisburg University of Science and Technology | Harrisburg | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.7651,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -19.5612,
-    "net_tuition_per_fte_change_5yr": -4.9481,
+    "net_tuition_per_fte_change_5yr": -5.2615,
     "staff_total_headcount_pct_change_5yr": 18.5745,
     "staff_instructional_headcount_pct_change_5yr": 74.4076,
     "students_per_instructional_staff_fte": 16.0124,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 81.523,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 82% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.1543,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 13.9454,
+    "unfunded_discount_pct_change_5yr": 2.0839,
     "share_grad_students": 62.328,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 877471,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 18960.0336
+        "value": 16841.6797
       },
       {
         "year": 2018,
-        "value": 18963.1601
+        "value": 16759.2863
       },
       {
         "year": 2019,
-        "value": 19380.3585
+        "value": 16732.8642
       },
       {
         "year": 2020,
-        "value": 21468.9691
+        "value": 17647.7598
       },
       {
         "year": 2021,
-        "value": 19934.9553
+        "value": 16060.9006
       },
       {
         "year": 2022,
-        "value": 19122.5208
+        "value": 15393.9703
       },
       {
         "year": 2023,
-        "value": 19142.1904
+        "value": 15745.053
       },
       {
         "year": 2024,
-        "value": 18421.4071
+        "value": 15852.4707
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.4334
+      },
+      {
+        "year": 2015,
+        "value": 12.7679
+      },
+      {
+        "year": 2016,
+        "value": 9.8221
+      },
+      {
+        "year": 2017,
+        "value": 11.1727
+      },
+      {
+        "year": 2018,
+        "value": 11.6219
+      },
+      {
+        "year": 2019,
+        "value": 13.6607
+      },
+      {
+        "year": 2020,
+        "value": 17.7988
+      },
+      {
+        "year": 2021,
+        "value": 19.4335
+      },
+      {
+        "year": 2022,
+        "value": 19.4982
+      },
+      {
+        "year": 2023,
+        "value": 17.7469
+      },
+      {
+        "year": 2024,
+        "value": 13.9454
       }
     ],
     "enrollment_headcount_total": [

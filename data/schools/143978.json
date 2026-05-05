@@ -1,6 +1,6 @@
 {
   "unitid": "143978",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The Chicago School at Chicago",
     "institution_unique_name": "The Chicago School at Chicago | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.2767,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 27.4668,
-    "net_tuition_per_fte_change_5yr": 22.697,
+    "net_tuition_per_fte_change_5yr": 22.1797,
     "staff_total_headcount_pct_change_5yr": -63.8989,
     "staff_instructional_headcount_pct_change_5yr": -48.5714,
     "students_per_instructional_staff_fte": 13.1111,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 91.4418,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 3.2657,
+    "unfunded_discount_pct_change_5yr": 15.913,
     "share_grad_students": 96.7275,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 124013.5775
+        "value": 124517.5406
       },
       {
         "year": 2015,
-        "value": 141298.6844
+        "value": 141738.7173
       },
       {
         "year": 2016,
@@ -171,23 +173,23 @@
       },
       {
         "year": 2017,
-        "value": 148759.4903
+        "value": 149210.6339
       },
       {
         "year": 2018,
-        "value": 166338.4264
+        "value": 167288.7718
       },
       {
         "year": 2019,
-        "value": 178104.6069
+        "value": 178858.7024
       },
       {
         "year": 2020,
-        "value": 211128.5585
+        "value": 211822.4299
       },
       {
         "year": 2021,
-        "value": 217049.7587
+        "value": 217118.8065
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 218528.9633
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.1991
+      },
+      {
+        "year": 2015,
+        "value": 2.521
+      },
+      {
+        "year": 2016,
+        "value": 2.799
+      },
+      {
+        "year": 2017,
+        "value": 2.8796
+      },
+      {
+        "year": 2018,
+        "value": 2.4812
+      },
+      {
+        "year": 2019,
+        "value": 2.8173
+      },
+      {
+        "year": 2020,
+        "value": 2.8886
+      },
+      {
+        "year": 2021,
+        "value": 3.212
+      },
+      {
+        "year": 2022,
+        "value": 3.2346
+      },
+      {
+        "year": 2023,
+        "value": 3.4982
+      },
+      {
+        "year": 2024,
+        "value": 3.2657
       }
     ],
     "enrollment_headcount_total": [

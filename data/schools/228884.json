@@ -1,6 +1,6 @@
 {
   "unitid": "228884",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Texas College",
     "institution_unique_name": "Texas College | Tyler | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -33.8028,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -12.2656,
-    "net_tuition_per_fte_change_5yr": -20.682,
+    "net_tuition_per_fte_change_5yr": -18.2811,
     "staff_total_headcount_pct_change_5yr": -30.4094,
     "staff_instructional_headcount_pct_change_5yr": -35.2941,
     "students_per_instructional_staff_fte": 22.3448,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 29.2426,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.2479,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.1541,
+    "unfunded_discount_pct_change_5yr": -72.5675,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13954.2346
+        "value": 14401.9451
       },
       {
         "year": 2015,
-        "value": 14858.8192
+        "value": 14857.2678
       },
       {
         "year": 2016,
-        "value": 12848.3972
+        "value": 12962.5386
       },
       {
         "year": 2017,
-        "value": 11860.4483
+        "value": 11927.9974
       },
       {
         "year": 2018,
-        "value": 9677.1005
+        "value": 9771.1803
       },
       {
         "year": 2019,
-        "value": 11020.3957
+        "value": 11064.3759
       },
       {
         "year": 2020,
-        "value": 10888.9214
+        "value": 11071.0251
       },
       {
         "year": 2021,
-        "value": 10332.9172
+        "value": 10465.7214
       },
       {
         "year": 2022,
-        "value": 9412.1829
+        "value": 9683.7423
       },
       {
         "year": 2023,
-        "value": 9105.6596
+        "value": 9552.9927
       },
       {
         "year": 2024,
-        "value": 8741.1559
+        "value": 9041.6821
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.2138
+      },
+      {
+        "year": 2015,
+        "value": 6.2786
+      },
+      {
+        "year": 2016,
+        "value": 7.9008
+      },
+      {
+        "year": 2017,
+        "value": 7.3424
+      },
+      {
+        "year": 2018,
+        "value": 9.7351
+      },
+      {
+        "year": 2019,
+        "value": 7.8524
+      },
+      {
+        "year": 2020,
+        "value": 7.3086
+      },
+      {
+        "year": 2021,
+        "value": 0.5882
+      },
+      {
+        "year": 2022,
+        "value": 0.5077
+      },
+      {
+        "year": 2023,
+        "value": 0.4466
+      },
+      {
+        "year": 2024,
+        "value": 2.1541
       }
     ],
     "enrollment_headcount_total": [

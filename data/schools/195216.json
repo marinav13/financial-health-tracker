@@ -1,6 +1,6 @@
 {
   "unitid": "195216",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St Lawrence University",
     "institution_unique_name": "St Lawrence University | Canton | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.5406,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.8341,
-    "net_tuition_per_fte_change_5yr": -29.7878,
+    "net_tuition_per_fte_change_5yr": -29.1887,
     "staff_total_headcount_pct_change_5yr": -13.4071,
     "staff_instructional_headcount_pct_change_5yr": -21.5139,
     "students_per_instructional_staff_fte": 12.5406,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 27.6119,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 26.255,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 66.7487,
+    "unfunded_discount_pct_change_5yr": 28.8641,
     "share_grad_students": 1.6011,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2777193,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30081.2977
+        "value": 29682.0672
       },
       {
         "year": 2015,
-        "value": 31813.8046
+        "value": 31341.4283
       },
       {
         "year": 2016,
-        "value": 30890.4927
+        "value": 31296.5457
       },
       {
         "year": 2017,
-        "value": 30286.7764
+        "value": 28610.1021
       },
       {
         "year": 2018,
-        "value": 29622.0369
+        "value": 27923.2492
       },
       {
         "year": 2019,
-        "value": 29828.6166
+        "value": 28122.8179
       },
       {
         "year": 2020,
-        "value": 29546.3337
+        "value": 27605.3
       },
       {
         "year": 2021,
-        "value": 26188.5435
+        "value": 24416.5952
       },
       {
         "year": 2022,
-        "value": 23337.6407
+        "value": 21314.9963
       },
       {
         "year": 2023,
-        "value": 22627.6348
+        "value": 20756.0519
       },
       {
         "year": 2024,
-        "value": 20943.3174
+        "value": 19914.1426
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.9835
+      },
+      {
+        "year": 2015,
+        "value": 45.1089
+      },
+      {
+        "year": 2016,
+        "value": 45.7051
+      },
+      {
+        "year": 2017,
+        "value": 49.0559
+      },
+      {
+        "year": 2018,
+        "value": 50.9886
+      },
+      {
+        "year": 2019,
+        "value": 51.7977
+      },
+      {
+        "year": 2020,
+        "value": 53.4732
+      },
+      {
+        "year": 2021,
+        "value": 55.542
+      },
+      {
+        "year": 2022,
+        "value": 58.9307
+      },
+      {
+        "year": 2023,
+        "value": 58.8038
+      },
+      {
+        "year": 2024,
+        "value": 66.7487
       }
     ],
     "enrollment_headcount_total": [

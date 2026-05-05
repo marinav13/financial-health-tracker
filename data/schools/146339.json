@@ -1,6 +1,6 @@
 {
   "unitid": "146339",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Judson University",
     "institution_unique_name": "Judson University | Elgin | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 45.8981,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.0259,
+    "unfunded_discount_pct_change_5yr": 19.0271,
     "share_grad_students": 30.788,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15971.4968
+        "value": 16110.2545
       },
       {
         "year": 2015,
-        "value": 12669.4253
+        "value": 12735.4839
       },
       {
         "year": 2016,
-        "value": 14619.4299
+        "value": 14806.5359
       },
       {
         "year": 2017,
-        "value": 14186.5566
+        "value": 14508.2453
       },
       {
         "year": 2018,
-        "value": 13122.7071
+        "value": 13262.3402
       },
       {
         "year": 2019,
-        "value": 13132.2476
+        "value": 13132.2485
       },
       {
         "year": 2020,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 11553.0818
+        "value": 11563.3537
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10409.5204
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.1166
+      },
+      {
+        "year": 2015,
+        "value": 44.5922
+      },
+      {
+        "year": 2016,
+        "value": 40.5203
+      },
+      {
+        "year": 2017,
+        "value": 42.8765
+      },
+      {
+        "year": 2018,
+        "value": 42.1833
+      },
+      {
+        "year": 2019,
+        "value": 42.029
+      },
+      {
+        "year": 2020,
+        "value": 47.1999
+      },
+      {
+        "year": 2021,
+        "value": 47.9254
+      },
+      {
+        "year": 2022,
+        "value": 48.521
+      },
+      {
+        "year": 2023,
+        "value": 49.8366
+      },
+      {
+        "year": 2024,
+        "value": 50.0259
       }
     ],
     "enrollment_headcount_total": [

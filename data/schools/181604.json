@@ -1,6 +1,6 @@
 {
   "unitid": "181604",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College of Saint Mary",
     "institution_unique_name": "College of Saint Mary | Omaha | Nebraska",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 41.4987,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 13.1806,
+    "unfunded_discount_pct_change_5yr": -20.4497,
     "share_grad_students": 33.4112,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 19018.4674
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.2422
+      },
+      {
+        "year": 2015,
+        "value": 33.3
+      },
+      {
+        "year": 2016,
+        "value": 33.9309
+      },
+      {
+        "year": 2017,
+        "value": 35.133
+      },
+      {
+        "year": 2018,
+        "value": 18.3971
+      },
+      {
+        "year": 2019,
+        "value": 16.5689
+      },
+      {
+        "year": 2020,
+        "value": 21.2535
+      },
+      {
+        "year": 2021,
+        "value": 19.2832
+      },
+      {
+        "year": 2022,
+        "value": 19.155
+      },
+      {
+        "year": 2023,
+        "value": 15.0891
+      },
+      {
+        "year": 2024,
+        "value": 13.1806
       }
     ],
     "enrollment_headcount_total": [

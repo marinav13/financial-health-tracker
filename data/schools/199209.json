@@ -1,6 +1,6 @@
 {
   "unitid": "199209",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "North Carolina Wesleyan University",
     "institution_unique_name": "North Carolina Wesleyan University | Rocky Mount | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.29,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.3698,
-    "net_tuition_per_fte_change_5yr": -25.9696,
+    "net_tuition_per_fte_change_5yr": -25.2751,
     "staff_total_headcount_pct_change_5yr": -31.4607,
     "staff_instructional_headcount_pct_change_5yr": -46.8165,
     "students_per_instructional_staff_fte": 16.7344,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 46.9352,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.79,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.1951,
+    "unfunded_discount_pct_change_5yr": 0.9345,
     "share_grad_students": 14.0519,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15216.7058
+        "value": 15282.6029
       },
       {
         "year": 2015,
-        "value": 15191.6529
+        "value": 15232.2552
       },
       {
         "year": 2016,
-        "value": 14518.3567
+        "value": 14585.0411
       },
       {
         "year": 2017,
-        "value": 13844.3578
+        "value": 13921.8943
       },
       {
         "year": 2018,
-        "value": 13377.695
+        "value": 13457.3875
       },
       {
         "year": 2019,
-        "value": 13096.3193
+        "value": 13210.9041
       },
       {
         "year": 2020,
-        "value": 12395.3579
+        "value": 12507.491
       },
       {
         "year": 2021,
-        "value": 12477.6432
+        "value": 12619.268
       },
       {
         "year": 2022,
-        "value": 11272.424
+        "value": 11437.8009
       },
       {
         "year": 2023,
-        "value": 10570.7512
+        "value": 10744.5967
       },
       {
         "year": 2024,
-        "value": 9695.257
+        "value": 9871.8305
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.3774
+      },
+      {
+        "year": 2015,
+        "value": 38.6907
+      },
+      {
+        "year": 2016,
+        "value": 40.7292
+      },
+      {
+        "year": 2017,
+        "value": 44.2702
+      },
+      {
+        "year": 2018,
+        "value": 49.3738
+      },
+      {
+        "year": 2019,
+        "value": 54.684
+      },
+      {
+        "year": 2020,
+        "value": 53.4956
+      },
+      {
+        "year": 2021,
+        "value": 52.5613
+      },
+      {
+        "year": 2022,
+        "value": 54.7677
+      },
+      {
+        "year": 2023,
+        "value": 56.2283
+      },
+      {
+        "year": 2024,
+        "value": 55.1951
       }
     ],
     "enrollment_headcount_total": [

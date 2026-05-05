@@ -1,6 +1,6 @@
 {
   "unitid": "184348",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Drew University",
     "institution_unique_name": "Drew University | Madison | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.4181,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -19.8353,
-    "net_tuition_per_fte_change_5yr": -10.244,
+    "net_tuition_per_fte_change_5yr": -9.0874,
     "staff_total_headcount_pct_change_5yr": -12.8521,
     "staff_instructional_headcount_pct_change_5yr": 1.6393,
     "students_per_instructional_staff_fte": 11.424,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
     "tuition_dependence_pct": 41.9988,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.1642,
+    "unfunded_discount_pct_change_5yr": 15.5221,
     "share_grad_students": 29.5364,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23877.2387
+        "value": 24141.6268
       },
       {
         "year": 2015,
-        "value": 22922.0286
+        "value": 23149.0452
       },
       {
         "year": 2016,
-        "value": 22094.8648
+        "value": 22343.1141
       },
       {
         "year": 2017,
-        "value": 20956.1648
+        "value": 21192.5126
       },
       {
         "year": 2018,
-        "value": 20561.6762
+        "value": 20793.5422
       },
       {
         "year": 2019,
-        "value": 18735.5412
+        "value": 18497.1926
       },
       {
         "year": 2020,
-        "value": 18343.5337
+        "value": 20417.3979
       },
       {
         "year": 2021,
-        "value": 19432.6409
+        "value": 21623.6775
       },
       {
         "year": 2022,
-        "value": 19835.3037
+        "value": 23092.0868
       },
       {
         "year": 2023,
-        "value": 18542.269
+        "value": 20693.1572
       },
       {
         "year": 2024,
         "value": 16816.2756
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.5269
+      },
+      {
+        "year": 2015,
+        "value": 47.7268
+      },
+      {
+        "year": 2016,
+        "value": 50.1018
+      },
+      {
+        "year": 2017,
+        "value": 46.1078
+      },
+      {
+        "year": 2018,
+        "value": 51.7741
+      },
+      {
+        "year": 2019,
+        "value": 46.8865
+      },
+      {
+        "year": 2020,
+        "value": 44.7215
+      },
+      {
+        "year": 2021,
+        "value": 43.9432
+      },
+      {
+        "year": 2022,
+        "value": 43.6509
+      },
+      {
+        "year": 2023,
+        "value": 42.0818
+      },
+      {
+        "year": 2024,
+        "value": 54.1642
       }
     ],
     "enrollment_headcount_total": [

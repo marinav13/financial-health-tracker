@@ -1,6 +1,6 @@
 {
   "unitid": "182795",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franklin Pierce University",
     "institution_unique_name": "Franklin Pierce University | Rindge | New Hampshire",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.8081,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -19.9939,
-    "net_tuition_per_fte_change_5yr": 0.5824,
+    "net_tuition_per_fte_change_5yr": 0.509,
     "staff_total_headcount_pct_change_5yr": -15.2542,
     "staff_instructional_headcount_pct_change_5yr": -38.558,
     "students_per_instructional_staff_fte": 12.2791,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 60.4824,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.4639,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.6633,
+    "unfunded_discount_pct_change_5yr": 1.6496,
     "share_grad_students": 38.4381,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22635.5125
+        "value": 22365.3396
       },
       {
         "year": 2015,
-        "value": 23594.9987
+        "value": 23306.0021
       },
       {
         "year": 2016,
-        "value": 24493.9057
+        "value": 24195.1373
       },
       {
         "year": 2017,
-        "value": 22903.084
+        "value": 22572.9203
       },
       {
         "year": 2018,
-        "value": 22747.4944
+        "value": 22409.0308
       },
       {
         "year": 2019,
-        "value": 22695.4848
+        "value": 22329.6084
       },
       {
         "year": 2020,
-        "value": 22302.647
+        "value": 21884.938
       },
       {
         "year": 2021,
-        "value": 20635.4048
+        "value": 20228.9516
       },
       {
         "year": 2022,
-        "value": 20512.1545
+        "value": 20113.9832
       },
       {
         "year": 2023,
-        "value": 21246.7497
+        "value": 20844.7819
       },
       {
         "year": 2024,
-        "value": 22827.674
+        "value": 22443.2628
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.2129
+      },
+      {
+        "year": 2015,
+        "value": 41.8817
+      },
+      {
+        "year": 2016,
+        "value": 41.7208
+      },
+      {
+        "year": 2017,
+        "value": 45.9965
+      },
+      {
+        "year": 2018,
+        "value": 46.862
+      },
+      {
+        "year": 2019,
+        "value": 48.8573
+      },
+      {
+        "year": 2020,
+        "value": 52.5504
+      },
+      {
+        "year": 2021,
+        "value": 53.6636
+      },
+      {
+        "year": 2022,
+        "value": 53.28
+      },
+      {
+        "year": 2023,
+        "value": 52.6489
+      },
+      {
+        "year": 2024,
+        "value": 49.6633
       }
     ],
     "enrollment_headcount_total": [

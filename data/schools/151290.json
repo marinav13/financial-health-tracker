@@ -1,6 +1,6 @@
 {
   "unitid": "151290",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Indiana Institute of Technology",
     "institution_unique_name": "Indiana Institute of Technology | Fort Wayne | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 39.9595,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -21.0363,
-    "net_tuition_per_fte_change_5yr": -10.1015,
+    "net_tuition_per_fte_change_5yr": -40.8478,
     "staff_total_headcount_pct_change_5yr": -13.1313,
     "staff_instructional_headcount_pct_change_5yr": -17.5365,
     "students_per_instructional_staff_fte": 12.3556,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 61.4144,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.8677,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.3351,
+    "unfunded_discount_pct_change_5yr": 19.2338,
     "share_grad_students": 49.6963,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8493.8385
+        "value": 15336.3106
       },
       {
         "year": 2015,
-        "value": 8950.5376
+        "value": 16226.0914
       },
       {
         "year": 2016,
-        "value": 9059.0953
+        "value": 15906.2758
       },
       {
         "year": 2017,
-        "value": 8960.4818
+        "value": 15307.2681
       },
       {
         "year": 2018,
-        "value": 22841.0072
+        "value": 39945.4062
       },
       {
         "year": 2019,
-        "value": 21980.5454
+        "value": 37459.7766
       },
       {
         "year": 2020,
-        "value": 19311.1605
+        "value": 33314.8365
       },
       {
         "year": 2021,
-        "value": 15951.6243
+        "value": 28142.405
       },
       {
         "year": 2022,
-        "value": 21905.1729
+        "value": 33509.4979
       },
       {
         "year": 2023,
-        "value": 20541.7882
+        "value": 22528.7969
       },
       {
         "year": 2024,
-        "value": 19760.1746
+        "value": 22158.2967
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.6234
+      },
+      {
+        "year": 2015,
+        "value": 20.5659
+      },
+      {
+        "year": 2016,
+        "value": 22.0179
+      },
+      {
+        "year": 2017,
+        "value": 21.9668
+      },
+      {
+        "year": 2018,
+        "value": 23.9153
+      },
+      {
+        "year": 2019,
+        "value": 27.9578
+      },
+      {
+        "year": 2020,
+        "value": 30.3734
+      },
+      {
+        "year": 2021,
+        "value": 33.3294
+      },
+      {
+        "year": 2022,
+        "value": 27.6207
+      },
+      {
+        "year": 2023,
+        "value": 34.6652
+      },
+      {
+        "year": 2024,
+        "value": 33.3351
       }
     ],
     "enrollment_headcount_total": [

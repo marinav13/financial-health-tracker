@@ -1,6 +1,6 @@
 {
   "unitid": "203580",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lake Erie College",
     "institution_unique_name": "Lake Erie College | Painesville | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.4505,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.876,
-    "net_tuition_per_fte_change_5yr": -15.799,
+    "net_tuition_per_fte_change_5yr": -13.6722,
     "staff_total_headcount_pct_change_5yr": -18.1818,
     "staff_instructional_headcount_pct_change_5yr": -15.2381,
     "students_per_instructional_staff_fte": 16.1864,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 45.805,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.962,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.1113,
+    "unfunded_discount_pct_change_5yr": 1.8145,
     "share_grad_students": 25.0809,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 11593.3406
+        "value": 11878.2101
       },
       {
         "year": 2024,
-        "value": 11185.9455
+        "value": 11468.489
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 53.8531
+      },
+      {
+        "year": 2015,
+        "value": 52.878
+      },
+      {
+        "year": 2016,
+        "value": 51.405
+      },
+      {
+        "year": 2017,
+        "value": 49.0751
+      },
+      {
+        "year": 2018,
+        "value": 50.3387
+      },
+      {
+        "year": 2019,
+        "value": 54.1291
+      },
+      {
+        "year": 2020,
+        "value": 53.9833
+      },
+      {
+        "year": 2021,
+        "value": 56.1401
+      },
+      {
+        "year": 2022,
+        "value": 56.3909
+      },
+      {
+        "year": 2023,
+        "value": 58.0944
+      },
+      {
+        "year": 2024,
+        "value": 55.1113
       }
     ],
     "enrollment_headcount_total": [

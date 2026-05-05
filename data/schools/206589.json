@@ -1,6 +1,6 @@
 {
   "unitid": "206589",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The College of Wooster",
     "institution_unique_name": "The College of Wooster | Wooster | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.3189,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.9799,
-    "net_tuition_per_fte_change_5yr": -25.024,
+    "net_tuition_per_fte_change_5yr": -24.8804,
     "staff_total_headcount_pct_change_5yr": -28.786,
     "staff_instructional_headcount_pct_change_5yr": -13.8528,
     "students_per_instructional_staff_fte": 11.5486,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 25.2018,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 25.3952,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 59.8187,
+    "unfunded_discount_pct_change_5yr": 14.2482,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1391227,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23156.9039
+        "value": 23292.9855
       },
       {
         "year": 2015,
-        "value": 23761.2856
+        "value": 23898.2721
       },
       {
         "year": 2016,
-        "value": 24774.1627
+        "value": 24912.7708
       },
       {
         "year": 2017,
-        "value": 24063.0324
+        "value": 24197.8532
       },
       {
         "year": 2018,
-        "value": 23172.9111
+        "value": 23306.2118
       },
       {
         "year": 2019,
-        "value": 22678.6826
+        "value": 22809.0503
       },
       {
         "year": 2020,
-        "value": 22886.3787
+        "value": 23064.6411
       },
       {
         "year": 2021,
-        "value": 21386.7769
+        "value": 21528.1015
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 18286.006
+        "value": 18290.2461
       },
       {
         "year": 2024,
-        "value": 17003.5789
+        "value": 17134.0698
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.7609
+      },
+      {
+        "year": 2015,
+        "value": 46.9449
+      },
+      {
+        "year": 2016,
+        "value": 47.375
+      },
+      {
+        "year": 2017,
+        "value": 47.0406
+      },
+      {
+        "year": 2018,
+        "value": 50.033
+      },
+      {
+        "year": 2019,
+        "value": 52.3585
+      },
+      {
+        "year": 2020,
+        "value": 53.3824
+      },
+      {
+        "year": 2021,
+        "value": 54.5315
+      },
+      {
+        "year": 2022,
+        "value": 57.3701
+      },
+      {
+        "year": 2023,
+        "value": 58.5351
+      },
+      {
+        "year": 2024,
+        "value": 59.8187
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "201371",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bluffton University",
     "institution_unique_name": "Bluffton University | Bluffton | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.2765,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.8681,
-    "net_tuition_per_fte_change_5yr": -17.2083,
+    "net_tuition_per_fte_change_5yr": -24.1192,
     "staff_total_headcount_pct_change_5yr": 6.3492,
     "staff_instructional_headcount_pct_change_5yr": -9,
     "students_per_instructional_staff_fte": 10.3784,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 36.4613,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.7229,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 61.2881,
+    "unfunded_discount_pct_change_5yr": 33.886,
     "share_grad_students": 13.7228,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14111.6303
+        "value": 17495.1167
       },
       {
         "year": 2015,
-        "value": 14292.9941
+        "value": 17753.3785
       },
       {
         "year": 2016,
-        "value": 12470.9595
+        "value": 15325.504
       },
       {
         "year": 2017,
-        "value": 14077.5553
+        "value": 17259.6408
       },
       {
         "year": 2018,
-        "value": 13974.5354
+        "value": 17521.7533
       },
       {
         "year": 2019,
-        "value": 13723.9275
+        "value": 17134.6736
       },
       {
         "year": 2020,
-        "value": 11998.0065
+        "value": 15877.1219
       },
       {
         "year": 2021,
-        "value": 11596.232
+        "value": 15114.5643
       },
       {
         "year": 2022,
-        "value": 9869.3585
+        "value": 13008.3547
       },
       {
         "year": 2023,
-        "value": 9664.7009
+        "value": 11145.2511
       },
       {
         "year": 2024,
-        "value": 11362.2734
+        "value": 13001.9359
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 42.2046
+      },
+      {
+        "year": 2015,
+        "value": 43.5703
+      },
+      {
+        "year": 2016,
+        "value": 41.6065
+      },
+      {
+        "year": 2017,
+        "value": 43.8515
+      },
+      {
+        "year": 2018,
+        "value": 43.7929
+      },
+      {
+        "year": 2019,
+        "value": 45.7763
+      },
+      {
+        "year": 2020,
+        "value": 49.801
+      },
+      {
+        "year": 2021,
+        "value": 58.1833
+      },
+      {
+        "year": 2022,
+        "value": 60.6764
+      },
+      {
+        "year": 2023,
+        "value": 63.5386
+      },
+      {
+        "year": 2024,
+        "value": 61.2881
       }
     ],
     "enrollment_headcount_total": [

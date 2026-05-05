@@ -1,6 +1,6 @@
 {
   "unitid": "178697",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College of the Ozarks",
     "institution_unique_name": "College of the Ozarks | Point Lookout | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.7913,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 430.0477,
-    "net_tuition_per_fte_change_5yr": -44.9814,
+    "net_tuition_per_fte_change_5yr": -78.4872,
     "staff_total_headcount_pct_change_5yr": 0.7177,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 13.5254,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 4.5271,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 5% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 1.0764,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 74.4244,
+    "unfunded_discount_pct_change_5yr": 25.9358,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 508.3747
+        "value": 82.509
       },
       {
         "year": 2015,
-        "value": 479.1777
+        "value": 879.2822
       },
       {
         "year": 2016,
-        "value": 506.249
+        "value": 606.9196
       },
       {
         "year": 2017,
-        "value": 2899.5126
+        "value": -1106.9836
       },
       {
         "year": 2018,
-        "value": 3038.6075
+        "value": 758.6019
       },
       {
         "year": 2019,
-        "value": 9070.2147
+        "value": 5515.5766
       },
       {
         "year": 2020,
-        "value": 5342.8447
+        "value": 654.8315
       },
       {
         "year": 2021,
-        "value": 5342.2416
+        "value": 1814.015
       },
       {
         "year": 2022,
-        "value": 4841.6131
+        "value": 1355.8687
       },
       {
         "year": 2023,
-        "value": 4850.8486
+        "value": 995.1894
       },
       {
         "year": 2024,
-        "value": 4990.3045
+        "value": 1186.5551
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 92.9428
+      },
+      {
+        "year": 2015,
+        "value": 90.1873
+      },
+      {
+        "year": 2016,
+        "value": 92.2931
+      },
+      {
+        "year": 2017,
+        "value": 87.0403
+      },
+      {
+        "year": 2018,
+        "value": 87.8607
+      },
+      {
+        "year": 2019,
+        "value": 59.0971
+      },
+      {
+        "year": 2020,
+        "value": 75.423
+      },
+      {
+        "year": 2021,
+        "value": 74.5589
+      },
+      {
+        "year": 2022,
+        "value": 74.9585
+      },
+      {
+        "year": 2023,
+        "value": 74.8183
+      },
+      {
+        "year": 2024,
+        "value": 74.4244
       }
     ],
     "enrollment_headcount_total": [

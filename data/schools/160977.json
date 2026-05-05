@@ -1,6 +1,6 @@
 {
   "unitid": "160977",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bates College",
     "institution_unique_name": "Bates College | Lewiston | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.5784,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.5534,
-    "net_tuition_per_fte_change_5yr": 3.7369,
+    "net_tuition_per_fte_change_5yr": 3.6947,
     "staff_total_headcount_pct_change_5yr": 0.6098,
     "staff_instructional_headcount_pct_change_5yr": 1.5,
     "students_per_instructional_staff_fte": 2.4072,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 66.4565,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.6415,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.3753,
+    "unfunded_discount_pct_change_5yr": -4.109,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1905140,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 187596.5233
+        "value": 188326.6669
       },
       {
         "year": 2015,
-        "value": 195085.485
+        "value": 195813.3303
       },
       {
         "year": 2016,
-        "value": 200235.3946
+        "value": 200951.3566
       },
       {
         "year": 2017,
-        "value": 200785.0064
+        "value": 201494.363
       },
       {
         "year": 2018,
-        "value": 203361.6968
+        "value": 204040.6976
       },
       {
         "year": 2019,
-        "value": 205796.5993
+        "value": 206453.3143
       },
       {
         "year": 2020,
-        "value": 220402.4244
+        "value": 221106.3172
       },
       {
         "year": 2021,
-        "value": 219928.073
+        "value": 220578.7805
       },
       {
         "year": 2022,
-        "value": 222977.2751
+        "value": 223601.0606
       },
       {
         "year": 2023,
-        "value": 216608.171
+        "value": 217212.318
       },
       {
         "year": 2024,
-        "value": 213486.9214
+        "value": 214081.2357
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.3952
+      },
+      {
+        "year": 2015,
+        "value": 24.7387
+      },
+      {
+        "year": 2016,
+        "value": 24.1123
+      },
+      {
+        "year": 2017,
+        "value": 24.6488
+      },
+      {
+        "year": 2018,
+        "value": 24.4037
+      },
+      {
+        "year": 2019,
+        "value": 24.3769
+      },
+      {
+        "year": 2020,
+        "value": 25.1193
+      },
+      {
+        "year": 2021,
+        "value": 22.2373
+      },
+      {
+        "year": 2022,
+        "value": 21.3121
+      },
+      {
+        "year": 2023,
+        "value": 21.4173
+      },
+      {
+        "year": 2024,
+        "value": 23.3753
       }
     ],
     "enrollment_headcount_total": [

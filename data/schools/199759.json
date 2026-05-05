@@ -1,6 +1,6 @@
 {
   "unitid": "199759",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southeastern Baptist Theological Seminary",
     "institution_unique_name": "Southeastern Baptist Theological Seminary | Wake Forest | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.4348,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.8997,
-    "net_tuition_per_fte_change_5yr": -8.8706,
+    "net_tuition_per_fte_change_5yr": -7.6394,
     "staff_total_headcount_pct_change_5yr": -30.6202,
     "staff_instructional_headcount_pct_change_5yr": -39.8374,
     "students_per_instructional_staff_fte": 36.6667,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 35.4302,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 6.4448,
+    "unfunded_discount_pct_change_5yr": -27.1612,
     "share_grad_students": 67.8485,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8002.387
+        "value": 7860.8917
       },
       {
         "year": 2015,
-        "value": 9296.5062
+        "value": 9136.721
       },
       {
         "year": 2016,
-        "value": 10102.5632
+        "value": 9811.1773
       },
       {
         "year": 2017,
-        "value": 9335.052
+        "value": 8924.0586
       },
       {
         "year": 2018,
-        "value": 9242.0064
+        "value": 9094.7692
       },
       {
         "year": 2019,
-        "value": 8691.0943
+        "value": 8575.2401
       },
       {
         "year": 2020,
-        "value": 8871.2154
+        "value": 8827.1426
       },
       {
         "year": 2021,
-        "value": 7947.6478
+        "value": 7968.8415
       },
       {
         "year": 2022,
-        "value": 7782.5573
+        "value": 8152.441
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 7920.1449
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.5381
+      },
+      {
+        "year": 2015,
+        "value": 11.2666
+      },
+      {
+        "year": 2016,
+        "value": 12.9065
+      },
+      {
+        "year": 2017,
+        "value": 14.0776
+      },
+      {
+        "year": 2018,
+        "value": 14.0736
+      },
+      {
+        "year": 2019,
+        "value": 8.8481
+      },
+      {
+        "year": 2020,
+        "value": 9.6377
+      },
+      {
+        "year": 2021,
+        "value": 8.0075
+      },
+      {
+        "year": 2022,
+        "value": 9.5384
+      },
+      {
+        "year": 2023,
+        "value": 4.1662
+      },
+      {
+        "year": 2024,
+        "value": 6.4448
       }
     ],
     "enrollment_headcount_total": [

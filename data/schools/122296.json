@@ -1,6 +1,6 @@
 {
   "unitid": "122296",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Samuel Merritt University",
     "institution_unique_name": "Samuel Merritt University | Oakland | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.0862,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 34.894,
-    "net_tuition_per_fte_change_5yr": -16.4991,
+    "net_tuition_per_fte_change_5yr": -13.1993,
     "staff_total_headcount_pct_change_5yr": 4.1742,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 9.8828,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 69.5159,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.9686,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 8.404,
+    "unfunded_discount_pct_change_5yr": -33.3377,
     "share_grad_students": 53.598,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40968.0881
+        "value": 38135.8487
       },
       {
         "year": 2015,
-        "value": 43824.8449
+        "value": 40751.5119
       },
       {
         "year": 2016,
-        "value": 42987.8727
+        "value": 39179.2853
       },
       {
         "year": 2017,
-        "value": 45478.2552
+        "value": 40100.0138
       },
       {
         "year": 2018,
-        "value": 39022.6598
+        "value": 33406.2405
       },
       {
         "year": 2019,
-        "value": 41827.7397
+        "value": 35869.0683
       },
       {
         "year": 2020,
-        "value": 47036.7122
+        "value": 41294.5991
       },
       {
         "year": 2021,
-        "value": 43395.3972
+        "value": 39159.5509
       },
       {
         "year": 2022,
-        "value": 38778.2296
+        "value": 35177.7363
       },
       {
         "year": 2023,
-        "value": 39792.3383
+        "value": 36232.5787
       },
       {
         "year": 2024,
-        "value": 34926.5461
+        "value": 31134.5961
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 3.7765
+      },
+      {
+        "year": 2015,
+        "value": 4.4465
+      },
+      {
+        "year": 2016,
+        "value": 6.3784
+      },
+      {
+        "year": 2017,
+        "value": 9.5341
+      },
+      {
+        "year": 2018,
+        "value": 13.0719
+      },
+      {
+        "year": 2019,
+        "value": 12.6069
+      },
+      {
+        "year": 2020,
+        "value": 10.8063
+      },
+      {
+        "year": 2021,
+        "value": 7.3038
+      },
+      {
+        "year": 2022,
+        "value": 7.3153
+      },
+      {
+        "year": 2023,
+        "value": 7.238
+      },
+      {
+        "year": 2024,
+        "value": 8.404
       }
     ],
     "enrollment_headcount_total": [

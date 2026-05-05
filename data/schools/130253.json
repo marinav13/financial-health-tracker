@@ -1,6 +1,6 @@
 {
   "unitid": "130253",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Sacred Heart University",
     "institution_unique_name": "Sacred Heart University | Fairfield | Connecticut",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 22.9659,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.2351,
-    "net_tuition_per_fte_change_5yr": -12.1578,
+    "net_tuition_per_fte_change_5yr": -12.1111,
     "staff_total_headcount_pct_change_5yr": 16.4109,
     "staff_instructional_headcount_pct_change_5yr": 10.8247,
     "students_per_instructional_staff_fte": 18.1058,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 64.8296,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 64.704,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.998,
+    "unfunded_discount_pct_change_5yr": 10.0077,
     "share_grad_students": 40.5356,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27577.4245
+        "value": 27789.7908
       },
       {
         "year": 2015,
-        "value": 27653.2532
+        "value": 27824.7153
       },
       {
         "year": 2016,
-        "value": 28459.5049
+        "value": 28592.3642
       },
       {
         "year": 2017,
-        "value": 29043.4538
+        "value": 29141.7711
       },
       {
         "year": 2018,
-        "value": 29708.8399
+        "value": 29608.7875
       },
       {
         "year": 2019,
-        "value": 29734.2299
+        "value": 29660.8835
       },
       {
         "year": 2020,
-        "value": 30422.7599
+        "value": 30330.2556
       },
       {
         "year": 2021,
-        "value": 28391.1879
+        "value": 28186.5749
       },
       {
         "year": 2022,
-        "value": 27450.7768
+        "value": 27499.9806
       },
       {
         "year": 2023,
-        "value": 26557.7041
+        "value": 26584.1493
       },
       {
         "year": 2024,
-        "value": 26119.2108
+        "value": 26068.6258
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.5964
+      },
+      {
+        "year": 2015,
+        "value": 27.5926
+      },
+      {
+        "year": 2016,
+        "value": 27.8493
+      },
+      {
+        "year": 2017,
+        "value": 28.5067
+      },
+      {
+        "year": 2018,
+        "value": 28.9138
+      },
+      {
+        "year": 2019,
+        "value": 29.0871
+      },
+      {
+        "year": 2020,
+        "value": 29.7539
+      },
+      {
+        "year": 2021,
+        "value": 31.7262
+      },
+      {
+        "year": 2022,
+        "value": 31.3578
+      },
+      {
+        "year": 2023,
+        "value": 30.6032
+      },
+      {
+        "year": 2024,
+        "value": 31.998
       }
     ],
     "enrollment_headcount_total": [

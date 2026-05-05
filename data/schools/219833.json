@@ -1,6 +1,6 @@
 {
   "unitid": "219833",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Christian Brothers University",
     "institution_unique_name": "Christian Brothers University | Memphis | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.5451,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.1257,
-    "net_tuition_per_fte_change_5yr": -22.326,
+    "net_tuition_per_fte_change_5yr": -10.701,
     "staff_total_headcount_pct_change_5yr": -6.9054,
     "staff_instructional_headcount_pct_change_5yr": -10.7981,
     "students_per_instructional_staff_fte": 15.875,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 51.5833,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.3623,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.1014,
+    "unfunded_discount_pct_change_5yr": -9.9638,
     "share_grad_students": 43.5334,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16977.0228
+        "value": 16850.9863
       },
       {
         "year": 2015,
-        "value": 17257.1479
+        "value": 17147.9194
       },
       {
         "year": 2016,
-        "value": 17252.0516
+        "value": 17188.795
       },
       {
         "year": 2017,
-        "value": 16458.9707
+        "value": 16429.0973
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 16480.0787
+        "value": 13717.4826
       },
       {
         "year": 2020,
-        "value": 16579.9285
+        "value": 14337.2055
       },
       {
         "year": 2021,
-        "value": 14260.3411
+        "value": 14521.888
       },
       {
         "year": 2022,
-        "value": 13612.9724
+        "value": 13450.4513
       },
       {
         "year": 2023,
-        "value": 13712.8411
+        "value": 12724.0907
       },
       {
         "year": 2024,
-        "value": 12800.7438
+        "value": 12249.5685
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.9021
+      },
+      {
+        "year": 2015,
+        "value": 38.3792
+      },
+      {
+        "year": 2016,
+        "value": 37.4726
+      },
+      {
+        "year": 2017,
+        "value": 38.7528
+      },
+      {
+        "year": 2018,
+        "value": 43.256
+      },
+      {
+        "year": 2019,
+        "value": 50.0925
+      },
+      {
+        "year": 2020,
+        "value": 49.3139
+      },
+      {
+        "year": 2021,
+        "value": 47.912
+      },
+      {
+        "year": 2022,
+        "value": 45.4111
+      },
+      {
+        "year": 2023,
+        "value": 46.8366
+      },
+      {
+        "year": 2024,
+        "value": 45.1014
       }
     ],
     "enrollment_headcount_total": [

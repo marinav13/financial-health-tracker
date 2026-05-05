@@ -1,6 +1,6 @@
 {
   "unitid": "449870",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of the West",
     "institution_unique_name": "University of the West | Rosemead | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -47.9532,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.3846,
-    "net_tuition_per_fte_change_5yr": 6.8617,
+    "net_tuition_per_fte_change_5yr": 6.9328,
     "staff_total_headcount_pct_change_5yr": 0,
     "staff_instructional_headcount_pct_change_5yr": 10.5263,
     "students_per_instructional_staff_fte": 3.3548,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 29.1938,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.1598,
+    "unfunded_discount_pct_change_5yr": -2.3587,
     "share_grad_students": 65.7303,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 85230,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 9844.4534
+        "value": 9676.8767
       },
       {
         "year": 2015,
-        "value": 12591.648
+        "value": 12437.2764
       },
       {
         "year": 2016,
-        "value": 14111.5993
+        "value": 13915.0631
       },
       {
         "year": 2017,
-        "value": 19721.6248
+        "value": 19639.9349
       },
       {
         "year": 2018,
-        "value": 21753.1784
+        "value": 21659.5653
       },
       {
         "year": 2019,
-        "value": 20415.4049
+        "value": 20401.8175
       },
       {
         "year": 2020,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 20732.131
+        "value": 20728.6015
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21816.2404
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.3739
+      },
+      {
+        "year": 2015,
+        "value": 26.3525
+      },
+      {
+        "year": 2016,
+        "value": 27.8586
+      },
+      {
+        "year": 2017,
+        "value": 20.0364
+      },
+      {
+        "year": 2018,
+        "value": 22.1358
+      },
+      {
+        "year": 2019,
+        "value": 20.6467
+      },
+      {
+        "year": 2020,
+        "value": 20.119
+      },
+      {
+        "year": 2021,
+        "value": 19.7174
+      },
+      {
+        "year": 2022,
+        "value": 18.9942
+      },
+      {
+        "year": 2023,
+        "value": 19.4271
+      },
+      {
+        "year": 2024,
+        "value": 20.1598
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "204194",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mount Vernon Nazarene University",
     "institution_unique_name": "Mount Vernon Nazarene University | Mount Vernon | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.4591,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.6517,
-    "net_tuition_per_fte_change_5yr": -24.9279,
+    "net_tuition_per_fte_change_5yr": -25.8356,
     "staff_total_headcount_pct_change_5yr": -8.5496,
     "staff_instructional_headcount_pct_change_5yr": -18.3623,
     "students_per_instructional_staff_fte": 10.1355,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 45.7181,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.5358,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 62.208,
+    "unfunded_discount_pct_change_5yr": 16.2419,
     "share_grad_students": 24.0153,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16374.9377
+        "value": 15596.3356
       },
       {
         "year": 2015,
-        "value": 17956.9024
+        "value": 17294.5626
       },
       {
         "year": 2016,
-        "value": 16866.1674
+        "value": 16248.4984
       },
       {
         "year": 2017,
-        "value": 16148.7283
+        "value": 15678.1379
       },
       {
         "year": 2018,
-        "value": 14041.2089
+        "value": 13554.3734
       },
       {
         "year": 2019,
-        "value": 14054.3943
+        "value": 13547.3326
       },
       {
         "year": 2020,
-        "value": 14080.2146
+        "value": 13699.4528
       },
       {
         "year": 2021,
-        "value": 13154.4256
+        "value": 12642.1655
       },
       {
         "year": 2022,
-        "value": 11682.6734
+        "value": 11192.8312
       },
       {
         "year": 2023,
-        "value": 11742.7705
+        "value": 11239.7346
       },
       {
         "year": 2024,
-        "value": 10550.9274
+        "value": 10047.2947
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.399
+      },
+      {
+        "year": 2015,
+        "value": 41.2256
+      },
+      {
+        "year": 2016,
+        "value": 45.84
+      },
+      {
+        "year": 2017,
+        "value": 49.9924
+      },
+      {
+        "year": 2018,
+        "value": 52.7271
+      },
+      {
+        "year": 2019,
+        "value": 53.5159
+      },
+      {
+        "year": 2020,
+        "value": 53.8842
+      },
+      {
+        "year": 2021,
+        "value": 55.9835
+      },
+      {
+        "year": 2022,
+        "value": 58.549
+      },
+      {
+        "year": 2023,
+        "value": 59.7622
+      },
+      {
+        "year": 2024,
+        "value": 62.208
       }
     ],
     "enrollment_headcount_total": [

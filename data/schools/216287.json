@@ -1,6 +1,6 @@
 {
   "unitid": "216287",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Swarthmore College",
     "institution_unique_name": "Swarthmore College | Swarthmore | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.8193,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.718,
-    "net_tuition_per_fte_change_5yr": -9.5046,
+    "net_tuition_per_fte_change_5yr": -10.6186,
     "staff_total_headcount_pct_change_5yr": 6.9252,
     "staff_instructional_headcount_pct_change_5yr": 17.9283,
     "students_per_instructional_staff_fte": 6.7537,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 20.7631,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.9019,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.9839,
+    "unfunded_discount_pct_change_5yr": 24.9328,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3473000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34088.464
+        "value": 33143.2505
       },
       {
         "year": 2015,
-        "value": 34424.0874
+        "value": 33461.2641
       },
       {
         "year": 2016,
-        "value": 33409.7464
+        "value": 31680.1833
       },
       {
         "year": 2017,
-        "value": 33132.4701
+        "value": 31141.45
       },
       {
         "year": 2018,
-        "value": 33093.3766
+        "value": 30742.0634
       },
       {
         "year": 2019,
-        "value": 34237.1612
+        "value": 31556.5587
       },
       {
         "year": 2020,
-        "value": 34659.2709
+        "value": 31652.6786
       },
       {
         "year": 2021,
-        "value": 30062.3074
+        "value": 30318.8448
       },
       {
         "year": 2022,
-        "value": 29765.9554
+        "value": 27501.9273
       },
       {
         "year": 2023,
-        "value": 29997.4733
+        "value": 27436.7617
       },
       {
         "year": 2024,
-        "value": 30983.0416
+        "value": 28205.6893
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.7443
+      },
+      {
+        "year": 2015,
+        "value": 20.4746
+      },
+      {
+        "year": 2016,
+        "value": 21.3875
+      },
+      {
+        "year": 2017,
+        "value": 23.5414
+      },
+      {
+        "year": 2018,
+        "value": 26.0031
+      },
+      {
+        "year": 2019,
+        "value": 23.1996
+      },
+      {
+        "year": 2020,
+        "value": 30.6824
+      },
+      {
+        "year": 2021,
+        "value": 27.9263
+      },
+      {
+        "year": 2022,
+        "value": 32.6862
+      },
+      {
+        "year": 2023,
+        "value": 33.4956
+      },
+      {
+        "year": 2024,
+        "value": 28.9839
       }
     ],
     "enrollment_headcount_total": [

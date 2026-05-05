@@ -1,6 +1,6 @@
 {
   "unitid": "141325",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wesleyan College",
     "institution_unique_name": "Wesleyan College | Macon | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 14.5985,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.6023,
-    "net_tuition_per_fte_change_5yr": -32.2479,
+    "net_tuition_per_fte_change_5yr": -30.9912,
     "staff_total_headcount_pct_change_5yr": 2.1164,
     "staff_instructional_headcount_pct_change_5yr": 8.75,
     "students_per_instructional_staff_fte": 9.082,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 17.5808,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.3118,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.4443,
+    "unfunded_discount_pct_change_5yr": 11.3411,
     "share_grad_students": 5.3685,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13358.0288
+        "value": 14434.7183
       },
       {
         "year": 2015,
-        "value": 14319.5798
+        "value": 15422.7751
       },
       {
         "year": 2016,
-        "value": 14017.9043
+        "value": 14895.0232
       },
       {
         "year": 2017,
-        "value": 15039.1934
+        "value": 15642.4247
       },
       {
         "year": 2018,
-        "value": 13759.9494
+        "value": 14183.919
       },
       {
         "year": 2019,
-        "value": 12754.3995
+        "value": 13042.7957
       },
       {
         "year": 2020,
-        "value": 13404.3743
+        "value": 13547.8605
       },
       {
         "year": 2021,
-        "value": 12638.9376
+        "value": 12873.3926
       },
       {
         "year": 2022,
-        "value": 11634.9105
+        "value": 11658.7149
       },
       {
         "year": 2023,
-        "value": 10260.2534
+        "value": 10373.1872
       },
       {
         "year": 2024,
-        "value": 8641.3736
+        "value": 9000.6751
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.7957
+      },
+      {
+        "year": 2015,
+        "value": 22.9712
+      },
+      {
+        "year": 2016,
+        "value": 20.8216
+      },
+      {
+        "year": 2017,
+        "value": 21.5243
+      },
+      {
+        "year": 2018,
+        "value": 18.462
+      },
+      {
+        "year": 2019,
+        "value": 32.7321
+      },
+      {
+        "year": 2020,
+        "value": 34.025
+      },
+      {
+        "year": 2021,
+        "value": 39.0025
+      },
+      {
+        "year": 2022,
+        "value": 39.3766
+      },
+      {
+        "year": 2023,
+        "value": 33.3598
+      },
+      {
+        "year": 2024,
+        "value": 36.4443
       }
     ],
     "enrollment_headcount_total": [

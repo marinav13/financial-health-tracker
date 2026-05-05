@@ -1,6 +1,6 @@
 {
   "unitid": "133492",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Eckerd College",
     "institution_unique_name": "Eckerd College | Saint Petersburg | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.5611,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 3.3881,
-    "net_tuition_per_fte_change_5yr": -10.974,
+    "net_tuition_per_fte_change_5yr": -10.6387,
     "staff_total_headcount_pct_change_5yr": 27.2222,
     "staff_instructional_headcount_pct_change_5yr": 1.0695,
     "students_per_instructional_staff_fte": 12.2114,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 52.9446,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.144,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.1327,
+    "unfunded_discount_pct_change_5yr": 3.469,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1160094,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25662.6111
+        "value": 25744.7842
       },
       {
         "year": 2015,
-        "value": 27037.698
+        "value": 27134.7448
       },
       {
         "year": 2016,
-        "value": 27843.9908
+        "value": 27933.8801
       },
       {
         "year": 2017,
-        "value": 29309.435
+        "value": 29406.9565
       },
       {
         "year": 2018,
-        "value": 29326.0018
+        "value": 29431.4081
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 28878.2356
+        "value": 29040.7153
       },
       {
         "year": 2021,
-        "value": 27234.3998
+        "value": 27355.2683
       },
       {
         "year": 2022,
-        "value": 25282.5609
+        "value": 25382.3487
       },
       {
         "year": 2023,
-        "value": 26728.7953
+        "value": 26830.2073
       },
       {
         "year": 2024,
-        "value": 27011.8694
+        "value": 27113.6046
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.6741
+      },
+      {
+        "year": 2015,
+        "value": 37.6622
+      },
+      {
+        "year": 2016,
+        "value": 39.0274
+      },
+      {
+        "year": 2017,
+        "value": 40.4787
+      },
+      {
+        "year": 2018,
+        "value": 42.3725
+      },
+      {
+        "year": 2019,
+        "value": 42.6531
+      },
+      {
+        "year": 2020,
+        "value": 44.3035
+      },
+      {
+        "year": 2021,
+        "value": 46.5441
+      },
+      {
+        "year": 2022,
+        "value": 46.7782
+      },
+      {
+        "year": 2023,
+        "value": 45.0243
+      },
+      {
+        "year": 2024,
+        "value": 44.1327
       }
     ],
     "enrollment_headcount_total": [

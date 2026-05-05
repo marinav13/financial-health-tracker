@@ -1,6 +1,6 @@
 {
   "unitid": "168740",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Andrews University",
     "institution_unique_name": "Andrews University | Berrien Springs | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.7972,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -7.998,
-    "net_tuition_per_fte_change_5yr": -6.6975,
+    "net_tuition_per_fte_change_5yr": -7.2732,
     "staff_total_headcount_pct_change_5yr": -17.2336,
     "staff_instructional_headcount_pct_change_5yr": -10.0946,
     "students_per_instructional_staff_fte": 10.6034,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 38.4121,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.3502,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.4169,
+    "unfunded_discount_pct_change_5yr": 2.3123,
     "share_grad_students": 55.3585,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2761998,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19936.2381
+        "value": 19673.5002
       },
       {
         "year": 2015,
-        "value": 19941.7441
+        "value": 20096.1022
       },
       {
         "year": 2016,
-        "value": 20036.7111
+        "value": 20100.5291
       },
       {
         "year": 2017,
-        "value": 19485.0275
+        "value": 19661.8016
       },
       {
         "year": 2018,
-        "value": 18963.3443
+        "value": 19024.6797
       },
       {
         "year": 2019,
-        "value": 19275.8393
+        "value": 19364.2377
       },
       {
         "year": 2020,
-        "value": 19346.8744
+        "value": 19306.4546
       },
       {
         "year": 2021,
-        "value": 17857.5979
+        "value": 18152.179
       },
       {
         "year": 2022,
-        "value": 17139.3959
+        "value": 17169.9434
       },
       {
         "year": 2023,
-        "value": 18884.0085
+        "value": 18848.0357
       },
       {
         "year": 2024,
-        "value": 17984.8427
+        "value": 17955.841
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.21
+      },
+      {
+        "year": 2015,
+        "value": 37.5612
+      },
+      {
+        "year": 2016,
+        "value": 38.6699
+      },
+      {
+        "year": 2017,
+        "value": 40.1305
+      },
+      {
+        "year": 2018,
+        "value": 40.354
+      },
+      {
+        "year": 2019,
+        "value": 40.4809
+      },
+      {
+        "year": 2020,
+        "value": 42.0878
+      },
+      {
+        "year": 2021,
+        "value": 41.7231
+      },
+      {
+        "year": 2022,
+        "value": 40.3863
+      },
+      {
+        "year": 2023,
+        "value": 39.5159
+      },
+      {
+        "year": 2024,
+        "value": 41.4169
       }
     ],
     "enrollment_headcount_total": [

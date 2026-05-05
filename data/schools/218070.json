@@ -1,6 +1,6 @@
 {
   "unitid": "218070",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Furman University",
     "institution_unique_name": "Furman University | Greenville | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.6128,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 18.4367,
-    "net_tuition_per_fte_change_5yr": -25.2177,
+    "net_tuition_per_fte_change_5yr": -25.2095,
     "staff_total_headcount_pct_change_5yr": -7.06,
     "staff_instructional_headcount_pct_change_5yr": -5.9701,
     "students_per_instructional_staff_fte": 9.2903,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 24.7425,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.8599,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.2471,
+    "unfunded_discount_pct_change_5yr": 18.827,
     "share_grad_students": 8.7568,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3232961,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29360.7568
+        "value": 29518.7246
       },
       {
         "year": 2015,
-        "value": 29889.9619
+        "value": 30063.7338
       },
       {
         "year": 2016,
-        "value": 29232.7915
+        "value": 29411.8983
       },
       {
         "year": 2017,
-        "value": 27296.4571
+        "value": 27490.0712
       },
       {
         "year": 2018,
-        "value": 28138.0722
+        "value": 28280.2107
       },
       {
         "year": 2019,
-        "value": 28411.6184
+        "value": 28543.3378
       },
       {
         "year": 2020,
-        "value": 30426.7515
+        "value": 30537.1058
       },
       {
         "year": 2021,
-        "value": 25887.0173
+        "value": 26355.3744
       },
       {
         "year": 2022,
-        "value": 24605.3178
+        "value": 25473.5231
       },
       {
         "year": 2023,
-        "value": 22830.3809
+        "value": 23486.8384
       },
       {
         "year": 2024,
-        "value": 21246.8727
+        "value": 21347.7087
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.6092
+      },
+      {
+        "year": 2015,
+        "value": 34.7266
+      },
+      {
+        "year": 2016,
+        "value": 37.4914
+      },
+      {
+        "year": 2017,
+        "value": 40.252
+      },
+      {
+        "year": 2018,
+        "value": 38.983
+      },
+      {
+        "year": 2019,
+        "value": 38.0782
+      },
+      {
+        "year": 2020,
+        "value": 34.5397
+      },
+      {
+        "year": 2021,
+        "value": 37.0193
+      },
+      {
+        "year": 2022,
+        "value": 38.5338
+      },
+      {
+        "year": 2023,
+        "value": 40.6872
+      },
+      {
+        "year": 2024,
+        "value": 45.2471
       }
     ],
     "enrollment_headcount_total": [

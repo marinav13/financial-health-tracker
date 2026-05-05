@@ -1,6 +1,6 @@
 {
   "unitid": "217873",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Claflin University",
     "institution_unique_name": "Claflin University | Orangeburg | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -11.2044,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 9.2896,
-    "net_tuition_per_fte_change_5yr": -13.6427,
+    "net_tuition_per_fte_change_5yr": -13.6241,
     "staff_total_headcount_pct_change_5yr": -12.9808,
     "staff_instructional_headcount_pct_change_5yr": -14.1361,
     "students_per_instructional_staff_fte": 13.5525,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 33.0457,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.0529,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.1697,
+    "unfunded_discount_pct_change_5yr": 18.4201,
     "share_grad_students": 5.104,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2256821,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 16368.1855
+        "value": 16371.0514
       },
       {
         "year": 2023,
-        "value": 15949.5368
+        "value": 15952.3207
       },
       {
         "year": 2024,
-        "value": 12841.5213
+        "value": 12844.2883
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.1299
+      },
+      {
+        "year": 2015,
+        "value": 21.0834
+      },
+      {
+        "year": 2016,
+        "value": 22.4907
+      },
+      {
+        "year": 2017,
+        "value": 21.4884
+      },
+      {
+        "year": 2018,
+        "value": 21.5742
+      },
+      {
+        "year": 2019,
+        "value": 19.5657
+      },
+      {
+        "year": 2020,
+        "value": 17.3252
+      },
+      {
+        "year": 2021,
+        "value": 8.9298
+      },
+      {
+        "year": 2022,
+        "value": 4.4625
+      },
+      {
+        "year": 2023,
+        "value": 3.0488
+      },
+      {
+        "year": 2024,
+        "value": 23.1697
       }
     ],
     "enrollment_headcount_total": [

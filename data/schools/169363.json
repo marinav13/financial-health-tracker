@@ -1,6 +1,6 @@
 {
   "unitid": "169363",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University Ann Arbor",
     "institution_unique_name": "Concordia University Ann Arbor | Ann Arbor | Michigan",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 26.6789,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": null,
@@ -111,15 +113,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15107.464
+        "value": 15260.9335
       },
       {
         "year": 2015,
-        "value": 16611.5464
+        "value": 16604.4621
       },
       {
         "year": 2016,
-        "value": 17279.6071
+        "value": 17059.289
       },
       {
         "year": 2017,
@@ -128,6 +130,28 @@
       {
         "year": 2018,
         "value": 18647.1544
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 47.2008
+      },
+      {
+        "year": 2015,
+        "value": 47.7631
+      },
+      {
+        "year": 2016,
+        "value": 43.4772
+      },
+      {
+        "year": 2017,
+        "value": 40.7556
+      },
+      {
+        "year": 2018,
+        "value": 42.6811
       }
     ],
     "enrollment_headcount_total": [

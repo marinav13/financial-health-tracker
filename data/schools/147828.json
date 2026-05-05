@@ -1,6 +1,6 @@
 {
   "unitid": "147828",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Olivet Nazarene University",
     "institution_unique_name": "Olivet Nazarene University | Bourbonnais | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 41.7979,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.4044,
+    "unfunded_discount_pct_change_5yr": 9.9425,
     "share_grad_students": 26.529,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15332.9445
+        "value": 15363.69
       },
       {
         "year": 2015,
-        "value": 16444.4114
+        "value": 16386.0532
       },
       {
         "year": 2016,
-        "value": 16532.708
+        "value": 16452.3371
       },
       {
         "year": 2017,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13064.9853
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.5607
+      },
+      {
+        "year": 2015,
+        "value": 45.3348
+      },
+      {
+        "year": 2016,
+        "value": 46.6863
+      },
+      {
+        "year": 2017,
+        "value": 47.4734
+      },
+      {
+        "year": 2018,
+        "value": 49.0312
+      },
+      {
+        "year": 2019,
+        "value": 50.394
+      },
+      {
+        "year": 2020,
+        "value": 52.803
+      },
+      {
+        "year": 2021,
+        "value": 54.6145
+      },
+      {
+        "year": 2022,
+        "value": 55.7031
+      },
+      {
+        "year": 2023,
+        "value": 55.4845
+      },
+      {
+        "year": 2024,
+        "value": 55.4044
       }
     ],
     "enrollment_headcount_total": [

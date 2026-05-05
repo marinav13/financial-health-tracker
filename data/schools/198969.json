@@ -1,6 +1,6 @@
 {
   "unitid": "198969",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Methodist University",
     "institution_unique_name": "Methodist University | Fayetteville | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.3355,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.9536,
-    "net_tuition_per_fte_change_5yr": -10.3641,
+    "net_tuition_per_fte_change_5yr": -10.9739,
     "staff_total_headcount_pct_change_5yr": -22.3881,
     "staff_instructional_headcount_pct_change_5yr": -33.2288,
     "students_per_instructional_staff_fte": 10.5225,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 54.6748,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.363,
+    "unfunded_discount_pct_change_5yr": 13.96,
     "share_grad_students": 17.7518,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18454.3312
+        "value": 18518.3946
       },
       {
         "year": 2015,
-        "value": 18721.6302
+        "value": 18787.0477
       },
       {
         "year": 2016,
-        "value": 19255.3256
+        "value": 19330.9234
       },
       {
         "year": 2017,
-        "value": 20397.6646
+        "value": 20478.6053
       },
       {
         "year": 2018,
-        "value": 19630.5777
+        "value": 19709.4544
       },
       {
         "year": 2019,
-        "value": 22413.5649
+        "value": 22567.0967
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 20090.6032
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.9491
+      },
+      {
+        "year": 2015,
+        "value": 36.9279
+      },
+      {
+        "year": 2016,
+        "value": 38.5685
+      },
+      {
+        "year": 2017,
+        "value": 38.4422
+      },
+      {
+        "year": 2018,
+        "value": 38.5743
+      },
+      {
+        "year": 2019,
+        "value": 38.0511
+      },
+      {
+        "year": 2020,
+        "value": 39.9682
+      },
+      {
+        "year": 2021,
+        "value": 38.0179
+      },
+      {
+        "year": 2022,
+        "value": 40.5989
+      },
+      {
+        "year": 2023,
+        "value": 42.4416
+      },
+      {
+        "year": 2024,
+        "value": 43.363
       }
     ],
     "enrollment_headcount_total": [

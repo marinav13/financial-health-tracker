@@ -1,6 +1,6 @@
 {
   "unitid": "167783",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Simmons University",
     "institution_unique_name": "Simmons University | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.617,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.2074,
-    "net_tuition_per_fte_change_5yr": -32.9491,
+    "net_tuition_per_fte_change_5yr": -33.1689,
     "staff_total_headcount_pct_change_5yr": -28.634,
     "staff_instructional_headcount_pct_change_5yr": -33.4362,
     "students_per_instructional_staff_fte": 11.9823,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 55.1362,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.0774,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.3681,
+    "unfunded_discount_pct_change_5yr": 56.2944,
     "share_grad_students": 68.2737,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2235659,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27331.069
+        "value": 26788.555
       },
       {
         "year": 2015,
-        "value": 27228.2517
+        "value": 27454.0835
       },
       {
         "year": 2016,
-        "value": 28697.6418
+        "value": 28967.8419
       },
       {
         "year": 2017,
-        "value": 29746.2344
+        "value": 30055.4455
       },
       {
         "year": 2018,
-        "value": 29638.6994
+        "value": 29927.3216
       },
       {
         "year": 2019,
-        "value": 35547.618
+        "value": 35626.5083
       },
       {
         "year": 2020,
-        "value": 31725.7839
+        "value": 31792.0479
       },
       {
         "year": 2021,
-        "value": 28960.6672
+        "value": 29122.5017
       },
       {
         "year": 2022,
-        "value": 25117.31
+        "value": 25066.8981
       },
       {
         "year": 2023,
-        "value": 24790.2717
+        "value": 24782.3549
       },
       {
         "year": 2024,
-        "value": 23834.9867
+        "value": 23809.57
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.7753
+      },
+      {
+        "year": 2015,
+        "value": 24.0721
+      },
+      {
+        "year": 2016,
+        "value": 22.5149
+      },
+      {
+        "year": 2017,
+        "value": 20.9094
+      },
+      {
+        "year": 2018,
+        "value": 21.4365
+      },
+      {
+        "year": 2019,
+        "value": 21.9893
+      },
+      {
+        "year": 2020,
+        "value": 23.5788
+      },
+      {
+        "year": 2021,
+        "value": 22.9468
+      },
+      {
+        "year": 2022,
+        "value": 29.4005
+      },
+      {
+        "year": 2023,
+        "value": 30.1875
+      },
+      {
+        "year": 2024,
+        "value": 34.3681
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "216852",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Widener University",
     "institution_unique_name": "Widener University | Chester | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.0755,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -20.9588,
-    "net_tuition_per_fte_change_5yr": -2.194,
+    "net_tuition_per_fte_change_5yr": -2.1706,
     "staff_total_headcount_pct_change_5yr": -6.337,
     "staff_instructional_headcount_pct_change_5yr": -4.0673,
     "students_per_instructional_staff_fte": 9.2,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 70.7702,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.9847,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.8085,
+    "unfunded_discount_pct_change_5yr": 18.6842,
     "share_grad_students": 51.4195,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 751628,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37436.6927
+        "value": 37152.1817
       },
       {
         "year": 2015,
-        "value": 35775.9284
+        "value": 35433.3488
       },
       {
         "year": 2016,
-        "value": 30980.0605
+        "value": 30630.7095
       },
       {
         "year": 2017,
-        "value": 30095.3127
+        "value": 29753.6518
       },
       {
         "year": 2018,
-        "value": 31047.6542
+        "value": 30678.3752
       },
       {
         "year": 2019,
-        "value": 31140.3704
+        "value": 30787.3856
       },
       {
         "year": 2020,
-        "value": 32711.8239
+        "value": 32305.8348
       },
       {
         "year": 2021,
-        "value": 32534.4552
+        "value": 32112.1063
       },
       {
         "year": 2022,
-        "value": 31517.9452
+        "value": 31181.0629
       },
       {
         "year": 2023,
-        "value": 31520.1577
+        "value": 31116.0931
       },
       {
         "year": 2024,
-        "value": 30457.1625
+        "value": 30119.1084
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.3263
+      },
+      {
+        "year": 2015,
+        "value": 34.4213
+      },
+      {
+        "year": 2016,
+        "value": 38.5327
+      },
+      {
+        "year": 2017,
+        "value": 39.5539
+      },
+      {
+        "year": 2018,
+        "value": 41.0126
+      },
+      {
+        "year": 2019,
+        "value": 41.1246
+      },
+      {
+        "year": 2020,
+        "value": 42.0287
+      },
+      {
+        "year": 2021,
+        "value": 42.2775
+      },
+      {
+        "year": 2022,
+        "value": 43.3602
+      },
+      {
+        "year": 2023,
+        "value": 44.7585
+      },
+      {
+        "year": 2024,
+        "value": 48.8085
       }
     ],
     "enrollment_headcount_total": [

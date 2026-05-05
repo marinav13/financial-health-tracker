@@ -1,6 +1,6 @@
 {
   "unitid": "190752",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva of Far Rockaway Derech Ayson Rabbinical Seminary",
     "institution_unique_name": "Yeshiva of Far Rockaway Derech Ayson Rabbinical Seminary | Far Rockaway | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 53.6542,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 13.4495,
+    "unfunded_discount_pct_change_5yr": -23.4022,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 45325.6244
+        "value": 45325.6432
       },
       {
         "year": 2024,
         "value": 44710.7586
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.6078
+      },
+      {
+        "year": 2015,
+        "value": 22.93
+      },
+      {
+        "year": 2016,
+        "value": 22.7241
+      },
+      {
+        "year": 2017,
+        "value": 21.895
+      },
+      {
+        "year": 2018,
+        "value": 20.9258
+      },
+      {
+        "year": 2019,
+        "value": 17.5585
+      },
+      {
+        "year": 2020,
+        "value": 17.3887
+      },
+      {
+        "year": 2021,
+        "value": 18.4879
+      },
+      {
+        "year": 2022,
+        "value": 8.9913
+      },
+      {
+        "year": 2023,
+        "value": 10.0126
+      },
+      {
+        "year": 2024,
+        "value": 13.4495
       }
     ],
     "enrollment_headcount_total": [

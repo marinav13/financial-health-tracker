@@ -1,6 +1,6 @@
 {
   "unitid": "173452",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Martin Luther College",
     "institution_unique_name": "Martin Luther College | New Ulm | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.7541,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 11.1248,
-    "net_tuition_per_fte_change_5yr": -18.131,
+    "net_tuition_per_fte_change_5yr": -18.314,
     "staff_total_headcount_pct_change_5yr": 14.2857,
     "staff_instructional_headcount_pct_change_5yr": 5.3763,
     "students_per_instructional_staff_fte": 9,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 35.2021,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 10.2452,
+    "unfunded_discount_pct_change_5yr": -4.976,
     "share_grad_students": 14.5188,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 17196.4569
+        "value": 17234.9903
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 14078.5735
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.4139
+      },
+      {
+        "year": 2015,
+        "value": 10.5048
+      },
+      {
+        "year": 2016,
+        "value": 11.3865
+      },
+      {
+        "year": 2017,
+        "value": 14.1035
+      },
+      {
+        "year": 2018,
+        "value": 10.4807
+      },
+      {
+        "year": 2019,
+        "value": 10.7817
+      },
+      {
+        "year": 2020,
+        "value": 9.8649
+      },
+      {
+        "year": 2021,
+        "value": 11.5555
+      },
+      {
+        "year": 2022,
+        "value": 7.1527
+      },
+      {
+        "year": 2023,
+        "value": 9.1037
+      },
+      {
+        "year": 2024,
+        "value": 10.2452
       }
     ],
     "enrollment_headcount_total": [

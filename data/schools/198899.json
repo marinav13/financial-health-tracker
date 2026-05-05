@@ -1,6 +1,6 @@
 {
   "unitid": "198899",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mars Hill University",
     "institution_unique_name": "Mars Hill University | Mars Hill | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.4214,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.2741,
-    "net_tuition_per_fte_change_5yr": -30.6755,
+    "net_tuition_per_fte_change_5yr": -8.9111,
     "staff_total_headcount_pct_change_5yr": -21.7523,
     "staff_instructional_headcount_pct_change_5yr": -12.3188,
     "students_per_instructional_staff_fte": 11.2305,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 30.9749,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 31.0855,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 61.7429,
+    "unfunded_discount_pct_change_5yr": 4.6357,
     "share_grad_students": 4.9372,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12416.2227
+        "value": 8403.3036
       },
       {
         "year": 2015,
-        "value": 13816.2956
+        "value": 10487.0637
       },
       {
         "year": 2016,
-        "value": 13311.0453
+        "value": 9801.5801
       },
       {
         "year": 2017,
-        "value": 12076.5576
+        "value": 8269.5803
       },
       {
         "year": 2018,
-        "value": 13549.834
+        "value": 11443.8531
       },
       {
         "year": 2019,
-        "value": 13556.394
+        "value": 10354.1404
       },
       {
         "year": 2020,
-        "value": 13727.8297
+        "value": 14134.9698
       },
       {
         "year": 2021,
-        "value": 14382.0513
+        "value": 14671.3733
       },
       {
         "year": 2022,
-        "value": 12544.1674
+        "value": 12752.1643
       },
       {
         "year": 2023,
-        "value": 11250.3179
+        "value": 11242.7798
       },
       {
         "year": 2024,
-        "value": 9397.9086
+        "value": 9431.4707
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 52.4003
+      },
+      {
+        "year": 2015,
+        "value": 53.5513
+      },
+      {
+        "year": 2016,
+        "value": 55.4942
+      },
+      {
+        "year": 2017,
+        "value": 59.526
+      },
+      {
+        "year": 2018,
+        "value": 58.94
+      },
+      {
+        "year": 2019,
+        "value": 59.0075
+      },
+      {
+        "year": 2020,
+        "value": 54.8743
+      },
+      {
+        "year": 2021,
+        "value": 54.034
+      },
+      {
+        "year": 2022,
+        "value": 55.102
+      },
+      {
+        "year": 2023,
+        "value": 58.5951
+      },
+      {
+        "year": 2024,
+        "value": 61.7429
       }
     ],
     "enrollment_headcount_total": [

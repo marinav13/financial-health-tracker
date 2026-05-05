@@ -1,6 +1,6 @@
 {
   "unitid": "179894",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Webster University",
     "institution_unique_name": "Webster University | Saint Louis | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -30.7112,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.3979,
-    "net_tuition_per_fte_change_5yr": -12.0169,
+    "net_tuition_per_fte_change_5yr": -14.4029,
     "staff_total_headcount_pct_change_5yr": -35.2212,
     "staff_instructional_headcount_pct_change_5yr": -35.4244,
     "students_per_instructional_staff_fte": 17.7286,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
-    "tuition_dependence_pct": 78.9047,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 79% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 76.1993,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.4129,
+    "unfunded_discount_pct_change_5yr": 16.318,
     "share_grad_students": 74.0572,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20513.997
+        "value": 20556.4266
       },
       {
         "year": 2015,
-        "value": 20815.1727
+        "value": 20851.2678
       },
       {
         "year": 2016,
-        "value": 21249.7828
+        "value": 21289.5478
       },
       {
         "year": 2017,
-        "value": 21176.1012
+        "value": 21062.0662
       },
       {
         "year": 2018,
-        "value": 21047.2211
+        "value": 20888.7414
       },
       {
         "year": 2019,
-        "value": 21638.8149
+        "value": 21479.3993
       },
       {
         "year": 2020,
-        "value": 21410.7578
+        "value": 21008.2213
       },
       {
         "year": 2021,
-        "value": 20507.3223
+        "value": 19851.6171
       },
       {
         "year": 2022,
-        "value": 18747.245
+        "value": 17399.7334
       },
       {
         "year": 2023,
-        "value": 19219.6255
+        "value": 18460.0477
       },
       {
         "year": 2024,
-        "value": 19038.5078
+        "value": 18385.7384
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 12.4127
+      },
+      {
+        "year": 2015,
+        "value": 14.187
+      },
+      {
+        "year": 2016,
+        "value": 15.4323
+      },
+      {
+        "year": 2017,
+        "value": 17.3319
+      },
+      {
+        "year": 2018,
+        "value": 19.3097
+      },
+      {
+        "year": 2019,
+        "value": 20.1284
+      },
+      {
+        "year": 2020,
+        "value": 21.4708
+      },
+      {
+        "year": 2021,
+        "value": 24.935
+      },
+      {
+        "year": 2022,
+        "value": 30.9687
+      },
+      {
+        "year": 2023,
+        "value": 27.1703
+      },
+      {
+        "year": 2024,
+        "value": 23.4129
       }
     ],
     "enrollment_headcount_total": [

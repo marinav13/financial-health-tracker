@@ -1,6 +1,6 @@
 {
   "unitid": "140252",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Life University",
     "institution_unique_name": "Life University | Marietta | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.5306,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -4.6415,
-    "net_tuition_per_fte_change_5yr": -12.2824,
+    "net_tuition_per_fte_change_5yr": -18.1641,
     "staff_total_headcount_pct_change_5yr": 1.8349,
     "staff_instructional_headcount_pct_change_5yr": 4.0201,
     "students_per_instructional_staff_fte": 7.2494,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 81.4824,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 74.4473,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 9.9023,
+    "unfunded_discount_pct_change_5yr": 46.172,
     "share_grad_students": 65.0111,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1143046,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 81781.8885
+        "value": 81236.3376
       },
       {
         "year": 2015,
-        "value": 93123.4741
+        "value": 92568.3788
       },
       {
         "year": 2016,
-        "value": 82330.4191
+        "value": 81500.0078
       },
       {
         "year": 2017,
-        "value": 84097.7719
+        "value": 84531.1296
       },
       {
         "year": 2018,
-        "value": 73173.8307
+        "value": 71816.2531
       },
       {
         "year": 2019,
-        "value": 74871.4281
+        "value": 73323.6832
       },
       {
         "year": 2020,
-        "value": 68135.0781
+        "value": 62836.2508
       },
       {
         "year": 2021,
-        "value": 76494.2794
+        "value": 70676.5504
       },
       {
         "year": 2022,
-        "value": 73214.247
+        "value": 67130.069
       },
       {
         "year": 2023,
-        "value": 66776.2387
+        "value": 62251.9126
       },
       {
         "year": 2024,
-        "value": 65675.428
+        "value": 60005.0682
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.0323
+      },
+      {
+        "year": 2015,
+        "value": 4.8958
+      },
+      {
+        "year": 2016,
+        "value": 4.8752
+      },
+      {
+        "year": 2017,
+        "value": 4.6098
+      },
+      {
+        "year": 2018,
+        "value": 5.7416
+      },
+      {
+        "year": 2019,
+        "value": 6.7744
+      },
+      {
+        "year": 2020,
+        "value": 9.3902
+      },
+      {
+        "year": 2021,
+        "value": 8.4371
+      },
+      {
+        "year": 2022,
+        "value": 9.4917
+      },
+      {
+        "year": 2023,
+        "value": 7.8852
+      },
+      {
+        "year": 2024,
+        "value": 9.9023
       }
     ],
     "enrollment_headcount_total": [

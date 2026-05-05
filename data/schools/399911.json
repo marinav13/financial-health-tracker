@@ -1,6 +1,6 @@
 {
   "unitid": "399911",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Soka University of America",
     "institution_unique_name": "Soka University of America | Aliso Viejo | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.3333,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 88.7711,
-    "net_tuition_per_fte_change_5yr": -75.0387,
+    "net_tuition_per_fte_change_5yr": 75.0923,
     "staff_total_headcount_pct_change_5yr": -0.738,
     "staff_instructional_headcount_pct_change_5yr": 6.1728,
     "students_per_instructional_staff_fte": 7.0556,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 0.7788,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -2.749,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -3% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 2.4948,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3401.0864
+        "value": -9790.1761
       },
       {
         "year": 2015,
-        "value": 794.7037
+        "value": -13496.8261
       },
       {
         "year": 2016,
-        "value": 112.0285
+        "value": -13141.6806
       },
       {
         "year": 2017,
-        "value": 7425.3153
+        "value": -5039.6448
       },
       {
         "year": 2018,
-        "value": 7553.904
+        "value": -3051.7131
       },
       {
         "year": 2019,
-        "value": 9384.6107
+        "value": -4722.5917
       },
       {
         "year": 2020,
-        "value": 6557.298
+        "value": -7526.2058
       },
       {
         "year": 2021,
-        "value": 6045.5167
+        "value": 2352.3464
       },
       {
         "year": 2022,
-        "value": 6391.7969
+        "value": -4560.1655
       },
       {
         "year": 2023,
-        "value": 3212.9507
+        "value": -7188.6766
       },
       {
         "year": 2024,
-        "value": 2342.5197
+        "value": -8268.8957
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

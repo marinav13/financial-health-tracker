@@ -1,6 +1,6 @@
 {
   "unitid": "117104",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Life Pacific University",
     "institution_unique_name": "Life Pacific University | San Dimas | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -11.9645,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -4.0966,
-    "net_tuition_per_fte_change_5yr": -3.3605,
+    "net_tuition_per_fte_change_5yr": -2.3868,
     "staff_total_headcount_pct_change_5yr": 20.4918,
     "staff_instructional_headcount_pct_change_5yr": 24.5614,
     "students_per_instructional_staff_fte": 13.1359,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 52.8904,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.6946,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.7952,
+    "unfunded_discount_pct_change_5yr": 47.3407,
     "share_grad_students": 24.6644,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,7 +169,7 @@
       },
       {
         "year": 2016,
-        "value": 13325.3362
+        "value": 13325.3386
       },
       {
         "year": 2017,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 13683.5552
+        "value": 13753.0465
       },
       {
         "year": 2020,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 14301.1138
+        "value": 14268.3576
       },
       {
         "year": 2022,
-        "value": 13961.3661
+        "value": 13483.1376
       },
       {
         "year": 2023,
-        "value": 13055.1341
+        "value": 13359.0443
       },
       {
         "year": 2024,
-        "value": 13223.7251
+        "value": 13424.7938
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.4034
+      },
+      {
+        "year": 2015,
+        "value": 10.1361
+      },
+      {
+        "year": 2016,
+        "value": 10.9205
+      },
+      {
+        "year": 2017,
+        "value": 11.2167
+      },
+      {
+        "year": 2018,
+        "value": 13.2816
+      },
+      {
+        "year": 2019,
+        "value": 15.4711
+      },
+      {
+        "year": 2020,
+        "value": 16.3094
+      },
+      {
+        "year": 2021,
+        "value": 16.1612
+      },
+      {
+        "year": 2022,
+        "value": 16.1396
+      },
+      {
+        "year": 2023,
+        "value": 18.7551
+      },
+      {
+        "year": 2024,
+        "value": 22.7952
       }
     ],
     "enrollment_headcount_total": [

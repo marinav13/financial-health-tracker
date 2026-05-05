@@ -1,6 +1,6 @@
 {
   "unitid": "177065",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Columbia College",
     "institution_unique_name": "Columbia College | Columbia | Missouri",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 66.5043,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.3678,
+    "unfunded_discount_pct_change_5yr": 78.0957,
     "share_grad_students": 6.6138,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 9436.7849
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 8.187
+      },
+      {
+        "year": 2015,
+        "value": 8.4138
+      },
+      {
+        "year": 2016,
+        "value": 9.1043
+      },
+      {
+        "year": 2017,
+        "value": 10.7194
+      },
+      {
+        "year": 2018,
+        "value": 12.0978
+      },
+      {
+        "year": 2019,
+        "value": 12.5594
+      },
+      {
+        "year": 2020,
+        "value": 13.1266
+      },
+      {
+        "year": 2021,
+        "value": 15.5585
+      },
+      {
+        "year": 2022,
+        "value": 17.8388
+      },
+      {
+        "year": 2023,
+        "value": 20.9657
+      },
+      {
+        "year": 2024,
+        "value": 22.3678
       }
     ],
     "enrollment_headcount_total": [

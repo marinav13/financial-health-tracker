@@ -1,6 +1,6 @@
 {
   "unitid": "164492",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Anna Maria College",
     "institution_unique_name": "Anna Maria College | Paxton | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.9096,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -10.3047,
-    "net_tuition_per_fte_change_5yr": -28.7538,
+    "net_tuition_per_fte_change_5yr": -30.1506,
     "staff_total_headcount_pct_change_5yr": -18.8011,
     "staff_instructional_headcount_pct_change_5yr": -29.6137,
     "students_per_instructional_staff_fte": 12.7955,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 47.9582,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.0943,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 62.4634,
+    "unfunded_discount_pct_change_5yr": 13.3484,
     "share_grad_students": 29.3071,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20439.0842
+        "value": 20023.5363
       },
       {
         "year": 2015,
-        "value": 21161.8203
+        "value": 20660.5262
       },
       {
         "year": 2016,
-        "value": 20405.7594
+        "value": 19731.403
       },
       {
         "year": 2017,
-        "value": 19632.1777
+        "value": 18959.2509
       },
       {
         "year": 2018,
-        "value": 18754.3468
+        "value": 18142.1204
       },
       {
         "year": 2019,
-        "value": 17536.4243
+        "value": 16445.9482
       },
       {
         "year": 2020,
-        "value": 16021.1417
+        "value": 14913.8056
       },
       {
         "year": 2021,
-        "value": 15575.8321
+        "value": 14647.4002
       },
       {
         "year": 2022,
-        "value": 13827.5628
+        "value": 13399.2743
       },
       {
         "year": 2023,
-        "value": 12816.1448
+        "value": 11946.9939
       },
       {
         "year": 2024,
-        "value": 12494.032
+        "value": 11487.3979
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.7418
+      },
+      {
+        "year": 2015,
+        "value": 40.6798
+      },
+      {
+        "year": 2016,
+        "value": 44.4524
+      },
+      {
+        "year": 2017,
+        "value": 47.4581
+      },
+      {
+        "year": 2018,
+        "value": 51.1899
+      },
+      {
+        "year": 2019,
+        "value": 55.1074
+      },
+      {
+        "year": 2020,
+        "value": 57.9104
+      },
+      {
+        "year": 2021,
+        "value": 56.254
+      },
+      {
+        "year": 2022,
+        "value": 56.6617
+      },
+      {
+        "year": 2023,
+        "value": 60.2988
+      },
+      {
+        "year": 2024,
+        "value": 62.4634
       }
     ],
     "enrollment_headcount_total": [

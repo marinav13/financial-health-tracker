@@ -1,6 +1,6 @@
 {
   "unitid": "140340",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Herzing University-Atlanta",
     "institution_unique_name": "Herzing University-Atlanta | Atlanta | Georgia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 96.3252,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 96% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 96% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 10.8142,
+    "unfunded_discount_pct_change_5yr": -17.9628,
     "share_grad_students": 9.4595,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -164,6 +166,40 @@
       {
         "year": 2024,
         "value": 14934.1336
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 8.0263
+      },
+      {
+        "year": 2018,
+        "value": 10.927
+      },
+      {
+        "year": 2019,
+        "value": 13.182
+      },
+      {
+        "year": 2020,
+        "value": 16.11
+      },
+      {
+        "year": 2021,
+        "value": 13.6673
+      },
+      {
+        "year": 2022,
+        "value": 14.9569
+      },
+      {
+        "year": 2023,
+        "value": 12.3162
+      },
+      {
+        "year": 2024,
+        "value": 10.8142
       }
     ],
     "enrollment_headcount_total": [

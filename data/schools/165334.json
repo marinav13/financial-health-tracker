@@ -1,6 +1,6 @@
 {
   "unitid": "165334",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Clark University",
     "institution_unique_name": "Clark University | Worcester | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 32.7671,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 66.2107,
-    "net_tuition_per_fte_change_5yr": -4.1616,
+    "net_tuition_per_fte_change_5yr": -4.9099,
     "staff_total_headcount_pct_change_5yr": 6.9444,
     "staff_instructional_headcount_pct_change_5yr": 7.6726,
     "students_per_instructional_staff_fte": 12.4481,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 42.3481,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.1201,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.2168,
+    "unfunded_discount_pct_change_5yr": 3.2051,
     "share_grad_students": 46.5192,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6912000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22153.4518
+        "value": 21640.0966
       },
       {
         "year": 2015,
-        "value": 23496.9344
+        "value": 23355.7379
       },
       {
         "year": 2016,
-        "value": 23681.6179
+        "value": 23477.0251
       },
       {
         "year": 2017,
-        "value": 23582.8125
+        "value": 23600.7515
       },
       {
         "year": 2018,
-        "value": 25664.5684
+        "value": 25710.3942
       },
       {
         "year": 2019,
-        "value": 24976.7706
+        "value": 25037.7876
       },
       {
         "year": 2020,
-        "value": 26104.7727
+        "value": 24639.0638
       },
       {
         "year": 2021,
-        "value": 25656.5975
+        "value": 25628.7997
       },
       {
         "year": 2022,
-        "value": 24505.0078
+        "value": 24453.3387
       },
       {
         "year": 2023,
-        "value": 24076.4981
+        "value": 23982.3626
       },
       {
         "year": 2024,
-        "value": 23937.3454
+        "value": 23808.4639
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.0101
+      },
+      {
+        "year": 2015,
+        "value": 41.5067
+      },
+      {
+        "year": 2016,
+        "value": 42.0385
+      },
+      {
+        "year": 2017,
+        "value": 42.0451
+      },
+      {
+        "year": 2018,
+        "value": 43.0483
+      },
+      {
+        "year": 2019,
+        "value": 44.7815
+      },
+      {
+        "year": 2020,
+        "value": 46.9966
+      },
+      {
+        "year": 2021,
+        "value": 43.7731
+      },
+      {
+        "year": 2022,
+        "value": 47.283
+      },
+      {
+        "year": 2023,
+        "value": 46.2235
+      },
+      {
+        "year": 2024,
+        "value": 46.2168
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "145619",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Benedictine University",
     "institution_unique_name": "Benedictine University | Lisle | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -44.2383,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -49.5391,
-    "net_tuition_per_fte_change_5yr": -34.5308,
+    "net_tuition_per_fte_change_5yr": -26.3518,
     "staff_total_headcount_pct_change_5yr": -32.299,
     "staff_instructional_headcount_pct_change_5yr": -24.9377,
     "students_per_instructional_staff_fte": 17.1893,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 71.681,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 80.9071,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.812,
+    "unfunded_discount_pct_change_5yr": 29.2733,
     "share_grad_students": 43.624,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 422030,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15242.4633
+        "value": 18339.2302
       },
       {
         "year": 2015,
-        "value": 15328.0024
+        "value": 17837.7267
       },
       {
         "year": 2016,
-        "value": 16016.6422
+        "value": 18666.8617
       },
       {
         "year": 2017,
-        "value": 19643.6814
+        "value": 19915.7566
       },
       {
         "year": 2018,
-        "value": 20235.9199
+        "value": 20312.6504
       },
       {
         "year": 2019,
-        "value": 19595.1298
+        "value": 19661.0048
       },
       {
         "year": 2020,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 14577.8421
+        "value": 14672.2702
       },
       {
         "year": 2023,
-        "value": 14449.1704
+        "value": 14502.634
       },
       {
         "year": 2024,
-        "value": 12828.7659
+        "value": 14479.9687
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.3449
+      },
+      {
+        "year": 2015,
+        "value": 29.6918
+      },
+      {
+        "year": 2016,
+        "value": 28.5049
+      },
+      {
+        "year": 2017,
+        "value": 29.2294
+      },
+      {
+        "year": 2018,
+        "value": 29.2211
+      },
+      {
+        "year": 2019,
+        "value": 31.5703
+      },
+      {
+        "year": 2020,
+        "value": 33.0697
+      },
+      {
+        "year": 2021,
+        "value": 37.415
+      },
+      {
+        "year": 2022,
+        "value": 38.1436
+      },
+      {
+        "year": 2023,
+        "value": 40.7334
+      },
+      {
+        "year": 2024,
+        "value": 40.812
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "195243",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. Thomas Aquinas College",
     "institution_unique_name": "St. Thomas Aquinas College | Sparkill | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.1411,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.9087,
-    "net_tuition_per_fte_change_5yr": -14.1126,
+    "net_tuition_per_fte_change_5yr": -30.484,
     "staff_total_headcount_pct_change_5yr": -6.3218,
     "staff_instructional_headcount_pct_change_5yr": -11.5108,
     "students_per_instructional_staff_fte": 17.5853,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 50.9884,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.1614,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.5188,
+    "unfunded_discount_pct_change_5yr": 6.1224,
     "share_grad_students": 8.6724,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21001.8207
+        "value": 20027.3685
       },
       {
         "year": 2015,
-        "value": 19532.6713
+        "value": 18332.3772
       },
       {
         "year": 2016,
-        "value": 19075.4427
+        "value": 18079.0202
       },
       {
         "year": 2017,
-        "value": 19242.5245
+        "value": 18015.0428
       },
       {
         "year": 2018,
-        "value": 17624.3552
+        "value": 16275.0355
       },
       {
         "year": 2019,
-        "value": 17215.4989
+        "value": 16336.2089
       },
       {
         "year": 2020,
-        "value": 16641.3543
+        "value": 15501.2633
       },
       {
         "year": 2021,
-        "value": 16109.4341
+        "value": 14646.1151
       },
       {
         "year": 2022,
-        "value": 14618.0938
+        "value": 12414.0444
       },
       {
         "year": 2023,
-        "value": 14018.8609
+        "value": 10902.3369
       },
       {
         "year": 2024,
-        "value": 14785.9458
+        "value": 11356.2759
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.3294
+      },
+      {
+        "year": 2015,
+        "value": 40.5754
+      },
+      {
+        "year": 2016,
+        "value": 44.449
+      },
+      {
+        "year": 2017,
+        "value": 45.7957
+      },
+      {
+        "year": 2018,
+        "value": 48.1563
+      },
+      {
+        "year": 2019,
+        "value": 51.3736
+      },
+      {
+        "year": 2020,
+        "value": 53.2435
+      },
+      {
+        "year": 2021,
+        "value": 52.7941
+      },
+      {
+        "year": 2022,
+        "value": 55.7452
+      },
+      {
+        "year": 2023,
+        "value": 55.115
+      },
+      {
+        "year": 2024,
+        "value": 54.5188
       }
     ],
     "enrollment_headcount_total": [

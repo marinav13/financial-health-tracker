@@ -1,6 +1,6 @@
 {
   "unitid": "161004",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bowdoin College",
     "institution_unique_name": "Bowdoin College | Brunswick | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.4886,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 10.4108,
-    "net_tuition_per_fte_change_5yr": -5.9616,
+    "net_tuition_per_fte_change_5yr": -16.1613,
     "staff_total_headcount_pct_change_5yr": 3.4123,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 7.6494,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 16.1965,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 13.8737,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 7.4796,
+    "unfunded_discount_pct_change_5yr": -31.3512,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3379000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37820.9915
+        "value": 37114.0982
       },
       {
         "year": 2015,
-        "value": 39358.2042
+        "value": 38637.2441
       },
       {
         "year": 2016,
-        "value": 39745.7203
+        "value": 38988.2712
       },
       {
         "year": 2017,
-        "value": 40697.0492
+        "value": 39938.5015
       },
       {
         "year": 2018,
-        "value": 39469.6914
+        "value": 38357.198
       },
       {
         "year": 2019,
-        "value": 38868.9317
+        "value": 37345.1635
       },
       {
         "year": 2020,
-        "value": 39995.277
+        "value": 38094.2756
       },
       {
         "year": 2021,
-        "value": 38300.1459
+        "value": 36494.0767
       },
       {
         "year": 2022,
-        "value": 37263.3842
+        "value": 33628.4365
       },
       {
         "year": 2023,
-        "value": 37404.5931
+        "value": 33373.1463
       },
       {
         "year": 2024,
-        "value": 36551.7052
+        "value": 31309.681
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.9289
+      },
+      {
+        "year": 2015,
+        "value": 12.1535
+      },
+      {
+        "year": 2016,
+        "value": 10.5315
+      },
+      {
+        "year": 2017,
+        "value": 7.1768
+      },
+      {
+        "year": 2018,
+        "value": 8.4164
+      },
+      {
+        "year": 2019,
+        "value": 10.8954
+      },
+      {
+        "year": 2020,
+        "value": 10.9069
+      },
+      {
+        "year": 2021,
+        "value": 6.9167
+      },
+      {
+        "year": 2022,
+        "value": 10.6616
+      },
+      {
+        "year": 2023,
+        "value": 9.7504
+      },
+      {
+        "year": 2024,
+        "value": 7.4796
       }
     ],
     "enrollment_headcount_total": [

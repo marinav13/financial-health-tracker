@@ -1,6 +1,6 @@
 {
   "unitid": "215798",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Vincent College",
     "institution_unique_name": "Saint Vincent College | Latrobe | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.2167,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.5378,
-    "net_tuition_per_fte_change_5yr": 8.3457,
+    "net_tuition_per_fte_change_5yr": 8.3721,
     "staff_total_headcount_pct_change_5yr": -1.7928,
     "staff_instructional_headcount_pct_change_5yr": -9.7826,
     "students_per_instructional_staff_fte": 11.7486,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 33.6468,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.9278,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.7971,
+    "unfunded_discount_pct_change_5yr": -9.9308,
     "share_grad_students": 14.3586,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 113088,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17601.4389
+        "value": 17763.6164
       },
       {
         "year": 2015,
-        "value": 18233.398
+        "value": 18395.9078
       },
       {
         "year": 2016,
-        "value": 18763.0743
+        "value": 18921.2985
       },
       {
         "year": 2017,
-        "value": 18634.4672
+        "value": 18790.3288
       },
       {
         "year": 2018,
-        "value": 17653.0988
+        "value": 17798.598
       },
       {
         "year": 2019,
-        "value": 18258.4065
+        "value": 18406.3783
       },
       {
         "year": 2020,
-        "value": 18539.2708
+        "value": 18692.6266
       },
       {
         "year": 2021,
-        "value": 18616.6212
+        "value": 18772.5456
       },
       {
         "year": 2022,
-        "value": 18426.8178
+        "value": 18580.9447
       },
       {
         "year": 2023,
-        "value": 19529.4748
+        "value": 19685.4111
       },
       {
         "year": 2024,
-        "value": 19782.2026
+        "value": 19947.3773
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 47.8689
+      },
+      {
+        "year": 2015,
+        "value": 48.407
+      },
+      {
+        "year": 2016,
+        "value": 48.6292
+      },
+      {
+        "year": 2017,
+        "value": 49.3727
+      },
+      {
+        "year": 2018,
+        "value": 50.9039
+      },
+      {
+        "year": 2019,
+        "value": 50.8466
+      },
+      {
+        "year": 2020,
+        "value": 50.2282
+      },
+      {
+        "year": 2021,
+        "value": 49.8236
+      },
+      {
+        "year": 2022,
+        "value": 49.0079
+      },
+      {
+        "year": 2023,
+        "value": 46.7733
+      },
+      {
+        "year": 2024,
+        "value": 45.7971
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "201195",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Baldwin Wallace University",
     "institution_unique_name": "Baldwin Wallace University | Berea | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.9476,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.1115,
-    "net_tuition_per_fte_change_5yr": -17.1454,
+    "net_tuition_per_fte_change_5yr": -16.3396,
     "staff_total_headcount_pct_change_5yr": -8.642,
     "staff_instructional_headcount_pct_change_5yr": -6.9825,
     "students_per_instructional_staff_fte": 12.451,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 48.8515,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.3266,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.8528,
+    "unfunded_discount_pct_change_5yr": 20.7158,
     "share_grad_students": 19.7477,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 481227,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20421.5852
+        "value": 20582.2916
       },
       {
         "year": 2015,
-        "value": 20566.3847
+        "value": 20722.3826
       },
       {
         "year": 2016,
-        "value": 20605.2465
+        "value": 20753.8174
       },
       {
         "year": 2017,
-        "value": 20620.8265
+        "value": 20766.6718
       },
       {
         "year": 2018,
-        "value": 20439.9317
+        "value": 20579.2576
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 19666.2657
+        "value": 19851.014
       },
       {
         "year": 2021,
-        "value": 17302.4946
+        "value": 18775.5124
       },
       {
         "year": 2022,
-        "value": 15264.1696
+        "value": 16896.9875
       },
       {
         "year": 2023,
-        "value": 15834.6698
+        "value": 15968.5601
       },
       {
         "year": 2024,
-        "value": 16621.8511
+        "value": 16783.4985
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.5953
+      },
+      {
+        "year": 2015,
+        "value": 35.3399
+      },
+      {
+        "year": 2016,
+        "value": 36.3636
+      },
+      {
+        "year": 2017,
+        "value": 36.8166
+      },
+      {
+        "year": 2018,
+        "value": 37.2667
+      },
+      {
+        "year": 2019,
+        "value": 37.9841
+      },
+      {
+        "year": 2020,
+        "value": 39.2202
+      },
+      {
+        "year": 2021,
+        "value": 41.9751
+      },
+      {
+        "year": 2022,
+        "value": 45.0646
+      },
+      {
+        "year": 2023,
+        "value": 45.5795
+      },
+      {
+        "year": 2024,
+        "value": 45.8528
       }
     ],
     "enrollment_headcount_total": [

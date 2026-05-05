@@ -1,6 +1,6 @@
 {
   "unitid": "221892",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trevecca Nazarene University",
     "institution_unique_name": "Trevecca Nazarene University | Nashville | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.9755,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.5169,
-    "net_tuition_per_fte_change_5yr": -11.2752,
+    "net_tuition_per_fte_change_5yr": -35.5966,
     "staff_total_headcount_pct_change_5yr": -0.3868,
     "staff_instructional_headcount_pct_change_5yr": -7.6923,
     "students_per_instructional_staff_fte": 18.1653,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 53.6179,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.6988,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.2449,
+    "unfunded_discount_pct_change_5yr": 34.7036,
     "share_grad_students": 48.6593,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16471.2504
+        "value": 10612.1665
       },
       {
         "year": 2015,
-        "value": 16373.4538
+        "value": 9467.2902
       },
       {
         "year": 2016,
-        "value": 16577.0076
+        "value": 9450.851
       },
       {
         "year": 2017,
-        "value": 16188.3134
+        "value": 10041.9878
       },
       {
         "year": 2018,
-        "value": 16118.5241
+        "value": 10211.844
       },
       {
         "year": 2019,
-        "value": 15781.9428
+        "value": 10015.2515
       },
       {
         "year": 2020,
-        "value": 15797.8866
+        "value": 10156.8272
       },
       {
         "year": 2021,
-        "value": 15300.595
+        "value": 9156.8272
       },
       {
         "year": 2022,
-        "value": 15978.385
+        "value": 8440.4415
       },
       {
         "year": 2023,
-        "value": 12730.6663
+        "value": 6236.5453
       },
       {
         "year": 2024,
-        "value": 14002.4972
+        "value": 6450.1652
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.0029
+      },
+      {
+        "year": 2015,
+        "value": 40.2133
+      },
+      {
+        "year": 2016,
+        "value": 40.6095
+      },
+      {
+        "year": 2017,
+        "value": 36.816
+      },
+      {
+        "year": 2018,
+        "value": 35.8556
+      },
+      {
+        "year": 2019,
+        "value": 35.8156
+      },
+      {
+        "year": 2020,
+        "value": 35.1679
+      },
+      {
+        "year": 2021,
+        "value": 37.4643
+      },
+      {
+        "year": 2022,
+        "value": 44.1216
+      },
+      {
+        "year": 2023,
+        "value": 46.5718
+      },
+      {
+        "year": 2024,
+        "value": 48.2449
       }
     ],
     "enrollment_headcount_total": [

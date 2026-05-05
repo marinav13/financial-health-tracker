@@ -1,6 +1,6 @@
 {
   "unitid": "111948",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Chapman University",
     "institution_unique_name": "Chapman University | Orange | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.8277,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 16.4948,
-    "net_tuition_per_fte_change_5yr": -7.177,
+    "net_tuition_per_fte_change_5yr": -7.0163,
     "staff_total_headcount_pct_change_5yr": 4.2916,
     "staff_instructional_headcount_pct_change_5yr": 4.5213,
     "students_per_instructional_staff_fte": 11.4501,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 60.4523,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 60.7059,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.9255,
+    "unfunded_discount_pct_change_5yr": 10.4144,
     "share_grad_students": 21.8828,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 26989000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36438.6072
+        "value": 36490.056
       },
       {
         "year": 2015,
-        "value": 38817.9794
+        "value": 38874.1568
       },
       {
         "year": 2016,
-        "value": 40659.1773
+        "value": 40734.7776
       },
       {
         "year": 2017,
-        "value": 41943.361
+        "value": 43978.4408
       },
       {
         "year": 2018,
-        "value": 42758.4378
+        "value": 42841.1167
       },
       {
         "year": 2019,
-        "value": 43644.023
+        "value": 43751.3615
       },
       {
         "year": 2020,
-        "value": 45517.371
+        "value": 45630.2235
       },
       {
         "year": 2021,
-        "value": 43443.0348
+        "value": 43696.7443
       },
       {
         "year": 2022,
-        "value": 41567.5413
+        "value": 41737.6501
       },
       {
         "year": 2023,
-        "value": 40942.4646
+        "value": 41114.0149
       },
       {
         "year": 2024,
-        "value": 40511.6719
+        "value": 40681.6228
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.7862
+      },
+      {
+        "year": 2015,
+        "value": 32.1049
+      },
+      {
+        "year": 2016,
+        "value": 31.9385
+      },
+      {
+        "year": 2017,
+        "value": 30.9991
+      },
+      {
+        "year": 2018,
+        "value": 31.9559
+      },
+      {
+        "year": 2019,
+        "value": 31.6313
+      },
+      {
+        "year": 2020,
+        "value": 32.1576
+      },
+      {
+        "year": 2021,
+        "value": 32.5127
+      },
+      {
+        "year": 2022,
+        "value": 33.5599
+      },
+      {
+        "year": 2023,
+        "value": 34.5322
+      },
+      {
+        "year": 2024,
+        "value": 34.9255
       }
     ],
     "enrollment_headcount_total": [

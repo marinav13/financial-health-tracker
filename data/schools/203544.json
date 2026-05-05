@@ -1,6 +1,6 @@
 {
   "unitid": "203544",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Kettering College",
     "institution_unique_name": "Kettering College | Kettering | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.2445,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -23.0581,
+    "net_tuition_per_fte_change_5yr": -25.712,
     "staff_total_headcount_pct_change_5yr": 14.7651,
     "staff_instructional_headcount_pct_change_5yr": 20.2128,
     "students_per_instructional_staff_fte": 13.3544,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 21.0973,
+    "unfunded_discount_pct_change_5yr": 243.1984,
     "share_grad_students": 24.7154,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -114,47 +116,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18011.2334
+        "value": 17979.6167
       },
       {
         "year": 2015,
-        "value": 20108.3023
+        "value": 22398.8497
       },
       {
         "year": 2016,
-        "value": 15935.7615
+        "value": 17718.9934
       },
       {
         "year": 2017,
-        "value": 16980.73
+        "value": 18468.5078
       },
       {
         "year": 2018,
-        "value": 17910.3538
+        "value": 19262.555
       },
       {
         "year": 2019,
-        "value": 19403.9168
+        "value": 20879.9805
       },
       {
         "year": 2020,
-        "value": 19656.1989
+        "value": 20981.9176
       },
       {
         "year": 2021,
-        "value": 18340.4842
+        "value": 19812.3059
       },
       {
         "year": 2022,
-        "value": 18338.7459
+        "value": 20808.9749
       },
       {
         "year": 2023,
-        "value": 15804.2012
+        "value": 16887.7926
       },
       {
         "year": 2024,
-        "value": 14929.7412
+        "value": 15511.3261
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 2.1617
+      },
+      {
+        "year": 2016,
+        "value": 3.1997
+      },
+      {
+        "year": 2017,
+        "value": 3.9571
+      },
+      {
+        "year": 2018,
+        "value": 5.4895
+      },
+      {
+        "year": 2019,
+        "value": 6.1473
+      },
+      {
+        "year": 2020,
+        "value": 6.4421
+      },
+      {
+        "year": 2021,
+        "value": 7.2142
+      },
+      {
+        "year": 2022,
+        "value": 7.962
+      },
+      {
+        "year": 2023,
+        "value": 12.6648
+      },
+      {
+        "year": 2024,
+        "value": 21.0973
       }
     ],
     "enrollment_headcount_total": [

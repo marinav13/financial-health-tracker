@@ -1,6 +1,6 @@
 {
   "unitid": "214069",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Misericordia University",
     "institution_unique_name": "Misericordia University | Dallas | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.1679,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -9.5898,
-    "net_tuition_per_fte_change_5yr": -9.8101,
+    "net_tuition_per_fte_change_5yr": -11.6093,
     "staff_total_headcount_pct_change_5yr": -7.8493,
     "staff_instructional_headcount_pct_change_5yr": 3.0201,
     "students_per_instructional_staff_fte": 10.3034,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 55.782,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.2857,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.8243,
+    "unfunded_discount_pct_change_5yr": 4.7662,
     "share_grad_students": 24.4949,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23266.0641
+        "value": 22901.2697
       },
       {
         "year": 2015,
-        "value": 24020.2387
+        "value": 23653.2962
       },
       {
         "year": 2016,
-        "value": 23445.6094
+        "value": 22993.1193
       },
       {
         "year": 2017,
-        "value": 23776.5882
+        "value": 23234.6061
       },
       {
         "year": 2018,
-        "value": 23217.6813
+        "value": 22562.3637
       },
       {
         "year": 2019,
-        "value": 24018.8043
+        "value": 23410.94
       },
       {
         "year": 2020,
-        "value": 25045.9731
+        "value": 24398.6039
       },
       {
         "year": 2021,
-        "value": 24172.2265
+        "value": 23627.5785
       },
       {
         "year": 2022,
-        "value": 21393.6005
+        "value": 20864.0676
       },
       {
         "year": 2023,
-        "value": 21842.5981
+        "value": 21030.024
       },
       {
         "year": 2024,
-        "value": 21662.5316
+        "value": 20693.0972
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.6094
+      },
+      {
+        "year": 2015,
+        "value": 31.1909
+      },
+      {
+        "year": 2016,
+        "value": 33.7217
+      },
+      {
+        "year": 2017,
+        "value": 36.3249
+      },
+      {
+        "year": 2018,
+        "value": 38.7817
+      },
+      {
+        "year": 2019,
+        "value": 38.967
+      },
+      {
+        "year": 2020,
+        "value": 37.0882
+      },
+      {
+        "year": 2021,
+        "value": 37.2731
+      },
+      {
+        "year": 2022,
+        "value": 37.9212
+      },
+      {
+        "year": 2023,
+        "value": 39.3899
+      },
+      {
+        "year": 2024,
+        "value": 40.8243
       }
     ],
     "enrollment_headcount_total": [

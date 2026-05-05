@@ -1,6 +1,6 @@
 {
   "unitid": "154527",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wartburg College",
     "institution_unique_name": "Wartburg College | Waverly | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.0153,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 9.943,
-    "net_tuition_per_fte_change_5yr": -14.9668,
+    "net_tuition_per_fte_change_5yr": -14.9627,
     "staff_total_headcount_pct_change_5yr": 4.5977,
     "staff_instructional_headcount_pct_change_5yr": -5.8442,
     "students_per_instructional_staff_fte": 13.9561,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 32.8184,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.051,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 63.0792,
+    "unfunded_discount_pct_change_5yr": 16.429,
     "share_grad_students": 1.5936,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20337.6038
+        "value": 20460.7187
       },
       {
         "year": 2015,
-        "value": 21295.2277
+        "value": 21423.7306
       },
       {
         "year": 2016,
-        "value": 20767.67
+        "value": 20905.0936
       },
       {
         "year": 2017,
-        "value": 19860.3852
+        "value": 19998.9772
       },
       {
         "year": 2018,
-        "value": 19308.8853
+        "value": 19441.4931
       },
       {
         "year": 2019,
-        "value": 18576.4196
+        "value": 18707.1686
       },
       {
         "year": 2020,
-        "value": 20006.4718
+        "value": 19928.5589
       },
       {
         "year": 2021,
-        "value": 19611.2715
+        "value": 19734.1587
       },
       {
         "year": 2022,
-        "value": 17691.6211
+        "value": 17807.4001
       },
       {
         "year": 2023,
-        "value": 16764.1811
+        "value": 16883.4474
       },
       {
         "year": 2024,
-        "value": 15796.1267
+        "value": 15908.0728
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.0091
+      },
+      {
+        "year": 2015,
+        "value": 49.0218
+      },
+      {
+        "year": 2016,
+        "value": 50.2807
+      },
+      {
+        "year": 2017,
+        "value": 52.7816
+      },
+      {
+        "year": 2018,
+        "value": 51.1778
+      },
+      {
+        "year": 2019,
+        "value": 54.1783
+      },
+      {
+        "year": 2020,
+        "value": 56.0694
+      },
+      {
+        "year": 2021,
+        "value": 57.0254
+      },
+      {
+        "year": 2022,
+        "value": 59.1112
+      },
+      {
+        "year": 2023,
+        "value": 60.8145
+      },
+      {
+        "year": 2024,
+        "value": 63.0792
       }
     ],
     "enrollment_headcount_total": [

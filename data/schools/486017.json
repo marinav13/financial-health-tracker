@@ -1,6 +1,6 @@
 {
   "unitid": "486017",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Ohr Yisrael",
     "institution_unique_name": "Yeshiva Ohr Yisrael | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -57.5,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 23.8203,
-    "net_tuition_per_fte_change_5yr": 63.8596,
+    "net_tuition_per_fte_change_5yr": 61.1649,
     "staff_total_headcount_pct_change_5yr": 0,
     "staff_instructional_headcount_pct_change_5yr": -11.1111,
     "students_per_instructional_staff_fte": 3.4286,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 25.852,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 25.4269,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.6805,
+    "unfunded_discount_pct_change_5yr": 0.5299,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -155,7 +157,7 @@
       },
       {
         "year": 2016,
-        "value": 29144.2501
+        "value": 29141.4494
       },
       {
         "year": 2017,
@@ -179,15 +181,57 @@
       },
       {
         "year": 2022,
-        "value": 34340.8754
+        "value": 33543.2636
       },
       {
         "year": 2023,
-        "value": 51503.4518
+        "value": 50206.1485
       },
       {
         "year": 2024,
-        "value": 56713.3125
+        "value": 55780.625
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2015,
+        "value": 31.8507
+      },
+      {
+        "year": 2016,
+        "value": 30.6732
+      },
+      {
+        "year": 2017,
+        "value": 26.4678
+      },
+      {
+        "year": 2018,
+        "value": 23.3915
+      },
+      {
+        "year": 2019,
+        "value": 27.5346
+      },
+      {
+        "year": 2020,
+        "value": 27.4927
+      },
+      {
+        "year": 2021,
+        "value": 29.911
+      },
+      {
+        "year": 2022,
+        "value": 25.0096
+      },
+      {
+        "year": 2023,
+        "value": 26.0432
+      },
+      {
+        "year": 2024,
+        "value": 27.6805
       }
     ],
     "enrollment_headcount_total": [

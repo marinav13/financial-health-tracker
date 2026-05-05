@@ -1,6 +1,6 @@
 {
   "unitid": "198808",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lees-McRae College",
     "institution_unique_name": "Lees-McRae College | Banner Elk | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -13.4503,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.9591,
-    "net_tuition_per_fte_change_5yr": -9.2287,
+    "net_tuition_per_fte_change_5yr": -9.8796,
     "staff_total_headcount_pct_change_5yr": 23.6607,
     "staff_instructional_headcount_pct_change_5yr": 7.0175,
     "students_per_instructional_staff_fte": 10.5861,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 35.4587,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.7707,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.62,
+    "unfunded_discount_pct_change_5yr": 6.1767,
     "share_grad_students": 2.9279,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12990.3247
+        "value": 12963.9572
       },
       {
         "year": 2015,
-        "value": 12640.9857
+        "value": 13077.3589
       },
       {
         "year": 2016,
-        "value": 12829.6585
+        "value": 13129.6745
       },
       {
         "year": 2017,
-        "value": 12299.4899
+        "value": 12194.0351
       },
       {
         "year": 2018,
-        "value": 11351.8851
+        "value": 11460.471
       },
       {
         "year": 2019,
-        "value": 11095.696
+        "value": 11274.1699
       },
       {
         "year": 2020,
-        "value": 9966.3504
+        "value": 10108.0221
       },
       {
         "year": 2021,
-        "value": 10091.9068
+        "value": 10235.921
       },
       {
         "year": 2022,
-        "value": 9733.5235
+        "value": 9822.8409
       },
       {
         "year": 2023,
-        "value": 9086.0315
+        "value": 9232.6312
       },
       {
         "year": 2024,
-        "value": 10071.7108
+        "value": 10160.324
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 55.5145
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 55.8042
+      },
+      {
+        "year": 2017,
+        "value": 57.6671
+      },
+      {
+        "year": 2018,
+        "value": 47.4094
+      },
+      {
+        "year": 2019,
+        "value": 48.617
+      },
+      {
+        "year": 2020,
+        "value": 52.0106
+      },
+      {
+        "year": 2021,
+        "value": 52.4194
+      },
+      {
+        "year": 2022,
+        "value": 52.9443
+      },
+      {
+        "year": 2023,
+        "value": 53.6321
+      },
+      {
+        "year": 2024,
+        "value": 51.62
       }
     ],
     "enrollment_headcount_total": [

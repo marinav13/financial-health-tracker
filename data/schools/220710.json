@@ -1,6 +1,6 @@
 {
   "unitid": "220710",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Maryville College",
     "institution_unique_name": "Maryville College | Maryville | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.2447,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 21.7721,
-    "net_tuition_per_fte_change_5yr": 4.664,
+    "net_tuition_per_fte_change_5yr": 40.339,
     "staff_total_headcount_pct_change_5yr": -3.6842,
     "staff_instructional_headcount_pct_change_5yr": -24.8227,
     "students_per_instructional_staff_fte": 12.2953,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 29.1937,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.8792,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.2267,
+    "unfunded_discount_pct_change_5yr": -31.1464,
     "share_grad_students": 0.5696,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 15310.055
+        "value": 18669.4929
       },
       {
         "year": 2016,
-        "value": 11916.3752
+        "value": 15262.0505
       },
       {
         "year": 2017,
-        "value": 12253.6603
+        "value": 15323.1685
       },
       {
         "year": 2018,
-        "value": 12324.7505
+        "value": 15419.9237
       },
       {
         "year": 2019,
-        "value": 13629.5991
+        "value": 13885.4247
       },
       {
         "year": 2020,
-        "value": 17266.9164
+        "value": 18934.1911
       },
       {
         "year": 2021,
-        "value": 16732.8171
+        "value": 21968.8999
       },
       {
         "year": 2022,
-        "value": 14508.0269
+        "value": 19949.5969
       },
       {
         "year": 2023,
-        "value": 15064.4786
+        "value": 15486.0395
       },
       {
         "year": 2024,
-        "value": 14265.2872
+        "value": 19486.6619
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.8202
+      },
+      {
+        "year": 2015,
+        "value": 44.1396
+      },
+      {
+        "year": 2016,
+        "value": 51.2608
+      },
+      {
+        "year": 2017,
+        "value": 50.2726
+      },
+      {
+        "year": 2018,
+        "value": 49.7865
+      },
+      {
+        "year": 2019,
+        "value": 52.6141
+      },
+      {
+        "year": 2020,
+        "value": 44.2001
+      },
+      {
+        "year": 2021,
+        "value": 34.8058
+      },
+      {
+        "year": 2022,
+        "value": 31.7906
+      },
+      {
+        "year": 2023,
+        "value": 44.5872
+      },
+      {
+        "year": 2024,
+        "value": 36.2267
       }
     ],
     "enrollment_headcount_total": [

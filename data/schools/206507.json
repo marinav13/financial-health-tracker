@@ -1,6 +1,6 @@
 {
   "unitid": "206507",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wilmington College",
     "institution_unique_name": "Wilmington College | Wilmington | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.9817,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -8.1474,
-    "net_tuition_per_fte_change_5yr": -1.618,
+    "net_tuition_per_fte_change_5yr": 1.2747,
     "staff_total_headcount_pct_change_5yr": 7.8431,
     "staff_instructional_headcount_pct_change_5yr": 9.901,
     "students_per_instructional_staff_fte": 13.026,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 43.9736,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.6211,
+    "unfunded_discount_pct_change_5yr": 5.0978,
     "share_grad_students": 5.0781,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13762.2267
+        "value": 14031.8689
       },
       {
         "year": 2015,
-        "value": 14526.7957
+        "value": 14802.0878
       },
       {
         "year": 2016,
-        "value": 14082.7676
+        "value": 14367.7496
       },
       {
         "year": 2017,
-        "value": 14114.7664
+        "value": 14391.8231
       },
       {
         "year": 2018,
-        "value": 13435.2023
+        "value": 13434.8637
       },
       {
         "year": 2019,
-        "value": 13149.6425
+        "value": 12774.0479
       },
       {
         "year": 2020,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 12948.6436
+        "value": 13387.1405
       },
       {
         "year": 2022,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 12936.8804
+        "value": 12936.8794
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 53.6749
+      },
+      {
+        "year": 2015,
+        "value": 54.7923
+      },
+      {
+        "year": 2016,
+        "value": 46.3996
+      },
+      {
+        "year": 2017,
+        "value": 47.3319
+      },
+      {
+        "year": 2018,
+        "value": 46.9481
+      },
+      {
+        "year": 2019,
+        "value": 49.1172
+      },
+      {
+        "year": 2020,
+        "value": 50.0163
+      },
+      {
+        "year": 2021,
+        "value": 47.4004
+      },
+      {
+        "year": 2022,
+        "value": 47.1554
+      },
+      {
+        "year": 2023,
+        "value": 53.0708
+      },
+      {
+        "year": 2024,
+        "value": 51.6211
       }
     ],
     "enrollment_headcount_total": [

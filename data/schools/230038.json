@@ -1,6 +1,6 @@
 {
   "unitid": "230038",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Brigham Young University",
     "institution_unique_name": "Brigham Young University | Provo | Utah",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.9303,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 49.0927,
-    "net_tuition_per_fte_change_5yr": -12.9561,
+    "net_tuition_per_fte_change_5yr": -5.0389,
     "staff_total_headcount_pct_change_5yr": 11.4134,
     "staff_instructional_headcount_pct_change_5yr": 6.483,
     "students_per_instructional_staff_fte": 22.5877,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 11.6533,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 9.6624,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 10% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 1.1111,
+    "unfunded_discount_pct_change_5yr": -44.8023,
     "share_grad_students": 8.0585,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 68917391,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7758.2858
+        "value": 5973.6532
       },
       {
         "year": 2015,
-        "value": 7566.8003
+        "value": 5760.2235
       },
       {
         "year": 2016,
-        "value": 7417.0162
+        "value": 5850.9589
       },
       {
         "year": 2017,
-        "value": 7574.2425
+        "value": 5873.0186
       },
       {
         "year": 2018,
-        "value": 7582.9526
+        "value": 5724.0658
       },
       {
         "year": 2019,
-        "value": 7860.7106
+        "value": 5974.3447
       },
       {
         "year": 2020,
-        "value": 7568.5318
+        "value": 6156.6574
       },
       {
         "year": 2021,
-        "value": 6332.3654
+        "value": 5009.2279
       },
       {
         "year": 2022,
-        "value": 6425.1372
+        "value": 5216.9299
       },
       {
         "year": 2023,
-        "value": 6948.7222
+        "value": 5777.3251
       },
       {
         "year": 2024,
-        "value": 6842.2655
+        "value": 5673.3042
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.022
+      },
+      {
+        "year": 2015,
+        "value": 2.0564
+      },
+      {
+        "year": 2016,
+        "value": 2.0584
+      },
+      {
+        "year": 2017,
+        "value": 1.9924
+      },
+      {
+        "year": 2018,
+        "value": 2.0371
+      },
+      {
+        "year": 2019,
+        "value": 2.013
+      },
+      {
+        "year": 2020,
+        "value": 1.9837
+      },
+      {
+        "year": 2021,
+        "value": 2.0603
+      },
+      {
+        "year": 2022,
+        "value": 1.2744
+      },
+      {
+        "year": 2023,
+        "value": 1.1175
+      },
+      {
+        "year": 2024,
+        "value": 1.1111
       }
     ],
     "enrollment_headcount_total": [

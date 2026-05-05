@@ -1,6 +1,6 @@
 {
   "unitid": "228981",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Texas Lutheran University",
     "institution_unique_name": "Texas Lutheran University | Seguin | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.8065,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 34.0195,
-    "net_tuition_per_fte_change_5yr": 7.354,
+    "net_tuition_per_fte_change_5yr": 4.8421,
     "staff_total_headcount_pct_change_5yr": 36.5248,
     "staff_instructional_headcount_pct_change_5yr": 31.8519,
     "students_per_instructional_staff_fte": 12.4319,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 38.7811,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.6382,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.686,
+    "unfunded_discount_pct_change_5yr": -24.8524,
     "share_grad_students": 7.3587,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 38314,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16134.373
+        "value": 17877.3525
       },
       {
         "year": 2015,
-        "value": 15710.2433
+        "value": 17522.8531
       },
       {
         "year": 2016,
-        "value": 15639.339
+        "value": 17587.2264
       },
       {
         "year": 2017,
-        "value": 14383.8887
+        "value": 16458.9105
       },
       {
         "year": 2018,
-        "value": 13669.6018
+        "value": 15432.324
       },
       {
         "year": 2019,
-        "value": 12339.8433
+        "value": 13892.1865
       },
       {
         "year": 2020,
-        "value": 13004.3552
+        "value": 14734.4369
       },
       {
         "year": 2021,
-        "value": 13882.4944
+        "value": 16444.9262
       },
       {
         "year": 2022,
-        "value": 15042.2182
+        "value": 17686.2856
       },
       {
         "year": 2023,
-        "value": 15522.0929
+        "value": 16810.761
       },
       {
         "year": 2024,
-        "value": 13247.3114
+        "value": 14564.8541
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.977
+      },
+      {
+        "year": 2015,
+        "value": 38.6692
+      },
+      {
+        "year": 2016,
+        "value": 41.1765
+      },
+      {
+        "year": 2017,
+        "value": 46.0476
+      },
+      {
+        "year": 2018,
+        "value": 48.5874
+      },
+      {
+        "year": 2019,
+        "value": 50.1493
+      },
+      {
+        "year": 2020,
+        "value": 46.1414
+      },
+      {
+        "year": 2021,
+        "value": 39.1343
+      },
+      {
+        "year": 2022,
+        "value": 34.1835
+      },
+      {
+        "year": 2023,
+        "value": 36.8039
+      },
+      {
+        "year": 2024,
+        "value": 37.686
       }
     ],
     "enrollment_headcount_total": [

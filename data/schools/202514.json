@@ -1,6 +1,6 @@
 {
   "unitid": "202514",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Defiance College",
     "institution_unique_name": "Defiance College | Defiance | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.0629,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.3365,
-    "net_tuition_per_fte_change_5yr": -26.6111,
+    "net_tuition_per_fte_change_5yr": -26.3996,
     "staff_total_headcount_pct_change_5yr": 4.4025,
     "staff_instructional_headcount_pct_change_5yr": -14.8649,
     "students_per_instructional_staff_fte": 10.8175,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 36.2151,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.1406,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 58.5797,
+    "unfunded_discount_pct_change_5yr": 18.4887,
     "share_grad_students": 8.5664,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18757.1068
+        "value": 18668.6261
       },
       {
         "year": 2015,
-        "value": 18107.5852
+        "value": 18010.9259
       },
       {
         "year": 2016,
-        "value": 19492.9497
+        "value": 19369.9232
       },
       {
         "year": 2017,
-        "value": 20033.4758
+        "value": 19960.9964
       },
       {
         "year": 2018,
-        "value": 19854.663
+        "value": 19759.493
       },
       {
         "year": 2019,
-        "value": 17985.211
+        "value": 17896.6106
       },
       {
         "year": 2020,
-        "value": 16565.2298
+        "value": 16368.0185
       },
       {
         "year": 2021,
-        "value": 13774.8644
+        "value": 14023.5737
       },
       {
         "year": 2022,
-        "value": 13722.6432
+        "value": 13315.6386
       },
       {
         "year": 2023,
-        "value": 11953.5918
+        "value": 12436.9265
       },
       {
         "year": 2024,
-        "value": 13199.1437
+        "value": 13171.9777
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.8925
+      },
+      {
+        "year": 2015,
+        "value": 44.6795
+      },
+      {
+        "year": 2016,
+        "value": 44.6624
+      },
+      {
+        "year": 2017,
+        "value": 46.2462
+      },
+      {
+        "year": 2018,
+        "value": 46.0738
+      },
+      {
+        "year": 2019,
+        "value": 49.439
+      },
+      {
+        "year": 2020,
+        "value": 52.7205
+      },
+      {
+        "year": 2021,
+        "value": 58.6901
+      },
+      {
+        "year": 2022,
+        "value": 59.4329
+      },
+      {
+        "year": 2023,
+        "value": 60.5831
+      },
+      {
+        "year": 2024,
+        "value": 58.5797
       }
     ],
     "enrollment_headcount_total": [

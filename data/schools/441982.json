@@ -1,6 +1,6 @@
 {
   "unitid": "441982",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franklin W Olin College of Engineering",
     "institution_unique_name": "Franklin W Olin College of Engineering | Needham | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.8692,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 49.0739,
-    "net_tuition_per_fte_change_5yr": -6.2546,
+    "net_tuition_per_fte_change_5yr": -6.6913,
     "staff_total_headcount_pct_change_5yr": 5.7143,
     "staff_instructional_headcount_pct_change_5yr": -5.2632,
     "students_per_instructional_staff_fte": 7.8355,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 11.072,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 9.9794,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 10% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 69.1883,
+    "unfunded_discount_pct_change_5yr": 1.3455,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2329000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19545.3847
+        "value": 18399.5657
       },
       {
         "year": 2015,
-        "value": 18026.1228
+        "value": 16803.8615
       },
       {
         "year": 2016,
-        "value": 18690.8053
+        "value": 17419.7484
       },
       {
         "year": 2017,
-        "value": 18414.7341
+        "value": 17139.4497
       },
       {
         "year": 2018,
-        "value": 18881.2299
+        "value": 17261.0556
       },
       {
         "year": 2019,
-        "value": 18916.121
+        "value": 17129.2749
       },
       {
         "year": 2020,
-        "value": 19618.8697
+        "value": 17607.1889
       },
       {
         "year": 2021,
-        "value": 21120.6374
+        "value": 19956.285
       },
       {
         "year": 2022,
-        "value": 19065.5979
+        "value": 17417.4282
       },
       {
         "year": 2023,
-        "value": 18090.4592
+        "value": 16545.715
       },
       {
         "year": 2024,
-        "value": 17732.9975
+        "value": 15983.1108
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 65.3058
+      },
+      {
+        "year": 2015,
+        "value": 64.579
+      },
+      {
+        "year": 2016,
+        "value": 65.7005
+      },
+      {
+        "year": 2017,
+        "value": 65.7897
+      },
+      {
+        "year": 2018,
+        "value": 67.7456
+      },
+      {
+        "year": 2019,
+        "value": 68.2697
+      },
+      {
+        "year": 2020,
+        "value": 68.4818
+      },
+      {
+        "year": 2021,
+        "value": 65.4629
+      },
+      {
+        "year": 2022,
+        "value": 67.5253
+      },
+      {
+        "year": 2023,
+        "value": 67.9875
+      },
+      {
+        "year": 2024,
+        "value": 69.1883
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "154350",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Simpson College",
     "institution_unique_name": "Simpson College | Indianola | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.1007,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.4334,
-    "net_tuition_per_fte_change_5yr": -25.5304,
+    "net_tuition_per_fte_change_5yr": 1.0628,
     "staff_total_headcount_pct_change_5yr": -7.5188,
     "staff_instructional_headcount_pct_change_5yr": -14.0449,
     "students_per_instructional_staff_fte": 11.9508,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 42.243,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.7135,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.3687,
+    "unfunded_discount_pct_change_5yr": 11.8486,
     "share_grad_students": 4.4234,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16438.1548
+        "value": 16422.7321
       },
       {
         "year": 2015,
-        "value": 17368.8646
+        "value": 17446.3789
       },
       {
         "year": 2016,
-        "value": 17859.9364
+        "value": 17938.3684
       },
       {
         "year": 2017,
-        "value": 17677.7604
+        "value": 17751.0531
       },
       {
         "year": 2018,
-        "value": 17834.4558
+        "value": 17943.9072
       },
       {
         "year": 2019,
-        "value": 17095.3136
+        "value": 17210.2753
       },
       {
         "year": 2020,
-        "value": 17045.0334
+        "value": 17188.3412
       },
       {
         "year": 2021,
-        "value": 15612.4973
+        "value": 15660.8455
       },
       {
         "year": 2022,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 12730.8066
+        "value": 17393.1827
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.8592
+      },
+      {
+        "year": 2015,
+        "value": 44.8073
+      },
+      {
+        "year": 2016,
+        "value": 45.8157
+      },
+      {
+        "year": 2017,
+        "value": 45.5273
+      },
+      {
+        "year": 2018,
+        "value": 45.7351
+      },
+      {
+        "year": 2019,
+        "value": 50.3973
+      },
+      {
+        "year": 2020,
+        "value": 52.3011
+      },
+      {
+        "year": 2021,
+        "value": 52.4412
+      },
+      {
+        "year": 2022,
+        "value": 57.7548
+      },
+      {
+        "year": 2023,
+        "value": 60.7624
+      },
+      {
+        "year": 2024,
+        "value": 56.3687
       }
     ],
     "enrollment_headcount_total": [

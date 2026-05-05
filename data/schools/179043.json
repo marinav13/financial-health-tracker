@@ -1,6 +1,6 @@
 {
   "unitid": "179043",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rockhurst University",
     "institution_unique_name": "Rockhurst University | Kansas City | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.6313,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.2574,
-    "net_tuition_per_fte_change_5yr": -20.6643,
+    "net_tuition_per_fte_change_5yr": -21.845,
     "staff_total_headcount_pct_change_5yr": 5.1867,
     "staff_instructional_headcount_pct_change_5yr": 10.5263,
     "students_per_instructional_staff_fte": 14.232,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 66.6412,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.8637,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.0396,
+    "unfunded_discount_pct_change_5yr": -1.2482,
     "share_grad_students": 35.5457,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21092.2407
+        "value": 20027.9928
       },
       {
         "year": 2015,
-        "value": 21093.8827
+        "value": 20237.096
       },
       {
         "year": 2016,
-        "value": 23267.9235
+        "value": 21927.8155
       },
       {
         "year": 2017,
-        "value": 22293.2176
+        "value": 21443.4713
       },
       {
         "year": 2018,
-        "value": 22172.0122
+        "value": 21155.5606
       },
       {
         "year": 2019,
-        "value": 22654.433
+        "value": 21348.0193
       },
       {
         "year": 2020,
-        "value": 17426.1962
+        "value": 16414.9709
       },
       {
         "year": 2021,
-        "value": 20252.0549
+        "value": 19237.3726
       },
       {
         "year": 2022,
-        "value": 17941.9317
+        "value": 17048.0721
       },
       {
         "year": 2023,
-        "value": 18064.3437
+        "value": 16976.6835
       },
       {
         "year": 2024,
-        "value": 17973.0532
+        "value": 16684.5512
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.4919
+      },
+      {
+        "year": 2015,
+        "value": 48.3501
+      },
+      {
+        "year": 2016,
+        "value": 46.1427
+      },
+      {
+        "year": 2017,
+        "value": 47.3471
+      },
+      {
+        "year": 2018,
+        "value": 47.4731
+      },
+      {
+        "year": 2019,
+        "value": 48.6468
+      },
+      {
+        "year": 2020,
+        "value": 50.8606
+      },
+      {
+        "year": 2021,
+        "value": 46.2656
+      },
+      {
+        "year": 2022,
+        "value": 47.9745
+      },
+      {
+        "year": 2023,
+        "value": 50.856
+      },
+      {
+        "year": 2024,
+        "value": 48.0396
       }
     ],
     "enrollment_headcount_total": [

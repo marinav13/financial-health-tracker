@@ -1,6 +1,6 @@
 {
   "unitid": "175421",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Belhaven University",
     "institution_unique_name": "Belhaven University | Jackson | Mississippi",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.3407,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -31.5239,
-    "net_tuition_per_fte_change_5yr": -28.0246,
+    "net_tuition_per_fte_change_5yr": -26.6986,
     "staff_total_headcount_pct_change_5yr": -18.8659,
     "staff_instructional_headcount_pct_change_5yr": -25.972,
     "students_per_instructional_staff_fte": 13.4286,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 75.8523,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 77.3883,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.1354,
+    "unfunded_discount_pct_change_5yr": 48.0827,
     "share_grad_students": 62.6546,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11273.992
+        "value": 14157.0795
       },
       {
         "year": 2015,
@@ -171,15 +173,15 @@
       },
       {
         "year": 2017,
-        "value": 15147.2597
+        "value": 15533.614
       },
       {
         "year": 2018,
-        "value": 15784.2939
+        "value": 15888.052
       },
       {
         "year": 2019,
-        "value": 15769.1529
+        "value": 15797.427
       },
       {
         "year": 2020,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 10764.2877
+        "value": 10764.5661
       },
       {
         "year": 2022,
-        "value": 9679.0882
+        "value": 9867.8201
       },
       {
         "year": 2023,
-        "value": 10015.0004
+        "value": 9976.4325
       },
       {
         "year": 2024,
-        "value": 11349.906
+        "value": 11579.7394
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.6447
+      },
+      {
+        "year": 2015,
+        "value": 25.2773
+      },
+      {
+        "year": 2016,
+        "value": 24.1324
+      },
+      {
+        "year": 2017,
+        "value": 23.5907
+      },
+      {
+        "year": 2018,
+        "value": 23.8436
+      },
+      {
+        "year": 2019,
+        "value": 23.0516
+      },
+      {
+        "year": 2020,
+        "value": 22.0885
+      },
+      {
+        "year": 2021,
+        "value": 26.6965
+      },
+      {
+        "year": 2022,
+        "value": 26.6019
+      },
+      {
+        "year": 2023,
+        "value": 33.9571
+      },
+      {
+        "year": 2024,
+        "value": 34.1354
       }
     ],
     "enrollment_headcount_total": [

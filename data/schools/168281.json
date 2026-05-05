@@ -1,6 +1,6 @@
 {
   "unitid": "168281",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wheaton College (Massachusetts)",
     "institution_unique_name": "Wheaton College (Massachusetts) | Norton | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.2801,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.5787,
-    "net_tuition_per_fte_change_5yr": -25.9134,
+    "net_tuition_per_fte_change_5yr": -25.8669,
     "staff_total_headcount_pct_change_5yr": -7.6782,
     "staff_instructional_headcount_pct_change_5yr": -4.5685,
     "students_per_instructional_staff_fte": 12.0451,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 32.7814,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.7743,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.4893,
+    "unfunded_discount_pct_change_5yr": 13.0261,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 456971,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31366.2232
+        "value": 31172.4491
       },
       {
         "year": 2015,
-        "value": 31251.0184
+        "value": 31046.7599
       },
       {
         "year": 2016,
-        "value": 31116.9427
+        "value": 30943.9478
       },
       {
         "year": 2017,
-        "value": 29000.6255
+        "value": 28867.6399
       },
       {
         "year": 2018,
-        "value": 24964.6722
+        "value": 24829.6503
       },
       {
         "year": 2019,
-        "value": 23518.7498
+        "value": 23498.9639
       },
       {
         "year": 2020,
-        "value": 23661.4758
+        "value": 23650.1184
       },
       {
         "year": 2021,
-        "value": 21077.7147
+        "value": 21060.343
       },
       {
         "year": 2022,
-        "value": 19480.0276
+        "value": 19469.8828
       },
       {
         "year": 2023,
-        "value": 18988.3343
+        "value": 18975.8587
       },
       {
         "year": 2024,
-        "value": 17424.2464
+        "value": 17420.5051
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.7891
+      },
+      {
+        "year": 2015,
+        "value": 40.1358
+      },
+      {
+        "year": 2016,
+        "value": 41.6049
+      },
+      {
+        "year": 2017,
+        "value": 45.3587
+      },
+      {
+        "year": 2018,
+        "value": 49.7986
+      },
+      {
+        "year": 2019,
+        "value": 53.518
+      },
+      {
+        "year": 2020,
+        "value": 56.5025
+      },
+      {
+        "year": 2021,
+        "value": 57.0416
+      },
+      {
+        "year": 2022,
+        "value": 61.3844
+      },
+      {
+        "year": 2023,
+        "value": 59.928
+      },
+      {
+        "year": 2024,
+        "value": 60.4893
       }
     ],
     "enrollment_headcount_total": [

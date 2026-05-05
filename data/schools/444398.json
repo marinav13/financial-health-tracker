@@ -1,6 +1,6 @@
 {
   "unitid": "444398",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Baptist University of the Americas",
     "institution_unique_name": "Baptist University of the Americas | San Antonio | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 11.9318,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 54.9674,
-    "net_tuition_per_fte_change_5yr": 53.2964,
+    "net_tuition_per_fte_change_5yr": 31.4554,
     "staff_total_headcount_pct_change_5yr": 14.2857,
     "staff_instructional_headcount_pct_change_5yr": 28.125,
     "students_per_instructional_staff_fte": 4.0851,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 15.9563,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 8.5461,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 9% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": 2.5381,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 4714.3655
+        "value": 4774.4775
       },
       {
         "year": 2015,
-        "value": 4983.2274
+        "value": 5040.322
       },
       {
         "year": 2016,
-        "value": 4782.9463
+        "value": 3393.3822
       },
       {
         "year": 2017,
-        "value": 3216.4712
+        "value": 1630.5934
       },
       {
         "year": 2018,
-        "value": 6767.9019
+        "value": 2366.285
       },
       {
         "year": 2019,
-        "value": 9397.49
+        "value": 5869.4703
       },
       {
         "year": 2020,
-        "value": 12201.6846
+        "value": 9389.0093
       },
       {
         "year": 2021,
-        "value": 12305.814
+        "value": 9702.932
       },
       {
         "year": 2022,
-        "value": 12237.8455
+        "value": 7286.0504
       },
       {
         "year": 2023,
-        "value": 16987.92
+        "value": 9353.8695
       },
       {
         "year": 2024,
-        "value": 14406.0156
+        "value": 7715.7344
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.1098
+      },
+      {
+        "year": 2015,
+        "value": 10.9694
+      },
+      {
+        "year": 2016,
+        "value": 20.1674
+      },
+      {
+        "year": 2017,
+        "value": 26.8404
+      },
+      {
+        "year": 2018,
+        "value": 14.8909
+      },
+      {
+        "year": 2019,
+        "value": 13.1971
+      },
+      {
+        "year": 2020,
+        "value": 6.7285
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

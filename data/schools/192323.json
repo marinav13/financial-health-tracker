@@ -1,6 +1,6 @@
 {
   "unitid": "192323",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Le Moyne College",
     "institution_unique_name": "Le Moyne College | Syracuse | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.0575,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 34.683,
-    "net_tuition_per_fte_change_5yr": -12.526,
+    "net_tuition_per_fte_change_5yr": -10.293,
     "staff_total_headcount_pct_change_5yr": 21.4184,
     "staff_instructional_headcount_pct_change_5yr": 12.7778,
     "students_per_instructional_staff_fte": 11.2595,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 35.8526,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.4415,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.1783,
+    "unfunded_discount_pct_change_5yr": 2.9039,
     "share_grad_students": 20.6796,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 181438,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20196.3663
+        "value": 20196.3659
       },
       {
         "year": 2015,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 19385.5179
+        "value": 19213.4856
       },
       {
         "year": 2020,
-        "value": 19088.9056
+        "value": 18970.569
       },
       {
         "year": 2021,
-        "value": 18159.1649
+        "value": 18605.6023
       },
       {
         "year": 2022,
-        "value": 17047.8794
+        "value": 17354.828
       },
       {
         "year": 2023,
-        "value": 16610.1738
+        "value": 17009.828
       },
       {
         "year": 2024,
-        "value": 16957.2975
+        "value": 17235.8351
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.6335
+      },
+      {
+        "year": 2015,
+        "value": 43.0234
+      },
+      {
+        "year": 2016,
+        "value": 43.5163
+      },
+      {
+        "year": 2017,
+        "value": 43.4697
+      },
+      {
+        "year": 2018,
+        "value": 43.2628
+      },
+      {
+        "year": 2019,
+        "value": 44.8752
+      },
+      {
+        "year": 2020,
+        "value": 45.2229
+      },
+      {
+        "year": 2021,
+        "value": 45.4546
+      },
+      {
+        "year": 2022,
+        "value": 45.6132
+      },
+      {
+        "year": 2023,
+        "value": 45.9194
+      },
+      {
+        "year": 2024,
+        "value": 46.1783
       }
     ],
     "enrollment_headcount_total": [

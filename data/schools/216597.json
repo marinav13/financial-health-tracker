@@ -1,6 +1,6 @@
 {
   "unitid": "216597",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Villanova University",
     "institution_unique_name": "Villanova University | Villanova | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.1315,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 27.3134,
-    "net_tuition_per_fte_change_5yr": 1.3483,
+    "net_tuition_per_fte_change_5yr": 0.8784,
     "staff_total_headcount_pct_change_5yr": 17.1468,
     "staff_instructional_headcount_pct_change_5yr": 10.6289,
     "students_per_instructional_staff_fte": 9.7004,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 45.9238,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.1642,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.3147,
+    "unfunded_discount_pct_change_5yr": 3.8018,
     "share_grad_students": 33.0082,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 16676134,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37395.0167
+        "value": 37161.4687
       },
       {
         "year": 2015,
-        "value": 37366.4146
+        "value": 37109.8764
       },
       {
         "year": 2016,
-        "value": 37333.5608
+        "value": 37057.7504
       },
       {
         "year": 2017,
-        "value": 38500.7556
+        "value": 38057.9477
       },
       {
         "year": 2018,
-        "value": 38280.9118
+        "value": 37807.39
       },
       {
         "year": 2019,
-        "value": 39756.042
+        "value": 39280.5582
       },
       {
         "year": 2020,
-        "value": 40735.9691
+        "value": 40294.93
       },
       {
         "year": 2021,
-        "value": 38281.5914
+        "value": 37783.2698
       },
       {
         "year": 2022,
-        "value": 37698.7246
+        "value": 37143.0705
       },
       {
         "year": 2023,
-        "value": 38994.5233
+        "value": 38430.0636
       },
       {
         "year": 2024,
-        "value": 40292.0836
+        "value": 39625.6026
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.2785
+      },
+      {
+        "year": 2015,
+        "value": 26.806
+      },
+      {
+        "year": 2016,
+        "value": 27.6356
+      },
+      {
+        "year": 2017,
+        "value": 27.944
+      },
+      {
+        "year": 2018,
+        "value": 28.36
+      },
+      {
+        "year": 2019,
+        "value": 28.2411
+      },
+      {
+        "year": 2020,
+        "value": 28.151
+      },
+      {
+        "year": 2021,
+        "value": 29.3837
+      },
+      {
+        "year": 2022,
+        "value": 29.7352
+      },
+      {
+        "year": 2023,
+        "value": 29.4971
+      },
+      {
+        "year": 2024,
+        "value": 29.3147
       }
     ],
     "enrollment_headcount_total": [

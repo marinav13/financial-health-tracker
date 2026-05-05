@@ -1,6 +1,6 @@
 {
   "unitid": "158477",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Centenary College of Louisiana",
     "institution_unique_name": "Centenary College of Louisiana | Shreveport | Louisiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.8614,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 24.1634,
-    "net_tuition_per_fte_change_5yr": -15.0791,
+    "net_tuition_per_fte_change_5yr": -14.9302,
     "staff_total_headcount_pct_change_5yr": 31.25,
     "staff_instructional_headcount_pct_change_5yr": 71.25,
     "students_per_instructional_staff_fte": 7.8795,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 22.9158,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.8842,
+    "unfunded_discount_pct_change_5yr": 13.7741,
     "share_grad_students": 5.6522,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,35 +165,35 @@
       },
       {
         "year": 2015,
-        "value": 17948.0012
+        "value": 18029.3678
       },
       {
         "year": 2016,
-        "value": 17315.7465
+        "value": 17080.072
       },
       {
         "year": 2017,
-        "value": 17981.7558
+        "value": 17967.8278
       },
       {
         "year": 2018,
-        "value": 15481.8862
+        "value": 15481.6948
       },
       {
         "year": 2019,
-        "value": 14262.9862
+        "value": 14238.0048
       },
       {
         "year": 2020,
-        "value": 13800.2376
+        "value": 13787.3362
       },
       {
         "year": 2021,
-        "value": 13317.2786
+        "value": 13309.8044
       },
       {
         "year": 2022,
-        "value": 12397.3062
+        "value": 12392.1563
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12112.2492
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.8038
+      },
+      {
+        "year": 2015,
+        "value": 42.0661
+      },
+      {
+        "year": 2016,
+        "value": 39.348
+      },
+      {
+        "year": 2017,
+        "value": 43.2346
+      },
+      {
+        "year": 2018,
+        "value": 47.5772
+      },
+      {
+        "year": 2019,
+        "value": 49.9975
+      },
+      {
+        "year": 2020,
+        "value": 54.881
+      },
+      {
+        "year": 2021,
+        "value": 55.9993
+      },
+      {
+        "year": 2022,
+        "value": 52.7626
+      },
+      {
+        "year": 2023,
+        "value": 49.225
+      },
+      {
+        "year": 2024,
+        "value": 56.8842
       }
     ],
     "enrollment_headcount_total": [

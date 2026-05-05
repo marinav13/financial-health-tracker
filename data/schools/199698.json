@@ -1,6 +1,6 @@
 {
   "unitid": "199698",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. Andrews University",
     "institution_unique_name": "St. Andrews University | Laurinburg | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.5539,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.4857,
-    "net_tuition_per_fte_change_5yr": 31.86,
+    "net_tuition_per_fte_change_5yr": 118.7052,
     "staff_total_headcount_pct_change_5yr": -57.1885,
     "staff_instructional_headcount_pct_change_5yr": -11.2676,
     "students_per_instructional_staff_fte": 17.4,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 61.1323,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 19.1197,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.7241,
+    "unfunded_discount_pct_change_5yr": -15.8323,
     "share_grad_students": 3.3136,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11475.5307
+        "value": 13411.4546
       },
       {
         "year": 2015,
-        "value": 12192.6028
+        "value": 14127.8241
       },
       {
         "year": 2016,
-        "value": 11063.0413
+        "value": 12690.4082
       },
       {
         "year": 2017,
-        "value": 13650.6179
+        "value": 1059.2655
       },
       {
         "year": 2018,
-        "value": 13896.789
+        "value": 2974.273
       },
       {
         "year": 2019,
-        "value": 12896.2847
+        "value": 2431.8072
       },
       {
         "year": 2020,
-        "value": 13519.8921
+        "value": 3011.0609
       },
       {
         "year": 2021,
-        "value": 18062.7988
+        "value": 4978.6555
       },
       {
         "year": 2022,
-        "value": 17011.5992
+        "value": 6081.5875
       },
       {
         "year": 2023,
-        "value": 15304.5556
+        "value": 5255.3824
       },
       {
         "year": 2024,
-        "value": 17005.046
+        "value": 5318.4879
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 50.0294
+      },
+      {
+        "year": 2015,
+        "value": 50.2357
+      },
+      {
+        "year": 2016,
+        "value": 48.8233
+      },
+      {
+        "year": 2017,
+        "value": 92.5644
+      },
+      {
+        "year": 2018,
+        "value": 79.2916
+      },
+      {
+        "year": 2019,
+        "value": 81.6513
+      },
+      {
+        "year": 2020,
+        "value": 78.2363
+      },
+      {
+        "year": 2021,
+        "value": 73.0013
+      },
+      {
+        "year": 2022,
+        "value": 65.4581
+      },
+      {
+        "year": 2023,
+        "value": 67.0368
+      },
+      {
+        "year": 2024,
+        "value": 68.7241
       }
     ],
     "enrollment_headcount_total": [

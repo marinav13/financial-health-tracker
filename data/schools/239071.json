@@ -1,6 +1,6 @@
 {
   "unitid": "239071",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Maranatha Baptist University",
     "institution_unique_name": "Maranatha Baptist University | Watertown | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.9735,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.9357,
-    "net_tuition_per_fte_change_5yr": -20.7241,
+    "net_tuition_per_fte_change_5yr": -13.7042,
     "staff_total_headcount_pct_change_5yr": 12.1827,
     "staff_instructional_headcount_pct_change_5yr": 10.3896,
     "students_per_instructional_staff_fte": 13.0508,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 55.7554,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 12.4819,
+    "unfunded_discount_pct_change_5yr": 4.4038,
     "share_grad_students": 21.6428,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,27 +173,27 @@
       },
       {
         "year": 2017,
-        "value": 16591.5423
+        "value": 14955.546
       },
       {
         "year": 2018,
-        "value": 15233.5972
+        "value": 13547.839
       },
       {
         "year": 2019,
-        "value": 16033.9857
+        "value": 14729.6542
       },
       {
         "year": 2020,
-        "value": 14068.6429
+        "value": 13903.7855
       },
       {
         "year": 2021,
-        "value": 13421.8071
+        "value": 13514.36
       },
       {
         "year": 2022,
-        "value": 11419.0666
+        "value": 12491.2652
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12711.0792
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 9.775
+      },
+      {
+        "year": 2015,
+        "value": 10.0507
+      },
+      {
+        "year": 2016,
+        "value": 11.0014
+      },
+      {
+        "year": 2017,
+        "value": 19.0851
+      },
+      {
+        "year": 2018,
+        "value": 20.0917
+      },
+      {
+        "year": 2019,
+        "value": 11.9554
+      },
+      {
+        "year": 2020,
+        "value": 11.8998
+      },
+      {
+        "year": 2021,
+        "value": 13.4546
+      },
+      {
+        "year": 2022,
+        "value": 12.8406
+      },
+      {
+        "year": 2023,
+        "value": 13.2519
+      },
+      {
+        "year": 2024,
+        "value": 12.4819
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "220613",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lee University",
     "institution_unique_name": "Lee University | Cleveland | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.7552,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.6881,
-    "net_tuition_per_fte_change_5yr": -0.0242,
+    "net_tuition_per_fte_change_5yr": 0.6742,
     "staff_total_headcount_pct_change_5yr": -11.0998,
     "staff_instructional_headcount_pct_change_5yr": -4.3321,
     "students_per_instructional_staff_fte": 10.7328,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 59.9897,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 60.3015,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.2187,
+    "unfunded_discount_pct_change_5yr": 4.0559,
     "share_grad_students": 11.773,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 335898,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13037.7415
+        "value": 12873.2061
       },
       {
         "year": 2015,
-        "value": 13461.0559
+        "value": 13614.2379
       },
       {
         "year": 2016,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 14005.0227
+        "value": 13981.8134
       },
       {
         "year": 2018,
-        "value": 14071.0025
+        "value": 14045.841
       },
       {
         "year": 2019,
-        "value": 14342.1069
+        "value": 14316.6439
       },
       {
         "year": 2020,
-        "value": 14154.6934
+        "value": 14131.982
       },
       {
         "year": 2021,
-        "value": 14653.5394
+        "value": 14597.7513
       },
       {
         "year": 2022,
-        "value": 14672.7877
+        "value": 14606.3043
       },
       {
         "year": 2023,
-        "value": 14890.3137
+        "value": 14952.722
       },
       {
         "year": 2024,
-        "value": 14338.6423
+        "value": 14413.1718
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.1065
+      },
+      {
+        "year": 2015,
+        "value": 30.0317
+      },
+      {
+        "year": 2016,
+        "value": 30.135
+      },
+      {
+        "year": 2017,
+        "value": 31.0576
+      },
+      {
+        "year": 2018,
+        "value": 32.8631
+      },
+      {
+        "year": 2019,
+        "value": 33.8459
+      },
+      {
+        "year": 2020,
+        "value": 34.7637
+      },
+      {
+        "year": 2021,
+        "value": 33.6768
+      },
+      {
+        "year": 2022,
+        "value": 33.1725
+      },
+      {
+        "year": 2023,
+        "value": 32.5268
+      },
+      {
+        "year": 2024,
+        "value": 35.2187
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "191533",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hartwick College",
     "institution_unique_name": "Hartwick College | Oneonta | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.2197,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -11.0023,
-    "net_tuition_per_fte_change_5yr": -26.6441,
+    "net_tuition_per_fte_change_5yr": -35.5482,
     "staff_total_headcount_pct_change_5yr": -6.3014,
     "staff_instructional_headcount_pct_change_5yr": -17.8571,
     "students_per_instructional_staff_fte": 10.7596,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 47.077,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.452,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.8346,
+    "unfunded_discount_pct_change_5yr": 5.3254,
     "share_grad_students": 0.0861,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 338730,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27202.6969
+        "value": 22815.0061
       },
       {
         "year": 2015,
-        "value": 27351.8764
+        "value": 22811.8414
       },
       {
         "year": 2016,
-        "value": 27514.5517
+        "value": 22917.4974
       },
       {
         "year": 2017,
-        "value": 26278.8202
+        "value": 21693.8726
       },
       {
         "year": 2018,
-        "value": 27849.2703
+        "value": 22640.8787
       },
       {
         "year": 2019,
-        "value": 27684.983
+        "value": 21720.8574
       },
       {
         "year": 2020,
-        "value": 25438.1264
+        "value": 20096.1725
       },
       {
         "year": 2021,
-        "value": 24626.4748
+        "value": 18941.5063
       },
       {
         "year": 2022,
-        "value": 21194.586
+        "value": 15183.0805
       },
       {
         "year": 2023,
-        "value": 21328.5151
+        "value": 14854.5994
       },
       {
         "year": 2024,
-        "value": 20308.5594
+        "value": 13999.487
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.2074
+      },
+      {
+        "year": 2015,
+        "value": 50.1457
+      },
+      {
+        "year": 2016,
+        "value": 50.3126
+      },
+      {
+        "year": 2017,
+        "value": 52.3047
+      },
+      {
+        "year": 2018,
+        "value": 52.764
+      },
+      {
+        "year": 2019,
+        "value": 53.961
+      },
+      {
+        "year": 2020,
+        "value": 57.3625
+      },
+      {
+        "year": 2021,
+        "value": 51.052
+      },
+      {
+        "year": 2022,
+        "value": 52.391
+      },
+      {
+        "year": 2023,
+        "value": 51.0979
+      },
+      {
+        "year": 2024,
+        "value": 56.8346
       }
     ],
     "enrollment_headcount_total": [

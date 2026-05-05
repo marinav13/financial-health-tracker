@@ -1,6 +1,6 @@
 {
   "unitid": "217518",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Roger Williams University",
     "institution_unique_name": "Roger Williams University | Bristol | Rhode Island",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.2835,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -12.9755,
-    "net_tuition_per_fte_change_5yr": -6.2507,
+    "net_tuition_per_fte_change_5yr": -5.9524,
     "staff_total_headcount_pct_change_5yr": -9.7199,
     "staff_instructional_headcount_pct_change_5yr": -8.7954,
     "students_per_instructional_staff_fte": 14.0287,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 55.4315,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.0419,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.4388,
+    "unfunded_discount_pct_change_5yr": 24.7729,
     "share_grad_students": 6.8626,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27546.8843
+        "value": 27753.6801
       },
       {
         "year": 2015,
-        "value": 27981.2657
+        "value": 28210.1736
       },
       {
         "year": 2016,
-        "value": 26299.7737
+        "value": 26524.4662
       },
       {
         "year": 2017,
-        "value": 24469.9439
+        "value": 25365.0359
       },
       {
         "year": 2018,
-        "value": 24214.0772
+        "value": 24400.254
       },
       {
         "year": 2019,
-        "value": 24102.194
+        "value": 23856.8623
       },
       {
         "year": 2020,
-        "value": 23711.3285
+        "value": 23912.6195
       },
       {
         "year": 2021,
-        "value": 23910.0115
+        "value": 24630.1577
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 23152.1313
+        "value": 22951.3323
       },
       {
         "year": 2024,
-        "value": 22595.6457
+        "value": 22436.8141
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.4798
+      },
+      {
+        "year": 2015,
+        "value": 31.9927
+      },
+      {
+        "year": 2016,
+        "value": 33.5307
+      },
+      {
+        "year": 2017,
+        "value": 33.2818
+      },
+      {
+        "year": 2018,
+        "value": 35.9606
+      },
+      {
+        "year": 2019,
+        "value": 36.4172
+      },
+      {
+        "year": 2020,
+        "value": 37.6605
+      },
+      {
+        "year": 2021,
+        "value": 39.1817
+      },
+      {
+        "year": 2022,
+        "value": 42.7045
+      },
+      {
+        "year": 2023,
+        "value": 44.4314
+      },
+      {
+        "year": 2024,
+        "value": 45.4388
       }
     ],
     "enrollment_headcount_total": [

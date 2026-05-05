@@ -1,6 +1,6 @@
 {
   "unitid": "231420",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Averett University",
     "institution_unique_name": "Averett University | Danville | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 76.3764,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.3081,
-    "net_tuition_per_fte_change_5yr": -31.6275,
+    "net_tuition_per_fte_change_5yr": -33.2954,
     "staff_total_headcount_pct_change_5yr": 42.6877,
     "staff_instructional_headcount_pct_change_5yr": 75.2809,
     "students_per_instructional_staff_fte": 16.2149,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 53.8601,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.0048,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.9891,
+    "unfunded_discount_pct_change_5yr": 9.8528,
     "share_grad_students": 18.899,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20748.2587
+        "value": 20898.1964
       },
       {
         "year": 2015,
-        "value": 19486.6232
+        "value": 19642.3714
       },
       {
         "year": 2016,
-        "value": 20862.9807
+        "value": 21036.3002
       },
       {
         "year": 2017,
-        "value": 21078.4641
+        "value": 21263.8725
       },
       {
         "year": 2018,
-        "value": 20066.3787
+        "value": 19898.5291
       },
       {
         "year": 2019,
-        "value": 19610.3795
+        "value": 19408.3301
       },
       {
         "year": 2020,
-        "value": 19578.0298
+        "value": 19385.0499
       },
       {
         "year": 2021,
-        "value": 14803.52
+        "value": 14653.1207
       },
       {
         "year": 2022,
-        "value": 16685.0627
+        "value": 16584.2002
       },
       {
         "year": 2023,
-        "value": 16141.3261
+        "value": 16075.8723
       },
       {
         "year": 2024,
-        "value": 13408.0971
+        "value": 12946.2393
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.0205
+      },
+      {
+        "year": 2015,
+        "value": 43.6056
+      },
+      {
+        "year": 2016,
+        "value": 44.0448
+      },
+      {
+        "year": 2017,
+        "value": 45.888
+      },
+      {
+        "year": 2018,
+        "value": 49.346
+      },
+      {
+        "year": 2019,
+        "value": 50.9674
+      },
+      {
+        "year": 2020,
+        "value": 51.6801
+      },
+      {
+        "year": 2021,
+        "value": 50.5939
+      },
+      {
+        "year": 2022,
+        "value": 47.7821
+      },
+      {
+        "year": 2023,
+        "value": 49.5928
+      },
+      {
+        "year": 2024,
+        "value": 55.9891
       }
     ],
     "enrollment_headcount_total": [

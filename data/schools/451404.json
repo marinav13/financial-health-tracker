@@ -1,6 +1,6 @@
 {
   "unitid": "451404",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Talmudical Seminary of Bobov",
     "institution_unique_name": "Talmudical Seminary of Bobov | Brooklyn | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 98.2571,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 98% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 98% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.3047,
+    "unfunded_discount_pct_change_5yr": -81.2155,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 8855.1318
+        "value": 8821.0095
       },
       {
         "year": 2024,
         "value": 14634.0772
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 7.963
+      },
+      {
+        "year": 2015,
+        "value": 4.6253
+      },
+      {
+        "year": 2016,
+        "value": 5.406
+      },
+      {
+        "year": 2017,
+        "value": 12.2958
+      },
+      {
+        "year": 2018,
+        "value": 11.0685
+      },
+      {
+        "year": 2019,
+        "value": 76.1516
+      },
+      {
+        "year": 2020,
+        "value": 59.8299
+      },
+      {
+        "year": 2021,
+        "value": 50
+      },
+      {
+        "year": 2022,
+        "value": 5.0848
+      },
+      {
+        "year": 2023,
+        "value": 6.7025
+      },
+      {
+        "year": 2024,
+        "value": 14.3047
       }
     ],
     "enrollment_headcount_total": [

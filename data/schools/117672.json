@@ -1,6 +1,6 @@
 {
   "unitid": "117672",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern California University of Health Sciences",
     "institution_unique_name": "Southern California University of Health Sciences | Whittier | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 88.2256,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 88% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 88% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 1.2564,
+    "unfunded_discount_pct_change_5yr": -30.59,
     "share_grad_students": 35.6383,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 821673,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 41704.7587
+        "value": 41704.7602
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 36012.2763
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 1.7629
+      },
+      {
+        "year": 2015,
+        "value": 4.3015
+      },
+      {
+        "year": 2016,
+        "value": 4.0315
+      },
+      {
+        "year": 2017,
+        "value": 2.8893
+      },
+      {
+        "year": 2018,
+        "value": 2.3716
+      },
+      {
+        "year": 2019,
+        "value": 1.8101
+      },
+      {
+        "year": 2020,
+        "value": 1.5175
+      },
+      {
+        "year": 2021,
+        "value": 0.8979
+      },
+      {
+        "year": 2022,
+        "value": 0.8127
+      },
+      {
+        "year": 2023,
+        "value": 1.0974
+      },
+      {
+        "year": 2024,
+        "value": 1.2564
       }
     ],
     "enrollment_headcount_total": [

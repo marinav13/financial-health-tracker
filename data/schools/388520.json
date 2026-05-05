@@ -1,6 +1,6 @@
 {
   "unitid": "388520",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College of Biblical Studies-Houston",
     "institution_unique_name": "College of Biblical Studies-Houston | Houston | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 81.201,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -56.3601,
-    "net_tuition_per_fte_change_5yr": -21.9572,
+    "net_tuition_per_fte_change_5yr": -23.4971,
     "staff_total_headcount_pct_change_5yr": 2.381,
     "staff_instructional_headcount_pct_change_5yr": -43.1034,
     "students_per_instructional_staff_fte": 15.0526,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 45.0872,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, about the same as the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.4993,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,35 +165,35 @@
       },
       {
         "year": 2015,
-        "value": 9385.0402
+        "value": 9328.8591
       },
       {
         "year": 2016,
-        "value": 9806.5649
+        "value": 9668.494
       },
       {
         "year": 2017,
-        "value": 10349.6991
+        "value": 10551.9525
       },
       {
         "year": 2018,
-        "value": 15264.7788
+        "value": 15554.1945
       },
       {
         "year": 2019,
-        "value": 10006.8179
+        "value": 10208.2424
       },
       {
         "year": 2020,
-        "value": 9671.5639
+        "value": 11017.4445
       },
       {
         "year": 2021,
-        "value": 10592.4666
+        "value": 12067.8437
       },
       {
         "year": 2022,
-        "value": 9217.1695
+        "value": 9330.5075
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 7809.5979
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 9.7765
+      },
+      {
+        "year": 2016,
+        "value": 12.0081
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 16.4285
+      },
+      {
+        "year": 2023,
+        "value": 22.0326
+      },
+      {
+        "year": 2024,
+        "value": 23.4993
       }
     ],
     "enrollment_headcount_total": [

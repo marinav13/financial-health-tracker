@@ -1,6 +1,6 @@
 {
   "unitid": "494542",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Sattler College",
     "institution_unique_name": "Sattler College | Boston | Massachusetts",
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 0.5918,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -2.2705,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -2% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 124.4384,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -79,7 +81,13 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2024,
-        "value": 1434.5577
+        "value": -5503.3462
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2024,
+        "value": 124.4384
       }
     ],
     "enrollment_headcount_total": [

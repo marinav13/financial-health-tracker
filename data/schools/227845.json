@@ -1,6 +1,6 @@
 {
   "unitid": "227845",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Edward's University",
     "institution_unique_name": "Saint Edward's University | Austin | Texas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 52.7102,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.3644,
+    "unfunded_discount_pct_change_5yr": 0.4271,
     "share_grad_students": 20.1344,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29897.1137
+        "value": 30111.6499
       },
       {
         "year": 2015,
-        "value": 30543.2388
+        "value": 31516.8685
       },
       {
         "year": 2016,
-        "value": 31001.3368
+        "value": 31257.6855
       },
       {
         "year": 2017,
-        "value": 29818.0713
+        "value": 28656.7097
       },
       {
         "year": 2018,
-        "value": 29255.6575
+        "value": 29327.1587
       },
       {
         "year": 2019,
@@ -183,15 +185,15 @@
       },
       {
         "year": 2020,
-        "value": 26753.6332
+        "value": 26753.6336
       },
       {
         "year": 2021,
-        "value": 28310.8385
+        "value": 28310.8382
       },
       {
         "year": 2022,
-        "value": 24467.5244
+        "value": 26050.5384
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 22716.8755
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.1771
+      },
+      {
+        "year": 2015,
+        "value": 32.8018
+      },
+      {
+        "year": 2016,
+        "value": 36.3801
+      },
+      {
+        "year": 2017,
+        "value": 40.6697
+      },
+      {
+        "year": 2018,
+        "value": 42.6743
+      },
+      {
+        "year": 2019,
+        "value": 48.1587
+      },
+      {
+        "year": 2020,
+        "value": 47.9705
+      },
+      {
+        "year": 2021,
+        "value": 46.3893
+      },
+      {
+        "year": 2022,
+        "value": 47.4852
+      },
+      {
+        "year": 2023,
+        "value": 46.8967
+      },
+      {
+        "year": 2024,
+        "value": 48.3644
       }
     ],
     "enrollment_headcount_total": [

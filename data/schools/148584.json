@@ -1,6 +1,6 @@
 {
   "unitid": "148584",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of St Francis",
     "institution_unique_name": "University of St Francis | Joliet | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.7531,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.3711,
-    "net_tuition_per_fte_change_5yr": -19.9968,
+    "net_tuition_per_fte_change_5yr": -27.4473,
     "staff_total_headcount_pct_change_5yr": -23.4375,
     "staff_instructional_headcount_pct_change_5yr": -21.2219,
     "students_per_instructional_staff_fte": 18.0296,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 70.4528,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 65.0858,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.9766,
+    "unfunded_discount_pct_change_5yr": 20.0921,
     "share_grad_students": 67.0468,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18168.0338
+        "value": 18231.2694
       },
       {
         "year": 2015,
-        "value": 17529.8582
+        "value": 17691.4695
       },
       {
         "year": 2016,
-        "value": 17357.8348
+        "value": 17574.3762
       },
       {
         "year": 2017,
-        "value": 17502.9674
+        "value": 17697.2115
       },
       {
         "year": 2018,
-        "value": 16511.5483
+        "value": 16779.5327
       },
       {
         "year": 2019,
-        "value": 17064.838
+        "value": 17383.7784
       },
       {
         "year": 2020,
-        "value": 15656.0936
+        "value": 14885.0746
       },
       {
         "year": 2021,
-        "value": 15207.8444
+        "value": 14349.4917
       },
       {
         "year": 2022,
-        "value": 13211.3443
+        "value": 12110.869
       },
       {
         "year": 2023,
-        "value": 14156.2749
+        "value": 13310.9016
       },
       {
         "year": 2024,
-        "value": 13652.4182
+        "value": 12612.394
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.9645
+      },
+      {
+        "year": 2015,
+        "value": 29.1837
+      },
+      {
+        "year": 2016,
+        "value": 29.9806
+      },
+      {
+        "year": 2017,
+        "value": 30.3147
+      },
+      {
+        "year": 2018,
+        "value": 30.3508
+      },
+      {
+        "year": 2019,
+        "value": 31.6229
+      },
+      {
+        "year": 2020,
+        "value": 37.2342
+      },
+      {
+        "year": 2021,
+        "value": 38.2201
+      },
+      {
+        "year": 2022,
+        "value": 40.3469
+      },
+      {
+        "year": 2023,
+        "value": 37.202
+      },
+      {
+        "year": 2024,
+        "value": 37.9766
       }
     ],
     "enrollment_headcount_total": [

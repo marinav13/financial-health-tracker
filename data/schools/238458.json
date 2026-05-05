@@ -1,6 +1,6 @@
 {
   "unitid": "238458",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Carroll University",
     "institution_unique_name": "Carroll University | Waukesha | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.0054,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.5774,
-    "net_tuition_per_fte_change_5yr": -14.0723,
+    "net_tuition_per_fte_change_5yr": -14.0696,
     "staff_total_headcount_pct_change_5yr": 7.6818,
     "staff_instructional_headcount_pct_change_5yr": 4.557,
     "students_per_instructional_staff_fte": 12.5549,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 63.4015,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.7584,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.4445,
+    "unfunded_discount_pct_change_5yr": 4.7541,
     "share_grad_students": 17.432,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20770.0119
+        "value": 20896.7755
       },
       {
         "year": 2015,
-        "value": 21347.8541
+        "value": 21473.5797
       },
       {
         "year": 2016,
-        "value": 22732.8475
+        "value": 22864.668
       },
       {
         "year": 2017,
-        "value": 22318.8843
+        "value": 22449.3509
       },
       {
         "year": 2018,
-        "value": 21150.3846
+        "value": 21272.4535
       },
       {
         "year": 2019,
-        "value": 21904.2554
+        "value": 22026.867
       },
       {
         "year": 2020,
-        "value": 21050.2745
+        "value": 21678.427
       },
       {
         "year": 2021,
-        "value": 20620.2284
+        "value": 21268.292
       },
       {
         "year": 2022,
-        "value": 19187.6997
+        "value": 19829.1063
       },
       {
         "year": 2023,
-        "value": 18339.861
+        "value": 19016.6717
       },
       {
         "year": 2024,
-        "value": 18821.8308
+        "value": 18927.7807
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.2865
+      },
+      {
+        "year": 2015,
+        "value": 38.1027
+      },
+      {
+        "year": 2016,
+        "value": 38.3632
+      },
+      {
+        "year": 2017,
+        "value": 39.2589
+      },
+      {
+        "year": 2018,
+        "value": 41.9851
+      },
+      {
+        "year": 2019,
+        "value": 42.4274
+      },
+      {
+        "year": 2020,
+        "value": 44.1369
+      },
+      {
+        "year": 2021,
+        "value": 44.2965
+      },
+      {
+        "year": 2022,
+        "value": 44.6097
+      },
+      {
+        "year": 2023,
+        "value": 44.3148
+      },
+      {
+        "year": 2024,
+        "value": 44.4445
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "140951",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Savannah College of Art and Design",
     "institution_unique_name": "Savannah College of Art and Design | Savannah | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 21.4317,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.0819,
-    "net_tuition_per_fte_change_5yr": -16.2686,
+    "net_tuition_per_fte_change_5yr": -16.3033,
     "staff_total_headcount_pct_change_5yr": 20.6392,
     "staff_instructional_headcount_pct_change_5yr": 15.7895,
     "students_per_instructional_staff_fte": 21.0501,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 68.0489,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.3638,
+    "unfunded_discount_pct_change_5yr": 7.21,
     "share_grad_students": 17.1058,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,11 +165,11 @@
       },
       {
         "year": 2015,
-        "value": 35139.9914
+        "value": 35139.9915
       },
       {
         "year": 2016,
-        "value": 34160.377
+        "value": 34591.1702
       },
       {
         "year": 2017,
@@ -179,15 +181,15 @@
       },
       {
         "year": 2019,
-        "value": 34999.3591
+        "value": 35013.867
       },
       {
         "year": 2020,
-        "value": 33820.2224
+        "value": 33833.0601
       },
       {
         "year": 2021,
-        "value": 32110.4926
+        "value": 32123.8001
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 29305.4365
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.333
+      },
+      {
+        "year": 2015,
+        "value": 25.0462
+      },
+      {
+        "year": 2016,
+        "value": 23.7907
+      },
+      {
+        "year": 2017,
+        "value": 24.1362
+      },
+      {
+        "year": 2018,
+        "value": 23.6911
+      },
+      {
+        "year": 2019,
+        "value": 22.7253
+      },
+      {
+        "year": 2020,
+        "value": 23.0941
+      },
+      {
+        "year": 2021,
+        "value": 22.6388
+      },
+      {
+        "year": 2022,
+        "value": 25.0761
+      },
+      {
+        "year": 2023,
+        "value": 25.2154
+      },
+      {
+        "year": 2024,
+        "value": 24.3638
       }
     ],
     "enrollment_headcount_total": [

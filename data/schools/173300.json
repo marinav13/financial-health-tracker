@@ -1,6 +1,6 @@
 {
   "unitid": "173300",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia College at Moorhead",
     "institution_unique_name": "Concordia College at Moorhead | Moorhead | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.649,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.3594,
-    "net_tuition_per_fte_change_5yr": -33.6425,
+    "net_tuition_per_fte_change_5yr": -33.0929,
     "staff_total_headcount_pct_change_5yr": -10.3723,
     "staff_instructional_headcount_pct_change_5yr": -8.0952,
     "students_per_instructional_staff_fte": 11.8529,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 25.5859,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 26.2004,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.8708,
+    "unfunded_discount_pct_change_5yr": -28.7325,
     "share_grad_students": 5.5754,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 44941,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22163.7422
+        "value": 22449.7751
       },
       {
         "year": 2015,
-        "value": 22733.2384
+        "value": 23040.3307
       },
       {
         "year": 2016,
-        "value": 23581.9811
+        "value": 23924.4008
       },
       {
         "year": 2017,
-        "value": 22936.1819
+        "value": 23284.4627
       },
       {
         "year": 2018,
-        "value": 22184.7493
+        "value": 22535.2073
       },
       {
         "year": 2019,
-        "value": 21017.9246
+        "value": 21345.8743
       },
       {
         "year": 2020,
-        "value": 20718.9696
+        "value": 21056.3949
       },
       {
         "year": 2021,
-        "value": 19166.8963
+        "value": 19576.359
       },
       {
         "year": 2022,
-        "value": 15821.8202
+        "value": 16237.4896
       },
       {
         "year": 2023,
-        "value": 14823.7636
+        "value": 15194.5446
       },
       {
         "year": 2024,
-        "value": 13946.9665
+        "value": 14281.9002
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.7525
+      },
+      {
+        "year": 2015,
+        "value": 41.1803
+      },
+      {
+        "year": 2016,
+        "value": 42.2511
+      },
+      {
+        "year": 2017,
+        "value": 43.8974
+      },
+      {
+        "year": 2018,
+        "value": 45.8914
+      },
+      {
+        "year": 2019,
+        "value": 47.5263
+      },
+      {
+        "year": 2020,
+        "value": 49.5703
+      },
+      {
+        "year": 2021,
+        "value": 52.7372
+      },
+      {
+        "year": 2022,
+        "value": 32.7247
+      },
+      {
+        "year": 2023,
+        "value": 33.2342
+      },
+      {
+        "year": 2024,
+        "value": 33.8708
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "190099",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Colgate University",
     "institution_unique_name": "Colgate University | Hamilton | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.6656,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 3.9285,
-    "net_tuition_per_fte_change_5yr": 19.2498,
+    "net_tuition_per_fte_change_5yr": 19.1978,
     "staff_total_headcount_pct_change_5yr": 4.5914,
     "staff_instructional_headcount_pct_change_5yr": 4.0984,
     "students_per_instructional_staff_fte": 9.1496,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 47.542,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.6369,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.7204,
+    "unfunded_discount_pct_change_5yr": -4.5261,
     "share_grad_students": 0.5583,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3057274,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37355.2803
+        "value": 37529.8795
       },
       {
         "year": 2015,
-        "value": 39254.6454
+        "value": 39370.7236
       },
       {
         "year": 2016,
-        "value": 38868.1261
+        "value": 38981.8745
       },
       {
         "year": 2017,
-        "value": 38712.5667
+        "value": 38822.355
       },
       {
         "year": 2018,
-        "value": 39468.7702
+        "value": 39576.2817
       },
       {
         "year": 2019,
-        "value": 42268.6568
+        "value": 42371.5104
       },
       {
         "year": 2020,
-        "value": 44607.7918
+        "value": 44709.5494
       },
       {
         "year": 2021,
-        "value": 50643.223
+        "value": 50743.533
       },
       {
         "year": 2022,
-        "value": 50345.3209
+        "value": 50433.7996
       },
       {
         "year": 2023,
-        "value": 50185.6317
+        "value": 50288.2575
       },
       {
         "year": 2024,
-        "value": 50405.2779
+        "value": 50505.8992
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.739
+      },
+      {
+        "year": 2015,
+        "value": 24.4873
+      },
+      {
+        "year": 2016,
+        "value": 25.3364
+      },
+      {
+        "year": 2017,
+        "value": 26.1839
+      },
+      {
+        "year": 2018,
+        "value": 26.0237
+      },
+      {
+        "year": 2019,
+        "value": 24.8449
+      },
+      {
+        "year": 2020,
+        "value": 23.8641
+      },
+      {
+        "year": 2021,
+        "value": 21.5548
+      },
+      {
+        "year": 2022,
+        "value": 22.7833
+      },
+      {
+        "year": 2023,
+        "value": 22.8895
+      },
+      {
+        "year": 2024,
+        "value": 23.7204
       }
     ],
     "enrollment_headcount_total": [

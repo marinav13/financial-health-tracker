@@ -1,6 +1,6 @@
 {
   "unitid": "195164",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St Bonaventure University",
     "institution_unique_name": "St Bonaventure University | Saint Bonaventure | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 40.4159,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.0587,
+    "unfunded_discount_pct_change_5yr": 6.2996,
     "share_grad_students": 32.8519,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1798952,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20164.3252
+        "value": 18992.5894
       },
       {
         "year": 2015,
-        "value": 20654.9943
+        "value": 19287.4132
       },
       {
         "year": 2016,
-        "value": 20503.1378
+        "value": 19373.0711
       },
       {
         "year": 2017,
-        "value": 19555.6322
+        "value": 18455.3041
       },
       {
         "year": 2018,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 14214.6841
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.8349
+      },
+      {
+        "year": 2015,
+        "value": 44.303
+      },
+      {
+        "year": 2016,
+        "value": 45.3526
+      },
+      {
+        "year": 2017,
+        "value": 46.8165
+      },
+      {
+        "year": 2018,
+        "value": 48.7056
+      },
+      {
+        "year": 2019,
+        "value": 50.855
+      },
+      {
+        "year": 2020,
+        "value": 51.3151
+      },
+      {
+        "year": 2021,
+        "value": 51.7891
+      },
+      {
+        "year": 2022,
+        "value": 50.6339
+      },
+      {
+        "year": 2023,
+        "value": 51.2488
+      },
+      {
+        "year": 2024,
+        "value": 54.0587
       }
     ],
     "enrollment_headcount_total": [

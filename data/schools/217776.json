@@ -1,6 +1,6 @@
 {
   "unitid": "217776",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern Wesleyan University",
     "institution_unique_name": "Southern Wesleyan University | Central | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.7218,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.3202,
-    "net_tuition_per_fte_change_5yr": -15.8572,
+    "net_tuition_per_fte_change_5yr": -17.5327,
     "staff_total_headcount_pct_change_5yr": -11.3971,
     "staff_instructional_headcount_pct_change_5yr": 10,
     "students_per_instructional_staff_fte": 12.9437,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 53.3984,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.1397,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.8243,
+    "unfunded_discount_pct_change_5yr": 8.3273,
     "share_grad_students": 25.188,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16167.4219
+        "value": 16218.1972
       },
       {
         "year": 2015,
-        "value": 16209.7359
+        "value": 16290.3885
       },
       {
         "year": 2016,
-        "value": 14731.7046
+        "value": 14696.332
       },
       {
         "year": 2017,
-        "value": 9441.382
+        "value": 9413.9634
       },
       {
         "year": 2018,
-        "value": 15229.3517
+        "value": 15174.8816
       },
       {
         "year": 2019,
-        "value": 15568.4874
+        "value": 15510.3551
       },
       {
         "year": 2020,
-        "value": 14470.7463
+        "value": 14381.2621
       },
       {
         "year": 2021,
-        "value": 14579.4996
+        "value": 14419.8893
       },
       {
         "year": 2022,
-        "value": 13934.4858
+        "value": 13756.9955
       },
       {
         "year": 2023,
-        "value": 13811.1918
+        "value": 13607.2156
       },
       {
         "year": 2024,
-        "value": 13099.7595
+        "value": 12790.9728
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.5111
+      },
+      {
+        "year": 2015,
+        "value": 25.2519
+      },
+      {
+        "year": 2016,
+        "value": 28.7494
+      },
+      {
+        "year": 2017,
+        "value": 32.6969
+      },
+      {
+        "year": 2018,
+        "value": 34.9252
+      },
+      {
+        "year": 2019,
+        "value": 35.8398
+      },
+      {
+        "year": 2020,
+        "value": 39.2374
+      },
+      {
+        "year": 2021,
+        "value": 38.3495
+      },
+      {
+        "year": 2022,
+        "value": 36.6134
+      },
+      {
+        "year": 2023,
+        "value": 35.2944
+      },
+      {
+        "year": 2024,
+        "value": 38.8243
       }
     ],
     "enrollment_headcount_total": [

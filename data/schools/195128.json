@@ -1,6 +1,6 @@
 {
   "unitid": "195128",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Russell Sage College",
     "institution_unique_name": "Russell Sage College | Troy | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.1102,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.697,
-    "net_tuition_per_fte_change_5yr": -9.4654,
+    "net_tuition_per_fte_change_5yr": -9.3625,
     "staff_total_headcount_pct_change_5yr": 1.0929,
     "staff_instructional_headcount_pct_change_5yr": 0.7194,
     "students_per_instructional_staff_fte": 12.5615,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 59.3463,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 60.4042,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.4653,
+    "unfunded_discount_pct_change_5yr": 4.9388,
     "share_grad_students": 50.5847,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19431.6561
+        "value": 19649.6013
       },
       {
         "year": 2015,
-        "value": 20541.6982
+        "value": 20690.1257
       },
       {
         "year": 2016,
-        "value": 20625.0751
+        "value": 20752.4419
       },
       {
         "year": 2017,
-        "value": 21128.6611
+        "value": 21252.8585
       },
       {
         "year": 2018,
-        "value": 21958.6199
+        "value": 22090.6918
       },
       {
         "year": 2019,
-        "value": 22417.8461
+        "value": 22791.591
       },
       {
         "year": 2020,
-        "value": 22706.7815
+        "value": 23081.6018
       },
       {
         "year": 2021,
-        "value": 20801.6511
+        "value": 21228.8921
       },
       {
         "year": 2022,
-        "value": 19281.8162
+        "value": 19755.4897
       },
       {
         "year": 2023,
-        "value": 20081.4517
+        "value": 20553.8142
       },
       {
         "year": 2024,
-        "value": 20295.9112
+        "value": 20657.7209
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.7437
+      },
+      {
+        "year": 2015,
+        "value": 38.9102
+      },
+      {
+        "year": 2016,
+        "value": 36.9003
+      },
+      {
+        "year": 2017,
+        "value": 35.783
+      },
+      {
+        "year": 2018,
+        "value": 34.4805
+      },
+      {
+        "year": 2019,
+        "value": 36.655
+      },
+      {
+        "year": 2020,
+        "value": 36.1689
+      },
+      {
+        "year": 2021,
+        "value": 37.6857
+      },
+      {
+        "year": 2022,
+        "value": 38.9521
+      },
+      {
+        "year": 2023,
+        "value": 38.8922
+      },
+      {
+        "year": 2024,
+        "value": 38.4653
       }
     ],
     "enrollment_headcount_total": [

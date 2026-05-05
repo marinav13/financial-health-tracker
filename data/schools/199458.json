@@ -1,6 +1,6 @@
 {
   "unitid": "199458",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mid-Atlantic Christian University",
     "institution_unique_name": "Mid-Atlantic Christian University | Elizabeth City | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.6789,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 97.1915,
-    "net_tuition_per_fte_change_5yr": -10.9632,
+    "net_tuition_per_fte_change_5yr": -25.5834,
     "staff_total_headcount_pct_change_5yr": 32,
     "staff_instructional_headcount_pct_change_5yr": 39.1304,
     "students_per_instructional_staff_fte": 6.15,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 12.9988,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.7382,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.1722,
+    "unfunded_discount_pct_change_5yr": 23.7058,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11761.0723
+        "value": 11399.0219
       },
       {
         "year": 2015,
-        "value": 11637.416
+        "value": 15351.4832
       },
       {
         "year": 2016,
-        "value": 11261.3771
+        "value": 16024.8865
       },
       {
         "year": 2017,
-        "value": 10003.2679
+        "value": 9838.8503
       },
       {
         "year": 2018,
-        "value": 9469.6556
+        "value": 9582.2807
       },
       {
         "year": 2019,
-        "value": 11276.7499
+        "value": 11145.8632
       },
       {
         "year": 2020,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 10806.5402
+        "value": 9047.0337
       },
       {
         "year": 2022,
-        "value": 9933.5512
+        "value": 12430.4565
       },
       {
         "year": 2023,
-        "value": 9899.3147
+        "value": 7932.7506
       },
       {
         "year": 2024,
-        "value": 10040.4553
+        "value": 8294.374
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 11.1709
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 36.366
+      },
+      {
+        "year": 2018,
+        "value": 37.6303
+      },
+      {
+        "year": 2019,
+        "value": 34.0907
+      },
+      {
+        "year": 2020,
+        "value": 33.0117
+      },
+      {
+        "year": 2021,
+        "value": 43.0822
+      },
+      {
+        "year": 2022,
+        "value": 24.9263
+      },
+      {
+        "year": 2023,
+        "value": 43.4804
+      },
+      {
+        "year": 2024,
+        "value": 42.1722
       }
     ],
     "enrollment_headcount_total": [

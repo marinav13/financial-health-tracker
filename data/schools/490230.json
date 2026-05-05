@@ -1,6 +1,6 @@
 {
   "unitid": "490230",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Reformed University",
     "institution_unique_name": "Reformed University | Lawrenceville | Georgia",
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 88.1164,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 88% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 95.0113,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 95% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -135,7 +137,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2017,
-        "value": 0
+        "value": -13516.5091
       },
       {
         "year": 2018,
@@ -151,7 +153,7 @@
       },
       {
         "year": 2021,
-        "value": 5898.4743
+        "value": 5805.7342
       },
       {
         "year": 2022,
@@ -160,6 +162,40 @@
       {
         "year": 2023,
         "value": 7100.8653
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 872608.6957
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 1.5723
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

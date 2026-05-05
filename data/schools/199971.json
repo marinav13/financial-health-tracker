@@ -1,6 +1,6 @@
 {
   "unitid": "199971",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Carolina Christian College",
     "institution_unique_name": "Carolina Christian College | Winston Salem | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 14.2857,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -19.0598,
-    "net_tuition_per_fte_change_5yr": -0.3279,
+    "net_tuition_per_fte_change_5yr": 0.1748,
     "staff_total_headcount_pct_change_5yr": 380,
     "staff_instructional_headcount_pct_change_5yr": 1500,
     "students_per_instructional_staff_fte": 9.6667,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 91.48,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": 26.0417,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 4536.6576
+        "value": 4558.0296
       },
       {
         "year": 2015,
-        "value": 5104.091
+        "value": 5124.7705
       },
       {
         "year": 2016,
-        "value": 6386.9891
+        "value": 6450.3588
       },
       {
         "year": 2017,
-        "value": 5396.4059
+        "value": 4642.7956
       },
       {
         "year": 2018,
-        "value": 8433.0834
+        "value": 8338.9177
       },
       {
         "year": 2019,
-        "value": 12225.5518
+        "value": 12164.2022
       },
       {
         "year": 2020,
-        "value": 6641.0682
+        "value": 6530.2555
       },
       {
         "year": 2021,
-        "value": 10822.2283
+        "value": 10704.5086
       },
       {
         "year": 2022,
-        "value": 10602.4215
+        "value": 10553.0733
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12185.4655
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 14.7752
+      },
+      {
+        "year": 2018,
+        "value": 6.5739
+      },
+      {
+        "year": 2019,
+        "value": 13.0891
+      },
+      {
+        "year": 2020,
+        "value": 9.6496
+      },
+      {
+        "year": 2021,
+        "value": 5.453
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "475273",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Springfield College-Regional, Online, and Continuing Education",
     "institution_unique_name": "Springfield College-Regional, Online, and Continuing Education | Springfield | Massachusetts",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 3.8018,
+    "unfunded_discount_pct_change_5yr": -47.0836,
     "share_grad_students": 36.9388,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -126,11 +128,11 @@
       },
       {
         "year": 2017,
-        "value": 13835.1157
+        "value": 13828.062
       },
       {
         "year": 2018,
-        "value": 13560.7982
+        "value": 13553.0983
       },
       {
         "year": 2019,
@@ -155,6 +157,52 @@
       {
         "year": 2024,
         "value": 16975.1189
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 9.2825
+      },
+      {
+        "year": 2015,
+        "value": 8.441
+      },
+      {
+        "year": 2016,
+        "value": 7.7075
+      },
+      {
+        "year": 2017,
+        "value": 7.4055
+      },
+      {
+        "year": 2018,
+        "value": 6.9723
+      },
+      {
+        "year": 2019,
+        "value": 7.1845
+      },
+      {
+        "year": 2020,
+        "value": 6.0808
+      },
+      {
+        "year": 2021,
+        "value": 4.479
+      },
+      {
+        "year": 2022,
+        "value": 3.4793
+      },
+      {
+        "year": 2023,
+        "value": 3.7003
+      },
+      {
+        "year": 2024,
+        "value": 3.8018
       }
     ],
     "enrollment_headcount_total": [

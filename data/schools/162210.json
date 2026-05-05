@@ -1,6 +1,6 @@
 {
   "unitid": "162210",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Washington Adventist University",
     "institution_unique_name": "Washington Adventist University | Takoma Park | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -51.4286,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -23.195,
-    "net_tuition_per_fte_change_5yr": -21.5896,
+    "net_tuition_per_fte_change_5yr": -30.2973,
     "staff_total_headcount_pct_change_5yr": -32.1543,
     "staff_instructional_headcount_pct_change_5yr": -34.715,
     "students_per_instructional_staff_fte": 9.4,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 31.957,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 34.2026,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.5247,
+    "unfunded_discount_pct_change_5yr": 92.1081,
     "share_grad_students": 12.4434,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13493.9486
+        "value": 18275.1747
       },
       {
         "year": 2015,
-        "value": 14263.0435
+        "value": 18990.8316
       },
       {
         "year": 2016,
-        "value": 21624.435
+        "value": 24727.004
       },
       {
         "year": 2017,
-        "value": 20901.6967
+        "value": 23822.6635
       },
       {
         "year": 2018,
-        "value": 18626.4883
+        "value": 20522.292
       },
       {
         "year": 2019,
-        "value": 19157.3877
+        "value": 23065.048
       },
       {
         "year": 2020,
-        "value": 17034.5587
+        "value": 21488.0915
       },
       {
         "year": 2021,
-        "value": 19696.4384
+        "value": 24367.1525
       },
       {
         "year": 2022,
-        "value": 16758.8618
+        "value": 21443.6484
       },
       {
         "year": 2023,
-        "value": 17775.0351
+        "value": 21427.979
       },
       {
         "year": 2024,
-        "value": 15021.3812
+        "value": 16076.9504
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8752
+      },
+      {
+        "year": 2015,
+        "value": 21.2985
+      },
+      {
+        "year": 2016,
+        "value": 16.6219
+      },
+      {
+        "year": 2017,
+        "value": 18.2942
+      },
+      {
+        "year": 2018,
+        "value": 23.1014
+      },
+      {
+        "year": 2019,
+        "value": 17.9715
+      },
+      {
+        "year": 2020,
+        "value": 28.2651
+      },
+      {
+        "year": 2021,
+        "value": 23.7365
+      },
+      {
+        "year": 2022,
+        "value": 28.1738
+      },
+      {
+        "year": 2023,
+        "value": 26.7241
+      },
+      {
+        "year": 2024,
+        "value": 34.5247
       }
     ],
     "enrollment_headcount_total": [

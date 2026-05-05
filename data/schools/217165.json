@@ -1,6 +1,6 @@
 {
   "unitid": "217165",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bryant University",
     "institution_unique_name": "Bryant University | Smithfield | Rhode Island",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.2699,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.7547,
-    "net_tuition_per_fte_change_5yr": -16.7444,
+    "net_tuition_per_fte_change_5yr": -17.8474,
     "staff_total_headcount_pct_change_5yr": -0.7018,
     "staff_instructional_headcount_pct_change_5yr": -4.2424,
     "students_per_instructional_staff_fte": 17.5381,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 46.361,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.3663,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.506,
+    "unfunded_discount_pct_change_5yr": 17.1334,
     "share_grad_students": 14.0767,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 8541000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31847.5711
+        "value": 31985.5129
       },
       {
         "year": 2015,
-        "value": 31893.1761
+        "value": 32030.2876
       },
       {
         "year": 2016,
-        "value": 30475.3424
+        "value": 30605.907
       },
       {
         "year": 2017,
-        "value": 30259.8055
+        "value": 30493.4004
       },
       {
         "year": 2018,
-        "value": 30970.4365
+        "value": 31117.3091
       },
       {
         "year": 2019,
-        "value": 31193.4162
+        "value": 30933.9492
       },
       {
         "year": 2020,
-        "value": 33743.1234
+        "value": 33338.3394
       },
       {
         "year": 2021,
-        "value": 31775.1459
+        "value": 31438.7209
       },
       {
         "year": 2022,
-        "value": 30429.3905
+        "value": 30052.6399
       },
       {
         "year": 2023,
-        "value": 28212.714
+        "value": 27779.9516
       },
       {
         "year": 2024,
-        "value": 25970.2738
+        "value": 25413.0378
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.7447
+      },
+      {
+        "year": 2015,
+        "value": 34.6355
+      },
+      {
+        "year": 2016,
+        "value": 35.8713
+      },
+      {
+        "year": 2017,
+        "value": 36.4209
+      },
+      {
+        "year": 2018,
+        "value": 37.527
+      },
+      {
+        "year": 2019,
+        "value": 37.996
+      },
+      {
+        "year": 2020,
+        "value": 38.1296
+      },
+      {
+        "year": 2021,
+        "value": 38.5804
+      },
+      {
+        "year": 2022,
+        "value": 40.1984
+      },
+      {
+        "year": 2023,
+        "value": 42.9076
+      },
+      {
+        "year": 2024,
+        "value": 44.506
       }
     ],
     "enrollment_headcount_total": [

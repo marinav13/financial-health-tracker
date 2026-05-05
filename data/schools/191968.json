@@ -1,6 +1,6 @@
 {
   "unitid": "191968",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ithaca College",
     "institution_unique_name": "Ithaca College | Ithaca | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.6747,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.616,
-    "net_tuition_per_fte_change_5yr": -15.7193,
+    "net_tuition_per_fte_change_5yr": -19.13,
     "staff_total_headcount_pct_change_5yr": -19.2194,
     "staff_instructional_headcount_pct_change_5yr": -29.5198,
     "students_per_instructional_staff_fte": 11.5388,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 46.457,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.9472,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.56,
+    "unfunded_discount_pct_change_5yr": 8.6228,
     "share_grad_students": 12.0077,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 819878,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29720.6066
+        "value": 29850.8939
       },
       {
         "year": 2015,
-        "value": 29639.5867
+        "value": 29806.6677
       },
       {
         "year": 2016,
-        "value": 29278.371
+        "value": 29455.1119
       },
       {
         "year": 2017,
-        "value": 28787.5746
+        "value": 28957.6196
       },
       {
         "year": 2018,
-        "value": 27588.3827
+        "value": 27763.1365
       },
       {
         "year": 2019,
-        "value": 26846.5645
+        "value": 27069.5035
       },
       {
         "year": 2020,
-        "value": 26358.0917
+        "value": 26553.5059
       },
       {
         "year": 2021,
-        "value": 25024.3605
+        "value": 25227.5491
       },
       {
         "year": 2022,
-        "value": 24171.3176
+        "value": 24322.4191
       },
       {
         "year": 2023,
-        "value": 23211.7129
+        "value": 23379.1602
       },
       {
         "year": 2024,
-        "value": 22626.4733
+        "value": 21891.0971
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.7283
+      },
+      {
+        "year": 2015,
+        "value": 39.4371
+      },
+      {
+        "year": 2016,
+        "value": 41.2531
+      },
+      {
+        "year": 2017,
+        "value": 42.4
+      },
+      {
+        "year": 2018,
+        "value": 44.7769
+      },
+      {
+        "year": 2019,
+        "value": 46.5464
+      },
+      {
+        "year": 2020,
+        "value": 48.2557
+      },
+      {
+        "year": 2021,
+        "value": 48.3654
+      },
+      {
+        "year": 2022,
+        "value": 47.953
+      },
+      {
+        "year": 2023,
+        "value": 49.1215
+      },
+      {
+        "year": 2024,
+        "value": 50.56
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "174154",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Herzing University-Minneapolis",
     "institution_unique_name": "Herzing University-Minneapolis | St. Louis Park | Minnesota",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 93.7583,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 94% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 94% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 10.8323,
+    "unfunded_discount_pct_change_5yr": -20.6678,
     "share_grad_students": 0.937,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -164,6 +166,40 @@
       {
         "year": 2024,
         "value": 13773.9349
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 8.1482
+      },
+      {
+        "year": 2018,
+        "value": 10.9395
+      },
+      {
+        "year": 2019,
+        "value": 13.6543
+      },
+      {
+        "year": 2020,
+        "value": 11.7182
+      },
+      {
+        "year": 2021,
+        "value": 10.9251
+      },
+      {
+        "year": 2022,
+        "value": 9.5594
+      },
+      {
+        "year": 2023,
+        "value": 9.7998
+      },
+      {
+        "year": 2024,
+        "value": 10.8323
       }
     ],
     "enrollment_headcount_total": [

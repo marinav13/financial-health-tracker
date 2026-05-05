@@ -1,6 +1,6 @@
 {
   "unitid": "202073",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cleveland Institute of Music",
     "institution_unique_name": "Cleveland Institute of Music | Cleveland | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.13,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 40.4738,
-    "net_tuition_per_fte_change_5yr": -38.011,
+    "net_tuition_per_fte_change_5yr": -41.5683,
     "staff_total_headcount_pct_change_5yr": 17.4157,
     "staff_instructional_headcount_pct_change_5yr": 36.5385,
     "students_per_instructional_staff_fte": 4.8919,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 22.3346,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 21.0529,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.6641,
+    "unfunded_discount_pct_change_5yr": 7.4805,
     "share_grad_students": 45.1253,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 21566.3354
+        "value": 21089.0214
       },
       {
         "year": 2023,
-        "value": 22548.2972
+        "value": 21971.4102
       },
       {
         "year": 2024,
-        "value": 19682.9033
+        "value": 18553.3757
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.9597
+      },
+      {
+        "year": 2015,
+        "value": 45.9269
+      },
+      {
+        "year": 2016,
+        "value": 47.6774
+      },
+      {
+        "year": 2017,
+        "value": 45.7199
+      },
+      {
+        "year": 2018,
+        "value": 45.45
+      },
+      {
+        "year": 2019,
+        "value": 47.138
+      },
+      {
+        "year": 2020,
+        "value": 45.3464
+      },
+      {
+        "year": 2021,
+        "value": 46.5708
+      },
+      {
+        "year": 2022,
+        "value": 50.8929
+      },
+      {
+        "year": 2023,
+        "value": 49.1812
+      },
+      {
+        "year": 2024,
+        "value": 50.6641
       }
     ],
     "enrollment_headcount_total": [

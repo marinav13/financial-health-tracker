@@ -1,6 +1,6 @@
 {
   "unitid": "156356",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Brescia University",
     "institution_unique_name": "Brescia University | Owensboro | Kentucky",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -32.5541,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.929,
-    "net_tuition_per_fte_change_5yr": 2.5893,
+    "net_tuition_per_fte_change_5yr": 1.149,
     "staff_total_headcount_pct_change_5yr": -12.0773,
     "staff_instructional_headcount_pct_change_5yr": -29.8969,
     "students_per_instructional_staff_fte": 12.875,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 49.2271,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.9051,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.107,
+    "unfunded_discount_pct_change_5yr": 10.3117,
     "share_grad_students": 15.7895,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14184.6801
+        "value": 13956.4186
       },
       {
         "year": 2015,
-        "value": 15544.6496
+        "value": 15213.3617
       },
       {
         "year": 2016,
-        "value": 15554.9447
+        "value": 15174.9067
       },
       {
         "year": 2017,
-        "value": 14199.1286
+        "value": 13643.6095
       },
       {
         "year": 2018,
-        "value": 13979.9957
+        "value": 13595.6604
       },
       {
         "year": 2019,
-        "value": 12024.9658
+        "value": 11620.9332
       },
       {
         "year": 2020,
-        "value": 12274.2048
+        "value": 11818.5472
       },
       {
         "year": 2021,
-        "value": 11547.1442
+        "value": 11160.0982
       },
       {
         "year": 2022,
-        "value": 11778.8588
+        "value": 11240.8939
       },
       {
         "year": 2023,
-        "value": 11793.8399
+        "value": 11208.1976
       },
       {
         "year": 2024,
-        "value": 12336.3285
+        "value": 11754.4531
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.7863
+      },
+      {
+        "year": 2015,
+        "value": 32.9912
+      },
+      {
+        "year": 2016,
+        "value": 30.9997
+      },
+      {
+        "year": 2017,
+        "value": 30.3429
+      },
+      {
+        "year": 2018,
+        "value": 33.7696
+      },
+      {
+        "year": 2019,
+        "value": 45.4231
+      },
+      {
+        "year": 2020,
+        "value": 47.0321
+      },
+      {
+        "year": 2021,
+        "value": 50.6401
+      },
+      {
+        "year": 2022,
+        "value": 51.6597
+      },
+      {
+        "year": 2023,
+        "value": 50.2207
+      },
+      {
+        "year": 2024,
+        "value": 50.107
       }
     ],
     "enrollment_headcount_total": [

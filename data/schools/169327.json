@@ -1,6 +1,6 @@
 {
   "unitid": "169327",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cleary University",
     "institution_unique_name": "Cleary University | Howell | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 113.0612,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.9608,
-    "net_tuition_per_fte_change_5yr": 11.4254,
+    "net_tuition_per_fte_change_5yr": 6.4969,
     "staff_total_headcount_pct_change_5yr": 56.4417,
     "staff_instructional_headcount_pct_change_5yr": 100,
     "students_per_instructional_staff_fte": 19.2365,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 93.1892,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 93% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 93.8945,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 94% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.8653,
+    "unfunded_discount_pct_change_5yr": 53.181,
     "share_grad_students": 25.4789,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18623.715
+        "value": 19768.0133
       },
       {
         "year": 2015,
-        "value": 17675.2462
+        "value": 18664.605
       },
       {
         "year": 2016,
-        "value": 22434.3956
+        "value": 25557.9874
       },
       {
         "year": 2017,
-        "value": 17598.9331
+        "value": 20095.495
       },
       {
         "year": 2018,
-        "value": 15303.6112
+        "value": 16175.1527
       },
       {
         "year": 2019,
-        "value": 13083.868
+        "value": 13792.9748
       },
       {
         "year": 2020,
-        "value": 13070.2098
+        "value": 11810.5813
       },
       {
         "year": 2021,
-        "value": 12199.082
+        "value": 11346.085
       },
       {
         "year": 2022,
-        "value": 12159.9003
+        "value": 12218.338
       },
       {
         "year": 2023,
-        "value": 11205.1288
+        "value": 11258.5437
       },
       {
         "year": 2024,
-        "value": 14578.7513
+        "value": 14689.0843
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.181
+      },
+      {
+        "year": 2015,
+        "value": 23.9855
+      },
+      {
+        "year": 2016,
+        "value": 22.1854
+      },
+      {
+        "year": 2017,
+        "value": 23.6756
+      },
+      {
+        "year": 2018,
+        "value": 28.3814
+      },
+      {
+        "year": 2019,
+        "value": 30.5948
+      },
+      {
+        "year": 2020,
+        "value": 45.7422
+      },
+      {
+        "year": 2021,
+        "value": 46.8718
+      },
+      {
+        "year": 2022,
+        "value": 48.0074
+      },
+      {
+        "year": 2023,
+        "value": 52.958
+      },
+      {
+        "year": 2024,
+        "value": 46.8653
       }
     ],
     "enrollment_headcount_total": [

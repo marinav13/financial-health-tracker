@@ -1,6 +1,6 @@
 {
   "unitid": "142090",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Boise Bible College",
     "institution_unique_name": "Boise Bible College | Boise | Idaho",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.6316,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.4768,
-    "net_tuition_per_fte_change_5yr": -71.2051,
+    "net_tuition_per_fte_change_5yr": -50.5725,
     "staff_total_headcount_pct_change_5yr": 28,
     "staff_instructional_headcount_pct_change_5yr": -14.2857,
     "students_per_instructional_staff_fte": 13.3333,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 12.2192,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 11.8437,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.5378,
+    "unfunded_discount_pct_change_5yr": -22.6689,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14852.433
+        "value": 9575.0005
       },
       {
         "year": 2015,
-        "value": 15192.7607
+        "value": 9491.0357
       },
       {
         "year": 2016,
-        "value": 14615.0977
+        "value": 9041.3412
       },
       {
         "year": 2017,
-        "value": 15293.1548
+        "value": 10399.5056
       },
       {
         "year": 2018,
-        "value": 15356.9185
+        "value": 11068.5224
       },
       {
         "year": 2019,
-        "value": 15518.0059
+        "value": 8762.4731
       },
       {
         "year": 2020,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 4468.3875
+        "value": 4331.075
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.204
+      },
+      {
+        "year": 2015,
+        "value": 35.3541
+      },
+      {
+        "year": 2016,
+        "value": 36.6252
+      },
+      {
+        "year": 2017,
+        "value": 29.6216
+      },
+      {
+        "year": 2018,
+        "value": 24.7736
+      },
+      {
+        "year": 2019,
+        "value": 39.4897
+      },
+      {
+        "year": 2020,
+        "value": 22.5876
+      },
+      {
+        "year": 2021,
+        "value": 25.4055
+      },
+      {
+        "year": 2022,
+        "value": 44.0572
+      },
+      {
+        "year": 2023,
+        "value": 40.3898
+      },
+      {
+        "year": 2024,
+        "value": 30.5378
       }
     ],
     "enrollment_headcount_total": [

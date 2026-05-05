@@ -1,6 +1,6 @@
 {
   "unitid": "125727",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Westmont College",
     "institution_unique_name": "Westmont College | Santa Barbara | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.9552,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 22.175,
-    "net_tuition_per_fte_change_5yr": -26.1817,
+    "net_tuition_per_fte_change_5yr": -21.6026,
     "staff_total_headcount_pct_change_5yr": -2.5822,
     "staff_instructional_headcount_pct_change_5yr": -6.7416,
     "students_per_instructional_staff_fte": 10.7381,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 28.8691,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.6599,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.4311,
+    "unfunded_discount_pct_change_5yr": 10.9434,
     "share_grad_students": 0.5743,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 451414,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 28493.6936
+        "value": 28494.5779
       },
       {
         "year": 2017,
-        "value": 28108.8833
+        "value": 28108.8842
       },
       {
         "year": 2018,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 23007.5616
+        "value": 23979.085
       },
       {
         "year": 2022,
-        "value": 20815.4174
+        "value": 21969.9481
       },
       {
         "year": 2023,
-        "value": 19778.1188
+        "value": 20888.1547
       },
       {
         "year": 2024,
-        "value": 19736.9483
+        "value": 20961.2602
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.6107
+      },
+      {
+        "year": 2015,
+        "value": 37.686
+      },
+      {
+        "year": 2016,
+        "value": 37.2618
+      },
+      {
+        "year": 2017,
+        "value": 38.6035
+      },
+      {
+        "year": 2018,
+        "value": 43.3752
+      },
+      {
+        "year": 2019,
+        "value": 43.6539
+      },
+      {
+        "year": 2020,
+        "value": 46.6707
+      },
+      {
+        "year": 2021,
+        "value": 47.0632
+      },
+      {
+        "year": 2022,
+        "value": 49.3098
+      },
+      {
+        "year": 2023,
+        "value": 44.8371
+      },
+      {
+        "year": 2024,
+        "value": 48.4311
       }
     ],
     "enrollment_headcount_total": [

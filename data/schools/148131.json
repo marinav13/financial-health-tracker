@@ -1,6 +1,6 @@
 {
   "unitid": "148131",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Quincy University",
     "institution_unique_name": "Quincy University | Quincy | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.6803,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 25.0315,
-    "net_tuition_per_fte_change_5yr": -17.5378,
+    "net_tuition_per_fte_change_5yr": -17.9244,
     "staff_total_headcount_pct_change_5yr": 21.3974,
     "staff_instructional_headcount_pct_change_5yr": 20.5882,
     "students_per_instructional_staff_fte": 14.0405,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 30.8212,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.3238,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.8065,
+    "unfunded_discount_pct_change_5yr": 10.7807,
     "share_grad_students": 17.6027,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12046.2309
+        "value": 11571.7725
       },
       {
         "year": 2015,
-        "value": 11353.3007
+        "value": 10764.595
       },
       {
         "year": 2016,
-        "value": 9811.3445
+        "value": 9227.2974
       },
       {
         "year": 2017,
-        "value": 10948.7312
+        "value": 10059.6458
       },
       {
         "year": 2018,
-        "value": 10407.9477
+        "value": 9836.6197
       },
       {
         "year": 2019,
-        "value": 10438.0211
+        "value": 9977.7046
       },
       {
         "year": 2020,
-        "value": 10405.3604
+        "value": 9967.2262
       },
       {
         "year": 2021,
-        "value": 9643.3524
+        "value": 9234.4131
       },
       {
         "year": 2022,
-        "value": 8704.8177
+        "value": 8289.1611
       },
       {
         "year": 2023,
-        "value": 7936.891
+        "value": 7661.0876
       },
       {
         "year": 2024,
-        "value": 8607.4187
+        "value": 8189.2612
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 55.4523
+      },
+      {
+        "year": 2015,
+        "value": 58.041
+      },
+      {
+        "year": 2016,
+        "value": 58.8968
+      },
+      {
+        "year": 2017,
+        "value": 63.7123
+      },
+      {
+        "year": 2018,
+        "value": 58.599
+      },
+      {
+        "year": 2019,
+        "value": 62.1105
+      },
+      {
+        "year": 2020,
+        "value": 63.4163
+      },
+      {
+        "year": 2021,
+        "value": 65.976
+      },
+      {
+        "year": 2022,
+        "value": 66.8962
+      },
+      {
+        "year": 2023,
+        "value": 68.2967
+      },
+      {
+        "year": 2024,
+        "value": 68.8065
       }
     ],
     "enrollment_headcount_total": [

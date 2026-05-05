@@ -1,6 +1,6 @@
 {
   "unitid": "190761",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dominican University New York",
     "institution_unique_name": "Dominican University New York | Orangeburg | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.2185,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -12.7554,
-    "net_tuition_per_fte_change_5yr": -16.3025,
+    "net_tuition_per_fte_change_5yr": -18.5645,
     "staff_total_headcount_pct_change_5yr": -11.9221,
     "staff_instructional_headcount_pct_change_5yr": -11.8483,
     "students_per_instructional_staff_fte": 12.9399,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 66.1854,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.0115,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.3695,
+    "unfunded_discount_pct_change_5yr": 9.7202,
     "share_grad_students": 20.48,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 26420.5282
+        "value": 23314.8387
       },
       {
         "year": 2015,
-        "value": 27387.7917
+        "value": 24255.232
       },
       {
         "year": 2016,
-        "value": 26870.2761
+        "value": 23394.3305
       },
       {
         "year": 2017,
-        "value": 25580.3883
+        "value": 23377.221
       },
       {
         "year": 2018,
-        "value": 25938.4527
+        "value": 23772.4721
       },
       {
         "year": 2019,
-        "value": 25568.3813
+        "value": 22636.1123
       },
       {
         "year": 2020,
-        "value": 26447.7161
+        "value": 23521.6256
       },
       {
         "year": 2021,
-        "value": 24444.0109
+        "value": 21630.5478
       },
       {
         "year": 2022,
-        "value": 21949.1119
+        "value": 19713.2313
       },
       {
         "year": 2023,
-        "value": 22959.4702
+        "value": 20485.3511
       },
       {
         "year": 2024,
-        "value": 21400.0888
+        "value": 18433.8371
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 32.2923
+      },
+      {
+        "year": 2017,
+        "value": 35.4908
+      },
+      {
+        "year": 2018,
+        "value": 35.0282
+      },
+      {
+        "year": 2019,
+        "value": 36.7931
+      },
+      {
+        "year": 2020,
+        "value": 36.1278
+      },
+      {
+        "year": 2021,
+        "value": 36.6698
+      },
+      {
+        "year": 2022,
+        "value": 36.5754
+      },
+      {
+        "year": 2023,
+        "value": 37.2946
+      },
+      {
+        "year": 2024,
+        "value": 40.3695
       }
     ],
     "enrollment_headcount_total": [

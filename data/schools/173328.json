@@ -1,6 +1,6 @@
 {
   "unitid": "173328",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University-Saint Paul",
     "institution_unique_name": "Concordia University-Saint Paul | Saint Paul | Minnesota",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 76.2038,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 15.3331,
+    "unfunded_discount_pct_change_5yr": -0.3007,
     "share_grad_students": 51.2463,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15127.3392
+        "value": 15127.3405
       },
       {
         "year": 2015,
-        "value": 16564.7897
+        "value": 16659.9079
       },
       {
         "year": 2016,
-        "value": 16730.9409
+        "value": 16730.9413
       },
       {
         "year": 2017,
-        "value": 15527.5344
+        "value": 15527.5355
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 15233.9552
+        "value": 15233.9549
       },
       {
         "year": 2020,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 17571.3945
+        "value": 17571.3953
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15254.7467
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.5388
+      },
+      {
+        "year": 2015,
+        "value": 12.1177
+      },
+      {
+        "year": 2016,
+        "value": 13.0076
+      },
+      {
+        "year": 2017,
+        "value": 18.4579
+      },
+      {
+        "year": 2018,
+        "value": 14.7723
+      },
+      {
+        "year": 2019,
+        "value": 15.3793
+      },
+      {
+        "year": 2020,
+        "value": 15.3863
+      },
+      {
+        "year": 2021,
+        "value": 15.0348
+      },
+      {
+        "year": 2022,
+        "value": 14.5587
+      },
+      {
+        "year": 2023,
+        "value": 14.1966
+      },
+      {
+        "year": 2024,
+        "value": 15.3331
       }
     ],
     "enrollment_headcount_total": [

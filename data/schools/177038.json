@@ -1,6 +1,6 @@
 {
   "unitid": "177038",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cleveland University-Kansas City",
     "institution_unique_name": "Cleveland University-Kansas City | Overland Park | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.2987,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1.5562,
-    "net_tuition_per_fte_change_5yr": -9.2648,
+    "net_tuition_per_fte_change_5yr": -9.8361,
     "staff_total_headcount_pct_change_5yr": 3.5971,
     "staff_instructional_headcount_pct_change_5yr": -2.7397,
     "students_per_instructional_staff_fte": 1.8042,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 78.35,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 78% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 77.8812,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 78% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.3951,
+    "unfunded_discount_pct_change_5yr": 38.8618,
     "share_grad_students": 74.8718,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 160991,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 140357.1484
+        "value": 141352.2323
       },
       {
         "year": 2015,
-        "value": 224425.93
+        "value": 225227.46
       },
       {
         "year": 2016,
-        "value": 191247.7169
+        "value": 191468.1964
       },
       {
         "year": 2017,
-        "value": 211720.2063
+        "value": 210153.9893
       },
       {
         "year": 2018,
-        "value": 292093.6182
+        "value": 289340.9326
       },
       {
         "year": 2019,
-        "value": 233970.5356
+        "value": 234044.196
       },
       {
         "year": 2020,
-        "value": 208385.268
+        "value": 207830.0382
       },
       {
         "year": 2021,
-        "value": 163694.4795
+        "value": 163281.3116
       },
       {
         "year": 2022,
-        "value": 184443.3312
+        "value": 182657.5907
       },
       {
         "year": 2023,
-        "value": 188918.7239
+        "value": 186832.214
       },
       {
         "year": 2024,
-        "value": 212293.686
+        "value": 211023.3372
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 4.6537
+      },
+      {
+        "year": 2018,
+        "value": 2.2097
+      },
+      {
+        "year": 2019,
+        "value": 1.7248
+      },
+      {
+        "year": 2020,
+        "value": 2.2136
+      },
+      {
+        "year": 2021,
+        "value": 2.4704
+      },
+      {
+        "year": 2022,
+        "value": 3.2164
+      },
+      {
+        "year": 2023,
+        "value": 2.7042
+      },
+      {
+        "year": 2024,
+        "value": 2.3951
       }
     ],
     "enrollment_headcount_total": [

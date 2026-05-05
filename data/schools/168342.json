@@ -1,6 +1,6 @@
 {
   "unitid": "168342",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Williams College",
     "institution_unique_name": "Williams College | Williamstown | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.5277,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.2779,
-    "net_tuition_per_fte_change_5yr": -16.3053,
+    "net_tuition_per_fte_change_5yr": -19.4803,
     "staff_total_headcount_pct_change_5yr": 2.1228,
     "staff_instructional_headcount_pct_change_5yr": 3.6649,
     "students_per_instructional_staff_fte": 6.5878,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 14.2267,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 11.7387,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.2413,
+    "unfunded_discount_pct_change_5yr": 9.5787,
     "share_grad_students": 2.4076,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2207322,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37033.1971
+        "value": 31608.0647
       },
       {
         "year": 2015,
-        "value": 39319.2747
+        "value": 33955.9752
       },
       {
         "year": 2016,
-        "value": 40549.3058
+        "value": 35091.7297
       },
       {
         "year": 2017,
-        "value": 40806.1706
+        "value": 35039.6048
       },
       {
         "year": 2018,
-        "value": 40177.5101
+        "value": 34095.2512
       },
       {
         "year": 2019,
-        "value": 40282.6423
+        "value": 34548.5546
       },
       {
         "year": 2020,
-        "value": 39670.0083
+        "value": 34690.6539
       },
       {
         "year": 2021,
-        "value": 37283.5666
+        "value": 32845.4069
       },
       {
         "year": 2022,
-        "value": 36874.8045
+        "value": 31927.4782
       },
       {
         "year": 2023,
-        "value": 35423.9103
+        "value": 30164.7193
       },
       {
         "year": 2024,
-        "value": 33714.4453
+        "value": 27818.3837
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.5908
+      },
+      {
+        "year": 2015,
+        "value": 25.0836
+      },
+      {
+        "year": 2016,
+        "value": 22.4886
+      },
+      {
+        "year": 2017,
+        "value": 23.3019
+      },
+      {
+        "year": 2018,
+        "value": 24.4459
+      },
+      {
+        "year": 2019,
+        "value": 20.2971
+      },
+      {
+        "year": 2020,
+        "value": 19.556
+      },
+      {
+        "year": 2021,
+        "value": 12.9643
+      },
+      {
+        "year": 2022,
+        "value": 18.3068
+      },
+      {
+        "year": 2023,
+        "value": 18.8299
+      },
+      {
+        "year": 2024,
+        "value": 22.2413
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "131283",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The Catholic University of America",
     "institution_unique_name": "The Catholic University of America | Washington | District of Columbia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -11.6389,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.7023,
-    "net_tuition_per_fte_change_5yr": -25.7928,
+    "net_tuition_per_fte_change_5yr": -22.5797,
     "staff_total_headcount_pct_change_5yr": -11.2088,
     "staff_instructional_headcount_pct_change_5yr": -16.0969,
     "students_per_instructional_staff_fte": 10.4147,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 34.9435,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.2164,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.8597,
+    "unfunded_discount_pct_change_5yr": 24.0097,
     "share_grad_students": 42.1858,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 40304200,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 32948.458
+        "value": 33863.7126
       },
       {
         "year": 2015,
-        "value": 32834.6436
+        "value": 33584.7722
       },
       {
         "year": 2016,
-        "value": 32551.4838
+        "value": 33192.2491
       },
       {
         "year": 2017,
-        "value": 31839.5587
+        "value": 32457.5669
       },
       {
         "year": 2018,
-        "value": 31549.0493
+        "value": 32158.1667
       },
       {
         "year": 2019,
-        "value": 30660.1838
+        "value": 31299.3399
       },
       {
         "year": 2020,
-        "value": 30610.5535
+        "value": 31465.1741
       },
       {
         "year": 2021,
-        "value": 28185.1903
+        "value": 29460.7115
       },
       {
         "year": 2022,
-        "value": 26503.5005
+        "value": 28268.7321
       },
       {
         "year": 2023,
-        "value": 25276.0818
+        "value": 26510.0643
       },
       {
         "year": 2024,
-        "value": 22752.0788
+        "value": 24232.037
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.598
+      },
+      {
+        "year": 2015,
+        "value": 35.3813
+      },
+      {
+        "year": 2016,
+        "value": 37.0254
+      },
+      {
+        "year": 2017,
+        "value": 38.3196
+      },
+      {
+        "year": 2018,
+        "value": 39.4817
+      },
+      {
+        "year": 2019,
+        "value": 40.2063
+      },
+      {
+        "year": 2020,
+        "value": 41.8586
+      },
+      {
+        "year": 2021,
+        "value": 44.0181
+      },
+      {
+        "year": 2022,
+        "value": 44.6029
+      },
+      {
+        "year": 2023,
+        "value": 46.5267
+      },
+      {
+        "year": 2024,
+        "value": 49.8597
       }
     ],
     "enrollment_headcount_total": [

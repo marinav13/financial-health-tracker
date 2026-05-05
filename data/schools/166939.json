@@ -1,6 +1,6 @@
 {
   "unitid": "166939",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mount Holyoke College",
     "institution_unique_name": "Mount Holyoke College | South Hadley | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.9885,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 16.7025,
-    "net_tuition_per_fte_change_5yr": -6.7705,
+    "net_tuition_per_fte_change_5yr": -14.1362,
     "staff_total_headcount_pct_change_5yr": -3.9801,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 10.1291,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 26.18,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.2412,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.5449,
+    "unfunded_discount_pct_change_5yr": 23.4827,
     "share_grad_students": 12.5372,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2687784,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23482.8335
+        "value": 23722.2778
       },
       {
         "year": 2015,
-        "value": 24491.7209
+        "value": 24727.0379
       },
       {
         "year": 2016,
-        "value": 25168.9896
+        "value": 25406.7244
       },
       {
         "year": 2017,
-        "value": 25978.1208
+        "value": 26163.861
       },
       {
         "year": 2018,
-        "value": 25984.6756
+        "value": 26172.8899
       },
       {
         "year": 2019,
-        "value": 27840.6781
+        "value": 27990.3068
       },
       {
         "year": 2020,
-        "value": 29710.6517
+        "value": 29187.8243
       },
       {
         "year": 2021,
-        "value": 29328.4361
+        "value": 29270.7412
       },
       {
         "year": 2022,
-        "value": 26194.5307
+        "value": 25980.2565
       },
       {
         "year": 2023,
-        "value": 26037.2453
+        "value": 25392.9867
       },
       {
         "year": 2024,
-        "value": 25955.7335
+        "value": 24033.5273
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.3926
+      },
+      {
+        "year": 2015,
+        "value": 38.3979
+      },
+      {
+        "year": 2016,
+        "value": 35.6826
+      },
+      {
+        "year": 2017,
+        "value": 33.6962
+      },
+      {
+        "year": 2018,
+        "value": 37.0426
+      },
+      {
+        "year": 2019,
+        "value": 36.8836
+      },
+      {
+        "year": 2020,
+        "value": 35.8133
+      },
+      {
+        "year": 2021,
+        "value": 29.2811
+      },
+      {
+        "year": 2022,
+        "value": 39.5527
+      },
+      {
+        "year": 2023,
+        "value": 40.0059
+      },
+      {
+        "year": 2024,
+        "value": 45.5449
       }
     ],
     "enrollment_headcount_total": [

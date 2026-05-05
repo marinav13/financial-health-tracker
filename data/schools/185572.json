@@ -1,6 +1,6 @@
 {
   "unitid": "185572",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Monmouth University",
     "institution_unique_name": "Monmouth University | West Long Branch | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -20.5996,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.8551,
-    "net_tuition_per_fte_change_5yr": -13.0807,
+    "net_tuition_per_fte_change_5yr": -14.2328,
     "staff_total_headcount_pct_change_5yr": -12.2477,
     "staff_instructional_headcount_pct_change_5yr": 3.8633,
     "students_per_instructional_staff_fte": 11.4374,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 57.96,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.9596,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.6694,
+    "unfunded_discount_pct_change_5yr": 20.1399,
     "share_grad_students": 24.0466,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4013427,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27440.7332
+        "value": 27302.7157
       },
       {
         "year": 2015,
-        "value": 28332.4802
+        "value": 28160.6921
       },
       {
         "year": 2016,
-        "value": 29183.4864
+        "value": 28714.1576
       },
       {
         "year": 2017,
-        "value": 29395.4844
+        "value": 28832.5174
       },
       {
         "year": 2018,
-        "value": 28943.8672
+        "value": 28363.8293
       },
       {
         "year": 2019,
-        "value": 28880.8836
+        "value": 28258.6545
       },
       {
         "year": 2020,
-        "value": 28233.5373
+        "value": 27628.5869
       },
       {
         "year": 2021,
-        "value": 28129.451
+        "value": 27471.3047
       },
       {
         "year": 2022,
-        "value": 25472.0345
+        "value": 24698.697
       },
       {
         "year": 2023,
-        "value": 26439.31
+        "value": 25525.0025
       },
       {
         "year": 2024,
-        "value": 25103.0588
+        "value": 24236.6636
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.5474
+      },
+      {
+        "year": 2015,
+        "value": 28.1786
+      },
+      {
+        "year": 2016,
+        "value": 29.3082
+      },
+      {
+        "year": 2017,
+        "value": 30.4585
+      },
+      {
+        "year": 2018,
+        "value": 32.3801
+      },
+      {
+        "year": 2019,
+        "value": 33.8517
+      },
+      {
+        "year": 2020,
+        "value": 34.5872
+      },
+      {
+        "year": 2021,
+        "value": 37.3544
+      },
+      {
+        "year": 2022,
+        "value": 39.2822
+      },
+      {
+        "year": 2023,
+        "value": 39.9727
+      },
+      {
+        "year": 2024,
+        "value": 40.6694
       }
     ],
     "enrollment_headcount_total": [

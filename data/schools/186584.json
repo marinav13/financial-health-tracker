@@ -1,6 +1,6 @@
 {
   "unitid": "186584",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Seton Hall University",
     "institution_unique_name": "Seton Hall University | South Orange | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 11.6041,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.3323,
-    "net_tuition_per_fte_change_5yr": -9.1519,
+    "net_tuition_per_fte_change_5yr": -8.6986,
     "staff_total_headcount_pct_change_5yr": -7.2295,
     "staff_instructional_headcount_pct_change_5yr": -3.0274,
     "students_per_instructional_staff_fte": 12.8872,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 64.4195,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.0302,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.0008,
+    "unfunded_discount_pct_change_5yr": 14.9974,
     "share_grad_students": 29.7406,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3971000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 32969.6852
+        "value": 32562.0776
       },
       {
         "year": 2015,
-        "value": 32650.7395
+        "value": 32155.8219
       },
       {
         "year": 2016,
-        "value": 31608.577
+        "value": 31174.6551
       },
       {
         "year": 2017,
-        "value": 31823.302
+        "value": 31309.9977
       },
       {
         "year": 2018,
-        "value": 31576.3261
+        "value": 31182.9156
       },
       {
         "year": 2019,
-        "value": 32455.0147
+        "value": 31597.4124
       },
       {
         "year": 2020,
-        "value": 33207.3952
+        "value": 32426.0164
       },
       {
         "year": 2021,
-        "value": 31914.8968
+        "value": 31304.6874
       },
       {
         "year": 2022,
-        "value": 30619.7658
+        "value": 29951.7775
       },
       {
         "year": 2023,
-        "value": 29383.2283
+        "value": 28791.856
       },
       {
         "year": 2024,
-        "value": 29484.7685
+        "value": 28848.8846
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.3836
+      },
+      {
+        "year": 2015,
+        "value": 32.0852
+      },
+      {
+        "year": 2016,
+        "value": 33.7016
+      },
+      {
+        "year": 2017,
+        "value": 34.1769
+      },
+      {
+        "year": 2018,
+        "value": 34.5776
+      },
+      {
+        "year": 2019,
+        "value": 35.6537
+      },
+      {
+        "year": 2020,
+        "value": 35.7686
+      },
+      {
+        "year": 2021,
+        "value": 38.1878
+      },
+      {
+        "year": 2022,
+        "value": 39.6389
+      },
+      {
+        "year": 2023,
+        "value": 40.1466
+      },
+      {
+        "year": 2024,
+        "value": 41.0008
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "166869",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "MGH Institute of Health Professions",
     "institution_unique_name": "MGH Institute of Health Professions | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.4813,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.6555,
-    "net_tuition_per_fte_change_5yr": -11.7848,
+    "net_tuition_per_fte_change_5yr": -13.4493,
     "staff_total_headcount_pct_change_5yr": 4.7794,
     "staff_instructional_headcount_pct_change_5yr": 13.0081,
     "students_per_instructional_staff_fte": 9.2334,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 68.7748,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 67.4771,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 12.7767,
+    "unfunded_discount_pct_change_5yr": 16.2283,
     "share_grad_students": 65.2291,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 7696000,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 56254.8422
+        "value": 55415.4955
       },
       {
         "year": 2022,
-        "value": 53058.6139
+        "value": 52385.0964
       },
       {
         "year": 2023,
-        "value": 48739.1567
+        "value": 47935.187
       },
       {
         "year": 2024,
-        "value": 55777.1536
+        "value": 54724.7191
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.8612
+      },
+      {
+        "year": 2015,
+        "value": 1.7085
+      },
+      {
+        "year": 2016,
+        "value": 10.0356
+      },
+      {
+        "year": 2017,
+        "value": 10.5196
+      },
+      {
+        "year": 2018,
+        "value": 10.3325
+      },
+      {
+        "year": 2019,
+        "value": 10.9928
+      },
+      {
+        "year": 2020,
+        "value": 11.645
+      },
+      {
+        "year": 2021,
+        "value": 11.0633
+      },
+      {
+        "year": 2022,
+        "value": 12.0811
+      },
+      {
+        "year": 2023,
+        "value": 11.5295
+      },
+      {
+        "year": 2024,
+        "value": 12.7767
       }
     ],
     "enrollment_headcount_total": [

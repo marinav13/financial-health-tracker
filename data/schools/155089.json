@@ -1,6 +1,6 @@
 {
   "unitid": "155089",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Friends University",
     "institution_unique_name": "Friends University | Wichita | Kansas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 54.8326,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.7122,
+    "unfunded_discount_pct_change_5yr": 20.9405,
     "share_grad_students": 36.9034,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11185.2935
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.8577
+      },
+      {
+        "year": 2015,
+        "value": 26.2796
+      },
+      {
+        "year": 2016,
+        "value": 27.015
+      },
+      {
+        "year": 2017,
+        "value": 30.7888
+      },
+      {
+        "year": 2018,
+        "value": 31.6906
+      },
+      {
+        "year": 2019,
+        "value": 32.0093
+      },
+      {
+        "year": 2020,
+        "value": 32.7728
+      },
+      {
+        "year": 2021,
+        "value": 34.8165
+      },
+      {
+        "year": 2022,
+        "value": 37.156
+      },
+      {
+        "year": 2023,
+        "value": 38.4902
+      },
+      {
+        "year": 2024,
+        "value": 38.7122
       }
     ],
     "enrollment_headcount_total": [

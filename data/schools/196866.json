@@ -1,6 +1,6 @@
 {
   "unitid": "196866",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Union College",
     "institution_unique_name": "Union College | Schenectady | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.5946,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 8.8985,
-    "net_tuition_per_fte_change_5yr": -30.413,
+    "net_tuition_per_fte_change_5yr": -30.3838,
     "staff_total_headcount_pct_change_5yr": -10.8527,
     "staff_instructional_headcount_pct_change_5yr": -0.4,
     "students_per_instructional_staff_fte": 9.0863,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 29.8489,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.2674,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.1261,
+    "unfunded_discount_pct_change_5yr": 30.3651,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1498867,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36456.6433
+        "value": 12839.0308
       },
       {
         "year": 2015,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 40804.5075
+        "value": 40800.0644
       },
       {
         "year": 2019,
-        "value": 41146.2062
+        "value": 41705.572
       },
       {
         "year": 2020,
-        "value": 39958.0972
+        "value": 40263.1945
       },
       {
         "year": 2021,
-        "value": 36954.0814
+        "value": 37186.6882
       },
       {
         "year": 2022,
-        "value": 32992.9873
+        "value": 33404.3536
       },
       {
         "year": 2023,
-        "value": 30910.6985
+        "value": 31345.9441
       },
       {
         "year": 2024,
-        "value": 28632.4052
+        "value": 29033.8299
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 56.6883
+      },
+      {
+        "year": 2015,
+        "value": 34.0101
+      },
+      {
+        "year": 2016,
+        "value": 34.3172
+      },
+      {
+        "year": 2017,
+        "value": 34.7477
+      },
+      {
+        "year": 2018,
+        "value": 35.045
+      },
+      {
+        "year": 2019,
+        "value": 35.3823
+      },
+      {
+        "year": 2020,
+        "value": 35.4801
+      },
+      {
+        "year": 2021,
+        "value": 36.8825
+      },
+      {
+        "year": 2022,
+        "value": 40.3154
+      },
+      {
+        "year": 2023,
+        "value": 42.2095
+      },
+      {
+        "year": 2024,
+        "value": 46.1261
       }
     ],
     "enrollment_headcount_total": [

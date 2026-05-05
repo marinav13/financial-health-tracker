@@ -1,6 +1,6 @@
 {
   "unitid": "181446",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Nebraska Wesleyan University",
     "institution_unique_name": "Nebraska Wesleyan University | Lincoln | Nebraska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.6853,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.0015,
-    "net_tuition_per_fte_change_5yr": -26.1088,
+    "net_tuition_per_fte_change_5yr": -24.2188,
     "staff_total_headcount_pct_change_5yr": -24.9524,
     "staff_instructional_headcount_pct_change_5yr": -36.4,
     "students_per_instructional_staff_fte": 18.7094,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 45.1647,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.3411,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.8448,
+    "unfunded_discount_pct_change_5yr": 22.6976,
     "share_grad_students": 4.9529,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16261.3994
+        "value": 16627.9503
       },
       {
         "year": 2015,
-        "value": 16034.3383
+        "value": 16407.5909
       },
       {
         "year": 2016,
-        "value": 15860.8702
+        "value": 16255.0635
       },
       {
         "year": 2017,
-        "value": 15422.2128
+        "value": 15737.3606
       },
       {
         "year": 2018,
-        "value": 15144.4183
+        "value": 15468.0546
       },
       {
         "year": 2019,
-        "value": 15219.3746
+        "value": 15554.8908
       },
       {
         "year": 2020,
-        "value": 14692.2388
+        "value": 15068.7128
       },
       {
         "year": 2021,
-        "value": 14485.1641
+        "value": 14915.6432
       },
       {
         "year": 2022,
-        "value": 13472.2574
+        "value": 13958.4412
       },
       {
         "year": 2023,
-        "value": 12872.4592
+        "value": 13446.193
       },
       {
         "year": 2024,
-        "value": 11245.7743
+        "value": 11787.6884
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.2871
+      },
+      {
+        "year": 2015,
+        "value": 37.2954
+      },
+      {
+        "year": 2016,
+        "value": 40.5927
+      },
+      {
+        "year": 2017,
+        "value": 42.4082
+      },
+      {
+        "year": 2018,
+        "value": 43.3215
+      },
+      {
+        "year": 2019,
+        "value": 46.3292
+      },
+      {
+        "year": 2020,
+        "value": 48.2689
+      },
+      {
+        "year": 2021,
+        "value": 49.9209
+      },
+      {
+        "year": 2022,
+        "value": 51.7319
+      },
+      {
+        "year": 2023,
+        "value": 52.4939
+      },
+      {
+        "year": 2024,
+        "value": 56.8448
       }
     ],
     "enrollment_headcount_total": [

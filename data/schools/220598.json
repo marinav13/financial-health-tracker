@@ -1,6 +1,6 @@
 {
   "unitid": "220598",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lane College",
     "institution_unique_name": "Lane College | Jackson | Tennessee",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 29.569,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.4242,
+    "unfunded_discount_pct_change_5yr": 14.7792,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12174.4999
+        "value": 11664.7435
       },
       {
         "year": 2015,
-        "value": 12823.1598
+        "value": 12423.7266
       },
       {
         "year": 2016,
-        "value": 12283.3626
+        "value": 11600.4568
       },
       {
         "year": 2017,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 10237.0631
+        "value": 12121.7187
       },
       {
         "year": 2022,
-        "value": 10190.6054
+        "value": 11715.7755
       },
       {
         "year": 2023,
-        "value": 7820.1634
+        "value": 10253.9758
       },
       {
         "year": 2024,
         "value": 8415.3617
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.9934
+      },
+      {
+        "year": 2015,
+        "value": 6.4237
+      },
+      {
+        "year": 2016,
+        "value": 12.0138
+      },
+      {
+        "year": 2017,
+        "value": 18.1897
+      },
+      {
+        "year": 2018,
+        "value": 17.2889
+      },
+      {
+        "year": 2019,
+        "value": 22.1505
+      },
+      {
+        "year": 2020,
+        "value": 20.2972
+      },
+      {
+        "year": 2021,
+        "value": 4.902
+      },
+      {
+        "year": 2022,
+        "value": 5.748
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 25.4242
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "209241",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mount Angel Seminary",
     "institution_unique_name": "Mount Angel Seminary | Saint Benedict | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.7857,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -1.8197,
+    "net_tuition_per_fte_change_5yr": 5.3108,
     "staff_total_headcount_pct_change_5yr": -15.9091,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 6.3125,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 71.5447,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -114,39 +116,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 35098.0883
+        "value": 32367.9661
       },
       {
         "year": 2015,
-        "value": 41694.6159
+        "value": 38440.723
       },
       {
         "year": 2016,
-        "value": 21709.9464
+        "value": 20541.4964
       },
       {
         "year": 2017,
-        "value": 21236.6809
+        "value": 20434.9462
       },
       {
         "year": 2018,
-        "value": 21471.0737
+        "value": 20459.3096
       },
       {
         "year": 2019,
-        "value": 21115.7052
+        "value": 19685.9807
       },
       {
         "year": 2020,
-        "value": 21165.3888
+        "value": 19652.5
       },
       {
         "year": 2021,
-        "value": 23646.1135
+        "value": 24615.0585
       },
       {
         "year": 2022,
-        "value": 21572.6567
+        "value": 23268.3699
       },
       {
         "year": 2023,
@@ -155,6 +157,52 @@
       {
         "year": 2024,
         "value": 20731.4653
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "206349",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ursuline College",
     "institution_unique_name": "Ursuline College | Pepper Pike | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 91.6138,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.2354,
-    "net_tuition_per_fte_change_5yr": -42.8616,
+    "net_tuition_per_fte_change_5yr": -44.2802,
     "staff_total_headcount_pct_change_5yr": -4.6053,
     "staff_instructional_headcount_pct_change_5yr": -7.6023,
     "students_per_instructional_staff_fte": 14.7591,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 57.775,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.2832,
+    "unfunded_discount_pct_change_5yr": 44.0906,
     "share_grad_students": 70.7981,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23566.8704
+        "value": 24037.7152
       },
       {
         "year": 2015,
-        "value": 25119.5382
+        "value": 25769.669
       },
       {
         "year": 2016,
-        "value": 24521.1001
+        "value": 25338.1784
       },
       {
         "year": 2017,
-        "value": 23943.3493
+        "value": 24837.3184
       },
       {
         "year": 2018,
-        "value": 23509.6011
+        "value": 24393.2421
       },
       {
         "year": 2019,
-        "value": 21066.6787
+        "value": 21603.0339
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12037.1573
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.5581
+      },
+      {
+        "year": 2015,
+        "value": 19.8021
+      },
+      {
+        "year": 2016,
+        "value": 20.3651
+      },
+      {
+        "year": 2017,
+        "value": 22.6164
+      },
+      {
+        "year": 2018,
+        "value": 22.2541
+      },
+      {
+        "year": 2019,
+        "value": 23.7928
+      },
+      {
+        "year": 2020,
+        "value": 30.1915
+      },
+      {
+        "year": 2021,
+        "value": 31.257
+      },
+      {
+        "year": 2022,
+        "value": 33.8995
+      },
+      {
+        "year": 2023,
+        "value": 38.4293
+      },
+      {
+        "year": 2024,
+        "value": 34.2832
       }
     ],
     "enrollment_headcount_total": [

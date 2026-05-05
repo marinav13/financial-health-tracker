@@ -1,6 +1,6 @@
 {
   "unitid": "440794",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pillar College",
     "institution_unique_name": "Pillar College | Newark | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.0402,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -9.303,
-    "net_tuition_per_fte_change_5yr": -21.589,
+    "net_tuition_per_fte_change_5yr": -34.6621,
     "staff_total_headcount_pct_change_5yr": -9.4203,
     "staff_instructional_headcount_pct_change_5yr": 8.2353,
     "students_per_instructional_staff_fte": 11.9016,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 92.7091,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 93% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 93% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.5406,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 10.4698,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22001.4466
+        "value": 26499.4984
       },
       {
         "year": 2015,
-        "value": 23844.7521
+        "value": 28618.5211
       },
       {
         "year": 2016,
-        "value": 25812.7191
+        "value": 30708.42
       },
       {
         "year": 2017,
-        "value": 25658.5378
+        "value": 30718.3519
       },
       {
         "year": 2018,
-        "value": 21872.4854
+        "value": 25460.6643
       },
       {
         "year": 2019,
-        "value": 23700.849
+        "value": 28443.0057
       },
       {
         "year": 2020,
-        "value": 23535.7919
+        "value": 27286.6084
       },
       {
         "year": 2021,
-        "value": 23790.6471
+        "value": 24024.1544
       },
       {
         "year": 2022,
-        "value": 19839.289
+        "value": 22619.3477
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 18584.062
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 1.2734
+      },
+      {
+        "year": 2021,
+        "value": 15.3158
+      },
+      {
+        "year": 2022,
+        "value": 5.4828
+      },
+      {
+        "year": 2023,
+        "value": 28.3703
+      },
+      {
+        "year": 2024,
+        "value": 28.5406
       }
     ],
     "enrollment_headcount_total": [

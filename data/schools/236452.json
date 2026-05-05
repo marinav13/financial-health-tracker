@@ -1,6 +1,6 @@
 {
   "unitid": "236452",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Martin's University",
     "institution_unique_name": "Saint Martin's University | Lacey | Washington",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 57.8758,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.1446,
+    "unfunded_discount_pct_change_5yr": 21.2743,
     "share_grad_students": 15.1289,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 116686,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18918.1899
+        "value": 21082.977
       },
       {
         "year": 2015,
-        "value": 20417.1154
+        "value": 22625.7602
       },
       {
         "year": 2016,
-        "value": 21607.1685
+        "value": 23653.744
       },
       {
         "year": 2017,
-        "value": 21531.9865
+        "value": 23749.4094
       },
       {
         "year": 2018,
@@ -179,19 +181,19 @@
       },
       {
         "year": 2019,
-        "value": 23754.8318
+        "value": 23754.8326
       },
       {
         "year": 2020,
-        "value": 23596.9837
+        "value": 25880.8557
       },
       {
         "year": 2021,
-        "value": 21779.9322
+        "value": 24252.1839
       },
       {
         "year": 2022,
-        "value": 21242.6488
+        "value": 22397.1111
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21689.4498
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.379
+      },
+      {
+        "year": 2015,
+        "value": 34.1374
+      },
+      {
+        "year": 2016,
+        "value": 35.4585
+      },
+      {
+        "year": 2017,
+        "value": 38.0132
+      },
+      {
+        "year": 2018,
+        "value": 38.0526
+      },
+      {
+        "year": 2019,
+        "value": 38.0498
+      },
+      {
+        "year": 2020,
+        "value": 35.4252
+      },
+      {
+        "year": 2021,
+        "value": 38.9678
+      },
+      {
+        "year": 2022,
+        "value": 46.1392
+      },
+      {
+        "year": 2023,
+        "value": 48.1914
+      },
+      {
+        "year": 2024,
+        "value": 46.1446
       }
     ],
     "enrollment_headcount_total": [

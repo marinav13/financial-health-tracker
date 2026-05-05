@@ -1,6 +1,6 @@
 {
   "unitid": "120166",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "San Francisco Bay University",
     "institution_unique_name": "San Francisco Bay University | Fremont | California",
@@ -17,8 +17,8 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": 556.6265,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": 1430.1391,
-    "net_tuition_per_fte_change_5yr": -84.5982,
+    "revenue_pct_change_5yr": -1430.1391,
+    "net_tuition_per_fte_change_5yr": -84.5695,
     "staff_total_headcount_pct_change_5yr": 156.0976,
     "staff_instructional_headcount_pct_change_5yr": 322.2222,
     "students_per_instructional_staff_fte": 23,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 2.0411,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 2% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 2% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 70.1961,
+    "unfunded_discount_pct_change_5yr": 37660.7114,
     "share_grad_students": 80.5505,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -119,7 +121,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2019,
-        "value": 20174.7289
+        "value": 20137.2246
       },
       {
         "year": 2020,
@@ -140,6 +142,32 @@
       {
         "year": 2024,
         "value": 3107.2772
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 0.1859
+      },
+      {
+        "year": 2020,
+        "value": 3.3659
+      },
+      {
+        "year": 2021,
+        "value": 36.9751
+      },
+      {
+        "year": 2022,
+        "value": 64.6167
+      },
+      {
+        "year": 2023,
+        "value": 66.9517
+      },
+      {
+        "year": 2024,
+        "value": 70.1961
       }
     ],
     "enrollment_headcount_total": [

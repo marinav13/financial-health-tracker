@@ -1,6 +1,6 @@
 {
   "unitid": "140553",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Morehouse College",
     "institution_unique_name": "Morehouse College | Atlanta | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.1966,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 39.5467,
-    "net_tuition_per_fte_change_5yr": -6.9368,
+    "net_tuition_per_fte_change_5yr": -4.6872,
     "staff_total_headcount_pct_change_5yr": 68.4706,
     "staff_instructional_headcount_pct_change_5yr": 79.4872,
     "students_per_instructional_staff_fte": 14.5909,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 27.0654,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 31.024,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 16.6316,
+    "unfunded_discount_pct_change_5yr": -46.5145,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6050805,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19072.4306
+        "value": 18986.0169
       },
       {
         "year": 2015,
-        "value": 16966.1891
+        "value": 19609.5595
       },
       {
         "year": 2016,
-        "value": 17791.8509
+        "value": 20613.1832
       },
       {
         "year": 2017,
-        "value": 18697.4531
+        "value": 21025.9113
       },
       {
         "year": 2018,
-        "value": 17543.7403
+        "value": 20042.9897
       },
       {
         "year": 2019,
-        "value": 18266.0631
+        "value": 20443.4767
       },
       {
         "year": 2020,
-        "value": 20483.1482
+        "value": 23143.9657
       },
       {
         "year": 2021,
-        "value": 27504.5892
+        "value": 35524.1224
       },
       {
         "year": 2022,
-        "value": 28451.1743
+        "value": 38712.2131
       },
       {
         "year": 2023,
-        "value": 17542.6709
+        "value": 19572.938
       },
       {
         "year": 2024,
-        "value": 16998.9845
+        "value": 19485.2437
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.5938
+      },
+      {
+        "year": 2015,
+        "value": 28.0351
+      },
+      {
+        "year": 2016,
+        "value": 25.718
+      },
+      {
+        "year": 2017,
+        "value": 23.5875
+      },
+      {
+        "year": 2018,
+        "value": 29.2532
+      },
+      {
+        "year": 2019,
+        "value": 31.0955
+      },
+      {
+        "year": 2020,
+        "value": 26.3774
+      },
+      {
+        "year": 2021,
+        "value": 28.0608
+      },
+      {
+        "year": 2022,
+        "value": 22.2243
+      },
+      {
+        "year": 2023,
+        "value": 21.049
+      },
+      {
+        "year": 2024,
+        "value": 16.6316
       }
     ],
     "enrollment_headcount_total": [

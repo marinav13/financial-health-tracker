@@ -1,6 +1,6 @@
 {
   "unitid": "145497",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hebrew Theological College",
     "institution_unique_name": "Hebrew Theological College | Skokie | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 15.998,
+    "unfunded_discount_pct_change_5yr": 14.7606,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -131,15 +133,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 5513.1787
+        "value": 4994.7305
       },
       {
         "year": 2015,
-        "value": 6204.4519
+        "value": 5643.9326
       },
       {
         "year": 2016,
-        "value": 5677.1462
+        "value": 5278.7547
       },
       {
         "year": 2017,
@@ -172,6 +174,52 @@
       {
         "year": 2024,
         "value": 16100
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.3384
+      },
+      {
+        "year": 2015,
+        "value": 28.4252
+      },
+      {
+        "year": 2016,
+        "value": 23.1882
+      },
+      {
+        "year": 2017,
+        "value": 38.318
+      },
+      {
+        "year": 2018,
+        "value": 51.566
+      },
+      {
+        "year": 2019,
+        "value": 13.9403
+      },
+      {
+        "year": 2020,
+        "value": 23.304
+      },
+      {
+        "year": 2021,
+        "value": 21.8969
+      },
+      {
+        "year": 2022,
+        "value": 20.7369
+      },
+      {
+        "year": 2023,
+        "value": 19.1512
+      },
+      {
+        "year": 2024,
+        "value": 15.998
       }
     ],
     "enrollment_headcount_total": [

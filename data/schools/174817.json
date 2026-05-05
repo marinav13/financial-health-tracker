@@ -1,6 +1,6 @@
 {
   "unitid": "174817",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Mary's University of Minnesota",
     "institution_unique_name": "Saint Mary's University of Minnesota | Winona | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.6653,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.9525,
-    "net_tuition_per_fte_change_5yr": -2.2685,
+    "net_tuition_per_fte_change_5yr": 8.3527,
     "staff_total_headcount_pct_change_5yr": -23.6559,
     "staff_instructional_headcount_pct_change_5yr": -37.1212,
     "students_per_instructional_staff_fte": 17.8354,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 54.512,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.3346,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.0107,
+    "unfunded_discount_pct_change_5yr": -8.9588,
     "share_grad_students": 66.324,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 117762,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17063.2677
+        "value": 15720.3924
       },
       {
         "year": 2015,
-        "value": 17501.6353
+        "value": 16194.0677
       },
       {
         "year": 2016,
-        "value": 17713.688
+        "value": 16417.8437
       },
       {
         "year": 2017,
-        "value": 17122.7284
+        "value": 15887.6645
       },
       {
         "year": 2018,
-        "value": 16768.6143
+        "value": 15560.4396
       },
       {
         "year": 2019,
-        "value": 16683.4412
+        "value": 15551.1821
       },
       {
         "year": 2020,
-        "value": 18193.0204
+        "value": 16914.9253
       },
       {
         "year": 2021,
-        "value": 16652.8698
+        "value": 15603.2932
       },
       {
         "year": 2022,
-        "value": 17815.1731
+        "value": 16735.7529
       },
       {
         "year": 2023,
-        "value": 17882.7437
+        "value": 16355.0949
       },
       {
         "year": 2024,
-        "value": 16304.9847
+        "value": 16850.1182
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.0755
+      },
+      {
+        "year": 2015,
+        "value": 28.1023
+      },
+      {
+        "year": 2016,
+        "value": 27.4486
+      },
+      {
+        "year": 2017,
+        "value": 27.5742
+      },
+      {
+        "year": 2018,
+        "value": 29.4932
+      },
+      {
+        "year": 2019,
+        "value": 30.7671
+      },
+      {
+        "year": 2020,
+        "value": 31.6996
+      },
+      {
+        "year": 2021,
+        "value": 33.9548
+      },
+      {
+        "year": 2022,
+        "value": 33.5717
+      },
+      {
+        "year": 2023,
+        "value": 34.1637
+      },
+      {
+        "year": 2024,
+        "value": 28.0107
       }
     ],
     "enrollment_headcount_total": [

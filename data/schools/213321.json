@@ -1,6 +1,6 @@
 {
   "unitid": "213321",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "King's College",
     "institution_unique_name": "King's College | Wilkes-Barre | Pennsylvania",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 50.0311,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.0734,
+    "unfunded_discount_pct_change_5yr": 16.9367,
     "share_grad_students": 23.2975,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 16847.4366
+        "value": 16847.4371
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.9783
+      },
+      {
+        "year": 2015,
+        "value": 34.4578
+      },
+      {
+        "year": 2016,
+        "value": 35.0634
+      },
+      {
+        "year": 2017,
+        "value": 35.1458
+      },
+      {
+        "year": 2018,
+        "value": 37.617
+      },
+      {
+        "year": 2019,
+        "value": 38.5451
+      },
+      {
+        "year": 2020,
+        "value": 39.4793
+      },
+      {
+        "year": 2021,
+        "value": 40.9819
+      },
+      {
+        "year": 2022,
+        "value": 41.8463
+      },
+      {
+        "year": 2023,
+        "value": 43.4331
+      },
+      {
+        "year": 2024,
+        "value": 45.0734
       }
     ],
     "enrollment_headcount_total": [

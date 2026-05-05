@@ -1,6 +1,6 @@
 {
   "unitid": "102669",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Alaska Pacific University",
     "institution_unique_name": "Alaska Pacific University | Anchorage | Alaska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 29.1457,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 66.6676,
-    "net_tuition_per_fte_change_5yr": -5.9909,
+    "net_tuition_per_fte_change_5yr": -6.2389,
     "staff_total_headcount_pct_change_5yr": 27.381,
     "staff_instructional_headcount_pct_change_5yr": 44.186,
     "students_per_instructional_staff_fte": 5.6579,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 24.7775,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.7121,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.1243,
+    "unfunded_discount_pct_change_5yr": -3.9055,
     "share_grad_students": 20.882,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2715106,
@@ -175,7 +177,7 @@
       },
       {
         "year": 2018,
-        "value": 16909.4489
+        "value": 17000.1362
       },
       {
         "year": 2019,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 14748.5783
+        "value": 14487.9358
       },
       {
         "year": 2022,
-        "value": 13294.0129
+        "value": 12922.6943
       },
       {
         "year": 2023,
-        "value": 13207.6976
+        "value": 12804.2569
       },
       {
         "year": 2024,
-        "value": 14539.5279
+        "value": 14501.1721
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.8767
+      },
+      {
+        "year": 2015,
+        "value": 12.6544
+      },
+      {
+        "year": 2016,
+        "value": 17.8325
+      },
+      {
+        "year": 2017,
+        "value": 18.9703
+      },
+      {
+        "year": 2018,
+        "value": 22.7988
+      },
+      {
+        "year": 2019,
+        "value": 29.2674
+      },
+      {
+        "year": 2020,
+        "value": 29.5759
+      },
+      {
+        "year": 2021,
+        "value": 30.5769
+      },
+      {
+        "year": 2022,
+        "value": 32.4421
+      },
+      {
+        "year": 2023,
+        "value": 29.1225
+      },
+      {
+        "year": 2024,
+        "value": 28.1243
       }
     ],
     "enrollment_headcount_total": [

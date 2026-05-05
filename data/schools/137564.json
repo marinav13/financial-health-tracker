@@ -1,6 +1,6 @@
 {
   "unitid": "137564",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southeastern University",
     "institution_unique_name": "Southeastern University | Lakeland | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.4835,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.6472,
-    "net_tuition_per_fte_change_5yr": -21.1444,
+    "net_tuition_per_fte_change_5yr": 55.8889,
     "staff_total_headcount_pct_change_5yr": 46.1283,
     "staff_instructional_headcount_pct_change_5yr": 102.6966,
     "students_per_instructional_staff_fte": 17.1837,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 67.5657,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 67.4664,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.992,
+    "unfunded_discount_pct_change_5yr": -22.3121,
     "share_grad_students": 13.0425,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16092.3795
+        "value": 9361.629
       },
       {
         "year": 2015,
-        "value": 17634.2609
+        "value": 8928.2714
       },
       {
         "year": 2016,
-        "value": 15393.9676
+        "value": 7869.318
       },
       {
         "year": 2017,
-        "value": 14262.2289
+        "value": 7073.9801
       },
       {
         "year": 2018,
-        "value": 13336.8998
+        "value": 6494.858
       },
       {
         "year": 2019,
-        "value": 12490.1755
+        "value": 6308.8062
       },
       {
         "year": 2020,
-        "value": 11622.8354
+        "value": 5762.953
       },
       {
         "year": 2021,
-        "value": 10770.5268
+        "value": 4872.8864
       },
       {
         "year": 2022,
-        "value": 11308.3354
+        "value": 5024.8352
       },
       {
         "year": 2023,
-        "value": 10043.2186
+        "value": 10014.7362
       },
       {
         "year": 2024,
-        "value": 9849.2068
+        "value": 9834.7309
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.4932
+      },
+      {
+        "year": 2015,
+        "value": 49.2845
+      },
+      {
+        "year": 2016,
+        "value": 48.7697
+      },
+      {
+        "year": 2017,
+        "value": 50.1917
+      },
+      {
+        "year": 2018,
+        "value": 51.3016
+      },
+      {
+        "year": 2019,
+        "value": 50.1906
+      },
+      {
+        "year": 2020,
+        "value": 51.1881
+      },
+      {
+        "year": 2021,
+        "value": 55.8049
+      },
+      {
+        "year": 2022,
+        "value": 56.6068
+      },
+      {
+        "year": 2023,
+        "value": 39.6314
+      },
+      {
+        "year": 2024,
+        "value": 38.992
       }
     ],
     "enrollment_headcount_total": [

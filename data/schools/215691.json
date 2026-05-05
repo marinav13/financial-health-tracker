@@ -1,6 +1,6 @@
 {
   "unitid": "215691",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rosemont College",
     "institution_unique_name": "Rosemont College | Rosemont | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.9258,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -31.3518,
-    "net_tuition_per_fte_change_5yr": -23.5496,
+    "net_tuition_per_fte_change_5yr": -16.6494,
     "staff_total_headcount_pct_change_5yr": -9.3617,
     "staff_instructional_headcount_pct_change_5yr": 24.0385,
     "students_per_instructional_staff_fte": 11.6441,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 47.8159,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 48.2187,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.0939,
+    "unfunded_discount_pct_change_5yr": 30.146,
     "share_grad_students": 41.5352,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18404.2414
+        "value": 17374.2037
       },
       {
         "year": 2015,
-        "value": 17265.8646
+        "value": 15896.1333
       },
       {
         "year": 2016,
-        "value": 17337.205
+        "value": 15797.3848
       },
       {
         "year": 2017,
-        "value": 16862.9529
+        "value": 15628.0469
       },
       {
         "year": 2018,
-        "value": 16440.2878
+        "value": 15229.6754
       },
       {
         "year": 2019,
-        "value": 14698.2129
+        "value": 13594.9859
       },
       {
         "year": 2020,
-        "value": 13356.3963
+        "value": 12491.1446
       },
       {
         "year": 2021,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 11236.8457
+        "value": 11331.5051
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.7248
+      },
+      {
+        "year": 2015,
+        "value": 46.6234
+      },
+      {
+        "year": 2016,
+        "value": 49.2715
+      },
+      {
+        "year": 2017,
+        "value": 26.8952
+      },
+      {
+        "year": 2018,
+        "value": 26.6167
+      },
+      {
+        "year": 2019,
+        "value": 26.1966
+      },
+      {
+        "year": 2020,
+        "value": 29.018
+      },
+      {
+        "year": 2021,
+        "value": 16.4823
+      },
+      {
+        "year": 2022,
+        "value": 16.8816
+      },
+      {
+        "year": 2023,
+        "value": 15.6015
+      },
+      {
+        "year": 2024,
+        "value": 34.0939
       }
     ],
     "enrollment_headcount_total": [

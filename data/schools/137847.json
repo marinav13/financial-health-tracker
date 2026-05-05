@@ -1,6 +1,6 @@
 {
   "unitid": "137847",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The University of Tampa",
     "institution_unique_name": "The University of Tampa | Tampa | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.5639,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 8.7995,
-    "net_tuition_per_fte_change_5yr": -3.4199,
+    "net_tuition_per_fte_change_5yr": -3.4554,
     "staff_total_headcount_pct_change_5yr": -6.7493,
     "staff_instructional_headcount_pct_change_5yr": -18.0652,
     "students_per_instructional_staff_fte": 18.411,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 71.1111,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 71.2168,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.0695,
+    "unfunded_discount_pct_change_5yr": 10.5376,
     "share_grad_students": 9.6507,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1009331,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 23149.5797
+        "value": 23149.7281
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 22761.2036
+        "value": 22803.4327
       },
       {
         "year": 2020,
-        "value": 23111.9787
+        "value": 23145.9453
       },
       {
         "year": 2021,
-        "value": 23507.9813
+        "value": 23518.1377
       },
       {
         "year": 2022,
-        "value": 21983.7852
+        "value": 22031.8857
       },
       {
         "year": 2023,
-        "value": 22095.2078
+        "value": 22130.7126
       },
       {
         "year": 2024,
-        "value": 21982.8037
+        "value": 22015.4802
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.9388
+      },
+      {
+        "year": 2015,
+        "value": 26.8968
+      },
+      {
+        "year": 2016,
+        "value": 26.8366
+      },
+      {
+        "year": 2017,
+        "value": 27.4159
+      },
+      {
+        "year": 2018,
+        "value": 27.9442
+      },
+      {
+        "year": 2019,
+        "value": 29.0123
+      },
+      {
+        "year": 2020,
+        "value": 29.5233
+      },
+      {
+        "year": 2021,
+        "value": 29.8952
+      },
+      {
+        "year": 2022,
+        "value": 31.6882
+      },
+      {
+        "year": 2023,
+        "value": 31.0921
+      },
+      {
+        "year": 2024,
+        "value": 32.0695
       }
     ],
     "enrollment_headcount_total": [

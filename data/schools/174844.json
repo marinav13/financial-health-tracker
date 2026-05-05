@@ -1,6 +1,6 @@
 {
   "unitid": "174844",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St Olaf College",
     "institution_unique_name": "St Olaf College | Northfield | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.6092,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 49.5368,
-    "net_tuition_per_fte_change_5yr": -31.4007,
+    "net_tuition_per_fte_change_5yr": -30.9053,
     "staff_total_headcount_pct_change_5yr": 6.3337,
     "staff_instructional_headcount_pct_change_5yr": 8.6379,
     "students_per_instructional_staff_fte": 10.9659,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 22.613,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 22.8991,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 59.063,
+    "unfunded_discount_pct_change_5yr": 17.1544,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1751967,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30577.1346
+        "value": 30722.4446
       },
       {
         "year": 2015,
-        "value": 30077.6932
+        "value": 30227.5991
       },
       {
         "year": 2016,
-        "value": 29308.6093
+        "value": 29456.2023
       },
       {
         "year": 2017,
-        "value": 27863.722
+        "value": 28008.8184
       },
       {
         "year": 2018,
-        "value": 26450.78
+        "value": 26592.2745
       },
       {
         "year": 2019,
-        "value": 25886.554
+        "value": 26026.1574
       },
       {
         "year": 2020,
-        "value": 24271.7154
+        "value": 24800.6623
       },
       {
         "year": 2021,
-        "value": 21668.4072
+        "value": 22302.7295
       },
       {
         "year": 2022,
-        "value": 18490.9293
+        "value": 19667.667
       },
       {
         "year": 2023,
-        "value": 18631.5146
+        "value": 18759.8552
       },
       {
         "year": 2024,
-        "value": 17757.9943
+        "value": 17982.7014
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.4006
+      },
+      {
+        "year": 2015,
+        "value": 41.5445
+      },
+      {
+        "year": 2016,
+        "value": 43.7419
+      },
+      {
+        "year": 2017,
+        "value": 45.2653
+      },
+      {
+        "year": 2018,
+        "value": 48.1517
+      },
+      {
+        "year": 2019,
+        "value": 50.4146
+      },
+      {
+        "year": 2020,
+        "value": 52.2622
+      },
+      {
+        "year": 2021,
+        "value": 55.2053
+      },
+      {
+        "year": 2022,
+        "value": 57.2841
+      },
+      {
+        "year": 2023,
+        "value": 58.1257
+      },
+      {
+        "year": 2024,
+        "value": 59.063
       }
     ],
     "enrollment_headcount_total": [

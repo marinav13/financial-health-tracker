@@ -1,6 +1,6 @@
 {
   "unitid": "179955",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "William Jewell College",
     "institution_unique_name": "William Jewell College | Liberty | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.2166,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -26.2865,
-    "net_tuition_per_fte_change_5yr": -43.2577,
+    "net_tuition_per_fte_change_5yr": -44.9222,
     "staff_total_headcount_pct_change_5yr": -9.127,
     "staff_instructional_headcount_pct_change_5yr": -14.876,
     "students_per_instructional_staff_fte": 11.7296,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 20.9722,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.357,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.1295,
+    "unfunded_discount_pct_change_5yr": -31.8337,
     "share_grad_students": 4.3249,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12982.6022
+        "value": 16230.4913
       },
       {
         "year": 2015,
-        "value": 12369.8801
+        "value": 14985.7594
       },
       {
         "year": 2016,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 13387.8935
+        "value": 13570.4664
       },
       {
         "year": 2022,
-        "value": 11286.3175
+        "value": 11443.1907
       },
       {
         "year": 2023,
-        "value": 10223.9945
+        "value": 10528.4237
       },
       {
         "year": 2024,
-        "value": 8179.573
+        "value": 7939.6378
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 54.7058
+      },
+      {
+        "year": 2015,
+        "value": 57.2658
+      },
+      {
+        "year": 2016,
+        "value": 55.8008
+      },
+      {
+        "year": 2017,
+        "value": 57.077
+      },
+      {
+        "year": 2018,
+        "value": 58.3815
+      },
+      {
+        "year": 2019,
+        "value": 58.87
+      },
+      {
+        "year": 2020,
+        "value": 59.5505
+      },
+      {
+        "year": 2021,
+        "value": 59.2819
+      },
+      {
+        "year": 2022,
+        "value": 38.9469
+      },
+      {
+        "year": 2023,
+        "value": 39.8708
+      },
+      {
+        "year": 2024,
+        "value": 40.1295
       }
     ],
     "enrollment_headcount_total": [

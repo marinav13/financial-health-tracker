@@ -1,6 +1,6 @@
 {
   "unitid": "139205",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Brewton-Parker College",
     "institution_unique_name": "Brewton-Parker College | Mount Vernon | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 32.3671,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.9581,
-    "net_tuition_per_fte_change_5yr": -16.1662,
+    "net_tuition_per_fte_change_5yr": -20.0383,
     "staff_total_headcount_pct_change_5yr": 44.2748,
     "staff_instructional_headcount_pct_change_5yr": 69.4915,
     "students_per_instructional_staff_fte": 14.5663,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 42.2512,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.2814,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.3646,
+    "unfunded_discount_pct_change_5yr": -2.6133,
     "share_grad_students": 11.3869,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,23 +165,23 @@
       },
       {
         "year": 2015,
-        "value": 8861.6548
+        "value": 9338.541
       },
       {
         "year": 2016,
-        "value": 9117.8172
+        "value": 9711.3222
       },
       {
         "year": 2017,
-        "value": 10511.6662
+        "value": 11706.8535
       },
       {
         "year": 2018,
-        "value": 11219.2228
+        "value": 11671.9108
       },
       {
         "year": 2019,
-        "value": 10871.6392
+        "value": 11406.2665
       },
       {
         "year": 2020,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 10274.5806
+        "value": 10503.9951
       },
       {
         "year": 2024,
-        "value": 9114.1129
+        "value": 9120.639
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.5394
+      },
+      {
+        "year": 2015,
+        "value": 29.8806
+      },
+      {
+        "year": 2016,
+        "value": 41.1484
+      },
+      {
+        "year": 2017,
+        "value": 40.5387
+      },
+      {
+        "year": 2018,
+        "value": 38.7427
+      },
+      {
+        "year": 2019,
+        "value": 35.2868
+      },
+      {
+        "year": 2020,
+        "value": 39.4175
+      },
+      {
+        "year": 2021,
+        "value": 41.6838
+      },
+      {
+        "year": 2022,
+        "value": 40.9151
+      },
+      {
+        "year": 2023,
+        "value": 37.6448
+      },
+      {
+        "year": 2024,
+        "value": 34.3646
       }
     ],
     "enrollment_headcount_total": [

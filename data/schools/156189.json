@@ -1,6 +1,6 @@
 {
   "unitid": "156189",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Alice Lloyd College",
     "institution_unique_name": "Alice Lloyd College | Pippa Passes | Kentucky",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.72,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 22.8903,
-    "net_tuition_per_fte_change_5yr": -15.2268,
+    "net_tuition_per_fte_change_5yr": -12.6211,
     "staff_total_headcount_pct_change_5yr": -5.6452,
     "staff_instructional_headcount_pct_change_5yr": -4.878,
     "students_per_instructional_staff_fte": 16.1818,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 10.806,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 9.0863,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 9% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10232.9796
+        "value": 7897.5597
       },
       {
         "year": 2015,
-        "value": 9931.4424
+        "value": 8031.6727
       },
       {
         "year": 2016,
-        "value": 10938.3356
+        "value": 8970.7166
       },
       {
         "year": 2017,
-        "value": 11178.3364
+        "value": 8964.916
       },
       {
         "year": 2018,
-        "value": 10801.7237
+        "value": 8560.9659
       },
       {
         "year": 2019,
-        "value": 8932.6975
+        "value": 7287.1769
       },
       {
         "year": 2020,
-        "value": 8743.8064
+        "value": 7289.0273
       },
       {
         "year": 2021,
-        "value": 8466.1102
+        "value": 6951.0213
       },
       {
         "year": 2022,
-        "value": 8042.3339
+        "value": 6758.8746
       },
       {
         "year": 2023,
-        "value": 8094.4454
+        "value": 6993.2198
       },
       {
         "year": 2024,
-        "value": 7572.5356
+        "value": 6367.4532
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 9.5551
+      },
+      {
+        "year": 2015,
+        "value": 9.8433
+      },
+      {
+        "year": 2016,
+        "value": 18.6938
+      },
+      {
+        "year": 2017,
+        "value": 15.2863
+      },
+      {
+        "year": 2018,
+        "value": 21.7571
+      },
+      {
+        "year": 2019,
+        "value": 10.5574
+      },
+      {
+        "year": 2020,
+        "value": 9.344
+      },
+      {
+        "year": 2021,
+        "value": 24.0914
+      },
+      {
+        "year": 2022,
+        "value": 22.2524
+      },
+      {
+        "year": 2023,
+        "value": 8.6088
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

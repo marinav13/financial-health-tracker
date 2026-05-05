@@ -1,6 +1,6 @@
 {
   "unitid": "201964",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ohio Christian University",
     "institution_unique_name": "Ohio Christian University | Circleville | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -62.6278,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -58.8422,
-    "net_tuition_per_fte_change_5yr": -18.296,
+    "net_tuition_per_fte_change_5yr": -18.4666,
     "staff_total_headcount_pct_change_5yr": -47.6923,
     "staff_instructional_headcount_pct_change_5yr": -53.168,
     "students_per_instructional_staff_fte": 13.4688,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 63.6809,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 62.4861,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.3493,
+    "unfunded_discount_pct_change_5yr": 68.4692,
     "share_grad_students": 10.47,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12450.8513
+        "value": 12396.3588
       },
       {
         "year": 2015,
-        "value": 13505.6233
+        "value": 13444.1935
       },
       {
         "year": 2016,
-        "value": 12718.3098
+        "value": 12661.4403
       },
       {
         "year": 2017,
-        "value": 11724.9421
+        "value": 11611.894
       },
       {
         "year": 2018,
-        "value": 11358.718
+        "value": 11192.5432
       },
       {
         "year": 2019,
-        "value": 13111.0546
+        "value": 12891.9817
       },
       {
         "year": 2020,
-        "value": 17369.4071
+        "value": 17272.731
       },
       {
         "year": 2021,
-        "value": 17333.2059
+        "value": 17059.9743
       },
       {
         "year": 2022,
-        "value": 18118.7663
+        "value": 17800.6092
       },
       {
         "year": 2023,
-        "value": 12859.2424
+        "value": 12581.1929
       },
       {
         "year": 2024,
-        "value": 10712.2517
+        "value": 10511.2657
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.8242
+      },
+      {
+        "year": 2015,
+        "value": 14.7363
+      },
+      {
+        "year": 2016,
+        "value": 14.3758
+      },
+      {
+        "year": 2017,
+        "value": 16.9347
+      },
+      {
+        "year": 2018,
+        "value": 16.4182
+      },
+      {
+        "year": 2019,
+        "value": 18.0147
+      },
+      {
+        "year": 2020,
+        "value": 22.4937
+      },
+      {
+        "year": 2021,
+        "value": 26.8557
+      },
+      {
+        "year": 2022,
+        "value": 26.1555
+      },
+      {
+        "year": 2023,
+        "value": 27.8452
+      },
+      {
+        "year": 2024,
+        "value": 30.3493
       }
     ],
     "enrollment_headcount_total": [

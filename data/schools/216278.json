@@ -1,6 +1,6 @@
 {
   "unitid": "216278",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Susquehanna University",
     "institution_unique_name": "Susquehanna University | Selinsgrove | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.6611,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 9.2051,
-    "net_tuition_per_fte_change_5yr": -25.8371,
+    "net_tuition_per_fte_change_5yr": -25.6315,
     "staff_total_headcount_pct_change_5yr": -9.1537,
     "staff_instructional_headcount_pct_change_5yr": -4.3668,
     "students_per_instructional_staff_fte": 14.3865,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 31.8244,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.1004,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 66.0831,
+    "unfunded_discount_pct_change_5yr": 15.3965,
     "share_grad_students": 0.3,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1244080,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23890.369
+        "value": 23984.0479
       },
       {
         "year": 2015,
-        "value": 23833.0507
+        "value": 23941.3725
       },
       {
         "year": 2016,
-        "value": 21806.7724
+        "value": 21912.5771
       },
       {
         "year": 2017,
-        "value": 22552.3523
+        "value": 22653.6001
       },
       {
         "year": 2018,
-        "value": 21767.6207
+        "value": 21867.0306
       },
       {
         "year": 2019,
-        "value": 21123.086
+        "value": 21247.3738
       },
       {
         "year": 2020,
-        "value": 19785.0077
+        "value": 19959.9845
       },
       {
         "year": 2021,
-        "value": 18594.2434
+        "value": 18750.9297
       },
       {
         "year": 2022,
-        "value": 16493.8744
+        "value": 16638.6594
       },
       {
         "year": 2023,
-        "value": 16160.5078
+        "value": 16320.3009
       },
       {
         "year": 2024,
-        "value": 15665.4896
+        "value": 15801.3544
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.3133
+      },
+      {
+        "year": 2015,
+        "value": 47.2457
+      },
+      {
+        "year": 2016,
+        "value": 50.8076
+      },
+      {
+        "year": 2017,
+        "value": 52.9462
+      },
+      {
+        "year": 2018,
+        "value": 55.1499
+      },
+      {
+        "year": 2019,
+        "value": 57.2661
+      },
+      {
+        "year": 2020,
+        "value": 60.0084
+      },
+      {
+        "year": 2021,
+        "value": 61.4303
+      },
+      {
+        "year": 2022,
+        "value": 63.346
+      },
+      {
+        "year": 2023,
+        "value": 65.6483
+      },
+      {
+        "year": 2024,
+        "value": 66.0831
       }
     ],
     "enrollment_headcount_total": [

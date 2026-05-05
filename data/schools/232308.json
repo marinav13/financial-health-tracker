@@ -1,6 +1,6 @@
 {
   "unitid": "232308",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hollins University",
     "institution_unique_name": "Hollins University | Roanoke | Virginia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 12.5263,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.3406,
+    "unfunded_discount_pct_change_5yr": 11.6751,
     "share_grad_students": 22.1757,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 541344,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 14050.6179
+        "value": 14050.6024
       },
       {
         "year": 2016,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10622.0338
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.0794
+      },
+      {
+        "year": 2015,
+        "value": 35.7045
+      },
+      {
+        "year": 2016,
+        "value": 39.6987
+      },
+      {
+        "year": 2017,
+        "value": 44.5457
+      },
+      {
+        "year": 2018,
+        "value": 41.6152
+      },
+      {
+        "year": 2019,
+        "value": 45.0777
+      },
+      {
+        "year": 2020,
+        "value": 56.0885
+      },
+      {
+        "year": 2021,
+        "value": 53.385
+      },
+      {
+        "year": 2022,
+        "value": 57.431
+      },
+      {
+        "year": 2023,
+        "value": 53.282
+      },
+      {
+        "year": 2024,
+        "value": 50.3406
       }
     ],
     "enrollment_headcount_total": [

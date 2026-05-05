@@ -1,6 +1,6 @@
 {
   "unitid": "139393",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Covenant College",
     "institution_unique_name": "Covenant College | Lookout Mountain | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.0416,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.8857,
-    "net_tuition_per_fte_change_5yr": -14.3505,
+    "net_tuition_per_fte_change_5yr": -22.5087,
     "staff_total_headcount_pct_change_5yr": 0.7576,
     "staff_instructional_headcount_pct_change_5yr": -9.901,
     "students_per_instructional_staff_fte": 12.2466,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 31.7249,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.9098,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.25,
+    "unfunded_discount_pct_change_5yr": 7.935,
     "share_grad_students": 1.9881,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18380.5088
+        "value": 16562.1299
       },
       {
         "year": 2015,
-        "value": 19261.288
+        "value": 17652.1519
       },
       {
         "year": 2016,
-        "value": 19597.0751
+        "value": 17786.1151
       },
       {
         "year": 2017,
-        "value": 18712.8613
+        "value": 16653.3412
       },
       {
         "year": 2018,
-        "value": 17730.5747
+        "value": 15484.3413
       },
       {
         "year": 2019,
-        "value": 18008.2425
+        "value": 15628.3991
       },
       {
         "year": 2020,
-        "value": 18418.6551
+        "value": 15654.3901
       },
       {
         "year": 2021,
-        "value": 18131.7691
+        "value": 15246.4515
       },
       {
         "year": 2022,
-        "value": 17470.6508
+        "value": 14506.7089
       },
       {
         "year": 2023,
-        "value": 16142.043
+        "value": 12905.5962
       },
       {
         "year": 2024,
-        "value": 15423.972
+        "value": 12110.6421
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.1425
+      },
+      {
+        "year": 2015,
+        "value": 45.9962
+      },
+      {
+        "year": 2016,
+        "value": 46.7021
+      },
+      {
+        "year": 2017,
+        "value": 49.8595
+      },
+      {
+        "year": 2018,
+        "value": 52.312
+      },
+      {
+        "year": 2019,
+        "value": 53.0412
+      },
+      {
+        "year": 2020,
+        "value": 53.4642
+      },
+      {
+        "year": 2021,
+        "value": 53.9869
+      },
+      {
+        "year": 2022,
+        "value": 54.636
+      },
+      {
+        "year": 2023,
+        "value": 55.3638
+      },
+      {
+        "year": 2024,
+        "value": 57.25
       }
     ],
     "enrollment_headcount_total": [

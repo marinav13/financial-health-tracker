@@ -1,6 +1,6 @@
 {
   "unitid": "211893",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Curtis Institute of Music",
     "institution_unique_name": "Curtis Institute of Music | Philadelphia | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.4327,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 19.7251,
-    "net_tuition_per_fte_change_5yr": 2.8616,
+    "net_tuition_per_fte_change_5yr": 55.6031,
     "staff_total_headcount_pct_change_5yr": 18.3432,
     "staff_instructional_headcount_pct_change_5yr": 8.1818,
     "students_per_instructional_staff_fte": 2.7143,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 2.707,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 3% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -4.1578,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -4% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.8878,
+    "unfunded_discount_pct_change_5yr": 150.4597,
     "share_grad_students": 33.75,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 5262.0516
+        "value": -5188.5453
       },
       {
         "year": 2015,
-        "value": 5418.8252
+        "value": -3668.3486
       },
       {
         "year": 2016,
-        "value": 4806.8022
+        "value": -4432.626
       },
       {
         "year": 2017,
-        "value": 4788.4902
+        "value": -4331.9277
       },
       {
         "year": 2018,
-        "value": 4800.6077
+        "value": -4887.199
       },
       {
         "year": 2019,
-        "value": 4882.2128
+        "value": -4957.0331
       },
       {
         "year": 2020,
-        "value": 4657.1095
+        "value": -4010.693
       },
       {
         "year": 2021,
-        "value": 4291.6918
+        "value": -7503.6329
       },
       {
         "year": 2022,
-        "value": 6410.1344
+        "value": -5573.483
       },
       {
         "year": 2023,
-        "value": 4051.3599
+        "value": -8650.0053
       },
       {
         "year": 2024,
-        "value": 5021.924
+        "value": -7713.2982
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.4086
+      },
+      {
+        "year": 2015,
+        "value": 13.0399
+      },
+      {
+        "year": 2016,
+        "value": 16.9391
+      },
+      {
+        "year": 2017,
+        "value": 28.142
+      },
+      {
+        "year": 2018,
+        "value": 19.3677
+      },
+      {
+        "year": 2019,
+        "value": 24.3104
+      },
+      {
+        "year": 2020,
+        "value": 19.8523
+      },
+      {
+        "year": 2021,
+        "value": 10.2993
+      },
+      {
+        "year": 2022,
+        "value": 17.6263
+      },
+      {
+        "year": 2023,
+        "value": 24.5385
+      },
+      {
+        "year": 2024,
+        "value": 60.8878
       }
     ],
     "enrollment_headcount_total": [

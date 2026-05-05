@@ -1,6 +1,6 @@
 {
   "unitid": "153834",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Luther College",
     "institution_unique_name": "Luther College | Decorah | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -29.4118,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.3017,
-    "net_tuition_per_fte_change_5yr": -24.6966,
+    "net_tuition_per_fte_change_5yr": -24.0913,
     "staff_total_headcount_pct_change_5yr": -23.8351,
     "staff_instructional_headcount_pct_change_5yr": -22.381,
     "students_per_instructional_staff_fte": 10.8107,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 24.2,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.6918,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.3063,
+    "unfunded_discount_pct_change_5yr": 7.0298,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 531417,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22474.1769
+        "value": 22667.1661
       },
       {
         "year": 2015,
-        "value": 21875.234
+        "value": 22074.6828
       },
       {
         "year": 2016,
-        "value": 21057.1562
+        "value": 21257.5579
       },
       {
         "year": 2017,
-        "value": 20552.766
+        "value": 20764.1653
       },
       {
         "year": 2018,
-        "value": 19344.9792
+        "value": 19565.1708
       },
       {
         "year": 2019,
-        "value": 18559.7364
+        "value": 18785.9101
       },
       {
         "year": 2020,
-        "value": 17750.9527
+        "value": 17972.4687
       },
       {
         "year": 2021,
-        "value": 15240.1561
+        "value": 15455.9147
       },
       {
         "year": 2022,
-        "value": 14993.9101
+        "value": 15236.7403
       },
       {
         "year": 2023,
-        "value": 14406.905
+        "value": 14639.2137
       },
       {
         "year": 2024,
-        "value": 13976.11
+        "value": 14260.1323
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.9598
+      },
+      {
+        "year": 2015,
+        "value": 45.629
+      },
+      {
+        "year": 2016,
+        "value": 47.8642
+      },
+      {
+        "year": 2017,
+        "value": 48.3904
+      },
+      {
+        "year": 2018,
+        "value": 50.8243
+      },
+      {
+        "year": 2019,
+        "value": 53.5424
+      },
+      {
+        "year": 2020,
+        "value": 54.8359
+      },
+      {
+        "year": 2021,
+        "value": 57.1502
+      },
+      {
+        "year": 2022,
+        "value": 57.1717
+      },
+      {
+        "year": 2023,
+        "value": 57.671
+      },
+      {
+        "year": 2024,
+        "value": 57.3063
       }
     ],
     "enrollment_headcount_total": [

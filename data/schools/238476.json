@@ -1,6 +1,6 @@
 {
   "unitid": "238476",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Carthage College",
     "institution_unique_name": "Carthage College | Kenosha | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.2314,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -4.5885,
-    "net_tuition_per_fte_change_5yr": -14.6497,
+    "net_tuition_per_fte_change_5yr": -11.2176,
     "staff_total_headcount_pct_change_5yr": 3.2759,
     "staff_instructional_headcount_pct_change_5yr": -5.1118,
     "students_per_instructional_staff_fte": 15.4991,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 45.9752,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.5246,
+    "unfunded_discount_pct_change_5yr": -14.4271,
     "share_grad_students": 6.0407,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 300874,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19687.8133
+        "value": 19395.4355
       },
       {
         "year": 2015,
-        "value": 20314.0963
+        "value": 20027.0101
       },
       {
         "year": 2016,
-        "value": 21557.754
+        "value": 21213.0077
       },
       {
         "year": 2017,
-        "value": 20108.1187
+        "value": 19755.5655
       },
       {
         "year": 2018,
-        "value": 17948.9115
+        "value": 17400.2417
       },
       {
         "year": 2019,
-        "value": 17783.8252
+        "value": 17096.3321
       },
       {
         "year": 2020,
-        "value": 17095.7902
+        "value": 15934.9253
       },
       {
         "year": 2021,
-        "value": 15766.0357
+        "value": 15156.4747
       },
       {
         "year": 2022,
-        "value": 14931.7818
+        "value": 14739.2278
       },
       {
         "year": 2023,
-        "value": 14126.3201
+        "value": 14005.4123
       },
       {
         "year": 2024,
         "value": 15178.5398
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.3712
+      },
+      {
+        "year": 2015,
+        "value": 47.7008
+      },
+      {
+        "year": 2016,
+        "value": 49.7143
+      },
+      {
+        "year": 2017,
+        "value": 53.086
+      },
+      {
+        "year": 2018,
+        "value": 56.7784
+      },
+      {
+        "year": 2019,
+        "value": 57.8742
+      },
+      {
+        "year": 2020,
+        "value": 60.5731
+      },
+      {
+        "year": 2021,
+        "value": 47.103
+      },
+      {
+        "year": 2022,
+        "value": 48.1733
+      },
+      {
+        "year": 2023,
+        "value": 53.0326
+      },
+      {
+        "year": 2024,
+        "value": 49.5246
       }
     ],
     "enrollment_headcount_total": [

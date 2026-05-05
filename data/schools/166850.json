@@ -1,6 +1,6 @@
 {
   "unitid": "166850",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Merrimack College",
     "institution_unique_name": "Merrimack College | North Andover | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 26.2256,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 16.936,
-    "net_tuition_per_fte_change_5yr": -16.6468,
+    "net_tuition_per_fte_change_5yr": -16.283,
     "staff_total_headcount_pct_change_5yr": 2.5918,
     "staff_instructional_headcount_pct_change_5yr": 10.5381,
     "students_per_instructional_staff_fte": 19.7256,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 56.8376,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.7211,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.3234,
+    "unfunded_discount_pct_change_5yr": 13.8794,
     "share_grad_students": 32.5303,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1602544,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23597.2171
+        "value": 23858.9425
       },
       {
         "year": 2015,
-        "value": 24072.9362
+        "value": 24287.7524
       },
       {
         "year": 2016,
-        "value": 22922.427
+        "value": 23139.8856
       },
       {
         "year": 2017,
-        "value": 23226.3655
+        "value": 23440.555
       },
       {
         "year": 2018,
-        "value": 23498.5412
+        "value": 23738.6027
       },
       {
         "year": 2019,
-        "value": 23136.6344
+        "value": 23394.1789
       },
       {
         "year": 2020,
-        "value": 23805.9835
+        "value": 24042.7672
       },
       {
         "year": 2021,
-        "value": 22116.9733
+        "value": 22364.1744
       },
       {
         "year": 2022,
-        "value": 19771.2514
+        "value": 19379.5754
       },
       {
         "year": 2023,
-        "value": 19580.9545
+        "value": 19884.5623
       },
       {
         "year": 2024,
-        "value": 19285.1295
+        "value": 19584.9033
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.3061
+      },
+      {
+        "year": 2015,
+        "value": 39.6646
+      },
+      {
+        "year": 2016,
+        "value": 40.9351
+      },
+      {
+        "year": 2017,
+        "value": 41.4546
+      },
+      {
+        "year": 2018,
+        "value": 41.5207
+      },
+      {
+        "year": 2019,
+        "value": 43.3119
+      },
+      {
+        "year": 2020,
+        "value": 43.1531
+      },
+      {
+        "year": 2021,
+        "value": 45.1432
+      },
+      {
+        "year": 2022,
+        "value": 49.5671
+      },
+      {
+        "year": 2023,
+        "value": 49.142
+      },
+      {
+        "year": 2024,
+        "value": 49.3234
       }
     ],
     "enrollment_headcount_total": [

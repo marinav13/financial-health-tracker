@@ -1,6 +1,6 @@
 {
   "unitid": "212133",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Eastern University",
     "institution_unique_name": "Eastern University | Saint Davids | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 154.2377,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 39.1295,
-    "net_tuition_per_fte_change_5yr": -36.6076,
+    "net_tuition_per_fte_change_5yr": -37.2436,
     "staff_total_headcount_pct_change_5yr": 24.697,
     "staff_instructional_headcount_pct_change_5yr": 10.3275,
     "students_per_instructional_staff_fte": 23.5893,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 67.6335,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.955,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.838,
+    "unfunded_discount_pct_change_5yr": -16.2125,
     "share_grad_students": 75.106,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 13848.2588
+        "value": 13735.5738
       },
       {
         "year": 2024,
-        "value": 11278.3484
+        "value": 11165.207
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.5634
+      },
+      {
+        "year": 2015,
+        "value": 36.088
+      },
+      {
+        "year": 2016,
+        "value": 38.071
+      },
+      {
+        "year": 2017,
+        "value": 38.9983
+      },
+      {
+        "year": 2018,
+        "value": 41.2009
+      },
+      {
+        "year": 2019,
+        "value": 43.966
+      },
+      {
+        "year": 2020,
+        "value": 43.0811
+      },
+      {
+        "year": 2021,
+        "value": 39.9088
+      },
+      {
+        "year": 2022,
+        "value": 37.8821
+      },
+      {
+        "year": 2023,
+        "value": 34.8842
+      },
+      {
+        "year": 2024,
+        "value": 36.838
       }
     ],
     "enrollment_headcount_total": [

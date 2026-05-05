@@ -1,6 +1,6 @@
 {
   "unitid": "233541",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Shenandoah University",
     "institution_unique_name": "Shenandoah University | Winchester | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.2179,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 23.3872,
-    "net_tuition_per_fte_change_5yr": -19.263,
+    "net_tuition_per_fte_change_5yr": -19.3217,
     "staff_total_headcount_pct_change_5yr": 2.6812,
     "staff_instructional_headcount_pct_change_5yr": -7.1006,
     "students_per_instructional_staff_fte": 10.6266,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 57.2698,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.4111,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.0446,
+    "unfunded_discount_pct_change_5yr": 8.4783,
     "share_grad_students": 44.5195,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29421.476
+        "value": 29981.0743
       },
       {
         "year": 2015,
-        "value": 30047.6534
+        "value": 30635.7114
       },
       {
         "year": 2016,
-        "value": 30335.414
+        "value": 30805.9916
       },
       {
         "year": 2017,
-        "value": 29640.6448
+        "value": 29732.7063
       },
       {
         "year": 2018,
-        "value": 29711.317
+        "value": 29771.2261
       },
       {
         "year": 2019,
-        "value": 29331.9006
+        "value": 29425.636
       },
       {
         "year": 2020,
-        "value": 28925.8369
+        "value": 29677.8487
       },
       {
         "year": 2021,
-        "value": 27638.3853
+        "value": 27794.2965
       },
       {
         "year": 2022,
-        "value": 25837.1769
+        "value": 25888.6116
       },
       {
         "year": 2023,
-        "value": 24147.9702
+        "value": 24193.1407
       },
       {
         "year": 2024,
-        "value": 23681.7042
+        "value": 23740.1079
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.0522
+      },
+      {
+        "year": 2015,
+        "value": 22.82
+      },
+      {
+        "year": 2016,
+        "value": 22.6756
+      },
+      {
+        "year": 2017,
+        "value": 22.9876
+      },
+      {
+        "year": 2018,
+        "value": 22.6977
+      },
+      {
+        "year": 2019,
+        "value": 23.0872
+      },
+      {
+        "year": 2020,
+        "value": 21.1217
+      },
+      {
+        "year": 2021,
+        "value": 22.4043
+      },
+      {
+        "year": 2022,
+        "value": 23.4027
+      },
+      {
+        "year": 2023,
+        "value": 24.6958
+      },
+      {
+        "year": 2024,
+        "value": 25.0446
       }
     ],
     "enrollment_headcount_total": [

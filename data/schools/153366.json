@@ -1,6 +1,6 @@
 {
   "unitid": "153366",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Graceland University-Lamoni",
     "institution_unique_name": "Graceland University-Lamoni | Lamoni | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -38.8564,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -35.1265,
-    "net_tuition_per_fte_change_5yr": -36.3677,
+    "net_tuition_per_fte_change_5yr": -37.01,
     "staff_total_headcount_pct_change_5yr": -15.7025,
     "staff_instructional_headcount_pct_change_5yr": -24.4755,
     "students_per_instructional_staff_fte": 12.6923,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 40.2855,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.6177,
+    "unfunded_discount_pct_change_5yr": 51.8635,
     "share_grad_students": 28.2769,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14372.7774
+        "value": 14654.8882
       },
       {
         "year": 2015,
-        "value": 15408.1099
+        "value": 15650.2189
       },
       {
         "year": 2016,
-        "value": 15781.9503
+        "value": 16001.6613
       },
       {
         "year": 2017,
-        "value": 16384.4456
+        "value": 16593.7817
       },
       {
         "year": 2018,
-        "value": 16239.9957
+        "value": 16391.7184
       },
       {
         "year": 2019,
-        "value": 17875.0836
+        "value": 18057.3586
       },
       {
         "year": 2020,
-        "value": 17866.0517
+        "value": 18052.7175
       },
       {
         "year": 2021,
-        "value": 15665.7169
+        "value": 15901.4317
       },
       {
         "year": 2022,
-        "value": 13776.7066
+        "value": 14000.0347
       },
       {
         "year": 2023,
-        "value": 11935.5792
+        "value": 12218.9117
       },
       {
         "year": 2024,
         "value": 11374.3336
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.6491
+      },
+      {
+        "year": 2015,
+        "value": 36.7239
+      },
+      {
+        "year": 2016,
+        "value": 37.4285
+      },
+      {
+        "year": 2017,
+        "value": 36.1141
+      },
+      {
+        "year": 2018,
+        "value": 37.0854
+      },
+      {
+        "year": 2019,
+        "value": 34.648
+      },
+      {
+        "year": 2020,
+        "value": 37.9094
+      },
+      {
+        "year": 2021,
+        "value": 40.9063
+      },
+      {
+        "year": 2022,
+        "value": 47.0404
+      },
+      {
+        "year": 2023,
+        "value": 47.4941
+      },
+      {
+        "year": 2024,
+        "value": 52.6177
       }
     ],
     "enrollment_headcount_total": [

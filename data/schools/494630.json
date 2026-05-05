@@ -1,6 +1,6 @@
 {
   "unitid": "494630",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Christ Mission College",
     "institution_unique_name": "Christ Mission College | San Antonio | Texas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 30.6805,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.5642,
+    "unfunded_discount_pct_change_5yr": -22.6373,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -140,6 +142,32 @@
       {
         "year": 2024,
         "value": 8655.75
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 34.3372
+      },
+      {
+        "year": 2020,
+        "value": 27.8779
+      },
+      {
+        "year": 2021,
+        "value": 16.6394
+      },
+      {
+        "year": 2022,
+        "value": 20.3508
+      },
+      {
+        "year": 2023,
+        "value": 26.9942
+      },
+      {
+        "year": 2024,
+        "value": 26.5642
       }
     ],
     "enrollment_headcount_total": [

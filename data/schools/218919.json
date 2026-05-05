@@ -1,6 +1,6 @@
 {
   "unitid": "218919",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Voorhees University",
     "institution_unique_name": "Voorhees University | Denmark | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.9015,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 97.3462,
-    "net_tuition_per_fte_change_5yr": 35.0084,
+    "net_tuition_per_fte_change_5yr": 21.0126,
     "staff_total_headcount_pct_change_5yr": 64,
     "staff_instructional_headcount_pct_change_5yr": 166.6667,
     "students_per_instructional_staff_fte": 4.6193,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 12.429,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 16.8071,
+    "unfunded_discount_pct_change_5yr": 104.1914,
     "share_grad_students": 16.1739,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10880.1106
+        "value": 13508.8321
       },
       {
         "year": 2015,
-        "value": 9965.9755
+        "value": 12868.7196
       },
       {
         "year": 2016,
-        "value": 12352.3025
+        "value": 14800.0061
       },
       {
         "year": 2017,
-        "value": 12050.9891
+        "value": 14202.6356
       },
       {
         "year": 2018,
-        "value": 12043.8647
+        "value": 13309.5699
       },
       {
         "year": 2019,
-        "value": 12293.4833
+        "value": 13715.2931
       },
       {
         "year": 2020,
-        "value": 11696.5149
+        "value": 13258.778
       },
       {
         "year": 2021,
-        "value": 9770.4939
+        "value": 11593.8507
       },
       {
         "year": 2022,
-        "value": 9419.9385
+        "value": 10915.5371
       },
       {
         "year": 2023,
-        "value": 10410.4821
+        "value": 11738.3441
       },
       {
         "year": 2024,
         "value": 16597.2362
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 7.5577
+      },
+      {
+        "year": 2015,
+        "value": 7.8213
+      },
+      {
+        "year": 2016,
+        "value": 9.092
+      },
+      {
+        "year": 2017,
+        "value": 10.2476
+      },
+      {
+        "year": 2018,
+        "value": 8.4968
+      },
+      {
+        "year": 2019,
+        "value": 8.2311
+      },
+      {
+        "year": 2020,
+        "value": 7.446
+      },
+      {
+        "year": 2021,
+        "value": 8.998
+      },
+      {
+        "year": 2022,
+        "value": 8.309
+      },
+      {
+        "year": 2023,
+        "value": 12.2996
+      },
+      {
+        "year": 2024,
+        "value": 16.8071
       }
     ],
     "enrollment_headcount_total": [

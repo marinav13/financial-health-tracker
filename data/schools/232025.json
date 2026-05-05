@@ -1,6 +1,6 @@
 {
   "unitid": "232025",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Emory & Henry University",
     "institution_unique_name": "Emory & Henry University | Emory | Virginia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 30.3697,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.8329,
+    "unfunded_discount_pct_change_5yr": 3.913,
     "share_grad_students": 20.9396,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 379696,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 18273.6306
+        "value": 18242.1622
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12272.3572
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.9025
+      },
+      {
+        "year": 2015,
+        "value": 48.5549
+      },
+      {
+        "year": 2016,
+        "value": 48.5183
+      },
+      {
+        "year": 2017,
+        "value": 40.9938
+      },
+      {
+        "year": 2018,
+        "value": 38.1567
+      },
+      {
+        "year": 2019,
+        "value": 44.107
+      },
+      {
+        "year": 2020,
+        "value": 47.831
+      },
+      {
+        "year": 2021,
+        "value": 46.254
+      },
+      {
+        "year": 2022,
+        "value": 52.0742
+      },
+      {
+        "year": 2023,
+        "value": 52.4152
+      },
+      {
+        "year": 2024,
+        "value": 45.8329
       }
     ],
     "enrollment_headcount_total": [

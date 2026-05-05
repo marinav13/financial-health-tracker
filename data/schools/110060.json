@@ -1,6 +1,6 @@
 {
   "unitid": "110060",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethesda University",
     "institution_unique_name": "Bethesda University | Anaheim | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.0504,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.7859,
-    "net_tuition_per_fte_change_5yr": 2.6677,
+    "net_tuition_per_fte_change_5yr": 20.8688,
     "staff_total_headcount_pct_change_5yr": -12.5,
     "staff_instructional_headcount_pct_change_5yr": -23.5294,
     "students_per_instructional_staff_fte": 13.5957,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 56.0144,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.1907,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 23.8636,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7310.6765
+        "value": 7419.1258
       },
       {
         "year": 2015,
-        "value": 8242.2246
+        "value": 8591.9081
       },
       {
         "year": 2016,
-        "value": 7738.3918
+        "value": 8407.9369
       },
       {
         "year": 2017,
-        "value": 7430.9821
+        "value": 7797.1751
       },
       {
         "year": 2018,
-        "value": 8174.5325
+        "value": 8405.1488
       },
       {
         "year": 2019,
-        "value": 8139.1248
+        "value": 8539.7547
       },
       {
         "year": 2020,
-        "value": 11101.4548
+        "value": 11458.9731
       },
       {
         "year": 2021,
-        "value": 7122.1185
+        "value": 7673.0801
       },
       {
         "year": 2022,
-        "value": 5850.9268
+        "value": 7053.6891
       },
       {
         "year": 2023,
-        "value": 6400.0235
+        "value": 6451.3387
       },
       {
         "year": 2024,
-        "value": 8356.2488
+        "value": 10321.9014
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

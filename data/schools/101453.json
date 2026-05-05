@@ -1,6 +1,6 @@
 {
   "unitid": "101453",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Heritage Christian University",
     "institution_unique_name": "Heritage Christian University | Florence | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 75.2294,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 37.3324,
-    "net_tuition_per_fte_change_5yr": -30.4635,
+    "net_tuition_per_fte_change_5yr": -25.3163,
     "staff_total_headcount_pct_change_5yr": 39.3939,
     "staff_instructional_headcount_pct_change_5yr": 300,
     "students_per_instructional_staff_fte": 8.5,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 3.2256,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 3% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -2.6031,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -3% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 53.9267,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 77288,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14530.123
+        "value": 6542.0582
       },
       {
         "year": 2015,
-        "value": 13987.7212
+        "value": 6137.468
       },
       {
         "year": 2016,
-        "value": 13747.6849
+        "value": 5508.3132
       },
       {
         "year": 2017,
-        "value": 13195.9111
+        "value": 5469.7503
       },
       {
         "year": 2018,
-        "value": 14905.6765
+        "value": 6139.5448
       },
       {
         "year": 2019,
-        "value": 5349.505
+        "value": -4019.5577
       },
       {
         "year": 2020,
-        "value": 14782.1892
+        "value": 5506.3289
       },
       {
         "year": 2021,
-        "value": 13972.392
+        "value": 5626.6118
       },
       {
         "year": 2022,
-        "value": 5205.4903
+        "value": -1210.3075
       },
       {
         "year": 2023,
-        "value": 4737.6874
+        "value": -1398.1906
       },
       {
         "year": 2024,
-        "value": 3719.8588
+        "value": -3001.9529
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

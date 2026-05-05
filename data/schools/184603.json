@@ -1,6 +1,6 @@
 {
   "unitid": "184603",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Fairleigh Dickinson University-Metropolitan Campus",
     "institution_unique_name": "Fairleigh Dickinson University-Metropolitan Campus | Teaneck | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.2394,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -22.5989,
-    "net_tuition_per_fte_change_5yr": -21.3661,
+    "net_tuition_per_fte_change_5yr": -21.8986,
     "staff_total_headcount_pct_change_5yr": -18.3048,
     "staff_instructional_headcount_pct_change_5yr": -24.2812,
     "students_per_instructional_staff_fte": 16.4521,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 72.8238,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 72.2782,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.3661,
+    "unfunded_discount_pct_change_5yr": -16.9098,
     "share_grad_students": 29.9004,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 360000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 44030.8604
+        "value": 44227.1926
       },
       {
         "year": 2015,
-        "value": 45492.8603
+        "value": 45643.4428
       },
       {
         "year": 2016,
-        "value": 46862.6424
+        "value": 47009.1488
       },
       {
         "year": 2017,
-        "value": 47994.4317
+        "value": 47986.0539
       },
       {
         "year": 2018,
-        "value": 50053.5177
+        "value": 50050.4179
       },
       {
         "year": 2019,
-        "value": 48734.7175
+        "value": 48699.3898
       },
       {
         "year": 2020,
-        "value": 47006.1065
+        "value": 47110.829
       },
       {
         "year": 2021,
-        "value": 40096.5643
+        "value": 40341.9377
       },
       {
         "year": 2022,
-        "value": 34932.0872
+        "value": 34915.8109
       },
       {
         "year": 2023,
-        "value": 38828.9213
+        "value": 38431.7573
       },
       {
         "year": 2024,
-        "value": 38322.0175
+        "value": 38034.9176
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.2847
+      },
+      {
+        "year": 2015,
+        "value": 29.8467
+      },
+      {
+        "year": 2016,
+        "value": 30.9335
+      },
+      {
+        "year": 2017,
+        "value": 32.7
+      },
+      {
+        "year": 2018,
+        "value": 36.657
+      },
+      {
+        "year": 2019,
+        "value": 38.953
+      },
+      {
+        "year": 2020,
+        "value": 40.7821
+      },
+      {
+        "year": 2021,
+        "value": 43.3161
+      },
+      {
+        "year": 2022,
+        "value": 40.9731
+      },
+      {
+        "year": 2023,
+        "value": 33.1297
+      },
+      {
+        "year": 2024,
+        "value": 32.3661
       }
     ],
     "enrollment_headcount_total": [

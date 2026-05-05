@@ -1,6 +1,6 @@
 {
   "unitid": "121150",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pepperdine University",
     "institution_unique_name": "Pepperdine University | Malibu | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.1345,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 17.6333,
-    "net_tuition_per_fte_change_5yr": -6.6562,
+    "net_tuition_per_fte_change_5yr": -6.6376,
     "staff_total_headcount_pct_change_5yr": 3.8868,
     "staff_instructional_headcount_pct_change_5yr": 12.5935,
     "students_per_instructional_staff_fte": 17.5132,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 55.9887,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.1539,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.0022,
+    "unfunded_discount_pct_change_5yr": -6.13,
     "share_grad_students": 66.5055,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 11594000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 39064.8897
+        "value": 39200.0127
       },
       {
         "year": 2015,
-        "value": 41095.49
+        "value": 41227.6123
       },
       {
         "year": 2016,
-        "value": 41937.8056
+        "value": 42077.0062
       },
       {
         "year": 2017,
-        "value": 41858.0032
+        "value": 41968.7262
       },
       {
         "year": 2018,
-        "value": 37441.7655
+        "value": 37565.8776
       },
       {
         "year": 2019,
-        "value": 38478.1956
+        "value": 38584.0109
       },
       {
         "year": 2020,
-        "value": 39118.6161
+        "value": 39252.4493
       },
       {
         "year": 2021,
-        "value": 34959.4925
+        "value": 35067.1234
       },
       {
         "year": 2022,
-        "value": 35400.195
+        "value": 35511.0713
       },
       {
         "year": 2023,
-        "value": 36282.4544
+        "value": 36389.0828
       },
       {
         "year": 2024,
-        "value": 35917.0191
+        "value": 36022.9607
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.5016
+      },
+      {
+        "year": 2015,
+        "value": 24.0953
+      },
+      {
+        "year": 2016,
+        "value": 23.9159
+      },
+      {
+        "year": 2017,
+        "value": 24.6819
+      },
+      {
+        "year": 2018,
+        "value": 24.8757
+      },
+      {
+        "year": 2019,
+        "value": 25.5697
+      },
+      {
+        "year": 2020,
+        "value": 25.2904
+      },
+      {
+        "year": 2021,
+        "value": 24.8412
+      },
+      {
+        "year": 2022,
+        "value": 25.6151
+      },
+      {
+        "year": 2023,
+        "value": 25.2102
+      },
+      {
+        "year": 2024,
+        "value": 24.0022
       }
     ],
     "enrollment_headcount_total": [

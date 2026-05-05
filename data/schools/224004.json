@@ -1,6 +1,6 @@
 {
   "unitid": "224004",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University Texas",
     "institution_unique_name": "Concordia University Texas | Austin | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -34.3318,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.0808,
-    "net_tuition_per_fte_change_5yr": -6.5868,
+    "net_tuition_per_fte_change_5yr": -7.8899,
     "staff_total_headcount_pct_change_5yr": -12.9534,
     "staff_instructional_headcount_pct_change_5yr": -46.9298,
     "students_per_instructional_staff_fte": 21.0986,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 67.0021,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.1451,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.869,
+    "unfunded_discount_pct_change_5yr": 23.0425,
     "share_grad_students": 14.9875,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18829.0336
+        "value": 20309.9909
       },
       {
         "year": 2015,
-        "value": 18318.8993
+        "value": 19674.0537
       },
       {
         "year": 2016,
-        "value": 18620.4917
+        "value": 19873.6226
       },
       {
         "year": 2017,
-        "value": 19104.8484
+        "value": 20298.1543
       },
       {
         "year": 2018,
-        "value": 19225.5049
+        "value": 20175.7317
       },
       {
         "year": 2019,
-        "value": 20890.443
+        "value": 22179.7757
       },
       {
         "year": 2020,
-        "value": 22609.2472
+        "value": 24409.2988
       },
       {
         "year": 2021,
-        "value": 22843.8419
+        "value": 23148.9116
       },
       {
         "year": 2022,
-        "value": 20940.3128
+        "value": 21940.4335
       },
       {
         "year": 2023,
-        "value": 19966.596
+        "value": 20458.7335
       },
       {
         "year": 2024,
-        "value": 19514.4252
+        "value": 20429.8231
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.9976
+      },
+      {
+        "year": 2015,
+        "value": 26.687
+      },
+      {
+        "year": 2016,
+        "value": 30.2761
+      },
+      {
+        "year": 2017,
+        "value": 31.5516
+      },
+      {
+        "year": 2018,
+        "value": 31.9039
+      },
+      {
+        "year": 2019,
+        "value": 27.5262
+      },
+      {
+        "year": 2020,
+        "value": 24.0271
+      },
+      {
+        "year": 2021,
+        "value": 21.2242
+      },
+      {
+        "year": 2022,
+        "value": 27.4635
+      },
+      {
+        "year": 2023,
+        "value": 30.5817
+      },
+      {
+        "year": 2024,
+        "value": 33.869
       }
     ],
     "enrollment_headcount_total": [

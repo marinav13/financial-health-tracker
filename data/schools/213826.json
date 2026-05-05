@@ -1,6 +1,6 @@
 {
   "unitid": "213826",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Marywood University",
     "institution_unique_name": "Marywood University | Scranton | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.8166,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -16.7311,
-    "net_tuition_per_fte_change_5yr": -22.1402,
+    "net_tuition_per_fte_change_5yr": -25.4577,
     "staff_total_headcount_pct_change_5yr": -22.865,
     "staff_instructional_headcount_pct_change_5yr": -4.6961,
     "students_per_instructional_staff_fte": 13.9194,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 61.6991,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 58.6815,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.9076,
+    "unfunded_discount_pct_change_5yr": 14.3112,
     "share_grad_students": 38.4358,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1226642,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20488.3963
+        "value": 20207.0773
       },
       {
         "year": 2015,
-        "value": 22189.7839
+        "value": 21902.4816
       },
       {
         "year": 2016,
-        "value": 21532.917
+        "value": 21255.706
       },
       {
         "year": 2017,
-        "value": 21839.6349
+        "value": 21536.0691
       },
       {
         "year": 2018,
-        "value": 21311.1345
+        "value": 21168.3273
       },
       {
         "year": 2019,
-        "value": 22188.7734
+        "value": 22042.7708
       },
       {
         "year": 2020,
-        "value": 22397.205
+        "value": 22271.4203
       },
       {
         "year": 2021,
-        "value": 20663.112
+        "value": 20415.8633
       },
       {
         "year": 2022,
-        "value": 18866.9555
+        "value": 18524.5581
       },
       {
         "year": 2023,
-        "value": 17261.5701
+        "value": 16673.9095
       },
       {
         "year": 2024,
-        "value": 17276.1283
+        "value": 16431.1793
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.4883
+      },
+      {
+        "year": 2015,
+        "value": 38.216
+      },
+      {
+        "year": 2016,
+        "value": 38.8648
+      },
+      {
+        "year": 2017,
+        "value": 38.3006
+      },
+      {
+        "year": 2018,
+        "value": 40.1605
+      },
+      {
+        "year": 2019,
+        "value": 40.1602
+      },
+      {
+        "year": 2020,
+        "value": 40.7483
+      },
+      {
+        "year": 2021,
+        "value": 43.5915
+      },
+      {
+        "year": 2022,
+        "value": 44.8821
+      },
+      {
+        "year": 2023,
+        "value": 45.3454
+      },
+      {
+        "year": 2024,
+        "value": 45.9076
       }
     ],
     "enrollment_headcount_total": [

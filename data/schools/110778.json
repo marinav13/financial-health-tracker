@@ -1,6 +1,6 @@
 {
   "unitid": "110778",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Sofia University",
     "institution_unique_name": "Sofia University | Palo Alto | California",
@@ -29,6 +29,8 @@
     "tuition_dependence_pct": 98.8182,
     "sector_median_tuition_dependence_pct": 98.8099,
     "tuition_dependence_vs_sector_median_sentence": "This college got 99% of its revenue from net tuition in 2024, about the same as the median of 99% for private for-profit colleges.",
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 99.3879,
     "sector_avg_share_grad_students": 27.3534,
     "research_expense": 0,
@@ -53,7 +55,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 1907.8971,
+    "state_funding_pct_change_5yr": -1907.8971,
     "endowment_pct_change_5yr": null,
     "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": null,
@@ -202,6 +204,7 @@
         "value": 25564.4462
       }
     ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,

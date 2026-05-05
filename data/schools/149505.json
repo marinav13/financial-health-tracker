@@ -1,6 +1,6 @@
 {
   "unitid": "149505",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trinity Christian College",
     "institution_unique_name": "Trinity Christian College | Palos Heights | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -37.1997,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.4614,
-    "net_tuition_per_fte_change_5yr": -19.5383,
+    "net_tuition_per_fte_change_5yr": -19.5144,
     "staff_total_headcount_pct_change_5yr": -16.0535,
     "staff_instructional_headcount_pct_change_5yr": -16.5517,
     "students_per_instructional_staff_fte": 11.7792,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 36.6216,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.8877,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.4571,
+    "unfunded_discount_pct_change_5yr": 23.2289,
     "share_grad_students": 6.2295,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20749.8435
+        "value": 21044.257
       },
       {
         "year": 2015,
-        "value": 20209.4222
+        "value": 20293.8157
       },
       {
         "year": 2016,
-        "value": 19748.7209
+        "value": 19854.7792
       },
       {
         "year": 2017,
-        "value": 18796.1056
+        "value": 18890.0373
       },
       {
         "year": 2018,
-        "value": 18191.0737
+        "value": 18275.0233
       },
       {
         "year": 2019,
-        "value": 16584.2059
+        "value": 16699.8034
       },
       {
         "year": 2020,
-        "value": 15885.965
+        "value": 15965.8295
       },
       {
         "year": 2021,
-        "value": 14257.7858
+        "value": 14356.4135
       },
       {
         "year": 2022,
-        "value": 12716.9761
+        "value": 12778.9728
       },
       {
         "year": 2023,
-        "value": 11975.4426
+        "value": 12069.5442
       },
       {
         "year": 2024,
-        "value": 13343.9416
+        "value": 13440.9361
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.8279
+      },
+      {
+        "year": 2015,
+        "value": 28.6323
+      },
+      {
+        "year": 2016,
+        "value": 31.3716
+      },
+      {
+        "year": 2017,
+        "value": 33.1082
+      },
+      {
+        "year": 2018,
+        "value": 36.1814
+      },
+      {
+        "year": 2019,
+        "value": 36.8883
+      },
+      {
+        "year": 2020,
+        "value": 40.5771
+      },
+      {
+        "year": 2021,
+        "value": 46.5104
+      },
+      {
+        "year": 2022,
+        "value": 45.1018
+      },
+      {
+        "year": 2023,
+        "value": 39.0775
+      },
+      {
+        "year": 2024,
+        "value": 45.4571
       }
     ],
     "enrollment_headcount_total": [

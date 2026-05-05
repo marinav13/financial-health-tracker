@@ -1,6 +1,6 @@
 {
   "unitid": "208822",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "George Fox University",
     "institution_unique_name": "George Fox University | Newberg | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.988,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -2.2372,
-    "net_tuition_per_fte_change_5yr": -10.3466,
+    "net_tuition_per_fte_change_5yr": -10.3427,
     "staff_total_headcount_pct_change_5yr": 2.7778,
     "staff_instructional_headcount_pct_change_5yr": -2.6534,
     "students_per_instructional_staff_fte": 10.9097,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 68.4039,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.672,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.1156,
+    "unfunded_discount_pct_change_5yr": 10.146,
     "share_grad_students": 36.7812,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23309.253
+        "value": 23338.8606
       },
       {
         "year": 2015,
-        "value": 21355.2015
+        "value": 21417.3782
       },
       {
         "year": 2016,
-        "value": 24687.6805
+        "value": 24760.2586
       },
       {
         "year": 2017,
-        "value": 24651.3375
+        "value": 24723.8753
       },
       {
         "year": 2018,
-        "value": 24700.5294
+        "value": 24777.3253
       },
       {
         "year": 2019,
-        "value": 24658.4031
+        "value": 24753.9832
       },
       {
         "year": 2020,
-        "value": 25280.6283
+        "value": 25380.113
       },
       {
         "year": 2021,
-        "value": 24656.9243
+        "value": 24744.0442
       },
       {
         "year": 2022,
-        "value": 22239.8021
+        "value": 22325.9293
       },
       {
         "year": 2023,
-        "value": 21476.6576
+        "value": 21563.0022
       },
       {
         "year": 2024,
-        "value": 22107.1025
+        "value": 22193.7647
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.8666
+      },
+      {
+        "year": 2015,
+        "value": 31.5723
+      },
+      {
+        "year": 2016,
+        "value": 31.609
+      },
+      {
+        "year": 2017,
+        "value": 32.2786
+      },
+      {
+        "year": 2018,
+        "value": 32.6741
+      },
+      {
+        "year": 2019,
+        "value": 33.6967
+      },
+      {
+        "year": 2020,
+        "value": 34.1713
+      },
+      {
+        "year": 2021,
+        "value": 33.0917
+      },
+      {
+        "year": 2022,
+        "value": 36.0152
+      },
+      {
+        "year": 2023,
+        "value": 37.4154
+      },
+      {
+        "year": 2024,
+        "value": 37.1156
       }
     ],
     "enrollment_headcount_total": [

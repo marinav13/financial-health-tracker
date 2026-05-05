@@ -1,6 +1,6 @@
 {
   "unitid": "123457",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Simpson University",
     "institution_unique_name": "Simpson University | Redding | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 23.2179,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 10.5099,
-    "net_tuition_per_fte_change_5yr": -17.9725,
+    "net_tuition_per_fte_change_5yr": -16.1854,
     "staff_total_headcount_pct_change_5yr": 17.3913,
     "staff_instructional_headcount_pct_change_5yr": -7.0312,
     "students_per_instructional_staff_fte": 12.603,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 52.9075,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.8164,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.7131,
+    "unfunded_discount_pct_change_5yr": 15.5434,
     "share_grad_students": 16.8595,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 20783.1036
+        "value": 20304.9661
       },
       {
         "year": 2020,
-        "value": 22171.8494
+        "value": 19118.6398
       },
       {
         "year": 2021,
-        "value": 20441.9981
+        "value": 20076.8781
       },
       {
         "year": 2022,
-        "value": 20127.9166
+        "value": 19971.5427
       },
       {
         "year": 2023,
-        "value": 16689.5638
+        "value": 16483.6076
       },
       {
         "year": 2024,
-        "value": 17047.8624
+        "value": 17018.5167
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.7479
+      },
+      {
+        "year": 2015,
+        "value": 31.6896
+      },
+      {
+        "year": 2016,
+        "value": 29.9674
+      },
+      {
+        "year": 2017,
+        "value": 29.8863
+      },
+      {
+        "year": 2018,
+        "value": 30.8463
+      },
+      {
+        "year": 2019,
+        "value": 40.429
+      },
+      {
+        "year": 2020,
+        "value": 44.0346
+      },
+      {
+        "year": 2021,
+        "value": 44.8489
+      },
+      {
+        "year": 2022,
+        "value": 41.7282
+      },
+      {
+        "year": 2023,
+        "value": 47.0183
+      },
+      {
+        "year": 2024,
+        "value": 46.7131
       }
     ],
     "enrollment_headcount_total": [

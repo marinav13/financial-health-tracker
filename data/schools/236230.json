@@ -1,6 +1,6 @@
 {
   "unitid": "236230",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pacific Lutheran University",
     "institution_unique_name": "Pacific Lutheran University | Tacoma | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.1825,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 7.4023,
-    "net_tuition_per_fte_change_5yr": -22.1326,
+    "net_tuition_per_fte_change_5yr": -19.5217,
     "staff_total_headcount_pct_change_5yr": -11.4983,
     "staff_instructional_headcount_pct_change_5yr": -5.0314,
     "students_per_instructional_staff_fte": 12.09,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 44.6339,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.6113,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.9005,
+    "unfunded_discount_pct_change_5yr": 10.6244,
     "share_grad_students": 16.7306,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 406000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24657.0959
+        "value": 24892.1826
       },
       {
         "year": 2015,
-        "value": 24883.0372
+        "value": 25126.8816
       },
       {
         "year": 2016,
-        "value": 25136.1183
+        "value": 25386.3337
       },
       {
         "year": 2017,
-        "value": 24365.1804
+        "value": 24618.2091
       },
       {
         "year": 2018,
-        "value": 23758.707
+        "value": 24006.6409
       },
       {
         "year": 2019,
-        "value": 23931.0896
+        "value": 24180.5519
       },
       {
         "year": 2020,
-        "value": 23441.1744
+        "value": 23684.9684
       },
       {
         "year": 2021,
-        "value": 23322.1829
+        "value": 23624.2718
       },
       {
         "year": 2022,
-        "value": 21063.1875
+        "value": 21369.5506
       },
       {
         "year": 2023,
-        "value": 19804.556
+        "value": 20095.4698
       },
       {
         "year": 2024,
-        "value": 18634.5268
+        "value": 19460.0985
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.6595
+      },
+      {
+        "year": 2015,
+        "value": 39.649
+      },
+      {
+        "year": 2016,
+        "value": 41.5934
+      },
+      {
+        "year": 2017,
+        "value": 43.5912
+      },
+      {
+        "year": 2018,
+        "value": 45.696
+      },
+      {
+        "year": 2019,
+        "value": 47.8199
+      },
+      {
+        "year": 2020,
+        "value": 47.2402
+      },
+      {
+        "year": 2021,
+        "value": 48.8595
+      },
+      {
+        "year": 2022,
+        "value": 51.0109
+      },
+      {
+        "year": 2023,
+        "value": 53.2703
+      },
+      {
+        "year": 2024,
+        "value": 52.9005
       }
     ],
     "enrollment_headcount_total": [

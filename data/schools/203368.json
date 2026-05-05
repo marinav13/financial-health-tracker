@@ -1,6 +1,6 @@
 {
   "unitid": "203368",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "John Carroll University",
     "institution_unique_name": "John Carroll University | University Heights | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.765,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 10.721,
-    "net_tuition_per_fte_change_5yr": -4.7228,
+    "net_tuition_per_fte_change_5yr": -4.3837,
     "staff_total_headcount_pct_change_5yr": -13.4541,
     "staff_instructional_headcount_pct_change_5yr": -20.5882,
     "students_per_instructional_staff_fte": 13.1295,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 39.0844,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.8365,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.7345,
+    "unfunded_discount_pct_change_5yr": -5.1962,
     "share_grad_students": 19.8619,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1942879,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17014.821
+        "value": 18333.8672
       },
       {
         "year": 2015,
-        "value": 18567.5147
+        "value": 19922.3961
       },
       {
         "year": 2016,
-        "value": 17493.7838
+        "value": 18713.7692
       },
       {
         "year": 2017,
-        "value": 18310.3935
+        "value": 19606.3824
       },
       {
         "year": 2018,
-        "value": 19276.1207
+        "value": 20612.7627
       },
       {
         "year": 2019,
-        "value": 20054.0122
+        "value": 20367.451
       },
       {
         "year": 2020,
-        "value": 20166.7252
+        "value": 20491.4143
       },
       {
         "year": 2021,
-        "value": 19840.6509
+        "value": 20106.776
       },
       {
         "year": 2022,
-        "value": 19115.1262
+        "value": 19245.4383
       },
       {
         "year": 2023,
-        "value": 19039.1812
+        "value": 19270.4068
       },
       {
         "year": 2024,
-        "value": 19106.9066
+        "value": 19474.6084
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.2159
+      },
+      {
+        "year": 2015,
+        "value": 46.7824
+      },
+      {
+        "year": 2016,
+        "value": 49.9035
+      },
+      {
+        "year": 2017,
+        "value": 50.7794
+      },
+      {
+        "year": 2018,
+        "value": 50.6631
+      },
+      {
+        "year": 2019,
+        "value": 51.4056
+      },
+      {
+        "year": 2020,
+        "value": 51.773
+      },
+      {
+        "year": 2021,
+        "value": 51.5022
+      },
+      {
+        "year": 2022,
+        "value": 51.4931
+      },
+      {
+        "year": 2023,
+        "value": 50.8814
+      },
+      {
+        "year": 2024,
+        "value": 48.7345
       }
     ],
     "enrollment_headcount_total": [

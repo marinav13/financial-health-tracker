@@ -1,6 +1,6 @@
 {
   "unitid": "164580",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Babson College",
     "institution_unique_name": "Babson College | Wellesley | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.431,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 3.3324,
-    "net_tuition_per_fte_change_5yr": -16.0877,
+    "net_tuition_per_fte_change_5yr": -16.0452,
     "staff_total_headcount_pct_change_5yr": 6.3898,
     "staff_instructional_headcount_pct_change_5yr": 8.2707,
     "students_per_instructional_staff_fte": 18.1886,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 45.0477,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, about the same as the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.2121,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.2849,
+    "unfunded_discount_pct_change_5yr": 1.6702,
     "share_grad_students": 29.5587,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2039948,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 44998.8951
+        "value": 45147.3485
       },
       {
         "year": 2015,
-        "value": 46408.3766
+        "value": 46560.1579
       },
       {
         "year": 2016,
-        "value": 43744.883
+        "value": 43891.7845
       },
       {
         "year": 2017,
-        "value": 43069.394
+        "value": 43201.4078
       },
       {
         "year": 2018,
-        "value": 42929.7004
+        "value": 43049.3352
       },
       {
         "year": 2019,
-        "value": 43191.5989
+        "value": 43327.2389
       },
       {
         "year": 2020,
-        "value": 44100.2239
+        "value": 44235.6849
       },
       {
         "year": 2021,
-        "value": 40898.8729
+        "value": 41062.9789
       },
       {
         "year": 2022,
-        "value": 38795.2173
+        "value": 38922.5751
       },
       {
         "year": 2023,
-        "value": 38389.3148
+        "value": 38529.4119
       },
       {
         "year": 2024,
-        "value": 36243.0467
+        "value": 36375.279
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.8879
+      },
+      {
+        "year": 2015,
+        "value": 20.6037
+      },
+      {
+        "year": 2016,
+        "value": 22.3622
+      },
+      {
+        "year": 2017,
+        "value": 22.2652
+      },
+      {
+        "year": 2018,
+        "value": 21.7387
+      },
+      {
+        "year": 2019,
+        "value": 23.886
+      },
+      {
+        "year": 2020,
+        "value": 22.9254
+      },
+      {
+        "year": 2021,
+        "value": 23.7044
+      },
+      {
+        "year": 2022,
+        "value": 24.7576
+      },
+      {
+        "year": 2023,
+        "value": 24.2356
+      },
+      {
+        "year": 2024,
+        "value": 24.2849
       }
     ],
     "enrollment_headcount_total": [

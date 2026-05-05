@@ -1,6 +1,6 @@
 {
   "unitid": "207856",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southwestern Christian University",
     "institution_unique_name": "Southwestern Christian University | Bethany | Oklahoma",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 42.5404,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.0475,
+    "unfunded_discount_pct_change_5yr": 13.991,
     "share_grad_students": 4.9479,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11466.9805
+        "value": 11466.9825
       },
       {
         "year": 2015,
@@ -175,7 +177,7 @@
       },
       {
         "year": 2018,
-        "value": 12535.2
+        "value": 12218.6001
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 12491.0459
+        "value": 12294.0496
       },
       {
         "year": 2021,
-        "value": 13415.728
+        "value": 13697.4312
       },
       {
         "year": 2022,
-        "value": 12204.503
+        "value": 11882.4423
       },
       {
         "year": 2023,
-        "value": 13438.5139
+        "value": 10836.0168
       },
       {
         "year": 2024,
         "value": 13824.541
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.9225
+      },
+      {
+        "year": 2015,
+        "value": 34.2577
+      },
+      {
+        "year": 2016,
+        "value": 36.1452
+      },
+      {
+        "year": 2017,
+        "value": 41.2758
+      },
+      {
+        "year": 2018,
+        "value": 39.328
+      },
+      {
+        "year": 2019,
+        "value": 38.6412
+      },
+      {
+        "year": 2020,
+        "value": 43.8137
+      },
+      {
+        "year": 2021,
+        "value": 38.0147
+      },
+      {
+        "year": 2022,
+        "value": 45.2711
+      },
+      {
+        "year": 2023,
+        "value": 46.9838
+      },
+      {
+        "year": 2024,
+        "value": 44.0475
       }
     ],
     "enrollment_headcount_total": [

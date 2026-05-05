@@ -1,6 +1,6 @@
 {
   "unitid": "494685",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Urshan University",
     "institution_unique_name": "Urshan University | Wentzville | Missouri",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 89.4373,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.1547,
+    "unfunded_discount_pct_change_5yr": -69.7063,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -140,6 +142,32 @@
       {
         "year": 2024,
         "value": 13373.1955
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 13.7149
+      },
+      {
+        "year": 2020,
+        "value": 1.6653
+      },
+      {
+        "year": 2021,
+        "value": 3.9855
+      },
+      {
+        "year": 2022,
+        "value": 4.5711
+      },
+      {
+        "year": 2023,
+        "value": 3.4913
+      },
+      {
+        "year": 2024,
+        "value": 4.1547
       }
     ],
     "enrollment_headcount_total": [

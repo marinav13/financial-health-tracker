@@ -1,6 +1,6 @@
 {
   "unitid": "170091",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Great Lakes Christian College",
     "institution_unique_name": "Great Lakes Christian College | Lansing | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.2454,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 29.1081,
-    "net_tuition_per_fte_change_5yr": -29.9965,
+    "net_tuition_per_fte_change_5yr": -11.5288,
     "staff_total_headcount_pct_change_5yr": 40,
     "staff_instructional_headcount_pct_change_5yr": 32,
     "students_per_instructional_staff_fte": 8.5294,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 14.7821,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.851,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.1715,
+    "unfunded_discount_pct_change_5yr": -6.1726,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8149.0569
+        "value": 14541.0778
       },
       {
         "year": 2015,
-        "value": 8427.7133
+        "value": 15366.1857
       },
       {
         "year": 2016,
-        "value": 7007.2897
+        "value": 12208.823
       },
       {
         "year": 2017,
-        "value": 10443.6663
+        "value": 18637.6961
       },
       {
         "year": 2018,
-        "value": 5989.4119
+        "value": 12460.8215
       },
       {
         "year": 2019,
-        "value": 6415.9286
+        "value": 12999.2295
       },
       {
         "year": 2020,
-        "value": 3368.6187
+        "value": 10879.2094
       },
       {
         "year": 2021,
-        "value": 2702.6976
+        "value": 9669.4949
       },
       {
         "year": 2022,
-        "value": 2079.0649
+        "value": 8532.4951
       },
       {
         "year": 2023,
-        "value": 5327.828
+        "value": 11722.3419
       },
       {
         "year": 2024,
-        "value": 4491.3724
+        "value": 11500.5724
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.4753
+      },
+      {
+        "year": 2015,
+        "value": 18.9913
+      },
+      {
+        "year": 2016,
+        "value": 36.131
+      },
+      {
+        "year": 2017,
+        "value": 36.9547
+      },
+      {
+        "year": 2018,
+        "value": 31.8301
+      },
+      {
+        "year": 2019,
+        "value": 32.1564
+      },
+      {
+        "year": 2020,
+        "value": 36.2997
+      },
+      {
+        "year": 2021,
+        "value": 36.15
+      },
+      {
+        "year": 2022,
+        "value": 37.4597
+      },
+      {
+        "year": 2023,
+        "value": 32.3587
+      },
+      {
+        "year": 2024,
+        "value": 30.1715
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "123961",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Southern California",
     "institution_unique_name": "University of Southern California | Los Angeles | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 20.9666,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.5401,
+    "unfunded_discount_pct_change_5yr": 19.7793,
     "share_grad_students": 55.5926,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 635555000,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 45642.9877
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.5605
+      },
+      {
+        "year": 2015,
+        "value": 23.0318
+      },
+      {
+        "year": 2016,
+        "value": 23.0971
+      },
+      {
+        "year": 2017,
+        "value": 23.4447
+      },
+      {
+        "year": 2018,
+        "value": 23.5297
+      },
+      {
+        "year": 2019,
+        "value": 22.9924
+      },
+      {
+        "year": 2020,
+        "value": 24.851
+      },
+      {
+        "year": 2021,
+        "value": 25.4373
+      },
+      {
+        "year": 2022,
+        "value": 25.1154
+      },
+      {
+        "year": 2023,
+        "value": 25.8071
+      },
+      {
+        "year": 2024,
+        "value": 27.5401
       }
     ],
     "enrollment_headcount_total": [

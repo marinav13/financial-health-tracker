@@ -1,6 +1,6 @@
 {
   "unitid": "214148",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Moore College of Art and Design",
     "institution_unique_name": "Moore College of Art and Design | Philadelphia | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.9479,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -7.566,
-    "net_tuition_per_fte_change_5yr": -13.44,
+    "net_tuition_per_fte_change_5yr": -13.6507,
     "staff_total_headcount_pct_change_5yr": -14.433,
     "staff_instructional_headcount_pct_change_5yr": -21.0526,
     "students_per_instructional_staff_fte": 7.8153,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 48.3328,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.8171,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.8648,
+    "unfunded_discount_pct_change_5yr": 12.0586,
     "share_grad_students": 3.5885,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31471.1312
+        "value": 32602.8326
       },
       {
         "year": 2015,
-        "value": 32475.9687
+        "value": 33637.9088
       },
       {
         "year": 2016,
-        "value": 32857.1696
+        "value": 33708.3056
       },
       {
         "year": 2017,
-        "value": 35050.4498
+        "value": 35813.1007
       },
       {
         "year": 2018,
-        "value": 34719.4693
+        "value": 35503.8148
       },
       {
         "year": 2019,
-        "value": 34645.988
+        "value": 33641.4209
       },
       {
         "year": 2020,
-        "value": 33239.4868
+        "value": 32580.9114
       },
       {
         "year": 2021,
-        "value": 32730.7711
+        "value": 32088.7342
       },
       {
         "year": 2022,
-        "value": 29556.7879
+        "value": 28202.4777
       },
       {
         "year": 2023,
-        "value": 30594.1971
+        "value": 29253.5508
       },
       {
         "year": 2024,
-        "value": 29989.5697
+        "value": 29049.1198
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.2501
+      },
+      {
+        "year": 2015,
+        "value": 32.1807
+      },
+      {
+        "year": 2016,
+        "value": 32.6419
+      },
+      {
+        "year": 2017,
+        "value": 30.8493
+      },
+      {
+        "year": 2018,
+        "value": 31.9537
+      },
+      {
+        "year": 2019,
+        "value": 34.6826
+      },
+      {
+        "year": 2020,
+        "value": 35.4212
+      },
+      {
+        "year": 2021,
+        "value": 35.5749
+      },
+      {
+        "year": 2022,
+        "value": 39.5424
+      },
+      {
+        "year": 2023,
+        "value": 37.1562
+      },
+      {
+        "year": 2024,
+        "value": 38.8648
       }
     ],
     "enrollment_headcount_total": [

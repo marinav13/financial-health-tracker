@@ -1,6 +1,6 @@
 {
   "unitid": "183211",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rivier University",
     "institution_unique_name": "Rivier University | Nashua | New Hampshire",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 23.0383,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 33.8917,
-    "net_tuition_per_fte_change_5yr": -10.3737,
+    "net_tuition_per_fte_change_5yr": -9.5092,
     "staff_total_headcount_pct_change_5yr": -29.2035,
     "staff_instructional_headcount_pct_change_5yr": -31.5789,
     "students_per_instructional_staff_fte": 20.0756,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 64.6745,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 65.7853,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.622,
+    "unfunded_discount_pct_change_5yr": -18.4404,
     "share_grad_students": 56.5812,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17207.957
+        "value": 17316.9
       },
       {
         "year": 2015,
-        "value": 17396.3145
+        "value": 17511.0989
       },
       {
         "year": 2016,
-        "value": 16283.9136
+        "value": 16389.3208
       },
       {
         "year": 2017,
-        "value": 14527.2026
+        "value": 14606.9811
       },
       {
         "year": 2018,
-        "value": 15352.6815
+        "value": 15444.7157
       },
       {
         "year": 2019,
-        "value": 18168.6323
+        "value": 18304.1307
       },
       {
         "year": 2020,
-        "value": 18603.6316
+        "value": 18737.4457
       },
       {
         "year": 2021,
-        "value": 18668.8629
+        "value": 18820.065
       },
       {
         "year": 2022,
-        "value": 17802.7344
+        "value": 17924.5056
       },
       {
         "year": 2023,
-        "value": 17675.2088
+        "value": 17879.6387
       },
       {
         "year": 2024,
-        "value": 16283.864
+        "value": 16563.5504
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.1075
+      },
+      {
+        "year": 2015,
+        "value": 18.8466
+      },
+      {
+        "year": 2016,
+        "value": 20.3722
+      },
+      {
+        "year": 2017,
+        "value": 27.0739
+      },
+      {
+        "year": 2018,
+        "value": 32.53
+      },
+      {
+        "year": 2019,
+        "value": 35.0934
+      },
+      {
+        "year": 2020,
+        "value": 34.7065
+      },
+      {
+        "year": 2021,
+        "value": 32.3453
+      },
+      {
+        "year": 2022,
+        "value": 33.224
+      },
+      {
+        "year": 2023,
+        "value": 30.0421
+      },
+      {
+        "year": 2024,
+        "value": 28.622
       }
     ],
     "enrollment_headcount_total": [

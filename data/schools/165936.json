@@ -1,6 +1,6 @@
 {
   "unitid": "165936",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Gordon College",
     "institution_unique_name": "Gordon College | Wenham | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -13.9341,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -52.3438,
-    "net_tuition_per_fte_change_5yr": -33.4584,
+    "net_tuition_per_fte_change_5yr": -33.4585,
     "staff_total_headcount_pct_change_5yr": -29.4479,
     "staff_instructional_headcount_pct_change_5yr": -31.1966,
     "students_per_instructional_staff_fte": 14.1284,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 31.3853,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.3676,
+    "unfunded_discount_pct_change_5yr": -16.9227,
     "share_grad_students": 29.4232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 64086,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 22377.9154
+        "value": 22377.916
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 20737.9686
+        "value": 20737.9864
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13799.3695
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.3646
+      },
+      {
+        "year": 2015,
+        "value": 37.1014
+      },
+      {
+        "year": 2016,
+        "value": 40.0141
+      },
+      {
+        "year": 2017,
+        "value": 40.6135
+      },
+      {
+        "year": 2018,
+        "value": 42.1827
+      },
+      {
+        "year": 2019,
+        "value": 43.7756
+      },
+      {
+        "year": 2020,
+        "value": 43.4323
+      },
+      {
+        "year": 2021,
+        "value": 46.4079
+      },
+      {
+        "year": 2022,
+        "value": 30.2537
+      },
+      {
+        "year": 2023,
+        "value": 35.1523
+      },
+      {
+        "year": 2024,
+        "value": 36.3676
       }
     ],
     "enrollment_headcount_total": [

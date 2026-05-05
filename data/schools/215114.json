@@ -1,6 +1,6 @@
 {
   "unitid": "215114",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cairn University-Langhorne",
     "institution_unique_name": "Cairn University-Langhorne | Langhorne | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 18.0838,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -14.5284,
-    "net_tuition_per_fte_change_5yr": -11.3275,
+    "net_tuition_per_fte_change_5yr": -28.9313,
     "staff_total_headcount_pct_change_5yr": -27.2109,
     "staff_instructional_headcount_pct_change_5yr": -28.9017,
     "students_per_instructional_staff_fte": 15.7685,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 50.5632,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.6695,
+    "unfunded_discount_pct_change_5yr": 27.4496,
     "share_grad_students": 14.0785,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14214.1562
+        "value": 15537.1124
       },
       {
         "year": 2015,
-        "value": 13461.5833
+        "value": 14644.2163
       },
       {
         "year": 2016,
-        "value": 13090.9166
+        "value": 14440.486
       },
       {
         "year": 2017,
-        "value": 13194.9994
+        "value": 14479.0216
       },
       {
         "year": 2018,
-        "value": 11127.3282
+        "value": 14017.1597
       },
       {
         "year": 2019,
-        "value": 11081.4097
+        "value": 13826.2941
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 9826.1649
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.4514
+      },
+      {
+        "year": 2015,
+        "value": 32.4881
+      },
+      {
+        "year": 2016,
+        "value": 33.664
+      },
+      {
+        "year": 2017,
+        "value": 34.1325
+      },
+      {
+        "year": 2018,
+        "value": 37.47
+      },
+      {
+        "year": 2019,
+        "value": 39.7565
+      },
+      {
+        "year": 2020,
+        "value": 46.5658
+      },
+      {
+        "year": 2021,
+        "value": 46.6916
+      },
+      {
+        "year": 2022,
+        "value": 47.4185
+      },
+      {
+        "year": 2023,
+        "value": 47.9282
+      },
+      {
+        "year": 2024,
+        "value": 50.6695
       }
     ],
     "enrollment_headcount_total": [

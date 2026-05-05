@@ -1,6 +1,6 @@
 {
   "unitid": "195234",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The College of Saint Rose",
     "institution_unique_name": "The College of Saint Rose | Albany | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": null,
@@ -151,43 +153,85 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19964.1558
+        "value": 19555.5949
       },
       {
         "year": 2015,
-        "value": 20100.7458
+        "value": 19664.3334
       },
       {
         "year": 2016,
-        "value": 19234.3026
+        "value": 18768.0519
       },
       {
         "year": 2017,
-        "value": 18520.5257
+        "value": 18092.6432
       },
       {
         "year": 2018,
-        "value": 17378.0258
+        "value": 16930.6898
       },
       {
         "year": 2019,
-        "value": 14362.7197
+        "value": 13701.6509
       },
       {
         "year": 2020,
-        "value": 13851.6968
+        "value": 13285.8934
       },
       {
         "year": 2021,
-        "value": 12553.5201
+        "value": 12114.4067
       },
       {
         "year": 2022,
-        "value": 10614.9389
+        "value": 10031.6585
       },
       {
         "year": 2023,
-        "value": 12485.1061
+        "value": 11541.2891
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.6118
+      },
+      {
+        "year": 2015,
+        "value": 35.3213
+      },
+      {
+        "year": 2016,
+        "value": 39.0683
+      },
+      {
+        "year": 2017,
+        "value": 42.5987
+      },
+      {
+        "year": 2018,
+        "value": 45.5987
+      },
+      {
+        "year": 2019,
+        "value": 51.547
+      },
+      {
+        "year": 2020,
+        "value": 52.6729
+      },
+      {
+        "year": 2021,
+        "value": 54.1726
+      },
+      {
+        "year": 2022,
+        "value": 55.5263
+      },
+      {
+        "year": 2023,
+        "value": 49.9712
       }
     ],
     "enrollment_headcount_total": [

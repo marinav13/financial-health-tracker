@@ -1,6 +1,6 @@
 {
   "unitid": "148627",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Xavier University",
     "institution_unique_name": "Saint Xavier University | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.1049,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.0225,
-    "net_tuition_per_fte_change_5yr": -14.8513,
+    "net_tuition_per_fte_change_5yr": -15.1657,
     "staff_total_headcount_pct_change_5yr": 11.859,
     "staff_instructional_headcount_pct_change_5yr": 15.7576,
     "students_per_instructional_staff_fte": 15.9059,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 73.4769,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.7695,
+    "unfunded_discount_pct_change_5yr": 9.5671,
     "share_grad_students": 13.0739,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19447.0508
+        "value": 22678.9119
       },
       {
         "year": 2015,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 22475.2898
+        "value": 22557.5408
       },
       {
         "year": 2018,
-        "value": 21556.5445
+        "value": 21635.0422
       },
       {
         "year": 2019,
-        "value": 20450.0214
+        "value": 20525.8002
       },
       {
         "year": 2020,
-        "value": 19591.3396
+        "value": 20057.8282
       },
       {
         "year": 2021,
-        "value": 17825.0293
+        "value": 17848.4233
       },
       {
         "year": 2022,
-        "value": 17032.4223
+        "value": 17377.9555
       },
       {
         "year": 2023,
-        "value": 17193.3551
+        "value": 17204.2095
       },
       {
         "year": 2024,
         "value": 17412.9256
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.8154
+      },
+      {
+        "year": 2015,
+        "value": 34.454
+      },
+      {
+        "year": 2016,
+        "value": 37.5766
+      },
+      {
+        "year": 2017,
+        "value": 39.7316
+      },
+      {
+        "year": 2018,
+        "value": 42.1508
+      },
+      {
+        "year": 2019,
+        "value": 45.4238
+      },
+      {
+        "year": 2020,
+        "value": 46.0958
+      },
+      {
+        "year": 2021,
+        "value": 46.9336
+      },
+      {
+        "year": 2022,
+        "value": 47.6359
+      },
+      {
+        "year": 2023,
+        "value": 48.5453
+      },
+      {
+        "year": 2024,
+        "value": 49.7695
       }
     ],
     "enrollment_headcount_total": [

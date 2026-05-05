@@ -1,6 +1,6 @@
 {
   "unitid": "133553",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Embry-Riddle Aeronautical University-Daytona Beach",
     "institution_unique_name": "Embry-Riddle Aeronautical University-Daytona Beach | Daytona Beach | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 66.4617,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 24.9586,
-    "net_tuition_per_fte_change_5yr": -16.7464,
+    "net_tuition_per_fte_change_5yr": -16.9254,
     "staff_total_headcount_pct_change_5yr": 30.7798,
     "staff_instructional_headcount_pct_change_5yr": 23.7598,
     "students_per_instructional_staff_fte": 20.0047,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 40.1125,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.7388,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.6675,
+    "unfunded_discount_pct_change_5yr": 9.0716,
     "share_grad_students": 7.2952,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 24729000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38754.8027
+        "value": 38506.4985
       },
       {
         "year": 2015,
-        "value": 38111.0907
+        "value": 37733.8968
       },
       {
         "year": 2016,
-        "value": 37458.3377
+        "value": 37016.5791
       },
       {
         "year": 2017,
-        "value": 37192.3692
+        "value": 36901.9552
       },
       {
         "year": 2018,
-        "value": 36252.5394
+        "value": 35968.7872
       },
       {
         "year": 2019,
-        "value": 37702.633
+        "value": 37431.8322
       },
       {
         "year": 2020,
-        "value": 35413.3191
+        "value": 34890.1502
       },
       {
         "year": 2021,
-        "value": 34267.2041
+        "value": 33994.6274
       },
       {
         "year": 2022,
-        "value": 32066.6337
+        "value": 31789.7195
       },
       {
         "year": 2023,
-        "value": 31042.0084
+        "value": 30779.8397
       },
       {
         "year": 2024,
-        "value": 31388.811
+        "value": 31096.356
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0.5237
+      },
+      {
+        "year": 2015,
+        "value": 0.7743
+      },
+      {
+        "year": 2016,
+        "value": 0.8913
+      },
+      {
+        "year": 2017,
+        "value": 0.581
+      },
+      {
+        "year": 2018,
+        "value": 0.5713
+      },
+      {
+        "year": 2019,
+        "value": 26.2832
+      },
+      {
+        "year": 2020,
+        "value": 27.81
+      },
+      {
+        "year": 2021,
+        "value": 27.2185
+      },
+      {
+        "year": 2022,
+        "value": 27.4481
+      },
+      {
+        "year": 2023,
+        "value": 27.2008
+      },
+      {
+        "year": 2024,
+        "value": 28.6675
       }
     ],
     "enrollment_headcount_total": [

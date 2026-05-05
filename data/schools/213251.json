@@ -1,6 +1,6 @@
 {
   "unitid": "213251",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Juniata College",
     "institution_unique_name": "Juniata College | Huntingdon | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.2207,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 16.1,
-    "net_tuition_per_fte_change_5yr": -20.5236,
+    "net_tuition_per_fte_change_5yr": -18.9326,
     "staff_total_headcount_pct_change_5yr": -9.4431,
     "staff_instructional_headcount_pct_change_5yr": -18.9873,
     "students_per_instructional_staff_fte": 12.0926,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 32.1307,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.7739,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 61.3584,
+    "unfunded_discount_pct_change_5yr": 12.3684,
     "share_grad_students": 7.3466,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1301435,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 25404.0456
+        "value": 25677.8373
       },
       {
         "year": 2017,
-        "value": 22720.0935
+        "value": 23040.5064
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 20493.4607
+        "value": 20727.5483
       },
       {
         "year": 2021,
-        "value": 20768.1256
+        "value": 21083.4294
       },
       {
         "year": 2022,
-        "value": 18476.4239
+        "value": 18831.0212
       },
       {
         "year": 2023,
-        "value": 18173.6837
+        "value": 18579.9113
       },
       {
         "year": 2024,
-        "value": 17279.9058
+        "value": 17625.827
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.7923
+      },
+      {
+        "year": 2015,
+        "value": 50.1433
+      },
+      {
+        "year": 2016,
+        "value": 48.13
+      },
+      {
+        "year": 2017,
+        "value": 50.2661
+      },
+      {
+        "year": 2018,
+        "value": 54.545
+      },
+      {
+        "year": 2019,
+        "value": 54.6046
+      },
+      {
+        "year": 2020,
+        "value": 58.5776
+      },
+      {
+        "year": 2021,
+        "value": 54.5897
+      },
+      {
+        "year": 2022,
+        "value": 53.0548
+      },
+      {
+        "year": 2023,
+        "value": 55.6751
+      },
+      {
+        "year": 2024,
+        "value": 61.3584
       }
     ],
     "enrollment_headcount_total": [

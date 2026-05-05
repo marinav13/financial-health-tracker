@@ -1,6 +1,6 @@
 {
   "unitid": "209409",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bushnell University",
     "institution_unique_name": "Bushnell University | Eugene | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.9164,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 24.6084,
-    "net_tuition_per_fte_change_5yr": -0.6123,
+    "net_tuition_per_fte_change_5yr": 5.7675,
     "staff_total_headcount_pct_change_5yr": 25.6831,
     "staff_instructional_headcount_pct_change_5yr": 35.443,
     "students_per_instructional_staff_fte": 14.1401,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 43.3441,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.474,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.5004,
+    "unfunded_discount_pct_change_5yr": -4.075,
     "share_grad_students": 37.9733,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10982.0482
+        "value": 13443.3973
       },
       {
         "year": 2015,
-        "value": 11438.7606
+        "value": 13506.5426
       },
       {
         "year": 2016,
-        "value": 12320.5857
+        "value": 14017.7357
       },
       {
         "year": 2017,
-        "value": 14017.0283
+        "value": 14737.1473
       },
       {
         "year": 2018,
-        "value": 12555.4855
+        "value": 13507.9547
       },
       {
         "year": 2019,
-        "value": 16009.8412
+        "value": 15783.4209
       },
       {
         "year": 2020,
-        "value": 13791.6241
+        "value": 14404.3343
       },
       {
         "year": 2021,
-        "value": 11855.748
+        "value": 12825.7728
       },
       {
         "year": 2022,
-        "value": 14674.527
+        "value": 14796.1813
       },
       {
         "year": 2023,
-        "value": 16498.5276
+        "value": 16459.4414
       },
       {
         "year": 2024,
-        "value": 15911.8122
+        "value": 16693.7311
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.1243
+      },
+      {
+        "year": 2015,
+        "value": 35.4947
+      },
+      {
+        "year": 2016,
+        "value": 39.8736
+      },
+      {
+        "year": 2017,
+        "value": 34.3314
+      },
+      {
+        "year": 2018,
+        "value": 36.0247
+      },
+      {
+        "year": 2019,
+        "value": 37.0085
+      },
+      {
+        "year": 2020,
+        "value": 36.625
+      },
+      {
+        "year": 2021,
+        "value": 39.805
+      },
+      {
+        "year": 2022,
+        "value": 40.0743
+      },
+      {
+        "year": 2023,
+        "value": 38.5571
+      },
+      {
+        "year": 2024,
+        "value": 35.5004
       }
     ],
     "enrollment_headcount_total": [

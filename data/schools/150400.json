@@ -1,6 +1,6 @@
 {
   "unitid": "150400",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "DePauw University",
     "institution_unique_name": "DePauw University | Greencastle | Indiana",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 13.0692,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.086,
+    "unfunded_discount_pct_change_5yr": 250.1318,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 24833.6538
+        "value": 25109.8903
       },
       {
         "year": 2017,
-        "value": 23423.9238
+        "value": 24666.8806
       },
       {
         "year": 2018,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 19699.2976
+        "value": 19699.2983
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 16567.5292
+        "value": 16612.7766
       },
       {
         "year": 2024,
-        "value": 16604.9294
+        "value": 16604.9288
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.5629
+      },
+      {
+        "year": 2015,
+        "value": 40.4207
+      },
+      {
+        "year": 2016,
+        "value": 36.4994
+      },
+      {
+        "year": 2017,
+        "value": 37.3767
+      },
+      {
+        "year": 2018,
+        "value": 44.1646
+      },
+      {
+        "year": 2019,
+        "value": 15.4473
+      },
+      {
+        "year": 2020,
+        "value": 15.0399
+      },
+      {
+        "year": 2021,
+        "value": 16.1971
+      },
+      {
+        "year": 2022,
+        "value": 48.5315
+      },
+      {
+        "year": 2023,
+        "value": 50.2358
+      },
+      {
+        "year": 2024,
+        "value": 54.086
       }
     ],
     "enrollment_headcount_total": [

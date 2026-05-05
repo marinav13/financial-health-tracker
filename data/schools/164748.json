@@ -1,6 +1,6 @@
 {
   "unitid": "164748",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Berklee College of Music",
     "institution_unique_name": "Berklee College of Music | Boston | Massachusetts",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 70.8101,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.036,
+    "unfunded_discount_pct_change_5yr": 37.6483,
     "share_grad_students": 10.3864,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40782.009
+        "value": 40761.8643
       },
       {
         "year": 2015,
-        "value": 41307.8302
+        "value": 41285.5222
       },
       {
         "year": 2016,
-        "value": 33017.6622
+        "value": 33001.7059
       },
       {
         "year": 2017,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 38929.6541
+        "value": 38809.0491
       },
       {
         "year": 2021,
-        "value": 30841.4407
+        "value": 30936.2443
       },
       {
         "year": 2022,
-        "value": 32765.1493
+        "value": 32791.8508
       },
       {
         "year": 2023,
-        "value": 33636.6606
+        "value": 33652.1052
       },
       {
         "year": 2024,
         "value": 32930.5973
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.5295
+      },
+      {
+        "year": 2015,
+        "value": 18.3107
+      },
+      {
+        "year": 2016,
+        "value": 19.023
+      },
+      {
+        "year": 2017,
+        "value": 23.0927
+      },
+      {
+        "year": 2018,
+        "value": 23.5922
+      },
+      {
+        "year": 2019,
+        "value": 19.6413
+      },
+      {
+        "year": 2020,
+        "value": 22.6773
+      },
+      {
+        "year": 2021,
+        "value": 27.6851
+      },
+      {
+        "year": 2022,
+        "value": 24.544
+      },
+      {
+        "year": 2023,
+        "value": 24.9938
+      },
+      {
+        "year": 2024,
+        "value": 27.036
       }
     ],
     "enrollment_headcount_total": [

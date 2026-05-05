@@ -1,6 +1,6 @@
 {
   "unitid": "232256",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hampden-Sydney College",
     "institution_unique_name": "Hampden-Sydney College | Hampden-Sydney | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.5229,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 18.7776,
-    "net_tuition_per_fte_change_5yr": -39.7243,
+    "net_tuition_per_fte_change_5yr": -31.2424,
     "staff_total_headcount_pct_change_5yr": -9.0164,
     "staff_instructional_headcount_pct_change_5yr": -4.4248,
     "students_per_instructional_staff_fte": 8.9901,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 14.699,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 19.4356,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.1532,
+    "unfunded_discount_pct_change_5yr": 16.2072,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 76989,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20616.5278
+        "value": 24660.5404
       },
       {
         "year": 2015,
-        "value": 22082.9897
+        "value": 26080.9051
       },
       {
         "year": 2016,
-        "value": 22072.3506
+        "value": 26023.0746
       },
       {
         "year": 2017,
-        "value": 24119.4836
+        "value": 28076.1171
       },
       {
         "year": 2018,
-        "value": 22352.0778
+        "value": 26156.8428
       },
       {
         "year": 2019,
-        "value": 23302.8723
+        "value": 27010.9824
       },
       {
         "year": 2020,
-        "value": 22707.1136
+        "value": 27001.6954
       },
       {
         "year": 2021,
-        "value": 20008.4728
+        "value": 24414.8691
       },
       {
         "year": 2022,
-        "value": 16468.9391
+        "value": 21380.7889
       },
       {
         "year": 2023,
-        "value": 14182.9374
+        "value": 19135.7134
       },
       {
         "year": 2024,
-        "value": 14045.9757
+        "value": 18572.1006
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.8608
+      },
+      {
+        "year": 2015,
+        "value": 39.019
+      },
+      {
+        "year": 2016,
+        "value": 41.3759
+      },
+      {
+        "year": 2017,
+        "value": 39.8656
+      },
+      {
+        "year": 2018,
+        "value": 40.7708
+      },
+      {
+        "year": 2019,
+        "value": 42.2979
+      },
+      {
+        "year": 2020,
+        "value": 41.5854
+      },
+      {
+        "year": 2021,
+        "value": 43.6537
+      },
+      {
+        "year": 2022,
+        "value": 44.8925
+      },
+      {
+        "year": 2023,
+        "value": 41.1765
+      },
+      {
+        "year": 2024,
+        "value": 49.1532
       }
     ],
     "enrollment_headcount_total": [

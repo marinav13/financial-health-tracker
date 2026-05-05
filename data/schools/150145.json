@@ -1,6 +1,6 @@
 {
   "unitid": "150145",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethel University",
     "institution_unique_name": "Bethel University | Mishawaka | Indiana",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 51.1433,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.4066,
+    "unfunded_discount_pct_change_5yr": 19.0689,
     "share_grad_students": 12.5718,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6123,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12411.879
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.6122
+      },
+      {
+        "year": 2015,
+        "value": 34.696
+      },
+      {
+        "year": 2016,
+        "value": 37.8553
+      },
+      {
+        "year": 2017,
+        "value": 39.2293
+      },
+      {
+        "year": 2018,
+        "value": 39.3266
+      },
+      {
+        "year": 2019,
+        "value": 43.1738
+      },
+      {
+        "year": 2020,
+        "value": 45.1629
+      },
+      {
+        "year": 2021,
+        "value": 47.0256
+      },
+      {
+        "year": 2022,
+        "value": 49.7552
+      },
+      {
+        "year": 2023,
+        "value": 50.1618
+      },
+      {
+        "year": 2024,
+        "value": 51.4066
       }
     ],
     "enrollment_headcount_total": [

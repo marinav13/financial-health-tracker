@@ -1,6 +1,6 @@
 {
   "unitid": "229160",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Texas Wesleyan University",
     "institution_unique_name": "Texas Wesleyan University | Fort Worth | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.7493,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.4187,
-    "net_tuition_per_fte_change_5yr": -18.6958,
+    "net_tuition_per_fte_change_5yr": -24.8067,
     "staff_total_headcount_pct_change_5yr": -12.9472,
     "staff_instructional_headcount_pct_change_5yr": -21.3622,
     "students_per_instructional_staff_fte": 12.5325,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 55.6069,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.0118,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.7955,
+    "unfunded_discount_pct_change_5yr": 72.6377,
     "share_grad_students": 27.3161,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 73171,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24429.506
+        "value": 25291.9535
       },
       {
         "year": 2015,
-        "value": 23722.5339
+        "value": 24887.3999
       },
       {
         "year": 2016,
-        "value": 23783.171
+        "value": 27242.576
       },
       {
         "year": 2017,
-        "value": 23483.4516
+        "value": 23042.8044
       },
       {
         "year": 2018,
-        "value": 23424.1616
+        "value": 22987.5244
       },
       {
         "year": 2019,
-        "value": 23903.9042
+        "value": 23710.7068
       },
       {
         "year": 2020,
-        "value": 22918.2605
+        "value": 24251.5447
       },
       {
         "year": 2021,
-        "value": 24649.586
+        "value": 22734.3781
       },
       {
         "year": 2022,
-        "value": 21243.6374
+        "value": 19159.4008
       },
       {
         "year": 2023,
-        "value": 20650.2717
+        "value": 18735.3059
       },
       {
         "year": 2024,
-        "value": 19434.8731
+        "value": 17828.8653
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.6137
+      },
+      {
+        "year": 2015,
+        "value": 15.6857
+      },
+      {
+        "year": 2016,
+        "value": 12.2608
+      },
+      {
+        "year": 2017,
+        "value": 24.375
+      },
+      {
+        "year": 2018,
+        "value": 28.4793
+      },
+      {
+        "year": 2019,
+        "value": 29.4232
+      },
+      {
+        "year": 2020,
+        "value": 31.8581
+      },
+      {
+        "year": 2021,
+        "value": 39.9793
+      },
+      {
+        "year": 2022,
+        "value": 44.4732
+      },
+      {
+        "year": 2023,
+        "value": 47.3632
+      },
+      {
+        "year": 2024,
+        "value": 50.7955
       }
     ],
     "enrollment_headcount_total": [

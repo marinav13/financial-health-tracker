@@ -1,6 +1,6 @@
 {
   "unitid": "173902",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Macalester College",
     "institution_unique_name": "Macalester College | Saint Paul | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.3154,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 51.0744,
-    "net_tuition_per_fte_change_5yr": -11.1535,
+    "net_tuition_per_fte_change_5yr": -11.0779,
     "staff_total_headcount_pct_change_5yr": -3.0556,
     "staff_instructional_headcount_pct_change_5yr": -7.0866,
     "students_per_instructional_staff_fte": 10.4146,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 30.0541,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.2296,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.4972,
+    "unfunded_discount_pct_change_5yr": 16.652,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2079000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28044.4981
+        "value": 28168.4332
       },
       {
         "year": 2015,
-        "value": 29058.5327
+        "value": 29191.0053
       },
       {
         "year": 2016,
-        "value": 29212.7345
+        "value": 29340.8377
       },
       {
         "year": 2017,
-        "value": 29553.6096
+        "value": 29671.5629
       },
       {
         "year": 2018,
-        "value": 29012.7972
+        "value": 29141.7531
       },
       {
         "year": 2019,
-        "value": 30204.8092
+        "value": 30355.4443
       },
       {
         "year": 2020,
-        "value": 30813.7147
+        "value": 30978.2219
       },
       {
         "year": 2021,
-        "value": 26163.0391
+        "value": 26316.6874
       },
       {
         "year": 2022,
-        "value": 26455.5055
+        "value": 26591.486
       },
       {
         "year": 2023,
-        "value": 26970.9901
+        "value": 27131.979
       },
       {
         "year": 2024,
-        "value": 26835.9161
+        "value": 26992.7074
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.6709
+      },
+      {
+        "year": 2015,
+        "value": 23.3248
+      },
+      {
+        "year": 2016,
+        "value": 24.4144
+      },
+      {
+        "year": 2017,
+        "value": 24.6507
+      },
+      {
+        "year": 2018,
+        "value": 26.0498
+      },
+      {
+        "year": 2019,
+        "value": 26.1438
+      },
+      {
+        "year": 2020,
+        "value": 25.8021
+      },
+      {
+        "year": 2021,
+        "value": 29.2506
+      },
+      {
+        "year": 2022,
+        "value": 31.0268
+      },
+      {
+        "year": 2023,
+        "value": 30.2172
+      },
+      {
+        "year": 2024,
+        "value": 30.4972
       }
     ],
     "enrollment_headcount_total": [

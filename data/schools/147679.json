@@ -1,6 +1,6 @@
 {
   "unitid": "147679",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "North Park University",
     "institution_unique_name": "North Park University | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.1646,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -12.8774,
-    "net_tuition_per_fte_change_5yr": -24.4564,
+    "net_tuition_per_fte_change_5yr": -24.4562,
     "staff_total_headcount_pct_change_5yr": -14.3654,
     "staff_instructional_headcount_pct_change_5yr": -28.0952,
     "students_per_instructional_staff_fte": 13.4943,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 51.0239,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.0828,
+    "unfunded_discount_pct_change_5yr": -18.56,
     "share_grad_students": 32.5452,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,15 +173,15 @@
       },
       {
         "year": 2017,
-        "value": 22626.4152
+        "value": 22626.4147
       },
       {
         "year": 2018,
-        "value": 22266.322
+        "value": 22266.3079
       },
       {
         "year": 2019,
-        "value": 21192.7278
+        "value": 21192.672
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 16009.7521
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.7949
+      },
+      {
+        "year": 2015,
+        "value": 24.2676
+      },
+      {
+        "year": 2016,
+        "value": 25.433
+      },
+      {
+        "year": 2017,
+        "value": 26.391
+      },
+      {
+        "year": 2018,
+        "value": 28.177
+      },
+      {
+        "year": 2019,
+        "value": 30.7991
+      },
+      {
+        "year": 2020,
+        "value": 34.6311
+      },
+      {
+        "year": 2021,
+        "value": 34.865
+      },
+      {
+        "year": 2022,
+        "value": 37.5355
+      },
+      {
+        "year": 2023,
+        "value": 24.1929
+      },
+      {
+        "year": 2024,
+        "value": 25.0828
       }
     ],
     "enrollment_headcount_total": [

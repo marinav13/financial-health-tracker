@@ -1,6 +1,6 @@
 {
   "unitid": "211583",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Chestnut Hill College",
     "institution_unique_name": "Chestnut Hill College | Philadelphia | Pennsylvania",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 52.8426,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.4855,
+    "unfunded_discount_pct_change_5yr": 24.7804,
     "share_grad_students": 30.9509,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15667.1229
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.8641
+      },
+      {
+        "year": 2015,
+        "value": 34.6169
+      },
+      {
+        "year": 2016,
+        "value": 36.2287
+      },
+      {
+        "year": 2017,
+        "value": 39.2779
+      },
+      {
+        "year": 2018,
+        "value": 39.3813
+      },
+      {
+        "year": 2019,
+        "value": 39.6581
+      },
+      {
+        "year": 2020,
+        "value": 43.9609
+      },
+      {
+        "year": 2021,
+        "value": 44.2088
+      },
+      {
+        "year": 2022,
+        "value": 47.1176
+      },
+      {
+        "year": 2023,
+        "value": 47.5441
+      },
+      {
+        "year": 2024,
+        "value": 49.4855
       }
     ],
     "enrollment_headcount_total": [

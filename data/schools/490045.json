@@ -1,6 +1,6 @@
 {
   "unitid": "490045",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Presbyterian Theological Seminary in America",
     "institution_unique_name": "Presbyterian Theological Seminary in America | Santa Fe Springs | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 10,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 173.473,
-    "net_tuition_per_fte_change_5yr": -8.1648,
+    "net_tuition_per_fte_change_5yr": -4.9318,
     "staff_total_headcount_pct_change_5yr": 69.7674,
     "staff_instructional_headcount_pct_change_5yr": 121.7391,
     "students_per_instructional_staff_fte": 6.7869,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 19.3345,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 23.2025,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 11.9355,
+    "unfunded_discount_pct_change_5yr": 146.8082,
     "share_grad_students": 79.6364,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6000,
@@ -135,35 +137,69 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2017,
-        "value": 5306.1335
+        "value": 4507.3472
       },
       {
         "year": 2018,
-        "value": 6517.4611
+        "value": 6637.6989
       },
       {
         "year": 2019,
-        "value": 5882.5176
+        "value": 6819.2911
       },
       {
         "year": 2020,
-        "value": 5959.3041
+        "value": 6302.3032
       },
       {
         "year": 2021,
-        "value": 5607.4195
+        "value": 6410.862
       },
       {
         "year": 2022,
-        "value": 5976.0629
+        "value": 7074.4496
       },
       {
         "year": 2023,
-        "value": 6654.1629
+        "value": 7534.2325
       },
       {
         "year": 2024,
-        "value": 5402.2246
+        "value": 6482.9783
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 16.6696
+      },
+      {
+        "year": 2018,
+        "value": 11.1037
+      },
+      {
+        "year": 2019,
+        "value": 4.8359
+      },
+      {
+        "year": 2020,
+        "value": 1.8352
+      },
+      {
+        "year": 2021,
+        "value": 3.2141
+      },
+      {
+        "year": 2022,
+        "value": 3.8839
+      },
+      {
+        "year": 2023,
+        "value": 8.7213
+      },
+      {
+        "year": 2024,
+        "value": 11.9355
       }
     ],
     "enrollment_headcount_total": [

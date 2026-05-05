@@ -1,6 +1,6 @@
 {
   "unitid": "193584",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Nazareth University",
     "institution_unique_name": "Nazareth University | Rochester | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.0564,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.9661,
-    "net_tuition_per_fte_change_5yr": -15.2323,
+    "net_tuition_per_fte_change_5yr": -15.1811,
     "staff_total_headcount_pct_change_5yr": -2.1108,
     "staff_instructional_headcount_pct_change_5yr": -0.6466,
     "students_per_instructional_staff_fte": 8.3293,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 56.8782,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.5484,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.6755,
+    "unfunded_discount_pct_change_5yr": 19.8505,
     "share_grad_students": 24.3172,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27253.9399
+        "value": 27324.9026
       },
       {
         "year": 2015,
-        "value": 27485.3176
+        "value": 27547.9712
       },
       {
         "year": 2016,
-        "value": 27995.4987
+        "value": 28058.3537
       },
       {
         "year": 2017,
-        "value": 27308.1951
+        "value": 27364.61
       },
       {
         "year": 2018,
-        "value": 26458.5183
+        "value": 26514.7458
       },
       {
         "year": 2019,
-        "value": 28218.7521
+        "value": 27046.5157
       },
       {
         "year": 2020,
-        "value": 27996.654
+        "value": 27272.0868
       },
       {
         "year": 2021,
-        "value": 27351.4737
+        "value": 26233.9377
       },
       {
         "year": 2022,
-        "value": 24740.7701
+        "value": 23639.5691
       },
       {
         "year": 2023,
-        "value": 25055.75
+        "value": 24027.0932
       },
       {
         "year": 2024,
-        "value": 23920.3759
+        "value": 22940.5611
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.105
+      },
+      {
+        "year": 2015,
+        "value": 29.0316
+      },
+      {
+        "year": 2016,
+        "value": 29.6139
+      },
+      {
+        "year": 2017,
+        "value": 31.7957
+      },
+      {
+        "year": 2018,
+        "value": 33.3263
+      },
+      {
+        "year": 2019,
+        "value": 33.9385
+      },
+      {
+        "year": 2020,
+        "value": 34.5265
+      },
+      {
+        "year": 2021,
+        "value": 36.1138
+      },
+      {
+        "year": 2022,
+        "value": 37.7959
+      },
+      {
+        "year": 2023,
+        "value": 39.6189
+      },
+      {
+        "year": 2024,
+        "value": 40.6755
       }
     ],
     "enrollment_headcount_total": [

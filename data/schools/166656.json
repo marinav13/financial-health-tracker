@@ -1,6 +1,6 @@
 {
   "unitid": "166656",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "MCPHS University",
     "institution_unique_name": "MCPHS University | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.9543,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 18.7823,
-    "net_tuition_per_fte_change_5yr": -30.5613,
+    "net_tuition_per_fte_change_5yr": -30.3941,
     "staff_total_headcount_pct_change_5yr": 24.7031,
     "staff_instructional_headcount_pct_change_5yr": 32.2412,
     "students_per_instructional_staff_fte": 13.0411,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 44.2972,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, about the same as the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.5597,
+    "unfunded_discount_pct_change_5yr": 82.6871,
     "share_grad_students": 45.6978,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 226644,
@@ -179,11 +181,11 @@
       },
       {
         "year": 2019,
-        "value": 39976.1202
+        "value": 39880.0576
       },
       {
         "year": 2020,
-        "value": 40623.9765
+        "value": 40539.1391
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 27758.8839
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.8006
+      },
+      {
+        "year": 2015,
+        "value": 10.3301
+      },
+      {
+        "year": 2016,
+        "value": 11.3074
+      },
+      {
+        "year": 2017,
+        "value": 13.0621
+      },
+      {
+        "year": 2018,
+        "value": 13.7555
+      },
+      {
+        "year": 2019,
+        "value": 14.5383
+      },
+      {
+        "year": 2020,
+        "value": 17.7445
+      },
+      {
+        "year": 2021,
+        "value": 21.3651
+      },
+      {
+        "year": 2022,
+        "value": 24.1521
+      },
+      {
+        "year": 2023,
+        "value": 25.9936
+      },
+      {
+        "year": 2024,
+        "value": 26.5597
       }
     ],
     "enrollment_headcount_total": [

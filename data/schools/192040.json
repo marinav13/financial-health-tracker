@@ -1,6 +1,6 @@
 {
   "unitid": "192040",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Jewish Theological Seminary of America",
     "institution_unique_name": "Jewish Theological Seminary of America | New York | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.4248,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -23.1735,
-    "net_tuition_per_fte_change_5yr": 13.646,
+    "net_tuition_per_fte_change_5yr": 44.7472,
     "staff_total_headcount_pct_change_5yr": -23.2653,
     "staff_instructional_headcount_pct_change_5yr": -15.7895,
     "students_per_instructional_staff_fte": 7.8214,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 7.968,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 7.4848,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 7% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 58.6252,
+    "unfunded_discount_pct_change_5yr": 44.044,
     "share_grad_students": 46.2963,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 35168,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 6271.3897
+        "value": -14518.0949
       },
       {
         "year": 2015,
-        "value": 6757.313
+        "value": 4606.9724
       },
       {
         "year": 2016,
-        "value": 7065.4783
+        "value": 5231.9464
       },
       {
         "year": 2017,
-        "value": 8062.3058
+        "value": 5363.3992
       },
       {
         "year": 2018,
-        "value": 9535.114
+        "value": 6388.9254
       },
       {
         "year": 2019,
-        "value": 10076.9544
+        "value": 7431.98
       },
       {
         "year": 2020,
-        "value": 10401.6455
+        "value": 7045.5615
       },
       {
         "year": 2021,
-        "value": 6371.7406
+        "value": 5515.4794
       },
       {
         "year": 2022,
-        "value": 4951.8858
+        "value": 3665.1101
       },
       {
         "year": 2023,
-        "value": 7716.1313
+        "value": 3448.0501
       },
       {
         "year": 2024,
-        "value": 11452.0582
+        "value": 10757.5822
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 165.6506
+      },
+      {
+        "year": 2015,
+        "value": 47.3787
+      },
+      {
+        "year": 2016,
+        "value": 49.728
+      },
+      {
+        "year": 2017,
+        "value": 49.1338
+      },
+      {
+        "year": 2018,
+        "value": 41.2578
+      },
+      {
+        "year": 2019,
+        "value": 40.6995
+      },
+      {
+        "year": 2020,
+        "value": 40.2821
+      },
+      {
+        "year": 2021,
+        "value": 40.8033
+      },
+      {
+        "year": 2022,
+        "value": 52.9964
+      },
+      {
+        "year": 2023,
+        "value": 51.4366
+      },
+      {
+        "year": 2024,
+        "value": 58.6252
       }
     ],
     "enrollment_headcount_total": [

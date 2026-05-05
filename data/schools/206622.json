@@ -1,6 +1,6 @@
 {
   "unitid": "206622",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Xavier University",
     "institution_unique_name": "Xavier University | Cincinnati | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.6488,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 7.1342,
-    "net_tuition_per_fte_change_5yr": -9.4152,
+    "net_tuition_per_fte_change_5yr": -7.3766,
     "staff_total_headcount_pct_change_5yr": -14.4898,
     "staff_instructional_headcount_pct_change_5yr": -19.9759,
     "students_per_instructional_staff_fte": 12.0696,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 38.8982,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.5303,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.7171,
+    "unfunded_discount_pct_change_5yr": 17.5074,
     "share_grad_students": 24.2906,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 46000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22208.3933
+        "value": 21698.8128
       },
       {
         "year": 2015,
-        "value": 22566.045
+        "value": 21957.4663
       },
       {
         "year": 2016,
-        "value": 22797.4311
+        "value": 22150.4484
       },
       {
         "year": 2017,
-        "value": 22570.1658
+        "value": 21989.7516
       },
       {
         "year": 2018,
-        "value": 22906.0223
+        "value": 22339.4927
       },
       {
         "year": 2019,
-        "value": 23200.6285
+        "value": 22475.3793
       },
       {
         "year": 2020,
-        "value": 24123.4663
+        "value": 23493.9845
       },
       {
         "year": 2021,
-        "value": 23233.1341
+        "value": 22558.5912
       },
       {
         "year": 2022,
-        "value": 20926.2047
+        "value": 20238.8761
       },
       {
         "year": 2023,
-        "value": 20406.4883
+        "value": 19646.2139
       },
       {
         "year": 2024,
-        "value": 21016.2445
+        "value": 20817.4672
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.6343
+      },
+      {
+        "year": 2015,
+        "value": 38.8989
+      },
+      {
+        "year": 2016,
+        "value": 40.409
+      },
+      {
+        "year": 2017,
+        "value": 40.1492
+      },
+      {
+        "year": 2018,
+        "value": 38.64
+      },
+      {
+        "year": 2019,
+        "value": 39.7567
+      },
+      {
+        "year": 2020,
+        "value": 39.1169
+      },
+      {
+        "year": 2021,
+        "value": 41.3587
+      },
+      {
+        "year": 2022,
+        "value": 44.2961
+      },
+      {
+        "year": 2023,
+        "value": 45.4656
+      },
+      {
+        "year": 2024,
+        "value": 46.7171
       }
     ],
     "enrollment_headcount_total": [

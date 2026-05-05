@@ -1,6 +1,6 @@
 {
   "unitid": "131113",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wilmington University",
     "institution_unique_name": "Wilmington University | New Castle | Delaware",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.4981,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -8.5918,
-    "net_tuition_per_fte_change_5yr": -12.4685,
+    "net_tuition_per_fte_change_5yr": -12.3773,
     "staff_total_headcount_pct_change_5yr": -12.0395,
     "staff_instructional_headcount_pct_change_5yr": -12.8875,
     "students_per_instructional_staff_fte": 19.7058,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 89.2897,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 89.0336,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 3.8652,
+    "unfunded_discount_pct_change_5yr": 0.6305,
     "share_grad_students": 36.1624,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10665.787
+        "value": 10649.619
       },
       {
         "year": 2015,
-        "value": 12639.9564
+        "value": 12615.9252
       },
       {
         "year": 2016,
-        "value": 13014.7186
+        "value": 12985.905
       },
       {
         "year": 2017,
-        "value": 13057.7041
+        "value": 13027.6647
       },
       {
         "year": 2018,
-        "value": 12939.2811
+        "value": 12910.5635
       },
       {
         "year": 2019,
-        "value": 12503.4643
+        "value": 12454.629
       },
       {
         "year": 2020,
-        "value": 11812.8531
+        "value": 11774.6173
       },
       {
         "year": 2021,
-        "value": 12023.1773
+        "value": 11979.8022
       },
       {
         "year": 2022,
-        "value": 11027.1717
+        "value": 10981.4936
       },
       {
         "year": 2023,
-        "value": 10797.5399
+        "value": 10769.9434
       },
       {
         "year": 2024,
-        "value": 10944.4671
+        "value": 10913.0802
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.5261
+      },
+      {
+        "year": 2015,
+        "value": 2.5059
+      },
+      {
+        "year": 2016,
+        "value": 2.8459
+      },
+      {
+        "year": 2017,
+        "value": 3.1513
+      },
+      {
+        "year": 2018,
+        "value": 3.7714
+      },
+      {
+        "year": 2019,
+        "value": 3.8409
+      },
+      {
+        "year": 2020,
+        "value": 4.7166
+      },
+      {
+        "year": 2021,
+        "value": 4.4494
+      },
+      {
+        "year": 2022,
+        "value": 4.7814
+      },
+      {
+        "year": 2023,
+        "value": 4.499
+      },
+      {
+        "year": 2024,
+        "value": 3.8652
       }
     ],
     "enrollment_headcount_total": [

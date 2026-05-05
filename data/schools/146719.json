@@ -1,6 +1,6 @@
 {
   "unitid": "146719",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Loyola University Chicago",
     "institution_unique_name": "Loyola University Chicago | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.5638,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.9225,
-    "net_tuition_per_fte_change_5yr": -12.6731,
+    "net_tuition_per_fte_change_5yr": -12.9978,
     "staff_total_headcount_pct_change_5yr": 12.5034,
     "staff_instructional_headcount_pct_change_5yr": 1.0585,
     "students_per_instructional_staff_fte": 11.586,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 54.7377,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.3348,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.5057,
+    "unfunded_discount_pct_change_5yr": 14.5066,
     "share_grad_students": 28.3567,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 51995635,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 33213.4384
+        "value": 33135.5367
       },
       {
         "year": 2015,
-        "value": 34353.0545
+        "value": 34304.2257
       },
       {
         "year": 2016,
-        "value": 34744.5478
+        "value": 34750.5933
       },
       {
         "year": 2017,
-        "value": 34601.9655
+        "value": 34595.4506
       },
       {
         "year": 2018,
-        "value": 33669.7572
+        "value": 33723.7955
       },
       {
         "year": 2019,
-        "value": 33838.908
+        "value": 33715.2053
       },
       {
         "year": 2020,
-        "value": 33941.3257
+        "value": 33933.4723
       },
       {
         "year": 2021,
-        "value": 31849.6425
+        "value": 31889.7898
       },
       {
         "year": 2022,
-        "value": 30454.4376
+        "value": 30340.9567
       },
       {
         "year": 2023,
-        "value": 29815.9935
+        "value": 29600.4602
       },
       {
         "year": 2024,
-        "value": 29550.4617
+        "value": 29332.9568
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.5361
+      },
+      {
+        "year": 2015,
+        "value": 28.6585
+      },
+      {
+        "year": 2016,
+        "value": 29.2393
+      },
+      {
+        "year": 2017,
+        "value": 31.1024
+      },
+      {
+        "year": 2018,
+        "value": 32.9761
+      },
+      {
+        "year": 2019,
+        "value": 34.5008
+      },
+      {
+        "year": 2020,
+        "value": 35.2888
+      },
+      {
+        "year": 2021,
+        "value": 36.324
+      },
+      {
+        "year": 2022,
+        "value": 37.2217
+      },
+      {
+        "year": 2023,
+        "value": 38.4399
+      },
+      {
+        "year": 2024,
+        "value": 39.5057
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "143048",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "School of the Art Institute of Chicago",
     "institution_unique_name": "School of the Art Institute of Chicago | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.03,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -13.0715,
+    "net_tuition_per_fte_change_5yr": -13.0322,
     "staff_total_headcount_pct_change_5yr": -5.761,
     "staff_instructional_headcount_pct_change_5yr": -6.5844,
     "students_per_instructional_staff_fte": 10.0215,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 26.8204,
+    "unfunded_discount_pct_change_5yr": 9.2784,
     "share_grad_students": 19.0436,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -114,47 +116,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36589.776
+        "value": 36683.3519
       },
       {
         "year": 2015,
-        "value": 38453.6424
+        "value": 38546.1165
       },
       {
         "year": 2016,
-        "value": 42083.963
+        "value": 42174.565
       },
       {
         "year": 2017,
-        "value": 42686.3199
+        "value": 42756.1841
       },
       {
         "year": 2018,
-        "value": 42377.3564
+        "value": 42447.3102
       },
       {
         "year": 2019,
-        "value": 42781.2103
+        "value": 42873.9018
       },
       {
         "year": 2020,
-        "value": 43752.9208
+        "value": 43838.3264
       },
       {
         "year": 2021,
-        "value": 41560.0749
+        "value": 41227.0137
       },
       {
         "year": 2022,
-        "value": 39217.0926
+        "value": 39319.7479
       },
       {
         "year": 2023,
-        "value": 39268.9662
+        "value": 39353.6794
       },
       {
         "year": 2024,
-        "value": 37189.0574
+        "value": 37286.5011
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.5152
+      },
+      {
+        "year": 2015,
+        "value": 22.3111
+      },
+      {
+        "year": 2016,
+        "value": 23.0463
+      },
+      {
+        "year": 2017,
+        "value": 23.4998
+      },
+      {
+        "year": 2018,
+        "value": 23.8627
+      },
+      {
+        "year": 2019,
+        "value": 24.5432
+      },
+      {
+        "year": 2020,
+        "value": 24.7672
+      },
+      {
+        "year": 2021,
+        "value": 26.0166
+      },
+      {
+        "year": 2022,
+        "value": 25.625
+      },
+      {
+        "year": 2023,
+        "value": 25.6019
+      },
+      {
+        "year": 2024,
+        "value": 26.8204
       }
     ],
     "enrollment_headcount_total": [

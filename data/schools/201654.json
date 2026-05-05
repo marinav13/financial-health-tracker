@@ -1,6 +1,6 @@
 {
   "unitid": "201654",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cedarville University",
     "institution_unique_name": "Cedarville University | Cedarville | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 25.7994,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.5361,
-    "net_tuition_per_fte_change_5yr": -19.9863,
+    "net_tuition_per_fte_change_5yr": -17.5268,
     "staff_total_headcount_pct_change_5yr": 21.4575,
     "staff_instructional_headcount_pct_change_5yr": 25.779,
     "students_per_instructional_staff_fte": 14.6809,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 59.554,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.3923,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.8802,
+    "unfunded_discount_pct_change_5yr": 14.7003,
     "share_grad_students": 9.0181,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21691.6403
+        "value": 24126.9769
       },
       {
         "year": 2015,
-        "value": 21426.6691
+        "value": 23986.8904
       },
       {
         "year": 2016,
-        "value": 21614.1623
+        "value": 24301.1542
       },
       {
         "year": 2017,
-        "value": 23168.761
+        "value": 25795.7073
       },
       {
         "year": 2018,
-        "value": 22381.1433
+        "value": 24134.8184
       },
       {
         "year": 2019,
-        "value": 22371.3829
+        "value": 24196.4388
       },
       {
         "year": 2020,
-        "value": 21777.3352
+        "value": 23712.2336
       },
       {
         "year": 2021,
-        "value": 20688.5478
+        "value": 22750.6302
       },
       {
         "year": 2022,
-        "value": 19034.0427
+        "value": 21002.7207
       },
       {
         "year": 2023,
-        "value": 18437.9209
+        "value": 20416.996
       },
       {
         "year": 2024,
-        "value": 17900.1659
+        "value": 19955.5822
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.1274
+      },
+      {
+        "year": 2015,
+        "value": 2.3197
+      },
+      {
+        "year": 2016,
+        "value": 2.4353
+      },
+      {
+        "year": 2017,
+        "value": 2.2388
+      },
+      {
+        "year": 2018,
+        "value": 2.3969
+      },
+      {
+        "year": 2019,
+        "value": 2.511
+      },
+      {
+        "year": 2020,
+        "value": 2.5991
+      },
+      {
+        "year": 2021,
+        "value": 2.7338
+      },
+      {
+        "year": 2022,
+        "value": 2.7383
+      },
+      {
+        "year": 2023,
+        "value": 2.8028
+      },
+      {
+        "year": 2024,
+        "value": 2.8802
       }
     ],
     "enrollment_headcount_total": [

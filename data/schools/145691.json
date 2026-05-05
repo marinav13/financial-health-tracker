@@ -1,6 +1,6 @@
 {
   "unitid": "145691",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Illinois College",
     "institution_unique_name": "Illinois College | Jacksonville | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 28.5279,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.3817,
+    "unfunded_discount_pct_change_5yr": 1.8528,
     "share_grad_students": 0.4695,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12280.8027
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 51.2792
+      },
+      {
+        "year": 2015,
+        "value": 52.9358
+      },
+      {
+        "year": 2016,
+        "value": 51.6819
+      },
+      {
+        "year": 2017,
+        "value": 54.6314
+      },
+      {
+        "year": 2018,
+        "value": 55.59
+      },
+      {
+        "year": 2019,
+        "value": 56.3379
+      },
+      {
+        "year": 2020,
+        "value": 58.0105
+      },
+      {
+        "year": 2021,
+        "value": 57.2057
+      },
+      {
+        "year": 2022,
+        "value": 57.334
+      },
+      {
+        "year": 2023,
+        "value": 56.6525
+      },
+      {
+        "year": 2024,
+        "value": 57.3817
       }
     ],
     "enrollment_headcount_total": [

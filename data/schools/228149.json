@@ -1,6 +1,6 @@
 {
   "unitid": "228149",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. Mary's University",
     "institution_unique_name": "St. Mary's University | San Antonio | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.078,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 17.3626,
-    "net_tuition_per_fte_change_5yr": 1.5005,
+    "net_tuition_per_fte_change_5yr": 4.2436,
     "staff_total_headcount_pct_change_5yr": -6.5854,
     "staff_instructional_headcount_pct_change_5yr": -7.7333,
     "students_per_instructional_staff_fte": 8.1744,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 39.563,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.2162,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.2852,
+    "unfunded_discount_pct_change_5yr": 2.2551,
     "share_grad_students": 36.7914,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1746803,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 47806.4921
+        "value": 51257.2332
       },
       {
         "year": 2015,
-        "value": 20870.8086
+        "value": 22422.9748
       },
       {
         "year": 2016,
-        "value": 28320.9835
+        "value": 30354.4882
       },
       {
         "year": 2017,
-        "value": 27710.2624
+        "value": 29481.8383
       },
       {
         "year": 2018,
-        "value": 26329.487
+        "value": 27479.0997
       },
       {
         "year": 2019,
-        "value": 26986.951
+        "value": 28038.9707
       },
       {
         "year": 2020,
-        "value": 27267.5235
+        "value": 28555.7255
       },
       {
         "year": 2021,
-        "value": 28078.9175
+        "value": 29399.2029
       },
       {
         "year": 2022,
-        "value": 25871.2823
+        "value": 28265.0804
       },
       {
         "year": 2023,
-        "value": 27444.4878
+        "value": 29100.0858
       },
       {
         "year": 2024,
-        "value": 27391.8819
+        "value": 29228.8246
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.5627
+      },
+      {
+        "year": 2015,
+        "value": 27.5162
+      },
+      {
+        "year": 2016,
+        "value": 29.1564
+      },
+      {
+        "year": 2017,
+        "value": 30.8507
+      },
+      {
+        "year": 2018,
+        "value": 34.0672
+      },
+      {
+        "year": 2019,
+        "value": 35.485
+      },
+      {
+        "year": 2020,
+        "value": 34.2916
+      },
+      {
+        "year": 2021,
+        "value": 34.8079
+      },
+      {
+        "year": 2022,
+        "value": 35.5418
+      },
+      {
+        "year": 2023,
+        "value": 36.3963
+      },
+      {
+        "year": 2024,
+        "value": 36.2852
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "217934",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Columbia College",
     "institution_unique_name": "Columbia College | Columbia | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 28.5714,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 26.3449,
-    "net_tuition_per_fte_change_5yr": -12.6325,
+    "net_tuition_per_fte_change_5yr": 4.0299,
     "staff_total_headcount_pct_change_5yr": 23.6434,
     "staff_instructional_headcount_pct_change_5yr": 16.6667,
     "students_per_instructional_staff_fte": 15.4316,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 55.9752,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 18.0326,
+    "unfunded_discount_pct_change_5yr": -14.11,
     "share_grad_students": 26.4734,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15789.1217
+        "value": 16091.5927
       },
       {
         "year": 2015,
-        "value": 15443.5637
+        "value": 15707.0469
       },
       {
         "year": 2016,
-        "value": 15466.0046
+        "value": 15705.9826
       },
       {
         "year": 2017,
-        "value": 15195.1096
+        "value": 15431.6463
       },
       {
         "year": 2018,
-        "value": 13614.1803
+        "value": 13845.1294
       },
       {
         "year": 2019,
-        "value": 15086.195
+        "value": 12669.8494
       },
       {
         "year": 2020,
-        "value": 14685.319
+        "value": 12855.2914
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13180.4372
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.5654
+      },
+      {
+        "year": 2015,
+        "value": 30.4515
+      },
+      {
+        "year": 2016,
+        "value": 29.9944
+      },
+      {
+        "year": 2017,
+        "value": 28.336
+      },
+      {
+        "year": 2018,
+        "value": 15.1247
+      },
+      {
+        "year": 2019,
+        "value": 20.995
+      },
+      {
+        "year": 2020,
+        "value": 12.6578
+      },
+      {
+        "year": 2021,
+        "value": 16.4695
+      },
+      {
+        "year": 2022,
+        "value": 16.5162
+      },
+      {
+        "year": 2023,
+        "value": 18.8428
+      },
+      {
+        "year": 2024,
+        "value": 18.0326
       }
     ],
     "enrollment_headcount_total": [

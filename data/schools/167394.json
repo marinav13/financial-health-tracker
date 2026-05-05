@@ -1,6 +1,6 @@
 {
   "unitid": "167394",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College of Our Lady of the Elms",
     "institution_unique_name": "College of Our Lady of the Elms | Chicopee | Massachusetts",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 59.308,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.2042,
+    "unfunded_discount_pct_change_5yr": 11.6885,
     "share_grad_students": 25.8298,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15937.6234
+        "value": 19010.2782
       },
       {
         "year": 2015,
-        "value": 16796.4828
+        "value": 19891.7494
       },
       {
         "year": 2016,
-        "value": 18661.5584
+        "value": 21670.6727
       },
       {
         "year": 2017,
-        "value": 19394.5335
+        "value": 22479.3523
       },
       {
         "year": 2018,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 17778.0246
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.5588
+      },
+      {
+        "year": 2015,
+        "value": 36.6746
+      },
+      {
+        "year": 2016,
+        "value": 34.1833
+      },
+      {
+        "year": 2017,
+        "value": 34.2887
+      },
+      {
+        "year": 2018,
+        "value": 38.5721
+      },
+      {
+        "year": 2019,
+        "value": 37.7874
+      },
+      {
+        "year": 2020,
+        "value": 35.9775
+      },
+      {
+        "year": 2021,
+        "value": 37.1375
+      },
+      {
+        "year": 2022,
+        "value": 39.3819
+      },
+      {
+        "year": 2023,
+        "value": 39.2814
+      },
+      {
+        "year": 2024,
+        "value": 42.2042
       }
     ],
     "enrollment_headcount_total": [

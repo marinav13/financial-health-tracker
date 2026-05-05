@@ -1,6 +1,6 @@
 {
   "unitid": "173045",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Augsburg University",
     "institution_unique_name": "Augsburg University | Minneapolis | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.3724,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.4578,
-    "net_tuition_per_fte_change_5yr": -23.6193,
+    "net_tuition_per_fte_change_5yr": -23.6032,
     "staff_total_headcount_pct_change_5yr": -17.6781,
     "staff_instructional_headcount_pct_change_5yr": -24.1294,
     "students_per_instructional_staff_fte": 15.2811,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 62.5454,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.3592,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.9882,
+    "unfunded_discount_pct_change_5yr": 21.3205,
     "share_grad_students": 27.6232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22009.8717
+        "value": 22293.1492
       },
       {
         "year": 2015,
-        "value": 23583.4921
+        "value": 23889.3131
       },
       {
         "year": 2016,
-        "value": 22783.7228
+        "value": 23085.5305
       },
       {
         "year": 2017,
-        "value": 21809.8355
+        "value": 22090.3314
       },
       {
         "year": 2018,
-        "value": 21108.9365
+        "value": 21380.4022
       },
       {
         "year": 2019,
-        "value": 21886.1769
+        "value": 22166.3027
       },
       {
         "year": 2020,
-        "value": 19354.3619
+        "value": 19603.9094
       },
       {
         "year": 2021,
-        "value": 17368.082
+        "value": 17611.6977
       },
       {
         "year": 2022,
-        "value": 16865.528
+        "value": 17104.6673
       },
       {
         "year": 2023,
-        "value": 16600.1472
+        "value": 16830.2058
       },
       {
         "year": 2024,
-        "value": 16716.8249
+        "value": 16934.339
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.8365
+      },
+      {
+        "year": 2015,
+        "value": 33.6718
+      },
+      {
+        "year": 2016,
+        "value": 38.3603
+      },
+      {
+        "year": 2017,
+        "value": 39.9597
+      },
+      {
+        "year": 2018,
+        "value": 41.1164
+      },
+      {
+        "year": 2019,
+        "value": 42.0276
+      },
+      {
+        "year": 2020,
+        "value": 44.5237
+      },
+      {
+        "year": 2021,
+        "value": 47.4457
+      },
+      {
+        "year": 2022,
+        "value": 48.3757
+      },
+      {
+        "year": 2023,
+        "value": 50.162
+      },
+      {
+        "year": 2024,
+        "value": 50.9882
       }
     ],
     "enrollment_headcount_total": [

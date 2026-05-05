@@ -1,6 +1,6 @@
 {
   "unitid": "199962",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wingate University",
     "institution_unique_name": "Wingate University | Wingate | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 45.3713,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 61.0305,
+    "unfunded_discount_pct_change_5yr": 16.7653,
     "share_grad_students": 26.0991,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18279.1027
+        "value": 20938.2387
       },
       {
         "year": 2015,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 19221.1126
+        "value": 17718.3287
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12638.1225
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.9066
+      },
+      {
+        "year": 2015,
+        "value": 40.9672
+      },
+      {
+        "year": 2016,
+        "value": 43.3006
+      },
+      {
+        "year": 2017,
+        "value": 46.6859
+      },
+      {
+        "year": 2018,
+        "value": 49.6558
+      },
+      {
+        "year": 2019,
+        "value": 52.2677
+      },
+      {
+        "year": 2020,
+        "value": 52.801
+      },
+      {
+        "year": 2021,
+        "value": 52.3152
+      },
+      {
+        "year": 2022,
+        "value": 54.3381
+      },
+      {
+        "year": 2023,
+        "value": 58.3073
+      },
+      {
+        "year": 2024,
+        "value": 61.0305
       }
     ],
     "enrollment_headcount_total": [

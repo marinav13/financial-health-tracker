@@ -1,6 +1,6 @@
 {
   "unitid": "487524",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Husson University",
     "institution_unique_name": "Husson University | Bangor | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.1568,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.5263,
-    "net_tuition_per_fte_change_5yr": -14.279,
+    "net_tuition_per_fte_change_5yr": -12.9595,
     "staff_total_headcount_pct_change_5yr": 12.0588,
     "staff_instructional_headcount_pct_change_5yr": 8.6592,
     "students_per_instructional_staff_fte": 13.2359,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 55.2408,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.6617,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.5376,
+    "unfunded_discount_pct_change_5yr": 14.2191,
     "share_grad_students": 18.2185,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -151,43 +153,85 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 20349.0002
+        "value": 20577.9572
       },
       {
         "year": 2016,
-        "value": 18535.0042
+        "value": 18738.4311
       },
       {
         "year": 2017,
-        "value": 17742.3453
+        "value": 17776.7266
       },
       {
         "year": 2018,
-        "value": 17198.7852
+        "value": 17097.522
       },
       {
         "year": 2019,
-        "value": 16620.2343
+        "value": 16492.9606
       },
       {
         "year": 2020,
-        "value": 16160.1378
+        "value": 16751.3673
       },
       {
         "year": 2021,
-        "value": 15259.0692
+        "value": 16063.8835
       },
       {
         "year": 2022,
-        "value": 13327.1259
+        "value": 14987.9372
       },
       {
         "year": 2023,
-        "value": 14353.4561
+        "value": 14500.5724
       },
       {
         "year": 2024,
-        "value": 14247.0231
+        "value": 14355.558
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2015,
+        "value": 17.9048
+      },
+      {
+        "year": 2016,
+        "value": 19.1011
+      },
+      {
+        "year": 2017,
+        "value": 21.6192
+      },
+      {
+        "year": 2018,
+        "value": 23.6876
+      },
+      {
+        "year": 2019,
+        "value": 27.6115
+      },
+      {
+        "year": 2020,
+        "value": 26.953
+      },
+      {
+        "year": 2021,
+        "value": 28.3595
+      },
+      {
+        "year": 2022,
+        "value": 29.824
+      },
+      {
+        "year": 2023,
+        "value": 31.5927
+      },
+      {
+        "year": 2024,
+        "value": 31.5376
       }
     ],
     "enrollment_headcount_total": [

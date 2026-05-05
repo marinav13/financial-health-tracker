@@ -1,6 +1,6 @@
 {
   "unitid": "110361",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "California Baptist University",
     "institution_unique_name": "California Baptist University | Riverside | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.3394,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -1.029,
-    "net_tuition_per_fte_change_5yr": -16.4218,
+    "net_tuition_per_fte_change_5yr": -15.824,
     "staff_total_headcount_pct_change_5yr": 7.6331,
     "staff_instructional_headcount_pct_change_5yr": -5.4087,
     "students_per_instructional_staff_fte": 22.554,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 76.8769,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.5634,
+    "unfunded_discount_pct_change_5yr": 19.9396,
     "share_grad_students": 30.8344,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2330412,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24678.636
+        "value": 24607.3315
       },
       {
         "year": 2015,
-        "value": 24975.8044
+        "value": 24940.2868
       },
       {
         "year": 2016,
-        "value": 24685.4466
+        "value": 24601.6676
       },
       {
         "year": 2017,
-        "value": 24450.9575
+        "value": 24377.9588
       },
       {
         "year": 2018,
-        "value": 23326.4878
+        "value": 23249.9413
       },
       {
         "year": 2019,
-        "value": 23652.0292
+        "value": 23484.0771
       },
       {
         "year": 2020,
-        "value": 23894.7488
+        "value": 23710.1234
       },
       {
         "year": 2021,
-        "value": 21745.9618
+        "value": 21749.7775
       },
       {
         "year": 2022,
-        "value": 21212.6213
+        "value": 21290.7417
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 19767.9453
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.5632
+      },
+      {
+        "year": 2015,
+        "value": 23.1329
+      },
+      {
+        "year": 2016,
+        "value": 23.5999
+      },
+      {
+        "year": 2017,
+        "value": 24.4054
+      },
+      {
+        "year": 2018,
+        "value": 27.5225
+      },
+      {
+        "year": 2019,
+        "value": 28.8173
+      },
+      {
+        "year": 2020,
+        "value": 29.3098
+      },
+      {
+        "year": 2021,
+        "value": 32.1516
+      },
+      {
+        "year": 2022,
+        "value": 32.2051
+      },
+      {
+        "year": 2023,
+        "value": 34.0705
+      },
+      {
+        "year": 2024,
+        "value": 34.5634
       }
     ],
     "enrollment_headcount_total": [

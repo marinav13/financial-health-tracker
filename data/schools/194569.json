@@ -1,6 +1,6 @@
 {
   "unitid": "194569",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Davis College",
     "institution_unique_name": "Davis College | Pottersville | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -39.0152,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -71.2048,
-    "net_tuition_per_fte_change_5yr": -36.7053,
+    "net_tuition_per_fte_change_5yr": -44.1873,
     "staff_total_headcount_pct_change_5yr": -11.7647,
     "staff_instructional_headcount_pct_change_5yr": -18.5185,
     "students_per_instructional_staff_fte": 8.3,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 50.2885,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.549,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.4955,
+    "unfunded_discount_pct_change_5yr": 44.3036,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12495.7674
+        "value": 9970.3362
       },
       {
         "year": 2015,
-        "value": 11974.2443
+        "value": 10177.4079
       },
       {
         "year": 2016,
-        "value": 11459.9205
+        "value": 9627.8449
       },
       {
         "year": 2017,
-        "value": 13295.1409
+        "value": 11467.102
       },
       {
         "year": 2018,
-        "value": 12976.1574
+        "value": 11185.5135
       },
       {
         "year": 2019,
-        "value": 12622.8809
+        "value": 10403.9811
       },
       {
         "year": 2020,
-        "value": 9184.4537
+        "value": 8399.7797
       },
       {
         "year": 2021,
-        "value": 8041.0518
+        "value": 5814.6854
       },
       {
         "year": 2022,
-        "value": 7850.3017
+        "value": 4611.4748
       },
       {
         "year": 2023,
-        "value": 7445.4239
+        "value": 4891.325
       },
       {
         "year": 2024,
-        "value": 7989.6145
+        "value": 5806.747
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 16.3128
+      },
+      {
+        "year": 2015,
+        "value": 14.7485
+      },
+      {
+        "year": 2016,
+        "value": 8.2043
+      },
+      {
+        "year": 2017,
+        "value": 9.9179
+      },
+      {
+        "year": 2018,
+        "value": 13.8576
+      },
+      {
+        "year": 2019,
+        "value": 20.4399
+      },
+      {
+        "year": 2020,
+        "value": 13.3493
+      },
+      {
+        "year": 2021,
+        "value": 28.8628
+      },
+      {
+        "year": 2022,
+        "value": 41.6732
+      },
+      {
+        "year": 2023,
+        "value": 37.68
+      },
+      {
+        "year": 2024,
+        "value": 29.4955
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "153278",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Dubuque",
     "institution_unique_name": "University of Dubuque | Dubuque | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.5603,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 68.6105,
-    "net_tuition_per_fte_change_5yr": 10.9866,
+    "net_tuition_per_fte_change_5yr": 10.979,
     "staff_total_headcount_pct_change_5yr": -2.8037,
     "staff_instructional_headcount_pct_change_5yr": -11.588,
     "students_per_instructional_staff_fte": 11.9605,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 35.1665,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.2984,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.6922,
+    "unfunded_discount_pct_change_5yr": -18.3688,
     "share_grad_students": 20.5558,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 22844.9506
+        "value": 22928.5275
       },
       {
         "year": 2019,
-        "value": 24605.1105
+        "value": 24699.0621
       },
       {
         "year": 2020,
-        "value": 25519.1948
+        "value": 25603.513
       },
       {
         "year": 2021,
-        "value": 26055.2591
+        "value": 24655.5429
       },
       {
         "year": 2022,
-        "value": 24054.3813
+        "value": 21985.8144
       },
       {
         "year": 2023,
-        "value": 27639.8064
+        "value": 27743.7386
       },
       {
         "year": 2024,
-        "value": 27308.3795
+        "value": 27410.7822
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 3.7345
+      },
+      {
+        "year": 2015,
+        "value": 4.3361
+      },
+      {
+        "year": 2016,
+        "value": 2.8518
+      },
+      {
+        "year": 2017,
+        "value": 2.4131
+      },
+      {
+        "year": 2018,
+        "value": 4.3959
+      },
+      {
+        "year": 2019,
+        "value": 5.748
+      },
+      {
+        "year": 2020,
+        "value": 6.2654
+      },
+      {
+        "year": 2021,
+        "value": 8.6922
+      },
+      {
+        "year": 2022,
+        "value": 10.6369
+      },
+      {
+        "year": 2023,
+        "value": 4.6125
+      },
+      {
+        "year": 2024,
+        "value": 4.6922
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "202806",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franklin University",
     "institution_unique_name": "Franklin University | Columbus | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 60.2596,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -1.4335,
-    "net_tuition_per_fte_change_5yr": -37.4372,
+    "net_tuition_per_fte_change_5yr": -39.783,
     "staff_total_headcount_pct_change_5yr": 8.741,
     "staff_instructional_headcount_pct_change_5yr": 17.5439,
     "students_per_instructional_staff_fte": 17.6612,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 72.1042,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 12.1293,
+    "unfunded_discount_pct_change_5yr": 218.6468,
     "share_grad_students": 30.7721,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18175.9201
+        "value": 18450.6435
       },
       {
         "year": 2015,
-        "value": 18254.665
+        "value": 18570.9762
       },
       {
         "year": 2016,
-        "value": 18998.0053
+        "value": 19238.3588
       },
       {
         "year": 2017,
-        "value": 18896.9957
+        "value": 19195.6852
       },
       {
         "year": 2018,
-        "value": 17656.8544
+        "value": 17907.097
       },
       {
         "year": 2019,
-        "value": 14547.3561
+        "value": 15114.0699
       },
       {
         "year": 2020,
-        "value": 13543.1463
+        "value": 13531.2622
       },
       {
         "year": 2021,
-        "value": 13258.2115
+        "value": 13491.3145
       },
       {
         "year": 2022,
-        "value": 10546.3191
+        "value": 10849.9374
       },
       {
         "year": 2023,
-        "value": 9436.406
+        "value": 9698.9638
       },
       {
         "year": 2024,
         "value": 9101.2397
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0.4159
+      },
+      {
+        "year": 2015,
+        "value": 0.242
+      },
+      {
+        "year": 2016,
+        "value": 0.4876
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 3.8065
+      },
+      {
+        "year": 2020,
+        "value": 7.7419
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 12.1293
       }
     ],
     "enrollment_headcount_total": [

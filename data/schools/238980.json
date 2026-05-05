@@ -1,6 +1,6 @@
 {
   "unitid": "238980",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lakeland University",
     "institution_unique_name": "Lakeland University | Plymouth | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 16.5591,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -23.1672,
-    "net_tuition_per_fte_change_5yr": -10.2044,
+    "net_tuition_per_fte_change_5yr": -6.8417,
     "staff_total_headcount_pct_change_5yr": -18.9252,
     "staff_instructional_headcount_pct_change_5yr": -24.3243,
     "students_per_instructional_staff_fte": 18.895,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 51.765,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.4006,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.4625,
+    "unfunded_discount_pct_change_5yr": 20.3487,
     "share_grad_students": 17.2251,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13584.9565
+        "value": 13640.9815
       },
       {
         "year": 2015,
-        "value": 11318.8369
+        "value": 11495.351
       },
       {
         "year": 2016,
-        "value": 14649.8504
+        "value": 14564.5707
       },
       {
         "year": 2017,
-        "value": 12675.5282
+        "value": 12599.4459
       },
       {
         "year": 2018,
-        "value": 14570.6691
+        "value": 14516.3902
       },
       {
         "year": 2019,
-        "value": 14017.9038
+        "value": 13938.8353
       },
       {
         "year": 2020,
-        "value": 14490.5166
+        "value": 14726.4154
       },
       {
         "year": 2021,
-        "value": 13539.2371
+        "value": 13712.5453
       },
       {
         "year": 2022,
-        "value": 16411.0712
+        "value": 16627.4643
       },
       {
         "year": 2023,
-        "value": 15109.9451
+        "value": 15345.3515
       },
       {
         "year": 2024,
-        "value": 12587.457
+        "value": 12985.1808
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8827
+      },
+      {
+        "year": 2015,
+        "value": 24.7748
+      },
+      {
+        "year": 2016,
+        "value": 24.4323
+      },
+      {
+        "year": 2017,
+        "value": 26.9055
+      },
+      {
+        "year": 2018,
+        "value": 28.6891
+      },
+      {
+        "year": 2019,
+        "value": 32.7901
+      },
+      {
+        "year": 2020,
+        "value": 32.8836
+      },
+      {
+        "year": 2021,
+        "value": 36.7657
+      },
+      {
+        "year": 2022,
+        "value": 33.814
+      },
+      {
+        "year": 2023,
+        "value": 37.9446
+      },
+      {
+        "year": 2024,
+        "value": 39.4625
       }
     ],
     "enrollment_headcount_total": [

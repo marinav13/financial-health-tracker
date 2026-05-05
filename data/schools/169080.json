@@ -1,6 +1,6 @@
 {
   "unitid": "169080",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Calvin University",
     "institution_unique_name": "Calvin University | Grand Rapids | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.7498,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.6971,
-    "net_tuition_per_fte_change_5yr": -33.7566,
+    "net_tuition_per_fte_change_5yr": -34.5395,
     "staff_total_headcount_pct_change_5yr": 10.1553,
     "staff_instructional_headcount_pct_change_5yr": 10.9948,
     "students_per_instructional_staff_fte": 11.9893,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 31.214,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.3571,
+    "unfunded_discount_pct_change_5yr": 27.927,
     "share_grad_students": 11.5824,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1835000,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22278.2699
+        "value": 22634.535
       },
       {
         "year": 2015,
-        "value": 22341.724
+        "value": 22678.6322
       },
       {
         "year": 2016,
-        "value": 22159.7818
+        "value": 22441.286
       },
       {
         "year": 2017,
-        "value": 21772.9158
+        "value": 22186.2897
       },
       {
         "year": 2018,
-        "value": 21101.5089
+        "value": 21486.6667
       },
       {
         "year": 2019,
-        "value": 20916.1492
+        "value": 21166.3218
       },
       {
         "year": 2020,
-        "value": 19589.6628
+        "value": 19473.3609
       },
       {
         "year": 2021,
-        "value": 18985.5637
+        "value": 18648.0869
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 14551.2699
+        "value": 14551.5947
       },
       {
         "year": 2024,
         "value": 13855.5721
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.314
+      },
+      {
+        "year": 2015,
+        "value": 34.162
+      },
+      {
+        "year": 2016,
+        "value": 36.2447
+      },
+      {
+        "year": 2017,
+        "value": 38.1282
+      },
+      {
+        "year": 2018,
+        "value": 40.8656
+      },
+      {
+        "year": 2019,
+        "value": 41.7091
+      },
+      {
+        "year": 2020,
+        "value": 44.3098
+      },
+      {
+        "year": 2021,
+        "value": 46.9501
+      },
+      {
+        "year": 2022,
+        "value": 50.489
+      },
+      {
+        "year": 2023,
+        "value": 52.6807
+      },
+      {
+        "year": 2024,
+        "value": 53.3571
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "198419",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Duke University",
     "institution_unique_name": "Duke University | Durham | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.1069,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 29.2809,
-    "net_tuition_per_fte_change_5yr": 0.1999,
+    "net_tuition_per_fte_change_5yr": -0.4405,
     "staff_total_headcount_pct_change_5yr": -3.0283,
     "staff_instructional_headcount_pct_change_5yr": 5.725,
     "students_per_instructional_staff_fte": 3.3205,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 5.3334,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 5% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 5.0103,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 5% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.5644,
+    "unfunded_discount_pct_change_5yr": -3.0803,
     "share_grad_students": 63.9107,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1223967000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 33388.854
+        "value": 31636.492
       },
       {
         "year": 2015,
-        "value": 43150.353
+        "value": 40773.8027
       },
       {
         "year": 2016,
-        "value": 44790.967
+        "value": 42315.4316
       },
       {
         "year": 2017,
-        "value": 45861.7869
+        "value": 43357.0805
       },
       {
         "year": 2018,
-        "value": 42682.5785
+        "value": 40333.4742
       },
       {
         "year": 2019,
-        "value": 41556.9285
+        "value": 39290.3834
       },
       {
         "year": 2020,
-        "value": 42107.6413
+        "value": 39822.4588
       },
       {
         "year": 2021,
-        "value": 39674.5977
+        "value": 37442.3979
       },
       {
         "year": 2022,
-        "value": 47165.586
+        "value": 44697.1458
       },
       {
         "year": 2023,
-        "value": 41628.8097
+        "value": 39239.8898
       },
       {
         "year": 2024,
-        "value": 41639.9973
+        "value": 39117.3181
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.7573
+      },
+      {
+        "year": 2015,
+        "value": 27.6277
+      },
+      {
+        "year": 2016,
+        "value": 27.1009
+      },
+      {
+        "year": 2017,
+        "value": 27.3584
+      },
+      {
+        "year": 2018,
+        "value": 28.1625
+      },
+      {
+        "year": 2019,
+        "value": 29.4723
+      },
+      {
+        "year": 2020,
+        "value": 30.1315
+      },
+      {
+        "year": 2021,
+        "value": 29.8823
+      },
+      {
+        "year": 2022,
+        "value": 28.4621
+      },
+      {
+        "year": 2023,
+        "value": 28.3735
+      },
+      {
+        "year": 2024,
+        "value": 28.5644
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "155627",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ottawa University-Ottawa",
     "institution_unique_name": "Ottawa University-Ottawa | Ottawa | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 34.4994,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -10.3279,
-    "net_tuition_per_fte_change_5yr": -42.5538,
+    "net_tuition_per_fte_change_5yr": -42.5182,
     "staff_total_headcount_pct_change_5yr": 18.4615,
     "staff_instructional_headcount_pct_change_5yr": 50,
     "students_per_instructional_staff_fte": 21.4737,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 60.2973,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 60.3347,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.0962,
+    "unfunded_discount_pct_change_5yr": 41.5734,
     "share_grad_students": 13.6323,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 78375.5744
+        "value": 78377.765
       },
       {
         "year": 2021,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 40711.8834
+        "value": 40737.0977
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.0035
+      },
+      {
+        "year": 2015,
+        "value": 24.3924
+      },
+      {
+        "year": 2016,
+        "value": 27.0758
+      },
+      {
+        "year": 2017,
+        "value": 27.6204
+      },
+      {
+        "year": 2018,
+        "value": 32.2477
+      },
+      {
+        "year": 2019,
+        "value": 33.2663
+      },
+      {
+        "year": 2020,
+        "value": 32.7977
+      },
+      {
+        "year": 2021,
+        "value": 36.347
+      },
+      {
+        "year": 2022,
+        "value": 40.1302
+      },
+      {
+        "year": 2023,
+        "value": 42.8609
+      },
+      {
+        "year": 2024,
+        "value": 47.0962
       }
     ],
     "enrollment_headcount_total": [

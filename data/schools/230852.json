@@ -1,6 +1,6 @@
 {
   "unitid": "230852",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Champlain College",
     "institution_unique_name": "Champlain College | Burlington | Vermont",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.7855,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.974,
-    "net_tuition_per_fte_change_5yr": -18.1001,
+    "net_tuition_per_fte_change_5yr": -17.8028,
     "staff_total_headcount_pct_change_5yr": -8.9337,
     "staff_instructional_headcount_pct_change_5yr": -5.4726,
     "students_per_instructional_staff_fte": 15.3147,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 54.6807,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.1419,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.5487,
+    "unfunded_discount_pct_change_5yr": 24.1167,
     "share_grad_students": 18.8021,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29513.9205
+        "value": 29663.6516
       },
       {
         "year": 2015,
-        "value": 28547.3445
+        "value": 28692.8446
       },
       {
         "year": 2016,
-        "value": 25565.3349
+        "value": 25680.6818
       },
       {
         "year": 2017,
-        "value": 23157.0357
+        "value": 23254.0245
       },
       {
         "year": 2018,
-        "value": 22558.8952
+        "value": 22662.3267
       },
       {
         "year": 2019,
-        "value": 21559.7258
+        "value": 21662.928
       },
       {
         "year": 2020,
-        "value": 21430.6324
+        "value": 21677.854
       },
       {
         "year": 2021,
-        "value": 19837.2896
+        "value": 20118.5536
       },
       {
         "year": 2022,
-        "value": 19064.1144
+        "value": 19256.6297
       },
       {
         "year": 2023,
-        "value": 17580.6976
+        "value": 17713.2807
       },
       {
         "year": 2024,
-        "value": 17657.3976
+        "value": 17806.3253
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.7149
+      },
+      {
+        "year": 2015,
+        "value": 27.0009
+      },
+      {
+        "year": 2016,
+        "value": 30.4239
+      },
+      {
+        "year": 2017,
+        "value": 31.4308
+      },
+      {
+        "year": 2018,
+        "value": 32.4075
+      },
+      {
+        "year": 2019,
+        "value": 35.8926
+      },
+      {
+        "year": 2020,
+        "value": 37.0302
+      },
+      {
+        "year": 2021,
+        "value": 38.5351
+      },
+      {
+        "year": 2022,
+        "value": 41.3967
+      },
+      {
+        "year": 2023,
+        "value": 43.6043
+      },
+      {
+        "year": 2024,
+        "value": 44.5487
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "198303",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Chowan University",
     "institution_unique_name": "Chowan University | Murfreesboro | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -46.6667,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -57.8208,
-    "net_tuition_per_fte_change_5yr": -31.4219,
+    "net_tuition_per_fte_change_5yr": -32.1498,
     "staff_total_headcount_pct_change_5yr": -33.4975,
     "staff_instructional_headcount_pct_change_5yr": -39.6226,
     "students_per_instructional_staff_fte": 21.0312,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 37.9122,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 63.5146,
+    "unfunded_discount_pct_change_5yr": 17.5534,
     "share_grad_students": 13.648,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15061.423
+        "value": 15217.0913
       },
       {
         "year": 2015,
-        "value": 15156.7374
+        "value": 15303.6879
       },
       {
         "year": 2016,
-        "value": 14246.6189
+        "value": 14385.9776
       },
       {
         "year": 2017,
-        "value": 13539.1831
+        "value": 13671.3821
       },
       {
         "year": 2018,
-        "value": 13094.2239
+        "value": 13229.7694
       },
       {
         "year": 2019,
-        "value": 12856.3112
+        "value": 12994.2185
       },
       {
         "year": 2020,
-        "value": 11870.4779
+        "value": 12069.3076
       },
       {
         "year": 2021,
-        "value": 12406.7115
+        "value": 12763.4285
       },
       {
         "year": 2022,
-        "value": 9872.2628
+        "value": 10269.9561
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 8816.6092
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.7168
+      },
+      {
+        "year": 2015,
+        "value": 47.1398
+      },
+      {
+        "year": 2016,
+        "value": 50.232
+      },
+      {
+        "year": 2017,
+        "value": 51.8309
+      },
+      {
+        "year": 2018,
+        "value": 53.0886
+      },
+      {
+        "year": 2019,
+        "value": 54.0304
+      },
+      {
+        "year": 2020,
+        "value": 57.9125
+      },
+      {
+        "year": 2021,
+        "value": 55.3974
+      },
+      {
+        "year": 2022,
+        "value": 59.1626
+      },
+      {
+        "year": 2023,
+        "value": 63.7449
+      },
+      {
+        "year": 2024,
+        "value": 63.5146
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "217059",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "York College of Pennsylvania",
     "institution_unique_name": "York College of Pennsylvania | York | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.5855,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -9.3165,
-    "net_tuition_per_fte_change_5yr": -10.7386,
+    "net_tuition_per_fte_change_5yr": -11.0446,
     "staff_total_headcount_pct_change_5yr": -19.9773,
     "staff_instructional_headcount_pct_change_5yr": -15.8014,
     "students_per_instructional_staff_fte": 14.9562,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 45.0862,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, about the same as the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.2825,
+    "unfunded_discount_pct_change_5yr": 73.6942,
     "share_grad_students": 13.3776,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18184.9044
+        "value": 18257.2618
       },
       {
         "year": 2015,
-        "value": 18335.1818
+        "value": 18403.444
       },
       {
         "year": 2016,
-        "value": 18717.4696
+        "value": 18743.8464
       },
       {
         "year": 2017,
-        "value": 18185.5105
+        "value": 18262.1074
       },
       {
         "year": 2018,
-        "value": 18092.8273
+        "value": 18113.3371
       },
       {
         "year": 2019,
-        "value": 18154.6765
+        "value": 18217.1315
       },
       {
         "year": 2020,
-        "value": 18440.4535
+        "value": 18521.671
       },
       {
         "year": 2021,
-        "value": 18571.3804
+        "value": 18613.0861
       },
       {
         "year": 2022,
-        "value": 17103.2573
+        "value": 17460.045
       },
       {
         "year": 2023,
-        "value": 16611.0178
+        "value": 17004.9056
       },
       {
         "year": 2024,
         "value": 16205.1163
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.7454
+      },
+      {
+        "year": 2015,
+        "value": 17.1291
+      },
+      {
+        "year": 2016,
+        "value": 17.4341
+      },
+      {
+        "year": 2017,
+        "value": 15.7725
+      },
+      {
+        "year": 2018,
+        "value": 17.9085
+      },
+      {
+        "year": 2019,
+        "value": 18.5858
+      },
+      {
+        "year": 2020,
+        "value": 20.7219
+      },
+      {
+        "year": 2021,
+        "value": 22.3741
+      },
+      {
+        "year": 2022,
+        "value": 23.5068
+      },
+      {
+        "year": 2023,
+        "value": 24.0971
+      },
+      {
+        "year": 2024,
+        "value": 32.2825
       }
     ],
     "enrollment_headcount_total": [

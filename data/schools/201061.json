@@ -1,6 +1,6 @@
 {
   "unitid": "201061",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Art Academy of Cincinnati",
     "institution_unique_name": "Art Academy of Cincinnati | Cincinnati | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 21.2963,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.6606,
-    "net_tuition_per_fte_change_5yr": -15.3333,
+    "net_tuition_per_fte_change_5yr": -13.3935,
     "staff_total_headcount_pct_change_5yr": -16.3265,
     "staff_instructional_headcount_pct_change_5yr": -8.3333,
     "students_per_instructional_staff_fte": 10.5937,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 70.9127,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.4728,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 1.5267,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34574.813
+        "value": 35521.8883
       },
       {
         "year": 2015,
-        "value": 38565.0766
+        "value": 43332.7708
       },
       {
         "year": 2016,
-        "value": 39553.7292
+        "value": 43169.2092
       },
       {
         "year": 2017,
-        "value": 25124.6037
+        "value": 24658.8081
       },
       {
         "year": 2018,
-        "value": 27028.7365
+        "value": 26687.49
       },
       {
         "year": 2019,
-        "value": 25437.3335
+        "value": 24867.5936
       },
       {
         "year": 2020,
-        "value": 26369.8759
+        "value": 26070.9992
       },
       {
         "year": 2021,
-        "value": 24716.9371
+        "value": 24718.7122
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21536.9469
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.0801
+      },
+      {
+        "year": 2015,
+        "value": 27.5781
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 43.3525
+      },
+      {
+        "year": 2022,
+        "value": 45.1894
+      },
+      {
+        "year": 2023,
+        "value": 45.5278
+      },
+      {
+        "year": 2024,
+        "value": 45.4728
       }
     ],
     "enrollment_headcount_total": [

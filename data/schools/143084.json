@@ -1,6 +1,6 @@
 {
   "unitid": "143084",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Augustana College",
     "institution_unique_name": "Augustana College | Rock Island | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.7301,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1.4401,
-    "net_tuition_per_fte_change_5yr": -18.8442,
+    "net_tuition_per_fte_change_5yr": -28.9726,
     "staff_total_headcount_pct_change_5yr": -6.867,
     "staff_instructional_headcount_pct_change_5yr": -5.6818,
     "students_per_instructional_staff_fte": 12.1087,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 39.5619,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 34.869,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 64.5405,
+    "unfunded_discount_pct_change_5yr": 16.4348,
     "share_grad_students": 2.0344,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 405292,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23588.646
+        "value": 23736.7824
       },
       {
         "year": 2015,
-        "value": 23140.0271
+        "value": 23289.9009
       },
       {
         "year": 2016,
-        "value": 22386.4916
+        "value": 24705.3682
       },
       {
         "year": 2017,
-        "value": 21785.7172
+        "value": 21926.5953
       },
       {
         "year": 2018,
-        "value": 20650.0383
+        "value": 20781.5155
       },
       {
         "year": 2019,
-        "value": 20264.7853
+        "value": 20407.9052
       },
       {
         "year": 2020,
-        "value": 20129.0369
+        "value": 20277.7352
       },
       {
         "year": 2021,
-        "value": 19320.7465
+        "value": 19463.4652
       },
       {
         "year": 2022,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 16446.0386
+        "value": 14495.1998
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.9147
+      },
+      {
+        "year": 2015,
+        "value": 47.9011
+      },
+      {
+        "year": 2016,
+        "value": 49.952
+      },
+      {
+        "year": 2017,
+        "value": 51.7404
+      },
+      {
+        "year": 2018,
+        "value": 54.4612
+      },
+      {
+        "year": 2019,
+        "value": 55.4306
+      },
+      {
+        "year": 2020,
+        "value": 55.2529
+      },
+      {
+        "year": 2021,
+        "value": 56.0697
+      },
+      {
+        "year": 2022,
+        "value": 59.4288
+      },
+      {
+        "year": 2023,
+        "value": 59.9091
+      },
+      {
+        "year": 2024,
+        "value": 64.5405
       }
     ],
     "enrollment_headcount_total": [

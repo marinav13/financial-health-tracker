@@ -1,6 +1,6 @@
 {
   "unitid": "102377",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Tuskegee University",
     "institution_unique_name": "Tuskegee University | Tuskegee | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 26.7564,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 17.6403,
-    "net_tuition_per_fte_change_5yr": -37.7732,
+    "net_tuition_per_fte_change_5yr": -36.2613,
     "staff_total_headcount_pct_change_5yr": -10.2332,
     "staff_instructional_headcount_pct_change_5yr": -7.4733,
     "students_per_instructional_staff_fte": 11.5246,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 17.3929,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.891,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.8439,
+    "unfunded_discount_pct_change_5yr": 52.7464,
     "share_grad_students": 15.6132,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 30253941,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20590.1083
+        "value": 19782.6497
       },
       {
         "year": 2015,
-        "value": 21041.9596
+        "value": 20087.9869
       },
       {
         "year": 2016,
-        "value": 22675.9988
+        "value": 22706.3944
       },
       {
         "year": 2017,
-        "value": 21294.916
+        "value": 21400.8719
       },
       {
         "year": 2018,
-        "value": 21621.6549
+        "value": 21654.4457
       },
       {
         "year": 2019,
-        "value": 19583.9253
+        "value": 19666.8424
       },
       {
         "year": 2020,
-        "value": 20050.738
+        "value": 20041.928
       },
       {
         "year": 2021,
-        "value": 18537.9399
+        "value": 18647.7862
       },
       {
         "year": 2022,
-        "value": 15082.5894
+        "value": 15738.3221
       },
       {
         "year": 2023,
-        "value": 14160.7659
+        "value": 13309.5187
       },
       {
         "year": 2024,
-        "value": 12186.4406
+        "value": 12535.3979
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.1365
+      },
+      {
+        "year": 2015,
+        "value": 31.5974
+      },
+      {
+        "year": 2016,
+        "value": 25.0681
+      },
+      {
+        "year": 2017,
+        "value": 25.2799
+      },
+      {
+        "year": 2018,
+        "value": 25.5613
+      },
+      {
+        "year": 2019,
+        "value": 23.4663
+      },
+      {
+        "year": 2020,
+        "value": 25.9269
+      },
+      {
+        "year": 2021,
+        "value": 27.6171
+      },
+      {
+        "year": 2022,
+        "value": 32.5735
+      },
+      {
+        "year": 2023,
+        "value": 38.4298
+      },
+      {
+        "year": 2024,
+        "value": 35.8439
       }
     ],
     "enrollment_headcount_total": [

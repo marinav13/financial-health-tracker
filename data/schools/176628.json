@@ -1,6 +1,6 @@
 {
   "unitid": "176628",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Avila University",
     "institution_unique_name": "Avila University | Kansas City | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 21.7793,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.0841,
-    "net_tuition_per_fte_change_5yr": -32.6882,
+    "net_tuition_per_fte_change_5yr": -23.6899,
     "staff_total_headcount_pct_change_5yr": 16.0763,
     "staff_instructional_headcount_pct_change_5yr": 3.2864,
     "students_per_instructional_staff_fte": 16.65,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 54.1683,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.4096,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.5429,
+    "unfunded_discount_pct_change_5yr": 141.3205,
     "share_grad_students": 44.3912,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 12859.2363
+        "value": 14552.686
       },
       {
         "year": 2023,
-        "value": 11193.7145
+        "value": 12686.6148
       },
       {
         "year": 2024,
-        "value": 10617.598
+        "value": 12036.9735
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.6306
+      },
+      {
+        "year": 2015,
+        "value": 34.888
+      },
+      {
+        "year": 2016,
+        "value": 36.7178
+      },
+      {
+        "year": 2017,
+        "value": 37.042
+      },
+      {
+        "year": 2018,
+        "value": 38.2187
+      },
+      {
+        "year": 2019,
+        "value": 23.0162
+      },
+      {
+        "year": 2020,
+        "value": 24.7065
+      },
+      {
+        "year": 2021,
+        "value": 26.3679
+      },
+      {
+        "year": 2022,
+        "value": 29.6503
+      },
+      {
+        "year": 2023,
+        "value": 34.1269
+      },
+      {
+        "year": 2024,
+        "value": 55.5429
       }
     ],
     "enrollment_headcount_total": [

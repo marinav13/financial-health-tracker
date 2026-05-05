@@ -1,6 +1,6 @@
 {
   "unitid": "120254",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Occidental College",
     "institution_unique_name": "Occidental College | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.7299,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 12.7296,
-    "net_tuition_per_fte_change_5yr": 3.461,
+    "net_tuition_per_fte_change_5yr": 2.9316,
     "staff_total_headcount_pct_change_5yr": 0.5122,
     "staff_instructional_headcount_pct_change_5yr": 5.0388,
     "students_per_instructional_staff_fte": 8.6622,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 35.7706,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.8518,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.472,
+    "unfunded_discount_pct_change_5yr": -11.7104,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5977842,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 36160.59
+        "value": 36296.4788
       },
       {
         "year": 2016,
-        "value": 36609.7235
+        "value": 36729.7961
       },
       {
         "year": 2017,
-        "value": 37158.5164
+        "value": 37286.6285
       },
       {
         "year": 2018,
-        "value": 36395.3085
+        "value": 36625.3375
       },
       {
         "year": 2019,
-        "value": 36115.9611
+        "value": 36384.1782
       },
       {
         "year": 2020,
-        "value": 38117.5656
+        "value": 38342.8293
       },
       {
         "year": 2021,
-        "value": 32314.1731
+        "value": 34147.4201
       },
       {
         "year": 2022,
-        "value": 35133.6258
+        "value": 35342.6104
       },
       {
         "year": 2023,
-        "value": 35427.0107
+        "value": 29643.1794
       },
       {
         "year": 2024,
-        "value": 37365.9302
+        "value": 37450.8071
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.0037
+      },
+      {
+        "year": 2015,
+        "value": 31.085
+      },
+      {
+        "year": 2016,
+        "value": 31.2863
+      },
+      {
+        "year": 2017,
+        "value": 31.6429
+      },
+      {
+        "year": 2018,
+        "value": 32.7307
+      },
+      {
+        "year": 2019,
+        "value": 34.5137
+      },
+      {
+        "year": 2020,
+        "value": 32.9279
+      },
+      {
+        "year": 2021,
+        "value": 31.3588
+      },
+      {
+        "year": 2022,
+        "value": 30.998
+      },
+      {
+        "year": 2023,
+        "value": 40.5661
+      },
+      {
+        "year": 2024,
+        "value": 30.472
       }
     ],
     "enrollment_headcount_total": [

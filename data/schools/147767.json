@@ -1,6 +1,6 @@
 {
   "unitid": "147767",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northwestern University",
     "institution_unique_name": "Northwestern University | Evanston | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.8138,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 40.0922,
-    "net_tuition_per_fte_change_5yr": -11.7642,
+    "net_tuition_per_fte_change_5yr": -11.9937,
     "staff_total_headcount_pct_change_5yr": 13.0345,
     "staff_instructional_headcount_pct_change_5yr": 9.8231,
     "students_per_instructional_staff_fte": 7.7902,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 19.8006,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.6777,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.3167,
+    "unfunded_discount_pct_change_5yr": 2.6913,
     "share_grad_students": 61.1837,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 725286000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40838.4356
+        "value": 42362.0247
       },
       {
         "year": 2015,
-        "value": 42488.5462
+        "value": 44025.7672
       },
       {
         "year": 2016,
-        "value": 41986.3529
+        "value": 43993.6208
       },
       {
         "year": 2017,
-        "value": 40927.2317
+        "value": 42991.8723
       },
       {
         "year": 2018,
-        "value": 41534.6366
+        "value": 43822.4262
       },
       {
         "year": 2019,
-        "value": 42707.0156
+        "value": 44715.0854
       },
       {
         "year": 2020,
-        "value": 42044.1655
+        "value": 44023.7159
       },
       {
         "year": 2021,
-        "value": 38801.0142
+        "value": 40779.3622
       },
       {
         "year": 2022,
-        "value": 39338.4887
+        "value": 41122.6138
       },
       {
         "year": 2023,
-        "value": 37439.47
+        "value": 39166.4744
       },
       {
         "year": 2024,
-        "value": 37682.8774
+        "value": 39352.0912
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.147
+      },
+      {
+        "year": 2015,
+        "value": 28.1094
+      },
+      {
+        "year": 2016,
+        "value": 29.8363
+      },
+      {
+        "year": 2017,
+        "value": 31.3092
+      },
+      {
+        "year": 2018,
+        "value": 31.9995
+      },
+      {
+        "year": 2019,
+        "value": 32.4436
+      },
+      {
+        "year": 2020,
+        "value": 34.2403
+      },
+      {
+        "year": 2021,
+        "value": 32.7983
+      },
+      {
+        "year": 2022,
+        "value": 33.0827
+      },
+      {
+        "year": 2023,
+        "value": 34.2008
+      },
+      {
+        "year": 2024,
+        "value": 33.3167
       }
     ],
     "enrollment_headcount_total": [

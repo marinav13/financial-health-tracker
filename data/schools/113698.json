@@ -1,6 +1,6 @@
 {
   "unitid": "113698",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dominican University of California",
     "institution_unique_name": "Dominican University of California | San Rafael | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 67.1162,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.7322,
+    "unfunded_discount_pct_change_5yr": 4.5967,
     "share_grad_students": 46.6639,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30096.1163
+        "value": 30096.1549
       },
       {
         "year": 2015,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21164.3042
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.731
+      },
+      {
+        "year": 2015,
+        "value": 33.8092
+      },
+      {
+        "year": 2016,
+        "value": 34.8686
+      },
+      {
+        "year": 2017,
+        "value": 36.0576
+      },
+      {
+        "year": 2018,
+        "value": 36.8319
+      },
+      {
+        "year": 2019,
+        "value": 38.9421
+      },
+      {
+        "year": 2020,
+        "value": 39.1579
+      },
+      {
+        "year": 2021,
+        "value": 39.51
+      },
+      {
+        "year": 2022,
+        "value": 40.5747
+      },
+      {
+        "year": 2023,
+        "value": 39.6034
+      },
+      {
+        "year": 2024,
+        "value": 40.7322
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "494737",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Yesoda Hatorah Vetz Chaim",
     "institution_unique_name": "Yeshiva Yesoda Hatorah Vetz Chaim | Brooklyn | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 38.9873,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -140,6 +142,32 @@
       {
         "year": 2024,
         "value": 40338.7915
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 30.6597
+      },
+      {
+        "year": 2021,
+        "value": 27.6328
+      },
+      {
+        "year": 2022,
+        "value": 28.4194
+      },
+      {
+        "year": 2023,
+        "value": 6.2084
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

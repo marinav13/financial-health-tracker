@@ -1,6 +1,6 @@
 {
   "unitid": "186867",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Stevens Institute of Technology",
     "institution_unique_name": "Stevens Institute of Technology | Hoboken | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.776,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 26.6749,
-    "net_tuition_per_fte_change_5yr": -7.6246,
+    "net_tuition_per_fte_change_5yr": -7.6676,
     "staff_total_headcount_pct_change_5yr": 11.2598,
     "staff_instructional_headcount_pct_change_5yr": 13.9186,
     "students_per_instructional_staff_fte": 17.8553,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 57.8842,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 58.0197,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.8256,
+    "unfunded_discount_pct_change_5yr": 13.5209,
     "share_grad_students": 56.6839,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 57568000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36030.7526
+        "value": 34958.2916
       },
       {
         "year": 2015,
-        "value": 35109.5941
+        "value": 35261.1261
       },
       {
         "year": 2016,
-        "value": 35844.1899
+        "value": 35985.7666
       },
       {
         "year": 2017,
-        "value": 36690.2886
+        "value": 37811.5617
       },
       {
         "year": 2018,
-        "value": 36587.4334
+        "value": 36689.0184
       },
       {
         "year": 2019,
-        "value": 37100.4909
+        "value": 37204.6794
       },
       {
         "year": 2020,
-        "value": 37157.102
+        "value": 37265.4708
       },
       {
         "year": 2021,
-        "value": 34775.8631
+        "value": 35039.8453
       },
       {
         "year": 2022,
-        "value": 33789.1441
+        "value": 34554.8166
       },
       {
         "year": 2023,
-        "value": 34115.7366
+        "value": 34185.73
       },
       {
         "year": 2024,
-        "value": 34271.745
+        "value": 34351.9722
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.1484
+      },
+      {
+        "year": 2015,
+        "value": 27.0434
+      },
+      {
+        "year": 2016,
+        "value": 28.5895
+      },
+      {
+        "year": 2017,
+        "value": 26.4952
+      },
+      {
+        "year": 2018,
+        "value": 28.8457
+      },
+      {
+        "year": 2019,
+        "value": 28.035
+      },
+      {
+        "year": 2020,
+        "value": 30.0899
+      },
+      {
+        "year": 2021,
+        "value": 32.3255
+      },
+      {
+        "year": 2022,
+        "value": 31.2318
+      },
+      {
+        "year": 2023,
+        "value": 31.3793
+      },
+      {
+        "year": 2024,
+        "value": 31.8256
       }
     ],
     "enrollment_headcount_total": [

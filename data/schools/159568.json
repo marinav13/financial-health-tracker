@@ -1,6 +1,6 @@
 {
   "unitid": "159568",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Louisiana Christian University",
     "institution_unique_name": "Louisiana Christian University | Pineville | Louisiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.4314,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.2072,
-    "net_tuition_per_fte_change_5yr": -22.5368,
+    "net_tuition_per_fte_change_5yr": -19.2778,
     "staff_total_headcount_pct_change_5yr": -10.0418,
     "staff_instructional_headcount_pct_change_5yr": -24.8,
     "students_per_instructional_staff_fte": 13.0385,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 36.935,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.5837,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.3126,
+    "unfunded_discount_pct_change_5yr": 31.8905,
     "share_grad_students": 20.8219,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13090.9667
+        "value": 12672.2723
       },
       {
         "year": 2015,
-        "value": 12814.4022
+        "value": 12482.2268
       },
       {
         "year": 2016,
-        "value": 13873.9932
+        "value": 13527.1373
       },
       {
         "year": 2017,
-        "value": 14266.6963
+        "value": 13788.803
       },
       {
         "year": 2018,
-        "value": 12795.3208
+        "value": 12427.5525
       },
       {
         "year": 2019,
-        "value": 12331.1121
+        "value": 12041.0925
       },
       {
         "year": 2020,
-        "value": 12252.6674
+        "value": 12402.5523
       },
       {
         "year": 2021,
-        "value": 11357.2802
+        "value": 11551.4862
       },
       {
         "year": 2022,
-        "value": 10000.2102
+        "value": 10159.3864
       },
       {
         "year": 2023,
-        "value": 10320.9845
+        "value": 10489.4504
       },
       {
         "year": 2024,
-        "value": 9552.0752
+        "value": 9719.8363
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.2099
+      },
+      {
+        "year": 2015,
+        "value": 22.2884
+      },
+      {
+        "year": 2016,
+        "value": 20.9787
+      },
+      {
+        "year": 2017,
+        "value": 21.656
+      },
+      {
+        "year": 2018,
+        "value": 24.4241
+      },
+      {
+        "year": 2019,
+        "value": 28.2906
+      },
+      {
+        "year": 2020,
+        "value": 28.5364
+      },
+      {
+        "year": 2021,
+        "value": 28.2812
+      },
+      {
+        "year": 2022,
+        "value": 32.4215
+      },
+      {
+        "year": 2023,
+        "value": 32.5854
+      },
+      {
+        "year": 2024,
+        "value": 37.3126
       }
     ],
     "enrollment_headcount_total": [

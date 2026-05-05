@@ -1,6 +1,6 @@
 {
   "unitid": "194091",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "New York Institute of Technology",
     "institution_unique_name": "New York Institute of Technology | Old Westbury | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.1321,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.9332,
-    "net_tuition_per_fte_change_5yr": -7.4823,
+    "net_tuition_per_fte_change_5yr": -7.6645,
     "staff_total_headcount_pct_change_5yr": -16.5422,
     "staff_instructional_headcount_pct_change_5yr": -17.4213,
     "students_per_instructional_staff_fte": 9.513,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 84.965,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 85% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 84.7976,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 85% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.8472,
+    "unfunded_discount_pct_change_5yr": 18.4638,
     "share_grad_students": 51.0382,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 16330332,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 48090.9697
+        "value": 48090.9695
       },
       {
         "year": 2016,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 55339.3391
+        "value": 55344.1733
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 56127.7742
+        "value": 55987.0088
       },
       {
         "year": 2021,
-        "value": 54959.2158
+        "value": 54852.5061
       },
       {
         "year": 2022,
-        "value": 52182.1518
+        "value": 52156.9938
       },
       {
         "year": 2023,
-        "value": 52123.6708
+        "value": 52118.6573
       },
       {
         "year": 2024,
-        "value": 53258.7799
+        "value": 53153.8754
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.198
+      },
+      {
+        "year": 2015,
+        "value": 16.577
+      },
+      {
+        "year": 2016,
+        "value": 16.8426
+      },
+      {
+        "year": 2017,
+        "value": 17.0082
+      },
+      {
+        "year": 2018,
+        "value": 18.6089
+      },
+      {
+        "year": 2019,
+        "value": 20.1304
+      },
+      {
+        "year": 2020,
+        "value": 21.6352
+      },
+      {
+        "year": 2021,
+        "value": 22.7293
+      },
+      {
+        "year": 2022,
+        "value": 23.4544
+      },
+      {
+        "year": 2023,
+        "value": 22.9143
+      },
+      {
+        "year": 2024,
+        "value": 23.8472
       }
     ],
     "enrollment_headcount_total": [

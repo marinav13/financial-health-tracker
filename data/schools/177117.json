@@ -1,6 +1,6 @@
 {
   "unitid": "177117",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cottey College",
     "institution_unique_name": "Cottey College | Nevada | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.8881,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 35.7105,
-    "net_tuition_per_fte_change_5yr": -10.3514,
+    "net_tuition_per_fte_change_5yr": 24.6376,
     "staff_total_headcount_pct_change_5yr": -4.4693,
     "staff_instructional_headcount_pct_change_5yr": -20,
     "students_per_instructional_staff_fte": 6.9375,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 8.1336,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 11.308,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.4623,
+    "unfunded_discount_pct_change_5yr": -5.4739,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2664,
@@ -167,7 +169,7 @@
       },
       {
         "year": 2016,
-        "value": 7894.8324
+        "value": 7894.8205
       },
       {
         "year": 2017,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 7045.5851
+        "value": 6533.9354
       },
       {
         "year": 2022,
-        "value": 9682.2445
+        "value": -1314.2131
       },
       {
         "year": 2023,
-        "value": 9542.4546
+        "value": 12287.1138
       },
       {
         "year": 2024,
-        "value": 8506.1313
+        "value": 11825.9846
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.0145
+      },
+      {
+        "year": 2015,
+        "value": 29.9596
+      },
+      {
+        "year": 2016,
+        "value": 37.7474
+      },
+      {
+        "year": 2017,
+        "value": 32.0496
+      },
+      {
+        "year": 2018,
+        "value": 35.6677
+      },
+      {
+        "year": 2019,
+        "value": 36.4579
+      },
+      {
+        "year": 2020,
+        "value": 38.8674
+      },
+      {
+        "year": 2021,
+        "value": 39.0326
+      },
+      {
+        "year": 2022,
+        "value": 59.345
+      },
+      {
+        "year": 2023,
+        "value": 42.844
+      },
+      {
+        "year": 2024,
+        "value": 34.4623
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "209296",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "National University of Natural Medicine",
     "institution_unique_name": "National University of Natural Medicine | Portland | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -40.1493,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -38.4709,
-    "net_tuition_per_fte_change_5yr": -19.0395,
+    "net_tuition_per_fte_change_5yr": -16.0297,
     "staff_total_headcount_pct_change_5yr": -27.2131,
     "staff_instructional_headcount_pct_change_5yr": -18.8312,
     "students_per_instructional_staff_fte": 1.9636,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 68.688,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.2299,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 1.3294,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 92.5187,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1356145,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 2619230.6362
+        "value": 2591603.0051
       },
       {
         "year": 2015,
-        "value": 180439.3015
+        "value": 178605.6738
       },
       {
         "year": 2016,
-        "value": 173737.6654
+        "value": 172397.0133
       },
       {
         "year": 2017,
-        "value": 150816.0385
+        "value": 148071.7225
       },
       {
         "year": 2018,
-        "value": 131659.0259
+        "value": 128838.6305
       },
       {
         "year": 2019,
-        "value": 120505.8873
+        "value": 117103.0576
       },
       {
         "year": 2020,
-        "value": 148583.826
+        "value": 151420.6145
       },
       {
         "year": 2021,
-        "value": 90579.182
+        "value": 92900.1298
       },
       {
         "year": 2022,
-        "value": 75043.7143
+        "value": 75667.8693
       },
       {
         "year": 2023,
-        "value": 116567.9009
+        "value": 117092.7216
       },
       {
         "year": 2024,
-        "value": 97562.213
+        "value": 98331.8241
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 3.2762
+      },
+      {
+        "year": 2021,
+        "value": 1.9621
+      },
+      {
+        "year": 2022,
+        "value": 1.6631
+      },
+      {
+        "year": 2023,
+        "value": 1.4808
+      },
+      {
+        "year": 2024,
+        "value": 1.3294
       }
     ],
     "enrollment_headcount_total": [

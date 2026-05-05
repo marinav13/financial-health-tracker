@@ -1,6 +1,6 @@
 {
   "unitid": "217925",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Columbia International University",
     "institution_unique_name": "Columbia International University | Columbia | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 115.4979,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 36.0377,
-    "net_tuition_per_fte_change_5yr": -15.1465,
+    "net_tuition_per_fte_change_5yr": -15.175,
     "staff_total_headcount_pct_change_5yr": 7.5419,
     "staff_instructional_headcount_pct_change_5yr": 34.2282,
     "students_per_instructional_staff_fte": 16.8173,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 37.6593,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.5022,
+    "unfunded_discount_pct_change_5yr": 5.6761,
     "share_grad_students": 64.3697,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 14365.2163
+        "value": 14370.0586
       },
       {
         "year": 2020,
@@ -187,11 +189,11 @@
       },
       {
         "year": 2021,
-        "value": 12065.9553
+        "value": 12003.6554
       },
       {
         "year": 2022,
-        "value": 9829.6119
+        "value": 10106.5132
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12189.3951
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 11
+      },
+      {
+        "year": 2015,
+        "value": 15.8297
+      },
+      {
+        "year": 2016,
+        "value": 11.4763
+      },
+      {
+        "year": 2017,
+        "value": 20.7398
+      },
+      {
+        "year": 2018,
+        "value": 22.0056
+      },
+      {
+        "year": 2019,
+        "value": 25.0787
+      },
+      {
+        "year": 2020,
+        "value": 28.6225
+      },
+      {
+        "year": 2021,
+        "value": 25.4036
+      },
+      {
+        "year": 2022,
+        "value": 26.8014
+      },
+      {
+        "year": 2023,
+        "value": 25.3394
+      },
+      {
+        "year": 2024,
+        "value": 26.5022
       }
     ],
     "enrollment_headcount_total": [

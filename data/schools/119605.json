@@ -1,6 +1,6 @@
 {
   "unitid": "119605",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "National University",
     "institution_unique_name": "National University | San Diego | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 16.511,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 48.3577,
-    "net_tuition_per_fte_change_5yr": 14.7602,
+    "net_tuition_per_fte_change_5yr": 21.0274,
     "staff_total_headcount_pct_change_5yr": 49.8599,
     "staff_instructional_headcount_pct_change_5yr": 30.3332,
     "students_per_instructional_staff_fte": 21.3454,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 76.1102,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 77.3079,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 47.6336,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6054000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11503.9816
+        "value": 11527.4432
       },
       {
         "year": 2015,
-        "value": 11910.6312
+        "value": 11908.8922
       },
       {
         "year": 2016,
-        "value": 12147.1699
+        "value": 11969.6782
       },
       {
         "year": 2017,
-        "value": 11963.4544
+        "value": 11627.847
       },
       {
         "year": 2018,
-        "value": 11733.8776
+        "value": 11441.2768
       },
       {
         "year": 2019,
-        "value": 11678.5965
+        "value": 11248.1033
       },
       {
         "year": 2020,
-        "value": 11501.9798
+        "value": 11625.8935
       },
       {
         "year": 2021,
-        "value": 10283.2039
+        "value": 10563.6147
       },
       {
         "year": 2022,
-        "value": 8793.202
+        "value": 10153.5808
       },
       {
         "year": 2023,
-        "value": 14832.2782
+        "value": 15363.24
       },
       {
         "year": 2024,
-        "value": 13402.3779
+        "value": 13613.2872
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

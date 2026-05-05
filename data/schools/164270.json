@@ -1,6 +1,6 @@
 {
   "unitid": "164270",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "McDaniel College",
     "institution_unique_name": "McDaniel College | Westminster | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.5991,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.3358,
-    "net_tuition_per_fte_change_5yr": -17.6894,
+    "net_tuition_per_fte_change_5yr": -7.9934,
     "staff_total_headcount_pct_change_5yr": -7.4034,
     "staff_instructional_headcount_pct_change_5yr": -13.3768,
     "students_per_instructional_staff_fte": 9.1652,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 35.9971,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.6393,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.8592,
+    "unfunded_discount_pct_change_5yr": 5.3274,
     "share_grad_students": 51.212,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 177000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19414.217
+        "value": 20286.712
       },
       {
         "year": 2015,
-        "value": 18779.0397
+        "value": 19752.7558
       },
       {
         "year": 2016,
-        "value": 18984.3698
+        "value": 20058.2287
       },
       {
         "year": 2017,
-        "value": 18801.9392
+        "value": 20005.4147
       },
       {
         "year": 2018,
-        "value": 18102.2483
+        "value": 19211.7568
       },
       {
         "year": 2019,
-        "value": 17106.2945
+        "value": 18127.4001
       },
       {
         "year": 2020,
-        "value": 16795.6135
+        "value": 17711.489
       },
       {
         "year": 2021,
-        "value": 15993.3602
+        "value": 16823.7205
       },
       {
         "year": 2022,
-        "value": 13680.5407
+        "value": 15354.1446
       },
       {
         "year": 2023,
-        "value": 13834.6665
+        "value": 15914.9638
       },
       {
         "year": 2024,
-        "value": 14080.295
+        "value": 16678.4105
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.8305
+      },
+      {
+        "year": 2015,
+        "value": 44.2492
+      },
+      {
+        "year": 2016,
+        "value": 44.248
+      },
+      {
+        "year": 2017,
+        "value": 44.6902
+      },
+      {
+        "year": 2018,
+        "value": 47.1983
+      },
+      {
+        "year": 2019,
+        "value": 48.2868
+      },
+      {
+        "year": 2020,
+        "value": 51.9261
+      },
+      {
+        "year": 2021,
+        "value": 52.7843
+      },
+      {
+        "year": 2022,
+        "value": 51.0814
+      },
+      {
+        "year": 2023,
+        "value": 50.7768
+      },
+      {
+        "year": 2024,
+        "value": 50.8592
       }
     ],
     "enrollment_headcount_total": [

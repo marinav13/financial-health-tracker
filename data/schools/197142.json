@@ -1,6 +1,6 @@
 {
   "unitid": "197142",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Villa Maria College",
     "institution_unique_name": "Villa Maria College | Buffalo | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.5694,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.6241,
-    "net_tuition_per_fte_change_5yr": -22.555,
+    "net_tuition_per_fte_change_5yr": -8.4557,
     "staff_total_headcount_pct_change_5yr": -13.7931,
     "staff_instructional_headcount_pct_change_5yr": -7.8014,
     "students_per_instructional_staff_fte": 7.4362,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 68.5904,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 81.0776,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.0184,
+    "unfunded_discount_pct_change_5yr": -36.0387,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21439.764
+        "value": 21322.9915
       },
       {
         "year": 2015,
-        "value": 20547.6244
+        "value": 20542.6238
       },
       {
         "year": 2016,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 18638.8866
+        "value": 26212.3294
       },
       {
         "year": 2018,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 19404.4842
+        "value": 19568.0076
       },
       {
         "year": 2021,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 16975.3219
+        "value": 17116.4333
       },
       {
         "year": 2023,
-        "value": 14903.1493
+        "value": 15077.9773
       },
       {
         "year": 2024,
-        "value": 15511.8562
+        "value": 18335.8734
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.0247
+      },
+      {
+        "year": 2015,
+        "value": 23.5302
+      },
+      {
+        "year": 2016,
+        "value": 28.483
+      },
+      {
+        "year": 2017,
+        "value": 24.8879
+      },
+      {
+        "year": 2018,
+        "value": 31.8814
+      },
+      {
+        "year": 2019,
+        "value": 31.2976
+      },
+      {
+        "year": 2020,
+        "value": 32.778
+      },
+      {
+        "year": 2021,
+        "value": 37.5132
+      },
+      {
+        "year": 2022,
+        "value": 38.565
+      },
+      {
+        "year": 2023,
+        "value": 43.5426
+      },
+      {
+        "year": 2024,
+        "value": 20.0184
       }
     ],
     "enrollment_headcount_total": [

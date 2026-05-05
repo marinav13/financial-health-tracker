@@ -1,6 +1,6 @@
 {
   "unitid": "146612",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lewis University",
     "institution_unique_name": "Lewis University | Romeoville | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.6159,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.7501,
-    "net_tuition_per_fte_change_5yr": -1.7358,
+    "net_tuition_per_fte_change_5yr": -1.3221,
     "staff_total_headcount_pct_change_5yr": 27.8926,
     "staff_instructional_headcount_pct_change_5yr": 28.4698,
     "students_per_instructional_staff_fte": 13.6323,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 76.5936,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.2083,
+    "unfunded_discount_pct_change_5yr": 5.3378,
     "share_grad_students": 42.9133,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,27 +169,27 @@
       },
       {
         "year": 2016,
-        "value": 21149.4103
+        "value": 21148.7431
       },
       {
         "year": 2017,
-        "value": 20666.29
+        "value": 18275.2302
       },
       {
         "year": 2018,
-        "value": 20325.6648
+        "value": 20246.4235
       },
       {
         "year": 2019,
-        "value": 19460.0516
+        "value": 19378.4609
       },
       {
         "year": 2020,
-        "value": 20727.4548
+        "value": 20612.5575
       },
       {
         "year": 2021,
-        "value": 19620.2272
+        "value": 19512.625
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 19122.2672
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 29.547
+      },
+      {
+        "year": 2018,
+        "value": 30.7377
+      },
+      {
+        "year": 2019,
+        "value": 32.4748
+      },
+      {
+        "year": 2020,
+        "value": 34.1963
+      },
+      {
+        "year": 2021,
+        "value": 34.3244
+      },
+      {
+        "year": 2022,
+        "value": 34.9698
+      },
+      {
+        "year": 2023,
+        "value": 34.2256
+      },
+      {
+        "year": 2024,
+        "value": 34.2083
       }
     ],
     "enrollment_headcount_total": [

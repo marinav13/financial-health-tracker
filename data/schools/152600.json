@@ -1,6 +1,6 @@
 {
   "unitid": "152600",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Valparaiso University",
     "institution_unique_name": "Valparaiso University | Valparaiso | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.9691,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -34.0639,
-    "net_tuition_per_fte_change_5yr": -20.3501,
+    "net_tuition_per_fte_change_5yr": -18.0105,
     "staff_total_headcount_pct_change_5yr": -18.202,
     "staff_instructional_headcount_pct_change_5yr": -25.8706,
     "students_per_instructional_staff_fte": 12.9093,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 44.4304,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.3243,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.2737,
+    "unfunded_discount_pct_change_5yr": -2.1576,
     "share_grad_students": 22.8076,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 930000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 26511.7796
+        "value": 27002.1102
       },
       {
         "year": 2015,
-        "value": 25235.1122
+        "value": 25842.1727
       },
       {
         "year": 2016,
-        "value": 24657.4741
+        "value": 25363.4973
       },
       {
         "year": 2017,
-        "value": 22008.8587
+        "value": 22584.0397
       },
       {
         "year": 2018,
-        "value": 20831.589
+        "value": 21414.6538
       },
       {
         "year": 2019,
-        "value": 18982.4389
+        "value": 20887.0243
       },
       {
         "year": 2020,
-        "value": 19582.6233
+        "value": 21950.3749
       },
       {
         "year": 2021,
-        "value": 18232.5688
+        "value": 20723.8869
       },
       {
         "year": 2022,
-        "value": 17135.1547
+        "value": 20234.7213
       },
       {
         "year": 2023,
-        "value": 15762.973
+        "value": 17312.8601
       },
       {
         "year": 2024,
-        "value": 15119.4865
+        "value": 17125.1662
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.5303
+      },
+      {
+        "year": 2015,
+        "value": 40.338
+      },
+      {
+        "year": 2016,
+        "value": 43.1798
+      },
+      {
+        "year": 2017,
+        "value": 49.0017
+      },
+      {
+        "year": 2018,
+        "value": 51.6262
+      },
+      {
+        "year": 2019,
+        "value": 51.3823
+      },
+      {
+        "year": 2020,
+        "value": 49.536
+      },
+      {
+        "year": 2021,
+        "value": 51.4395
+      },
+      {
+        "year": 2022,
+        "value": 50.4392
+      },
+      {
+        "year": 2023,
+        "value": 50.7212
+      },
+      {
+        "year": 2024,
+        "value": 50.2737
       }
     ],
     "enrollment_headcount_total": [

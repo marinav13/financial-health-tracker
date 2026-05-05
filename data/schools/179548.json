@@ -1,6 +1,6 @@
 {
   "unitid": "179548",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Stephens College",
     "institution_unique_name": "Stephens College | Columbia | Missouri",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 37.5259,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.3868,
+    "unfunded_discount_pct_change_5yr": -17.1406,
     "share_grad_students": 31.453,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 13272.0958
+        "value": 13272.1964
       },
       {
         "year": 2024,
         "value": 14294.6602
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.0536
+      },
+      {
+        "year": 2015,
+        "value": 44.5703
+      },
+      {
+        "year": 2016,
+        "value": 47.1218
+      },
+      {
+        "year": 2017,
+        "value": 45.1005
+      },
+      {
+        "year": 2018,
+        "value": 41.7523
+      },
+      {
+        "year": 2019,
+        "value": 39.0865
+      },
+      {
+        "year": 2020,
+        "value": 38.1263
+      },
+      {
+        "year": 2021,
+        "value": 32.8828
+      },
+      {
+        "year": 2022,
+        "value": 28.912
+      },
+      {
+        "year": 2023,
+        "value": 33.1333
+      },
+      {
+        "year": 2024,
+        "value": 32.3868
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "216311",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Talmudical Yeshiva of Philadelphia",
     "institution_unique_name": "Talmudical Yeshiva of Philadelphia | Philadelphia | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.6,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.9829,
-    "net_tuition_per_fte_change_5yr": 1.1205,
+    "net_tuition_per_fte_change_5yr": -0.5807,
     "staff_total_headcount_pct_change_5yr": 7.1429,
     "staff_instructional_headcount_pct_change_5yr": 14.2857,
     "students_per_instructional_staff_fte": 21.375,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 40.2255,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.5804,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.7969,
+    "unfunded_discount_pct_change_5yr": -1.9329,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16343.4998
+        "value": 15991.7787
       },
       {
         "year": 2015,
-        "value": 17723.2317
+        "value": 17315.1694
       },
       {
         "year": 2016,
-        "value": 16816.7682
+        "value": 16333.0424
       },
       {
         "year": 2017,
-        "value": 16291.5058
+        "value": 15793.7541
       },
       {
         "year": 2018,
-        "value": 16917.3736
+        "value": 16467.6151
       },
       {
         "year": 2019,
-        "value": 16875.3885
+        "value": 16462.1991
       },
       {
         "year": 2020,
-        "value": 16699.977
+        "value": 16179.0465
       },
       {
         "year": 2021,
-        "value": 15959.8273
+        "value": 15426.5416
       },
       {
         "year": 2022,
-        "value": 15063.8282
+        "value": 14026.1907
       },
       {
         "year": 2023,
-        "value": 15831.7059
+        "value": 15601.2639
       },
       {
         "year": 2024,
-        "value": 17064.4737
+        "value": 16366.5965
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.3398
+      },
+      {
+        "year": 2015,
+        "value": 30.3257
+      },
+      {
+        "year": 2016,
+        "value": 33.5485
+      },
+      {
+        "year": 2017,
+        "value": 33.0629
+      },
+      {
+        "year": 2018,
+        "value": 31.3257
+      },
+      {
+        "year": 2019,
+        "value": 33.4433
+      },
+      {
+        "year": 2020,
+        "value": 31.983
+      },
+      {
+        "year": 2021,
+        "value": 34.1266
+      },
+      {
+        "year": 2022,
+        "value": 28.8909
+      },
+      {
+        "year": 2023,
+        "value": 33.3629
+      },
+      {
+        "year": 2024,
+        "value": 32.7969
       }
     ],
     "enrollment_headcount_total": [

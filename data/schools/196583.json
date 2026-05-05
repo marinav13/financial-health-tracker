@@ -1,6 +1,6 @@
 {
   "unitid": "196583",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Torah Temimah Talmudical Seminary",
     "institution_unique_name": "Torah Temimah Talmudical Seminary | Staten Island | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 5.4945,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 525.2383,
-    "net_tuition_per_fte_change_5yr": 72.2344,
+    "net_tuition_per_fte_change_5yr": 72.9837,
     "staff_total_headcount_pct_change_5yr": 14.2857,
     "staff_instructional_headcount_pct_change_5yr": -33.3333,
     "students_per_instructional_staff_fte": 36,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 11.3633,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.9156,
+    "unfunded_discount_pct_change_5yr": -19.6063,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10294.3043
+        "value": 10280.3102
       },
       {
         "year": 2015,
-        "value": 8057.537
+        "value": 8040.5233
       },
       {
         "year": 2016,
-        "value": 9061.0503
+        "value": 9041.1734
       },
       {
         "year": 2017,
-        "value": 9499.697
+        "value": 9470.7353
       },
       {
         "year": 2018,
-        "value": 10556.2032
+        "value": 10523.672
       },
       {
         "year": 2019,
-        "value": 5562.3576
+        "value": 5538.2627
       },
       {
         "year": 2020,
-        "value": 8570.4525
+        "value": 11362.3214
       },
       {
         "year": 2021,
@@ -191,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 8566.6376
+        "value": 5649.4561
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 9580.2917
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.7158
+      },
+      {
+        "year": 2015,
+        "value": 32.6511
+      },
+      {
+        "year": 2016,
+        "value": 13.7931
+      },
+      {
+        "year": 2017,
+        "value": 38.631
+      },
+      {
+        "year": 2018,
+        "value": 28.6061
+      },
+      {
+        "year": 2019,
+        "value": 35.9675
+      },
+      {
+        "year": 2020,
+        "value": 29.8104
+      },
+      {
+        "year": 2021,
+        "value": 35.1444
+      },
+      {
+        "year": 2022,
+        "value": 48.2076
+      },
+      {
+        "year": 2023,
+        "value": 30.2572
+      },
+      {
+        "year": 2024,
+        "value": 28.9156
       }
     ],
     "enrollment_headcount_total": [

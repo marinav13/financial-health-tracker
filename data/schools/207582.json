@@ -1,6 +1,6 @@
 {
   "unitid": "207582",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Oral Roberts University",
     "institution_unique_name": "Oral Roberts University | Tulsa | Oklahoma",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 35.2854,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 8.2375,
-    "net_tuition_per_fte_change_5yr": -13.7228,
+    "net_tuition_per_fte_change_5yr": -13.8868,
     "staff_total_headcount_pct_change_5yr": 2.1978,
     "staff_instructional_headcount_pct_change_5yr": 14.0449,
     "students_per_instructional_staff_fte": 17.6261,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 33.4456,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.9152,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.5199,
+    "unfunded_discount_pct_change_5yr": 7.8591,
     "share_grad_students": 15.527,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 510144,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16695.9302
+        "value": 18864.9281
       },
       {
         "year": 2015,
-        "value": 14689.3038
+        "value": 14398.9781
       },
       {
         "year": 2016,
-        "value": 15005.5034
+        "value": 14769.4448
       },
       {
         "year": 2017,
-        "value": 14309.8635
+        "value": 14040.1546
       },
       {
         "year": 2018,
-        "value": 15585.4678
+        "value": 15449.8095
       },
       {
         "year": 2019,
-        "value": 14056.2794
+        "value": 13859.7366
       },
       {
         "year": 2020,
-        "value": 13097.4336
+        "value": 12954.6148
       },
       {
         "year": 2021,
-        "value": 13118.0551
+        "value": 12937.2382
       },
       {
         "year": 2022,
-        "value": 12948.3982
+        "value": 12733.1389
       },
       {
         "year": 2023,
-        "value": 13016.3791
+        "value": 12831.6672
       },
       {
         "year": 2024,
-        "value": 12127.3695
+        "value": 11935.0625
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.4025
+      },
+      {
+        "year": 2015,
+        "value": 41.9349
+      },
+      {
+        "year": 2016,
+        "value": 42.4012
+      },
+      {
+        "year": 2017,
+        "value": 47.3696
+      },
+      {
+        "year": 2018,
+        "value": 39.7343
+      },
+      {
+        "year": 2019,
+        "value": 44.0574
+      },
+      {
+        "year": 2020,
+        "value": 44.6862
+      },
+      {
+        "year": 2021,
+        "value": 43.7378
+      },
+      {
+        "year": 2022,
+        "value": 46.3371
+      },
+      {
+        "year": 2023,
+        "value": 45.3178
+      },
+      {
+        "year": 2024,
+        "value": 47.5199
       }
     ],
     "enrollment_headcount_total": [

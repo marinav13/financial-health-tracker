@@ -1,6 +1,6 @@
 {
   "unitid": "217013",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wilson College",
     "institution_unique_name": "Wilson College | Chambersburg | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.7327,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 17.0659,
-    "net_tuition_per_fte_change_5yr": -9.1684,
+    "net_tuition_per_fte_change_5yr": -15.5727,
     "staff_total_headcount_pct_change_5yr": -20.4698,
     "staff_instructional_headcount_pct_change_5yr": -35.4839,
     "students_per_instructional_staff_fte": 20.4066,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 37.8743,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.8162,
+    "unfunded_discount_pct_change_5yr": 8.4178,
     "share_grad_students": 39.069,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15453.4204
+        "value": 16527.9889
       },
       {
         "year": 2015,
-        "value": 15274.9288
+        "value": 16566.4106
       },
       {
         "year": 2016,
-        "value": 16439.2022
+        "value": 17729.8855
       },
       {
         "year": 2017,
-        "value": 13432.7599
+        "value": 14503.6324
       },
       {
         "year": 2018,
-        "value": 13054.9744
+        "value": 13054.9755
       },
       {
         "year": 2019,
-        "value": 13310.9398
+        "value": 14320.642
       },
       {
         "year": 2020,
-        "value": 13460.2619
+        "value": 14735.3917
       },
       {
         "year": 2021,
-        "value": 14321.1901
+        "value": 15669.1178
       },
       {
         "year": 2022,
-        "value": 13362.173
+        "value": 14445.0107
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12090.5339
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.1885
+      },
+      {
+        "year": 2015,
+        "value": 26.3441
+      },
+      {
+        "year": 2016,
+        "value": 24.8041
+      },
+      {
+        "year": 2017,
+        "value": 24.7917
+      },
+      {
+        "year": 2018,
+        "value": 30.811
+      },
+      {
+        "year": 2019,
+        "value": 25.6564
+      },
+      {
+        "year": 2020,
+        "value": 22.0413
+      },
+      {
+        "year": 2021,
+        "value": 17.6628
+      },
+      {
+        "year": 2022,
+        "value": 21.9912
+      },
+      {
+        "year": 2023,
+        "value": 26.8242
+      },
+      {
+        "year": 2024,
+        "value": 27.8162
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "212911",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Haverford College",
     "institution_unique_name": "Haverford College | Haverford | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.7485,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 41.4704,
-    "net_tuition_per_fte_change_5yr": 11.0069,
+    "net_tuition_per_fte_change_5yr": 1.6093,
     "staff_total_headcount_pct_change_5yr": 6.2222,
     "staff_instructional_headcount_pct_change_5yr": 12.973,
     "students_per_instructional_staff_fte": 7.9609,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 30.1541,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 27.7239,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.9458,
+    "unfunded_discount_pct_change_5yr": -7.9774,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4877439,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36107.9407
+        "value": 36378.657
       },
       {
         "year": 2015,
-        "value": 36970.5982
+        "value": 37237.2897
       },
       {
         "year": 2016,
-        "value": 36522.0561
+        "value": 36820.5753
       },
       {
         "year": 2017,
-        "value": 36918.4282
+        "value": 37217.8941
       },
       {
         "year": 2018,
-        "value": 37039.2372
+        "value": 37171.2349
       },
       {
         "year": 2019,
-        "value": 37933.1044
+        "value": 38101.5839
       },
       {
         "year": 2020,
-        "value": 40039.6598
+        "value": 40203.5456
       },
       {
         "year": 2021,
-        "value": 40825.8876
+        "value": 38445.7539
       },
       {
         "year": 2022,
-        "value": 43118.1534
+        "value": 37237.7559
       },
       {
         "year": 2023,
-        "value": 40877.1646
+        "value": 37764.09
       },
       {
         "year": 2024,
-        "value": 42108.3768
+        "value": 38714.743
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.0647
+      },
+      {
+        "year": 2015,
+        "value": 33.0287
+      },
+      {
+        "year": 2016,
+        "value": 33.3276
+      },
+      {
+        "year": 2017,
+        "value": 33.2433
+      },
+      {
+        "year": 2018,
+        "value": 33.9933
+      },
+      {
+        "year": 2019,
+        "value": 33.6285
+      },
+      {
+        "year": 2020,
+        "value": 31.321
+      },
+      {
+        "year": 2021,
+        "value": 32.6617
+      },
+      {
+        "year": 2022,
+        "value": 35.1323
+      },
+      {
+        "year": 2023,
+        "value": 30.114
+      },
+      {
+        "year": 2024,
+        "value": 30.9458
       }
     ],
     "enrollment_headcount_total": [

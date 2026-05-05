@@ -1,6 +1,6 @@
 {
   "unitid": "490328",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mechon L'hoyroa",
     "institution_unique_name": "Mechon L'hoyroa | Monsey | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 239.1304,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.5794,
-    "net_tuition_per_fte_change_5yr": 12.3874,
+    "net_tuition_per_fte_change_5yr": -75.6628,
     "staff_total_headcount_pct_change_5yr": 92.3077,
     "staff_instructional_headcount_pct_change_5yr": 140,
     "students_per_instructional_staff_fte": 21.2727,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 35.3277,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 7.6501,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 78.3888,
+    "unfunded_discount_pct_change_5yr": 229.5854,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -155,15 +157,49 @@
       },
       {
         "year": 2022,
-        "value": 8587.4795
+        "value": -6505.1875
       },
       {
         "year": 2023,
-        "value": 6909.1024
+        "value": -1755.4535
       },
       {
         "year": 2024,
-        "value": 10199.3269
+        "value": 2208.6346
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 50.2268
+      },
+      {
+        "year": 2018,
+        "value": 5.9028
+      },
+      {
+        "year": 2019,
+        "value": 23.7841
+      },
+      {
+        "year": 2020,
+        "value": 26.4034
+      },
+      {
+        "year": 2021,
+        "value": 8.1313
+      },
+      {
+        "year": 2022,
+        "value": 171.1299
+      },
+      {
+        "year": 2023,
+        "value": 124.6434
+      },
+      {
+        "year": 2024,
+        "value": 78.3888
       }
     ],
     "enrollment_headcount_total": [

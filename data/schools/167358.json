@@ -1,6 +1,6 @@
 {
   "unitid": "167358",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northeastern University",
     "institution_unique_name": "Northeastern University | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 46.8034,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 41.4006,
-    "net_tuition_per_fte_change_5yr": 0.001,
+    "net_tuition_per_fte_change_5yr": -0.1454,
     "staff_total_headcount_pct_change_5yr": 53.1177,
     "staff_instructional_headcount_pct_change_5yr": 34.4676,
     "students_per_instructional_staff_fte": 15.5599,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 61.7894,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.9583,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.0338,
+    "unfunded_discount_pct_change_5yr": -3.2083,
     "share_grad_students": 44.1158,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 331342000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 44041.1774
+        "value": 44328.0601
       },
       {
         "year": 2015,
-        "value": 47184.2232
+        "value": 47485.0301
       },
       {
         "year": 2016,
-        "value": 48436.3341
+        "value": 48759.1726
       },
       {
         "year": 2017,
-        "value": 49142.5264
+        "value": 49395.744
       },
       {
         "year": 2018,
-        "value": 51022.922
+        "value": 51307.5154
       },
       {
         "year": 2019,
-        "value": 53414.4078
+        "value": 53638.9665
       },
       {
         "year": 2020,
-        "value": 54881.1214
+        "value": 55132.0817
       },
       {
         "year": 2021,
-        "value": 52824.8358
+        "value": 53057.8556
       },
       {
         "year": 2022,
-        "value": 47489.5532
+        "value": 47697.8338
       },
       {
         "year": 2023,
-        "value": 50813.6864
+        "value": 51016.3837
       },
       {
         "year": 2024,
-        "value": 53414.9662
+        "value": 53561
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.7566
+      },
+      {
+        "year": 2015,
+        "value": 24.7954
+      },
+      {
+        "year": 2016,
+        "value": 25.6966
+      },
+      {
+        "year": 2017,
+        "value": 26.5775
+      },
+      {
+        "year": 2018,
+        "value": 25.7607
+      },
+      {
+        "year": 2019,
+        "value": 24.8305
+      },
+      {
+        "year": 2020,
+        "value": 24.5381
+      },
+      {
+        "year": 2021,
+        "value": 25.901
+      },
+      {
+        "year": 2022,
+        "value": 25.9485
+      },
+      {
+        "year": 2023,
+        "value": 24.3158
+      },
+      {
+        "year": 2024,
+        "value": 24.0338
       }
     ],
     "enrollment_headcount_total": [

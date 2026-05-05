@@ -1,6 +1,6 @@
 {
   "unitid": "247773",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Gedolah of Greater Detroit",
     "institution_unique_name": "Yeshiva Gedolah of Greater Detroit | Oak Park | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.3529,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 18.4362,
-    "net_tuition_per_fte_change_5yr": -14.5897,
+    "net_tuition_per_fte_change_5yr": -32.9664,
     "staff_total_headcount_pct_change_5yr": 35.7143,
     "staff_instructional_headcount_pct_change_5yr": 16.6667,
     "students_per_instructional_staff_fte": 12.8824,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 26.1047,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 12.7107,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 75.4357,
+    "unfunded_discount_pct_change_5yr": 15.717,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11819.4709
+        "value": 11745.1858
       },
       {
         "year": 2015,
-        "value": 11997.1447
+        "value": 11908.8229
       },
       {
         "year": 2016,
-        "value": 10068.9168
+        "value": 9957.0136
       },
       {
         "year": 2017,
-        "value": 13855.0845
+        "value": 13761.9659
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 16413.3588
+        "value": 10182.7314
       },
       {
         "year": 2020,
-        "value": 18561.9066
+        "value": 10214.2232
       },
       {
         "year": 2021,
-        "value": 9586.0721
+        "value": 5048.5464
       },
       {
         "year": 2022,
-        "value": 13961.7795
+        "value": 7516.2335
       },
       {
         "year": 2023,
-        "value": 12728.5493
+        "value": 5657.1015
       },
       {
         "year": 2024,
-        "value": 14018.6986
+        "value": 6825.8493
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.4858
+      },
+      {
+        "year": 2015,
+        "value": 41.5404
+      },
+      {
+        "year": 2016,
+        "value": 41.5507
+      },
+      {
+        "year": 2017,
+        "value": 42.5983
+      },
+      {
+        "year": 2018,
+        "value": 58.4423
+      },
+      {
+        "year": 2019,
+        "value": 65.1898
+      },
+      {
+        "year": 2020,
+        "value": 67.8652
+      },
+      {
+        "year": 2021,
+        "value": 71.7248
+      },
+      {
+        "year": 2022,
+        "value": 74.561
+      },
+      {
+        "year": 2023,
+        "value": 80.6989
+      },
+      {
+        "year": 2024,
+        "value": 75.4357
       }
     ],
     "enrollment_headcount_total": [

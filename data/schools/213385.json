@@ -1,6 +1,6 @@
 {
   "unitid": "213385",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lafayette College",
     "institution_unique_name": "Lafayette College | Easton | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.6407,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 32.0219,
-    "net_tuition_per_fte_change_5yr": -9.6411,
+    "net_tuition_per_fte_change_5yr": -9.5803,
     "staff_total_headcount_pct_change_5yr": 2.103,
     "staff_instructional_headcount_pct_change_5yr": 1.6129,
     "students_per_instructional_staff_fte": 9.8947,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 33.6259,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.6485,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.5946,
+    "unfunded_discount_pct_change_5yr": 10.068,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2859000,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36277.804
+        "value": 36371.7852
       },
       {
         "year": 2015,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 35842.9078
+        "value": 35867.0213
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.3473
+      },
+      {
+        "year": 2015,
+        "value": 29.327
+      },
+      {
+        "year": 2016,
+        "value": 27.0713
+      },
+      {
+        "year": 2017,
+        "value": 27.8701
+      },
+      {
+        "year": 2018,
+        "value": 28.9655
+      },
+      {
+        "year": 2019,
+        "value": 30.5217
+      },
+      {
+        "year": 2020,
+        "value": 31.4134
+      },
+      {
+        "year": 2021,
+        "value": 27.7026
+      },
+      {
+        "year": 2022,
+        "value": 32.8993
+      },
+      {
+        "year": 2023,
+        "value": 32.6655
+      },
+      {
+        "year": 2024,
+        "value": 33.5946
       }
     ],
     "enrollment_headcount_total": [

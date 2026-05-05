@@ -1,6 +1,6 @@
 {
   "unitid": "130943",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Delaware",
     "institution_unique_name": "University of Delaware | Newark | Delaware",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.9869,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1.0285,
-    "net_tuition_per_fte_change_5yr": -16.5845,
+    "net_tuition_per_fte_change_5yr": -15.0594,
     "staff_total_headcount_pct_change_5yr": 0.1616,
     "staff_instructional_headcount_pct_change_5yr": -5.6589,
     "students_per_instructional_staff_fte": 18.5827,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 31.8838,
-    "sector_median_tuition_dependence_pct": 21.1862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
+    "tuition_dependence_pct": 33.409,
+    "sector_median_tuition_dependence_pct": 21.1973,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
+    "unfunded_discount_rate": 29.2345,
+    "unfunded_discount_pct_change_5yr": 10.514,
     "share_grad_students": 19.092,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 243644646,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25192.0683
+        "value": 25798.4905
       },
       {
         "year": 2015,
-        "value": 26041.8885
+        "value": 26727.2217
       },
       {
         "year": 2016,
-        "value": 25550.0194
+        "value": 26236.2429
       },
       {
         "year": 2017,
-        "value": 25466.1781
+        "value": 26113.8942
       },
       {
         "year": 2018,
-        "value": 24935.3484
+        "value": 25522.4758
       },
       {
         "year": 2019,
-        "value": 24662.9876
+        "value": 25378.7658
       },
       {
         "year": 2020,
-        "value": 24437.0974
+        "value": 25208.5025
       },
       {
         "year": 2021,
-        "value": 21620.3243
+        "value": 22454.1685
       },
       {
         "year": 2022,
-        "value": 21117.074
+        "value": 21973.341
       },
       {
         "year": 2023,
-        "value": 20384.3698
+        "value": 21293.5026
       },
       {
         "year": 2024,
-        "value": 20572.7526
+        "value": 21556.8723
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.0415
+      },
+      {
+        "year": 2015,
+        "value": 23.7739
+      },
+      {
+        "year": 2016,
+        "value": 23.9245
+      },
+      {
+        "year": 2017,
+        "value": 24.1953
+      },
+      {
+        "year": 2018,
+        "value": 25.0865
+      },
+      {
+        "year": 2019,
+        "value": 26.4532
+      },
+      {
+        "year": 2020,
+        "value": 26.9165
+      },
+      {
+        "year": 2021,
+        "value": 29.3555
+      },
+      {
+        "year": 2022,
+        "value": 28.0498
+      },
+      {
+        "year": 2023,
+        "value": 29.1498
+      },
+      {
+        "year": 2024,
+        "value": 29.2345
       }
     ],
     "enrollment_headcount_total": [

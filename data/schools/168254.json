@@ -1,6 +1,6 @@
 {
   "unitid": "168254",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Western New England University",
     "institution_unique_name": "Western New England University | Springfield | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.2984,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.0636,
-    "net_tuition_per_fte_change_5yr": -17.7254,
+    "net_tuition_per_fte_change_5yr": -19.117,
     "staff_total_headcount_pct_change_5yr": -6.7961,
     "staff_instructional_headcount_pct_change_5yr": 18.9349,
     "students_per_instructional_staff_fte": 9.6769,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 64.3284,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.1923,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.4059,
+    "unfunded_discount_pct_change_5yr": 25.2616,
     "share_grad_students": 30.0981,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29469.5373
+        "value": 29783.6952
       },
       {
         "year": 2015,
-        "value": 33101.1854
+        "value": 33306.1279
       },
       {
         "year": 2016,
-        "value": 32582.2614
+        "value": 32806.842
       },
       {
         "year": 2017,
-        "value": 31712.4707
+        "value": 31954.8297
       },
       {
         "year": 2018,
-        "value": 30280.1519
+        "value": 30513.4263
       },
       {
         "year": 2019,
-        "value": 31658.9824
+        "value": 31634.9624
       },
       {
         "year": 2020,
-        "value": 32276.7844
+        "value": 32265.5369
       },
       {
         "year": 2021,
-        "value": 31510.3348
+        "value": 31486.6792
       },
       {
         "year": 2022,
-        "value": 28534.4127
+        "value": 28336.7066
       },
       {
         "year": 2023,
-        "value": 29391.6751
+        "value": 28832.1695
       },
       {
         "year": 2024,
-        "value": 26047.3132
+        "value": 25587.3163
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.406
+      },
+      {
+        "year": 2015,
+        "value": 32.8706
+      },
+      {
+        "year": 2016,
+        "value": 34.0919
+      },
+      {
+        "year": 2017,
+        "value": 35.0554
+      },
+      {
+        "year": 2018,
+        "value": 36.6382
+      },
+      {
+        "year": 2019,
+        "value": 37.8455
+      },
+      {
+        "year": 2020,
+        "value": 38.0666
+      },
+      {
+        "year": 2021,
+        "value": 39.7449
+      },
+      {
+        "year": 2022,
+        "value": 42.4734
+      },
+      {
+        "year": 2023,
+        "value": 43.597
+      },
+      {
+        "year": 2024,
+        "value": 47.4059
       }
     ],
     "enrollment_headcount_total": [

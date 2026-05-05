@@ -1,6 +1,6 @@
 {
   "unitid": "210438",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Western States",
     "institution_unique_name": "University of Western States | Portland | Oregon",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 88.6373,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 89% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 5.8137,
+    "unfunded_discount_pct_change_5yr": 21.919,
     "share_grad_students": 99.9234,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 131199.2425
+        "value": 131109.3845
       },
       {
         "year": 2015,
-        "value": 171435.9335
+        "value": 171294.6488
       },
       {
         "year": 2016,
-        "value": 82851.3673
+        "value": 82786.6183
       },
       {
         "year": 2017,
-        "value": 78565.3139
+        "value": 78510.1039
       },
       {
         "year": 2018,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 48271.0403
+        "value": 48250.1234
       },
       {
         "year": 2024,
         "value": 59029.3841
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 1.1444
+      },
+      {
+        "year": 2015,
+        "value": 1.0943
+      },
+      {
+        "year": 2016,
+        "value": 2.4025
+      },
+      {
+        "year": 2017,
+        "value": 4.2621
+      },
+      {
+        "year": 2018,
+        "value": 4.6775
+      },
+      {
+        "year": 2019,
+        "value": 4.7685
+      },
+      {
+        "year": 2020,
+        "value": 5.9516
+      },
+      {
+        "year": 2021,
+        "value": 5.4173
+      },
+      {
+        "year": 2022,
+        "value": 5.0477
+      },
+      {
+        "year": 2023,
+        "value": 5.4521
+      },
+      {
+        "year": 2024,
+        "value": 5.8137
       }
     ],
     "enrollment_headcount_total": [

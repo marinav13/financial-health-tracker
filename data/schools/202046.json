@@ -1,6 +1,6 @@
 {
   "unitid": "202046",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Cleveland Institute of Art",
     "institution_unique_name": "Cleveland Institute of Art | Cleveland | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.8968,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.5357,
-    "net_tuition_per_fte_change_5yr": -21.1832,
+    "net_tuition_per_fte_change_5yr": -20.8515,
     "staff_total_headcount_pct_change_5yr": -7.6233,
     "staff_instructional_headcount_pct_change_5yr": -13.3333,
     "students_per_instructional_staff_fte": 7.9901,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 49.2172,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.5522,
+    "unfunded_discount_pct_change_5yr": 20.6579,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24938.8829
+        "value": 25221.8959
       },
       {
         "year": 2015,
-        "value": 26068.9223
+        "value": 26043.8524
       },
       {
         "year": 2016,
-        "value": 25898.1698
+        "value": 25870.9604
       },
       {
         "year": 2017,
-        "value": 26828.3083
+        "value": 26788.156
       },
       {
         "year": 2018,
-        "value": 27006.7829
+        "value": 26948.4987
       },
       {
         "year": 2019,
-        "value": 28084.4224
+        "value": 27966.7393
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 22135.2472
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 42.4488
+      },
+      {
+        "year": 2015,
+        "value": 40.6693
+      },
+      {
+        "year": 2016,
+        "value": 42.4444
+      },
+      {
+        "year": 2017,
+        "value": 41.1238
+      },
+      {
+        "year": 2018,
+        "value": 41.7484
+      },
+      {
+        "year": 2019,
+        "value": 42.7259
+      },
+      {
+        "year": 2020,
+        "value": 43.6747
+      },
+      {
+        "year": 2021,
+        "value": 46.2762
+      },
+      {
+        "year": 2022,
+        "value": 47.311
+      },
+      {
+        "year": 2023,
+        "value": 49.6551
+      },
+      {
+        "year": 2024,
+        "value": 51.5522
       }
     ],
     "enrollment_headcount_total": [

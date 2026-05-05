@@ -1,6 +1,6 @@
 {
   "unitid": "203535",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Kenyon College",
     "institution_unique_name": "Kenyon College | Gambier | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 35.0628,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 42.3601,
-    "net_tuition_per_fte_change_5yr": -16.9396,
+    "net_tuition_per_fte_change_5yr": -16.5079,
     "staff_total_headcount_pct_change_5yr": 0.8559,
     "staff_instructional_headcount_pct_change_5yr": 1.3761,
     "students_per_instructional_staff_fte": 9.1695,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 26.9286,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 27.0686,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.4563,
+    "unfunded_discount_pct_change_5yr": 23.7962,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1035624,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38968.8957
+        "value": 39032.1482
       },
       {
         "year": 2015,
-        "value": 37855.9625
+        "value": 37923.1499
       },
       {
         "year": 2016,
-        "value": 37274.2225
+        "value": 37351.655
       },
       {
         "year": 2017,
-        "value": 38827.6334
+        "value": 38897.7941
       },
       {
         "year": 2018,
-        "value": 38380.0618
+        "value": 38459.87
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 39954.6992
+        "value": 40051.603
       },
       {
         "year": 2021,
-        "value": 29108.3094
+        "value": 29329.8827
       },
       {
         "year": 2022,
-        "value": 35061.173
+        "value": 35178.9039
       },
       {
         "year": 2023,
-        "value": 33257.3986
+        "value": 33326.8437
       },
       {
         "year": 2024,
-        "value": 32746.7787
+        "value": 32916.984
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.9279
+      },
+      {
+        "year": 2015,
+        "value": 29.0255
+      },
+      {
+        "year": 2016,
+        "value": 31.3008
+      },
+      {
+        "year": 2017,
+        "value": 30.5127
+      },
+      {
+        "year": 2018,
+        "value": 31.6244
+      },
+      {
+        "year": 2019,
+        "value": 32.6797
+      },
+      {
+        "year": 2020,
+        "value": 33.0563
+      },
+      {
+        "year": 2021,
+        "value": 39.2804
+      },
+      {
+        "year": 2022,
+        "value": 38.3985
+      },
+      {
+        "year": 2023,
+        "value": 39.4798
+      },
+      {
+        "year": 2024,
+        "value": 40.4563
       }
     ],
     "enrollment_headcount_total": [

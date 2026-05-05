@@ -1,6 +1,6 @@
 {
   "unitid": "166054",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hellenic College-Holy Cross Greek Orthodox School of Theology",
     "institution_unique_name": "Hellenic College-Holy Cross Greek Orthodox School of Theology | Brookline | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 40.3509,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 29.3484,
-    "net_tuition_per_fte_change_5yr": 38.5438,
+    "net_tuition_per_fte_change_5yr": 38.8108,
     "staff_total_headcount_pct_change_5yr": 41.4634,
     "staff_instructional_headcount_pct_change_5yr": -5.8824,
     "students_per_instructional_staff_fte": 8.7931,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 17.2528,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.2861,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.2529,
+    "unfunded_discount_pct_change_5yr": 65.0096,
     "share_grad_students": 68.75,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19766.7961
+        "value": 17793.4702
       },
       {
         "year": 2015,
-        "value": 9969.2214
+        "value": 8850.5238
       },
       {
         "year": 2016,
-        "value": 26013.0528
+        "value": 25276.8884
       },
       {
         "year": 2017,
-        "value": 14997.6903
+        "value": 15640.9631
       },
       {
         "year": 2018,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 15208.1927
+        "value": 15258.4298
       },
       {
         "year": 2022,
-        "value": 18289.4369
+        "value": 18363.3624
       },
       {
         "year": 2023,
-        "value": 15547.4092
+        "value": 15604.3417
       },
       {
         "year": 2024,
-        "value": 18409.6706
+        "value": 18445.1529
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 51.947
+      },
+      {
+        "year": 2016,
+        "value": 32.8317
+      },
+      {
+        "year": 2017,
+        "value": 25.9177
+      },
+      {
+        "year": 2018,
+        "value": 26.5826
+      },
+      {
+        "year": 2019,
+        "value": 15.9099
+      },
+      {
+        "year": 2020,
+        "value": 42.0284
+      },
+      {
+        "year": 2021,
+        "value": 32.9355
+      },
+      {
+        "year": 2022,
+        "value": 28.6881
+      },
+      {
+        "year": 2023,
+        "value": 39.4706
+      },
+      {
+        "year": 2024,
+        "value": 26.2529
       }
     ],
     "enrollment_headcount_total": [

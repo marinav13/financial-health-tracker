@@ -1,6 +1,6 @@
 {
   "unitid": "101189",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Faulkner University",
     "institution_unique_name": "Faulkner University | Montgomery | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.213,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 35.7523,
-    "net_tuition_per_fte_change_5yr": 4.3243,
+    "net_tuition_per_fte_change_5yr": 4.531,
     "staff_total_headcount_pct_change_5yr": 4.2918,
     "staff_instructional_headcount_pct_change_5yr": -3.4749,
     "students_per_instructional_staff_fte": 14.2611,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 57.2506,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.2587,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.4124,
+    "unfunded_discount_pct_change_5yr": -2.7778,
     "share_grad_students": 39.4252,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16689.8967
+        "value": 16407.6578
       },
       {
         "year": 2015,
-        "value": 16514.802
+        "value": 16164.2882
       },
       {
         "year": 2016,
-        "value": 15250.2184
+        "value": 14954.4827
       },
       {
         "year": 2017,
-        "value": 16324.68
+        "value": 16011.524
       },
       {
         "year": 2018,
-        "value": 15719.9331
+        "value": 15370.8576
       },
       {
         "year": 2019,
-        "value": 15238.7983
+        "value": 14945.1423
       },
       {
         "year": 2020,
-        "value": 14546.6011
+        "value": 14297.1319
       },
       {
         "year": 2021,
-        "value": 17417.6416
+        "value": 17010.4802
       },
       {
         "year": 2022,
-        "value": 13859.759
+        "value": 13608.975
       },
       {
         "year": 2023,
-        "value": 15855.6365
+        "value": 15561.1807
       },
       {
         "year": 2024,
-        "value": 15897.7643
+        "value": 15622.3109
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.9651
+      },
+      {
+        "year": 2015,
+        "value": 24.646
+      },
+      {
+        "year": 2016,
+        "value": 24.0707
+      },
+      {
+        "year": 2017,
+        "value": 25.3555
+      },
+      {
+        "year": 2018,
+        "value": 26.5989
+      },
+      {
+        "year": 2019,
+        "value": 26.1385
+      },
+      {
+        "year": 2020,
+        "value": 28.1732
+      },
+      {
+        "year": 2021,
+        "value": 29.0254
+      },
+      {
+        "year": 2022,
+        "value": 26.8966
+      },
+      {
+        "year": 2023,
+        "value": 25.3703
+      },
+      {
+        "year": 2024,
+        "value": 25.4124
       }
     ],
     "enrollment_headcount_total": [

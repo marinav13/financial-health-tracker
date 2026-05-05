@@ -1,6 +1,6 @@
 {
   "unitid": "170675",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lawrence Technological University",
     "institution_unique_name": "Lawrence Technological University | Southfield | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 19.1032,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 15.2576,
-    "net_tuition_per_fte_change_5yr": 0.6707,
+    "net_tuition_per_fte_change_5yr": 2.7782,
     "staff_total_headcount_pct_change_5yr": 12.4615,
     "staff_instructional_headcount_pct_change_5yr": 13.1737,
     "students_per_instructional_staff_fte": 12.4161,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 78.2213,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 78% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 79.8588,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.7557,
+    "unfunded_discount_pct_change_5yr": -6.8338,
     "share_grad_students": 29.8865,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 650422,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25910.8345
+        "value": 25574.6752
       },
       {
         "year": 2015,
-        "value": 27208.4976
+        "value": 26847.9061
       },
       {
         "year": 2016,
-        "value": 27823.9335
+        "value": 27434.5925
       },
       {
         "year": 2017,
-        "value": 28311.2335
+        "value": 27591.2514
       },
       {
         "year": 2018,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 28654.4819
+        "value": 27176.8716
       },
       {
         "year": 2022,
-        "value": 26818.2083
+        "value": 25673.4251
       },
       {
         "year": 2023,
-        "value": 30402.1267
+        "value": 30213.5177
       },
       {
         "year": 2024,
-        "value": 29592.341
+        "value": 30211.8453
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.7094
+      },
+      {
+        "year": 2015,
+        "value": 22.1916
+      },
+      {
+        "year": 2016,
+        "value": 21.7573
+      },
+      {
+        "year": 2017,
+        "value": 24.9732
+      },
+      {
+        "year": 2018,
+        "value": 23.5943
+      },
+      {
+        "year": 2019,
+        "value": 23.3515
+      },
+      {
+        "year": 2020,
+        "value": 23.0801
+      },
+      {
+        "year": 2021,
+        "value": 27.6701
+      },
+      {
+        "year": 2022,
+        "value": 28.4449
+      },
+      {
+        "year": 2023,
+        "value": 22.5113
+      },
+      {
+        "year": 2024,
+        "value": 21.7557
       }
     ],
     "enrollment_headcount_total": [

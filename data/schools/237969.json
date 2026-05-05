@@ -1,6 +1,6 @@
 {
   "unitid": "237969",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "West Virginia Wesleyan College",
     "institution_unique_name": "West Virginia Wesleyan College | Buckhannon | West Virginia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 28.5099,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.59,
+    "unfunded_discount_pct_change_5yr": -5.949,
     "share_grad_students": 7.8673,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11779.7484
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 54.4342
+      },
+      {
+        "year": 2015,
+        "value": 54.3134
+      },
+      {
+        "year": 2016,
+        "value": 55.0692
+      },
+      {
+        "year": 2017,
+        "value": 54.9581
+      },
+      {
+        "year": 2018,
+        "value": 54.9809
+      },
+      {
+        "year": 2019,
+        "value": 55.9165
+      },
+      {
+        "year": 2020,
+        "value": 54.315
+      },
+      {
+        "year": 2021,
+        "value": 52.4614
+      },
+      {
+        "year": 2022,
+        "value": 53.9589
+      },
+      {
+        "year": 2023,
+        "value": 50.4615
+      },
+      {
+        "year": 2024,
+        "value": 52.59
       }
     ],
     "enrollment_headcount_total": [

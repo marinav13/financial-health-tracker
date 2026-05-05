@@ -1,6 +1,6 @@
 {
   "unitid": "211291",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bucknell University",
     "institution_unique_name": "Bucknell University | Lewisburg | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.4768,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.786,
-    "net_tuition_per_fte_change_5yr": -15.6228,
+    "net_tuition_per_fte_change_5yr": -15.5684,
     "staff_total_headcount_pct_change_5yr": -0.5047,
     "staff_instructional_headcount_pct_change_5yr": -5.8957,
     "students_per_instructional_staff_fte": 9.9533,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 42.1565,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.2999,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.8609,
+    "unfunded_discount_pct_change_5yr": 27.6204,
     "share_grad_students": 1.1958,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3375000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 43622.2342
+        "value": 43711.4281
       },
       {
         "year": 2015,
-        "value": 41740.5128
+        "value": 41829.9565
       },
       {
         "year": 2016,
-        "value": 42321.3554
+        "value": 42413.0503
       },
       {
         "year": 2017,
-        "value": 43053.9665
+        "value": 43134.2263
       },
       {
         "year": 2018,
-        "value": 43765.8066
+        "value": 43871.2027
       },
       {
         "year": 2019,
-        "value": 44733.6376
+        "value": 44856.8556
       },
       {
         "year": 2020,
-        "value": 45863.1772
+        "value": 46326.4384
       },
       {
         "year": 2021,
-        "value": 42337.7095
+        "value": 42728.0222
       },
       {
         "year": 2022,
-        "value": 39818.0774
+        "value": 40014.4722
       },
       {
         "year": 2023,
-        "value": 38146.3929
+        "value": 38321.4407
       },
       {
         "year": 2024,
-        "value": 37745.0012
+        "value": 37873.3646
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.1236
+      },
+      {
+        "year": 2015,
+        "value": 21.2782
+      },
+      {
+        "year": 2016,
+        "value": 22.6744
+      },
+      {
+        "year": 2017,
+        "value": 23.0112
+      },
+      {
+        "year": 2018,
+        "value": 22.7713
+      },
+      {
+        "year": 2019,
+        "value": 23.3982
+      },
+      {
+        "year": 2020,
+        "value": 22.1006
+      },
+      {
+        "year": 2021,
+        "value": 23.0309
+      },
+      {
+        "year": 2022,
+        "value": 25.4501
+      },
+      {
+        "year": 2023,
+        "value": 26.9629
+      },
+      {
+        "year": 2024,
+        "value": 29.8609
       }
     ],
     "enrollment_headcount_total": [

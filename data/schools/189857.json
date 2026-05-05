@@ -1,6 +1,6 @@
 {
   "unitid": "189857",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Central Yeshiva Tomchei Tmimim Lubavitz",
     "institution_unique_name": "Central Yeshiva Tomchei Tmimim Lubavitz | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 70.1439,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 68.0643,
-    "net_tuition_per_fte_change_5yr": 10.414,
+    "net_tuition_per_fte_change_5yr": 7.7827,
     "staff_total_headcount_pct_change_5yr": 48.8372,
     "staff_instructional_headcount_pct_change_5yr": 86.9565,
     "students_per_instructional_staff_fte": 29.2577,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 90.6021,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 86.5737,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 87% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 7.0814,
+    "unfunded_discount_pct_change_5yr": -68.8864,
     "share_grad_students": 11.4165,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7625.7105
+        "value": 7498.6138
       },
       {
         "year": 2015,
-        "value": 7563.5424
+        "value": 7435.0305
       },
       {
         "year": 2016,
-        "value": 7986.4383
+        "value": 7913.1484
       },
       {
         "year": 2017,
-        "value": 8528.5181
+        "value": 8436.4706
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 7685.0105
+        "value": 7522.5886
       },
       {
         "year": 2020,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 9623.6793
+        "value": 9458.8579
       },
       {
         "year": 2022,
-        "value": 8180.23
+        "value": 7875.7857
       },
       {
         "year": 2023,
-        "value": 8640.0868
+        "value": 7571.7448
       },
       {
         "year": 2024,
-        "value": 8485.3266
+        "value": 8108.0507
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.0867
+      },
+      {
+        "year": 2015,
+        "value": 16.5829
+      },
+      {
+        "year": 2016,
+        "value": 8.6495
+      },
+      {
+        "year": 2017,
+        "value": 31.0395
+      },
+      {
+        "year": 2018,
+        "value": 20.3968
+      },
+      {
+        "year": 2019,
+        "value": 22.7598
+      },
+      {
+        "year": 2020,
+        "value": 20.1181
+      },
+      {
+        "year": 2021,
+        "value": 18.2804
+      },
+      {
+        "year": 2022,
+        "value": 6.403
+      },
+      {
+        "year": 2023,
+        "value": 7.0653
+      },
+      {
+        "year": 2024,
+        "value": 7.0814
       }
     ],
     "enrollment_headcount_total": [

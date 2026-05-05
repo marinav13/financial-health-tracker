@@ -1,6 +1,6 @@
 {
   "unitid": "232557",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Liberty University",
     "institution_unique_name": "Liberty University | Lynchburg | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 29.0348,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.9834,
-    "net_tuition_per_fte_change_5yr": -17.9776,
+    "net_tuition_per_fte_change_5yr": -17.9799,
     "staff_total_headcount_pct_change_5yr": 63.5276,
     "staff_instructional_headcount_pct_change_5yr": 73.5619,
     "students_per_instructional_staff_fte": 41.8582,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 64.9541,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 64.9524,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.8973,
+    "unfunded_discount_pct_change_5yr": -0.857,
     "share_grad_students": 49.7652,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5421919,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 13296.0212
+        "value": 13376.1475
       },
       {
         "year": 2016,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 14356.8853
+        "value": 14356.8166
       },
       {
         "year": 2021,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 13207.6328
+        "value": 13207.2266
       },
       {
         "year": 2023,
-        "value": 11796.1356
+        "value": 11795.7531
       },
       {
         "year": 2024,
-        "value": 11815.846
+        "value": 11815.5209
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.4662
+      },
+      {
+        "year": 2015,
+        "value": 22.4077
+      },
+      {
+        "year": 2016,
+        "value": 23.7424
+      },
+      {
+        "year": 2017,
+        "value": 23.9748
+      },
+      {
+        "year": 2018,
+        "value": 24.1491
+      },
+      {
+        "year": 2019,
+        "value": 26.1211
+      },
+      {
+        "year": 2020,
+        "value": 24.8064
+      },
+      {
+        "year": 2021,
+        "value": 25.4346
+      },
+      {
+        "year": 2022,
+        "value": 25.6573
+      },
+      {
+        "year": 2023,
+        "value": 26.1364
+      },
+      {
+        "year": 2024,
+        "value": 25.8973
       }
     ],
     "enrollment_headcount_total": [

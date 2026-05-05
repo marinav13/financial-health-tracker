@@ -1,6 +1,6 @@
 {
   "unitid": "206525",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wittenberg University",
     "institution_unique_name": "Wittenberg University | Springfield | Ohio",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 39.6514,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.8973,
+    "unfunded_discount_pct_change_5yr": 7.5493,
     "share_grad_students": 4.0087,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 328388,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18480.1438
+        "value": 18576.1288
       },
       {
         "year": 2015,
-        "value": 18008.2225
+        "value": 18157.4106
       },
       {
         "year": 2016,
-        "value": 17994.8952
+        "value": 18141.0209
       },
       {
         "year": 2017,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12372.8548
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 52.0788
+      },
+      {
+        "year": 2015,
+        "value": 53.3443
+      },
+      {
+        "year": 2016,
+        "value": 52.7929
+      },
+      {
+        "year": 2017,
+        "value": 54.3842
+      },
+      {
+        "year": 2018,
+        "value": 55.2954
+      },
+      {
+        "year": 2019,
+        "value": 56.6228
+      },
+      {
+        "year": 2020,
+        "value": 59.0279
+      },
+      {
+        "year": 2021,
+        "value": 61.2604
+      },
+      {
+        "year": 2022,
+        "value": 61.565
+      },
+      {
+        "year": 2023,
+        "value": 60.0786
+      },
+      {
+        "year": 2024,
+        "value": 60.8973
       }
     ],
     "enrollment_headcount_total": [

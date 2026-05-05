@@ -1,6 +1,6 @@
 {
   "unitid": "120768",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pacific Oaks College",
     "institution_unique_name": "Pacific Oaks College | Pasadena | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 80.7922,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.2997,
+    "unfunded_discount_pct_change_5yr": 144.052,
     "share_grad_students": 63.2169,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 29195.9824
+        "value": 28932.5344
       },
       {
         "year": 2017,
-        "value": 28683.9187
+        "value": 29341.8628
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 28780.421
+        "value": 28780.4194
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 23304.6268
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 7.5769
+      },
+      {
+        "year": 2015,
+        "value": 5.366
+      },
+      {
+        "year": 2016,
+        "value": 3.6798
+      },
+      {
+        "year": 2017,
+        "value": 3.5006
+      },
+      {
+        "year": 2018,
+        "value": 2.291
+      },
+      {
+        "year": 2019,
+        "value": 1.7618
+      },
+      {
+        "year": 2020,
+        "value": 1.5157
+      },
+      {
+        "year": 2021,
+        "value": 0.6683
+      },
+      {
+        "year": 2022,
+        "value": 2.2184
+      },
+      {
+        "year": 2023,
+        "value": 3.4002
+      },
+      {
+        "year": 2024,
+        "value": 4.2997
       }
     ],
     "enrollment_headcount_total": [

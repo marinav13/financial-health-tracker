@@ -1,6 +1,6 @@
 {
   "unitid": "107080",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hendrix College",
     "institution_unique_name": "Hendrix College | Conway | Arkansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.8091,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 63.2123,
-    "net_tuition_per_fte_change_5yr": -21.4444,
+    "net_tuition_per_fte_change_5yr": -21.7349,
     "staff_total_headcount_pct_change_5yr": -17.2949,
     "staff_instructional_headcount_pct_change_5yr": -17.5182,
     "students_per_instructional_staff_fte": 10.4749,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 15.946,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.9753,
+    "unfunded_discount_pct_change_5yr": -11.5252,
     "share_grad_students": 0.8945,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 821797,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15770.4255
+        "value": 15800.5368
       },
       {
         "year": 2015,
-        "value": 16200.4145
+        "value": 16233.9293
       },
       {
         "year": 2016,
-        "value": 16194.0939
+        "value": 16230.7117
       },
       {
         "year": 2017,
-        "value": 15656.4378
+        "value": 15688.6298
       },
       {
         "year": 2018,
-        "value": 13439.9248
+        "value": 13478.3633
       },
       {
         "year": 2019,
-        "value": 13727.2245
+        "value": 13778.1889
       },
       {
         "year": 2020,
-        "value": 12611.0199
+        "value": 5360.3312
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10783.5086
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 58.4434
+      },
+      {
+        "year": 2015,
+        "value": 58.275
+      },
+      {
+        "year": 2016,
+        "value": 59.5114
+      },
+      {
+        "year": 2017,
+        "value": 59.0262
+      },
+      {
+        "year": 2018,
+        "value": 63.073
+      },
+      {
+        "year": 2019,
+        "value": 64.3972
+      },
+      {
+        "year": 2020,
+        "value": 74.7029
+      },
+      {
+        "year": 2021,
+        "value": 63.8441
+      },
+      {
+        "year": 2022,
+        "value": 67.5135
+      },
+      {
+        "year": 2023,
+        "value": 55.3212
+      },
+      {
+        "year": 2024,
+        "value": 56.9753
       }
     ],
     "enrollment_headcount_total": [

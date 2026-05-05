@@ -1,6 +1,6 @@
 {
   "unitid": "224244",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dallas Christian College",
     "institution_unique_name": "Dallas Christian College | Dallas | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 29.4118,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 6.9101,
-    "net_tuition_per_fte_change_5yr": -30.7009,
+    "net_tuition_per_fte_change_5yr": -30.4805,
     "staff_total_headcount_pct_change_5yr": 17.5439,
     "staff_instructional_headcount_pct_change_5yr": -6.8966,
     "students_per_instructional_staff_fte": 15.2667,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 53.7233,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.2212,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.4759,
+    "unfunded_discount_pct_change_5yr": 81.0711,
     "share_grad_students": 3.5714,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15516.3032
+        "value": 15385.5676
       },
       {
         "year": 2015,
-        "value": 15399.2982
+        "value": 15264.5053
       },
       {
         "year": 2016,
-        "value": 17597.8357
+        "value": 17455.4067
       },
       {
         "year": 2017,
-        "value": 17469.4105
+        "value": 17285.5793
       },
       {
         "year": 2018,
-        "value": 18526.1054
+        "value": 18355.39
       },
       {
         "year": 2019,
-        "value": 18252.5544
+        "value": 18024.6576
       },
       {
         "year": 2020,
-        "value": 17746.0125
+        "value": 17451.2667
       },
       {
         "year": 2021,
-        "value": 13450.0318
+        "value": 12598.1169
       },
       {
         "year": 2022,
-        "value": 11705.0947
+        "value": 11545.9378
       },
       {
         "year": 2023,
-        "value": 11953.5363
+        "value": 11807.8196
       },
       {
         "year": 2024,
-        "value": 12648.8646
+        "value": 12530.6463
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.2575
+      },
+      {
+        "year": 2015,
+        "value": 22.8013
+      },
+      {
+        "year": 2016,
+        "value": 18.5125
+      },
+      {
+        "year": 2017,
+        "value": 20.3238
+      },
+      {
+        "year": 2018,
+        "value": 19.7296
+      },
+      {
+        "year": 2019,
+        "value": 19.5923
+      },
+      {
+        "year": 2020,
+        "value": 21.8031
+      },
+      {
+        "year": 2021,
+        "value": 32.431
+      },
+      {
+        "year": 2022,
+        "value": 37.6198
+      },
+      {
+        "year": 2023,
+        "value": 39.4866
+      },
+      {
+        "year": 2024,
+        "value": 35.4759
       }
     ],
     "enrollment_headcount_total": [

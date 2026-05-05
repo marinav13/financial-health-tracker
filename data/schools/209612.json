@@ -1,6 +1,6 @@
 {
   "unitid": "209612",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pacific University",
     "institution_unique_name": "Pacific University | Forest Grove | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.7465,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.6968,
-    "net_tuition_per_fte_change_5yr": -7.6584,
+    "net_tuition_per_fte_change_5yr": -13.0805,
     "staff_total_headcount_pct_change_5yr": -9.3781,
     "staff_instructional_headcount_pct_change_5yr": -21.0953,
     "students_per_instructional_staff_fte": 8.8152,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 69.8019,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 65.86,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.3655,
+    "unfunded_discount_pct_change_5yr": 11.0107,
     "share_grad_students": 56.5649,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2248202,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34942.8525
+        "value": 35024.4542
       },
       {
         "year": 2015,
-        "value": 40344.1034
+        "value": 40433.406
       },
       {
         "year": 2016,
-        "value": 40794.1785
+        "value": 42400.0262
       },
       {
         "year": 2017,
-        "value": 41489.1113
+        "value": 41598.2282
       },
       {
         "year": 2018,
-        "value": 41507.0382
+        "value": 41595.9564
       },
       {
         "year": 2019,
-        "value": 41652.5716
+        "value": 41751.9055
       },
       {
         "year": 2020,
-        "value": 43297.7501
+        "value": 43386.4651
       },
       {
         "year": 2021,
-        "value": 42508.1773
+        "value": 42697.8461
       },
       {
         "year": 2022,
-        "value": 41704.3298
+        "value": 41466.73
       },
       {
         "year": 2023,
-        "value": 40370.5244
+        "value": 37912.6879
       },
       {
         "year": 2024,
-        "value": 38462.6517
+        "value": 36290.5301
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.1909
+      },
+      {
+        "year": 2015,
+        "value": 27.5254
+      },
+      {
+        "year": 2016,
+        "value": 27.4864
+      },
+      {
+        "year": 2017,
+        "value": 27.8576
+      },
+      {
+        "year": 2018,
+        "value": 27.5431
+      },
+      {
+        "year": 2019,
+        "value": 28.2545
+      },
+      {
+        "year": 2020,
+        "value": 27.8136
+      },
+      {
+        "year": 2021,
+        "value": 28.3127
+      },
+      {
+        "year": 2022,
+        "value": 27.9588
+      },
+      {
+        "year": 2023,
+        "value": 29.7554
+      },
+      {
+        "year": 2024,
+        "value": 31.3655
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "138293",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Webber International University",
     "institution_unique_name": "Webber International University | Babson Park | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 34.0879,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 24.7677,
-    "net_tuition_per_fte_change_5yr": -15.5995,
+    "net_tuition_per_fte_change_5yr": -167.5916,
     "staff_total_headcount_pct_change_5yr": 21.3018,
     "staff_instructional_headcount_pct_change_5yr": 120.4545,
     "students_per_instructional_staff_fte": 16.649,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 52.4656,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -13.0778,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 124.9265,
+    "unfunded_discount_pct_change_5yr": 78.5697,
     "share_grad_students": 6.7527,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15930.9663
+        "value": 3374.9084
       },
       {
         "year": 2015,
-        "value": 16737.8836
+        "value": 4010.7265
       },
       {
         "year": 2016,
-        "value": 16840.1076
+        "value": 4065.8066
       },
       {
         "year": 2017,
-        "value": 16887.8087
+        "value": 4611.2591
       },
       {
         "year": 2018,
-        "value": 15470.5895
+        "value": 3039.5964
       },
       {
         "year": 2019,
-        "value": 16246.1314
+        "value": 5056.6602
       },
       {
         "year": 2020,
-        "value": 17436.3101
+        "value": 4747.0708
       },
       {
         "year": 2021,
-        "value": 18195.1507
+        "value": 4527.4514
       },
       {
         "year": 2022,
-        "value": 15771.7307
+        "value": 1336.2827
       },
       {
         "year": 2023,
-        "value": 14919.3631
+        "value": -654.5459
       },
       {
         "year": 2024,
-        "value": 13711.8138
+        "value": -3417.8759
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 79.4961
+      },
+      {
+        "year": 2015,
+        "value": 76.7945
+      },
+      {
+        "year": 2016,
+        "value": 76.5232
+      },
+      {
+        "year": 2017,
+        "value": 73.5269
+      },
+      {
+        "year": 2018,
+        "value": 81.0948
+      },
+      {
+        "year": 2019,
+        "value": 69.9595
+      },
+      {
+        "year": 2020,
+        "value": 72.7748
+      },
+      {
+        "year": 2021,
+        "value": 75.1173
+      },
+      {
+        "year": 2022,
+        "value": 91.5274
+      },
+      {
+        "year": 2023,
+        "value": 104.3872
+      },
+      {
+        "year": 2024,
+        "value": 124.9265
       }
     ],
     "enrollment_headcount_total": [

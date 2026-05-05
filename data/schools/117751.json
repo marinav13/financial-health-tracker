@@ -1,6 +1,6 @@
 {
   "unitid": "117751",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The Master's University and Seminary",
     "institution_unique_name": "The Master's University and Seminary | Santa Clarita | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 18.2853,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 52.6053,
-    "net_tuition_per_fte_change_5yr": -11.148,
+    "net_tuition_per_fte_change_5yr": -11.1601,
     "staff_total_headcount_pct_change_5yr": 18.6583,
     "staff_instructional_headcount_pct_change_5yr": 20.6897,
     "students_per_instructional_staff_fte": 16.8462,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 38.9738,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.6368,
+    "unfunded_discount_pct_change_5yr": 81.8443,
     "share_grad_students": 33.9641,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 19131.9695
+        "value": 19133.7472
       },
       {
         "year": 2016,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 15759.7379
+        "value": 15761.883
       },
       {
         "year": 2020,
@@ -191,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 14005.6595
+        "value": 14005.66
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 14002.8352
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.3193
+      },
+      {
+        "year": 2015,
+        "value": 31.6783
+      },
+      {
+        "year": 2016,
+        "value": 32.199
+      },
+      {
+        "year": 2017,
+        "value": 32.3377
+      },
+      {
+        "year": 2018,
+        "value": 31.8194
+      },
+      {
+        "year": 2019,
+        "value": 15.748
+      },
+      {
+        "year": 2020,
+        "value": 19.321
+      },
+      {
+        "year": 2021,
+        "value": 20.3601
+      },
+      {
+        "year": 2022,
+        "value": 24.2539
+      },
+      {
+        "year": 2023,
+        "value": 26.2111
+      },
+      {
+        "year": 2024,
+        "value": 28.6368
       }
     ],
     "enrollment_headcount_total": [

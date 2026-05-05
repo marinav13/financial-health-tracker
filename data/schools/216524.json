@@ -1,6 +1,6 @@
 {
   "unitid": "216524",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ursinus College",
     "institution_unique_name": "Ursinus College | Collegeville | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.1929,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 7.1087,
-    "net_tuition_per_fte_change_5yr": -17.0821,
+    "net_tuition_per_fte_change_5yr": -15.6289,
     "staff_total_headcount_pct_change_5yr": -3.532,
     "staff_instructional_headcount_pct_change_5yr": 3.5503,
     "students_per_instructional_staff_fte": 10.4901,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 35.2049,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.8219,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 64.9594,
+    "unfunded_discount_pct_change_5yr": 4.7982,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 346213,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 18091.3131
+        "value": 18408.3857
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 52.6221
+      },
+      {
+        "year": 2015,
+        "value": 55.3543
+      },
+      {
+        "year": 2016,
+        "value": 57.6182
+      },
+      {
+        "year": 2017,
+        "value": 59.8794
+      },
+      {
+        "year": 2018,
+        "value": 61.2073
+      },
+      {
+        "year": 2019,
+        "value": 61.9852
+      },
+      {
+        "year": 2020,
+        "value": 62.3485
+      },
+      {
+        "year": 2021,
+        "value": 60.984
+      },
+      {
+        "year": 2022,
+        "value": 61.2447
+      },
+      {
+        "year": 2023,
+        "value": 64.0575
+      },
+      {
+        "year": 2024,
+        "value": 64.9594
       }
     ],
     "enrollment_headcount_total": [

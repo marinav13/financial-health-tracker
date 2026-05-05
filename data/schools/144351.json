@@ -1,6 +1,6 @@
 {
   "unitid": "144351",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University-Chicago",
     "institution_unique_name": "Concordia University-Chicago | River Forest | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 72.383,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.7762,
+    "unfunded_discount_pct_change_5yr": -0.1537,
     "share_grad_students": 75.5084,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18177.9693
+        "value": 18168.3152
       },
       {
         "year": 2015,
-        "value": 18790.8874
+        "value": 18788.4011
       },
       {
         "year": 2016,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 14253.0638
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.5056
+      },
+      {
+        "year": 2015,
+        "value": 23.015
+      },
+      {
+        "year": 2016,
+        "value": 22.6887
+      },
+      {
+        "year": 2017,
+        "value": 23.1661
+      },
+      {
+        "year": 2018,
+        "value": 22.343
+      },
+      {
+        "year": 2019,
+        "value": 23.8128
+      },
+      {
+        "year": 2020,
+        "value": 23.547
+      },
+      {
+        "year": 2021,
+        "value": 21.4994
+      },
+      {
+        "year": 2022,
+        "value": 23.5004
+      },
+      {
+        "year": 2023,
+        "value": 24.0465
+      },
+      {
+        "year": 2024,
+        "value": 23.7762
       }
     ],
     "enrollment_headcount_total": [

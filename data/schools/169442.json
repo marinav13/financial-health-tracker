@@ -1,6 +1,6 @@
 {
   "unitid": "169442",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College for Creative Studies",
     "institution_unique_name": "College for Creative Studies | Detroit | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.2755,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.8083,
-    "net_tuition_per_fte_change_5yr": -17.737,
+    "net_tuition_per_fte_change_5yr": -22.4182,
     "staff_total_headcount_pct_change_5yr": -10.1476,
     "staff_instructional_headcount_pct_change_5yr": -7.8498,
     "students_per_instructional_staff_fte": 9.8571,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 57.082,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.7121,
+    "unfunded_discount_pct_change_5yr": 31.4491,
     "share_grad_students": 4.0698,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31274.5288
+        "value": 32655.4937
       },
       {
         "year": 2015,
-        "value": 32008.0744
+        "value": 33478.7947
       },
       {
         "year": 2016,
-        "value": 32449.0303
+        "value": 34093.805
       },
       {
         "year": 2017,
-        "value": 33908.4661
+        "value": 35442.1738
       },
       {
         "year": 2018,
-        "value": 32452.0824
+        "value": 33776.4177
       },
       {
         "year": 2019,
-        "value": 32867.7656
+        "value": 34850.9794
       },
       {
         "year": 2020,
-        "value": 34861.0211
+        "value": 35717.1559
       },
       {
         "year": 2021,
-        "value": 31705.746
+        "value": 32415.5215
       },
       {
         "year": 2022,
-        "value": 28033.8557
+        "value": 28754.5135
       },
       {
         "year": 2023,
-        "value": 27140.3862
+        "value": 28181.6346
       },
       {
         "year": 2024,
         "value": 27038.0233
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.7431
+      },
+      {
+        "year": 2015,
+        "value": 31.2895
+      },
+      {
+        "year": 2016,
+        "value": 32.1395
+      },
+      {
+        "year": 2017,
+        "value": 32.6155
+      },
+      {
+        "year": 2018,
+        "value": 34.2239
+      },
+      {
+        "year": 2019,
+        "value": 34.7755
+      },
+      {
+        "year": 2020,
+        "value": 35.6394
+      },
+      {
+        "year": 2021,
+        "value": 39.5801
+      },
+      {
+        "year": 2022,
+        "value": 42.0847
+      },
+      {
+        "year": 2023,
+        "value": 43.6448
+      },
+      {
+        "year": 2024,
+        "value": 45.7121
       }
     ],
     "enrollment_headcount_total": [

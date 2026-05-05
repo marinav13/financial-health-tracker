@@ -1,6 +1,6 @@
 {
   "unitid": "204635",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ohio Northern University",
     "institution_unique_name": "Ohio Northern University | Ada | Ohio",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 48.1778,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.4393,
+    "unfunded_discount_pct_change_5yr": 16.4494,
     "share_grad_students": 14.6887,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 546573,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30794.3693
+        "value": 30797.1689
       },
       {
         "year": 2015,
-        "value": 27151.6716
+        "value": 27148.878
       },
       {
         "year": 2016,
-        "value": 27240.3879
+        "value": 27195.4999
       },
       {
         "year": 2017,
-        "value": 26702.7357
+        "value": 25663.2029
       },
       {
         "year": 2018,
-        "value": 26924.0619
+        "value": 26748.697
       },
       {
         "year": 2019,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 20605.9948
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.8426
+      },
+      {
+        "year": 2015,
+        "value": 40.329
+      },
+      {
+        "year": 2016,
+        "value": 38.6004
+      },
+      {
+        "year": 2017,
+        "value": 42.5257
+      },
+      {
+        "year": 2018,
+        "value": 42.0459
+      },
+      {
+        "year": 2019,
+        "value": 42.4556
+      },
+      {
+        "year": 2020,
+        "value": 45.2059
+      },
+      {
+        "year": 2021,
+        "value": 44.8699
+      },
+      {
+        "year": 2022,
+        "value": 47.1229
+      },
+      {
+        "year": 2023,
+        "value": 48.771
+      },
+      {
+        "year": 2024,
+        "value": 49.4393
       }
     ],
     "enrollment_headcount_total": [

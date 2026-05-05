@@ -1,6 +1,6 @@
 {
   "unitid": "198835",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lenoir-Rhyne University",
     "institution_unique_name": "Lenoir-Rhyne University | Hickory | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.6396,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.3976,
-    "net_tuition_per_fte_change_5yr": -9.883,
+    "net_tuition_per_fte_change_5yr": -8.6768,
     "staff_total_headcount_pct_change_5yr": -17.2619,
     "staff_instructional_headcount_pct_change_5yr": -25.2632,
     "students_per_instructional_staff_fte": 14.131,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 43.4092,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.6525,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.4863,
+    "unfunded_discount_pct_change_5yr": -15.0797,
     "share_grad_students": 36.5756,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16327.1132
+        "value": 17726.6239
       },
       {
         "year": 2015,
-        "value": 16055.3314
+        "value": 16728.4826
       },
       {
         "year": 2016,
-        "value": 15764.4015
+        "value": 16447.8546
       },
       {
         "year": 2017,
-        "value": 15678.4359
+        "value": 16587.1916
       },
       {
         "year": 2018,
-        "value": 15732.9419
+        "value": 16303.7884
       },
       {
         "year": 2019,
-        "value": 15242.5577
+        "value": 15125.5301
       },
       {
         "year": 2020,
-        "value": 15056.544
+        "value": 15783.1904
       },
       {
         "year": 2021,
-        "value": 15636.9793
+        "value": 16399.1351
       },
       {
         "year": 2022,
-        "value": 15510.3493
+        "value": 15818.4245
       },
       {
         "year": 2023,
-        "value": 14785.552
+        "value": 14550.8131
       },
       {
         "year": 2024,
-        "value": 13736.1352
+        "value": 13813.1118
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.3884
+      },
+      {
+        "year": 2015,
+        "value": 42.5759
+      },
+      {
+        "year": 2016,
+        "value": 43.9893
+      },
+      {
+        "year": 2017,
+        "value": 45.8726
+      },
+      {
+        "year": 2018,
+        "value": 45.7585
+      },
+      {
+        "year": 2019,
+        "value": 50.0308
+      },
+      {
+        "year": 2020,
+        "value": 50.4188
+      },
+      {
+        "year": 2021,
+        "value": 48.1794
+      },
+      {
+        "year": 2022,
+        "value": 49.4405
+      },
+      {
+        "year": 2023,
+        "value": 52.1089
+      },
+      {
+        "year": 2024,
+        "value": 42.4863
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "206491",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wilberforce University",
     "institution_unique_name": "Wilberforce University | Wilberforce | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.5302,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -38.7301,
-    "net_tuition_per_fte_change_5yr": -52.0735,
+    "net_tuition_per_fte_change_5yr": -48.5259,
     "staff_total_headcount_pct_change_5yr": 38.2114,
     "staff_instructional_headcount_pct_change_5yr": 25.9259,
     "students_per_instructional_staff_fte": 12.2,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 31.8077,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.4267,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.9717,
+    "unfunded_discount_pct_change_5yr": 227.8981,
     "share_grad_students": 2.2956,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10863.4507
+        "value": 12601.0526
       },
       {
         "year": 2015,
-        "value": 13855.6629
+        "value": 16780.842
       },
       {
         "year": 2016,
-        "value": 16503.6998
+        "value": 20650.4883
       },
       {
         "year": 2017,
-        "value": 20554.1032
+        "value": 22122.6159
       },
       {
         "year": 2018,
-        "value": 20852.3646
+        "value": 22166.4789
       },
       {
         "year": 2019,
-        "value": 13815.8016
+        "value": 14731.6451
       },
       {
         "year": 2020,
-        "value": 13821.3243
+        "value": 15239.7642
       },
       {
         "year": 2021,
-        "value": 14223.6991
+        "value": 15077.944
       },
       {
         "year": 2022,
-        "value": 12806.6636
+        "value": 12240.0802
       },
       {
         "year": 2023,
-        "value": 19250.9398
+        "value": 22784.8175
       },
       {
         "year": 2024,
-        "value": 6621.4311
+        "value": 7582.9869
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 4.7404
+      },
+      {
+        "year": 2018,
+        "value": 4.6685
+      },
+      {
+        "year": 2019,
+        "value": 7.3107
+      },
+      {
+        "year": 2020,
+        "value": 2.5236
+      },
+      {
+        "year": 2021,
+        "value": 0.3679
+      },
+      {
+        "year": 2022,
+        "value": 6.6685
+      },
+      {
+        "year": 2023,
+        "value": 21.4422
+      },
+      {
+        "year": 2024,
+        "value": 23.9717
       }
     ],
     "enrollment_headcount_total": [

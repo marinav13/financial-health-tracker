@@ -1,6 +1,6 @@
 {
   "unitid": "195526",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Skidmore College",
     "institution_unique_name": "Skidmore College | Saratoga Springs | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.4184,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 26.931,
-    "net_tuition_per_fte_change_5yr": -15.5168,
+    "net_tuition_per_fte_change_5yr": -15.2426,
     "staff_total_headcount_pct_change_5yr": -2.5046,
     "staff_instructional_headcount_pct_change_5yr": 1.8868,
     "students_per_instructional_staff_fte": 8.9968,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 37.7817,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.3003,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.8466,
+    "unfunded_discount_pct_change_5yr": 25.5374,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3097000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40266.5437
+        "value": 40537.5893
       },
       {
         "year": 2015,
-        "value": 41356.2935
+        "value": 42589.9204
       },
       {
         "year": 2016,
-        "value": 43240.7423
+        "value": 44434.1106
       },
       {
         "year": 2017,
-        "value": 44078.6233
+        "value": 44509.0759
       },
       {
         "year": 2018,
-        "value": 42716.9627
+        "value": 43143.0197
       },
       {
         "year": 2019,
-        "value": 43316.4135
+        "value": 43768.8666
       },
       {
         "year": 2020,
-        "value": 43092.2068
+        "value": 43545.3096
       },
       {
         "year": 2021,
-        "value": 39575.4349
+        "value": 40334.47
       },
       {
         "year": 2022,
-        "value": 38149.8654
+        "value": 38628.7456
       },
       {
         "year": 2023,
-        "value": 36349.0431
+        "value": 36841.5053
       },
       {
         "year": 2024,
-        "value": 36595.0963
+        "value": 37097.373
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.7719
+      },
+      {
+        "year": 2015,
+        "value": 25.8774
+      },
+      {
+        "year": 2016,
+        "value": 24.5431
+      },
+      {
+        "year": 2017,
+        "value": 25.7235
+      },
+      {
+        "year": 2018,
+        "value": 27.1385
+      },
+      {
+        "year": 2019,
+        "value": 26.9614
+      },
+      {
+        "year": 2020,
+        "value": 30.4378
+      },
+      {
+        "year": 2021,
+        "value": 32.877
+      },
+      {
+        "year": 2022,
+        "value": 33.3397
+      },
+      {
+        "year": 2023,
+        "value": 33.8983
+      },
+      {
+        "year": 2024,
+        "value": 33.8466
       }
     ],
     "enrollment_headcount_total": [

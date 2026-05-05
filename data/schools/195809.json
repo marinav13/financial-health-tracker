@@ -1,6 +1,6 @@
 {
   "unitid": "195809",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. John's University-New York",
     "institution_unique_name": "St. John's University-New York | Queens | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.8062,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.6588,
-    "net_tuition_per_fte_change_5yr": -4.0842,
+    "net_tuition_per_fte_change_5yr": -6.2743,
     "staff_total_headcount_pct_change_5yr": -8.6909,
     "staff_instructional_headcount_pct_change_5yr": -12.7839,
     "students_per_instructional_staff_fte": 15.4454,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 63.1108,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.5009,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.685,
+    "unfunded_discount_pct_change_5yr": 5.5219,
     "share_grad_students": 20.4102,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 8246000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31762.0024
+        "value": 31730.1695
       },
       {
         "year": 2015,
-        "value": 32414.3734
+        "value": 32379.3284
       },
       {
         "year": 2016,
-        "value": 30559.4379
+        "value": 30472.2394
       },
       {
         "year": 2017,
-        "value": 28671.0483
+        "value": 28916.7656
       },
       {
         "year": 2018,
-        "value": 27738.9725
+        "value": 27822.0552
       },
       {
         "year": 2019,
-        "value": 27828.1236
+        "value": 27751.9173
       },
       {
         "year": 2020,
-        "value": 28178.0574
+        "value": 28125.8644
       },
       {
         "year": 2021,
-        "value": 27116.8637
+        "value": 26843.419
       },
       {
         "year": 2022,
-        "value": 25774.3146
+        "value": 25322.7315
       },
       {
         "year": 2023,
-        "value": 25991.7671
+        "value": 25380.5578
       },
       {
         "year": 2024,
-        "value": 26691.5624
+        "value": 26010.6805
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.7104
+      },
+      {
+        "year": 2015,
+        "value": 35.766
+      },
+      {
+        "year": 2016,
+        "value": 37.5361
+      },
+      {
+        "year": 2017,
+        "value": 39.4483
+      },
+      {
+        "year": 2018,
+        "value": 41.4148
+      },
+      {
+        "year": 2019,
+        "value": 42.3467
+      },
+      {
+        "year": 2020,
+        "value": 42.9933
+      },
+      {
+        "year": 2021,
+        "value": 44.4202
+      },
+      {
+        "year": 2022,
+        "value": 45.0575
+      },
+      {
+        "year": 2023,
+        "value": 44.716
+      },
+      {
+        "year": 2024,
+        "value": 44.685
       }
     ],
     "enrollment_headcount_total": [

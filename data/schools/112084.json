@@ -1,6 +1,6 @@
 {
   "unitid": "112084",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "San Diego Christian College",
     "institution_unique_name": "San Diego Christian College | Santee | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -80.5447,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -74.8165,
-    "net_tuition_per_fte_change_5yr": -33.3505,
+    "net_tuition_per_fte_change_5yr": -27.3531,
     "staff_total_headcount_pct_change_5yr": -78.8177,
     "staff_instructional_headcount_pct_change_5yr": -77.5362,
     "students_per_instructional_staff_fte": 5.9302,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 38.4864,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.9495,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.6039,
+    "unfunded_discount_pct_change_5yr": -19.0904,
     "share_grad_students": 16.6667,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24885.5492
+        "value": 18332.3433
       },
       {
         "year": 2015,
-        "value": 25073.1954
+        "value": 16665.1819
       },
       {
         "year": 2016,
-        "value": 26502.9176
+        "value": 18052.7624
       },
       {
         "year": 2017,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 14874.4781
+        "value": 14592.5928
       },
       {
         "year": 2024,
-        "value": 15917.2588
+        "value": 17349.5647
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.31
+      },
+      {
+        "year": 2015,
+        "value": 33.4942
+      },
+      {
+        "year": 2016,
+        "value": 31.8839
+      },
+      {
+        "year": 2017,
+        "value": 24.94
+      },
+      {
+        "year": 2018,
+        "value": 24.111
+      },
+      {
+        "year": 2019,
+        "value": 30.4091
+      },
+      {
+        "year": 2020,
+        "value": 32.9847
+      },
+      {
+        "year": 2021,
+        "value": 39.5934
+      },
+      {
+        "year": 2022,
+        "value": 45.8431
+      },
+      {
+        "year": 2023,
+        "value": 49.7924
+      },
+      {
+        "year": 2024,
+        "value": 24.6039
       }
     ],
     "enrollment_headcount_total": [

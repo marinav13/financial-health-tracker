@@ -1,6 +1,6 @@
 {
   "unitid": "227331",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Our Lady of the Lake University",
     "institution_unique_name": "Our Lady of the Lake University | San Antonio | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -35.7956,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -34.0832,
-    "net_tuition_per_fte_change_5yr": -26.873,
+    "net_tuition_per_fte_change_5yr": -27.4967,
     "staff_total_headcount_pct_change_5yr": -29.9685,
     "staff_instructional_headcount_pct_change_5yr": -31.1037,
     "students_per_instructional_staff_fte": 12.7313,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 52.5607,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 48.996,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.0597,
+    "unfunded_discount_pct_change_5yr": 25.7385,
     "share_grad_students": 48.9485,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,7 +169,7 @@
       },
       {
         "year": 2016,
-        "value": 24202.6714
+        "value": 24693.4711
       },
       {
         "year": 2017,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 23920.9318
+        "value": 22490.417
       },
       {
         "year": 2020,
-        "value": 22521.67
+        "value": 20940.6728
       },
       {
         "year": 2021,
-        "value": 22948.0322
+        "value": 21334.696
       },
       {
         "year": 2022,
-        "value": 20407.4304
+        "value": 18761.4718
       },
       {
         "year": 2023,
-        "value": 18907.4341
+        "value": 17206.5363
       },
       {
         "year": 2024,
-        "value": 17492.6706
+        "value": 16306.3007
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.8159
+      },
+      {
+        "year": 2015,
+        "value": 24.0334
+      },
+      {
+        "year": 2016,
+        "value": 20.8549
+      },
+      {
+        "year": 2017,
+        "value": 19.7563
+      },
+      {
+        "year": 2018,
+        "value": 22.6169
+      },
+      {
+        "year": 2019,
+        "value": 29.4736
+      },
+      {
+        "year": 2020,
+        "value": 32.4383
+      },
+      {
+        "year": 2021,
+        "value": 31.947
+      },
+      {
+        "year": 2022,
+        "value": 33.8483
+      },
+      {
+        "year": 2023,
+        "value": 37.5713
+      },
+      {
+        "year": 2024,
+        "value": 37.0597
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "476692",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Gedolah Zichron Leyma",
     "institution_unique_name": "Yeshiva Gedolah Zichron Leyma | Union | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 89.2857,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.4556,
-    "net_tuition_per_fte_change_5yr": -15.5035,
+    "net_tuition_per_fte_change_5yr": -4.6866,
     "staff_total_headcount_pct_change_5yr": 14.2857,
     "staff_instructional_headcount_pct_change_5yr": 75,
     "students_per_instructional_staff_fte": 12.2308,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 50.8546,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.0993,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.8432,
+    "unfunded_discount_pct_change_5yr": 10.1197,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,35 +165,35 @@
       },
       {
         "year": 2015,
-        "value": 3088.2254
+        "value": 1204.3357
       },
       {
         "year": 2016,
-        "value": 4253.4988
+        "value": 1974.0919
       },
       {
         "year": 2017,
-        "value": 7186.8781
+        "value": 2922.5524
       },
       {
         "year": 2018,
-        "value": 9900.335
+        "value": 7654.9235
       },
       {
         "year": 2019,
-        "value": 10939.1563
+        "value": 9553.6636
       },
       {
         "year": 2020,
-        "value": 8499.7146
+        "value": 6794.3758
       },
       {
         "year": 2021,
-        "value": 9180.6267
+        "value": 8238.476
       },
       {
         "year": 2022,
-        "value": 10639.2548
+        "value": 10168.5718
       },
       {
         "year": 2023,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 9243.2075
+        "value": 9105.9245
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 62.7997
+      },
+      {
+        "year": 2015,
+        "value": 84.2107
+      },
+      {
+        "year": 2016,
+        "value": 81.0059
+      },
+      {
+        "year": 2017,
+        "value": 78.2616
+      },
+      {
+        "year": 2018,
+        "value": 50.3186
+      },
+      {
+        "year": 2019,
+        "value": 38.906
+      },
+      {
+        "year": 2020,
+        "value": 49.7368
+      },
+      {
+        "year": 2021,
+        "value": 40.3853
+      },
+      {
+        "year": 2022,
+        "value": 31.0166
+      },
+      {
+        "year": 2023,
+        "value": 35.0742
+      },
+      {
+        "year": 2024,
+        "value": 42.8432
       }
     ],
     "enrollment_headcount_total": [

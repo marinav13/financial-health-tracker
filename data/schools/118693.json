@@ -1,6 +1,6 @@
 {
   "unitid": "118693",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Menlo College",
     "institution_unique_name": "Menlo College | Atherton | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.8235,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 17.5006,
-    "net_tuition_per_fte_change_5yr": -21.6727,
+    "net_tuition_per_fte_change_5yr": -23.1536,
     "staff_total_headcount_pct_change_5yr": 13.5266,
     "staff_instructional_headcount_pct_change_5yr": -0.9615,
     "students_per_instructional_staff_fte": 16.7451,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 39.4456,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.1588,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.2227,
+    "unfunded_discount_pct_change_5yr": 10.1312,
     "share_grad_students": 1.908,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 26263.2045
+        "value": 22917.8452
       },
       {
         "year": 2018,
-        "value": 22858.3776
+        "value": 20487.3661
       },
       {
         "year": 2019,
-        "value": 22782.8434
+        "value": 19520.8327
       },
       {
         "year": 2020,
-        "value": 21297.8028
+        "value": 17865.9785
       },
       {
         "year": 2021,
-        "value": 21399.6112
+        "value": 20889.97
       },
       {
         "year": 2022,
-        "value": 19413.7336
+        "value": 17459.3445
       },
       {
         "year": 2023,
-        "value": 18985.4838
+        "value": 15827.1417
       },
       {
         "year": 2024,
-        "value": 17845.1874
+        "value": 15001.048
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.3521
+      },
+      {
+        "year": 2015,
+        "value": 45.9013
+      },
+      {
+        "year": 2016,
+        "value": 47.7986
+      },
+      {
+        "year": 2017,
+        "value": 51.1261
+      },
+      {
+        "year": 2018,
+        "value": 57.2794
+      },
+      {
+        "year": 2019,
+        "value": 61.9468
+      },
+      {
+        "year": 2020,
+        "value": 65.6943
+      },
+      {
+        "year": 2021,
+        "value": 60.3307
+      },
+      {
+        "year": 2022,
+        "value": 64.696
+      },
+      {
+        "year": 2023,
+        "value": 68.2183
+      },
+      {
+        "year": 2024,
+        "value": 68.2227
       }
     ],
     "enrollment_headcount_total": [

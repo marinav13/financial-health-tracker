@@ -1,6 +1,6 @@
 {
   "unitid": "262165",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Montana Bible College",
     "institution_unique_name": "Montana Bible College | Billings | Montana",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": null,
@@ -79,7 +81,13 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10786.637
+        "value": 10340.3847
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

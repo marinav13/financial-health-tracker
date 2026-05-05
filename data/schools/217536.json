@@ -1,6 +1,6 @@
 {
   "unitid": "217536",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Salve Regina University",
     "institution_unique_name": "Salve Regina University | Newport | Rhode Island",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.8164,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.2404,
-    "net_tuition_per_fte_change_5yr": -14.4004,
+    "net_tuition_per_fte_change_5yr": -14.7352,
     "staff_total_headcount_pct_change_5yr": 2.0443,
     "staff_instructional_headcount_pct_change_5yr": -0.339,
     "students_per_instructional_staff_fte": 13.7554,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 56.5389,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.2912,
+    "unfunded_discount_pct_change_5yr": 10.0189,
     "share_grad_students": 27.7025,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 448000,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25050.5151
+        "value": 25151.9108
       },
       {
         "year": 2015,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 24201.4068
+        "value": 24296.4406
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 20716.3177
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.8224
+      },
+      {
+        "year": 2015,
+        "value": 40.2478
+      },
+      {
+        "year": 2016,
+        "value": 42.7071
+      },
+      {
+        "year": 2017,
+        "value": 43.3147
+      },
+      {
+        "year": 2018,
+        "value": 45.5017
+      },
+      {
+        "year": 2019,
+        "value": 44.8025
+      },
+      {
+        "year": 2020,
+        "value": 45.9355
+      },
+      {
+        "year": 2021,
+        "value": 45.5466
+      },
+      {
+        "year": 2022,
+        "value": 46.8606
+      },
+      {
+        "year": 2023,
+        "value": 48.294
+      },
+      {
+        "year": 2024,
+        "value": 49.2912
       }
     ],
     "enrollment_headcount_total": [

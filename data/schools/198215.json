@@ -1,6 +1,6 @@
 {
   "unitid": "198215",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Catawba College",
     "institution_unique_name": "Catawba College | Salisbury | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.0679,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 90.6259,
-    "net_tuition_per_fte_change_5yr": -34.7175,
+    "net_tuition_per_fte_change_5yr": -83.3519,
     "staff_total_headcount_pct_change_5yr": 3.0488,
     "staff_instructional_headcount_pct_change_5yr": -14.4,
     "students_per_instructional_staff_fte": 13.5055,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 13.0294,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 1.2685,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 73.9294,
+    "unfunded_discount_pct_change_5yr": 8.8644,
     "share_grad_students": 6.8661,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24921.9839
+        "value": 14811.4465
       },
       {
         "year": 2015,
-        "value": 26377.4112
+        "value": 14429.854
       },
       {
         "year": 2016,
-        "value": 27834.0374
+        "value": 14051.9386
       },
       {
         "year": 2017,
-        "value": 28373.6574
+        "value": 12962.9983
       },
       {
         "year": 2018,
-        "value": 28077.5559
+        "value": 11685.1634
       },
       {
         "year": 2019,
-        "value": 28575.8343
+        "value": 10909.3957
       },
       {
         "year": 2020,
-        "value": 28270.2108
+        "value": 10697.2625
       },
       {
         "year": 2021,
-        "value": 26629.2547
+        "value": 8533.6114
       },
       {
         "year": 2022,
-        "value": 23936.0158
+        "value": 9194.7564
       },
       {
         "year": 2023,
-        "value": 24427.9036
+        "value": 8197.5344
       },
       {
         "year": 2024,
-        "value": 18655.0162
+        "value": 1816.206
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 51.2777
+      },
+      {
+        "year": 2015,
+        "value": 54.1723
+      },
+      {
+        "year": 2016,
+        "value": 57.9189
+      },
+      {
+        "year": 2017,
+        "value": 60.9586
+      },
+      {
+        "year": 2018,
+        "value": 63.2716
+      },
+      {
+        "year": 2019,
+        "value": 67.9096
+      },
+      {
+        "year": 2020,
+        "value": 56.4259
+      },
+      {
+        "year": 2021,
+        "value": 60.3761
+      },
+      {
+        "year": 2022,
+        "value": 55.3452
+      },
+      {
+        "year": 2023,
+        "value": 57.2143
+      },
+      {
+        "year": 2024,
+        "value": 73.9294
       }
     ],
     "enrollment_headcount_total": [

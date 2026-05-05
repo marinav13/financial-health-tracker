@@ -1,6 +1,6 @@
 {
   "unitid": "215655",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Robert Morris University",
     "institution_unique_name": "Robert Morris University | Moon Township | Pennsylvania",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 55.0496,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.1546,
+    "unfunded_discount_pct_change_5yr": 24.8987,
     "share_grad_students": 22.5766,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4879409,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 17666.718
+        "value": 17666.7177
       },
       {
         "year": 2024,
         "value": 17339.4231
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.2205
+      },
+      {
+        "year": 2015,
+        "value": 28.3667
+      },
+      {
+        "year": 2016,
+        "value": 29.8588
+      },
+      {
+        "year": 2017,
+        "value": 30.7314
+      },
+      {
+        "year": 2018,
+        "value": 32.1553
+      },
+      {
+        "year": 2019,
+        "value": 33.751
+      },
+      {
+        "year": 2020,
+        "value": 34.8474
+      },
+      {
+        "year": 2021,
+        "value": 37.7568
+      },
+      {
+        "year": 2022,
+        "value": 37.7097
+      },
+      {
+        "year": 2023,
+        "value": 40.991
+      },
+      {
+        "year": 2024,
+        "value": 42.1546
       }
     ],
     "enrollment_headcount_total": [

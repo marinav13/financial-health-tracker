@@ -1,6 +1,6 @@
 {
   "unitid": "110404",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "California Institute of Technology",
     "institution_unique_name": "California Institute of Technology | Pasadena | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.1688,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.1633,
-    "net_tuition_per_fte_change_5yr": -10.9786,
+    "net_tuition_per_fte_change_5yr": -11.9436,
     "staff_total_headcount_pct_change_5yr": 1.7661,
     "staff_instructional_headcount_pct_change_5yr": -4.6392,
     "students_per_instructional_staff_fte": 7.25,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 1.2004,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 1.3739,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.3308,
+    "unfunded_discount_pct_change_5yr": 7.7919,
     "share_grad_students": 59.0267,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 363307146,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21907.5098
+        "value": 26167.4877
       },
       {
         "year": 2015,
-        "value": 22672.6129
+        "value": 26878.3483
       },
       {
         "year": 2016,
-        "value": 23645.3336
+        "value": 27528.0951
       },
       {
         "year": 2017,
-        "value": 23619.136
+        "value": 27885.1146
       },
       {
         "year": 2018,
-        "value": 23833.1659
+        "value": 27762.6564
       },
       {
         "year": 2019,
-        "value": 24287.5387
+        "value": 28102.0488
       },
       {
         "year": 2020,
-        "value": 22065.7936
+        "value": 25602.1651
       },
       {
         "year": 2021,
-        "value": 15989.0666
+        "value": 19563.0262
       },
       {
         "year": 2022,
-        "value": 22747.0815
+        "value": 26602.7912
       },
       {
         "year": 2023,
-        "value": 21897.9463
+        "value": 24812.2204
       },
       {
         "year": 2024,
-        "value": 21621.0953
+        "value": 24745.6389
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.5612
+      },
+      {
+        "year": 2015,
+        "value": 27.8668
+      },
+      {
+        "year": 2016,
+        "value": 27.4541
+      },
+      {
+        "year": 2017,
+        "value": 29.0589
+      },
+      {
+        "year": 2018,
+        "value": 30.306
+      },
+      {
+        "year": 2019,
+        "value": 30.9214
+      },
+      {
+        "year": 2020,
+        "value": 31.1561
+      },
+      {
+        "year": 2021,
+        "value": 35.7448
+      },
+      {
+        "year": 2022,
+        "value": 30.5384
+      },
+      {
+        "year": 2023,
+        "value": 32.194
+      },
+      {
+        "year": 2024,
+        "value": 33.3308
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "167260",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Nichols College",
     "institution_unique_name": "Nichols College | Dudley | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -20.6448,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.3401,
-    "net_tuition_per_fte_change_5yr": -8.695,
+    "net_tuition_per_fte_change_5yr": -8.8559,
     "staff_total_headcount_pct_change_5yr": -9.2262,
     "staff_instructional_headcount_pct_change_5yr": -9.1503,
     "students_per_instructional_staff_fte": 16.1519,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 51.2577,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.6173,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.483,
+    "unfunded_discount_pct_change_5yr": 5.0526,
     "share_grad_students": 19.8558,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 170427,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20009.5439
+        "value": 19749.268
       },
       {
         "year": 2015,
-        "value": 19694.4116
+        "value": 19409.7131
       },
       {
         "year": 2016,
-        "value": 20104.0293
+        "value": 19685.2947
       },
       {
         "year": 2017,
-        "value": 19564.9311
+        "value": 19025.133
       },
       {
         "year": 2018,
-        "value": 19143.2076
+        "value": 18609.788
       },
       {
         "year": 2019,
-        "value": 18643.1139
+        "value": 18078.3458
       },
       {
         "year": 2020,
-        "value": 19537.0633
+        "value": 18959.554
       },
       {
         "year": 2021,
-        "value": 17705.3691
+        "value": 17011.6833
       },
       {
         "year": 2022,
-        "value": 17756.5781
+        "value": 17210.4529
       },
       {
         "year": 2023,
-        "value": 17502.3855
+        "value": 16749.8291
       },
       {
         "year": 2024,
-        "value": 17022.1003
+        "value": 16477.3534
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.8501
+      },
+      {
+        "year": 2015,
+        "value": 45.8784
+      },
+      {
+        "year": 2016,
+        "value": 45.4172
+      },
+      {
+        "year": 2017,
+        "value": 46.5177
+      },
+      {
+        "year": 2018,
+        "value": 47.6602
+      },
+      {
+        "year": 2019,
+        "value": 48.055
+      },
+      {
+        "year": 2020,
+        "value": 47.7453
+      },
+      {
+        "year": 2021,
+        "value": 47.7506
+      },
+      {
+        "year": 2022,
+        "value": 49.7292
+      },
+      {
+        "year": 2023,
+        "value": 48.7918
+      },
+      {
+        "year": 2024,
+        "value": 50.483
       }
     ],
     "enrollment_headcount_total": [

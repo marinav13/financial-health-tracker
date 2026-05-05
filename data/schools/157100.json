@@ -1,6 +1,6 @@
 {
   "unitid": "157100",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Kentucky Christian University",
     "institution_unique_name": "Kentucky Christian University | Grayson | Kentucky",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.6813,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -9.5124,
-    "net_tuition_per_fte_change_5yr": -64.4852,
+    "net_tuition_per_fte_change_5yr": -15.652,
     "staff_total_headcount_pct_change_5yr": -23.913,
     "staff_instructional_headcount_pct_change_5yr": -31.8681,
     "students_per_instructional_staff_fte": 11.2627,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 12.4849,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.6518,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.7044,
+    "unfunded_discount_pct_change_5yr": 9.4986,
     "share_grad_students": 8.1081,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 3949.2889
+        "value": 9379.5937
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.1722
+      },
+      {
+        "year": 2015,
+        "value": 38.5869
+      },
+      {
+        "year": 2016,
+        "value": 34.1771
+      },
+      {
+        "year": 2017,
+        "value": 36.9994
+      },
+      {
+        "year": 2018,
+        "value": 43.5521
+      },
+      {
+        "year": 2019,
+        "value": 48.1324
+      },
+      {
+        "year": 2020,
+        "value": 56.2463
+      },
+      {
+        "year": 2021,
+        "value": 68.641
+      },
+      {
+        "year": 2022,
+        "value": 67.0227
+      },
+      {
+        "year": 2023,
+        "value": 67.4254
+      },
+      {
+        "year": 2024,
+        "value": 52.7044
       }
     ],
     "enrollment_headcount_total": [

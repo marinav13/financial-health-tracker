@@ -1,6 +1,6 @@
 {
   "unitid": "193016",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mercy University",
     "institution_unique_name": "Mercy University | Dobbs Ferry | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.5651,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.4361,
-    "net_tuition_per_fte_change_5yr": -1.6197,
+    "net_tuition_per_fte_change_5yr": -0.3124,
     "staff_total_headcount_pct_change_5yr": -12.2688,
     "staff_instructional_headcount_pct_change_5yr": -13.8132,
     "students_per_instructional_staff_fte": 15.3216,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 70.3154,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 71.8066,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.1045,
+    "unfunded_discount_pct_change_5yr": 0.0731,
     "share_grad_students": 29.1587,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20075.1275
+        "value": 20135.81
       },
       {
         "year": 2015,
-        "value": 20158.8061
+        "value": 20286.5841
       },
       {
         "year": 2016,
-        "value": 20402.2812
+        "value": 20514.0914
       },
       {
         "year": 2017,
-        "value": 20127.5061
+        "value": 20221.0023
       },
       {
         "year": 2018,
-        "value": 20377.7333
+        "value": 20472.5971
       },
       {
         "year": 2019,
-        "value": 19012.3528
+        "value": 19160.9294
       },
       {
         "year": 2020,
-        "value": 19966.532
+        "value": 20770.0487
       },
       {
         "year": 2021,
-        "value": 20213.2176
+        "value": 21114.7019
       },
       {
         "year": 2022,
-        "value": 17829.7051
+        "value": 20262.008
       },
       {
         "year": 2023,
-        "value": 19256.8545
+        "value": 19685.2859
       },
       {
         "year": 2024,
-        "value": 18704.4006
+        "value": 19101.0756
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.6198
+      },
+      {
+        "year": 2015,
+        "value": 17.2816
+      },
+      {
+        "year": 2016,
+        "value": 18.5238
+      },
+      {
+        "year": 2017,
+        "value": 19.4825
+      },
+      {
+        "year": 2018,
+        "value": 20.2753
+      },
+      {
+        "year": 2019,
+        "value": 21.0891
+      },
+      {
+        "year": 2020,
+        "value": 19.4031
+      },
+      {
+        "year": 2021,
+        "value": 18.9278
+      },
+      {
+        "year": 2022,
+        "value": 18.432
+      },
+      {
+        "year": 2023,
+        "value": 19.5306
+      },
+      {
+        "year": 2024,
+        "value": 21.1045
       }
     ],
     "enrollment_headcount_total": [

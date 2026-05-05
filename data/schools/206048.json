@@ -1,6 +1,6 @@
 {
   "unitid": "206048",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Tiffin University",
     "institution_unique_name": "Tiffin University | Tiffin | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 26.554,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.212,
-    "net_tuition_per_fte_change_5yr": -17.3215,
+    "net_tuition_per_fte_change_5yr": -16.78,
     "staff_total_headcount_pct_change_5yr": -18.3468,
     "staff_instructional_headcount_pct_change_5yr": -36.2007,
     "students_per_instructional_staff_fte": 28.0481,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 66.1943,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.5135,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.7671,
+    "unfunded_discount_pct_change_5yr": 7.736,
     "share_grad_students": 27.9285,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 13966.2013
+        "value": 13972.9943
       },
       {
         "year": 2019,
-        "value": 14288.9975
+        "value": 14264.4807
       },
       {
         "year": 2020,
-        "value": 14107.8757
+        "value": 14113.0323
       },
       {
         "year": 2021,
-        "value": 13708.4749
+        "value": 13755.5918
       },
       {
         "year": 2022,
-        "value": 12297.6664
+        "value": 12200.8222
       },
       {
         "year": 2023,
-        "value": 11439.6021
+        "value": 11550.4337
       },
       {
         "year": 2024,
-        "value": 11813.9311
+        "value": 11870.9074
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.6882
+      },
+      {
+        "year": 2015,
+        "value": 36.6456
+      },
+      {
+        "year": 2016,
+        "value": 35.4411
+      },
+      {
+        "year": 2017,
+        "value": 35.7972
+      },
+      {
+        "year": 2018,
+        "value": 37.4755
+      },
+      {
+        "year": 2019,
+        "value": 39.6963
+      },
+      {
+        "year": 2020,
+        "value": 42.0445
+      },
+      {
+        "year": 2021,
+        "value": 43.1154
+      },
+      {
+        "year": 2022,
+        "value": 44.6783
+      },
+      {
+        "year": 2023,
+        "value": 45.7573
+      },
+      {
+        "year": 2024,
+        "value": 42.7671
       }
     ],
     "enrollment_headcount_total": [

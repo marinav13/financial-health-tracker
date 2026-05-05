@@ -1,6 +1,6 @@
 {
   "unitid": "154174",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Palmer College of Chiropractic",
     "institution_unique_name": "Palmer College of Chiropractic | Davenport | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.1511,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.1695,
-    "net_tuition_per_fte_change_5yr": -32.7025,
+    "net_tuition_per_fte_change_5yr": -32.5884,
     "staff_total_headcount_pct_change_5yr": -17.4946,
     "staff_instructional_headcount_pct_change_5yr": -22.973,
     "students_per_instructional_staff_fte": 0.5659,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 76.617,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 3.6522,
+    "unfunded_discount_pct_change_5yr": -24.9067,
     "share_grad_students": 96.3714,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2797493,
@@ -163,23 +165,23 @@
       },
       {
         "year": 2015,
-        "value": 2531004.7727
+        "value": 2531356.8204
       },
       {
         "year": 2016,
-        "value": 2241304.5341
+        "value": 2240403.7434
       },
       {
         "year": 2017,
-        "value": 1487581.2948
+        "value": 1487144.9914
       },
       {
         "year": 2018,
-        "value": 1450248.256
+        "value": 1446637.7267
       },
       {
         "year": 2019,
-        "value": 1824883.1186
+        "value": 1821794.7024
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 1228100.127
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 3.0067
+      },
+      {
+        "year": 2015,
+        "value": 3.3698
+      },
+      {
+        "year": 2016,
+        "value": 3.7442
+      },
+      {
+        "year": 2017,
+        "value": 4.6182
+      },
+      {
+        "year": 2018,
+        "value": 4.9384
+      },
+      {
+        "year": 2019,
+        "value": 4.8635
+      },
+      {
+        "year": 2020,
+        "value": 4.5314
+      },
+      {
+        "year": 2021,
+        "value": 4.3364
+      },
+      {
+        "year": 2022,
+        "value": 4.4459
+      },
+      {
+        "year": 2023,
+        "value": 3.6401
+      },
+      {
+        "year": 2024,
+        "value": 3.6522
       }
     ],
     "enrollment_headcount_total": [

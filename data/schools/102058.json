@@ -1,6 +1,6 @@
 {
   "unitid": "102058",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Selma University",
     "institution_unique_name": "Selma University | Selma | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -57.2093,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -77.1208,
-    "net_tuition_per_fte_change_5yr": -90.0369,
+    "net_tuition_per_fte_change_5yr": -91.7889,
     "staff_total_headcount_pct_change_5yr": -2.5,
     "staff_instructional_headcount_pct_change_5yr": 333.3333,
     "students_per_instructional_staff_fte": 3,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 3.9167,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 4% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 4% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": 15.2174,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,27 +165,69 @@
       },
       {
         "year": 2017,
-        "value": 17314.7225
+        "value": 21009.1388
       },
       {
         "year": 2018,
-        "value": 17644.331
+        "value": 21341.7813
       },
       {
         "year": 2019,
-        "value": 18844.4802
+        "value": 22865.2986
       },
       {
         "year": 2022,
-        "value": 4903.4975
+        "value": 3574.375
       },
       {
         "year": 2023,
-        "value": 2250.0029
+        "value": 210.4458
       },
       {
         "year": 2024,
         "value": 1877.5
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 9.665
+      },
+      {
+        "year": 2018,
+        "value": 9.5358
+      },
+      {
+        "year": 2019,
+        "value": 9.665
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

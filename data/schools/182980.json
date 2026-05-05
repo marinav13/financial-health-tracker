@@ -1,6 +1,6 @@
 {
   "unitid": "182980",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "New England College",
     "institution_unique_name": "New England College | Henniker | New Hampshire",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.6469,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.7257,
-    "net_tuition_per_fte_change_5yr": -4.728,
+    "net_tuition_per_fte_change_5yr": -7.7273,
     "staff_total_headcount_pct_change_5yr": -12.9697,
     "staff_instructional_headcount_pct_change_5yr": -17.1123,
     "students_per_instructional_staff_fte": 14.2487,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 58.2458,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.2803,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.6148,
+    "unfunded_discount_pct_change_5yr": -4.4148,
     "share_grad_students": 70.3998,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12922.2933
+        "value": 13145.2673
       },
       {
         "year": 2015,
-        "value": 11866.7832
+        "value": 14535.5538
       },
       {
         "year": 2016,
-        "value": 13122.2858
+        "value": 16062.4356
       },
       {
         "year": 2017,
-        "value": 12461.2111
+        "value": 14705.9555
       },
       {
         "year": 2018,
-        "value": 12522.6706
+        "value": 12668.8039
       },
       {
         "year": 2019,
-        "value": 12780.8606
+        "value": 13430.6733
       },
       {
         "year": 2020,
-        "value": 11590.4009
+        "value": 11535.0682
       },
       {
         "year": 2021,
-        "value": 13008.2092
+        "value": 13166.6813
       },
       {
         "year": 2022,
-        "value": 12815.7415
+        "value": 12978.9893
       },
       {
         "year": 2023,
-        "value": 12824.2961
+        "value": 13866.1076
       },
       {
         "year": 2024,
-        "value": 12176.5796
+        "value": 12392.8482
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.3715
+      },
+      {
+        "year": 2015,
+        "value": 30.6475
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 38.3651
+      },
+      {
+        "year": 2018,
+        "value": 45.817
+      },
+      {
+        "year": 2019,
+        "value": 40.3983
+      },
+      {
+        "year": 2020,
+        "value": 41.7735
+      },
+      {
+        "year": 2021,
+        "value": 38.066
+      },
+      {
+        "year": 2022,
+        "value": 37.8651
+      },
+      {
+        "year": 2023,
+        "value": 33.8423
+      },
+      {
+        "year": 2024,
+        "value": 38.6148
       }
     ],
     "enrollment_headcount_total": [

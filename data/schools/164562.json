@@ -1,6 +1,6 @@
 {
   "unitid": "164562",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Assumption University",
     "institution_unique_name": "Assumption University | Worcester | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.8484,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.1617,
-    "net_tuition_per_fte_change_5yr": -12.2832,
+    "net_tuition_per_fte_change_5yr": -9.5945,
     "staff_total_headcount_pct_change_5yr": -5.6985,
     "staff_instructional_headcount_pct_change_5yr": -10.4167,
     "students_per_instructional_staff_fte": 11.6848,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 44.3385,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.1081,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.1058,
+    "unfunded_discount_pct_change_5yr": 14.0815,
     "share_grad_students": 20.1266,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18921.8282
+        "value": 20801.3492
       },
       {
         "year": 2015,
-        "value": 20435.7011
+        "value": 22349.9544
       },
       {
         "year": 2016,
-        "value": 20693.0813
+        "value": 22522.6879
       },
       {
         "year": 2017,
-        "value": 19749.0398
+        "value": 21577.5395
       },
       {
         "year": 2018,
-        "value": 19532.7693
+        "value": 21330.892
       },
       {
         "year": 2019,
-        "value": 19405.1374
+        "value": 21278.0127
       },
       {
         "year": 2020,
-        "value": 19273.3817
+        "value": 20986.7494
       },
       {
         "year": 2021,
-        "value": 18250.9158
+        "value": 19909.4883
       },
       {
         "year": 2022,
-        "value": 18306.8114
+        "value": 20198.1714
       },
       {
         "year": 2023,
-        "value": 17721.6718
+        "value": 19704.7634
       },
       {
         "year": 2024,
-        "value": 17021.5714
+        "value": 19236.497
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.3984
+      },
+      {
+        "year": 2015,
+        "value": 44.3196
+      },
+      {
+        "year": 2016,
+        "value": 44.4599
+      },
+      {
+        "year": 2017,
+        "value": 46.1437
+      },
+      {
+        "year": 2018,
+        "value": 47.3469
+      },
+      {
+        "year": 2019,
+        "value": 48.3039
+      },
+      {
+        "year": 2020,
+        "value": 50.4478
+      },
+      {
+        "year": 2021,
+        "value": 53.0944
+      },
+      {
+        "year": 2022,
+        "value": 52.689
+      },
+      {
+        "year": 2023,
+        "value": 53.4742
+      },
+      {
+        "year": 2024,
+        "value": 55.1058
       }
     ],
     "enrollment_headcount_total": [

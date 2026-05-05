@@ -1,6 +1,6 @@
 {
   "unitid": "230995",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Norwich University",
     "institution_unique_name": "Norwich University | Northfield | Vermont",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 28.0919,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.4234,
+    "unfunded_discount_pct_change_5yr": -2.0442,
     "share_grad_students": 17.7401,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2720000,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20629.3821
+        "value": 20901.2171
       },
       {
         "year": 2015,
-        "value": 20623.4145
+        "value": 20907.9755
       },
       {
         "year": 2016,
-        "value": 23272.9298
+        "value": 23547.8531
       },
       {
         "year": 2017,
-        "value": 18853.2306
+        "value": 19096.5303
       },
       {
         "year": 2018,
-        "value": 18461.3154
+        "value": 18677.5017
       },
       {
         "year": 2019,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15815.3229
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.1789
+      },
+      {
+        "year": 2015,
+        "value": 38.0946
+      },
+      {
+        "year": 2016,
+        "value": 38.6466
+      },
+      {
+        "year": 2017,
+        "value": 44.1804
+      },
+      {
+        "year": 2018,
+        "value": 47.0229
+      },
+      {
+        "year": 2019,
+        "value": 48.413
+      },
+      {
+        "year": 2020,
+        "value": 50.4167
+      },
+      {
+        "year": 2021,
+        "value": 46.96
+      },
+      {
+        "year": 2022,
+        "value": 53.5976
+      },
+      {
+        "year": 2023,
+        "value": 55.2371
+      },
+      {
+        "year": 2024,
+        "value": 47.4234
       }
     ],
     "enrollment_headcount_total": [

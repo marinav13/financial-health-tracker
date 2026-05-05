@@ -1,6 +1,6 @@
 {
   "unitid": "198561",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Gardner-Webb University",
     "institution_unique_name": "Gardner-Webb University | Boiling Springs | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.2893,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.468,
-    "net_tuition_per_fte_change_5yr": -11.7289,
+    "net_tuition_per_fte_change_5yr": -11.7736,
     "staff_total_headcount_pct_change_5yr": 16.7722,
     "staff_instructional_headcount_pct_change_5yr": 42.638,
     "students_per_instructional_staff_fte": 10.6433,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 45.0141,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.4011,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.6281,
+    "unfunded_discount_pct_change_5yr": 11.4026,
     "share_grad_students": 43.2138,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12147.0257
+        "value": 11867.91
       },
       {
         "year": 2015,
-        "value": 15029.9936
+        "value": 14685.9352
       },
       {
         "year": 2016,
-        "value": 14868.1239
+        "value": 14514.2507
       },
       {
         "year": 2017,
-        "value": 16611.9994
+        "value": 16190.4346
       },
       {
         "year": 2018,
-        "value": 14893.4793
+        "value": 14437.9491
       },
       {
         "year": 2019,
-        "value": 14951.7694
+        "value": 14423.3168
       },
       {
         "year": 2020,
-        "value": 14713.8365
+        "value": 14270.1808
       },
       {
         "year": 2021,
-        "value": 14149.8752
+        "value": 13740.7894
       },
       {
         "year": 2022,
-        "value": 13177.214
+        "value": 12703.9256
       },
       {
         "year": 2023,
-        "value": 13384.7609
+        "value": 12941.9984
       },
       {
         "year": 2024,
-        "value": 13198.0922
+        "value": 12725.1719
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.5681
+      },
+      {
+        "year": 2015,
+        "value": 35.0411
+      },
+      {
+        "year": 2016,
+        "value": 38.0608
+      },
+      {
+        "year": 2017,
+        "value": 40.198
+      },
+      {
+        "year": 2018,
+        "value": 40.8102
+      },
+      {
+        "year": 2019,
+        "value": 41.8555
+      },
+      {
+        "year": 2020,
+        "value": 43.0705
+      },
+      {
+        "year": 2021,
+        "value": 43.9312
+      },
+      {
+        "year": 2022,
+        "value": 44.3239
+      },
+      {
+        "year": 2023,
+        "value": 45.6072
+      },
+      {
+        "year": 2024,
+        "value": 46.6281
       }
     ],
     "enrollment_headcount_total": [

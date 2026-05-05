@@ -1,6 +1,6 @@
 {
   "unitid": "489937",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Carolina University",
     "institution_unique_name": "Carolina University | Winston-Salem | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 61.0296,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.7362,
+    "unfunded_discount_pct_change_5yr": 77.3232,
     "share_grad_students": 56.4685,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -176,6 +178,44 @@
       {
         "year": 2024,
         "value": 9066.8145
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2016,
+        "value": 30.1697
+      },
+      {
+        "year": 2017,
+        "value": 30.5612
+      },
+      {
+        "year": 2018,
+        "value": 27.7415
+      },
+      {
+        "year": 2019,
+        "value": 28.0484
+      },
+      {
+        "year": 2020,
+        "value": 29.0033
+      },
+      {
+        "year": 2021,
+        "value": 42.6962
+      },
+      {
+        "year": 2022,
+        "value": 41.2874
+      },
+      {
+        "year": 2023,
+        "value": 47.1433
+      },
+      {
+        "year": 2024,
+        "value": 49.7362
       }
     ],
     "enrollment_headcount_total": [

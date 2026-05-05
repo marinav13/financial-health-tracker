@@ -1,6 +1,6 @@
 {
   "unitid": "160959",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College of the Atlantic",
     "institution_unique_name": "College of the Atlantic | Bar Harbor | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.2584,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -21.6191,
-    "net_tuition_per_fte_change_5yr": -12.7477,
+    "net_tuition_per_fte_change_5yr": -12.9493,
     "staff_total_headcount_pct_change_5yr": 10.5769,
     "staff_instructional_headcount_pct_change_5yr": 23.0769,
     "students_per_instructional_staff_fte": 10.5625,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 40.237,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.8239,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 5.4115,
+    "unfunded_discount_pct_change_5yr": 113.3778,
     "share_grad_students": 1.2953,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 49674.7049
+        "value": 52150.4315
       },
       {
         "year": 2015,
-        "value": 52003.3285
+        "value": 54459.8137
       },
       {
         "year": 2016,
-        "value": 52700.433
+        "value": 54988.6507
       },
       {
         "year": 2017,
-        "value": 53443.6018
+        "value": 55627.6748
       },
       {
         "year": 2018,
-        "value": 52573.0798
+        "value": 54713.2383
       },
       {
         "year": 2019,
-        "value": 51835.4088
+        "value": 54004.5666
       },
       {
         "year": 2020,
-        "value": 51173.3958
+        "value": 53013.6161
       },
       {
         "year": 2021,
-        "value": 49829.0068
+        "value": 51758.5077
       },
       {
         "year": 2022,
-        "value": 46063.3749
+        "value": 47798.5018
       },
       {
         "year": 2023,
-        "value": 45204.3695
+        "value": 46875.3704
       },
       {
         "year": 2024,
-        "value": 45227.5858
+        "value": 47011.3521
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.4541
+      },
+      {
+        "year": 2015,
+        "value": 2.4502
+      },
+      {
+        "year": 2016,
+        "value": 2.1682
+      },
+      {
+        "year": 2017,
+        "value": 2.2363
+      },
+      {
+        "year": 2018,
+        "value": 2.6256
+      },
+      {
+        "year": 2019,
+        "value": 2.5361
+      },
+      {
+        "year": 2020,
+        "value": 2.5907
+      },
+      {
+        "year": 2021,
+        "value": 2.5715
+      },
+      {
+        "year": 2022,
+        "value": 2.2261
+      },
+      {
+        "year": 2023,
+        "value": 4.707
+      },
+      {
+        "year": 2024,
+        "value": 5.4115
       }
     ],
     "enrollment_headcount_total": [

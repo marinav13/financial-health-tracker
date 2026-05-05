@@ -1,6 +1,6 @@
 {
   "unitid": "192703",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Manhattan University",
     "institution_unique_name": "Manhattan University | Riverdale | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -19.6999,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.9518,
-    "net_tuition_per_fte_change_5yr": -17.2493,
+    "net_tuition_per_fte_change_5yr": -19.78,
     "staff_total_headcount_pct_change_5yr": -29.9422,
     "staff_instructional_headcount_pct_change_5yr": -28.4404,
     "students_per_instructional_staff_fte": 16.1139,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 54.2255,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.2466,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.1954,
+    "unfunded_discount_pct_change_5yr": 16.8928,
     "share_grad_students": 18.2778,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1521106,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27828.0783
+        "value": 28026.3542
       },
       {
         "year": 2015,
-        "value": 28646.6893
+        "value": 28884.5845
       },
       {
         "year": 2016,
-        "value": 29842.4229
+        "value": 30052.8515
       },
       {
         "year": 2017,
-        "value": 29895.9375
+        "value": 30167.87
       },
       {
         "year": 2018,
-        "value": 29233.2547
+        "value": 29596.8427
       },
       {
         "year": 2019,
-        "value": 27785.9381
+        "value": 28145.0838
       },
       {
         "year": 2020,
-        "value": 27699.7558
+        "value": 28051.8774
       },
       {
         "year": 2021,
-        "value": 26102.7533
+        "value": 26358.8424
       },
       {
         "year": 2022,
-        "value": 24197.2892
+        "value": 24468.2667
       },
       {
         "year": 2023,
-        "value": 23341.7242
+        "value": 23599.3899
       },
       {
         "year": 2024,
-        "value": 22993.0476
+        "value": 22577.9788
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.9662
+      },
+      {
+        "year": 2015,
+        "value": 35.4937
+      },
+      {
+        "year": 2016,
+        "value": 36.7734
+      },
+      {
+        "year": 2017,
+        "value": 37.777
+      },
+      {
+        "year": 2018,
+        "value": 39.7551
+      },
+      {
+        "year": 2019,
+        "value": 42.086
+      },
+      {
+        "year": 2020,
+        "value": 43.2598
+      },
+      {
+        "year": 2021,
+        "value": 44.405
+      },
+      {
+        "year": 2022,
+        "value": 47.0236
+      },
+      {
+        "year": 2023,
+        "value": 47.5055
+      },
+      {
+        "year": 2024,
+        "value": 49.1954
       }
     ],
     "enrollment_headcount_total": [

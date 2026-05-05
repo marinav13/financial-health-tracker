@@ -1,6 +1,6 @@
 {
   "unitid": "181127",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hastings College",
     "institution_unique_name": "Hastings College | Hastings | Nebraska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.9435,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 50.8514,
-    "net_tuition_per_fte_change_5yr": -5.4619,
+    "net_tuition_per_fte_change_5yr": -4.0129,
     "staff_total_headcount_pct_change_5yr": -15.8798,
     "staff_instructional_headcount_pct_change_5yr": -15.3846,
     "students_per_instructional_staff_fte": 15.0466,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 20.0261,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.9606,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.3336,
+    "unfunded_discount_pct_change_5yr": -0.357,
     "share_grad_students": 2.4928,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12178.3522
+        "value": 12424.9504
       },
       {
         "year": 2015,
-        "value": 10962.795
+        "value": 11189.7891
       },
       {
         "year": 2016,
-        "value": 10752.9025
+        "value": 10985.1156
       },
       {
         "year": 2017,
-        "value": 10833.8871
+        "value": 11102.5676
       },
       {
         "year": 2018,
-        "value": 10701.8394
+        "value": 10989.5694
       },
       {
         "year": 2019,
-        "value": 11231.1995
+        "value": 11577.8491
       },
       {
         "year": 2020,
-        "value": 11558.2395
+        "value": 11846.7094
       },
       {
         "year": 2021,
-        "value": 11199.4048
+        "value": 11529.6513
       },
       {
         "year": 2022,
-        "value": 9907.0357
+        "value": 10258.8091
       },
       {
         "year": 2023,
-        "value": 10065.2964
+        "value": 10479.4697
       },
       {
         "year": 2024,
-        "value": 10617.7572
+        "value": 11113.2407
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 50.841
+      },
+      {
+        "year": 2015,
+        "value": 57.7703
+      },
+      {
+        "year": 2016,
+        "value": 58.5635
+      },
+      {
+        "year": 2017,
+        "value": 57.6334
+      },
+      {
+        "year": 2018,
+        "value": 56.8331
+      },
+      {
+        "year": 2019,
+        "value": 55.5318
+      },
+      {
+        "year": 2020,
+        "value": 50.8551
+      },
+      {
+        "year": 2021,
+        "value": 50.8472
+      },
+      {
+        "year": 2022,
+        "value": 57.5366
+      },
+      {
+        "year": 2023,
+        "value": 54.9836
+      },
+      {
+        "year": 2024,
+        "value": 55.3336
       }
     ],
     "enrollment_headcount_total": [

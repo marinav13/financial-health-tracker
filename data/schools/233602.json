@@ -1,6 +1,6 @@
 {
   "unitid": "233602",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southeastern Free Will Baptist Bible College",
     "institution_unique_name": "Southeastern Free Will Baptist Bible College | Wendell | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.8493,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -8.4101,
-    "net_tuition_per_fte_change_5yr": -47.8154,
+    "net_tuition_per_fte_change_5yr": -73.4125,
     "staff_total_headcount_pct_change_5yr": 15.3846,
     "staff_instructional_headcount_pct_change_5yr": 35.7143,
     "students_per_instructional_staff_fte": 7.5517,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 25.256,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 12.8677,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 24.6964,
+    "unfunded_discount_pct_change_5yr": 211.3179,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -123,23 +125,49 @@
       },
       {
         "year": 2020,
-        "value": 7634.203
+        "value": 4419.1916
       },
       {
         "year": 2021,
-        "value": 7810.9341
+        "value": 3860.6325
       },
       {
         "year": 2022,
-        "value": 6745.6103
+        "value": 3377.7357
       },
       {
         "year": 2023,
-        "value": 7201.8486
+        "value": 4009.0982
       },
       {
         "year": 2024,
-        "value": 7402.4521
+        "value": 3771.4795
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 7.9329
+      },
+      {
+        "year": 2020,
+        "value": 14.9406
+      },
+      {
+        "year": 2021,
+        "value": 9.9914
+      },
+      {
+        "year": 2022,
+        "value": 17.516
+      },
+      {
+        "year": 2023,
+        "value": 22.7954
+      },
+      {
+        "year": 2024,
+        "value": 24.6964
       }
     ],
     "enrollment_headcount_total": [

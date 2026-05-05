@@ -1,6 +1,6 @@
 {
   "unitid": "186186",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rabbinical College of America",
     "institution_unique_name": "Rabbinical College of America | Morristown | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.5263,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.6581,
-    "net_tuition_per_fte_change_5yr": -1.5826,
+    "net_tuition_per_fte_change_5yr": -1.716,
     "staff_total_headcount_pct_change_5yr": 15.3846,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 17.3036,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 27.9761,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 27.9381,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.3663,
+    "unfunded_discount_pct_change_5yr": -7.48,
     "share_grad_students": 4.9536,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13687.2851
+        "value": 13401.6287
       },
       {
         "year": 2015,
-        "value": 8464.9702
+        "value": 8156.7135
       },
       {
         "year": 2016,
-        "value": 10313.2026
+        "value": 10078.6896
       },
       {
         "year": 2017,
-        "value": 8571.5224
+        "value": 8434.7768
       },
       {
         "year": 2018,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 8380.3505
+        "value": 7457.5524
       },
       {
         "year": 2022,
-        "value": 6987.7331
+        "value": 6919.5356
       },
       {
         "year": 2023,
-        "value": 10179.5187
+        "value": 9992.0036
       },
       {
         "year": 2024,
-        "value": 8137.6625
+        "value": 8126.6316
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.7187
+      },
+      {
+        "year": 2015,
+        "value": 13.9999
+      },
+      {
+        "year": 2016,
+        "value": 14
+      },
+      {
+        "year": 2017,
+        "value": 37.3295
+      },
+      {
+        "year": 2018,
+        "value": 40.4676
+      },
+      {
+        "year": 2019,
+        "value": 41.4682
+      },
+      {
+        "year": 2020,
+        "value": 35.1686
+      },
+      {
+        "year": 2021,
+        "value": 20.4816
+      },
+      {
+        "year": 2022,
+        "value": 42.8832
+      },
+      {
+        "year": 2023,
+        "value": 40.7334
+      },
+      {
+        "year": 2024,
+        "value": 38.3663
       }
     ],
     "enrollment_headcount_total": [

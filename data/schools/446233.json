@@ -1,6 +1,6 @@
 {
   "unitid": "446233",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ecclesia College",
     "institution_unique_name": "Ecclesia College | Springdale | Arkansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -40.4669,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -20.2437,
-    "net_tuition_per_fte_change_5yr": -28.1881,
+    "net_tuition_per_fte_change_5yr": -34.8512,
     "staff_total_headcount_pct_change_5yr": -36,
     "staff_instructional_headcount_pct_change_5yr": -46.3415,
     "students_per_instructional_staff_fte": 11.7187,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 43.6174,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.0277,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.6563,
+    "unfunded_discount_pct_change_5yr": 15.0267,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 21390.8345
+        "value": 25454.1167
       },
       {
         "year": 2018,
-        "value": 11067.5634
+        "value": 11422.2717
       },
       {
         "year": 2019,
-        "value": 10986.985
+        "value": 11391.6258
       },
       {
         "year": 2020,
-        "value": 9720.003
+        "value": 10044.0251
       },
       {
         "year": 2021,
-        "value": 11486.7966
+        "value": 12491.5848
       },
       {
         "year": 2022,
-        "value": 8537.7881
+        "value": 10973.2965
       },
       {
         "year": 2023,
-        "value": 8495.5029
+        "value": 8091.4012
       },
       {
         "year": 2024,
-        "value": 7889.96
+        "value": 7421.512
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.4535
+      },
+      {
+        "year": 2015,
+        "value": 26.3736
+      },
+      {
+        "year": 2016,
+        "value": 31.348
+      },
+      {
+        "year": 2017,
+        "value": 22.7028
+      },
+      {
+        "year": 2018,
+        "value": 37.0112
+      },
+      {
+        "year": 2019,
+        "value": 35.3451
+      },
+      {
+        "year": 2020,
+        "value": 32.0894
+      },
+      {
+        "year": 2021,
+        "value": 32.1792
+      },
+      {
+        "year": 2022,
+        "value": 32.3441
+      },
+      {
+        "year": 2023,
+        "value": 40.158
+      },
+      {
+        "year": 2024,
+        "value": 40.6563
       }
     ],
     "enrollment_headcount_total": [

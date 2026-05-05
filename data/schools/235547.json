@@ -1,6 +1,6 @@
 {
   "unitid": "235547",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bastyr University",
     "institution_unique_name": "Bastyr University | Kenmore | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.7675,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -42.6389,
-    "net_tuition_per_fte_change_5yr": 23.1024,
+    "net_tuition_per_fte_change_5yr": 22.3954,
     "staff_total_headcount_pct_change_5yr": 36.6569,
     "staff_instructional_headcount_pct_change_5yr": 90.9836,
     "students_per_instructional_staff_fte": 2.5904,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 79.0036,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 79% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 79.5301,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.4744,
+    "unfunded_discount_pct_change_5yr": -46.405,
     "share_grad_students": 90.6742,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 385279,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 60734.6116
+        "value": 61740.7675
       },
       {
         "year": 2015,
-        "value": 69068.341
+        "value": 70311.7815
       },
       {
         "year": 2016,
-        "value": 73519.3848
+        "value": 75975.6708
       },
       {
         "year": 2017,
-        "value": 58415.4797
+        "value": 60855.7279
       },
       {
         "year": 2018,
-        "value": 59200.3837
+        "value": 60074.6235
       },
       {
         "year": 2019,
-        "value": 74040.3446
+        "value": 74964.2461
       },
       {
         "year": 2020,
-        "value": 65859.9825
+        "value": 66398.9762
       },
       {
         "year": 2021,
-        "value": 69804.3369
+        "value": 70764.7616
       },
       {
         "year": 2022,
-        "value": 64828.122
+        "value": 65832.7546
       },
       {
         "year": 2023,
-        "value": 65662.2326
+        "value": 66822.9576
       },
       {
         "year": 2024,
-        "value": 91145.4348
+        "value": 91752.7905
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.8487
+      },
+      {
+        "year": 2015,
+        "value": 3.0399
+      },
+      {
+        "year": 2016,
+        "value": 1.7191
+      },
+      {
+        "year": 2017,
+        "value": 1.7804
+      },
+      {
+        "year": 2018,
+        "value": 4.2105
+      },
+      {
+        "year": 2019,
+        "value": 4.6168
+      },
+      {
+        "year": 2020,
+        "value": 4.1534
+      },
+      {
+        "year": 2021,
+        "value": 4.1433
+      },
+      {
+        "year": 2022,
+        "value": 4.3716
+      },
+      {
+        "year": 2023,
+        "value": 3.1267
+      },
+      {
+        "year": 2024,
+        "value": 2.4744
       }
     ],
     "enrollment_headcount_total": [

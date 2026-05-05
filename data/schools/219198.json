@@ -1,6 +1,6 @@
 {
   "unitid": "219198",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mount Marty University",
     "institution_unique_name": "Mount Marty University | Yankton | South Dakota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.2479,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 14.3573,
-    "net_tuition_per_fte_change_5yr": 1.6361,
+    "net_tuition_per_fte_change_5yr": -2.208,
     "staff_total_headcount_pct_change_5yr": 33.908,
     "staff_instructional_headcount_pct_change_5yr": 43.956,
     "students_per_instructional_staff_fte": 13.4085,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 50.2406,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.2408,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.8595,
+    "unfunded_discount_pct_change_5yr": 10.7759,
     "share_grad_students": 18.3802,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13128.8346
+        "value": 19988.1788
       },
       {
         "year": 2015,
-        "value": 12361.9018
+        "value": 20024.6596
       },
       {
         "year": 2016,
-        "value": 12383.4564
+        "value": 20007.473
       },
       {
         "year": 2017,
-        "value": 12300.2254
+        "value": 20164.5541
       },
       {
         "year": 2018,
-        "value": 13809.4577
+        "value": 14609.6012
       },
       {
         "year": 2019,
-        "value": 13855.0462
+        "value": 14686.3299
       },
       {
         "year": 2020,
-        "value": 14761.2588
+        "value": 16092.2281
       },
       {
         "year": 2021,
-        "value": 14136.3669
+        "value": 14543.154
       },
       {
         "year": 2022,
-        "value": 13189.2536
+        "value": 13581.2945
       },
       {
         "year": 2023,
-        "value": 13802.7875
+        "value": 14185.8909
       },
       {
         "year": 2024,
-        "value": 14081.7258
+        "value": 14362.0609
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 34.5428
+      },
+      {
+        "year": 2019,
+        "value": 36.8848
+      },
+      {
+        "year": 2020,
+        "value": 38.0443
+      },
+      {
+        "year": 2021,
+        "value": 42.0843
+      },
+      {
+        "year": 2022,
+        "value": 42.4545
+      },
+      {
+        "year": 2023,
+        "value": 40.7499
+      },
+      {
+        "year": 2024,
+        "value": 40.8595
       }
     ],
     "enrollment_headcount_total": [

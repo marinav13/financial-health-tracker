@@ -1,6 +1,6 @@
 {
   "unitid": "133872",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "AdventHealth University",
     "institution_unique_name": "AdventHealth University | Orlando | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.1586,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.8551,
-    "net_tuition_per_fte_change_5yr": -16.0158,
+    "net_tuition_per_fte_change_5yr": -7.4197,
     "staff_total_headcount_pct_change_5yr": 21.8391,
     "staff_instructional_headcount_pct_change_5yr": 31.3008,
     "students_per_instructional_staff_fte": 8.0995,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 71.3253,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 73.0681,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0.4414,
+    "unfunded_discount_pct_change_5yr": -73.323,
     "share_grad_students": 25.7213,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 33814,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16419.9107
+        "value": 16287.151
       },
       {
         "year": 2015,
-        "value": 18185.6645
+        "value": 17939.7613
       },
       {
         "year": 2016,
-        "value": 19159.2829
+        "value": 18839.649
       },
       {
         "year": 2017,
-        "value": 20262.2851
+        "value": 19816.5172
       },
       {
         "year": 2018,
-        "value": 20610.8653
+        "value": 18951.1416
       },
       {
         "year": 2019,
-        "value": 22472.5044
+        "value": 20884.0827
       },
       {
         "year": 2020,
-        "value": 22886.2879
+        "value": 21849.7807
       },
       {
         "year": 2021,
-        "value": 23593.1165
+        "value": 22935.2741
       },
       {
         "year": 2022,
-        "value": 24384.3628
+        "value": 24601.6669
       },
       {
         "year": 2023,
-        "value": 22114.7389
+        "value": 22371.9594
       },
       {
         "year": 2024,
-        "value": 18873.353
+        "value": 19334.5372
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 1.1741
+      },
+      {
+        "year": 2015,
+        "value": 0.9665
+      },
+      {
+        "year": 2016,
+        "value": 1.2303
+      },
+      {
+        "year": 2017,
+        "value": 1.6673
+      },
+      {
+        "year": 2018,
+        "value": 1.6623
+      },
+      {
+        "year": 2019,
+        "value": 1.6545
+      },
+      {
+        "year": 2020,
+        "value": 1.608
+      },
+      {
+        "year": 2021,
+        "value": 4.071
+      },
+      {
+        "year": 2022,
+        "value": 0.9502
+      },
+      {
+        "year": 2023,
+        "value": 0.2684
+      },
+      {
+        "year": 2024,
+        "value": 0.4414
       }
     ],
     "enrollment_headcount_total": [

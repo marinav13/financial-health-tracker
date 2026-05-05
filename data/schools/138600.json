@@ -1,6 +1,6 @@
 {
   "unitid": "138600",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Agnes Scott College",
     "institution_unique_name": "Agnes Scott College | Decatur | Georgia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 30.8416,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.8322,
+    "unfunded_discount_pct_change_5yr": -13.0615,
     "share_grad_students": 21.3142,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,15 +165,15 @@
       },
       {
         "year": 2015,
-        "value": 16374.3812
+        "value": 16374.3827
       },
       {
         "year": 2016,
-        "value": 16243.4485
+        "value": 16200.4551
       },
       {
         "year": 2017,
-        "value": 16086.6119
+        "value": 16086.6105
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 16458.2052
+        "value": 16458.2075
       },
       {
         "year": 2020,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 19341.1288
+        "value": 19341.1277
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 16677.2515
+        "value": 19164.5657
       },
       {
         "year": 2024,
-        "value": 17442.3797
+        "value": 17442.3806
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 52.8247
+      },
+      {
+        "year": 2015,
+        "value": 54.0266
+      },
+      {
+        "year": 2016,
+        "value": 55.4444
+      },
+      {
+        "year": 2017,
+        "value": 56.0501
+      },
+      {
+        "year": 2018,
+        "value": 55.8054
+      },
+      {
+        "year": 2019,
+        "value": 57.3189
+      },
+      {
+        "year": 2020,
+        "value": 56.2125
+      },
+      {
+        "year": 2021,
+        "value": 51.0977
+      },
+      {
+        "year": 2022,
+        "value": 57.1646
+      },
+      {
+        "year": 2023,
+        "value": 46.5444
+      },
+      {
+        "year": 2024,
+        "value": 49.8322
       }
     ],
     "enrollment_headcount_total": [

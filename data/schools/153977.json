@@ -1,6 +1,6 @@
 {
   "unitid": "153977",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mercy College of Health Sciences",
     "institution_unique_name": "Mercy College of Health Sciences | Des Moines | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 37.045,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -2.6723,
-    "net_tuition_per_fte_change_5yr": -31.5681,
+    "net_tuition_per_fte_change_5yr": -30.4107,
     "staff_total_headcount_pct_change_5yr": 25.6983,
     "staff_instructional_headcount_pct_change_5yr": 8.1967,
     "students_per_instructional_staff_fte": 10.8205,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 70.5993,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 67.936,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0.3788,
+    "unfunded_discount_pct_change_5yr": -85.9257,
     "share_grad_students": 0.1562,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21434.3541
+        "value": 20001.1559
       },
       {
         "year": 2015,
-        "value": 22600.2666
+        "value": 20611.6059
       },
       {
         "year": 2016,
-        "value": 22606.7731
+        "value": 20764.3866
       },
       {
         "year": 2017,
-        "value": 23728.7793
+        "value": 21849.9127
       },
       {
         "year": 2018,
-        "value": 23354.8034
+        "value": 21851.5493
       },
       {
         "year": 2019,
-        "value": 23785.1672
+        "value": 22507.2322
       },
       {
         "year": 2020,
-        "value": 23702.7732
+        "value": 23397.2095
       },
       {
         "year": 2021,
-        "value": 22997.6351
+        "value": 22666.2308
       },
       {
         "year": 2022,
-        "value": 21100.5087
+        "value": 20772.8415
       },
       {
         "year": 2023,
-        "value": 19982.7142
+        "value": 19630.6968
       },
       {
         "year": 2024,
-        "value": 16276.641
+        "value": 15662.622
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.4835
+      },
+      {
+        "year": 2015,
+        "value": 6.0978
+      },
+      {
+        "year": 2016,
+        "value": 4.7473
+      },
+      {
+        "year": 2017,
+        "value": 4.4875
+      },
+      {
+        "year": 2018,
+        "value": 3.7771
+      },
+      {
+        "year": 2019,
+        "value": 2.6917
+      },
+      {
+        "year": 2020,
+        "value": 0.1992
+      },
+      {
+        "year": 2021,
+        "value": 0.2921
+      },
+      {
+        "year": 2022,
+        "value": 0.1091
+      },
+      {
+        "year": 2023,
+        "value": 0.2038
+      },
+      {
+        "year": 2024,
+        "value": 0.3788
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "153384",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Grinnell College",
     "institution_unique_name": "Grinnell College | Grinnell | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.5819,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.9709,
-    "net_tuition_per_fte_change_5yr": -16.838,
+    "net_tuition_per_fte_change_5yr": -16.7866,
     "staff_total_headcount_pct_change_5yr": 12.2892,
     "staff_instructional_headcount_pct_change_5yr": 4.6218,
     "students_per_instructional_staff_fte": 7.96,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 10.6092,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 10.6775,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.1444,
+    "unfunded_discount_pct_change_5yr": 9.26,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1541000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20652.3367
+        "value": 20761.5877
       },
       {
         "year": 2015,
-        "value": 21802.8748
+        "value": 21917.6592
       },
       {
         "year": 2016,
-        "value": 22741.182
+        "value": 22867.9351
       },
       {
         "year": 2017,
-        "value": 23699.2634
+        "value": 23817.3586
       },
       {
         "year": 2018,
-        "value": 24852.8766
+        "value": 24972.8545
       },
       {
         "year": 2019,
-        "value": 24078.3165
+        "value": 24218.4445
       },
       {
         "year": 2020,
-        "value": 25781.123
+        "value": 25923.0735
       },
       {
         "year": 2021,
-        "value": 23639.9333
+        "value": 23955.456
       },
       {
         "year": 2022,
-        "value": 21328.6567
+        "value": 21579.2163
       },
       {
         "year": 2023,
-        "value": 20481.5505
+        "value": 20717.9229
       },
       {
         "year": 2024,
-        "value": 20024.0089
+        "value": 20152.9872
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 54.9496
+      },
+      {
+        "year": 2015,
+        "value": 55.3427
+      },
+      {
+        "year": 2016,
+        "value": 53.7596
+      },
+      {
+        "year": 2017,
+        "value": 52.2817
+      },
+      {
+        "year": 2018,
+        "value": 50.7385
+      },
+      {
+        "year": 2019,
+        "value": 52.3014
+      },
+      {
+        "year": 2020,
+        "value": 53.2053
+      },
+      {
+        "year": 2021,
+        "value": 51.2656
+      },
+      {
+        "year": 2022,
+        "value": 56.3718
+      },
+      {
+        "year": 2023,
+        "value": 55.2922
+      },
+      {
+        "year": 2024,
+        "value": 57.1444
       }
     ],
     "enrollment_headcount_total": [

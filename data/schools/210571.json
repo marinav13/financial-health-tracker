@@ -1,6 +1,6 @@
 {
   "unitid": "210571",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Albright College",
     "institution_unique_name": "Albright College | Reading | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.4819,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.7258,
-    "net_tuition_per_fte_change_5yr": -33.5022,
+    "net_tuition_per_fte_change_5yr": -34.8423,
     "staff_total_headcount_pct_change_5yr": -26.0143,
     "staff_instructional_headcount_pct_change_5yr": -11.2583,
     "students_per_instructional_staff_fte": 16.0032,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 39.5694,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.9877,
+    "unfunded_discount_pct_change_5yr": -13.8793,
     "share_grad_students": 22.8015,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19804.4773
+        "value": 20306.2583
       },
       {
         "year": 2015,
-        "value": 19515.2677
+        "value": 20118.125
       },
       {
         "year": 2016,
-        "value": 19292.8393
+        "value": 19653.8576
       },
       {
         "year": 2017,
-        "value": 18145.4312
+        "value": 18412.2072
       },
       {
         "year": 2018,
-        "value": 17908.6184
+        "value": 18207.3652
       },
       {
         "year": 2019,
-        "value": 16184.0286
+        "value": 16516.8771
       },
       {
         "year": 2020,
-        "value": 12762.0496
+        "value": 13084.2066
       },
       {
         "year": 2021,
-        "value": 15582.4138
+        "value": 16067.7393
       },
       {
         "year": 2022,
-        "value": 11171.428
+        "value": 11174.1434
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10762.0207
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.1158
+      },
+      {
+        "year": 2015,
+        "value": 47.681
+      },
+      {
+        "year": 2016,
+        "value": 50.9021
+      },
+      {
+        "year": 2017,
+        "value": 55.2037
+      },
+      {
+        "year": 2018,
+        "value": 56.5804
+      },
+      {
+        "year": 2019,
+        "value": 61.5273
+      },
+      {
+        "year": 2020,
+        "value": 39.3534
+      },
+      {
+        "year": 2021,
+        "value": 38.6503
+      },
+      {
+        "year": 2022,
+        "value": 47.7551
+      },
+      {
+        "year": 2023,
+        "value": 47.9471
+      },
+      {
+        "year": 2024,
+        "value": 52.9877
       }
     ],
     "enrollment_headcount_total": [

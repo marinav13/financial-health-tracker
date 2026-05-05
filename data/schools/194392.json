@@ -1,6 +1,6 @@
 {
   "unitid": "194392",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Paul Smiths College of Arts and Science",
     "institution_unique_name": "Paul Smiths College of Arts and Science | Paul Smiths | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 56.1198,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.4541,
-    "net_tuition_per_fte_change_5yr": 48.1955,
+    "net_tuition_per_fte_change_5yr": 57.0356,
     "staff_total_headcount_pct_change_5yr": -11.1111,
     "staff_instructional_headcount_pct_change_5yr": -26.7606,
     "students_per_instructional_staff_fte": 12.5282,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 53.2106,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.3847,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.1428,
+    "unfunded_discount_pct_change_5yr": -14.6301,
     "share_grad_students": 1.7515,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 14871.6529
+        "value": 17839.708
       },
       {
         "year": 2021,
-        "value": 25484.698
+        "value": 28301.2327
       },
       {
         "year": 2022,
-        "value": 24592.0641
+        "value": 30555.7112
       },
       {
         "year": 2023,
-        "value": 21718.5434
+        "value": 23473.4933
       },
       {
         "year": 2024,
-        "value": 23510.4384
+        "value": 24912.8735
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.1383
+      },
+      {
+        "year": 2015,
+        "value": 46.8043
+      },
+      {
+        "year": 2016,
+        "value": 46.6084
+      },
+      {
+        "year": 2017,
+        "value": 46.76
+      },
+      {
+        "year": 2018,
+        "value": 47.3322
+      },
+      {
+        "year": 2019,
+        "value": 50.5363
+      },
+      {
+        "year": 2020,
+        "value": 43.2155
+      },
+      {
+        "year": 2021,
+        "value": 34.8471
+      },
+      {
+        "year": 2022,
+        "value": 37.3488
+      },
+      {
+        "year": 2023,
+        "value": 43.5496
+      },
+      {
+        "year": 2024,
+        "value": 43.1428
       }
     ],
     "enrollment_headcount_total": [

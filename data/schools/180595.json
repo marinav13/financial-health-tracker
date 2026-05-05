@@ -1,6 +1,6 @@
 {
   "unitid": "180595",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rocky Mountain College",
     "institution_unique_name": "Rocky Mountain College | Billings | Montana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.627,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.9427,
-    "net_tuition_per_fte_change_5yr": 16.6572,
+    "net_tuition_per_fte_change_5yr": 17.9704,
     "staff_total_headcount_pct_change_5yr": -14.0893,
     "staff_instructional_headcount_pct_change_5yr": -11.1111,
     "students_per_instructional_staff_fte": 13.7778,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 56.0579,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.3333,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.4839,
+    "unfunded_discount_pct_change_5yr": -9.7979,
     "share_grad_students": 24.0072,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15588.476
+        "value": 14905.596
       },
       {
         "year": 2015,
-        "value": 16213.923
+        "value": 14858.1361
       },
       {
         "year": 2016,
-        "value": 16667.5689
+        "value": 15338.6802
       },
       {
         "year": 2017,
-        "value": 16609.8116
+        "value": 15535.8861
       },
       {
         "year": 2018,
-        "value": 16308.0628
+        "value": 14905.9162
       },
       {
         "year": 2019,
-        "value": 16475.0397
+        "value": 14918.5568
       },
       {
         "year": 2020,
-        "value": 18483.7728
+        "value": 16912.1091
       },
       {
         "year": 2021,
-        "value": 20084.9499
+        "value": 18322.8721
       },
       {
         "year": 2022,
-        "value": 20074.4665
+        "value": 18408.7312
       },
       {
         "year": 2023,
-        "value": 19180.4587
+        "value": 17576.9693
       },
       {
         "year": 2024,
-        "value": 19219.3196
+        "value": 17599.4859
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.0859
+      },
+      {
+        "year": 2015,
+        "value": 43.9472
+      },
+      {
+        "year": 2016,
+        "value": 44.5061
+      },
+      {
+        "year": 2017,
+        "value": 46.1935
+      },
+      {
+        "year": 2018,
+        "value": 47.8189
+      },
+      {
+        "year": 2019,
+        "value": 49.3157
+      },
+      {
+        "year": 2020,
+        "value": 46.4132
+      },
+      {
+        "year": 2021,
+        "value": 42.5718
+      },
+      {
+        "year": 2022,
+        "value": 40.562
+      },
+      {
+        "year": 2023,
+        "value": 43.4148
+      },
+      {
+        "year": 2024,
+        "value": 44.4839
       }
     ],
     "enrollment_headcount_total": [

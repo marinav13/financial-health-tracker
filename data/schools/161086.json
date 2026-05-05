@@ -1,6 +1,6 @@
 {
   "unitid": "161086",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Colby College",
     "institution_unique_name": "Colby College | Waterville | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 14.9767,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 18.6657,
-    "net_tuition_per_fte_change_5yr": -1.5451,
+    "net_tuition_per_fte_change_5yr": -1.6875,
     "staff_total_headcount_pct_change_5yr": 7.1429,
     "staff_instructional_headcount_pct_change_5yr": 4.3137,
     "students_per_instructional_staff_fte": 10.1429,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 24.7985,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.9038,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.2272,
+    "unfunded_discount_pct_change_5yr": 15.9794,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5380000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37759.2874
+        "value": 38002.3339
       },
       {
         "year": 2015,
-        "value": 39121.694
+        "value": 39362.328
       },
       {
         "year": 2016,
-        "value": 39889.0899
+        "value": 40125.5765
       },
       {
         "year": 2017,
-        "value": 39027.3319
+        "value": 39258.8327
       },
       {
         "year": 2018,
-        "value": 38972.3991
+        "value": 39191.8495
       },
       {
         "year": 2019,
-        "value": 35004.4709
+        "value": 35203.9904
       },
       {
         "year": 2020,
-        "value": 34128.1624
+        "value": 34322.88
       },
       {
         "year": 2021,
-        "value": 33406.8004
+        "value": 34764.1768
       },
       {
         "year": 2022,
-        "value": 37429.0722
+        "value": 37592.4302
       },
       {
         "year": 2023,
-        "value": 36023.4008
+        "value": 36174.7495
       },
       {
         "year": 2024,
-        "value": 34463.615
+        "value": 34609.9374
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.4993
+      },
+      {
+        "year": 2015,
+        "value": 17.8609
+      },
+      {
+        "year": 2016,
+        "value": 17.0646
+      },
+      {
+        "year": 2017,
+        "value": 19.5179
+      },
+      {
+        "year": 2018,
+        "value": 21.5299
+      },
+      {
+        "year": 2019,
+        "value": 24.3381
+      },
+      {
+        "year": 2020,
+        "value": 25.2776
+      },
+      {
+        "year": 2021,
+        "value": 24.8313
+      },
+      {
+        "year": 2022,
+        "value": 22.0947
+      },
+      {
+        "year": 2023,
+        "value": 25.0839
+      },
+      {
+        "year": 2024,
+        "value": 28.2272
       }
     ],
     "enrollment_headcount_total": [

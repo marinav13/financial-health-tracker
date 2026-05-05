@@ -1,6 +1,6 @@
 {
   "unitid": "212197",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Elizabethtown College",
     "institution_unique_name": "Elizabethtown College | Elizabethtown | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.8208,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.4405,
-    "net_tuition_per_fte_change_5yr": -30.8086,
+    "net_tuition_per_fte_change_5yr": -27.9414,
     "staff_total_headcount_pct_change_5yr": -2.3649,
     "staff_instructional_headcount_pct_change_5yr": 23.0769,
     "students_per_instructional_staff_fte": 14.9934,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 42.2228,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.2741,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.9831,
+    "unfunded_discount_pct_change_5yr": -17.0977,
     "share_grad_students": 20.8774,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28500.0386
+        "value": 28617.6111
       },
       {
         "year": 2015,
-        "value": 29115.7425
+        "value": 28617.5781
       },
       {
         "year": 2016,
-        "value": 29251.9158
+        "value": 28021.6306
       },
       {
         "year": 2017,
-        "value": 28274.436
+        "value": 28461.8039
       },
       {
         "year": 2018,
-        "value": 27656.6394
+        "value": 26510.2434
       },
       {
         "year": 2019,
-        "value": 23814.0041
+        "value": 22894.2503
       },
       {
         "year": 2020,
-        "value": 21804.3766
+        "value": 23498.4794
       },
       {
         "year": 2021,
-        "value": 19446.7484
+        "value": 19587.4154
       },
       {
         "year": 2022,
-        "value": 17687.3263
+        "value": 17732.8716
       },
       {
         "year": 2023,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 16477.2333
+        "value": 16497.2783
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.9139
+      },
+      {
+        "year": 2015,
+        "value": 44.0718
+      },
+      {
+        "year": 2016,
+        "value": 46.7194
+      },
+      {
+        "year": 2017,
+        "value": 46.2204
+      },
+      {
+        "year": 2018,
+        "value": 49.5858
+      },
+      {
+        "year": 2019,
+        "value": 50.6417
+      },
+      {
+        "year": 2020,
+        "value": 33.0787
+      },
+      {
+        "year": 2021,
+        "value": 35.2733
+      },
+      {
+        "year": 2022,
+        "value": 38.7136
+      },
+      {
+        "year": 2023,
+        "value": 40.2614
+      },
+      {
+        "year": 2024,
+        "value": 41.9831
       }
     ],
     "enrollment_headcount_total": [

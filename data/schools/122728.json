@@ -1,6 +1,6 @@
 {
   "unitid": "122728",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "William Jessup University",
     "institution_unique_name": "William Jessup University | Rocklin | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.2345,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 38.5681,
-    "net_tuition_per_fte_change_5yr": -13.1691,
+    "net_tuition_per_fte_change_5yr": -14.669,
     "staff_total_headcount_pct_change_5yr": 20.49,
     "staff_instructional_headcount_pct_change_5yr": 5.7778,
     "students_per_instructional_staff_fte": 11.6951,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 37.7538,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.2751,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.2131,
+    "unfunded_discount_pct_change_5yr": 11.8909,
     "share_grad_students": 28.0702,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 39423,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18988.6605
+        "value": 19038.0656
       },
       {
         "year": 2015,
-        "value": 17459.848
+        "value": 17510.7716
       },
       {
         "year": 2016,
-        "value": 18484.417
+        "value": 18553.6192
       },
       {
         "year": 2017,
-        "value": 18779.7404
+        "value": 18842.4225
       },
       {
         "year": 2018,
-        "value": 18843.5961
+        "value": 18905.1951
       },
       {
         "year": 2019,
-        "value": 18975.9469
+        "value": 19064.695
       },
       {
         "year": 2020,
-        "value": 18032.8391
+        "value": 18031.3121
       },
       {
         "year": 2021,
-        "value": 16277.5299
+        "value": 16293.6622
       },
       {
         "year": 2022,
-        "value": 16192.8388
+        "value": 16130.626
       },
       {
         "year": 2023,
-        "value": 14978.9458
+        "value": 14799.0935
       },
       {
         "year": 2024,
-        "value": 16476.9915
+        "value": 16268.086
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.161
+      },
+      {
+        "year": 2015,
+        "value": 34.5515
+      },
+      {
+        "year": 2016,
+        "value": 34.8381
+      },
+      {
+        "year": 2017,
+        "value": 35.4028
+      },
+      {
+        "year": 2018,
+        "value": 34.6528
+      },
+      {
+        "year": 2019,
+        "value": 35.0458
+      },
+      {
+        "year": 2020,
+        "value": 36.9534
+      },
+      {
+        "year": 2021,
+        "value": 35.607
+      },
+      {
+        "year": 2022,
+        "value": 37.4082
+      },
+      {
+        "year": 2023,
+        "value": 40.0914
+      },
+      {
+        "year": 2024,
+        "value": 39.2131
       }
     ],
     "enrollment_headcount_total": [

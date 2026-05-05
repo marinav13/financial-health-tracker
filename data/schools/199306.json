@@ -1,6 +1,6 @@
 {
   "unitid": "199306",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pfeiffer University",
     "institution_unique_name": "Pfeiffer University | Misenheimer | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -32.0287,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.2621,
-    "net_tuition_per_fte_change_5yr": -14.2877,
+    "net_tuition_per_fte_change_5yr": -15.3866,
     "staff_total_headcount_pct_change_5yr": -17.4274,
     "staff_instructional_headcount_pct_change_5yr": -24.6377,
     "students_per_instructional_staff_fte": 12.4429,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 45.0801,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, about the same as the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 48.5702,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.6583,
+    "unfunded_discount_pct_change_5yr": 20.758,
     "share_grad_students": 33.9731,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14786.0538
+        "value": 15549.8928
       },
       {
         "year": 2015,
-        "value": 14974.4877
+        "value": 16277.1841
       },
       {
         "year": 2016,
-        "value": 15110.6779
+        "value": 16644.5698
       },
       {
         "year": 2017,
-        "value": 15520.105
+        "value": 19094.4123
       },
       {
         "year": 2018,
-        "value": 15251.823
+        "value": 16958.9743
       },
       {
         "year": 2019,
-        "value": 15507.1532
+        "value": 16924.7057
       },
       {
         "year": 2020,
-        "value": 15940.2234
+        "value": 17187.6972
       },
       {
         "year": 2021,
-        "value": 15091.0195
+        "value": 15449.9632
       },
       {
         "year": 2022,
-        "value": 13896.4368
+        "value": 14246.1314
       },
       {
         "year": 2023,
-        "value": 13756.2109
+        "value": 14873.0336
       },
       {
         "year": 2024,
-        "value": 13291.5362
+        "value": 14320.5614
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.9635
+      },
+      {
+        "year": 2015,
+        "value": 33.6737
+      },
+      {
+        "year": 2016,
+        "value": 33.5602
+      },
+      {
+        "year": 2017,
+        "value": 21.4113
+      },
+      {
+        "year": 2018,
+        "value": 37.8541
+      },
+      {
+        "year": 2019,
+        "value": 41.1222
+      },
+      {
+        "year": 2020,
+        "value": 42.8626
+      },
+      {
+        "year": 2021,
+        "value": 47.0449
+      },
+      {
+        "year": 2022,
+        "value": 45.9374
+      },
+      {
+        "year": 2023,
+        "value": 45.8733
+      },
+      {
+        "year": 2024,
+        "value": 49.6583
       }
     ],
     "enrollment_headcount_total": [

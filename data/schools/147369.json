@@ -1,6 +1,6 @@
 {
   "unitid": "147369",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Moody Bible Institute",
     "institution_unique_name": "Moody Bible Institute | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.5597,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -1.3044,
-    "net_tuition_per_fte_change_5yr": -11.8959,
+    "net_tuition_per_fte_change_5yr": -20.6862,
     "staff_total_headcount_pct_change_5yr": 48.8055,
     "staff_instructional_headcount_pct_change_5yr": 0.4717,
     "students_per_instructional_staff_fte": 14.8172,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 10.319,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 10% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 8.9066,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 9% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0.7437,
+    "unfunded_discount_pct_change_5yr": 200.2906,
     "share_grad_students": 29.2655,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8704.6228
+        "value": 8367.2292
       },
       {
         "year": 2015,
-        "value": 8909.3207
+        "value": 8565.7366
       },
       {
         "year": 2016,
-        "value": 8956.6675
+        "value": 8571.7019
       },
       {
         "year": 2017,
-        "value": 9159.025
+        "value": 8784.7649
       },
       {
         "year": 2018,
-        "value": 9262.7992
+        "value": 9019.1932
       },
       {
         "year": 2019,
-        "value": 9178.5647
+        "value": 8800.2711
       },
       {
         "year": 2020,
-        "value": 8823.8211
+        "value": 8197.9807
       },
       {
         "year": 2021,
-        "value": 9350.3869
+        "value": 8832.4444
       },
       {
         "year": 2022,
-        "value": 8822.0471
+        "value": 8323.3248
       },
       {
         "year": 2023,
-        "value": 8801.4912
+        "value": 7879.6673
       },
       {
         "year": 2024,
-        "value": 8086.6904
+        "value": 6979.8306
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0.1601
+      },
+      {
+        "year": 2015,
+        "value": 0.3116
+      },
+      {
+        "year": 2016,
+        "value": 0.3081
+      },
+      {
+        "year": 2017,
+        "value": 0.3271
+      },
+      {
+        "year": 2018,
+        "value": 0.1401
+      },
+      {
+        "year": 2019,
+        "value": 0.2477
+      },
+      {
+        "year": 2020,
+        "value": 0.3875
+      },
+      {
+        "year": 2021,
+        "value": 0.348
+      },
+      {
+        "year": 2022,
+        "value": 0.386
+      },
+      {
+        "year": 2023,
+        "value": 0.6242
+      },
+      {
+        "year": 2024,
+        "value": 0.7437
       }
     ],
     "enrollment_headcount_total": [

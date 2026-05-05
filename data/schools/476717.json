@@ -1,6 +1,6 @@
 {
   "unitid": "476717",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Be'er Yaakov Talmudic Seminary",
     "institution_unique_name": "Be'er Yaakov Talmudic Seminary | Spring Valley | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.7879,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 33.2581,
-    "net_tuition_per_fte_change_5yr": -3.6593,
+    "net_tuition_per_fte_change_5yr": -53.5519,
     "staff_total_headcount_pct_change_5yr": 16.0494,
     "staff_instructional_headcount_pct_change_5yr": 18.75,
     "students_per_instructional_staff_fte": 17.8017,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 71.4854,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 34.4648,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.2597,
+    "unfunded_discount_pct_change_5yr": 603.8824,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11031.5677
+        "value": 12041.1005
       },
       {
         "year": 2015,
@@ -171,11 +173,11 @@
       },
       {
         "year": 2017,
-        "value": 11752.0966
+        "value": 7664.0584
       },
       {
         "year": 2018,
-        "value": 12922.4369
+        "value": 9123.773
       },
       {
         "year": 2019,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 15999.159
+        "value": 13217.7581
       },
       {
         "year": 2022,
-        "value": 15155.3393
+        "value": 13520.4537
       },
       {
         "year": 2023,
-        "value": 12483.4721
+        "value": 8906.5218
       },
       {
         "year": 2024,
-        "value": 14173.4833
+        "value": 6833.376
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 5.2509
+      },
+      {
+        "year": 2016,
+        "value": 8.2972
+      },
+      {
+        "year": 2017,
+        "value": 41.4338
+      },
+      {
+        "year": 2018,
+        "value": 36.4511
+      },
+      {
+        "year": 2019,
+        "value": 7.9928
+      },
+      {
+        "year": 2020,
+        "value": 1.8451
+      },
+      {
+        "year": 2021,
+        "value": 18.9084
+      },
+      {
+        "year": 2022,
+        "value": 18.1845
+      },
+      {
+        "year": 2023,
+        "value": 40.3523
+      },
+      {
+        "year": 2024,
+        "value": 56.2597
       }
     ],
     "enrollment_headcount_total": [

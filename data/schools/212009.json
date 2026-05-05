@@ -1,6 +1,6 @@
 {
   "unitid": "212009",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dickinson College",
     "institution_unique_name": "Dickinson College | Carlisle | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.9582,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 1.1907,
-    "net_tuition_per_fte_change_5yr": -25.7468,
+    "net_tuition_per_fte_change_5yr": -26.5903,
     "staff_total_headcount_pct_change_5yr": -3.7539,
     "staff_instructional_headcount_pct_change_5yr": -0.3636,
     "students_per_instructional_staff_fte": 9.7081,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 30.4866,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.8067,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.3135,
+    "unfunded_discount_pct_change_5yr": 19.96,
     "share_grad_students": 0.5788,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4174085,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 35662.2383
+        "value": 35384.389
       },
       {
         "year": 2018,
-        "value": 34811.0114
+        "value": 34376.4599
       },
       {
         "year": 2019,
-        "value": 32533.1919
+        "value": 32173.1587
       },
       {
         "year": 2020,
-        "value": 31943.4784
+        "value": 31693.6068
       },
       {
         "year": 2021,
-        "value": 27824.8054
+        "value": 27759.7028
       },
       {
         "year": 2022,
-        "value": 25261.2302
+        "value": 24864.0477
       },
       {
         "year": 2023,
-        "value": 25208.1293
+        "value": 24794.5905
       },
       {
         "year": 2024,
-        "value": 24156.9521
+        "value": 23618.2266
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.6066
+      },
+      {
+        "year": 2015,
+        "value": 33.2235
+      },
+      {
+        "year": 2016,
+        "value": 34.3369
+      },
+      {
+        "year": 2017,
+        "value": 36.7281
+      },
+      {
+        "year": 2018,
+        "value": 38.6197
+      },
+      {
+        "year": 2019,
+        "value": 42.7755
+      },
+      {
+        "year": 2020,
+        "value": 41.7151
+      },
+      {
+        "year": 2021,
+        "value": 43.958
+      },
+      {
+        "year": 2022,
+        "value": 48.5791
+      },
+      {
+        "year": 2023,
+        "value": 48.8942
+      },
+      {
+        "year": 2024,
+        "value": 51.3135
       }
     ],
     "enrollment_headcount_total": [

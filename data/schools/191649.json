@@ -1,6 +1,6 @@
 {
   "unitid": "191649",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hofstra University",
     "institution_unique_name": "Hofstra University | Hempstead | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.0468,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.8037,
-    "net_tuition_per_fte_change_5yr": -10.1367,
+    "net_tuition_per_fte_change_5yr": -10.7897,
     "staff_total_headcount_pct_change_5yr": -0.6119,
     "staff_instructional_headcount_pct_change_5yr": 6.0212,
     "students_per_instructional_staff_fte": 11.3972,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 54.9641,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.4411,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.0098,
+    "unfunded_discount_pct_change_5yr": 15.3187,
     "share_grad_students": 40.9741,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 9873796,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38600.8227
+        "value": 38440.2211
       },
       {
         "year": 2015,
-        "value": 38624.9796
+        "value": 38459.6484
       },
       {
         "year": 2016,
-        "value": 38701.9967
+        "value": 38534.1373
       },
       {
         "year": 2017,
-        "value": 38665.369
+        "value": 38568.8185
       },
       {
         "year": 2018,
-        "value": 38514.9134
+        "value": 38433.5757
       },
       {
         "year": 2019,
-        "value": 38668.4766
+        "value": 38580.9404
       },
       {
         "year": 2020,
-        "value": 37698.751
+        "value": 37659.9423
       },
       {
         "year": 2021,
-        "value": 38048.6128
+        "value": 37873.5244
       },
       {
         "year": 2022,
-        "value": 35811.6126
+        "value": 35580.5898
       },
       {
         "year": 2023,
-        "value": 35014.1541
+        "value": 34711.4682
       },
       {
         "year": 2024,
-        "value": 34748.7855
+        "value": 34418.1711
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.1726
+      },
+      {
+        "year": 2015,
+        "value": 28.3466
+      },
+      {
+        "year": 2016,
+        "value": 29.8924
+      },
+      {
+        "year": 2017,
+        "value": 30.7541
+      },
+      {
+        "year": 2018,
+        "value": 31.8929
+      },
+      {
+        "year": 2019,
+        "value": 32.9607
+      },
+      {
+        "year": 2020,
+        "value": 34.5574
+      },
+      {
+        "year": 2021,
+        "value": 35.0402
+      },
+      {
+        "year": 2022,
+        "value": 36.4337
+      },
+      {
+        "year": 2023,
+        "value": 37.2093
+      },
+      {
+        "year": 2024,
+        "value": 38.0098
       }
     ],
     "enrollment_headcount_total": [

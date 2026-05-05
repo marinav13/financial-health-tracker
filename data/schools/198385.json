@@ -1,6 +1,6 @@
 {
   "unitid": "198385",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Davidson College",
     "institution_unique_name": "Davidson College | Davidson | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.6889,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -0.3433,
-    "net_tuition_per_fte_change_5yr": -7.8296,
+    "net_tuition_per_fte_change_5yr": -7.9158,
     "staff_total_headcount_pct_change_5yr": 8.6528,
     "staff_instructional_headcount_pct_change_5yr": 2.1008,
     "students_per_instructional_staff_fte": 8.6276,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 19.1431,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 19.4687,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.8258,
+    "unfunded_discount_pct_change_5yr": 7.706,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2617415,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27412.0917
+        "value": 28586.6721
       },
       {
         "year": 2015,
-        "value": 27719.2306
+        "value": 28999.91
       },
       {
         "year": 2016,
-        "value": 28780.4476
+        "value": 30102.9159
       },
       {
         "year": 2017,
-        "value": 27910.9276
+        "value": 29191.2083
       },
       {
         "year": 2018,
-        "value": 26551.5092
+        "value": 27899.2138
       },
       {
         "year": 2019,
-        "value": 27874.8676
+        "value": 28375.5463
       },
       {
         "year": 2020,
-        "value": 28187.215
+        "value": 28822.5041
       },
       {
         "year": 2021,
-        "value": 29428.9188
+        "value": 30351.1884
       },
       {
         "year": 2022,
-        "value": 25545.4003
+        "value": 26346.7554
       },
       {
         "year": 2023,
-        "value": 25311.6875
+        "value": 25765.3238
       },
       {
         "year": 2024,
-        "value": 25692.3904
+        "value": 26129.3919
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.4332
+      },
+      {
+        "year": 2015,
+        "value": 23.9301
+      },
+      {
+        "year": 2016,
+        "value": 24.4012
+      },
+      {
+        "year": 2017,
+        "value": 25.7622
+      },
+      {
+        "year": 2018,
+        "value": 28.0701
+      },
+      {
+        "year": 2019,
+        "value": 29.5488
+      },
+      {
+        "year": 2020,
+        "value": 30.5483
+      },
+      {
+        "year": 2021,
+        "value": 29.6788
+      },
+      {
+        "year": 2022,
+        "value": 30.3582
+      },
+      {
+        "year": 2023,
+        "value": 31.1419
+      },
+      {
+        "year": 2024,
+        "value": 31.8258
       }
     ],
     "enrollment_headcount_total": [

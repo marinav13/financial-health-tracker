@@ -1,6 +1,6 @@
 {
   "unitid": "160065",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Holy Cross",
     "institution_unique_name": "University of Holy Cross | New Orleans | Louisiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.0411,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -34.6366,
-    "net_tuition_per_fte_change_5yr": -16.0078,
+    "net_tuition_per_fte_change_5yr": -10.1862,
     "staff_total_headcount_pct_change_5yr": -0.4785,
     "staff_instructional_headcount_pct_change_5yr": 7.5758,
     "students_per_instructional_staff_fte": 7.8266,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 71.325,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 72.951,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 19.9937,
+    "unfunded_discount_pct_change_5yr": 110.5623,
     "share_grad_students": 29.2714,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17956.4605
+        "value": 17980.7036
       },
       {
         "year": 2015,
-        "value": 18255.2587
+        "value": 18471.8655
       },
       {
         "year": 2016,
-        "value": 19254.26
+        "value": 19631.7529
       },
       {
         "year": 2017,
-        "value": 17721.6637
+        "value": 18494.9691
       },
       {
         "year": 2018,
-        "value": 18729.8574
+        "value": 18571.0711
       },
       {
         "year": 2019,
-        "value": 19480.9888
+        "value": 18633.6119
       },
       {
         "year": 2020,
-        "value": 19223.0983
+        "value": 18154.0453
       },
       {
         "year": 2021,
-        "value": 19144.086
+        "value": 18482.1029
       },
       {
         "year": 2022,
-        "value": 16559.3364
+        "value": 15853.9399
       },
       {
         "year": 2023,
-        "value": 14149.2619
+        "value": 14423.6893
       },
       {
         "year": 2024,
-        "value": 16362.5147
+        "value": 16735.5456
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0.9113
+      },
+      {
+        "year": 2015,
+        "value": 1.0744
+      },
+      {
+        "year": 2016,
+        "value": 1.0312
+      },
+      {
+        "year": 2017,
+        "value": 0.9735
+      },
+      {
+        "year": 2018,
+        "value": 1.1984
+      },
+      {
+        "year": 2019,
+        "value": 9.4954
+      },
+      {
+        "year": 2020,
+        "value": 11.8816
+      },
+      {
+        "year": 2021,
+        "value": 12.3428
+      },
+      {
+        "year": 2022,
+        "value": 18.0445
+      },
+      {
+        "year": 2023,
+        "value": 18.8096
+      },
+      {
+        "year": 2024,
+        "value": 19.9937
       }
     ],
     "enrollment_headcount_total": [

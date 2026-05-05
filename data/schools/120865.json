@@ -1,6 +1,6 @@
 {
   "unitid": "120865",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pacific Union College",
     "institution_unique_name": "Pacific Union College | Angwin | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 28.7775,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.182,
+    "unfunded_discount_pct_change_5yr": 8.0876,
     "share_grad_students": 3.3568,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 17519.7751
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.3068
+      },
+      {
+        "year": 2015,
+        "value": 36.5344
+      },
+      {
+        "year": 2016,
+        "value": 36.5332
+      },
+      {
+        "year": 2017,
+        "value": 38.6233
+      },
+      {
+        "year": 2018,
+        "value": 41.6568
+      },
+      {
+        "year": 2019,
+        "value": 43.6517
+      },
+      {
+        "year": 2020,
+        "value": 44.9388
+      },
+      {
+        "year": 2021,
+        "value": 46.6243
+      },
+      {
+        "year": 2022,
+        "value": 49.8133
+      },
+      {
+        "year": 2023,
+        "value": 48.6288
+      },
+      {
+        "year": 2024,
+        "value": 47.182
       }
     ],
     "enrollment_headcount_total": [

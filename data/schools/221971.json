@@ -1,6 +1,6 @@
 {
   "unitid": "221971",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Union University",
     "institution_unique_name": "Union University | Jackson | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.2991,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -19.1279,
-    "net_tuition_per_fte_change_5yr": -7.5328,
+    "net_tuition_per_fte_change_5yr": -8.4863,
     "staff_total_headcount_pct_change_5yr": -3.5541,
     "staff_instructional_headcount_pct_change_5yr": -13.8122,
     "students_per_instructional_staff_fte": 10.3528,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 50.4658,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.9316,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.4033,
+    "unfunded_discount_pct_change_5yr": 8.772,
     "share_grad_students": 31.2661,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15590.0195
+        "value": 16352.5131
       },
       {
         "year": 2015,
-        "value": 17275.0168
+        "value": 17699.5058
       },
       {
         "year": 2016,
-        "value": 18797.9803
+        "value": 18676.5747
       },
       {
         "year": 2017,
-        "value": 20069.4371
+        "value": 20894.4125
       },
       {
         "year": 2018,
-        "value": 19900.7493
+        "value": 21137.9439
       },
       {
         "year": 2019,
-        "value": 19755.9524
+        "value": 20146.0485
       },
       {
         "year": 2020,
-        "value": 20842.3886
+        "value": 21030.4129
       },
       {
         "year": 2021,
-        "value": 19963.3803
+        "value": 20275.0486
       },
       {
         "year": 2022,
-        "value": 18357.1871
+        "value": 18691.5993
       },
       {
         "year": 2023,
-        "value": 18335.5386
+        "value": 18672.2188
       },
       {
         "year": 2024,
-        "value": 18267.7787
+        "value": 18436.3973
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.2316
+      },
+      {
+        "year": 2015,
+        "value": 32.8246
+      },
+      {
+        "year": 2016,
+        "value": 32.7871
+      },
+      {
+        "year": 2017,
+        "value": 28.1629
+      },
+      {
+        "year": 2018,
+        "value": 29.2693
+      },
+      {
+        "year": 2019,
+        "value": 34.3869
+      },
+      {
+        "year": 2020,
+        "value": 33.7255
+      },
+      {
+        "year": 2021,
+        "value": 34.692
+      },
+      {
+        "year": 2022,
+        "value": 36.8097
+      },
+      {
+        "year": 2023,
+        "value": 37.0187
+      },
+      {
+        "year": 2024,
+        "value": 37.4033
       }
     ],
     "enrollment_headcount_total": [

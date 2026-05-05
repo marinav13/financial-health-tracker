@@ -1,6 +1,6 @@
 {
   "unitid": "157809",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Thomas More University",
     "institution_unique_name": "Thomas More University | Crestview Hills | Kentucky",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 55.8887,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.976,
+    "unfunded_discount_pct_change_5yr": 27.0371,
     "share_grad_students": 9.9873,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 15321.1937
+        "value": 15321.1945
       },
       {
         "year": 2017,
-        "value": 15543.6841
+        "value": 15543.6833
       },
       {
         "year": 2018,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 14193.2534
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.1372
+      },
+      {
+        "year": 2015,
+        "value": 39.722
+      },
+      {
+        "year": 2016,
+        "value": 39.8564
+      },
+      {
+        "year": 2017,
+        "value": 41.9412
+      },
+      {
+        "year": 2018,
+        "value": 41.1982
+      },
+      {
+        "year": 2019,
+        "value": 42.4884
+      },
+      {
+        "year": 2020,
+        "value": 44.5662
+      },
+      {
+        "year": 2021,
+        "value": 48.5918
+      },
+      {
+        "year": 2022,
+        "value": 50.1769
+      },
+      {
+        "year": 2023,
+        "value": 52.3837
+      },
+      {
+        "year": 2024,
+        "value": 53.976
       }
     ],
     "enrollment_headcount_total": [

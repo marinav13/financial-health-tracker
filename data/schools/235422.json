@@ -1,6 +1,6 @@
 {
   "unitid": "235422",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Heritage University",
     "institution_unique_name": "Heritage University | Toppenish | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.0608,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 10.0848,
-    "net_tuition_per_fte_change_5yr": -18.4344,
+    "net_tuition_per_fte_change_5yr": -18.6232,
     "staff_total_headcount_pct_change_5yr": -19.0883,
     "staff_instructional_headcount_pct_change_5yr": -36.5217,
     "students_per_instructional_staff_fte": 8.6136,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 35.7867,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.144,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.1588,
+    "unfunded_discount_pct_change_5yr": 43.3211,
     "share_grad_students": 11.4737,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 19285.3555
+        "value": 19285.3544
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 18821.1237
+        "value": 19053.1179
       },
       {
         "year": 2020,
-        "value": 18238.7897
+        "value": 18578.8263
       },
       {
         "year": 2021,
-        "value": 18700.6086
+        "value": 20180.1813
       },
       {
         "year": 2022,
-        "value": 14402.7834
+        "value": 16159.4773
       },
       {
         "year": 2023,
-        "value": 14671.3246
+        "value": 14803.1739
       },
       {
         "year": 2024,
-        "value": 15351.5607
+        "value": 15504.8206
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 11.5892
+      },
+      {
+        "year": 2015,
+        "value": 19.0999
+      },
+      {
+        "year": 2016,
+        "value": 17.4329
+      },
+      {
+        "year": 2017,
+        "value": 15.1642
+      },
+      {
+        "year": 2018,
+        "value": 10.2374
+      },
+      {
+        "year": 2019,
+        "value": 9.8791
+      },
+      {
+        "year": 2020,
+        "value": 7.0191
+      },
+      {
+        "year": 2021,
+        "value": 4.0348
+      },
+      {
+        "year": 2022,
+        "value": 5.0428
+      },
+      {
+        "year": 2023,
+        "value": 16.0497
+      },
+      {
+        "year": 2024,
+        "value": 14.1588
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "129534",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Holy Apostles College and Seminary",
     "institution_unique_name": "Holy Apostles College and Seminary | Cromwell | Connecticut",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.3144,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 30.8949,
-    "net_tuition_per_fte_change_5yr": 1.9983,
+    "net_tuition_per_fte_change_5yr": -12.9819,
     "staff_total_headcount_pct_change_5yr": -34.3284,
     "staff_instructional_headcount_pct_change_5yr": -59.2593,
     "students_per_instructional_staff_fte": 75.5294,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 73.0803,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 62.3472,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.7567,
+    "unfunded_discount_pct_change_5yr": -52.5782,
     "share_grad_students": 64.2211,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,11 +169,11 @@
       },
       {
         "year": 2016,
-        "value": 11907.3995
+        "value": 12444.5111
       },
       {
         "year": 2017,
-        "value": 10560.8104
+        "value": 11199.9714
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 10805.7909
+        "value": 12971.5074
       },
       {
         "year": 2021,
-        "value": 7381.1878
+        "value": 8736.6441
       },
       {
         "year": 2022,
-        "value": 9520.1918
+        "value": 9731.602
       },
       {
         "year": 2023,
-        "value": 9161.9293
+        "value": 7139.2986
       },
       {
         "year": 2024,
-        "value": 9777.6963
+        "value": 8341.6776
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.6551
+      },
+      {
+        "year": 2015,
+        "value": 24.1978
+      },
+      {
+        "year": 2016,
+        "value": 33.6885
+      },
+      {
+        "year": 2017,
+        "value": 26.2038
+      },
+      {
+        "year": 2018,
+        "value": 47.2739
+      },
+      {
+        "year": 2019,
+        "value": 47.9879
+      },
+      {
+        "year": 2020,
+        "value": 40.5716
+      },
+      {
+        "year": 2021,
+        "value": 33.7824
+      },
+      {
+        "year": 2022,
+        "value": 27.4622
+      },
+      {
+        "year": 2023,
+        "value": 33.7333
+      },
+      {
+        "year": 2024,
+        "value": 22.7567
       }
     ],
     "enrollment_headcount_total": [

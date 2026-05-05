@@ -1,6 +1,6 @@
 {
   "unitid": "214157",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Moravian University",
     "institution_unique_name": "Moravian University | Bethlehem | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.1147,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.4121,
-    "net_tuition_per_fte_change_5yr": -8.6158,
+    "net_tuition_per_fte_change_5yr": -7.9449,
     "staff_total_headcount_pct_change_5yr": 16.7164,
     "staff_instructional_headcount_pct_change_5yr": 17.9941,
     "students_per_instructional_staff_fte": 11.2135,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 53.0389,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.0196,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.8836,
+    "unfunded_discount_pct_change_5yr": -2.5652,
     "share_grad_students": 28.955,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 331742,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23304.2961
+        "value": 23285.8535
       },
       {
         "year": 2015,
-        "value": 23777.9806
+        "value": 23794.6433
       },
       {
         "year": 2016,
-        "value": 24376.3767
+        "value": 24194.3792
       },
       {
         "year": 2017,
-        "value": 24296.6383
+        "value": 24287.7452
       },
       {
         "year": 2018,
-        "value": 23513.2763
+        "value": 23565.9551
       },
       {
         "year": 2019,
-        "value": 23222.7447
+        "value": 24349.0658
       },
       {
         "year": 2020,
-        "value": 23141.402
+        "value": 24857.4857
       },
       {
         "year": 2021,
-        "value": 22964.5706
+        "value": 23972.9176
       },
       {
         "year": 2022,
-        "value": 21332.4766
+        "value": 22263.5592
       },
       {
         "year": 2023,
-        "value": 21447.4161
+        "value": 22719.1355
       },
       {
         "year": 2024,
-        "value": 21221.9092
+        "value": 22414.5454
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.6623
+      },
+      {
+        "year": 2015,
+        "value": 39.3983
+      },
+      {
+        "year": 2016,
+        "value": 41.4919
+      },
+      {
+        "year": 2017,
+        "value": 41.9293
+      },
+      {
+        "year": 2018,
+        "value": 42.9606
+      },
+      {
+        "year": 2019,
+        "value": 41.96
+      },
+      {
+        "year": 2020,
+        "value": 42.0827
+      },
+      {
+        "year": 2021,
+        "value": 42.2806
+      },
+      {
+        "year": 2022,
+        "value": 43.963
+      },
+      {
+        "year": 2023,
+        "value": 43.1409
+      },
+      {
+        "year": 2024,
+        "value": 40.8836
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "213358",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "La Roche University",
     "institution_unique_name": "La Roche University | Pittsburgh | Pennsylvania",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 70.7861,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.6581,
+    "unfunded_discount_pct_change_5yr": -14.3041,
     "share_grad_students": 14.0232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 19639.8075
+        "value": 19639.8084
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 18738.633
+        "value": 18395.8139
       },
       {
         "year": 2021,
-        "value": 20853.5754
+        "value": 20565.3541
       },
       {
         "year": 2022,
-        "value": 13748.9954
+        "value": 13574.7834
       },
       {
         "year": 2023,
-        "value": 13650.2997
+        "value": 13461.979
       },
       {
         "year": 2024,
         "value": 14785.1697
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.2543
+      },
+      {
+        "year": 2015,
+        "value": 32.7808
+      },
+      {
+        "year": 2016,
+        "value": 35.1251
+      },
+      {
+        "year": 2017,
+        "value": 36.3047
+      },
+      {
+        "year": 2018,
+        "value": 37.7589
+      },
+      {
+        "year": 2019,
+        "value": 40.4431
+      },
+      {
+        "year": 2020,
+        "value": 41.2713
+      },
+      {
+        "year": 2021,
+        "value": 37.814
+      },
+      {
+        "year": 2022,
+        "value": 33.6045
+      },
+      {
+        "year": 2023,
+        "value": 32.0287
+      },
+      {
+        "year": 2024,
+        "value": 34.6581
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "148593",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. John's College-Department of Nursing",
     "institution_unique_name": "St. John's College-Department of Nursing | Springfield | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -32.8571,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -28.9541,
-    "net_tuition_per_fte_change_5yr": 1.5175,
+    "net_tuition_per_fte_change_5yr": -4.3108,
     "staff_total_headcount_pct_change_5yr": -28.125,
     "staff_instructional_headcount_pct_change_5yr": -36,
     "students_per_instructional_staff_fte": 5.7,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 41.5654,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.2254,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 19.1489,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23486.8731
+        "value": 22491.7424
       },
       {
         "year": 2015,
-        "value": 23395.0652
+        "value": 22186.7703
       },
       {
         "year": 2016,
-        "value": 23810.833
+        "value": 22830.9452
       },
       {
         "year": 2017,
-        "value": 25410.0134
+        "value": 23899.7129
       },
       {
         "year": 2018,
-        "value": 24319.1974
+        "value": 22154.7376
       },
       {
         "year": 2019,
-        "value": 24237.1921
+        "value": 23028.6489
       },
       {
         "year": 2020,
-        "value": 26967.902
+        "value": 25232.3352
       },
       {
         "year": 2021,
-        "value": 26821.6615
+        "value": 24357.1062
       },
       {
         "year": 2022,
-        "value": 26909.2482
+        "value": 24356.7687
       },
       {
         "year": 2023,
-        "value": 24490.1156
+        "value": 22215.67
       },
       {
         "year": 2024,
-        "value": 24605
+        "value": 22035.9211
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

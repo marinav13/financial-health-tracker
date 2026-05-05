@@ -1,6 +1,6 @@
 {
   "unitid": "170000",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Grace Christian University",
     "institution_unique_name": "Grace Christian University | Wyoming | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.2313,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -39.0706,
-    "net_tuition_per_fte_change_5yr": -11.2376,
+    "net_tuition_per_fte_change_5yr": -7.2994,
     "staff_total_headcount_pct_change_5yr": 12.2881,
     "staff_instructional_headcount_pct_change_5yr": 10.1562,
     "students_per_instructional_staff_fte": 11.2189,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 47.7393,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.2752,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.1734,
+    "unfunded_discount_pct_change_5yr": 16.7106,
     "share_grad_students": 8.7629,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10970.8336
+        "value": 14282.6179
       },
       {
         "year": 2015,
-        "value": 10500.9799
+        "value": 14876.1907
       },
       {
         "year": 2016,
-        "value": 10397.158
+        "value": 14814.9082
       },
       {
         "year": 2017,
-        "value": 10071.2355
+        "value": 13713.5027
       },
       {
         "year": 2018,
-        "value": 10217.8195
+        "value": 9397.2392
       },
       {
         "year": 2019,
-        "value": 9876.5948
+        "value": 10157.4693
       },
       {
         "year": 2020,
-        "value": 13601.8328
+        "value": 14106.4035
       },
       {
         "year": 2021,
-        "value": 9486.9532
+        "value": 10034.8914
       },
       {
         "year": 2022,
-        "value": 9233.3111
+        "value": 9852.8162
       },
       {
         "year": 2023,
-        "value": 8206.8913
+        "value": 8532.9671
       },
       {
         "year": 2024,
-        "value": 8766.7057
+        "value": 9416.0332
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.8267
+      },
+      {
+        "year": 2015,
+        "value": 16.32
+      },
+      {
+        "year": 2016,
+        "value": 18.0185
+      },
+      {
+        "year": 2017,
+        "value": 17.2421
+      },
+      {
+        "year": 2018,
+        "value": 23.3433
+      },
+      {
+        "year": 2019,
+        "value": 22.4259
+      },
+      {
+        "year": 2020,
+        "value": 19.9946
+      },
+      {
+        "year": 2021,
+        "value": 27.2337
+      },
+      {
+        "year": 2022,
+        "value": 26.8988
+      },
+      {
+        "year": 2023,
+        "value": 29.4117
+      },
+      {
+        "year": 2024,
+        "value": 26.1734
       }
     ],
     "enrollment_headcount_total": [

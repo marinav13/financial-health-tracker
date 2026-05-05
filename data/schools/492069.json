@@ -1,6 +1,6 @@
 {
   "unitid": "492069",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Champion Christian College",
     "institution_unique_name": "Champion Christian College | Hot Springs | Arkansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 55.6701,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 113.758,
-    "net_tuition_per_fte_change_5yr": 476.8435,
+    "net_tuition_per_fte_change_5yr": 246.8629,
     "staff_total_headcount_pct_change_5yr": 26.4706,
     "staff_instructional_headcount_pct_change_5yr": 27.2727,
     "students_per_instructional_staff_fte": 15,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 61.4234,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.7123,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 10.926,
+    "unfunded_discount_pct_change_5yr": -68.9746,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -127,31 +129,61 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2018,
-        "value": 8090.8363
+        "value": 6187.5648
       },
       {
         "year": 2019,
-        "value": 2225.1009
+        "value": 3296.1031
       },
       {
         "year": 2020,
-        "value": 7467.3536
+        "value": 5357.2843
       },
       {
         "year": 2021,
-        "value": 9720.4743
+        "value": 7260.3716
       },
       {
         "year": 2022,
-        "value": 8521.8059
+        "value": 6361.3922
       },
       {
         "year": 2023,
-        "value": 11454.529
+        "value": 9485.179
       },
       {
         "year": 2024,
-        "value": 12835.35
+        "value": 11432.9583
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2018,
+        "value": 23.5238
+      },
+      {
+        "year": 2019,
+        "value": 35.2164
+      },
+      {
+        "year": 2020,
+        "value": 28.3316
+      },
+      {
+        "year": 2021,
+        "value": 25.3085
+      },
+      {
+        "year": 2022,
+        "value": 25.3516
+      },
+      {
+        "year": 2023,
+        "value": 17.1928
+      },
+      {
+        "year": 2024,
+        "value": 10.926
       }
     ],
     "enrollment_headcount_total": [

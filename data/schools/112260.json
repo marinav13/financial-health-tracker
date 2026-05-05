@@ -1,6 +1,6 @@
 {
   "unitid": "112260",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Claremont McKenna College",
     "institution_unique_name": "Claremont McKenna College | Claremont | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.4919,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 31.168,
-    "net_tuition_per_fte_change_5yr": -2.7801,
+    "net_tuition_per_fte_change_5yr": -2.8337,
     "staff_total_headcount_pct_change_5yr": 7.1038,
     "staff_instructional_headcount_pct_change_5yr": 19.4444,
     "students_per_instructional_staff_fte": 6.801,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 18.8855,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.9266,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 9.6204,
+    "unfunded_discount_pct_change_5yr": 70.5527,
     "share_grad_students": 0.2114,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 13043000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 39870.6895
+        "value": 39992.3334
       },
       {
         "year": 2015,
-        "value": 42266.3668
+        "value": 42374.7389
       },
       {
         "year": 2016,
-        "value": 44084.0396
+        "value": 44192.2611
       },
       {
         "year": 2017,
-        "value": 43945.335
+        "value": 44051.9411
       },
       {
         "year": 2018,
-        "value": 44797.9621
+        "value": 44912.4854
       },
       {
         "year": 2019,
-        "value": 44200.2764
+        "value": 44321.0396
       },
       {
         "year": 2020,
-        "value": 43879.5679
+        "value": 44002.204
       },
       {
         "year": 2021,
-        "value": 39615.7809
+        "value": 39744.8936
       },
       {
         "year": 2022,
-        "value": 38541.8649
+        "value": 38659.883
       },
       {
         "year": 2023,
-        "value": 38600.1568
+        "value": 38708.2538
       },
       {
         "year": 2024,
-        "value": 42971.4704
+        "value": 43065.1061
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.0701
+      },
+      {
+        "year": 2015,
+        "value": 5.8543
+      },
+      {
+        "year": 2016,
+        "value": 10.4046
+      },
+      {
+        "year": 2017,
+        "value": 6.5341
+      },
+      {
+        "year": 2018,
+        "value": 7.8057
+      },
+      {
+        "year": 2019,
+        "value": 5.6407
+      },
+      {
+        "year": 2020,
+        "value": 6.3201
+      },
+      {
+        "year": 2021,
+        "value": 7.8645
+      },
+      {
+        "year": 2022,
+        "value": 9.4951
+      },
+      {
+        "year": 2023,
+        "value": 10.8019
+      },
+      {
+        "year": 2024,
+        "value": 9.6204
       }
     ],
     "enrollment_headcount_total": [

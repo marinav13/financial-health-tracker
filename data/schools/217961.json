@@ -1,6 +1,6 @@
 {
   "unitid": "217961",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Converse University",
     "institution_unique_name": "Converse University | Spartanburg | South Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 34.2091,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.4024,
+    "unfunded_discount_pct_change_5yr": 219.7253,
     "share_grad_students": 55.0076,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 59217,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 9480.5339
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.5531
+      },
+      {
+        "year": 2015,
+        "value": 1.6977
+      },
+      {
+        "year": 2016,
+        "value": 2.9563
+      },
+      {
+        "year": 2017,
+        "value": 6.9889
+      },
+      {
+        "year": 2018,
+        "value": 8.4799
+      },
+      {
+        "year": 2019,
+        "value": 8.2578
+      },
+      {
+        "year": 2020,
+        "value": 8.2211
+      },
+      {
+        "year": 2021,
+        "value": 8.6196
+      },
+      {
+        "year": 2022,
+        "value": 15.6763
+      },
+      {
+        "year": 2023,
+        "value": 20.7435
+      },
+      {
+        "year": 2024,
+        "value": 26.4024
       }
     ],
     "enrollment_headcount_total": [

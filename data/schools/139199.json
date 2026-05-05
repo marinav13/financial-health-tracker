@@ -1,6 +1,6 @@
 {
   "unitid": "139199",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Brenau University",
     "institution_unique_name": "Brenau University | Gainesville | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.8028,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.7103,
-    "net_tuition_per_fte_change_5yr": 8.4782,
+    "net_tuition_per_fte_change_5yr": 6.5718,
     "staff_total_headcount_pct_change_5yr": -11.4723,
     "staff_instructional_headcount_pct_change_5yr": -9.5406,
     "students_per_instructional_staff_fte": 10.7111,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 74.2761,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 72.9707,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 16.3975,
+    "unfunded_discount_pct_change_5yr": -10.6662,
     "share_grad_students": 52.3732,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 25259.7906
+        "value": 25029.5857
       },
       {
         "year": 2021,
-        "value": 25707.7143
+        "value": 25458.9988
       },
       {
         "year": 2022,
-        "value": 23556.6391
+        "value": 23523.2328
       },
       {
         "year": 2023,
-        "value": 24469.0544
+        "value": 24140.8088
       },
       {
         "year": 2024,
-        "value": 25010.2121
+        "value": 24570.681
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.1849
+      },
+      {
+        "year": 2015,
+        "value": 19.2512
+      },
+      {
+        "year": 2016,
+        "value": 18.9442
+      },
+      {
+        "year": 2017,
+        "value": 18.5172
+      },
+      {
+        "year": 2018,
+        "value": 19.0689
+      },
+      {
+        "year": 2019,
+        "value": 18.3553
+      },
+      {
+        "year": 2020,
+        "value": 17.2161
+      },
+      {
+        "year": 2021,
+        "value": 13.827
+      },
+      {
+        "year": 2022,
+        "value": 14.0782
+      },
+      {
+        "year": 2023,
+        "value": 15.0447
+      },
+      {
+        "year": 2024,
+        "value": 16.3975
       }
     ],
     "enrollment_headcount_total": [

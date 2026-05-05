@@ -1,6 +1,6 @@
 {
   "unitid": "186131",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Princeton University",
     "institution_unique_name": "Princeton University | Princeton | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.6927,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -20.4978,
-    "net_tuition_per_fte_change_5yr": -22.9982,
+    "net_tuition_per_fte_change_5yr": -82.6134,
     "staff_total_headcount_pct_change_5yr": 17.5018,
     "staff_instructional_headcount_pct_change_5yr": 5.2542,
     "students_per_instructional_staff_fte": 6.9051,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 5.5859,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 6% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 0.5558,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.1553,
+    "unfunded_discount_pct_change_5yr": 98.7808,
     "share_grad_students": 36.3083,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 518969000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20796.7234
+        "value": 17102.2235
       },
       {
         "year": 2015,
-        "value": 21559.8186
+        "value": 14359.854
       },
       {
         "year": 2016,
-        "value": 21046.988
+        "value": 13132.4179
       },
       {
         "year": 2017,
-        "value": 18636.7622
+        "value": 10861.4494
       },
       {
         "year": 2018,
-        "value": 19200.3526
+        "value": 10793.3179
       },
       {
         "year": 2019,
-        "value": 22715.5916
+        "value": 10009.6162
       },
       {
         "year": 2020,
-        "value": 22619.5784
+        "value": 11001.2126
       },
       {
         "year": 2021,
-        "value": 18519.4264
+        "value": 7440.6493
       },
       {
         "year": 2022,
-        "value": 21688.9706
+        "value": 9152.3172
       },
       {
         "year": 2023,
-        "value": 21481.6065
+        "value": 7193.6618
       },
       {
         "year": 2024,
-        "value": 17491.4235
+        "value": 1740.3329
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 11.675
+      },
+      {
+        "year": 2015,
+        "value": 12.4219
+      },
+      {
+        "year": 2016,
+        "value": 14.4022
+      },
+      {
+        "year": 2017,
+        "value": 13.9444
+      },
+      {
+        "year": 2018,
+        "value": 8.6891
+      },
+      {
+        "year": 2019,
+        "value": 11.1456
+      },
+      {
+        "year": 2020,
+        "value": 10.9827
+      },
+      {
+        "year": 2021,
+        "value": 10.2137
+      },
+      {
+        "year": 2022,
+        "value": 8.3488
+      },
+      {
+        "year": 2023,
+        "value": 14.9381
+      },
+      {
+        "year": 2024,
+        "value": 22.1553
       }
     ],
     "enrollment_headcount_total": [

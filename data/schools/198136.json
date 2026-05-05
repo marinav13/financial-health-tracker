@@ -1,6 +1,6 @@
 {
   "unitid": "198136",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Campbell University",
     "institution_unique_name": "Campbell University | Buies Creek | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.0763,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.4125,
-    "net_tuition_per_fte_change_5yr": 8.7419,
+    "net_tuition_per_fte_change_5yr": 8.5336,
     "staff_total_headcount_pct_change_5yr": -12.726,
     "staff_instructional_headcount_pct_change_5yr": -14.6597,
     "students_per_instructional_staff_fte": 10.576,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 53.3373,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.9657,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.6504,
+    "unfunded_discount_pct_change_5yr": 15.2913,
     "share_grad_students": 43.0753,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20333.63
+        "value": 24441.6632
       },
       {
         "year": 2015,
-        "value": 22549.0743
+        "value": 26491.6311
       },
       {
         "year": 2016,
-        "value": 24566.9644
+        "value": 28212.0148
       },
       {
         "year": 2017,
-        "value": 25489.206
+        "value": 28770.8973
       },
       {
         "year": 2018,
-        "value": 25275.8474
+        "value": 12408.6177
       },
       {
         "year": 2019,
-        "value": 26859.4658
+        "value": 30255.3166
       },
       {
         "year": 2020,
-        "value": 29482.4677
+        "value": 33198.823
       },
       {
         "year": 2021,
-        "value": 26536.5977
+        "value": 32961.4889
       },
       {
         "year": 2022,
-        "value": 25878.2404
+        "value": 32475.7197
       },
       {
         "year": 2023,
-        "value": 29827.8405
+        "value": 33387.1673
       },
       {
         "year": 2024,
-        "value": 29207.4937
+        "value": 32837.1965
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.9207
+      },
+      {
+        "year": 2015,
+        "value": 29.1278
+      },
+      {
+        "year": 2016,
+        "value": 28.496
+      },
+      {
+        "year": 2017,
+        "value": 29.3365
+      },
+      {
+        "year": 2018,
+        "value": 49.4193
+      },
+      {
+        "year": 2019,
+        "value": 30.0546
+      },
+      {
+        "year": 2020,
+        "value": 29.7542
+      },
+      {
+        "year": 2021,
+        "value": 34.9352
+      },
+      {
+        "year": 2022,
+        "value": 35.6328
+      },
+      {
+        "year": 2023,
+        "value": 34.4885
+      },
+      {
+        "year": 2024,
+        "value": 34.6504
       }
     ],
     "enrollment_headcount_total": [

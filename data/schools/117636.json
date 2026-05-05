@@ -1,6 +1,6 @@
 {
   "unitid": "117636",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Loma Linda University",
     "institution_unique_name": "Loma Linda University | Loma Linda | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.3394,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.0737,
-    "net_tuition_per_fte_change_5yr": -6.5846,
+    "net_tuition_per_fte_change_5yr": -6.0291,
     "staff_total_headcount_pct_change_5yr": -12.8554,
     "staff_instructional_headcount_pct_change_5yr": -11.3953,
     "students_per_instructional_staff_fte": 6.6759,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 43.3254,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.9482,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.2506,
+    "unfunded_discount_pct_change_5yr": -6.9774,
     "share_grad_students": 71.5405,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 44230000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 66561.5049
+        "value": 67455.2658
       },
       {
         "year": 2015,
-        "value": 69591.1426
+        "value": 70034.1967
       },
       {
         "year": 2016,
-        "value": 72900.5414
+        "value": 74202.9341
       },
       {
         "year": 2017,
-        "value": 69804.486
+        "value": 71306.8499
       },
       {
         "year": 2018,
-        "value": 70594.3036
+        "value": 71357.9849
       },
       {
         "year": 2019,
-        "value": 72061.9367
+        "value": 72665.6825
       },
       {
         "year": 2020,
-        "value": 71943.0101
+        "value": 73948.1949
       },
       {
         "year": 2021,
-        "value": 72579.5876
+        "value": 73210.5639
       },
       {
         "year": 2022,
-        "value": 65860.0185
+        "value": 66664.878
       },
       {
         "year": 2023,
-        "value": 64878.824
+        "value": 65791.3573
       },
       {
         "year": 2024,
-        "value": 67316.9268
+        "value": 68284.5962
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 3.0174
+      },
+      {
+        "year": 2015,
+        "value": 3.3098
+      },
+      {
+        "year": 2016,
+        "value": 2.7154
+      },
+      {
+        "year": 2017,
+        "value": 2.8558
+      },
+      {
+        "year": 2018,
+        "value": 2.9005
+      },
+      {
+        "year": 2019,
+        "value": 2.4194
+      },
+      {
+        "year": 2020,
+        "value": 1.7557
+      },
+      {
+        "year": 2021,
+        "value": 5.8608
+      },
+      {
+        "year": 2022,
+        "value": 5.8702
+      },
+      {
+        "year": 2023,
+        "value": 5.8479
+      },
+      {
+        "year": 2024,
+        "value": 2.2506
       }
     ],
     "enrollment_headcount_total": [

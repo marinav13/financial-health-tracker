@@ -1,6 +1,6 @@
 {
   "unitid": "226587",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "McMurry University",
     "institution_unique_name": "McMurry University | Abilene | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 137.7147,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.7877,
-    "net_tuition_per_fte_change_5yr": -39.3804,
+    "net_tuition_per_fte_change_5yr": -39.663,
     "staff_total_headcount_pct_change_5yr": 10.5634,
     "staff_instructional_headcount_pct_change_5yr": 20.4724,
     "students_per_instructional_staff_fte": 13.1981,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 36.9291,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.9525,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.0011,
+    "unfunded_discount_pct_change_5yr": 24.6086,
     "share_grad_students": 0.2828,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 155258,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17409.9796
+        "value": 18059.2485
       },
       {
         "year": 2015,
-        "value": 17912.2271
+        "value": 18317.8133
       },
       {
         "year": 2016,
-        "value": 18562.0653
+        "value": 18951.9895
       },
       {
         "year": 2017,
-        "value": 19163.8183
+        "value": 19165.2097
       },
       {
         "year": 2018,
-        "value": 18370.1801
+        "value": 18393.5002
       },
       {
         "year": 2019,
-        "value": 17365.9866
+        "value": 17458.3642
       },
       {
         "year": 2020,
-        "value": 17115.1073
+        "value": 16627.4418
       },
       {
         "year": 2021,
-        "value": 15631.1056
+        "value": 15672.5975
       },
       {
         "year": 2022,
-        "value": 13641.288
+        "value": 13673.8147
       },
       {
         "year": 2023,
-        "value": 13157.5262
+        "value": 13170.7848
       },
       {
         "year": 2024,
-        "value": 10527.1914
+        "value": 10533.8614
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.9165
+      },
+      {
+        "year": 2015,
+        "value": 34.9863
+      },
+      {
+        "year": 2016,
+        "value": 34.8572
+      },
+      {
+        "year": 2017,
+        "value": 34.6325
+      },
+      {
+        "year": 2018,
+        "value": 35.3765
+      },
+      {
+        "year": 2019,
+        "value": 36.114
+      },
+      {
+        "year": 2020,
+        "value": 39.8505
+      },
+      {
+        "year": 2021,
+        "value": 41.8493
+      },
+      {
+        "year": 2022,
+        "value": 45.0713
+      },
+      {
+        "year": 2023,
+        "value": 44.6808
+      },
+      {
+        "year": 2024,
+        "value": 45.0011
       }
     ],
     "enrollment_headcount_total": [

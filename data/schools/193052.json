@@ -1,6 +1,6 @@
 {
   "unitid": "193052",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mesivta Torah Vodaath Rabbinical Seminary",
     "institution_unique_name": "Mesivta Torah Vodaath Rabbinical Seminary | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 69.1667,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -60.1138,
-    "net_tuition_per_fte_change_5yr": 31.4594,
+    "net_tuition_per_fte_change_5yr": -132.4489,
     "staff_total_headcount_pct_change_5yr": 15.3846,
     "staff_instructional_headcount_pct_change_5yr": -5.2632,
     "students_per_instructional_staff_fte": 46,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 72.0838,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.5627,
+    "unfunded_discount_pct_change_5yr": -95.7312,
     "share_grad_students": 41.7077,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7844.8244
+        "value": -353.6637
       },
       {
         "year": 2015,
-        "value": 8645.959
+        "value": -23.2184
       },
       {
         "year": 2016,
-        "value": 6989.4112
+        "value": -2212.2859
       },
       {
         "year": 2017,
-        "value": 7253.1421
+        "value": -2994.0579
       },
       {
         "year": 2018,
-        "value": 6502.2466
+        "value": -2129.0123
       },
       {
         "year": 2019,
-        "value": 2817.6692
+        "value": -11415.1382
       },
       {
         "year": 2020,
-        "value": 6140.9926
+        "value": 742.4673
       },
       {
         "year": 2021,
-        "value": 1781.6324
+        "value": -2256.3136
       },
       {
         "year": 2022,
-        "value": 1813.309
+        "value": -4508.0085
       },
       {
         "year": 2023,
-        "value": 3557.8483
+        "value": 4038.2404
       },
       {
         "year": 2024,
         "value": 3704.0901
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 132.7427
+      },
+      {
+        "year": 2019,
+        "value": 505.127
+      },
+      {
+        "year": 2020,
+        "value": 89.7377
+      },
+      {
+        "year": 2021,
+        "value": 161.7293
+      },
+      {
+        "year": 2022,
+        "value": 282.3185
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 21.5627
       }
     ],
     "enrollment_headcount_total": [

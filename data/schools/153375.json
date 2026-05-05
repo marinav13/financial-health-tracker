@@ -1,6 +1,6 @@
 {
   "unitid": "153375",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Grand View University",
     "institution_unique_name": "Grand View University | Des Moines | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.7806,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.2404,
-    "net_tuition_per_fte_change_5yr": -15.9137,
+    "net_tuition_per_fte_change_5yr": -16.118,
     "staff_total_headcount_pct_change_5yr": -3.9062,
     "staff_instructional_headcount_pct_change_5yr": -2.2321,
     "students_per_instructional_staff_fte": 12.7669,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 54.9266,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.1163,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.6194,
+    "unfunded_discount_pct_change_5yr": 12.0778,
     "share_grad_students": 21.2077,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17640.9784
+        "value": 17711.2407
       },
       {
         "year": 2015,
-        "value": 17581.5429
+        "value": 17656.3252
       },
       {
         "year": 2016,
-        "value": 17609.3924
+        "value": 17685.2879
       },
       {
         "year": 2017,
-        "value": 17196.6242
+        "value": 17271.2735
       },
       {
         "year": 2018,
-        "value": 16514.9608
+        "value": 16592.0162
       },
       {
         "year": 2019,
-        "value": 16035.6934
+        "value": 16130.2817
       },
       {
         "year": 2020,
-        "value": 15954.9793
+        "value": 16483.4616
       },
       {
         "year": 2021,
-        "value": 14492.1486
+        "value": 15405.8299
       },
       {
         "year": 2022,
-        "value": 13068.5911
+        "value": 14662.5398
       },
       {
         "year": 2023,
-        "value": 13299.486
+        "value": 13583.7398
       },
       {
         "year": 2024,
-        "value": 13483.8274
+        "value": 13530.3969
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.3888
+      },
+      {
+        "year": 2015,
+        "value": 35.3873
+      },
+      {
+        "year": 2016,
+        "value": 37.7308
+      },
+      {
+        "year": 2017,
+        "value": 40.3997
+      },
+      {
+        "year": 2018,
+        "value": 42.8091
+      },
+      {
+        "year": 2019,
+        "value": 44.2723
+      },
+      {
+        "year": 2020,
+        "value": 45.3805
+      },
+      {
+        "year": 2021,
+        "value": 46.8417
+      },
+      {
+        "year": 2022,
+        "value": 48.2181
+      },
+      {
+        "year": 2023,
+        "value": 49.1101
+      },
+      {
+        "year": 2024,
+        "value": 49.6194
       }
     ],
     "enrollment_headcount_total": [

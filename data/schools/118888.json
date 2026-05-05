@@ -1,6 +1,6 @@
 {
   "unitid": "118888",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northeastern University Oakland",
     "institution_unique_name": "Northeastern University Oakland | Oakland | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -49.1876,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": 20.6904,
+    "net_tuition_per_fte_change_5yr": 21.6499,
     "staff_total_headcount_pct_change_5yr": -59.6983,
     "staff_instructional_headcount_pct_change_5yr": -22.4852,
     "students_per_instructional_staff_fte": 7.1492,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 48.9828,
+    "unfunded_discount_pct_change_5yr": 107.772,
     "share_grad_students": 19.6221,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1485000,
@@ -143,39 +145,77 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25472.7933
+        "value": 25632.0452
       },
       {
         "year": 2015,
-        "value": 26778.3496
+        "value": 26956.189
       },
       {
         "year": 2016,
-        "value": 26284.1238
+        "value": 26506.532
       },
       {
         "year": 2017,
-        "value": 28172.0898
+        "value": 28356.0704
       },
       {
         "year": 2018,
-        "value": 23791.7769
+        "value": 22155.269
       },
       {
         "year": 2019,
-        "value": 23716.094
+        "value": 23869.2988
       },
       {
         "year": 2020,
-        "value": 23266.2065
+        "value": 23768.1044
       },
       {
         "year": 2021,
-        "value": 21235.3023
+        "value": 22814.5409
       },
       {
         "year": 2024,
-        "value": 28623.0441
+        "value": 29036.9844
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.066
+      },
+      {
+        "year": 2015,
+        "value": 33.7887
+      },
+      {
+        "year": 2016,
+        "value": 35.7342
+      },
+      {
+        "year": 2017,
+        "value": 37.8901
+      },
+      {
+        "year": 2018,
+        "value": 43.7358
+      },
+      {
+        "year": 2019,
+        "value": 23.5753
+      },
+      {
+        "year": 2020,
+        "value": 18.9193
+      },
+      {
+        "year": 2021,
+        "value": 16.1418
+      },
+      {
+        "year": 2024,
+        "value": 48.9828
       }
     ],
     "enrollment_headcount_total": [

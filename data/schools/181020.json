@@ -1,6 +1,6 @@
 {
   "unitid": "181020",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Doane University",
     "institution_unique_name": "Doane University | Crete | Nebraska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.952,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.3739,
-    "net_tuition_per_fte_change_5yr": 2.301,
+    "net_tuition_per_fte_change_5yr": -0.556,
     "staff_total_headcount_pct_change_5yr": -20.7513,
     "staff_instructional_headcount_pct_change_5yr": -23.2323,
     "students_per_instructional_staff_fte": 10.3116,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 47.9664,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.9579,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.0198,
+    "unfunded_discount_pct_change_5yr": 40.2731,
     "share_grad_students": 46.0239,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 345069,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16517.474
+        "value": 17434.0462
       },
       {
         "year": 2015,
-        "value": 15883.1943
+        "value": 17029.023
       },
       {
         "year": 2016,
-        "value": 16132.3096
+        "value": 17184.3791
       },
       {
         "year": 2017,
-        "value": 15819.3136
+        "value": 16609.0792
       },
       {
         "year": 2018,
-        "value": 16021.4377
+        "value": 16753.3135
       },
       {
         "year": 2019,
-        "value": 15419.7311
+        "value": 15859.9257
       },
       {
         "year": 2020,
-        "value": 16413.2752
+        "value": 16821.4829
       },
       {
         "year": 2021,
-        "value": 16548.8918
+        "value": 16138.1504
       },
       {
         "year": 2022,
-        "value": 14724.2865
+        "value": 15044.4343
       },
       {
         "year": 2023,
-        "value": 15235.432
+        "value": 14208.7803
       },
       {
         "year": 2024,
-        "value": 15774.546
+        "value": 15771.7512
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.8658
+      },
+      {
+        "year": 2015,
+        "value": 42.5709
+      },
+      {
+        "year": 2016,
+        "value": 44.7458
+      },
+      {
+        "year": 2017,
+        "value": 48.1656
+      },
+      {
+        "year": 2018,
+        "value": 49.9042
+      },
+      {
+        "year": 2019,
+        "value": 35.6589
+      },
+      {
+        "year": 2020,
+        "value": 38.7962
+      },
+      {
+        "year": 2021,
+        "value": 42.0432
+      },
+      {
+        "year": 2022,
+        "value": 43.1252
+      },
+      {
+        "year": 2023,
+        "value": 50.4015
+      },
+      {
+        "year": 2024,
+        "value": 50.0198
       }
     ],
     "enrollment_headcount_total": [

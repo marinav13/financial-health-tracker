@@ -1,6 +1,6 @@
 {
   "unitid": "459842",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Herzing University-Kenosha",
     "institution_unique_name": "Herzing University-Kenosha | Kenosha | Wisconsin",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 91.9553,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 15.7299,
+    "unfunded_discount_pct_change_5yr": -4.1584,
     "share_grad_students": 0.3293,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -164,6 +166,40 @@
       {
         "year": 2024,
         "value": 14446.3666
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2017,
+        "value": 13.7073
+      },
+      {
+        "year": 2018,
+        "value": 16.1532
+      },
+      {
+        "year": 2019,
+        "value": 16.4124
+      },
+      {
+        "year": 2020,
+        "value": 15.4252
+      },
+      {
+        "year": 2021,
+        "value": 15.6288
+      },
+      {
+        "year": 2022,
+        "value": 14.0303
+      },
+      {
+        "year": 2023,
+        "value": 16.0117
+      },
+      {
+        "year": 2024,
+        "value": 15.7299
       }
     ],
     "enrollment_headcount_total": [

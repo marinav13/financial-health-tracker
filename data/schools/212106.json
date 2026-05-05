@@ -1,6 +1,6 @@
 {
   "unitid": "212106",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Duquesne University",
     "institution_unique_name": "Duquesne University | Pittsburgh | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.7278,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.8606,
-    "net_tuition_per_fte_change_5yr": -9.2136,
+    "net_tuition_per_fte_change_5yr": -5.3314,
     "staff_total_headcount_pct_change_5yr": -1.1379,
     "staff_instructional_headcount_pct_change_5yr": -0.1027,
     "students_per_instructional_staff_fte": 10.9592,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 56.1991,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.9525,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.4841,
+    "unfunded_discount_pct_change_5yr": 6.228,
     "share_grad_students": 36.6479,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 10531000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31566.8726
+        "value": 31566.7135
       },
       {
         "year": 2015,
-        "value": 32462.0921
+        "value": 32461.9317
       },
       {
         "year": 2016,
-        "value": 32261.2028
+        "value": 32143.6657
       },
       {
         "year": 2017,
-        "value": 32389.2786
+        "value": 31454.1887
       },
       {
         "year": 2018,
-        "value": 32749.1854
+        "value": 30966.0294
       },
       {
         "year": 2019,
-        "value": 33900.8973
+        "value": 31789.5067
       },
       {
         "year": 2020,
-        "value": 34971.4752
+        "value": 33149.4178
       },
       {
         "year": 2021,
-        "value": 34455.8351
+        "value": 32731.3735
       },
       {
         "year": 2022,
-        "value": 33380.2146
+        "value": 31497.542
       },
       {
         "year": 2023,
-        "value": 32131.1491
+        "value": 30878.1928
       },
       {
         "year": 2024,
-        "value": 30777.3958
+        "value": 30094.6856
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.369
+      },
+      {
+        "year": 2015,
+        "value": 31.8559
+      },
+      {
+        "year": 2016,
+        "value": 33.2694
+      },
+      {
+        "year": 2017,
+        "value": 35.3015
+      },
+      {
+        "year": 2018,
+        "value": 37.5747
+      },
+      {
+        "year": 2019,
+        "value": 38.1105
+      },
+      {
+        "year": 2020,
+        "value": 37.3094
+      },
+      {
+        "year": 2021,
+        "value": 37.6798
+      },
+      {
+        "year": 2022,
+        "value": 37.8858
+      },
+      {
+        "year": 2023,
+        "value": 39.0002
+      },
+      {
+        "year": 2024,
+        "value": 40.4841
       }
     ],
     "enrollment_headcount_total": [

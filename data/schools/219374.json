@@ -1,6 +1,6 @@
 {
   "unitid": "219374",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Sinte Gleska University",
     "institution_unique_name": "Sinte Gleska University | Mission | South Dakota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 36.8304,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 14.9556,
-    "net_tuition_per_fte_change_5yr": -41.1022,
+    "net_tuition_per_fte_change_5yr": -79.1639,
     "staff_total_headcount_pct_change_5yr": 12.6582,
     "staff_instructional_headcount_pct_change_5yr": 88.2353,
     "students_per_instructional_staff_fte": 13.3947,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 3.1413,
-    "sector_median_tuition_dependence_pct": 21.1862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 3% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
+    "tuition_dependence_pct": 1.8906,
+    "sector_median_tuition_dependence_pct": 21.1973,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 2% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
+    "unfunded_discount_rate": 50,
+    "unfunded_discount_pct_change_5yr": 339.3083,
     "share_grad_students": 16.8842,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3631.5082
+        "value": 4897.0101
       },
       {
         "year": 2015,
-        "value": 4376.7225
+        "value": 7269.801
       },
       {
         "year": 2016,
-        "value": 4173.4116
+        "value": 5870.3846
       },
       {
         "year": 2017,
-        "value": 4388.6835
+        "value": 5512.0653
       },
       {
         "year": 2018,
-        "value": 2013.0216
+        "value": 2800.8881
       },
       {
         "year": 2019,
-        "value": 1860.6736
+        "value": 3165.4955
       },
       {
         "year": 2020,
-        "value": 3541.8049
+        "value": 5486.4781
       },
       {
         "year": 2021,
-        "value": 1317.4581
+        "value": -10862.7539
       },
       {
         "year": 2022,
-        "value": 142.1959
+        "value": -16325.8618
       },
       {
         "year": 2023,
-        "value": 171.9051
+        "value": -180.9473
       },
       {
         "year": 2024,
-        "value": 1095.8959
+        "value": 659.5658
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.9318
+      },
+      {
+        "year": 2015,
+        "value": 0.6125
+      },
+      {
+        "year": 2016,
+        "value": 4.8141
+      },
+      {
+        "year": 2017,
+        "value": 4.6161
+      },
+      {
+        "year": 2018,
+        "value": 9.3479
+      },
+      {
+        "year": 2019,
+        "value": 11.3815
+      },
+      {
+        "year": 2020,
+        "value": 13.334
+      },
+      {
+        "year": 2021,
+        "value": 28.5617
+      },
+      {
+        "year": 2022,
+        "value": 227.5614
+      },
+      {
+        "year": 2023,
+        "value": 73.9656
+      },
+      {
+        "year": 2024,
+        "value": 50
       }
     ],
     "enrollment_headcount_total": [

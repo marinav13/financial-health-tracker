@@ -1,6 +1,6 @@
 {
   "unitid": "451927",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Patrick Henry College",
     "institution_unique_name": "Patrick Henry College | Purcellville | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 25,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -7.6325,
-    "net_tuition_per_fte_change_5yr": -18.4835,
+    "net_tuition_per_fte_change_5yr": 173.9886,
     "staff_total_headcount_pct_change_5yr": 40.2985,
     "staff_instructional_headcount_pct_change_5yr": 121.0526,
     "students_per_instructional_staff_fte": 15.3158,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 33.6737,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.8797,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.8081,
+    "unfunded_discount_pct_change_5yr": 775.3311,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -119,7 +121,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2019,
-        "value": 17258.8515
+        "value": 5013.7392
       },
       {
         "year": 2020,
@@ -127,19 +129,45 @@
       },
       {
         "year": 2021,
-        "value": 16431.912
+        "value": 16026.3698
       },
       {
         "year": 2022,
-        "value": 15418.1999
+        "value": 15051.946
       },
       {
         "year": 2023,
-        "value": 14599.0395
+        "value": 14253.788
       },
       {
         "year": 2024,
-        "value": 14068.8144
+        "value": 13737.0722
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 5.3475
+      },
+      {
+        "year": 2020,
+        "value": 46.3229
+      },
+      {
+        "year": 2021,
+        "value": 46.9454
+      },
+      {
+        "year": 2022,
+        "value": 46.1206
+      },
+      {
+        "year": 2023,
+        "value": 46.2705
+      },
+      {
+        "year": 2024,
+        "value": 46.8081
       }
     ],
     "enrollment_headcount_total": [

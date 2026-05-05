@@ -1,6 +1,6 @@
 {
   "unitid": "198756",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Johnson C Smith University",
     "institution_unique_name": "Johnson C Smith University | Charlotte | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 27.0993,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 11.8103,
+    "unfunded_discount_pct_change_5yr": -48.1128,
     "share_grad_students": 3.9376,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 733265,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13545.729
+        "value": 11035.4691
       },
       {
         "year": 2015,
-        "value": 13322.692
+        "value": 10795.4684
       },
       {
         "year": 2016,
-        "value": 14011.994
+        "value": 11522.0084
       },
       {
         "year": 2017,
-        "value": 14810.0064
+        "value": 14810.0056
       },
       {
         "year": 2018,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 14534.9523
+        "value": 13905.365
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 12899.9301
+        "value": 13251.0892
       },
       {
         "year": 2024,
         "value": 11798.0522
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.2519
+      },
+      {
+        "year": 2015,
+        "value": 30.5408
+      },
+      {
+        "year": 2016,
+        "value": 28.0769
+      },
+      {
+        "year": 2017,
+        "value": 22.5393
+      },
+      {
+        "year": 2018,
+        "value": 22.5136
+      },
+      {
+        "year": 2019,
+        "value": 22.7614
+      },
+      {
+        "year": 2020,
+        "value": 19.0239
+      },
+      {
+        "year": 2021,
+        "value": 19.2317
+      },
+      {
+        "year": 2022,
+        "value": 21.3654
+      },
+      {
+        "year": 2023,
+        "value": 14.1493
+      },
+      {
+        "year": 2024,
+        "value": 11.8103
       }
     ],
     "enrollment_headcount_total": [

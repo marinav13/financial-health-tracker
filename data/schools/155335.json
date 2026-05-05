@@ -1,6 +1,6 @@
 {
   "unitid": "155335",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Newman University",
     "institution_unique_name": "Newman University | Wichita | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.4864,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -4.4852,
-    "net_tuition_per_fte_change_5yr": -16.9613,
+    "net_tuition_per_fte_change_5yr": -15.7531,
     "staff_total_headcount_pct_change_5yr": -1.7327,
     "staff_instructional_headcount_pct_change_5yr": 4.3137,
     "students_per_instructional_staff_fte": 13.7397,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 64.8812,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.0304,
+    "unfunded_discount_pct_change_5yr": -0.493,
     "share_grad_students": 17.2981,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10849.7892
+        "value": 11373.7578
       },
       {
         "year": 2015,
-        "value": 10891.6046
+        "value": 10771.4158
       },
       {
         "year": 2016,
-        "value": 11014.9472
+        "value": 10864.1393
       },
       {
         "year": 2017,
-        "value": 11188.004
+        "value": 11076.8276
       },
       {
         "year": 2018,
-        "value": 11235.2747
+        "value": 11122.69
       },
       {
         "year": 2019,
-        "value": 12579.4464
+        "value": 12399.0384
       },
       {
         "year": 2020,
-        "value": 12396.7635
+        "value": 11968.5793
       },
       {
         "year": 2021,
-        "value": 12197.1238
+        "value": 11333.7071
       },
       {
         "year": 2022,
-        "value": 10888.783
+        "value": 11102.8541
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10445.8059
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.0767
+      },
+      {
+        "year": 2015,
+        "value": 41.3376
+      },
+      {
+        "year": 2016,
+        "value": 41.6756
+      },
+      {
+        "year": 2017,
+        "value": 42.7984
+      },
+      {
+        "year": 2018,
+        "value": 45.175
+      },
+      {
+        "year": 2019,
+        "value": 45.2535
+      },
+      {
+        "year": 2020,
+        "value": 45.935
+      },
+      {
+        "year": 2021,
+        "value": 46.8076
+      },
+      {
+        "year": 2022,
+        "value": 44.9804
+      },
+      {
+        "year": 2023,
+        "value": 45.2585
+      },
+      {
+        "year": 2024,
+        "value": 45.0304
       }
     ],
     "enrollment_headcount_total": [

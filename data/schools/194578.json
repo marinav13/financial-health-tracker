@@ -1,6 +1,6 @@
 {
   "unitid": "194578",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pratt Institute-Main",
     "institution_unique_name": "Pratt Institute-Main | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.2321,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.5659,
-    "net_tuition_per_fte_change_5yr": -9.8263,
+    "net_tuition_per_fte_change_5yr": -10.3036,
     "staff_total_headcount_pct_change_5yr": 12.7888,
     "staff_instructional_headcount_pct_change_5yr": 10.1485,
     "students_per_instructional_staff_fte": 9.1542,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 80.9945,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 80.8936,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.4976,
+    "unfunded_discount_pct_change_5yr": 10.6452,
     "share_grad_students": 25.8779,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 959476,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38983.806
+        "value": 39061.5144
       },
       {
         "year": 2015,
-        "value": 39879.7833
+        "value": 39979.326
       },
       {
         "year": 2016,
-        "value": 40689.545
+        "value": 40848.9484
       },
       {
         "year": 2017,
-        "value": 40442.4963
+        "value": 40580.4999
       },
       {
         "year": 2018,
-        "value": 42004.9755
+        "value": 42152.724
       },
       {
         "year": 2019,
-        "value": 42880.6528
+        "value": 43055.1012
       },
       {
         "year": 2020,
-        "value": 44742.82
+        "value": 44766.3135
       },
       {
         "year": 2021,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 37156.2306
+        "value": 36673.6994
       },
       {
         "year": 2023,
-        "value": 38140.8427
+        "value": 37422.595
       },
       {
         "year": 2024,
-        "value": 38667.053
+        "value": 38618.8961
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.3864
+      },
+      {
+        "year": 2015,
+        "value": 23.0059
+      },
+      {
+        "year": 2016,
+        "value": 22.6009
+      },
+      {
+        "year": 2017,
+        "value": 24.4753
+      },
+      {
+        "year": 2018,
+        "value": 24.2194
+      },
+      {
+        "year": 2019,
+        "value": 24.852
+      },
+      {
+        "year": 2020,
+        "value": 25.5866
+      },
+      {
+        "year": 2021,
+        "value": 28.2491
+      },
+      {
+        "year": 2022,
+        "value": 29.9333
+      },
+      {
+        "year": 2023,
+        "value": 28.0677
+      },
+      {
+        "year": 2024,
+        "value": 27.4976
       }
     ],
     "enrollment_headcount_total": [

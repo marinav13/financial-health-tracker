@@ -1,6 +1,6 @@
 {
   "unitid": "117168",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Laguna College of Art and Design",
     "institution_unique_name": "Laguna College of Art and Design | Laguna Beach | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.0354,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -4.3766,
-    "net_tuition_per_fte_change_5yr": -10.3538,
+    "net_tuition_per_fte_change_5yr": -10.2488,
     "staff_total_headcount_pct_change_5yr": 6,
     "staff_instructional_headcount_pct_change_5yr": 8.0808,
     "students_per_instructional_staff_fte": 8.5157,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 86.7152,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 87% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 86.4847,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 86% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.821,
+    "unfunded_discount_pct_change_5yr": 14.7683,
     "share_grad_students": 3.6954,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23470.6746
+        "value": 23203.5884
       },
       {
         "year": 2015,
-        "value": 24473.2246
+        "value": 23960.611
       },
       {
         "year": 2016,
-        "value": 24926.6368
+        "value": 24559.068
       },
       {
         "year": 2017,
-        "value": 25771.7849
+        "value": 25603.226
       },
       {
         "year": 2018,
-        "value": 25712.9947
+        "value": 25552.4714
       },
       {
         "year": 2019,
-        "value": 29072.5538
+        "value": 28961.3307
       },
       {
         "year": 2020,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 26119.622
+        "value": 26104.6816
       },
       {
         "year": 2024,
-        "value": 26062.4313
+        "value": 25993.1526
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.592
+      },
+      {
+        "year": 2015,
+        "value": 24.0092
+      },
+      {
+        "year": 2016,
+        "value": 24.1472
+      },
+      {
+        "year": 2017,
+        "value": 25.162
+      },
+      {
+        "year": 2018,
+        "value": 25.4567
+      },
+      {
+        "year": 2019,
+        "value": 24.241
+      },
+      {
+        "year": 2020,
+        "value": 26.3353
+      },
+      {
+        "year": 2021,
+        "value": 28.1697
+      },
+      {
+        "year": 2022,
+        "value": 27.1748
+      },
+      {
+        "year": 2023,
+        "value": 27.8738
+      },
+      {
+        "year": 2024,
+        "value": 27.821
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "201104",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ashland University",
     "institution_unique_name": "Ashland University | Ashland | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -45.4517,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.9058,
-    "net_tuition_per_fte_change_5yr": 17.5941,
+    "net_tuition_per_fte_change_5yr": 19.3459,
     "staff_total_headcount_pct_change_5yr": -8.7764,
     "staff_instructional_headcount_pct_change_5yr": -13.2486,
     "students_per_instructional_staff_fte": 12.4555,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 50.1567,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.2405,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.0334,
+    "unfunded_discount_pct_change_5yr": 17.3597,
     "share_grad_students": 26.4136,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 18844.1689
+        "value": 18896.7626
       },
       {
         "year": 2018,
-        "value": 16861.8403
+        "value": 16861.84
       },
       {
         "year": 2019,
-        "value": 15477.3364
+        "value": 15579.6868
       },
       {
         "year": 2020,
-        "value": 24857.8895
+        "value": 25016.0721
       },
       {
         "year": 2021,
-        "value": 19312.7087
+        "value": 19485.0506
       },
       {
         "year": 2022,
-        "value": 18972.0029
+        "value": 19222.3096
       },
       {
         "year": 2023,
-        "value": 19141.2823
+        "value": 19442.7196
       },
       {
         "year": 2024,
-        "value": 18200.4395
+        "value": 18593.7194
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.059
+      },
+      {
+        "year": 2015,
+        "value": 20.859
+      },
+      {
+        "year": 2016,
+        "value": 22.978
+      },
+      {
+        "year": 2017,
+        "value": 27.7082
+      },
+      {
+        "year": 2018,
+        "value": 26.1808
+      },
+      {
+        "year": 2019,
+        "value": 24.7388
+      },
+      {
+        "year": 2020,
+        "value": 25.472
+      },
+      {
+        "year": 2021,
+        "value": 26.875
+      },
+      {
+        "year": 2022,
+        "value": 26.5555
+      },
+      {
+        "year": 2023,
+        "value": 26.3455
+      },
+      {
+        "year": 2024,
+        "value": 29.0334
       }
     ],
     "enrollment_headcount_total": [

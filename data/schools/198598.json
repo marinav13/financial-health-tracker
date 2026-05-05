@@ -1,6 +1,6 @@
 {
   "unitid": "198598",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Greensboro College",
     "institution_unique_name": "Greensboro College | Greensboro | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.4638,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.9197,
-    "net_tuition_per_fte_change_5yr": -14.4182,
+    "net_tuition_per_fte_change_5yr": -36.5505,
     "staff_total_headcount_pct_change_5yr": -0.8333,
     "staff_instructional_headcount_pct_change_5yr": -6.0345,
     "students_per_instructional_staff_fte": 12.5224,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 52.8212,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.8711,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.8342,
+    "unfunded_discount_pct_change_5yr": -37.8836,
     "share_grad_students": 12.2449,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,39 +169,85 @@
       },
       {
         "year": 2016,
-        "value": 16669.0057
+        "value": 15596.3776
       },
       {
         "year": 2017,
-        "value": 16979.4236
+        "value": 16181.1748
       },
       {
         "year": 2018,
-        "value": 15187.702
+        "value": 14099.8985
       },
       {
         "year": 2019,
-        "value": 14319.3004
+        "value": 13116.2872
       },
       {
         "year": 2020,
-        "value": 12672.3995
+        "value": 8801.8634
       },
       {
         "year": 2021,
-        "value": 14417.6046
+        "value": 9958.6602
       },
       {
         "year": 2022,
-        "value": 12283.8188
+        "value": 8767.0582
       },
       {
         "year": 2023,
-        "value": 11285.5455
+        "value": 8120.8584
       },
       {
         "year": 2024,
-        "value": 12254.7128
+        "value": 8322.2229
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.6112
+      },
+      {
+        "year": 2015,
+        "value": 33.3701
+      },
+      {
+        "year": 2016,
+        "value": 39.0865
+      },
+      {
+        "year": 2017,
+        "value": 43.6759
+      },
+      {
+        "year": 2018,
+        "value": 45.8853
+      },
+      {
+        "year": 2019,
+        "value": 46.4196
+      },
+      {
+        "year": 2020,
+        "value": 26.3217
+      },
+      {
+        "year": 2021,
+        "value": 26.0056
+      },
+      {
+        "year": 2022,
+        "value": 24.9819
+      },
+      {
+        "year": 2023,
+        "value": 24.6113
+      },
+      {
+        "year": 2024,
+        "value": 28.8342
       }
     ],
     "enrollment_headcount_total": [

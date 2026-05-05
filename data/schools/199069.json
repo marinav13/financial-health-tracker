@@ -1,6 +1,6 @@
 {
   "unitid": "199069",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Mount Olive",
     "institution_unique_name": "University of Mount Olive | Mount Olive | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -32.1215,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.4452,
-    "net_tuition_per_fte_change_5yr": -21.8705,
+    "net_tuition_per_fte_change_5yr": -22.035,
     "staff_total_headcount_pct_change_5yr": -19.0123,
     "staff_instructional_headcount_pct_change_5yr": -13.6612,
     "students_per_instructional_staff_fte": 24.916,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 50.876,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.6687,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.9913,
+    "unfunded_discount_pct_change_5yr": 43.3661,
     "share_grad_students": 9.0976,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11241.6542
+        "value": 11396.7499
       },
       {
         "year": 2015,
-        "value": 11776.3941
+        "value": 11931.5313
       },
       {
         "year": 2016,
-        "value": 12625.5577
+        "value": 12804.9726
       },
       {
         "year": 2017,
-        "value": 12660.9477
+        "value": 12836.2054
       },
       {
         "year": 2018,
-        "value": 13519.4995
+        "value": 13690.3006
       },
       {
         "year": 2019,
-        "value": 13680.2082
+        "value": 13922.6874
       },
       {
         "year": 2020,
-        "value": 12137.3697
+        "value": 12397.0198
       },
       {
         "year": 2021,
-        "value": 12017.2042
+        "value": 12187.1589
       },
       {
         "year": 2022,
-        "value": 11864.897
+        "value": 12046.5047
       },
       {
         "year": 2023,
-        "value": 11878.8881
+        "value": 12096.7901
       },
       {
         "year": 2024,
-        "value": 10688.273
+        "value": 10854.8226
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.1686
+      },
+      {
+        "year": 2015,
+        "value": 18.5201
+      },
+      {
+        "year": 2016,
+        "value": 18.1657
+      },
+      {
+        "year": 2017,
+        "value": 17.6296
+      },
+      {
+        "year": 2018,
+        "value": 18.1001
+      },
+      {
+        "year": 2019,
+        "value": 20.2219
+      },
+      {
+        "year": 2020,
+        "value": 25.9288
+      },
+      {
+        "year": 2021,
+        "value": 28.9558
+      },
+      {
+        "year": 2022,
+        "value": 31.1472
+      },
+      {
+        "year": 2023,
+        "value": 30.6722
+      },
+      {
+        "year": 2024,
+        "value": 28.9913
       }
     ],
     "enrollment_headcount_total": [

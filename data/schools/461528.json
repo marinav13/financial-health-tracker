@@ -1,6 +1,6 @@
 {
   "unitid": "461528",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Manna University",
     "institution_unique_name": "Manna University | Fayetteville | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 75.9162,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.2024,
-    "net_tuition_per_fte_change_5yr": -11.8536,
+    "net_tuition_per_fte_change_5yr": -16.5026,
     "staff_total_headcount_pct_change_5yr": 108,
     "staff_instructional_headcount_pct_change_5yr": 480,
     "students_per_instructional_staff_fte": 10.5333,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 69.8674,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.1825,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 17.3777,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 25.8929,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3274.3731
+        "value": 2536.7471
       },
       {
         "year": 2015,
-        "value": 3015.6558
+        "value": 3470.1021
       },
       {
         "year": 2016,
-        "value": 4501.1442
+        "value": 5318.9485
       },
       {
         "year": 2017,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 6305.9319
+        "value": 6820.6857
       },
       {
         "year": 2022,
-        "value": 6250.342
+        "value": 6894.0369
       },
       {
         "year": 2023,
-        "value": 5274.9952
+        "value": 4984.958
       },
       {
         "year": 2024,
-        "value": 6104.1519
+        "value": 5782.2089
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.1745
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 7.5394
+      },
+      {
+        "year": 2021,
+        "value": 9.9161
+      },
+      {
+        "year": 2022,
+        "value": 7.7881
+      },
+      {
+        "year": 2023,
+        "value": 19.0694
+      },
+      {
+        "year": 2024,
+        "value": 17.3777
       }
     ],
     "enrollment_headcount_total": [

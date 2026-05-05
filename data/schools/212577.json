@@ -1,6 +1,6 @@
 {
   "unitid": "212577",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franklin and Marshall College",
     "institution_unique_name": "Franklin and Marshall College | Lancaster | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.4553,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.8713,
-    "net_tuition_per_fte_change_5yr": -8.4748,
+    "net_tuition_per_fte_change_5yr": -8.5265,
     "staff_total_headcount_pct_change_5yr": -18.9495,
     "staff_instructional_headcount_pct_change_5yr": -24.026,
     "students_per_instructional_staff_fte": 10.125,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 42.4928,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.9748,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.0385,
+    "unfunded_discount_pct_change_5yr": 8.6181,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4589278,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 38899.5986
+        "value": 38447.1875
       },
       {
         "year": 2020,
-        "value": 40088.4565
+        "value": 39778.6742
       },
       {
         "year": 2021,
-        "value": 38811.5362
+        "value": 38555.4604
       },
       {
         "year": 2022,
-        "value": 36361.3577
+        "value": 35972.1113
       },
       {
         "year": 2023,
-        "value": 36035.876
+        "value": 35621.1442
       },
       {
         "year": 2024,
-        "value": 35602.9459
+        "value": 35169
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.5735
+      },
+      {
+        "year": 2015,
+        "value": 34.2343
+      },
+      {
+        "year": 2016,
+        "value": 34.7768
+      },
+      {
+        "year": 2017,
+        "value": 34.6838
+      },
+      {
+        "year": 2018,
+        "value": 38.1177
+      },
+      {
+        "year": 2019,
+        "value": 37.7824
+      },
+      {
+        "year": 2020,
+        "value": 37.0554
+      },
+      {
+        "year": 2021,
+        "value": 38.8302
+      },
+      {
+        "year": 2022,
+        "value": 40.4245
+      },
+      {
+        "year": 2023,
+        "value": 40.1748
+      },
+      {
+        "year": 2024,
+        "value": 41.0385
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "201548",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Capital University",
     "institution_unique_name": "Capital University | Columbus | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.5358,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.3369,
-    "net_tuition_per_fte_change_5yr": 2.5004,
+    "net_tuition_per_fte_change_5yr": 2.0151,
     "staff_total_headcount_pct_change_5yr": -18.0882,
     "staff_instructional_headcount_pct_change_5yr": -17.8841,
     "students_per_instructional_staff_fte": 9.3,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 52.8153,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.5652,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.1319,
+    "unfunded_discount_pct_change_5yr": 6.5313,
     "share_grad_students": 26.5738,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22922.9329
+        "value": 23128.0714
       },
       {
         "year": 2015,
-        "value": 21480.6578
+        "value": 21648.4431
       },
       {
         "year": 2016,
-        "value": 20129.0555
+        "value": 20274.8359
       },
       {
         "year": 2017,
-        "value": 19339.45
+        "value": 19493.9964
       },
       {
         "year": 2018,
-        "value": 20112.6603
+        "value": 20151.1303
       },
       {
         "year": 2019,
-        "value": 20191.6808
+        "value": 20191.6804
       },
       {
         "year": 2020,
-        "value": 20146.8123
+        "value": 20059.4433
       },
       {
         "year": 2021,
-        "value": 21745.4192
+        "value": 21619.7327
       },
       {
         "year": 2022,
-        "value": 20869.1239
+        "value": 20754.6066
       },
       {
         "year": 2023,
-        "value": 20650.6049
+        "value": 20536.4978
       },
       {
         "year": 2024,
-        "value": 20696.5499
+        "value": 20598.5676
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.1491
+      },
+      {
+        "year": 2015,
+        "value": 46.9707
+      },
+      {
+        "year": 2016,
+        "value": 49.946
+      },
+      {
+        "year": 2017,
+        "value": 50.7696
+      },
+      {
+        "year": 2018,
+        "value": 50.0073
+      },
+      {
+        "year": 2019,
+        "value": 50.8131
+      },
+      {
+        "year": 2020,
+        "value": 52.2994
+      },
+      {
+        "year": 2021,
+        "value": 52.4329
+      },
+      {
+        "year": 2022,
+        "value": 53.1976
+      },
+      {
+        "year": 2023,
+        "value": 53.6625
+      },
+      {
+        "year": 2024,
+        "value": 54.1319
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "202523",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Denison University",
     "institution_unique_name": "Denison University | Granville | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.9637,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.8978,
-    "net_tuition_per_fte_change_5yr": 12.4847,
+    "net_tuition_per_fte_change_5yr": 14.1282,
     "staff_total_headcount_pct_change_5yr": 9.9256,
     "staff_instructional_headcount_pct_change_5yr": -5.7554,
     "students_per_instructional_staff_fte": 10.1684,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 30.2346,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.38,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.8658,
+    "unfunded_discount_pct_change_5yr": -6.94,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1004000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28244.448
+        "value": 22456.2813
       },
       {
         "year": 2015,
-        "value": 28039.7041
+        "value": 22226.4879
       },
       {
         "year": 2016,
-        "value": 22912.3434
+        "value": 22687.2985
       },
       {
         "year": 2017,
-        "value": 23076.3088
+        "value": 22793.1268
       },
       {
         "year": 2018,
-        "value": 22726.6764
+        "value": 22390.3796
       },
       {
         "year": 2019,
-        "value": 24833.6039
+        "value": 24593.7427
       },
       {
         "year": 2020,
-        "value": 26701.222
+        "value": 26449.1498
       },
       {
         "year": 2021,
-        "value": 29166.8071
+        "value": 29272.2765
       },
       {
         "year": 2022,
-        "value": 26434.439
+        "value": 26426.1262
       },
       {
         "year": 2023,
-        "value": 27818.2615
+        "value": 27943.5985
       },
       {
         "year": 2024,
-        "value": 27934.0062
+        "value": 28068.3886
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.1937
+      },
+      {
+        "year": 2015,
+        "value": 48.7936
+      },
+      {
+        "year": 2016,
+        "value": 48.6124
+      },
+      {
+        "year": 2017,
+        "value": 49.0124
+      },
+      {
+        "year": 2018,
+        "value": 49.0206
+      },
+      {
+        "year": 2019,
+        "value": 47.1371
+      },
+      {
+        "year": 2020,
+        "value": 45.3663
+      },
+      {
+        "year": 2021,
+        "value": 42.946
+      },
+      {
+        "year": 2022,
+        "value": 40.7776
+      },
+      {
+        "year": 2023,
+        "value": 41.1026
+      },
+      {
+        "year": 2024,
+        "value": 43.8658
       }
     ],
     "enrollment_headcount_total": [

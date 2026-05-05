@@ -1,6 +1,6 @@
 {
   "unitid": "202170",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Columbus College of Art & Design",
     "institution_unique_name": "Columbus College of Art & Design | Columbus | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.3701,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.9447,
-    "net_tuition_per_fte_change_5yr": -16.3752,
+    "net_tuition_per_fte_change_5yr": -16.1015,
     "staff_total_headcount_pct_change_5yr": -17.9412,
     "staff_instructional_headcount_pct_change_5yr": -25,
     "students_per_instructional_staff_fte": 9.618,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 58.5788,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.4473,
+    "unfunded_discount_pct_change_5yr": 8.312,
     "share_grad_students": 2.6596,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40321.6677
+        "value": 39894.1529
       },
       {
         "year": 2015,
-        "value": 40538.0104
+        "value": 43372.4381
       },
       {
         "year": 2016,
-        "value": 42138.9548
+        "value": 44956.3874
       },
       {
         "year": 2017,
-        "value": 26639.8744
+        "value": 29424.3856
       },
       {
         "year": 2018,
@@ -179,19 +181,19 @@
       },
       {
         "year": 2019,
-        "value": 25292.6101
+        "value": 25210.0841
       },
       {
         "year": 2020,
-        "value": 24850.1868
+        "value": 24819.3432
       },
       {
         "year": 2021,
-        "value": 21110.7547
+        "value": 21066.98
       },
       {
         "year": 2022,
-        "value": 22213.5918
+        "value": 22173.1556
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21150.8832
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.3193
+      },
+      {
+        "year": 2015,
+        "value": 24.5066
+      },
+      {
+        "year": 2016,
+        "value": 25.364
+      },
+      {
+        "year": 2017,
+        "value": 36.3461
+      },
+      {
+        "year": 2018,
+        "value": 41.4545
+      },
+      {
+        "year": 2019,
+        "value": 43.8062
+      },
+      {
+        "year": 2020,
+        "value": 45.0849
+      },
+      {
+        "year": 2021,
+        "value": 51.8744
+      },
+      {
+        "year": 2022,
+        "value": 46.812
+      },
+      {
+        "year": 2023,
+        "value": 47.7641
+      },
+      {
+        "year": 2024,
+        "value": 47.4473
       }
     ],
     "enrollment_headcount_total": [

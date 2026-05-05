@@ -1,6 +1,6 @@
 {
   "unitid": "230959",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Middlebury College",
     "institution_unique_name": "Middlebury College | Middlebury | Vermont",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.5262,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.1221,
-    "net_tuition_per_fte_change_5yr": -9.6346,
+    "net_tuition_per_fte_change_5yr": -10.6964,
     "staff_total_headcount_pct_change_5yr": 4.6243,
     "staff_instructional_headcount_pct_change_5yr": 8.5399,
     "students_per_instructional_staff_fte": 8.5919,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 58.0679,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.6879,
+    "unfunded_discount_pct_change_5yr": 6.3428,
     "share_grad_students": 12.1033,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 13113000,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 61622.1317
+        "value": 61890.2524
       },
       {
         "year": 2015,
-        "value": 62651.3157
+        "value": 62924.6939
       },
       {
         "year": 2016,
-        "value": 62682.7634
+        "value": 62967.4734
       },
       {
         "year": 2017,
-        "value": 63590.2433
+        "value": 63857.7629
       },
       {
         "year": 2018,
-        "value": 63607.8198
+        "value": 63894.1147
       },
       {
         "year": 2019,
-        "value": 64190.0926
+        "value": 64953.3422
       },
       {
         "year": 2020,
-        "value": 60970.473
+        "value": 60970.3042
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 56600.3761
+        "value": 56600.3764
       },
       {
         "year": 2024,
         "value": 58005.6622
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.384
+      },
+      {
+        "year": 2015,
+        "value": 20.2584
+      },
+      {
+        "year": 2016,
+        "value": 22.1225
+      },
+      {
+        "year": 2017,
+        "value": 22.2806
+      },
+      {
+        "year": 2018,
+        "value": 21.7074
+      },
+      {
+        "year": 2019,
+        "value": 22.275
+      },
+      {
+        "year": 2020,
+        "value": 23.3283
+      },
+      {
+        "year": 2021,
+        "value": 25.5472
+      },
+      {
+        "year": 2022,
+        "value": 24.4675
+      },
+      {
+        "year": 2023,
+        "value": 24.2665
+      },
+      {
+        "year": 2024,
+        "value": 23.6879
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "233295",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Randolph-Macon College",
     "institution_unique_name": "Randolph-Macon College | Ashland | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.0105,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -4.3516,
-    "net_tuition_per_fte_change_5yr": -13.5059,
+    "net_tuition_per_fte_change_5yr": -23.7388,
     "staff_total_headcount_pct_change_5yr": 10.5263,
     "staff_instructional_headcount_pct_change_5yr": 9.7143,
     "students_per_instructional_staff_fte": 10.3778,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 39.6849,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.9524,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.1537,
+    "unfunded_discount_pct_change_5yr": 10.3111,
     "share_grad_students": 3.0341,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21535.892
+        "value": 24551.9606
       },
       {
         "year": 2015,
-        "value": 22478.0255
+        "value": 26834.9079
       },
       {
         "year": 2016,
-        "value": 22270.5816
+        "value": 27455.6483
       },
       {
         "year": 2017,
-        "value": 22643.1218
+        "value": 26898.373
       },
       {
         "year": 2018,
-        "value": 22037.9806
+        "value": 25062.5439
       },
       {
         "year": 2019,
-        "value": 21820.7246
+        "value": 24915.478
       },
       {
         "year": 2020,
-        "value": 20963.7467
+        "value": 24191.977
       },
       {
         "year": 2021,
-        "value": 20902.0239
+        "value": 24326.5139
       },
       {
         "year": 2022,
-        "value": 19395.3081
+        "value": 19556.767
       },
       {
         "year": 2023,
-        "value": 19250.827
+        "value": 19445.7713
       },
       {
         "year": 2024,
-        "value": 18873.6501
+        "value": 19000.8313
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.3796
+      },
+      {
+        "year": 2015,
+        "value": 44.2865
+      },
+      {
+        "year": 2016,
+        "value": 44.9621
+      },
+      {
+        "year": 2017,
+        "value": 45.3303
+      },
+      {
+        "year": 2018,
+        "value": 47.4177
+      },
+      {
+        "year": 2019,
+        "value": 49.0918
+      },
+      {
+        "year": 2020,
+        "value": 50.9769
+      },
+      {
+        "year": 2021,
+        "value": 50.9543
+      },
+      {
+        "year": 2022,
+        "value": 54.7763
+      },
+      {
+        "year": 2023,
+        "value": 54.0275
+      },
+      {
+        "year": 2024,
+        "value": 54.1537
       }
     ],
     "enrollment_headcount_total": [

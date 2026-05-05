@@ -1,6 +1,6 @@
 {
   "unitid": "449764",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Visible Music College",
     "institution_unique_name": "Visible Music College | Memphis | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.3339,
-    "net_tuition_per_fte_change_5yr": -14.6145,
+    "net_tuition_per_fte_change_5yr": -12.1667,
     "staff_total_headcount_pct_change_5yr": -31.8841,
     "staff_instructional_headcount_pct_change_5yr": -2.5,
     "students_per_instructional_staff_fte": 8.8475,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 69.4239,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.5337,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 7.0024,
+    "unfunded_discount_pct_change_5yr": -51.0247,
     "share_grad_students": 8.9109,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21682.3742
+        "value": 21496.6488
       },
       {
         "year": 2015,
-        "value": 24294.2914
+        "value": 24767.3249
       },
       {
         "year": 2016,
-        "value": 27698.4812
+        "value": 26262.6116
       },
       {
         "year": 2017,
-        "value": 25013.5477
+        "value": 24838.4169
       },
       {
         "year": 2018,
-        "value": 19268.37
+        "value": 18139.4837
       },
       {
         "year": 2019,
-        "value": 19435.6384
+        "value": 18651.727
       },
       {
         "year": 2020,
-        "value": 15725.4853
+        "value": 13947.1253
       },
       {
         "year": 2021,
-        "value": 10012.8378
+        "value": 9565.3148
       },
       {
         "year": 2022,
-        "value": 23480.2965
+        "value": 23964.6943
       },
       {
         "year": 2023,
-        "value": 15265.7555
+        "value": 15099.7167
       },
       {
         "year": 2024,
-        "value": 16595.2184
+        "value": 16382.4253
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.2543
+      },
+      {
+        "year": 2015,
+        "value": 5.1347
+      },
+      {
+        "year": 2016,
+        "value": 9.861
+      },
+      {
+        "year": 2017,
+        "value": 7.9739
+      },
+      {
+        "year": 2018,
+        "value": 19.0518
+      },
+      {
+        "year": 2019,
+        "value": 14.2979
+      },
+      {
+        "year": 2020,
+        "value": 16.0946
+      },
+      {
+        "year": 2021,
+        "value": 10.0825
+      },
+      {
+        "year": 2022,
+        "value": 7.3234
+      },
+      {
+        "year": 2023,
+        "value": 9.0431
+      },
+      {
+        "year": 2024,
+        "value": 7.0024
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "133809",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Florida College",
     "institution_unique_name": "Florida College | Temple Terrace | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 32.6996,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 25.4128,
-    "net_tuition_per_fte_change_5yr": -8.097,
+    "net_tuition_per_fte_change_5yr": -7.5814,
     "staff_total_headcount_pct_change_5yr": 36.2416,
     "staff_instructional_headcount_pct_change_5yr": 38,
     "students_per_instructional_staff_fte": 11.7097,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 40.8393,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.5509,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.4612,
+    "unfunded_discount_pct_change_5yr": 33.3774,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19909.1756
+        "value": 15345.3618
       },
       {
         "year": 2015,
-        "value": 21206.4009
+        "value": 16304.9238
       },
       {
         "year": 2016,
-        "value": 21779.0904
+        "value": 16727.123
       },
       {
         "year": 2017,
-        "value": 22987.393
+        "value": 17547.3784
       },
       {
         "year": 2018,
-        "value": 22960.0426
+        "value": 17143.9188
       },
       {
         "year": 2019,
-        "value": 22354.8291
+        "value": 16085.4789
       },
       {
         "year": 2020,
-        "value": 23744.9035
+        "value": 16394.2579
       },
       {
         "year": 2021,
-        "value": 23311.9003
+        "value": 16477.6607
       },
       {
         "year": 2022,
-        "value": 20921.3496
+        "value": 14797.065
       },
       {
         "year": 2023,
-        "value": 21628.7857
+        "value": 14963.584
       },
       {
         "year": 2024,
-        "value": 20544.7537
+        "value": 14865.9752
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.1059
+      },
+      {
+        "year": 2015,
+        "value": 15.0727
+      },
+      {
+        "year": 2016,
+        "value": 14.9076
+      },
+      {
+        "year": 2017,
+        "value": 15.1498
+      },
+      {
+        "year": 2018,
+        "value": 17.2219
+      },
+      {
+        "year": 2019,
+        "value": 15.3408
+      },
+      {
+        "year": 2020,
+        "value": 15.5477
+      },
+      {
+        "year": 2021,
+        "value": 22.9224
+      },
+      {
+        "year": 2022,
+        "value": 21.8386
+      },
+      {
+        "year": 2023,
+        "value": 22.0525
+      },
+      {
+        "year": 2024,
+        "value": 20.4612
       }
     ],
     "enrollment_headcount_total": [

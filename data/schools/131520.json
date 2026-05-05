@@ -1,6 +1,6 @@
 {
   "unitid": "131520",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Howard University",
     "institution_unique_name": "Howard University | Washington | District of Columbia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 53.4291,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 8.5228,
-    "net_tuition_per_fte_change_5yr": -5.8321,
+    "net_tuition_per_fte_change_5yr": -9.3998,
     "staff_total_headcount_pct_change_5yr": 27.59,
     "staff_instructional_headcount_pct_change_5yr": 32.8205,
     "students_per_instructional_staff_fte": 9.7693,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 20.5099,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 19.6489,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.6271,
+    "unfunded_discount_pct_change_5yr": -2.396,
     "share_grad_students": 24.2225,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 95067000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27194.8981
+        "value": 27918.3476
       },
       {
         "year": 2015,
-        "value": 25326.9219
+        "value": 25606.7102
       },
       {
         "year": 2016,
-        "value": 25988.3569
+        "value": 25447.5737
       },
       {
         "year": 2017,
-        "value": 26795.6373
+        "value": 27780.3385
       },
       {
         "year": 2018,
-        "value": 22769.9689
+        "value": 22568.7201
       },
       {
         "year": 2019,
-        "value": 22780.4726
+        "value": 22683.5038
       },
       {
         "year": 2020,
-        "value": 22536.8572
+        "value": 22231.1882
       },
       {
         "year": 2021,
-        "value": 20241.6377
+        "value": 17873.1243
       },
       {
         "year": 2022,
-        "value": 20158.6324
+        "value": 19252.9803
       },
       {
         "year": 2023,
-        "value": 20333.5427
+        "value": 20194.0341
       },
       {
         "year": 2024,
-        "value": 21451.8972
+        "value": 20551.3072
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.1309
+      },
+      {
+        "year": 2015,
+        "value": 37.1152
+      },
+      {
+        "year": 2016,
+        "value": 39.9568
+      },
+      {
+        "year": 2017,
+        "value": 35.5815
+      },
+      {
+        "year": 2018,
+        "value": 40.4449
+      },
+      {
+        "year": 2019,
+        "value": 41.6245
+      },
+      {
+        "year": 2020,
+        "value": 42.0476
+      },
+      {
+        "year": 2021,
+        "value": 44.5867
+      },
+      {
+        "year": 2022,
+        "value": 41.7538
+      },
+      {
+        "year": 2023,
+        "value": 40.7409
+      },
+      {
+        "year": 2024,
+        "value": 40.6271
       }
     ],
     "enrollment_headcount_total": [

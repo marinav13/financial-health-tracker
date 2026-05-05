@@ -1,6 +1,6 @@
 {
   "unitid": "168421",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Worcester Polytechnic Institute",
     "institution_unique_name": "Worcester Polytechnic Institute | Worcester | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.7155,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 12.0282,
-    "net_tuition_per_fte_change_5yr": -18.5878,
+    "net_tuition_per_fte_change_5yr": -18.5982,
     "staff_total_headcount_pct_change_5yr": -0.5036,
     "staff_instructional_headcount_pct_change_5yr": 2.7778,
     "students_per_instructional_staff_fte": 16.5197,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 50.3489,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.7912,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 51% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.7075,
+    "unfunded_discount_pct_change_5yr": 24.1062,
     "share_grad_students": 28.1309,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 64222000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 43568.8803
+        "value": 43804.3392
       },
       {
         "year": 2015,
-        "value": 45225.4264
+        "value": 45625.7986
       },
       {
         "year": 2016,
-        "value": 46631.6558
+        "value": 47039.9427
       },
       {
         "year": 2017,
-        "value": 31550.1583
+        "value": 31798.3414
       },
       {
         "year": 2018,
-        "value": 32224.1152
+        "value": 32475.5042
       },
       {
         "year": 2019,
-        "value": 32042.6315
+        "value": 32328.2521
       },
       {
         "year": 2020,
-        "value": 31607.5227
+        "value": 32048.7467
       },
       {
         "year": 2021,
-        "value": 30631.8996
+        "value": 31589.192
       },
       {
         "year": 2022,
-        "value": 28523.7241
+        "value": 28749.6546
       },
       {
         "year": 2023,
-        "value": 27411.3741
+        "value": 27630.6032
       },
       {
         "year": 2024,
-        "value": 26086.5964
+        "value": 26315.7631
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.8503
+      },
+      {
+        "year": 2015,
+        "value": 29.8392
+      },
+      {
+        "year": 2016,
+        "value": 26.6816
+      },
+      {
+        "year": 2017,
+        "value": 27.8695
+      },
+      {
+        "year": 2018,
+        "value": 27.0992
+      },
+      {
+        "year": 2019,
+        "value": 29.5775
+      },
+      {
+        "year": 2020,
+        "value": 30.4738
+      },
+      {
+        "year": 2021,
+        "value": 31.963
+      },
+      {
+        "year": 2022,
+        "value": 34.8716
+      },
+      {
+        "year": 2023,
+        "value": 34.9369
+      },
+      {
+        "year": 2024,
+        "value": 36.7075
       }
     ],
     "enrollment_headcount_total": [

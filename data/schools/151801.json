@@ -1,6 +1,6 @@
 {
   "unitid": "151801",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Indiana Wesleyan University-Marion",
     "institution_unique_name": "Indiana Wesleyan University-Marion | Marion | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -31.075,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.2218,
-    "net_tuition_per_fte_change_5yr": -2.9963,
+    "net_tuition_per_fte_change_5yr": -10.3805,
     "staff_total_headcount_pct_change_5yr": -22.5635,
     "staff_instructional_headcount_pct_change_5yr": -25.4398,
     "students_per_instructional_staff_fte": 3.9098,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 15.4126,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 13.3886,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.2482,
+    "unfunded_discount_pct_change_5yr": 8.5828,
     "share_grad_students": 5.6793,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13289.062
+        "value": 12922.8807
       },
       {
         "year": 2015,
-        "value": 14148.8023
+        "value": 13868.2746
       },
       {
         "year": 2016,
-        "value": 18789.5886
+        "value": 17643.4296
       },
       {
         "year": 2017,
-        "value": 18225.9896
+        "value": 16935.1317
       },
       {
         "year": 2018,
-        "value": 17448.5842
+        "value": 16373.7083
       },
       {
         "year": 2019,
-        "value": 17243.0349
+        "value": 16212.7553
       },
       {
         "year": 2020,
-        "value": 17277.6065
+        "value": 16223.4201
       },
       {
         "year": 2021,
-        "value": 16788.0504
+        "value": 15526.2545
       },
       {
         "year": 2022,
-        "value": 14387.1592
+        "value": 2236.2699
       },
       {
         "year": 2023,
-        "value": 14272.4919
+        "value": 12646.1489
       },
       {
         "year": 2024,
-        "value": 16726.3741
+        "value": 14529.7859
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.9465
+      },
+      {
+        "year": 2015,
+        "value": 14.9385
+      },
+      {
+        "year": 2016,
+        "value": 37.3026
+      },
+      {
+        "year": 2017,
+        "value": 38.4223
+      },
+      {
+        "year": 2018,
+        "value": 39.9079
+      },
+      {
+        "year": 2019,
+        "value": 39.8297
+      },
+      {
+        "year": 2020,
+        "value": 39.5987
+      },
+      {
+        "year": 2021,
+        "value": 39.9156
+      },
+      {
+        "year": 2022,
+        "value": 72.8918
+      },
+      {
+        "year": 2023,
+        "value": 42.9086
+      },
+      {
+        "year": 2024,
+        "value": 43.2482
       }
     ],
     "enrollment_headcount_total": [

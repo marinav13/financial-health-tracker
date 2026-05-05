@@ -1,6 +1,6 @@
 {
   "unitid": "192749",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Manhattanville University",
     "institution_unique_name": "Manhattanville University | Purchase | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.6886,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.9035,
-    "net_tuition_per_fte_change_5yr": -15.0859,
+    "net_tuition_per_fte_change_5yr": -14.8842,
     "staff_total_headcount_pct_change_5yr": 5.6726,
     "staff_instructional_headcount_pct_change_5yr": 16.338,
     "students_per_instructional_staff_fte": 10.8042,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 66.5891,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.8079,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3186,
+    "unfunded_discount_pct_change_5yr": -5.6087,
     "share_grad_students": 49.9485,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,39 +169,85 @@
       },
       {
         "year": 2016,
-        "value": 23435.5968
+        "value": 25017.0069
       },
       {
         "year": 2017,
-        "value": 22193.3773
+        "value": 23688.917
       },
       {
         "year": 2018,
-        "value": 21758.7473
+        "value": 21820.5493
       },
       {
         "year": 2019,
-        "value": 21565.7331
+        "value": 21585.3151
       },
       {
         "year": 2020,
-        "value": 19681.861
+        "value": 19740.5683
       },
       {
         "year": 2021,
-        "value": 20451.3041
+        "value": 20567.4854
       },
       {
         "year": 2022,
-        "value": 17720.3296
+        "value": 17814.4626
       },
       {
         "year": 2023,
-        "value": 17487.3066
+        "value": 17555.0112
       },
       {
         "year": 2024,
-        "value": 18312.3418
+        "value": 18372.5118
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.6798
+      },
+      {
+        "year": 2015,
+        "value": 46.6958
+      },
+      {
+        "year": 2016,
+        "value": 46.5471
+      },
+      {
+        "year": 2017,
+        "value": 45.9474
+      },
+      {
+        "year": 2018,
+        "value": 46.8791
+      },
+      {
+        "year": 2019,
+        "value": 46.952
+      },
+      {
+        "year": 2020,
+        "value": 49.2614
+      },
+      {
+        "year": 2021,
+        "value": 46.5398
+      },
+      {
+        "year": 2022,
+        "value": 46.6875
+      },
+      {
+        "year": 2023,
+        "value": 46.0918
+      },
+      {
+        "year": 2024,
+        "value": 44.3186
       }
     ],
     "enrollment_headcount_total": [

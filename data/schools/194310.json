@@ -1,6 +1,6 @@
 {
   "unitid": "194310",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pace University",
     "institution_unique_name": "Pace University | New York | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.4501,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.9385,
-    "net_tuition_per_fte_change_5yr": -2.7238,
+    "net_tuition_per_fte_change_5yr": -2.5866,
     "staff_total_headcount_pct_change_5yr": 0.8135,
     "staff_instructional_headcount_pct_change_5yr": 3.1155,
     "students_per_instructional_staff_fte": 15.3794,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 67.4767,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 67.8957,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.9338,
+    "unfunded_discount_pct_change_5yr": -1.6722,
     "share_grad_students": 42.4869,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3539919,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29885.9701
+        "value": 29998.6911
       },
       {
         "year": 2015,
-        "value": 31187.7893
+        "value": 31312.8922
       },
       {
         "year": 2016,
-        "value": 31315.6083
+        "value": 31457.3993
       },
       {
         "year": 2017,
-        "value": 30616.0524
+        "value": 30715.23
       },
       {
         "year": 2018,
-        "value": 29293.6681
+        "value": 29444.0511
       },
       {
         "year": 2019,
-        "value": 28817.2066
+        "value": 28955.3189
       },
       {
         "year": 2020,
-        "value": 30038.1296
+        "value": 30199.9242
       },
       {
         "year": 2021,
-        "value": 29193.9472
+        "value": 30974.0714
       },
       {
         "year": 2022,
-        "value": 27219.5709
+        "value": 27863.8724
       },
       {
         "year": 2023,
-        "value": 28176.0682
+        "value": 28273.4365
       },
       {
         "year": 2024,
-        "value": 28032.2816
+        "value": 28206.3496
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.3361
+      },
+      {
+        "year": 2015,
+        "value": 35.4288
+      },
+      {
+        "year": 2016,
+        "value": 36.8102
+      },
+      {
+        "year": 2017,
+        "value": 38.4392
+      },
+      {
+        "year": 2018,
+        "value": 40.0692
+      },
+      {
+        "year": 2019,
+        "value": 40.6129
+      },
+      {
+        "year": 2020,
+        "value": 40.4225
+      },
+      {
+        "year": 2021,
+        "value": 40.2538
+      },
+      {
+        "year": 2022,
+        "value": 41.0457
+      },
+      {
+        "year": 2023,
+        "value": 40.4458
+      },
+      {
+        "year": 2024,
+        "value": 39.9338
       }
     ],
     "enrollment_headcount_total": [

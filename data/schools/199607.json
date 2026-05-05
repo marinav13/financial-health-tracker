@@ -1,6 +1,6 @@
 {
   "unitid": "199607",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Salem College",
     "institution_unique_name": "Salem College | Winston-Salem | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -36.6213,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.5993,
-    "net_tuition_per_fte_change_5yr": -3.1734,
+    "net_tuition_per_fte_change_5yr": -2.2957,
     "staff_total_headcount_pct_change_5yr": -12.5,
     "staff_instructional_headcount_pct_change_5yr": -25.8065,
     "students_per_instructional_staff_fte": 9.777,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 17.2934,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.4501,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.5639,
+    "unfunded_discount_pct_change_5yr": -28.4159,
     "share_grad_students": 17.5313,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 9617.4502
+        "value": 11546.4946
       },
       {
         "year": 2015,
-        "value": 10022.1291
+        "value": 12106.695
       },
       {
         "year": 2016,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 10853.4904
+        "value": 10853.492
       },
       {
         "year": 2020,
-        "value": 10806.3463
+        "value": 9902.8217
       },
       {
         "year": 2021,
-        "value": 15135.4255
+        "value": 15412.809
       },
       {
         "year": 2022,
-        "value": 11622.748
+        "value": 10884.3456
       },
       {
         "year": 2023,
-        "value": 11582.2051
+        "value": 11776.0068
       },
       {
         "year": 2024,
-        "value": 10509.064
+        "value": 10604.3333
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.2436
+      },
+      {
+        "year": 2015,
+        "value": 38.0808
+      },
+      {
+        "year": 2016,
+        "value": 51.7933
+      },
+      {
+        "year": 2017,
+        "value": 46.0721
+      },
+      {
+        "year": 2018,
+        "value": 52.5385
+      },
+      {
+        "year": 2019,
+        "value": 49.6813
+      },
+      {
+        "year": 2020,
+        "value": 45.9218
+      },
+      {
+        "year": 2021,
+        "value": 27.6438
+      },
+      {
+        "year": 2022,
+        "value": 28.8786
+      },
+      {
+        "year": 2023,
+        "value": 26.6419
+      },
+      {
+        "year": 2024,
+        "value": 35.5639
       }
     ],
     "enrollment_headcount_total": [

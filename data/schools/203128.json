@@ -1,6 +1,6 @@
 {
   "unitid": "203128",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hiram College",
     "institution_unique_name": "Hiram College | Hiram | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.0938,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.6909,
-    "net_tuition_per_fte_change_5yr": -41.4916,
+    "net_tuition_per_fte_change_5yr": -26.0605,
     "staff_total_headcount_pct_change_5yr": -1.5326,
     "staff_instructional_headcount_pct_change_5yr": -12.069,
     "students_per_instructional_staff_fte": 10.322,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 26.0581,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.7634,
+    "unfunded_discount_pct_change_5yr": -19.3205,
     "share_grad_students": 3.0505,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20446.5915
+        "value": 16584.0021
       },
       {
         "year": 2015,
-        "value": 20022.2747
+        "value": 16243.533
       },
       {
         "year": 2016,
-        "value": 20560.7744
+        "value": 16847.222
       },
       {
         "year": 2017,
-        "value": 20873.3521
+        "value": 17409.6148
       },
       {
         "year": 2018,
-        "value": 20168.9771
+        "value": 16647.9727
       },
       {
         "year": 2019,
-        "value": 18958.2516
+        "value": 15001.7022
       },
       {
         "year": 2020,
-        "value": 18259.3173
+        "value": 14094.2456
       },
       {
         "year": 2021,
-        "value": 15015.728
+        "value": 10226.7926
       },
       {
         "year": 2022,
-        "value": 14026.4521
+        "value": 10826.0797
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11092.1761
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.4012
+      },
+      {
+        "year": 2015,
+        "value": 49.3558
+      },
+      {
+        "year": 2016,
+        "value": 47.6773
+      },
+      {
+        "year": 2017,
+        "value": 44.4146
+      },
+      {
+        "year": 2018,
+        "value": 45.1718
+      },
+      {
+        "year": 2019,
+        "value": 51.7646
+      },
+      {
+        "year": 2020,
+        "value": 55.9447
+      },
+      {
+        "year": 2021,
+        "value": 49.5648
+      },
+      {
+        "year": 2022,
+        "value": 46.7156
+      },
+      {
+        "year": 2023,
+        "value": 46.1932
+      },
+      {
+        "year": 2024,
+        "value": 41.7634
       }
     ],
     "enrollment_headcount_total": [

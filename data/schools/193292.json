@@ -1,6 +1,6 @@
 {
   "unitid": "193292",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Molloy University",
     "institution_unique_name": "Molloy University | Rockville Centre | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.4568,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.5335,
-    "net_tuition_per_fte_change_5yr": -19.9844,
+    "net_tuition_per_fte_change_5yr": -19.6978,
     "staff_total_headcount_pct_change_5yr": -11.7547,
     "staff_instructional_headcount_pct_change_5yr": -20.858,
     "students_per_instructional_staff_fte": 15.9269,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 82.292,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 82% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 82.5868,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 83% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.4939,
+    "unfunded_discount_pct_change_5yr": 26.767,
     "share_grad_students": 28.7049,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 51063,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 29709.5289
+        "value": 29709.5292
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 28490.1325
+        "value": 28477.1081
       },
       {
         "year": 2021,
-        "value": 26050.3953
+        "value": 26040.6834
       },
       {
         "year": 2022,
-        "value": 25171.3476
+        "value": 25159.2123
       },
       {
         "year": 2023,
-        "value": 24397.9831
+        "value": 24379.6698
       },
       {
         "year": 2024,
-        "value": 23827.7098
+        "value": 23913.0628
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.1456
+      },
+      {
+        "year": 2015,
+        "value": 18.594
+      },
+      {
+        "year": 2016,
+        "value": 18.115
+      },
+      {
+        "year": 2017,
+        "value": 18.5156
+      },
+      {
+        "year": 2018,
+        "value": 18.9409
+      },
+      {
+        "year": 2019,
+        "value": 20.1109
+      },
+      {
+        "year": 2020,
+        "value": 21.9393
+      },
+      {
+        "year": 2021,
+        "value": 23.0668
+      },
+      {
+        "year": 2022,
+        "value": 23.3763
+      },
+      {
+        "year": 2023,
+        "value": 24.7795
+      },
+      {
+        "year": 2024,
+        "value": 25.4939
       }
     ],
     "enrollment_headcount_total": [

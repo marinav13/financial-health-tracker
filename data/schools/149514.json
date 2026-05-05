@@ -1,6 +1,6 @@
 {
   "unitid": "149514",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trinity International University-Illinois",
     "institution_unique_name": "Trinity International University-Illinois | Deerfield | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -53.1596,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -55.8968,
-    "net_tuition_per_fte_change_5yr": -15.7563,
+    "net_tuition_per_fte_change_5yr": -15.7562,
     "staff_total_headcount_pct_change_5yr": -36.413,
     "staff_instructional_headcount_pct_change_5yr": -45.1777,
     "students_per_instructional_staff_fte": 7.9643,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 28.988,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.5927,
+    "unfunded_discount_pct_change_5yr": -37.8888,
     "share_grad_students": 80.86,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,11 +165,11 @@
       },
       {
         "year": 2015,
-        "value": 14077.8147
+        "value": 14077.8121
       },
       {
         "year": 2016,
-        "value": 14455.0117
+        "value": 14455.0027
       },
       {
         "year": 2017,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 13071.8654
+        "value": 13071.8553
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11012.2242
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.5236
+      },
+      {
+        "year": 2015,
+        "value": 34.9103
+      },
+      {
+        "year": 2016,
+        "value": 36.4707
+      },
+      {
+        "year": 2017,
+        "value": 39.0608
+      },
+      {
+        "year": 2018,
+        "value": 42.1969
+      },
+      {
+        "year": 2019,
+        "value": 44.4247
+      },
+      {
+        "year": 2020,
+        "value": 46.925
+      },
+      {
+        "year": 2021,
+        "value": 49.5816
+      },
+      {
+        "year": 2022,
+        "value": 37.6007
+      },
+      {
+        "year": 2023,
+        "value": 45.3397
+      },
+      {
+        "year": 2024,
+        "value": 27.5927
       }
     ],
     "enrollment_headcount_total": [

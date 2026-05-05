@@ -1,6 +1,6 @@
 {
   "unitid": "101435",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Huntingdon College",
     "institution_unique_name": "Huntingdon College | Montgomery | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.3311,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -1.2481,
-    "net_tuition_per_fte_change_5yr": -3.8749,
+    "net_tuition_per_fte_change_5yr": 3.1341,
     "staff_total_headcount_pct_change_5yr": -27.7978,
     "staff_instructional_headcount_pct_change_5yr": -42.0168,
     "students_per_instructional_staff_fte": 13.6102,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 41.0677,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.6865,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.1968,
+    "unfunded_discount_pct_change_5yr": 4.978,
     "share_grad_students": 0.9978,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,39 +169,85 @@
       },
       {
         "year": 2016,
-        "value": 13923.4941
+        "value": 13905.9476
       },
       {
         "year": 2017,
-        "value": 14228.7248
+        "value": 14239.8907
       },
       {
         "year": 2018,
-        "value": 13927.5934
+        "value": 13901.4602
       },
       {
         "year": 2019,
-        "value": 15042.123
+        "value": 15938.0487
       },
       {
         "year": 2020,
-        "value": 15413.2778
+        "value": 16089.8598
       },
       {
         "year": 2021,
-        "value": 15475.9986
+        "value": 16693.3896
       },
       {
         "year": 2022,
-        "value": 15479.1473
+        "value": 17117.3975
       },
       {
         "year": 2023,
-        "value": 14486.8726
+        "value": 16225.0968
       },
       {
         "year": 2024,
-        "value": 14459.2553
+        "value": 16437.5704
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.2831
+      },
+      {
+        "year": 2015,
+        "value": 29.0446
+      },
+      {
+        "year": 2016,
+        "value": 28.398
+      },
+      {
+        "year": 2017,
+        "value": 29.8827
+      },
+      {
+        "year": 2018,
+        "value": 29.1166
+      },
+      {
+        "year": 2019,
+        "value": 28.7648
+      },
+      {
+        "year": 2020,
+        "value": 30.005
+      },
+      {
+        "year": 2021,
+        "value": 28.7032
+      },
+      {
+        "year": 2022,
+        "value": 30.7541
+      },
+      {
+        "year": 2023,
+        "value": 33.9358
+      },
+      {
+        "year": 2024,
+        "value": 30.1968
       }
     ],
     "enrollment_headcount_total": [

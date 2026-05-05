@@ -1,6 +1,6 @@
 {
   "unitid": "139311",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Clayton  State University",
     "institution_unique_name": "Clayton  State University | Morrow | Georgia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 18.9101,
-    "sector_median_tuition_dependence_pct": 21.1862,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 10.2571,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1009147,
@@ -53,7 +55,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.8345,
     "state_funding_pct_core_revenue": 0.9272,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 77.1581,
-    "state_funding_pct_change_5yr": 795.3276,
+    "state_funding_pct_change_5yr": -795.3276,
     "endowment_pct_change_5yr": 52.6611,
     "endowment_spending_current_use_pct_core_revenue": 0.007,
     "graduation_rate_6yr": 41,
@@ -202,6 +204,7 @@
         "value": 3829.7097
       }
     ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,

@@ -1,6 +1,6 @@
 {
   "unitid": "193070",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mesivtha Tifereth Jerusalem of America",
     "institution_unique_name": "Mesivtha Tifereth Jerusalem of America | New York | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.2857,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.4745,
-    "net_tuition_per_fte_change_5yr": 7.3629,
+    "net_tuition_per_fte_change_5yr": 18.9546,
     "staff_total_headcount_pct_change_5yr": -8.3333,
     "staff_instructional_headcount_pct_change_5yr": -10,
     "students_per_instructional_staff_fte": 7.4444,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 33.0353,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.059,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 31.3433,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15965.7728
+        "value": 18462.4412
       },
       {
         "year": 2015,
-        "value": 15336.2367
+        "value": 18208.5085
       },
       {
         "year": 2016,
-        "value": 16863.0694
+        "value": 20463.0358
       },
       {
         "year": 2017,
-        "value": 17028.2381
+        "value": 20260.5122
       },
       {
         "year": 2018,
-        "value": 20447.7454
+        "value": 26317.9918
       },
       {
         "year": 2019,
-        "value": 22870.395
+        "value": 27529.8512
       },
       {
         "year": 2020,
-        "value": 23119.9353
+        "value": 28426.3002
       },
       {
         "year": 2021,
-        "value": 20218.944
+        "value": 27032.963
       },
       {
         "year": 2022,
-        "value": 24644.8619
+        "value": 47334.2213
       },
       {
         "year": 2023,
-        "value": 21816.4796
+        "value": 31842.943
       },
       {
         "year": 2024,
-        "value": 24554.3284
+        "value": 32748.0149
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

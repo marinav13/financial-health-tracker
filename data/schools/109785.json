@@ -1,6 +1,6 @@
 {
   "unitid": "109785",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Azusa Pacific University",
     "institution_unique_name": "Azusa Pacific University | Azusa | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -33.2433,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -41.1462,
-    "net_tuition_per_fte_change_5yr": -16.4589,
+    "net_tuition_per_fte_change_5yr": -16.8131,
     "staff_total_headcount_pct_change_5yr": -32.1601,
     "staff_instructional_headcount_pct_change_5yr": -29.1488,
     "students_per_instructional_staff_fte": 12.4934,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 71.099,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.8755,
+    "unfunded_discount_pct_change_5yr": -1.2191,
     "share_grad_students": 57.273,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5643507,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25024.1021
+        "value": 24739.5715
       },
       {
         "year": 2015,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 24126.3492
+        "value": 24126.3493
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 25808.5269
+        "value": 25918.4138
       },
       {
         "year": 2020,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 21560.7223
+        "value": 21560.7225
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.3328
+      },
+      {
+        "year": 2015,
+        "value": 25.5815
+      },
+      {
+        "year": 2016,
+        "value": 27.1654
+      },
+      {
+        "year": 2017,
+        "value": 28.3895
+      },
+      {
+        "year": 2018,
+        "value": 30.0566
+      },
+      {
+        "year": 2019,
+        "value": 30.2442
+      },
+      {
+        "year": 2020,
+        "value": 29.2377
+      },
+      {
+        "year": 2021,
+        "value": 28.025
+      },
+      {
+        "year": 2022,
+        "value": 29.7797
+      },
+      {
+        "year": 2023,
+        "value": 29.4656
+      },
+      {
+        "year": 2024,
+        "value": 29.8755
       }
     ],
     "enrollment_headcount_total": [

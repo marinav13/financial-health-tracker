@@ -1,6 +1,6 @@
 {
   "unitid": "210775",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Alvernia University",
     "institution_unique_name": "Alvernia University | Reading | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.6241,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.9977,
-    "net_tuition_per_fte_change_5yr": -14.0005,
+    "net_tuition_per_fte_change_5yr": -15.1891,
     "staff_total_headcount_pct_change_5yr": -11.7424,
     "staff_instructional_headcount_pct_change_5yr": -12.1951,
     "students_per_instructional_staff_fte": 14.1707,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 62.6877,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.4727,
+    "unfunded_discount_pct_change_5yr": 28.4774,
     "share_grad_students": 15.9212,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,31 +169,31 @@
       },
       {
         "year": 2016,
-        "value": 23805.0992
+        "value": 24397.3338
       },
       {
         "year": 2017,
-        "value": 23730.2274
+        "value": 24401.6077
       },
       {
         "year": 2018,
-        "value": 22374.7994
+        "value": 23030.1826
       },
       {
         "year": 2019,
-        "value": 23654.5168
+        "value": 23986.0361
       },
       {
         "year": 2020,
-        "value": 23288.9235
+        "value": 23625.4529
       },
       {
         "year": 2021,
-        "value": 22384.7569
+        "value": 22258.9689
       },
       {
         "year": 2022,
-        "value": 19225.8096
+        "value": 18833.1929
       },
       {
         "year": 2023,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 20342.7689
+        "value": 20342.7685
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.368
+      },
+      {
+        "year": 2015,
+        "value": 27.8238
+      },
+      {
+        "year": 2016,
+        "value": 27.6266
+      },
+      {
+        "year": 2017,
+        "value": 28.3298
+      },
+      {
+        "year": 2018,
+        "value": 30.1364
+      },
+      {
+        "year": 2019,
+        "value": 33.0585
+      },
+      {
+        "year": 2020,
+        "value": 35.1706
+      },
+      {
+        "year": 2021,
+        "value": 39.1399
+      },
+      {
+        "year": 2022,
+        "value": 45.6467
+      },
+      {
+        "year": 2023,
+        "value": 41.2657
+      },
+      {
+        "year": 2024,
+        "value": 42.4727
       }
     ],
     "enrollment_headcount_total": [

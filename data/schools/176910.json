@@ -1,6 +1,6 @@
 {
   "unitid": "176910",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Central Christian College of the Bible",
     "institution_unique_name": "Central Christian College of the Bible | Moberly | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.7344,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 63.0972,
-    "net_tuition_per_fte_change_5yr": -2.8512,
+    "net_tuition_per_fte_change_5yr": -6.923,
     "staff_total_headcount_pct_change_5yr": 83.6364,
     "staff_instructional_headcount_pct_change_5yr": 25,
     "students_per_instructional_staff_fte": 8.1,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 10.3098,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 10% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 9.1866,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 9% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.3526,
+    "unfunded_discount_pct_change_5yr": -38.2845,
     "share_grad_students": 15.5172,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 7563.6141
+        "value": 7350.853
       },
       {
         "year": 2019,
-        "value": 7226.8466
+        "value": 6721.2322
       },
       {
         "year": 2020,
-        "value": 6463.3849
+        "value": 6014.2557
       },
       {
         "year": 2021,
-        "value": 6408.6472
+        "value": 5864.3925
       },
       {
         "year": 2022,
-        "value": 6086.4738
+        "value": 5587.6955
       },
       {
         "year": 2023,
-        "value": 6738.9168
+        "value": 6140.2818
       },
       {
         "year": 2024,
-        "value": 7020.7926
+        "value": 6255.9185
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 61.6578
+      },
+      {
+        "year": 2015,
+        "value": 57.0765
+      },
+      {
+        "year": 2016,
+        "value": 48.7965
+      },
+      {
+        "year": 2017,
+        "value": 56.7928
+      },
+      {
+        "year": 2018,
+        "value": 51.5795
+      },
+      {
+        "year": 2019,
+        "value": 54.0426
+      },
+      {
+        "year": 2020,
+        "value": 54.7228
+      },
+      {
+        "year": 2021,
+        "value": 35.3577
+      },
+      {
+        "year": 2022,
+        "value": 31.7924
+      },
+      {
+        "year": 2023,
+        "value": 31.1327
+      },
+      {
+        "year": 2024,
+        "value": 33.3526
       }
     ],
     "enrollment_headcount_total": [

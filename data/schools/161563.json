@@ -1,6 +1,6 @@
 {
   "unitid": "161563",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Thomas College",
     "institution_unique_name": "Thomas College | Waterville | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.851,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.1736,
-    "net_tuition_per_fte_change_5yr": -40.1812,
+    "net_tuition_per_fte_change_5yr": -42.9003,
     "staff_total_headcount_pct_change_5yr": 13.7931,
     "staff_instructional_headcount_pct_change_5yr": 16.6667,
     "students_per_instructional_staff_fte": 18.6581,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 27.9453,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 27.2444,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.963,
+    "unfunded_discount_pct_change_5yr": 26.5253,
     "share_grad_students": 9.3392,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13747.1214
+        "value": 14204.7175
       },
       {
         "year": 2015,
-        "value": 12234.4578
+        "value": 12616.8856
       },
       {
         "year": 2016,
-        "value": 13380.8457
+        "value": 13788.3529
       },
       {
         "year": 2017,
-        "value": 12025.8013
+        "value": 12371.4772
       },
       {
         "year": 2018,
-        "value": 13108.2281
+        "value": 13489.122
       },
       {
         "year": 2019,
-        "value": 13391.5074
+        "value": 13677.3528
       },
       {
         "year": 2020,
-        "value": 10538.5758
+        "value": 10923.5834
       },
       {
         "year": 2021,
-        "value": 11927.4781
+        "value": 12300.703
       },
       {
         "year": 2022,
-        "value": 11939.5009
+        "value": 12268.8441
       },
       {
         "year": 2023,
-        "value": 8792.5473
+        "value": 9050.5156
       },
       {
         "year": 2024,
-        "value": 8010.6338
+        "value": 7809.722
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.56
+      },
+      {
+        "year": 2015,
+        "value": 41.2687
+      },
+      {
+        "year": 2016,
+        "value": 42.9784
+      },
+      {
+        "year": 2017,
+        "value": 41.8848
+      },
+      {
+        "year": 2018,
+        "value": 41.0259
+      },
+      {
+        "year": 2019,
+        "value": 41.8596
+      },
+      {
+        "year": 2020,
+        "value": 44.261
+      },
+      {
+        "year": 2021,
+        "value": 45.4787
+      },
+      {
+        "year": 2022,
+        "value": 44.816
+      },
+      {
+        "year": 2023,
+        "value": 48.3614
+      },
+      {
+        "year": 2024,
+        "value": 52.963
       }
     ],
     "enrollment_headcount_total": [

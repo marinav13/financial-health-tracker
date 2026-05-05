@@ -1,6 +1,6 @@
 {
   "unitid": "164872",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Boston Architectural College",
     "institution_unique_name": "Boston Architectural College | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.4994,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -16.3278,
-    "net_tuition_per_fte_change_5yr": -22.8992,
+    "net_tuition_per_fte_change_5yr": -24.9519,
     "staff_total_headcount_pct_change_5yr": -15.4799,
     "staff_instructional_headcount_pct_change_5yr": -11.3744,
     "students_per_instructional_staff_fte": 7.2183,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 88.3852,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 88% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 86.0322,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 86% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 6.7248,
+    "unfunded_discount_pct_change_5yr": 29.2438,
     "share_grad_students": 55.9642,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36810.7141
+        "value": 36315.6807
       },
       {
         "year": 2015,
-        "value": 38242.9241
+        "value": 37831.3263
       },
       {
         "year": 2016,
-        "value": 39443.2364
+        "value": 38874.308
       },
       {
         "year": 2017,
-        "value": 38566.6291
+        "value": 37985.3939
       },
       {
         "year": 2018,
-        "value": 40088.6814
+        "value": 39425.5079
       },
       {
         "year": 2019,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 35246.1295
+        "value": 35246.979
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 30307.2986
+        "value": 30307.1668
       },
       {
         "year": 2024,
-        "value": 28598.0599
+        "value": 27836.6933
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 6.0495
+      },
+      {
+        "year": 2015,
+        "value": 3.4973
+      },
+      {
+        "year": 2016,
+        "value": 2.0567
+      },
+      {
+        "year": 2017,
+        "value": 2.6558
+      },
+      {
+        "year": 2018,
+        "value": 2.8377
+      },
+      {
+        "year": 2019,
+        "value": 5.2032
+      },
+      {
+        "year": 2020,
+        "value": 5.369
+      },
+      {
+        "year": 2021,
+        "value": 5.796
+      },
+      {
+        "year": 2022,
+        "value": 6.3937
+      },
+      {
+        "year": 2023,
+        "value": 10.1734
+      },
+      {
+        "year": 2024,
+        "value": 6.7248
       }
     ],
     "enrollment_headcount_total": [

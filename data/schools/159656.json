@@ -1,6 +1,6 @@
 {
   "unitid": "159656",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Loyola University New Orleans",
     "institution_unique_name": "Loyola University New Orleans | New Orleans | Louisiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.7735,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 4.4365,
-    "net_tuition_per_fte_change_5yr": 1.3682,
+    "net_tuition_per_fte_change_5yr": 2.4403,
     "staff_total_headcount_pct_change_5yr": 9.8062,
     "staff_instructional_headcount_pct_change_5yr": 0.7371,
     "students_per_instructional_staff_fte": 11.7054,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 58.5757,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.6743,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.3877,
+    "unfunded_discount_pct_change_5yr": 5.4748,
     "share_grad_students": 27.1385,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1177000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30459.6974
+        "value": 30433.2608
       },
       {
         "year": 2015,
-        "value": 28479.2467
+        "value": 27910.7091
       },
       {
         "year": 2016,
-        "value": 25839.8618
+        "value": 24374.7316
       },
       {
         "year": 2017,
-        "value": 24853.8976
+        "value": 22437.2932
       },
       {
         "year": 2018,
-        "value": 22851.3365
+        "value": 23040.5282
       },
       {
         "year": 2019,
-        "value": 21529.2352
+        "value": 21703.496
       },
       {
         "year": 2020,
-        "value": 20949.4508
+        "value": 21204.1073
       },
       {
         "year": 2021,
-        "value": 19935.5874
+        "value": 20226.2498
       },
       {
         "year": 2022,
-        "value": 19264.1396
+        "value": 19503.6347
       },
       {
         "year": 2023,
-        "value": 21147.4465
+        "value": 21429.1088
       },
       {
         "year": 2024,
-        "value": 21823.7986
+        "value": 22233.1236
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.3171
+      },
+      {
+        "year": 2015,
+        "value": 42.339
+      },
+      {
+        "year": 2016,
+        "value": 46.5031
+      },
+      {
+        "year": 2017,
+        "value": 48.4455
+      },
+      {
+        "year": 2018,
+        "value": 49.8755
+      },
+      {
+        "year": 2019,
+        "value": 49.6684
+      },
+      {
+        "year": 2020,
+        "value": 52.028
+      },
+      {
+        "year": 2021,
+        "value": 53.8836
+      },
+      {
+        "year": 2022,
+        "value": 55.0684
+      },
+      {
+        "year": 2023,
+        "value": 53.2715
+      },
+      {
+        "year": 2024,
+        "value": 52.3877
       }
     ],
     "enrollment_headcount_total": [

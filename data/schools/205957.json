@@ -1,6 +1,6 @@
 {
   "unitid": "205957",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franciscan University of Steubenville",
     "institution_unique_name": "Franciscan University of Steubenville | Steubenville | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 26.4444,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 28.9929,
-    "net_tuition_per_fte_change_5yr": -24.3379,
+    "net_tuition_per_fte_change_5yr": -24.1096,
     "staff_total_headcount_pct_change_5yr": 24.375,
     "staff_instructional_headcount_pct_change_5yr": 22.541,
     "students_per_instructional_staff_fte": 18.7542,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 39.6431,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.1537,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3356,
+    "unfunded_discount_pct_change_5yr": 42.708,
     "share_grad_students": 23.4183,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19592.6069
+        "value": 19735.4397
       },
       {
         "year": 2015,
-        "value": 20244.2321
+        "value": 20418.3058
       },
       {
         "year": 2016,
-        "value": 20946.7191
+        "value": 21100.1087
       },
       {
         "year": 2017,
-        "value": 20796.4171
+        "value": 20987.5962
       },
       {
         "year": 2018,
-        "value": 19302.3244
+        "value": 19484.2429
       },
       {
         "year": 2019,
-        "value": 18160.4655
+        "value": 18339.0625
       },
       {
         "year": 2020,
-        "value": 17209.1913
+        "value": 17397.8987
       },
       {
         "year": 2021,
-        "value": 14519.2931
+        "value": 14682.9977
       },
       {
         "year": 2022,
-        "value": 14620.2498
+        "value": 14740.1403
       },
       {
         "year": 2023,
-        "value": 13913.9893
+        "value": 14044.2965
       },
       {
         "year": 2024,
-        "value": 13740.592
+        "value": 13917.5863
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.7552
+      },
+      {
+        "year": 2015,
+        "value": 22.3
+      },
+      {
+        "year": 2016,
+        "value": 24.0477
+      },
+      {
+        "year": 2017,
+        "value": 25.713
+      },
+      {
+        "year": 2018,
+        "value": 27.1248
+      },
+      {
+        "year": 2019,
+        "value": 31.0674
+      },
+      {
+        "year": 2020,
+        "value": 35.2445
+      },
+      {
+        "year": 2021,
+        "value": 42.84
+      },
+      {
+        "year": 2022,
+        "value": 39.3471
+      },
+      {
+        "year": 2023,
+        "value": 43.4696
+      },
+      {
+        "year": 2024,
+        "value": 44.3356
       }
     ],
     "enrollment_headcount_total": [

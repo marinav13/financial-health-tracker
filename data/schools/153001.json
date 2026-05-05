@@ -1,6 +1,6 @@
 {
   "unitid": "153001",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Buena Vista University",
     "institution_unique_name": "Buena Vista University | Storm Lake | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.8274,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -0.2708,
-    "net_tuition_per_fte_change_5yr": -23.0054,
+    "net_tuition_per_fte_change_5yr": -23.914,
     "staff_total_headcount_pct_change_5yr": -31.2217,
     "staff_instructional_headcount_pct_change_5yr": -49.0476,
     "students_per_instructional_staff_fte": 16.2126,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 42.0107,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.0184,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.3169,
+    "unfunded_discount_pct_change_5yr": 29.3269,
     "share_grad_students": 28.9631,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14562.6084
+        "value": 14643.0122
       },
       {
         "year": 2015,
-        "value": 15118.6397
+        "value": 15168.93
       },
       {
         "year": 2016,
-        "value": 15328.2527
+        "value": 15462.8461
       },
       {
         "year": 2017,
-        "value": 15703.9728
+        "value": 15799.4623
       },
       {
         "year": 2018,
-        "value": 15967.1925
+        "value": 16072.9203
       },
       {
         "year": 2019,
-        "value": 15757.2908
+        "value": 15948.3614
       },
       {
         "year": 2020,
-        "value": 15127.1997
+        "value": 15230.531
       },
       {
         "year": 2021,
-        "value": 13860.1272
+        "value": 13900.2344
       },
       {
         "year": 2022,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 12132.2604
+        "value": 12134.4681
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.9802
+      },
+      {
+        "year": 2015,
+        "value": 34.385
+      },
+      {
+        "year": 2016,
+        "value": 35.6027
+      },
+      {
+        "year": 2017,
+        "value": 35.4492
+      },
+      {
+        "year": 2018,
+        "value": 35.756
+      },
+      {
+        "year": 2019,
+        "value": 36.587
+      },
+      {
+        "year": 2020,
+        "value": 40.4571
+      },
+      {
+        "year": 2021,
+        "value": 41.8442
+      },
+      {
+        "year": 2022,
+        "value": 43.5177
+      },
+      {
+        "year": 2023,
+        "value": 46.8838
+      },
+      {
+        "year": 2024,
+        "value": 47.3169
       }
     ],
     "enrollment_headcount_total": [

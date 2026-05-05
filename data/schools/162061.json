@@ -1,6 +1,6 @@
 {
   "unitid": "162061",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Capitol Technology University",
     "institution_unique_name": "Capitol Technology University | Laurel | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 36.0965,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 6.1527,
-    "net_tuition_per_fte_change_5yr": -22.1675,
+    "net_tuition_per_fte_change_5yr": -11.9788,
     "staff_total_headcount_pct_change_5yr": 16.7883,
     "staff_instructional_headcount_pct_change_5yr": 39.5604,
     "students_per_instructional_staff_fte": 14.5548,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 78.2623,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 78% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.1838,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 13.5255,
+    "unfunded_discount_pct_change_5yr": -43.8655,
     "share_grad_students": 74.3254,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29619.1096
+        "value": 25978.0558
       },
       {
         "year": 2015,
-        "value": 25008.8575
+        "value": 21334.091
       },
       {
         "year": 2016,
-        "value": 25817.7808
+        "value": 21617.9019
       },
       {
         "year": 2017,
-        "value": 27132.9044
+        "value": 22099.9442
       },
       {
         "year": 2018,
-        "value": 27728.4796
+        "value": 22327.3558
       },
       {
         "year": 2019,
-        "value": 30996.6123
+        "value": 24229.267
       },
       {
         "year": 2020,
-        "value": 28064.0462
+        "value": 22449.7063
       },
       {
         "year": 2021,
-        "value": 27524.2239
+        "value": 22732.6753
       },
       {
         "year": 2022,
-        "value": 25448.6692
+        "value": 21305.2628
       },
       {
         "year": 2023,
-        "value": 25897.9115
+        "value": 22773.4176
       },
       {
         "year": 2024,
-        "value": 24125.4441
+        "value": 21326.8856
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 16.2861
+      },
+      {
+        "year": 2015,
+        "value": 17.8217
+      },
+      {
+        "year": 2016,
+        "value": 19.5348
+      },
+      {
+        "year": 2017,
+        "value": 21.552
+      },
+      {
+        "year": 2018,
+        "value": 22.5123
+      },
+      {
+        "year": 2019,
+        "value": 24.0949
+      },
+      {
+        "year": 2020,
+        "value": 22.315
+      },
+      {
+        "year": 2021,
+        "value": 19.6254
+      },
+      {
+        "year": 2022,
+        "value": 17.847
+      },
+      {
+        "year": 2023,
+        "value": 13.7965
+      },
+      {
+        "year": 2024,
+        "value": 13.5255
       }
     ],
     "enrollment_headcount_total": [

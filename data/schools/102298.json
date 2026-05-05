@@ -1,6 +1,6 @@
 {
   "unitid": "102298",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Talladega College",
     "institution_unique_name": "Talladega College | Talladega | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.0518,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -10.0254,
-    "net_tuition_per_fte_change_5yr": -36.4107,
+    "net_tuition_per_fte_change_5yr": 25.0811,
     "staff_total_headcount_pct_change_5yr": 2.765,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 16.0185,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 20.4925,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.309,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.9315,
+    "unfunded_discount_pct_change_5yr": -60.5566,
     "share_grad_students": 10.4024,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 498200,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 5108.5624
+        "value": 2620.3816
       },
       {
         "year": 2023,
-        "value": 13391.5535
+        "value": 12063.6478
       },
       {
         "year": 2024,
-        "value": 6107.1838
+        "value": 12012.9249
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.0672
+      },
+      {
+        "year": 2015,
+        "value": 30.127
+      },
+      {
+        "year": 2016,
+        "value": 34.4197
+      },
+      {
+        "year": 2017,
+        "value": 28.2831
+      },
+      {
+        "year": 2018,
+        "value": 27.0542
+      },
+      {
+        "year": 2019,
+        "value": 37.8556
+      },
+      {
+        "year": 2020,
+        "value": 24.9266
+      },
+      {
+        "year": 2021,
+        "value": 28.9945
+      },
+      {
+        "year": 2022,
+        "value": 51.8644
+      },
+      {
+        "year": 2023,
+        "value": 23.0236
+      },
+      {
+        "year": 2024,
+        "value": 14.9315
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "142294",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The College of Idaho",
     "institution_unique_name": "The College of Idaho | Caldwell | Idaho",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 21.4823,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 59.503,
+    "unfunded_discount_pct_change_5yr": 10.1507,
     "share_grad_students": 3.853,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15309.7489
+        "value": 10909.295
       },
       {
         "year": 2015,
-        "value": 14967.2202
+        "value": 14410.7826
       },
       {
         "year": 2016,
-        "value": 17347.4206
+        "value": 17379.9907
       },
       {
         "year": 2017,
-        "value": 15282.2208
+        "value": 14379.0294
       },
       {
         "year": 2018,
-        "value": 14694.8435
+        "value": 13762.4057
       },
       {
         "year": 2019,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 8833.2275
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 65.0554
+      },
+      {
+        "year": 2015,
+        "value": 52.5252
+      },
+      {
+        "year": 2016,
+        "value": 46.0602
+      },
+      {
+        "year": 2017,
+        "value": 50.4898
+      },
+      {
+        "year": 2018,
+        "value": 54.9363
+      },
+      {
+        "year": 2019,
+        "value": 54.0196
+      },
+      {
+        "year": 2020,
+        "value": 59.0508
+      },
+      {
+        "year": 2021,
+        "value": 56.9205
+      },
+      {
+        "year": 2022,
+        "value": 57.8185
+      },
+      {
+        "year": 2023,
+        "value": 58.9044
+      },
+      {
+        "year": 2024,
+        "value": 59.503
       }
     ],
     "enrollment_headcount_total": [

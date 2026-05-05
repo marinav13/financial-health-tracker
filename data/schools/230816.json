@@ -1,6 +1,6 @@
 {
   "unitid": "230816",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bennington College",
     "institution_unique_name": "Bennington College | Bennington | Vermont",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.4334,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -10.3032,
-    "net_tuition_per_fte_change_5yr": -25.097,
+    "net_tuition_per_fte_change_5yr": -24.3972,
     "staff_total_headcount_pct_change_5yr": 7.3239,
     "staff_instructional_headcount_pct_change_5yr": 22.314,
     "students_per_instructional_staff_fte": 9.9889,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 45.2254,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 58.0848,
+    "unfunded_discount_pct_change_5yr": 22.6235,
     "share_grad_students": 11.877,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38064.7662
+        "value": 38440.4605
       },
       {
         "year": 2015,
-        "value": 35319.2409
+        "value": 35674.5898
       },
       {
         "year": 2016,
-        "value": 36480.8474
+        "value": 36803.6577
       },
       {
         "year": 2017,
-        "value": 37422.4299
+        "value": 37738.1453
       },
       {
         "year": 2018,
-        "value": 34734.3346
+        "value": 35036.7624
       },
       {
         "year": 2019,
-        "value": 36294.0181
+        "value": 35958.0712
       },
       {
         "year": 2020,
-        "value": 33044.3378
+        "value": 32335.4464
       },
       {
         "year": 2021,
-        "value": 30204.8386
+        "value": 30290.186
       },
       {
         "year": 2022,
-        "value": 27590.0489
+        "value": 27808.8022
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 27185.3237
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.1279
+      },
+      {
+        "year": 2015,
+        "value": 44.2837
+      },
+      {
+        "year": 2016,
+        "value": 43.6415
+      },
+      {
+        "year": 2017,
+        "value": 43.5705
+      },
+      {
+        "year": 2018,
+        "value": 47.918
+      },
+      {
+        "year": 2019,
+        "value": 47.3684
+      },
+      {
+        "year": 2020,
+        "value": 49.6213
+      },
+      {
+        "year": 2021,
+        "value": 51.1126
+      },
+      {
+        "year": 2022,
+        "value": 56.0977
+      },
+      {
+        "year": 2023,
+        "value": 56.8582
+      },
+      {
+        "year": 2024,
+        "value": 58.0848
       }
     ],
     "enrollment_headcount_total": [

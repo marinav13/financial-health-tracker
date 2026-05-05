@@ -1,6 +1,6 @@
 {
   "unitid": "112075",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University-Irvine",
     "institution_unique_name": "Concordia University-Irvine | Irvine | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 61.9308,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.7979,
+    "unfunded_discount_pct_change_5yr": 20.2193,
     "share_grad_students": 62.6705,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 18108.8762
+        "value": 17832.1457
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 16985.4421
+        "value": 17137.6329
       },
       {
         "year": 2024,
         "value": 16613.3711
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.7617
+      },
+      {
+        "year": 2015,
+        "value": 23.2145
+      },
+      {
+        "year": 2016,
+        "value": 23.1468
+      },
+      {
+        "year": 2017,
+        "value": 26.5774
+      },
+      {
+        "year": 2018,
+        "value": 26.6448
+      },
+      {
+        "year": 2019,
+        "value": 28.1135
+      },
+      {
+        "year": 2020,
+        "value": 28.7263
+      },
+      {
+        "year": 2021,
+        "value": 30.5884
+      },
+      {
+        "year": 2022,
+        "value": 30.9778
+      },
+      {
+        "year": 2023,
+        "value": 32.5289
+      },
+      {
+        "year": 2024,
+        "value": 33.7979
       }
     ],
     "enrollment_headcount_total": [

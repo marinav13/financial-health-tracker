@@ -1,6 +1,6 @@
 {
   "unitid": "219709",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Belmont University",
     "institution_unique_name": "Belmont University | Nashville | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.8782,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 14.4048,
-    "net_tuition_per_fte_change_5yr": -21.0121,
+    "net_tuition_per_fte_change_5yr": -21.2125,
     "staff_total_headcount_pct_change_5yr": 15.5718,
     "staff_instructional_headcount_pct_change_5yr": 7.1186,
     "students_per_instructional_staff_fte": 11.11,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 55.4518,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.9352,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.8612,
+    "unfunded_discount_pct_change_5yr": 57.7737,
     "share_grad_students": 18.6392,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34453.9032
+        "value": 34608.5023
       },
       {
         "year": 2015,
-        "value": 34941.4595
+        "value": 35120.1233
       },
       {
         "year": 2016,
-        "value": 35378.5761
+        "value": 35544.4621
       },
       {
         "year": 2017,
-        "value": 35426.5563
+        "value": 35684.7895
       },
       {
         "year": 2018,
-        "value": 35411.9558
+        "value": 35633.0149
       },
       {
         "year": 2019,
-        "value": 36485.7726
+        "value": 36237.8555
       },
       {
         "year": 2020,
-        "value": 36010.6597
+        "value": 35717.1566
       },
       {
         "year": 2021,
-        "value": 33849.5299
+        "value": 33584.0601
       },
       {
         "year": 2022,
-        "value": 30398.2485
+        "value": 30121.2582
       },
       {
         "year": 2023,
-        "value": 29862.1645
+        "value": 29488.9863
       },
       {
         "year": 2024,
-        "value": 28819.346
+        "value": 28550.8857
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.5097
+      },
+      {
+        "year": 2015,
+        "value": 17.0744
+      },
+      {
+        "year": 2016,
+        "value": 18.317
+      },
+      {
+        "year": 2017,
+        "value": 20.1739
+      },
+      {
+        "year": 2018,
+        "value": 21.3013
+      },
+      {
+        "year": 2019,
+        "value": 22.7295
+      },
+      {
+        "year": 2020,
+        "value": 25.6865
+      },
+      {
+        "year": 2021,
+        "value": 28.4448
+      },
+      {
+        "year": 2022,
+        "value": 32.6719
+      },
+      {
+        "year": 2023,
+        "value": 34.0205
+      },
+      {
+        "year": 2024,
+        "value": 35.8612
       }
     ],
     "enrollment_headcount_total": [

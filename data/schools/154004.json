@@ -1,6 +1,6 @@
 {
   "unitid": "154004",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Morningside University",
     "institution_unique_name": "Morningside University | Sioux City | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.3071,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.4038,
-    "net_tuition_per_fte_change_5yr": 0.6109,
+    "net_tuition_per_fte_change_5yr": 0.8305,
     "staff_total_headcount_pct_change_5yr": -1.8433,
     "staff_instructional_headcount_pct_change_5yr": -5.1948,
     "students_per_instructional_staff_fte": 13.8301,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 46.6756,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.2167,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.7735,
+    "unfunded_discount_pct_change_5yr": 4.9261,
     "share_grad_students": 55.1802,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13504.5655
+        "value": 13037.6799
       },
       {
         "year": 2015,
-        "value": 13391.4564
+        "value": 12836.0513
       },
       {
         "year": 2016,
-        "value": 13212.2102
+        "value": 12543.0898
       },
       {
         "year": 2017,
-        "value": 13309.5731
+        "value": 12561.8894
       },
       {
         "year": 2018,
-        "value": 13439.9516
+        "value": 12608.6116
       },
       {
         "year": 2019,
-        "value": 13742.033
+        "value": 12989.7424
       },
       {
         "year": 2020,
-        "value": 14120.1537
+        "value": 13182.7487
       },
       {
         "year": 2021,
-        "value": 13468.0396
+        "value": 13279.033
       },
       {
         "year": 2022,
-        "value": 12782.6042
+        "value": 12965.0009
       },
       {
         "year": 2023,
-        "value": 13241.6835
+        "value": 12482.5946
       },
       {
         "year": 2024,
-        "value": 13825.9843
+        "value": 13097.6266
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.8862
+      },
+      {
+        "year": 2015,
+        "value": 41.103
+      },
+      {
+        "year": 2016,
+        "value": 43.9054
+      },
+      {
+        "year": 2017,
+        "value": 44.8847
+      },
+      {
+        "year": 2018,
+        "value": 46.3535
+      },
+      {
+        "year": 2019,
+        "value": 47.4367
+      },
+      {
+        "year": 2020,
+        "value": 49.1011
+      },
+      {
+        "year": 2021,
+        "value": 48.7248
+      },
+      {
+        "year": 2022,
+        "value": 49.4127
+      },
+      {
+        "year": 2023,
+        "value": 49.0267
+      },
+      {
+        "year": 2024,
+        "value": 49.7735
       }
     ],
     "enrollment_headcount_total": [

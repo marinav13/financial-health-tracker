@@ -1,6 +1,6 @@
 {
   "unitid": "210669",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Allegheny College",
     "institution_unique_name": "Allegheny College | Meadville | Pennsylvania",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 16.7405,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.211,
+    "unfunded_discount_pct_change_5yr": -0.8488,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1116712,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 15554.7959
+        "value": 15569.3471
       },
       {
         "year": 2024,
         "value": 14905.5016
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.9562
+      },
+      {
+        "year": 2015,
+        "value": 47.9665
+      },
+      {
+        "year": 2016,
+        "value": 50.516
+      },
+      {
+        "year": 2017,
+        "value": 53.6107
+      },
+      {
+        "year": 2018,
+        "value": 57.6754
+      },
+      {
+        "year": 2019,
+        "value": 60.7265
+      },
+      {
+        "year": 2020,
+        "value": 62.3875
+      },
+      {
+        "year": 2021,
+        "value": 57.8384
+      },
+      {
+        "year": 2022,
+        "value": 61.6125
+      },
+      {
+        "year": 2023,
+        "value": 57.5435
+      },
+      {
+        "year": 2024,
+        "value": 60.211
       }
     ],
     "enrollment_headcount_total": [

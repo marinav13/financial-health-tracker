@@ -1,6 +1,6 @@
 {
   "unitid": "197984",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Belmont Abbey College",
     "institution_unique_name": "Belmont Abbey College | Belmont | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 24.0678,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.8777,
+    "unfunded_discount_pct_change_5yr": 13.6789,
     "share_grad_students": 6.2883,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13637.6873
+        "value": 13805.0851
       },
       {
         "year": 2015,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 10715.5911
+        "value": 10715.406
       },
       {
         "year": 2024,
         "value": 10715.6086
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.8807
+      },
+      {
+        "year": 2015,
+        "value": 24.1129
+      },
+      {
+        "year": 2016,
+        "value": 25.7257
+      },
+      {
+        "year": 2017,
+        "value": 26.5538
+      },
+      {
+        "year": 2018,
+        "value": 27.6086
+      },
+      {
+        "year": 2019,
+        "value": 33.3199
+      },
+      {
+        "year": 2020,
+        "value": 33.0726
+      },
+      {
+        "year": 2021,
+        "value": 34.1739
+      },
+      {
+        "year": 2022,
+        "value": 35.0448
+      },
+      {
+        "year": 2023,
+        "value": 34.7514
+      },
+      {
+        "year": 2024,
+        "value": 37.8777
       }
     ],
     "enrollment_headcount_total": [

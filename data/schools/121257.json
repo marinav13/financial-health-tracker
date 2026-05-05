@@ -1,6 +1,6 @@
 {
   "unitid": "121257",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pitzer College",
     "institution_unique_name": "Pitzer College | Claremont | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.4986,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 10.0987,
-    "net_tuition_per_fte_change_5yr": -3.3502,
+    "net_tuition_per_fte_change_5yr": -3.6515,
     "staff_total_headcount_pct_change_5yr": 23.0539,
     "staff_instructional_headcount_pct_change_5yr": 11.0169,
     "students_per_instructional_staff_fte": 10.6804,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 70.1759,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 70.3466,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.5868,
+    "unfunded_discount_pct_change_5yr": -5.981,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 452591,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 60466.7887
+        "value": 60676.6953
       },
       {
         "year": 2016,
-        "value": 60244.9432
+        "value": 60515.5088
       },
       {
         "year": 2017,
-        "value": 58802.0598
+        "value": 59143.1025
       },
       {
         "year": 2018,
-        "value": 59447.4853
+        "value": 59751.8099
       },
       {
         "year": 2019,
-        "value": 60738.7257
+        "value": 61076.8687
       },
       {
         "year": 2020,
-        "value": 59712.006
+        "value": 60074.3637
       },
       {
         "year": 2021,
-        "value": 46436.4479
+        "value": 46876.6841
       },
       {
         "year": 2022,
-        "value": 60413.1627
+        "value": 60567.3621
       },
       {
         "year": 2023,
-        "value": 59321.9675
+        "value": 59466.7071
       },
       {
         "year": 2024,
-        "value": 58703.8666
+        "value": 58846.6598
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.3284
+      },
+      {
+        "year": 2015,
+        "value": 17.5144
+      },
+      {
+        "year": 2016,
+        "value": 19.352
+      },
+      {
+        "year": 2017,
+        "value": 21.5624
+      },
+      {
+        "year": 2018,
+        "value": 22.7257
+      },
+      {
+        "year": 2019,
+        "value": 21.8965
+      },
+      {
+        "year": 2020,
+        "value": 20.3015
+      },
+      {
+        "year": 2021,
+        "value": 22.0398
+      },
+      {
+        "year": 2022,
+        "value": 18.1936
+      },
+      {
+        "year": 2023,
+        "value": 19.4209
+      },
+      {
+        "year": 2024,
+        "value": 20.5868
       }
     ],
     "enrollment_headcount_total": [

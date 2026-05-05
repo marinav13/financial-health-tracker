@@ -1,6 +1,6 @@
 {
   "unitid": "238661",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Edgewood College",
     "institution_unique_name": "Edgewood College | Madison | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.6827,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.9825,
-    "net_tuition_per_fte_change_5yr": -35.0717,
+    "net_tuition_per_fte_change_5yr": -35.3303,
     "staff_total_headcount_pct_change_5yr": -8.9695,
     "staff_instructional_headcount_pct_change_5yr": -7.8125,
     "students_per_instructional_staff_fte": 14.0939,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 59.7401,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.8631,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.9337,
+    "unfunded_discount_pct_change_5yr": 40.4974,
     "share_grad_students": 47.7541,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21690.6343
+        "value": 21868.1333
       },
       {
         "year": 2015,
-        "value": 22498.3075
+        "value": 22739.1686
       },
       {
         "year": 2016,
-        "value": 22860.7649
+        "value": 23037.5263
       },
       {
         "year": 2017,
-        "value": 24138.5332
+        "value": 24286.1075
       },
       {
         "year": 2018,
-        "value": 24137.3366
+        "value": 24275.0353
       },
       {
         "year": 2019,
-        "value": 24525.3519
+        "value": 24674.12
       },
       {
         "year": 2020,
-        "value": 23229.8497
+        "value": 23064.6572
       },
       {
         "year": 2021,
-        "value": 22445.0886
+        "value": 22588.9826
       },
       {
         "year": 2022,
-        "value": 20562.6485
+        "value": 20612.2688
       },
       {
         "year": 2023,
-        "value": 19630.7547
+        "value": 19651.3536
       },
       {
         "year": 2024,
-        "value": 15923.8844
+        "value": 15956.6829
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8422
+      },
+      {
+        "year": 2015,
+        "value": 22.2624
+      },
+      {
+        "year": 2016,
+        "value": 22.4689
+      },
+      {
+        "year": 2017,
+        "value": 22.785
+      },
+      {
+        "year": 2018,
+        "value": 23.4591
+      },
+      {
+        "year": 2019,
+        "value": 24.1525
+      },
+      {
+        "year": 2020,
+        "value": 28.0123
+      },
+      {
+        "year": 2021,
+        "value": 29.8441
+      },
+      {
+        "year": 2022,
+        "value": 31.4431
+      },
+      {
+        "year": 2023,
+        "value": 33.8552
+      },
+      {
+        "year": 2024,
+        "value": 33.9337
       }
     ],
     "enrollment_headcount_total": [

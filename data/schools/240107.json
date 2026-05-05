@@ -1,6 +1,6 @@
 {
   "unitid": "240107",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Viterbo University",
     "institution_unique_name": "Viterbo University | La Crosse | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.6187,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -14.6896,
-    "net_tuition_per_fte_change_5yr": -17.0304,
+    "net_tuition_per_fte_change_5yr": -21.0915,
     "staff_total_headcount_pct_change_5yr": -13.6538,
     "staff_instructional_headcount_pct_change_5yr": -23.8255,
     "students_per_instructional_staff_fte": 12.9176,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 59.8258,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.2745,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.3678,
+    "unfunded_discount_pct_change_5yr": 9.7772,
     "share_grad_students": 42.5926,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13952.4999
+        "value": 13611.1423
       },
       {
         "year": 2015,
-        "value": 16537.0043
+        "value": 16129.9414
       },
       {
         "year": 2016,
-        "value": 16997.438
+        "value": 16523.613
       },
       {
         "year": 2017,
-        "value": 17680.4572
+        "value": 17274.2102
       },
       {
         "year": 2018,
-        "value": 18256.4261
+        "value": 17840.184
       },
       {
         "year": 2019,
-        "value": 19859.0377
+        "value": 19292.5528
       },
       {
         "year": 2020,
-        "value": 20027.131
+        "value": 19320.907
       },
       {
         "year": 2021,
-        "value": 19437.8671
+        "value": 18129.0402
       },
       {
         "year": 2022,
-        "value": 17777.5317
+        "value": 16614.7778
       },
       {
         "year": 2023,
-        "value": 17216.6261
+        "value": 16051.7663
       },
       {
         "year": 2024,
-        "value": 16476.9732
+        "value": 15223.459
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.993
+      },
+      {
+        "year": 2015,
+        "value": 31.7336
+      },
+      {
+        "year": 2016,
+        "value": 31.3677
+      },
+      {
+        "year": 2017,
+        "value": 31.5653
+      },
+      {
+        "year": 2018,
+        "value": 31.9158
+      },
+      {
+        "year": 2019,
+        "value": 33.1287
+      },
+      {
+        "year": 2020,
+        "value": 33.9445
+      },
+      {
+        "year": 2021,
+        "value": 32.9512
+      },
+      {
+        "year": 2022,
+        "value": 32.7549
+      },
+      {
+        "year": 2023,
+        "value": 33.7665
+      },
+      {
+        "year": 2024,
+        "value": 36.3678
       }
     ],
     "enrollment_headcount_total": [

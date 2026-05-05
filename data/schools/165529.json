@@ -1,6 +1,6 @@
 {
   "unitid": "165529",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Curry College",
     "institution_unique_name": "Curry College | Milton | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.2818,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.8029,
-    "net_tuition_per_fte_change_5yr": -16.1797,
+    "net_tuition_per_fte_change_5yr": -16.3092,
     "staff_total_headcount_pct_change_5yr": -16.063,
     "staff_instructional_headcount_pct_change_5yr": -21.194,
     "students_per_instructional_staff_fte": 12.7367,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 46.5747,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.3849,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.9602,
+    "unfunded_discount_pct_change_5yr": 15.5687,
     "share_grad_students": 12.8017,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27451.8572
+        "value": 27411.9356
       },
       {
         "year": 2015,
-        "value": 26904.8348
+        "value": 26854.1304
       },
       {
         "year": 2016,
-        "value": 26445.3421
+        "value": 26402.0767
       },
       {
         "year": 2017,
-        "value": 25108.9844
+        "value": 25051.3646
       },
       {
         "year": 2018,
-        "value": 24252.8272
+        "value": 24176.3308
       },
       {
         "year": 2019,
-        "value": 22933.6105
+        "value": 22875.4619
       },
       {
         "year": 2020,
-        "value": 23279.9445
+        "value": 23238.9259
       },
       {
         "year": 2021,
-        "value": 21945.7537
+        "value": 21900.1359
       },
       {
         "year": 2022,
-        "value": 20446.2155
+        "value": 20390.4225
       },
       {
         "year": 2023,
-        "value": 20062.6361
+        "value": 19993.4995
       },
       {
         "year": 2024,
-        "value": 19223.0323
+        "value": 19144.6634
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.8434
+      },
+      {
+        "year": 2015,
+        "value": 34.5704
+      },
+      {
+        "year": 2016,
+        "value": 37.3723
+      },
+      {
+        "year": 2017,
+        "value": 40.7559
+      },
+      {
+        "year": 2018,
+        "value": 43.1923
+      },
+      {
+        "year": 2019,
+        "value": 45.8257
+      },
+      {
+        "year": 2020,
+        "value": 46.937
+      },
+      {
+        "year": 2021,
+        "value": 47.8903
+      },
+      {
+        "year": 2022,
+        "value": 49.7448
+      },
+      {
+        "year": 2023,
+        "value": 50.6855
+      },
+      {
+        "year": 2024,
+        "value": 52.9602
       }
     ],
     "enrollment_headcount_total": [

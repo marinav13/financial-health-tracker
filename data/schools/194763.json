@@ -1,6 +1,6 @@
 {
   "unitid": "194763",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rabbinical Seminary of America",
     "institution_unique_name": "Rabbinical Seminary of America | Flushing | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 25.5144,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 59.4073,
-    "net_tuition_per_fte_change_5yr": -46.654,
+    "net_tuition_per_fte_change_5yr": 57.1373,
     "staff_total_headcount_pct_change_5yr": 19.3277,
     "staff_instructional_headcount_pct_change_5yr": 28.5714,
     "students_per_instructional_staff_fte": 40.5,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 17.859,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -12.2972,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -12% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 121.247,
+    "unfunded_discount_pct_change_5yr": 11.6455,
     "share_grad_students": 37.2131,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 5777.2475
+        "value": 1263.7503
       },
       {
         "year": 2015,
-        "value": 4926.4894
+        "value": 237.947
       },
       {
         "year": 2016,
-        "value": 4686.1511
+        "value": 2943.8322
       },
       {
         "year": 2017,
-        "value": 4026.7974
+        "value": 2116.6555
       },
       {
         "year": 2018,
-        "value": 4210.8066
+        "value": 2237.3157
       },
       {
         "year": 2019,
-        "value": 5902.5157
+        "value": -1379.7859
       },
       {
         "year": 2020,
-        "value": 5420.4917
+        "value": 2541.7385
       },
       {
         "year": 2021,
-        "value": 6331.7181
+        "value": 1665.0796
       },
       {
         "year": 2022,
-        "value": 4610.0603
+        "value": -2705.7745
       },
       {
         "year": 2023,
-        "value": 3660.2359
+        "value": -1659.7718
       },
       {
         "year": 2024,
-        "value": 3148.7578
+        "value": -2168.1581
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 88.5684
+      },
+      {
+        "year": 2015,
+        "value": 98.0703
+      },
+      {
+        "year": 2016,
+        "value": 74.7938
+      },
+      {
+        "year": 2017,
+        "value": 84.7958
+      },
+      {
+        "year": 2018,
+        "value": 80.0576
+      },
+      {
+        "year": 2019,
+        "value": 108.5999
+      },
+      {
+        "year": 2020,
+        "value": 78.1328
+      },
+      {
+        "year": 2021,
+        "value": 85.5326
+      },
+      {
+        "year": 2022,
+        "value": 123.6221
+      },
+      {
+        "year": 2023,
+        "value": 116.4583
+      },
+      {
+        "year": 2024,
+        "value": 121.247
       }
     ],
     "enrollment_headcount_total": [

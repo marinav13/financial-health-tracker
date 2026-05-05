@@ -1,6 +1,6 @@
 {
   "unitid": "174862",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Crown College",
     "institution_unique_name": "Crown College | Saint Bonifacius | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.4091,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.058,
-    "net_tuition_per_fte_change_5yr": -16.6057,
+    "net_tuition_per_fte_change_5yr": -17.8726,
     "staff_total_headcount_pct_change_5yr": 54.1237,
     "staff_instructional_headcount_pct_change_5yr": 40.9449,
     "students_per_instructional_staff_fte": 15.0249,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 60.1921,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.1474,
+    "unfunded_discount_pct_change_5yr": 24.2869,
     "share_grad_students": 22.5451,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15581.895
+        "value": 15823.8024
       },
       {
         "year": 2015,
-        "value": 15782.976
+        "value": 16069.8168
       },
       {
         "year": 2016,
-        "value": 16296.4002
+        "value": 16546.3368
       },
       {
         "year": 2017,
-        "value": 15562.2301
+        "value": 15842.9742
       },
       {
         "year": 2018,
-        "value": 15296.7841
+        "value": 15513.7447
       },
       {
         "year": 2019,
-        "value": 14822.5995
+        "value": 15051.252
       },
       {
         "year": 2020,
-        "value": 14064.8846
+        "value": 14269.6583
       },
       {
         "year": 2021,
-        "value": 14064.8831
+        "value": 14248.3762
       },
       {
         "year": 2022,
-        "value": 12850.2273
+        "value": 13019.5479
       },
       {
         "year": 2023,
-        "value": 12221.6099
+        "value": 12436.5411
       },
       {
         "year": 2024,
         "value": 12361.2088
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.8664
+      },
+      {
+        "year": 2015,
+        "value": 29.5053
+      },
+      {
+        "year": 2016,
+        "value": 29.8274
+      },
+      {
+        "year": 2017,
+        "value": 30.213
+      },
+      {
+        "year": 2018,
+        "value": 29.0854
+      },
+      {
+        "year": 2019,
+        "value": 29.0838
+      },
+      {
+        "year": 2020,
+        "value": 30.0422
+      },
+      {
+        "year": 2021,
+        "value": 31.0347
+      },
+      {
+        "year": 2022,
+        "value": 33.0065
+      },
+      {
+        "year": 2023,
+        "value": 35.1957
+      },
+      {
+        "year": 2024,
+        "value": 36.1474
       }
     ],
     "enrollment_headcount_total": [

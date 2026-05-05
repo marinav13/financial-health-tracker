@@ -1,6 +1,6 @@
 {
   "unitid": "221661",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern Adventist University",
     "institution_unique_name": "Southern Adventist University | Collegedale | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 40.2967,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.2599,
-    "net_tuition_per_fte_change_5yr": -11.4021,
+    "net_tuition_per_fte_change_5yr": -11.5149,
     "staff_total_headcount_pct_change_5yr": -1.1561,
     "staff_instructional_headcount_pct_change_5yr": -0.6944,
     "students_per_instructional_staff_fte": 19.6932,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 42.774,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.9707,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.7111,
+    "unfunded_discount_pct_change_5yr": 12.0108,
     "share_grad_students": 10,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 169121,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20253.2465
+        "value": 20353.2636
       },
       {
         "year": 2015,
-        "value": 19854.7329
+        "value": 19965.8329
       },
       {
         "year": 2016,
-        "value": 19610.5285
+        "value": 19704.5234
       },
       {
         "year": 2017,
-        "value": 18975.4612
+        "value": 19072.7982
       },
       {
         "year": 2018,
-        "value": 18527.2948
+        "value": 18633.6665
       },
       {
         "year": 2019,
-        "value": 18294.7502
+        "value": 18402.3099
       },
       {
         "year": 2020,
-        "value": 17945.5397
+        "value": 18044.7634
       },
       {
         "year": 2021,
-        "value": 17473.9212
+        "value": 17588.3899
       },
       {
         "year": 2022,
-        "value": 15320.3367
+        "value": 15403.3429
       },
       {
         "year": 2023,
-        "value": 14992.5425
+        "value": 15077.0049
       },
       {
         "year": 2024,
-        "value": 16208.7674
+        "value": 16283.294
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.08
+      },
+      {
+        "year": 2015,
+        "value": 22.116
+      },
+      {
+        "year": 2016,
+        "value": 23.6482
+      },
+      {
+        "year": 2017,
+        "value": 25.2136
+      },
+      {
+        "year": 2018,
+        "value": 26.6197
+      },
+      {
+        "year": 2019,
+        "value": 27.4179
+      },
+      {
+        "year": 2020,
+        "value": 27.7378
+      },
+      {
+        "year": 2021,
+        "value": 28.8367
+      },
+      {
+        "year": 2022,
+        "value": 31.6493
+      },
+      {
+        "year": 2023,
+        "value": 32.6964
+      },
+      {
+        "year": 2024,
+        "value": 30.7111
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "132842",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Albizu University-Miami",
     "institution_unique_name": "Albizu University-Miami | Miami | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.7561,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -21.8593,
-    "net_tuition_per_fte_change_5yr": -13.3338,
+    "net_tuition_per_fte_change_5yr": -14.9524,
     "staff_total_headcount_pct_change_5yr": -20.3704,
     "staff_instructional_headcount_pct_change_5yr": -9.8039,
     "students_per_instructional_staff_fte": 16.575,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 93.9607,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 94% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 92.2059,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 62.5778,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 7657,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19972.222
+        "value": 20610.7784
       },
       {
         "year": 2015,
-        "value": 20886.1992
+        "value": 21574.217
       },
       {
         "year": 2016,
-        "value": 21094.7041
+        "value": 22244.9332
       },
       {
         "year": 2017,
-        "value": 20647.5082
+        "value": 21557.4128
       },
       {
         "year": 2018,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 14521.8518
+        "value": 14250.6403
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0.2607
+      },
+      {
+        "year": 2015,
+        "value": 0.2817
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

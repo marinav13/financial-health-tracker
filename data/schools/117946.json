@@ -1,6 +1,6 @@
 {
   "unitid": "117946",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Loyola Marymount University",
     "institution_unique_name": "Loyola Marymount University | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.9447,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 18.213,
-    "net_tuition_per_fte_change_5yr": -3.4132,
+    "net_tuition_per_fte_change_5yr": -3.3456,
     "staff_total_headcount_pct_change_5yr": 3.3281,
     "staff_instructional_headcount_pct_change_5yr": 0.5063,
     "students_per_instructional_staff_fte": 10.8372,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 65.0051,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 65.2022,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.2467,
+    "unfunded_discount_pct_change_5yr": 6.6021,
     "share_grad_students": 31.304,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 11735000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 42845.7642
+        "value": 42949.2498
       },
       {
         "year": 2015,
-        "value": 43427.7562
+        "value": 43530.9521
       },
       {
         "year": 2016,
-        "value": 42267.9413
+        "value": 42369.9502
       },
       {
         "year": 2017,
-        "value": 42569.8026
+        "value": 42665.8309
       },
       {
         "year": 2018,
-        "value": 43205.718
+        "value": 43299.8544
       },
       {
         "year": 2019,
-        "value": 44329.5318
+        "value": 44432.9095
       },
       {
         "year": 2020,
-        "value": 45020.2581
+        "value": 45159.8565
       },
       {
         "year": 2021,
-        "value": 43218.5553
+        "value": 43410.84
       },
       {
         "year": 2022,
-        "value": 42010.8797
+        "value": 42090.741
       },
       {
         "year": 2023,
-        "value": 41930.1337
+        "value": 42248.9012
       },
       {
         "year": 2024,
-        "value": 42816.4794
+        "value": 42946.3538
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.4471
+      },
+      {
+        "year": 2015,
+        "value": 24.0166
+      },
+      {
+        "year": 2016,
+        "value": 24.5961
+      },
+      {
+        "year": 2017,
+        "value": 25.066
+      },
+      {
+        "year": 2018,
+        "value": 25.1321
+      },
+      {
+        "year": 2019,
+        "value": 25.5592
+      },
+      {
+        "year": 2020,
+        "value": 26.1658
+      },
+      {
+        "year": 2021,
+        "value": 28.3766
+      },
+      {
+        "year": 2022,
+        "value": 27.0197
+      },
+      {
+        "year": 2023,
+        "value": 26.983
+      },
+      {
+        "year": 2024,
+        "value": 27.2467
       }
     ],
     "enrollment_headcount_total": [

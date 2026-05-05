@@ -1,6 +1,6 @@
 {
   "unitid": "216807",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Westminster College",
     "institution_unique_name": "Westminster College | New Wilmington | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.7584,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -0.5117,
-    "net_tuition_per_fte_change_5yr": -22.186,
+    "net_tuition_per_fte_change_5yr": -22.0598,
     "staff_total_headcount_pct_change_5yr": 0.9063,
     "staff_instructional_headcount_pct_change_5yr": -6.9767,
     "students_per_instructional_staff_fte": 14.5763,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 25.8861,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 26.3392,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 58.2594,
+    "unfunded_discount_pct_change_5yr": 6.6788,
     "share_grad_students": 5.2267,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16038.0855
+        "value": 15382.0105
       },
       {
         "year": 2015,
-        "value": 15509.6275
+        "value": 15685.5232
       },
       {
         "year": 2016,
-        "value": 15533.3379
+        "value": 15749.7958
       },
       {
         "year": 2017,
-        "value": 15656.0582
+        "value": 15831.0786
       },
       {
         "year": 2018,
-        "value": 14926.4371
+        "value": 15109.6519
       },
       {
         "year": 2019,
-        "value": 13523.516
+        "value": 13737.9399
       },
       {
         "year": 2020,
-        "value": 13433.709
+        "value": 13604.5515
       },
       {
         "year": 2021,
-        "value": 12397.41
+        "value": 12579.091
       },
       {
         "year": 2022,
-        "value": 11356.8687
+        "value": 11539.7496
       },
       {
         "year": 2023,
-        "value": 10826.2221
+        "value": 11033.3894
       },
       {
         "year": 2024,
-        "value": 10523.1854
+        "value": 10707.3763
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.9107
+      },
+      {
+        "year": 2015,
+        "value": 46.3746
+      },
+      {
+        "year": 2016,
+        "value": 48.132
+      },
+      {
+        "year": 2017,
+        "value": 50.9088
+      },
+      {
+        "year": 2018,
+        "value": 52.8665
+      },
+      {
+        "year": 2019,
+        "value": 54.612
+      },
+      {
+        "year": 2020,
+        "value": 55.9309
+      },
+      {
+        "year": 2021,
+        "value": 55.2543
+      },
+      {
+        "year": 2022,
+        "value": 55.2834
+      },
+      {
+        "year": 2023,
+        "value": 56.1381
+      },
+      {
+        "year": 2024,
+        "value": 58.2594
       }
     ],
     "enrollment_headcount_total": [

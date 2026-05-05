@@ -1,6 +1,6 @@
 {
   "unitid": "216694",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Waynesburg University",
     "institution_unique_name": "Waynesburg University | Waynesburg | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.5499,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 2.7766,
-    "net_tuition_per_fte_change_5yr": -25.56,
+    "net_tuition_per_fte_change_5yr": -22.9963,
     "staff_total_headcount_pct_change_5yr": -20.7824,
     "staff_instructional_headcount_pct_change_5yr": -32.8767,
     "students_per_instructional_staff_fte": 14.0875,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 28.9499,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.1722,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.4653,
+    "unfunded_discount_pct_change_5yr": 27.2651,
     "share_grad_students": 21.3802,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16574.5244
+        "value": 16173.1051
       },
       {
         "year": 2015,
-        "value": 16488.9019
+        "value": 16159.8317
       },
       {
         "year": 2016,
-        "value": 19232.3093
+        "value": 18540.3585
       },
       {
         "year": 2017,
-        "value": 15966.1005
+        "value": 16032.3934
       },
       {
         "year": 2018,
-        "value": 15496.6994
+        "value": 15606.9075
       },
       {
         "year": 2019,
-        "value": 15148.1246
+        "value": 15262.0684
       },
       {
         "year": 2020,
-        "value": 14920.1624
+        "value": 15295.6716
       },
       {
         "year": 2021,
-        "value": 14430.2055
+        "value": 14828.4013
       },
       {
         "year": 2022,
-        "value": 13526.9459
+        "value": 13962.5769
       },
       {
         "year": 2023,
-        "value": 12551.7352
+        "value": 12951.423
       },
       {
         "year": 2024,
-        "value": 11276.2615
+        "value": 11752.3579
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.2644
+      },
+      {
+        "year": 2015,
+        "value": 32.9353
+      },
+      {
+        "year": 2016,
+        "value": 36.9511
+      },
+      {
+        "year": 2017,
+        "value": 36.889
+      },
+      {
+        "year": 2018,
+        "value": 39.2837
+      },
+      {
+        "year": 2019,
+        "value": 41.2252
+      },
+      {
+        "year": 2020,
+        "value": 41.7382
+      },
+      {
+        "year": 2021,
+        "value": 42.6916
+      },
+      {
+        "year": 2022,
+        "value": 43.3185
+      },
+      {
+        "year": 2023,
+        "value": 44.6976
+      },
+      {
+        "year": 2024,
+        "value": 52.4653
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "152530",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Taylor University",
     "institution_unique_name": "Taylor University | Upland | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 4.7451,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 93.8709,
-    "net_tuition_per_fte_change_5yr": -24.2264,
+    "net_tuition_per_fte_change_5yr": -24.7559,
     "staff_total_headcount_pct_change_5yr": -3.3569,
     "staff_instructional_headcount_pct_change_5yr": 3.3816,
     "students_per_instructional_staff_fte": 13.549,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 21.102,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.7748,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.3656,
+    "unfunded_discount_pct_change_5yr": 18.9142,
     "share_grad_students": 1.1232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 361980,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 22235.9712
+        "value": 22135.3675
       },
       {
         "year": 2015,
-        "value": 22486.4486
+        "value": 22391.5475
       },
       {
         "year": 2016,
-        "value": 21243.8667
+        "value": 21141.3951
       },
       {
         "year": 2017,
-        "value": 20708.6438
+        "value": 20590.7008
       },
       {
         "year": 2018,
-        "value": 19665.2176
+        "value": 19552.4645
       },
       {
         "year": 2019,
-        "value": 19727.4367
+        "value": 19558.2229
       },
       {
         "year": 2020,
-        "value": 18948.5619
+        "value": 18840.3999
       },
       {
         "year": 2021,
-        "value": 18185.7744
+        "value": 17997.1993
       },
       {
         "year": 2022,
-        "value": 16827.6852
+        "value": 16620.7238
       },
       {
         "year": 2023,
-        "value": 15281.971
+        "value": 15046.6148
       },
       {
         "year": 2024,
-        "value": 14948.1939
+        "value": 14716.399
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.2256
+      },
+      {
+        "year": 2015,
+        "value": 29.3545
+      },
+      {
+        "year": 2016,
+        "value": 33.3489
+      },
+      {
+        "year": 2017,
+        "value": 35.7149
+      },
+      {
+        "year": 2018,
+        "value": 38.3869
+      },
+      {
+        "year": 2019,
+        "value": 42.3546
+      },
+      {
+        "year": 2020,
+        "value": 43.5956
+      },
+      {
+        "year": 2021,
+        "value": 45.2435
+      },
+      {
+        "year": 2022,
+        "value": 46.0103
+      },
+      {
+        "year": 2023,
+        "value": 48.5468
+      },
+      {
+        "year": 2024,
+        "value": 50.3656
       }
     ],
     "enrollment_headcount_total": [

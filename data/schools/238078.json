@@ -1,6 +1,6 @@
 {
   "unitid": "238078",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wheeling University",
     "institution_unique_name": "Wheeling University | Wheeling | West Virginia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 41.9201,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.5423,
+    "unfunded_discount_pct_change_5yr": 18.2646,
     "share_grad_students": 26.1959,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 791576,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23103.4911
+        "value": 23310.1738
       },
       {
         "year": 2015,
-        "value": 22017.6476
+        "value": 22228.4597
       },
       {
         "year": 2016,
-        "value": 22076.9089
+        "value": 22287.9418
       },
       {
         "year": 2017,
-        "value": 22379.114
+        "value": 22571.7078
       },
       {
         "year": 2018,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 14821.9751
+        "value": 14822.0093
       },
       {
         "year": 2023,
-        "value": 15377.1366
+        "value": 15377.1717
       },
       {
         "year": 2024,
         "value": 12029.7
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.4625
+      },
+      {
+        "year": 2015,
+        "value": 37.8275
+      },
+      {
+        "year": 2016,
+        "value": 39.6594
+      },
+      {
+        "year": 2017,
+        "value": 41.7749
+      },
+      {
+        "year": 2018,
+        "value": 44.4402
+      },
+      {
+        "year": 2019,
+        "value": 48.6555
+      },
+      {
+        "year": 2020,
+        "value": 41.8097
+      },
+      {
+        "year": 2021,
+        "value": 47.6883
+      },
+      {
+        "year": 2022,
+        "value": 48.0615
+      },
+      {
+        "year": 2023,
+        "value": 47.6882
+      },
+      {
+        "year": 2024,
+        "value": 57.5423
       }
     ],
     "enrollment_headcount_total": [

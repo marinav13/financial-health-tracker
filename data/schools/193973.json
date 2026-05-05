@@ -1,6 +1,6 @@
 {
   "unitid": "193973",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Niagara University",
     "institution_unique_name": "Niagara University | Niagara University | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 21.7309,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 2.7231,
-    "net_tuition_per_fte_change_5yr": -13.9694,
+    "net_tuition_per_fte_change_5yr": -13.4267,
     "staff_total_headcount_pct_change_5yr": -2.9114,
     "staff_instructional_headcount_pct_change_5yr": 5.5961,
     "students_per_instructional_staff_fte": 15.7556,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 58.1713,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.4877,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.33,
+    "unfunded_discount_pct_change_5yr": -0.0485,
     "share_grad_students": 36.9464,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17109.6281
+        "value": 16562.2286
       },
       {
         "year": 2015,
-        "value": 17032.1119
+        "value": 16413.2297
       },
       {
         "year": 2016,
-        "value": 16815.0103
+        "value": 16069.6019
       },
       {
         "year": 2017,
-        "value": 16498.7989
+        "value": 15621.5912
       },
       {
         "year": 2018,
-        "value": 16312.9402
+        "value": 15597.4829
       },
       {
         "year": 2019,
-        "value": 16855.3277
+        "value": 16264.9066
       },
       {
         "year": 2020,
-        "value": 17483.6325
+        "value": 16511.848
       },
       {
         "year": 2021,
-        "value": 16637.8729
+        "value": 15819.2063
       },
       {
         "year": 2022,
-        "value": 15038.6331
+        "value": 13537.8031
       },
       {
         "year": 2023,
-        "value": 14229.0131
+        "value": 13832.4601
       },
       {
         "year": 2024,
-        "value": 14500.7464
+        "value": 14081.0646
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.4122
+      },
+      {
+        "year": 2015,
+        "value": 47.2427
+      },
+      {
+        "year": 2016,
+        "value": 47.755
+      },
+      {
+        "year": 2017,
+        "value": 48.6745
+      },
+      {
+        "year": 2018,
+        "value": 48.8118
+      },
+      {
+        "year": 2019,
+        "value": 48.3534
+      },
+      {
+        "year": 2020,
+        "value": 48.2626
+      },
+      {
+        "year": 2021,
+        "value": 50.1573
+      },
+      {
+        "year": 2022,
+        "value": 50.1938
+      },
+      {
+        "year": 2023,
+        "value": 50.9716
+      },
+      {
+        "year": 2024,
+        "value": 48.33
       }
     ],
     "enrollment_headcount_total": [

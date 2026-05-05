@@ -1,6 +1,6 @@
 {
   "unitid": "161572",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Unity Environmental University",
     "institution_unique_name": "Unity Environmental University | New Gloucester | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 841.6753,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 134.0901,
-    "net_tuition_per_fte_change_5yr": -36.2611,
+    "net_tuition_per_fte_change_5yr": -27.2781,
     "staff_total_headcount_pct_change_5yr": 127.1429,
     "staff_instructional_headcount_pct_change_5yr": 345.1923,
     "students_per_instructional_staff_fte": 22.7989,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 91.6932,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 92.1912,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0.0679,
+    "unfunded_discount_pct_change_5yr": -99.8195,
     "share_grad_students": 10.235,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19690.7893
+        "value": 18781.1368
       },
       {
         "year": 2015,
-        "value": 19694.2973
+        "value": 18670.3076
       },
       {
         "year": 2016,
-        "value": 20899.305
+        "value": 19838.1903
       },
       {
         "year": 2017,
-        "value": 21952.7687
+        "value": 19191.8212
       },
       {
         "year": 2018,
-        "value": 21910.1748
+        "value": 19153.339
       },
       {
         "year": 2019,
-        "value": 22084.3332
+        "value": 19461.49
       },
       {
         "year": 2020,
-        "value": 21535.2949
+        "value": 20112.7467
       },
       {
         "year": 2021,
-        "value": 15908.2532
+        "value": 16480.5459
       },
       {
         "year": 2022,
-        "value": 14563.9895
+        "value": 15210.4914
       },
       {
         "year": 2023,
-        "value": 14556.7105
+        "value": 14665.1881
       },
       {
         "year": 2024,
-        "value": 14076.3043
+        "value": 14152.7618
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.8073
+      },
+      {
+        "year": 2015,
+        "value": 39.9589
+      },
+      {
+        "year": 2016,
+        "value": 39.1407
+      },
+      {
+        "year": 2017,
+        "value": 40.2944
+      },
+      {
+        "year": 2018,
+        "value": 39.4994
+      },
+      {
+        "year": 2019,
+        "value": 37.6264
+      },
+      {
+        "year": 2020,
+        "value": 33.4723
+      },
+      {
+        "year": 2021,
+        "value": 0.0514
+      },
+      {
+        "year": 2022,
+        "value": 0.0278
+      },
+      {
+        "year": 2023,
+        "value": 0.1319
+      },
+      {
+        "year": 2024,
+        "value": 0.0679
       }
     ],
     "enrollment_headcount_total": [

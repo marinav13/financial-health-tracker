@@ -1,6 +1,6 @@
 {
   "unitid": "150668",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Goshen College",
     "institution_unique_name": "Goshen College | Goshen | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.2409,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 25.6107,
-    "net_tuition_per_fte_change_5yr": -17.3993,
+    "net_tuition_per_fte_change_5yr": -20.6997,
     "staff_total_headcount_pct_change_5yr": 13.5889,
     "staff_instructional_headcount_pct_change_5yr": 4.5455,
     "students_per_instructional_staff_fte": 8.8057,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 22.3218,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 22.1988,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.3963,
+    "unfunded_discount_pct_change_5yr": 9.2966,
     "share_grad_students": 6.9606,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 67000,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20016.2867
+        "value": 20486.0221
       },
       {
         "year": 2015,
-        "value": 19488.0954
+        "value": 20285.4437
       },
       {
         "year": 2016,
-        "value": 18504.3851
+        "value": 19149.7857
       },
       {
         "year": 2017,
-        "value": 19140.6516
+        "value": 19238.7146
       },
       {
         "year": 2018,
-        "value": 18398.0536
+        "value": 19333.4058
       },
       {
         "year": 2019,
-        "value": 17793.1797
+        "value": 18431.5585
       },
       {
         "year": 2020,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 15373.9042
+        "value": 15254.8282
       },
       {
         "year": 2023,
-        "value": 15573.932
+        "value": 15486.3329
       },
       {
         "year": 2024,
-        "value": 14697.2938
+        "value": 14616.2841
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.5443
+      },
+      {
+        "year": 2015,
+        "value": 41.4468
+      },
+      {
+        "year": 2016,
+        "value": 43.2969
+      },
+      {
+        "year": 2017,
+        "value": 44.9149
+      },
+      {
+        "year": 2018,
+        "value": 44.9035
+      },
+      {
+        "year": 2019,
+        "value": 47.0246
+      },
+      {
+        "year": 2020,
+        "value": 50.4865
+      },
+      {
+        "year": 2021,
+        "value": 50.2945
+      },
+      {
+        "year": 2022,
+        "value": 52.7577
+      },
+      {
+        "year": 2023,
+        "value": 50.9309
+      },
+      {
+        "year": 2024,
+        "value": 51.3963
       }
     ],
     "enrollment_headcount_total": [

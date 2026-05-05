@@ -1,6 +1,6 @@
 {
   "unitid": "141361",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Young Harris College",
     "institution_unique_name": "Young Harris College | Young Harris | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 16.0544,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 37.2225,
-    "net_tuition_per_fte_change_5yr": -9.9085,
+    "net_tuition_per_fte_change_5yr": -10.5949,
     "staff_total_headcount_pct_change_5yr": -4.6512,
     "staff_instructional_headcount_pct_change_5yr": 17.9688,
     "students_per_instructional_staff_fte": 11.5925,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 21.8159,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 54.3262,
+    "unfunded_discount_pct_change_5yr": -10.8111,
     "share_grad_students": 1.3482,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12944.3841
+        "value": 12929.2916
       },
       {
         "year": 2015,
-        "value": 12413.0373
+        "value": 12393.6482
       },
       {
         "year": 2016,
@@ -171,27 +173,27 @@
       },
       {
         "year": 2017,
-        "value": 13066.2505
+        "value": 13729.0583
       },
       {
         "year": 2018,
-        "value": 11419.297
+        "value": 11485.7866
       },
       {
         "year": 2019,
-        "value": 10575.3386
+        "value": 10656.5246
       },
       {
         "year": 2020,
-        "value": 10166.7724
+        "value": 10247.7605
       },
       {
         "year": 2021,
-        "value": 9588.4071
+        "value": 9662.3801
       },
       {
         "year": 2022,
-        "value": 8727.2704
+        "value": 8791.6445
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 9527.4766
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 54.5083
+      },
+      {
+        "year": 2015,
+        "value": 57.6387
+      },
+      {
+        "year": 2016,
+        "value": 57.3254
+      },
+      {
+        "year": 2017,
+        "value": 58.4615
+      },
+      {
+        "year": 2018,
+        "value": 59.4662
+      },
+      {
+        "year": 2019,
+        "value": 60.9114
+      },
+      {
+        "year": 2020,
+        "value": 59.9095
+      },
+      {
+        "year": 2021,
+        "value": 61.0255
+      },
+      {
+        "year": 2022,
+        "value": 60.9631
+      },
+      {
+        "year": 2023,
+        "value": 55.9235
+      },
+      {
+        "year": 2024,
+        "value": 54.3262
       }
     ],
     "enrollment_headcount_total": [

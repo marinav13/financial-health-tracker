@@ -1,6 +1,6 @@
 {
   "unitid": "164739",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bentley University",
     "institution_unique_name": "Bentley University | Waltham | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.5048,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 5.5863,
-    "net_tuition_per_fte_change_5yr": -14.0639,
+    "net_tuition_per_fte_change_5yr": -13.5837,
     "staff_total_headcount_pct_change_5yr": 4.792,
     "staff_instructional_headcount_pct_change_5yr": -0.4515,
     "students_per_instructional_staff_fte": 14.2216,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 56.1008,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.2575,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.7571,
+    "unfunded_discount_pct_change_5yr": 14.1607,
     "share_grad_students": 18.305,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4639000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34510.124
+        "value": 34640.5912
       },
       {
         "year": 2015,
-        "value": 35973.6515
+        "value": 36107.5167
       },
       {
         "year": 2016,
-        "value": 37930.3551
+        "value": 38065.8918
       },
       {
         "year": 2017,
-        "value": 38196.5566
+        "value": 38329.9604
       },
       {
         "year": 2018,
-        "value": 37860.3928
+        "value": 37989.1191
       },
       {
         "year": 2019,
-        "value": 39286.1235
+        "value": 39176.9346
       },
       {
         "year": 2020,
-        "value": 40163.313
+        "value": 40293.2379
       },
       {
         "year": 2021,
-        "value": 36408.0029
+        "value": 36531.0804
       },
       {
         "year": 2022,
-        "value": 32554.3092
+        "value": 32657.6223
       },
       {
         "year": 2023,
-        "value": 34776.1619
+        "value": 34888.7147
       },
       {
         "year": 2024,
-        "value": 33760.9676
+        "value": 33855.2686
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.6453
+      },
+      {
+        "year": 2015,
+        "value": 33.1862
+      },
+      {
+        "year": 2016,
+        "value": 32.9629
+      },
+      {
+        "year": 2017,
+        "value": 33.3087
+      },
+      {
+        "year": 2018,
+        "value": 34.9784
+      },
+      {
+        "year": 2019,
+        "value": 34.8256
+      },
+      {
+        "year": 2020,
+        "value": 34.8361
+      },
+      {
+        "year": 2021,
+        "value": 33.828
+      },
+      {
+        "year": 2022,
+        "value": 36.7398
+      },
+      {
+        "year": 2023,
+        "value": 37.9625
+      },
+      {
+        "year": 2024,
+        "value": 39.7571
       }
     ],
     "enrollment_headcount_total": [

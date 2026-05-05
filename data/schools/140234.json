@@ -1,6 +1,6 @@
 {
   "unitid": "140234",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "LaGrange College",
     "institution_unique_name": "LaGrange College | Lagrange | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -34.055,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -31.8003,
-    "net_tuition_per_fte_change_5yr": -22.4943,
+    "net_tuition_per_fte_change_5yr": -21.9305,
     "staff_total_headcount_pct_change_5yr": -28.5714,
     "staff_instructional_headcount_pct_change_5yr": -22.549,
     "students_per_instructional_staff_fte": 10.7049,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 30.037,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.2555,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.4575,
+    "unfunded_discount_pct_change_5yr": 47.346,
     "share_grad_students": 22.3485,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 15762.5509
+        "value": 15914.2943
       },
       {
         "year": 2023,
-        "value": 15437.0968
+        "value": 15842.2219
       },
       {
         "year": 2024,
-        "value": 14595.0904
+        "value": 14701.2649
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.3664
+      },
+      {
+        "year": 2015,
+        "value": 37.2469
+      },
+      {
+        "year": 2016,
+        "value": 38.9821
+      },
+      {
+        "year": 2017,
+        "value": 39.4158
+      },
+      {
+        "year": 2018,
+        "value": 37.4037
+      },
+      {
+        "year": 2019,
+        "value": 37.6376
+      },
+      {
+        "year": 2020,
+        "value": 38.5223
+      },
+      {
+        "year": 2021,
+        "value": 48.3811
+      },
+      {
+        "year": 2022,
+        "value": 48.1414
+      },
+      {
+        "year": 2023,
+        "value": 49.5576
+      },
+      {
+        "year": 2024,
+        "value": 55.4575
       }
     ],
     "enrollment_headcount_total": [

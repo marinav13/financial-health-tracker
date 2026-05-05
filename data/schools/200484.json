@@ -1,6 +1,6 @@
 {
   "unitid": "200484",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trinity Bible College and Graduate School",
     "institution_unique_name": "Trinity Bible College and Graduate School | Ellendale | North Dakota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 31.5217,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -0.3975,
-    "net_tuition_per_fte_change_5yr": -17.5595,
+    "net_tuition_per_fte_change_5yr": -13.7672,
     "staff_total_headcount_pct_change_5yr": 10.8434,
     "staff_instructional_headcount_pct_change_5yr": -6.25,
     "students_per_instructional_staff_fte": 15.3333,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 25.5321,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 19.9399,
+    "unfunded_discount_pct_change_5yr": -32.0216,
     "share_grad_students": 56.4738,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16545.3993
+        "value": 15407.3877
       },
       {
         "year": 2015,
-        "value": 10370.9102
+        "value": 8992.5772
       },
       {
         "year": 2016,
-        "value": 22615.1822
+        "value": 20897.0972
       },
       {
         "year": 2017,
-        "value": 12667.0682
+        "value": 11548.1178
       },
       {
         "year": 2018,
-        "value": 13051.7851
+        "value": 12229.3746
       },
       {
         "year": 2019,
-        "value": 13009.5001
+        "value": 12437.3832
       },
       {
         "year": 2020,
-        "value": 12545.437
+        "value": 11678.9693
       },
       {
         "year": 2021,
-        "value": 11417.0127
+        "value": 11575.2008
       },
       {
         "year": 2022,
-        "value": 11646.1991
+        "value": 10956.1589
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10725.1
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.7391
+      },
+      {
+        "year": 2015,
+        "value": 43.3507
+      },
+      {
+        "year": 2016,
+        "value": 29.8752
+      },
+      {
+        "year": 2017,
+        "value": 27.6251
+      },
+      {
+        "year": 2018,
+        "value": 28.5353
+      },
+      {
+        "year": 2019,
+        "value": 29.3327
+      },
+      {
+        "year": 2020,
+        "value": 31.5928
+      },
+      {
+        "year": 2021,
+        "value": 24.7717
+      },
+      {
+        "year": 2022,
+        "value": 26.2106
+      },
+      {
+        "year": 2023,
+        "value": 18.8847
+      },
+      {
+        "year": 2024,
+        "value": 19.9399
       }
     ],
     "enrollment_headcount_total": [

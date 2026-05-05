@@ -1,6 +1,6 @@
 {
   "unitid": "225627",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of the Incarnate Word",
     "institution_unique_name": "University of the Incarnate Word | San Antonio | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -19.653,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 3.1908,
-    "net_tuition_per_fte_change_5yr": -4.693,
+    "net_tuition_per_fte_change_5yr": -3.6571,
     "staff_total_headcount_pct_change_5yr": 3.1327,
     "staff_instructional_headcount_pct_change_5yr": -1.5584,
     "students_per_instructional_staff_fte": 11.3801,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 63.0103,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 64.0151,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.8857,
+    "unfunded_discount_pct_change_5yr": 14.7473,
     "share_grad_students": 34.8488,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1903507,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21997.5238
+        "value": 21990.1816
       },
       {
         "year": 2015,
-        "value": 23154.3007
+        "value": 23179.2563
       },
       {
         "year": 2016,
-        "value": 22776.7466
+        "value": 22810.8246
       },
       {
         "year": 2017,
-        "value": 23880.2725
+        "value": 24171.1557
       },
       {
         "year": 2018,
-        "value": 25608.2208
+        "value": 25735.1834
       },
       {
         "year": 2019,
-        "value": 27673.1791
+        "value": 27812.1767
       },
       {
         "year": 2020,
-        "value": 28780.5819
+        "value": 29441.1635
       },
       {
         "year": 2021,
-        "value": 30295.4378
+        "value": 31172.7882
       },
       {
         "year": 2022,
-        "value": 27957.7413
+        "value": 29937.2399
       },
       {
         "year": 2023,
-        "value": 28183.454
+        "value": 28494.0685
       },
       {
         "year": 2024,
-        "value": 26374.4713
+        "value": 26795.0502
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.0879
+      },
+      {
+        "year": 2015,
+        "value": 32.8476
+      },
+      {
+        "year": 2016,
+        "value": 33.3052
+      },
+      {
+        "year": 2017,
+        "value": 33.8852
+      },
+      {
+        "year": 2018,
+        "value": 32.894
+      },
+      {
+        "year": 2019,
+        "value": 32.1452
+      },
+      {
+        "year": 2020,
+        "value": 33.1001
+      },
+      {
+        "year": 2021,
+        "value": 33.3131
+      },
+      {
+        "year": 2022,
+        "value": 34.6541
+      },
+      {
+        "year": 2023,
+        "value": 36.1001
+      },
+      {
+        "year": 2024,
+        "value": 36.8857
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "217688",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Charleston Southern University",
     "institution_unique_name": "Charleston Southern University | Charleston | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -11.7807,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 9.7769,
-    "net_tuition_per_fte_change_5yr": -7.5879,
+    "net_tuition_per_fte_change_5yr": -7.595,
     "staff_total_headcount_pct_change_5yr": -5.5031,
     "staff_instructional_headcount_pct_change_5yr": 18.0473,
     "students_per_instructional_staff_fte": 11.2937,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 61.2567,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.6812,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.9754,
+    "unfunded_discount_pct_change_5yr": 4.7833,
     "share_grad_students": 21.7915,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15878.8559
+        "value": 16052.8456
       },
       {
         "year": 2015,
-        "value": 15894.713
+        "value": 16198.547
       },
       {
         "year": 2016,
-        "value": 15862.2484
+        "value": 16081.2575
       },
       {
         "year": 2017,
-        "value": 15632.8128
+        "value": 15947.0254
       },
       {
         "year": 2018,
-        "value": 15218.2692
+        "value": 15557.3163
       },
       {
         "year": 2019,
-        "value": 15879.5811
+        "value": 15990.8562
       },
       {
         "year": 2020,
-        "value": 14521.6934
+        "value": 14617.0587
       },
       {
         "year": 2021,
-        "value": 15322.2765
+        "value": 15419.3011
       },
       {
         "year": 2022,
-        "value": 14083.3437
+        "value": 14169.7812
       },
       {
         "year": 2023,
-        "value": 14434.9129
+        "value": 14528.4183
       },
       {
         "year": 2024,
-        "value": 14674.6518
+        "value": 14776.3449
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.7593
+      },
+      {
+        "year": 2015,
+        "value": 37.7426
+      },
+      {
+        "year": 2016,
+        "value": 39.8395
+      },
+      {
+        "year": 2017,
+        "value": 41.3264
+      },
+      {
+        "year": 2018,
+        "value": 42.4138
+      },
+      {
+        "year": 2019,
+        "value": 41.9679
+      },
+      {
+        "year": 2020,
+        "value": 42.1302
+      },
+      {
+        "year": 2021,
+        "value": 41.6753
+      },
+      {
+        "year": 2022,
+        "value": 45.3251
+      },
+      {
+        "year": 2023,
+        "value": 44.1743
+      },
+      {
+        "year": 2024,
+        "value": 43.9754
       }
     ],
     "enrollment_headcount_total": [

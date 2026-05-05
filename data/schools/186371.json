@@ -1,6 +1,6 @@
 {
   "unitid": "186371",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rutgers University-Camden",
     "institution_unique_name": "Rutgers University-Camden | Camden | New Jersey",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
     "tuition_dependence_pct": 39.1181,
-    "sector_median_tuition_dependence_pct": 21.1862,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 32.2863,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 9700973,
@@ -53,7 +55,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.1144,
     "state_funding_pct_core_revenue": 6.0527,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": -57.971,
-    "state_funding_pct_change_5yr": 582.3086,
+    "state_funding_pct_change_5yr": -582.3086,
     "endowment_pct_change_5yr": 53.2235,
     "endowment_spending_current_use_pct_core_revenue": 0.0033,
     "graduation_rate_6yr": 67,
@@ -202,6 +204,7 @@
         "value": 19278.5791
       }
     ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,

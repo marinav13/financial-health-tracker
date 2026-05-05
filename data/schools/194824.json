@@ -1,6 +1,6 @@
 {
   "unitid": "194824",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rensselaer Polytechnic Institute",
     "institution_unique_name": "Rensselaer Polytechnic Institute | Troy | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.9534,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -8.8079,
-    "net_tuition_per_fte_change_5yr": -22.4994,
+    "net_tuition_per_fte_change_5yr": -30.0748,
     "staff_total_headcount_pct_change_5yr": -2.8176,
     "staff_instructional_headcount_pct_change_5yr": 1.1236,
     "students_per_instructional_staff_fte": 15.8549,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 39.3355,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 28.6247,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 62.5229,
+    "unfunded_discount_pct_change_5yr": 31.9649,
     "share_grad_students": 18.1115,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 124338000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 35433.8255
+        "value": 26127.3599
       },
       {
         "year": 2015,
-        "value": 36230.6052
+        "value": 27043.9259
       },
       {
         "year": 2016,
-        "value": 36270.8941
+        "value": 27493.1459
       },
       {
         "year": 2017,
-        "value": 34997.2487
+        "value": 26782.7844
       },
       {
         "year": 2018,
-        "value": 34778.6021
+        "value": 26862.7818
       },
       {
         "year": 2019,
-        "value": 34469.3001
+        "value": 27801.0041
       },
       {
         "year": 2020,
-        "value": 35621.1606
+        "value": 27177.8384
       },
       {
         "year": 2021,
-        "value": 35593.3916
+        "value": 27740.0367
       },
       {
         "year": 2022,
-        "value": 31412.6678
+        "value": 23013.6793
       },
       {
         "year": 2023,
-        "value": 29178.5895
+        "value": 21300.4456
       },
       {
         "year": 2024,
-        "value": 26713.9078
+        "value": 19439.9093
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.2485
+      },
+      {
+        "year": 2015,
+        "value": 45.416
+      },
+      {
+        "year": 2016,
+        "value": 46.3062
+      },
+      {
+        "year": 2017,
+        "value": 48.4213
+      },
+      {
+        "year": 2018,
+        "value": 48.5854
+      },
+      {
+        "year": 2019,
+        "value": 47.3785
+      },
+      {
+        "year": 2020,
+        "value": 48.7749
+      },
+      {
+        "year": 2021,
+        "value": 50.9856
+      },
+      {
+        "year": 2022,
+        "value": 55.2582
+      },
+      {
+        "year": 2023,
+        "value": 60.0984
+      },
+      {
+        "year": 2024,
+        "value": 62.5229
       }
     ],
     "enrollment_headcount_total": [

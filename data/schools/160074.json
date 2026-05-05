@@ -1,6 +1,6 @@
 {
   "unitid": "160074",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Franciscan Missionaries of Our Lady University",
     "institution_unique_name": "Franciscan Missionaries of Our Lady University | Baton Rouge | Louisiana",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 56.7429,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 7.0666,
+    "unfunded_discount_pct_change_5yr": 40.8792,
     "share_grad_students": 28.8448,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 164149,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17083.7132
+        "value": 18696.5907
       },
       {
         "year": 2015,
-        "value": 28741.7239
+        "value": 35821.8045
       },
       {
         "year": 2016,
-        "value": 16386.5835
+        "value": 19911.2499
       },
       {
         "year": 2017,
-        "value": 18560.552
+        "value": 22161.3186
       },
       {
         "year": 2018,
-        "value": 22520.921
+        "value": 24853.4322
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 19660.5112
+        "value": 19660.5098
       },
       {
         "year": 2021,
-        "value": 21606.8213
+        "value": 21606.82
       },
       {
         "year": 2022,
-        "value": 19950.7128
+        "value": 19950.7116
       },
       {
         "year": 2023,
-        "value": 20718.1969
+        "value": 20718.1956
       },
       {
         "year": 2024,
         "value": 19906.7304
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.8373
+      },
+      {
+        "year": 2015,
+        "value": 3.0693
+      },
+      {
+        "year": 2016,
+        "value": 3.5288
+      },
+      {
+        "year": 2017,
+        "value": 3.9411
+      },
+      {
+        "year": 2018,
+        "value": 4.0167
+      },
+      {
+        "year": 2019,
+        "value": 5.0161
+      },
+      {
+        "year": 2020,
+        "value": 7.0077
+      },
+      {
+        "year": 2021,
+        "value": 6.3666
+      },
+      {
+        "year": 2022,
+        "value": 6.9003
+      },
+      {
+        "year": 2023,
+        "value": 6.9346
+      },
+      {
+        "year": 2024,
+        "value": 7.0666
       }
     ],
     "enrollment_headcount_total": [

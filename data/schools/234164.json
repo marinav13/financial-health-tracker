@@ -1,6 +1,6 @@
 {
   "unitid": "234164",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Virginia Union University",
     "institution_unique_name": "Virginia Union University | Richmond | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.1388,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.4139,
-    "net_tuition_per_fte_change_5yr": -18.2161,
+    "net_tuition_per_fte_change_5yr": 16.5286,
     "staff_total_headcount_pct_change_5yr": 30.3867,
     "staff_instructional_headcount_pct_change_5yr": -21.4765,
     "students_per_instructional_staff_fte": 13.5556,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 39.7906,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.6384,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.1207,
+    "unfunded_discount_pct_change_5yr": -39.1077,
     "share_grad_students": 31.723,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12983.6165
+        "value": 10752.5596
       },
       {
         "year": 2015,
-        "value": 13637.0515
+        "value": 10685.4397
       },
       {
         "year": 2016,
-        "value": 15958.2592
+        "value": 12428.3731
       },
       {
         "year": 2017,
-        "value": 14227.1431
+        "value": 10318.8918
       },
       {
         "year": 2018,
-        "value": 14844.8284
+        "value": 11224.0751
       },
       {
         "year": 2019,
-        "value": 14713.6078
+        "value": 10546.5652
       },
       {
         "year": 2020,
-        "value": 18214.7248
+        "value": 13971.0686
       },
       {
         "year": 2021,
-        "value": 19000.6071
+        "value": 18138.485
       },
       {
         "year": 2022,
-        "value": 13621.038
+        "value": 13444.018
       },
       {
         "year": 2023,
-        "value": 11807.6842
+        "value": 11149.9764
       },
       {
         "year": 2024,
-        "value": 12033.3695
+        "value": 12289.7598
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 16.4618
+      },
+      {
+        "year": 2015,
+        "value": 18.3108
+      },
+      {
+        "year": 2016,
+        "value": 19.6639
+      },
+      {
+        "year": 2017,
+        "value": 23.7006
+      },
+      {
+        "year": 2018,
+        "value": 19.6113
+      },
+      {
+        "year": 2019,
+        "value": 23.1896
+      },
+      {
+        "year": 2020,
+        "value": 26.5622
+      },
+      {
+        "year": 2021,
+        "value": 6.4442
+      },
+      {
+        "year": 2022,
+        "value": 13.6422
+      },
+      {
+        "year": 2023,
+        "value": 15.9251
+      },
+      {
+        "year": 2024,
+        "value": 14.1207
       }
     ],
     "enrollment_headcount_total": [

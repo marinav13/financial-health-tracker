@@ -1,6 +1,6 @@
 {
   "unitid": "145725",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Illinois Institute of Technology",
     "institution_unique_name": "Illinois Institute of Technology | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 41.3742,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 3.3026,
-    "net_tuition_per_fte_change_5yr": -25.192,
+    "net_tuition_per_fte_change_5yr": -28.6217,
     "staff_total_headcount_pct_change_5yr": -1.2373,
     "staff_instructional_headcount_pct_change_5yr": 45.5224,
     "students_per_instructional_staff_fte": 14.8309,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 44.9454,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.8848,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.0902,
+    "unfunded_discount_pct_change_5yr": 15.954,
     "share_grad_students": 63.7613,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 95519000,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 22584.3569
+        "value": 21256.153
       },
       {
         "year": 2024,
-        "value": 24234.1201
+        "value": 23123.0794
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.3978
+      },
+      {
+        "year": 2015,
+        "value": 34.3105
+      },
+      {
+        "year": 2016,
+        "value": 35.49
+      },
+      {
+        "year": 2017,
+        "value": 36.7721
+      },
+      {
+        "year": 2018,
+        "value": 39.6217
+      },
+      {
+        "year": 2019,
+        "value": 43.1983
+      },
+      {
+        "year": 2020,
+        "value": 46.0512
+      },
+      {
+        "year": 2021,
+        "value": 50.235
+      },
+      {
+        "year": 2022,
+        "value": 51.0154
+      },
+      {
+        "year": 2023,
+        "value": 53.4129
+      },
+      {
+        "year": 2024,
+        "value": 50.0902
       }
     ],
     "enrollment_headcount_total": [

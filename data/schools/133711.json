@@ -1,6 +1,6 @@
 {
   "unitid": "133711",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Flagler College",
     "institution_unique_name": "Flagler College | Saint Augustine | Florida",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 48.1209,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.3269,
+    "unfunded_discount_pct_change_5yr": 35.0037,
     "share_grad_students": 0.5435,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,11 +173,11 @@
       },
       {
         "year": 2017,
-        "value": 19990.291
+        "value": 19719.9403
       },
       {
         "year": 2018,
-        "value": 19871.6256
+        "value": 19581.5684
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 15774.1975
+        "value": 15831.5763
       },
       {
         "year": 2021,
-        "value": 15212.091
+        "value": 15258.334
       },
       {
         "year": 2022,
-        "value": 15155.9629
+        "value": 15215.6167
       },
       {
         "year": 2023,
-        "value": 16302.3363
+        "value": 16359.2496
       },
       {
         "year": 2024,
         "value": 17745.4888
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 12.9331
+      },
+      {
+        "year": 2015,
+        "value": 13.203
+      },
+      {
+        "year": 2016,
+        "value": 14.2931
+      },
+      {
+        "year": 2017,
+        "value": 16.3839
+      },
+      {
+        "year": 2018,
+        "value": 18.0407
+      },
+      {
+        "year": 2019,
+        "value": 20.2416
+      },
+      {
+        "year": 2020,
+        "value": 22.0944
+      },
+      {
+        "year": 2021,
+        "value": 24.5199
+      },
+      {
+        "year": 2022,
+        "value": 24.6831
+      },
+      {
+        "year": 2023,
+        "value": 24.2626
+      },
+      {
+        "year": 2024,
+        "value": 27.3269
       }
     ],
     "enrollment_headcount_total": [

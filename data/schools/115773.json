@@ -1,6 +1,6 @@
 {
   "unitid": "115773",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Humphreys University-Stockton and Modesto Campuses",
     "institution_unique_name": "Humphreys University-Stockton and Modesto Campuses | Stockton | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 26.8741,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 18.9742,
-    "net_tuition_per_fte_change_5yr": -14.3515,
+    "net_tuition_per_fte_change_5yr": -14.2145,
     "staff_total_headcount_pct_change_5yr": -18.8976,
     "staff_instructional_headcount_pct_change_5yr": -17.6471,
     "students_per_instructional_staff_fte": 14.2857,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 70.3536,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 2.1162,
+    "unfunded_discount_pct_change_5yr": 50.1553,
     "share_grad_students": 71.6834,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16732.967
+        "value": 16687.6124
       },
       {
         "year": 2015,
-        "value": 19863.9328
+        "value": 19828.245
       },
       {
         "year": 2016,
-        "value": 22124.2418
+        "value": 22072.6497
       },
       {
         "year": 2017,
-        "value": 21071.6425
+        "value": 20467.2619
       },
       {
         "year": 2018,
-        "value": 23606.58
+        "value": 23229.0169
       },
       {
         "year": 2019,
-        "value": 22161.3671
+        "value": 22125.9556
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 18980.8725
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 12.6822
+      },
+      {
+        "year": 2015,
+        "value": 8.0152
+      },
+      {
+        "year": 2016,
+        "value": 10.2622
+      },
+      {
+        "year": 2017,
+        "value": 2.9026
+      },
+      {
+        "year": 2018,
+        "value": 1.6555
+      },
+      {
+        "year": 2019,
+        "value": 1.4094
+      },
+      {
+        "year": 2020,
+        "value": 2.663
+      },
+      {
+        "year": 2021,
+        "value": 2.3896
+      },
+      {
+        "year": 2022,
+        "value": 2.8857
+      },
+      {
+        "year": 2023,
+        "value": 2.9408
+      },
+      {
+        "year": 2024,
+        "value": 2.1162
       }
     ],
     "enrollment_headcount_total": [

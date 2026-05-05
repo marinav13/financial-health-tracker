@@ -1,6 +1,6 @@
 {
   "unitid": "152099",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Oakland City University",
     "institution_unique_name": "Oakland City University | Oakland City | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -58.6207,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -64.9193,
-    "net_tuition_per_fte_change_5yr": -83.7036,
+    "net_tuition_per_fte_change_5yr": -87.2436,
     "staff_total_headcount_pct_change_5yr": -51.4493,
     "staff_instructional_headcount_pct_change_5yr": -56.5714,
     "students_per_instructional_staff_fte": 15.3462,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 24.4586,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.7953,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 75.2327,
+    "unfunded_discount_pct_change_5yr": 258.8517,
     "share_grad_students": 23.4615,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16157.5969
+        "value": 19878.9226
       },
       {
         "year": 2015,
-        "value": 19109.7958
+        "value": 24279.3753
       },
       {
         "year": 2016,
-        "value": 24926.6743
+        "value": 26139.7461
       },
       {
         "year": 2017,
-        "value": 23980.4741
+        "value": 24911.1408
       },
       {
         "year": 2018,
-        "value": 29155.1964
+        "value": 28792.087
       },
       {
         "year": 2019,
-        "value": 29513.4221
+        "value": 28973.4941
       },
       {
         "year": 2020,
-        "value": 19176.9985
+        "value": 19445.6361
       },
       {
         "year": 2021,
-        "value": 18346.8027
+        "value": 18605.0616
       },
       {
         "year": 2022,
-        "value": 11341.7358
+        "value": 8951.2703
       },
       {
         "year": 2023,
-        "value": 7616.2842
+        "value": 4335.7561
       },
       {
         "year": 2024,
-        "value": 4809.6271
+        "value": 3695.9744
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 21.3722
+      },
+      {
+        "year": 2015,
+        "value": 19.172
+      },
+      {
+        "year": 2016,
+        "value": 22.4043
+      },
+      {
+        "year": 2017,
+        "value": 20.3955
+      },
+      {
+        "year": 2018,
+        "value": 19.4799
+      },
+      {
+        "year": 2019,
+        "value": 20.9648
+      },
+      {
+        "year": 2020,
+        "value": 25.9589
+      },
+      {
+        "year": 2021,
+        "value": 29.3874
+      },
+      {
+        "year": 2022,
+        "value": 51.7732
+      },
+      {
+        "year": 2023,
+        "value": 68.1017
+      },
+      {
+        "year": 2024,
+        "value": 75.2327
       }
     ],
     "enrollment_headcount_total": [

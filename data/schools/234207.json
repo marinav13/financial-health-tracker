@@ -1,6 +1,6 @@
 {
   "unitid": "234207",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Washington and Lee University",
     "institution_unique_name": "Washington and Lee University | Lexington | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.7387,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -0.1974,
-    "net_tuition_per_fte_change_5yr": -15.0918,
+    "net_tuition_per_fte_change_5yr": -25.6362,
     "staff_total_headcount_pct_change_5yr": 8.3,
     "staff_instructional_headcount_pct_change_5yr": 2.4922,
     "students_per_instructional_staff_fte": 6.3285,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 24.2874,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.6648,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.5643,
+    "unfunded_discount_pct_change_5yr": 24.5661,
     "share_grad_students": 16.6082,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1892000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 44483.0304
+        "value": 40207.6587
       },
       {
         "year": 2015,
-        "value": 43846.5224
+        "value": 39213.2082
       },
       {
         "year": 2016,
-        "value": 43236.4434
+        "value": 38362.5034
       },
       {
         "year": 2017,
-        "value": 45065.5474
+        "value": 39926.8666
       },
       {
         "year": 2018,
-        "value": 43415.0955
+        "value": 38395.1158
       },
       {
         "year": 2019,
-        "value": 44923.8665
+        "value": 39419.1028
       },
       {
         "year": 2020,
-        "value": 48343.3007
+        "value": 42855.9251
       },
       {
         "year": 2021,
-        "value": 43975.31
+        "value": 39062.8559
       },
       {
         "year": 2022,
-        "value": 41149.7381
+        "value": 36392.7528
       },
       {
         "year": 2023,
-        "value": 40635.111
+        "value": 35003.9277
       },
       {
         "year": 2024,
-        "value": 38144.0678
+        "value": 29313.5593
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.6837
+      },
+      {
+        "year": 2015,
+        "value": 25.1837
+      },
+      {
+        "year": 2016,
+        "value": 22.3429
+      },
+      {
+        "year": 2017,
+        "value": 22.5026
+      },
+      {
+        "year": 2018,
+        "value": 27.0987
+      },
+      {
+        "year": 2019,
+        "value": 28.5506
+      },
+      {
+        "year": 2020,
+        "value": 28.5703
+      },
+      {
+        "year": 2021,
+        "value": 27.846
+      },
+      {
+        "year": 2022,
+        "value": 29.3036
+      },
+      {
+        "year": 2023,
+        "value": 27.9134
+      },
+      {
+        "year": 2024,
+        "value": 35.5643
       }
     ],
     "enrollment_headcount_total": [

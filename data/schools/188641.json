@@ -1,6 +1,6 @@
 {
   "unitid": "188641",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Alfred University",
     "institution_unique_name": "Alfred University | Alfred | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -34.3232,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 14.4759,
-    "net_tuition_per_fte_change_5yr": -13.4783,
+    "net_tuition_per_fte_change_5yr": -8.0653,
     "staff_total_headcount_pct_change_5yr": 0.7728,
     "staff_instructional_headcount_pct_change_5yr": -5.9701,
     "students_per_instructional_staff_fte": 12.4148,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 15.2642,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 19.4236,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.6307,
+    "unfunded_discount_pct_change_5yr": 10.1179,
     "share_grad_students": 27.6957,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6025916,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11907.0254
+        "value": 14287.2811
       },
       {
         "year": 2015,
-        "value": 12022.4282
+        "value": 14266.3133
       },
       {
         "year": 2016,
-        "value": 11588.5195
+        "value": 13750.929
       },
       {
         "year": 2017,
-        "value": 11609.5683
+        "value": 13784.899
       },
       {
         "year": 2018,
-        "value": 10966.1191
+        "value": 13203.6639
       },
       {
         "year": 2019,
-        "value": 9662.5454
+        "value": 11571.6237
       },
       {
         "year": 2020,
-        "value": 11894.1979
+        "value": 14116.48
       },
       {
         "year": 2021,
-        "value": 11823.7431
+        "value": 13701.4902
       },
       {
         "year": 2022,
-        "value": 9916.8421
+        "value": 11745.4962
       },
       {
         "year": 2023,
-        "value": 9291.6726
+        "value": 11251.394
       },
       {
         "year": 2024,
-        "value": 8360.2024
+        "value": 10638.3346
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.4413
+      },
+      {
+        "year": 2015,
+        "value": 48.0394
+      },
+      {
+        "year": 2016,
+        "value": 48.2928
+      },
+      {
+        "year": 2017,
+        "value": 47.4016
+      },
+      {
+        "year": 2018,
+        "value": 47.1626
+      },
+      {
+        "year": 2019,
+        "value": 47.7949
+      },
+      {
+        "year": 2020,
+        "value": 46.8716
+      },
+      {
+        "year": 2021,
+        "value": 48.2477
+      },
+      {
+        "year": 2022,
+        "value": 50.4195
+      },
+      {
+        "year": 2023,
+        "value": 47.493
+      },
+      {
+        "year": 2024,
+        "value": 52.6307
       }
     ],
     "enrollment_headcount_total": [

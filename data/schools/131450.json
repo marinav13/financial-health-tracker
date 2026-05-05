@@ -1,6 +1,6 @@
 {
   "unitid": "131450",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Gallaudet University",
     "institution_unique_name": "Gallaudet University | Washington | District of Columbia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.9683,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 13.0939,
-    "net_tuition_per_fte_change_5yr": -2.1199,
+    "net_tuition_per_fte_change_5yr": 1.8376,
     "staff_total_headcount_pct_change_5yr": 4.2408,
     "staff_instructional_headcount_pct_change_5yr": 24.8677,
     "students_per_instructional_staff_fte": 5.4915,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 9.2159,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 9% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 7.9626,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.1952,
+    "unfunded_discount_pct_change_5yr": -23.6444,
     "share_grad_students": 33.245,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 8213480,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 16204.2454
+        "value": 13456.4489
       },
       {
         "year": 2020,
-        "value": 15478.494
+        "value": 13498.5058
       },
       {
         "year": 2021,
-        "value": 14911.4592
+        "value": 14284.1608
       },
       {
         "year": 2022,
-        "value": 15620.1399
+        "value": 12650.5294
       },
       {
         "year": 2023,
-        "value": 16414.8944
+        "value": 13636.2696
       },
       {
         "year": 2024,
-        "value": 15860.7284
+        "value": 13703.7307
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.0394
+      },
+      {
+        "year": 2015,
+        "value": 22.2608
+      },
+      {
+        "year": 2016,
+        "value": 23.5907
+      },
+      {
+        "year": 2017,
+        "value": 23.8462
+      },
+      {
+        "year": 2018,
+        "value": 26.052
+      },
+      {
+        "year": 2019,
+        "value": 27.7586
+      },
+      {
+        "year": 2020,
+        "value": 28.6736
+      },
+      {
+        "year": 2021,
+        "value": 13.2165
+      },
+      {
+        "year": 2022,
+        "value": 21.6852
+      },
+      {
+        "year": 2023,
+        "value": 28.5348
+      },
+      {
+        "year": 2024,
+        "value": 21.1952
       }
     ],
     "enrollment_headcount_total": [

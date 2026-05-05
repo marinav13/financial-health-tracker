@@ -1,6 +1,6 @@
 {
   "unitid": "168148",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Tufts University",
     "institution_unique_name": "Tufts University | Medford | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 16.9314,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 9.0897,
-    "net_tuition_per_fte_change_5yr": -10.2129,
+    "net_tuition_per_fte_change_5yr": -10.1731,
     "staff_total_headcount_pct_change_5yr": 10.4877,
     "staff_instructional_headcount_pct_change_5yr": 7.7763,
     "students_per_instructional_staff_fte": 9.6541,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 41.6084,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.3355,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.9762,
+    "unfunded_discount_pct_change_5yr": -7.9719,
     "share_grad_students": 48.3774,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 206722103,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 47893.6102
+        "value": 48934.1389
       },
       {
         "year": 2015,
-        "value": 44865.9186
+        "value": 45792.407
       },
       {
         "year": 2016,
-        "value": 45674.4852
+        "value": 46577.502
       },
       {
         "year": 2017,
-        "value": 44839.6387
+        "value": 45691.3108
       },
       {
         "year": 2018,
-        "value": 47440.2104
+        "value": 48291.3544
       },
       {
         "year": 2019,
-        "value": 54646.9843
+        "value": 55577.35
       },
       {
         "year": 2020,
-        "value": 56361.7679
+        "value": 57416.5672
       },
       {
         "year": 2021,
-        "value": 54194.2317
+        "value": 55536.2623
       },
       {
         "year": 2022,
-        "value": 49127.6835
+        "value": 50430.2639
       },
       {
         "year": 2023,
-        "value": 47942.3416
+        "value": 48708.349
       },
       {
         "year": 2024,
-        "value": 49065.9176
+        "value": 49923.3912
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.8985
+      },
+      {
+        "year": 2015,
+        "value": 23.5003
+      },
+      {
+        "year": 2016,
+        "value": 23.0554
+      },
+      {
+        "year": 2017,
+        "value": 23.2824
+      },
+      {
+        "year": 2018,
+        "value": 22.8385
+      },
+      {
+        "year": 2019,
+        "value": 22.7933
+      },
+      {
+        "year": 2020,
+        "value": 20.1873
+      },
+      {
+        "year": 2021,
+        "value": 19.3694
+      },
+      {
+        "year": 2022,
+        "value": 20.1845
+      },
+      {
+        "year": 2023,
+        "value": 21.198
+      },
+      {
+        "year": 2024,
+        "value": 20.9762
       }
     ],
     "enrollment_headcount_total": [

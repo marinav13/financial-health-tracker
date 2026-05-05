@@ -1,6 +1,6 @@
 {
   "unitid": "191621",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hilbert College",
     "institution_unique_name": "Hilbert College | Hamburg | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 111.1277,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 30.7721,
-    "net_tuition_per_fte_change_5yr": -23.7273,
+    "net_tuition_per_fte_change_5yr": -25.2965,
     "staff_total_headcount_pct_change_5yr": -1.2821,
     "staff_instructional_headcount_pct_change_5yr": -13.0769,
     "students_per_instructional_staff_fte": 18.2919,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
-    "tuition_dependence_pct": 64.8793,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.7378,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.4831,
+    "unfunded_discount_pct_change_5yr": 42.9711,
     "share_grad_students": 1.3796,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 18042.4894
+        "value": 18228.7351
       },
       {
         "year": 2016,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 17868.4644
+        "value": 18069.6484
       },
       {
         "year": 2018,
-        "value": 16055.1289
+        "value": 16166.162
       },
       {
         "year": 2019,
-        "value": 15800.4838
+        "value": 15848.5573
       },
       {
         "year": 2020,
-        "value": 16145.7938
+        "value": 16246.3587
       },
       {
         "year": 2021,
-        "value": 13994.362
+        "value": 14104.2361
       },
       {
         "year": 2022,
-        "value": 9493.8962
+        "value": 9721.2912
       },
       {
         "year": 2023,
-        "value": 11907.3596
+        "value": 11818.3156
       },
       {
         "year": 2024,
-        "value": 12051.461
+        "value": 11839.4229
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.2938
+      },
+      {
+        "year": 2015,
+        "value": 20.2615
+      },
+      {
+        "year": 2016,
+        "value": 23.3033
+      },
+      {
+        "year": 2017,
+        "value": 24.607
+      },
+      {
+        "year": 2018,
+        "value": 29.5048
+      },
+      {
+        "year": 2019,
+        "value": 32.5123
+      },
+      {
+        "year": 2020,
+        "value": 32.9787
+      },
+      {
+        "year": 2021,
+        "value": 39.6106
+      },
+      {
+        "year": 2022,
+        "value": 41.662
+      },
+      {
+        "year": 2023,
+        "value": 42.2258
+      },
+      {
+        "year": 2024,
+        "value": 46.4831
       }
     ],
     "enrollment_headcount_total": [

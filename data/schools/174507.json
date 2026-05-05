@@ -1,6 +1,6 @@
 {
   "unitid": "174507",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northwestern Health Sciences University",
     "institution_unique_name": "Northwestern Health Sciences University | Bloomington | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.5158,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -18.9983,
-    "net_tuition_per_fte_change_5yr": -33.2591,
+    "net_tuition_per_fte_change_5yr": -33.2205,
     "staff_total_headcount_pct_change_5yr": -11.2403,
     "staff_instructional_headcount_pct_change_5yr": -7.7586,
     "students_per_instructional_staff_fte": 6.411,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 80.4905,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 80.5779,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 81% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 6.7976,
+    "unfunded_discount_pct_change_5yr": -7.3136,
     "share_grad_students": 56.1624,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 24332,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 78851.203
+        "value": 78868.1514
       },
       {
         "year": 2015,
-        "value": 81875.8391
+        "value": 82830.1661
       },
       {
         "year": 2016,
-        "value": 82075.852
+        "value": 82132.1157
       },
       {
         "year": 2017,
-        "value": 77839.1983
+        "value": 77902.9482
       },
       {
         "year": 2018,
-        "value": 77172.8489
+        "value": 77213.6735
       },
       {
         "year": 2019,
-        "value": 72960.4574
+        "value": 72997.5301
       },
       {
         "year": 2020,
-        "value": 73181.0042
+        "value": 73215.0935
       },
       {
         "year": 2021,
-        "value": 58900.7078
+        "value": 60600.9306
       },
       {
         "year": 2022,
-        "value": 62231.1037
+        "value": 62275.6766
       },
       {
         "year": 2023,
-        "value": 65185.2135
+        "value": 65243.2455
       },
       {
         "year": 2024,
-        "value": 48694.4872
+        "value": 48747.3718
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 4.2588
+      },
+      {
+        "year": 2016,
+        "value": 5.5776
+      },
+      {
+        "year": 2017,
+        "value": 6.4231
+      },
+      {
+        "year": 2018,
+        "value": 7.4543
+      },
+      {
+        "year": 2019,
+        "value": 7.334
+      },
+      {
+        "year": 2020,
+        "value": 7.9788
+      },
+      {
+        "year": 2021,
+        "value": 6.9787
+      },
+      {
+        "year": 2022,
+        "value": 6.8165
+      },
+      {
+        "year": 2023,
+        "value": 8.3036
+      },
+      {
+        "year": 2024,
+        "value": 6.7976
       }
     ],
     "enrollment_headcount_total": [

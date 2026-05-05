@@ -1,6 +1,6 @@
 {
   "unitid": "451398",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Toras Chaim",
     "institution_unique_name": "Yeshiva Toras Chaim | Lakewood | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.7692,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -36.6335,
-    "net_tuition_per_fte_change_5yr": -25.3388,
+    "net_tuition_per_fte_change_5yr": -25.3283,
     "staff_total_headcount_pct_change_5yr": -3.5714,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 26.6897,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 76.7706,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 77% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.909,
+    "unfunded_discount_pct_change_5yr": 15.9581,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -175,11 +177,11 @@
       },
       {
         "year": 2018,
-        "value": 17609.155
+        "value": 17271.8233
       },
       {
         "year": 2019,
-        "value": 16796.2177
+        "value": 16793.8581
       },
       {
         "year": 2020,
@@ -191,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 12381.1966
+        "value": 12013.0929
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12540.2636
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.5519
+      },
+      {
+        "year": 2015,
+        "value": 45.5531
+      },
+      {
+        "year": 2016,
+        "value": 44.2571
+      },
+      {
+        "year": 2017,
+        "value": 38.491
+      },
+      {
+        "year": 2018,
+        "value": 41.6061
+      },
+      {
+        "year": 2019,
+        "value": 39.591
+      },
+      {
+        "year": 2020,
+        "value": 41.145
+      },
+      {
+        "year": 2021,
+        "value": 34.1528
+      },
+      {
+        "year": 2022,
+        "value": 45.9236
+      },
+      {
+        "year": 2023,
+        "value": 43.9002
+      },
+      {
+        "year": 2024,
+        "value": 45.909
       }
     ],
     "enrollment_headcount_total": [

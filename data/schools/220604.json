@@ -1,6 +1,6 @@
 {
   "unitid": "220604",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Le Moyne-Owen College",
     "institution_unique_name": "Le Moyne-Owen College | Memphis | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.6972,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -17.4516,
-    "net_tuition_per_fte_change_5yr": -29.3429,
+    "net_tuition_per_fte_change_5yr": -11.3211,
     "staff_total_headcount_pct_change_5yr": 7.6142,
     "staff_instructional_headcount_pct_change_5yr": -4.1237,
     "students_per_instructional_staff_fte": 9.2155,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 27.8711,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.2037,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13240.0158
+        "value": 13175.342
       },
       {
         "year": 2015,
-        "value": 13385.608
+        "value": 12984.1361
       },
       {
         "year": 2016,
-        "value": 13187.9501
+        "value": 12297.0406
       },
       {
         "year": 2017,
-        "value": 13915.2542
+        "value": 12711.3067
       },
       {
         "year": 2018,
-        "value": 12560.9168
+        "value": 11952.1438
       },
       {
         "year": 2019,
-        "value": 13237.5186
+        "value": 12565.3416
       },
       {
         "year": 2020,
-        "value": 12148.0275
+        "value": 11571.823
       },
       {
         "year": 2021,
-        "value": 9821.4626
+        "value": 11352.3215
       },
       {
         "year": 2022,
-        "value": 11533.2426
+        "value": 12030.8931
       },
       {
         "year": 2023,
-        "value": 11724.456
+        "value": 12843.7425
       },
       {
         "year": 2024,
-        "value": 9353.2464
+        "value": 11142.8022
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

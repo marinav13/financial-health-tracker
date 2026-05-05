@@ -1,6 +1,6 @@
 {
   "unitid": "417752",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Messenger College",
     "institution_unique_name": "Messenger College | Bedford | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -39.5833,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -45.5345,
-    "net_tuition_per_fte_change_5yr": -1.5975,
+    "net_tuition_per_fte_change_5yr": -2.4327,
     "staff_total_headcount_pct_change_5yr": -38.8889,
     "staff_instructional_headcount_pct_change_5yr": -40,
     "students_per_instructional_staff_fte": 5.75,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 29.3517,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 28.4184,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.0719,
+    "unfunded_discount_pct_change_5yr": -9.9474,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 9715.9494
+        "value": 9460.6728
       },
       {
         "year": 2015,
-        "value": 12931.1331
+        "value": 12811.0012
       },
       {
         "year": 2016,
-        "value": 12175.4272
+        "value": 12019.249
       },
       {
         "year": 2017,
-        "value": 13031.5809
+        "value": 12789.4154
       },
       {
         "year": 2018,
-        "value": 13453.0198
+        "value": 13153.2059
       },
       {
         "year": 2019,
-        "value": 12228.1694
+        "value": 11940.7028
       },
       {
         "year": 2020,
-        "value": 14451.8605
+        "value": 14096.7658
       },
       {
         "year": 2021,
-        "value": 11631.0757
+        "value": 11275.0977
       },
       {
         "year": 2022,
-        "value": 11749.7982
+        "value": 11386.1006
       },
       {
         "year": 2023,
-        "value": 12405.5618
+        "value": 11993.7641
       },
       {
         "year": 2024,
-        "value": 12032.8261
+        "value": 11650.2174
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 2.9368
+      },
+      {
+        "year": 2015,
+        "value": 1.2147
+      },
+      {
+        "year": 2016,
+        "value": 3.9061
+      },
+      {
+        "year": 2017,
+        "value": 2.4035
+      },
+      {
+        "year": 2018,
+        "value": 3.5092
+      },
+      {
+        "year": 2019,
+        "value": 4.5217
+      },
+      {
+        "year": 2020,
+        "value": 2.8242
+      },
+      {
+        "year": 2021,
+        "value": 3.5888
+      },
+      {
+        "year": 2022,
+        "value": 3.7777
+      },
+      {
+        "year": 2023,
+        "value": 4.8072
+      },
+      {
+        "year": 2024,
+        "value": 4.0719
       }
     ],
     "enrollment_headcount_total": [

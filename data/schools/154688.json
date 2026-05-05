@@ -1,6 +1,6 @@
 {
   "unitid": "154688",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Baker University",
     "institution_unique_name": "Baker University | Baldwin City | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.4153,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -29.6579,
-    "net_tuition_per_fte_change_5yr": -15.8954,
+    "net_tuition_per_fte_change_5yr": -12.9007,
     "staff_total_headcount_pct_change_5yr": -2.0833,
     "staff_instructional_headcount_pct_change_5yr": 3.3003,
     "students_per_instructional_staff_fte": 9.6052,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 53.0103,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.3352,
+    "unfunded_discount_pct_change_5yr": 23.8204,
     "share_grad_students": 25.8868,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15730.5995
+        "value": 15302.6652
       },
       {
         "year": 2015,
-        "value": 16208.5716
+        "value": 15692.7824
       },
       {
         "year": 2016,
-        "value": 16057.6052
+        "value": 15486.5523
       },
       {
         "year": 2017,
-        "value": 15273.1538
+        "value": 14744.1587
       },
       {
         "year": 2018,
-        "value": 14981.8091
+        "value": 14463.2078
       },
       {
         "year": 2019,
-        "value": 15096.9045
+        "value": 14577.834
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12697.189
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.1831
+      },
+      {
+        "year": 2015,
+        "value": 29.8773
+      },
+      {
+        "year": 2016,
+        "value": 31.4194
+      },
+      {
+        "year": 2017,
+        "value": 35.0494
+      },
+      {
+        "year": 2018,
+        "value": 37.3354
+      },
+      {
+        "year": 2019,
+        "value": 38.2289
+      },
+      {
+        "year": 2020,
+        "value": 39.1497
+      },
+      {
+        "year": 2021,
+        "value": 39.808
+      },
+      {
+        "year": 2022,
+        "value": 40.0378
+      },
+      {
+        "year": 2023,
+        "value": 43.8794
+      },
+      {
+        "year": 2024,
+        "value": 47.3352
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "110097",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Biola University",
     "institution_unique_name": "Biola University | La Mirada | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -10.3649,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 1.8352,
-    "net_tuition_per_fte_change_5yr": -26.1664,
+    "net_tuition_per_fte_change_5yr": -26.4668,
     "staff_total_headcount_pct_change_5yr": -27.8867,
     "staff_instructional_headcount_pct_change_5yr": -51.6556,
     "students_per_instructional_staff_fte": 20.2557,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 41.817,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.513,
+    "unfunded_discount_pct_change_5yr": 31.5366,
     "share_grad_students": 37.9918,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3327000,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28019.9592
+        "value": 28105.7597
       },
       {
         "year": 2015,
-        "value": 28651.2444
+        "value": 28747.3649
       },
       {
         "year": 2016,
-        "value": 28053.0964
+        "value": 28158.3271
       },
       {
         "year": 2017,
-        "value": 28551.9374
+        "value": 28622.0219
       },
       {
         "year": 2018,
-        "value": 28183.0248
+        "value": 28284.8283
       },
       {
         "year": 2019,
-        "value": 27976.7098
+        "value": 28091.0056
       },
       {
         "year": 2020,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 20984.1918
+        "value": 20983.9604
       },
       {
         "year": 2024,
         "value": 20656.2218
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 24.2557
+      },
+      {
+        "year": 2015,
+        "value": 24.2957
+      },
+      {
+        "year": 2016,
+        "value": 25.0852
+      },
+      {
+        "year": 2017,
+        "value": 27.232
+      },
+      {
+        "year": 2018,
+        "value": 30.2127
+      },
+      {
+        "year": 2019,
+        "value": 32.3203
+      },
+      {
+        "year": 2020,
+        "value": 35.1392
+      },
+      {
+        "year": 2021,
+        "value": 42.9671
+      },
+      {
+        "year": 2022,
+        "value": 38.2567
+      },
+      {
+        "year": 2023,
+        "value": 41.1839
+      },
+      {
+        "year": 2024,
+        "value": 42.513
       }
     ],
     "enrollment_headcount_total": [

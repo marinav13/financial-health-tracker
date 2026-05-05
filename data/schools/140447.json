@@ -1,6 +1,6 @@
 {
   "unitid": "140447",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mercer University",
     "institution_unique_name": "Mercer University | Macon | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 3.6449,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 2.079,
-    "net_tuition_per_fte_change_5yr": -14.5226,
+    "net_tuition_per_fte_change_5yr": -11.9336,
     "staff_total_headcount_pct_change_5yr": -0.3616,
     "staff_instructional_headcount_pct_change_5yr": -2.0161,
     "students_per_instructional_staff_fte": 12.3289,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 42.3318,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.614,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.9815,
+    "unfunded_discount_pct_change_5yr": 0.2165,
     "share_grad_students": 48.454,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 44331262,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29672.7254
+        "value": 29985.7825
       },
       {
         "year": 2015,
-        "value": 29645.8621
+        "value": 29931.4582
       },
       {
         "year": 2016,
-        "value": 29297.5454
+        "value": 29677.0641
       },
       {
         "year": 2017,
-        "value": 28459.0907
+        "value": 28866.1291
       },
       {
         "year": 2018,
-        "value": 28106.7692
+        "value": 28560.0659
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 28050.8425
+        "value": 28436.7027
       },
       {
         "year": 2021,
-        "value": 25962.505
+        "value": 26835.0978
       },
       {
         "year": 2022,
-        "value": 23951.358
+        "value": 25523.5837
       },
       {
         "year": 2023,
-        "value": 24185.0598
+        "value": 24720.5906
       },
       {
         "year": 2024,
-        "value": 24144.0999
+        "value": 24875.4037
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.3915
+      },
+      {
+        "year": 2015,
+        "value": 29.0043
+      },
+      {
+        "year": 2016,
+        "value": 31.0339
+      },
+      {
+        "year": 2017,
+        "value": 32.4131
+      },
+      {
+        "year": 2018,
+        "value": 33.3525
+      },
+      {
+        "year": 2019,
+        "value": 33.9081
+      },
+      {
+        "year": 2020,
+        "value": 33.4149
+      },
+      {
+        "year": 2021,
+        "value": 33.7903
+      },
+      {
+        "year": 2022,
+        "value": 33.9963
+      },
+      {
+        "year": 2023,
+        "value": 33.2091
+      },
+      {
+        "year": 2024,
+        "value": 33.9815
       }
     ],
     "enrollment_headcount_total": [

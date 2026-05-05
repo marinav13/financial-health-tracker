@@ -1,6 +1,6 @@
 {
   "unitid": "148575",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Francis Medical Center College of Nursing",
     "institution_unique_name": "Saint Francis Medical Center College of Nursing | Peoria | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.0558,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -2.9001,
+    "net_tuition_per_fte_change_5yr": -11.8989,
     "staff_total_headcount_pct_change_5yr": -9.0909,
     "staff_instructional_headcount_pct_change_5yr": -13.2075,
     "students_per_instructional_staff_fte": 10.3729,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 40.8125,
+    "unfunded_discount_pct_change_5yr": 397.7782,
     "share_grad_students": 49.7015,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -114,47 +116,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14276.2272
+        "value": 17957.617
       },
       {
         "year": 2015,
-        "value": 16830.5307
+        "value": 20149.5344
       },
       {
         "year": 2016,
-        "value": 16514.8384
+        "value": 19847.4259
       },
       {
         "year": 2017,
-        "value": 16179.9749
+        "value": 20124.8058
       },
       {
         "year": 2018,
-        "value": 16846.3343
+        "value": 21057.9503
       },
       {
         "year": 2019,
-        "value": 17169.1442
+        "value": 21658.5136
       },
       {
         "year": 2020,
-        "value": 19135.4956
+        "value": 23385.9619
       },
       {
         "year": 2021,
-        "value": 19139.1241
+        "value": 25370.8363
       },
       {
         "year": 2022,
-        "value": 15432.2224
+        "value": 19739.5938
       },
       {
         "year": 2023,
-        "value": 17050.3376
+        "value": 20421.7106
       },
       {
         "year": 2024,
-        "value": 16671.2255
+        "value": 19081.3799
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.2883
+      },
+      {
+        "year": 2015,
+        "value": 8.4094
+      },
+      {
+        "year": 2016,
+        "value": 9.6567
+      },
+      {
+        "year": 2017,
+        "value": 9.3964
+      },
+      {
+        "year": 2018,
+        "value": 9.385
+      },
+      {
+        "year": 2019,
+        "value": 8.1989
+      },
+      {
+        "year": 2020,
+        "value": 7.8813
+      },
+      {
+        "year": 2021,
+        "value": 8.3683
+      },
+      {
+        "year": 2022,
+        "value": 8.7879
+      },
+      {
+        "year": 2023,
+        "value": 9.8292
+      },
+      {
+        "year": 2024,
+        "value": 40.8125
       }
     ],
     "enrollment_headcount_total": [

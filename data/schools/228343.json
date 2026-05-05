@@ -1,6 +1,6 @@
 {
   "unitid": "228343",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southwestern University",
     "institution_unique_name": "Southwestern University | Georgetown | Texas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 28.1915,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.8319,
+    "unfunded_discount_pct_change_5yr": 0.7573,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 806148,
@@ -175,15 +177,15 @@
       },
       {
         "year": 2018,
-        "value": 21022.5079
+        "value": 21022.507
       },
       {
         "year": 2019,
-        "value": 20592.8131
+        "value": 20592.8122
       },
       {
         "year": 2020,
-        "value": 21430.9454
+        "value": 21430.9446
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 19607.2833
+        "value": 20511.1029
       },
       {
         "year": 2024,
         "value": 19203.0319
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.8127
+      },
+      {
+        "year": 2015,
+        "value": 48.5718
+      },
+      {
+        "year": 2016,
+        "value": 48.7214
+      },
+      {
+        "year": 2017,
+        "value": 50.5025
+      },
+      {
+        "year": 2018,
+        "value": 52.3378
+      },
+      {
+        "year": 2019,
+        "value": 53.4273
+      },
+      {
+        "year": 2020,
+        "value": 52.8083
+      },
+      {
+        "year": 2021,
+        "value": 52.7572
+      },
+      {
+        "year": 2022,
+        "value": 52.4521
+      },
+      {
+        "year": 2023,
+        "value": 53.2026
+      },
+      {
+        "year": 2024,
+        "value": 53.8319
       }
     ],
     "enrollment_headcount_total": [

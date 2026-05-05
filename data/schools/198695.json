@@ -1,6 +1,6 @@
 {
   "unitid": "198695",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "High Point University",
     "institution_unique_name": "High Point University | High Point | North Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 44.3647,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 30.7087,
+    "unfunded_discount_pct_change_5yr": 48.2576,
     "share_grad_students": 19.2882,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1060854,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 29177.6717
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.1046
+      },
+      {
+        "year": 2015,
+        "value": 18.689
+      },
+      {
+        "year": 2016,
+        "value": 18.6068
+      },
+      {
+        "year": 2017,
+        "value": 19.2607
+      },
+      {
+        "year": 2018,
+        "value": 19.281
+      },
+      {
+        "year": 2019,
+        "value": 20.7131
+      },
+      {
+        "year": 2020,
+        "value": 21.6288
+      },
+      {
+        "year": 2021,
+        "value": 25.4948
+      },
+      {
+        "year": 2022,
+        "value": 28.4185
+      },
+      {
+        "year": 2023,
+        "value": 28.3675
+      },
+      {
+        "year": 2024,
+        "value": 30.7087
       }
     ],
     "enrollment_headcount_total": [

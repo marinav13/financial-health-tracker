@@ -1,6 +1,6 @@
 {
   "unitid": "183804",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Beth Medrash Govoha",
     "institution_unique_name": "Beth Medrash Govoha | Lakewood | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 30.4831,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 106.1341,
-    "net_tuition_per_fte_change_5yr": 2.4699,
+    "net_tuition_per_fte_change_5yr": 6490.9337,
     "staff_total_headcount_pct_change_5yr": 7.8717,
     "staff_instructional_headcount_pct_change_5yr": 1.5385,
     "students_per_instructional_staff_fte": 162.375,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 24.8038,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -24.8547,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 131.3586,
+    "unfunded_discount_pct_change_5yr": 30.7302,
     "share_grad_students": 55.6226,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3397.6095
+        "value": 389.8912
       },
       {
         "year": 2015,
-        "value": 3583.6095
+        "value": 409.6681
       },
       {
         "year": 2016,
-        "value": 3776.1558
+        "value": 149.7275
       },
       {
         "year": 2017,
-        "value": 3549.7405
+        "value": -393.8959
       },
       {
         "year": 2018,
-        "value": 3363.226
+        "value": -754.9438
       },
       {
         "year": 2019,
-        "value": 3496.0795
+        "value": -54.4655
       },
       {
         "year": 2020,
-        "value": 3698.9406
+        "value": -254.1267
       },
       {
         "year": 2021,
-        "value": 3203.209
+        "value": 514.5113
       },
       {
         "year": 2022,
-        "value": 3148.6603
+        "value": -43.8404
       },
       {
         "year": 2023,
-        "value": 3303.468
+        "value": -3530.7231
       },
       {
         "year": 2024,
-        "value": 3582.4288
+        "value": -3589.7863
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 96.597
+      },
+      {
+        "year": 2015,
+        "value": 96.3454
+      },
+      {
+        "year": 2016,
+        "value": 98.7487
+      },
+      {
+        "year": 2017,
+        "value": 103.3013
+      },
+      {
+        "year": 2018,
+        "value": 106.6374
+      },
+      {
+        "year": 2019,
+        "value": 100.4807
+      },
+      {
+        "year": 2020,
+        "value": 102.0179
+      },
+      {
+        "year": 2021,
+        "value": 95.4168
+      },
+      {
+        "year": 2022,
+        "value": 100.4168
+      },
+      {
+        "year": 2023,
+        "value": 132.5066
+      },
+      {
+        "year": 2024,
+        "value": 131.3586
       }
     ],
     "enrollment_headcount_total": [

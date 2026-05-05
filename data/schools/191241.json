@@ -1,6 +1,6 @@
 {
   "unitid": "191241",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Fordham University",
     "institution_unique_name": "Fordham University | Bronx | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.3092,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -4.8994,
-    "net_tuition_per_fte_change_5yr": -12.1722,
+    "net_tuition_per_fte_change_5yr": -12.5659,
     "staff_total_headcount_pct_change_5yr": -0.0285,
     "staff_instructional_headcount_pct_change_5yr": -3.489,
     "students_per_instructional_staff_fte": 13.9185,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 62.6872,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 62.7671,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.1316,
+    "unfunded_discount_pct_change_5yr": 23.6614,
     "share_grad_students": 38.4748,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 38908.4201
+        "value": 39179.524
       },
       {
         "year": 2015,
-        "value": 39116.7042
+        "value": 39116.0881
       },
       {
         "year": 2016,
-        "value": 38697.8357
+        "value": 38698.303
       },
       {
         "year": 2017,
-        "value": 37718.6089
+        "value": 37731.8424
       },
       {
         "year": 2018,
-        "value": 38308.6149
+        "value": 38271.4083
       },
       {
         "year": 2019,
-        "value": 38076.2794
+        "value": 38296.4859
       },
       {
         "year": 2020,
-        "value": 37862.912
+        "value": 37868.164
       },
       {
         "year": 2021,
-        "value": 36385.376
+        "value": 36393.5226
       },
       {
         "year": 2022,
-        "value": 31793.7499
+        "value": 31953.7845
       },
       {
         "year": 2023,
-        "value": 32887.1745
+        "value": 33041.1389
       },
       {
         "year": 2024,
-        "value": 33441.5715
+        "value": 33484.1986
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.0897
+      },
+      {
+        "year": 2015,
+        "value": 27.2024
+      },
+      {
+        "year": 2016,
+        "value": 28.8969
+      },
+      {
+        "year": 2017,
+        "value": 31.5223
+      },
+      {
+        "year": 2018,
+        "value": 31.3389
+      },
+      {
+        "year": 2019,
+        "value": 31.6442
+      },
+      {
+        "year": 2020,
+        "value": 32.7209
+      },
+      {
+        "year": 2021,
+        "value": 33.6785
+      },
+      {
+        "year": 2022,
+        "value": 36.0609
+      },
+      {
+        "year": 2023,
+        "value": 36.5799
+      },
+      {
+        "year": 2024,
+        "value": 39.1316
       }
     ],
     "enrollment_headcount_total": [

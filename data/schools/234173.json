@@ -1,6 +1,6 @@
 {
   "unitid": "234173",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Virginia Wesleyan University",
     "institution_unique_name": "Virginia Wesleyan University | Virginia Beach | Virginia",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 26.5712,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 27% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.9114,
+    "unfunded_discount_pct_change_5yr": -4.6337,
     "share_grad_students": 6.9644,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21615.5181
+        "value": 26304.1346
       },
       {
         "year": 2015,
-        "value": 20305.7919
+        "value": 18549.7702
       },
       {
         "year": 2016,
@@ -187,11 +189,11 @@
       },
       {
         "year": 2021,
-        "value": 15963.726
+        "value": 13555.2957
       },
       {
         "year": 2022,
-        "value": 14227.0812
+        "value": 14123.8418
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12563.9017
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.0578
+      },
+      {
+        "year": 2015,
+        "value": 45.4258
+      },
+      {
+        "year": 2016,
+        "value": 44.718
+      },
+      {
+        "year": 2017,
+        "value": 45.8166
+      },
+      {
+        "year": 2018,
+        "value": 47.1654
+      },
+      {
+        "year": 2019,
+        "value": 47.0936
+      },
+      {
+        "year": 2020,
+        "value": 47.4794
+      },
+      {
+        "year": 2021,
+        "value": 52.754
+      },
+      {
+        "year": 2022,
+        "value": 50.0092
+      },
+      {
+        "year": 2023,
+        "value": 46.8478
+      },
+      {
+        "year": 2024,
+        "value": 44.9114
       }
     ],
     "enrollment_headcount_total": [

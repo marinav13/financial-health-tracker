@@ -1,6 +1,6 @@
 {
   "unitid": "153825",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Loras College",
     "institution_unique_name": "Loras College | Dubuque | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.6876,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.0744,
-    "net_tuition_per_fte_change_5yr": -15.435,
+    "net_tuition_per_fte_change_5yr": -15.5034,
     "staff_total_headcount_pct_change_5yr": -2.2989,
     "staff_instructional_headcount_pct_change_5yr": -8.4615,
     "students_per_instructional_staff_fte": 11.5597,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 38.9638,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.4245,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.523,
+    "unfunded_discount_pct_change_5yr": 5.6455,
     "share_grad_students": 7.756,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 343535,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16389.5075
+        "value": 16557.2165
       },
       {
         "year": 2015,
-        "value": 16161.4094
+        "value": 16328.3122
       },
       {
         "year": 2016,
-        "value": 15635.6286
+        "value": 15802.2685
       },
       {
         "year": 2017,
-        "value": 15479.4819
+        "value": 15642.1392
       },
       {
         "year": 2018,
-        "value": 16105.3408
+        "value": 16249.9745
       },
       {
         "year": 2019,
-        "value": 16698.4577
+        "value": 16909.5547
       },
       {
         "year": 2020,
-        "value": 17014.699
+        "value": 17144.17
       },
       {
         "year": 2021,
-        "value": 15552.6986
+        "value": 15746.828
       },
       {
         "year": 2022,
-        "value": 13768.7873
+        "value": 13904.0665
       },
       {
         "year": 2023,
-        "value": 13573.0875
+        "value": 13363.665
       },
       {
         "year": 2024,
-        "value": 14121.0461
+        "value": 14287.9929
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 51.6111
+      },
+      {
+        "year": 2015,
+        "value": 53.0705
+      },
+      {
+        "year": 2016,
+        "value": 54.1364
+      },
+      {
+        "year": 2017,
+        "value": 55.0912
+      },
+      {
+        "year": 2018,
+        "value": 55.0756
+      },
+      {
+        "year": 2019,
+        "value": 53.5026
+      },
+      {
+        "year": 2020,
+        "value": 52.6087
+      },
+      {
+        "year": 2021,
+        "value": 54.7578
+      },
+      {
+        "year": 2022,
+        "value": 55.2667
+      },
+      {
+        "year": 2023,
+        "value": 53.3755
+      },
+      {
+        "year": 2024,
+        "value": 56.523
       }
     ],
     "enrollment_headcount_total": [

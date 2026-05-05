@@ -1,6 +1,6 @@
 {
   "unitid": "171492",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northwood University",
     "institution_unique_name": "Northwood University | Midland | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -24.2892,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.5437,
-    "net_tuition_per_fte_change_5yr": -21.1369,
+    "net_tuition_per_fte_change_5yr": -21.1152,
     "staff_total_headcount_pct_change_5yr": -42.7208,
     "staff_instructional_headcount_pct_change_5yr": -54.291,
     "students_per_instructional_staff_fte": 19.6261,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 45.1539,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.1305,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.3795,
+    "unfunded_discount_pct_change_5yr": 32.258,
     "share_grad_students": 18.5821,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 18556.6468
+        "value": 18563.2601
       },
       {
         "year": 2018,
-        "value": 19592.1778
+        "value": 19602.3596
       },
       {
         "year": 2019,
-        "value": 18236.8
+        "value": 18222.2933
       },
       {
         "year": 2020,
-        "value": 15937.6089
+        "value": 15942.1699
       },
       {
         "year": 2021,
-        "value": 16741.3417
+        "value": 16666.6627
       },
       {
         "year": 2022,
-        "value": 15349.6336
+        "value": 15270.0644
       },
       {
         "year": 2023,
-        "value": 14172.1357
+        "value": 14100.926
       },
       {
         "year": 2024,
-        "value": 14382.097
+        "value": 14374.6207
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.5802
+      },
+      {
+        "year": 2015,
+        "value": 29.5298
+      },
+      {
+        "year": 2016,
+        "value": 24.2482
+      },
+      {
+        "year": 2017,
+        "value": 22.5606
+      },
+      {
+        "year": 2018,
+        "value": 23.5154
+      },
+      {
+        "year": 2019,
+        "value": 24.4821
+      },
+      {
+        "year": 2020,
+        "value": 28.4188
+      },
+      {
+        "year": 2021,
+        "value": 30.5014
+      },
+      {
+        "year": 2022,
+        "value": 32.7332
+      },
+      {
+        "year": 2023,
+        "value": 33.4965
+      },
+      {
+        "year": 2024,
+        "value": 32.3795
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "119173",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mount Saint Mary's University",
     "institution_unique_name": "Mount Saint Mary's University | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -19.7418,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.08,
-    "net_tuition_per_fte_change_5yr": -14.9667,
+    "net_tuition_per_fte_change_5yr": -17.6001,
     "staff_total_headcount_pct_change_5yr": -5.9289,
     "staff_instructional_headcount_pct_change_5yr": -8.4257,
     "students_per_instructional_staff_fte": 9.7443,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 45.3051,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.0419,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.8696,
+    "unfunded_discount_pct_change_5yr": 26.4119,
     "share_grad_students": 26.9932,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30973.8917
+        "value": 30848.496
       },
       {
         "year": 2015,
-        "value": 31280.5178
+        "value": 31315.4549
       },
       {
         "year": 2016,
-        "value": 31523.608
+        "value": 31548.6927
       },
       {
         "year": 2017,
-        "value": 31024.2187
+        "value": 31033.4671
       },
       {
         "year": 2018,
-        "value": 31962.4033
+        "value": 31996.6112
       },
       {
         "year": 2019,
-        "value": 29500.6729
+        "value": 29594.6839
       },
       {
         "year": 2020,
-        "value": 30391.7928
+        "value": 30470.1393
       },
       {
         "year": 2021,
-        "value": 28692.5806
+        "value": 28863.7452
       },
       {
         "year": 2022,
-        "value": 26219.1227
+        "value": 26311.8513
       },
       {
         "year": 2023,
-        "value": 25283.7865
+        "value": 25336.5261
       },
       {
         "year": 2024,
-        "value": 25085.381
+        "value": 24385.9963
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.6837
+      },
+      {
+        "year": 2015,
+        "value": 27.6489
+      },
+      {
+        "year": 2016,
+        "value": 28.4361
+      },
+      {
+        "year": 2017,
+        "value": 28.6952
+      },
+      {
+        "year": 2018,
+        "value": 29.6435
+      },
+      {
+        "year": 2019,
+        "value": 28.3752
+      },
+      {
+        "year": 2020,
+        "value": 29.106
+      },
+      {
+        "year": 2021,
+        "value": 31.0243
+      },
+      {
+        "year": 2022,
+        "value": 33.1411
+      },
+      {
+        "year": 2023,
+        "value": 34.0626
+      },
+      {
+        "year": 2024,
+        "value": 35.8696
       }
     ],
     "enrollment_headcount_total": [

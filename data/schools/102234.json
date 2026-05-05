@@ -1,6 +1,6 @@
 {
   "unitid": "102234",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Spring Hill College",
     "institution_unique_name": "Spring Hill College | Mobile | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.0756,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -38.3535,
-    "net_tuition_per_fte_change_5yr": -27.1567,
+    "net_tuition_per_fte_change_5yr": -31.0767,
     "staff_total_headcount_pct_change_5yr": 18.1159,
     "staff_instructional_headcount_pct_change_5yr": 7.2,
     "students_per_instructional_staff_fte": 11.3571,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 39.6022,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.2408,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.0411,
+    "unfunded_discount_pct_change_5yr": -25.3392,
     "share_grad_students": 17.5485,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16009.4394
+        "value": 14709.8225
       },
       {
         "year": 2015,
-        "value": 15982.9476
+        "value": 14966.0912
       },
       {
         "year": 2016,
-        "value": 15761.6183
+        "value": 14221.1555
       },
       {
         "year": 2017,
-        "value": 16065.7872
+        "value": 14682.8797
       },
       {
         "year": 2018,
-        "value": 15436.5539
+        "value": 14054.9126
       },
       {
         "year": 2019,
-        "value": 16070.7007
+        "value": 15114.1631
       },
       {
         "year": 2020,
-        "value": 15618.9063
+        "value": 14479.2827
       },
       {
         "year": 2021,
-        "value": 14332.5432
+        "value": 12475.3785
       },
       {
         "year": 2022,
-        "value": 13374.2498
+        "value": 10469.3895
       },
       {
         "year": 2023,
-        "value": 12130.354
+        "value": 10578.0721
       },
       {
         "year": 2024,
-        "value": 11706.4359
+        "value": 10417.1857
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 58.9549
+      },
+      {
+        "year": 2015,
+        "value": 59.9335
+      },
+      {
+        "year": 2016,
+        "value": 61.921
+      },
+      {
+        "year": 2017,
+        "value": 62.7141
+      },
+      {
+        "year": 2018,
+        "value": 65.0609
+      },
+      {
+        "year": 2019,
+        "value": 64.3459
+      },
+      {
+        "year": 2020,
+        "value": 65.6675
+      },
+      {
+        "year": 2021,
+        "value": 65.6802
+      },
+      {
+        "year": 2022,
+        "value": 35.4415
+      },
+      {
+        "year": 2023,
+        "value": 40.3203
+      },
+      {
+        "year": 2024,
+        "value": 48.0411
       }
     ],
     "enrollment_headcount_total": [

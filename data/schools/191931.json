@@ -1,6 +1,6 @@
 {
   "unitid": "191931",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Iona University",
     "institution_unique_name": "Iona University | New Rochelle | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.7257,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.2213,
-    "net_tuition_per_fte_change_5yr": -17.5594,
+    "net_tuition_per_fte_change_5yr": -17.4366,
     "staff_total_headcount_pct_change_5yr": 16.6667,
     "staff_instructional_headcount_pct_change_5yr": 6.9079,
     "students_per_instructional_staff_fte": 15.2915,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 47.51,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.9806,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.4551,
+    "unfunded_discount_pct_change_5yr": 12.852,
     "share_grad_students": 17.0749,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 445000,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 26038.4094
+        "value": 26180.7507
       },
       {
         "year": 2016,
-        "value": 26047.6922
+        "value": 26192.5303
       },
       {
         "year": 2017,
-        "value": 25227.3815
+        "value": 25341.5156
       },
       {
         "year": 2018,
-        "value": 24986.9596
+        "value": 25141.9213
       },
       {
         "year": 2019,
-        "value": 24926.1642
+        "value": 25135.5681
       },
       {
         "year": 2020,
-        "value": 25466.9314
+        "value": 25675.0301
       },
       {
         "year": 2021,
-        "value": 24950.2145
+        "value": 25223.7827
       },
       {
         "year": 2022,
-        "value": 22150.007
+        "value": 22362.4532
       },
       {
         "year": 2023,
-        "value": 21146.2042
+        "value": 21358.2226
       },
       {
         "year": 2024,
-        "value": 20549.2669
+        "value": 20752.7859
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.7251
+      },
+      {
+        "year": 2015,
+        "value": 37.5146
+      },
+      {
+        "year": 2016,
+        "value": 38.8369
+      },
+      {
+        "year": 2017,
+        "value": 42.1387
+      },
+      {
+        "year": 2018,
+        "value": 43.3847
+      },
+      {
+        "year": 2019,
+        "value": 42.9368
+      },
+      {
+        "year": 2020,
+        "value": 43.4274
+      },
+      {
+        "year": 2021,
+        "value": 43.55
+      },
+      {
+        "year": 2022,
+        "value": 45.2792
+      },
+      {
+        "year": 2023,
+        "value": 46.3272
+      },
+      {
+        "year": 2024,
+        "value": 48.4551
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "144883",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "East-West University",
     "institution_unique_name": "East-West University | Chicago | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 20.1905,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.5448,
-    "net_tuition_per_fte_change_5yr": -33.0307,
+    "net_tuition_per_fte_change_5yr": -84.8011,
     "staff_total_headcount_pct_change_5yr": 0,
     "staff_instructional_headcount_pct_change_5yr": 9.375,
     "students_per_instructional_staff_fte": 26.2075,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 37.5965,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 12.2566,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 12% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 71.0855,
+    "unfunded_discount_pct_change_5yr": 152.2698,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8847.5643
+        "value": 16774.6021
       },
       {
         "year": 2015,
-        "value": 14307.5489
+        "value": 21926.9196
       },
       {
         "year": 2016,
-        "value": 14031.685
+        "value": 21890.5785
       },
       {
         "year": 2017,
-        "value": 12320.9411
+        "value": 19948.4124
       },
       {
         "year": 2018,
-        "value": 13928.3246
+        "value": 21234.2701
       },
       {
         "year": 2019,
-        "value": 16221.7802
+        "value": 23301.494
       },
       {
         "year": 2020,
-        "value": 12875.672
+        "value": 5529.6806
       },
       {
         "year": 2021,
-        "value": 12230.1139
+        "value": 5041.338
       },
       {
         "year": 2022,
-        "value": 11461.3468
+        "value": 4278.3533
       },
       {
         "year": 2023,
-        "value": 10950.2008
+        "value": 4491.8634
       },
       {
         "year": 2024,
-        "value": 10863.6177
+        "value": 3541.5745
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.0512
+      },
+      {
+        "year": 2015,
+        "value": 11.522
+      },
+      {
+        "year": 2016,
+        "value": 17.4932
+      },
+      {
+        "year": 2017,
+        "value": 19.0466
+      },
+      {
+        "year": 2018,
+        "value": 23.7696
+      },
+      {
+        "year": 2019,
+        "value": 28.1784
+      },
+      {
+        "year": 2020,
+        "value": 60.569
+      },
+      {
+        "year": 2021,
+        "value": 62.6229
+      },
+      {
+        "year": 2022,
+        "value": 64.7668
+      },
+      {
+        "year": 2023,
+        "value": 64.234
+      },
+      {
+        "year": 2024,
+        "value": 71.0855
       }
     ],
     "enrollment_headcount_total": [

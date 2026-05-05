@@ -1,6 +1,6 @@
 {
   "unitid": "217907",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Coker University",
     "institution_unique_name": "Coker University | Hartsville | South Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.2302,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.4258,
-    "net_tuition_per_fte_change_5yr": -27.1786,
+    "net_tuition_per_fte_change_5yr": -1760.9248,
     "staff_total_headcount_pct_change_5yr": 7.0539,
     "staff_instructional_headcount_pct_change_5yr": 42.5926,
     "students_per_instructional_staff_fte": 10.3723,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 40.8098,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -6.807,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -7% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 108.2622,
+    "unfunded_discount_pct_change_5yr": 15.1227,
     "share_grad_students": 5.4988,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 470805,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15359.6833
+        "value": 6019.1421
       },
       {
         "year": 2015,
-        "value": 16244.3142
+        "value": 5480.3708
       },
       {
         "year": 2016,
-        "value": 15081.9564
+        "value": 4239.017
       },
       {
         "year": 2017,
-        "value": 15161.3926
+        "value": 3432.282
       },
       {
         "year": 2018,
-        "value": 15358.6297
+        "value": 3243.1666
       },
       {
         "year": 2019,
-        "value": 14745.4784
+        "value": 107.8341
       },
       {
         "year": 2020,
-        "value": 13184.9728
+        "value": -2890.9292
       },
       {
         "year": 2021,
-        "value": 11293.6616
+        "value": -3655.6309
       },
       {
         "year": 2022,
-        "value": 10282.1244
+        "value": -4795.0954
       },
       {
         "year": 2023,
-        "value": 8502.2425
+        "value": -3783.6842
       },
       {
         "year": 2024,
-        "value": 10737.8656
+        "value": -1791.0441
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 58.3633
+      },
+      {
+        "year": 2015,
+        "value": 62.9729
+      },
+      {
+        "year": 2016,
+        "value": 68.2685
+      },
+      {
+        "year": 2017,
+        "value": 73.7699
+      },
+      {
+        "year": 2018,
+        "value": 74.9769
+      },
+      {
+        "year": 2019,
+        "value": 94.0408
+      },
+      {
+        "year": 2020,
+        "value": 114.4128
+      },
+      {
+        "year": 2021,
+        "value": 123.8756
+      },
+      {
+        "year": 2022,
+        "value": 137.3018
+      },
+      {
+        "year": 2023,
+        "value": 135.3209
+      },
+      {
+        "year": 2024,
+        "value": 108.2622
       }
     ],
     "enrollment_headcount_total": [

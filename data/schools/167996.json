@@ -1,6 +1,6 @@
 {
   "unitid": "167996",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Stonehill College",
     "institution_unique_name": "Stonehill College | Easton | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.1232,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -10.8825,
-    "net_tuition_per_fte_change_5yr": -22.026,
+    "net_tuition_per_fte_change_5yr": -23.7343,
     "staff_total_headcount_pct_change_5yr": -5.8594,
     "staff_instructional_headcount_pct_change_5yr": -2.99,
     "students_per_instructional_staff_fte": 12.2013,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 40.8988,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.8767,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 59.2344,
+    "unfunded_discount_pct_change_5yr": 22.5141,
     "share_grad_students": 3.8947,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28120.5452
+        "value": 28216.7671
       },
       {
         "year": 2015,
-        "value": 26891.7366
+        "value": 26993.2367
       },
       {
         "year": 2016,
-        "value": 25593.4078
+        "value": 25705.2746
       },
       {
         "year": 2017,
-        "value": 24680.9833
+        "value": 24777.5423
       },
       {
         "year": 2018,
-        "value": 24577.8309
+        "value": 24680.0051
       },
       {
         "year": 2019,
-        "value": 25977.2242
+        "value": 25895.3471
       },
       {
         "year": 2020,
-        "value": 25638.6808
+        "value": 25591.5156
       },
       {
         "year": 2021,
-        "value": 24657.8573
+        "value": 24608.3035
       },
       {
         "year": 2022,
-        "value": 21578.8926
+        "value": 21478.7666
       },
       {
         "year": 2023,
-        "value": 20676.803
+        "value": 20457.3794
       },
       {
         "year": 2024,
-        "value": 20255.4831
+        "value": 19749.2726
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.3205
+      },
+      {
+        "year": 2015,
+        "value": 43.8317
+      },
+      {
+        "year": 2016,
+        "value": 46.9804
+      },
+      {
+        "year": 2017,
+        "value": 48.245
+      },
+      {
+        "year": 2018,
+        "value": 49.1517
+      },
+      {
+        "year": 2019,
+        "value": 48.349
+      },
+      {
+        "year": 2020,
+        "value": 48.1029
+      },
+      {
+        "year": 2021,
+        "value": 48.05
+      },
+      {
+        "year": 2022,
+        "value": 55.4798
+      },
+      {
+        "year": 2023,
+        "value": 57.9516
+      },
+      {
+        "year": 2024,
+        "value": 59.2344
       }
     ],
     "enrollment_headcount_total": [

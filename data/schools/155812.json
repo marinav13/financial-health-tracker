@@ -1,6 +1,6 @@
 {
   "unitid": "155812",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Saint Mary",
     "institution_unique_name": "University of Saint Mary | Leavenworth | Kansas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 56.0469,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.0247,
+    "unfunded_discount_pct_change_5yr": 32.2067,
     "share_grad_students": 34.4726,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18795.1737
+        "value": 18045.8848
       },
       {
         "year": 2015,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 21453.6037
+        "value": 21453.6048
       },
       {
         "year": 2021,
@@ -191,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 19930.6625
+        "value": 19930.6636
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 17103.3075
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.2209
+      },
+      {
+        "year": 2015,
+        "value": 26.4838
+      },
+      {
+        "year": 2016,
+        "value": 28.3761
+      },
+      {
+        "year": 2017,
+        "value": 29.7063
+      },
+      {
+        "year": 2018,
+        "value": 31.4998
+      },
+      {
+        "year": 2019,
+        "value": 32.5435
+      },
+      {
+        "year": 2020,
+        "value": 34.0516
+      },
+      {
+        "year": 2021,
+        "value": 36.031
+      },
+      {
+        "year": 2022,
+        "value": 38.0018
+      },
+      {
+        "year": 2023,
+        "value": 41.3639
+      },
+      {
+        "year": 2024,
+        "value": 43.0247
       }
     ],
     "enrollment_headcount_total": [

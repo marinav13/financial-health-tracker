@@ -1,6 +1,6 @@
 {
   "unitid": "213367",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "La Salle University",
     "institution_unique_name": "La Salle University | Philadelphia | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -34.7098,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -36.3498,
-    "net_tuition_per_fte_change_5yr": -13.6477,
+    "net_tuition_per_fte_change_5yr": -13.9976,
     "staff_total_headcount_pct_change_5yr": -29.3103,
     "staff_instructional_headcount_pct_change_5yr": -37.3281,
     "students_per_instructional_staff_fte": 14.1206,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 53.3242,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.8444,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.5231,
+    "unfunded_discount_pct_change_5yr": 15.3747,
     "share_grad_students": 42.8419,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 668107,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23532.3349
+        "value": 23439.0751
       },
       {
         "year": 2015,
-        "value": 22288.5128
+        "value": 22105.4037
       },
       {
         "year": 2016,
-        "value": 21384.2295
+        "value": 21148.5993
       },
       {
         "year": 2017,
-        "value": 20997.2068
+        "value": 20719.3036
       },
       {
         "year": 2018,
-        "value": 18529.2447
+        "value": 18367.7296
       },
       {
         "year": 2019,
-        "value": 18666.4734
+        "value": 18573.739
       },
       {
         "year": 2020,
-        "value": 19499.191
+        "value": 19435.0958
       },
       {
         "year": 2021,
-        "value": 20134.7629
+        "value": 20074.4629
       },
       {
         "year": 2022,
-        "value": 18483.5644
+        "value": 18146.6292
       },
       {
         "year": 2023,
-        "value": 15841.2504
+        "value": 15670.6844
       },
       {
         "year": 2024,
-        "value": 16118.9199
+        "value": 15973.8665
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.418
+      },
+      {
+        "year": 2015,
+        "value": 43.6054
+      },
+      {
+        "year": 2016,
+        "value": 45.5212
+      },
+      {
+        "year": 2017,
+        "value": 48.1521
+      },
+      {
+        "year": 2018,
+        "value": 36.107
+      },
+      {
+        "year": 2019,
+        "value": 37.7233
+      },
+      {
+        "year": 2020,
+        "value": 38.7243
+      },
+      {
+        "year": 2021,
+        "value": 35.075
+      },
+      {
+        "year": 2022,
+        "value": 37.243
+      },
+      {
+        "year": 2023,
+        "value": 37.242
+      },
+      {
+        "year": 2024,
+        "value": 43.5231
       }
     ],
     "enrollment_headcount_total": [

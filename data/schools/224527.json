@@ -1,6 +1,6 @@
 {
   "unitid": "224527",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "East Texas Baptist University",
     "institution_unique_name": "East Texas Baptist University | Marshall | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 14.735,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -13.0123,
-    "net_tuition_per_fte_change_5yr": -20.8387,
+    "net_tuition_per_fte_change_5yr": -12.6692,
     "staff_total_headcount_pct_change_5yr": 4.7771,
     "staff_instructional_headcount_pct_change_5yr": 12.0968,
     "students_per_instructional_staff_fte": 16.2768,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 47.1414,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.2597,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.1822,
+    "unfunded_discount_pct_change_5yr": 5.8102,
     "share_grad_students": 10.9645,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17919.1447
+        "value": 17891.7167
       },
       {
         "year": 2015,
-        "value": 17499.3154
+        "value": 17470.4963
       },
       {
         "year": 2016,
-        "value": 17785.3668
+        "value": 17756.332
       },
       {
         "year": 2017,
@@ -179,11 +181,11 @@
       },
       {
         "year": 2019,
-        "value": 15294.0289
+        "value": 15368.4888
       },
       {
         "year": 2020,
-        "value": 15326.7518
+        "value": 15405.5838
       },
       {
         "year": 2021,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 11953.4072
+        "value": 13287.7877
       },
       {
         "year": 2023,
-        "value": 11697.8391
+        "value": 13043.2832
       },
       {
         "year": 2024,
-        "value": 12106.9579
+        "value": 13421.4305
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.4715
+      },
+      {
+        "year": 2015,
+        "value": 34.1275
+      },
+      {
+        "year": 2016,
+        "value": 33.095
+      },
+      {
+        "year": 2017,
+        "value": 36.1426
+      },
+      {
+        "year": 2018,
+        "value": 35.4052
+      },
+      {
+        "year": 2019,
+        "value": 36.0856
+      },
+      {
+        "year": 2020,
+        "value": 38.1783
+      },
+      {
+        "year": 2021,
+        "value": 39.7499
+      },
+      {
+        "year": 2022,
+        "value": 36.6978
+      },
+      {
+        "year": 2023,
+        "value": 39.3344
+      },
+      {
+        "year": 2024,
+        "value": 38.1822
       }
     ],
     "enrollment_headcount_total": [

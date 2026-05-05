@@ -1,6 +1,6 @@
 {
   "unitid": "210304",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Warner Pacific University",
     "institution_unique_name": "Warner Pacific University | Portland | Oregon",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -42.9379,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.7053,
-    "net_tuition_per_fte_change_5yr": -9.2993,
+    "net_tuition_per_fte_change_5yr": -13.0814,
     "staff_total_headcount_pct_change_5yr": 33.9506,
     "staff_instructional_headcount_pct_change_5yr": 119.0476,
     "students_per_instructional_staff_fte": 5.6167,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
-    "tuition_dependence_pct": 49.7002,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.981,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.9987,
+    "unfunded_discount_pct_change_5yr": 3.5042,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 42614.8153
+        "value": 42354.6568
       },
       {
         "year": 2015,
-        "value": 38650.6588
+        "value": 37944.7144
       },
       {
         "year": 2016,
-        "value": 37359.4181
+        "value": 37183.484
       },
       {
         "year": 2017,
-        "value": 35048.356
+        "value": 34651.5908
       },
       {
         "year": 2018,
-        "value": 33738.5057
+        "value": 33298.6425
       },
       {
         "year": 2019,
-        "value": 28665.7082
+        "value": 28276.46
       },
       {
         "year": 2020,
-        "value": 31563.0713
+        "value": 30881.0663
       },
       {
         "year": 2021,
-        "value": 35741.1988
+        "value": 34573.5818
       },
       {
         "year": 2022,
-        "value": 28693.3007
+        "value": 25422.5007
       },
       {
         "year": 2023,
-        "value": 26356.3329
+        "value": 25137.9637
       },
       {
         "year": 2024,
-        "value": 25999.9911
+        "value": 24577.5134
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 15.4802
+      },
+      {
+        "year": 2015,
+        "value": 19.5851
+      },
+      {
+        "year": 2016,
+        "value": 20.927
+      },
+      {
+        "year": 2017,
+        "value": 21.6777
+      },
+      {
+        "year": 2018,
+        "value": 23.8199
+      },
+      {
+        "year": 2019,
+        "value": 14.4909
+      },
+      {
+        "year": 2020,
+        "value": 15.0462
+      },
+      {
+        "year": 2021,
+        "value": 13.0302
+      },
+      {
+        "year": 2022,
+        "value": 11.7871
+      },
+      {
+        "year": 2023,
+        "value": 13.8408
+      },
+      {
+        "year": 2024,
+        "value": 14.9987
       }
     ],
     "enrollment_headcount_total": [

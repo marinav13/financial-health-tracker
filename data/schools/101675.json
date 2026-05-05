@@ -1,6 +1,6 @@
 {
   "unitid": "101675",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Miles College",
     "institution_unique_name": "Miles College | Fairfield | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.7361,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.3514,
-    "net_tuition_per_fte_change_5yr": 231.6163,
+    "net_tuition_per_fte_change_5yr": 198.0001,
     "staff_total_headcount_pct_change_5yr": -7.9755,
     "staff_instructional_headcount_pct_change_5yr": 13.4454,
     "students_per_instructional_staff_fte": 8.5968,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 42.8003,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.0838,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 14.6391,
+    "unfunded_discount_pct_change_5yr": -51.8316,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 6892.3387
+        "value": 7039.176
       },
       {
         "year": 2015,
-        "value": 6335.3613
+        "value": 5680.518
       },
       {
         "year": 2016,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 5905.8638
+        "value": 5905.8645
       },
       {
         "year": 2019,
-        "value": 5709.4414
+        "value": 5950.2447
       },
       {
         "year": 2020,
-        "value": 6776.9707
+        "value": 6776.9699
       },
       {
         "year": 2021,
-        "value": 5532.1884
+        "value": 5532.1892
       },
       {
         "year": 2022,
-        "value": 4891.2199
+        "value": 4991.4523
       },
       {
         "year": 2023,
-        "value": 4808.0448
+        "value": 4548.6386
       },
       {
         "year": 2024,
-        "value": 18933.4386
+        "value": 17731.7324
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.1061
+      },
+      {
+        "year": 2015,
+        "value": 27.5377
+      },
+      {
+        "year": 2016,
+        "value": 19.444
+      },
+      {
+        "year": 2017,
+        "value": 25.0316
+      },
+      {
+        "year": 2018,
+        "value": 28.121
+      },
+      {
+        "year": 2019,
+        "value": 30.3915
+      },
+      {
+        "year": 2020,
+        "value": 28.5879
+      },
+      {
+        "year": 2021,
+        "value": 24.0111
+      },
+      {
+        "year": 2022,
+        "value": 22.7048
+      },
+      {
+        "year": 2023,
+        "value": 34.645
+      },
+      {
+        "year": 2024,
+        "value": 14.6391
       }
     ],
     "enrollment_headcount_total": [

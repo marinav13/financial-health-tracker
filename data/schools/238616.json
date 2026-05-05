@@ -1,6 +1,6 @@
 {
   "unitid": "238616",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Concordia University-Wisconsin",
     "institution_unique_name": "Concordia University-Wisconsin | Mequon | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.882,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -8.5576,
-    "net_tuition_per_fte_change_5yr": -9.7301,
+    "net_tuition_per_fte_change_5yr": -9.7427,
     "staff_total_headcount_pct_change_5yr": -21.4539,
     "staff_instructional_headcount_pct_change_5yr": -21.5714,
     "students_per_instructional_staff_fte": 13.8,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 67.1074,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.3503,
+    "unfunded_discount_pct_change_5yr": 11.9297,
     "share_grad_students": 53.8872,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 424897,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19263.0389
+        "value": 19374.0012
       },
       {
         "year": 2015,
-        "value": 21239.402
+        "value": 21360.7555
       },
       {
         "year": 2016,
-        "value": 20742.1116
+        "value": 20533.3879
       },
       {
         "year": 2017,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 24623.4267
+        "value": 24626.8728
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 22227.5453
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.9787
+      },
+      {
+        "year": 2015,
+        "value": 23.0448
+      },
+      {
+        "year": 2016,
+        "value": 23.9054
+      },
+      {
+        "year": 2017,
+        "value": 23.8597
+      },
+      {
+        "year": 2018,
+        "value": 24.9813
+      },
+      {
+        "year": 2019,
+        "value": 29.7958
+      },
+      {
+        "year": 2020,
+        "value": 32.9502
+      },
+      {
+        "year": 2021,
+        "value": 34.6805
+      },
+      {
+        "year": 2022,
+        "value": 29.7849
+      },
+      {
+        "year": 2023,
+        "value": 29.7805
+      },
+      {
+        "year": 2024,
+        "value": 33.3503
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "160755",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Tulane University of Louisiana",
     "institution_unique_name": "Tulane University of Louisiana | New Orleans | Louisiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.747,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 31.82,
-    "net_tuition_per_fte_change_5yr": 8.616,
+    "net_tuition_per_fte_change_5yr": 9.5192,
     "staff_total_headcount_pct_change_5yr": 11.6183,
     "staff_instructional_headcount_pct_change_5yr": 15.5116,
     "students_per_instructional_staff_fte": 6.5853,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 30.8226,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.136,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.7342,
+    "unfunded_discount_pct_change_5yr": -16.6979,
     "share_grad_students": 39.232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 229767000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 36818.5904
+        "value": 34846.9189
       },
       {
         "year": 2015,
-        "value": 39780.8474
+        "value": 37336.9355
       },
       {
         "year": 2016,
-        "value": 40878.2229
+        "value": 38456.5899
       },
       {
         "year": 2017,
-        "value": 39770.7782
+        "value": 37258.9557
       },
       {
         "year": 2018,
-        "value": 39840.5696
+        "value": 37271.1433
       },
       {
         "year": 2019,
-        "value": 40935.4754
+        "value": 38376.3365
       },
       {
         "year": 2020,
-        "value": 44077.4064
+        "value": 41644.4296
       },
       {
         "year": 2021,
-        "value": 45286.8905
+        "value": 42832.334
       },
       {
         "year": 2022,
-        "value": 43969.2967
+        "value": 41583.7373
       },
       {
         "year": 2023,
-        "value": 43945.7878
+        "value": 41574.5429
       },
       {
         "year": 2024,
-        "value": 44462.4776
+        "value": 42029.4545
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.6303
+      },
+      {
+        "year": 2015,
+        "value": 33.5191
+      },
+      {
+        "year": 2016,
+        "value": 33.5302
+      },
+      {
+        "year": 2017,
+        "value": 34.5453
+      },
+      {
+        "year": 2018,
+        "value": 34.7939
+      },
+      {
+        "year": 2019,
+        "value": 34.494
+      },
+      {
+        "year": 2020,
+        "value": 33.2519
+      },
+      {
+        "year": 2021,
+        "value": 31.5962
+      },
+      {
+        "year": 2022,
+        "value": 29.5479
+      },
+      {
+        "year": 2023,
+        "value": 28.716
+      },
+      {
+        "year": 2024,
+        "value": 28.7342
       }
     ],
     "enrollment_headcount_total": [

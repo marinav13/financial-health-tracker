@@ -1,6 +1,6 @@
 {
   "unitid": "180258",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Providence",
     "institution_unique_name": "University of Providence | Great Falls | Montana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -33.0403,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 16.2871,
-    "net_tuition_per_fte_change_5yr": -12.4849,
+    "net_tuition_per_fte_change_5yr": -13.7566,
     "staff_total_headcount_pct_change_5yr": -5.53,
     "staff_instructional_headcount_pct_change_5yr": 17.8571,
     "students_per_instructional_staff_fte": 10.0051,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 25.4251,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.8379,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.4205,
+    "unfunded_discount_pct_change_5yr": 21.2036,
     "share_grad_students": 24.07,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12752.0872
+        "value": 12507.149
       },
       {
         "year": 2015,
-        "value": 11663.0199
+        "value": 11508.0958
       },
       {
         "year": 2016,
-        "value": 12081.679
+        "value": 11944.7353
       },
       {
         "year": 2017,
-        "value": 10930.1803
+        "value": 10366.424
       },
       {
         "year": 2018,
-        "value": 12531.3198
+        "value": 12531.3212
       },
       {
         "year": 2019,
-        "value": 12966.8586
+        "value": 12854.1899
       },
       {
         "year": 2020,
-        "value": 13666.8463
+        "value": 13136.4111
       },
       {
         "year": 2021,
-        "value": 14784.8871
+        "value": 14705.0804
       },
       {
         "year": 2022,
-        "value": 13344.7661
+        "value": 13209.5141
       },
       {
         "year": 2023,
-        "value": 13541.3192
+        "value": 13272.8175
       },
       {
         "year": 2024,
-        "value": 11347.9604
+        "value": 11085.8919
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.6196
+      },
+      {
+        "year": 2015,
+        "value": 41.1983
+      },
+      {
+        "year": 2016,
+        "value": 43.1008
+      },
+      {
+        "year": 2017,
+        "value": 40.2716
+      },
+      {
+        "year": 2018,
+        "value": 22.1714
+      },
+      {
+        "year": 2019,
+        "value": 41.5999
+      },
+      {
+        "year": 2020,
+        "value": 43.3038
+      },
+      {
+        "year": 2021,
+        "value": 32.9397
+      },
+      {
+        "year": 2022,
+        "value": 34.4202
+      },
+      {
+        "year": 2023,
+        "value": 38.2662
+      },
+      {
+        "year": 2024,
+        "value": 50.4205
       }
     ],
     "enrollment_headcount_total": [

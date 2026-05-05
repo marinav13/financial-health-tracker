@@ -1,6 +1,6 @@
 {
   "unitid": "174792",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Johns University",
     "institution_unique_name": "Saint Johns University | Collegeville | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.2672,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.2588,
-    "net_tuition_per_fte_change_5yr": -14.5963,
+    "net_tuition_per_fte_change_5yr": -14.5356,
     "staff_total_headcount_pct_change_5yr": -6.2626,
     "staff_instructional_headcount_pct_change_5yr": -19.3939,
     "students_per_instructional_staff_fte": 13.8442,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 28.9014,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.2129,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.0478,
+    "unfunded_discount_pct_change_5yr": -4.2949,
     "share_grad_students": 10.5701,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25687.4233
+        "value": 25937.5421
       },
       {
         "year": 2015,
-        "value": 25152.2806
+        "value": 25413.6675
       },
       {
         "year": 2016,
-        "value": 24998.6776
+        "value": 25260.6063
       },
       {
         "year": 2017,
-        "value": 23147.9339
+        "value": 23382.2534
       },
       {
         "year": 2018,
-        "value": 22866.0233
+        "value": 23099.2174
       },
       {
         "year": 2019,
-        "value": 23615.4296
+        "value": 23852.989
       },
       {
         "year": 2020,
-        "value": 22992.5327
+        "value": 23233.9282
       },
       {
         "year": 2021,
-        "value": 20529.4322
+        "value": 20760.6459
       },
       {
         "year": 2022,
-        "value": 20440.9829
+        "value": 20699.5635
       },
       {
         "year": 2023,
-        "value": 20686.9607
+        "value": 20908.5774
       },
       {
         "year": 2024,
-        "value": 20168.4438
+        "value": 20385.8257
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.8617
+      },
+      {
+        "year": 2015,
+        "value": 46.418
+      },
+      {
+        "year": 2016,
+        "value": 47.2356
+      },
+      {
+        "year": 2017,
+        "value": 47.9961
+      },
+      {
+        "year": 2018,
+        "value": 48.5311
+      },
+      {
+        "year": 2019,
+        "value": 48.1142
+      },
+      {
+        "year": 2020,
+        "value": 44.9729
+      },
+      {
+        "year": 2021,
+        "value": 46.1834
+      },
+      {
+        "year": 2022,
+        "value": 45.5875
+      },
+      {
+        "year": 2023,
+        "value": 45.6643
+      },
+      {
+        "year": 2024,
+        "value": 46.0478
       }
     ],
     "enrollment_headcount_total": [

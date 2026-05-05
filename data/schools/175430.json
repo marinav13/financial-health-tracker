@@ -1,6 +1,6 @@
 {
   "unitid": "175430",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Blue Mountain Christian University",
     "institution_unique_name": "Blue Mountain Christian University | Blue Mountain | Mississippi",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 45.5782,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -14.7453,
-    "net_tuition_per_fte_change_5yr": -21.209,
+    "net_tuition_per_fte_change_5yr": -357.9504,
     "staff_total_headcount_pct_change_5yr": 6.4286,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 15,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 32.7327,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -15.3692,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -15% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 140.7761,
+    "unfunded_discount_pct_change_5yr": 66.4778,
     "share_grad_students": 5.4206,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7343.6092
+        "value": 2418.8075
       },
       {
         "year": 2015,
-        "value": 8663.124
+        "value": 3838.7418
       },
       {
         "year": 2016,
-        "value": 7911.0688
+        "value": 2022.1832
       },
       {
         "year": 2017,
-        "value": 7222.4356
+        "value": 1118.2091
       },
       {
         "year": 2018,
-        "value": 7312.8442
+        "value": 900.2284
       },
       {
         "year": 2019,
-        "value": 7641.7358
+        "value": 1095.9774
       },
       {
         "year": 2020,
-        "value": 8056.2446
+        "value": 677.9276
       },
       {
         "year": 2021,
-        "value": 7118.7081
+        "value": 17.01
       },
       {
         "year": 2022,
-        "value": 6169.7249
+        "value": -1693.032
       },
       {
         "year": 2023,
-        "value": 6112.0237
+        "value": -2429.5931
       },
       {
         "year": 2024,
-        "value": 6021.0028
+        "value": -2827.0783
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 56.6513
+      },
+      {
+        "year": 2015,
+        "value": 50.5384
+      },
+      {
+        "year": 2016,
+        "value": 67.7681
+      },
+      {
+        "year": 2017,
+        "value": 79.1405
+      },
+      {
+        "year": 2018,
+        "value": 84.5933
+      },
+      {
+        "year": 2019,
+        "value": 84.5615
+      },
+      {
+        "year": 2020,
+        "value": 90.7343
+      },
+      {
+        "year": 2021,
+        "value": 99.0002
+      },
+      {
+        "year": 2022,
+        "value": 126.1399
+      },
+      {
+        "year": 2023,
+        "value": 134.7858
+      },
+      {
+        "year": 2024,
+        "value": 140.7761
       }
     ],
     "enrollment_headcount_total": [

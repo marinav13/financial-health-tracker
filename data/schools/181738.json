@@ -1,6 +1,6 @@
 {
   "unitid": "181738",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Union Adventist University",
     "institution_unique_name": "Union Adventist University | Lincoln | Nebraska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.1397,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.1,
-    "net_tuition_per_fte_change_5yr": -1.7646,
+    "net_tuition_per_fte_change_5yr": 4.0842,
     "staff_total_headcount_pct_change_5yr": -14.2349,
     "staff_instructional_headcount_pct_change_5yr": -11.5702,
     "students_per_instructional_staff_fte": 8.1485,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 47.2921,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 17.8612,
+    "unfunded_discount_pct_change_5yr": -37.0142,
     "share_grad_students": 13.2626,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20419.4377
+        "value": 19730.0982
       },
       {
         "year": 2015,
-        "value": 20396.2499
+        "value": 19809.3339
       },
       {
         "year": 2016,
-        "value": 20306.1145
+        "value": 19699.8905
       },
       {
         "year": 2017,
-        "value": 19109.3169
+        "value": 18180.7308
       },
       {
         "year": 2018,
-        "value": 20037.6996
+        "value": 19317.6133
       },
       {
         "year": 2019,
-        "value": 19363.1388
+        "value": 18275.0623
       },
       {
         "year": 2020,
-        "value": 20207.2959
+        "value": 19175.922
       },
       {
         "year": 2021,
-        "value": 17065.5844
+        "value": 15990.5155
       },
       {
         "year": 2022,
-        "value": 15961.3498
+        "value": 14894.7796
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 19021.4518
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.2104
+      },
+      {
+        "year": 2015,
+        "value": 25.9002
+      },
+      {
+        "year": 2016,
+        "value": 26.5324
+      },
+      {
+        "year": 2017,
+        "value": 28.1622
+      },
+      {
+        "year": 2018,
+        "value": 28.8918
+      },
+      {
+        "year": 2019,
+        "value": 28.3575
+      },
+      {
+        "year": 2020,
+        "value": 25.1786
+      },
+      {
+        "year": 2021,
+        "value": 27.0541
+      },
+      {
+        "year": 2022,
+        "value": 29.2896
+      },
+      {
+        "year": 2023,
+        "value": 26.8244
+      },
+      {
+        "year": 2024,
+        "value": 17.8612
       }
     ],
     "enrollment_headcount_total": [

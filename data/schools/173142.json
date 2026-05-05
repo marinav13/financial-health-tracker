@@ -1,6 +1,6 @@
 {
   "unitid": "173142",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethany Lutheran College",
     "institution_unique_name": "Bethany Lutheran College | Mankato | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 17.7832,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.014,
-    "net_tuition_per_fte_change_5yr": -9.2119,
+    "net_tuition_per_fte_change_5yr": -5.6642,
     "staff_total_headcount_pct_change_5yr": 14.2077,
     "staff_instructional_headcount_pct_change_5yr": 23.5294,
     "students_per_instructional_staff_fte": 14.0647,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 33.4694,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 22.3391,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.7848,
+    "unfunded_discount_pct_change_5yr": -6.2275,
     "share_grad_students": 5.8945,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15635.8001
+        "value": 13733.9125
       },
       {
         "year": 2015,
-        "value": 15097.4372
+        "value": 15335.5034
       },
       {
         "year": 2016,
-        "value": 14815.718
+        "value": 15294.5687
       },
       {
         "year": 2017,
-        "value": 14801.3278
+        "value": 11623.7621
       },
       {
         "year": 2018,
-        "value": 14720.5893
+        "value": 11149.5914
       },
       {
         "year": 2019,
-        "value": 13844.3761
+        "value": 8892.9022
       },
       {
         "year": 2020,
-        "value": 13007.5402
+        "value": 11410.3024
       },
       {
         "year": 2021,
-        "value": 11528.007
+        "value": 11416.5433
       },
       {
         "year": 2022,
-        "value": 10629.6918
+        "value": 6701.3573
       },
       {
         "year": 2023,
-        "value": 12068.6367
+        "value": 8003.6621
       },
       {
         "year": 2024,
-        "value": 12569.0477
+        "value": 8389.1907
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.7369
+      },
+      {
+        "year": 2015,
+        "value": 38.3188
+      },
+      {
+        "year": 2016,
+        "value": 36.3593
+      },
+      {
+        "year": 2017,
+        "value": 43.9769
+      },
+      {
+        "year": 2018,
+        "value": 49.8622
+      },
+      {
+        "year": 2019,
+        "value": 55.2238
+      },
+      {
+        "year": 2020,
+        "value": 50.3159
+      },
+      {
+        "year": 2021,
+        "value": 51.1129
+      },
+      {
+        "year": 2022,
+        "value": 59.97
+      },
+      {
+        "year": 2023,
+        "value": 54.2919
+      },
+      {
+        "year": 2024,
+        "value": 51.7848
       }
     ],
     "enrollment_headcount_total": [

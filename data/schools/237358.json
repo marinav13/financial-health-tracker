@@ -1,6 +1,6 @@
 {
   "unitid": "237358",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Davis & Elkins College",
     "institution_unique_name": "Davis & Elkins College | Elkins | West Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.1087,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 8.5724,
-    "net_tuition_per_fte_change_5yr": -25.1063,
+    "net_tuition_per_fte_change_5yr": -23.7212,
     "staff_total_headcount_pct_change_5yr": -2.7888,
     "staff_instructional_headcount_pct_change_5yr": -13.2653,
     "students_per_instructional_staff_fte": 11.2541,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 21.8798,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 23.0645,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 61.8055,
+    "unfunded_discount_pct_change_5yr": 9.3188,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17376.3748
+        "value": 16221.9716
       },
       {
         "year": 2015,
-        "value": 16646.4639
+        "value": 16813.5188
       },
       {
         "year": 2016,
-        "value": 14400.3001
+        "value": 14567.6863
       },
       {
         "year": 2017,
-        "value": 12811.288
+        "value": 12998.6866
       },
       {
         "year": 2018,
-        "value": 12278.8116
+        "value": 12475.3723
       },
       {
         "year": 2019,
-        "value": 12755.4376
+        "value": 13201.9686
       },
       {
         "year": 2020,
-        "value": 11683.4788
+        "value": 12135.4083
       },
       {
         "year": 2021,
-        "value": 10225.3487
+        "value": 10764.8019
       },
       {
         "year": 2022,
-        "value": 9626.274
+        "value": 10260.3248
       },
       {
         "year": 2023,
-        "value": 9454.6983
+        "value": 10034.4532
       },
       {
         "year": 2024,
-        "value": 9553.0191
+        "value": 10070.299
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.3549
+      },
+      {
+        "year": 2015,
+        "value": 40.1116
+      },
+      {
+        "year": 2016,
+        "value": 46.7383
+      },
+      {
+        "year": 2017,
+        "value": 53.6016
+      },
+      {
+        "year": 2018,
+        "value": 56.5053
+      },
+      {
+        "year": 2019,
+        "value": 56.537
+      },
+      {
+        "year": 2020,
+        "value": 59.1895
+      },
+      {
+        "year": 2021,
+        "value": 58.1598
+      },
+      {
+        "year": 2022,
+        "value": 60.9717
+      },
+      {
+        "year": 2023,
+        "value": 59.669
+      },
+      {
+        "year": 2024,
+        "value": 61.8055
       }
     ],
     "enrollment_headcount_total": [

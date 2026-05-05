@@ -1,6 +1,6 @@
 {
   "unitid": "153320",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Faith Baptist Bible College and Theological Seminary",
     "institution_unique_name": "Faith Baptist Bible College and Theological Seminary | Ankeny | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 66.3697,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 23.5912,
-    "net_tuition_per_fte_change_5yr": -0.3877,
+    "net_tuition_per_fte_change_5yr": 70.159,
     "staff_total_headcount_pct_change_5yr": 28.5714,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 14.3,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 35.8602,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.4986,
+    "unfunded_discount_pct_change_5yr": -33.4484,
     "share_grad_students": 11.3788,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13586.3467
+        "value": 12271.8384
       },
       {
         "year": 2015,
-        "value": 9376.8038
+        "value": 5851.5724
       },
       {
         "year": 2016,
-        "value": 9912.1261
+        "value": 6388.7161
       },
       {
         "year": 2017,
-        "value": 10021.0826
+        "value": 6886.328
       },
       {
         "year": 2018,
-        "value": 9143.2251
+        "value": 4739.2799
       },
       {
         "year": 2019,
-        "value": 8481.958
+        "value": 4965.396
       },
       {
         "year": 2020,
-        "value": 8771.5142
+        "value": 5511.2049
       },
       {
         "year": 2021,
-        "value": 8563.8009
+        "value": 5544.8329
       },
       {
         "year": 2022,
-        "value": 8100.5389
+        "value": 9050.1822
       },
       {
         "year": 2023,
-        "value": 8414.4156
+        "value": 9381.5659
       },
       {
         "year": 2024,
         "value": 8449.0699
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.1166
+      },
+      {
+        "year": 2015,
+        "value": 52.3216
+      },
+      {
+        "year": 2016,
+        "value": 51.6105
+      },
+      {
+        "year": 2017,
+        "value": 48.5919
+      },
+      {
+        "year": 2018,
+        "value": 60.867
+      },
+      {
+        "year": 2019,
+        "value": 57.8477
+      },
+      {
+        "year": 2020,
+        "value": 53.2128
+      },
+      {
+        "year": 2021,
+        "value": 50.4918
+      },
+      {
+        "year": 2022,
+        "value": 39.6124
+      },
+      {
+        "year": 2023,
+        "value": 36.5731
+      },
+      {
+        "year": 2024,
+        "value": 38.4986
       }
     ],
     "enrollment_headcount_total": [

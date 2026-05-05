@@ -1,6 +1,6 @@
 {
   "unitid": "229780",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wayland Baptist University",
     "institution_unique_name": "Wayland Baptist University | Plainview | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -43.7831,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -28.4151,
-    "net_tuition_per_fte_change_5yr": -16.3833,
+    "net_tuition_per_fte_change_5yr": -5.5243,
     "staff_total_headcount_pct_change_5yr": -34.471,
     "staff_instructional_headcount_pct_change_5yr": -43.3333,
     "students_per_instructional_staff_fte": 13.3893,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 44.4004,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.0622,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 19.9853,
+    "unfunded_discount_pct_change_5yr": 51.3655,
     "share_grad_students": 26.4278,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11495.9943
+        "value": 11129.4997
       },
       {
         "year": 2015,
-        "value": 11558.209
+        "value": 11348.173
       },
       {
         "year": 2016,
-        "value": 12626.4136
+        "value": 12210.4503
       },
       {
         "year": 2017,
-        "value": 12652.8595
+        "value": 12212.0026
       },
       {
         "year": 2018,
-        "value": 12969.345
+        "value": 12765.6518
       },
       {
         "year": 2019,
-        "value": 13238.2612
+        "value": 13210.7348
       },
       {
         "year": 2020,
-        "value": 13779.4671
+        "value": 13877.6834
       },
       {
         "year": 2021,
-        "value": 12724.7637
+        "value": 13657.394
       },
       {
         "year": 2022,
-        "value": 11546.2918
+        "value": 12805.6501
       },
       {
         "year": 2023,
-        "value": 10844.8774
+        "value": 12194.1665
       },
       {
         "year": 2024,
-        "value": 11069.3953
+        "value": 12480.9307
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 11.8174
+      },
+      {
+        "year": 2015,
+        "value": 12.8725
+      },
+      {
+        "year": 2016,
+        "value": 12.1387
+      },
+      {
+        "year": 2017,
+        "value": 12.3778
+      },
+      {
+        "year": 2018,
+        "value": 12.5385
+      },
+      {
+        "year": 2019,
+        "value": 13.2033
+      },
+      {
+        "year": 2020,
+        "value": 14.1836
+      },
+      {
+        "year": 2021,
+        "value": 15.0381
+      },
+      {
+        "year": 2022,
+        "value": 16.3914
+      },
+      {
+        "year": 2023,
+        "value": 19.2137
+      },
+      {
+        "year": 2024,
+        "value": 19.9853
       }
     ],
     "enrollment_headcount_total": [

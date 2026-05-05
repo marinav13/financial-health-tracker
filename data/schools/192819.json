@@ -1,6 +1,6 @@
 {
   "unitid": "192819",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Marist University",
     "institution_unique_name": "Marist University | Poughkeepsie | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.3535,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -0.4871,
-    "net_tuition_per_fte_change_5yr": -16.3036,
+    "net_tuition_per_fte_change_5yr": -16.3368,
     "staff_total_headcount_pct_change_5yr": 0.8442,
     "staff_instructional_headcount_pct_change_5yr": -2.1849,
     "students_per_instructional_staff_fte": 16.1093,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 50.3856,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 50.0509,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.9143,
+    "unfunded_discount_pct_change_5yr": 28.3388,
     "share_grad_students": 15.2289,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 295951,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28217.7348
+        "value": 28143.7561
       },
       {
         "year": 2015,
-        "value": 28147.2664
+        "value": 28070.7783
       },
       {
         "year": 2016,
-        "value": 29652.515
+        "value": 29570.888
       },
       {
         "year": 2017,
-        "value": 29679.6336
+        "value": 29764.8589
       },
       {
         "year": 2018,
-        "value": 29826.0707
+        "value": 29755.2559
       },
       {
         "year": 2019,
-        "value": 29950.5343
+        "value": 29763.3844
       },
       {
         "year": 2020,
-        "value": 30381.5721
+        "value": 30191.5532
       },
       {
         "year": 2021,
-        "value": 27322.7699
+        "value": 27173.9711
       },
       {
         "year": 2022,
-        "value": 26118.9016
+        "value": 25949.0052
       },
       {
         "year": 2023,
-        "value": 25388.8609
+        "value": 25230.1654
       },
       {
         "year": 2024,
-        "value": 25067.5144
+        "value": 24900.9908
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.1785
+      },
+      {
+        "year": 2015,
+        "value": 27.7595
+      },
+      {
+        "year": 2016,
+        "value": 28.0723
+      },
+      {
+        "year": 2017,
+        "value": 28.9863
+      },
+      {
+        "year": 2018,
+        "value": 30.3041
+      },
+      {
+        "year": 2019,
+        "value": 31.88
+      },
+      {
+        "year": 2020,
+        "value": 34.2176
+      },
+      {
+        "year": 2021,
+        "value": 37.4529
+      },
+      {
+        "year": 2022,
+        "value": 39.1252
+      },
+      {
+        "year": 2023,
+        "value": 40.0266
+      },
+      {
+        "year": 2024,
+        "value": 40.9143
       }
     ],
     "enrollment_headcount_total": [

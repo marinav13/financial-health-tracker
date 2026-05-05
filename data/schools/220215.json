@@ -1,6 +1,6 @@
 {
   "unitid": "220215",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Freed-Hardeman University",
     "institution_unique_name": "Freed-Hardeman University | Henderson | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.0754,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 27.1368,
-    "net_tuition_per_fte_change_5yr": -9.2258,
+    "net_tuition_per_fte_change_5yr": -4.1669,
     "staff_total_headcount_pct_change_5yr": 33.6735,
     "staff_instructional_headcount_pct_change_5yr": 47.3373,
     "students_per_instructional_staff_fte": 11.1357,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 29.1627,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 29% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.3071,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.8783,
+    "unfunded_discount_pct_change_5yr": -13.2453,
     "share_grad_students": 22.2656,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2015,
-        "value": 13153.453
+        "value": 13115.3944
       },
       {
         "year": 2016,
@@ -171,35 +173,81 @@
       },
       {
         "year": 2017,
-        "value": 11811.263
+        "value": 15012.5182
       },
       {
         "year": 2018,
-        "value": 11166.0223
+        "value": 13469.4529
       },
       {
         "year": 2019,
-        "value": 10869.2659
+        "value": 13170.7493
       },
       {
         "year": 2020,
-        "value": 11379.6908
+        "value": 13845.647
       },
       {
         "year": 2021,
-        "value": 10791.8818
+        "value": 13371.5511
       },
       {
         "year": 2022,
-        "value": 9598.1777
+        "value": 12068.1716
       },
       {
         "year": 2023,
-        "value": 9942.9354
+        "value": 12740.1278
       },
       {
         "year": 2024,
-        "value": 9866.4933
+        "value": 12621.9319
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.6793
+      },
+      {
+        "year": 2015,
+        "value": 35.5776
+      },
+      {
+        "year": 2016,
+        "value": 37.5366
+      },
+      {
+        "year": 2017,
+        "value": 35.1479
+      },
+      {
+        "year": 2018,
+        "value": 36.4091
+      },
+      {
+        "year": 2019,
+        "value": 36.7454
+      },
+      {
+        "year": 2020,
+        "value": 36.518
+      },
+      {
+        "year": 2021,
+        "value": 36.2471
+      },
+      {
+        "year": 2022,
+        "value": 35.9391
+      },
+      {
+        "year": 2023,
+        "value": 34.2804
+      },
+      {
+        "year": 2024,
+        "value": 31.8783
       }
     ],
     "enrollment_headcount_total": [

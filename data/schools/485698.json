@@ -1,6 +1,6 @@
 {
   "unitid": "485698",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "American College of the Building Arts",
     "institution_unique_name": "American College of the Building Arts | Charleston | South Carolina",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 59.8079,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 60% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -123,23 +125,49 @@
       },
       {
         "year": 2020,
-        "value": 17367.5625
+        "value": 17487.0402
       },
       {
         "year": 2021,
-        "value": 18723.4681
+        "value": 19188.2128
       },
       {
         "year": 2022,
-        "value": 17733.3537
+        "value": 18058.5485
       },
       {
         "year": 2023,
-        "value": 17778.0882
+        "value": 17813.2162
       },
       {
         "year": 2024,
         "value": 17839.1357
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

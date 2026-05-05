@@ -1,6 +1,6 @@
 {
   "unitid": "177214",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Drury University",
     "institution_unique_name": "Drury University | Springfield | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -12.6782,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.1107,
-    "net_tuition_per_fte_change_5yr": -20.6431,
+    "net_tuition_per_fte_change_5yr": -21.2218,
     "staff_total_headcount_pct_change_5yr": 1.2376,
     "staff_instructional_headcount_pct_change_5yr": 28.0576,
     "students_per_instructional_staff_fte": 12.5644,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 31.0771,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.0269,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.9614,
+    "unfunded_discount_pct_change_5yr": 27.8654,
     "share_grad_students": 16.5015,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 18088,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13318.2636
+        "value": 13203.0907
       },
       {
         "year": 2015,
-        "value": 14307.3586
+        "value": 14206.8223
       },
       {
         "year": 2016,
-        "value": 14463.9709
+        "value": 13970.5257
       },
       {
         "year": 2017,
-        "value": 14106.9909
+        "value": 13610.5396
       },
       {
         "year": 2018,
-        "value": 14359.37
+        "value": 13836.6581
       },
       {
         "year": 2019,
-        "value": 14831.5912
+        "value": 14435.634
       },
       {
         "year": 2020,
-        "value": 13163.4882
+        "value": 14556.4836
       },
       {
         "year": 2021,
-        "value": 12611.6737
+        "value": 13792.1382
       },
       {
         "year": 2022,
-        "value": 11417.2256
+        "value": 10962.0952
       },
       {
         "year": 2023,
-        "value": 11474.6056
+        "value": 11071.625
       },
       {
         "year": 2024,
-        "value": 11769.8843
+        "value": 11372.1378
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.118
+      },
+      {
+        "year": 2015,
+        "value": 25.7049
+      },
+      {
+        "year": 2016,
+        "value": 27.9069
+      },
+      {
+        "year": 2017,
+        "value": 32.6303
+      },
+      {
+        "year": 2018,
+        "value": 46.6923
+      },
+      {
+        "year": 2019,
+        "value": 45.33
+      },
+      {
+        "year": 2020,
+        "value": 47.5576
+      },
+      {
+        "year": 2021,
+        "value": 48.5113
+      },
+      {
+        "year": 2022,
+        "value": 57.8251
+      },
+      {
+        "year": 2023,
+        "value": 56.8975
+      },
+      {
+        "year": 2024,
+        "value": 57.9614
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "141185",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Toccoa Falls College",
     "institution_unique_name": "Toccoa Falls College | Toccoa Falls | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 50.4047,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.2809,
-    "net_tuition_per_fte_change_5yr": -16.268,
+    "net_tuition_per_fte_change_5yr": -15.839,
     "staff_total_headcount_pct_change_5yr": 12.9032,
     "staff_instructional_headcount_pct_change_5yr": 6.9519,
     "students_per_instructional_staff_fte": 16.8191,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 68.933,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 69.2862,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.7256,
+    "unfunded_discount_pct_change_5yr": -34.1496,
     "share_grad_students": 2.1226,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13695.4131
+        "value": 14254.0415
       },
       {
         "year": 2015,
-        "value": 13257.0703
+        "value": 13776.2499
       },
       {
         "year": 2016,
-        "value": 13455.8885
+        "value": 14018.3491
       },
       {
         "year": 2017,
-        "value": 12866.0808
+        "value": 13329.2156
       },
       {
         "year": 2018,
-        "value": 12761.4902
+        "value": 12856.9922
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 12167.1293
+        "value": 12300.2132
       },
       {
         "year": 2021,
-        "value": 12466.0847
+        "value": 12585.176
       },
       {
         "year": 2022,
-        "value": 11245.8588
+        "value": 11332.507
       },
       {
         "year": 2023,
-        "value": 10831.8667
+        "value": 10957.0922
       },
       {
         "year": 2024,
-        "value": 10214.6894
+        "value": 10267.0234
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.1766
+      },
+      {
+        "year": 2015,
+        "value": 39.6754
+      },
+      {
+        "year": 2016,
+        "value": 38.8935
+      },
+      {
+        "year": 2017,
+        "value": 38.235
+      },
+      {
+        "year": 2018,
+        "value": 37.1285
+      },
+      {
+        "year": 2019,
+        "value": 36.0295
+      },
+      {
+        "year": 2020,
+        "value": 34.6918
+      },
+      {
+        "year": 2021,
+        "value": 26.6691
+      },
+      {
+        "year": 2022,
+        "value": 27.3507
+      },
+      {
+        "year": 2023,
+        "value": 25.3726
+      },
+      {
+        "year": 2024,
+        "value": 23.7256
       }
     ],
     "enrollment_headcount_total": [

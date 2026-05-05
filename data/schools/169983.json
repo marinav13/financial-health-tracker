@@ -1,6 +1,6 @@
 {
   "unitid": "169983",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Kettering University",
     "institution_unique_name": "Kettering University | Flint | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -31.0168,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -32.4848,
-    "net_tuition_per_fte_change_5yr": -14.9793,
+    "net_tuition_per_fte_change_5yr": -7.17,
     "staff_total_headcount_pct_change_5yr": -12.0823,
     "staff_instructional_headcount_pct_change_5yr": -17.6991,
     "students_per_instructional_staff_fte": 17.7527,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 49.4305,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 52.2226,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.2274,
+    "unfunded_discount_pct_change_5yr": -1.572,
     "share_grad_students": 23.86,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3238540,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25394.1284
+        "value": 24388.4098
       },
       {
         "year": 2015,
-        "value": 25841.33
+        "value": 24857.5593
       },
       {
         "year": 2016,
-        "value": 25960.1869
+        "value": 24993.9298
       },
       {
         "year": 2017,
-        "value": 24316.2607
+        "value": 24278.0715
       },
       {
         "year": 2018,
-        "value": 24850.3485
+        "value": 24060.9336
       },
       {
         "year": 2019,
-        "value": 24764.9535
+        "value": 23962.7916
       },
       {
         "year": 2020,
-        "value": 25517.2451
+        "value": 24676.1481
       },
       {
         "year": 2021,
-        "value": 24137.4391
+        "value": 22992.8801
       },
       {
         "year": 2022,
-        "value": 21841.7968
+        "value": 23340.9032
       },
       {
         "year": 2023,
-        "value": 21399.2429
+        "value": 22509.3448
       },
       {
         "year": 2024,
-        "value": 21055.3271
+        "value": 22244.6614
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.1075
+      },
+      {
+        "year": 2015,
+        "value": 37.6862
+      },
+      {
+        "year": 2016,
+        "value": 38.0449
+      },
+      {
+        "year": 2017,
+        "value": 35.5051
+      },
+      {
+        "year": 2018,
+        "value": 37.72
+      },
+      {
+        "year": 2019,
+        "value": 37.8219
+      },
+      {
+        "year": 2020,
+        "value": 39.2677
+      },
+      {
+        "year": 2021,
+        "value": 42.0182
+      },
+      {
+        "year": 2022,
+        "value": 37.5793
+      },
+      {
+        "year": 2023,
+        "value": 37.7073
+      },
+      {
+        "year": 2024,
+        "value": 37.2274
       }
     ],
     "enrollment_headcount_total": [

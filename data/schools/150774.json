@@ -1,6 +1,6 @@
 {
   "unitid": "150774",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Holy Cross College",
     "institution_unique_name": "Holy Cross College | Notre Dame | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 24.9497,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 17.3946,
-    "net_tuition_per_fte_change_5yr": -27.1782,
+    "net_tuition_per_fte_change_5yr": -21.6404,
     "staff_total_headcount_pct_change_5yr": 20.2899,
     "staff_instructional_headcount_pct_change_5yr": 6.7568,
     "students_per_instructional_staff_fte": 11.8085,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 41.9227,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 47.6538,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.0832,
+    "unfunded_discount_pct_change_5yr": 9.9217,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16741.6097
+        "value": 18063.5266
       },
       {
         "year": 2015,
-        "value": 16028.0305
+        "value": 17631.5115
       },
       {
         "year": 2016,
-        "value": 17446.8017
+        "value": 18931.1669
       },
       {
         "year": 2017,
-        "value": 15486.8002
+        "value": 16960.1421
       },
       {
         "year": 2018,
-        "value": 17245.6636
+        "value": 18480.9592
       },
       {
         "year": 2019,
-        "value": 19719.6228
+        "value": 20831.3014
       },
       {
         "year": 2020,
-        "value": 20168.6225
+        "value": 17316.4963
       },
       {
         "year": 2021,
-        "value": 17456.0001
+        "value": 15772.7913
       },
       {
         "year": 2022,
-        "value": 17968.548
+        "value": 17344.7727
       },
       {
         "year": 2023,
-        "value": 17794.0742
+        "value": 19266.411
       },
       {
         "year": 2024,
-        "value": 14360.1928
+        "value": 16323.3279
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 39.6074
+      },
+      {
+        "year": 2015,
+        "value": 43.1093
+      },
+      {
+        "year": 2016,
+        "value": 41.8459
+      },
+      {
+        "year": 2017,
+        "value": 47.6804
+      },
+      {
+        "year": 2018,
+        "value": 46.9493
+      },
+      {
+        "year": 2019,
+        "value": 44.6529
+      },
+      {
+        "year": 2020,
+        "value": 52.3843
+      },
+      {
+        "year": 2021,
+        "value": 50.8533
+      },
+      {
+        "year": 2022,
+        "value": 46.31
+      },
+      {
+        "year": 2023,
+        "value": 47.0513
+      },
+      {
+        "year": 2024,
+        "value": 49.0832
       }
     ],
     "enrollment_headcount_total": [

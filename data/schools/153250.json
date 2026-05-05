@@ -1,6 +1,6 @@
 {
   "unitid": "153250",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dordt University",
     "institution_unique_name": "Dordt University | Sioux Center | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 15.6493,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.2542,
-    "net_tuition_per_fte_change_5yr": -11.7055,
+    "net_tuition_per_fte_change_5yr": -5.1805,
     "staff_total_headcount_pct_change_5yr": 28.2209,
     "staff_instructional_headcount_pct_change_5yr": 31.8841,
     "students_per_instructional_staff_fte": 13.2965,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 37.2222,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.8217,
+    "unfunded_discount_pct_change_5yr": 3.7463,
     "share_grad_students": 13.8676,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 398499,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18387.9075
+        "value": 17770.067
       },
       {
         "year": 2015,
-        "value": 19978.1956
+        "value": 19208.5478
       },
       {
         "year": 2016,
-        "value": 18702.0894
+        "value": 17860.3475
       },
       {
         "year": 2017,
-        "value": 18802.8656
+        "value": 17893.0291
       },
       {
         "year": 2018,
-        "value": 18499.6073
+        "value": 17352.8368
       },
       {
         "year": 2019,
-        "value": 17327.4842
+        "value": 16135.1048
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15299.2188
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.0649
+      },
+      {
+        "year": 2015,
+        "value": 38.5012
+      },
+      {
+        "year": 2016,
+        "value": 42.3099
+      },
+      {
+        "year": 2017,
+        "value": 42.7723
+      },
+      {
+        "year": 2018,
+        "value": 43.8102
+      },
+      {
+        "year": 2019,
+        "value": 46.0949
+      },
+      {
+        "year": 2020,
+        "value": 46.6864
+      },
+      {
+        "year": 2021,
+        "value": 49.8859
+      },
+      {
+        "year": 2022,
+        "value": 47.0287
+      },
+      {
+        "year": 2023,
+        "value": 47.4169
+      },
+      {
+        "year": 2024,
+        "value": 47.8217
       }
     ],
     "enrollment_headcount_total": [

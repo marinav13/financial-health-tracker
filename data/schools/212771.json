@@ -1,6 +1,6 @@
 {
   "unitid": "212771",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Gratz College",
     "institution_unique_name": "Gratz College | Melrose Park | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 24.2315,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 66.784,
-    "net_tuition_per_fte_change_5yr": -12.093,
+    "net_tuition_per_fte_change_5yr": -17.3472,
     "staff_total_headcount_pct_change_5yr": 117.6471,
     "staff_instructional_headcount_pct_change_5yr": 225,
     "students_per_instructional_staff_fte": 11.5435,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 34.5239,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 31.6229,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.7508,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 60.1164,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3544.8063
+        "value": 3342.471
       },
       {
         "year": 2015,
-        "value": 7023.9041
+        "value": 6413.3817
       },
       {
         "year": 2016,
-        "value": 15780.5982
+        "value": 14635.0494
       },
       {
         "year": 2017,
-        "value": 14292.2446
+        "value": 13050.5402
       },
       {
         "year": 2018,
-        "value": 10665.1466
+        "value": 10542.1901
       },
       {
         "year": 2019,
-        "value": 10288.0868
+        "value": 10022.634
       },
       {
         "year": 2020,
-        "value": 11686.7251
+        "value": 11313.7201
       },
       {
         "year": 2021,
-        "value": 10699.2476
+        "value": 10379.3172
       },
       {
         "year": 2022,
-        "value": 10396.3264
+        "value": 9536.1629
       },
       {
         "year": 2023,
-        "value": 11149.1444
+        "value": 10317.9659
       },
       {
         "year": 2024,
-        "value": 9043.952
+        "value": 8283.9915
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 5.47
+      },
+      {
+        "year": 2023,
+        "value": 4.3058
+      },
+      {
+        "year": 2024,
+        "value": 4.7508
       }
     ],
     "enrollment_headcount_total": [

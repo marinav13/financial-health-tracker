@@ -1,6 +1,6 @@
 {
   "unitid": "123554",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Mary's College of California",
     "institution_unique_name": "Saint Mary's College of California | Moraga | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -29.4278,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -39.243,
-    "net_tuition_per_fte_change_5yr": -36.6337,
+    "net_tuition_per_fte_change_5yr": -28.7677,
     "staff_total_headcount_pct_change_5yr": -47.4625,
     "staff_instructional_headcount_pct_change_5yr": -63.1057,
     "students_per_instructional_staff_fte": 12.5837,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 54.1189,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.0226,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3047,
+    "unfunded_discount_pct_change_5yr": 25.982,
     "share_grad_students": 27.1236,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29560.5074
+        "value": 29650.127
       },
       {
         "year": 2015,
-        "value": 29499.7848
+        "value": 29574.98
       },
       {
         "year": 2016,
-        "value": 29999.035
+        "value": 30083.6069
       },
       {
         "year": 2017,
-        "value": 29665.6124
+        "value": 29802.8772
       },
       {
         "year": 2018,
-        "value": 27022.0699
+        "value": 27090.6811
       },
       {
         "year": 2019,
-        "value": 28685.2464
+        "value": 28772.8155
       },
       {
         "year": 2020,
-        "value": 28710.7385
+        "value": 28818.0071
       },
       {
         "year": 2021,
-        "value": 26986.1723
+        "value": 27176.6645
       },
       {
         "year": 2022,
-        "value": 23968.9855
+        "value": 26216.893
       },
       {
         "year": 2023,
-        "value": 19504.6734
+        "value": 21659.5902
       },
       {
         "year": 2024,
-        "value": 18176.7759
+        "value": 20495.5326
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.7317
+      },
+      {
+        "year": 2015,
+        "value": 27.8015
+      },
+      {
+        "year": 2016,
+        "value": 29.8951
+      },
+      {
+        "year": 2017,
+        "value": 31.4655
+      },
+      {
+        "year": 2018,
+        "value": 28.0684
+      },
+      {
+        "year": 2019,
+        "value": 35.1675
+      },
+      {
+        "year": 2020,
+        "value": 34.315
+      },
+      {
+        "year": 2021,
+        "value": 35.349
+      },
+      {
+        "year": 2022,
+        "value": 35.7434
+      },
+      {
+        "year": 2023,
+        "value": 35.8119
+      },
+      {
+        "year": 2024,
+        "value": 44.3047
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "197133",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Vassar College",
     "institution_unique_name": "Vassar College | Poughkeepsie | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.2305,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.3939,
-    "net_tuition_per_fte_change_5yr": 2.8248,
+    "net_tuition_per_fte_change_5yr": -9.8246,
     "staff_total_headcount_pct_change_5yr": 9.2162,
     "staff_instructional_headcount_pct_change_5yr": 4.8571,
     "students_per_instructional_staff_fte": 7.4622,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 33.7439,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.5928,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.775,
+    "unfunded_discount_pct_change_5yr": -12.7249,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 3389542,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 44767.1057
+        "value": 44767.1063
       },
       {
         "year": 2020,
-        "value": 43736.085
+        "value": 38443.4611
       },
       {
         "year": 2021,
-        "value": 44275.1152
+        "value": 38996.2505
       },
       {
         "year": 2022,
-        "value": 45960.3674
+        "value": 40303.1775
       },
       {
         "year": 2023,
-        "value": 44830.3785
+        "value": 39271.4035
       },
       {
         "year": 2024,
-        "value": 46031.6677
+        "value": 40368.9233
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.2738
+      },
+      {
+        "year": 2015,
+        "value": 35.1744
+      },
+      {
+        "year": 2016,
+        "value": 36.0083
+      },
+      {
+        "year": 2017,
+        "value": 36.3288
+      },
+      {
+        "year": 2018,
+        "value": 38.3826
+      },
+      {
+        "year": 2019,
+        "value": 32.9704
+      },
+      {
+        "year": 2020,
+        "value": 34.1477
+      },
+      {
+        "year": 2021,
+        "value": 29.8022
+      },
+      {
+        "year": 2022,
+        "value": 29.5157
+      },
+      {
+        "year": 2023,
+        "value": 29.1025
+      },
+      {
+        "year": 2024,
+        "value": 28.775
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "155496",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Manhattan Christian College",
     "institution_unique_name": "Manhattan Christian College | Manhattan | Kansas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 31.1143,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.7101,
+    "unfunded_discount_pct_change_5yr": 6.3907,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -183,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 15949.025
+        "value": 14786.7305
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 11780.7056
+        "value": 11780.6978
       },
       {
         "year": 2024,
         "value": 10344.0072
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.3249
+      },
+      {
+        "year": 2015,
+        "value": 24.6572
+      },
+      {
+        "year": 2016,
+        "value": 22.6838
+      },
+      {
+        "year": 2017,
+        "value": 18.2646
+      },
+      {
+        "year": 2018,
+        "value": 19.4744
+      },
+      {
+        "year": 2019,
+        "value": 20.406
+      },
+      {
+        "year": 2020,
+        "value": 25.0923
+      },
+      {
+        "year": 2021,
+        "value": 26.0141
+      },
+      {
+        "year": 2022,
+        "value": 24.6306
+      },
+      {
+        "year": 2023,
+        "value": 18.3349
+      },
+      {
+        "year": 2024,
+        "value": 21.7101
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "210492",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bryn Athyn College of the New Church",
     "institution_unique_name": "Bryn Athyn College of the New Church | Bryn Athyn | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.9856,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -11.1552,
+    "net_tuition_per_fte_change_5yr": -17.9249,
     "staff_total_headcount_pct_change_5yr": -42.5,
     "staff_instructional_headcount_pct_change_5yr": -49.3827,
     "students_per_instructional_staff_fte": 9.3871,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 35.3607,
+    "unfunded_discount_pct_change_5yr": 39.2871,
     "share_grad_students": 5.7627,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 398039,
@@ -114,47 +116,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14529.9461
+        "value": 11212.2902
       },
       {
         "year": 2015,
-        "value": 16233.7688
+        "value": 16796.2314
       },
       {
         "year": 2016,
-        "value": 17006.4899
+        "value": 18101.3499
       },
       {
         "year": 2017,
-        "value": 17238.3359
+        "value": 15195.885
       },
       {
         "year": 2018,
-        "value": 16453.0714
+        "value": 14546.8151
       },
       {
         "year": 2019,
-        "value": 16082.6245
+        "value": 14419.2835
       },
       {
         "year": 2020,
-        "value": 16709.8416
+        "value": 15465.1177
       },
       {
         "year": 2021,
-        "value": 16505.5407
+        "value": 15185.6137
       },
       {
         "year": 2022,
-        "value": 15801.6821
+        "value": 13983.7001
       },
       {
         "year": 2023,
-        "value": 14466.0217
+        "value": 12530.5587
       },
       {
         "year": 2024,
-        "value": 14288.5704
+        "value": 11834.6426
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.9405
+      },
+      {
+        "year": 2015,
+        "value": 21.5526
+      },
+      {
+        "year": 2016,
+        "value": 17.5603
+      },
+      {
+        "year": 2017,
+        "value": 22.7033
+      },
+      {
+        "year": 2018,
+        "value": 20.7385
+      },
+      {
+        "year": 2019,
+        "value": 25.3869
+      },
+      {
+        "year": 2020,
+        "value": 22.6866
+      },
+      {
+        "year": 2021,
+        "value": 5.4946
+      },
+      {
+        "year": 2022,
+        "value": 0.2461
+      },
+      {
+        "year": 2023,
+        "value": 32.8827
+      },
+      {
+        "year": 2024,
+        "value": 35.3607
       }
     ],
     "enrollment_headcount_total": [

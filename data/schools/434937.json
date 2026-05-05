@@ -1,6 +1,6 @@
 {
   "unitid": "434937",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva College of the Nations Capital",
     "institution_unique_name": "Yeshiva College of the Nations Capital | Silver  Spring | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 154.1667,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -31.649,
+    "net_tuition_per_fte_change_5yr": -18.6328,
     "staff_total_headcount_pct_change_5yr": 10,
     "staff_instructional_headcount_pct_change_5yr": 12.5,
     "students_per_instructional_staff_fte": 7.6957,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 79.4169,
+    "unfunded_discount_pct_change_5yr": -0.93,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -131,35 +133,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 3695.4219
+        "value": 632.0804
       },
       {
         "year": 2015,
-        "value": 3197.0089
+        "value": -2857.5165
       },
       {
         "year": 2016,
-        "value": 5113.2803
+        "value": -4410.4134
       },
       {
         "year": 2017,
-        "value": 3100.3864
+        "value": -5139.0411
       },
       {
         "year": 2018,
-        "value": 11726.7537
+        "value": -10382.5882
       },
       {
         "year": 2019,
-        "value": 5450.0834
+        "value": 3363.8242
       },
       {
         "year": 2020,
-        "value": 4605.4927
+        "value": 655.3303
       },
       {
         "year": 2021,
-        "value": 3802.7787
+        "value": 297.2272
       },
       {
         "year": 2022,
@@ -167,11 +169,57 @@
       },
       {
         "year": 2023,
-        "value": 2937.0356
+        "value": 337.4951
       },
       {
         "year": 2024,
-        "value": 3725.1864
+        "value": 2737.0508
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 73.7402
+      },
+      {
+        "year": 2015,
+        "value": 87.1037
+      },
+      {
+        "year": 2016,
+        "value": 94.6703
+      },
+      {
+        "year": 2017,
+        "value": 107.4375
+      },
+      {
+        "year": 2018,
+        "value": 107.4577
+      },
+      {
+        "year": 2019,
+        "value": 80.1624
+      },
+      {
+        "year": 2020,
+        "value": 96.5588
+      },
+      {
+        "year": 2021,
+        "value": 98.2386
+      },
+      {
+        "year": 2022,
+        "value": 69.3054
+      },
+      {
+        "year": 2023,
+        "value": 97.6177
+      },
+      {
+        "year": 2024,
+        "value": 79.4169
       }
     ],
     "enrollment_headcount_total": [

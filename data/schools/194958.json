@@ -1,6 +1,6 @@
 {
   "unitid": "194958",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Roberts Wesleyan University",
     "institution_unique_name": "Roberts Wesleyan University | Rochester | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.1449,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.8589,
-    "net_tuition_per_fte_change_5yr": -22.8799,
+    "net_tuition_per_fte_change_5yr": -20.0555,
     "staff_total_headcount_pct_change_5yr": -15.3374,
     "staff_instructional_headcount_pct_change_5yr": -8.7379,
     "students_per_instructional_staff_fte": 17.8195,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 10,
-    "tuition_dependence_pct": 63.5445,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 66.8704,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3214,
+    "unfunded_discount_pct_change_5yr": 19.2831,
     "share_grad_students": 30.9058,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 18980.5055
+        "value": 19268.2558
       },
       {
         "year": 2020,
-        "value": 18412.894
+        "value": 19491.8275
       },
       {
         "year": 2021,
-        "value": 16742.3322
+        "value": 17630.0669
       },
       {
         "year": 2022,
-        "value": 16958.6455
+        "value": 17917.4329
       },
       {
         "year": 2023,
-        "value": 16205.276
+        "value": 17089.1234
       },
       {
         "year": 2024,
-        "value": 14637.7785
+        "value": 15403.9082
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.8952
+      },
+      {
+        "year": 2015,
+        "value": 36.2941
+      },
+      {
+        "year": 2016,
+        "value": 37.5293
+      },
+      {
+        "year": 2017,
+        "value": 36.3324
+      },
+      {
+        "year": 2018,
+        "value": 36.6172
+      },
+      {
+        "year": 2019,
+        "value": 37.1565
+      },
+      {
+        "year": 2020,
+        "value": 36.1574
+      },
+      {
+        "year": 2021,
+        "value": 38.8902
+      },
+      {
+        "year": 2022,
+        "value": 38.3383
+      },
+      {
+        "year": 2023,
+        "value": 40.6015
+      },
+      {
+        "year": 2024,
+        "value": 44.3214
       }
     ],
     "enrollment_headcount_total": [

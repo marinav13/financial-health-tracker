@@ -1,6 +1,6 @@
 {
   "unitid": "231059",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Michael's College",
     "institution_unique_name": "Saint Michael's College | Colchester | Vermont",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.0976,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.2993,
-    "net_tuition_per_fte_change_5yr": -34.6018,
+    "net_tuition_per_fte_change_5yr": -47.3714,
     "staff_total_headcount_pct_change_5yr": -14.7992,
     "staff_instructional_headcount_pct_change_5yr": -15.4229,
     "students_per_instructional_staff_fte": 12.1283,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 45.653,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.5843,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.8971,
+    "unfunded_discount_pct_change_5yr": 26.4342,
     "share_grad_students": 24.3753,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 563569,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31392.7883
+        "value": 27468.9815
       },
       {
         "year": 2015,
-        "value": 29977.2565
+        "value": 25653.7519
       },
       {
         "year": 2016,
-        "value": 30090.7819
+        "value": 25543.2738
       },
       {
         "year": 2017,
-        "value": 30171.6717
+        "value": 25468.6106
       },
       {
         "year": 2018,
-        "value": 30273.8875
+        "value": 25482.8658
       },
       {
         "year": 2019,
-        "value": 29787.013
+        "value": 24797.0516
       },
       {
         "year": 2020,
-        "value": 29515.5032
+        "value": 24170.3968
       },
       {
         "year": 2021,
-        "value": 26307.8312
+        "value": 16215.7927
       },
       {
         "year": 2022,
-        "value": 22336.7854
+        "value": 16530.5779
       },
       {
         "year": 2023,
-        "value": 21135.9886
+        "value": 15191.0386
       },
       {
         "year": 2024,
-        "value": 19480.1759
+        "value": 13050.3485
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.0418
+      },
+      {
+        "year": 2015,
+        "value": 42.5507
+      },
+      {
+        "year": 2016,
+        "value": 43.5861
+      },
+      {
+        "year": 2017,
+        "value": 44.357
+      },
+      {
+        "year": 2018,
+        "value": 44.205
+      },
+      {
+        "year": 2019,
+        "value": 45.7923
+      },
+      {
+        "year": 2020,
+        "value": 47.4153
+      },
+      {
+        "year": 2021,
+        "value": 61.9138
+      },
+      {
+        "year": 2022,
+        "value": 56.8382
+      },
+      {
+        "year": 2023,
+        "value": 56.6282
+      },
+      {
+        "year": 2024,
+        "value": 57.8971
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "446048",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ave Maria University",
     "institution_unique_name": "Ave Maria University | Ave Maria | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 25.9227,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 41.9141,
-    "net_tuition_per_fte_change_5yr": 6.8805,
+    "net_tuition_per_fte_change_5yr": 109.3294,
     "staff_total_headcount_pct_change_5yr": 16.5289,
     "staff_instructional_headcount_pct_change_5yr": 8.8235,
     "students_per_instructional_staff_fte": 17.3696,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 24.5154,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 28.1987,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.8825,
+    "unfunded_discount_pct_change_5yr": -14.7862,
     "share_grad_students": 8.2345,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -175,31 +177,77 @@
       },
       {
         "year": 2018,
-        "value": 9866.6813
+        "value": 8269.4169
       },
       {
         "year": 2019,
-        "value": 8946.8161
+        "value": 5254.4456
       },
       {
         "year": 2020,
-        "value": 8742.4145
+        "value": 8722.331
       },
       {
         "year": 2021,
-        "value": 7868.4621
+        "value": 9462.1317
       },
       {
         "year": 2022,
-        "value": 8313.2792
+        "value": 9619.8766
       },
       {
         "year": 2023,
-        "value": 9073.4739
+        "value": 10065.3579
       },
       {
         "year": 2024,
-        "value": 9562.3985
+        "value": 10999.1015
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 52.1495
+      },
+      {
+        "year": 2015,
+        "value": 43.2751
+      },
+      {
+        "year": 2016,
+        "value": 45.7539
+      },
+      {
+        "year": 2017,
+        "value": 45.3506
+      },
+      {
+        "year": 2018,
+        "value": 55.5709
+      },
+      {
+        "year": 2019,
+        "value": 56.191
+      },
+      {
+        "year": 2020,
+        "value": 52.5982
+      },
+      {
+        "year": 2021,
+        "value": 53.3003
+      },
+      {
+        "year": 2022,
+        "value": 51.5297
+      },
+      {
+        "year": 2023,
+        "value": 48.8754
+      },
+      {
+        "year": 2024,
+        "value": 47.8825
       }
     ],
     "enrollment_headcount_total": [

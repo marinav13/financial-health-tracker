@@ -1,6 +1,6 @@
 {
   "unitid": "168227",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wentworth Institute of Technology",
     "institution_unique_name": "Wentworth Institute of Technology | Boston | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.0335,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.8667,
-    "net_tuition_per_fte_change_5yr": 6.2947,
+    "net_tuition_per_fte_change_5yr": 6.2694,
     "staff_total_headcount_pct_change_5yr": -12.931,
     "staff_instructional_headcount_pct_change_5yr": -10.7612,
     "students_per_instructional_staff_fte": 18.25,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 56.6717,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 56.3581,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.6271,
+    "unfunded_discount_pct_change_5yr": 25.9204,
     "share_grad_students": 5.4343,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21375.5684
+        "value": 21281.9581
       },
       {
         "year": 2015,
-        "value": 21789.5744
+        "value": 21796.6156
       },
       {
         "year": 2016,
-        "value": 22621.6888
+        "value": 22617.5498
       },
       {
         "year": 2017,
-        "value": 22981.6864
+        "value": 22901.6606
       },
       {
         "year": 2018,
-        "value": 23203.7678
+        "value": 23041.7625
       },
       {
         "year": 2019,
-        "value": 19948.5506
+        "value": 19842.8659
       },
       {
         "year": 2020,
-        "value": 20055.5929
+        "value": 19880.3534
       },
       {
         "year": 2021,
-        "value": 18353.7668
+        "value": 18216.64
       },
       {
         "year": 2022,
-        "value": 21085.4709
+        "value": 20933.5507
       },
       {
         "year": 2023,
-        "value": 21257.8618
+        "value": 21079.5107
       },
       {
         "year": 2024,
-        "value": 21204.2575
+        "value": 21086.8969
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.9516
+      },
+      {
+        "year": 2015,
+        "value": 35.0018
+      },
+      {
+        "year": 2016,
+        "value": 34.6297
+      },
+      {
+        "year": 2017,
+        "value": 34.1198
+      },
+      {
+        "year": 2018,
+        "value": 34.1503
+      },
+      {
+        "year": 2019,
+        "value": 33.8524
+      },
+      {
+        "year": 2020,
+        "value": 34.9231
+      },
+      {
+        "year": 2021,
+        "value": 37.899
+      },
+      {
+        "year": 2022,
+        "value": 38.4032
+      },
+      {
+        "year": 2023,
+        "value": 40.1731
+      },
+      {
+        "year": 2024,
+        "value": 42.6271
       }
     ],
     "enrollment_headcount_total": [

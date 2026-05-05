@@ -1,6 +1,6 @@
 {
   "unitid": "446604",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Uta Mesivta of Kiryas Joel",
     "institution_unique_name": "Uta Mesivta of Kiryas Joel | Monroe | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 37.2362,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.179,
-    "net_tuition_per_fte_change_5yr": -13.2019,
+    "net_tuition_per_fte_change_5yr": -14.902,
     "staff_total_headcount_pct_change_5yr": 18.1373,
     "staff_instructional_headcount_pct_change_5yr": 15.9236,
     "students_per_instructional_staff_fte": 14.9945,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 97.2551,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 97% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 95.3503,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 95% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.927,
+    "unfunded_discount_pct_change_5yr": 148.5834,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13819.4143
+        "value": 13804.3051
       },
       {
         "year": 2015,
-        "value": 13932.1747
+        "value": 13913.232
       },
       {
         "year": 2016,
-        "value": 14055.0161
+        "value": 14034.8585
       },
       {
         "year": 2017,
-        "value": 13621.1606
+        "value": 13600.966
       },
       {
         "year": 2018,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 13815.9571
+        "value": 13545.3565
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 8.4068
+      },
+      {
+        "year": 2015,
+        "value": 6.0106
+      },
+      {
+        "year": 2016,
+        "value": 7.6202
+      },
+      {
+        "year": 2017,
+        "value": 7.3749
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 8.8208
+      },
+      {
+        "year": 2020,
+        "value": 6.545
+      },
+      {
+        "year": 2021,
+        "value": 6.0305
+      },
+      {
+        "year": 2022,
+        "value": 15.0337
+      },
+      {
+        "year": 2023,
+        "value": 19.6148
+      },
+      {
+        "year": 2024,
+        "value": 21.927
       }
     ],
     "enrollment_headcount_total": [

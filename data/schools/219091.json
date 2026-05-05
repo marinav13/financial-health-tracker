@@ -1,6 +1,6 @@
 {
   "unitid": "219091",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dakota Wesleyan University",
     "institution_unique_name": "Dakota Wesleyan University | Mitchell | South Dakota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.7934,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 19.24,
-    "net_tuition_per_fte_change_5yr": -7.5566,
+    "net_tuition_per_fte_change_5yr": 7.063,
     "staff_total_headcount_pct_change_5yr": -1.3514,
     "staff_instructional_headcount_pct_change_5yr": 0,
     "students_per_instructional_staff_fte": 13.0112,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 41.9692,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 41.8279,
+    "unfunded_discount_pct_change_5yr": -8.5861,
     "share_grad_students": 16.4969,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 152437,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12713.2453
+        "value": 11937.7714
       },
       {
         "year": 2015,
-        "value": 13088.0484
+        "value": 12652.0164
       },
       {
         "year": 2016,
-        "value": 12030.1824
+        "value": 11258.4383
       },
       {
         "year": 2017,
-        "value": 12479.3638
+        "value": 11315.2454
       },
       {
         "year": 2018,
-        "value": 13757.4201
+        "value": 12433.3647
       },
       {
         "year": 2019,
-        "value": 14245.1715
+        "value": 12299.973
       },
       {
         "year": 2020,
-        "value": 15863.8634
+        "value": 16620.3481
       },
       {
         "year": 2021,
-        "value": 14386.5049
+        "value": 15012.4285
       },
       {
         "year": 2022,
-        "value": 13526.6196
+        "value": 13987.881
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13168.7202
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 47.1647
+      },
+      {
+        "year": 2015,
+        "value": 45.4019
+      },
+      {
+        "year": 2016,
+        "value": 45.829
+      },
+      {
+        "year": 2017,
+        "value": 45.7594
+      },
+      {
+        "year": 2018,
+        "value": 45.8529
+      },
+      {
+        "year": 2019,
+        "value": 45.7566
+      },
+      {
+        "year": 2020,
+        "value": 41.6095
+      },
+      {
+        "year": 2021,
+        "value": 40.4065
+      },
+      {
+        "year": 2022,
+        "value": 39.8209
+      },
+      {
+        "year": 2023,
+        "value": 39.751
+      },
+      {
+        "year": 2024,
+        "value": 41.8279
       }
     ],
     "enrollment_headcount_total": [

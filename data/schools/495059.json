@@ -1,6 +1,6 @@
 {
   "unitid": "495059",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Oak Valley College",
     "institution_unique_name": "Oak Valley College | Rialto | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 52.7895,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 48.7484,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -128,6 +130,28 @@
       {
         "year": 2024,
         "value": 9293.3333
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2020,
+        "value": 77.2105
+      },
+      {
+        "year": 2021,
+        "value": 77.2061
+      },
+      {
+        "year": 2022,
+        "value": 69.0869
+      },
+      {
+        "year": 2023,
+        "value": 59.941
+      },
+      {
+        "year": 2024,
+        "value": 48.7484
       }
     ],
     "enrollment_headcount_total": [

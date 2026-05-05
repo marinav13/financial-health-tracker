@@ -1,6 +1,6 @@
 {
   "unitid": "141644",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hawaii Pacific University",
     "institution_unique_name": "Hawaii Pacific University | Honolulu | Hawaii",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 29.0719,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 20.0392,
-    "net_tuition_per_fte_change_5yr": 2.0315,
+    "net_tuition_per_fte_change_5yr": 2.1607,
     "staff_total_headcount_pct_change_5yr": 7.5301,
     "staff_instructional_headcount_pct_change_5yr": 10.1852,
     "students_per_instructional_staff_fte": 13.753,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 67.6979,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 67.4426,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 67% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.8526,
+    "unfunded_discount_pct_change_5yr": 4.6597,
     "share_grad_students": 26.0958,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4829327,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20277.2751
+        "value": 19977.2435
       },
       {
         "year": 2015,
-        "value": 20941.5375
+        "value": 20632.5863
       },
       {
         "year": 2016,
-        "value": 22330.0741
+        "value": 22273.5801
       },
       {
         "year": 2017,
-        "value": 22838.8866
+        "value": 22767.7999
       },
       {
         "year": 2018,
-        "value": 22563.3624
+        "value": 22478.8943
       },
       {
         "year": 2019,
-        "value": 21866.6903
+        "value": 21756.6623
       },
       {
         "year": 2020,
-        "value": 21646.3603
+        "value": 21551.1287
       },
       {
         "year": 2021,
-        "value": 20657.2887
+        "value": 20565.7915
       },
       {
         "year": 2022,
-        "value": 18021.7231
+        "value": 17940.4741
       },
       {
         "year": 2023,
-        "value": 20243.3102
+        "value": 20164.0708
       },
       {
         "year": 2024,
-        "value": 22310.9135
+        "value": 22226.7674
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.3013
+      },
+      {
+        "year": 2015,
+        "value": 26.9252
+      },
+      {
+        "year": 2016,
+        "value": 27.9335
+      },
+      {
+        "year": 2017,
+        "value": 29.0439
+      },
+      {
+        "year": 2018,
+        "value": 30.8447
+      },
+      {
+        "year": 2019,
+        "value": 34.2564
+      },
+      {
+        "year": 2020,
+        "value": 36.3491
+      },
+      {
+        "year": 2021,
+        "value": 38.5595
+      },
+      {
+        "year": 2022,
+        "value": 41.2844
+      },
+      {
+        "year": 2023,
+        "value": 37.8589
+      },
+      {
+        "year": 2024,
+        "value": 35.8526
       }
     ],
     "enrollment_headcount_total": [

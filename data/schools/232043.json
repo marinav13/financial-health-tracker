@@ -1,6 +1,6 @@
 {
   "unitid": "232043",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Eastern Mennonite University",
     "institution_unique_name": "Eastern Mennonite University | Harrisonburg | Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.3269,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.3236,
-    "net_tuition_per_fte_change_5yr": -21.9429,
+    "net_tuition_per_fte_change_5yr": -21.4097,
     "staff_total_headcount_pct_change_5yr": -16.9492,
     "staff_instructional_headcount_pct_change_5yr": -15.6863,
     "students_per_instructional_staff_fte": 9.3234,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 44.6912,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.0041,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.0945,
+    "unfunded_discount_pct_change_5yr": 17.8558,
     "share_grad_students": 40.3165,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 187237,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20533.1408
+        "value": 20933.8429
       },
       {
         "year": 2015,
-        "value": 20674.593
+        "value": 21075.8877
       },
       {
         "year": 2016,
-        "value": 20746.7556
+        "value": 21153.9971
       },
       {
         "year": 2017,
-        "value": 20802.9293
+        "value": 21228.0915
       },
       {
         "year": 2018,
-        "value": 20961.6102
+        "value": 21400.3178
       },
       {
         "year": 2019,
-        "value": 20517.1524
+        "value": 20976.6169
       },
       {
         "year": 2020,
-        "value": 20324.6529
+        "value": 21212.7681
       },
       {
         "year": 2021,
-        "value": 19041.8072
+        "value": 20273.9064
       },
       {
         "year": 2022,
-        "value": 18103.4992
+        "value": 20351.032
       },
       {
         "year": 2023,
-        "value": 16848.9774
+        "value": 17484.094
       },
       {
         "year": 2024,
-        "value": 16015.1031
+        "value": 16485.5896
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.0822
+      },
+      {
+        "year": 2015,
+        "value": 31.5072
+      },
+      {
+        "year": 2016,
+        "value": 33.2636
+      },
+      {
+        "year": 2017,
+        "value": 35.0461
+      },
+      {
+        "year": 2018,
+        "value": 35.9763
+      },
+      {
+        "year": 2019,
+        "value": 37.4139
+      },
+      {
+        "year": 2020,
+        "value": 39.4199
+      },
+      {
+        "year": 2021,
+        "value": 41.8671
+      },
+      {
+        "year": 2022,
+        "value": 39.5331
+      },
+      {
+        "year": 2023,
+        "value": 45.4878
+      },
+      {
+        "year": 2024,
+        "value": 44.0945
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "155900",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southwestern College",
     "institution_unique_name": "Southwestern College | Winfield | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.8609,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.1659,
-    "net_tuition_per_fte_change_5yr": -30.1787,
+    "net_tuition_per_fte_change_5yr": -35.0439,
     "staff_total_headcount_pct_change_5yr": -25.387,
     "staff_instructional_headcount_pct_change_5yr": -21.547,
     "students_per_instructional_staff_fte": 13.7184,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 46.3392,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 43.1102,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 43% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 58.0642,
+    "unfunded_discount_pct_change_5yr": 44.7021,
     "share_grad_students": 10.6329,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15319.9964
+        "value": 13784.428
       },
       {
         "year": 2015,
-        "value": 16197.4421
+        "value": 14753.0839
       },
       {
         "year": 2016,
-        "value": 16867.8065
+        "value": 15535.2254
       },
       {
         "year": 2017,
-        "value": 15589.5042
+        "value": 14446.3109
       },
       {
         "year": 2018,
-        "value": 15677.2914
+        "value": 16160.5531
       },
       {
         "year": 2019,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 10397.7643
+        "value": 9673.2325
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.9652
+      },
+      {
+        "year": 2015,
+        "value": 31.3961
+      },
+      {
+        "year": 2016,
+        "value": 28.6788
+      },
+      {
+        "year": 2017,
+        "value": 33.408
+      },
+      {
+        "year": 2018,
+        "value": 29.0878
+      },
+      {
+        "year": 2019,
+        "value": 40.1267
+      },
+      {
+        "year": 2020,
+        "value": 45.1725
+      },
+      {
+        "year": 2021,
+        "value": 46.42
+      },
+      {
+        "year": 2022,
+        "value": 49.3661
+      },
+      {
+        "year": 2023,
+        "value": 50.8979
+      },
+      {
+        "year": 2024,
+        "value": 58.0642
       }
     ],
     "enrollment_headcount_total": [

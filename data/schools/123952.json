@@ -1,6 +1,6 @@
 {
   "unitid": "123952",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern California Institute of Architecture",
     "institution_unique_name": "Southern California Institute of Architecture | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.9767,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.6501,
-    "net_tuition_per_fte_change_5yr": -14.712,
+    "net_tuition_per_fte_change_5yr": -15.7046,
     "staff_total_headcount_pct_change_5yr": -9.9291,
     "staff_instructional_headcount_pct_change_5yr": -11.1111,
     "students_per_instructional_staff_fte": 12.9792,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 69.3245,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.3373,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.9733,
+    "unfunded_discount_pct_change_5yr": 77.3536,
     "share_grad_students": 59.4108,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,39 +169,85 @@
       },
       {
         "year": 2016,
-        "value": 39821.3198
+        "value": 39993.7977
       },
       {
         "year": 2017,
-        "value": 39256.1892
+        "value": 39845.9253
       },
       {
         "year": 2018,
-        "value": 38557.8607
+        "value": 38918.8264
       },
       {
         "year": 2019,
-        "value": 38453.4213
+        "value": 38352.1768
       },
       {
         "year": 2020,
-        "value": 37449.3086
+        "value": 36716.6984
       },
       {
         "year": 2021,
-        "value": 38226.5134
+        "value": 38246.5074
       },
       {
         "year": 2022,
-        "value": 35558.8032
+        "value": 35193.1643
       },
       {
         "year": 2023,
-        "value": 33725.1883
+        "value": 33921.8402
       },
       {
         "year": 2024,
-        "value": 32796.1477
+        "value": 32329.1332
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 9.7569
+      },
+      {
+        "year": 2015,
+        "value": 9.677
+      },
+      {
+        "year": 2016,
+        "value": 11.0633
+      },
+      {
+        "year": 2017,
+        "value": 11.7047
+      },
+      {
+        "year": 2018,
+        "value": 14.2562
+      },
+      {
+        "year": 2019,
+        "value": 15.2088
+      },
+      {
+        "year": 2020,
+        "value": 19.4717
+      },
+      {
+        "year": 2021,
+        "value": 25.6693
+      },
+      {
+        "year": 2022,
+        "value": 24.8038
+      },
+      {
+        "year": 2023,
+        "value": 25.0116
+      },
+      {
+        "year": 2024,
+        "value": 26.9733
       }
     ],
     "enrollment_headcount_total": [

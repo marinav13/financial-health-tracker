@@ -1,6 +1,6 @@
 {
   "unitid": "219790",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bryan College-Dayton",
     "institution_unique_name": "Bryan College-Dayton | Dayton | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 52.6695,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 6.4864,
-    "net_tuition_per_fte_change_5yr": -12.8941,
+    "net_tuition_per_fte_change_5yr": -6.8403,
     "staff_total_headcount_pct_change_5yr": 3.0769,
     "staff_instructional_headcount_pct_change_5yr": -10.1911,
     "students_per_instructional_staff_fte": 15.16,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 52.1354,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.4298,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.2363,
+    "unfunded_discount_pct_change_5yr": -38.2661,
     "share_grad_students": 9.2338,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11521.8082
+        "value": 11264.021
       },
       {
         "year": 2015,
-        "value": 10493.3089
+        "value": 10213.3182
       },
       {
         "year": 2016,
-        "value": 12035.695
+        "value": 11849.8401
       },
       {
         "year": 2017,
-        "value": 11489.2096
+        "value": 11095.8969
       },
       {
         "year": 2018,
-        "value": 13272.4863
+        "value": 13011.3419
       },
       {
         "year": 2019,
-        "value": 11607.995
+        "value": 11123.1423
       },
       {
         "year": 2020,
-        "value": 11194.3048
+        "value": 11289.4813
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 9705.0532
+        "value": 9724.4224
       },
       {
         "year": 2024,
-        "value": 10111.2507
+        "value": 10362.2902
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.6111
+      },
+      {
+        "year": 2015,
+        "value": 36.5401
+      },
+      {
+        "year": 2016,
+        "value": 41.9466
+      },
+      {
+        "year": 2017,
+        "value": 46.5187
+      },
+      {
+        "year": 2018,
+        "value": 47.7243
+      },
+      {
+        "year": 2019,
+        "value": 50.5983
+      },
+      {
+        "year": 2020,
+        "value": 49.6462
+      },
+      {
+        "year": 2021,
+        "value": 30.0535
+      },
+      {
+        "year": 2022,
+        "value": 31.3681
+      },
+      {
+        "year": 2023,
+        "value": 34.6649
+      },
+      {
+        "year": 2024,
+        "value": 31.2363
       }
     ],
     "enrollment_headcount_total": [

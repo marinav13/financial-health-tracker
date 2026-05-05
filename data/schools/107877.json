@@ -1,6 +1,6 @@
 {
   "unitid": "107877",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Williams Baptist University",
     "institution_unique_name": "Williams Baptist University | Walnut Ridge | Arkansas",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 24.3134,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 63.8508,
+    "unfunded_discount_pct_change_5yr": 43.5063,
     "share_grad_students": 5.2239,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8891.9594
+        "value": 1374.7163
       },
       {
         "year": 2015,
-        "value": 9194.2004
+        "value": 14747.3786
       },
       {
         "year": 2016,
-        "value": 10300.1723
+        "value": 15654.1409
       },
       {
         "year": 2017,
-        "value": 10188.4806
+        "value": 15035.8542
       },
       {
         "year": 2018,
-        "value": 10055.7174
+        "value": 9516.356
       },
       {
         "year": 2019,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 5636.4547
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 80.42
+      },
+      {
+        "year": 2015,
+        "value": 35.5085
+      },
+      {
+        "year": 2016,
+        "value": 36.5835
+      },
+      {
+        "year": 2017,
+        "value": 38.7822
+      },
+      {
+        "year": 2018,
+        "value": 49.7607
+      },
+      {
+        "year": 2019,
+        "value": 44.4934
+      },
+      {
+        "year": 2020,
+        "value": 50.2307
+      },
+      {
+        "year": 2021,
+        "value": 56.6305
+      },
+      {
+        "year": 2022,
+        "value": 65.1966
+      },
+      {
+        "year": 2023,
+        "value": 66.5491
+      },
+      {
+        "year": 2024,
+        "value": 63.8508
       }
     ],
     "enrollment_headcount_total": [

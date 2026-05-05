@@ -1,6 +1,6 @@
 {
   "unitid": "200217",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Mary",
     "institution_unique_name": "University of Mary | Bismarck | North Dakota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.4906,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 16.247,
-    "net_tuition_per_fte_change_5yr": -5.7592,
+    "net_tuition_per_fte_change_5yr": -5.4557,
     "staff_total_headcount_pct_change_5yr": -6.457,
     "staff_instructional_headcount_pct_change_5yr": -0.6557,
     "students_per_instructional_staff_fte": 15.106,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 54.122,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 36.2772,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.7729,
+    "unfunded_discount_pct_change_5yr": -7.9654,
     "share_grad_students": 34.6736,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19137.9113
+        "value": 14561.491
       },
       {
         "year": 2015,
-        "value": 20752.5578
+        "value": 15688.6122
       },
       {
         "year": 2016,
-        "value": 21745.9646
+        "value": 16174.592
       },
       {
         "year": 2017,
-        "value": 21513.6258
+        "value": 15918.3553
       },
       {
         "year": 2018,
-        "value": 22858.7078
+        "value": 16250.4931
       },
       {
         "year": 2019,
-        "value": 22242.3564
+        "value": 14860.8852
       },
       {
         "year": 2020,
-        "value": 23422.9507
+        "value": 16612.0472
       },
       {
         "year": 2021,
-        "value": 23632.6958
+        "value": 16910.8209
       },
       {
         "year": 2022,
-        "value": 22387.836
+        "value": 15720.9423
       },
       {
         "year": 2023,
-        "value": 21289.3947
+        "value": 14693.9008
       },
       {
         "year": 2024,
-        "value": 20961.3725
+        "value": 14050.1135
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.2231
+      },
+      {
+        "year": 2015,
+        "value": 23.5086
+      },
+      {
+        "year": 2016,
+        "value": 24.6912
+      },
+      {
+        "year": 2017,
+        "value": 24.8797
+      },
+      {
+        "year": 2018,
+        "value": 25.4519
+      },
+      {
+        "year": 2019,
+        "value": 30.1766
+      },
+      {
+        "year": 2020,
+        "value": 25.8681
+      },
+      {
+        "year": 2021,
+        "value": 24.9689
+      },
+      {
+        "year": 2022,
+        "value": 26.702
+      },
+      {
+        "year": 2023,
+        "value": 25.7772
+      },
+      {
+        "year": 2024,
+        "value": 27.7729
       }
     ],
     "enrollment_headcount_total": [

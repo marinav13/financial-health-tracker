@@ -1,6 +1,6 @@
 {
   "unitid": "140720",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Paine College",
     "institution_unique_name": "Paine College | Augusta | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.6252,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -38.5861,
-    "net_tuition_per_fte_change_5yr": 12.4454,
+    "net_tuition_per_fte_change_5yr": 42.4928,
     "staff_total_headcount_pct_change_5yr": -25.3086,
     "staff_instructional_headcount_pct_change_5yr": -22.9167,
     "students_per_instructional_staff_fte": 11.5714,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 31.4778,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 29.9468,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 30% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.2025,
+    "unfunded_discount_pct_change_5yr": -49.0814,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18590.3935
+        "value": 17220.6469
       },
       {
         "year": 2015,
-        "value": 13484.5366
+        "value": 13326.6872
       },
       {
         "year": 2016,
-        "value": 14463.5045
+        "value": 14294.3836
       },
       {
         "year": 2017,
-        "value": 13675.9673
+        "value": 13507.9579
       },
       {
         "year": 2018,
-        "value": 12853.2528
+        "value": 8007.0715
       },
       {
         "year": 2019,
-        "value": 11936.6377
+        "value": 8961.421
       },
       {
         "year": 2020,
-        "value": 15832.9344
+        "value": 15096.8482
       },
       {
         "year": 2021,
-        "value": 15819.7914
+        "value": 15290.1952
       },
       {
         "year": 2022,
-        "value": 16779.6985
+        "value": 16234.9142
       },
       {
         "year": 2023,
-        "value": 13134.5191
+        "value": 12458.9373
       },
       {
         "year": 2024,
-        "value": 13422.2054
+        "value": 12769.3771
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.5389
+      },
+      {
+        "year": 2015,
+        "value": 25.6948
+      },
+      {
+        "year": 2016,
+        "value": 23.5249
+      },
+      {
+        "year": 2017,
+        "value": 24.436
+      },
+      {
+        "year": 2018,
+        "value": 37.7039
+      },
+      {
+        "year": 2019,
+        "value": 41.64
+      },
+      {
+        "year": 2020,
+        "value": 20.8746
+      },
+      {
+        "year": 2021,
+        "value": 15.7771
+      },
+      {
+        "year": 2022,
+        "value": 15.0103
+      },
+      {
+        "year": 2023,
+        "value": 22.2028
+      },
+      {
+        "year": 2024,
+        "value": 21.2025
       }
     ],
     "enrollment_headcount_total": [

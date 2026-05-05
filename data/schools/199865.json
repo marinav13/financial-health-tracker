@@ -1,6 +1,6 @@
 {
   "unitid": "199865",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Warren Wilson College",
     "institution_unique_name": "Warren Wilson College | Swannanoa | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.9565,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.9164,
-    "net_tuition_per_fte_change_5yr": -33.7394,
+    "net_tuition_per_fte_change_5yr": -32.5095,
     "staff_total_headcount_pct_change_5yr": -12.9707,
     "staff_instructional_headcount_pct_change_5yr": -26.2136,
     "students_per_instructional_staff_fte": 13.5341,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 28.2725,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 59.3419,
+    "unfunded_discount_pct_change_5yr": 24.2161,
     "share_grad_students": 7.8978,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18830.6064
+        "value": 21315.6281
       },
       {
         "year": 2015,
-        "value": 18197.2979
+        "value": 20996.7511
       },
       {
         "year": 2016,
-        "value": 16878.5544
+        "value": 19738.887
       },
       {
         "year": 2017,
-        "value": 18749.4292
+        "value": 21460.9091
       },
       {
         "year": 2018,
-        "value": 17926.8106
+        "value": 20161.1426
       },
       {
         "year": 2019,
-        "value": 17996.0145
+        "value": 17668.054
       },
       {
         "year": 2020,
-        "value": 16801.9484
+        "value": 16351.434
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 12647.6835
+        "value": 12547.4492
       },
       {
         "year": 2024,
         "value": 11924.2657
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.5892
+      },
+      {
+        "year": 2015,
+        "value": 31.2992
+      },
+      {
+        "year": 2016,
+        "value": 35.8773
+      },
+      {
+        "year": 2017,
+        "value": 36.1917
+      },
+      {
+        "year": 2018,
+        "value": 38.1011
+      },
+      {
+        "year": 2019,
+        "value": 47.7731
+      },
+      {
+        "year": 2020,
+        "value": 50.5887
+      },
+      {
+        "year": 2021,
+        "value": 54.3279
+      },
+      {
+        "year": 2022,
+        "value": 54.514
+      },
+      {
+        "year": 2023,
+        "value": 56.1946
+      },
+      {
+        "year": 2024,
+        "value": 59.3419
       }
     ],
     "enrollment_headcount_total": [

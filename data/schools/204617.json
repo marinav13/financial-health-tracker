@@ -1,6 +1,6 @@
 {
   "unitid": "204617",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Ohio Dominican University",
     "institution_unique_name": "Ohio Dominican University | Columbus | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -35.1064,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.4795,
-    "net_tuition_per_fte_change_5yr": -2.7762,
+    "net_tuition_per_fte_change_5yr": -4.7523,
     "staff_total_headcount_pct_change_5yr": -20.6452,
     "staff_instructional_headcount_pct_change_5yr": -16.5563,
     "students_per_instructional_staff_fte": 14.4959,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 52.5746,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 51.506,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.5058,
+    "unfunded_discount_pct_change_5yr": -2.4517,
     "share_grad_students": 30.806,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15816.3113
+        "value": 15364.2854
       },
       {
         "year": 2015,
-        "value": 15985.5909
+        "value": 15432.8271
       },
       {
         "year": 2016,
@@ -187,11 +189,11 @@
       },
       {
         "year": 2021,
-        "value": 15831.8327
+        "value": 16020.248
       },
       {
         "year": 2022,
-        "value": 14579.4978
+        "value": 14804.8625
       },
       {
         "year": 2023,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 14692.9406
+        "value": 14394.3121
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.5789
+      },
+      {
+        "year": 2015,
+        "value": 40.6958
+      },
+      {
+        "year": 2016,
+        "value": 40.8191
+      },
+      {
+        "year": 2017,
+        "value": 40.9637
+      },
+      {
+        "year": 2018,
+        "value": 42.3076
+      },
+      {
+        "year": 2019,
+        "value": 44.5992
+      },
+      {
+        "year": 2020,
+        "value": 45.8917
+      },
+      {
+        "year": 2021,
+        "value": 45.4306
+      },
+      {
+        "year": 2022,
+        "value": 44.9377
+      },
+      {
+        "year": 2023,
+        "value": 42.2258
+      },
+      {
+        "year": 2024,
+        "value": 43.5058
       }
     ],
     "enrollment_headcount_total": [

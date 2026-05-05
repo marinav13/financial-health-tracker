@@ -1,6 +1,6 @@
 {
   "unitid": "147590",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "National University of Health Sciences",
     "institution_unique_name": "National University of Health Sciences | Lombard | Illinois",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 62.988,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.2021,
+    "unfunded_discount_pct_change_5yr": 2.6145,
     "share_grad_students": 92.1222,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 378211,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 217335.122
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 4.0696
+      },
+      {
+        "year": 2015,
+        "value": 3.9453
+      },
+      {
+        "year": 2016,
+        "value": 3.9803
+      },
+      {
+        "year": 2017,
+        "value": 3.7799
+      },
+      {
+        "year": 2018,
+        "value": 3.7221
+      },
+      {
+        "year": 2019,
+        "value": 4.095
+      },
+      {
+        "year": 2020,
+        "value": 4.1119
+      },
+      {
+        "year": 2021,
+        "value": 4.5368
+      },
+      {
+        "year": 2022,
+        "value": 5.2203
+      },
+      {
+        "year": 2023,
+        "value": 4.6525
+      },
+      {
+        "year": 2024,
+        "value": 4.2021
       }
     ],
     "enrollment_headcount_total": [

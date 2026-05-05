@@ -1,6 +1,6 @@
 {
   "unitid": "146427",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Knox College",
     "institution_unique_name": "Knox College | Galesburg | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.9146,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -11.7285,
-    "net_tuition_per_fte_change_5yr": -13.3841,
+    "net_tuition_per_fte_change_5yr": -33.5711,
     "staff_total_headcount_pct_change_5yr": 0.2165,
     "staff_instructional_headcount_pct_change_5yr": 8.5106,
     "students_per_instructional_staff_fte": 7.8338,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 23.6719,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 18.3502,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.6764,
+    "unfunded_discount_pct_change_5yr": 12.7449,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23494.5641
+        "value": 23633.5275
       },
       {
         "year": 2015,
-        "value": 22606.7374
+        "value": 22727.1094
       },
       {
         "year": 2016,
-        "value": 21753.7508
+        "value": 21886.4406
       },
       {
         "year": 2017,
-        "value": 20992.3801
+        "value": 21157.509
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 19599.9353
+        "value": 19810.8296
       },
       {
         "year": 2020,
-        "value": 18352.9278
+        "value": 18533.1984
       },
       {
         "year": 2021,
-        "value": 18455.4467
+        "value": 18656.2201
       },
       {
         "year": 2022,
-        "value": 16107.549
+        "value": 16276.5155
       },
       {
         "year": 2023,
-        "value": 16770.6713
+        "value": 16941.0402
       },
       {
         "year": 2024,
-        "value": 16976.654
+        "value": 13160.1099
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 51.554
+      },
+      {
+        "year": 2015,
+        "value": 54.0892
+      },
+      {
+        "year": 2016,
+        "value": 56.3113
+      },
+      {
+        "year": 2017,
+        "value": 57.4121
+      },
+      {
+        "year": 2018,
+        "value": 58.9947
+      },
+      {
+        "year": 2019,
+        "value": 60.9131
+      },
+      {
+        "year": 2020,
+        "value": 62.8191
+      },
+      {
+        "year": 2021,
+        "value": 61.7199
+      },
+      {
+        "year": 2022,
+        "value": 64.7473
+      },
+      {
+        "year": 2023,
+        "value": 62.3525
+      },
+      {
+        "year": 2024,
+        "value": 68.6764
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "215284",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Pittsburgh-Johnstown",
     "institution_unique_name": "University of Pittsburgh-Johnstown | Johnstown | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.5739,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -31.3638,
+    "net_tuition_per_fte_change_5yr": -33.9084,
     "staff_total_headcount_pct_change_5yr": -10.574,
     "staff_instructional_headcount_pct_change_5yr": 0.6711,
     "students_per_instructional_staff_fte": 14.5076,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 21.1862,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 32.5949,
+    "unfunded_discount_pct_change_5yr": 146.3976,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 40501,
@@ -114,47 +116,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16317.3382
+        "value": 16024.0966
       },
       {
         "year": 2015,
-        "value": 16164.3911
+        "value": 15668.663
       },
       {
         "year": 2016,
-        "value": 15623.4368
+        "value": 15137.7808
       },
       {
         "year": 2017,
-        "value": 15262.7644
+        "value": 14726.5034
       },
       {
         "year": 2018,
-        "value": 15095.2579
+        "value": 14490.49
       },
       {
         "year": 2019,
-        "value": 15260.4548
+        "value": 14572.0519
       },
       {
         "year": 2020,
-        "value": 15448.7784
+        "value": 14894.6624
       },
       {
         "year": 2021,
-        "value": 14390.5636
+        "value": 13900.0945
       },
       {
         "year": 2022,
-        "value": 13082.6065
+        "value": 13040.6809
       },
       {
         "year": 2023,
-        "value": 13373.7274
+        "value": 12681.8614
       },
       {
         "year": 2024,
-        "value": 10474.1932
+        "value": 9630.9018
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 6.7026
+      },
+      {
+        "year": 2015,
+        "value": 8.835
+      },
+      {
+        "year": 2016,
+        "value": 10.3688
+      },
+      {
+        "year": 2017,
+        "value": 11.8651
+      },
+      {
+        "year": 2018,
+        "value": 12.4805
+      },
+      {
+        "year": 2019,
+        "value": 13.2286
+      },
+      {
+        "year": 2020,
+        "value": 12.6143
+      },
+      {
+        "year": 2021,
+        "value": 14.2628
+      },
+      {
+        "year": 2022,
+        "value": 16.1968
+      },
+      {
+        "year": 2023,
+        "value": 16.7236
+      },
+      {
+        "year": 2024,
+        "value": 32.5949
       }
     ],
     "enrollment_headcount_total": [

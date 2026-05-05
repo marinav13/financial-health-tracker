@@ -1,6 +1,6 @@
 {
   "unitid": "176406",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Tougaloo College",
     "institution_unique_name": "Tougaloo College | Tougaloo | Mississippi",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.441,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 0.9236,
-    "net_tuition_per_fte_change_5yr": -8.1721,
+    "net_tuition_per_fte_change_5yr": -2.3205,
     "staff_total_headcount_pct_change_5yr": -39.1304,
     "staff_instructional_headcount_pct_change_5yr": -49.3827,
     "students_per_instructional_staff_fte": 17.0488,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 16.286,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.3238,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.5734,
+    "unfunded_discount_pct_change_5yr": -8.3861,
     "share_grad_students": 3.9781,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2855709,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10217.2406
+        "value": 13304.4534
       },
       {
         "year": 2015,
-        "value": 9872.4351
+        "value": 13388.6369
       },
       {
         "year": 2016,
-        "value": 10901.952
+        "value": 14205.7981
       },
       {
         "year": 2017,
-        "value": 10601.9897
+        "value": 10590.1495
       },
       {
         "year": 2018,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 7930.0472
+        "value": 8435.3763
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 23.4833
+      },
+      {
+        "year": 2018,
+        "value": 32.2657
+      },
+      {
+        "year": 2019,
+        "value": 30.0974
+      },
+      {
+        "year": 2020,
+        "value": 27.9013
+      },
+      {
+        "year": 2021,
+        "value": 23.4711
+      },
+      {
+        "year": 2022,
+        "value": 26.7292
+      },
+      {
+        "year": 2023,
+        "value": 31.0983
+      },
+      {
+        "year": 2024,
+        "value": 27.5734
       }
     ],
     "enrollment_headcount_total": [

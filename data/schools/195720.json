@@ -1,6 +1,6 @@
 {
   "unitid": "195720",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. John Fisher University",
     "institution_unique_name": "St. John Fisher University | Rochester | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.7195,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -10.6021,
-    "net_tuition_per_fte_change_5yr": -23.7158,
+    "net_tuition_per_fte_change_5yr": -21.6872,
     "staff_total_headcount_pct_change_5yr": 2.7429,
     "staff_instructional_headcount_pct_change_5yr": 2.9545,
     "students_per_instructional_staff_fte": 10.5385,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 57.8781,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 58.1904,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 58% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 37.8325,
+    "unfunded_discount_pct_change_5yr": 17.003,
     "share_grad_students": 32.898,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28409.8155
+        "value": 27565.34
       },
       {
         "year": 2015,
-        "value": 29536.7986
+        "value": 28714.9679
       },
       {
         "year": 2016,
-        "value": 30549.5876
+        "value": 29776.6867
       },
       {
         "year": 2017,
-        "value": 30425.3058
+        "value": 29653.3016
       },
       {
         "year": 2018,
-        "value": 30263.4044
+        "value": 29625.8939
       },
       {
         "year": 2019,
-        "value": 30507.8678
+        "value": 29877.9508
       },
       {
         "year": 2020,
-        "value": 29714.9775
+        "value": 29451.6423
       },
       {
         "year": 2021,
-        "value": 26539.9196
+        "value": 26342.2728
       },
       {
         "year": 2022,
-        "value": 24623.4292
+        "value": 24566.6966
       },
       {
         "year": 2023,
-        "value": 23870.0237
+        "value": 23939.0108
       },
       {
         "year": 2024,
-        "value": 23272.6772
+        "value": 23398.2723
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.2126
+      },
+      {
+        "year": 2015,
+        "value": 29.4714
+      },
+      {
+        "year": 2016,
+        "value": 29.7014
+      },
+      {
+        "year": 2017,
+        "value": 30.3758
+      },
+      {
+        "year": 2018,
+        "value": 31.4721
+      },
+      {
+        "year": 2019,
+        "value": 32.3346
+      },
+      {
+        "year": 2020,
+        "value": 33.1606
+      },
+      {
+        "year": 2021,
+        "value": 35.8305
+      },
+      {
+        "year": 2022,
+        "value": 37.0439
+      },
+      {
+        "year": 2023,
+        "value": 37.4885
+      },
+      {
+        "year": 2024,
+        "value": 37.8325
       }
     ],
     "enrollment_headcount_total": [

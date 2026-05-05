@@ -1,6 +1,6 @@
 {
   "unitid": "199847",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wake Forest University",
     "institution_unique_name": "Wake Forest University | Winston-Salem | North Carolina",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.9792,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 25.7334,
-    "net_tuition_per_fte_change_5yr": -2.5646,
+    "net_tuition_per_fte_change_5yr": -2.5237,
     "staff_total_headcount_pct_change_5yr": 24.148,
     "staff_instructional_headcount_pct_change_5yr": 55.163,
     "students_per_instructional_staff_fte": 2.4883,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 14.0588,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 13.4462,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 13% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.9858,
+    "unfunded_discount_pct_change_5yr": -7.8411,
     "share_grad_students": 43.0052,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 294427000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 44970.3414
+        "value": 44173.4823
       },
       {
         "year": 2015,
-        "value": 46329.738
+        "value": 44873.036
       },
       {
         "year": 2016,
-        "value": 46331.7982
+        "value": 44643.7065
       },
       {
         "year": 2017,
-        "value": 46678.2637
+        "value": 44980.1191
       },
       {
         "year": 2018,
-        "value": 44950.5614
+        "value": 43405.4154
       },
       {
         "year": 2019,
-        "value": 46124.3864
+        "value": 44096.0242
       },
       {
         "year": 2020,
-        "value": 48201.5966
+        "value": 46049.811
       },
       {
         "year": 2021,
-        "value": 46837.8473
+        "value": 44681.6478
       },
       {
         "year": 2022,
-        "value": 45819.4656
+        "value": 43495.7745
       },
       {
         "year": 2023,
-        "value": 45680.1331
+        "value": 44048.9929
       },
       {
         "year": 2024,
-        "value": 44941.4646
+        "value": 42983.1679
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.3097
+      },
+      {
+        "year": 2015,
+        "value": 26.6677
+      },
+      {
+        "year": 2016,
+        "value": 26.2594
+      },
+      {
+        "year": 2017,
+        "value": 26.1535
+      },
+      {
+        "year": 2018,
+        "value": 26.3783
+      },
+      {
+        "year": 2019,
+        "value": 28.1968
+      },
+      {
+        "year": 2020,
+        "value": 27.4777
+      },
+      {
+        "year": 2021,
+        "value": 26.8838
+      },
+      {
+        "year": 2022,
+        "value": 25.541
+      },
+      {
+        "year": 2023,
+        "value": 24.1602
+      },
+      {
+        "year": 2024,
+        "value": 25.9858
       }
     ],
     "enrollment_headcount_total": [

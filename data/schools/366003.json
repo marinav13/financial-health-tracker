@@ -1,6 +1,6 @@
 {
   "unitid": "366003",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "South Florida Bible College and Theological Seminary",
     "institution_unique_name": "South Florida Bible College and Theological Seminary | Deerfield Beach | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 33.4204,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 8.2218,
-    "net_tuition_per_fte_change_5yr": -15.3861,
+    "net_tuition_per_fte_change_5yr": -15.3037,
     "staff_total_headcount_pct_change_5yr": -25.3165,
     "staff_instructional_headcount_pct_change_5yr": -72.549,
     "students_per_instructional_staff_fte": 23.9062,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 91.0877,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 91.2569,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 23.4834,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8810.5289
+        "value": 8836.0701
       },
       {
         "year": 2015,
-        "value": 10425.7775
+        "value": 10447.6449
       },
       {
         "year": 2016,
-        "value": 10479.7634
+        "value": 10493.7249
       },
       {
         "year": 2017,
-        "value": 12986.7869
+        "value": 12997.5011
       },
       {
         "year": 2018,
-        "value": 15822.1916
+        "value": 15832.2053
       },
       {
         "year": 2019,
-        "value": 17781.7131
+        "value": 17797.4114
       },
       {
         "year": 2020,
-        "value": 15355.4151
+        "value": 15366.6018
       },
       {
         "year": 2021,
-        "value": 16637.9758
+        "value": 16655.529
       },
       {
         "year": 2022,
-        "value": 15548.787
+        "value": 15574.5283
       },
       {
         "year": 2023,
-        "value": 15052.8772
+        "value": 15126.8309
       },
       {
         "year": 2024,
-        "value": 15045.8039
+        "value": 15073.7529
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

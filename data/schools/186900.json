@@ -1,6 +1,6 @@
 {
   "unitid": "186900",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Talmudical Academy-New Jersey",
     "institution_unique_name": "Talmudical Academy-New Jersey | Adelphia | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.5556,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 45.4985,
-    "net_tuition_per_fte_change_5yr": 53.4991,
+    "net_tuition_per_fte_change_5yr": 31.0758,
     "staff_total_headcount_pct_change_5yr": -14.2857,
     "staff_instructional_headcount_pct_change_5yr": -25,
     "students_per_instructional_staff_fte": 21.25,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 68.3581,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.5947,
+    "unfunded_discount_pct_change_5yr": -7.7058,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10508.6126
+        "value": 10451.3123
       },
       {
         "year": 2015,
-        "value": 24587.9267
+        "value": 24468.8487
       },
       {
         "year": 2016,
-        "value": 12065.188
+        "value": 12013.5078
       },
       {
         "year": 2017,
-        "value": 6923.4212
+        "value": 6883.6789
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 7969.3379
+        "value": 9332.662
       },
       {
         "year": 2020,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 9754.5289
+        "value": 9590.3294
       },
       {
         "year": 2022,
-        "value": 9533.3185
+        "value": 8929.5347
       },
       {
         "year": 2023,
-        "value": 9551.3356
+        "value": 9135.7108
       },
       {
         "year": 2024,
         "value": 12232.8588
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.9235
+      },
+      {
+        "year": 2015,
+        "value": 24.9778
+      },
+      {
+        "year": 2016,
+        "value": 28.7531
+      },
+      {
+        "year": 2017,
+        "value": 40.6071
+      },
+      {
+        "year": 2018,
+        "value": 46.4247
+      },
+      {
+        "year": 2019,
+        "value": 36.3996
+      },
+      {
+        "year": 2020,
+        "value": 26.1371
+      },
+      {
+        "year": 2021,
+        "value": 27.7967
+      },
+      {
+        "year": 2022,
+        "value": 39.7181
+      },
+      {
+        "year": 2023,
+        "value": 37.6441
+      },
+      {
+        "year": 2024,
+        "value": 33.5947
       }
     ],
     "enrollment_headcount_total": [

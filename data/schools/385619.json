@@ -1,6 +1,6 @@
 {
   "unitid": "385619",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Everglades University",
     "institution_unique_name": "Everglades University | Boca Raton | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 44.435,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 38.5731,
-    "net_tuition_per_fte_change_5yr": -2.0317,
+    "net_tuition_per_fte_change_5yr": -6.3184,
     "staff_total_headcount_pct_change_5yr": 35.641,
     "staff_instructional_headcount_pct_change_5yr": 24.2553,
     "students_per_instructional_staff_fte": 16.2321,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 94.9974,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 95% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 95% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 9.0567,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 16.0563,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27334.4771
+        "value": 28163.8843
       },
       {
         "year": 2015,
-        "value": 24118.0805
+        "value": 25346.3295
       },
       {
         "year": 2016,
-        "value": 24150.4913
+        "value": 25147.5856
       },
       {
         "year": 2017,
-        "value": 23483.4482
+        "value": 24482.7358
       },
       {
         "year": 2018,
-        "value": 23671.9382
+        "value": 24727.6025
       },
       {
         "year": 2019,
-        "value": 22446.8389
+        "value": 23473.9637
       },
       {
         "year": 2020,
-        "value": 21435.1977
+        "value": 22406.028
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 21990.7785
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 4.9243
+      },
+      {
+        "year": 2022,
+        "value": 5.8848
+      },
+      {
+        "year": 2023,
+        "value": 7.5429
+      },
+      {
+        "year": 2024,
+        "value": 9.0567
       }
     ],
     "enrollment_headcount_total": [

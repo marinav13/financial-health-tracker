@@ -1,6 +1,6 @@
 {
   "unitid": "154101",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Northwestern College",
     "institution_unique_name": "Northwestern College | Orange City | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 33.5647,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 30.073,
-    "net_tuition_per_fte_change_5yr": -5.9423,
+    "net_tuition_per_fte_change_5yr": -6.2472,
     "staff_total_headcount_pct_change_5yr": 14.2857,
     "staff_instructional_headcount_pct_change_5yr": 18.5897,
     "students_per_instructional_staff_fte": 13.8716,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 41.9413,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 42.3615,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.5902,
+    "unfunded_discount_pct_change_5yr": -7.2866,
     "share_grad_students": 39.0647,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15636.6875
+        "value": 15842.1981
       },
       {
         "year": 2015,
-        "value": 15559.2315
+        "value": 15767.643
       },
       {
         "year": 2016,
-        "value": 15161.9185
+        "value": 15372.3909
       },
       {
         "year": 2017,
-        "value": 14942.0946
+        "value": 15142.4231
       },
       {
         "year": 2018,
-        "value": 14606.4709
+        "value": 14802.3546
       },
       {
         "year": 2019,
-        "value": 14140.4412
+        "value": 14328.5348
       },
       {
         "year": 2020,
-        "value": 14217.0143
+        "value": 14388.4687
       },
       {
         "year": 2021,
-        "value": 14006.2695
+        "value": 14160.0378
       },
       {
         "year": 2022,
-        "value": 13425.9113
+        "value": 13582.8811
       },
       {
         "year": 2023,
-        "value": 13206.0071
+        "value": 13353.3504
       },
       {
         "year": 2024,
-        "value": 13300.1737
+        "value": 13433.397
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.955
+      },
+      {
+        "year": 2015,
+        "value": 49.9624
+      },
+      {
+        "year": 2016,
+        "value": 50.2268
+      },
+      {
+        "year": 2017,
+        "value": 49.5787
+      },
+      {
+        "year": 2018,
+        "value": 49.5164
+      },
+      {
+        "year": 2019,
+        "value": 48.0947
+      },
+      {
+        "year": 2020,
+        "value": 47.2142
+      },
+      {
+        "year": 2021,
+        "value": 46.1736
+      },
+      {
+        "year": 2022,
+        "value": 45.3261
+      },
+      {
+        "year": 2023,
+        "value": 43.4962
+      },
+      {
+        "year": 2024,
+        "value": 44.5902
       }
     ],
     "enrollment_headcount_total": [

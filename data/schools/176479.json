@@ -1,6 +1,6 @@
 {
   "unitid": "176479",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "William Carey University",
     "institution_unique_name": "William Carey University | Hattiesburg | Mississippi",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 8.8383,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 14.4031,
-    "net_tuition_per_fte_change_5yr": 71.2128,
+    "net_tuition_per_fte_change_5yr": 100.4007,
     "staff_total_headcount_pct_change_5yr": 5.8209,
     "staff_instructional_headcount_pct_change_5yr": -9.3264,
     "students_per_instructional_staff_fte": 8.1653,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 65.8842,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 65.6943,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 17.9445,
+    "unfunded_discount_pct_change_5yr": 11.8502,
     "share_grad_students": 41.7111,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 322761,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19134.5626
+        "value": 15929.206
       },
       {
         "year": 2015,
-        "value": 19606.9061
+        "value": 16471.8758
       },
       {
         "year": 2016,
-        "value": 19242.2286
+        "value": 16207.9561
       },
       {
         "year": 2017,
-        "value": 18842.4244
+        "value": 15932.5715
       },
       {
         "year": 2018,
-        "value": 19575.4776
+        "value": 16552.1431
       },
       {
         "year": 2019,
-        "value": 19333.9227
+        "value": 16470.3928
       },
       {
         "year": 2020,
-        "value": 16301.4857
+        "value": 16233.4726
       },
       {
         "year": 2021,
-        "value": 18937.1041
+        "value": 18908.5834
       },
       {
         "year": 2022,
-        "value": 19016.8332
+        "value": 18950.2473
       },
       {
         "year": 2023,
-        "value": 21890.289
+        "value": 21802.856
       },
       {
         "year": 2024,
-        "value": 33102.1575
+        "value": 33006.7817
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 17.3052
+      },
+      {
+        "year": 2015,
+        "value": 17.1113
+      },
+      {
+        "year": 2016,
+        "value": 16.6387
+      },
+      {
+        "year": 2017,
+        "value": 16.8412
+      },
+      {
+        "year": 2018,
+        "value": 16.0293
+      },
+      {
+        "year": 2019,
+        "value": 16.0433
+      },
+      {
+        "year": 2020,
+        "value": 18.0128
+      },
+      {
+        "year": 2021,
+        "value": 15.8872
+      },
+      {
+        "year": 2022,
+        "value": 15.0042
+      },
+      {
+        "year": 2023,
+        "value": 17.8833
+      },
+      {
+        "year": 2024,
+        "value": 17.9445
       }
     ],
     "enrollment_headcount_total": [

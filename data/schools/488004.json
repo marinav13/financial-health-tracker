@@ -1,6 +1,6 @@
 {
   "unitid": "488004",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Central Yeshiva Beth Joseph",
     "institution_unique_name": "Central Yeshiva Beth Joseph | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 28.125,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 23.062,
-    "net_tuition_per_fte_change_5yr": -58.4027,
+    "net_tuition_per_fte_change_5yr": -298.8011,
     "staff_total_headcount_pct_change_5yr": -9.0909,
     "staff_instructional_headcount_pct_change_5yr": -14.2857,
     "students_per_instructional_staff_fte": 8.7857,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 5.2186,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 5% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -24.9408,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -25% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 277.7408,
+    "unfunded_discount_pct_change_5yr": 473.5594,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,61 @@
       },
       {
         "year": 2020,
-        "value": 9516.9761
+        "value": -1060.1145
       },
       {
         "year": 2021,
-        "value": 5685.3797
+        "value": -138.7039
       },
       {
         "year": 2022,
-        "value": 6026.1251
+        "value": -5768.0786
       },
       {
         "year": 2023,
-        "value": 2654.1836
+        "value": -9631.3402
       },
       {
         "year": 2024,
-        "value": 2755.878
+        "value": -13170.8537
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2016,
+        "value": 55.6107
+      },
+      {
+        "year": 2017,
+        "value": 54.2036
+      },
+      {
+        "year": 2018,
+        "value": 49.4656
+      },
+      {
+        "year": 2019,
+        "value": 48.4241
+      },
+      {
+        "year": 2020,
+        "value": 105.9833
+      },
+      {
+        "year": 2021,
+        "value": 101.799
+      },
+      {
+        "year": 2022,
+        "value": 158.1512
+      },
+      {
+        "year": 2023,
+        "value": 212.3888
+      },
+      {
+        "year": 2024,
+        "value": 277.7408
       }
     ],
     "enrollment_headcount_total": [

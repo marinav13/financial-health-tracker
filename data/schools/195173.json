@@ -1,6 +1,6 @@
 {
   "unitid": "195173",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "St. Francis College",
     "institution_unique_name": "St. Francis College | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 87.4716,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -6.8882,
-    "net_tuition_per_fte_change_5yr": -32.2516,
+    "net_tuition_per_fte_change_5yr": -31.4679,
     "staff_total_headcount_pct_change_5yr": -28.9782,
     "staff_instructional_headcount_pct_change_5yr": -14.6739,
     "students_per_instructional_staff_fte": 22.5741,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
-    "tuition_dependence_pct": 78.8451,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 79% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 79.7572,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.7648,
+    "unfunded_discount_pct_change_5yr": -28.7246,
     "share_grad_students": 58.9138,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18991.241
+        "value": 18464.2605
       },
       {
         "year": 2015,
-        "value": 20582.7608
+        "value": 20263.2747
       },
       {
         "year": 2016,
-        "value": 20713.8412
+        "value": 20322.7185
       },
       {
         "year": 2017,
-        "value": 21354.48
+        "value": 21528.8675
       },
       {
         "year": 2018,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 14014.8266
+        "value": 14240.897
       },
       {
         "year": 2021,
-        "value": 14390.6982
+        "value": 14587.8727
       },
       {
         "year": 2022,
-        "value": 13892.5597
+        "value": 14109.6138
       },
       {
         "year": 2023,
-        "value": 11977.9232
+        "value": 12169.0247
       },
       {
         "year": 2024,
-        "value": 11399.4947
+        "value": 11531.3596
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.2379
+      },
+      {
+        "year": 2015,
+        "value": 31.4401
+      },
+      {
+        "year": 2016,
+        "value": 33.5837
+      },
+      {
+        "year": 2017,
+        "value": 32.9975
+      },
+      {
+        "year": 2018,
+        "value": 37.1396
+      },
+      {
+        "year": 2019,
+        "value": 44.5663
+      },
+      {
+        "year": 2020,
+        "value": 49.9537
+      },
+      {
+        "year": 2021,
+        "value": 49.7346
+      },
+      {
+        "year": 2022,
+        "value": 46.8975
+      },
+      {
+        "year": 2023,
+        "value": 45.8184
+      },
+      {
+        "year": 2024,
+        "value": 31.7648
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "236328",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Puget Sound",
     "institution_unique_name": "University of Puget Sound | Tacoma | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -26.2229,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.1146,
-    "net_tuition_per_fte_change_5yr": -19.9067,
+    "net_tuition_per_fte_change_5yr": -19.6678,
     "staff_total_headcount_pct_change_5yr": -14.8193,
     "staff_instructional_headcount_pct_change_5yr": -20.2703,
     "students_per_instructional_staff_fte": 9.0819,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 39.3656,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.8124,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.425,
+    "unfunded_discount_pct_change_5yr": 19.7072,
     "share_grad_students": 15.6032,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1404000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 35360.8593
+        "value": 35675.0801
       },
       {
         "year": 2015,
-        "value": 37261.8088
+        "value": 37574.1783
       },
       {
         "year": 2016,
-        "value": 39202.6593
+        "value": 39522.2177
       },
       {
         "year": 2017,
-        "value": 39421.0504
+        "value": 39731.1053
       },
       {
         "year": 2018,
-        "value": 38221.5901
+        "value": 38532.7522
       },
       {
         "year": 2019,
-        "value": 37892.6621
+        "value": 38208.7054
       },
       {
         "year": 2020,
-        "value": 33933.7397
+        "value": 34226.5813
       },
       {
         "year": 2021,
-        "value": 29979.6267
+        "value": 30605.9684
       },
       {
         "year": 2022,
-        "value": 31594.6822
+        "value": 31924.158
       },
       {
         "year": 2023,
-        "value": 31477.3667
+        "value": 31821.0931
       },
       {
         "year": 2024,
-        "value": 30349.4927
+        "value": 30693.9121
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.8844
+      },
+      {
+        "year": 2015,
+        "value": 33.8357
+      },
+      {
+        "year": 2016,
+        "value": 32.9574
+      },
+      {
+        "year": 2017,
+        "value": 32.9679
+      },
+      {
+        "year": 2018,
+        "value": 34.627
+      },
+      {
+        "year": 2019,
+        "value": 37.1114
+      },
+      {
+        "year": 2020,
+        "value": 40.3407
+      },
+      {
+        "year": 2021,
+        "value": 42.1595
+      },
+      {
+        "year": 2022,
+        "value": 41.7723
+      },
+      {
+        "year": 2023,
+        "value": 41.826
+      },
+      {
+        "year": 2024,
+        "value": 44.425
       }
     ],
     "enrollment_headcount_total": [

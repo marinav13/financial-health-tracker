@@ -1,6 +1,6 @@
 {
   "unitid": "243744",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Stanford University",
     "institution_unique_name": "Stanford University | Stanford | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.6621,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -7.5261,
-    "net_tuition_per_fte_change_5yr": 1.6246,
+    "net_tuition_per_fte_change_5yr": -4.3299,
     "staff_total_headcount_pct_change_5yr": 21.3929,
     "staff_instructional_headcount_pct_change_5yr": 20.3919,
     "students_per_instructional_staff_fte": 3.4369,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 6.9025,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 7% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 4.4472,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 4% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 23.4649,
+    "unfunded_discount_pct_change_5yr": -43.5947,
     "share_grad_students": 55.6502,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1197985000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34820.412
+        "value": 26377.138
       },
       {
         "year": 2015,
-        "value": 36871.663
+        "value": 27609.3755
       },
       {
         "year": 2016,
-        "value": 39491.4002
+        "value": 29957.3196
       },
       {
         "year": 2017,
-        "value": 38102.9955
+        "value": 28006.2954
       },
       {
         "year": 2018,
-        "value": 38690.2402
+        "value": 27620.0003
       },
       {
         "year": 2019,
-        "value": 37364.413
+        "value": 25571.5812
       },
       {
         "year": 2020,
-        "value": 40427.2467
+        "value": 29712.6278
       },
       {
         "year": 2021,
-        "value": 38157.5623
+        "value": 25551.8667
       },
       {
         "year": 2022,
-        "value": 37408.3401
+        "value": 24770.0357
       },
       {
         "year": 2023,
-        "value": 37114.1756
+        "value": 24305.8395
       },
       {
         "year": 2024,
-        "value": 37971.4195
+        "value": 24464.3539
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.3133
+      },
+      {
+        "year": 2015,
+        "value": 33.7767
+      },
+      {
+        "year": 2016,
+        "value": 32.1939
+      },
+      {
+        "year": 2017,
+        "value": 34.1826
+      },
+      {
+        "year": 2018,
+        "value": 36.0874
+      },
+      {
+        "year": 2019,
+        "value": 41.6005
+      },
+      {
+        "year": 2020,
+        "value": 18.1003
+      },
+      {
+        "year": 2021,
+        "value": 20.0036
+      },
+      {
+        "year": 2022,
+        "value": 24.7069
+      },
+      {
+        "year": 2023,
+        "value": 23.6364
+      },
+      {
+        "year": 2024,
+        "value": 23.4649
       }
     ],
     "enrollment_headcount_total": [

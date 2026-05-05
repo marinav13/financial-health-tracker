@@ -1,6 +1,6 @@
 {
   "unitid": "240338",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Wisconsin Lutheran College",
     "institution_unique_name": "Wisconsin Lutheran College | Milwaukee | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.8194,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -16.6187,
-    "net_tuition_per_fte_change_5yr": -3.4968,
+    "net_tuition_per_fte_change_5yr": -21.465,
     "staff_total_headcount_pct_change_5yr": 14.4737,
     "staff_instructional_headcount_pct_change_5yr": 11.5702,
     "students_per_instructional_staff_fte": 11.8539,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 39.3443,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 32.0187,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.3372,
+    "unfunded_discount_pct_change_5yr": 25.0337,
     "share_grad_students": 6.5499,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 98935,
@@ -175,7 +177,7 @@
       },
       {
         "year": 2018,
-        "value": 15153.7913
+        "value": 15153.7924
       },
       {
         "year": 2019,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 14865.0422
+        "value": 15379.8807
       },
       {
         "year": 2021,
-        "value": 14963.1397
+        "value": 15523.2278
       },
       {
         "year": 2022,
-        "value": 14288.9163
+        "value": 15743.2066
       },
       {
         "year": 2023,
-        "value": 14078.2726
+        "value": 11816.7379
       },
       {
         "year": 2024,
-        "value": 14235.1403
+        "value": 11584.6512
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.2657
+      },
+      {
+        "year": 2015,
+        "value": 37.1115
+      },
+      {
+        "year": 2016,
+        "value": 39.4271
+      },
+      {
+        "year": 2017,
+        "value": 41.1504
+      },
+      {
+        "year": 2018,
+        "value": 42.9561
+      },
+      {
+        "year": 2019,
+        "value": 45.8574
+      },
+      {
+        "year": 2020,
+        "value": 43.5048
+      },
+      {
+        "year": 2021,
+        "value": 45.3366
+      },
+      {
+        "year": 2022,
+        "value": 42.446
+      },
+      {
+        "year": 2023,
+        "value": 55.4546
+      },
+      {
+        "year": 2024,
+        "value": 57.3372
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "137953",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trinity Baptist College",
     "institution_unique_name": "Trinity Baptist College | Jacksonville | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.5789,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 5.2094,
-    "net_tuition_per_fte_change_5yr": 19.3124,
+    "net_tuition_per_fte_change_5yr": 42.0995,
     "staff_total_headcount_pct_change_5yr": 17.4757,
     "staff_instructional_headcount_pct_change_5yr": 48.8889,
     "students_per_instructional_staff_fte": 11.5161,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 92.8406,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 93% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 93% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 15.8751,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 6.1728,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 6554.157
+        "value": 8756.2118
       },
       {
         "year": 2015,
-        "value": 5323.4198
+        "value": 7163.6909
       },
       {
         "year": 2016,
-        "value": 6411.375
+        "value": 9153.1713
       },
       {
         "year": 2017,
-        "value": 6260.6688
+        "value": 8767.4665
       },
       {
         "year": 2018,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 11065.1248
+        "value": 9290.7254
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13202.07
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 17.8337
+      },
+      {
+        "year": 2021,
+        "value": 15.169
+      },
+      {
+        "year": 2022,
+        "value": 3.4454
+      },
+      {
+        "year": 2023,
+        "value": 17.0323
+      },
+      {
+        "year": 2024,
+        "value": 15.8751
       }
     ],
     "enrollment_headcount_total": [

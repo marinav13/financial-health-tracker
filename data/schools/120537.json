@@ -1,6 +1,6 @@
 {
   "unitid": "120537",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hope International University",
     "institution_unique_name": "Hope International University | Fullerton | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -27.5309,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.2125,
-    "net_tuition_per_fte_change_5yr": 4.2935,
+    "net_tuition_per_fte_change_5yr": 356.9696,
     "staff_total_headcount_pct_change_5yr": -21.9745,
     "staff_instructional_headcount_pct_change_5yr": -30.5882,
     "students_per_instructional_staff_fte": 16.8789,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 70.3224,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.0495,
+    "unfunded_discount_pct_change_5yr": -47.9045,
     "share_grad_students": 50.4259,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,35 +161,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13262.6579
+        "value": 7434.1804
       },
       {
         "year": 2015,
-        "value": 14161.7504
+        "value": 8572.9253
       },
       {
         "year": 2016,
-        "value": 14785.3584
+        "value": 8086.2679
       },
       {
         "year": 2017,
-        "value": 17085.2757
+        "value": 8773.1877
       },
       {
         "year": 2018,
-        "value": 15304.2698
+        "value": 6452.1749
       },
       {
         "year": 2019,
-        "value": 13143.1351
+        "value": 2999.6392
       },
       {
         "year": 2020,
-        "value": 11571.8613
+        "value": -88.6324
       },
       {
         "year": 2021,
-        "value": 11477.3557
+        "value": 361.0459
       },
       {
         "year": 2022,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13707.4397
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 42.4225
+      },
+      {
+        "year": 2015,
+        "value": 40.1726
+      },
+      {
+        "year": 2016,
+        "value": 45.8367
+      },
+      {
+        "year": 2017,
+        "value": 48.4796
+      },
+      {
+        "year": 2018,
+        "value": 55.5386
+      },
+      {
+        "year": 2019,
+        "value": 69.199
+      },
+      {
+        "year": 2020,
+        "value": 91.0665
+      },
+      {
+        "year": 2021,
+        "value": 86.1896
+      },
+      {
+        "year": 2022,
+        "value": 38.6415
+      },
+      {
+        "year": 2023,
+        "value": 39.4991
+      },
+      {
+        "year": 2024,
+        "value": 36.0495
       }
     ],
     "enrollment_headcount_total": [

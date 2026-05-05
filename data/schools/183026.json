@@ -1,6 +1,6 @@
 {
   "unitid": "183026",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern New Hampshire University",
     "institution_unique_name": "Southern New Hampshire University | Manchester | New Hampshire",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 65.7974,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 42.8734,
-    "net_tuition_per_fte_change_5yr": -10.0219,
+    "net_tuition_per_fte_change_5yr": -9.638,
     "staff_total_headcount_pct_change_5yr": 54.8541,
     "staff_instructional_headcount_pct_change_5yr": 58.0403,
     "students_per_instructional_staff_fte": 36.219,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 91.3182,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 91.8579,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 92% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 4.4201,
+    "unfunded_discount_pct_change_5yr": -47.9624,
     "share_grad_students": 16.8582,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13737.3
+        "value": 13755.2265
       },
       {
         "year": 2015,
-        "value": 16489.9095
+        "value": 16507.5231
       },
       {
         "year": 2016,
-        "value": 12959.6493
+        "value": 12971.7735
       },
       {
         "year": 2017,
-        "value": 13476.9534
+        "value": 13488.5275
       },
       {
         "year": 2018,
-        "value": 12815.2915
+        "value": 12829.3331
       },
       {
         "year": 2019,
-        "value": 12243.7017
+        "value": 12263.7382
       },
       {
         "year": 2020,
-        "value": 12370.0065
+        "value": 12429.9488
       },
       {
         "year": 2021,
-        "value": 11233.0972
+        "value": 11305.249
       },
       {
         "year": 2022,
-        "value": 10293.7431
+        "value": 10360.2688
       },
       {
         "year": 2023,
-        "value": 10048.104
+        "value": 10111.2446
       },
       {
         "year": 2024,
-        "value": 11016.6441
+        "value": 11081.7573
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 13.5004
+      },
+      {
+        "year": 2015,
+        "value": 10.2804
+      },
+      {
+        "year": 2016,
+        "value": 8.5491
+      },
+      {
+        "year": 2017,
+        "value": 7.8707
+      },
+      {
+        "year": 2018,
+        "value": 7.5268
+      },
+      {
+        "year": 2019,
+        "value": 8.4941
+      },
+      {
+        "year": 2020,
+        "value": 8.3665
+      },
+      {
+        "year": 2021,
+        "value": 4.5616
+      },
+      {
+        "year": 2022,
+        "value": 4.5086
+      },
+      {
+        "year": 2023,
+        "value": 3.9759
+      },
+      {
+        "year": 2024,
+        "value": 4.4201
       }
     ],
     "enrollment_headcount_total": [

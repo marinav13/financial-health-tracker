@@ -1,6 +1,6 @@
 {
   "unitid": "143118",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Aurora University",
     "institution_unique_name": "Aurora University | Aurora | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.3102,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.141,
-    "net_tuition_per_fte_change_5yr": -11.7258,
+    "net_tuition_per_fte_change_5yr": -11.7082,
     "staff_total_headcount_pct_change_5yr": 1.1403,
     "staff_instructional_headcount_pct_change_5yr": 2.6923,
     "students_per_instructional_staff_fte": 23.25,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 79.8527,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 80.0713,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.4857,
+    "unfunded_discount_pct_change_5yr": 6.8006,
     "share_grad_students": 34.9738,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14880.1279
+        "value": 14898.2813
       },
       {
         "year": 2015,
-        "value": 16225.4965
+        "value": 16248.535
       },
       {
         "year": 2016,
-        "value": 16384.0291
+        "value": 15879.5733
       },
       {
         "year": 2017,
-        "value": 16277.8989
+        "value": 16302.7772
       },
       {
         "year": 2018,
-        "value": 15777.5527
+        "value": 15803.9516
       },
       {
         "year": 2019,
-        "value": 16038.2835
+        "value": 16078.9718
       },
       {
         "year": 2020,
-        "value": 15420.3006
+        "value": 15452.2437
       },
       {
         "year": 2021,
-        "value": 15063.1991
+        "value": 15321.039
       },
       {
         "year": 2022,
-        "value": 14841.5832
+        "value": 14908.6797
       },
       {
         "year": 2023,
-        "value": 14332.853
+        "value": 14469.2178
       },
       {
         "year": 2024,
-        "value": 14157.6692
+        "value": 14196.418
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.4266
+      },
+      {
+        "year": 2015,
+        "value": 29.2906
+      },
+      {
+        "year": 2016,
+        "value": 29.6506
+      },
+      {
+        "year": 2017,
+        "value": 30.0509
+      },
+      {
+        "year": 2018,
+        "value": 31.4042
+      },
+      {
+        "year": 2019,
+        "value": 30.4171
+      },
+      {
+        "year": 2020,
+        "value": 31.5474
+      },
+      {
+        "year": 2021,
+        "value": 31.822
+      },
+      {
+        "year": 2022,
+        "value": 32.8495
+      },
+      {
+        "year": 2023,
+        "value": 31.879
+      },
+      {
+        "year": 2024,
+        "value": 32.4857
       }
     ],
     "enrollment_headcount_total": [

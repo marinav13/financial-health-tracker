@@ -1,6 +1,6 @@
 {
   "unitid": "239318",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Milwaukee School of Engineering",
     "institution_unique_name": "Milwaukee School of Engineering | Milwaukee | Wisconsin",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 9.5935,
-    "net_tuition_per_fte_change_5yr": -19.0716,
+    "net_tuition_per_fte_change_5yr": -17.9711,
     "staff_total_headcount_pct_change_5yr": 19.4757,
     "staff_instructional_headcount_pct_change_5yr": 15.4982,
     "students_per_instructional_staff_fte": 11.865,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 36.2005,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.7069,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.7867,
+    "unfunded_discount_pct_change_5yr": 14.5282,
     "share_grad_students": 8.3754,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4549092,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19835.9871
+        "value": 22518.441
       },
       {
         "year": 2015,
-        "value": 21421.8591
+        "value": 23944.7583
       },
       {
         "year": 2016,
-        "value": 21228.4332
+        "value": 23795.5436
       },
       {
         "year": 2017,
-        "value": 20154.1853
+        "value": 22706.2431
       },
       {
         "year": 2018,
-        "value": 19984.5855
+        "value": 22682.9618
       },
       {
         "year": 2019,
-        "value": 19419.7658
+        "value": 22073.552
       },
       {
         "year": 2020,
-        "value": 19339.171
+        "value": 21742.4819
       },
       {
         "year": 2021,
-        "value": 19045.6957
+        "value": 23325.547
       },
       {
         "year": 2022,
-        "value": 17713.524
+        "value": 22228.7016
       },
       {
         "year": 2023,
-        "value": 16087.6173
+        "value": 18203.4102
       },
       {
         "year": 2024,
-        "value": 15716.1002
+        "value": 18106.6829
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.1082
+      },
+      {
+        "year": 2015,
+        "value": 43.8715
+      },
+      {
+        "year": 2016,
+        "value": 45.7009
+      },
+      {
+        "year": 2017,
+        "value": 48.0603
+      },
+      {
+        "year": 2018,
+        "value": 48.8643
+      },
+      {
+        "year": 2019,
+        "value": 50.4563
+      },
+      {
+        "year": 2020,
+        "value": 51.5575
+      },
+      {
+        "year": 2021,
+        "value": 49.9621
+      },
+      {
+        "year": 2022,
+        "value": 50.7547
+      },
+      {
+        "year": 2023,
+        "value": 56.5731
+      },
+      {
+        "year": 2024,
+        "value": 57.7867
       }
     ],
     "enrollment_headcount_total": [

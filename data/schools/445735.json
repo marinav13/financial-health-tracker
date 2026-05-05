@@ -1,6 +1,6 @@
 {
   "unitid": "445735",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Roseman University of Health Sciences",
     "institution_unique_name": "Roseman University of Health Sciences | Henderson | Nevada",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -7.4741,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -6.8668,
-    "net_tuition_per_fte_change_5yr": -8.6813,
+    "net_tuition_per_fte_change_5yr": -8.7122,
     "staff_total_headcount_pct_change_5yr": 11.7647,
     "staff_instructional_headcount_pct_change_5yr": -11.2782,
     "students_per_instructional_staff_fte": 5.5113,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 70.8744,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 58.3137,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6185578,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 168500.529
+        "value": 168551.9072
       },
       {
         "year": 2015,
-        "value": 168411.1078
+        "value": 168484.7885
       },
       {
         "year": 2016,
-        "value": 162152.5785
+        "value": 162199.9064
       },
       {
         "year": 2017,
-        "value": 136409.9159
+        "value": 136452.2968
       },
       {
         "year": 2018,
-        "value": 114051.372
+        "value": 114094.5239
       },
       {
         "year": 2019,
-        "value": 116262.8542
+        "value": 116302.2437
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 106169.7845
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

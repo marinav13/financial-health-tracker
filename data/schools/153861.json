@@ -1,6 +1,6 @@
 {
   "unitid": "153861",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Maharishi International University",
     "institution_unique_name": "Maharishi International University | Fairfield | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 59.3391,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 26.5604,
-    "net_tuition_per_fte_change_5yr": -3.3285,
+    "net_tuition_per_fte_change_5yr": -3.2317,
     "staff_total_headcount_pct_change_5yr": -8.2005,
     "staff_instructional_headcount_pct_change_5yr": -5.5556,
     "students_per_instructional_staff_fte": 20.7009,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 61.0904,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.0924,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 8.9462,
+    "unfunded_discount_pct_change_5yr": -33.5427,
     "share_grad_students": 66.9067,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 324000,
@@ -159,39 +161,39 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13263.3854
+        "value": 13132.1598
       },
       {
         "year": 2015,
-        "value": 12957.4501
+        "value": 12872.6112
       },
       {
         "year": 2016,
-        "value": 12674.1686
+        "value": 12645.4518
       },
       {
         "year": 2017,
-        "value": 12104.5749
+        "value": 12064.6063
       },
       {
         "year": 2018,
-        "value": 11759.5112
+        "value": 11640.5004
       },
       {
         "year": 2019,
-        "value": 13457.0058
+        "value": 13443.9609
       },
       {
         "year": 2020,
-        "value": 14800.4494
+        "value": 14785.5818
       },
       {
         "year": 2021,
-        "value": 13641.267
+        "value": 13605.8105
       },
       {
         "year": 2022,
-        "value": 15673.042
+        "value": 15625.1371
       },
       {
         "year": 2023,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 13009.0834
+        "value": 13009.4963
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 33.2832
+      },
+      {
+        "year": 2015,
+        "value": 27.8725
+      },
+      {
+        "year": 2016,
+        "value": 22.9281
+      },
+      {
+        "year": 2017,
+        "value": 21.8335
+      },
+      {
+        "year": 2018,
+        "value": 21.2399
+      },
+      {
+        "year": 2019,
+        "value": 13.4616
+      },
+      {
+        "year": 2020,
+        "value": 10.5101
+      },
+      {
+        "year": 2021,
+        "value": 11.92
+      },
+      {
+        "year": 2022,
+        "value": 9.3332
+      },
+      {
+        "year": 2023,
+        "value": 7.9628
+      },
+      {
+        "year": 2024,
+        "value": 8.9462
       }
     ],
     "enrollment_headcount_total": [

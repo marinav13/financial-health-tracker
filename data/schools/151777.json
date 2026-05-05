@@ -1,6 +1,6 @@
 {
   "unitid": "151777",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Manchester University",
     "institution_unique_name": "Manchester University | North Manchester | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -22.0909,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.3052,
-    "net_tuition_per_fte_change_5yr": -16.9537,
+    "net_tuition_per_fte_change_5yr": -17.3745,
     "staff_total_headcount_pct_change_5yr": -13.7536,
     "staff_instructional_headcount_pct_change_5yr": -5.1852,
     "students_per_instructional_staff_fte": 9.625,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 48.5598,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 48.454,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3841,
+    "unfunded_discount_pct_change_5yr": 1.5556,
     "share_grad_students": 24.1214,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 162987,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18492.6579
+        "value": 18552.7289
       },
       {
         "year": 2015,
-        "value": 21747.8679
+        "value": 21716.7118
       },
       {
         "year": 2016,
-        "value": 24345.0451
+        "value": 23543.2109
       },
       {
         "year": 2017,
-        "value": 24497.2019
+        "value": 24480.587
       },
       {
         "year": 2018,
-        "value": 24444.5081
+        "value": 24512.6549
       },
       {
         "year": 2019,
-        "value": 24976.1648
+        "value": 25048.6484
       },
       {
         "year": 2020,
-        "value": 24743.181
+        "value": 24802.6597
       },
       {
         "year": 2021,
-        "value": 26385.3028
+        "value": 26588.5439
       },
       {
         "year": 2022,
-        "value": 21102.2672
+        "value": 21099.4683
       },
       {
         "year": 2023,
-        "value": 21450.9434
+        "value": 21474.5099
       },
       {
         "year": 2024,
-        "value": 20741.7812
+        "value": 20696.5624
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.1075
+      },
+      {
+        "year": 2015,
+        "value": 45.5116
+      },
+      {
+        "year": 2016,
+        "value": 44.9527
+      },
+      {
+        "year": 2017,
+        "value": 43.9184
+      },
+      {
+        "year": 2018,
+        "value": 43.9337
+      },
+      {
+        "year": 2019,
+        "value": 43.7043
+      },
+      {
+        "year": 2020,
+        "value": 44.3739
+      },
+      {
+        "year": 2021,
+        "value": 44.7985
+      },
+      {
+        "year": 2022,
+        "value": 45.793
+      },
+      {
+        "year": 2023,
+        "value": 44.381
+      },
+      {
+        "year": 2024,
+        "value": 44.3841
       }
     ],
     "enrollment_headcount_total": [

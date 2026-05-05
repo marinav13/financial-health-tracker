@@ -1,6 +1,6 @@
 {
   "unitid": "147660",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "North Central College",
     "institution_unique_name": "North Central College | Naperville | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.4753,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.7067,
-    "net_tuition_per_fte_change_5yr": -16.4018,
+    "net_tuition_per_fte_change_5yr": -16.4028,
     "staff_total_headcount_pct_change_5yr": -4.5723,
     "staff_instructional_headcount_pct_change_5yr": 5.414,
     "students_per_instructional_staff_fte": 12.5021,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 48.6083,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.7176,
+    "unfunded_discount_pct_change_5yr": 4.4667,
     "share_grad_students": 20.196,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -179,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 20861.2455
+        "value": 20861.4852
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 17439.625
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.5049
+      },
+      {
+        "year": 2015,
+        "value": 45.1159
+      },
+      {
+        "year": 2016,
+        "value": 47.6339
+      },
+      {
+        "year": 2017,
+        "value": 49.6917
+      },
+      {
+        "year": 2018,
+        "value": 51.8057
+      },
+      {
+        "year": 2019,
+        "value": 51.4208
+      },
+      {
+        "year": 2020,
+        "value": 51.2708
+      },
+      {
+        "year": 2021,
+        "value": 52.919
+      },
+      {
+        "year": 2022,
+        "value": 53.998
+      },
+      {
+        "year": 2023,
+        "value": 53.5955
+      },
+      {
+        "year": 2024,
+        "value": 53.7176
       }
     ],
     "enrollment_headcount_total": [

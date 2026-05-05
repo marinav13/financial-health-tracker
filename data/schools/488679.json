@@ -1,6 +1,6 @@
 {
   "unitid": "488679",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Indiana Wesleyan University-National & Global",
     "institution_unique_name": "Indiana Wesleyan University-National & Global | Marion | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.463,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -5.9124,
+    "net_tuition_per_fte_change_5yr": -5.9114,
     "staff_total_headcount_pct_change_5yr": null,
     "staff_instructional_headcount_pct_change_5yr": null,
     "students_per_instructional_staff_fte": null,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 2.8463,
+    "unfunded_discount_pct_change_5yr": -12.4351,
     "share_grad_students": 48.0628,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -106,39 +108,77 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2016,
-        "value": 12565.3082
+        "value": 12541.2978
       },
       {
         "year": 2017,
-        "value": 12848.546
+        "value": 12814.8513
       },
       {
         "year": 2018,
-        "value": 13066.2815
+        "value": 13015.7537
       },
       {
         "year": 2019,
-        "value": 13077.0567
+        "value": 13019.8969
       },
       {
         "year": 2020,
-        "value": 12754.403
+        "value": 12695.8893
       },
       {
         "year": 2021,
-        "value": 12410.6246
+        "value": 12334.4725
       },
       {
         "year": 2022,
-        "value": 11570.2016
+        "value": 11462.1929
       },
       {
         "year": 2023,
-        "value": 11219.7333
+        "value": 11154.8629
       },
       {
         "year": 2024,
-        "value": 12303.8857
+        "value": 12250.2444
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2016,
+        "value": 2.2457
+      },
+      {
+        "year": 2017,
+        "value": 2.546
+      },
+      {
+        "year": 2018,
+        "value": 3.1648
+      },
+      {
+        "year": 2019,
+        "value": 3.2505
+      },
+      {
+        "year": 2020,
+        "value": 4.8194
+      },
+      {
+        "year": 2021,
+        "value": 4.6812
+      },
+      {
+        "year": 2022,
+        "value": 3.9014
+      },
+      {
+        "year": 2023,
+        "value": 3.1463
+      },
+      {
+        "year": 2024,
+        "value": 2.8463
       }
     ],
     "enrollment_headcount_total": [

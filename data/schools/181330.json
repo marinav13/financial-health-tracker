@@ -1,6 +1,6 @@
 {
   "unitid": "181330",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Midland University",
     "institution_unique_name": "Midland University | Fremont | Nebraska",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.3689,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -12.368,
-    "net_tuition_per_fte_change_5yr": -17.1019,
+    "net_tuition_per_fte_change_5yr": -16.1583,
     "staff_total_headcount_pct_change_5yr": -3.2746,
     "staff_instructional_headcount_pct_change_5yr": 22.2222,
     "students_per_instructional_staff_fte": 14.3344,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 57.143,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 59.2731,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 57.3337,
+    "unfunded_discount_pct_change_5yr": 11.7499,
     "share_grad_students": 18.9073,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16352.1664
+        "value": 16754.6645
       },
       {
         "year": 2015,
-        "value": 17307.4625
+        "value": 17740.047
       },
       {
         "year": 2016,
-        "value": 16192.9842
+        "value": 16685.053
       },
       {
         "year": 2017,
-        "value": 15882.0401
+        "value": 16239.0651
       },
       {
         "year": 2018,
-        "value": 16159.4799
+        "value": 16423.7946
       },
       {
         "year": 2019,
-        "value": 14783.087
+        "value": 15161.5733
       },
       {
         "year": 2020,
-        "value": 14248.3546
+        "value": 14692.004
       },
       {
         "year": 2021,
-        "value": 13789.0531
+        "value": 14209.6455
       },
       {
         "year": 2022,
-        "value": 13205.7879
+        "value": 13571.2613
       },
       {
         "year": 2023,
-        "value": 12670.7782
+        "value": 13134.1264
       },
       {
         "year": 2024,
-        "value": 12254.8937
+        "value": 12711.7207
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.6605
+      },
+      {
+        "year": 2015,
+        "value": 45.3939
+      },
+      {
+        "year": 2016,
+        "value": 48.1521
+      },
+      {
+        "year": 2017,
+        "value": 49.2569
+      },
+      {
+        "year": 2018,
+        "value": 50.2252
+      },
+      {
+        "year": 2019,
+        "value": 51.3054
+      },
+      {
+        "year": 2020,
+        "value": 53.1032
+      },
+      {
+        "year": 2021,
+        "value": 55.2925
+      },
+      {
+        "year": 2022,
+        "value": 56.7953
+      },
+      {
+        "year": 2023,
+        "value": 58.2199
+      },
+      {
+        "year": 2024,
+        "value": 57.3337
       }
     ],
     "enrollment_headcount_total": [

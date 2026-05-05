@@ -1,6 +1,6 @@
 {
   "unitid": "220181",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Fisk University",
     "institution_unique_name": "Fisk University | Nashville | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 29.875,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.7119,
-    "net_tuition_per_fte_change_5yr": -2.3883,
+    "net_tuition_per_fte_change_5yr": -34.4308,
     "staff_total_headcount_pct_change_5yr": 12.1622,
     "staff_instructional_headcount_pct_change_5yr": 55.5556,
     "students_per_instructional_staff_fte": 11.8023,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 20.9964,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 52.8132,
+    "unfunded_discount_pct_change_5yr": 77.2831,
     "share_grad_students": 5.3898,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6553615,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14693.09
+        "value": 15089.6978
       },
       {
         "year": 2015,
-        "value": 6994.8303
+        "value": 11732.0792
       },
       {
         "year": 2016,
@@ -171,19 +173,19 @@
       },
       {
         "year": 2017,
-        "value": 9259.3772
+        "value": 13951.254
       },
       {
         "year": 2018,
-        "value": 10625.0756
+        "value": 15585.5735
       },
       {
         "year": 2019,
-        "value": 10343.4004
+        "value": 15398.0284
       },
       {
         "year": 2020,
-        "value": 11361.9713
+        "value": 16010.4549
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 10096.3685
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.1137
+      },
+      {
+        "year": 2015,
+        "value": 41.7326
+      },
+      {
+        "year": 2016,
+        "value": 53.5877
+      },
+      {
+        "year": 2017,
+        "value": 40.1079
+      },
+      {
+        "year": 2018,
+        "value": 40.8755
+      },
+      {
+        "year": 2019,
+        "value": 29.7903
+      },
+      {
+        "year": 2020,
+        "value": 23.4927
+      },
+      {
+        "year": 2021,
+        "value": 44.477
+      },
+      {
+        "year": 2022,
+        "value": 44.5297
+      },
+      {
+        "year": 2023,
+        "value": 40.7195
+      },
+      {
+        "year": 2024,
+        "value": 52.8132
       }
     ],
     "enrollment_headcount_total": [

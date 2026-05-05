@@ -1,6 +1,6 @@
 {
   "unitid": "155070",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Barclay College",
     "institution_unique_name": "Barclay College | Haviland | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.2838,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -1.631,
-    "net_tuition_per_fte_change_5yr": -39.2216,
+    "net_tuition_per_fte_change_5yr": -50.9697,
     "staff_total_headcount_pct_change_5yr": -3.1746,
     "staff_instructional_headcount_pct_change_5yr": -21.4286,
     "students_per_instructional_staff_fte": 8.5,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 21.1199,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.1359,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.8682,
+    "unfunded_discount_pct_change_5yr": 63.0932,
     "share_grad_students": 15.0215,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19863.2349
+        "value": 24130.6305
       },
       {
         "year": 2015,
-        "value": 19250.9812
+        "value": 23064.9532
       },
       {
         "year": 2016,
-        "value": 18421.1521
+        "value": 21935.9816
       },
       {
         "year": 2017,
-        "value": 20145.8254
+        "value": 23868.8745
       },
       {
         "year": 2018,
-        "value": 22378.0204
+        "value": 26616.6507
       },
       {
         "year": 2019,
-        "value": 23309.5996
+        "value": 27548.4955
       },
       {
         "year": 2020,
-        "value": 24721.666
+        "value": 28495.2465
       },
       {
         "year": 2021,
-        "value": 24390.7335
+        "value": 27528.7537
       },
       {
         "year": 2022,
-        "value": 24763.5702
+        "value": 27967.8626
       },
       {
         "year": 2023,
-        "value": 24268.9107
+        "value": 27271.5814
       },
       {
         "year": 2024,
-        "value": 14167.1961
+        "value": 13507.1111
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.1265
+      },
+      {
+        "year": 2015,
+        "value": 28.1715
+      },
+      {
+        "year": 2016,
+        "value": 28.1356
+      },
+      {
+        "year": 2017,
+        "value": 28.3097
+      },
+      {
+        "year": 2018,
+        "value": 29.9272
+      },
+      {
+        "year": 2019,
+        "value": 31.1896
+      },
+      {
+        "year": 2020,
+        "value": 31.3996
+      },
+      {
+        "year": 2021,
+        "value": 30.912
+      },
+      {
+        "year": 2022,
+        "value": 31.2699
+      },
+      {
+        "year": 2023,
+        "value": 30.8485
+      },
+      {
+        "year": 2024,
+        "value": 50.8682
       }
     ],
     "enrollment_headcount_total": [

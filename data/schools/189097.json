@@ -1,6 +1,6 @@
 {
   "unitid": "189097",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Barnard College",
     "institution_unique_name": "Barnard College | New York | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 36.2835,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 34.0511,
-    "net_tuition_per_fte_change_5yr": -3.6397,
+    "net_tuition_per_fte_change_5yr": -3.5408,
     "staff_total_headcount_pct_change_5yr": 19.3054,
     "staff_instructional_headcount_pct_change_5yr": 18.6111,
     "students_per_instructional_staff_fte": 9.6263,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 48.5626,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.4417,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 21.7446,
+    "unfunded_discount_pct_change_5yr": -10.074,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 9233000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 39651.454
+        "value": 40344.0822
       },
       {
         "year": 2015,
-        "value": 40031.8902
+        "value": 40769.7946
       },
       {
         "year": 2016,
-        "value": 40942.8215
+        "value": 41677.8652
       },
       {
         "year": 2017,
-        "value": 42860.5068
+        "value": 43635.99
       },
       {
         "year": 2018,
-        "value": 44507.3428
+        "value": 45223.1362
       },
       {
         "year": 2019,
-        "value": 49825.052
+        "value": 46575.2639
       },
       {
         "year": 2020,
-        "value": 50902.5008
+        "value": 48423.1087
       },
       {
         "year": 2021,
-        "value": 40791.3496
+        "value": 40611.2618
       },
       {
         "year": 2022,
-        "value": 45738.3235
+        "value": 42983.9313
       },
       {
         "year": 2023,
-        "value": 47173.6484
+        "value": 44016.0979
       },
       {
         "year": 2024,
-        "value": 48011.5537
+        "value": 44926.1174
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.9513
+      },
+      {
+        "year": 2015,
+        "value": 27.3722
+      },
+      {
+        "year": 2016,
+        "value": 28.5104
+      },
+      {
+        "year": 2017,
+        "value": 27.762
+      },
+      {
+        "year": 2018,
+        "value": 26.0312
+      },
+      {
+        "year": 2019,
+        "value": 24.1805
+      },
+      {
+        "year": 2020,
+        "value": 21.8442
+      },
+      {
+        "year": 2021,
+        "value": 20.1441
+      },
+      {
+        "year": 2022,
+        "value": 20.9791
+      },
+      {
+        "year": 2023,
+        "value": 25.0272
+      },
+      {
+        "year": 2024,
+        "value": 21.7446
       }
     ],
     "enrollment_headcount_total": [

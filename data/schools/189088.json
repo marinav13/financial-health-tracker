@@ -1,6 +1,6 @@
 {
   "unitid": "189088",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bard College",
     "institution_unique_name": "Bard College | Annandale-On-Hudson | New York",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 18.869,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.7852,
+    "unfunded_discount_pct_change_5yr": 12.789,
     "share_grad_students": 15.0496,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1191041,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 13407.0362
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.1386
+      },
+      {
+        "year": 2015,
+        "value": 44.9564
+      },
+      {
+        "year": 2016,
+        "value": 45.7008
+      },
+      {
+        "year": 2017,
+        "value": 49.3199
+      },
+      {
+        "year": 2018,
+        "value": 49.5217
+      },
+      {
+        "year": 2019,
+        "value": 53.8928
+      },
+      {
+        "year": 2020,
+        "value": 53.5372
+      },
+      {
+        "year": 2021,
+        "value": 59.4434
+      },
+      {
+        "year": 2022,
+        "value": 62.6134
+      },
+      {
+        "year": 2023,
+        "value": 62.8655
+      },
+      {
+        "year": 2024,
+        "value": 60.7852
       }
     ],
     "enrollment_headcount_total": [

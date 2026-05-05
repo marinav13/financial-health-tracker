@@ -1,6 +1,6 @@
 {
   "unitid": "211088",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Arcadia University",
     "institution_unique_name": "Arcadia University | Glenside | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -8.4349,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.5104,
-    "net_tuition_per_fte_change_5yr": -6.25,
+    "net_tuition_per_fte_change_5yr": -6.0311,
     "staff_total_headcount_pct_change_5yr": -27.0295,
     "staff_instructional_headcount_pct_change_5yr": -43.3526,
     "students_per_instructional_staff_fte": 11.8131,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 49.1492,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.0511,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.218,
+    "unfunded_discount_pct_change_5yr": 2.5635,
     "share_grad_students": 47.2108,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2351000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20003.3931
+        "value": 19141.3792
       },
       {
         "year": 2015,
-        "value": 23646.2142
+        "value": 22278.0639
       },
       {
         "year": 2016,
-        "value": 26680.9567
+        "value": 25017.299
       },
       {
         "year": 2017,
-        "value": 23223.5222
+        "value": 21828.3969
       },
       {
         "year": 2018,
-        "value": 23853.2958
+        "value": 22431.1176
       },
       {
         "year": 2019,
-        "value": 24516.4544
+        "value": 22917.6029
       },
       {
         "year": 2020,
-        "value": 24009.3888
+        "value": 22351.0992
       },
       {
         "year": 2021,
-        "value": 25430.8762
+        "value": 25326.7467
       },
       {
         "year": 2022,
-        "value": 23659.2461
+        "value": 22627.1732
       },
       {
         "year": 2023,
-        "value": 22824.5974
+        "value": 21701.8946
       },
       {
         "year": 2024,
-        "value": 22984.1748
+        "value": 21535.4182
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.356
+      },
+      {
+        "year": 2015,
+        "value": 41.8329
+      },
+      {
+        "year": 2016,
+        "value": 41.9033
+      },
+      {
+        "year": 2017,
+        "value": 42.9839
+      },
+      {
+        "year": 2018,
+        "value": 42.858
+      },
+      {
+        "year": 2019,
+        "value": 42.1378
+      },
+      {
+        "year": 2020,
+        "value": 43.1626
+      },
+      {
+        "year": 2021,
+        "value": 38.9191
+      },
+      {
+        "year": 2022,
+        "value": 42.04
+      },
+      {
+        "year": 2023,
+        "value": 43.2343
+      },
+      {
+        "year": 2024,
+        "value": 43.218
       }
     ],
     "enrollment_headcount_total": [

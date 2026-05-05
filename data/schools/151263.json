@@ -1,6 +1,6 @@
 {
   "unitid": "151263",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Indianapolis",
     "institution_unique_name": "University of Indianapolis | Indianapolis | Indiana",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 49.8652,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.9233,
+    "unfunded_discount_pct_change_5yr": 18.6814,
     "share_grad_students": 29.4003,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 17623.8853
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.2298
+      },
+      {
+        "year": 2015,
+        "value": 30.0378
+      },
+      {
+        "year": 2016,
+        "value": 31.7305
+      },
+      {
+        "year": 2017,
+        "value": 34.7263
+      },
+      {
+        "year": 2018,
+        "value": 36.3441
+      },
+      {
+        "year": 2019,
+        "value": 39.5372
+      },
+      {
+        "year": 2020,
+        "value": 41.4103
+      },
+      {
+        "year": 2021,
+        "value": 43.2623
+      },
+      {
+        "year": 2022,
+        "value": 45.4822
+      },
+      {
+        "year": 2023,
+        "value": 46.2628
+      },
+      {
+        "year": 2024,
+        "value": 46.9233
       }
     ],
     "enrollment_headcount_total": [

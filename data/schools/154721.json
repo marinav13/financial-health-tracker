@@ -1,6 +1,6 @@
 {
   "unitid": "154721",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethany College",
     "institution_unique_name": "Bethany College | Lindsborg | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.7543,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.7874,
-    "net_tuition_per_fte_change_5yr": 1.0803,
+    "net_tuition_per_fte_change_5yr": 601.8141,
     "staff_total_headcount_pct_change_5yr": -31.1321,
     "staff_instructional_headcount_pct_change_5yr": -20.7317,
     "students_per_instructional_staff_fte": 12.3669,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 33.8247,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 65.4631,
+    "unfunded_discount_pct_change_5yr": 51.125,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8847.3663
+        "value": -7670.3963
       },
       {
         "year": 2015,
-        "value": 11294.0349
+        "value": 11358.5745
       },
       {
         "year": 2016,
-        "value": 12156.0323
+        "value": 13899.9194
       },
       {
         "year": 2017,
-        "value": 11727.85
+        "value": 12961.8038
       },
       {
         "year": 2018,
-        "value": 2211.7545
+        "value": 1293.416
       },
       {
         "year": 2019,
-        "value": 10892.8662
+        "value": 1568.8693
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11010.5462
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 156.7562
+      },
+      {
+        "year": 2015,
+        "value": 62.0916
+      },
+      {
+        "year": 2016,
+        "value": 55.7496
+      },
+      {
+        "year": 2017,
+        "value": 58.9586
+      },
+      {
+        "year": 2018,
+        "value": 88.3392
+      },
+      {
+        "year": 2019,
+        "value": 43.3172
+      },
+      {
+        "year": 2020,
+        "value": 66.9068
+      },
+      {
+        "year": 2021,
+        "value": 65.237
+      },
+      {
+        "year": 2022,
+        "value": 65.9632
+      },
+      {
+        "year": 2023,
+        "value": 65.1238
+      },
+      {
+        "year": 2024,
+        "value": 65.4631
       }
     ],
     "enrollment_headcount_total": [

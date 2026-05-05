@@ -1,6 +1,6 @@
 {
   "unitid": "190044",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Clarkson University",
     "institution_unique_name": "Clarkson University | Potsdam | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.2948,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.1279,
-    "net_tuition_per_fte_change_5yr": -26.5148,
+    "net_tuition_per_fte_change_5yr": -26.4846,
     "staff_total_headcount_pct_change_5yr": -20.8285,
     "staff_instructional_headcount_pct_change_5yr": -21.1594,
     "students_per_instructional_staff_fte": 14.3459,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 40.3569,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 40.8013,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 65.6984,
+    "unfunded_discount_pct_change_5yr": 14.5062,
     "share_grad_students": 35.1893,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 15251447,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19606.363
+        "value": 19776.0478
       },
       {
         "year": 2015,
-        "value": 21169.2951
+        "value": 21338.768
       },
       {
         "year": 2016,
-        "value": 22058.5459
+        "value": 22228.2311
       },
       {
         "year": 2017,
-        "value": 22969.5514
+        "value": 23132.319
       },
       {
         "year": 2018,
-        "value": 22488.1627
+        "value": 22654.8734
       },
       {
         "year": 2019,
-        "value": 22035.4288
+        "value": 22268.942
       },
       {
         "year": 2020,
-        "value": 21566.9919
+        "value": 21748.8553
       },
       {
         "year": 2021,
-        "value": 20162.9074
+        "value": 20423.2679
       },
       {
         "year": 2022,
-        "value": 18119.9788
+        "value": 18318.3881
       },
       {
         "year": 2023,
-        "value": 17437.086
+        "value": 17598.421
       },
       {
         "year": 2024,
-        "value": 16192.7775
+        "value": 16371.0924
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 59.784
+      },
+      {
+        "year": 2015,
+        "value": 58.3243
+      },
+      {
+        "year": 2016,
+        "value": 56.0279
+      },
+      {
+        "year": 2017,
+        "value": 55.3768
+      },
+      {
+        "year": 2018,
+        "value": 56.0034
+      },
+      {
+        "year": 2019,
+        "value": 57.3754
+      },
+      {
+        "year": 2020,
+        "value": 58.4436
+      },
+      {
+        "year": 2021,
+        "value": 60.5752
+      },
+      {
+        "year": 2022,
+        "value": 62.4514
+      },
+      {
+        "year": 2023,
+        "value": 64.0252
+      },
+      {
+        "year": 2024,
+        "value": 65.6984
       }
     ],
     "enrollment_headcount_total": [

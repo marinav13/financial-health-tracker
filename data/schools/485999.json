@@ -1,6 +1,6 @@
 {
   "unitid": "485999",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bet Medrash Gadol Ateret Torah",
     "institution_unique_name": "Bet Medrash Gadol Ateret Torah | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 7.9137,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 32.6331,
-    "net_tuition_per_fte_change_5yr": -23.8056,
+    "net_tuition_per_fte_change_5yr": 56.6994,
     "staff_total_headcount_pct_change_5yr": 33.3333,
     "staff_instructional_headcount_pct_change_5yr": 50,
     "students_per_instructional_staff_fte": 8.3333,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 11.2398,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 11% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": -47.4972,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got -47% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 343.107,
+    "unfunded_discount_pct_change_5yr": 55.9632,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -151,43 +153,85 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 11292.4114
+        "value": -13422.2894
       },
       {
         "year": 2016,
-        "value": 7733.4952
+        "value": -16662.925
       },
       {
         "year": 2017,
-        "value": 8313.6519
+        "value": -16903.7592
       },
       {
         "year": 2018,
-        "value": 6799.4747
+        "value": -16115.3457
       },
       {
         "year": 2019,
-        "value": 7976.3637
+        "value": -16389.6158
       },
       {
         "year": 2020,
-        "value": 4651.7754
+        "value": -19403.5906
       },
       {
         "year": 2021,
-        "value": 3603.9432
+        "value": -10861.6776
       },
       {
         "year": 2022,
-        "value": 3405.6756
+        "value": -14349.5996
       },
       {
         "year": 2023,
-        "value": 5223.5434
+        "value": -27388.8688
       },
       {
         "year": 2024,
-        "value": 6077.54
+        "value": -25682.4267
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2015,
+        "value": 218.8611
+      },
+      {
+        "year": 2016,
+        "value": 315.4643
+      },
+      {
+        "year": 2017,
+        "value": 303.0763
+      },
+      {
+        "year": 2018,
+        "value": 232.9728
+      },
+      {
+        "year": 2019,
+        "value": 219.9923
+      },
+      {
+        "year": 2020,
+        "value": 311.7502
+      },
+      {
+        "year": 2021,
+        "value": 260.6255
+      },
+      {
+        "year": 2022,
+        "value": 345.4501
+      },
+      {
+        "year": 2023,
+        "value": 365.0225
+      },
+      {
+        "year": 2024,
+        "value": 343.107
       }
     ],
     "enrollment_headcount_total": [

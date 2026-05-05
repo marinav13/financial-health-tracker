@@ -1,6 +1,6 @@
 {
   "unitid": "111081",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "California Institute of the Arts",
     "institution_unique_name": "California Institute of the Arts | Valencia | California",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 44.1083,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.893,
+    "unfunded_discount_pct_change_5yr": 1.5651,
     "share_grad_students": 31.6739,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 39031.3799
+        "value": 39235.4219
       },
       {
         "year": 2015,
-        "value": 37728.95
+        "value": 37992.5246
       },
       {
         "year": 2016,
-        "value": 35880.6659
+        "value": 36144.1567
       },
       {
         "year": 2017,
-        "value": 37222.953
+        "value": 37484.0371
       },
       {
         "year": 2018,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 32671.2658
+        "value": 32671.2652
       },
       {
         "year": 2023,
-        "value": 37002.801
+        "value": 37002.8003
       },
       {
         "year": 2024,
         "value": 36093.1931
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.0872
+      },
+      {
+        "year": 2015,
+        "value": 23.3344
+      },
+      {
+        "year": 2016,
+        "value": 22.53
+      },
+      {
+        "year": 2017,
+        "value": 24.54
+      },
+      {
+        "year": 2018,
+        "value": 26.8043
+      },
+      {
+        "year": 2019,
+        "value": 26.4786
+      },
+      {
+        "year": 2020,
+        "value": 26.0717
+      },
+      {
+        "year": 2021,
+        "value": 25.5579
+      },
+      {
+        "year": 2022,
+        "value": 26.5643
+      },
+      {
+        "year": 2023,
+        "value": 24.1642
+      },
+      {
+        "year": 2024,
+        "value": 26.893
       }
     ],
     "enrollment_headcount_total": [

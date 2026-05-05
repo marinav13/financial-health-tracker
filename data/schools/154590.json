@@ -1,6 +1,6 @@
 {
   "unitid": "154590",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "William Penn University",
     "institution_unique_name": "William Penn University | Oskaloosa | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.0816,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 8.1383,
-    "net_tuition_per_fte_change_5yr": -10.849,
+    "net_tuition_per_fte_change_5yr": -17.6366,
     "staff_total_headcount_pct_change_5yr": 2.1505,
     "staff_instructional_headcount_pct_change_5yr": -5.7692,
     "students_per_instructional_staff_fte": 18.6511,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 47.4553,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 47% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.4151,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 56.1098,
+    "unfunded_discount_pct_change_5yr": 15.0493,
     "share_grad_students": 5.4264,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,19 +169,19 @@
       },
       {
         "year": 2016,
-        "value": 11719.0339
+        "value": 12234.657
       },
       {
         "year": 2017,
-        "value": 11817.4351
+        "value": 13855.6535
       },
       {
         "year": 2018,
-        "value": 12226.7811
+        "value": 13296.7227
       },
       {
         "year": 2019,
-        "value": 11902.1082
+        "value": 13415.022
       },
       {
         "year": 2020,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 10386.821
+        "value": 11204.3794
       },
       {
         "year": 2024,
-        "value": 10610.8535
+        "value": 11049.063
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.547
+      },
+      {
+        "year": 2015,
+        "value": 46.6725
+      },
+      {
+        "year": 2016,
+        "value": 47.9793
+      },
+      {
+        "year": 2017,
+        "value": 42.7545
+      },
+      {
+        "year": 2018,
+        "value": 48.1364
+      },
+      {
+        "year": 2019,
+        "value": 48.7702
+      },
+      {
+        "year": 2020,
+        "value": 55.3466
+      },
+      {
+        "year": 2021,
+        "value": 57.6136
+      },
+      {
+        "year": 2022,
+        "value": 58.3771
+      },
+      {
+        "year": 2023,
+        "value": 55.607
+      },
+      {
+        "year": 2024,
+        "value": 56.1098
       }
     ],
     "enrollment_headcount_total": [

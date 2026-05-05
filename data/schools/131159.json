@@ -1,6 +1,6 @@
 {
   "unitid": "131159",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "American University",
     "institution_unique_name": "American University | Washington | District of Columbia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -5.5414,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -3.1053,
-    "net_tuition_per_fte_change_5yr": -6.8975,
+    "net_tuition_per_fte_change_5yr": -7.1146,
     "staff_total_headcount_pct_change_5yr": -6.1373,
     "staff_instructional_headcount_pct_change_5yr": -8.2061,
     "students_per_instructional_staff_fte": 10.3004,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 55.299,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 55% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.8786,
+    "unfunded_discount_pct_change_5yr": 16.8843,
     "share_grad_students": 41.6579,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 73828000,
@@ -179,11 +181,11 @@
       },
       {
         "year": 2019,
-        "value": 44883.5637
+        "value": 44988.4348
       },
       {
         "year": 2020,
-        "value": 45767.8007
+        "value": 45786.4762
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 39067.7318
+        "value": 38941.8236
       },
       {
         "year": 2024,
         "value": 41787.6978
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.0712
+      },
+      {
+        "year": 2015,
+        "value": 21.2421
+      },
+      {
+        "year": 2016,
+        "value": 21.5774
+      },
+      {
+        "year": 2017,
+        "value": 23.0102
+      },
+      {
+        "year": 2018,
+        "value": 25.8827
+      },
+      {
+        "year": 2019,
+        "value": 25.5626
+      },
+      {
+        "year": 2020,
+        "value": 25.6619
+      },
+      {
+        "year": 2021,
+        "value": 27.4628
+      },
+      {
+        "year": 2022,
+        "value": 27.2763
+      },
+      {
+        "year": 2023,
+        "value": 29.3288
+      },
+      {
+        "year": 2024,
+        "value": 29.8786
       }
     ],
     "enrollment_headcount_total": [

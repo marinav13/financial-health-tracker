@@ -1,6 +1,6 @@
 {
   "unitid": "228246",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Southern Methodist University",
     "institution_unique_name": "Southern Methodist University | Dallas | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.5848,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 22.5915,
-    "net_tuition_per_fte_change_5yr": -2.0869,
+    "net_tuition_per_fte_change_5yr": -3.8116,
     "staff_total_headcount_pct_change_5yr": 5.5613,
     "staff_instructional_headcount_pct_change_5yr": 1.0426,
     "students_per_instructional_staff_fte": 11.2935,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 39.4175,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.0578,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 32.5663,
+    "unfunded_discount_pct_change_5yr": 0.1558,
     "share_grad_students": 41.9302,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 49545000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37366.8165
+        "value": 37063.0704
       },
       {
         "year": 2015,
-        "value": 39170.3532
+        "value": 38855.3371
       },
       {
         "year": 2016,
-        "value": 40111.0443
+        "value": 39737.8469
       },
       {
         "year": 2017,
-        "value": 40499.2561
+        "value": 39989.6381
       },
       {
         "year": 2018,
-        "value": 39514.3993
+        "value": 38837.7413
       },
       {
         "year": 2019,
-        "value": 39120.0438
+        "value": 38447.8221
       },
       {
         "year": 2020,
-        "value": 38702.344
+        "value": 38392.0003
       },
       {
         "year": 2021,
-        "value": 38111.1581
+        "value": 38122.7528
       },
       {
         "year": 2022,
-        "value": 36847.8939
+        "value": 36544.9103
       },
       {
         "year": 2023,
-        "value": 37321.3312
+        "value": 36155.1009
       },
       {
         "year": 2024,
-        "value": 38303.6563
+        "value": 36982.3489
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.7216
+      },
+      {
+        "year": 2015,
+        "value": 29.3989
+      },
+      {
+        "year": 2016,
+        "value": 29.0403
+      },
+      {
+        "year": 2017,
+        "value": 30.1756
+      },
+      {
+        "year": 2018,
+        "value": 31.0519
+      },
+      {
+        "year": 2019,
+        "value": 32.5156
+      },
+      {
+        "year": 2020,
+        "value": 33.7521
+      },
+      {
+        "year": 2021,
+        "value": 33.1589
+      },
+      {
+        "year": 2022,
+        "value": 33.3271
+      },
+      {
+        "year": 2023,
+        "value": 33.1141
+      },
+      {
+        "year": 2024,
+        "value": 32.5663
       }
     ],
     "enrollment_headcount_total": [

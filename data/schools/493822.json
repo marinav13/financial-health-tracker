@@ -1,6 +1,6 @@
 {
   "unitid": "493822",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "College Unbound",
     "institution_unique_name": "College Unbound | Providence | Rhode Island",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 340.678,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 472.5048,
-    "net_tuition_per_fte_change_5yr": 18.8393,
+    "net_tuition_per_fte_change_5yr": 212.5141,
     "staff_total_headcount_pct_change_5yr": 220.4082,
     "staff_instructional_headcount_pct_change_5yr": 256,
     "students_per_instructional_staff_fte": 12.5056,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 36.8172,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.6278,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -119,7 +121,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2019,
-        "value": 5976.7392
+        "value": 2569.7295
       },
       {
         "year": 2020,
@@ -135,11 +137,37 @@
       },
       {
         "year": 2023,
-        "value": 10123.6504
+        "value": 11596.352
       },
       {
         "year": 2024,
-        "value": 7102.7143
+        "value": 8030.7682
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2019,
+        "value": 57.0045
+      },
+      {
+        "year": 2020,
+        "value": 46.3352
+      },
+      {
+        "year": 2021,
+        "value": 38.4979
+      },
+      {
+        "year": 2022,
+        "value": 13.5188
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

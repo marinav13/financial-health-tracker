@@ -1,6 +1,6 @@
 {
   "unitid": "203757",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lourdes University",
     "institution_unique_name": "Lourdes University | Sylvania | Ohio",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
     "tuition_dependence_pct": 37.1822,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 45.0097,
+    "unfunded_discount_pct_change_5yr": 35.1902,
     "share_grad_students": 21.2121,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21656.446
+        "value": 17883.2793
       },
       {
         "year": 2015,
-        "value": 22074.8827
+        "value": 17201.8644
       },
       {
         "year": 2016,
-        "value": 18707.8236
+        "value": 18120.9882
       },
       {
         "year": 2017,
@@ -175,7 +177,7 @@
       },
       {
         "year": 2018,
-        "value": 15821.3392
+        "value": 15820.3234
       },
       {
         "year": 2019,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15011.1558
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 16.284
+      },
+      {
+        "year": 2015,
+        "value": 20.5389
+      },
+      {
+        "year": 2016,
+        "value": 21.4147
+      },
+      {
+        "year": 2017,
+        "value": 26.3719
+      },
+      {
+        "year": 2018,
+        "value": 30.9049
+      },
+      {
+        "year": 2019,
+        "value": 33.2936
+      },
+      {
+        "year": 2020,
+        "value": 35.7291
+      },
+      {
+        "year": 2021,
+        "value": 40.1846
+      },
+      {
+        "year": 2022,
+        "value": 43.9002
+      },
+      {
+        "year": 2023,
+        "value": 48.3787
+      },
+      {
+        "year": 2024,
+        "value": 45.0097
       }
     ],
     "enrollment_headcount_total": [

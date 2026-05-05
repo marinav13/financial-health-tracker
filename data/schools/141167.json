@@ -1,6 +1,6 @@
 {
   "unitid": "141167",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Thomas University",
     "institution_unique_name": "Thomas University | Thomasville | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.0063,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 15.2819,
-    "net_tuition_per_fte_change_5yr": 7.0901,
+    "net_tuition_per_fte_change_5yr": 11.1519,
     "staff_total_headcount_pct_change_5yr": 47.1698,
     "staff_instructional_headcount_pct_change_5yr": 105.7554,
     "students_per_instructional_staff_fte": 4.9098,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 69.9688,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 72.6226,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 12.687,
+    "unfunded_discount_pct_change_5yr": -39.3014,
     "share_grad_students": 44.3059,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13479.1135
+        "value": 13150.1837
       },
       {
         "year": 2015,
-        "value": 31170.9817
+        "value": 30852.426
       },
       {
         "year": 2016,
-        "value": 32685.3194
+        "value": 32528.6996
       },
       {
         "year": 2017,
-        "value": 29260.6061
+        "value": 29231.5937
       },
       {
         "year": 2018,
@@ -187,19 +189,65 @@
       },
       {
         "year": 2021,
-        "value": 22703.1208
+        "value": 22742.0951
       },
       {
         "year": 2022,
-        "value": 24166.4531
+        "value": 24334.5364
       },
       {
         "year": 2023,
-        "value": 20450.1928
+        "value": 20888.3882
       },
       {
         "year": 2024,
-        "value": 22884.6614
+        "value": 23752.652
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.7136
+      },
+      {
+        "year": 2015,
+        "value": 18.7537
+      },
+      {
+        "year": 2016,
+        "value": 18.8743
+      },
+      {
+        "year": 2017,
+        "value": 20.8056
+      },
+      {
+        "year": 2018,
+        "value": 21.1419
+      },
+      {
+        "year": 2019,
+        "value": 20.9016
+      },
+      {
+        "year": 2020,
+        "value": 17.9666
+      },
+      {
+        "year": 2021,
+        "value": 15.9308
+      },
+      {
+        "year": 2022,
+        "value": 13.828
+      },
+      {
+        "year": 2023,
+        "value": 13.801
+      },
+      {
+        "year": 2024,
+        "value": 12.687
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "401223",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "World Mission University",
     "institution_unique_name": "World Mission University | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.1881,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 162.764,
-    "net_tuition_per_fte_change_5yr": -12.9577,
+    "net_tuition_per_fte_change_5yr": 26.3896,
     "staff_total_headcount_pct_change_5yr": -7.6923,
     "staff_instructional_headcount_pct_change_5yr": 37.5,
     "students_per_instructional_staff_fte": 31.44,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 18.0435,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 22.5716,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 11.1322,
+    "unfunded_discount_pct_change_5yr": -55.7304,
     "share_grad_students": 52.505,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 7464.3323
+        "value": 6553.7383
       },
       {
         "year": 2015,
-        "value": 13096.9453
+        "value": 12700.1327
       },
       {
         "year": 2016,
-        "value": 6287.692
+        "value": 5780.7064
       },
       {
         "year": 2017,
-        "value": 10832.3386
+        "value": 10228.7829
       },
       {
         "year": 2018,
-        "value": 8160.6811
+        "value": 7520.104
       },
       {
         "year": 2019,
-        "value": 6549.9868
+        "value": 5642.8713
       },
       {
         "year": 2020,
-        "value": 8013.3086
+        "value": 6887.3507
       },
       {
         "year": 2021,
-        "value": 10530.6099
+        "value": 9016.2443
       },
       {
         "year": 2022,
-        "value": 5088.9076
+        "value": 4613.742
       },
       {
         "year": 2023,
-        "value": 5665.1928
+        "value": 4921.9652
       },
       {
         "year": 2024,
-        "value": 5701.2595
+        "value": 7132
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 27.4176
+      },
+      {
+        "year": 2015,
+        "value": 15.4538
+      },
+      {
+        "year": 2016,
+        "value": 14.6988
+      },
+      {
+        "year": 2017,
+        "value": 14.6576
+      },
+      {
+        "year": 2018,
+        "value": 18.9228
+      },
+      {
+        "year": 2019,
+        "value": 25.1465
+      },
+      {
+        "year": 2020,
+        "value": 32.2226
+      },
+      {
+        "year": 2021,
+        "value": 32.0295
+      },
+      {
+        "year": 2022,
+        "value": 34.3992
+      },
+      {
+        "year": 2023,
+        "value": 35.1488
+      },
+      {
+        "year": 2024,
+        "value": 11.1322
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "176664",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mission University",
     "institution_unique_name": "Mission University | Springfield | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 57.6779,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 85.1452,
-    "net_tuition_per_fte_change_5yr": -10.6337,
+    "net_tuition_per_fte_change_5yr": -9.318,
     "staff_total_headcount_pct_change_5yr": 25.3333,
     "staff_instructional_headcount_pct_change_5yr": -8.8235,
     "students_per_instructional_staff_fte": 16.9831,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 33.7772,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 34% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 33.2741,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.9563,
+    "unfunded_discount_pct_change_5yr": -3.0107,
     "share_grad_students": 10.6888,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8730.2605
+        "value": 8423.4462
       },
       {
         "year": 2015,
-        "value": 9687.9999
+        "value": 9371.8188
       },
       {
         "year": 2016,
-        "value": 11312.6809
+        "value": 10898.0072
       },
       {
         "year": 2017,
-        "value": 11070.3777
+        "value": 10745.5657
       },
       {
         "year": 2018,
-        "value": 11927.5329
+        "value": 11589.4794
       },
       {
         "year": 2019,
-        "value": 12124.7029
+        "value": 11770.8216
       },
       {
         "year": 2020,
-        "value": 12280.4009
+        "value": 12030.2657
       },
       {
         "year": 2021,
-        "value": 11987.8493
+        "value": 11691.3774
       },
       {
         "year": 2022,
-        "value": 8568.5242
+        "value": 8414.5195
       },
       {
         "year": 2023,
-        "value": 11404.5471
+        "value": 11210.7829
       },
       {
         "year": 2024,
-        "value": 10835.3982
+        "value": 10674.021
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.0339
+      },
+      {
+        "year": 2015,
+        "value": 18.0973
+      },
+      {
+        "year": 2016,
+        "value": 24.6582
+      },
+      {
+        "year": 2017,
+        "value": 29.8687
+      },
+      {
+        "year": 2018,
+        "value": 26.9745
+      },
+      {
+        "year": 2019,
+        "value": 30.8862
+      },
+      {
+        "year": 2020,
+        "value": 29.1843
+      },
+      {
+        "year": 2021,
+        "value": 27.0528
+      },
+      {
+        "year": 2022,
+        "value": 39.2821
+      },
+      {
+        "year": 2023,
+        "value": 26.5132
+      },
+      {
+        "year": 2024,
+        "value": 29.9563
       }
     ],
     "enrollment_headcount_total": [

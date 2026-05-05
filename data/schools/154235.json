@@ -1,6 +1,6 @@
 {
   "unitid": "154235",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Ambrose University",
     "institution_unique_name": "Saint Ambrose University | Davenport | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -13.8425,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -5.6382,
-    "net_tuition_per_fte_change_5yr": -17.9204,
+    "net_tuition_per_fte_change_5yr": -16.9471,
     "staff_total_headcount_pct_change_5yr": -8.1356,
     "staff_instructional_headcount_pct_change_5yr": -12.963,
     "students_per_instructional_staff_fte": 10.8133,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 44.5136,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.5169,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.4803,
+    "unfunded_discount_pct_change_5yr": 17.8015,
     "share_grad_students": 22.1607,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21338.0238
+        "value": 20876.4974
       },
       {
         "year": 2015,
-        "value": 21654.694
+        "value": 20755.4236
       },
       {
         "year": 2016,
-        "value": 20661.2012
+        "value": 17947.4426
       },
       {
         "year": 2017,
-        "value": 22688.6441
+        "value": 21695.267
       },
       {
         "year": 2018,
-        "value": 24461.8258
+        "value": 24723.3333
       },
       {
         "year": 2019,
-        "value": 24590.6975
+        "value": 24304.3493
       },
       {
         "year": 2020,
-        "value": 24191.0481
+        "value": 23670.5238
       },
       {
         "year": 2021,
-        "value": 22829.3811
+        "value": 23221.4776
       },
       {
         "year": 2022,
-        "value": 21013.7483
+        "value": 20516.2349
       },
       {
         "year": 2023,
-        "value": 20317.9059
+        "value": 21129.9457
       },
       {
         "year": 2024,
-        "value": 20183.9416
+        "value": 20185.4601
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.1926
+      },
+      {
+        "year": 2015,
+        "value": 37.7978
+      },
+      {
+        "year": 2016,
+        "value": 44.1108
+      },
+      {
+        "year": 2017,
+        "value": 37.9021
+      },
+      {
+        "year": 2018,
+        "value": 35.6876
+      },
+      {
+        "year": 2019,
+        "value": 37.7587
+      },
+      {
+        "year": 2020,
+        "value": 40.0269
+      },
+      {
+        "year": 2021,
+        "value": 40.0218
+      },
+      {
+        "year": 2022,
+        "value": 43.8882
+      },
+      {
+        "year": 2023,
+        "value": 41.3972
+      },
+      {
+        "year": 2024,
+        "value": 44.4803
       }
     ],
     "enrollment_headcount_total": [

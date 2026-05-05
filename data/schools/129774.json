@@ -1,6 +1,6 @@
 {
   "unitid": "129774",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mitchell College",
     "institution_unique_name": "Mitchell College | New London | Connecticut",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.913,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -22.7052,
-    "net_tuition_per_fte_change_5yr": -50.5214,
+    "net_tuition_per_fte_change_5yr": -45.8254,
     "staff_total_headcount_pct_change_5yr": 11.7284,
     "staff_instructional_headcount_pct_change_5yr": 268.75,
     "students_per_instructional_staff_fte": 14.044,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 37.8241,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.9497,
+    "unfunded_discount_pct_change_5yr": 29.1793,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19850.2078
+        "value": 20630.5496
       },
       {
         "year": 2015,
-        "value": 19574.4194
+        "value": 20374.2815
       },
       {
         "year": 2016,
-        "value": 20795.3898
+        "value": 21413.1749
       },
       {
         "year": 2017,
-        "value": 19768.7146
+        "value": 19513.7398
       },
       {
         "year": 2018,
-        "value": 35903.6069
+        "value": 33872.2047
       },
       {
         "year": 2019,
-        "value": 36672.246
+        "value": 33493.3779
       },
       {
         "year": 2020,
-        "value": 32541.9313
+        "value": 33155.9656
       },
       {
         "year": 2021,
-        "value": 33035.7644
+        "value": 32338.1119
       },
       {
         "year": 2022,
-        "value": 34956.2002
+        "value": 36425.1752
       },
       {
         "year": 2023,
-        "value": 29414.1962
+        "value": 29641.8047
       },
       {
         "year": 2024,
         "value": 18144.9014
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 40.7811
+      },
+      {
+        "year": 2015,
+        "value": 42.2813
+      },
+      {
+        "year": 2016,
+        "value": 44.3376
+      },
+      {
+        "year": 2017,
+        "value": 46.68
+      },
+      {
+        "year": 2018,
+        "value": 29.296
+      },
+      {
+        "year": 2019,
+        "value": 36.3446
+      },
+      {
+        "year": 2020,
+        "value": 35.4876
+      },
+      {
+        "year": 2021,
+        "value": 37.0319
+      },
+      {
+        "year": 2022,
+        "value": 32.4516
+      },
+      {
+        "year": 2023,
+        "value": 32.4323
+      },
+      {
+        "year": 2024,
+        "value": 46.9497
       }
     ],
     "enrollment_headcount_total": [

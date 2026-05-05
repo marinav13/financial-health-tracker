@@ -1,6 +1,6 @@
 {
   "unitid": "243823",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Parker University",
     "institution_unique_name": "Parker University | Dallas | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 49.6482,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 45.7005,
-    "net_tuition_per_fte_change_5yr": 11.6399,
+    "net_tuition_per_fte_change_5yr": 28.8678,
     "staff_total_headcount_pct_change_5yr": 41.0256,
     "staff_instructional_headcount_pct_change_5yr": 45.8015,
     "students_per_instructional_staff_fte": 5.086,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 82.0336,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 82% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 84.112,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 84% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 12.1461,
+    "unfunded_discount_pct_change_5yr": 10.0157,
     "share_grad_students": 69.0396,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 782000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 158537.7575
+        "value": 152004.3571
       },
       {
         "year": 2015,
-        "value": 139924.9179
+        "value": 133385.9841
       },
       {
         "year": 2016,
-        "value": 157655.9556
+        "value": 151149.0542
       },
       {
         "year": 2017,
-        "value": 116189.442
+        "value": 111478.2927
       },
       {
         "year": 2018,
-        "value": 81687.4929
+        "value": 78738.8518
       },
       {
         "year": 2019,
-        "value": 85609.0823
+        "value": 76043.2917
       },
       {
         "year": 2020,
-        "value": 88940.5689
+        "value": 76752.1573
       },
       {
         "year": 2021,
-        "value": 98430.8963
+        "value": 101755.592
       },
       {
         "year": 2022,
-        "value": 97056.7103
+        "value": 100974.2409
       },
       {
         "year": 2023,
-        "value": 108360.4335
+        "value": 111963.4601
       },
       {
         "year": 2024,
-        "value": 95573.913
+        "value": 97995.3333
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 4.877
+      },
+      {
+        "year": 2015,
+        "value": 5.0282
+      },
+      {
+        "year": 2016,
+        "value": 4.7649
+      },
+      {
+        "year": 2017,
+        "value": 4.9195
+      },
+      {
+        "year": 2018,
+        "value": 3.4798
+      },
+      {
+        "year": 2019,
+        "value": 11.0403
+      },
+      {
+        "year": 2020,
+        "value": 13.5696
+      },
+      {
+        "year": 2021,
+        "value": 11.7759
+      },
+      {
+        "year": 2022,
+        "value": 10.1697
+      },
+      {
+        "year": 2023,
+        "value": 11.3803
+      },
+      {
+        "year": 2024,
+        "value": 12.1461
       }
     ],
     "enrollment_headcount_total": [

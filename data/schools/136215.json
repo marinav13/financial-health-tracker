@@ -1,6 +1,6 @@
 {
   "unitid": "136215",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Nova Southeastern University",
     "institution_unique_name": "Nova Southeastern University | Fort Lauderdale | Florida",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.649,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 10.3362,
-    "net_tuition_per_fte_change_5yr": -8.3558,
+    "net_tuition_per_fte_change_5yr": -8.3707,
     "staff_total_headcount_pct_change_5yr": -4.1978,
     "staff_instructional_headcount_pct_change_5yr": -9.3671,
     "students_per_instructional_staff_fte": 13.692,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 72.4905,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 72.4026,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 72% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 19.1908,
+    "unfunded_discount_pct_change_5yr": 50.5031,
     "share_grad_students": 67.614,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 31189966,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28513.3108
+        "value": 28839.3245
       },
       {
         "year": 2015,
-        "value": 44519.1437
+        "value": 44460.2122
       },
       {
         "year": 2016,
-        "value": 47682.8088
+        "value": 47616.0128
       },
       {
         "year": 2017,
-        "value": 48774.6198
+        "value": 48704.1084
       },
       {
         "year": 2018,
-        "value": 49753.0097
+        "value": 49698.9635
       },
       {
         "year": 2019,
-        "value": 48871.9171
+        "value": 48820.6199
       },
       {
         "year": 2020,
-        "value": 48757.9919
+        "value": 48688.0385
       },
       {
         "year": 2021,
-        "value": 46807.5862
+        "value": 46746.5015
       },
       {
         "year": 2022,
-        "value": 45050.8934
+        "value": 44996.0809
       },
       {
         "year": 2023,
-        "value": 44807.556
+        "value": 44748.3093
       },
       {
         "year": 2024,
-        "value": 44788.2759
+        "value": 44734.0142
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 7.1249
+      },
+      {
+        "year": 2015,
+        "value": 7.8534
+      },
+      {
+        "year": 2016,
+        "value": 8.6158
+      },
+      {
+        "year": 2017,
+        "value": 9.5768
+      },
+      {
+        "year": 2018,
+        "value": 10.6716
+      },
+      {
+        "year": 2019,
+        "value": 12.7511
+      },
+      {
+        "year": 2020,
+        "value": 14.9805
+      },
+      {
+        "year": 2021,
+        "value": 16.6114
+      },
+      {
+        "year": 2022,
+        "value": 17.3069
+      },
+      {
+        "year": 2023,
+        "value": 17.9134
+      },
+      {
+        "year": 2024,
+        "value": 19.1908
       }
     ],
     "enrollment_headcount_total": [

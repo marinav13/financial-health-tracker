@@ -1,6 +1,6 @@
 {
   "unitid": "237136",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Appalachian Bible College",
     "institution_unique_name": "Appalachian Bible College | Mount Hope | West Virginia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -20.1238,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 6.1206,
-    "net_tuition_per_fte_change_5yr": -19.8045,
+    "net_tuition_per_fte_change_5yr": -4.4963,
     "staff_total_headcount_pct_change_5yr": -10,
     "staff_instructional_headcount_pct_change_5yr": -18.4211,
     "students_per_instructional_staff_fte": 10.2712,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 17.3376,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.3377,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.1457,
+    "unfunded_discount_pct_change_5yr": 32.9656,
     "share_grad_students": 5.4264,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8883.5894
+        "value": 9755.0511
       },
       {
         "year": 2015,
-        "value": 8400.9151
+        "value": 9531.5522
       },
       {
         "year": 2016,
-        "value": 7882.6753
+        "value": 8984.735
       },
       {
         "year": 2017,
-        "value": 7501.8984
+        "value": 7560.9389
       },
       {
         "year": 2018,
@@ -179,15 +181,15 @@
       },
       {
         "year": 2019,
-        "value": 7928.3619
+        "value": 6657.5435
       },
       {
         "year": 2020,
-        "value": 7340.0022
+        "value": 7385.1521
       },
       {
         "year": 2021,
-        "value": 7478.9404
+        "value": 7526.7385
       },
       {
         "year": 2022,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 6358.1881
+        "value": 6358.198
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 28.6802
+      },
+      {
+        "year": 2018,
+        "value": 30.3388
+      },
+      {
+        "year": 2019,
+        "value": 33.2008
+      },
+      {
+        "year": 2020,
+        "value": 27.2886
+      },
+      {
+        "year": 2021,
+        "value": 27.8079
+      },
+      {
+        "year": 2022,
+        "value": 25.6705
+      },
+      {
+        "year": 2023,
+        "value": 29.1492
+      },
+      {
+        "year": 2024,
+        "value": 44.1457
       }
     ],
     "enrollment_headcount_total": [

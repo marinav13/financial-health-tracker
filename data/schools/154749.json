@@ -1,6 +1,6 @@
 {
   "unitid": "154749",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethel College-North Newton",
     "institution_unique_name": "Bethel College-North Newton | North Newton | Kansas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -9.0106,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 39.6675,
-    "net_tuition_per_fte_change_5yr": 0.3556,
+    "net_tuition_per_fte_change_5yr": 1.1771,
     "staff_total_headcount_pct_change_5yr": 3.2609,
     "staff_instructional_headcount_pct_change_5yr": 7.9365,
     "students_per_instructional_staff_fte": 9.1438,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 27.6766,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 30.586,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.493,
+    "unfunded_discount_pct_change_5yr": -1.4113,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15521.4495
+        "value": 17078.9375
       },
       {
         "year": 2015,
-        "value": 15954.5883
+        "value": 17653.2484
       },
       {
         "year": 2016,
-        "value": 16773.8904
+        "value": 18464.2912
       },
       {
         "year": 2017,
-        "value": 17171.1307
+        "value": 21513.3856
       },
       {
         "year": 2018,
-        "value": 15837.2333
+        "value": 17204.0085
       },
       {
         "year": 2019,
-        "value": 15200.3947
+        "value": 16661.8647
       },
       {
         "year": 2020,
-        "value": 14951.4668
+        "value": 16549.6882
       },
       {
         "year": 2021,
-        "value": 14121.432
+        "value": 15656.6074
       },
       {
         "year": 2022,
-        "value": 13969.7117
+        "value": 15612.2185
       },
       {
         "year": 2023,
-        "value": 13664.6227
+        "value": 15724.9082
       },
       {
         "year": 2024,
-        "value": 15254.4427
+        "value": 16857.9978
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 47.2104
+      },
+      {
+        "year": 2015,
+        "value": 47.7843
+      },
+      {
+        "year": 2016,
+        "value": 46.624
+      },
+      {
+        "year": 2017,
+        "value": 44.2077
+      },
+      {
+        "year": 2018,
+        "value": 49.2052
+      },
+      {
+        "year": 2019,
+        "value": 50.2015
+      },
+      {
+        "year": 2020,
+        "value": 52.6278
+      },
+      {
+        "year": 2021,
+        "value": 56.6511
+      },
+      {
+        "year": 2022,
+        "value": 55.0528
+      },
+      {
+        "year": 2023,
+        "value": 51.7775
+      },
+      {
+        "year": 2024,
+        "value": 49.493
       }
     ],
     "enrollment_headcount_total": [

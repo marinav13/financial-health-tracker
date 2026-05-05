@@ -1,6 +1,6 @@
 {
   "unitid": "209603",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pacific Northwest College of Art",
     "institution_unique_name": "Pacific Northwest College of Art | Portland | Oregon",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 21.4286,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": null,
@@ -147,7 +149,7 @@
       },
       {
         "year": 2017,
-        "value": 26635.0241
+        "value": 26630.4393
       },
       {
         "year": 2018,
@@ -159,11 +161,45 @@
       },
       {
         "year": 2020,
-        "value": 23656.7603
+        "value": 23872.5033
       },
       {
         "year": 2021,
-        "value": 25337.3654
+        "value": 25479.7198
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 8.2321
+      },
+      {
+        "year": 2015,
+        "value": 37.0692
+      },
+      {
+        "year": 2016,
+        "value": 38.7044
+      },
+      {
+        "year": 2017,
+        "value": 39.6533
+      },
+      {
+        "year": 2018,
+        "value": 46.1739
+      },
+      {
+        "year": 2019,
+        "value": 48.1373
+      },
+      {
+        "year": 2020,
+        "value": 48.1224
+      },
+      {
+        "year": 2021,
+        "value": 44.8444
       }
     ],
     "enrollment_headcount_total": [

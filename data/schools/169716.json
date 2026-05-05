@@ -1,6 +1,6 @@
 {
   "unitid": "169716",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Detroit Mercy",
     "institution_unique_name": "University of Detroit Mercy | Detroit | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 5.1758,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -9.2723,
-    "net_tuition_per_fte_change_5yr": -11.7075,
+    "net_tuition_per_fte_change_5yr": -9.7586,
     "staff_total_headcount_pct_change_5yr": -7.1875,
     "staff_instructional_headcount_pct_change_5yr": -8.1514,
     "students_per_instructional_staff_fte": 8.1054,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 64.5147,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 65% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 68.0809,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.1145,
+    "unfunded_discount_pct_change_5yr": 3.1296,
     "share_grad_students": 39.3853,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 2378537,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 39046.9836
+        "value": 39649.9639
       },
       {
         "year": 2015,
-        "value": 42115.8336
+        "value": 43240.8731
       },
       {
         "year": 2016,
-        "value": 43922.7614
+        "value": 44989.9241
       },
       {
         "year": 2017,
-        "value": 42350.3368
+        "value": 43487.117
       },
       {
         "year": 2018,
-        "value": 41210.6036
+        "value": 42484.4547
       },
       {
         "year": 2019,
-        "value": 40058.664
+        "value": 41360.0465
       },
       {
         "year": 2020,
-        "value": 40538.3186
+        "value": 42241.9987
       },
       {
         "year": 2021,
-        "value": 39629.1106
+        "value": 41305.9692
       },
       {
         "year": 2022,
-        "value": 36821.5151
+        "value": 38373.5709
       },
       {
         "year": 2023,
-        "value": 35505.4212
+        "value": 36968.96
       },
       {
         "year": 2024,
-        "value": 35368.7856
+        "value": 37323.8934
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.3254
+      },
+      {
+        "year": 2015,
+        "value": 31.2046
+      },
+      {
+        "year": 2016,
+        "value": 31.3415
+      },
+      {
+        "year": 2017,
+        "value": 34.3823
+      },
+      {
+        "year": 2018,
+        "value": 35.6423
+      },
+      {
+        "year": 2019,
+        "value": 25.322
+      },
+      {
+        "year": 2020,
+        "value": 24.7223
+      },
+      {
+        "year": 2021,
+        "value": 25.1512
+      },
+      {
+        "year": 2022,
+        "value": 26.0964
+      },
+      {
+        "year": 2023,
+        "value": 25.9999
+      },
+      {
+        "year": 2024,
+        "value": 26.1145
       }
     ],
     "enrollment_headcount_total": [

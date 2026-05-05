@@ -1,6 +1,6 @@
 {
   "unitid": "167835",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Smith College",
     "institution_unique_name": "Smith College | Northampton | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.1146,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 11.0838,
-    "net_tuition_per_fte_change_5yr": 1.3418,
+    "net_tuition_per_fte_change_5yr": -20.5609,
     "staff_total_headcount_pct_change_5yr": 3.0049,
     "staff_instructional_headcount_pct_change_5yr": -11.4894,
     "students_per_instructional_staff_fte": 9.2066,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 23.2414,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 17.2599,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.3426,
+    "unfunded_discount_pct_change_5yr": 10.0938,
     "share_grad_students": 17.9399,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 6237003,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25964.0313
+        "value": 24508.8364
       },
       {
         "year": 2015,
-        "value": 26351.1691
+        "value": 25249.5649
       },
       {
         "year": 2016,
-        "value": 28415.6296
+        "value": 26508.2223
       },
       {
         "year": 2017,
-        "value": 27125.7966
+        "value": 25788.3492
       },
       {
         "year": 2018,
-        "value": 26618.4894
+        "value": 25030.2961
       },
       {
         "year": 2019,
-        "value": 26770.8162
+        "value": 25362.4845
       },
       {
         "year": 2020,
-        "value": 31047.7595
+        "value": 26277.0012
       },
       {
         "year": 2021,
-        "value": 25485.7875
+        "value": 23812.7684
       },
       {
         "year": 2022,
-        "value": 27479.9002
+        "value": 21716.3094
       },
       {
         "year": 2023,
-        "value": 26905.2457
+        "value": 20545.6886
       },
       {
         "year": 2024,
-        "value": 27130.0286
+        "value": 20147.7345
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.2688
+      },
+      {
+        "year": 2015,
+        "value": 26.7899
+      },
+      {
+        "year": 2016,
+        "value": 26.7465
+      },
+      {
+        "year": 2017,
+        "value": 27.8697
+      },
+      {
+        "year": 2018,
+        "value": 27.5285
+      },
+      {
+        "year": 2019,
+        "value": 28.469
+      },
+      {
+        "year": 2020,
+        "value": 30.4179
+      },
+      {
+        "year": 2021,
+        "value": 22.9842
+      },
+      {
+        "year": 2022,
+        "value": 24.0044
+      },
+      {
+        "year": 2023,
+        "value": 29.2435
+      },
+      {
+        "year": 2024,
+        "value": 31.3426
       }
     ],
     "enrollment_headcount_total": [

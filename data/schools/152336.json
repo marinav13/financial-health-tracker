@@ -1,6 +1,6 @@
 {
   "unitid": "152336",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "University of Saint Francis-Fort Wayne",
     "institution_unique_name": "University of Saint Francis-Fort Wayne | Fort Wayne | Indiana",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -21.5453,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -18.288,
-    "net_tuition_per_fte_change_5yr": -10.0069,
+    "net_tuition_per_fte_change_5yr": -11.0602,
     "staff_total_headcount_pct_change_5yr": -23.5507,
     "staff_instructional_headcount_pct_change_5yr": -19.5286,
     "students_per_instructional_staff_fte": 10.0903,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 65.707,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3739,
+    "unfunded_discount_pct_change_5yr": 25.4592,
     "share_grad_students": 15.3883,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18759.5305
+        "value": 19508.9337
       },
       {
         "year": 2015,
-        "value": 19320.2577
+        "value": 20063.0743
       },
       {
         "year": 2016,
-        "value": 20141.4897
+        "value": 21016.9648
       },
       {
         "year": 2017,
-        "value": 20383.8274
+        "value": 21142.5431
       },
       {
         "year": 2018,
-        "value": 20472.3927
+        "value": 21025.7448
       },
       {
         "year": 2019,
-        "value": 21073.0651
+        "value": 21322.6365
       },
       {
         "year": 2020,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 18964.3028
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.2674
+      },
+      {
+        "year": 2015,
+        "value": 31.0075
+      },
+      {
+        "year": 2016,
+        "value": 31.315
+      },
+      {
+        "year": 2017,
+        "value": 32.1041
+      },
+      {
+        "year": 2018,
+        "value": 34.46
+      },
+      {
+        "year": 2019,
+        "value": 35.3692
+      },
+      {
+        "year": 2020,
+        "value": 35.6143
+      },
+      {
+        "year": 2021,
+        "value": 37.3786
+      },
+      {
+        "year": 2022,
+        "value": 40.4058
+      },
+      {
+        "year": 2023,
+        "value": 43.1376
+      },
+      {
+        "year": 2024,
+        "value": 44.3739
       }
     ],
     "enrollment_headcount_total": [

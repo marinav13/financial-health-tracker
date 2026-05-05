@@ -1,6 +1,6 @@
 {
   "unitid": "174525",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Oak Hills Christian College",
     "institution_unique_name": "Oak Hills Christian College | Bemidji | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.4828,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 18.0011,
-    "net_tuition_per_fte_change_5yr": -23.5593,
+    "net_tuition_per_fte_change_5yr": 49.0954,
     "staff_total_headcount_pct_change_5yr": -5.5556,
     "staff_instructional_headcount_pct_change_5yr": -27.2727,
     "students_per_instructional_staff_fte": 14.8333,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 24.1351,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 28.1493,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 10.2476,
+    "unfunded_discount_pct_change_5yr": -72.1719,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27528.4222
+        "value": 17963.4395
       },
       {
         "year": 2015,
-        "value": 13411.1661
+        "value": 7687.135
       },
       {
         "year": 2016,
-        "value": 13958.9692
+        "value": 8997.8753
       },
       {
         "year": 2017,
-        "value": 14990.485
+        "value": 9894.2513
       },
       {
         "year": 2018,
-        "value": 14661.3596
+        "value": 9579.1887
       },
       {
         "year": 2019,
-        "value": 13389.0442
+        "value": 8006.2459
       },
       {
         "year": 2020,
-        "value": 11698.4
+        "value": 5304.68
       },
       {
         "year": 2021,
-        "value": 9128.1007
+        "value": -801.8988
       },
       {
         "year": 2022,
-        "value": 10007.4782
+        "value": 11434.4556
       },
       {
         "year": 2023,
-        "value": 9769.5895
+        "value": 10589.9692
       },
       {
         "year": 2024,
-        "value": 10234.6854
+        "value": 11936.9438
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 32.7454
+      },
+      {
+        "year": 2015,
+        "value": 39.8692
+      },
+      {
+        "year": 2016,
+        "value": 32.7097
+      },
+      {
+        "year": 2017,
+        "value": 32.0889
+      },
+      {
+        "year": 2018,
+        "value": 31.5412
+      },
+      {
+        "year": 2019,
+        "value": 36.8248
+      },
+      {
+        "year": 2020,
+        "value": 50.5786
+      },
+      {
+        "year": 2021,
+        "value": 102.5855
+      },
+      {
+        "year": 2022,
+        "value": 11.8049
+      },
+      {
+        "year": 2023,
+        "value": 13.4677
+      },
+      {
+        "year": 2024,
+        "value": 10.2476
       }
     ],
     "enrollment_headcount_total": [

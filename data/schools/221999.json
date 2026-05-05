@@ -1,6 +1,6 @@
 {
   "unitid": "221999",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Vanderbilt University",
     "institution_unique_name": "Vanderbilt University | Nashville | Tennessee",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 5.3249,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 14.6933,
-    "net_tuition_per_fte_change_5yr": -4.8011,
+    "net_tuition_per_fte_change_5yr": -6.6443,
     "staff_total_headcount_pct_change_5yr": 14.7384,
     "staff_instructional_headcount_pct_change_5yr": 1.7789,
     "students_per_instructional_staff_fte": 7.8729,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 16.7535,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 15.1358,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.7545,
+    "unfunded_discount_pct_change_5yr": 2.9613,
     "share_grad_students": 49.2688,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 250848935,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 33287.0667
+        "value": 31100.8826
       },
       {
         "year": 2015,
-        "value": 34408.5639
+        "value": 32032.7715
       },
       {
         "year": 2016,
-        "value": 35084.9174
+        "value": 32436.0233
       },
       {
         "year": 2017,
-        "value": 34184.3906
+        "value": 31799.723
       },
       {
         "year": 2018,
-        "value": 35362.4276
+        "value": 32469.8282
       },
       {
         "year": 2019,
-        "value": 36638.9289
+        "value": 33754.6533
       },
       {
         "year": 2020,
-        "value": 38657.8495
+        "value": 35817.8899
       },
       {
         "year": 2021,
-        "value": 36589.3477
+        "value": 35411.4956
       },
       {
         "year": 2022,
-        "value": 36364.2049
+        "value": 33625.1799
       },
       {
         "year": 2023,
-        "value": 35819.5002
+        "value": 32930.7689
       },
       {
         "year": 2024,
-        "value": 34879.8433
+        "value": 31511.9091
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.8076
+      },
+      {
+        "year": 2015,
+        "value": 38.1602
+      },
+      {
+        "year": 2016,
+        "value": 38.0407
+      },
+      {
+        "year": 2017,
+        "value": 38.8129
+      },
+      {
+        "year": 2018,
+        "value": 40.5476
+      },
+      {
+        "year": 2019,
+        "value": 39.5824
+      },
+      {
+        "year": 2020,
+        "value": 38.0397
+      },
+      {
+        "year": 2021,
+        "value": 36.9511
+      },
+      {
+        "year": 2022,
+        "value": 38.3724
+      },
+      {
+        "year": 2023,
+        "value": 39.0565
+      },
+      {
+        "year": 2024,
+        "value": 40.7545
       }
     ],
     "enrollment_headcount_total": [

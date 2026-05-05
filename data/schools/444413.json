@@ -1,6 +1,6 @@
 {
   "unitid": "444413",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Beis Medrash Heichal Dovid",
     "institution_unique_name": "Beis Medrash Heichal Dovid | Far Rockaway | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 54.5455,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 56.2033,
-    "net_tuition_per_fte_change_5yr": 20.1999,
+    "net_tuition_per_fte_change_5yr": 850.1994,
     "staff_total_headcount_pct_change_5yr": 42.8571,
     "staff_instructional_headcount_pct_change_5yr": 27.2727,
     "students_per_instructional_staff_fte": 25.5,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 70.1753,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 48.5446,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 35.6615,
+    "unfunded_discount_pct_change_5yr": -60.9186,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 14095.3022
+        "value": 6759.5425
       },
       {
         "year": 2015,
-        "value": 11620.9439
+        "value": 2966.1308
       },
       {
         "year": 2016,
-        "value": 10499.5443
+        "value": 581.301
       },
       {
         "year": 2017,
-        "value": 12789.5116
+        "value": 623.251
       },
       {
         "year": 2018,
-        "value": 10958.6641
+        "value": 1541.8999
       },
       {
         "year": 2019,
-        "value": 11385.5814
+        "value": 996.3258
       },
       {
         "year": 2020,
-        "value": 13071.1301
+        "value": 7954.567
       },
       {
         "year": 2021,
-        "value": 11165.0836
+        "value": 8064.4712
       },
       {
         "year": 2022,
-        "value": 12650.0426
+        "value": 8488.7245
       },
       {
         "year": 2023,
-        "value": 10060.3637
+        "value": 6874.2456
       },
       {
         "year": 2024,
-        "value": 13685.457
+        "value": 9467.0814
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 58.6223
+      },
+      {
+        "year": 2015,
+        "value": 74.476
+      },
+      {
+        "year": 2016,
+        "value": 94.4636
+      },
+      {
+        "year": 2017,
+        "value": 95.1269
+      },
+      {
+        "year": 2018,
+        "value": 85.9299
+      },
+      {
+        "year": 2019,
+        "value": 91.2492
+      },
+      {
+        "year": 2020,
+        "value": 44.5007
+      },
+      {
+        "year": 2021,
+        "value": 34.9282
+      },
+      {
+        "year": 2022,
+        "value": 38.3786
+      },
+      {
+        "year": 2023,
+        "value": 36.0849
+      },
+      {
+        "year": 2024,
+        "value": 35.6615
       }
     ],
     "enrollment_headcount_total": [

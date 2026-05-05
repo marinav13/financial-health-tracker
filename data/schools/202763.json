@@ -1,6 +1,6 @@
 {
   "unitid": "202763",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "The University of Findlay",
     "institution_unique_name": "The University of Findlay | Findlay | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 9.9083,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -13.8224,
-    "net_tuition_per_fte_change_5yr": -20.3098,
+    "net_tuition_per_fte_change_5yr": -22.1156,
     "staff_total_headcount_pct_change_5yr": 2.0833,
     "staff_instructional_headcount_pct_change_5yr": 3.7783,
     "students_per_instructional_staff_fte": 11.7347,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 56.2151,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.2726,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 50.869,
+    "unfunded_discount_pct_change_5yr": 17.9707,
     "share_grad_students": 24.2474,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20766.8883
+        "value": 20997.0916
       },
       {
         "year": 2015,
-        "value": 21675.1262
+        "value": 21903.417
       },
       {
         "year": 2016,
-        "value": 20875.152
+        "value": 20891.7663
       },
       {
         "year": 2017,
-        "value": 20930.7965
+        "value": 20971.8967
       },
       {
         "year": 2018,
-        "value": 20575.078
+        "value": 20542.7069
       },
       {
         "year": 2019,
-        "value": 20177.2447
+        "value": 19931.7098
       },
       {
         "year": 2020,
-        "value": 20389.2341
+        "value": 20396.5991
       },
       {
         "year": 2021,
-        "value": 18977.0232
+        "value": 19134.2251
       },
       {
         "year": 2022,
-        "value": 17213.4934
+        "value": 18157.0706
       },
       {
         "year": 2023,
-        "value": 18138.9221
+        "value": 17587.2004
       },
       {
         "year": 2024,
-        "value": 16079.2792
+        "value": 15523.6831
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.7954
+      },
+      {
+        "year": 2015,
+        "value": 37.2579
+      },
+      {
+        "year": 2016,
+        "value": 41.2991
+      },
+      {
+        "year": 2017,
+        "value": 40.6216
+      },
+      {
+        "year": 2018,
+        "value": 42.361
+      },
+      {
+        "year": 2019,
+        "value": 43.12
+      },
+      {
+        "year": 2020,
+        "value": 43.344
+      },
+      {
+        "year": 2021,
+        "value": 45.6302
+      },
+      {
+        "year": 2022,
+        "value": 47.0383
+      },
+      {
+        "year": 2023,
+        "value": 47.6619
+      },
+      {
+        "year": 2024,
+        "value": 50.869
       }
     ],
     "enrollment_headcount_total": [

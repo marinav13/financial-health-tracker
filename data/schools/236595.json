@@ -1,6 +1,6 @@
 {
   "unitid": "236595",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Seattle University",
     "institution_unique_name": "Seattle University | Seattle | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.3075,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 10.0305,
-    "net_tuition_per_fte_change_5yr": -12.3533,
+    "net_tuition_per_fte_change_5yr": -10.16,
     "staff_total_headcount_pct_change_5yr": -1.3095,
     "staff_instructional_headcount_pct_change_5yr": 4.0897,
     "students_per_instructional_staff_fte": 9.1787,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 52.7245,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 53% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 53.5813,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 38.4042,
+    "unfunded_discount_pct_change_5yr": 12.5622,
     "share_grad_students": 43.7038,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4698905,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37754.3462
+        "value": 38227.7949
       },
       {
         "year": 2015,
-        "value": 38575.4084
+        "value": 38575.4086
       },
       {
         "year": 2016,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 36740.2625
+        "value": 36425.737
       },
       {
         "year": 2020,
-        "value": 36157.4201
+        "value": 36759.2429
       },
       {
         "year": 2021,
-        "value": 34692.9608
+        "value": 35339.4879
       },
       {
         "year": 2022,
-        "value": 32056.5788
+        "value": 33202.5042
       },
       {
         "year": 2023,
-        "value": 32866.5176
+        "value": 33231.3918
       },
       {
         "year": 2024,
-        "value": 32201.6188
+        "value": 32724.8836
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.9275
+      },
+      {
+        "year": 2015,
+        "value": 24.8041
+      },
+      {
+        "year": 2016,
+        "value": 29.9084
+      },
+      {
+        "year": 2017,
+        "value": 31.0123
+      },
+      {
+        "year": 2018,
+        "value": 31.9212
+      },
+      {
+        "year": 2019,
+        "value": 34.1182
+      },
+      {
+        "year": 2020,
+        "value": 35.0202
+      },
+      {
+        "year": 2021,
+        "value": 35.3588
+      },
+      {
+        "year": 2022,
+        "value": 36.7559
+      },
+      {
+        "year": 2023,
+        "value": 36.3109
+      },
+      {
+        "year": 2024,
+        "value": 38.4042
       }
     ],
     "enrollment_headcount_total": [

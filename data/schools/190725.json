@@ -1,6 +1,6 @@
 {
   "unitid": "190725",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Daemen University",
     "institution_unique_name": "Daemen University | Amherst | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.3065,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 6.1212,
-    "net_tuition_per_fte_change_5yr": -16.5129,
+    "net_tuition_per_fte_change_5yr": -16.2596,
     "staff_total_headcount_pct_change_5yr": -7.5,
     "staff_instructional_headcount_pct_change_5yr": -3.1142,
     "students_per_instructional_staff_fte": 12.6327,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 60.6949,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 61.6872,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.3744,
+    "unfunded_discount_pct_change_5yr": 8.6748,
     "share_grad_students": 32.8353,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18516.0246
+        "value": 18971.3985
       },
       {
         "year": 2015,
-        "value": 19131.1486
+        "value": 19639.3633
       },
       {
         "year": 2016,
-        "value": 19767.5162
+        "value": 20173.8487
       },
       {
         "year": 2017,
-        "value": 18909.8313
+        "value": 19186.9512
       },
       {
         "year": 2018,
-        "value": 19765.5935
+        "value": 20021.6373
       },
       {
         "year": 2019,
-        "value": 19562.6276
+        "value": 19822.3242
       },
       {
         "year": 2020,
-        "value": 19417.6507
+        "value": 20209.0713
       },
       {
         "year": 2021,
-        "value": 19305.4644
+        "value": 20024.7718
       },
       {
         "year": 2022,
-        "value": 16764.4418
+        "value": 18162.0185
       },
       {
         "year": 2023,
-        "value": 17423.4351
+        "value": 17752.6374
       },
       {
         "year": 2024,
-        "value": 16332.2686
+        "value": 16599.2876
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.8812
+      },
+      {
+        "year": 2015,
+        "value": 39.8018
+      },
+      {
+        "year": 2016,
+        "value": 39.9741
+      },
+      {
+        "year": 2017,
+        "value": 41.5816
+      },
+      {
+        "year": 2018,
+        "value": 40.7297
+      },
+      {
+        "year": 2019,
+        "value": 40.8323
+      },
+      {
+        "year": 2020,
+        "value": 40.5834
+      },
+      {
+        "year": 2021,
+        "value": 39.2813
+      },
+      {
+        "year": 2022,
+        "value": 39.2778
+      },
+      {
+        "year": 2023,
+        "value": 40.0907
+      },
+      {
+        "year": 2024,
+        "value": 44.3744
       }
     ],
     "enrollment_headcount_total": [

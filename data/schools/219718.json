@@ -1,6 +1,6 @@
 {
   "unitid": "219718",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethel University",
     "institution_unique_name": "Bethel University | McKenzie | Tennessee",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 58.858,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 59% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.8243,
+    "unfunded_discount_pct_change_5yr": 47.0491,
     "share_grad_students": 8.1372,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 11507.5578
+        "value": 11431.9422
       },
       {
         "year": 2015,
-        "value": 12801.3562
+        "value": 12696.6327
       },
       {
         "year": 2016,
-        "value": 12514.2078
+        "value": 12414.2469
       },
       {
         "year": 2017,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 8198.4695
+        "value": 8198.4691
       },
       {
         "year": 2024,
         "value": 7366.144
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 18.8898
+      },
+      {
+        "year": 2015,
+        "value": 20.8261
+      },
+      {
+        "year": 2016,
+        "value": 22.1587
+      },
+      {
+        "year": 2017,
+        "value": 21.5883
+      },
+      {
+        "year": 2018,
+        "value": 24.2823
+      },
+      {
+        "year": 2019,
+        "value": 27.0823
+      },
+      {
+        "year": 2020,
+        "value": 28.184
+      },
+      {
+        "year": 2021,
+        "value": 31.0476
+      },
+      {
+        "year": 2022,
+        "value": 35.6607
+      },
+      {
+        "year": 2023,
+        "value": 36.6976
+      },
+      {
+        "year": 2024,
+        "value": 39.8243
       }
     ],
     "enrollment_headcount_total": [

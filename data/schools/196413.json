@@ -1,6 +1,6 @@
 {
   "unitid": "196413",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Syracuse University",
     "institution_unique_name": "Syracuse University | Syracuse | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.275,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 10.5189,
-    "net_tuition_per_fte_change_5yr": -1.7512,
+    "net_tuition_per_fte_change_5yr": -1.7416,
     "staff_total_headcount_pct_change_5yr": 5.3435,
     "staff_instructional_headcount_pct_change_5yr": 2.0749,
     "students_per_instructional_staff_fte": 16.525,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 49.9811,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 49.4965,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 34.9026,
+    "unfunded_discount_pct_change_5yr": 6.4575,
     "share_grad_students": 22.952,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 88566103,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 30110.9878
+        "value": 29856.3221
       },
       {
         "year": 2015,
-        "value": 30794.1985
+        "value": 30576.4903
       },
       {
         "year": 2016,
-        "value": 31204.51
+        "value": 30780.9949
       },
       {
         "year": 2017,
-        "value": 32163.4067
+        "value": 31801.9008
       },
       {
         "year": 2018,
-        "value": 33073.0684
+        "value": 32738.5411
       },
       {
         "year": 2019,
-        "value": 34812.3681
+        "value": 34471.4363
       },
       {
         "year": 2020,
-        "value": 35707.4979
+        "value": 35345.7734
       },
       {
         "year": 2021,
-        "value": 34229.648
+        "value": 33883.8969
       },
       {
         "year": 2022,
-        "value": 32721.7265
+        "value": 32064.6886
       },
       {
         "year": 2023,
-        "value": 34596.8149
+        "value": 33924.6227
       },
       {
         "year": 2024,
-        "value": 34202.7231
+        "value": 33871.0908
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.0191
+      },
+      {
+        "year": 2015,
+        "value": 35.8001
+      },
+      {
+        "year": 2016,
+        "value": 36.427
+      },
+      {
+        "year": 2017,
+        "value": 35.5694
+      },
+      {
+        "year": 2018,
+        "value": 34.0076
+      },
+      {
+        "year": 2019,
+        "value": 32.7855
+      },
+      {
+        "year": 2020,
+        "value": 33.2024
+      },
+      {
+        "year": 2021,
+        "value": 34.9047
+      },
+      {
+        "year": 2022,
+        "value": 36.2259
+      },
+      {
+        "year": 2023,
+        "value": 35.4895
+      },
+      {
+        "year": 2024,
+        "value": 34.9026
       }
     ],
     "enrollment_headcount_total": [

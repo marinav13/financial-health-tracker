@@ -1,6 +1,6 @@
 {
   "unitid": "204501",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Oberlin College",
     "institution_unique_name": "Oberlin College | Oberlin | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 41.5447,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 38.3864,
-    "net_tuition_per_fte_change_5yr": -18.4194,
+    "net_tuition_per_fte_change_5yr": -19.1572,
     "staff_total_headcount_pct_change_5yr": -4.1667,
     "staff_instructional_headcount_pct_change_5yr": 5.6657,
     "students_per_instructional_staff_fte": 10.4548,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 24.0031,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.0164,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 42.5895,
+    "unfunded_discount_pct_change_5yr": 17.6644,
     "share_grad_students": 0.2404,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1128979,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 34388.3688
+        "value": 34733.4126
       },
       {
         "year": 2015,
-        "value": 36128.5115
+        "value": 36469.2215
       },
       {
         "year": 2016,
-        "value": 35983.2015
+        "value": 36318.9425
       },
       {
         "year": 2017,
-        "value": 35560.0688
+        "value": 35862.5254
       },
       {
         "year": 2018,
-        "value": 35030.1089
+        "value": 35401.6436
       },
       {
         "year": 2019,
-        "value": 33796.6153
+        "value": 34123.9728
       },
       {
         "year": 2020,
-        "value": 32502.4106
+        "value": 32672.257
       },
       {
         "year": 2021,
-        "value": 26796.3201
+        "value": 26843.363
       },
       {
         "year": 2022,
-        "value": 31080.4872
+        "value": 31148.5623
       },
       {
         "year": 2023,
-        "value": 28437.4086
+        "value": 28581.6152
       },
       {
         "year": 2024,
-        "value": 27571.4797
+        "value": 27586.7592
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.2057
+      },
+      {
+        "year": 2015,
+        "value": 30.6263
+      },
+      {
+        "year": 2016,
+        "value": 30.4978
+      },
+      {
+        "year": 2017,
+        "value": 32.3789
+      },
+      {
+        "year": 2018,
+        "value": 33.5011
+      },
+      {
+        "year": 2019,
+        "value": 36.1957
+      },
+      {
+        "year": 2020,
+        "value": 37.0557
+      },
+      {
+        "year": 2021,
+        "value": 38.3903
+      },
+      {
+        "year": 2022,
+        "value": 41.2742
+      },
+      {
+        "year": 2023,
+        "value": 41.2567
+      },
+      {
+        "year": 2024,
+        "value": 42.5895
       }
     ],
     "enrollment_headcount_total": [

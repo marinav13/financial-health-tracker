@@ -1,6 +1,6 @@
 {
   "unitid": "190983",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Elmira College",
     "institution_unique_name": "Elmira College | Elmira | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -28.7615,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -29.3278,
-    "net_tuition_per_fte_change_5yr": -28.4769,
+    "net_tuition_per_fte_change_5yr": -21.0537,
     "staff_total_headcount_pct_change_5yr": 3.6765,
     "staff_instructional_headcount_pct_change_5yr": -13.0081,
     "students_per_instructional_staff_fte": 9.9073,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 9,
     "tuition_dependence_pct": 39.8053,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.3453,
+    "unfunded_discount_pct_change_5yr": -1.2194,
     "share_grad_students": 7.3276,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18800.0033
+        "value": 17429.9893
       },
       {
         "year": 2015,
-        "value": 18633.2555
+        "value": 17194.4047
       },
       {
         "year": 2016,
-        "value": 20707.2773
+        "value": 19134.8982
       },
       {
         "year": 2017,
-        "value": 22425.1059
+        "value": 20874.1322
       },
       {
         "year": 2018,
-        "value": 22032.4764
+        "value": 20157.8452
       },
       {
         "year": 2019,
-        "value": 21566.6044
+        "value": 19538.7446
       },
       {
         "year": 2020,
-        "value": 20029.6382
+        "value": 17878.8354
       },
       {
         "year": 2021,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 15425.1108
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 54.8775
+      },
+      {
+        "year": 2015,
+        "value": 56.0085
+      },
+      {
+        "year": 2016,
+        "value": 53.4893
+      },
+      {
+        "year": 2017,
+        "value": 50.4427
+      },
+      {
+        "year": 2018,
+        "value": 50.8786
+      },
+      {
+        "year": 2019,
+        "value": 51.9791
+      },
+      {
+        "year": 2020,
+        "value": 49.9227
+      },
+      {
+        "year": 2021,
+        "value": 52.195
+      },
+      {
+        "year": 2022,
+        "value": 51.0306
+      },
+      {
+        "year": 2023,
+        "value": 50.9071
+      },
+      {
+        "year": 2024,
+        "value": 51.3453
       }
     ],
     "enrollment_headcount_total": [

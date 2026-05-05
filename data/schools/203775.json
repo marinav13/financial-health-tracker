@@ -1,6 +1,6 @@
 {
   "unitid": "203775",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Malone University",
     "institution_unique_name": "Malone University | Canton | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -29.6128,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.7402,
-    "net_tuition_per_fte_change_5yr": -16.3305,
+    "net_tuition_per_fte_change_5yr": -16.6134,
     "staff_total_headcount_pct_change_5yr": -16.3743,
     "staff_instructional_headcount_pct_change_5yr": -19.7531,
     "students_per_instructional_staff_fte": 14.243,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 45.1742,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 44.8178,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.2147,
+    "unfunded_discount_pct_change_5yr": 12.2646,
     "share_grad_students": 28.932,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,19 +161,19 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15767.9287
+        "value": 15625.8311
       },
       {
         "year": 2015,
-        "value": 15241.5416
+        "value": 15061.9588
       },
       {
         "year": 2016,
-        "value": 16299.9752
+        "value": 16138.9817
       },
       {
         "year": 2017,
-        "value": 15840.2313
+        "value": 15769.2114
       },
       {
         "year": 2018,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 14853.3883
+        "value": 14786.2295
       },
       {
         "year": 2020,
-        "value": 15081.143
+        "value": 15003.8596
       },
       {
         "year": 2021,
-        "value": 14198.6946
+        "value": 14109.2487
       },
       {
         "year": 2022,
-        "value": 13066.1361
+        "value": 12990.0996
       },
       {
         "year": 2023,
-        "value": 12873.1769
+        "value": 12755.8009
       },
       {
         "year": 2024,
-        "value": 12427.7618
+        "value": 12329.7293
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 42.4932
+      },
+      {
+        "year": 2015,
+        "value": 43.9826
+      },
+      {
+        "year": 2016,
+        "value": 42.2468
+      },
+      {
+        "year": 2017,
+        "value": 44.5689
+      },
+      {
+        "year": 2018,
+        "value": 47.7815
+      },
+      {
+        "year": 2019,
+        "value": 47.4012
+      },
+      {
+        "year": 2020,
+        "value": 46.9954
+      },
+      {
+        "year": 2021,
+        "value": 49.4078
+      },
+      {
+        "year": 2022,
+        "value": 51.663
+      },
+      {
+        "year": 2023,
+        "value": 53.2313
+      },
+      {
+        "year": 2024,
+        "value": 53.2147
       }
     ],
     "enrollment_headcount_total": [

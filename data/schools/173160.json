@@ -1,6 +1,6 @@
 {
   "unitid": "173160",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bethel University",
     "institution_unique_name": "Bethel University | Saint Paul | Minnesota",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.9748,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -23.9395,
-    "net_tuition_per_fte_change_5yr": -11.1396,
+    "net_tuition_per_fte_change_5yr": -14.0785,
     "staff_total_headcount_pct_change_5yr": -16.8817,
     "staff_instructional_headcount_pct_change_5yr": -12.5,
     "students_per_instructional_staff_fte": 13.5944,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 65.967,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 66% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 63.7853,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 64% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.7487,
+    "unfunded_discount_pct_change_5yr": 2.26,
     "share_grad_students": 28.1493,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,15 +161,15 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20988.8957
+        "value": 21192.8006
       },
       {
         "year": 2015,
-        "value": 22126.7437
+        "value": 22401.5314
       },
       {
         "year": 2016,
-        "value": 22371.2279
+        "value": 23169.9319
       },
       {
         "year": 2017,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 17554.1405
+        "value": 18342.3785
       },
       {
         "year": 2024,
-        "value": 17929.3541
+        "value": 17336.3777
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 30.6383
+      },
+      {
+        "year": 2015,
+        "value": 31.098
+      },
+      {
+        "year": 2016,
+        "value": 32.2333
+      },
+      {
+        "year": 2017,
+        "value": 34.3565
+      },
+      {
+        "year": 2018,
+        "value": 37.4067
+      },
+      {
+        "year": 2019,
+        "value": 38.8702
+      },
+      {
+        "year": 2020,
+        "value": 40.0192
+      },
+      {
+        "year": 2021,
+        "value": 40.1798
+      },
+      {
+        "year": 2022,
+        "value": 39.463
+      },
+      {
+        "year": 2023,
+        "value": 37.1258
+      },
+      {
+        "year": 2024,
+        "value": 39.7487
       }
     ],
     "enrollment_headcount_total": [

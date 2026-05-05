@@ -1,6 +1,6 @@
 {
   "unitid": "459824",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Touro University Nevada",
     "institution_unique_name": "Touro University Nevada | Henderson | Nevada",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 10.6862,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": 20.9037,
+    "net_tuition_per_fte_change_5yr": 21.7756,
     "staff_total_headcount_pct_change_5yr": 10.4278,
     "staff_instructional_headcount_pct_change_5yr": 35.2564,
     "students_per_instructional_staff_fte": 5.4859,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 45.0862,
+    "sector_median_tuition_dependence_pct": 44.2972,
     "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": 98.3232,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 841000,
@@ -131,35 +133,35 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 75707.6974
+        "value": 75756.5915
       },
       {
         "year": 2015,
-        "value": 68252.2907
+        "value": 68131.1602
       },
       {
         "year": 2016,
-        "value": 81397.2197
+        "value": 81182.7331
       },
       {
         "year": 2017,
-        "value": 75123.359
+        "value": 74816.1574
       },
       {
         "year": 2018,
-        "value": 77429.2312
+        "value": 80291.4215
       },
       {
         "year": 2019,
-        "value": 77669.1675
+        "value": 77113.0402
       },
       {
         "year": 2020,
-        "value": 81155.1519
+        "value": 80272.1015
       },
       {
         "year": 2021,
-        "value": 86899.5359
+        "value": 86479.4653
       },
       {
         "year": 2022,
@@ -172,6 +174,52 @@
       {
         "year": 2024,
         "value": 93904.8951
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0.0614
+      },
+      {
+        "year": 2016,
+        "value": 0.0583
+      },
+      {
+        "year": 2017,
+        "value": 0.0778
+      },
+      {
+        "year": 2018,
+        "value": 0.1274
+      },
+      {
+        "year": 2019,
+        "value": 0.2397
+      },
+      {
+        "year": 2020,
+        "value": 0.4397
+      },
+      {
+        "year": 2021,
+        "value": 0.4026
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

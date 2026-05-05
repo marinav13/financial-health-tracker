@@ -1,6 +1,6 @@
 {
   "unitid": "179964",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "William Woods University",
     "institution_unique_name": "William Woods University | Fulton | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.4515,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -25.8823,
-    "net_tuition_per_fte_change_5yr": -25.2986,
+    "net_tuition_per_fte_change_5yr": -26.3392,
     "staff_total_headcount_pct_change_5yr": -23.2967,
     "staff_instructional_headcount_pct_change_5yr": -35.1064,
     "students_per_instructional_staff_fte": 13.7883,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
-    "tuition_dependence_pct": 48.0205,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 48% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.1188,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 53.0385,
+    "unfunded_discount_pct_change_5yr": 34.6815,
     "share_grad_students": 40.1846,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13667.7212
+        "value": 14106.7557
       },
       {
         "year": 2015,
-        "value": 10174.9885
+        "value": 9925.163
       },
       {
         "year": 2016,
-        "value": 14637.11
+        "value": 14251.2161
       },
       {
         "year": 2017,
-        "value": 11221.6978
+        "value": 11095.4995
       },
       {
         "year": 2018,
-        "value": 10834.0619
+        "value": 10361.6784
       },
       {
         "year": 2019,
-        "value": 10958.2938
+        "value": 10441.5631
       },
       {
         "year": 2020,
-        "value": 10833.4707
+        "value": 10304.8368
       },
       {
         "year": 2021,
-        "value": 11089.4911
+        "value": 10644.4992
       },
       {
         "year": 2022,
-        "value": 10658.0871
+        "value": 10331.9083
       },
       {
         "year": 2023,
-        "value": 9706.4893
+        "value": 9437.8143
       },
       {
         "year": 2024,
-        "value": 8185.9979
+        "value": 7691.3373
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.2372
+      },
+      {
+        "year": 2015,
+        "value": 38.0776
+      },
+      {
+        "year": 2016,
+        "value": 38.1671
+      },
+      {
+        "year": 2017,
+        "value": 38.5856
+      },
+      {
+        "year": 2018,
+        "value": 38.7654
+      },
+      {
+        "year": 2019,
+        "value": 39.3807
+      },
+      {
+        "year": 2020,
+        "value": 39.1322
+      },
+      {
+        "year": 2021,
+        "value": 38.9995
+      },
+      {
+        "year": 2022,
+        "value": 41.1074
+      },
+      {
+        "year": 2023,
+        "value": 48.8622
+      },
+      {
+        "year": 2024,
+        "value": 53.0385
       }
     ],
     "enrollment_headcount_total": [

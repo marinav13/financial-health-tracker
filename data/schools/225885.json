@@ -1,6 +1,6 @@
 {
   "unitid": "225885",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Jarvis Christian University",
     "institution_unique_name": "Jarvis Christian University | Hawkins | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -16.7568,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -25.36,
-    "net_tuition_per_fte_change_5yr": -24.5312,
+    "net_tuition_per_fte_change_5yr": -10.2587,
     "staff_total_headcount_pct_change_5yr": 57.3171,
     "staff_instructional_headcount_pct_change_5yr": 94.9153,
     "students_per_instructional_staff_fte": 13.2857,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 36.6607,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.4564,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 5.5228,
+    "unfunded_discount_pct_change_5yr": -76.6489,
     "share_grad_students": 10.4978,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 116293,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 2508.9056
+        "value": 3889.5958
       },
       {
         "year": 2015,
-        "value": 11292.0978
+        "value": 11455.5111
       },
       {
         "year": 2016,
-        "value": 13065.7072
+        "value": 14336.22
       },
       {
         "year": 2017,
-        "value": 12830.0445
+        "value": 11913.5508
       },
       {
         "year": 2018,
-        "value": 10770.8897
+        "value": 10016.809
       },
       {
         "year": 2019,
-        "value": 11058.6331
+        "value": 10009.0807
       },
       {
         "year": 2020,
-        "value": 11774.6739
+        "value": 10871.3975
       },
       {
         "year": 2021,
-        "value": 10255.5518
+        "value": 9354.8162
       },
       {
         "year": 2022,
-        "value": 10402.4201
+        "value": 8982.8168
       },
       {
         "year": 2023,
-        "value": 9920.9391
+        "value": 11091.6439
       },
       {
         "year": 2024,
-        "value": 8345.822
+        "value": 8982.2748
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 20.472
+      },
+      {
+        "year": 2018,
+        "value": 22.3814
+      },
+      {
+        "year": 2019,
+        "value": 23.651
+      },
+      {
+        "year": 2020,
+        "value": 20.195
+      },
+      {
+        "year": 2021,
+        "value": 21.876
+      },
+      {
+        "year": 2022,
+        "value": 20.1019
+      },
+      {
+        "year": 2023,
+        "value": 3.9852
+      },
+      {
+        "year": 2024,
+        "value": 5.5228
       }
     ],
     "enrollment_headcount_total": [

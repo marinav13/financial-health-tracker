@@ -1,6 +1,6 @@
 {
   "unitid": "117627",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "La Sierra University",
     "institution_unique_name": "La Sierra University | Riverside | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -31.2657,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -21.0951,
-    "net_tuition_per_fte_change_5yr": -21.3391,
+    "net_tuition_per_fte_change_5yr": -14.9972,
     "staff_total_headcount_pct_change_5yr": -24.7059,
     "staff_instructional_headcount_pct_change_5yr": -50,
     "students_per_instructional_staff_fte": 13.2844,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 51.6067,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 41.6805,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.2558,
+    "unfunded_discount_pct_change_5yr": 6.948,
     "share_grad_students": 26.2911,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 23284,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 37368.8496
+        "value": 29516.6615
       },
       {
         "year": 2015,
-        "value": 37997.4466
+        "value": 29727.4139
       },
       {
         "year": 2016,
-        "value": 37918.0085
+        "value": 29527.6917
       },
       {
         "year": 2017,
-        "value": 37594.3083
+        "value": 29502.8534
       },
       {
         "year": 2018,
-        "value": 37068.4693
+        "value": 29009.0732
       },
       {
         "year": 2019,
-        "value": 36666.15
+        "value": 27404.235
       },
       {
         "year": 2020,
-        "value": 35743.7483
+        "value": 25744.5473
       },
       {
         "year": 2021,
-        "value": 35902.0701
+        "value": 23559.7666
       },
       {
         "year": 2022,
-        "value": 33414.7434
+        "value": 24725.4119
       },
       {
         "year": 2023,
-        "value": 32500.1715
+        "value": 23338.2118
       },
       {
         "year": 2024,
-        "value": 28841.9118
+        "value": 23294.3663
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 22.4275
+      },
+      {
+        "year": 2015,
+        "value": 23.2892
+      },
+      {
+        "year": 2016,
+        "value": 23.6684
+      },
+      {
+        "year": 2017,
+        "value": 23.6539
+      },
+      {
+        "year": 2018,
+        "value": 23.9796
+      },
+      {
+        "year": 2019,
+        "value": 27.3552
+      },
+      {
+        "year": 2020,
+        "value": 29.5059
+      },
+      {
+        "year": 2021,
+        "value": 35.3906
+      },
+      {
+        "year": 2022,
+        "value": 27.4511
+      },
+      {
+        "year": 2023,
+        "value": 29.0779
+      },
+      {
+        "year": 2024,
+        "value": 29.2558
       }
     ],
     "enrollment_headcount_total": [

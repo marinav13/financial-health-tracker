@@ -1,6 +1,6 @@
 {
   "unitid": "139630",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Emmanuel University",
     "institution_unique_name": "Emmanuel University | Franklin Springs | Georgia",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 2.7218,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -1.5528,
-    "net_tuition_per_fte_change_5yr": -21.3905,
+    "net_tuition_per_fte_change_5yr": -20.8361,
     "staff_total_headcount_pct_change_5yr": 0.9852,
     "staff_instructional_headcount_pct_change_5yr": 20.7792,
     "students_per_instructional_staff_fte": 14.9057,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 40.8287,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 41% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 39.1811,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 39% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.0869,
+    "unfunded_discount_pct_change_5yr": 23.8162,
     "share_grad_students": 5.2993,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10759.2555
+        "value": 10300.0228
       },
       {
         "year": 2015,
-        "value": 12029.1329
+        "value": 11435.0414
       },
       {
         "year": 2016,
-        "value": 13940.8689
+        "value": 13407.1384
       },
       {
         "year": 2017,
-        "value": 14358.2466
+        "value": 13555.2981
       },
       {
         "year": 2018,
-        "value": 13216.0278
+        "value": 12703.982
       },
       {
         "year": 2019,
-        "value": 12723.4319
+        "value": 12124.4771
       },
       {
         "year": 2020,
-        "value": 12657.9297
+        "value": 12195.6744
       },
       {
         "year": 2021,
-        "value": 12223.1037
+        "value": 11674.4868
       },
       {
         "year": 2022,
-        "value": 11178.1337
+        "value": 10767.8519
       },
       {
         "year": 2023,
-        "value": 10698.3832
+        "value": 10292.9258
       },
       {
         "year": 2024,
-        "value": 10001.8215
+        "value": 9598.2076
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 48.5905
+      },
+      {
+        "year": 2015,
+        "value": 45.6694
+      },
+      {
+        "year": 2016,
+        "value": 42.4216
+      },
+      {
+        "year": 2017,
+        "value": 42.9353
+      },
+      {
+        "year": 2018,
+        "value": 44.16
+      },
+      {
+        "year": 2019,
+        "value": 44.4909
+      },
+      {
+        "year": 2020,
+        "value": 46.823
+      },
+      {
+        "year": 2021,
+        "value": 47.96
+      },
+      {
+        "year": 2022,
+        "value": 49.455
+      },
+      {
+        "year": 2023,
+        "value": 51.9282
+      },
+      {
+        "year": 2024,
+        "value": 55.0869
       }
     ],
     "enrollment_headcount_total": [

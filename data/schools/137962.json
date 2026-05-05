@@ -1,6 +1,6 @@
 {
   "unitid": "137962",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Trinity College of Florida",
     "institution_unique_name": "Trinity College of Florida | Trinity | Florida",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 52.2406,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 52% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 16.5342,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 15610.7083
+        "value": 15258.3302
       },
       {
         "year": 2015,
-        "value": 16167.3309
+        "value": 14934.4265
       },
       {
         "year": 2016,
-        "value": 14919.2921
+        "value": 13705.0746
       },
       {
         "year": 2017,
-        "value": 14944.6034
+        "value": 13681.3763
       },
       {
         "year": 2018,
-        "value": 15435.565
+        "value": 14142.3712
       },
       {
         "year": 2019,
@@ -183,15 +185,15 @@
       },
       {
         "year": 2020,
-        "value": 12440.1017
+        "value": 13227.3618
       },
       {
         "year": 2021,
-        "value": 12909.7579
+        "value": 13922.2248
       },
       {
         "year": 2022,
-        "value": 11258.8089
+        "value": 10681.9414
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11132.2514
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 10.237
+      },
+      {
+        "year": 2015,
+        "value": 8.0305
+      },
+      {
+        "year": 2016,
+        "value": 7.781
+      },
+      {
+        "year": 2017,
+        "value": 8.1168
+      },
+      {
+        "year": 2018,
+        "value": 10.0403
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 25.0285
+      },
+      {
+        "year": 2021,
+        "value": 24.9791
+      },
+      {
+        "year": 2022,
+        "value": 25.6451
+      },
+      {
+        "year": 2023,
+        "value": 16.8468
+      },
+      {
+        "year": 2024,
+        "value": 16.5342
       }
     ],
     "enrollment_headcount_total": [

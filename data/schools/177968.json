@@ -1,6 +1,6 @@
 {
   "unitid": "177968",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Lindenwood University",
     "institution_unique_name": "Lindenwood University | Saint Charles | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -14.8577,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.9583,
-    "net_tuition_per_fte_change_5yr": -13.7387,
+    "net_tuition_per_fte_change_5yr": -13.9025,
     "staff_total_headcount_pct_change_5yr": -27.5725,
     "staff_instructional_headcount_pct_change_5yr": -30.0862,
     "students_per_instructional_staff_fte": 15.9716,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 73.2608,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 73% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 73.5606,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.981,
+    "unfunded_discount_pct_change_5yr": 15.3747,
     "share_grad_students": 45.6031,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16081.6038
+        "value": 16070.1903
       },
       {
         "year": 2015,
-        "value": 16461.1955
+        "value": 16445.7057
       },
       {
         "year": 2016,
-        "value": 16851.5146
+        "value": 16857.6893
       },
       {
         "year": 2017,
-        "value": 16885.0121
+        "value": 16854.5707
       },
       {
         "year": 2018,
-        "value": 17113.8679
+        "value": 17270.1878
       },
       {
         "year": 2019,
-        "value": 17008.8732
+        "value": 17110.9483
       },
       {
         "year": 2020,
-        "value": 15734.7894
+        "value": 15802.6415
       },
       {
         "year": 2021,
-        "value": 14163.7757
+        "value": 14573.7928
       },
       {
         "year": 2022,
-        "value": 14359.6271
+        "value": 14442.5634
       },
       {
         "year": 2023,
-        "value": 14487.6887
+        "value": 14551.3578
       },
       {
         "year": 2024,
-        "value": 14672.0696
+        "value": 14732.0979
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 25.5297
+      },
+      {
+        "year": 2018,
+        "value": 24.433
+      },
+      {
+        "year": 2019,
+        "value": 25.9858
+      },
+      {
+        "year": 2020,
+        "value": 27.3721
+      },
+      {
+        "year": 2021,
+        "value": 29.0008
+      },
+      {
+        "year": 2022,
+        "value": 31.1439
+      },
+      {
+        "year": 2023,
+        "value": 30.3042
+      },
+      {
+        "year": 2024,
+        "value": 29.981
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "168546",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Albion College",
     "institution_unique_name": "Albion College | Albion | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -6.9226,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -45.7698,
-    "net_tuition_per_fte_change_5yr": -23.6245,
+    "net_tuition_per_fte_change_5yr": -25.0402,
     "staff_total_headcount_pct_change_5yr": -15.5925,
     "staff_instructional_headcount_pct_change_5yr": -14.1935,
     "students_per_instructional_staff_fte": 11.6975,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 37.9617,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 68.3315,
+    "unfunded_discount_pct_change_5yr": 5.0108,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 161646,
@@ -167,39 +169,85 @@
       },
       {
         "year": 2016,
-        "value": 19586.288
+        "value": 19841.3871
       },
       {
         "year": 2017,
-        "value": 17639.8459
+        "value": 17860.2401
       },
       {
         "year": 2018,
-        "value": 15707.0882
+        "value": 15818.4973
       },
       {
         "year": 2019,
-        "value": 14806.7922
+        "value": 15086.425
       },
       {
         "year": 2020,
-        "value": 14291.8162
+        "value": 14657.1833
       },
       {
         "year": 2021,
-        "value": 12768.8666
+        "value": 13133.2117
       },
       {
         "year": 2022,
-        "value": 11655.067
+        "value": 9256.2457
       },
       {
         "year": 2023,
-        "value": 11668.7118
+        "value": 8278.7277
       },
       {
         "year": 2024,
         "value": 11308.7589
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.7183
+      },
+      {
+        "year": 2015,
+        "value": 45.6443
+      },
+      {
+        "year": 2016,
+        "value": 51.138
+      },
+      {
+        "year": 2017,
+        "value": 56.5255
+      },
+      {
+        "year": 2018,
+        "value": 62.8728
+      },
+      {
+        "year": 2019,
+        "value": 65.071
+      },
+      {
+        "year": 2020,
+        "value": 64.9246
+      },
+      {
+        "year": 2021,
+        "value": 68.865
+      },
+      {
+        "year": 2022,
+        "value": 76.1005
+      },
+      {
+        "year": 2023,
+        "value": 76.859
+      },
+      {
+        "year": 2024,
+        "value": 68.3315
       }
     ],
     "enrollment_headcount_total": [

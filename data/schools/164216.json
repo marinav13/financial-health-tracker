@@ -1,6 +1,6 @@
 {
   "unitid": "164216",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Washington College",
     "institution_unique_name": "Washington College | Chestertown | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -30.9798,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 52.8545,
-    "net_tuition_per_fte_change_5yr": -26.0827,
+    "net_tuition_per_fte_change_5yr": -8.7727,
     "staff_total_headcount_pct_change_5yr": 1.0504,
     "staff_instructional_headcount_pct_change_5yr": -20.3947,
     "students_per_instructional_staff_fte": 9.23,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 14.3308,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 15.0548,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.0119,
+    "unfunded_discount_pct_change_5yr": -20.6441,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -167,7 +169,7 @@
       },
       {
         "year": 2016,
-        "value": 30208.9948
+        "value": 30208.9956
       },
       {
         "year": 2017,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 23315.1892
+        "value": 19845.5083
       },
       {
         "year": 2020,
-        "value": 21437.1531
+        "value": 17467.1028
       },
       {
         "year": 2021,
-        "value": 20229.1181
+        "value": 17887.1231
       },
       {
         "year": 2022,
-        "value": 17929.6015
+        "value": 18714.6119
       },
       {
         "year": 2023,
-        "value": 17399.1456
+        "value": 17979.7045
       },
       {
         "year": 2024,
-        "value": 17233.9502
+        "value": 18104.5254
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.0487
+      },
+      {
+        "year": 2015,
+        "value": 29.9991
+      },
+      {
+        "year": 2016,
+        "value": 32.2707
+      },
+      {
+        "year": 2017,
+        "value": 34.7046
+      },
+      {
+        "year": 2018,
+        "value": 34.9396
+      },
+      {
+        "year": 2019,
+        "value": 45.3803
+      },
+      {
+        "year": 2020,
+        "value": 51.2283
+      },
+      {
+        "year": 2021,
+        "value": 44.9243
+      },
+      {
+        "year": 2022,
+        "value": 40.0763
+      },
+      {
+        "year": 2023,
+        "value": 40.9554
+      },
+      {
+        "year": 2024,
+        "value": 36.0119
       }
     ],
     "enrollment_headcount_total": [

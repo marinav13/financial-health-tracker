@@ -1,6 +1,6 @@
 {
   "unitid": "491710",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Gedolah of Cliffwood",
     "institution_unique_name": "Yeshiva Gedolah of Cliffwood | Keyport | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -23.0088,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -22.5838,
-    "net_tuition_per_fte_change_5yr": -36.7678,
+    "net_tuition_per_fte_change_5yr": -69.8663,
     "staff_total_headcount_pct_change_5yr": -41.6667,
     "staff_instructional_headcount_pct_change_5yr": -37.5,
     "students_per_instructional_staff_fte": 37.2857,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 20.8145,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 7.6901,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 74.178,
+    "unfunded_discount_pct_change_5yr": 62.3324,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -127,31 +129,61 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2018,
-        "value": 7232.0304
+        "value": 4664.2101
       },
       {
         "year": 2019,
-        "value": 8645.2636
+        "value": 6702.4255
       },
       {
         "year": 2020,
-        "value": 10231.698
+        "value": 8565.3117
       },
       {
         "year": 2021,
-        "value": 6680.0223
+        "value": 4778.0819
       },
       {
         "year": 2022,
-        "value": 7603.9193
+        "value": 6433.1634
       },
       {
         "year": 2023,
-        "value": 9153.8468
+        "value": 4770.4127
       },
       {
         "year": 2024,
-        "value": 5466.5862
+        "value": 2019.6897
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2018,
+        "value": 54.7223
+      },
+      {
+        "year": 2019,
+        "value": 45.6951
+      },
+      {
+        "year": 2020,
+        "value": 37.4519
+      },
+      {
+        "year": 2021,
+        "value": 53.7621
+      },
+      {
+        "year": 2022,
+        "value": 43.0831
+      },
+      {
+        "year": 2023,
+        "value": 63.257
+      },
+      {
+        "year": 2024,
+        "value": 74.178
       }
     ],
     "enrollment_headcount_total": [

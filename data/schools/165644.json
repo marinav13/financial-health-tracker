@@ -1,6 +1,6 @@
 {
   "unitid": "165644",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Eastern Nazarene College",
     "institution_unique_name": "Eastern Nazarene College | Quincy | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -44.8128,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -2.8088,
-    "net_tuition_per_fte_change_5yr": -18.3728,
+    "net_tuition_per_fte_change_5yr": -11.7559,
     "staff_total_headcount_pct_change_5yr": -32.2835,
     "staff_instructional_headcount_pct_change_5yr": -73.7705,
     "students_per_instructional_staff_fte": 14.8605,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 20.2334,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 21.7868,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 46.8992,
+    "unfunded_discount_pct_change_5yr": -8.8048,
     "share_grad_students": 21.124,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 17397.8984
+        "value": 16925.0465
       },
       {
         "year": 2015,
-        "value": 17305.776
+        "value": 16828.9572
       },
       {
         "year": 2016,
-        "value": 14493.7388
+        "value": 14313.0976
       },
       {
         "year": 2017,
-        "value": 15490.0804
+        "value": 15268.2199
       },
       {
         "year": 2018,
-        "value": 12017.9477
+        "value": 11887.2745
       },
       {
         "year": 2019,
-        "value": 12141.6566
+        "value": 12093.4641
       },
       {
         "year": 2020,
-        "value": 11099.2506
+        "value": 11027.9937
       },
       {
         "year": 2021,
-        "value": 11585.4999
+        "value": 9349.7179
       },
       {
         "year": 2022,
-        "value": 10759.4223
+        "value": 8399.0032
       },
       {
         "year": 2023,
-        "value": 9428.1233
+        "value": 9390.6251
       },
       {
         "year": 2024,
-        "value": 9910.8897
+        "value": 10671.7676
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.6418
+      },
+      {
+        "year": 2015,
+        "value": 41.2777
+      },
+      {
+        "year": 2016,
+        "value": 44.3872
+      },
+      {
+        "year": 2017,
+        "value": 49.309
+      },
+      {
+        "year": 2018,
+        "value": 53.7861
+      },
+      {
+        "year": 2019,
+        "value": 51.4273
+      },
+      {
+        "year": 2020,
+        "value": 53.7587
+      },
+      {
+        "year": 2021,
+        "value": 53.359
+      },
+      {
+        "year": 2022,
+        "value": 51.7734
+      },
+      {
+        "year": 2023,
+        "value": 48.8992
+      },
+      {
+        "year": 2024,
+        "value": 46.8992
       }
     ],
     "enrollment_headcount_total": [

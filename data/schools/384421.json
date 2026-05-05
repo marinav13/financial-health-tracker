@@ -1,6 +1,6 @@
 {
   "unitid": "384421",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rabbi Jacob Joseph School",
     "institution_unique_name": "Rabbi Jacob Joseph School | Edison | New Jersey",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 33.7838,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 21.5218,
-    "net_tuition_per_fte_change_5yr": -10.1689,
+    "net_tuition_per_fte_change_5yr": -37.444,
     "staff_total_headcount_pct_change_5yr": 7.1429,
     "staff_instructional_headcount_pct_change_5yr": 16.6667,
     "students_per_instructional_staff_fte": 17.4706,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 36.7707,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 37% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 21.1364,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 21% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 70.8123,
+    "unfunded_discount_pct_change_5yr": 37.7832,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 10927.353
+        "value": 7807.5033
       },
       {
         "year": 2015,
-        "value": 12779.5797
+        "value": 8512.3749
       },
       {
         "year": 2016,
-        "value": 12995.7511
+        "value": 10340.1334
       },
       {
         "year": 2017,
-        "value": 11493.1901
+        "value": 3685.0873
       },
       {
         "year": 2018,
-        "value": 14161.2348
+        "value": 11217.1716
       },
       {
         "year": 2019,
-        "value": 17496.4862
+        "value": 14442.3382
       },
       {
         "year": 2020,
-        "value": 13938.6782
+        "value": 10216.045
       },
       {
         "year": 2021,
-        "value": 15111.3744
+        "value": 10935.698
       },
       {
         "year": 2022,
-        "value": 16556.9698
+        "value": 3868.228
       },
       {
         "year": 2023,
-        "value": 14008.0203
+        "value": -8333.6072
       },
       {
         "year": 2024,
-        "value": 15717.2828
+        "value": 9034.5556
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 66.6442
+      },
+      {
+        "year": 2015,
+        "value": 64.976
+      },
+      {
+        "year": 2016,
+        "value": 56.2197
+      },
+      {
+        "year": 2017,
+        "value": 84.1916
+      },
+      {
+        "year": 2018,
+        "value": 52.8987
+      },
+      {
+        "year": 2019,
+        "value": 51.394
+      },
+      {
+        "year": 2020,
+        "value": 64.5636
+      },
+      {
+        "year": 2021,
+        "value": 60.4895
+      },
+      {
+        "year": 2022,
+        "value": 85.0231
+      },
+      {
+        "year": 2023,
+        "value": 128.6548
+      },
+      {
+        "year": 2024,
+        "value": 70.8123
       }
     ],
     "enrollment_headcount_total": [

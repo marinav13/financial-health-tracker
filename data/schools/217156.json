@@ -1,6 +1,6 @@
 {
   "unitid": "217156",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Brown University",
     "institution_unique_name": "Brown University | Providence | Rhode Island",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.9498,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 13.6241,
-    "net_tuition_per_fte_change_5yr": -18.0651,
+    "net_tuition_per_fte_change_5yr": -18.5485,
     "staff_total_headcount_pct_change_5yr": 21.2784,
     "staff_instructional_headcount_pct_change_5yr": 10.8571,
     "students_per_instructional_staff_fte": 9.9632,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 21.6234,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.2958,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 27.8809,
+    "unfunded_discount_pct_change_5yr": 8.4239,
     "share_grad_students": 32.0284,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 227795000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 42472.4817
+        "value": 44093.1109
       },
       {
         "year": 2015,
-        "value": 46412.1214
+        "value": 44127.2357
       },
       {
         "year": 2016,
-        "value": 47371.0504
+        "value": 44934.7205
       },
       {
         "year": 2017,
-        "value": 48146.5941
+        "value": 45484.0533
       },
       {
         "year": 2018,
-        "value": 49293.7458
+        "value": 46513.6982
       },
       {
         "year": 2019,
-        "value": 50910.2286
+        "value": 48068.0417
       },
       {
         "year": 2020,
-        "value": 53033.9546
+        "value": 50892.9496
       },
       {
         "year": 2021,
-        "value": 46819.7142
+        "value": 44579.0159
       },
       {
         "year": 2022,
-        "value": 42833.7442
+        "value": 41155.9146
       },
       {
         "year": 2023,
-        "value": 42406.5396
+        "value": 39894.6135
       },
       {
         "year": 2024,
-        "value": 41713.2469
+        "value": 39152.1395
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 23.4529
+      },
+      {
+        "year": 2015,
+        "value": 25.113
+      },
+      {
+        "year": 2016,
+        "value": 24.7195
+      },
+      {
+        "year": 2017,
+        "value": 25.0953
+      },
+      {
+        "year": 2018,
+        "value": 26.0771
+      },
+      {
+        "year": 2019,
+        "value": 25.7148
+      },
+      {
+        "year": 2020,
+        "value": 24.4006
+      },
+      {
+        "year": 2021,
+        "value": 24.7679
+      },
+      {
+        "year": 2022,
+        "value": 27.41
+      },
+      {
+        "year": 2023,
+        "value": 27.382
+      },
+      {
+        "year": 2024,
+        "value": 27.8809
       }
     ],
     "enrollment_headcount_total": [

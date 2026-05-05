@@ -1,6 +1,6 @@
 {
   "unitid": "167598",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Regis College",
     "institution_unique_name": "Regis College | Weston | Massachusetts",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 69.6356,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 70% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 31.0743,
+    "unfunded_discount_pct_change_5yr": -0.2773,
     "share_grad_students": 61.932,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 22161.0008
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.7635
+      },
+      {
+        "year": 2015,
+        "value": 36.2288
+      },
+      {
+        "year": 2016,
+        "value": 36.7658
+      },
+      {
+        "year": 2017,
+        "value": 36.6337
+      },
+      {
+        "year": 2018,
+        "value": 35.9191
+      },
+      {
+        "year": 2019,
+        "value": 31.1608
+      },
+      {
+        "year": 2020,
+        "value": 27.1259
+      },
+      {
+        "year": 2021,
+        "value": 24.868
+      },
+      {
+        "year": 2022,
+        "value": 26.2248
+      },
+      {
+        "year": 2023,
+        "value": 28.9675
+      },
+      {
+        "year": 2024,
+        "value": 31.0743
       }
     ],
     "enrollment_headcount_total": [

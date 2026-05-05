@@ -1,6 +1,6 @@
 {
   "unitid": "213303",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Keystone College",
     "institution_unique_name": "Keystone College | La Plume | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.2196,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -34.6802,
-    "net_tuition_per_fte_change_5yr": -28.1645,
+    "net_tuition_per_fte_change_5yr": -28.1507,
     "staff_total_headcount_pct_change_5yr": -31.6265,
     "staff_instructional_headcount_pct_change_5yr": -32.7869,
     "students_per_instructional_staff_fte": 16.9949,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 53.8012,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 28.6102,
+    "unfunded_discount_pct_change_5yr": -31.8395,
     "share_grad_students": 5.6107,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -163,43 +165,89 @@
       },
       {
         "year": 2015,
-        "value": 15965.0803
+        "value": 15908.398
       },
       {
         "year": 2016,
-        "value": 17709.3163
+        "value": 17708.9254
       },
       {
         "year": 2017,
-        "value": 17304.8243
+        "value": 17305.2118
       },
       {
         "year": 2018,
-        "value": 17074.3665
+        "value": 17074.5487
       },
       {
         "year": 2019,
-        "value": 13668.0602
+        "value": 13665.438
       },
       {
         "year": 2020,
-        "value": 11732.9155
+        "value": 11526.6466
       },
       {
         "year": 2021,
-        "value": 10814.0364
+        "value": 11010.4777
       },
       {
         "year": 2022,
-        "value": 10839.3312
+        "value": 10892.4402
       },
       {
         "year": 2023,
-        "value": 10622.7161
+        "value": 10389.1337
       },
       {
         "year": 2024,
         "value": 9818.5224
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.9984
+      },
+      {
+        "year": 2015,
+        "value": 38.9369
+      },
+      {
+        "year": 2016,
+        "value": 38.1127
+      },
+      {
+        "year": 2017,
+        "value": 39.5963
+      },
+      {
+        "year": 2018,
+        "value": 41.8483
+      },
+      {
+        "year": 2019,
+        "value": 41.9747
+      },
+      {
+        "year": 2020,
+        "value": 45.4565
+      },
+      {
+        "year": 2021,
+        "value": 21.9602
+      },
+      {
+        "year": 2022,
+        "value": 23.9066
+      },
+      {
+        "year": 2023,
+        "value": 24.1268
+      },
+      {
+        "year": 2024,
+        "value": 28.6102
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "170286",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hillsdale College",
     "institution_unique_name": "Hillsdale College | Hillsdale | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 10.8772,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 68.6003,
-    "net_tuition_per_fte_change_5yr": -16.9108,
+    "net_tuition_per_fte_change_5yr": -19.5165,
     "staff_total_headcount_pct_change_5yr": 45.7447,
     "staff_instructional_headcount_pct_change_5yr": 14.7619,
     "students_per_instructional_staff_fte": 9.1033,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 4.1543,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 4% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 3.5325,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 4% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 13.3225,
+    "unfunded_discount_pct_change_5yr": 41.5997,
     "share_grad_students": 7.7532,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -151,43 +153,85 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 13751.5307
+        "value": -5586.4579
       },
       {
         "year": 2016,
-        "value": 12959.474
+        "value": 11586.616
       },
       {
         "year": 2017,
-        "value": 12526.6349
+        "value": 11180.2103
       },
       {
         "year": 2018,
-        "value": 12567.0918
+        "value": 10886.4599
       },
       {
         "year": 2019,
-        "value": 11748.0329
+        "value": 10312.99
       },
       {
         "year": 2020,
-        "value": 11113.5203
+        "value": 9755.6698
       },
       {
         "year": 2021,
-        "value": 11307.5558
+        "value": 9511.3695
       },
       {
         "year": 2022,
-        "value": 10153.8902
+        "value": 8598.6342
       },
       {
         "year": 2023,
-        "value": 9877.0345
+        "value": 8344.6357
       },
       {
         "year": 2024,
-        "value": 9761.3477
+        "value": 8300.2569
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2015,
+        "value": 39.9955
+      },
+      {
+        "year": 2016,
+        "value": 20.5819
+      },
+      {
+        "year": 2017,
+        "value": 9.5626
+      },
+      {
+        "year": 2018,
+        "value": 9.5065
+      },
+      {
+        "year": 2019,
+        "value": 9.4086
+      },
+      {
+        "year": 2020,
+        "value": 8.7802
+      },
+      {
+        "year": 2021,
+        "value": 10.4521
+      },
+      {
+        "year": 2022,
+        "value": 11.1831
+      },
+      {
+        "year": 2023,
+        "value": 13.7062
+      },
+      {
+        "year": 2024,
+        "value": 13.3225
       }
     ],
     "enrollment_headcount_total": [

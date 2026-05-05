@@ -1,6 +1,6 @@
 {
   "unitid": "214777",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Pennsylvania State University-Main Campus",
     "institution_unique_name": "Pennsylvania State University-Main Campus | University Park | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 6.2441,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 14.1184,
-    "net_tuition_per_fte_change_5yr": -16.5298,
+    "net_tuition_per_fte_change_5yr": -16.8409,
     "staff_total_headcount_pct_change_5yr": -26.2536,
     "staff_instructional_headcount_pct_change_5yr": -38.9542,
     "students_per_instructional_staff_fte": 12.3924,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 20.1945,
-    "sector_median_tuition_dependence_pct": 21.1862,
+    "tuition_dependence_pct": 20.176,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
+    "unfunded_discount_rate": 8.8959,
+    "unfunded_discount_pct_change_5yr": 25.2617,
     "share_grad_students": 16.8021,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1197732000,
@@ -143,39 +145,77 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 40943.4657
+        "value": 41074.8125
       },
       {
         "year": 2015,
-        "value": 43644.9747
+        "value": 43758.5034
       },
       {
         "year": 2016,
-        "value": 43729.1599
+        "value": 43858.0336
       },
       {
         "year": 2017,
-        "value": 43739.118
+        "value": 43843.2778
       },
       {
         "year": 2018,
-        "value": 45879.6175
+        "value": 45967.4471
       },
       {
         "year": 2019,
-        "value": 45280.0858
+        "value": 45408.0463
       },
       {
         "year": 2022,
-        "value": 38688.3787
+        "value": 38774.3991
       },
       {
         "year": 2023,
-        "value": 37639.4112
+        "value": 37598.7218
       },
       {
         "year": 2024,
-        "value": 37795.3894
+        "value": 37760.9378
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 5.2492
+      },
+      {
+        "year": 2015,
+        "value": 5.4998
+      },
+      {
+        "year": 2016,
+        "value": 5.5186
+      },
+      {
+        "year": 2017,
+        "value": 6.5497
+      },
+      {
+        "year": 2018,
+        "value": 6.6622
+      },
+      {
+        "year": 2019,
+        "value": 7.1019
+      },
+      {
+        "year": 2022,
+        "value": 8.4953
+      },
+      {
+        "year": 2023,
+        "value": 9.3809
+      },
+      {
+        "year": 2024,
+        "value": 8.8959
       }
     ],
     "enrollment_headcount_total": [

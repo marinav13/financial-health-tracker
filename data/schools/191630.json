@@ -1,6 +1,6 @@
 {
   "unitid": "191630",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Hobart William Smith Colleges",
     "institution_unique_name": "Hobart William Smith Colleges | Geneva | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -25.253,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.6528,
-    "net_tuition_per_fte_change_5yr": -41.2851,
+    "net_tuition_per_fte_change_5yr": -42.9625,
     "staff_total_headcount_pct_change_5yr": 1.4993,
     "staff_instructional_headcount_pct_change_5yr": -10.9804,
     "students_per_instructional_staff_fte": 8.8381,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 23.6016,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 22.5565,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 23% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 63.1534,
+    "unfunded_discount_pct_change_5yr": 34.584,
     "share_grad_students": 3.0606,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1661314,
@@ -179,27 +181,73 @@
       },
       {
         "year": 2019,
-        "value": 31094.5082
+        "value": 30591.6268
       },
       {
         "year": 2020,
-        "value": 32617.8753
+        "value": 31200.5371
       },
       {
         "year": 2021,
-        "value": 27289.2471
+        "value": 26924.5565
       },
       {
         "year": 2022,
-        "value": 23868.9424
+        "value": 23574.7625
       },
       {
         "year": 2023,
-        "value": 20103.3971
+        "value": 19365.412
       },
       {
         "year": 2024,
-        "value": 18257.1007
+        "value": 17448.6989
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.7541
+      },
+      {
+        "year": 2015,
+        "value": 37.5005
+      },
+      {
+        "year": 2016,
+        "value": 38.5908
+      },
+      {
+        "year": 2017,
+        "value": 39.8514
+      },
+      {
+        "year": 2018,
+        "value": 44.4738
+      },
+      {
+        "year": 2019,
+        "value": 46.9249
+      },
+      {
+        "year": 2020,
+        "value": 46.9186
+      },
+      {
+        "year": 2021,
+        "value": 53.0661
+      },
+      {
+        "year": 2022,
+        "value": 53.051
+      },
+      {
+        "year": 2023,
+        "value": 61.0199
+      },
+      {
+        "year": 2024,
+        "value": 63.1534
       }
     ],
     "enrollment_headcount_total": [

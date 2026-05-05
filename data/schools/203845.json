@@ -1,6 +1,6 @@
 {
   "unitid": "203845",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Marietta College",
     "institution_unique_name": "Marietta College | Marietta | Ohio",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -1.7673,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -14.5668,
-    "net_tuition_per_fte_change_5yr": -34.8488,
+    "net_tuition_per_fte_change_5yr": -37.7736,
     "staff_total_headcount_pct_change_5yr": -22.3278,
     "staff_instructional_headcount_pct_change_5yr": -11.2583,
     "students_per_instructional_staff_fte": 12.52,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 30.7825,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 31% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.4821,
+    "unfunded_discount_pct_change_5yr": 24.069,
     "share_grad_students": 12.2939,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 20356.2567
+        "value": 19168.4566
       },
       {
         "year": 2015,
-        "value": 20676.525
+        "value": 19480.0521
       },
       {
         "year": 2016,
-        "value": 21812.1154
+        "value": 20762.4179
       },
       {
         "year": 2017,
-        "value": 22812.8589
+        "value": 21405.1167
       },
       {
         "year": 2018,
-        "value": 20666.6004
+        "value": 18475.4659
       },
       {
         "year": 2019,
-        "value": 17719.4922
+        "value": 18552.3722
       },
       {
         "year": 2020,
-        "value": 14192.8158
+        "value": 15045.5235
       },
       {
         "year": 2021,
@@ -191,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 13034.0833
+        "value": 13034.1691
       },
       {
         "year": 2023,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 11544.4673
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 45.9082
+      },
+      {
+        "year": 2015,
+        "value": 46.9371
+      },
+      {
+        "year": 2016,
+        "value": 43.5532
+      },
+      {
+        "year": 2017,
+        "value": 42.4065
+      },
+      {
+        "year": 2018,
+        "value": 46.3231
+      },
+      {
+        "year": 2019,
+        "value": 48.7488
+      },
+      {
+        "year": 2020,
+        "value": 53.6965
+      },
+      {
+        "year": 2021,
+        "value": 57.9159
+      },
+      {
+        "year": 2022,
+        "value": 60.0417
+      },
+      {
+        "year": 2023,
+        "value": 59.8399
+      },
+      {
+        "year": 2024,
+        "value": 60.4821
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "178059",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Maryville University of Saint Louis",
     "institution_unique_name": "Maryville University of Saint Louis | Saint Louis | Missouri",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.7168,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 6.5263,
-    "net_tuition_per_fte_change_5yr": -5.8992,
+    "net_tuition_per_fte_change_5yr": -5.1631,
     "staff_total_headcount_pct_change_5yr": 4.8462,
     "staff_instructional_headcount_pct_change_5yr": 12.1721,
     "students_per_instructional_staff_fte": 16.4791,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 74.3059,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 74.2893,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 26.87,
+    "unfunded_discount_pct_change_5yr": -3.5391,
     "share_grad_students": 41.5215,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16487.5582
+        "value": 16489.5604
       },
       {
         "year": 2015,
-        "value": 16559.6569
+        "value": 16566.3428
       },
       {
         "year": 2016,
-        "value": 17160.6037
+        "value": 17125.0875
       },
       {
         "year": 2017,
-        "value": 16816.677
+        "value": 16688.6971
       },
       {
         "year": 2018,
-        "value": 15966.2018
+        "value": 15885.6624
       },
       {
         "year": 2019,
-        "value": 15279.7138
+        "value": 15157.7348
       },
       {
         "year": 2020,
-        "value": 14343.4407
+        "value": 14233.7659
       },
       {
         "year": 2021,
-        "value": 12827.1955
+        "value": 12801.879
       },
       {
         "year": 2022,
-        "value": 12437.63
+        "value": 12418.0352
       },
       {
         "year": 2023,
-        "value": 11965.626
+        "value": 11937.1123
       },
       {
         "year": 2024,
-        "value": 14378.3326
+        "value": 14375.1209
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.9326
+      },
+      {
+        "year": 2015,
+        "value": 25.6038
+      },
+      {
+        "year": 2016,
+        "value": 24.9487
+      },
+      {
+        "year": 2017,
+        "value": 27.2926
+      },
+      {
+        "year": 2018,
+        "value": 27.4021
+      },
+      {
+        "year": 2019,
+        "value": 27.8558
+      },
+      {
+        "year": 2020,
+        "value": 28.8614
+      },
+      {
+        "year": 2021,
+        "value": 29.2545
+      },
+      {
+        "year": 2022,
+        "value": 29.8707
+      },
+      {
+        "year": 2023,
+        "value": 31.1547
+      },
+      {
+        "year": 2024,
+        "value": 26.87
       }
     ],
     "enrollment_headcount_total": [

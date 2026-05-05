@@ -1,6 +1,6 @@
 {
   "unitid": "245953",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Mid-America Christian University",
     "institution_unique_name": "Mid-America Christian University | Oklahoma City | Oklahoma",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 23.4547,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -21.0623,
-    "net_tuition_per_fte_change_5yr": -27.3804,
+    "net_tuition_per_fte_change_5yr": -28.048,
     "staff_total_headcount_pct_change_5yr": -1.0707,
     "staff_instructional_headcount_pct_change_5yr": -1.8293,
     "students_per_instructional_staff_fte": 13.8864,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
-    "tuition_dependence_pct": 74.4088,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 73.7248,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 22.3913,
+    "unfunded_discount_pct_change_5yr": 55.1848,
     "share_grad_students": 23.6283,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12954.5524
+        "value": 12892.85
       },
       {
         "year": 2015,
-        "value": 14571.6314
+        "value": 14538.5729
       },
       {
         "year": 2016,
@@ -183,23 +185,69 @@
       },
       {
         "year": 2020,
-        "value": 14161.4891
+        "value": 14478.7759
       },
       {
         "year": 2021,
-        "value": 13710.4175
+        "value": 13775.5159
       },
       {
         "year": 2022,
-        "value": 14015.2507
+        "value": 15197.0223
       },
       {
         "year": 2023,
-        "value": 12276.1018
+        "value": 12133.1678
       },
       {
         "year": 2024,
-        "value": 10772.1866
+        "value": 10673.1664
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 9.3822
+      },
+      {
+        "year": 2015,
+        "value": 11.1166
+      },
+      {
+        "year": 2016,
+        "value": 10.8491
+      },
+      {
+        "year": 2017,
+        "value": 12.329
+      },
+      {
+        "year": 2018,
+        "value": 13.7697
+      },
+      {
+        "year": 2019,
+        "value": 14.4288
+      },
+      {
+        "year": 2020,
+        "value": 15.7607
+      },
+      {
+        "year": 2021,
+        "value": 16.9993
+      },
+      {
+        "year": 2022,
+        "value": 18.0959
+      },
+      {
+        "year": 2023,
+        "value": 20.482
+      },
+      {
+        "year": 2024,
+        "value": 22.3913
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "147013",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "McKendree University",
     "institution_unique_name": "McKendree University | Lebanon | Illinois",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -13.4184,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -24.8994,
-    "net_tuition_per_fte_change_5yr": -21.4499,
+    "net_tuition_per_fte_change_5yr": 1252.407,
     "staff_total_headcount_pct_change_5yr": 1.2469,
     "staff_instructional_headcount_pct_change_5yr": 2.2727,
     "students_per_instructional_staff_fte": 15.1545,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 49.0223,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 55.7529,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 56% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.5114,
+    "unfunded_discount_pct_change_5yr": -42.5388,
     "share_grad_students": 26.4542,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13827.7958
+        "value": 13858.5793
       },
       {
         "year": 2015,
-        "value": 14116.6711
+        "value": 14101.2828
       },
       {
         "year": 2016,
-        "value": 14549.0604
+        "value": 14546.8825
       },
       {
         "year": 2017,
-        "value": 14652.7084
+        "value": 14655.8362
       },
       {
         "year": 2018,
-        "value": 15063.2841
+        "value": 3043.6226
       },
       {
         "year": 2019,
-        "value": 14899.6487
+        "value": 984.2132
       },
       {
         "year": 2020,
-        "value": 15546.7136
+        "value": 1221.3146
       },
       {
         "year": 2021,
-        "value": 14451.335
+        "value": 16190.9123
       },
       {
         "year": 2022,
-        "value": 12775.5204
+        "value": 15397.8014
       },
       {
         "year": 2023,
-        "value": 12252.646
+        "value": 12193.627
       },
       {
         "year": 2024,
-        "value": 11703.6931
+        "value": 13310.5692
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 41.3422
+      },
+      {
+        "year": 2015,
+        "value": 42.0689
+      },
+      {
+        "year": 2016,
+        "value": 43.2335
+      },
+      {
+        "year": 2017,
+        "value": 45.9621
+      },
+      {
+        "year": 2018,
+        "value": 80.9857
+      },
+      {
+        "year": 2019,
+        "value": 89.6456
+      },
+      {
+        "year": 2020,
+        "value": 79.4664
+      },
+      {
+        "year": 2021,
+        "value": 44.6686
+      },
+      {
+        "year": 2022,
+        "value": 45.7929
+      },
+      {
+        "year": 2023,
+        "value": 52.6732
+      },
+      {
+        "year": 2024,
+        "value": 51.5114
       }
     ],
     "enrollment_headcount_total": [

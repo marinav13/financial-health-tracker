@@ -1,6 +1,6 @@
 {
   "unitid": "476601",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bais HaMedrash and Mesivta of Baltimore",
     "institution_unique_name": "Bais HaMedrash and Mesivta of Baltimore | Baltimore | Maryland",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 79.6548,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 80% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.1675,
+    "unfunded_discount_pct_change_5yr": -18.3814,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -191,15 +193,61 @@
       },
       {
         "year": 2022,
-        "value": 28192.4969
+        "value": 28170.4243
       },
       {
         "year": 2023,
-        "value": 27023.9083
+        "value": 27004.1704
       },
       {
         "year": 2024,
         "value": 26349.3077
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.2273
+      },
+      {
+        "year": 2015,
+        "value": 34.4332
+      },
+      {
+        "year": 2016,
+        "value": 31.9599
+      },
+      {
+        "year": 2017,
+        "value": 32.806
+      },
+      {
+        "year": 2018,
+        "value": 32.0512
+      },
+      {
+        "year": 2019,
+        "value": 35.7363
+      },
+      {
+        "year": 2020,
+        "value": 36.4329
+      },
+      {
+        "year": 2021,
+        "value": 35.0185
+      },
+      {
+        "year": 2022,
+        "value": 32.1334
+      },
+      {
+        "year": 2023,
+        "value": 29.7317
+      },
+      {
+        "year": 2024,
+        "value": 29.1675
       }
     ],
     "enrollment_headcount_total": [

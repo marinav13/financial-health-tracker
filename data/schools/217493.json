@@ -1,6 +1,6 @@
 {
   "unitid": "217493",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Rhode Island School of Design",
     "institution_unique_name": "Rhode Island School of Design | Providence | Rhode Island",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 56.7703,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.7092,
+    "unfunded_discount_pct_change_5yr": 20.2136,
     "share_grad_students": 17.9715,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 1951919,
@@ -199,7 +201,53 @@
       },
       {
         "year": 2024,
-        "value": 42934.1499
+        "value": 42934.1503
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 16.2417
+      },
+      {
+        "year": 2015,
+        "value": 15.8231
+      },
+      {
+        "year": 2016,
+        "value": 16.2586
+      },
+      {
+        "year": 2017,
+        "value": 16.1166
+      },
+      {
+        "year": 2018,
+        "value": 16.5449
+      },
+      {
+        "year": 2019,
+        "value": 17.227
+      },
+      {
+        "year": 2020,
+        "value": 17.9661
+      },
+      {
+        "year": 2021,
+        "value": 21.5029
+      },
+      {
+        "year": 2022,
+        "value": 20.2211
+      },
+      {
+        "year": 2023,
+        "value": 19.911
+      },
+      {
+        "year": 2024,
+        "value": 20.7092
       }
     ],
     "enrollment_headcount_total": [

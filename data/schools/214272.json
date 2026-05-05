@@ -1,6 +1,6 @@
 {
   "unitid": "214272",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Neumann University",
     "institution_unique_name": "Neumann University | Aston | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -17.0993,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -20.3142,
-    "net_tuition_per_fte_change_5yr": -33.3112,
+    "net_tuition_per_fte_change_5yr": -30.7204,
     "staff_total_headcount_pct_change_5yr": -9.4688,
     "staff_instructional_headcount_pct_change_5yr": -12.1849,
     "students_per_instructional_staff_fte": 14.0894,
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 62.0694,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 44.5833,
+    "unfunded_discount_pct_change_5yr": 35.0755,
     "share_grad_students": 27.1233,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,31 +161,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25335.9848
+        "value": 25132.0955
       },
       {
         "year": 2015,
-        "value": 24832.076
+        "value": 24691.0568
       },
       {
         "year": 2016,
-        "value": 24492.5159
+        "value": 24328.4065
       },
       {
         "year": 2017,
-        "value": 25663.3263
+        "value": 25236.3013
       },
       {
         "year": 2018,
-        "value": 25872.0267
+        "value": 26222.5979
       },
       {
         "year": 2019,
-        "value": 27345.7566
+        "value": 26323.1482
       },
       {
         "year": 2020,
-        "value": 21336.4616
+        "value": 18942.8419
       },
       {
         "year": 2021,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 18776.8746
+        "value": 18776.8752
       },
       {
         "year": 2024,
         "value": 18236.5672
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.0091
+      },
+      {
+        "year": 2015,
+        "value": 27.5355
+      },
+      {
+        "year": 2016,
+        "value": 27.5807
+      },
+      {
+        "year": 2017,
+        "value": 28.1359
+      },
+      {
+        "year": 2018,
+        "value": 27.8807
+      },
+      {
+        "year": 2019,
+        "value": 33.0062
+      },
+      {
+        "year": 2020,
+        "value": 40.8353
+      },
+      {
+        "year": 2021,
+        "value": 36.5734
+      },
+      {
+        "year": 2022,
+        "value": 40.5741
+      },
+      {
+        "year": 2023,
+        "value": 43.2481
+      },
+      {
+        "year": 2024,
+        "value": 44.5833
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "152992",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Briar Cliff University",
     "institution_unique_name": "Briar Cliff University | Sioux City | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -18.4191,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -7.6994,
-    "net_tuition_per_fte_change_5yr": -19.8034,
+    "net_tuition_per_fte_change_5yr": -19.6812,
     "staff_total_headcount_pct_change_5yr": -1.3514,
     "staff_instructional_headcount_pct_change_5yr": 3.125,
     "students_per_instructional_staff_fte": 9.417,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 35.4509,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.966,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 55.2098,
+    "unfunded_discount_pct_change_5yr": 22.6923,
     "share_grad_students": 22.3111,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 16681.695
+        "value": 16922.3716
       },
       {
         "year": 2015,
-        "value": 16006.4336
+        "value": 16262.3173
       },
       {
         "year": 2016,
-        "value": 16249.8015
+        "value": 16493.3418
       },
       {
         "year": 2017,
-        "value": 17727.6845
+        "value": 17958.4018
       },
       {
         "year": 2018,
-        "value": 19211.9506
+        "value": 18564.8267
       },
       {
         "year": 2019,
-        "value": 17500.3973
+        "value": 17727.6908
       },
       {
         "year": 2020,
-        "value": 18455.4165
+        "value": 18772.8798
       },
       {
         "year": 2021,
-        "value": 17347.4188
+        "value": 17616.3381
       },
       {
         "year": 2022,
-        "value": 15845.4947
+        "value": 16025.0588
       },
       {
         "year": 2023,
-        "value": 16832.0409
+        "value": 16838.3532
       },
       {
         "year": 2024,
-        "value": 14034.7243
+        "value": 14238.67
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 37.0846
+      },
+      {
+        "year": 2015,
+        "value": 42.053
+      },
+      {
+        "year": 2016,
+        "value": 42.9595
+      },
+      {
+        "year": 2017,
+        "value": 42.0619
+      },
+      {
+        "year": 2018,
+        "value": 44.3986
+      },
+      {
+        "year": 2019,
+        "value": 44.9986
+      },
+      {
+        "year": 2020,
+        "value": 46.7842
+      },
+      {
+        "year": 2021,
+        "value": 49.4678
+      },
+      {
+        "year": 2022,
+        "value": 50.8118
+      },
+      {
+        "year": 2023,
+        "value": 50.7961
+      },
+      {
+        "year": 2024,
+        "value": 55.2098
       }
     ],
     "enrollment_headcount_total": [

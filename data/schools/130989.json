@@ -1,6 +1,6 @@
 {
   "unitid": "130989",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Goldey-Beacom College",
     "institution_unique_name": "Goldey-Beacom College | Wilmington | Delaware",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -27.3282,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 2.7194,
-    "net_tuition_per_fte_change_5yr": -41.8527,
+    "net_tuition_per_fte_change_5yr": -44.5183,
     "staff_total_headcount_pct_change_5yr": -1.1111,
     "staff_instructional_headcount_pct_change_5yr": -2.4096,
     "students_per_instructional_staff_fte": 25.1478,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 22.033,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 22% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 20.1065,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 39.8169,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18976.1289
+        "value": 18680.6654
       },
       {
         "year": 2015,
-        "value": 18316.9869
+        "value": 17887.3576
       },
       {
         "year": 2016,
-        "value": 17971.9775
+        "value": 17556.1789
       },
       {
         "year": 2017,
-        "value": 16806.3253
+        "value": 16421.8908
       },
       {
         "year": 2018,
-        "value": 15020.0837
+        "value": 14526.8373
       },
       {
         "year": 2019,
-        "value": 15128.2727
+        "value": 14468.7826
       },
       {
         "year": 2020,
-        "value": 12433.0342
+        "value": 11813.5816
       },
       {
         "year": 2021,
-        "value": 11713.893
+        "value": 11391.8512
       },
       {
         "year": 2022,
-        "value": 10393.2724
+        "value": 9661.3588
       },
       {
         "year": 2023,
-        "value": 9293.4292
+        "value": 8486.8016
       },
       {
         "year": 2024,
-        "value": 8796.6815
+        "value": 8027.527
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "235316",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Gonzaga University",
     "institution_unique_name": "Gonzaga University | Spokane | Washington",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -3.8117,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 4.0196,
-    "net_tuition_per_fte_change_5yr": -3.1049,
+    "net_tuition_per_fte_change_5yr": -4.2852,
     "staff_total_headcount_pct_change_5yr": -2.3442,
     "staff_instructional_headcount_pct_change_5yr": -5.0602,
     "students_per_instructional_staff_fte": 11.7898,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 57.3946,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 54.1877,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 43.4864,
+    "unfunded_discount_pct_change_5yr": 10.5925,
     "share_grad_students": 31.9593,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 27046.9614
+        "value": 26045.9144
       },
       {
         "year": 2015,
-        "value": 28555.8846
+        "value": 27380.207
       },
       {
         "year": 2016,
-        "value": 29209.2658
+        "value": 28020.1375
       },
       {
         "year": 2017,
-        "value": 28649.4229
+        "value": 27413.1268
       },
       {
         "year": 2018,
-        "value": 29093.3096
+        "value": 27711.6764
       },
       {
         "year": 2019,
-        "value": 29986.0407
+        "value": 28659.717
       },
       {
         "year": 2020,
-        "value": 30346.4063
+        "value": 28948.3894
       },
       {
         "year": 2021,
-        "value": 28485.784
+        "value": 27162.2934
       },
       {
         "year": 2022,
-        "value": 28178.6359
+        "value": 26966.0004
       },
       {
         "year": 2023,
-        "value": 28503.2523
+        "value": 27110.3331
       },
       {
         "year": 2024,
-        "value": 29054.9978
+        "value": 27431.59
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.0803
+      },
+      {
+        "year": 2015,
+        "value": 36.1258
+      },
+      {
+        "year": 2016,
+        "value": 36.988
+      },
+      {
+        "year": 2017,
+        "value": 38.619
+      },
+      {
+        "year": 2018,
+        "value": 39.3052
+      },
+      {
+        "year": 2019,
+        "value": 39.3213
+      },
+      {
+        "year": 2020,
+        "value": 40.2655
+      },
+      {
+        "year": 2021,
+        "value": 41.9024
+      },
+      {
+        "year": 2022,
+        "value": 41.8691
+      },
+      {
+        "year": 2023,
+        "value": 42.3179
+      },
+      {
+        "year": 2024,
+        "value": 43.4864
       }
     ],
     "enrollment_headcount_total": [

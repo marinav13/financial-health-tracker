@@ -1,6 +1,6 @@
 {
   "unitid": "162928",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Johns Hopkins University",
     "institution_unique_name": "Johns Hopkins University | Baltimore | Maryland",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 16.7099,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 7.0943,
-    "net_tuition_per_fte_change_5yr": -11.4166,
+    "net_tuition_per_fte_change_5yr": -11.1374,
     "staff_total_headcount_pct_change_5yr": 10.9716,
     "staff_instructional_headcount_pct_change_5yr": 5.2987,
     "students_per_instructional_staff_fte": 6.8746,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 7.7514,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 7.9586,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 8% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 29.123,
+    "unfunded_discount_pct_change_5yr": -1.183,
     "share_grad_students": 76.5633,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 4194842000,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 31453.1293
+        "value": 32356.3462
       },
       {
         "year": 2015,
-        "value": 32087.6089
+        "value": 32969.954
       },
       {
         "year": 2016,
-        "value": 33388.9424
+        "value": 34202.9971
       },
       {
         "year": 2017,
-        "value": 33316.5721
+        "value": 34133.6791
       },
       {
         "year": 2018,
-        "value": 33891.2806
+        "value": 34718.875
       },
       {
         "year": 2019,
-        "value": 34070.4085
+        "value": 34871.2147
       },
       {
         "year": 2020,
-        "value": 32201.3931
+        "value": 32974.9298
       },
       {
         "year": 2021,
-        "value": 29052.5175
+        "value": 29837.2167
       },
       {
         "year": 2022,
-        "value": 31325.3937
+        "value": 32050.0723
       },
       {
         "year": 2023,
-        "value": 29756.7201
+        "value": 30449.7393
       },
       {
         "year": 2024,
-        "value": 30180.7263
+        "value": 30987.4686
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 28.701
+      },
+      {
+        "year": 2015,
+        "value": 28.3116
+      },
+      {
+        "year": 2016,
+        "value": 28.0441
+      },
+      {
+        "year": 2017,
+        "value": 28.0296
+      },
+      {
+        "year": 2018,
+        "value": 28.3645
+      },
+      {
+        "year": 2019,
+        "value": 29.4716
+      },
+      {
+        "year": 2020,
+        "value": 32.0241
+      },
+      {
+        "year": 2021,
+        "value": 34.6133
+      },
+      {
+        "year": 2022,
+        "value": 32.6621
+      },
+      {
+        "year": 2023,
+        "value": 30.3487
+      },
+      {
+        "year": 2024,
+        "value": 29.123
       }
     ],
     "enrollment_headcount_total": [

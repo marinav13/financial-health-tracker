@@ -1,6 +1,6 @@
 {
   "unitid": "161509",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Maine College of Art & Design",
     "institution_unique_name": "Maine College of Art & Design | Portland | Maine",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 1.2295,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 18.2575,
-    "net_tuition_per_fte_change_5yr": -0.9673,
+    "net_tuition_per_fte_change_5yr": -1.2866,
     "staff_total_headcount_pct_change_5yr": -4.1667,
     "staff_instructional_headcount_pct_change_5yr": -15.3153,
     "students_per_instructional_staff_fte": 8.8636,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 46.2447,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 46.3465,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 46% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 39.9504,
+    "unfunded_discount_pct_change_5yr": 0.1571,
     "share_grad_students": 11.9433,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23171.0639
+        "value": 23487.0327
       },
       {
         "year": 2015,
-        "value": 23530.2582
+        "value": 23820.4459
       },
       {
         "year": 2016,
-        "value": 24401.7398
+        "value": 24754.3197
       },
       {
         "year": 2017,
-        "value": 23512.5552
+        "value": 23682.3914
       },
       {
         "year": 2018,
-        "value": 23806.515
+        "value": 23934.3706
       },
       {
         "year": 2019,
-        "value": 23797.8329
+        "value": 23927.3403
       },
       {
         "year": 2020,
-        "value": 24783.9809
+        "value": 24933.6129
       },
       {
         "year": 2021,
-        "value": 23758.6957
+        "value": 23876.5307
       },
       {
         "year": 2022,
-        "value": 22758.2392
+        "value": 23078.0077
       },
       {
         "year": 2023,
-        "value": 23368.5584
+        "value": 23569.6893
       },
       {
         "year": 2024,
-        "value": 23567.6286
+        "value": 23619.5011
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.7064
+      },
+      {
+        "year": 2015,
+        "value": 39.895
+      },
+      {
+        "year": 2016,
+        "value": 40.519
+      },
+      {
+        "year": 2017,
+        "value": 41.6723
+      },
+      {
+        "year": 2018,
+        "value": 40.2257
+      },
+      {
+        "year": 2019,
+        "value": 39.8877
+      },
+      {
+        "year": 2020,
+        "value": 39.1619
+      },
+      {
+        "year": 2021,
+        "value": 41.1615
+      },
+      {
+        "year": 2022,
+        "value": 40.5933
+      },
+      {
+        "year": 2023,
+        "value": 38.2979
+      },
+      {
+        "year": 2024,
+        "value": 39.9504
       }
     ],
     "enrollment_headcount_total": [

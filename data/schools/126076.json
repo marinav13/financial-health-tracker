@@ -1,6 +1,6 @@
 {
   "unitid": "126076",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Ohr Elchonon Chabad West Coast Talmudical Seminary",
     "institution_unique_name": "Yeshiva Ohr Elchonon Chabad West Coast Talmudical Seminary | Los Angeles | California",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -0.9709,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 63.2223,
-    "net_tuition_per_fte_change_5yr": -0.8367,
+    "net_tuition_per_fte_change_5yr": -1.1764,
     "staff_total_headcount_pct_change_5yr": 64,
     "staff_instructional_headcount_pct_change_5yr": 72.7273,
     "students_per_instructional_staff_fte": 14.9268,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 38.3136,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 38.1505,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 25.7451,
+    "unfunded_discount_pct_change_5yr": 57.7074,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,27 +161,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 13749.4067
+        "value": 13736.3017
       },
       {
         "year": 2015,
-        "value": 16399.1234
+        "value": 16382.5798
       },
       {
         "year": 2016,
-        "value": 19150.3672
+        "value": 19135.2864
       },
       {
         "year": 2017,
-        "value": 12680.9194
+        "value": 12665.7096
       },
       {
         "year": 2018,
-        "value": 23181.8986
+        "value": 23156.7019
       },
       {
         "year": 2019,
-        "value": 18928.6987
+        "value": 18912.9146
       },
       {
         "year": 2020,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 22145.91
+        "value": 22042.2959
       },
       {
         "year": 2024,
-        "value": 18770.3284
+        "value": 18690.4167
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 29.0575
+      },
+      {
+        "year": 2015,
+        "value": 29
+      },
+      {
+        "year": 2016,
+        "value": 29.816
+      },
+      {
+        "year": 2017,
+        "value": 38.4255
+      },
+      {
+        "year": 2018,
+        "value": 33.425
+      },
+      {
+        "year": 2019,
+        "value": 16.3246
+      },
+      {
+        "year": 2020,
+        "value": 11.7407
+      },
+      {
+        "year": 2021,
+        "value": 28.0274
+      },
+      {
+        "year": 2022,
+        "value": 28.818
+      },
+      {
+        "year": 2023,
+        "value": 28.0916
+      },
+      {
+        "year": 2024,
+        "value": 25.7451
       }
     ],
     "enrollment_headcount_total": [

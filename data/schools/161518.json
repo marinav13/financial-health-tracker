@@ -1,6 +1,6 @@
 {
   "unitid": "161518",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Saint Joseph's College of Maine",
     "institution_unique_name": "Saint Joseph's College of Maine | Standish | Maine",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 49.6028,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 50% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 51.169,
+    "unfunded_discount_pct_change_5yr": 15.1473,
     "share_grad_students": 36.2077,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,11 +161,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 12993.0441
+        "value": 12993.0046
       },
       {
         "year": 2015,
-        "value": 16744.1614
+        "value": 16744.3164
       },
       {
         "year": 2016,
@@ -171,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 15871.0615
+        "value": 15871.2713
       },
       {
         "year": 2018,
@@ -200,6 +202,52 @@
       {
         "year": 2024,
         "value": 12004.1788
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 34.1911
+      },
+      {
+        "year": 2015,
+        "value": 35.8573
+      },
+      {
+        "year": 2016,
+        "value": 39.3848
+      },
+      {
+        "year": 2017,
+        "value": 42.0122
+      },
+      {
+        "year": 2018,
+        "value": 43.3313
+      },
+      {
+        "year": 2019,
+        "value": 44.4379
+      },
+      {
+        "year": 2020,
+        "value": 43.6983
+      },
+      {
+        "year": 2021,
+        "value": 43.4346
+      },
+      {
+        "year": 2022,
+        "value": 44.0418
+      },
+      {
+        "year": 2023,
+        "value": 45.3982
+      },
+      {
+        "year": 2024,
+        "value": 51.169
       }
     ],
     "enrollment_headcount_total": [

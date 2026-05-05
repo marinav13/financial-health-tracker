@@ -1,6 +1,6 @@
 {
   "unitid": "165574",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Dean College",
     "institution_unique_name": "Dean College | Franklin | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -20.527,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -1.7595,
-    "net_tuition_per_fte_change_5yr": 8.8211,
+    "net_tuition_per_fte_change_5yr": -24.6878,
     "staff_total_headcount_pct_change_5yr": -4.3478,
     "staff_instructional_headcount_pct_change_5yr": -10.8108,
     "students_per_instructional_staff_fte": 17.5052,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
-    "tuition_dependence_pct": 54.0557,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 54% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 37.6114,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 38% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 60.4314,
+    "unfunded_discount_pct_change_5yr": 17.0257,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21391.8617
+        "value": 21514.1357
       },
       {
         "year": 2015,
-        "value": 20680.2768
+        "value": 20799.1582
       },
       {
         "year": 2016,
-        "value": 20778.9489
+        "value": 20895.8781
       },
       {
         "year": 2017,
-        "value": 22707.4607
+        "value": 22824.6791
       },
       {
         "year": 2018,
-        "value": 22572.253
+        "value": 22688.2746
       },
       {
         "year": 2019,
-        "value": 21895.1519
+        "value": 22012.726
       },
       {
         "year": 2020,
-        "value": 22814.5712
+        "value": 23276.7304
       },
       {
         "year": 2021,
-        "value": 26688.4805
+        "value": 24469.7413
       },
       {
         "year": 2022,
-        "value": 25401.3178
+        "value": 18836.2427
       },
       {
         "year": 2023,
-        "value": 24147.3833
+        "value": 17146.9025
       },
       {
         "year": 2024,
-        "value": 23826.5353
+        "value": 16578.2641
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 46.9101
+      },
+      {
+        "year": 2015,
+        "value": 49.0809
+      },
+      {
+        "year": 2016,
+        "value": 50.6465
+      },
+      {
+        "year": 2017,
+        "value": 49.3203
+      },
+      {
+        "year": 2018,
+        "value": 49.7037
+      },
+      {
+        "year": 2019,
+        "value": 51.6394
+      },
+      {
+        "year": 2020,
+        "value": 49.6118
+      },
+      {
+        "year": 2021,
+        "value": 45.1334
+      },
+      {
+        "year": 2022,
+        "value": 56.1371
+      },
+      {
+        "year": 2023,
+        "value": 59.13
+      },
+      {
+        "year": 2024,
+        "value": 60.4314
       }
     ],
     "enrollment_headcount_total": [

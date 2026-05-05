@@ -1,6 +1,6 @@
 {
   "unitid": "164632",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Bay Path University",
     "institution_unique_name": "Bay Path University | Longmeadow | Massachusetts",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.0117,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.0131,
-    "net_tuition_per_fte_change_5yr": -23.3876,
+    "net_tuition_per_fte_change_5yr": -22.469,
     "staff_total_headcount_pct_change_5yr": 32.0493,
     "staff_instructional_headcount_pct_change_5yr": 78.5311,
     "students_per_instructional_staff_fte": 10.05,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 61.5267,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 62% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 62.82,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 63% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 20.5302,
+    "unfunded_discount_pct_change_5yr": 13.4405,
     "share_grad_students": 56.1036,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18098.7054
+        "value": 18264.3691
       },
       {
         "year": 2015,
-        "value": 19343.9532
+        "value": 19524.8738
       },
       {
         "year": 2016,
-        "value": 19003.2542
+        "value": 19206.5797
       },
       {
         "year": 2017,
-        "value": 19755.4083
+        "value": 19946.9563
       },
       {
         "year": 2018,
-        "value": 19538.2563
+        "value": 19753.1821
       },
       {
         "year": 2019,
-        "value": 19605.7624
+        "value": 19780.6926
       },
       {
         "year": 2020,
-        "value": 19549.7815
+        "value": 20013.5617
       },
       {
         "year": 2021,
-        "value": 18809.5857
+        "value": 19364.0974
       },
       {
         "year": 2022,
-        "value": 16923.7059
+        "value": 18458.8637
       },
       {
         "year": 2023,
-        "value": 17203.623
+        "value": 17580.1143
       },
       {
         "year": 2024,
-        "value": 15020.4372
+        "value": 15336.1744
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.1142
+      },
+      {
+        "year": 2015,
+        "value": 20.6937
+      },
+      {
+        "year": 2016,
+        "value": 20.5112
+      },
+      {
+        "year": 2017,
+        "value": 18.4736
+      },
+      {
+        "year": 2018,
+        "value": 18.2671
+      },
+      {
+        "year": 2019,
+        "value": 18.0978
+      },
+      {
+        "year": 2020,
+        "value": 18.779
+      },
+      {
+        "year": 2021,
+        "value": 18.4674
+      },
+      {
+        "year": 2022,
+        "value": 19.7597
+      },
+      {
+        "year": 2023,
+        "value": 21.3265
+      },
+      {
+        "year": 2024,
+        "value": 20.5302
       }
     ],
     "enrollment_headcount_total": [

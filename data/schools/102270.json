@@ -1,6 +1,6 @@
 {
   "unitid": "102270",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Stillman College",
     "institution_unique_name": "Stillman College | Tuscaloosa | Alabama",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -4.5407,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -13.407,
-    "net_tuition_per_fte_change_5yr": -21.7958,
+    "net_tuition_per_fte_change_5yr": -41.7941,
     "staff_total_headcount_pct_change_5yr": 8.2524,
     "staff_instructional_headcount_pct_change_5yr": 38.5965,
     "students_per_instructional_staff_fte": 12.0877,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
-    "tuition_dependence_pct": 32.7585,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 33% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 24.3816,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 24% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 33.8451,
+    "unfunded_discount_pct_change_5yr": 273.9052,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 28283.6349
+        "value": 24903.1757
       },
       {
         "year": 2015,
@@ -187,7 +189,7 @@
       },
       {
         "year": 2021,
-        "value": 9426.4818
+        "value": 8414.9411
       },
       {
         "year": 2022,
@@ -195,11 +197,57 @@
       },
       {
         "year": 2023,
-        "value": 8476.1154
+        "value": 8311.1929
       },
       {
         "year": 2024,
-        "value": 9367.8491
+        "value": 6972.3193
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 35.1902
+      },
+      {
+        "year": 2015,
+        "value": 37.4124
+      },
+      {
+        "year": 2016,
+        "value": 26.1502
+      },
+      {
+        "year": 2017,
+        "value": 17.2539
+      },
+      {
+        "year": 2018,
+        "value": 22.3453
+      },
+      {
+        "year": 2019,
+        "value": 9.0518
+      },
+      {
+        "year": 2020,
+        "value": 20.2593
+      },
+      {
+        "year": 2021,
+        "value": 23.1549
+      },
+      {
+        "year": 2022,
+        "value": 2.8163
+      },
+      {
+        "year": 2023,
+        "value": 17.4181
+      },
+      {
+        "year": 2024,
+        "value": 33.8451
       }
     ],
     "enrollment_headcount_total": [

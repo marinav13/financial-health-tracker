@@ -1,6 +1,6 @@
 {
   "unitid": "222178",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Abilene Christian University",
     "institution_unique_name": "Abilene Christian University | Abilene | Texas",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 0.1364,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 35.6242,
-    "net_tuition_per_fte_change_5yr": 1.9098,
+    "net_tuition_per_fte_change_5yr": -1.2114,
     "staff_total_headcount_pct_change_5yr": 22.8338,
     "staff_instructional_headcount_pct_change_5yr": 14.8936,
     "students_per_instructional_staff_fte": 14.0598,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
-    "tuition_dependence_pct": 34.9456,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 35.3343,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 35% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 40.4638,
+    "unfunded_discount_pct_change_5yr": 4.372,
     "share_grad_students": 40.9911,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 5438083,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 18516.6023
+        "value": 19616.1024
       },
       {
         "year": 2015,
-        "value": 18789.6504
+        "value": 19939.1603
       },
       {
         "year": 2016,
-        "value": 19140.7916
+        "value": 20306.3845
       },
       {
         "year": 2017,
-        "value": 19125.9319
+        "value": 20196.7564
       },
       {
         "year": 2018,
-        "value": 20209.3108
+        "value": 21144.4405
       },
       {
         "year": 2019,
-        "value": 19621.1661
+        "value": 20466.2458
       },
       {
         "year": 2020,
-        "value": 20221.0019
+        "value": 20800.6281
       },
       {
         "year": 2021,
-        "value": 18944.6642
+        "value": 19702.7772
       },
       {
         "year": 2022,
-        "value": 18325.0676
+        "value": 19870.1106
       },
       {
         "year": 2023,
-        "value": 19162.3931
+        "value": 19477.8274
       },
       {
         "year": 2024,
-        "value": 19995.8852
+        "value": 20218.3223
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 36.6937
+      },
+      {
+        "year": 2015,
+        "value": 39.0787
+      },
+      {
+        "year": 2016,
+        "value": 39.8972
+      },
+      {
+        "year": 2017,
+        "value": 40.4306
+      },
+      {
+        "year": 2018,
+        "value": 39.2339
+      },
+      {
+        "year": 2019,
+        "value": 38.7689
+      },
+      {
+        "year": 2020,
+        "value": 39.2297
+      },
+      {
+        "year": 2021,
+        "value": 39.4654
+      },
+      {
+        "year": 2022,
+        "value": 40.1099
+      },
+      {
+        "year": 2023,
+        "value": 41.2452
+      },
+      {
+        "year": 2024,
+        "value": 40.4638
       }
     ],
     "enrollment_headcount_total": [

@@ -1,6 +1,6 @@
 {
   "unitid": "486901",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Milligan University",
     "institution_unique_name": "Milligan University | Milligan | Tennessee",
@@ -27,8 +27,10 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 41.7897,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 47.7419,
+    "unfunded_discount_pct_change_5yr": 12.7212,
     "share_grad_students": 34.5651,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -151,11 +153,11 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 18399.9886
+        "value": 17716.2076
       },
       {
         "year": 2016,
-        "value": 17643.3495
+        "value": 16850.581
       },
       {
         "year": 2017,
@@ -163,7 +165,7 @@
       },
       {
         "year": 2018,
-        "value": 17063.1831
+        "value": 17063.1886
       },
       {
         "year": 2019,
@@ -188,6 +190,48 @@
       {
         "year": 2024,
         "value": 14168.219
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2015,
+        "value": 43.0566
+      },
+      {
+        "year": 2016,
+        "value": 45.1531
+      },
+      {
+        "year": 2017,
+        "value": 42.8039
+      },
+      {
+        "year": 2018,
+        "value": 43.1528
+      },
+      {
+        "year": 2019,
+        "value": 42.3539
+      },
+      {
+        "year": 2020,
+        "value": 46.5305
+      },
+      {
+        "year": 2021,
+        "value": 44.882
+      },
+      {
+        "year": 2022,
+        "value": 43.5313
+      },
+      {
+        "year": 2023,
+        "value": 47.795
+      },
+      {
+        "year": 2024,
+        "value": 47.7419
       }
     ],
     "enrollment_headcount_total": [

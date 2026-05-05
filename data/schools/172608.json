@@ -1,6 +1,6 @@
 {
   "unitid": "172608",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Walsh College",
     "institution_unique_name": "Walsh College | Troy | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -41.8385,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -30.4102,
-    "net_tuition_per_fte_change_5yr": 38.3591,
+    "net_tuition_per_fte_change_5yr": 31.1195,
     "staff_total_headcount_pct_change_5yr": -36.8613,
     "staff_instructional_headcount_pct_change_5yr": -35.2564,
     "students_per_instructional_staff_fte": 13.3636,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 74.4589,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 71.1148,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 71% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 50.1803,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 19537.1746
+        "value": 19689.8554
       },
       {
         "year": 2015,
-        "value": 19870.2793
+        "value": 20015.4576
       },
       {
         "year": 2016,
-        "value": 20426.0184
+        "value": 20491.2559
       },
       {
         "year": 2017,
-        "value": 20932.9523
+        "value": 21023.4767
       },
       {
         "year": 2018,
-        "value": 22060.9681
+        "value": 22207.2341
       },
       {
         "year": 2019,
-        "value": 21339.8506
+        "value": 21506.77
       },
       {
         "year": 2020,
-        "value": 22220.782
+        "value": 22492.511
       },
       {
         "year": 2021,
-        "value": 20856.1064
+        "value": 21308.3774
       },
       {
         "year": 2022,
-        "value": 28585.4891
+        "value": 29051.8943
       },
       {
         "year": 2023,
-        "value": 30106.9695
+        "value": 30121.7486
       },
       {
         "year": 2024,
-        "value": 29525.6234
+        "value": 28199.577
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 0
+      },
+      {
+        "year": 2015,
+        "value": 0
+      },
+      {
+        "year": 2016,
+        "value": 0
+      },
+      {
+        "year": 2017,
+        "value": 0
+      },
+      {
+        "year": 2018,
+        "value": 0
+      },
+      {
+        "year": 2019,
+        "value": 0
+      },
+      {
+        "year": 2020,
+        "value": 0
+      },
+      {
+        "year": 2021,
+        "value": 0
+      },
+      {
+        "year": 2022,
+        "value": 0
+      },
+      {
+        "year": 2023,
+        "value": 0
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

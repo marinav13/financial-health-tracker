@@ -1,6 +1,6 @@
 {
   "unitid": "169479",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Davenport University",
     "institution_unique_name": "Davenport University | Grand Rapids | Michigan",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -30.1084,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -26.9233,
-    "net_tuition_per_fte_change_5yr": -10.8231,
+    "net_tuition_per_fte_change_5yr": -30.7203,
     "staff_total_headcount_pct_change_5yr": -32.6376,
     "staff_instructional_headcount_pct_change_5yr": -41.5414,
     "students_per_instructional_staff_fte": 21.8295,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
-    "tuition_dependence_pct": 74.6548,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 75% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 57.4581,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 57% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 36.9221,
+    "unfunded_discount_pct_change_5yr": 103.8772,
     "share_grad_students": 22.2482,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21780.2016
+        "value": 21123.3718
       },
       {
         "year": 2015,
-        "value": 22714.7955
+        "value": 22152.4742
       },
       {
         "year": 2016,
-        "value": 23152.9086
+        "value": 22415.2125
       },
       {
         "year": 2017,
-        "value": 22987.1175
+        "value": 22656.3477
       },
       {
         "year": 2018,
-        "value": 23521.5859
+        "value": 23092.1409
       },
       {
         "year": 2019,
-        "value": 19807.9403
+        "value": 19623.6332
       },
       {
         "year": 2020,
-        "value": 20073.29
+        "value": 20268.1016
       },
       {
         "year": 2021,
-        "value": 19558.6309
+        "value": 18770.2906
       },
       {
         "year": 2022,
-        "value": 18387.1063
+        "value": 18045.0126
       },
       {
         "year": 2023,
-        "value": 17694.8251
+        "value": 13959.0661
       },
       {
         "year": 2024,
-        "value": 17664.1077
+        "value": 13595.19
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 12.5929
+      },
+      {
+        "year": 2015,
+        "value": 12.7356
+      },
+      {
+        "year": 2016,
+        "value": 14.1225
+      },
+      {
+        "year": 2017,
+        "value": 15.3626
+      },
+      {
+        "year": 2018,
+        "value": 15.5153
+      },
+      {
+        "year": 2019,
+        "value": 18.11
+      },
+      {
+        "year": 2020,
+        "value": 18.4199
+      },
+      {
+        "year": 2021,
+        "value": 22.0952
+      },
+      {
+        "year": 2022,
+        "value": 25.6706
+      },
+      {
+        "year": 2023,
+        "value": 34.9098
+      },
+      {
+        "year": 2024,
+        "value": 36.9221
       }
     ],
     "enrollment_headcount_total": [

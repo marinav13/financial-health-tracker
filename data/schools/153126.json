@@ -1,6 +1,6 @@
 {
   "unitid": "153126",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Clarke University",
     "institution_unique_name": "Clarke University | Dubuque | Iowa",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -2.7125,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 21.0272,
-    "net_tuition_per_fte_change_5yr": -23.4461,
+    "net_tuition_per_fte_change_5yr": -22.9718,
     "staff_total_headcount_pct_change_5yr": -5.2632,
     "staff_instructional_headcount_pct_change_5yr": -17.0213,
     "students_per_instructional_staff_fte": 8.9004,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
-    "tuition_dependence_pct": 44.7681,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 45.3477,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 45% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.4668,
+    "unfunded_discount_pct_change_5yr": 25.6798,
     "share_grad_students": 15.2416,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 24589.286
+        "value": 25375.1898
       },
       {
         "year": 2015,
-        "value": 25284.7303
+        "value": 25925.2033
       },
       {
         "year": 2016,
-        "value": 25670.045
+        "value": 26311.1027
       },
       {
         "year": 2017,
-        "value": 26707.9071
+        "value": 27416.6883
       },
       {
         "year": 2018,
-        "value": 25527.318
+        "value": 25772.0428
       },
       {
         "year": 2019,
-        "value": 26176.3784
+        "value": 26352.038
       },
       {
         "year": 2020,
-        "value": 27001.3007
+        "value": 27204.6009
       },
       {
         "year": 2021,
-        "value": 26346.094
+        "value": 26625.1117
       },
       {
         "year": 2022,
-        "value": 23367.9753
+        "value": 23575.149
       },
       {
         "year": 2023,
-        "value": 20869.4248
+        "value": 21021.7913
       },
       {
         "year": 2024,
-        "value": 20039.041
+        "value": 20298.505
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.7938
+      },
+      {
+        "year": 2015,
+        "value": 32.8019
+      },
+      {
+        "year": 2016,
+        "value": 33.4793
+      },
+      {
+        "year": 2017,
+        "value": 33.6464
+      },
+      {
+        "year": 2018,
+        "value": 36.6023
+      },
+      {
+        "year": 2019,
+        "value": 39.3594
+      },
+      {
+        "year": 2020,
+        "value": 39.3715
+      },
+      {
+        "year": 2021,
+        "value": 41.7256
+      },
+      {
+        "year": 2022,
+        "value": 44.4478
+      },
+      {
+        "year": 2023,
+        "value": 47.5725
+      },
+      {
+        "year": 2024,
+        "value": 49.4668
       }
     ],
     "enrollment_headcount_total": [

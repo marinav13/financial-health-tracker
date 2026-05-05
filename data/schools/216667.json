@@ -1,6 +1,6 @@
 {
   "unitid": "216667",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Washington & Jefferson College",
     "institution_unique_name": "Washington & Jefferson College | Washington | Pennsylvania",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": -15.3357,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 50.0688,
-    "net_tuition_per_fte_change_5yr": -49.8312,
+    "net_tuition_per_fte_change_5yr": -32.9627,
     "staff_total_headcount_pct_change_5yr": -12.1359,
     "staff_instructional_headcount_pct_change_5yr": -16.4474,
     "students_per_instructional_staff_fte": 10.9381,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
-    "tuition_dependence_pct": 14.1555,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 15.5606,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 49.9775,
+    "unfunded_discount_pct_change_5yr": -9.8503,
     "share_grad_students": 0.1669,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 56173,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 25787.0383
+        "value": 22187.4209
       },
       {
         "year": 2015,
-        "value": 26252.6665
+        "value": 22550.316
       },
       {
         "year": 2016,
-        "value": 25274.8524
+        "value": 21286.4888
       },
       {
         "year": 2017,
-        "value": 23947.2027
+        "value": 20283.0862
       },
       {
         "year": 2018,
-        "value": 24699.0813
+        "value": 20775.7342
       },
       {
         "year": 2019,
-        "value": 23581.5211
+        "value": 19399.5131
       },
       {
         "year": 2020,
-        "value": 21522.9264
+        "value": 17714.5926
       },
       {
         "year": 2021,
-        "value": 18743.4916
+        "value": 11756.4415
       },
       {
         "year": 2022,
-        "value": 14960.3732
+        "value": 9479.0869
       },
       {
         "year": 2023,
-        "value": 13705.8731
+        "value": 10484.7175
       },
       {
         "year": 2024,
-        "value": 11830.5752
+        "value": 13004.9159
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 43.4669
+      },
+      {
+        "year": 2015,
+        "value": 45.4826
+      },
+      {
+        "year": 2016,
+        "value": 48.222
+      },
+      {
+        "year": 2017,
+        "value": 51.3599
+      },
+      {
+        "year": 2018,
+        "value": 52.6487
+      },
+      {
+        "year": 2019,
+        "value": 55.4384
+      },
+      {
+        "year": 2020,
+        "value": 55.9536
+      },
+      {
+        "year": 2021,
+        "value": 62.1724
+      },
+      {
+        "year": 2022,
+        "value": 66.2718
+      },
+      {
+        "year": 2023,
+        "value": 66.7686
+      },
+      {
+        "year": 2024,
+        "value": 49.9775
       }
     ],
     "enrollment_headcount_total": [

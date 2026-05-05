@@ -1,6 +1,6 @@
 {
   "unitid": "197601",
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-02",
   "profile": {
     "institution_name": "Yeshiva Karlin Stolin",
     "institution_unique_name": "Yeshiva Karlin Stolin | Brooklyn | New York",
@@ -18,7 +18,7 @@
     "enrollment_pct_change_5yr": 13.3333,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -37.4185,
-    "net_tuition_per_fte_change_5yr": -19.1896,
+    "net_tuition_per_fte_change_5yr": 12.4878,
     "staff_total_headcount_pct_change_5yr": 78.5714,
     "staff_instructional_headcount_pct_change_5yr": 260,
     "students_per_instructional_staff_fte": 18.1071,
@@ -26,9 +26,11 @@
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 88.4365,
-    "sector_median_tuition_dependence_pct": 45.0862,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 88% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": 95.2492,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 95% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "unfunded_discount_rate": 0,
+    "unfunded_discount_pct_change_5yr": -100,
     "share_grad_students": 18.2353,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
@@ -159,47 +161,93 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8790.0392
+        "value": 8801.0813
       },
       {
         "year": 2015,
-        "value": 10770.8228
+        "value": 10154.6094
       },
       {
         "year": 2016,
-        "value": 13997.9537
+        "value": 13378.3391
       },
       {
         "year": 2017,
-        "value": 10904.0576
+        "value": 10745.6046
       },
       {
         "year": 2018,
-        "value": 11051.831
+        "value": 9965.7537
       },
       {
         "year": 2019,
-        "value": 12166.6282
+        "value": 9413.7252
       },
       {
         "year": 2020,
-        "value": 13895.1776
+        "value": 10756.8825
       },
       {
         "year": 2021,
-        "value": 8112.1684
+        "value": 6172.1737
       },
       {
         "year": 2022,
-        "value": 10032.0395
+        "value": 7927.5932
       },
       {
         "year": 2023,
-        "value": 9757.8954
+        "value": 11998.4883
       },
       {
         "year": 2024,
-        "value": 9831.8994
+        "value": 10589.2959
+      }
+    ],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.4006
+      },
+      {
+        "year": 2015,
+        "value": 13.8678
+      },
+      {
+        "year": 2016,
+        "value": 10.4118
+      },
+      {
+        "year": 2017,
+        "value": 13.9367
+      },
+      {
+        "year": 2018,
+        "value": 21.8618
+      },
+      {
+        "year": 2019,
+        "value": 32.3026
+      },
+      {
+        "year": 2020,
+        "value": 32.3263
+      },
+      {
+        "year": 2021,
+        "value": 37.1038
+      },
+      {
+        "year": 2022,
+        "value": 34.351
+      },
+      {
+        "year": 2023,
+        "value": 0.0713
+      },
+      {
+        "year": 2024,
+        "value": 0
       }
     ],
     "enrollment_headcount_total": [

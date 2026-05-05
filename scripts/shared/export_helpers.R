@@ -1006,6 +1006,85 @@ get_action_summary_substantive_text_length <- function(text, accreditor = NA_cha
   nchar(value, type = "chars", allowNA = FALSE, keepNA = FALSE)
 }
 
+.unique_preserve_order <- function(values) {
+  values <- as.character(values %||% character())
+  values <- values[!is.na(values) & nzchar(trimws(values))]
+  if (length(values) == 0L) return(character())
+  values[!duplicated(values)]
+}
+
+.extract_hlc_reference_codes <- function(text, anchor_pattern, code_pattern) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+
+  matches <- stringr::str_match_all(
+    value,
+    stringr::regex(
+      paste0(
+        anchor_pattern,
+        "\\s+(.+?)(?=",
+        "\\s+(?:with\\s+concerns|with\\s+concern|without\\s+concerns|for\\s+the\\s+following|",
+        "no\\s+later\\s+than|is\\s+required|related\\s+to|and\\s+does\\s+not\\s+meet|",
+        "and\\s+the\\s+institution|and\\s+assigned|and\\s+reaffirmed)\\b|",
+        "\\.\\s+[A-Z]|;|$)"
+      ),
+      ignore_case = TRUE
+    )
+  )[[1]]
+  if (!nrow(matches)) return(character())
+
+  codes <- unlist(lapply(matches[, 2], function(section) {
+    stringr::str_extract_all(
+      section,
+      stringr::regex(code_pattern, ignore_case = TRUE)
+    )[[1]]
+  }), use.names = FALSE)
+  codes <- toupper(stringr::str_squish(codes))
+  .unique_preserve_order(codes)
+}
+
+extract_hlc_core_components <- function(text) {
+  .extract_hlc_reference_codes(
+    text,
+    anchor_pattern = "(?:criterion\\s+[a-z0-9]+,\\s*)?core components?",
+    code_pattern = "\\b[1-9]\\.[A-Z0-9]\\b"
+  )
+}
+
+extract_hlc_assumed_practices <- function(text) {
+  .extract_hlc_reference_codes(
+    text,
+    anchor_pattern = "assumed practices?",
+    code_pattern = "\\b[A-Z]\\.[0-9]\\b"
+  )
+}
+
+extract_hlc_named_concern_phrases <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+
+  matches <- stringr::str_match_all(
+    value,
+    stringr::regex(
+      "criteria for accreditation related to\\s+([^.|;]+)",
+      ignore_case = TRUE
+    )
+  )[[1]]
+  if (!nrow(matches)) return(character())
+
+  concerns <- stringr::str_squish(matches[, 2])
+  concerns <- sub("[.]+$", "", concerns)
+  .unique_preserve_order(concerns)
+}
+
+extract_hlc_findings <- function(text) {
+  list(
+    core_components = extract_hlc_core_components(text),
+    assumed_practices = extract_hlc_assumed_practices(text),
+    named_concerns = extract_hlc_named_concern_phrases(text)
+  )
+}
+
 .capitalize_summary_head <- function(text) {
   value <- trimws(as.character(text %||% ""))
   if (!nzchar(value)) return(value)

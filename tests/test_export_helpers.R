@@ -999,6 +999,83 @@ run_test("source selection helper: long procedural text does not beat shorter su
   )
 })
 
+run_test("extract_hlc_core_components: parses single-component interim report references from HLC letter text", function() {
+  text <- paste0(
+    "Summary of the Action: The Institution has been granted initial accreditation. ",
+    "The Institution is required to submit an Interim Report regarding Core Component 4.B no later than October 15, 2025, ",
+    "and an Interim Report regarding Core Component 5.B no later than October 15, 2025."
+  )
+  assert_identical(
+    extract_hlc_core_components(text),
+    c("4.B", "5.B")
+  )
+})
+
+run_test("extract_hlc_core_components: parses multi-component findings from HLC summary text", function() {
+  text <- paste0(
+    "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.A, 2.C, 5.A, and 5.B with concerns. ",
+    "The Institution does not meet Assumed Practice D.4."
+  )
+  assert_identical(
+    extract_hlc_core_components(text),
+    c("2.A", "2.C", "5.A", "5.B")
+  )
+})
+
+run_test("extract_hlc_core_components: parses Criterion Five, Core Component 5.B rationale text", function() {
+  text <- paste0(
+    "Arkansas Baptist College (\"the Institution\") does not meet Criterion Five, Core Component 5.B, ",
+    "\"the institution's resource base supports its educational offerings and its plans for maintaining and strengthening their quality in the future,\" ",
+    "for the following reasons: The Institution's enrollment has declined from 990 in fall 2015 to approximately 467 in fall 2020."
+  )
+  assert_identical(
+    extract_hlc_core_components(text),
+    "5.B"
+  )
+})
+
+run_test("extract_hlc_assumed_practices: parses Assumed Practice D.4 from HLC summary text", function() {
+  text <- paste0(
+    "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.A, 2.C, 5.A, and 5.B with concerns. ",
+    "The Institution does not meet Assumed Practice D.4."
+  )
+  assert_identical(
+    extract_hlc_assumed_practices(text),
+    "D.4"
+  )
+})
+
+run_test("extract_hlc_named_concern_phrases: parses production note-style HLC concern phrasing", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Probation | ",
+    "HLC took this action because it determined that the institution does not meet HLC’s Criteria for Accreditation related to integrity: ",
+    "ethical and responsible conduct and institutional effectiveness, resources and planning."
+  )
+  assert_identical(
+    extract_hlc_named_concern_phrases(text),
+    "integrity: ethical and responsible conduct and institutional effectiveness, resources and planning"
+  )
+})
+
+run_test("extract_hlc_findings: returns component, assumed-practice, and named-concern bundles consistently", function() {
+  text <- paste0(
+    "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.A, 2.C, 5.A, and 5.B with concerns. ",
+    "The Institution does not meet Assumed Practice D.4. ",
+    "HLC took this action because it determined that the institution does not meet HLC’s Criteria for Accreditation related to integrity: ",
+    "ethical and responsible conduct and institutional effectiveness, resources and planning."
+  )
+  findings <- extract_hlc_findings(text)
+  assert_identical(findings$core_components, c("2.A", "2.C", "5.A", "5.B"))
+  assert_identical(findings$assumed_practices, "D.4")
+  assert_identical(
+    findings$named_concerns,
+    "integrity: ethical and responsible conduct and institutional effectiveness, resources and planning"
+  )
+})
+
 run_test("derive_action_label_short: HLC DAPIP note-style warning retains concise reason", function() {
   text <- paste0(
     "Probation or Equivalent or a More Severe Status: Warning | ",

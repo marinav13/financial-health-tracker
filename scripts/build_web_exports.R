@@ -13,6 +13,7 @@ main <- function(cli_args = NULL) {
 
 ensure_packages(c("dplyr", "jsonlite", "readr"))
 source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
+source(file.path(getwd(), "scripts", "shared", "accreditation_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
 validate_multi_year_web_input <- function(df, input_path) {
@@ -50,6 +51,8 @@ cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_fin
 accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
 accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
 accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
+dapip_filtered_actions_path <- file.path(root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv")
+dapip_public_audit_path <- file.path(root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv")
 research_summary_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
 research_grants_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv")
 outcomes_summary_path <- file.path(root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv")
@@ -200,6 +203,16 @@ build_accreditation_export <- function() {
     "accreditation joined actions file",
     "Run `Rscript --vanilla ./scripts/build_accreditation_actions.R` first."
   )
+  require_local_file(
+    dapip_filtered_actions_path,
+    "DAPIP filtered accreditation actions",
+    "Run `Rscript --vanilla ./scripts/build_dapip_accreditation_actions.R` first."
+  )
+  require_local_file(
+    dapip_public_audit_path,
+    "DAPIP-vs-scraper accreditation audit",
+    "Run `Rscript --vanilla ./scripts/build_dapip_vs_scraper_audit.R` first."
+  )
 
   # Phase 2: derive_action_label_short() is now defined at module scope
   # in scripts/shared/export_helpers.R (sourced near the top of this
@@ -244,6 +257,7 @@ build_accreditation_export <- function() {
 
   MIN_PUBLIC_ACTION_YEAR <- 2019L
   TODAY <- Sys.Date()
+  PUBLIC_ACCREDITOR_CODES <- c("HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC")
   TRUSTED_ACTION_TYPES <- c("adverse_action", "warning", "probation", "show_cause", "removed", "notice")
   HLC_ACTIONS_LANDING_URL_PATTERN <- "^https://www\\.hlcommission\\.org/for-students/accreditation-actions/?$"
   HLC_GENERIC_CURRENT_STATUS_LABELS <- c(
@@ -362,7 +376,7 @@ build_accreditation_export <- function() {
     accreditor_code <- toupper(trimws(as.character(accreditor %||% "")))
     label <- normalize_accreditation_text(action_label_raw)
     label_short <- normalize_accreditation_text(
-      derive_action_label_short(action_type, action_label_raw, accreditor)
+      derive_action_label_short(action_type, action_label_raw, accreditor, notes)
     )
     notes_text <- normalize_accreditation_text(notes)
     haystack <- trimws(paste(type, label, notes_text))
@@ -515,17 +529,23 @@ build_accreditation_export <- function() {
   } else {
     readr::cols(.default = readr::col_guess())
   }
-  actions_df <- readr::read_csv(
+  scraper_actions_df <- readr::read_csv(
     accreditation_actions_path,
     show_col_types = FALSE,
     col_types = actions_col_types
   ) %>%
     ensure_columns(list(
+      institution_name_raw = NA_character_,
       accreditor = NA_character_,
       action_status = NA_character_,
       action_date = NA_character_,
       action_year = NA_character_,
       action_scope = NA_character_,
+      tracker_name = NA_character_,
+      tracker_state = NA_character_,
+      tracker_city = NA_character_,
+      tracker_control = NA_character_,
+      tracker_category = NA_character_,
       source_page_modified = NA_character_,
       display_action = TRUE,
       accreditors = NA_character_,
@@ -566,6 +586,92 @@ build_accreditation_export <- function() {
       action_labels = dplyr::coalesce(action_labels, action_label_raw),
       action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L)
     )
+  dapip_actions_df <- readr::read_csv(
+    dapip_filtered_actions_path,
+    show_col_types = FALSE
+  ) %>%
+    ensure_columns(list(
+      unitid = NA_character_,
+      institution_name_raw = NA_character_,
+      institution_state_raw = NA_character_,
+      tracker_name = NA_character_,
+      tracker_state = NA_character_,
+      city = NA_character_,
+      control_label = NA_character_,
+      category = NA_character_,
+      accreditor = NA_character_,
+      action_type = NA_character_,
+      action_label_raw = NA_character_,
+      action_status = NA_character_,
+      action_date = NA_character_,
+      action_year = NA_character_,
+      action_scope = NA_character_,
+      notes = NA_character_,
+      source_url = NA_character_,
+      source_title = NA_character_,
+      source_page_url = NA_character_,
+      source_page_modified = NA_character_,
+      file_id = NA_character_
+    ))
+  audit_df <- readr::read_csv(
+    dapip_public_audit_path,
+    show_col_types = FALSE
+  )
+  required_audit_columns <- c(
+    "unitid",
+    "institution_name",
+    "accreditor",
+    "public_table_strategy",
+    "hybrid_candidate",
+    "hybrid_reason",
+    "scraper_source_key",
+    "dapip_source_key",
+    "scraper_action_type",
+    "scraper_action_label",
+    "scraper_action_date",
+    "scraper_source_url",
+    "dapip_action_type",
+    "dapip_action_label",
+    "dapip_action_date",
+    "dapip_source_page_url",
+    "dapip_file_id"
+  )
+  missing_audit_columns <- setdiff(required_audit_columns, names(audit_df))
+  if (length(missing_audit_columns) > 0L) {
+    stop(
+      paste(
+        "The DAPIP accreditation audit is missing required columns:",
+        paste(missing_audit_columns, collapse = ", "),
+        "Re-run `Rscript --vanilla ./scripts/build_dapip_vs_scraper_audit.R` before exporting."
+      ),
+      call. = FALSE
+    )
+  }
+  audit_df <- audit_df %>%
+    mutate(
+      unitid = as.character(unitid),
+      institution_name = as.character(institution_name),
+      accreditor = normalize_accreditor_code(accreditor),
+      scraper_source_key = build_accreditation_action_source_key(
+        unitid = unitid,
+        institution_name = institution_name,
+        accreditor = accreditor,
+        action_type = scraper_action_type,
+        action_label = scraper_action_label,
+        action_date = scraper_action_date,
+        source_url = scraper_source_url
+      ),
+      dapip_source_key = build_accreditation_action_source_key(
+        unitid = unitid,
+        institution_name = institution_name,
+        accreditor = accreditor,
+        action_type = dapip_action_type,
+        action_label = dapip_action_label,
+        action_date = dapip_action_date,
+        source_page_url = dapip_source_page_url,
+        file_id = dapip_file_id
+      )
+    )
   coverage_df <- if (file.exists(accreditation_coverage_path)) {
     readr::read_csv(accreditation_coverage_path, show_col_types = FALSE)
   } else {
@@ -598,58 +704,556 @@ build_accreditation_export <- function() {
     paste0("accred-", paste(parts, collapse = "--"))
   }
 
-  summary_df <- summary_df %>%
+  canonical_tracker_lookup <- latest_financial %>%
+    transmute(
+      unitid = as.character(unitid),
+      canonical_institution_name = vapply(institution_name, normalize_display_institution_name, character(1)),
+      canonical_state = state,
+      canonical_city = city,
+      canonical_control_label = control_label,
+      canonical_category = category,
+      canonical_norm_name = normalize_name_accreditation(institution_name),
+      canonical_state_norm = normalize_accreditation_text(state)
+    ) %>%
+    distinct(unitid, .keep_all = TRUE)
+
+  resolve_canonical_accreditation_unitid <- function(unitid, institution_name, state) {
+    existing <- trimws(as.character(unitid %||% ""))
+    if (nzchar(existing)) return(existing)
+
+    norm_name <- trimws(as.character(normalize_name_accreditation(institution_name) %||% ""))
+    norm_state <- normalize_accreditation_text(state)
+    if (!nzchar(norm_name)) return("")
+
+    candidates <- canonical_tracker_lookup
+    if (nzchar(norm_state)) {
+      candidates <- candidates %>% filter(canonical_state_norm == norm_state)
+    }
+    if (nrow(candidates) == 0L) return("")
+
+    exact <- unique(candidates$unitid[candidates$canonical_norm_name == norm_name])
+    if (length(exact) == 1L) return(exact[[1]])
+
+    containment <- unique(candidates$unitid[
+      startsWith(candidates$canonical_norm_name, norm_name) |
+        startsWith(norm_name, candidates$canonical_norm_name)
+    ])
+    if (length(containment) == 1L) return(containment[[1]])
+
+    ""
+  }
+
+  reconcile_accreditation_tracker_metadata <- function(df, accreditor_col = "accreditor") {
+    if (nrow(df) == 0L) return(df)
+    accreditor_values <- as.character(df[[accreditor_col]] %||% rep(NA_character_, nrow(df)))
+
+    df <- df %>%
+      mutate(
+        unitid = as.character(unitid),
+        export_institution_name = pick_first_present(pick(dplyr::everything()), c("institution_name", "tracker_name", "institution_name_raw")),
+        export_state = pick_first_present(pick(dplyr::everything()), c("state", "tracker_state", "institution_state_raw")),
+        export_city = pick_first_present(pick(dplyr::everything()), c("city", "tracker_city")),
+        export_control_label = pick_first_present(pick(dplyr::everything()), c("control_label", "tracker_control")),
+        export_category = pick_first_present(pick(dplyr::everything()), c("category", "tracker_category")),
+        resolved_unitid = vapply(
+          seq_len(n()),
+          function(i) resolve_canonical_accreditation_unitid(
+            unitid[[i]],
+            export_institution_name[[i]],
+            export_state[[i]]
+          ),
+          character(1)
+        ),
+        unitid = dplyr::coalesce(dplyr::na_if(unitid, ""), dplyr::na_if(resolved_unitid, ""))
+      ) %>%
+      select(-resolved_unitid) %>%
+      left_join(
+        canonical_tracker_lookup %>%
+          select(
+            unitid,
+            canonical_institution_name,
+            canonical_state,
+            canonical_city,
+            canonical_control_label,
+            canonical_category
+          ),
+        by = "unitid"
+      ) %>%
+      mutate(
+        export_institution_name = dplyr::coalesce(canonical_institution_name, export_institution_name),
+        export_state = dplyr::coalesce(canonical_state, export_state),
+        export_city = dplyr::coalesce(canonical_city, export_city),
+        export_control_label = dplyr::coalesce(canonical_control_label, export_control_label),
+        export_category = dplyr::coalesce(canonical_category, export_category),
+        export_unitid = vapply(
+          seq_len(n()),
+          function(i) make_accreditation_export_id(
+            unitid[[i]],
+            export_institution_name[[i]],
+            export_state[[i]],
+            accreditor_values[[i]]
+          ),
+          character(1)
+        ),
+        has_financial_profile = !is.na(unitid) & unitid != "",
+        is_primary_tracker = has_financial_profile & is_primary_bachelors_category(export_category)
+      ) %>%
+      select(-canonical_institution_name, -canonical_state, -canonical_city, -canonical_control_label, -canonical_category)
+
+    df
+  }
+
+  summary_df <- reconcile_accreditation_tracker_metadata(summary_df, accreditor_col = "accreditors")
+  scraper_actions_df <- scraper_actions_df %>%
     mutate(
-      export_institution_name = pick_first_present(pick(dplyr::everything()), c("institution_name", "tracker_name", "institution_name_raw")),
-      export_state = pick_first_present(pick(dplyr::everything()), c("state", "tracker_state", "institution_state_raw")),
-      export_city = pick_first_present(pick(dplyr::everything()), c("city", "tracker_city")),
-      export_control_label = pick_first_present(pick(dplyr::everything()), c("control_label", "tracker_control")),
-      export_category = pick_first_present(pick(dplyr::everything()), c("category", "tracker_category")),
-      export_unitid = vapply(
-        seq_len(n()),
-        function(i) make_accreditation_export_id(unitid[[i]], export_institution_name[[i]], export_state[[i]], accreditors[[i]]),
-        character(1)
+      accreditor_norm = normalize_accreditor_code(accreditor),
+      scraper_source_key = build_accreditation_action_source_key(
+        unitid = unitid,
+        institution_name = dplyr::coalesce(tracker_name, institution_name_raw, institution_name),
+        accreditor = accreditor_norm,
+        action_type = action_type,
+        action_label = action_label_raw,
+        action_date = action_date,
+        source_url = source_url,
+        source_page_url = source_page_url
       )
     )
-  actions_df <- actions_df %>%
+  scraper_actions_df <- reconcile_accreditation_tracker_metadata(scraper_actions_df, accreditor_col = "accreditor")
+  dapip_actions_df <- dapip_actions_df %>%
     mutate(
-      export_institution_name = pick_first_present(pick(dplyr::everything()), c("institution_name", "tracker_name", "institution_name_raw")),
-      export_state = pick_first_present(pick(dplyr::everything()), c("state", "tracker_state", "institution_state_raw")),
-      export_city = pick_first_present(pick(dplyr::everything()), c("city", "tracker_city")),
-      export_control_label = pick_first_present(pick(dplyr::everything()), c("control_label", "tracker_control")),
-      export_category = pick_first_present(pick(dplyr::everything()), c("category", "tracker_category")),
-      export_unitid = vapply(
-        seq_len(n()),
-        function(i) make_accreditation_export_id(unitid[[i]], export_institution_name[[i]], export_state[[i]], accreditor[[i]]),
-        character(1)
-      ),
-      has_financial_profile = !is.na(unitid) & unitid != "",
-      is_primary_tracker = has_financial_profile & is_primary_bachelors_category(export_category)
+      accreditor_norm = normalize_accreditor_code(accreditor),
+      accreditor = accreditor_norm,
+      dapip_source_key = build_accreditation_action_source_key(
+        unitid = unitid,
+        institution_name = dplyr::coalesce(tracker_name, institution_name_raw),
+        accreditor = accreditor_norm,
+        action_type = action_type,
+        action_label = action_label_raw,
+        action_date = action_date,
+        source_url = source_url,
+        source_page_url = source_page_url,
+        file_id = file_id
+      )
+    )
+  dapip_actions_df <- reconcile_accreditation_tracker_metadata(dapip_actions_df, accreditor_col = "accreditor")
+  selected_scraper_audit <- audit_df %>%
+    filter(public_table_strategy %in% c("scraper_backed_keep", "hybrid_keep")) %>%
+    mutate(
+      strategy_rank = dplyr::case_when(
+        public_table_strategy == "hybrid_keep" ~ 1L,
+        public_table_strategy == "scraper_backed_keep" ~ 2L,
+        TRUE ~ 3L
+      )
     ) %>%
-    filter(!is.na(export_unitid), export_unitid != "")
-
-  actions_df <- actions_df %>%
+    arrange(strategy_rank) %>%
+    group_by(scraper_source_key) %>%
+    slice(1) %>%
+    ungroup() %>%
+    transmute(
+      scraper_source_key = as.character(scraper_source_key),
+      public_table_strategy = as.character(public_table_strategy),
+      hybrid_candidate = as.logical(hybrid_candidate),
+      hybrid_reason = as.character(hybrid_reason),
+      public_action_family = as.character(public_action_family),
+      preferred_scraper_action_type = as.character(scraper_action_type),
+      preferred_scraper_action_label = as.character(scraper_action_label),
+      preferred_scraper_action_date = as.character(scraper_action_date)
+    ) %>%
+    filter(!is.na(scraper_source_key), scraper_source_key != "")
+  selected_dapip_audit <- audit_df %>%
+    filter(public_table_strategy == "dapip_backed_keep") %>%
+    group_by(dapip_source_key) %>%
+    slice(1) %>%
+    ungroup() %>%
+    transmute(
+      dapip_source_key = as.character(dapip_source_key),
+      public_table_strategy = as.character(public_table_strategy),
+      hybrid_candidate = as.logical(hybrid_candidate),
+      hybrid_reason = as.character(hybrid_reason),
+      public_action_family = as.character(public_action_family)
+    ) %>%
+    filter(!is.na(dapip_source_key), dapip_source_key != "")
+  public_scraper_actions <- selected_scraper_audit %>%
+    left_join(scraper_actions_df, by = "scraper_source_key")
+  if (nrow(public_scraper_actions) > 0L && any(is.na(public_scraper_actions$action_label_raw))) {
+    stop(
+      "Accreditation export join bug: one or more audited scraper-backed rows no longer match the scraper action source data. Re-run the DAPIP audit before exporting.",
+      call. = FALSE
+    )
+  }
+  public_scraper_actions <- public_scraper_actions %>%
+    mutate(
+      unitid = as.character(unitid),
+      action_date = as.character(action_date),
+      action_year = as.character(action_year),
+      file_id = NA_character_,
+      scraper_source_key = as.character(scraper_source_key),
+      dapip_source_key = NA_character_
+    )
+  public_dapip_actions <- selected_dapip_audit %>%
+    left_join(dapip_actions_df, by = "dapip_source_key")
+  if (nrow(public_dapip_actions) > 0L && any(is.na(public_dapip_actions$action_label_raw))) {
+    stop(
+      "Accreditation export join bug: one or more audited DAPIP-backed rows no longer match the DAPIP filtered action data. Re-run the DAPIP action build and audit before exporting.",
+      call. = FALSE
+    )
+  }
+  public_dapip_actions <- public_dapip_actions %>%
+    mutate(
+      unitid = as.character(unitid),
+      action_date = as.character(action_date),
+      action_year = as.character(action_year),
+      file_id = as.character(file_id),
+      scraper_source_key = NA_character_,
+      dapip_source_key = as.character(dapip_source_key)
+    )
+  actions_df <- bind_rows(
+    public_scraper_actions %>%
+      mutate(
+        action_type = dplyr::coalesce(action_type, preferred_scraper_action_type),
+        action_label_raw = dplyr::coalesce(action_label_raw, preferred_scraper_action_label),
+        action_date = dplyr::coalesce(action_date, preferred_scraper_action_date),
+        display_action = TRUE
+      ),
+    public_dapip_actions %>%
+      mutate(display_action = TRUE)
+  ) %>%
+    mutate(
+      unitid = as.character(unitid),
+      action_date = normalize_accreditation_date(action_date),
+      action_year = dplyr::if_else(
+        (is.na(action_year) | trimws(as.character(action_year %||% "")) == "") & !is.na(action_date),
+        substr(action_date, 1L, 4L),
+        as.character(action_year)
+      ),
+      source_page_modified = na_if(as.character(source_page_modified), ""),
+      display_action = TRUE,
+      accreditors = dplyr::coalesce(accreditors, accreditor),
+      latest_action_date = dplyr::coalesce(latest_action_date, action_date),
+      latest_action_year = dplyr::coalesce(latest_action_year, action_year),
+      action_labels = dplyr::coalesce(action_labels, action_label_raw),
+      action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L)
+    ) %>%
+    reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
+    {
+      if (!"file_text_path" %in% names(.)) {
+        .$file_text_path <- NA_character_
+      }
+      .
+    } %>%
     mutate(
       action_label_short = vapply(
         seq_len(n()),
-        function(i) derive_action_label_short(action_type[[i]], action_label_raw[[i]], accreditor[[i]]),
-        character(1)
-      ),
-      is_public_display_action = vapply(
-        seq_len(n()),
-        function(i) is_recent_public_action(
+        function(i) derive_action_label_short(
           action_type[[i]],
-          accreditor[[i]],
-          action_label_raw[[i]],
-          notes[[i]],
-          action_year[[i]],
-          action_date[[i]],
-          display_action[[i]]
+          .select_action_summary_source_text(
+            action_label_raw[[i]],
+            file_text_path[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          ),
+          normalize_accreditor_code(accreditor[[i]]),
+          notes[[i]]
         ),
-        logical(1)
+        character(1)
       )
     ) %>%
-    filter(is_public_display_action %in% TRUE)
+    mutate(accreditor = normalize_accreditor_code(accreditor)) %>%
+    filter(
+      !(
+        accreditor %in% c("SACSCOC", "NECHE") &
+          trimws(as.character(action_label_short %||% "")) == "Heightened Monitoring or Focused Review"
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          trimws(as.character(action_label_short %||% "")) == "Removal of Monitoring Status"
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          trimws(as.character(action_label_short %||% "")) %in% c(
+            "Requested Monitoring Report",
+            "Requested to Submit a Monitoring Report"
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "MSCHE" &
+          grepl(
+            paste(
+              "^to reject the supplemental information report\\.?$",
+              "^to reject the supplemental information report requested by the commission action[^.]*\\.?$",
+              "^to note the supplemental information report(?:[^.]*)? is no longer required\\.?$",
+              "^to note the supplemental information report due [^.]*\\.?$",
+              sep = "|"
+            ),
+            tolower(trimws(as.character(action_label_short %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "HLC" &
+          identical(trimws(as.character(action_label_short %||% "")), "Required to provide an interim report")
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          grepl(
+            "^since your institution has been continued on (probation|warning)",
+            tolower(trimws(as.character(action_label_short %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          grepl(
+            "placed on probation for good cause by the sacscoc board of trustees in [a-z]+ \\d{4}\\.?$",
+            tolower(trimws(as.character(action_label_short %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          grepl(
+            "^your institution'?s next reaffirmation",
+            tolower(trimws(as.character(action_label_short %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          action_type == "notice" &
+          grepl(
+            paste(
+              "continued accreditation following (the )?review of membership at level",
+              "continued accreditation following (the )?review of an off-?campus instructional site",
+              "awarded membership at level",
+              "approved the change in governance from",
+              sep = "|"
+            ),
+            tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          grepl("reviewed .* monitoring (review|report)", tolower(trimws(as.character(action_label_raw %||% ""))), perl = TRUE) &
+          !grepl(
+            "requested a monitoring report|placed the institution|continued .* on warning|continued .* on probation|removed from|warning|probation|show cause|good cause|additional oversight|resolution of compliance issues|denied reaffirmation",
+            tolower(trimws(as.character(action_label_raw %||% ""))),
+            perl = TRUE
+          )
+      )
+    ) %>%
+    filter(
+      !(
+        accreditor == "SACSCOC" &
+          vapply(
+            seq_len(n()),
+            function(i) is_sacscoc_public_table_row_to_drop(
+              action_type[[i]],
+              action_label_short[[i]],
+              action_label_raw[[i]]
+            ),
+            logical(1)
+          )
+      )
+    ) %>%
+    filter(
+      !grepl("\\b\\d+\\)\\s+in support of continued accreditation:", tolower(trimws(as.character(action_label_raw %||% ""))), perl = TRUE)
+    ) %>%
+    filter(accreditor %in% PUBLIC_ACCREDITOR_CODES) %>%
+    filter(!is.na(export_unitid), export_unitid != "") %>%
+    filter(vapply(seq_len(n()), function(i) public_action_has_occurred(action_year[[i]], action_date[[i]]), logical(1))) %>%
+    group_by(export_unitid, accreditor, action_date) %>%
+    mutate(
+      has_same_day_dapip_preferred_row = any(public_table_strategy == "dapip_backed_keep", na.rm = TRUE),
+      drop_same_day_scraper_when_dapip_exists = public_table_strategy == "scraper_backed_keep" & has_same_day_dapip_preferred_row
+    ) %>%
+    ungroup() %>%
+    filter(!drop_same_day_scraper_when_dapip_exists) %>%
+    select(-has_same_day_dapip_preferred_row, -drop_same_day_scraper_when_dapip_exists) %>%
+    group_by(export_unitid, accreditor, action_date) %>%
+    mutate(
+      has_same_day_explicit_sanction = any(action_type %in% c("warning", "probation", "removed", "show_cause", "adverse_action"), na.rm = TRUE),
+      notice_duplicates_sanction = action_type == "notice" &
+        has_same_day_explicit_sanction &
+        grepl(
+          "warning|probation|show cause|removed from|denied reaffirmation|placed the institution",
+          tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+          perl = TRUE
+        )
+    ) %>%
+    ungroup() %>%
+    filter(!notice_duplicates_sanction) %>%
+    select(-has_same_day_explicit_sanction, -notice_duplicates_sanction) %>%
+    group_by(export_unitid, accreditor, action_date) %>%
+    mutate(
+      has_same_day_substantive_family = any(
+        public_action_family %in% c("warning", "probation", "show_cause", "removed", "withdrawal_or_loss", "institutional_change_or_closure"),
+        na.rm = TRUE
+      ),
+      drop_same_day_monitoring_family = public_action_family == "monitoring_or_notice" & has_same_day_substantive_family,
+      has_same_day_specific_removed = any(
+        public_action_family == "removed" &
+          grepl(
+            "warning removed|probation removed|removed from warning|removed from probation|removed from notice",
+            tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+            perl = TRUE
+          ),
+        na.rm = TRUE
+      ),
+      drop_generic_removed = public_action_family == "removed" &
+        has_same_day_specific_removed &
+        grepl(
+          "removal of monitoring status|removed from sanction",
+          tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+          perl = TRUE
+        ),
+      has_same_day_specific_monitoring_removal = any(
+        grepl(
+          "probation removed|warning removed|removed from probation|removed from warning|removed from notice",
+          tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+          perl = TRUE
+        ),
+        na.rm = TRUE
+      ),
+      drop_textual_monitoring_removal = grepl(
+        "removal of monitoring status",
+        tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
+        perl = TRUE
+      ) &
+        has_same_day_specific_monitoring_removal &
+        any(grepl("removal of monitoring status", tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))), perl = TRUE), na.rm = TRUE)
+    ) %>%
+    ungroup() %>%
+    filter(!drop_same_day_monitoring_family, !drop_generic_removed, !drop_textual_monitoring_removal) %>%
+    select(
+      -has_same_day_substantive_family,
+      -drop_same_day_monitoring_family,
+      -has_same_day_specific_removed,
+      -drop_generic_removed,
+      -has_same_day_specific_monitoring_removal,
+      -drop_textual_monitoring_removal
+    ) %>%
+    group_by(export_unitid, accreditor, action_year, public_action_family) %>%
+    mutate(
+      is_generic_dapip_code_label = grepl(
+        "^Probation or Equivalent or a More Severe Status: (Warning|Probation|Show Cause)$",
+        trimws(as.character(action_label_short %||% "")),
+        ignore.case = TRUE,
+        perl = TRUE
+      ),
+      is_generic_sanction_family_label = grepl(
+        "^(Placed on Warning|Placed on Probation(?: for Good Cause)?|Continued on Warning|Continued on Probation(?: for Good Cause)?|Removed from Warning|Removed from Probation(?: for Good Cause)?|Required to Show Cause)$",
+        trimws(as.character(action_label_short %||% "")),
+        ignore.case = TRUE,
+        perl = TRUE
+      ),
+      has_detailed_same_year_family = any(
+        !is_generic_dapip_code_label &
+          !is_generic_sanction_family_label &
+          nzchar(trimws(as.character(action_label_short %||% ""))),
+        na.rm = TRUE
+      ),
+      drop_generic_same_year_family = (is_generic_dapip_code_label | is_generic_sanction_family_label) & has_detailed_same_year_family
+    ) %>%
+    ungroup() %>%
+    filter(!drop_generic_same_year_family) %>%
+    select(-is_generic_dapip_code_label, -is_generic_sanction_family_label, -has_detailed_same_year_family, -drop_generic_same_year_family) %>%
+    mutate(
+      sacscoc_sanction_outcome = dplyr::case_when(
+        toupper(trimws(as.character(accreditor %||% ""))) != "SACSCOC" ~ NA_character_,
+        grepl("\\bremoved from probation\\b|\\bprobation removed\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "removed_probation",
+        grepl("\\bremoved from warning\\b|\\bwarning removed\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "removed_warning",
+        grepl("\\bshow cause\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "show_cause",
+        grepl("\\bprobation\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "probation",
+        grepl("\\bwarning\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "warning",
+        TRUE ~ NA_character_
+      )
+    ) %>%
+    group_by(export_unitid, accreditor, action_year, sacscoc_sanction_outcome) %>%
+    mutate(
+      sacscoc_is_generic_outcome_label = toupper(trimws(as.character(accreditor %||% ""))) == "SACSCOC" &
+        grepl(
+          "^(Placed on Warning(?: for Good Cause)?|Placed on Probation(?: for Good Cause)?|Continued on Warning(?: for Good Cause)?|Continued on Probation(?: for Good Cause)?|Removed from Warning|Removed from Probation(?: for Good Cause)?|Required to Show Cause)$",
+          trimws(as.character(action_label_short %||% "")),
+          ignore.case = TRUE,
+          perl = TRUE
+        ),
+      sacscoc_has_detailed_same_year_outcome = any(
+        !sacscoc_is_generic_outcome_label &
+          !is.na(sacscoc_sanction_outcome) &
+          nzchar(trimws(as.character(action_label_short %||% ""))),
+        na.rm = TRUE
+      ),
+      drop_generic_same_year_sacscoc_outcome = sacscoc_is_generic_outcome_label & sacscoc_has_detailed_same_year_outcome
+    ) %>%
+    ungroup() %>%
+    filter(!drop_generic_same_year_sacscoc_outcome) %>%
+    select(-sacscoc_sanction_outcome, -sacscoc_is_generic_outcome_label, -sacscoc_has_detailed_same_year_outcome, -drop_generic_same_year_sacscoc_outcome) %>%
+    mutate(
+      duplicate_source_locator = dplyr::coalesce(source_page_url, source_url),
+      duplicate_action_text = tolower(gsub("[^a-z0-9]+", " ", trimws(paste(action_label_short %||% "", action_label_raw %||% "")))),
+      duplicate_name_text = tolower(gsub("[^a-z0-9]+", " ", trimws(as.character(export_institution_name %||% ""))))
+    ) %>%
+    group_by(accreditor, action_date, duplicate_source_locator, duplicate_action_text) %>%
+    mutate(
+      has_same_source_name_collision = accreditor == "NWCCU" &
+        source_title == "DAPIP Institutional Accreditation Action" &
+        nzchar(trimws(as.character(duplicate_source_locator %||% ""))) &
+        dplyr::n() > 1L,
+      action_mentions_export_name = has_same_source_name_collision &
+        nzchar(duplicate_name_text) &
+        stringr::str_detect(duplicate_action_text, stringr::fixed(duplicate_name_text)),
+      has_matching_named_row = any(action_mentions_export_name, na.rm = TRUE),
+      drop_same_source_name_mismatch = has_same_source_name_collision &
+        has_matching_named_row &
+        !action_mentions_export_name
+    ) %>%
+    ungroup() %>%
+    filter(!drop_same_source_name_mismatch) %>%
+    select(
+      -duplicate_source_locator,
+      -duplicate_action_text,
+      -duplicate_name_text,
+      -has_same_source_name_collision,
+      -action_mentions_export_name,
+      -has_matching_named_row,
+      -drop_same_source_name_mismatch
+    ) %>%
+    mutate(dedupe_source_locator = dplyr::coalesce(source_url, source_page_url)) %>%
+    distinct(
+      export_unitid,
+      accreditor,
+      action_type,
+      action_label_raw,
+      action_date,
+      dedupe_source_locator,
+      public_table_strategy,
+      .keep_all = TRUE
+    ) %>%
+    select(-dedupe_source_locator) %>%
+    arrange(action_date, action_year) %>%
+    group_by(export_unitid, accreditor, action_label_short, action_year) %>%
+    slice(1) %>%
+    ungroup()
 
   actions_df <- actions_df %>%
     mutate(
@@ -684,8 +1288,8 @@ build_accreditation_export <- function() {
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying
   # 4-year bachelor's institutions under action right now).
-  ALL_TRACKED_ACCREDITORS <- c("HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC")
-  covered_accreditors <- sort(unique(c(ALL_TRACKED_ACCREDITORS, summary_df$accreditors, actions_df$accreditor)))
+  ALL_TRACKED_ACCREDITORS <- PUBLIC_ACCREDITOR_CODES
+  covered_accreditors <- sort(unique(c(ALL_TRACKED_ACCREDITORS, actions_df$accreditor)))
   covered_accreditors <- covered_accreditors[!is.na(covered_accreditors) & covered_accreditors != ""]
 
   not_covered <- list(
@@ -714,7 +1318,7 @@ build_accreditation_export <- function() {
       category = or_null(latest$export_category),
       latest_status = list(
         accreditors = or_null(collapse_unique_values(df$accreditor)),
-        action_labels = or_null(collapse_unique_values(df$action_label_raw)),
+        action_labels = or_null(collapse_unique_values(dplyr::coalesce(df$action_label_short, df$action_label_raw))),
         active_actions = or_null(collapse_unique_values(active_types)),
         has_active_warning = any(df$action_status == "active" & df$action_type == "warning", na.rm = TRUE),
         has_active_warning_or_notice = any(df$action_status == "active" & df$action_type %in% c("warning", "notice"), na.rm = TRUE),
@@ -755,6 +1359,9 @@ build_accreditation_export <- function() {
           source_page_url = or_null(df$source_page_url[i]),
           source_page_modified = or_null(df$source_page_modified[i]),
           display_action = isTRUE(df$display_action[i]),
+          public_table_strategy = or_null(df$public_table_strategy[i]),
+          hybrid_candidate = isTRUE(df$hybrid_candidate[i]),
+          hybrid_reason = or_null(df$hybrid_reason[i]),
           has_financial_profile = isTRUE(df$has_financial_profile[i]),
           is_primary_tracker = isTRUE(df$is_primary_tracker[i])
         )
@@ -1008,6 +1615,8 @@ build_school_file <- function(df) {
       tuition_dependence_pct = latest$tuition_dependence_pct[[1]],
       sector_median_tuition_dependence_pct = latest$sector_median_tuition_dependence_pct[[1]],
       tuition_dependence_vs_sector_median_sentence = null_if_empty(latest$tuition_dependence_vs_sector_median_sentence[[1]]),
+      unfunded_discount_rate = scale_ratio_to_pct(latest$discount_rate[[1]]),
+      unfunded_discount_pct_change_5yr = latest$discount_pct_change_5yr[[1]],
       share_grad_students = scale_ratio_to_pct(latest$share_grad_students[[1]]),
       sector_avg_share_grad_students = scale_ratio_to_pct(sector_grad_share_benchmark),
       research_expense = latest$research_expense[[1]],
@@ -1046,6 +1655,7 @@ build_school_file <- function(df) {
       revenue_total_adjusted = build_series(df, "revenue_total_adjusted"),
       expenses_total_adjusted = build_series(df, "expenses_total_adjusted"),
       net_tuition_per_fte_adjusted = build_series(df, "net_tuition_per_fte_adjusted"),
+      unfunded_discount_rate = build_series(df, "discount_rate", scale = 100),
       enrollment_headcount_total = build_series(df, "enrollment_headcount_total"),
       enrollment_nonresident_total = build_series(df, "enrollment_nonresident_total"),
       enrollment_nonresident_undergrad = build_series(df, "enrollment_nonresident_undergrad"),
@@ -1089,7 +1699,7 @@ numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
   "students_per_instructional_staff_fte","sector_median_students_per_instructional_staff_fte",
-  "tuition_dependence_pct","sector_median_tuition_dependence_pct","share_grad_students","research_expense","research_expense_per_fte",
+  "tuition_dependence_pct","sector_median_tuition_dependence_pct","discount_rate","discount_pct_change_5yr","share_grad_students","research_expense","research_expense_per_fte",
   "research_expense_pct_core_expenses",
   "sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive","pct_international_all",
   "pct_international_undergraduate","pct_international_graduate","international_student_count_change_5yr",
@@ -1268,6 +1878,9 @@ export_bundle_specs <- list(
           action_date = action$action_date,
           action_year = action$action_year,
           display_action = action$display_action,
+          public_table_strategy = action$public_table_strategy,
+          hybrid_candidate = action$hybrid_candidate,
+          hybrid_reason = action$hybrid_reason,
           notes = action$notes,
           source_url = action$source_url %||% action$source_page_url,
           source_page_url = action$source_page_url,

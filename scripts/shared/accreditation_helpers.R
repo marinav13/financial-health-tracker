@@ -54,6 +54,79 @@ if (!exists("normalize_name_accreditation", mode = "function")) {
 normalize_name <- normalize_name_accreditation
 normalize_accreditation_name <- normalize_name_accreditation
 
+# Normalizes accreditor names/codes into the short codes used across the
+# tracker exports and frontend payloads.
+normalize_accreditor_code <- function(x) {
+  value <- trimws(as.character(x %||% ""))
+  dplyr::case_when(
+    grepl("higher learning commission|\\bhlc\\b", value, ignore.case = TRUE, perl = TRUE) ~ "HLC",
+    grepl("middle states|\\bmsche\\b", value, ignore.case = TRUE, perl = TRUE) ~ "MSCHE",
+    grepl("new england commission|\\bneche\\b", value, ignore.case = TRUE, perl = TRUE) ~ "NECHE",
+    grepl("southern association|sacscoc", value, ignore.case = TRUE, perl = TRUE) ~ "SACSCOC",
+    grepl("western association|wscuc", value, ignore.case = TRUE, perl = TRUE) ~ "WSCUC",
+    grepl("northwest commission|nwccu", value, ignore.case = TRUE, perl = TRUE) ~ "NWCCU",
+    TRUE ~ value
+  )
+}
+
+normalize_action_join_text <- function(x) {
+  value <- as.character(x)
+  value[is.na(value)] <- ""
+  value <- tolower(trimws(value))
+  gsub("\\s+", " ", value, perl = TRUE)
+}
+
+normalize_action_join_date <- function(x) {
+  values <- trimws(as.character(x %||% ""))
+  values[!nzchar(values) | values == "NA"] <- ""
+  values
+}
+
+build_accreditation_action_source_key <- function(unitid,
+                                                  institution_name,
+                                                  accreditor,
+                                                  action_type,
+                                                  action_label,
+                                                  action_date,
+                                                  source_url = NA_character_,
+                                                  source_page_url = NA_character_,
+                                                  file_id = NA_character_) {
+  normalized_unitid <- trimws(as.character(unitid %||% ""))
+  normalized_unitid[is.na(normalized_unitid) | normalized_unitid == "NA"] <- ""
+  normalized_name <- normalize_action_join_text(institution_name)
+  normalized_accreditor <- normalize_accreditor_code(accreditor)
+  normalized_type <- normalize_action_join_text(action_type)
+  normalized_label <- normalize_action_join_text(action_label)
+  normalized_date <- normalize_action_join_date(action_date)
+  locator <- as.character(source_url)
+  locator[is.na(locator)] <- ""
+  locator <- trimws(locator)
+  page_locator <- as.character(source_page_url)
+  page_locator[is.na(page_locator)] <- ""
+  page_locator <- trimws(page_locator)
+  if (length(page_locator) == 1L && length(locator) > 1L) {
+    page_locator <- rep(page_locator, length(locator))
+  } else if (length(locator) == 1L && length(page_locator) > 1L) {
+    locator <- rep(locator, length(page_locator))
+  }
+  locator[!nzchar(locator)] <- page_locator[!nzchar(locator)]
+  normalized_file_id <- as.character(file_id)
+  normalized_file_id[is.na(normalized_file_id)] <- ""
+  normalized_file_id <- trimws(normalized_file_id)
+
+  paste(
+    normalized_unitid,
+    normalized_name,
+    normalized_accreditor,
+    normalized_type,
+    normalized_label,
+    normalized_date,
+    locator,
+    normalized_file_id,
+    sep = "||"
+  )
+}
+
 # ---------------------------------------------------------------------------
 # STATE ABBREVIATION LOOKUP
 # ---------------------------------------------------------------------------

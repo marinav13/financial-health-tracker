@@ -1697,7 +1697,8 @@ parse_msche <- function(cache_dir, refresh) {
 
 # Scrapes HLC accreditation data from two sources: current public disclosure notices
 # (from accordion panels on the main page) and historical action detail pages
-# (links to monthly action pages from 2024 onward).
+# (links to monthly action pages from 2022 onward, as exposed on the live
+# Accreditation Actions landing page's academic-year archive).
 parse_hlc <- function(cache_dir, refresh) {
   url <- HLC_ACTIONS_URL
   html <- fetch_html_text(url, "hlc_actions.html", cache_dir, refresh = refresh)
@@ -1797,7 +1798,7 @@ parse_hlc <- function(cache_dir, refresh) {
   historical_rows <- if (nrow(link_matches) == 0) {
     tibble::tibble()
   } else {
-    detail_urls <- unique(link_matches[as.integer(link_matches[, 4]) >= 2024, 2])
+    detail_urls <- unique(link_matches[as.integer(link_matches[, 4]) >= 2022, 2])
     purrr::map_dfr(detail_urls, parse_hlc_detail_page)
   }
 

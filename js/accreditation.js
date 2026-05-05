@@ -369,7 +369,16 @@
   }
 
   function formatActionDate(action) {
-    return action.action_date || action.action_year || "";
+    const parsed = parseActionDate(action);
+    if (parsed && !Number.isNaN(parsed.getTime())) {
+      return parsed.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC"
+      });
+    }
+    const rawYear = String(action.action_year || "").trim();
+    return rawYear || "";
   }
 
   function getActionLink(action) {
@@ -404,7 +413,7 @@
       const key = [
         action.accreditor || "",
         action.action_label || action.action_label_raw || action.action_type || "",
-        action.action_date || action.action_year || "",
+        formatActionDate(action),
         getActionLink(action) || ""
       ].join("||");
       if (seen.has(key)) return false;
@@ -617,7 +626,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
         actionLabelCell(action),
         action.state || "",
         action.control_label || "",
-        action.action_date || action.action_year || "",
+        formatActionDate(action),
         renderExternalLinkCell(action.source_url, "Source link")
       ]);
 

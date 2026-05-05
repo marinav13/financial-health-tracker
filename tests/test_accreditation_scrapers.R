@@ -1051,6 +1051,78 @@ run_test("Accreditation scraper HLC content node parser", function() {
   assert_identical(rows$action_type[[1]], "notice")
 })
 
+run_test("parse_hlc includes 2022-23 monthly action pages from cached landing links", function() {
+  cache_dir <- tempfile("hlc_fixture_")
+  dir.create(cache_dir, recursive = TRUE)
+  on.exit(unlink(cache_dir, recursive = TRUE), add = TRUE)
+
+  writeLines(
+    paste0(
+      "<html><head>",
+      "<title>Accreditation Actions | The Higher Learning Commission</title>",
+      "<meta property=\"article:modified_time\" content=\"2026-04-28T00:00:00+00:00\">",
+      "</head><body>",
+      "<a href=\"https://www.hlcommission.org/for-students/accreditation-actions/october-2022/\">October 2022</a>",
+      "<a href=\"https://www.hlcommission.org/for-students/accreditation-actions/august-2023/\">August 2023</a>",
+      "<a href=\"https://www.hlcommission.org/for-students/accreditation-actions/october-2024/\">October 2024</a>",
+      "</body></html>"
+    ),
+    file.path(cache_dir, "hlc_actions.html")
+  )
+
+  writeLines(
+    paste0(
+      "<html><head>",
+      "<title>October 2022 Actions | The Higher Learning Commission</title>",
+      "<meta property=\"article:modified_time\" content=\"2022-10-20T00:00:00+00:00\">",
+      "</head><body>",
+      "<div class=\"entry-content\">",
+      "<p><a href=\"/institution/test-2022\">Alpha College</a>, Boston, MA</p>",
+      "<ul><li>Placed on Notice</li></ul>",
+      "</div></body></html>"
+    ),
+    file.path(cache_dir, "hlc_october-2022.html")
+  )
+
+  writeLines(
+    paste0(
+      "<html><head>",
+      "<title>August 2023 Actions | The Higher Learning Commission</title>",
+      "<meta property=\"article:modified_time\" content=\"2023-08-20T00:00:00+00:00\">",
+      "</head><body>",
+      "<div class=\"entry-content\">",
+      "<p><a href=\"/institution/test-2023\">Beta College</a>, Madison, WI</p>",
+      "<ul><li>Placed on Probation</li></ul>",
+      "</div></body></html>"
+    ),
+    file.path(cache_dir, "hlc_august-2023.html")
+  )
+
+  writeLines(
+    paste0(
+      "<html><head>",
+      "<title>October 2024 Actions | The Higher Learning Commission</title>",
+      "<meta property=\"article:modified_time\" content=\"2024-10-20T00:00:00+00:00\">",
+      "</head><body>",
+      "<div class=\"entry-content\">",
+      "<p><a href=\"/institution/test-2024\">Gamma College</a>, Denver, CO</p>",
+      "<ul><li>Approved Teach-Out Agreement</li></ul>",
+      "</div></body></html>"
+    ),
+    file.path(cache_dir, "hlc_october-2024.html")
+  )
+
+  rows <- parse_hlc(cache_dir, refresh = FALSE)
+
+  assert_identical(nrow(rows), 3L)
+  assert_true(any(rows$institution_name_raw == "Alpha College"))
+  assert_true(any(rows$institution_name_raw == "Beta College"))
+  assert_true(any(rows$institution_name_raw == "Gamma College"))
+  assert_true(any(rows$action_date == as.Date("2022-10-01")))
+  assert_true(any(rows$action_date == as.Date("2023-08-01")))
+  assert_true(any(rows$action_date == as.Date("2024-10-01")))
+})
+
 run_test("parse_msche returns correct rows from fixture HTML", function() {
   cache_dir <- tempfile("msche_fixture_")
   dir.create(cache_dir)

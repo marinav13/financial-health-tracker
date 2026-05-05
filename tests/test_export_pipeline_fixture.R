@@ -42,6 +42,8 @@ run_test("Web export pipeline fixture", function() {
     tuition_dependence_pct = c("29", "30"),
     sector_median_tuition_dependence_pct = c("28", "29"),
     tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+    discount_rate = c("0.28", "0.32"),
+    discount_pct_change_5yr = c("4", "6"),
     share_grad_students = c("0.24", "0.25"),
     research_expense = c("40", "50"),
     research_expense_per_fte = c("0.4", "0.5"),
@@ -146,18 +148,19 @@ run_test("Web export pipeline fixture", function() {
 
   readr::write_csv(
     data.frame(
-      unitid = c("100", "100", "100"),
-      institution_name = c("Example University", "Example University", "Example University"),
-      state = c("Massachusetts", "Massachusetts", "Massachusetts"),
-      city = c("Boston", "Boston", "Boston"),
-      control_label = c("Public", "Public", "Public"),
+      unitid = c("100", "100", "100", "100"),
+      institution_name = c("Example University", "Example University", "Example University", "Example University"),
+      state = c("Massachusetts", "Massachusetts", "Massachusetts", "Massachusetts"),
+      city = c("Boston", "Boston", "Boston", "Boston"),
+      control_label = c("Public", "Public", "Public", "Public"),
       category = c(
+        "Degree-granting, primarily baccalaureate or above",
         "Degree-granting, primarily baccalaureate or above",
         "Degree-granting, primarily baccalaureate or above",
         "Degree-granting, primarily baccalaureate or above"
       ),
-      accreditor = c("MSCHE", "MSCHE", "MSCHE"),
-      action_type = c("adverse_action", "program_addition", "program_addition"),
+      accreditor = c("MSCHE", "MSCHE", "MSCHE", "MSCHE"),
+      action_type = c("adverse_action", "program_addition", "program_addition", "monitoring"),
       action_label_raw = c(
         paste0(
           "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
@@ -167,28 +170,168 @@ run_test("Web export pipeline fixture", function() {
           "terminate its membership effective May 31, 2026."
         ),
         "Program Addition",
-        "Substantive Change Request Approved"
+        "Substantive Change Request Approved",
+        paste0(
+          "To acknowledge receipt of the monitoring report requested by the Commission action of June 27, 2024. ",
+          "To reaffirm accreditation because the institution is now in compliance with Standard V (Educational Effectiveness Assessment). ",
+          "To request a monitoring report, due March 2, 2026, demonstrating sustainability of corrective measures."
+        )
       ),
-      action_status = c("active", "routine", "routine"),
-      action_date = c("2026-04-24", "2026-05-01", "2026-05-15"),
-      action_year = c("", "2026", "2026"),
+      action_status = c("active", "routine", "routine", "active"),
+      action_date = c("2026-04-24", "2026-05-01", "2026-05-15", "2025-06-26"),
+      action_year = c("", "2026", "2026", "2025"),
       notes = c(
         "Voluntary surrender of accreditation",
         "Routine program addition should not display",
-        "Routine substantive change approval should not display"
+        "Routine substantive change approval should not display",
+        "Monitoring report follow-up should lose to same-day DAPIP row"
       ),
       source_url = c(
         "https://example.org/accreditation",
         "https://example.org/program-addition-hidden",
-        "https://example.org/program-addition-public"
+        "https://example.org/program-addition-public",
+        "https://example.org/msche-monitoring"
       ),
-      source_title = c("MSCHE action", "MSCHE hidden routine action", "MSCHE visible-but-routine action"),
-      source_page_url = c("https://example.org/accreditation-page", "https://example.org/accreditation-page", "https://example.org/accreditation-page"),
-      source_page_modified = c("2024-03-02", "2024-03-02", "2024-03-02"),
-      display_action = c(TRUE, FALSE, TRUE),
+      source_title = c("MSCHE action", "MSCHE hidden routine action", "MSCHE visible-but-routine action", "MSCHE monitoring action"),
+      source_page_url = c("https://example.org/accreditation-page", "https://example.org/accreditation-page", "https://example.org/accreditation-page", "https://example.org/accreditation-page"),
+      source_page_modified = c("2024-03-02", "2024-03-02", "2024-03-02", "2024-03-02"),
+      display_action = c(TRUE, FALSE, TRUE, TRUE),
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  hybrid_scraper_key <- build_accreditation_action_source_key(
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_type = "adverse_action",
+    action_label = paste0(
+      "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+      "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+      "voluntarily surrender accreditation, and terminate membership. ",
+      "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
+      "terminate its membership effective May 31, 2026."
+    ),
+    action_date = "2026-04-24",
+    source_url = "https://example.org/accreditation",
+    source_page_url = "https://example.org/accreditation-page"
+  )
+  hybrid_dapip_key <- build_accreditation_action_source_key(
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_type = "adverse_action",
+    action_label = "Voluntary Withdrawal Received",
+    action_date = "2026-04-06",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/100001",
+    file_id = "0"
+  )
+  warning_dapip_key <- build_accreditation_action_source_key(
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_type = "warning",
+    action_label = "Warning",
+    action_date = "2025-12-08",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/100001",
+    file_id = "22474"
+  )
+  same_day_dapip_key <- build_accreditation_action_source_key(
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_type = "removed",
+    action_label = "Accreditation Reaffirmed: Warning Removed",
+    action_date = "2025-06-26",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/100001",
+    file_id = "0"
+  )
+  same_day_scraper_key <- build_accreditation_action_source_key(
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_type = "monitoring",
+    action_label = paste0(
+      "To acknowledge receipt of the monitoring report requested by the Commission action of June 27, 2024. ",
+      "To reaffirm accreditation because the institution is now in compliance with Standard V (Educational Effectiveness Assessment). ",
+      "To request a monitoring report, due March 2, 2026, demonstrating sustainability of corrective measures."
+    ),
+    action_date = "2025-06-26",
+    source_url = "https://example.org/msche-monitoring",
+    source_page_url = "https://example.org/accreditation-page"
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("100", "100", "100"),
+      institution_name_raw = c("Example University", "Example University", "Example University"),
+      institution_state_raw = c("Massachusetts", "Massachusetts", "Massachusetts"),
+      accreditor = c("Middle States Commission on Higher Education", "Middle States Commission on Higher Education", "Middle States Commission on Higher Education"),
+      action_type = c("adverse_action", "warning", "removed"),
+      action_label_raw = c("Voluntary Withdrawal Received", "Warning", "Accreditation Reaffirmed: Warning Removed"),
+      action_status = c("active", "active", "resolved"),
+      action_date = c("2026-04-06", "2025-12-08", "2025-06-26"),
+      action_year = c("2026", "2025", "2025"),
+      action_scope = c("", "", ""),
+      source_url = c("", "", ""),
+      source_title = c("DAPIP Institutional Accreditation Action", "DAPIP Institutional Accreditation Action", "DAPIP Institutional Accreditation Action"),
+      notes = c("Voluntary Withdrawal Received", "Warning", "Accreditation Reaffirmed: Warning Removed"),
+      source_page_url = c("https://ope.ed.gov/dapip/#/institution-profile/100001", "https://ope.ed.gov/dapip/#/institution-profile/100001", "https://ope.ed.gov/dapip/#/institution-profile/100001"),
+      source_page_modified = c("", "", ""),
+      file_id = c("0", "22474", "0"),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("100", "100", "100", "100"),
+      institution_name = c("Example University", "Example University", "Example University", "Example University"),
+      accreditor = c("MSCHE", "MSCHE", "MSCHE", "MSCHE"),
+      scraper_action_type = c("adverse_action", "", "monitoring", ""),
+      scraper_action_label = c(
+        paste0(
+          "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
+          "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
+          "voluntarily surrender accreditation, and terminate membership. ",
+          "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
+          "terminate its membership effective May 31, 2026."
+        ),
+        "",
+        paste0(
+          "To acknowledge receipt of the monitoring report requested by the Commission action of June 27, 2024. ",
+          "To reaffirm accreditation because the institution is now in compliance with Standard V (Educational Effectiveness Assessment). ",
+          "To request a monitoring report, due March 2, 2026, demonstrating sustainability of corrective measures."
+        ),
+        ""
+      ),
+      scraper_action_date = c("2026-04-24", "", "2025-06-26", ""),
+      dapip_action_type = c("adverse_action", "warning", "", "removed"),
+      dapip_action_label = c("Voluntary Withdrawal Received", "Warning", "", "Accreditation Reaffirmed: Warning Removed"),
+      dapip_action_date = c("2026-04-06", "2025-12-08", "", "2025-06-26"),
+      audit_result = c("match", "dapip_only", "scraper_only", "dapip_only"),
+      date_delta_days = c("18", "", "", ""),
+      scraper_source_url = c("https://example.org/accreditation", "", "https://example.org/msche-monitoring", ""),
+      dapip_source_page_url = c("https://ope.ed.gov/dapip/#/institution-profile/100001", "https://ope.ed.gov/dapip/#/institution-profile/100001", "", "https://ope.ed.gov/dapip/#/institution-profile/100001"),
+      dapip_file_id = c("0", "22474", "", "0"),
+      notes = c("public_action_code", "public_action_code", "", "public_action_code"),
+      scraper_public_keep = c(TRUE, FALSE, TRUE, FALSE),
+      scraper_public_reason = c("closure_teachout_or_exit_signal", "routine_or_non_reader_signal", "monitoring_or_notice_signal", "routine_or_non_reader_signal"),
+      dapip_public_keep = c(TRUE, TRUE, FALSE, TRUE),
+      dapip_public_reason = c("closure_teachout_or_exit_signal", "core_sanction_signal", "", "left_distress_stage"),
+      public_table_strategy = c("hybrid_keep", "dapip_backed_keep", "scraper_backed_keep", "dapip_backed_keep"),
+      hybrid_candidate = c(TRUE, FALSE, FALSE, FALSE),
+      hybrid_reason = c("scraper_detail_enriches_generic_or_fileless_dapip", "", "", ""),
+      public_action_family = c("withdrawal_or_loss", "warning", "monitoring_or_notice", "removed"),
+      scraper_source_key = c(hybrid_scraper_key, "", same_day_scraper_key, ""),
+      dapip_source_key = c(hybrid_dapip_key, warning_dapip_key, "", same_day_dapip_key),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
     na = ""
   )
 
@@ -420,7 +563,7 @@ run_test("Web export pipeline fixture", function() {
   required_summary_fields <- c("enrollment_pct_change_5yr", "revenue_pct_change_5yr",
     "tuition_dependence_pct", "ended_year_at_loss", "losses_last_3_of_5",
     "latest_year", "share_grad_students", "federal_grants_contracts_pell_adjusted_pct_core_revenue",
-    "state_funding_pct_core_revenue", "endowment_pct_change_5yr")
+    "state_funding_pct_core_revenue", "endowment_pct_change_5yr", "unfunded_discount_rate", "unfunded_discount_pct_change_5yr")
   for (f in required_summary_fields) {
     assert_true(f %in% names(school_file$summary),
       sprintf("school_file$summary should have field '%s'.", f))
@@ -443,7 +586,7 @@ run_test("Web export pipeline fixture", function() {
   assert_true("series" %in% names(school_file),
     "school_file should have a 'series' section.")
   required_series_fields <- c("revenue_total_adjusted", "expenses_total_adjusted",
-    "enrollment_headcount_total", "endowment_value_adjusted")
+    "enrollment_headcount_total", "endowment_value_adjusted", "unfunded_discount_rate")
   for (f in required_series_fields) {
     assert_true(f %in% names(school_file$series),
       sprintf("school_file$series should have field '%s'.", f))
@@ -458,8 +601,12 @@ run_test("Web export pipeline fixture", function() {
 
   # ── Section export schemas ───────────────────────────────────────────────────
   assert_equal(school_file$summary$tuition_dependence_pct, 30)
+  assert_equal(school_file$summary$unfunded_discount_rate, 32)
+  assert_equal(school_file$summary$unfunded_discount_pct_change_5yr, 6)
   assert_equal(school_file$summary$graduation_rate_6yr, 72)
   assert_equal(school_file$summary$median_earnings_10yr, 56000)
+  assert_identical(as.integer(school_file$series$unfunded_discount_rate$year), c(2024L, 2025L))
+  assert_equal(as.numeric(school_file$series$unfunded_discount_rate$value), c(28, 32))
 
   # ── college_cuts.json ────────────────────────────────────────────────────────
   assert_identical(length(cuts_export$schools), 1L)
@@ -497,15 +644,10 @@ run_test("Web export pipeline fixture", function() {
   # ── accreditation.json ──────────────────────────────────────────────────────
   assert_identical(length(accreditation_export$schools), 1L)
   school_accred <- accreditation_export$schools[[1]]
-  assert_identical(school_accred$latest_status$action_count, 1L)
+  assert_identical(school_accred$latest_status$action_count, 3L)
   assert_identical(school_accred$latest_status$latest_action_date, "2026-04-24")
-  assert_identical(school_accred$latest_status$action_labels, paste0(
-    "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
-    "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
-    "voluntarily surrender accreditation, and terminate membership. ",
-    "To accept the institution's request to voluntarily surrender its accreditation and intent to ",
-    "terminate its membership effective May 31, 2026."
-  ))
+  assert_true(grepl("voluntarily surrender", school_accred$latest_status$action_labels, ignore.case = TRUE),
+    "Latest accreditation status labels should retain the hybrid voluntary-surrender text.")
   assert_true("latest_status" %in% names(school_accred),
     "accreditation_export school entry should have 'latest_status'.")
   for (f in c("accreditors", "action_labels", "has_active_warning", "has_active_adverse_action", "action_count")) {
@@ -514,7 +656,7 @@ run_test("Web export pipeline fixture", function() {
   }
   assert_true(!is.null(school_accred$actions) && is.data.frame(school_accred$actions),
     "accreditation_export actions should be a data.frame.")
-  assert_identical(nrow(school_accred$actions), 1L)
+  assert_identical(nrow(school_accred$actions), 3L)
   assert_identical(school_accred$actions$action_label[[1]], paste0(
     "Staff acted on behalf of the Commission to acknowledge receipt of the notification, ",
     "dated April 2, 2026, of the institution's intent to change their primary accreditor, ",
@@ -524,6 +666,14 @@ run_test("Web export pipeline fixture", function() {
   ))
   assert_identical(school_accred$actions$action_label_short[[1]], "Voluntarily Surrendered Accreditation")
   assert_identical(school_accred$actions$action_date[[1]], "2026-04-24")
+  assert_true(any(school_accred$actions$action_label_short == "Accreditation Reaffirmed: Warning Removed"),
+    "Same-day DAPIP removal row should be retained in the export.")
+  assert_true(!any(grepl("monitoring report requested by the Commission action of June 27, 2024", school_accred$actions$action_label, fixed = TRUE)),
+    "Pure scraper same-day MSCHE monitoring row should be dropped when a DAPIP row exists on the same date.")
+  assert_true(any(school_accred$actions$public_table_strategy == "dapip_backed_keep"),
+    "Accreditation export should retain DAPIP-backed rows selected by the audited public-table strategy.")
+  assert_true(any(school_accred$actions$public_table_strategy == "hybrid_keep"),
+    "Accreditation export should retain hybrid rows selected by the audited public-table strategy.")
   assert_true("display_action" %in% names(school_accred$actions),
     "display_action should be exported with accreditation actions.")
   assert_true(isTRUE(school_accred$actions$display_action[[1]]),
@@ -533,11 +683,11 @@ run_test("Web export pipeline fixture", function() {
 
   accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
   if (is.data.frame(accred_index_row)) {
-    assert_identical(accred_index_row$action_count[[1]], 1L)
+    assert_identical(accred_index_row$action_count[[1]], 3L)
     assert_identical(accred_index_row$latest_action_date[[1]], "2026-04-24")
     assert_identical(accred_index_row$latest_action_label[[1]], "Voluntarily Surrendered Accreditation")
   } else {
-    assert_identical(accred_index_row$action_count, 1L)
+    assert_identical(accred_index_row$action_count, 3L)
     assert_identical(accred_index_row$latest_action_date, "2026-04-24")
     assert_identical(accred_index_row$latest_action_label, "Voluntarily Surrendered Accreditation")
   }
@@ -615,6 +765,8 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
     tuition_dependence_pct = c("45", "45"),
     sector_median_tuition_dependence_pct = c("40", "40"),
     tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+    discount_rate = c("0.35", "0.36"),
+    discount_pct_change_5yr = c("2", "2"),
     share_grad_students = c("0.15", "0.15"),
     research_expense = c("0", "0"),
     research_expense_per_fte = c("0", "0"),
@@ -770,6 +922,90 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
     na = ""
   )
 
+  detailed_probation_key <- build_accreditation_action_source_key(
+    unitid = "200",
+    institution_name = "Example HLC University",
+    accreditor = "HLC",
+    action_type = "probation",
+    action_label = "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.",
+    action_date = "2025-11-01",
+    source_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/",
+    source_page_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/"
+  )
+  teachout_key <- build_accreditation_action_source_key(
+    unitid = "200",
+    institution_name = "Example HLC University",
+    accreditor = "HLC",
+    action_type = "adverse_action",
+    action_label = "Approved the institution's provisional plan and teach-out agreements.",
+    action_date = "2024-11-01",
+    source_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+    source_page_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name_raw = character(),
+      institution_state_raw = character(),
+      accreditor = character(),
+      action_type = character(),
+      action_label_raw = character(),
+      action_status = character(),
+      action_date = character(),
+      action_year = character(),
+      action_scope = character(),
+      source_url = character(),
+      source_title = character(),
+      notes = character(),
+      source_page_url = character(),
+      source_page_modified = character(),
+      file_id = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("200", "200"),
+      institution_name = c("Example HLC University", "Example HLC University"),
+      accreditor = c("HLC", "HLC"),
+      scraper_action_type = c("probation", "adverse_action"),
+      scraper_action_label = c(
+        "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.",
+        "Approved the institution's provisional plan and teach-out agreements."
+      ),
+      scraper_action_date = c("2025-11-01", "2024-11-01"),
+      dapip_action_type = c("", ""),
+      dapip_action_label = c("", ""),
+      dapip_action_date = c("", ""),
+      audit_result = c("scraper_only", "scraper_only"),
+      date_delta_days = c("", ""),
+      scraper_source_url = c(
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/",
+        "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+      ),
+      dapip_source_page_url = c("", ""),
+      dapip_file_id = c("", ""),
+      notes = c("", ""),
+      scraper_public_keep = c(TRUE, TRUE),
+      scraper_public_reason = c("core_sanction_signal", "closure_teachout_or_exit_signal"),
+      dapip_public_keep = c(FALSE, FALSE),
+      dapip_public_reason = c("", ""),
+      public_table_strategy = c("scraper_backed_keep", "scraper_backed_keep"),
+      hybrid_candidate = c(FALSE, FALSE),
+      hybrid_reason = c("", ""),
+      public_action_family = c("probation", "withdrawal_or_loss"),
+      scraper_source_key = c("stale-key-should-be-recomputed", teachout_key),
+      dapip_source_key = c("", ""),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
+    na = ""
+  )
+
   readr::write_csv(
     data.frame(
       accreditor = "HLC",
@@ -884,12 +1120,12 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
   if (is.data.frame(accred_index_row)) {
     assert_identical(accred_index_row$action_count[[1]], 2L)
     assert_identical(accred_index_row$latest_action_date[[1]], "2025-11-01")
-    assert_identical(accred_index_row$latest_action_label[[1]], "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.")
+    assert_identical(accred_index_row$latest_action_label[[1]], "Placed on Probation")
     landing_actions <- accred_index_row$landing_actions[[1]]
   } else {
     assert_identical(accred_index_row$action_count, 2L)
     assert_identical(accred_index_row$latest_action_date, "2025-11-01")
-    assert_identical(accred_index_row$latest_action_label, "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.")
+    assert_identical(accred_index_row$latest_action_label, "Placed on Probation")
     landing_actions <- accred_index_row$landing_actions
   }
   if (is.data.frame(landing_actions)) {

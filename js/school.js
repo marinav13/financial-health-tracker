@@ -323,6 +323,53 @@ function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}.`;
 }
 
+function isPrivateNotForProfitProfile(profile) {
+  return String(profile?.control_label || "").trim().toLowerCase() === "private not-for-profit";
+}
+
+function discountRateState(discountRate) {
+  const rate = asNumber(discountRate);
+  if (rate === null) return "neutral";
+  if (rate >= 50) return "negative";
+  if (rate >= 35) return "neutral";
+  return "positive";
+}
+
+function findPointByYear(values, year) {
+  const numericYear = Number(year);
+  return toSeries(values).find((point) => point.year === numericYear) || null;
+}
+
+function buildDiscountRateSentence(profile, summary, series, latestDataYear) {
+  if (!isPrivateNotForProfitProfile(profile)) return null;
+
+  const institutionName = profile?.institution_name || "This institution";
+  const latestRate = asNumber(summary.unfunded_discount_rate) ?? latestPoint(series.unfunded_discount_rate)?.value ?? null;
+  const latestYear = Number.isFinite(latestDataYear) ? latestDataYear : latestPoint(series.unfunded_discount_rate)?.year ?? null;
+  if (latestRate === null || latestYear === null) return null;
+
+  const priorYear = latestYear - 5;
+  const priorPoint = findPointByYear(series.unfunded_discount_rate, priorYear);
+  if (priorPoint) {
+    const delta = latestRate - priorPoint.value;
+    if (Math.abs(delta) < 0.25) {
+      return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, with little change from ${priorYear} to ${latestYear}.`;
+    }
+    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, ${delta > 0 ? "an increase" : "a decrease"} of ${fmtRoundedPct(Math.abs(delta))} percentage points from ${priorYear} to ${latestYear}.`;
+  }
+
+  const change = asNumber(summary.unfunded_discount_pct_change_5yr);
+  if (change === null) {
+    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid in ${latestYear}.`;
+  }
+
+  if (Math.abs(change) < 0.25) {
+    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, with little change over the five years ending in ${latestYear}.`;
+  }
+
+  return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, ${change > 0 ? "an increase" : "a decrease"} of ${fmtRoundedPct(Math.abs(change))} percentage points over the five years ending in ${latestYear}.`;
+}
+
 function buildGradLoanSentence(profile, summary) {
   const sentences = [];
   const gradShare = asNumber(summary.share_grad_students);
@@ -606,6 +653,7 @@ async function init() {
   const revenueSeries = toSeries(series.revenue_total_adjusted);
   const expensesSeries = toSeries(series.expenses_total_adjusted);
   const netTuitionSeries = toSeries(series.net_tuition_per_fte_adjusted);
+  const discountRateSeries = toSeries(series.unfunded_discount_rate);
   const enrollmentSeries = toSeries(series.enrollment_headcount_total);
   const staffTotalSeries = toSeries(series.staff_headcount_total);
   const staffInstructionalSeries = toSeries(series.staff_headcount_instructional);
@@ -684,6 +732,19 @@ async function init() {
   );
   const hasTuitionSentence = asNumber(s.tuition_dependence_pct) !== null || !!s.tuition_dependence_vs_sector_median_sentence;
   setHidden("tuition-sentence-card", !hasTuitionSentence);
+
+  const discountRateSentence = buildDiscountRateSentence(p, s, series, latestDataYear);
+  const hasDiscountRateChart = isPrivateNotForProfitProfile(p) && discountRateSeries.length > 0;
+  const hasDiscountRateSection = Boolean(discountRateSentence) || hasDiscountRateChart;
+  setSectionVisibility("discount-rate-section", hasDiscountRateSection);
+  if (hasDiscountRateSection) {
+    applyStrip(
+      "discount-rate-card",
+      discountRateSentence || "Discount-rate data are not available.",
+      discountRateState(s.unfunded_discount_rate ?? latestPoint(series.unfunded_discount_rate)?.value ?? null)
+    );
+  }
+  setHidden("discount-rate-card", !discountRateSentence);
 
   applyStrip(
     "research-spending-card",
@@ -786,7 +847,7 @@ async function init() {
   const hasEnrollmentChart = enrollmentSeries.length > 0;
   const hasStaffingChart = staffTotalSeries.length > 0 || staffInstructionalSeries.length > 0;
   const hasLossBlock = !!s.ended_year_at_loss || !!s.losses_last_3_of_5 || !(s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
-  const showFinancialSection = hasRevenueCard || hasRevenueChart || hasLossBlock || hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence;
+  const showFinancialSection = hasRevenueCard || hasRevenueChart || hasLossBlock || hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence || hasDiscountRateSection;
   const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasIntlSentence || hasAnyInternationalEnrollment || !!gradLoanSentence;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioSentence;
 
@@ -872,6 +933,16 @@ async function init() {
     ]
   });
   setHidden("chart-net-tuition", !hasNetTuitionChart);
+
+  renderLineChart("chart-discount-rate", {
+    title: "Unfunded discount rate over time (2014 to present)",
+    format: "percent",
+    showLegend: false,
+    series: [
+      { label: "Unfunded Discount Rate", color: "#dc3220", values: discountRateSeries }
+    ]
+  });
+  setHidden("chart-discount-rate", !hasDiscountRateChart);
 
   renderLineChart("chart-enrollment", {
     title: "Enrollment trends (12-month unduplicated headcount)",

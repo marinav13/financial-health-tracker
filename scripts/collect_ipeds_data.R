@@ -146,12 +146,15 @@ load_year_tables_and_dictionaries <- function(aliases, year_catalog, data_root, 
     data_archive <- file.path(data_root, paste0(table_name, ".zip"))
     data_folder <- file.path(extract_root, paste0("data_", table_name))
     dict_archive <- file.path(dict_root, paste0(table_name, ".zip"))
+    existing_csv <- if (dir.exists(data_folder)) find_first_file(data_folder, "\\.csv$") else NA_character_
 
-    download_if_missing(entry$data_url[[1]], data_archive)
-    expand_zip_if_missing(data_archive, data_folder)
+    if (is.na(existing_csv) || identical(existing_csv, "")) {
+      download_if_missing(entry$data_url[[1]], data_archive)
+      expand_zip_if_missing(data_archive, data_folder)
+    }
 
     dict_ok <- tryCatch({
-      download_if_missing(entry$dictionary_url[[1]], dict_archive)
+      ensure_dictionary_archive(table_name, dict_archive, year = year)
       TRUE
     }, error = function(e) FALSE)
 
@@ -456,6 +459,9 @@ field_specs <- list(
     state_appropriations_gasb = "F1B17",
     total_operating_nonoperating_revenues_gasb = "F1D01",
     total_expenses_deductions_current_total_gasb = "F1D02",
+    institutional_grants_funded_fasb = "F2C05",
+    institutional_grants_unfunded_fasb = "F2C06",
+    allowances_applied_to_tuition_fasb = "F2C08",
     tuition_and_fees_fasb = "F2D01",
     pell_grants = "F2D06",
     federal_grants_contracts_fasb = "F2D05",

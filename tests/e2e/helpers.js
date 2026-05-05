@@ -37,6 +37,33 @@ function schoolWithCharts() {
   throw new Error('No school with chart series available for e2e tests');
 }
 
+function privateNonprofitSchoolWithDiscountChart() {
+  const schoolsDir = path.join(ROOT, 'data', 'schools');
+  const files = fs.readdirSync(schoolsDir).filter((file) => file.endsWith('.json')).sort();
+  for (const file of files) {
+    const school = JSON.parse(fs.readFileSync(path.join(schoolsDir, file), 'utf8'));
+    if (
+      String(school.profile?.control_label || '').toLowerCase() === 'private not-for-profit' &&
+      (school.series?.unfunded_discount_rate || []).length > 1
+    ) {
+      return school.unitid || path.basename(file, '.json');
+    }
+  }
+  throw new Error('No private nonprofit school with discount-rate series available for e2e tests');
+}
+
+function publicSchoolForDiscountHidden() {
+  const schoolsDir = path.join(ROOT, 'data', 'schools');
+  const files = fs.readdirSync(schoolsDir).filter((file) => file.endsWith('.json')).sort();
+  for (const file of files) {
+    const school = JSON.parse(fs.readFileSync(path.join(schoolsDir, file), 'utf8'));
+    if (String(school.profile?.control_label || '').toLowerCase() === 'public') {
+      return school.unitid || path.basename(file, '.json');
+    }
+  }
+  throw new Error('No public school available for discount-rate visibility e2e tests');
+}
+
 function hasMeaningfulSeries(series, field) {
   return (series[field] || []).some((point) => {
     const value = Number(point && point.value);
@@ -346,6 +373,8 @@ module.exports = {
   firstSchoolIndexEntry,
   searchTermFor,
   schoolWithCharts,
+  privateNonprofitSchoolWithDiscountChart,
+  publicSchoolForDiscountHidden,
   schoolWithoutEndowment,
   latestEnrollmentText,
   schoolWithClosureStatus,

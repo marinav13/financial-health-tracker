@@ -172,6 +172,55 @@ main <- function(cli_args = NULL) {
     list(year = year, table_name = table_name, data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000)))
   }
 
+  coalesce_missing_character <- function(primary, fallback) {
+    primary_chr <- as.character(primary)
+    fallback_chr <- as.character(fallback)
+    use_fallback <- is.na(primary_chr) | trimws(primary_chr) == ""
+    primary_chr[use_fallback] <- fallback_chr[use_fallback]
+    primary_chr
+  }
+
+  backfill_fasb_discount_inputs <- function(rows, finance_entries) {
+    if (nrow(rows) == 0 || nrow(finance_entries) == 0) return(rows)
+
+    backfill_rows <- lapply(split(finance_entries, seq_len(nrow(finance_entries))), function(entry) {
+      loaded <- load_catalog_table(entry)
+      if (is.null(loaded) || is.null(loaded$data) || !("UNITID" %in% names(loaded$data))) return(NULL)
+
+      dat <- loaded$data %>%
+        mutate(UNITID = as.character(UNITID))
+
+      available_fields <- intersect(c("F2C05", "F2C06", "F2C08", "F2D01"), names(dat))
+      if (!length(available_fields)) return(NULL)
+
+      dat %>%
+        transmute(
+          unitid = UNITID,
+          year = as.integer(loaded$year),
+          institutional_grants_funded_fasb_backfill = if ("F2C05" %in% names(dat)) as.character(F2C05) else NA_character_,
+          institutional_grants_unfunded_fasb_backfill = if ("F2C06" %in% names(dat)) as.character(F2C06) else NA_character_,
+          allowances_applied_to_tuition_fasb_backfill = if ("F2C08" %in% names(dat)) as.character(F2C08) else NA_character_,
+          tuition_and_fees_fasb_backfill = if ("F2D01" %in% names(dat)) as.character(F2D01) else NA_character_
+        )
+    })
+
+    backfill_df <- dplyr::bind_rows(backfill_rows)
+    if (nrow(backfill_df) == 0) return(rows)
+
+    rows %>%
+      left_join(backfill_df, by = c("unitid", "year")) %>%
+      mutate(
+        institutional_grants_funded_fasb = coalesce_missing_character(institutional_grants_funded_fasb, institutional_grants_funded_fasb_backfill),
+        institutional_grants_unfunded_fasb = coalesce_missing_character(institutional_grants_unfunded_fasb, institutional_grants_unfunded_fasb_backfill),
+        allowances_applied_to_tuition_fasb = coalesce_missing_character(allowances_applied_to_tuition_fasb, allowances_applied_to_tuition_fasb_backfill),
+        tuition_and_fees_fasb = coalesce_missing_character(tuition_and_fees_fasb, tuition_and_fees_fasb_backfill)
+      ) %>%
+      select(-ends_with("_backfill"))
+  }
+
+  finance_f2_entries <- catalog %>% filter(str_detect(table_name, "^F\\d{4}_F2$"))
+  raw_rows <- backfill_fasb_discount_inputs(raw_rows, finance_f2_entries)
+
   # ---------------------------------------------------------------------------
   # LOAD AUXILIARY IPEDS TABLES
   eap_tables_df <- catalog %>% filter(str_detect(table_name, "^EAP\\d{4}$"))

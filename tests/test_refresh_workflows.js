@@ -123,6 +123,8 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
 });
 
 run("weekly refresh runs R smoke tests through activated renv library", () => {
+  const depsBlock = stepBlock(WEEKLY, "Set up CI-only R dependencies");
+  assert(depsBlock.includes("any::pdftools"), "Expected weekly refresh to install pdftools before smoke tests");
   const block = stepBlock(WEEKLY, "Run shared helper smoke tests");
   assert(block.includes("Rscript ./tests/run_shared_helper_smoke_tests.R"), "Expected R smoke tests to run");
   assert(!block.includes("--vanilla"), "Expected weekly smoke tests not to bypass renv activation with --vanilla");
@@ -138,7 +140,7 @@ run("weekly refresh caches the same renv library path as test workflow", () => {
 
 run("full refresh explicitly installs packages used by --vanilla R scripts", () => {
   const dependencyBlock = stepBlock(FULL, "Set up R dependencies");
-  ["dplyr", "httr2", "jsonlite", "openxlsx", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"].forEach((pkg) => {
+  ["dplyr", "httr2", "jsonlite", "openxlsx", "pdftools", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"].forEach((pkg) => {
     assert(dependencyBlock.includes(`any::${pkg}`), `Expected setup-r-dependencies to install ${pkg}`);
   });
 

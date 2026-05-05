@@ -51,6 +51,12 @@ jobs:
       - name: Restore R packages
         run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
 
+      - name: Set up CI-only R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::pdftools
+
       - name: Compute weekly cache key
         id: cache-week
         shell: bash

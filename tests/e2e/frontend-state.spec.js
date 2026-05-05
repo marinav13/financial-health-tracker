@@ -28,6 +28,13 @@ const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
 const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
 
+function parseVisibleMonthYear(value) {
+  const text = String(value || '').trim();
+  if (!text) return Number.NaN;
+  const parsed = new Date(text);
+  return Number.isNaN(parsed.getTime()) ? Number.NaN : parsed.getTime();
+}
+
 test.describe('Frontend state synchronization', () => {
   test('research pagination exposes exactly one current page and changes table rows', async ({ page }) => {
     await page.goto('/research.html');
@@ -140,7 +147,7 @@ test.describe('Frontend state synchronization', () => {
     );
     expect(landingDates.length).toBeGreaterThan(1);
     for (let index = 1; index < landingDates.length; index += 1) {
-      expect(landingDates[index - 1] >= landingDates[index]).toBe(true);
+      expect(parseVisibleMonthYear(landingDates[index - 1]) >= parseVisibleMonthYear(landingDates[index])).toBe(true);
     }
 
     await landingList.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
@@ -158,7 +165,7 @@ test.describe('Frontend state synchronization', () => {
     expect(detailDates.length).toBeGreaterThan(0);
     if (detailDates.length > 1) {
       for (let index = 1; index < detailDates.length; index += 1) {
-        expect(detailDates[index - 1] >= detailDates[index]).toBe(true);
+        expect(parseVisibleMonthYear(detailDates[index - 1]) >= parseVisibleMonthYear(detailDates[index])).toBe(true);
       }
     }
 

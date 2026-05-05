@@ -185,6 +185,12 @@ run("paginateItems clamps pages and returns the current slice", () => {
   assert(page.pageItems.length === 1 && page.pageItems[0] === "e", "Expected final page slice");
 });
 
+run("compareDateDesc sorts actual dates chronologically", () => {
+  assert(app.compareDateDesc("2025-12-07", "2025-06-12") < 0, "Expected newer ISO date to sort first");
+  assert(app.compareDateDesc("June 2025", "October 2024") < 0, "Expected newer month-year date to sort first");
+  assert(app.compareDateDesc("2025", "2024") < 0, "Expected newer year to sort first");
+});
+
 run("search normalization matches diacritics and primary tracker flag is explicit", () => {
   assert(app.normalizeSearchText("São José") === "sao jose", "Expected diacritics to normalize for search");
   assert(app.tokenizeSearch("São-José!").join("|") === "sao|jose", "Expected normalized search tokens");

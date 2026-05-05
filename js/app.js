@@ -508,7 +508,37 @@ window.TrackerApp.compareText = function compareText(a, b) {
   return String(a || "").localeCompare(String(b || ""), undefined, { sensitivity: "base" });
 };
 
+function parseComparableDate(value) {
+  const text = String(value || "").trim();
+  if (!text) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    const parsed = new Date(`${text}T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.getTime();
+  }
+  if (/^\d{4}-\d{2}$/.test(text)) {
+    const parsed = new Date(`${text}-01T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.getTime();
+  }
+  if (/^\d{4}$/.test(text)) {
+    const parsed = new Date(`${text}-01-01T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.getTime();
+  }
+  const parsed = new Date(text);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.getTime();
+}
+
 window.TrackerApp.compareDateDesc = function compareDateDesc(a, b) {
+  const aTime = parseComparableDate(a);
+  const bTime = parseComparableDate(b);
+  const aHasDate = Number.isFinite(aTime);
+  const bHasDate = Number.isFinite(bTime);
+
+  if (aHasDate && bHasDate && aTime !== bTime) {
+    return bTime - aTime;
+  }
+  if (aHasDate !== bHasDate) {
+    return aHasDate ? -1 : 1;
+  }
   return String(b || "").localeCompare(String(a || ""));
 };
 
@@ -686,12 +716,16 @@ window.TrackerApp.paginateItems = function paginateItems(items, page, pageSize) 
 };
 
 window.TrackerApp.focusAfterRender = function focusAfterRender(container, selector) {
-  setTimeout(() => {
+  const focusNode = () => {
     const node = container?.querySelector(selector);
-    if (!node) return;
+    if (!node) return false;
     if (!node.hasAttribute("tabindex")) node.setAttribute("tabindex", "-1");
-    node.focus();
-  }, 0);
+    node.focus({ preventScroll: true });
+    return document.activeElement === node;
+  };
+
+  if (focusNode()) return;
+  setTimeout(focusNode, 0);
 };
 
 window.TrackerApp.bindPaginationControls = function bindPaginationControls(container, currentPage, onPageChange) {
@@ -699,7 +733,7 @@ window.TrackerApp.bindPaginationControls = function bindPaginationControls(conta
     button.addEventListener("click", () => {
       const nextPage = Number(button.dataset.page || "1");
       if (!Number.isNaN(nextPage) && nextPage !== currentPage) {
-        onPageChange(nextPage);
+        onPageChange(nextPage, `.pagination-button[data-page="${nextPage}"]`);
       }
     });
   });
@@ -713,7 +747,10 @@ window.TrackerApp.bindSortControls = function bindSortControls(container, sortSt
       const key = button.dataset.sortKey || fallbackKey;
       const direction = button.dataset.sortDirection || fallbackDirection;
       if (!key || (sortState?.key === key && sortState?.direction === direction)) return;
-      onSortChange({ key, direction });
+      onSortChange(
+        { key, direction },
+        `.sort-button[data-sort-key="${key}"][data-sort-direction="${direction}"]`
+      );
     });
   });
 };
@@ -740,14 +777,16 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
   let sortState = initialSortState ? { ...initialSortState } : null;
   const sourceItems = Array.isArray(items) ? items : [];
   let shouldFocusAfterRender = false;
+  let pendingFocusSelector = focusSelector;
 
   const render = () => {
     const filteredItems = filterItems(sourceItems, searchInput?.value || "");
     const sortedItems = sortItems(filteredItems, sortState);
     container.innerHTML = renderPage(sortedItems, currentPage, pageSize, sortState);
     if (shouldFocusAfterRender) {
-      window.TrackerApp.focusAfterRender(container, focusSelector);
+      window.TrackerApp.focusAfterRender(container, pendingFocusSelector || focusSelector);
       shouldFocusAfterRender = false;
+      pendingFocusSelector = focusSelector;
     }
 
     const pageState = window.TrackerApp.paginateItems(sortedItems, currentPage, pageSize);
@@ -758,17 +797,19 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
       downloadButton.onclick = () => downloadRows(pageState.pageItems);
     }
 
-    window.TrackerApp.bindPaginationControls(container, currentPage, (nextPage) => {
+    window.TrackerApp.bindPaginationControls(container, currentPage, (nextPage, nextFocusSelector) => {
       currentPage = nextPage;
       shouldFocusAfterRender = true;
+      pendingFocusSelector = nextFocusSelector || focusSelector;
       render();
     });
 
     if (sortState) {
-      window.TrackerApp.bindSortControls(container, sortState, defaultSortState, (nextSortState) => {
+      window.TrackerApp.bindSortControls(container, sortState, defaultSortState, (nextSortState, nextFocusSelector) => {
         sortState = nextSortState;
         currentPage = 1;
         shouldFocusAfterRender = true;
+        pendingFocusSelector = nextFocusSelector || focusSelector;
         render();
       });
     }

@@ -53,6 +53,11 @@ run_test("End-to-end canonical to web export fixture", function() {
     overwrite = TRUE
   )
   file.copy(
+    file.path(root, "scripts", "shared", "accreditation_helpers.R"),
+    file.path(fixture_root, "scripts", "shared", "accreditation_helpers.R"),
+    overwrite = TRUE
+  )
+  file.copy(
     file.path(root, "scripts", "shared", "contracts.R"),
     file.path(fixture_root, "scripts", "shared", "contracts.R"),
     overwrite = TRUE
@@ -281,6 +286,61 @@ run_test("End-to-end canonical to web export fixture", function() {
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name_raw = character(),
+      institution_state_raw = character(),
+      tracker_name = character(),
+      tracker_state = character(),
+      city = character(),
+      control_label = character(),
+      category = character(),
+      accreditor = character(),
+      action_type = character(),
+      action_label_raw = character(),
+      action_status = character(),
+      action_date = character(),
+      action_year = character(),
+      action_scope = character(),
+      notes = character(),
+      source_url = character(),
+      source_title = character(),
+      source_page_url = character(),
+      source_page_modified = character(),
+      file_id = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "100",
+      institution_name = "Example University",
+      accreditor = "MSCHE",
+      public_table_strategy = "scraper_backed_keep",
+      public_action_family = "warning",
+      hybrid_candidate = FALSE,
+      hybrid_reason = "",
+      scraper_source_key = "",
+      dapip_source_key = "",
+      scraper_action_type = "warning",
+      scraper_action_label = "Warning",
+      scraper_action_date = "2024-03-01",
+      scraper_source_url = "https://example.org/accreditation",
+      dapip_action_type = "",
+      dapip_action_label = "",
+      dapip_action_date = "",
+      dapip_source_page_url = "",
+      dapip_file_id = "",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
     na = ""
   )
 

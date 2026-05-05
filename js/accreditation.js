@@ -406,6 +406,17 @@
     return isDisplayAction(action) && isRecentTrackedAction(action);
   }
 
+  function isVoluntarySurrenderAction(action) {
+    const shortLabel = normalizeActionText(action.action_label_short);
+    const fullLabel = normalizeActionText(action.action_label || action.action_label_raw);
+    return shortLabel === "voluntarily surrendered accreditation" ||
+      /\bvoluntar(?:ily|y)\s+surrender(?:ed)?\s+accreditation\b/.test(fullLabel);
+  }
+
+  function isLandingDisplayAction(action) {
+    return isRecentDisplayAction(action) && !isVoluntarySurrenderAction(action);
+  }
+
   // Deduplication key: accreditor + action label + date + URL
   function dedupeActions(actions) {
     const seen = new Set();
@@ -582,8 +593,8 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     return Object.values(schools)
       .flatMap((school) => {
         const actionRows = Array.isArray(school.landing_actions)
-          ? dedupeActions(school.landing_actions).filter(isRecentDisplayAction)
-          : getEffectiveActions(school).filter(isRecentDisplayAction);
+          ? dedupeActions(school.landing_actions).filter(isLandingDisplayAction)
+          : getEffectiveActions(school).filter(isLandingDisplayAction);
         return actionRows.map((action) => ({
           unitid: school.unitid,
           institution_name: resolveInstitutionName(school.institution_name, action),

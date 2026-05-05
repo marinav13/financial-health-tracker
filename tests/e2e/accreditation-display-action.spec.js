@@ -117,7 +117,7 @@ const INDEX_FIXTURE = {
         action_label_short: 'Voluntarily Surrendered Accreditation',
         action_label: 'Staff acted on behalf of the Commission to acknowledge receipt of the notification, dated April 2, 2026, of the institution\'s intent to change their primary accreditor, voluntarily surrender accreditation, and terminate membership. To accept the institution\'s request to voluntarily surrender its accreditation and intent to terminate its membership effective May 31, 2026.',
         action_date: '2026-04-24',
-        notes: 'Voluntary surrender row should remain visible.',
+        notes: 'Voluntary surrender row should stay hidden from landing tables.',
         source_url: 'https://example.org/voluntary-surrender',
         display_action: true
       },
@@ -233,8 +233,8 @@ test.describe('Accreditation display_action + date parsing', () => {
     const statusSection = page.locator('#accreditation-status');
     await expect(statusSection).toBeVisible();
     await expect(statusSection).toContainText('Landing warning');
-    await expect(statusSection).toContainText('Voluntarily Surrendered Accreditation');
     await expect(statusSection).toContainText('Merger of Example College with State University');
+    await expect(statusSection).not.toContainText('Voluntarily Surrendered Accreditation');
     await expect(statusSection).not.toContainText('Hidden landing action');
     await expect(statusSection).not.toContainText('supplemental information report requested by the Commission action of November 7, 2025');
     await expect(statusSection).not.toContainText('teach-out plan as required of candidate institutions');

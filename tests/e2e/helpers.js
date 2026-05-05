@@ -245,9 +245,17 @@ function isVisibleAccreditationAction(action) {
   const type = normalizeAccreditationActionText(action.action_type);
   const accreditor = String(action.accreditor || '').toUpperCase();
   const label = normalizeAccreditationActionText(action.action_label || action.action_label_raw);
+  const shortLabel = normalizeAccreditationActionText(action.action_label_short);
   const notes = normalizeAccreditationActionText(action.notes);
   const haystack = `${type} ${label} ${notes}`;
   const contentOnly = `${label} ${notes}`;
+
+  if (
+    shortLabel === 'voluntarily surrendered accreditation' ||
+    /\bvoluntar(?:ily|y)\s+surrender(?:ed)?\s+accreditation\b/.test(label)
+  ) {
+    return false;
+  }
 
   if (accreditor === 'MSCHE' && type === 'monitoring') return false;
 

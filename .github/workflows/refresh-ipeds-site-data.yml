@@ -7,6 +7,8 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  IPEDS_START_YEAR: "2014"
+  IPEDS_END_YEAR: "2024"
   CLOSURE_SHEET_URL: "https://docs.google.com/spreadsheets/d/1TyVZlzfoD1sr0jID6Rt421-bN5wS_9JjWnCBofmbhi8/edit?gid=0#gid=0"
 
 permissions:
@@ -62,6 +64,18 @@ jobs:
         shell: bash
         run: echo "week=$(date +%Y-W%V)" >> $GITHUB_OUTPUT
 
+      # Mirrors the cache key used by refresh-ipeds-full.yml so the two
+      # workflows share a warm bulk-download cache. Without this the
+      # canonical-rebuild step below cold-fetches every IPEDS table on
+      # every weekly run.
+      - name: Restore IPEDS download cache
+        uses: actions/cache@v4
+        with:
+          path: ipeds/cache/downloads
+          key: ipeds-downloads-${{ runner.os }}-${{ hashFiles('scripts/collect_ipeds_data.R', 'scripts/build_ipeds_dataset.R') }}
+          restore-keys: |
+            ipeds-downloads-${{ runner.os }}-
+
       - name: Cache accreditation scraped HTML
         uses: actions/cache@v4
         with:
@@ -82,6 +96,21 @@ jobs:
         shell: bash
         run: >
           Rscript ./tests/run_shared_helper_smoke_tests.R
+
+      # The canonical IPEDS CSV is gitignored (ipeds/derived/), so it does
+      # not exist on a fresh checkout. Several downstream steps in this
+      # workflow depend on it: import_supabase_institution_mapping.py
+      # (Pass-2 IPEDS name match) and build_web_exports.R (--input flag).
+      # Rebuild it here so those steps have the file they expect. Mirrors
+      # the equivalent step in refresh-ipeds-full.yml; the IPEDS download
+      # cache restored above keeps the warm path fast.
+      - name: Rebuild canonical IPEDS dataset
+        shell: bash
+        timeout-minutes: 180
+        run: >
+          Rscript ./scripts/build_ipeds_dataset.R
+          --start-year "${IPEDS_START_YEAR}"
+          --end-year "${IPEDS_END_YEAR}"
 
       # All subsequent scraper / refresh steps `tee` their stdout+stderr
       # into a single log file that the drift-warning gate (at the end of

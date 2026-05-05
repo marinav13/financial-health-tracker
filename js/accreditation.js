@@ -44,8 +44,7 @@
     SACSCOC: "Southern Association of Colleges and Schools Commission on Colleges",
     NECHE: "New England Commission of Higher Education",
     NWCCU: "Northwest Commission on Colleges and Universities",
-    WSCUC: "WASC Senior College and University Commission",
-    ACCJC: "Accrediting Commission for Community and Junior Colleges"
+    WSCUC: "WASC Senior College and University Commission"
   };
 
   const ACCREDITOR_STATES = {
@@ -54,8 +53,7 @@
     NECHE:   "Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont",
     NWCCU:   "Alaska, Idaho, Montana, Nevada, Oregon, Washington",
     SACSCOC: "Alabama, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee, Texas, Virginia",
-    WSCUC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of the Northern Mariana Islands",
-    ACCJC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of the Northern Mariana Islands"
+    WSCUC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of the Northern Mariana Islands"
   };
 
   const ACCREDITOR_URLS = {
@@ -64,8 +62,7 @@
     SACSCOC: "https://sacscoc.org/",
     NECHE:   "https://www.neche.org/",
     NWCCU:   "https://nwccu.org/",
-    WSCUC:   "https://www.wscuc.org/",
-    ACCJC:   "https://accjc.org/"
+    WSCUC:   "https://www.wscuc.org/"
   };
 
   const STATE_ABBR_TO_NAME = {

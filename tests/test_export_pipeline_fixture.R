@@ -1230,3 +1230,436 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
       "Landing actions should not include the generic HLC current-status duplicate.")
   }
 })
+
+run_test("Web export pipeline compacts duplicate NECHE concern-cycle rows before index assembly", function() {
+  fixture_root <- tempfile("web-export-neche-compaction-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "data"),
+    file.path(fixture_root, "data", "schools"),
+    file.path(fixture_root, "data", "downloads"),
+    file.path(fixture_root, "data_pipelines", "college_cuts"),
+    file.path(fixture_root, "data_pipelines", "accreditation"),
+    file.path(fixture_root, "data_pipelines", "grant_witness"),
+    file.path(fixture_root, "data_pipelines", "scorecard")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  make_canonical_rows <- function(unitid, institution_name, city, year_values) {
+    data.frame(
+      unitid = rep(unitid, length(year_values)),
+      institution_name = rep(institution_name, length(year_values)),
+      institution_unique_name = rep(sprintf("%s | %s | Massachusetts", institution_name, city), length(year_values)),
+      city = rep(city, length(year_values)),
+      state = rep("Massachusetts", length(year_values)),
+      control_label = rep("Private not-for-profit", length(year_values)),
+      sector = rep("Private not-for-profit, 4-year or above", length(year_values)),
+      category = rep("Degree-granting, primarily baccalaureate or above", length(year_values)),
+      urbanization = rep("Town", length(year_values)),
+      religious_affiliation = rep(NA_character_, length(year_values)),
+      all_programs_distance_education = rep("No", length(year_values)),
+      year = year_values,
+      enrollment_pct_change_5yr = rep("-5", length(year_values)),
+      enrollment_decline_last_3_of_5 = rep("No", length(year_values)),
+      revenue_pct_change_5yr = rep("-2", length(year_values)),
+      net_tuition_per_fte_change_5yr = rep("-1", length(year_values)),
+      staff_total_headcount_pct_change_5yr = rep("0", length(year_values)),
+      staff_instructional_headcount_pct_change_5yr = rep("0", length(year_values)),
+      students_per_instructional_staff_fte = rep("12", length(year_values)),
+      sector_median_students_per_instructional_staff_fte = rep("13", length(year_values)),
+      ended_year_at_loss = rep("No", length(year_values)),
+      losses_last_3_of_5 = rep("No", length(year_values)),
+      loss_years_last_10 = rep("1", length(year_values)),
+      tuition_dependence_pct = rep("50", length(year_values)),
+      sector_median_tuition_dependence_pct = rep("45", length(year_values)),
+      tuition_dependence_vs_sector_median_sentence = rep("Sample sentence", length(year_values)),
+      discount_rate = rep("0.35", length(year_values)),
+      discount_pct_change_5yr = rep("1", length(year_values)),
+      share_grad_students = rep("0.15", length(year_values)),
+      research_expense = rep("0", length(year_values)),
+      research_expense_per_fte = rep("0", length(year_values)),
+      research_expense_pct_core_expenses = rep("0", length(year_values)),
+      sector_research_spending_n = rep("0", length(year_values)),
+      sector_research_spending_positive_n = rep("0", length(year_values)),
+      sector_research_spending_reporting_share_pct = rep("0", length(year_values)),
+      sector_median_research_expense_per_fte_positive = rep("0", length(year_values)),
+      pct_international_all = rep("0.02", length(year_values)),
+      pct_international_undergraduate = rep("0.02", length(year_values)),
+      pct_international_graduate = rep("0.03", length(year_values)),
+      international_student_count_change_5yr = rep("0", length(year_values)),
+      international_enrollment_pct_change_5yr = rep("0", length(year_values)),
+      international_students_sentence = rep("International student share stable.", length(year_values)),
+      federal_loan_pct_most_recent = rep("40", length(year_values)),
+      federal_grants_contracts_pell_adjusted_pct_core_revenue = rep("0.08", length(year_values)),
+      state_funding_pct_core_revenue = rep("0.02", length(year_values)),
+      federal_grants_contracts_pell_adjusted_pct_change_5yr = rep("0", length(year_values)),
+      state_funding_pct_change_5yr = rep("0", length(year_values)),
+      endowment_pct_change_5yr = rep("0", length(year_values)),
+      endowment_spending_current_use_pct_core_revenue = rep("0.01", length(year_values)),
+      revenue_total = rep("100", length(year_values)),
+      expenses_total = rep("95", length(year_values)),
+      revenue_total_adjusted = rep("100", length(year_values)),
+      expenses_total_adjusted = rep("95", length(year_values)),
+      net_tuition_per_fte_adjusted = rep("3", length(year_values)),
+      enrollment_headcount_total = rep("100", length(year_values)),
+      enrollment_nonresident_total = rep("2", length(year_values)),
+      enrollment_nonresident_undergrad = rep("2", length(year_values)),
+      enrollment_nonresident_graduate = rep("0", length(year_values)),
+      staff_headcount_total = rep("20", length(year_values)),
+      staff_headcount_instructional = rep("8", length(year_values)),
+      endowment_value_adjusted = rep("50", length(year_values)),
+      endowment_spending_current_use = rep("1", length(year_values)),
+      federal_grants_contracts_pell_adjusted_adjusted = rep("10", length(year_values)),
+      state_funding_adjusted = rep("2", length(year_values)),
+      graduation_rate_6yr = rep("60", length(year_values)),
+      median_earnings_10yr = rep("50000", length(year_values)),
+      median_debt_completers = rep("20000", length(year_values)),
+      outcomes_data_available = rep(TRUE, length(year_values)),
+      scorecard_data_updated = rep("2024-01-01", length(year_values)),
+      ipeds_graduation_rate_year = rep("2024", length(year_values)),
+      ipeds_graduation_rate_label = rep("2024 cohort", length(year_values)),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  canonical_df <- dplyr::bind_rows(
+    make_canonical_rows("300", "Example Hampshire College", "Amherst", c("2024", "2025")),
+    make_canonical_rows("301", "Example Hellenic College", "Brookline", c("2024", "2025"))
+  )
+  canonical_path <- file.path(fixture_root, "fixture_canonical.csv")
+  readr::write_csv(canonical_df, canonical_path, na = "")
+
+  empty_cuts <- data.frame(
+    matched_unitid = character(), announcement_date = character(), announcement_year = character(),
+    in_financial_tracker = character(), tracker_institution_name = character(), institution_name_collegecuts = character(),
+    institution_state_full = character(), institution_city = character(), tracker_control_label = character(),
+    institution_control = character(), tracker_category = character(), faculty_affected = character(),
+    notes = character(), source_title = character(), program_name = character(), cut_type = character(),
+    status = character(), effective_term = character(), source_url = character(), source_publication = character(),
+    source_published_at = character(), students_affected = character(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_cuts,
+    file.path(fixture_root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("300", "301"),
+      institution_name = c("Example Hampshire College", "Example Hellenic College"),
+      state = c("Massachusetts", "Massachusetts"),
+      city = c("Amherst", "Brookline"),
+      control_label = c("Private not-for-profit", "Private not-for-profit"),
+      category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+      accreditors = c("NECHE", "NECHE"),
+      latest_action_date = c("2026-03-24", "2019-11-21"),
+      latest_action_year = c("2026", "2019"),
+      action_labels = c("Hampshire duplicate actions", "Hellenic duplicate actions"),
+      active_actions = c("show_cause", "notice; probation"),
+      has_active_warning = c(FALSE, FALSE),
+      has_active_warning_or_notice = c(FALSE, TRUE),
+      has_active_adverse_action = c(FALSE, FALSE),
+      action_count = c(2L, 3L),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
+    na = ""
+  )
+
+  hampshire_scraper_key <- build_accreditation_action_source_key(
+    unitid = "300",
+    institution_name = "Example Hampshire College",
+    accreditor = "NECHE",
+    action_type = "show_cause",
+    action_label = "On March 5, 2026, the New England Commission of Higher Education (NECHE) took action to require Example Hampshire College to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+    action_date = "2026-03-24",
+    source_url = "https://example.org/neche-hampshire-statement",
+    source_page_url = "https://example.org/neche-statements"
+  )
+  hampshire_dapip_key <- build_accreditation_action_source_key(
+    unitid = "300",
+    institution_name = "Example Hampshire College",
+    accreditor = "NECHE",
+    action_type = "show_cause",
+    action_label = "Jennifer Chrisler President Example Hampshire College because the Commission has reason to believe that Example Hampshire College may no longer meet the standard on Institutional Resources, the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+    action_date = "2026-03-05",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/300001",
+    file_id = "9001"
+  )
+  hellenic_april_key <- build_accreditation_action_source_key(
+    unitid = "301",
+    institution_name = "Example Hellenic College",
+    accreditor = "NECHE",
+    action_type = "notice",
+    action_label = "If the Commission finds the institution has successfully addressed the concerns, it will remove the Notation and specify further monitoring.",
+    action_date = "2019-04-12",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/300002",
+    file_id = "9002"
+  )
+  hellenic_may_key <- build_accreditation_action_source_key(
+    unitid = "301",
+    institution_name = "Example Hellenic College",
+    accreditor = "NECHE",
+    action_type = "notice",
+    action_label = "to show cause why it should not be placed on probation or have its accreditation withdrawn because the Commission had reason to believe that Example Hellenic College is not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+    action_date = "2019-05-31",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/300002",
+    file_id = "9003"
+  )
+  hellenic_probation_key <- build_accreditation_action_source_key(
+    unitid = "301",
+    institution_name = "Example Hellenic College",
+    accreditor = "NECHE",
+    action_type = "probation",
+    action_label = "on probation for a period not to exceed two years because the Commission found that Example Hellenic College does not now meet the Commission's standards on Planning and Evaluation and Institutional Resources.",
+    action_date = "2019-11-21",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/300002",
+    file_id = "9004"
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("300", "300", "301", "301", "301"),
+      institution_name = c("Example Hampshire College", "Example Hampshire College", "Example Hellenic College", "Example Hellenic College", "Example Hellenic College"),
+      state = rep("Massachusetts", 5),
+      city = c("Amherst", "Amherst", "Brookline", "Brookline", "Brookline"),
+      control_label = rep("Private not-for-profit", 5),
+      category = rep("Degree-granting, primarily baccalaureate or above", 5),
+      accreditor = rep("NECHE", 5),
+      action_type = c("show_cause", "show_cause", "notice", "notice", "probation"),
+      action_label_raw = c(
+        "Jennifer Chrisler President Example Hampshire College because the Commission has reason to believe that Example Hampshire College may no longer meet the standard on Institutional Resources, the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+        "On March 5, 2026, the New England Commission of Higher Education (NECHE) took action to require Example Hampshire College to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+        "If the Commission finds the institution has successfully addressed the concerns, it will remove the Notation and specify further monitoring.",
+        "to show cause why it should not be placed on probation or have its accreditation withdrawn because the Commission had reason to believe that Example Hellenic College is not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+        "on probation for a period not to exceed two years because the Commission found that Example Hellenic College does not now meet the Commission's standards on Planning and Evaluation and Institutional Resources."
+      ),
+      action_status = rep("active", 5),
+      action_date = c("2026-03-05", "2026-03-24", "2019-04-12", "2019-05-31", "2019-11-21"),
+      action_year = c("2026", "2026", "2019", "2019", "2019"),
+      notes = c(
+        "Probation or Equivalent or a More Severe Status: Show Cause",
+        "Joint Statement by Example Hampshire College and the Commission March 24, 2026",
+        "Heightened Monitoring or Focused Review | The institution is in danger of not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+        "Heightened Monitoring or Focused Review | Concerns Example Hellenic College may no longer meet the standards on Planning and Evaluation and Institutional Resources",
+        "Probation or Equivalent or a More Severe Status: Probation |"
+      ),
+      source_url = c("", "https://example.org/neche-hampshire-statement", "", "", ""),
+      source_title = c(
+        "DAPIP Institutional Accreditation Action",
+        "Joint Statement by Example Hampshire College and the Commission March 24, 2026",
+        "DAPIP Institutional Accreditation Action",
+        "DAPIP Institutional Accreditation Action",
+        "DAPIP Institutional Accreditation Action"
+      ),
+      source_page_url = c(
+        "https://ope.ed.gov/dapip/#/institution-profile/300001",
+        "https://example.org/neche-statements",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002"
+      ),
+      source_page_modified = c("", "2026-03-24", "", "", ""),
+      display_action = rep(TRUE, 5),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("300", "301", "301", "301"),
+      institution_name_raw = c("Example Hampshire College", "Example Hellenic College", "Example Hellenic College", "Example Hellenic College"),
+      institution_state_raw = rep("Massachusetts", 4),
+      accreditor = rep("New England Commission of Higher Education", 4),
+      action_type = c("show_cause", "notice", "notice", "probation"),
+      action_label_raw = c(
+        "Jennifer Chrisler President Example Hampshire College because the Commission has reason to believe that Example Hampshire College may no longer meet the standard on Institutional Resources, the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+        "If the Commission finds the institution has successfully addressed the concerns, it will remove the Notation and specify further monitoring.",
+        "to show cause why it should not be placed on probation or have its accreditation withdrawn because the Commission had reason to believe that Example Hellenic College is not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+        "on probation for a period not to exceed two years because the Commission found that Example Hellenic College does not now meet the Commission's standards on Planning and Evaluation and Institutional Resources."
+      ),
+      action_status = rep("active", 4),
+      action_date = c("2026-03-05", "2019-04-12", "2019-05-31", "2019-11-21"),
+      action_year = c("2026", "2019", "2019", "2019"),
+      action_scope = rep("", 4),
+      source_url = rep("", 4),
+      source_title = rep("DAPIP Institutional Accreditation Action", 4),
+      notes = c(
+        "Probation or Equivalent or a More Severe Status: Show Cause",
+        "Heightened Monitoring or Focused Review | The institution is in danger of not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+        "Heightened Monitoring or Focused Review | Concerns Example Hellenic College may no longer meet the standards on Planning and Evaluation and Institutional Resources",
+        "Probation or Equivalent or a More Severe Status: Probation |"
+      ),
+      source_page_url = c(
+        "https://ope.ed.gov/dapip/#/institution-profile/300001",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002"
+      ),
+      source_page_modified = rep("", 4),
+      file_id = c("9001", "9002", "9003", "9004"),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("300", "300", "301", "301", "301"),
+      institution_name = c("Example Hampshire College", "Example Hampshire College", "Example Hellenic College", "Example Hellenic College", "Example Hellenic College"),
+      accreditor = rep("NECHE", 5),
+      scraper_action_type = c("", "show_cause", "", "", ""),
+      scraper_action_label = c(
+        "",
+        "On March 5, 2026, the New England Commission of Higher Education (NECHE) took action to require Example Hampshire College to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+        "",
+        "",
+        ""
+      ),
+      scraper_action_date = c("", "2026-03-24", "", "", ""),
+      dapip_action_type = c("show_cause", "", "notice", "notice", "probation"),
+      dapip_action_label = c(
+        "Jennifer Chrisler President Example Hampshire College because the Commission has reason to believe that Example Hampshire College may no longer meet the standard on Institutional Resources, the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn.",
+        "",
+        "If the Commission finds the institution has successfully addressed the concerns, it will remove the Notation and specify further monitoring.",
+        "to show cause why it should not be placed on probation or have its accreditation withdrawn because the Commission had reason to believe that Example Hellenic College is not meeting the Commission's standards on Planning and Evaluation and Institutional Resources.",
+        "on probation for a period not to exceed two years because the Commission found that Example Hellenic College does not now meet the Commission's standards on Planning and Evaluation and Institutional Resources."
+      ),
+      dapip_action_date = c("2026-03-05", "", "2019-04-12", "2019-05-31", "2019-11-21"),
+      audit_result = c("dapip_only", "scraper_only", "dapip_only", "dapip_only", "dapip_only"),
+      date_delta_days = rep("", 5),
+      scraper_source_url = c("", "https://example.org/neche-hampshire-statement", "", "", ""),
+      dapip_source_page_url = c(
+        "https://ope.ed.gov/dapip/#/institution-profile/300001",
+        "",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002",
+        "https://ope.ed.gov/dapip/#/institution-profile/300002"
+      ),
+      dapip_file_id = c("9001", "", "9002", "9003", "9004"),
+      notes = c("public_action_code", "", "public_action_code", "public_action_code", "public_action_code"),
+      scraper_public_keep = c(FALSE, TRUE, FALSE, FALSE, FALSE),
+      scraper_public_reason = c("", "core_sanction_signal", "", "", ""),
+      dapip_public_keep = c(TRUE, FALSE, TRUE, TRUE, TRUE),
+      dapip_public_reason = c("core_sanction_signal", "", "heightened_or_removed_monitoring", "heightened_or_removed_monitoring", "core_sanction_signal"),
+      public_table_strategy = c("dapip_backed_keep", "scraper_backed_keep", "dapip_backed_keep", "dapip_backed_keep", "dapip_backed_keep"),
+      hybrid_candidate = rep(FALSE, 5),
+      hybrid_reason = rep("", 5),
+      public_action_family = c("show_cause", "show_cause", "monitoring_or_notice", "monitoring_or_notice", "probation"),
+      scraper_source_key = c("", hampshire_scraper_key, "", "", ""),
+      dapip_source_key = c(hampshire_dapip_key, "", hellenic_april_key, hellenic_may_key, hellenic_probation_key),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(accreditor = "NECHE", source_url = "https://example.org/neche-statements", stringsAsFactors = FALSE),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  empty_research_summary <- data.frame(
+    matched_unitid = character(), display_name = character(), display_city = character(), display_state = character(),
+    tracker_control_label = character(), tracker_category = character(), likely_higher_ed = logical(),
+    total_disrupted_grants = integer(), total_disrupted_award_remaining = numeric(),
+    nih_disrupted_grants = integer(), nih_disrupted_award_remaining = numeric(),
+    nsf_disrupted_grants = integer(), nsf_disrupted_award_remaining = numeric(),
+    epa_disrupted_grants = integer(), epa_disrupted_award_remaining = numeric(),
+    samhsa_disrupted_grants = integer(), samhsa_disrupted_award_remaining = numeric(),
+    cdc_disrupted_grants = integer(), cdc_disrupted_award_remaining = numeric(),
+    institution_key = character(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_research_summary,
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv"),
+    na = ""
+  )
+  empty_grants <- data.frame(
+    matched_unitid = character(), tracker_institution_name = character(), tracker_state = character(),
+    agency = character(), grant_id = character(), grant_id_core = character(), status = character(),
+    organization_name = character(), organization_city = character(), organization_state = character(),
+    organization_type = character(), project_title = character(), project_abstract = character(),
+    start_date = character(), original_end_date = character(), termination_date = character(),
+    award_value = character(), award_outlaid = character(), award_remaining = character(),
+    remaining_field = character(), currently_disrupted = logical(), likely_higher_ed = logical(),
+    source_url = character(), detail_url = character(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_grants,
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("300", "301"),
+      graduation_rate_6yr = c("60", "60"),
+      median_earnings_10yr = c("50000", "50000"),
+      median_debt_completers = c("20000", "20000"),
+      grad_plus_recipients = c("2", "2"),
+      grad_plus_disbursements_amt = c("20000", "20000"),
+      grad_plus_disbursements_per_recipient = c("10000", "10000"),
+      outcomes_data_available = c(TRUE, TRUE),
+      scorecard_data_updated = c("2024-01-01", "2024-01-01"),
+      grad_plus_data_updated = c("2024-01-01", "2024-01-01"),
+      ipeds_graduation_rate_year = c("2024", "2024"),
+      ipeds_graduation_rate_label = c("2024 cohort", "2024 cohort"),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+    na = ""
+  )
+
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+
+  export_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
+  export_env$main(c("--input", canonical_path, "--output-dir", fixture_root))
+
+  accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = TRUE)
+  accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
+
+  hampshire_school <- accreditation_export$schools[[which(vapply(accreditation_export$schools, function(school) identical(school$institution_name, "Example Hampshire College"), logical(1)))]]
+  assert_identical(nrow(hampshire_school$actions), 1L)
+  assert_identical(hampshire_school$actions$action_date[[1]], "2026-03-24")
+  assert_identical(hampshire_school$latest_status$action_count, 1L)
+  assert_identical(
+    hampshire_school$actions$action_label_short[[1]],
+    "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns"
+  )
+
+  hellenic_school <- accreditation_export$schools[[which(vapply(accreditation_export$schools, function(school) identical(school$institution_name, "Example Hellenic College"), logical(1)))]]
+  assert_identical(nrow(hellenic_school$actions), 2L)
+  assert_true(!("2019-04-12" %in% hellenic_school$actions$action_date),
+    "The April 2019 NECHE monitoring row should be compacted into the May 2019 concern-cycle row.")
+  assert_true(all(c("2019-05-31", "2019-11-21") %in% hellenic_school$actions$action_date),
+    "The May 2019 notice row should remain, and the November 2019 probation row should stay separate.")
+  assert_identical(hellenic_school$latest_status$action_count, 2L)
+  assert_identical(hellenic_school$latest_status$latest_action_date, "2019-11-21")
+
+  if (is.data.frame(accred_index)) {
+    hampshire_index <- accred_index[accred_index$institution_name == "Example Hampshire College", , drop = FALSE]
+    hellenic_index <- accred_index[accred_index$institution_name == "Example Hellenic College", , drop = FALSE]
+    assert_identical(hampshire_index$action_count[[1]], 1L)
+    assert_identical(hampshire_index$latest_action_label[[1]], "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns")
+    assert_identical(hellenic_index$action_count[[1]], 2L)
+    assert_identical(hellenic_index$latest_action_label[[1]], "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional resources.")
+  } else {
+    hampshire_index <- accred_index[[which(vapply(accred_index, function(row) identical(row$institution_name, "Example Hampshire College"), logical(1)))]]
+    hellenic_index <- accred_index[[which(vapply(accred_index, function(row) identical(row$institution_name, "Example Hellenic College"), logical(1)))]]
+    assert_identical(hampshire_index$action_count, 1L)
+    assert_identical(hampshire_index$latest_action_label, "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns")
+    assert_identical(hellenic_index$action_count, 2L)
+    assert_identical(hellenic_index$latest_action_label, "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional resources.")
+  }
+})

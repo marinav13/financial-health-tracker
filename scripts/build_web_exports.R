@@ -71,6 +71,165 @@ max_int_when <- function(values, mask) {
   suppressWarnings(max(as.integer(values[mask]), na.rm = TRUE))
 }
 
+normalize_neche_compaction_family <- function(public_action_family, action_type) {
+  family <- tolower(trimws(as.character(public_action_family %||% "")))
+  type <- tolower(trimws(as.character(action_type %||% "")))
+  if (!nzchar(family)) family <- type
+  dplyr::case_when(
+    family %in% c("monitoring_or_notice", "notice") ~ "monitoring_or_notice",
+    family == "warning" ~ "warning",
+    family == "show_cause" ~ "show_cause",
+    family == "probation" ~ "probation",
+    family == "removed" | type == "removed" ~ "removed",
+    family %in% c("withdrawal_or_loss", "institutional_change_or_closure", "adverse_action") ~ "adverse_action",
+    TRUE ~ family
+  )
+}
+
+build_neche_compaction_signature_text <- function(action_label_raw, action_label_short, notes) {
+  trimws(paste(
+    as.character(action_label_raw %||% ""),
+    as.character(action_label_short %||% ""),
+    as.character(notes %||% "")
+  ))
+}
+
+compact_neche_public_actions <- function(df) {
+  if (!nrow(df)) return(df)
+
+  work <- df %>%
+    mutate(
+      neche_compaction_family = vapply(
+        seq_len(n()),
+        function(i) normalize_neche_compaction_family(public_action_family[[i]], action_type[[i]]),
+        character(1)
+      ),
+      neche_compaction_strength = vapply(
+        neche_compaction_family,
+        get_accreditation_sanction_strength,
+        integer(1)
+      ),
+      neche_raw_concern_signature = vapply(
+        seq_len(n()),
+        function(i) {
+          if (toupper(trimws(as.character(accreditor[[i]] %||% ""))) != "NECHE") return(NA_character_)
+          get_neche_concern_signature(build_neche_compaction_signature_text(
+            action_label_raw[[i]],
+            action_label_short[[i]],
+            notes[[i]]
+          ))
+        },
+        character(1)
+      ),
+      neche_signature_present = !is.na(neche_raw_concern_signature) & nzchar(neche_raw_concern_signature),
+      neche_detail_text_length = vapply(
+        seq_len(n()),
+        function(i) nchar(
+          build_neche_compaction_signature_text(
+            action_label_raw[[i]],
+            action_label_short[[i]],
+            notes[[i]]
+          ),
+          type = "chars",
+          allowNA = FALSE,
+          keepNA = FALSE
+        ),
+        integer(1)
+      )
+    )
+
+  keep <- rep(TRUE, nrow(work))
+  updated_short <- work$action_label_short
+  neche_rows <- which(toupper(trimws(as.character(work$accreditor %||% ""))) == "NECHE")
+  group_keys <- paste(
+    work$export_unitid[neche_rows],
+    work$accreditor[neche_rows],
+    work$neche_compaction_family[neche_rows],
+    sep = "||"
+  )
+
+  for (group_indices in split(neche_rows, group_keys)) {
+    if (length(group_indices) < 2L) next
+    group_family <- unique(work$neche_compaction_family[group_indices])
+    if (length(group_family) != 1L || identical(group_family[[1]], "removed")) next
+
+    group_dates <- suppressWarnings(as.Date(work$action_date[group_indices]))
+    raw_signatures <- work$neche_raw_concern_signature[group_indices]
+    filled_signatures <- raw_signatures
+
+    for (local_i in seq_along(group_indices)) {
+      if (!is.na(filled_signatures[[local_i]]) && nzchar(filled_signatures[[local_i]])) next
+      if (is.na(group_dates[[local_i]])) next
+      nearby_with_signature <- which(
+        !is.na(group_dates) &
+          !is.na(raw_signatures) &
+          nzchar(raw_signatures) &
+          abs(as.integer(group_dates - group_dates[[local_i]])) <= 60L
+      )
+      unique_nearby_signatures <- unique(raw_signatures[nearby_with_signature])
+      if (length(unique_nearby_signatures) == 1L) {
+        filled_signatures[[local_i]] <- unique_nearby_signatures[[1]]
+      }
+    }
+
+    local_order <- order(group_dates, seq_along(group_indices), decreasing = TRUE, na.last = NA)
+    for (local_rep in local_order) {
+      rep_global <- group_indices[[local_rep]]
+      if (!keep[[rep_global]]) next
+      if (is.na(group_dates[[local_rep]])) next
+      rep_signature <- filled_signatures[[local_rep]]
+      if (is.na(rep_signature) || !nzchar(rep_signature)) next
+
+      cluster_local <- which(
+        keep[group_indices] &
+          !is.na(group_dates) &
+          !is.na(filled_signatures) &
+          nzchar(filled_signatures) &
+          filled_signatures == rep_signature &
+          abs(as.integer(group_dates - group_dates[[local_rep]])) <= 60L &
+          work$neche_compaction_strength[group_indices] <= work$neche_compaction_strength[[rep_global]]
+      )
+      if (length(cluster_local) <= 1L) next
+
+      representative_local <- cluster_local[tail(order(
+        group_dates[cluster_local],
+        cluster_local,
+        na.last = NA
+      ), 1)]
+      best_detail_local <- cluster_local[tail(order(
+        as.integer(work$neche_signature_present[group_indices][cluster_local]),
+        group_dates[cluster_local],
+        work$neche_detail_text_length[group_indices][cluster_local],
+        cluster_local,
+        na.last = NA
+      ), 1)]
+
+      representative_global <- group_indices[[representative_local]]
+      best_detail_global <- group_indices[[best_detail_local]]
+      best_short <- updated_short[[best_detail_global]] %||% work$action_label_short[[best_detail_global]]
+      if (!is.na(best_short) && nzchar(trimws(as.character(best_short)))) {
+        updated_short[[representative_global]] <- best_short
+      }
+
+      drop_local <- setdiff(cluster_local, representative_local)
+      if (length(drop_local)) {
+        keep[group_indices[drop_local]] <- FALSE
+      }
+    }
+  }
+
+  work$action_label_short <- updated_short
+  work %>%
+    filter(keep) %>%
+    select(
+      -neche_compaction_family,
+      -neche_compaction_strength,
+      -neche_raw_concern_signature,
+      -neche_signature_present,
+      -neche_detail_text_length
+    )
+}
+
 build_cuts_export <- function() {
   # Build the site payload for the college cuts page and related downloads.
   # This keeps the landing-page summaries and school-level cut tables derived
@@ -1380,6 +1539,8 @@ build_accreditation_export <- function() {
     dplyr::ungroup() %>%
     dplyr::filter(!(hlc_is_generic_current_status & hlc_has_detailed_same_family)) %>%
     dplyr::select(-hlc_action_family, -hlc_is_generic_current_status, -hlc_has_detailed_same_family)
+
+  actions_df <- compact_neche_public_actions(actions_df)
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying

@@ -705,6 +705,186 @@ write_export_bundles <- function(specs, data_dir) {
   stringr::str_squish(value)
 }
 
+# Shared sanction ordering for export-time compaction/source selection.
+# "notice" and "monitoring_or_notice" are not semantically identical, but they
+# intentionally share the same lowest ordering level for compaction purposes.
+.ACCREDITATION_SANCTION_STRENGTH <- c(
+  notice = 1L,
+  monitoring_or_notice = 1L,
+  warning = 2L,
+  show_cause = 3L,
+  probation = 4L,
+  adverse_action = 5L,
+  withdrawal_or_loss = 5L
+)
+
+.normalize_action_family_for_strength <- function(x) {
+  value <- tolower(trimws(as.character(x %||% "")))
+  if (!nzchar(value)) return(NA_character_)
+  dplyr::case_when(
+    value %in% names(.ACCREDITATION_SANCTION_STRENGTH) ~ value,
+    TRUE ~ value
+  )
+}
+
+get_accreditation_sanction_strength <- function(x) {
+  family <- .normalize_action_family_for_strength(x)
+  if (is.na(family) || !family %in% names(.ACCREDITATION_SANCTION_STRENGTH)) {
+    return(NA_integer_)
+  }
+  unname(.ACCREDITATION_SANCTION_STRENGTH[[family]])
+}
+
+# Keep these aligned with the anchored shapes in js/accreditation.js
+# MSCHE_PROCEDURAL_DROP_PATTERNS so source-selection scoring and frontend
+# procedural filtering do not drift apart.
+.MSCHE_SOURCE_SELECTION_PROCEDURAL_PATTERNS <- c(
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report",
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report",
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?candidate assessment",
+  "^\\s*(?:staff acted on behalf of the commission )?to request an? updated teach-?out plan",
+  "^\\s*to require [^.]{0,200}?teach-?out plan",
+  "^\\s*to request [^.]{0,200}?teach-?out plan",
+  "^\\s*to note the follow-?up team visit",
+  "^\\s*to note that the complex substantive change visit occurred",
+  "^\\s*to note that an? updated teach-?out plan [^.]{0,80}? will not be required",
+  "^\\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy",
+  "^\\s*to approve the teach-?out plan as required of candidate",
+  "^\\s*to reject the teach-?out plan",
+  "^\\s*to note that the supplemental information report was not conducive",
+  "^\\s*(?:staff acted (?:on behalf of the commission )?)?to acknowledge receipt of",
+  "^\\s*to note the (?:show cause |follow-?up |on-site |virtual )?visit by the commission'?s representatives",
+  "^\\s*to note that .* hosted a virtual site visit",
+  "^\\s*to note that .* (?:will not be continuing as|is now due|are now due|was not received)",
+  "^\\s*to note that the institution received the notification of adverse action",
+  "^\\s*to note that the administrator of the appeal",
+  "^\\s*to postpone a decision on",
+  "^\\s*to reject the supplemental information report",
+  "^\\s*to request submission of signed teach-?out agreements",
+  "^\\s*to request an updated accreditation readiness report",
+  "^\\s*to remind the institution of",
+  "^\\s*to grant a delay of the monitoring report",
+  "^\\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor"
+)
+
+.WSCUC_SOURCE_SELECTION_PROCEDURAL_PATTERNS <- c(
+  "^\\s*heightened monitoring or focused review\\s*$",
+  "^\\s*warning or equivalent-factors affecting academic quality\\s*$",
+  "^\\s*probation or equivalent or a more severe status:\\s*(warning|probation|show cause)\\s*$",
+  "^\\s*removal of monitoring status\\s*$"
+)
+
+.strip_action_source_selection_wrapper <- function(text, accreditor = NA_character_) {
+  value <- .normalize_action_summary_text(text)
+  acc_norm <- toupper(trimws(as.character(accreditor %||% "")))
+  if (!nzchar(value)) return(value)
+
+  patterns <- switch(
+    acc_norm,
+    "MSCHE" = .MSCHE_SOURCE_SELECTION_PROCEDURAL_PATTERNS,
+    "WSCUC" = .WSCUC_SOURCE_SELECTION_PROCEDURAL_PATTERNS,
+    character()
+  )
+  if (length(patterns) == 0) return(value)
+
+  for (pattern in patterns) {
+    value <- stringr::str_replace(
+      value,
+      stringr::regex(pattern, ignore_case = TRUE),
+      ""
+    )
+    value <- stringr::str_squish(value)
+  }
+  if (identical(acc_norm, "MSCHE")) {
+    value <- stringr::str_replace(
+      value,
+      stringr::regex(
+        "^\\s*(?:the )?(?:monitoring|show cause|supplemental information) report\\.?\\s*",
+        ignore_case = TRUE
+      ),
+      ""
+    )
+    value <- stringr::str_squish(value)
+  }
+  value
+}
+
+.ACCR_EDITORIAL_CONCERN_PATTERNS <- c(
+  "financial",
+  "resources",
+  "cash flow",
+  "governance",
+  "planning",
+  "institutional improvement",
+  "integrity",
+  "enrollment",
+  "student achievement",
+  "audit",
+  "teach-?out"
+)
+
+.ACCREDITATION_SPECIFICITY_PROFILES <- list(
+  MSCHE = list(
+    numbered_standards = c(
+      "\\bstandard\\s+[ivx]+\\b",
+      "\\brequirements? of affiliation\\s+\\d+\\b"
+    ),
+    numbered_components = c(
+      "\\bcore component\\s+[a-z0-9.]+\\b",
+      "\\bassumed practice\\s+[a-z0-9.]+\\b"
+    ),
+    named_concerns = .ACCR_EDITORIAL_CONCERN_PATTERNS,
+    noncompliance = c(
+      "not in compliance",
+      "insufficient evidence",
+      "accreditation is in jeopardy"
+    )
+  ),
+  WSCUC = list(
+    numbered_standards = c(
+      "\\bstandards?\\s+[1-4](?:\\s*(?:and|,)\\s*[1-4])*\\b",
+      "\\bcfrs?\\s*[0-9.]+\\b"
+    ),
+    numbered_components = c(
+      "\\bcfr\\s*[0-9.]+\\b"
+    ),
+    named_concerns = .ACCR_EDITORIAL_CONCERN_PATTERNS,
+    noncompliance = c(
+      "not in compliance",
+      "fails to meet",
+      "areas of noncompliance",
+      "standards at risk of non-compliance"
+    )
+  )
+)
+
+.match_any_pattern <- function(text, patterns) {
+  if (!nzchar(text) || length(patterns) == 0) return(FALSE)
+  any(vapply(patterns, function(pattern) {
+    stringr::str_detect(text, stringr::regex(pattern, ignore_case = TRUE))
+  }, logical(1)))
+}
+
+get_action_summary_specificity_score <- function(text, accreditor = NA_character_) {
+  value <- .normalize_action_summary_text(text)
+  acc_norm <- toupper(trimws(as.character(accreditor %||% "")))
+  profile <- .ACCREDITATION_SPECIFICITY_PROFILES[[acc_norm]]
+  if (!nzchar(value) || is.null(profile)) return(0L)
+
+  score <- 0L
+  if (.match_any_pattern(value, profile$numbered_standards %||% character())) score <- score + 4L
+  if (.match_any_pattern(value, profile$numbered_components %||% character())) score <- score + 4L
+  if (.match_any_pattern(value, profile$named_concerns %||% character())) score <- score + 3L
+  if (.match_any_pattern(value, profile$noncompliance %||% character())) score <- score + 2L
+  score
+}
+
+get_action_summary_substantive_text_length <- function(text, accreditor = NA_character_) {
+  value <- .strip_action_source_selection_wrapper(text, accreditor)
+  if (!nzchar(value)) return(0L)
+  nchar(value, type = "chars", allowNA = FALSE, keepNA = FALSE)
+}
+
 .capitalize_summary_head <- function(text) {
   value <- trimws(as.character(text %||% ""))
   if (!nzchar(value)) return(value)

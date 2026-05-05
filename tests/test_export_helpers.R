@@ -897,6 +897,75 @@ run_test("select_action_summary_source_kind: DAPIP file-text hint maps to pdf_bo
   )
 })
 
+run_test("get_accreditation_sanction_strength: notice and monitoring share compaction strength", function() {
+  assert_identical(get_accreditation_sanction_strength("notice"), 1L)
+  assert_identical(get_accreditation_sanction_strength("monitoring_or_notice"), 1L)
+  assert_identical(get_accreditation_sanction_strength("warning"), 2L)
+  assert_identical(get_accreditation_sanction_strength("show_cause"), 3L)
+  assert_identical(get_accreditation_sanction_strength("probation"), 4L)
+  assert_identical(get_accreditation_sanction_strength("adverse_action"), 5L)
+})
+
+run_test("source selection helper: MSCHE procedural wrapper stripping follows frontend procedural intent", function() {
+  text <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
+    "The next evaluation visit is scheduled for 2032-2033."
+  )
+  assert_identical(
+    .strip_action_source_selection_wrapper(text, "MSCHE"),
+    "The next evaluation visit is scheduled for 2032-2033."
+  )
+})
+
+run_test("source selection helper: MSCHE standards-bearing rows earn a higher specificity score than procedural wrappers", function() {
+  procedural_text <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
+    "The next evaluation visit is scheduled for 2032-2033."
+  )
+  substantive_text <- paste0(
+    "To place the institution on probation and note that the institution's accreditation is in jeopardy because of insufficient evidence ",
+    "that the institution is currently in compliance with Standard V (Educational Effectiveness Assessment), Standard VI ",
+    "(Planning, Resources, and Institutional Improvement), and Requirements of Affiliation 9, 11, and 12."
+  )
+  assert_true(
+    get_action_summary_specificity_score(substantive_text, "MSCHE") >
+      get_action_summary_specificity_score(procedural_text, "MSCHE"),
+    "MSCHE standards-bearing row should outrank procedural wrapper text."
+  )
+})
+
+run_test("source selection helper: WSCUC code labels stay low-specificity while letter excerpts score higher", function() {
+  code_label <- "Probation or Equivalent or a More Severe Status: Warning"
+  letter_excerpt <- paste0(
+    "The Commission determined that Academy of Art was out of compliance with Standard 2, CFR 2.10, and Standard 3, CFR 3.4 specifically: ",
+    "The institution has not developed realistic multi-year, scenario-based financial plans."
+  )
+  assert_identical(get_action_summary_specificity_score(code_label, "WSCUC"), 0L)
+  assert_true(
+    get_action_summary_specificity_score(letter_excerpt, "WSCUC") > 0L,
+    "WSCUC letter excerpt with Standards/CFR references should score as substantive."
+  )
+})
+
+run_test("source selection helper: long procedural text does not beat shorter substantive text", function() {
+  procedural_text <- paste0(
+    "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
+    "The next evaluation visit is scheduled for 2032-2033. ",
+    "The institution remains responsible for all previously requested follow-up materials."
+  )
+  substantive_text <- "The Commission determined that Providence Christian College is not in compliance with WSCUC Standards 3 and 4."
+  assert_true(
+    get_action_summary_substantive_text_length(procedural_text, "MSCHE") >
+      get_action_summary_substantive_text_length(substantive_text, "WSCUC"),
+    "Procedural wrapper text should still be longer after stripping."
+  )
+  assert_true(
+    get_action_summary_specificity_score(substantive_text, "WSCUC") >
+      get_action_summary_specificity_score(procedural_text, "MSCHE"),
+    "Shorter substantive text should outrank longer procedural text on specificity."
+  )
+})
+
 run_test("derive_action_label_short: HLC DAPIP note-style warning retains concise reason", function() {
   text <- paste0(
     "Probation or Equivalent or a More Severe Status: Warning | ",

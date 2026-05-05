@@ -66,6 +66,11 @@ research_min_public_award_remaining <- 100
 # Helper functions (require_local_file, ensure_columns, null_if_empty,
 # write_json_file, build_series, etc.) are in scripts/shared/export_helpers.R
 
+max_int_when <- function(values, mask) {
+  if (!any(mask, na.rm = TRUE)) return(NA_integer_)
+  suppressWarnings(max(as.integer(values[mask]), na.rm = TRUE))
+}
+
 build_cuts_export <- function() {
   # Build the site payload for the college cuts page and related downloads.
   # This keeps the landing-page summaries and school-level cut tables derived
@@ -932,7 +937,8 @@ build_accreditation_export <- function() {
       latest_action_date = dplyr::coalesce(latest_action_date, action_date),
       latest_action_year = dplyr::coalesce(latest_action_year, action_year),
       action_labels = dplyr::coalesce(action_labels, action_label_raw),
-      action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L)
+      action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L),
+      action_row_id = seq_len(n())
     ) %>%
     reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
     {
@@ -942,24 +948,65 @@ build_accreditation_export <- function() {
       .
     } %>%
     mutate(
+      action_summary_source_text = vapply(
+        seq_len(n()),
+        function(i) .select_action_summary_source_text(
+          action_label_raw[[i]],
+          file_text_path[[i]],
+          action_type[[i]],
+          normalize_accreditor_code(accreditor[[i]]),
+          notes[[i]]
+        ),
+        character(1)
+      ),
       action_label_short = vapply(
         seq_len(n()),
         function(i) derive_action_label_short(
           action_type[[i]],
-          .select_action_summary_source_text(
-            action_label_raw[[i]],
-            file_text_path[[i]],
-            action_type[[i]],
-            normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
-          ),
+          action_summary_source_text[[i]],
           normalize_accreditor_code(accreditor[[i]]),
           notes[[i]]
         ),
         character(1)
       )
     ) %>%
-    mutate(accreditor = normalize_accreditor_code(accreditor)) %>%
+    mutate(
+      accreditor = normalize_accreditor_code(accreditor),
+      source_selection_candidate_kind = dplyr::case_when(
+        accreditor == "MSCHE" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
+        accreditor == "MSCHE" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
+        TRUE ~ NA_character_
+      ),
+      source_selection_specificity_score = dplyr::if_else(
+        !is.na(source_selection_candidate_kind),
+        vapply(
+          seq_len(n()),
+          function(i) get_action_summary_specificity_score(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        NA_integer_
+      ),
+      source_selection_substantive_text_length = dplyr::if_else(
+        !is.na(source_selection_candidate_kind),
+        vapply(
+          seq_len(n()),
+          function(i) get_action_summary_substantive_text_length(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        NA_integer_
+      ),
+      source_selection_source_rank = dplyr::case_when(
+        source_selection_candidate_kind == "scraper" ~ 1L,
+        source_selection_candidate_kind == "dapip" ~ 0L,
+        TRUE ~ NA_integer_
+      )
+    ) %>%
     filter(
       !(
         accreditor %in% c("SACSCOC", "NECHE") &
@@ -1083,12 +1130,52 @@ build_accreditation_export <- function() {
     filter(vapply(seq_len(n()), function(i) public_action_has_occurred(action_year[[i]], action_date[[i]]), logical(1))) %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
-      has_same_day_dapip_preferred_row = any(public_table_strategy == "dapip_backed_keep", na.rm = TRUE),
-      drop_same_day_scraper_when_dapip_exists = public_table_strategy == "scraper_backed_keep" & has_same_day_dapip_preferred_row
+      has_msche_same_day_scraper_candidate = any(source_selection_candidate_kind == "scraper", na.rm = TRUE),
+      has_msche_same_day_dapip_candidate = any(source_selection_candidate_kind == "dapip", na.rm = TRUE),
+      has_msche_same_day_source_competition = accreditor == "MSCHE" &
+        has_msche_same_day_scraper_candidate &
+        has_msche_same_day_dapip_candidate,
+      best_same_day_specificity_score = max_int_when(
+        source_selection_specificity_score,
+        !is.na(source_selection_candidate_kind)
+      ),
+      best_same_day_substantive_text_length = max_int_when(
+        source_selection_substantive_text_length,
+        !is.na(source_selection_candidate_kind) &
+          source_selection_specificity_score == best_same_day_specificity_score
+      ),
+      best_same_day_source_rank = max_int_when(
+        source_selection_source_rank,
+        !is.na(source_selection_candidate_kind) &
+          source_selection_specificity_score == best_same_day_specificity_score &
+          source_selection_substantive_text_length == best_same_day_substantive_text_length
+      ),
+      drop_msche_same_day_source_competitor = !is.na(source_selection_candidate_kind) &
+        has_msche_same_day_source_competition &
+        (
+          source_selection_specificity_score < best_same_day_specificity_score |
+            (
+              source_selection_specificity_score == best_same_day_specificity_score &
+                source_selection_substantive_text_length < best_same_day_substantive_text_length
+            ) |
+            (
+              source_selection_specificity_score == best_same_day_specificity_score &
+                source_selection_substantive_text_length == best_same_day_substantive_text_length &
+                source_selection_source_rank < best_same_day_source_rank
+            )
+        )
     ) %>%
     ungroup() %>%
-    filter(!drop_same_day_scraper_when_dapip_exists) %>%
-    select(-has_same_day_dapip_preferred_row, -drop_same_day_scraper_when_dapip_exists) %>%
+    filter(!drop_msche_same_day_source_competitor) %>%
+    select(
+      -has_msche_same_day_scraper_candidate,
+      -has_msche_same_day_dapip_candidate,
+      -has_msche_same_day_source_competition,
+      -best_same_day_specificity_score,
+      -best_same_day_substantive_text_length,
+      -best_same_day_source_rank,
+      -drop_msche_same_day_source_competitor
+    ) %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
       has_same_day_explicit_sanction = any(action_type %in% c("warning", "probation", "removed", "show_cause", "adverse_action"), na.rm = TRUE),
@@ -1102,7 +1189,16 @@ build_accreditation_export <- function() {
     ) %>%
     ungroup() %>%
     filter(!notice_duplicates_sanction) %>%
-    select(-has_same_day_explicit_sanction, -notice_duplicates_sanction) %>%
+    select(
+      -has_same_day_explicit_sanction,
+      -notice_duplicates_sanction,
+      -action_summary_source_text,
+      -source_selection_candidate_kind,
+      -source_selection_specificity_score,
+      -source_selection_substantive_text_length,
+      -source_selection_source_rank,
+      -action_row_id
+    ) %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
       has_same_day_substantive_family = any(

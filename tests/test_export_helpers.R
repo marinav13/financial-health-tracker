@@ -353,7 +353,7 @@ run_test("derive_action_label_short: NECHE show cause uses institutional resourc
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "NECHE"),
-    "Asked to Show Cause for possible Probation or Withdrawal over Institutional Resources"
+    "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns"
   )
 })
 
@@ -436,7 +436,7 @@ run_test("derive_action_label_short: non-MSCHE shortens NECHE show-cause corresp
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "NECHE"),
-    "Asked to Show Cause for possible Probation or Withdrawal over Institutional Resources"
+    "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns"
   )
 })
 
@@ -450,6 +450,39 @@ run_test("derive_action_label_short: non-MSCHE shortens NECHE show-cause press r
     derive_action_label_short("show_cause", text, "NECHE"),
     "Asked to Show Cause for Probation or Withdrawal of Accreditation"
   )
+})
+
+run_test("NECHE helpers: Hampshire-style text yields institutional resources concern signature", function() {
+  text <- paste0(
+    "The Commission has reason to believe that Hampshire College may no longer meet the standard on Institutional Resources, ",
+    "the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation ",
+    "or why its accreditation should not be withdrawn."
+  )
+  assert_identical(
+    extract_neche_standard_families(text),
+    "institutional_resources"
+  )
+  assert_identical(
+    get_neche_concern_signature(text),
+    "institutional_resources"
+  )
+})
+
+run_test("NECHE helpers: fallback label preserves formal standard name when no explicit concern is stated", function() {
+  text <- paste0(
+    "The Commission has reason to believe that Hampshire College may no longer meet the standard on Institutional Resources, ",
+    "the College be given an opportunity to show cause at the Commission's June 2026 meeting why the institution should not be placed on probation ",
+    "or why its accreditation should not be withdrawn."
+  )
+  assert_identical(
+    .build_neche_standard_concern_label(text),
+    "Standard 7 (Institutional Resources) concerns"
+  )
+})
+
+run_test("NECHE helpers: unmapped standard family does not produce a compaction signature", function() {
+  text <- "The Commission found the institution may not meet the standard on students and public disclosure."
+  assert_true(is.na(get_neche_concern_signature(text)))
 })
 
 run_test("derive_action_label_short: HLC teach-out summary names counterpart institutions", function() {
@@ -1242,7 +1275,7 @@ run_test("derive_action_label_short: NECHE show-cause press release can surface 
   )
   assert_identical(
     derive_action_label_short("notice", text, "NECHE"),
-    "Concerns Hellenic College may no longer meet the standards on Planning and Evaluation and Institutional resources."
+    "Concerns Hellenic College may no longer meet Standard 2 (Planning and Evaluation) and Standard 7 (Institutional Resources)."
   )
 })
 

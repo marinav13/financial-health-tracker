@@ -865,6 +865,127 @@ get_accreditation_sanction_strength <- function(x) {
   }, logical(1)))
 }
 
+.NECHE_STANDARD_ALIASES <- list(
+  organization_and_governance = list(
+    number = "3",
+    name = "Organization and Governance",
+    aliases = c("organization and governance")
+  ),
+  academic_program = list(
+    number = "4",
+    name = "The Academic Program",
+    aliases = c("the academic program", "academic program")
+  ),
+  planning_and_evaluation = list(
+    number = "2",
+    name = "Planning and Evaluation",
+    aliases = c("planning and evaluation")
+  ),
+  institutional_resources = list(
+    number = "7",
+    name = "Institutional Resources",
+    aliases = c("institutional resources")
+  )
+)
+
+.normalize_phrase_boundary_text <- function(text) {
+  value <- tolower(as.character(text %||% ""))
+  value <- stringr::str_replace_all(value, "[^a-z0-9]+", " ")
+  stringr::str_squish(value)
+}
+
+.contains_normalized_phrase <- function(text, phrase) {
+  normalized_text <- .normalize_phrase_boundary_text(text)
+  normalized_phrase <- .normalize_phrase_boundary_text(phrase)
+  if (!nzchar(normalized_text) || !nzchar(normalized_phrase)) return(FALSE)
+  stringr::str_detect(
+    normalized_text,
+    stringr::regex(
+      sprintf("(^|\\s)%s(\\s|$)", stringr::str_replace_all(normalized_phrase, "\\s+", "\\\\s+")),
+      ignore_case = TRUE
+    )
+  )
+}
+
+.format_readable_list <- function(values) {
+  values <- values[!is.na(values) & nzchar(trimws(as.character(values)))]
+  if (length(values) == 0L) return(NA_character_)
+  if (length(values) == 1L) return(values[[1]])
+  if (length(values) == 2L) return(sprintf("%s and %s", values[[1]], values[[2]]))
+  sprintf(
+    "%s, and %s",
+    paste(values[-length(values)], collapse = ", "),
+    values[[length(values)]]
+  )
+}
+
+extract_neche_standard_families <- function(text) {
+  matched <- names(.NECHE_STANDARD_ALIASES)[vapply(names(.NECHE_STANDARD_ALIASES), function(id) {
+    alias_values <- .NECHE_STANDARD_ALIASES[[id]]$aliases %||% character()
+    any(vapply(alias_values, function(alias_value) {
+      .contains_normalized_phrase(text, alias_value)
+    }, logical(1)))
+  }, logical(1))]
+  unname(matched)
+}
+
+get_neche_concern_signature <- function(text) {
+  families <- extract_neche_standard_families(text)
+  if (length(families) == 0L) return(NA_character_)
+  paste(families, collapse = "|")
+}
+
+.format_neche_standard_family_labels <- function(families) {
+  families <- families[families %in% names(.NECHE_STANDARD_ALIASES)]
+  if (length(families) == 0L) return(NA_character_)
+  labels <- vapply(families, function(id) {
+    spec <- .NECHE_STANDARD_ALIASES[[id]]
+    sprintf("Standard %s (%s)", spec$number, spec$name)
+  }, character(1))
+  .format_readable_list(labels)
+}
+
+extract_neche_substantive_concern_phrase <- function(text, families = extract_neche_standard_families(text)) {
+  cleaned <- .normalize_action_summary_text(text)
+  if (!nzchar(cleaned) || !("institutional_resources" %in% families)) {
+    return(NA_character_)
+  }
+
+  concern_patterns <- c(
+    "specifically that\\s+([^.]*(?:resources|cash flow)[^.]*?may not be sufficient[^.]*)(?:\\.|$)",
+    "((?:the institution'?s\\s+)?resources and cash flow may not be sufficient[^.]*)(?:\\.|$)",
+    "((?:the institution'?s\\s+)?cash flow may not be sufficient[^.]*)(?:\\.|$)",
+    "((?:the institution'?s\\s+)?financial resources[^.]*may not be sufficient[^.]*)(?:\\.|$)"
+  )
+
+  for (pattern in concern_patterns) {
+    match_value <- stringr::str_match(
+      cleaned,
+      stringr::regex(pattern, ignore_case = TRUE)
+    )[, 2]
+    match_value <- stringr::str_squish(match_value %||% "")
+    if (nzchar(match_value)) {
+      match_value <- sub("\\.$", "", match_value)
+      return(match_value)
+    }
+  }
+
+  NA_character_
+}
+
+.build_neche_standard_concern_label <- function(text) {
+  families <- extract_neche_standard_families(text)
+  family_label <- .format_neche_standard_family_labels(families)
+  if (is.na(family_label) || !nzchar(family_label)) return(NA_character_)
+
+  concern_phrase <- extract_neche_substantive_concern_phrase(text, families)
+  if (!is.na(concern_phrase) && nzchar(concern_phrase)) {
+    return(sprintf("%s: %s", family_label, concern_phrase))
+  }
+
+  sprintf("%s concerns", family_label)
+}
+
 get_action_summary_specificity_score <- function(text, accreditor = NA_character_) {
   value <- .normalize_action_summary_text(text)
   acc_norm <- toupper(trimws(as.character(accreditor %||% "")))
@@ -1629,8 +1750,12 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       stringr::str_detect(lowered, "given an opportunity to show cause") &&
       stringr::str_detect(lowered, "placed on probation") &&
       stringr::str_detect(lowered, "withdrawn")) {
-    if (stringr::str_detect(lowered, "institutional resources")) {
-      return("Asked to Show Cause for possible Probation or Withdrawal over Institutional Resources")
+    standard_label <- .build_neche_standard_concern_label(cleaned)
+    if (!is.na(standard_label) && nzchar(standard_label)) {
+      return(sprintf(
+        "Asked to Show Cause for possible Probation or Withdrawal over %s",
+        standard_label
+      ))
     }
     return("Asked to Show Cause for Probation or Withdrawal of Accreditation")
   }
@@ -1639,8 +1764,12 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       stringr::str_detect(lowered, "took action to require .* show cause") &&
       stringr::str_detect(lowered, "placed on probation") &&
       stringr::str_detect(lowered, "withdrawn")) {
-    if (stringr::str_detect(lowered, "institutional resources")) {
-      return("Asked to Show Cause for possible Probation or Withdrawal over Institutional Resources")
+    standard_label <- .build_neche_standard_concern_label(cleaned)
+    if (!is.na(standard_label) && nzchar(standard_label)) {
+      return(sprintf(
+        "Asked to Show Cause for possible Probation or Withdrawal over %s",
+        standard_label
+      ))
     }
     return("Asked to Show Cause for Probation or Withdrawal of Accreditation")
   }
@@ -1716,6 +1845,16 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       } else {
         "the institution"
       }
+      family_labels <- .format_neche_standard_family_labels(
+        extract_neche_standard_families(standards_text)
+      )
+      if (!is.na(family_labels) && nzchar(family_labels)) {
+        return(.capitalize_summary_head(sprintf(
+          "Concerns %s may no longer meet %s.",
+          lead,
+          family_labels
+        )))
+      }
       return(.capitalize_summary_head(sprintf(
         "Concerns %s may no longer meet the standards on %s.",
         lead,
@@ -1744,6 +1883,16 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     institution_name <- stringr::str_squish(gsub(",\\s*Inc\\.?$", "", institution_name, ignore.case = TRUE))
     if (!is.na(standards_text) && nzchar(standards_text)) {
       lead <- if (!is.na(institution_name) && nzchar(institution_name)) institution_name else "the institution"
+      family_labels <- .format_neche_standard_family_labels(
+        extract_neche_standard_families(standards_text)
+      )
+      if (!is.na(family_labels) && nzchar(family_labels)) {
+        return(.capitalize_summary_head(sprintf(
+          "Concerns %s may no longer meet %s.",
+          lead,
+          family_labels
+        )))
+      }
       return(.capitalize_summary_head(sprintf(
         "Concerns %s may no longer meet the standards on %s.",
         lead,

@@ -1,0 +1,36 @@
+action_code,action_description,row_count,kept_count,dropped_count,review_required_count,mapped_action_type
+AA,Adverse Action Initiated,2,0,2,0,other
+AD,Affirm Denial Following Appeal,3,3,0,0,adverse_action
+CA,Agency no longer recognized,8,0,8,0,other
+DB,Deny Substantive Change: Final Branch Approval,5,0,5,0,other
+DD,Deny Substantive Change: Degree,18,0,18,0,other
+DE,Approved for Distance Education,128,0,128,0,other
+DO,Deny Substantive Change: Ownership,2,0,2,0,other
+DP,Deny Substantive Change: Program,31,0,31,31,adverse_action
+DR,Deferral of Action,1,0,1,0,other
+DT,Deny Substantive Change: Other,17,0,17,0,other
+GD,Grant Substantive Change: Degree,365,0,365,0,other
+GF,Grant Substantive Change: Final Branch Approval,59,0,59,0,other
+GO,Grant Substantive Change: Ownership,44,0,44,0,other
+GP,Grant Substantive Change: Program,1286,0,1286,0,other
+GT,Grant Substantive Change: Other,824,0,824,0,other
+HM,Heightened Monitoring or Focused Review,727,727,0,0,notice
+IA,Initial Accreditation,37,0,37,0,other
+IC,Institution Closed,5,0,5,0,other
+LC,Additional Location Closed,4,0,4,0,other
+LD,Loss of Accreditation or Preaccreditation: Denial,3,3,0,0,adverse_action
+LO,Loss of Accreditation or Preaccreditation: Other,7,7,0,0,adverse_action
+P,Probation or Equivalent or a More Severe Status: Probation,51,51,0,0,probation
+PN,Probation or Equivalent or More Severe Status: Monitoring,2,2,0,0,notice
+PO,Probation or Equivalent or a More Severe Status: Other,3,3,0,0,notice
+PR,Accreditation Reaffirmed: Probation Removed,37,37,0,0,removed
+PW,Probation or Equivalent or a More Severe Status: Warning,95,95,0,0,warning
+R,Loss of Accreditation or Preaccreditation: Voluntary Withdrawal,34,34,0,0,adverse_action
+RA,Renewal of Accreditation,1759,0,1759,0,other
+RM,Removal of Monitoring Status,109,109,0,0,removed
+RS,Removal of Show Cause Status,8,8,0,0,removed
+SC,Probation or Equivalent or a More Severe Status: Show Cause,49,49,0,0,show_cause
+TO,Accreditation Reinstated: Termination Overturned on Appeal,1,0,1,0,other
+VR,Voluntary Withdrawal Received,32,32,0,0,adverse_action
+WE,Warning or Equivalent-Factors Affecting Academic Quality,26,26,0,0,notice
+WR,Accreditation Reaffirmed:  Warning Removed,63,63,0,0,removed

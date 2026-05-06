@@ -9,7 +9,12 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
-  CLOSURE_SHEET_URL: "https://docs.google.com/spreadsheets/d/1TyVZlzfoD1sr0jID6Rt421-bN5wS_9JjWnCBofmbhi8/edit?gid=0#gid=0"
+  # Closure sheet import is temporarily disabled while the upstream
+  # closure tracker is being rebuilt outside this repo. Re-enable by
+  # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
+  # outputs ..." step below. tests/test_import_closure_sheet.py runs
+  # against local fixtures and is unaffected.
+  # CLOSURE_SHEET_URL: "https://docs.google.com/spreadsheets/d/1TyVZlzfoD1sr0jID6Rt421-bN5wS_9JjWnCBofmbhi8/edit?gid=0#gid=0"
 
 permissions:
   contents: write
@@ -175,12 +180,18 @@ jobs:
             --financial-input data/downloads/full_dataset.csv \
             2>&1 | tee -a refresh-logs/combined.log
 
-      - name: Import closure outputs from published Google Sheet
-        shell: bash
-        timeout-minutes: 10
-        run: >
-          python ./scripts/import_closure_sheet.py
-          --sheet "${CLOSURE_SHEET_URL}"
+      # Disabled while the upstream closure tracker is rebuilt outside
+      # this repo. The committed data/closure_status_by_unitid.json is
+      # left in place; closure UI is gated off in the frontend (see
+      # CLAUDE.md "Do not recommend ... enabling closure display").
+      # Re-enable: uncomment this step AND the CLOSURE_SHEET_URL env var
+      # at the top of the workflow.
+      # - name: Import closure outputs from published Google Sheet
+      #   shell: bash
+      #   timeout-minutes: 10
+      #   run: >
+      #     python ./scripts/import_closure_sheet.py
+      #     --sheet "${CLOSURE_SHEET_URL}"
 
       - name: Rebuild static web exports
         shell: bash

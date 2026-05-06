@@ -787,7 +787,9 @@ h1.serif {
   padding: 44px 0 20px;
   margin-top: 8px;
   text-align: center;
-  border-bottom: 1px solid var(--line);
+  /* No bottom border: the design's hairline below the action buttons
+     was visually awkward floating between the buttons and the outcomes
+     grid, so we drop it. */
 }
 
 .school-mast .eyebrow {
@@ -1025,11 +1027,15 @@ h1.serif {
    Editorial-calm: pale-yellow neutral, saturated blue positive,
    saturated brick negative — colorblind-safe pair. The .pos / .neg
    classes from the design alias to the existing .positive / .negative
-   so JS that calls classList.add('positive') keeps working. */
+   so JS that calls classList.add('positive') keeps working.
+
+   Strips span the full main-wrap content width (no max-width / no auto
+   margins) so the colored bars run flush from the left margin to the
+   right margin, matching the design template. */
 .metric-strip {
-  margin: 10px auto;
+  margin: 10px 0;
   padding: 16px 22px;
-  width: min(100%, 640px);
+  width: 100%;
   border-radius: 4px;
   border: 1px solid transparent;
   font-family: var(--font-body);
@@ -1183,13 +1189,13 @@ h1.serif {
 }
 
 /* Outcomes grid (school.html top stats): three centered columns
-   separated by hairlines instead of three white cards. */
+   separated by vertical hairlines. The top + bottom horizontal
+   dividers were removed — the columns sit cleanly without a frame
+   around the whole row. */
 #school-outcomes-section .research-summary-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   margin: 28px 0 24px;
 }
 #school-outcomes-section .research-summary-grid .metric-strip {
@@ -1522,8 +1528,8 @@ h1.serif {
    optional italic sub-line beneath. Matches the editorial-calm design. */
 .chart-panel {
   position: relative;
-  width: min(100%, 880px);
-  margin: 14px auto;
+  width: 100%;
+  margin: 14px 0;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 4px;

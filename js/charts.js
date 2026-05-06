@@ -169,7 +169,21 @@ function renderLineChart(containerId, config) {
   }).join("")).join("");
 
   const safeTitle = escapeChartHtml(config.title || "Chart");
-  const title = config.title ? `<p class="chart-title">${safeTitle}</p>` : "";
+  // Editorial Calm: titles ending in a parenthetical descriptor render
+  // as a serif main heading followed by an italic muted subtitle on a
+  // separate line. e.g. "Revenue vs Expenses (adjusted for inflation)"
+  // becomes "Revenue vs Expenses" + "<span class='sub'>adjusted for
+  // inflation</span>". The full title still flows into safeTitle for
+  // aria-label / chart description purposes.
+  let title = "";
+  if (config.title) {
+    const match = String(config.title).match(/^(.+?)\s*\(([^()]+)\)\s*$/);
+    if (match) {
+      title = `<p class="chart-title">${escapeChartHtml(match[1])}<span class="sub">${escapeChartHtml(match[2])}</span></p>`;
+    } else {
+      title = `<p class="chart-title">${safeTitle}</p>`;
+    }
+  }
   const legend = seriesList.map((series) => (
     `<span><svg class="legend-dot" viewBox="0 0 10 10" aria-hidden="true" focusable="false"><circle cx="5" cy="5" r="5" fill="${series.color}"></circle></svg>${escapeChartHtml(series.label)}</span>`
   )).join("");

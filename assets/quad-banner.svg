@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stylized college-quad banner used at the top of every institution
+  profile page (cuts/accreditation/research/school in ?unitid mode).
+  Single-source-of-truth: served via <img src="assets/quad-banner.svg">
+  so the same illustration appears identically on all four pages.
+  Paper / brick / grass palette intentionally muted to match the
+  Editorial Calm body type on the page.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 240" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stylized illustration of a college quad with a brick academic building and clock tower">
+  <defs>
+    <linearGradient id="qb-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c9d8e6"/>
+      <stop offset="70%" stop-color="#e7ddc5"/>
+      <stop offset="100%" stop-color="#e5d8bb"/>
+    </linearGradient>
+    <linearGradient id="qb-grass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8aa066"/>
+      <stop offset="100%" stop-color="#6d8352"/>
+    </linearGradient>
+    <linearGradient id="qb-brick" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a85a3b"/>
+      <stop offset="100%" stop-color="#7a3e28"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1040" height="150" fill="url(#qb-sky)"/>
+  <g opacity="0.75">
+    <ellipse cx="120" cy="150" rx="80" ry="28" fill="#6b8157"/>
+    <ellipse cx="260" cy="148" rx="90" ry="30" fill="#5c7349"/>
+    <ellipse cx="760" cy="148" rx="95" ry="32" fill="#627c4b"/>
+    <ellipse cx="940" cy="150" rx="85" ry="30" fill="#556e43"/>
+  </g>
+  <g>
+    <rect x="180" y="96" width="150" height="74" fill="url(#qb-brick)"/>
+    <polygon points="180,96 255,68 330,96" fill="#8c3f28"/>
+    <rect x="710" y="96" width="150" height="74" fill="url(#qb-brick)"/>
+    <polygon points="710,96 785,68 860,96" fill="#8c3f28"/>
+    <rect x="330" y="80" width="380" height="90" fill="url(#qb-brick)"/>
+    <polygon points="330,80 520,40 710,80" fill="#8c3f28"/>
+    <rect x="450" y="100" width="140" height="70" fill="#efe8d6"/>
+    <polygon points="444,100 520,72 596,100" fill="#e3dcc6"/>
+    <g fill="#faf4e3">
+      <rect x="462" y="110" width="10" height="60"/>
+      <rect x="484" y="110" width="10" height="60"/>
+      <rect x="506" y="110" width="10" height="60"/>
+      <rect x="528" y="110" width="10" height="60"/>
+      <rect x="550" y="110" width="10" height="60"/>
+      <rect x="572" y="110" width="10" height="60"/>
+    </g>
+    <rect x="505" y="18" width="30" height="56" fill="#8c3f28"/>
+    <polygon points="500,18 520,0 540,18" fill="#5a2716"/>
+    <circle cx="520" cy="38" r="6" fill="#efe8d6" stroke="#2b1810" stroke-width="1"/>
+    <line x1="520" y1="38" x2="520" y2="34" stroke="#2b1810"/>
+    <line x1="520" y1="38" x2="523" y2="40" stroke="#2b1810"/>
+    <g fill="#1f2a3a" opacity="0.85">
+      <rect x="198" y="112" width="14" height="20"/><rect x="222" y="112" width="14" height="20"/>
+      <rect x="246" y="112" width="14" height="20"/><rect x="270" y="112" width="14" height="20"/>
+      <rect x="294" y="112" width="14" height="20"/>
+      <rect x="198" y="140" width="14" height="20"/><rect x="222" y="140" width="14" height="20"/>
+      <rect x="246" y="140" width="14" height="20"/><rect x="270" y="140" width="14" height="20"/>
+      <rect x="294" y="140" width="14" height="20"/>
+      <rect x="728" y="112" width="14" height="20"/><rect x="752" y="112" width="14" height="20"/>
+      <rect x="776" y="112" width="14" height="20"/><rect x="800" y="112" width="14" height="20"/>
+      <rect x="824" y="112" width="14" height="20"/>
+      <rect x="728" y="140" width="14" height="20"/><rect x="752" y="140" width="14" height="20"/>
+      <rect x="776" y="140" width="14" height="20"/><rect x="800" y="140" width="14" height="20"/>
+      <rect x="824" y="140" width="14" height="20"/>
+      <rect x="348" y="100" width="14" height="20"/><rect x="372" y="100" width="14" height="20"/>
+      <rect x="396" y="100" width="14" height="20"/><rect x="420" y="100" width="14" height="20"/>
+      <rect x="620" y="100" width="14" height="20"/><rect x="644" y="100" width="14" height="20"/>
+      <rect x="668" y="100" width="14" height="20"/><rect x="692" y="100" width="14" height="20"/>
+      <rect x="348" y="132" width="14" height="20"/><rect x="372" y="132" width="14" height="20"/>
+      <rect x="396" y="132" width="14" height="20"/><rect x="420" y="132" width="14" height="20"/>
+      <rect x="620" y="132" width="14" height="20"/><rect x="644" y="132" width="14" height="20"/>
+      <rect x="668" y="132" width="14" height="20"/><rect x="692" y="132" width="14" height="20"/>
+    </g>
+    <rect x="512" y="140" width="16" height="30" fill="#2b1810"/>
+  </g>
+  <rect x="0" y="170" width="1040" height="70" fill="url(#qb-grass)"/>
+  <polygon points="380,240 660,240 560,170 480,170" fill="#d7c89d"/>
+  <line x1="480" y1="170" x2="380" y2="240" stroke="#b9a97d"/>
+  <line x1="560" y1="170" x2="660" y2="240" stroke="#b9a97d"/>
+  <g>
+    <rect x="72" y="155" width="8" height="30" fill="#3a2a17"/>
+    <circle cx="76" cy="150" r="22" fill="#4e6b3a"/>
+    <circle cx="62" cy="152" r="14" fill="#425a31"/>
+    <circle cx="90" cy="152" r="14" fill="#5a7843"/>
+  </g>
+  <g>
+    <rect x="960" y="155" width="8" height="30" fill="#3a2a17"/>
+    <circle cx="964" cy="148" r="24" fill="#506f3c"/>
+    <circle cx="950" cy="150" r="14" fill="#3f5a30"/>
+    <circle cx="978" cy="150" r="14" fill="#5e7c43"/>
+  </g>
+  <g>
+    <circle cx="440" cy="198" r="3" fill="#2b1810"/>
+    <rect x="438" y="201" width="5" height="12" fill="#244a6b"/>
+    <rect x="438" y="213" width="2" height="8" fill="#2b1810"/><rect x="441" y="213" width="2" height="8" fill="#2b1810"/>
+  </g>
+  <g>
+    <circle cx="610" cy="200" r="3" fill="#3a2418"/>
+    <rect x="608" y="203" width="5" height="12" fill="#7a2a2a"/>
+    <rect x="608" y="215" width="2" height="8" fill="#2b1810"/><rect x="611" y="215" width="2" height="8" fill="#2b1810"/>
+  </g>
+  <g>
+    <circle cx="540" cy="205" r="3" fill="#2b1810"/>
+    <rect x="538" y="208" width="5" height="12" fill="#4a6a3a"/>
+    <rect x="538" y="220" width="2" height="6" fill="#2b1810"/><rect x="541" y="220" width="2" height="6" fill="#2b1810"/>
+  </g>
+</svg>

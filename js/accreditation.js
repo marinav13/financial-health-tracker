@@ -819,11 +819,13 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid, { active: "accreditation" });
-    // Editorial Calm: hide the landing-mode hero (visible H1 + lede block)
-    // when an institution is requested, so the institution-mode H1 in
-    // .school-banner is the only top-of-page heading.
+    // Editorial Calm: swap landing-mode hero (visible H1 + lede on landing
+    // pages) for the institution-mode quad-banner + school-mast block when
+    // ?unitid is set. Two siblings, exactly one visible at a time.
     const landingHero = document.getElementById("accreditation-landing-hero");
     if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
+    const institutionMast = document.getElementById("accreditation-institution-mast");
+    if (institutionMast) institutionMast.classList.toggle("is-hidden", !unitid);
 
     if (!unitid) {
       const [accreditationIndex, metadata] = await Promise.all([
@@ -919,6 +921,13 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
+    // Editorial Calm: italic meta line under the H1 — "City, State · Sector".
+    const schoolMeta = document.getElementById("accreditation-school-meta");
+    if (schoolMeta) {
+      const locationPart = [school.city, school.state].filter(Boolean).join(", ");
+      const sectorPart = school.control_label || "";
+      schoolMeta.textContent = [locationPart, sectorPart].filter(Boolean).join("  ·  ");
+    }
     const accreditationOverview = document.getElementById("accreditation-overview");
     if (accreditationOverview) {
       accreditationOverview.classList.add("is-hidden");

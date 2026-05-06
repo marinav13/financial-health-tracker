@@ -464,11 +464,13 @@
     const searchLabel = document.querySelector('label[for="research-filter"]');
     if (searchLabel) searchLabel.classList.toggle("is-hidden", !!unitid);
     if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
-    // Editorial Calm: hide the landing-mode hero (visible H1 + lede block)
-    // when an institution is requested, so the institution-mode H1 in
-    // .school-banner is the only top-of-page heading.
+    // Editorial Calm: swap landing-mode hero (visible H1 + lede on landing
+    // pages) for the institution-mode quad-banner + school-mast block when
+    // ?unitid is set. Two siblings, exactly one visible at a time.
     const landingHero = document.getElementById("research-landing-hero");
     if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
+    const institutionMast = document.getElementById("research-institution-mast");
+    if (institutionMast) institutionMast.classList.toggle("is-hidden", !unitid);
 
     if (!unitid) {
       // Landing view: the h1#research-school-name ships with class="sr-only"
@@ -546,6 +548,13 @@
     schoolHeading.textContent = school.institution_name || "Research Funding Cuts";
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
+    // Editorial Calm: italic meta line under the H1 — "City, State · Sector".
+    const schoolMeta = document.getElementById("research-school-meta");
+    if (schoolMeta) {
+      const locationPart = [school.city, school.state].filter(Boolean).join(", ");
+      const sectorPart = school.control_label || school.sector || "";
+      schoolMeta.textContent = [locationPart, sectorPart].filter(Boolean).join("  ·  ");
+    }
     if (summaryGrid) summaryGrid.innerHTML = renderSummaryGrid(school);
 
     title.textContent = `Currently disrupted grants (${filterPositiveFundingGrants(school.grants || []).length})`;

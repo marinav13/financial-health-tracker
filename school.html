@@ -44,20 +44,23 @@
       </section>
     </details>
 
-    <section class="school-banner">
+    <figure class="quad-banner" aria-hidden="true">
+      <img src="assets/quad-banner.svg" alt="" loading="lazy">
+    </figure>
+    <section class="school-mast">
+      <div class="eyebrow">Institution Profile</div>
       <h1 id="school-name">Loading...</h1>
-    </section>
-
-    <section id="school-meta-wrap" class="school-meta-wrap">
-      <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
-      <div class="school-actions">
-        <button id="download-school-data" class="download-button" type="button">Download This College's Data</button>
-        <button id="share-school-profile" class="download-button secondary-button" type="button">Share This College's Profile</button>
-      </div>
-      <p id="share-school-status" class="sr-only" aria-live="polite"></p>
-      <p id="school-location" class="school-meta"></p>
-      <p id="school-urbanization" class="school-meta"></p>
-      <p id="school-control" class="school-meta"></p>
+      <section id="school-meta-wrap" class="school-meta-wrap">
+        <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
+        <div class="school-actions">
+          <button id="download-school-data" class="btn-pill filled" type="button">Download this college's data</button>
+          <button id="share-school-profile" class="btn-pill outline" type="button">Share this profile</button>
+        </div>
+        <p id="share-school-status" class="sr-only" aria-live="polite"></p>
+        <p id="school-location" class="school-meta"></p>
+        <p id="school-urbanization" class="school-meta"></p>
+        <p id="school-control" class="school-meta"></p>
+      </section>
     </section>
 
     <section id="school-outcomes-section" class="data-card">
@@ -182,11 +185,10 @@
       <div id="hcm2-card" class="metric-strip neutral"></div>
     </section>
 
-    <section class="data-card is-hidden" id="school-related-section" aria-hidden="true">
-      <h2>Related Pages</h2>
-      <div id="school-related-pages">
-      </div>
-    </section>
+    <aside class="related-card is-hidden" id="school-related-section" aria-hidden="true">
+      <h3>Continue reading</h3>
+      <div id="school-related-pages" class="related-list"></div>
+    </aside>
 
     <details class="methodology-panel">
       <summary class="methodology-summary">Methodology</summary>

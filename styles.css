@@ -757,103 +757,259 @@ h1.serif {
   background: #fff8db;
 }
 
-.school-banner {
-  background: var(--yellow);
-  border-radius: 10px;
-  padding: var(--space-2) 16px;
-  text-align: center;
+/* ---------- Institution masthead ---------------------------------- */
+/* .quad-banner is the full-bleed stylized campus illustration that
+   sits above the institution H1. It breaks out of .main-wrap's
+   72px gutter so it spans the full 1040px page width. */
+.quad-banner {
+  margin: 0 -72px;
+  padding: 0;
+  width: auto;
+  height: 240px;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #b4c2cf;
+  display: block;
+}
+.quad-banner img,
+.quad-banner svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
 }
 
+/* .school-mast is the centered title block under the quad-banner:
+   gold uppercase eyebrow rule + serif H1 + italic meta line + pill
+   action buttons. */
+.school-mast {
+  padding: 44px 0 20px;
+  margin-top: 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.school-mast .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hechinger-gold);
+}
+.school-mast .eyebrow::before,
+.school-mast .eyebrow::after {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--line-2);
+}
+
+.school-mast h1 {
+  margin: 0 auto 10px;
+  max-width: 24ch;
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+  color: var(--ink);
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+.school-mast .meta {
+  margin: 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.school-mast .meta .sep {
+  margin: 0 8px;
+  color: var(--line-2);
+  font-style: normal;
+}
+
+/* Pill buttons used in .school-mast .school-actions. Outline + filled
+   variants. The legacy .download-button rule below stays in place for
+   the table toolbars on the landing pages. */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-pill.filled {
+  background: var(--ink);
+  color: var(--paper-page);
+}
+.btn-pill.filled:hover {
+  background: var(--ink-2);
+}
+.btn-pill.outline:hover {
+  background: var(--paper-2);
+}
+
+/* Override the old yellow .school-banner. Keep the rule so any HTML
+   that still uses it doesn't break, but neutralize the visual treatment.
+   Once all four institution pages are converted, the .school-banner
+   element disappears from markup entirely. */
+.school-banner {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  text-align: center;
+}
 .school-banner h1 {
   margin: 0;
-  font-size: clamp(2rem, 5vw, 3.4rem);
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-size: 0;
+  line-height: 0;
 }
 
 .school-meta-wrap {
   background: transparent;
   text-align: center;
-  padding: 12px 10px 0;
+  padding: 0;
+  margin: 20px 0 6px;
 }
 
 .school-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin: 0 0 14px;
+  gap: 12px;
+  margin: 20px 0 6px;
 }
 
 .download-button {
   appearance: none;
   border: 0;
   border-radius: 999px;
-  background: #0072b2;
-  color: #fff;
-  padding: 10px 16px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  background: var(--ink);
+  color: var(--paper-page);
+  padding: 8px 16px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .download-button:hover {
-  background: var(--status-blue-dark);
+  background: var(--ink-2);
 }
 
+/* Outline pill paired with .download-button (used as 'Share this profile'
+   on school.html). Editorial calm reads it as the lighter half of a
+   filled/outline pair. */
 .secondary-button {
-  background: var(--paper);
-  color: var(--status-blue);
-  border: 2px solid var(--status-blue);
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  text-transform: uppercase;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
 }
 
 .secondary-button:hover {
-  background: #eef5ff;
-  color: var(--status-blue-dark);
-  border-color: var(--status-blue-dark);
+  background: var(--paper-2);
+  color: var(--ink-2);
+  border-color: var(--ink-2);
 }
 
+/* Per-line school meta paragraphs on school.html (school-meta-wrap
+   above the outcomes grid). Folded into a single comma-joined italic
+   line below the H1 in editorial-calm. */
 .school-meta {
-  margin: 14px 0 0;
-  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-  color: #2c3350;
+  margin: 6px 0 0;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.school-meta:empty {
+  display: none;
 }
 
 .school-closure-flag {
   margin-top: 8px;
   margin-bottom: 12px;
-  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
-  color: #8b1e16;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--neg-deep);
   font-weight: 600;
 }
 
+/* ---------- Section heads (school-profile sections) ----------
+   Centered Tiempos Headline H2 with a 40px gold underline. (The
+   §-numeral eyebrow from earlier mockups was dropped at the user's
+   request — they preferred the cleaner heading without the small
+   italic numeral above.) */
 .section-block {
-  margin-top: var(--space-4);
+  margin: 0 0 40px;
   text-align: center;
 }
 
 .section-title {
-  background: #000;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 700;
-  border-radius: 8px;
-  padding: 14px 18px;
-  letter-spacing: 0.02em;
-  margin-bottom: var(--space-3);
+  text-align: center;
+  margin: 48px auto 6px;
+  padding: 0 0 10px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  text-transform: none;
+  border-radius: 0;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--hechinger-gold);
+  margin: 10px auto 0;
 }
 
 .section-copy {
-  margin: var(--space-2) auto;
-  max-width: 620px;
-  font-size: clamp(1.05rem, 2vw, 1.2rem);
-  font-style: italic;
-  line-height: 1.3;
+  margin: 16px auto 18px;
+  max-width: 62ch;
+  font-family: var(--font-body);
+  font-size: 16.5px;
+  line-height: 1.7;
+  font-style: normal;
+  color: var(--ink-2);
+  text-align: center;
 }
 
 .section-copy strong {
-  font-style: normal;
   font-weight: 700;
+  color: var(--ink);
 }
 
 .chart-note {
@@ -865,64 +1021,91 @@ h1.serif {
   text-align: center;
 }
 
+/* ---------- Metric strips ----------
+   Editorial-calm: pale-yellow neutral, saturated blue positive,
+   saturated brick negative — colorblind-safe pair. The .pos / .neg
+   classes from the design alias to the existing .positive / .negative
+   so JS that calls classList.add('positive') keeps working. */
 .metric-strip {
-  background: var(--yellow-soft);
-  border-radius: 14px;
-  padding: 16px 18px;
-  margin: var(--space-2) auto;
+  margin: 10px auto;
+  padding: 16px 22px;
   width: min(100%, 640px);
-  border: 1px solid rgba(217, 164, 65, 0.15);
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--ink-2);
 }
 
 .metric-strip.neutral {
-  background: var(--yellow-soft);
-  border-color: rgba(217, 164, 65, 0.35);
-  color: var(--ink);
+  background: var(--hechinger-yellow-pale);
+  border-color: var(--hechinger-yellow-soft);
+  color: var(--ink-2);
 }
 
-.metric-strip.negative {
-  background: var(--status-orange);
-  border: 2px solid var(--status-orange-dark);
-  border-left: 10px solid var(--status-orange-dark);
+.metric-strip.negative,
+.metric-strip.neg {
+  background: var(--neg);
+  border-color: var(--neg-deep);
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 400;
 }
 
-.metric-strip.positive {
-  background: var(--status-blue);
-  border-color: var(--status-blue);
+.metric-strip.positive,
+.metric-strip.pos {
+  background: var(--pos);
+  border-color: var(--pos-deep);
   color: #ffffff;
   font-weight: 400;
 }
 
 .metric-strip.positive .metric-question,
-.metric-strip.positive .metric-statement {
-  font-weight: 700;
-}
-
-.metric-strip.positive .metric-answer {
-  font-weight: 600;
-}
-
+.metric-strip.pos .metric-question,
+.metric-strip.positive .metric-statement,
+.metric-strip.pos .metric-statement,
 .metric-strip.negative .metric-question,
-.metric-strip.negative .metric-statement {
-  font-weight: 600;
+.metric-strip.neg .metric-question,
+.metric-strip.negative .metric-statement,
+.metric-strip.neg .metric-statement {
+  color: #fff;
+  opacity: 0.92;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
-.metric-strip.negative .metric-answer {
+.metric-strip.positive .metric-answer,
+.metric-strip.pos .metric-answer,
+.metric-strip.negative .metric-answer,
+.metric-strip.neg .metric-answer {
+  color: #fff;
   font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 .metric-strip .metric-question {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+  display: block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 6px;
   color: inherit;
+  opacity: 0.85;
 }
 
 .metric-strip .metric-answer {
-  font-size: 1.45rem;
+  display: block;
+  font-family: var(--font-display);
+  font-size: 22px;
   font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
   color: inherit;
 }
 
@@ -932,10 +1115,19 @@ h1.serif {
 }
 
 .metric-strip .metric-statement {
-  font-size: clamp(1rem, 2vw, 1.15rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-size: 15.5px;
+  font-weight: 400;
+  line-height: 1.5;
   color: inherit;
+}
+
+.metric-strip strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+.metric-strip.neutral strong {
+  color: var(--ink);
 }
 
 .info-panel {
@@ -956,20 +1148,30 @@ h1.serif {
   margin-bottom: 0;
 }
 
+/* ---------- Data card (table container) ----------
+   White panel with hairline border. Holds the table toolbar +
+   horizontally-scrollable .history-table-wrap + pagination. */
 .data-card {
-  width: min(100%, 780px);
-  margin: var(--space-2) auto;
+  width: min(100%, 880px);
+  margin: 24px auto;
   background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0;
   text-align: left;
+  overflow: hidden;
 }
 
 .data-card h2,
 .data-card h3 {
-  margin: 0 0 12px;
+  margin: 0;
+  padding: 22px 24px 14px;
   text-align: center;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
 #school-outcomes-section.data-card {
@@ -977,15 +1179,64 @@ h1.serif {
   border: 0;
   border-radius: 0;
   padding: 0;
+  overflow: visible;
 }
 
+/* Outcomes grid (school.html top stats): three centered columns
+   separated by hairlines instead of three white cards. */
+#school-outcomes-section .research-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 28px 0 24px;
+}
+#school-outcomes-section .research-summary-grid .metric-strip {
+  width: 100%;
+  margin: 0;
+  padding: 22px 24px;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  text-align: center;
+  color: var(--ink-2);
+}
+#school-outcomes-section .research-summary-grid .metric-strip:last-child {
+  border-right: 0;
+}
+#school-outcomes-section .research-summary-grid .metric-question {
+  font-family: var(--font-ui);
+  font-size: 10.5px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+  opacity: 1;
+}
+#school-outcomes-section .research-summary-grid .metric-answer {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+/* ---------- Table toolbar (filter input + download button) ----------
+   Centered row above each .history-table. Uppercase-label, pill-shaped
+   filter input, ink-filled download pill. */
 .table-toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 12px 16px;
-  margin: 0 0 14px;
+  gap: 12px;
+  padding: 0 24px 18px;
+  margin: 0;
 }
 
 .table-toolbar-actions {
@@ -993,27 +1244,43 @@ h1.serif {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .table-toolbar-spacer {
   flex: 1 1 auto;
 }
 
+.table-filter-label {
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-right: 0;
+  align-self: center;
+}
+
 .table-filter-input {
-  min-width: 250px;
+  min-width: 260px;
   max-width: 100%;
-  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border: 1px solid var(--line-2);
   border-radius: 999px;
-  background: #fff;
-  padding: 10px 14px;
-  font-size: 0.95rem;
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
   color: var(--ink);
 }
 
-.table-filter-input:focus {
-  outline: 2px solid rgba(0, 114, 178, 0.2);
+.table-filter-input:focus,
+.table-filter-input:focus-visible {
+  outline: 2px solid var(--focus);
   outline-offset: 1px;
+  border-color: var(--hechinger-gold);
+  font-style: normal;
 }
 
 .small-meta {
@@ -1052,51 +1319,82 @@ h1.serif {
   margin: 18px 0 0;
 }
 
+/* Pagination: circular outline buttons; filled ink on the active page. */
+.pagination {
+  padding: 18px 24px 22px;
+}
+
 .pagination-button {
   appearance: none;
-  border: 1px solid #cfcfcf;
-  background: var(--paper);
-  color: var(--ink);
-  border-radius: 6px;
-  min-width: 38px;
-  padding: 8px 12px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
 .pagination-button:hover {
-  background: #fff8db;
-  border-color: rgba(217, 164, 65, 0.45);
+  background: var(--paper-2);
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .pagination-button:focus-visible {
-  outline: 2px solid var(--status-blue);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
 .pagination-button.is-active {
-  background: var(--yellow);
-  border-color: rgba(217, 164, 65, 0.75);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-page);
 }
 
+/* Editorial history table: uppercase Inter-style headers in paper-2,
+   serif body, gentle row hover. */
 .history-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.96rem;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.55;
 }
 
 .history-table th,
 .history-table td {
-  border-top: 1px solid #e6e6e6;
-  padding: 10px 8px;
+  padding: 14px 18px;
   vertical-align: top;
   text-align: left;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-2);
 }
 
 .history-table th {
-  background: #fafafa;
-  border-top: 0;
+  background: var(--paper-2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.history-table tbody tr:hover {
+  background: var(--paper-2);
+}
+
+.history-table a {
+  color: var(--pos-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .sort-header-label {
@@ -1219,20 +1517,37 @@ h1.serif {
   border-color: rgba(217, 164, 65, 0.75);
 }
 
+/* ---------- Chart panel ----------
+   White card with hairline border, centered serif chart title with
+   optional italic sub-line beneath. Matches the editorial-calm design. */
 .chart-panel {
   position: relative;
-  width: min(100%, 700px);
-  margin: var(--space-2) auto;
+  width: min(100%, 880px);
+  margin: 14px auto;
   background: var(--paper);
-  border: 1px solid #e5e5e5;
-  border-radius: 6px;
-  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 22px 26px 16px;
 }
 
 .chart-title {
-  margin: 0 0 10px;
-  font-size: clamp(1.1rem, 2.3vw, 1.4rem);
-  font-weight: 700;
+  margin: 0 0 14px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.chart-title .sub {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  letter-spacing: 0;
 }
 
 .chart-svg {
@@ -1281,6 +1596,57 @@ h1.serif {
 
 .chart-tooltip-row {
   display: block;
+}
+
+/* ---------- Related-pages footer (institution profile pages) ----------
+   Bordered band with a gold uppercase header and a comma-spaced row
+   of section links. Used at the bottom of the school / cuts-school /
+   accred-school / research-school pages. */
+.related-card {
+  margin: 28px 0;
+  padding: 26px 32px;
+  text-align: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.related-card h3 {
+  margin: 0 0 12px;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--hechinger-gold);
+}
+
+.related-card ul,
+.related-card ol,
+.related-card .related-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.related-card ul a,
+.related-card ol a,
+.related-card .related-list a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+  padding-bottom: 2px;
+}
+.related-card ul a:hover,
+.related-card ol a:hover,
+.related-card .related-list a:hover {
+  color: var(--hechinger-gold);
 }
 
 .methodology-panel {
@@ -1430,13 +1796,86 @@ h1.serif {
     font-size: 2.4rem;
   }
 
+  /* Quad-banner shortens on mobile and breaks out of the 20px gutter
+     instead of the 72px desktop gutter. */
+  .quad-banner {
+    margin: 0 -20px;
+    height: 160px;
+  }
+
+  .school-mast {
+    padding: 32px 16px 16px;
+  }
+  .school-mast h1 {
+    font-size: 32px;
+  }
+
   .section-block {
-    margin-top: var(--space-2);
+    margin: 0 0 32px;
+  }
+  .section-title {
+    font-size: 24px;
+    margin-top: 32px;
+  }
+
+  /* Outcomes grid stacks; horizontal dividers turn into bottom dividers. */
+  #school-outcomes-section .research-summary-grid {
+    grid-template-columns: 1fr;
+  }
+  #school-outcomes-section .research-summary-grid .metric-strip {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  #school-outcomes-section .research-summary-grid .metric-strip:last-child {
+    border-bottom: 0;
   }
 
   .metric-strip,
   .chart-panel {
     width: 100%;
+  }
+
+  .data-card h2,
+  .data-card h3 {
+    padding: 18px 16px 10px;
+    font-size: 18px;
+  }
+  .table-toolbar {
+    padding: 0 16px 14px;
+    gap: 8px;
+  }
+  .table-filter-input {
+    min-width: 0;
+    width: 100%;
+  }
+  .download-button {
+    width: 100%;
+  }
+
+  /* Tables get a horizontal scroll instead of squeezing columns to
+     unreadable widths. .history-table-wrap already provides overflow-x;
+     this just enforces a min table width inside it. */
+  .history-table-wrap {
+    -webkit-overflow-scrolling: touch;
+  }
+  .history-table {
+    min-width: 640px;
+    font-size: 13px;
+  }
+  .history-table th,
+  .history-table td {
+    padding: 10px 12px;
+  }
+
+  /* Related-card list stacks vertically. */
+  .related-card {
+    padding: 22px 16px;
+  }
+  .related-card ul,
+  .related-card ol,
+  .related-card .related-list {
+    flex-direction: column;
+    gap: 16px;
   }
 }
 

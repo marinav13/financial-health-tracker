@@ -980,6 +980,44 @@ run_test("source selection helper: WSCUC code labels stay low-specificity while 
   )
 })
 
+run_test("normalize_accreditor_code: WASC Senior name maps to WSCUC", function() {
+  assert_identical(
+    normalize_accreditor_code("WASC Senior College and University Commission"),
+    "WSCUC"
+  )
+})
+
+run_test("source selection helper: thin WSCUC DAPIP code labels do not outrank scraper headings on tied specificity", function() {
+  scraper_heading <- "Following an Accreditation Visit – issue Warning"
+  dapip_code_label <- "Warning or Equivalent-Factors Affecting Academic Quality"
+  assert_identical(
+    get_action_summary_specificity_score(scraper_heading, "WSCUC"),
+    get_action_summary_specificity_score(dapip_code_label, "WSCUC")
+  )
+})
+
+run_test("select_action_summary_source_text: WSCUC boilerplate DAPIP raw text prefers cached letter text", function() {
+  raw <- "At that meeting, the Commission acted to place Providence Christian College on Probation."
+  letter_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Providence Christian College. ",
+    "At that meeting, the Commission acted to place Providence Christian College on Probation. ",
+    "The Commission has determined that Providence Christian College is not in compliance with WSCUC Standards 3 and 4."
+  )
+  file_path <- tempfile(fileext = ".txt")
+  writeLines(letter_text, file_path, useBytes = TRUE)
+  on.exit(unlink(file_path), add = TRUE)
+
+  assert_identical(
+    .select_action_summary_source_text(
+      raw,
+      file_text_path = file_path,
+      action_type = "probation",
+      accreditor = "WSCUC"
+    ),
+    letter_text
+  )
+})
+
 run_test("source selection helper: long procedural text does not beat shorter substantive text", function() {
   procedural_text <- paste0(
     "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
@@ -996,6 +1034,63 @@ run_test("source selection helper: long procedural text does not beat shorter su
     get_action_summary_specificity_score(substantive_text, "WSCUC") >
       get_action_summary_specificity_score(procedural_text, "MSCHE"),
     "Shorter substantive text should outrank longer procedural text on specificity."
+  )
+})
+
+run_test("derive_action_label_short: WSCUC Providence letter text yields standards-backed probation summary", function() {
+  text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Providence Christian College. ",
+    "At that meeting, the Commission acted to place Providence Christian College on Probation. ",
+    "Non-Compliance with Standards: Deficiencies to be Addressed Providence Christian College is out of compliance with Standard 3 CFRs 3.4 and 3.7 because it lacks both a multi-year financial plan to guide activities and a strategic enrollment plan to increase enrollment, threatening ongoing fiscal sustainability. ",
+    "Providence Christian College is out of compliance with Standard 4 CFRs 4.1-4.5 because it has not developed quality assurance processes including data collection, analysis, and dissemination, use of data in decision making, and strategic planning."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "WSCUC"),
+    "Placed on Probation because it is out of compliance with Standards 3 and 4, CFRs 3.4, 3.7, 4.1, 4.2, 4.3, 4.4, and 4.5 on financial sustainability and quality assurance"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC Academy of Art letter text yields standards-backed warning summary", function() {
+  text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Academy of Art University. ",
+    "At that meeting the Commission removed the Notice of Concern and issued a Warning. ",
+    "Areas of Noncompliance The Commission determined that Academy of Art was out of compliance with Standard 2, CFR 2.10, and Standard 3, CFR 3.4 specifically: ",
+    "Standard 2, CFR 2.10: The institution demonstrates that students make reasonable progress toward and complete their degrees in a timely manner. ",
+    "Standard 3, CFRs 3.4: Resource planning and development include realistic budgeting, enrollment management, and diversification of revenue sources. ",
+    "The institution has not developed realistic multi-year, scenario-based financial plans."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "WSCUC"),
+    "Removed Notice of Concern and issued a Warning because it is out of compliance with Standards 2 and 3, CFRs 2.10 and 3.4 on student completion and resource planning"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC San Diego Christian letter text yields standards-backed warning summary", function() {
+  text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning San Diego Christian College (SDCC). ",
+    "At that meeting, the Commission acted to remove a Show Cause order and impose a Warning. ",
+    "Non-Compliance with Standards: Deficiencies to be Addressed The Commission determined that SDCC has not demonstrated compliance with Standard 3, specifically with CFR 3.4: ",
+    "The institution is financially stable and has unqualified independent financial audits and resources sufficient to ensure long-term viability. ",
+    "Resource planning and development include realistic budgeting, enrollment management, and diversification of revenue sources. ",
+    "SDCC needs to show evidence that it has met enrollment goals, has realistic plans to close budget deficits, and can ensure long-term fiscal viability."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "WSCUC"),
+    "Removed Show Cause and issued a Warning because it has not demonstrated compliance with Standard 3, CFR 3.4 on financial sustainability and resource planning"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC CSU East Bay letter text yields notice summary with CFR detail", function() {
+  text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning California State University East Bay (CSUEB). ",
+    "At that meeting the Commission decided to place CSUEB on Notice of Concern. ",
+    "Standards at Risk of Non-Compliance and Requiring a Response Standard 3, CFR 3.4 Resource Planning and CFR 3.5 Fiscal Stability: ",
+    "Develop, communicate, and implement budgetary plans in collaboration with stakeholders to ensure financial stability and long-term sustainability. ",
+    "Develop a comprehensive strategic enrollment plan that includes multiple budget scenarios and options for financial sustainability."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "WSCUC"),
+    "Issued a Notice of Concern over Standard 3, CFRs 3.4 and 3.5 on financial sustainability and resource planning"
   )
 })
 

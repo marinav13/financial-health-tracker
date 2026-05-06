@@ -307,6 +307,50 @@ run("trailing-The accreditation aliases do not leak into accreditation other-ins
   }
 });
 
+run("WSCUC exports prefer richer DAPIP letter detail only when it beats the scraper heading", () => {
+  const findByName = (name) =>
+    Object.values(ACCREDITATION.schools || {}).find((school) => school.institution_name === name);
+
+  const providence = findByName("Providence Christian College");
+  const academy = findByName("Academy of Art University");
+  const sdcc = findByName("San Diego Christian College");
+  const eastBay = findByName("California State University-East Bay");
+
+  assert(providence, "Accreditation export is missing Providence Christian College");
+  assert(academy, "Accreditation export is missing Academy of Art University");
+  assert(sdcc, "Accreditation export is missing San Diego Christian College");
+  assert(eastBay, "Accreditation export is missing California State University-East Bay");
+
+  assert(
+    (providence.actions || []).some((row) =>
+      row.action_label_short ===
+      "Placed on Probation because it is out of compliance with Standards 3 and 4, CFRs 3.4, 3.7, 4.1, 4.2, 4.3, 4.4, and 4.5 on financial sustainability and quality assurance"
+    ),
+    "Providence should use the richer WSCUC probation summary from DAPIP letter text"
+  );
+  assert(
+    (academy.actions || []).some((row) =>
+      row.action_label_short ===
+      "Removed Notice of Concern and issued a Warning because it is out of compliance with Standards 2 and 3, CFRs 2.10 and 3.4 on student completion and resource planning"
+    ),
+    "Academy of Art should use the richer WSCUC warning summary from DAPIP letter text"
+  );
+  assert(
+    (sdcc.actions || []).some((row) =>
+      row.action_label_short ===
+      "Removed Show Cause and issued a Warning because it has not demonstrated compliance with Standard 3, CFR 3.4 on financial sustainability and resource planning"
+    ),
+    "San Diego Christian should use the richer WSCUC warning summary from DAPIP letter text"
+  );
+  assert(
+    (eastBay.actions || []).some((row) =>
+      row.action_label_short ===
+      "Issued a Notice of Concern over Standard 3, CFRs 3.4 and 3.5 on financial sustainability and resource planning"
+    ),
+    "CSU East Bay should use the richer WSCUC notice summary from DAPIP letter text"
+  );
+});
+
 run("research export excludes Dartmouth award with zero live remaining funding", () => {
   const dartmouth = RESEARCH_FUNDING.schools?.["182670"];
   assert(dartmouth, "Dartmouth College research record is missing");

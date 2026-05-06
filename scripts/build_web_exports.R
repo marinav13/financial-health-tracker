@@ -1037,6 +1037,17 @@ build_accreditation_export <- function() {
       public_action_family = as.character(public_action_family)
     ) %>%
     filter(!is.na(dapip_source_key), dapip_source_key != "")
+  selected_wscuc_dapip_enrichment <- audit_df %>%
+    filter(
+      normalize_accreditor_code(accreditor) == "WSCUC"
+    ) %>%
+    group_by(dapip_source_key) %>%
+    slice(1) %>%
+    ungroup() %>%
+    transmute(
+      dapip_source_key = as.character(dapip_source_key)
+    ) %>%
+    filter(!is.na(dapip_source_key), dapip_source_key != "")
   public_scraper_actions <- selected_scraper_audit %>%
     left_join(scraper_actions_df, by = "scraper_source_key")
   if (nrow(public_scraper_actions) > 0L && any(is.na(public_scraper_actions$action_label_raw))) {
@@ -1071,6 +1082,78 @@ build_accreditation_export <- function() {
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
+  wscuc_dapip_enrichment_actions <- selected_wscuc_dapip_enrichment %>%
+    left_join(dapip_actions_df, by = "dapip_source_key")
+  wscuc_dapip_enrichment_actions <- wscuc_dapip_enrichment_actions %>%
+    filter(!is.na(action_label_raw))
+  if (nrow(wscuc_dapip_enrichment_actions) == 0L) {
+    wscuc_dapip_enrichment_pool <- data.frame(
+      unitid = character(),
+      accreditor = character(),
+      source_selection_period_key = character(),
+      action_summary_source_text = character(),
+      source_selection_specificity_score = integer(),
+      source_selection_substantive_text_length = integer(),
+      action_date = character(),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    wscuc_dapip_enrichment_pool <- wscuc_dapip_enrichment_actions %>%
+      mutate(
+        unitid = as.character(unitid),
+        action_date = normalize_accreditation_date(action_date),
+        action_year = dplyr::if_else(
+          (is.na(action_year) | trimws(as.character(action_year %||% "")) == "") & !is.na(action_date),
+          substr(action_date, 1L, 4L),
+          as.character(action_year)
+        ),
+        file_id = as.character(file_id)
+      ) %>%
+      reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
+      {
+        if (!"file_text_path" %in% names(.)) {
+          .$file_text_path <- NA_character_
+        }
+        .
+      } %>%
+      mutate(
+        accreditor = normalize_accreditor_code(accreditor),
+        action_summary_source_text = vapply(
+          seq_len(n()),
+          function(i) .select_action_summary_source_text(
+            action_label_raw[[i]],
+            file_text_path[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          ),
+          character(1)
+        ),
+        source_selection_specificity_score = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_specificity_score(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_substantive_text_length = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_substantive_text_length(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_period_key = substr(action_date, 1L, 7L)
+      ) %>%
+      filter(
+        accreditor == "WSCUC",
+        !is.na(unitid), unitid != "",
+        !is.na(source_selection_period_key),
+        nzchar(trimws(as.character(source_selection_period_key %||% "")))
+      )
+  }
   actions_df <- bind_rows(
     public_scraper_actions %>%
       mutate(
@@ -1134,6 +1217,8 @@ build_accreditation_export <- function() {
       source_selection_candidate_kind = dplyr::case_when(
         accreditor == "MSCHE" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
         accreditor == "MSCHE" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
+        accreditor == "WSCUC" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
+        accreditor == "WSCUC" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
         TRUE ~ NA_character_
       ),
       source_selection_specificity_score = dplyr::if_else(
@@ -1164,6 +1249,10 @@ build_accreditation_export <- function() {
         source_selection_candidate_kind == "scraper" ~ 1L,
         source_selection_candidate_kind == "dapip" ~ 0L,
         TRUE ~ NA_integer_
+      ),
+      source_selection_period_key = dplyr::case_when(
+        accreditor == "WSCUC" & !is.na(action_date) ~ substr(action_date, 1L, 7L),
+        TRUE ~ action_date
       )
     ) %>%
     filter(
@@ -1335,6 +1424,62 @@ build_accreditation_export <- function() {
       -best_same_day_source_rank,
       -drop_msche_same_day_source_competitor
     ) %>%
+    {
+      actions_df <- .
+      if (!nrow(wscuc_dapip_enrichment_pool)) {
+        actions_df
+      } else {
+        wscuc_best <- wscuc_dapip_enrichment_pool %>%
+          group_by(unitid, accreditor, source_selection_period_key) %>%
+          arrange(
+            dplyr::desc(source_selection_specificity_score),
+            dplyr::desc(source_selection_substantive_text_length),
+            dplyr::desc(action_date),
+            .by_group = TRUE
+          ) %>%
+          slice(1) %>%
+          ungroup() %>%
+          select(
+            unitid,
+            accreditor,
+            source_selection_period_key,
+            best_wscuc_dapip_text = action_summary_source_text,
+            best_wscuc_dapip_specificity_score = source_selection_specificity_score
+          )
+
+        actions_df %>%
+          left_join(
+            wscuc_best,
+            by = c("unitid", "accreditor", "source_selection_period_key")
+          ) %>%
+          mutate(
+            action_summary_source_text = dplyr::case_when(
+              accreditor == "WSCUC" &
+                source_selection_candidate_kind == "scraper" &
+                !is.na(best_wscuc_dapip_specificity_score) &
+                best_wscuc_dapip_specificity_score > source_selection_specificity_score ~
+                  best_wscuc_dapip_text,
+              TRUE ~ action_summary_source_text
+            )
+          ) %>%
+          mutate(
+            action_label_short = vapply(
+              seq_len(n()),
+              function(i) derive_action_label_short(
+                action_type[[i]],
+                action_summary_source_text[[i]],
+                normalize_accreditor_code(accreditor[[i]]),
+                notes[[i]]
+              ),
+              character(1)
+            )
+          ) %>%
+          select(
+            -best_wscuc_dapip_text,
+            -best_wscuc_dapip_specificity_score
+          )
+      }
+    } %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
       has_same_day_explicit_sanction = any(action_type %in% c("warning", "probation", "removed", "show_cause", "adverse_action"), na.rm = TRUE),
@@ -1356,6 +1501,7 @@ build_accreditation_export <- function() {
       -source_selection_specificity_score,
       -source_selection_substantive_text_length,
       -source_selection_source_rank,
+      -source_selection_period_key,
       -action_row_id
     ) %>%
     group_by(export_unitid, accreditor, action_date) %>%

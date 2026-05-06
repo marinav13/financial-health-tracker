@@ -63,7 +63,7 @@ normalize_accreditor_code <- function(x) {
     grepl("middle states|\\bmsche\\b", value, ignore.case = TRUE, perl = TRUE) ~ "MSCHE",
     grepl("new england commission|\\bneche\\b", value, ignore.case = TRUE, perl = TRUE) ~ "NECHE",
     grepl("southern association|sacscoc", value, ignore.case = TRUE, perl = TRUE) ~ "SACSCOC",
-    grepl("western association|wscuc", value, ignore.case = TRUE, perl = TRUE) ~ "WSCUC",
+    grepl("western association|wasc senior|wscuc", value, ignore.case = TRUE, perl = TRUE) ~ "WSCUC",
     grepl("northwest commission|nwccu", value, ignore.case = TRUE, perl = TRUE) ~ "NWCCU",
     TRUE ~ value
   )

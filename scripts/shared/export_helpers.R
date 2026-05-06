@@ -823,6 +823,62 @@ get_accreditation_sanction_strength <- function(x) {
   "teach-?out"
 )
 
+.WSCUC_NAMED_CONCERN_PATTERNS <- list(
+  financial_sustainability = c(
+    "financial sustainability",
+    "fiscal sustainability",
+    "fiscal stability",
+    "long-?term sustainability",
+    "long-?term viability",
+    "fiscal viability"
+  ),
+  resource_planning = c(
+    "resource planning",
+    "multi-?year financial plan",
+    "realistic multi-?year(?:,? scenario-based)? financial plans?",
+    "budget(?:ary)? plans",
+    "resource allocation"
+  ),
+  quality_assurance = c(
+    "quality assurance processes",
+    "data collection, analysis, and dissemination",
+    "use of data in decision making",
+    "data-?driven decision making",
+    "strategic planning"
+  ),
+  student_completion = c(
+    "complete their degrees in a timely manner",
+    "reasonable progress toward and complete their degrees",
+    "graduation rates",
+    "completion plan",
+    "student progress and achievement"
+  ),
+  enrollment_planning = c(
+    "strategic enrollment (?:management )?plan",
+    "increase enrollment",
+    "enrollment management",
+    "enrollment goals"
+  ),
+  shared_governance = c(
+    "shared governance",
+    "two-?way communication"
+  ),
+  leadership_capacity = c(
+    "leadership capacity",
+    "succession pathways"
+  ),
+  campus_climate = c(
+    "climate concerns"
+  ),
+  board_oversight = c(
+    "board oversight"
+  )
+)
+
+.flatten_pattern_list <- function(pattern_list) {
+  unique(unlist(pattern_list %||% list(), use.names = FALSE))
+}
+
 .ACCREDITATION_SPECIFICITY_PROFILES <- list(
   MSCHE = list(
     numbered_standards = c(
@@ -842,15 +898,22 @@ get_accreditation_sanction_strength <- function(x) {
   ),
   WSCUC = list(
     numbered_standards = c(
-      "\\bstandards?\\s+[1-4](?:\\s*(?:and|,)\\s*[1-4])*\\b",
-      "\\bcfrs?\\s*[0-9.]+\\b"
+      "\\bstandard\\s+[1-4](?:\\s*,\\s*cfrs?\\s*[0-9.]+(?:\\s*(?:and|,)\\s*[0-9.]+)*)?\\b",
+      "\\bstandards\\s+[1-4](?:\\s*(?:and|,)\\s*[1-4])+\\b",
+      "\\bstandards?\\s+[1-4]\\b"
     ),
     numbered_components = c(
-      "\\bcfr\\s*[0-9.]+\\b"
+      "\\bcfrs?\\s*[0-9.]+(?:\\s*(?:and|,)\\s*[0-9.]+)*\\b"
     ),
-    named_concerns = .ACCR_EDITORIAL_CONCERN_PATTERNS,
+    named_concerns = c(
+      .ACCR_EDITORIAL_CONCERN_PATTERNS,
+      .flatten_pattern_list(.WSCUC_NAMED_CONCERN_PATTERNS)
+    ),
     noncompliance = c(
       "not in compliance",
+      "out of compliance",
+      "has not demonstrated compliance",
+      "not demonstrated compliance",
       "fails to meet",
       "areas of noncompliance",
       "standards at risk of non-compliance"
@@ -1004,6 +1067,274 @@ get_action_summary_substantive_text_length <- function(text, accreditor = NA_cha
   value <- .strip_action_source_selection_wrapper(text, accreditor)
   if (!nzchar(value)) return(0L)
   nchar(value, type = "chars", allowNA = FALSE, keepNA = FALSE)
+}
+
+.format_numbered_list <- function(values) {
+  values <- .unique_preserve_order(values)
+  if (length(values) == 0L) return(NA_character_)
+  if (length(values) == 1L) return(values[[1]])
+  if (length(values) == 2L) return(sprintf("%s and %s", values[[1]], values[[2]]))
+  sprintf(
+    "%s, and %s",
+    paste(values[-length(values)], collapse = ", "),
+    values[[length(values)]]
+  )
+}
+
+extract_wscuc_named_concerns <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+
+  matches <- list()
+  for (label in names(.WSCUC_NAMED_CONCERN_PATTERNS)) {
+    patterns <- .WSCUC_NAMED_CONCERN_PATTERNS[[label]] %||% character()
+    positions <- vapply(patterns, function(pattern) {
+      located <- stringr::str_locate(
+        value,
+        stringr::regex(pattern, ignore_case = TRUE)
+      )[1, 1]
+      if (is.na(located)) Inf else located
+    }, numeric(1))
+    best_position <- suppressWarnings(min(positions, na.rm = TRUE))
+    if (is.finite(best_position)) {
+      matches[[length(matches) + 1L]] <- list(
+        label = switch(
+          label,
+          financial_sustainability = "financial sustainability",
+          resource_planning = "resource planning",
+          quality_assurance = "quality assurance",
+          student_completion = "student completion",
+          enrollment_planning = "enrollment planning",
+          shared_governance = "shared governance",
+          leadership_capacity = "leadership capacity",
+          campus_climate = "campus climate",
+          board_oversight = "board oversight",
+          label
+        ),
+        position = best_position
+      )
+    }
+  }
+
+  if (!length(matches)) return(character())
+  ordered <- matches[order(vapply(matches, `[[`, numeric(1), "position"))]
+  .unique_preserve_order(vapply(ordered, `[[`, character(1), "label"))
+}
+
+.extract_wscuc_focus_text <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+
+  section_specs <- list(
+    c(
+      ".*?Non-Compliance with Standards: Deficiencies to be Addressed\\s*",
+      "\\s*(Areas for Development|Next Steps|Maximum Timeframe|Commission policy requires).*$"
+    ),
+    c(
+      ".*?Areas of Noncompliance\\s*",
+      "\\s*(Maximum Timeframe|Next Steps|Commission policy requires).*$"
+    ),
+    c(
+      ".*?Standards at Risk of Non-Compliance and Requiring a Response\\s*",
+      "\\s*(Areas for Development|In accordance with Commission policy|Next Steps).*$"
+    )
+  )
+  for (spec in section_specs) {
+    if (grepl(spec[[1]], value, ignore.case = TRUE, perl = TRUE)) {
+      section <- sub(spec[[1]], "", value, ignore.case = TRUE, perl = TRUE)
+      section <- sub(spec[[2]], "", section, ignore.case = TRUE, perl = TRUE)
+      section <- stringr::str_squish(section)
+      if (nzchar(section)) return(section)
+    }
+  }
+
+  fallback_patterns <- c(
+    "The Commission has determined that [^.]+? is not in compliance with [^.]+\\.",
+    "The Commission determined that [^.]+? (?:was )?out of compliance with [^.]+\\.",
+    "The Commission determined that [^.]+? has not demonstrated compliance with [^.]+\\.",
+    "The Commission acted to remove a Show Cause order and impose the sanction of Warning because [^.]+\\."
+  )
+  for (pattern in fallback_patterns) {
+    match_value <- stringr::str_match(
+      value,
+      stringr::regex(pattern, ignore_case = TRUE)
+    )[, 1]
+    match_value <- stringr::str_squish(match_value %||% "")
+    if (nzchar(match_value)) return(match_value)
+  }
+
+  NA_character_
+}
+
+.extract_wscuc_standards <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+  matches <- stringr::str_match_all(
+    value,
+    stringr::regex("\\bstandards?\\s+([1-4](?:\\s*(?:and|,)\\s*[1-4])*)\\b", ignore_case = TRUE)
+  )[[1]]
+  if (!nrow(matches)) return(character())
+
+  values <- unlist(lapply(matches[, 2], function(section) {
+    stringr::str_extract_all(section, "[1-4]")[[1]]
+  }), use.names = FALSE)
+  .unique_preserve_order(values)
+}
+
+.extract_wscuc_cfrs <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+  matches <- stringr::str_extract_all(
+    value,
+    stringr::regex("\\bcfrs?\\s*[0-9.]+(?:-[0-9.]+)?(?:\\s*(?:and|,)\\s*[0-9.]+(?:-[0-9.]+)?)*", ignore_case = TRUE)
+  )[[1]]
+  if (!length(matches)) return(character())
+
+  values <- unlist(lapply(matches, function(section) {
+    tokens <- stringr::str_extract_all(section, "[0-9]+(?:\\.[0-9]+)?(?:-[0-9]+(?:\\.[0-9]+)?)?")[[1]]
+    unlist(lapply(tokens, function(token) {
+      if (!grepl("-", token, fixed = TRUE)) return(token)
+      bounds <- strsplit(token, "-", fixed = TRUE)[[1]]
+      start <- suppressWarnings(as.numeric(bounds[[1]]))
+      end <- suppressWarnings(as.numeric(bounds[[2]]))
+      if (!is.finite(start) || !is.finite(end)) return(token)
+      if (abs(start - end) >= 1 || end < start) return(token)
+      major <- floor(start)
+      start_minor <- round((start - major) * 10)
+      end_minor <- round((end - major) * 10)
+      if (start_minor > end_minor) return(token)
+      sprintf("%d.%d", major, seq.int(start_minor, end_minor))
+    }), use.names = FALSE)
+  }), use.names = FALSE)
+  .unique_preserve_order(values)
+}
+
+.format_wscuc_standard_detail <- function(text) {
+  standards <- .extract_wscuc_standards(text)
+  cfrs <- .extract_wscuc_cfrs(text)
+  if (length(standards) == 0L && length(cfrs) == 0L) return(NA_character_)
+
+  standard_label <- if (length(standards) > 0L) {
+    sprintf(
+      "%s %s",
+      if (length(standards) == 1L) "Standard" else "Standards",
+      .format_numbered_list(standards)
+    )
+  } else {
+    NA_character_
+  }
+  cfr_label <- if (length(cfrs) > 0L) {
+    sprintf(
+      "%s %s",
+      if (length(cfrs) == 1L) "CFR" else "CFRs",
+      .format_numbered_list(cfrs)
+    )
+  } else {
+    NA_character_
+  }
+
+  if (!is.na(standard_label) && !is.na(cfr_label)) {
+    return(sprintf("%s, %s", standard_label, cfr_label))
+  }
+  standard_label %||% cfr_label
+}
+
+.build_wscuc_concern_detail <- function(text) {
+  standard_detail <- .format_wscuc_standard_detail(text)
+  standards <- .extract_wscuc_standards(text)
+  named_concerns <- extract_wscuc_named_concerns(text)
+  priority_concerns <- character()
+  if ("2" %in% standards) {
+    priority_concerns <- c(priority_concerns, "student completion")
+  }
+  if ("3" %in% standards) {
+    priority_concerns <- c(priority_concerns, "financial sustainability")
+  }
+  if ("4" %in% standards) {
+    priority_concerns <- c(priority_concerns, "quality assurance")
+  }
+  if ("3" %in% standards) {
+    priority_concerns <- c(priority_concerns, "resource planning")
+  }
+  if (!length(priority_concerns)) {
+    priority_concerns <- c("financial sustainability", "quality assurance")
+  }
+  named_concerns <- .unique_preserve_order(c(
+    intersect(priority_concerns, named_concerns),
+    named_concerns
+  ))
+  concern_label <- if (length(named_concerns) > 0L) {
+    .format_readable_list(named_concerns[seq_len(min(length(named_concerns), 2L))])
+  } else {
+    NA_character_
+  }
+
+  if (!is.na(standard_detail) && !is.na(concern_label)) {
+    return(sprintf("%s on %s", standard_detail, concern_label))
+  }
+  standard_detail %||% concern_label
+}
+
+.extract_wscuc_action_phrase <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+
+  patterns <- list(
+    "Removed Notice of Concern and issued a Warning" = "removed the notice of concern and issued? a warning",
+    "Removed Show Cause and issued a Warning" = "remove a show cause order and (?:impose|issue) (?:the sanction of )?a?\\s*warning|removed? show cause(?: order)? and issued? a warning",
+    "Issued a Notice of Concern" = "place [^.]{0,120}? on notice of concern|issue a notice of concern",
+    "Placed on Probation" = "place [^.]{0,120}? on probation|impose probation",
+    "Placed on Warning" = "issue a warning|impose (?:the sanction of )?a?\\s*warning"
+  )
+
+  for (label in names(patterns)) {
+    if (stringr::str_detect(value, stringr::regex(patterns[[label]], ignore_case = TRUE))) {
+      return(label)
+    }
+  }
+
+  NA_character_
+}
+
+.extract_wscuc_compliance_phrase <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+  dplyr::case_when(
+    stringr::str_detect(value, stringr::regex("has not demonstrated compliance|not demonstrated compliance", ignore_case = TRUE)) ~
+      "it has not demonstrated compliance with",
+    stringr::str_detect(value, stringr::regex("out of compliance|not in compliance", ignore_case = TRUE)) ~
+      "it is out of compliance with",
+    TRUE ~ NA_character_
+  )
+}
+
+.summarize_wscuc_letter <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value) ||
+      !stringr::str_detect(
+        value,
+        stringr::regex("formal notification and official record of action taken", ignore_case = TRUE)
+      )) {
+    return(NA_character_)
+  }
+
+  action_phrase <- .extract_wscuc_action_phrase(value)
+  if (is.na(action_phrase) || !nzchar(action_phrase)) return(NA_character_)
+
+  focus_text <- .extract_wscuc_focus_text(value)
+  detail <- .build_wscuc_concern_detail(focus_text %||% value)
+  compliance_phrase <- .extract_wscuc_compliance_phrase(focus_text %||% value)
+
+  if (!is.na(detail) && nzchar(detail)) {
+    if (identical(action_phrase, "Issued a Notice of Concern")) {
+      return(sprintf("%s over %s", action_phrase, detail))
+    }
+    if (!is.na(compliance_phrase) && nzchar(compliance_phrase)) {
+      return(sprintf("%s because %s %s", action_phrase, compliance_phrase, detail))
+    }
+  }
+
+  action_phrase
 }
 
 .unique_preserve_order <- function(values) {
@@ -1430,6 +1761,23 @@ extract_hlc_findings <- function(text) {
       (grepl("^if the commission finds the institution has successfully addressed the concerns", raw, ignore.case = TRUE) ||
        grepl("^to show cause why it should not be placed on probation", raw, ignore.case = TRUE) ||
        grepl("^on probation for a period not to exceed", raw, ignore.case = TRUE))) {
+    return(TRUE)
+  }
+
+  if (acc_norm == "WSCUC" &&
+      (
+        raw %in% c(
+          "Heightened Monitoring or Focused Review",
+          "Warning or Equivalent-Factors Affecting Academic Quality",
+          "Probation or Equivalent or a More Severe Status: Warning",
+          "Probation or Equivalent or a More Severe Status: Probation",
+          "Probation or Equivalent or a More Severe Status: Show Cause",
+          "Removal of Monitoring Status"
+        ) ||
+          grepl("^at that meeting", raw, ignore.case = TRUE) ||
+          grepl("^schedule the next reaffirmation review", raw, ignore.case = TRUE) ||
+          grepl("^the commission acted to", raw, ignore.case = TRUE)
+      )) {
     return(TRUE)
   }
 
@@ -1928,6 +2276,10 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   }
 
   if (acc_norm == "WSCUC") {
+    letter_summary <- .summarize_wscuc_letter(cleaned)
+    if (!is.na(letter_summary) && nzchar(letter_summary)) {
+      return(letter_summary)
+    }
     wscuc_summary <- stringr::str_replace(
       cleaned,
       stringr::regex("^Following a Special Visit\\s*(?:–|-|:)\\s*", ignore_case = TRUE),

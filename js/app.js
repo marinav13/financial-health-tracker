@@ -54,12 +54,6 @@ function isNumericUnitid(value) {
   return /^[0-9]+$/.test(String(value || ""));
 }
 
-function relatedPageUnitid(unitid, financialUnitid) {
-  if (isNumericUnitid(unitid)) return String(unitid);
-  if (isNumericUnitid(financialUnitid)) return String(financialUnitid);
-  return "";
-}
-
 function isPrimaryTrackerInstitution(record) {
   return record?.is_primary_tracker === true;
 }
@@ -130,7 +124,13 @@ function renderRelatedInstitutionLinks(options = {}) {
     include = ["finances", "cuts", "accreditation", "research"],
     relatedIndexes = {}
   } = options;
-  const financeUnitid = isNumericUnitid(financialUnitid) ? financialUnitid : (isNumericUnitid(unitid) ? unitid : "");
+  // Only render the Finances link when the caller passes a numeric
+  // financialUnitid. The cuts/accreditation/research indexes set
+  // financial_unitid to null for institutions with no financial profile
+  // (closed schools, 2-year colleges outside the tracker, specialty
+  // institutions); falling back to the section unitid here would link to
+  // a school detail page that has no underlying data/schools/<id>.json.
+  const financeUnitid = isNumericUnitid(financialUnitid) ? String(financialUnitid) : "";
   const links = [];
   const cutsRecord = findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
     || findRelatedIndexRecord(relatedIndexes.cuts, financialUnitid, "cut_count");

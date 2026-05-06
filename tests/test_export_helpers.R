@@ -1087,6 +1087,104 @@ run_test("derive_action_label_short: HLC DAPIP note-style warning retains concis
   )
 })
 
+run_test("derive_action_label_short: HLC Saint Mary-of-the-Woods notice names Core Components and Assumed Practice", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Warning | ",
+    "The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.A, 2.C, 5.A, and 5.B with concerns. ",
+    "The Institution does not meet Assumed Practice D.4."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "HLC"),
+    "Placed on Warning because it is at risk of being out of compliance with Core Components 2.A, 2.C, 5.A, and 5.B and Assumed Practice D.4."
+  )
+})
+
+run_test("derive_action_label_short: HLC Wittenberg probation names a single Core Component", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Probation | ",
+    "The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
+    "The Institution does not meet Core Component 4.B."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "Placed on Probation because it is out of compliance with Core Component 4.B."
+  )
+})
+
+run_test("derive_action_label_short: HLC Wilberforce notice names multiple Core Components and Assumed Practices", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Warning | ",
+    "The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 3.C, 4.C, 5.B, and 5.C with concerns. ",
+    "The Institution does not meet Assumed Practices D.3 and D.4."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "HLC"),
+    "Placed on Warning because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C and Assumed Practices D.3 and D.4."
+  )
+})
+
+run_test("derive_action_label_short: HLC Southwest Baptist probation preserves named concern phrasing", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Probation | ",
+    "HLC took this action because it determined that the institution does not meet HLCâ€™s Criteria for Accreditation related to integrity: ",
+    "ethical and responsible conduct and institutional effectiveness, resources and planning."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "Placed on Probation because the institution does not meet HLC's Criteria for Accreditation related to integrity: ethical and responsible conduct and institutional effectiveness, resources and planning."
+  )
+})
+
+run_test("derive_action_label_short: HLC Harris-Stowe notice remains generic when selected source text lacks specific findings", function() {
+  text <- paste0(
+    "Probation or Equivalent or a More Severe Status: Warning | ",
+    "HLC took this action because it determined that the institution was at risk of being out of compliance with HLC requirements."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "HLC"),
+    "Placed on Warning because the institution was at risk of being out of compliance with HLC requirements."
+  )
+})
+
+run_test("derive_action_label_short: HLC teach-out location summaries strip street addresses and ZIP codes", function() {
+  text <- paste0(
+    "Approved the institutionâ€™s teach-out plan for closing six additional locations: ",
+    "Jacksonville, 7077 Bonneval Rd #114 , Jacksonville, FL 32216-4050 ",
+    "Mesquite, 3737 Motley Drive, Mesquite, TX 75150 ",
+    "JFTB Los Alamitos, 11206 Lexington Avenue, Suite 110, Los Alamitos, CA 90720 ",
+    "NSB Kings Bay, 918 USS James Madison Rd, Kings Bay, GA 31547-2533 ",
+    "Kansas City, 4240 Blue Ridge Blvd., Suite 400, Kansas City, MO 64133-1702 ",
+    "Springfield, 3271 East Battlefield Road, Suite 250, Springfield, MO 65804"
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved the institutionâ€™s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield"
+  )
+})
+
+run_test("derive_action_label_short: HLC teach-out agreements keep partner summarization instead of location cleanup", function() {
+  text <- paste0(
+    "Approved the institutionÃ¢â‚¬â„¢s provisional plan to teach out students at the branch campus at Ann Arbor, 4090 Geddes Road, Ann Arbor, MI 48105, ",
+    "including teach-out agreements with the following institutions: ",
+    "Madonna University, Livonia, MI Lourdes University, Sylvania, OH Siena Heights University, Adrian, MI ",
+    "Rochester Christian University, Rochester Hills, MI University of Detroit Mercy, Detroit, MI"
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved teach-out agreements with Madonna University, Lourdes University, Siena Heights University, and others"
+  )
+})
+
+run_test("derive_action_label_short: HLC teach-out location summaries drop PO boxes as address text", function() {
+  text <- "Approved the teach-out of an additional location: Pawnee Nation College, 891 Little Dee Drive, PO Box 390, Pawnee, OK 74058."
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved the teach-out of an additional location: Pawnee Nation College"
+  )
+})
+
 run_test("derive_action_label_short: MSCHE DAPIP code labels become compact sanction summaries", function() {
   assert_identical(
     derive_action_label_short("warning", "Probation or Equivalent or a More Severe Status: Warning", "MSCHE"),

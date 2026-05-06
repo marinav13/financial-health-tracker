@@ -1085,6 +1085,140 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.format_hlc_reference_detail <- function(values, singular_label, plural_label) {
+  values <- .unique_preserve_order(toupper(stringr::str_squish(values)))
+  if (length(values) == 0L) return(NA_character_)
+  label <- if (length(values) == 1L) singular_label else plural_label
+  sprintf("%s %s", label, .format_readable_list(values))
+}
+
+.build_hlc_findings_detail <- function(text) {
+  findings <- extract_hlc_findings(text)
+  detail_parts <- c(
+    .format_hlc_reference_detail(
+      findings$core_components,
+      singular_label = "Core Component",
+      plural_label = "Core Components"
+    ),
+    .format_hlc_reference_detail(
+      findings$assumed_practices,
+      singular_label = "Assumed Practice",
+      plural_label = "Assumed Practices"
+    )
+  )
+  detail_parts <- detail_parts[!is.na(detail_parts) & nzchar(detail_parts)]
+  if (length(detail_parts) > 0L) {
+    return(.format_readable_list(detail_parts))
+  }
+
+  named_concern <- .unique_preserve_order(extract_hlc_named_concern_phrases(text))
+  if (length(named_concern) == 0L) return(NA_character_)
+  sprintf("HLC's Criteria for Accreditation related to %s", named_concern[[1]])
+}
+
+.specialize_hlc_reason <- function(reason_text, context_text) {
+  reason_value <- stringr::str_squish(as.character(reason_text %||% ""))
+  if (!nzchar(reason_value)) return(reason_value)
+
+  reason_value <- stringr::str_replace(
+    reason_value,
+    stringr::regex("^it determined that the institution\\s+", ignore_case = TRUE),
+    "the institution "
+  )
+  findings_detail <- .build_hlc_findings_detail(context_text)
+  if (is.na(findings_detail) || !nzchar(findings_detail)) {
+    return(reason_value)
+  }
+
+  replacement_rules <- list(
+    c(
+      "at risk of being out of compliance with (?:hlc\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements)",
+      paste("at risk of being out of compliance with", findings_detail)
+    ),
+    c(
+      "out of compliance with (?:hlc\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements)",
+      paste("out of compliance with", findings_detail)
+    ),
+    c(
+      "does not meet (?:hlc[^A-Za-z0-9]{0,3}s\\s+)?(?:the\\s+)?criteria for accreditation(?: related to [^.]+)?",
+      paste("does not meet", findings_detail)
+    )
+  )
+
+  for (rule in replacement_rules) {
+    if (stringr::str_detect(reason_value, stringr::regex(rule[[1]], ignore_case = TRUE))) {
+      return(stringr::str_replace(
+        reason_value,
+        stringr::regex(rule[[1]], ignore_case = TRUE),
+        rule[[2]]
+      ))
+    }
+  }
+
+  reason_value
+}
+
+.extract_hlc_location_names <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(character())
+
+  section <- stringr::str_match(
+    value,
+    stringr::regex("^.+?:\\s*(.+)$", ignore_case = TRUE)
+  )[, 2]
+  if (is.na(section) || !nzchar(section)) return(character())
+
+  section <- gsub(
+    ",?\\s*P\\.?O\\.?\\s+Box\\s+\\d+\\b",
+    "",
+    section,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+  section <- gsub("([A-Z]{2})([A-Z][a-z])", "\\1 \\2", section, perl = TRUE)
+  section <- gsub("(\\d{5}(?:-\\d{4})?)(?=[A-Z])", "\\1 ", section, perl = TRUE)
+
+  split_patterns <- c(
+    "((?:[A-Z]{2}|[A-Z][a-z]+)\\s+\\d{5}(?:-\\d{4})?)(?=\\s+[A-Z0-9])",
+    "(,\\s[A-Z]{2})(?=\\s+[A-Z])",
+    "(Republic of Kazakhstan)(?=\\s+[A-Z0-9])",
+    "(Singapore\\s+\\d{5})(?=\\s+[A-Z0-9])"
+  )
+  for (pattern in split_patterns) {
+    section <- gsub(pattern, "\\1|||", section, perl = TRUE)
+  }
+
+  segments <- stringr::str_split(section, stringr::fixed("|||"))[[1]]
+  location_names <- vapply(segments, function(segment) {
+    cleaned_segment <- stringr::str_squish(gsub("[.;]+$", "", segment))
+    if (!nzchar(cleaned_segment)) return(NA_character_)
+    name <- sub(",.*$", "", cleaned_segment)
+    stringr::str_squish(name)
+  }, character(1))
+
+  .unique_preserve_order(location_names)
+}
+
+.build_hlc_teachout_location_summary <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+
+  prefix <- stringr::str_match(
+    value,
+    stringr::regex("^(.+?:)\\s*.+$", ignore_case = TRUE)
+  )[, 2]
+  location_names <- .extract_hlc_location_names(value)
+  if (is.na(prefix) || !nzchar(prefix) || length(location_names) == 0L) {
+    return(NA_character_)
+  }
+
+  sprintf(
+    "%s %s",
+    stringr::str_squish(prefix),
+    .format_readable_list(location_names)
+  )
+}
+
 .capitalize_summary_head <- function(text) {
   value <- trimws(as.character(text %||% ""))
   if (!nzchar(value)) return(value)
@@ -2018,6 +2152,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     note_parts <- stringr::str_split(cleaned, stringr::regex("\\s*\\|\\s*"), n = 2)[[1]]
     primary_note <- if (length(note_parts) >= 1L) stringr::str_squish(note_parts[[1]]) else ""
     secondary_note <- if (length(note_parts) >= 2L) stringr::str_squish(note_parts[[2]]) else ""
+    hlc_context_text <- stringr::str_squish(paste(cleaned, notes_text))
     reason_match <- stringr::str_match(
       secondary_note,
       stringr::regex("because (.+?)(?:\\.|$)", ignore_case = TRUE)
@@ -2039,6 +2174,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         stringr::regex("^it determined that the institution is ", ignore_case = TRUE),
         "the institution is "
       )
+      reason_match <- .specialize_hlc_reason(reason_match, hlc_context_text)
     }
     if (stringr::str_detect(primary_note, stringr::regex("^Accreditation Reaffirmed:\\s*Warning Removed$", ignore_case = TRUE))) {
       return("Accreditation Reaffirmed: Warning Removed")
@@ -2076,6 +2212,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         stringr::regex("\\bcriteria for accreditation\\b", ignore_case = TRUE),
         "Criteria for Accreditation"
       )
+      reason <- .specialize_hlc_reason(reason, hlc_context_text)
       return(sprintf("Placed on %s because %s.", status, reason))
     }
     if (stringr::str_detect(lowered_no_prefix, "placed on notice")) {
@@ -2119,6 +2256,17 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       program <- stringr::str_squish(program)
       if (!is.na(criterion) && nzchar(criterion) && !is.na(program) && nzchar(program)) {
         return(sprintf("Concerns about %s were resolved after discontinuing the %s.", criterion, program))
+      }
+    }
+    if (stringr::str_detect(lowered_no_prefix, "teach-?out") &&
+        stringr::str_detect(lowered_no_prefix, "additional location|additional locations|branch campus") &&
+        !stringr::str_detect(
+          lowered_no_prefix,
+          "teach-?out agreements?\\s+with\\s+the\\s+following institutions?"
+        )) {
+      location_summary <- .build_hlc_teachout_location_summary(cleaned)
+      if (!is.na(location_summary) && nzchar(location_summary)) {
+        return(location_summary)
       }
     }
     if (stringr::str_detect(lowered_no_prefix, "approved the institution.?s provisional") &&

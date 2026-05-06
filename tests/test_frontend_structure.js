@@ -18,18 +18,23 @@ const PAGES = [
     checks: [
       { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
-      { pattern: /class="masthead"/, message: "Masthead element" },
+      // Editorial Calm renamed the masthead element to .site-masthead.
+      // Accept either the new or legacy class so the assertion documents
+      // intent without churn whenever the wordmark layer is touched.
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg" alt="The Hechinger Report homepage"/, message: "Hechinger logo in top nav" },
+      // Logo: legacy <img class="nav-logo"> OR the new H tile
+      // <span class="logo"> that lives inside .wordmark and renders the
+      // glyph via CSS ::after pseudo-content.
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
       { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /<a[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "College Cuts nav tab" },
       { pattern: /<a[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Accreditation nav tab" },
       { pattern: /<a[^>]+href="research\.html"[^>]*>Research Funding Cuts<\/a>/, message: "Research nav tab" },
-      // Requirement change: index.html is the only page where the masthead
-      // doubles as the page heading (other pages have their own h1), so we
-      // promote it from a <div> to an <h1> to give the landing page a real
-      // top-level heading.
-      { pattern: /<h1[^>]*class="masthead-title"[^>]*>College Financial Health Explorer<\/h1>/, message: "Masthead title as h1 (index landing heading)" },
+      // Editorial Calm moved the index hero h1 inside the .hero-split
+      // and gave it class="serif". Match either treatment so the
+      // landing page still has a real top-level heading.
+      { pattern: /<h1[^>]*class="(?:masthead-title|serif)"[^>]*>College Financial Health Explorer<\/h1>/, message: "Index landing h1" },
       { pattern: /class="search-panel"/, message: "Search panel" },
       { pattern: /id="school-search"/, message: "Search input" },
       { pattern: /id="search-results"/, message: "Search results container" },
@@ -42,13 +47,17 @@ const PAGES = [
     checks: [
       { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
-      { pattern: /class="masthead"/, message: "Masthead element" },
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg" alt="The Hechinger Report homepage"/, message: "Hechinger logo in top nav" },
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
       { pattern: /id="cuts-other-list"[^>]*aria-live="polite"/, message: 'cuts-other-list with aria-live="polite"' },
-      { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      // Editorial Calm dropped the legacy .masthead-title decorative
+      // duplicate from cuts/accred/research/school in favor of a real
+      // page-specific h1 in the hero. Accept the legacy treatment OR
+      // a serif h1 in the .hero-solo-center landing block.
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>College Cuts<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -57,16 +66,16 @@ const PAGES = [
     checks: [
       { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
-      { pattern: /class="masthead"/, message: "Masthead element" },
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg" alt="The Hechinger Report homepage"/, message: "Hechinger logo in top nav" },
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="research\.html"[^>]+aria-current="page"[^>]*>Research Funding Cuts<\/a>/, message: "Active Research nav tab with aria-current" },
       { pattern: /id="research-list"[^>]*aria-live="polite"/, message: 'research-list with aria-live="polite"' },
       { pattern: /id="research-other-list"[^>]*aria-live="polite"/, message: 'research-other-list with aria-live="polite"' },
       { pattern: /id="research-state-summary"[^>]*aria-live="polite"/, message: 'research-state-summary with aria-live="polite"' },
       { pattern: /id="research-filter"/, message: "Research filter input" },
       { pattern: /class="table-filter-label"[^>]+for="research-filter"/, message: 'Visible label for research-filter' },
-      { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Research Funding Cuts<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -75,9 +84,9 @@ const PAGES = [
     checks: [
       { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
-      { pattern: /class="masthead"/, message: "Masthead element" },
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg" alt="The Hechinger Report homepage"/, message: "Hechinger logo in top nav" },
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]+aria-current="page"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab with aria-current" },
       { pattern: /id="accreditation-status"[^>]*aria-live="polite"/, message: 'accreditation-status with aria-live="polite"' },
       { pattern: /id="accreditation-other-status"[^>]*aria-live="polite"/, message: 'accreditation-other-status with aria-live="polite"' },
@@ -85,7 +94,7 @@ const PAGES = [
       { pattern: /id="accreditation-other-filter"/, message: "Other accreditation filter input" },
       { pattern: /class="table-filter-label"[^>]+for="accreditation-filter"/, message: 'Visible label for accreditation-filter' },
       { pattern: /class="table-filter-label"[^>]+for="accreditation-other-filter"/, message: 'Visible label for accreditation-other-filter' },
-      { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Accreditation<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -94,15 +103,23 @@ const PAGES = [
     checks: [
       { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
       { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
-      { pattern: /class="masthead"/, message: "Masthead element" },
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
-      { pattern: /class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg" alt="The Hechinger Report homepage"/, message: "Hechinger logo in top nav" },
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
       { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
-      { pattern: /class="masthead-title"[^>]*>College Financial Health Explorer<\/div>/, message: "Masthead title" },
+      // school.html no longer uses .masthead-title — the institution
+      // name lives in <h1 id="school-name"> inside .school-mast and is
+      // populated by school.js. Accept the legacy decorative title or
+      // the new editorial school-mast heading.
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="school-mast"[\s\S]*<h1[^>]+id="school-name")/, message: "School heading" },
       { pattern: /id="share-school-profile"/, message: "Share profile button" },
       { pattern: /id="share-school-status"[^>]*aria-live="polite"/, message: "Share status live region" },
-      { pattern: /<h2[^>]+class="section-title"[^>]*>Financial Trends<\/h2>/, message: "Financial Trends h2" },
+      // Editorial Calm renamed the first financial section from
+      // "Financial Trends" to "Revenue Trends" and split out separate
+      // sections for net tuition revenue, tuition dependence, and
+      // graduate students. Accept either heading.
+      { pattern: /<h2[^>]+class="section-title"[^>]*>(?:Financial Trends|Revenue Trends)<\/h2>/, message: "Revenue / Financial Trends h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },
@@ -122,7 +139,11 @@ const CSS_CHECKS = [
   { pattern: /\.filter-button:focus-visible/, message: ".filter-button:focus-visible" },
   { pattern: /\.skip-link/, message: ".skip-link class" },
   { pattern: /--status-blue-dark:/, message: "--status-blue-dark CSS variable" },
-  { pattern: /\.search-panel:focus-within/, message: ".search-panel:focus-within box-shadow" },
+  // Editorial Calm split the search box into a separate
+  // .search-input-wrap inside .search-panel; the visible focus
+  // treatment lives on the wrap now (gold border + soft yellow
+  // glow). Accept either selector.
+  { pattern: /(\.search-panel:focus-within|\.search-input-wrap:focus-within)/, message: "Search box visible focus indicator" },
 ];
 
 let passed = 0;

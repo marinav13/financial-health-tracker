@@ -59,8 +59,28 @@ function collectPageErrors(page) {
   page.on('console', (msg) => {
     if (msg.type() !== 'error') return;
     const text = msg.text();
-    // Favicon 404s and similar asset noise are not empty-data bugs; skip.
-    if (/favicon|\.png|\.jpg|\.svg/i.test(text)) return;
+    // Asset-noise filter — these are not empty-data bugs.
+    // The browser reports failed sub-resource loads as a generic
+    // "Failed to load resource: …404 (Not Found)" console.error.
+    // The URL of the missing resource is on msg.location().url, not
+    // in msg.text(), so we have to inspect both: text matches the
+    // generic 404 phrasing; location matches the asset extension.
+    //
+    // Covered noise:
+    //   favicon — browser's own /favicon.ico request
+    //   image extensions (.png/.jpg/.svg) — decorative <img> like
+    //     assets/quad-banner.svg that empty-data fixtures don't mock
+    //   font extensions (.woff/.woff2/.otf/.ttf/.eot) — @font-face
+    //     URLs for locally-licensed fonts that may not be present
+    //     in every test environment
+    const location = msg.location() || {};
+    const url = location.url || '';
+    const isResource404 = /Failed to load resource/i.test(text);
+    const isAssetUrl = /favicon|\.png|\.jpg|\.svg|\.woff2?|\.otf|\.ttf|\.eot/i.test(url);
+    if (isResource404 && isAssetUrl) return;
+    // Also keep the legacy text-based asset filter as a safety net
+    // for any environment that does inline the URL into the text.
+    if (/favicon|\.png|\.jpg|\.svg|\.woff2?|\.otf|\.ttf|\.eot/i.test(text)) return;
     errors.push(`console.error: ${text}`);
   });
   return errors;

@@ -291,14 +291,18 @@
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
     // Editorial Calm: italic meta line under the H1 — "City, State · Sector".
-    // The .meta CSS in .school-mast handles the · separators when we use
-    // a span.sep, but for now a single comma-joined line keeps the JS
-    // simple and the markup minimal.
+    // Built with <span class="sep">·</span> separators so the dot picks up
+    // its own muted color and spacing from CSS instead of being a plain
+    // text character inside the italic run.
     const schoolMeta = document.getElementById("cuts-school-meta");
     if (schoolMeta) {
-      const locationPart = [school.city, school.state].filter(Boolean).join(", ");
-      const sectorPart = school.control_label || "";
-      schoolMeta.textContent = [locationPart, sectorPart].filter(Boolean).join("  ·  ");
+      const parts = [
+        [school.city, school.state].filter(Boolean).join(", "),
+        school.control_label || ""
+      ].filter(Boolean);
+      schoolMeta.innerHTML = parts
+        .map((part) => escapeHtml(part))
+        .join('<span class="sep" aria-hidden="true">&middot;</span>');
     }
     if (mainToolbar) mainToolbar.classList.add("is-hidden");
     syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });

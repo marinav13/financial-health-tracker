@@ -1649,43 +1649,120 @@ h1.serif {
   color: var(--hechinger-gold);
 }
 
-.methodology-panel {
-  max-width: 780px;
-  margin: var(--space-2) auto 0;
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
+/* The .methodology-panel / .methodology-summary / .methodology-body
+   rules previously styled the per-page <details class="methodology-
+   panel"> blocks. Those blocks were removed in batch D once
+   methodology.html became the single home for the methodology copy,
+   so the rules are no longer referenced and have been deleted. */
+
+/* ---------- School-mast inline meta (school.html) ----------
+   The institution profile masthead has location + sector + urbanization
+   in three separate <p> elements (so existing JS that calls setText on
+   each id keeps working). They render as one comma-spaced italic line
+   with hairline middle-dot separators between non-empty siblings. */
+.school-mast .meta {
+  margin: 0 auto 16px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-3);
 }
 
-.methodology-summary {
-  cursor: pointer;
-  list-style: none;
-  padding: 14px 18px;
-  font-weight: 700;
-  text-align: left;
-  background: #fafafa;
+.school-mast .meta > .school-meta {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-style: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
 }
 
-.methodology-summary::-webkit-details-marker {
+.school-mast .meta > .school-meta:empty {
   display: none;
 }
 
-.methodology-summary::after {
-  content: "+";
-  float: right;
-  font-size: 1.15rem;
+/* Insert a separator between any two non-empty meta paragraphs. The
+   sibling combinator means the rule fires only when the current p has
+   a non-empty p somewhere earlier in the same .meta — empties skip. */
+.school-mast .meta > .school-meta:not(:empty) ~ .school-meta:not(:empty)::before {
+  content: '\00b7';
+  margin: 0 8px;
+  color: var(--line-2);
+  font-style: normal;
 }
 
-.methodology-panel[open] .methodology-summary::after {
-  content: "−";
+/* ---------- Inline-meta separator (cuts/accred/research) ----------
+   These pages render the meta line via JS as plain text + <span class
+   ="sep">·</span> nodes. The span gets the muted dot color + side
+   padding, identical to school.html's CSS-driven separator. */
+.school-mast .meta .sep {
+  display: inline;
+  margin: 0 8px;
+  color: var(--line-2);
+  font-style: normal;
 }
 
-.methodology-body {
-  padding: 0 18px 18px;
-  font-size: 0.98rem;
-  line-height: 1.45;
-  color: #333;
+/* ---------- Cuts-detail body padding ----------
+   .data-card itself has padding: 0 (the h2 + .table-toolbar provide
+   their own horizontal padding). The cut-detail block JS in cuts.js
+   renders <article class="data-card"> with bare <p> children, so
+   without these rules they sit flush against the article's left
+   border. The selectors deliberately scope to article descendants of
+   .data-card so the outer table card is unaffected. */
+.data-card > article p,
+.data-card > article .small-meta {
+  padding: 0 24px;
+}
+.data-card > article > p:last-child,
+.data-card > article > .small-meta:last-child {
+  padding-bottom: 18px;
+}
+.data-card > article {
+  padding-bottom: 4px;
+}
+
+/* ---------- 'Explore this institution' inline list ----------
+   Rendered by renderRelatedInstitutionLinks in app.js as
+   <div class="related-links"><p><strong>Explore this institution:
+   </strong></p><ul class="link-list">…</ul></div>. The default
+   .link-list rule (padding-left: 18px) leaves the bullets too close
+   to the data-card / page edge; this gives the block a proper inset
+   that matches the rest of the institution-mode body content. */
+.related-links {
+  padding: 18px 32px 6px;
+  margin: 0;
+}
+
+.related-links p {
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+.related-links p strong {
+  color: var(--ink);
+}
+
+.related-links .link-list {
+  margin: 0;
+  padding-left: 22px;
+  font-family: var(--font-body);
+}
+
+.related-links .link-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.related-links .link-list a {
+  color: var(--pos-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .is-hidden {

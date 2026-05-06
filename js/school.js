@@ -679,9 +679,15 @@ async function init() {
   const closureSentence = buildClosureSentence(closureRecord);
   setText("school-closure-flag", closureSentence || "");
   setHidden("school-closure-flag", !closureSentence);
-  setText("school-location", [p.city, p.state].filter(Boolean).join(", "));
-  setText("school-urbanization", p.urbanization);
-  setText("school-control", p.sector);
+  // Editorial Calm: these three paragraphs are joined into a single
+  // inline italic line by .school-mast .meta CSS using an :empty filter
+  // and a sibling-combinator '·' separator. Pass an empty string (not
+  // setText's "No data" fallback) when a field is missing so the slot
+  // collapses cleanly instead of injecting a stray "No data" between
+  // separators on the meta line.
+  setText("school-location", [p.city, p.state].filter(Boolean).join(", ") || "");
+  setText("school-control", p.sector || "");
+  setText("school-urbanization", p.urbanization || "");
   const graduationRate = asNumber(s.graduation_rate_6yr);
   const medianEarnings = asNumber(s.median_earnings_10yr);
   const medianDebt = asNumber(s.median_debt_completers);

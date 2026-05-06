@@ -922,7 +922,7 @@ async function init() {
   }
 
   renderLineChart("chart-revenue", {
-    title: "Revenue vs Expenses (adjusted for inflation)",
+    title: "Revenue compared to expenses (adjusted for inflation)",
     format: "currency",
     showTooltip: false,
     series: [
@@ -933,7 +933,7 @@ async function init() {
   setHidden("chart-revenue", !hasRevenueChart);
 
   renderLineChart("chart-net-tuition", {
-    title: "Net Tuition Revenue over time (per full-time equivalent student, adjusted for inflation)",
+    title: "Net tuition revenue over time (per full-time equivalent student, adjusted for inflation)",
     format: "currency",
     showTooltip: false,
     showLegend: false,
@@ -944,7 +944,7 @@ async function init() {
   setHidden("chart-net-tuition", !hasNetTuitionChart);
 
   renderLineChart("chart-discount-rate", {
-    title: "Unfunded discount rate over time (2014 to present)",
+    title: "Discount rate over time (based on unfunded student aid)",
     format: "percent",
     showLegend: false,
     series: [
@@ -965,7 +965,7 @@ async function init() {
 
   if (hasAnyInternationalEnrollment) {
     renderLineChart("chart-international", {
-      title: "International enrollment",
+      title: "International enrollment over time",
       format: "number",
       series: [
         { label: "International Student Total", color: "#005ab5", values: intlTotalSeries },
@@ -977,7 +977,7 @@ async function init() {
   setHidden("chart-international", !hasAnyInternationalEnrollment);
 
   renderLineChart("chart-staffing", {
-    title: "Staffing levels",
+    title: "Staffing levels over time",
     format: "number",
     series: [
       { label: "Total Staff Headcount", color: "#005ab5", values: toSeries(series.staff_headcount_total) },
@@ -987,7 +987,7 @@ async function init() {
   setHidden("chart-staffing", !hasStaffingChart);
 
   renderLineChart("chart-endowment", {
-    title: "Endowment value over time",
+    title: "Endowment value over time (adjusted for inflation)",
     format: "currency",
     showTooltip: false,
     showLegend: false,
@@ -1006,7 +1006,7 @@ async function init() {
   setHidden("chart-endowment-spending", !hasEndowmentSpending);
   if (hasEndowmentSpending) {
     renderLineChart("chart-endowment-spending", {
-      title: "Endowment spending distribution for current use",
+      title: "Withdrawals from endowments to fund the institution's expenses",
       format: "currency",
       showLegend: false,
       series: [

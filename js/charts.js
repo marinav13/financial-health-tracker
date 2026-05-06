@@ -119,9 +119,16 @@ function renderLineChart(containerId, config) {
   const height = 260;
   const pad = {
     top: 18,
-    right: 20,
+    /* Right margin scales with left so the inner plot area looks
+       balanced — without this the chart sat flush against the right
+       edge of its panel while leaving 80-138px on the left for the
+       y-axis labels, which read as visually lopsided. */
+    right: format === "currency" ? 40 : 32,
     bottom: 34,
-    left: format === "currency" ? 132 : 60
+    /* Larger axis labels (14px) plus 5- and 6-digit headcounts like
+       "100,000" need more left room than the previous 60px allowed,
+       which was clipping the leading digit on enrollment charts. */
+    left: format === "currency" ? 138 : 80
   };
   const innerW = width - pad.left - pad.right;
   const innerH = height - pad.top - pad.bottom;
@@ -139,14 +146,14 @@ function renderLineChart(containerId, config) {
     const y = pad.top + (i / 4) * innerH;
     const tickValue = maxY - ((maxY - minY) * i / 4);
     gridLines.push(`<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#e5e7eb" stroke-width="1" />`);
-    yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="16" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
+    yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="14" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
   }
 
   // X-axis year labels
   const yearTicks = [];
   for (let year = minYear; year <= maxYear; year += 1) {
     const x = xScale(year);
-    yearTicks.push(`<text x="${x}" y="${height - 8}" text-anchor="middle" font-size="16" fill="#6b7280">${year}</text>`);
+    yearTicks.push(`<text x="${x}" y="${height - 8}" text-anchor="middle" font-size="14" fill="#6b7280">${year}</text>`);
   }
 
   // Line paths (M = move to, L = line to)

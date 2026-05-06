@@ -1050,6 +1050,81 @@ run_test("select_action_summary_source_text: WSCUC boilerplate DAPIP raw text pr
   )
 })
 
+run_test("select_action_summary_source_text: WSCUC footer and procedural snippets prefer cached letter text", function() {
+  hilo_raw <- "WSCUC is committed to an accreditation process that adds value to institutions while contributing to public accountability, and we thank you for your continued support of this process."
+  hilo_file <- tempfile("wscuc_hilo_", fileext = ".txt")
+  on.exit(unlink(hilo_file), add = TRUE)
+  writeLines(
+    paste0(
+      "This letter serves as formal notification and official record of action taken concerning University of Hawaii at Hilo. ",
+      "Actions 1. Receive the Special Visit team report 2. Remove Formal Notice of Concern."
+    ),
+    hilo_file
+  )
+  assert_true(
+    grepl(
+      "Remove Formal Notice of Concern",
+      .select_action_summary_source_text(
+        hilo_raw,
+        file_text_path = hilo_file,
+        action_type = "removed",
+        accreditor = "WSCUC",
+        notes = "Removal of Monitoring Status"
+      ),
+      ignore.case = TRUE
+    )
+  )
+
+  ggu_raw <- "The Commission recognizes the significant improvements made while acknowledging that continued monitoring through a Notice of Concern is appropriate to ensure long-term institutional stability."
+  ggu_file <- tempfile("wscuc_ggu_", fileext = ".txt")
+  on.exit(unlink(ggu_file), add = TRUE)
+  writeLines(
+    paste0(
+      "This letter serves as formal notification and official record of action taken concerning Golden Gate University. ",
+      "At that meeting the Commission acted to continue Golden Gate University on Notice of Concern. ",
+      "Standard at Risk of Non-Compliance and Requiring a Response GGU is at risk of non-compliance with Standard 3 (CFRs 3.4, 3.5)."
+    ),
+    ggu_file
+  )
+  assert_true(
+    grepl(
+      "Standard 3",
+      .select_action_summary_source_text(
+        ggu_raw,
+        file_text_path = ggu_file,
+        action_type = "notice",
+        accreditor = "WSCUC",
+        notes = "Heightened Monitoring or Focused Review"
+      ),
+      ignore.case = TRUE
+    )
+  )
+
+  sdcc_raw <- "These actions were taken after reviewing SDCC's request for consideration of new evidence of compliance with WSCUC Standards pursuant to the institution's appeal of the withdrawal of its accreditation effective July 14, 2023."
+  sdcc_file <- tempfile("wscuc_sdcc_", fileext = ".txt")
+  on.exit(unlink(sdcc_file), add = TRUE)
+  writeLines(
+    paste0(
+      "SDCC will remain on Show Cause. Actions 1. Receive the New Evidence Report 2. Continue the sanction of Show Cause. ",
+      "Areas of Noncompliance The Commission determined that SDCC has not demonstrated compliance with Standard 3, specifically with CFR 3.4."
+    ),
+    sdcc_file
+  )
+  assert_true(
+    grepl(
+      "Continue the sanction of Show Cause",
+      .select_action_summary_source_text(
+        sdcc_raw,
+        file_text_path = sdcc_file,
+        action_type = "show_cause",
+        accreditor = "WSCUC",
+        notes = "Probation or Equivalent or a More Severe Status: Show Cause"
+      ),
+      ignore.case = TRUE
+    )
+  )
+})
+
 run_test("source selection helper: long procedural text does not beat shorter substantive text", function() {
   procedural_text <- paste0(
     "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",
@@ -1123,6 +1198,87 @@ run_test("derive_action_label_short: WSCUC CSU East Bay letter text yields notic
   assert_identical(
     derive_action_label_short("notice", text, "WSCUC"),
     "Issued a Notice of Concern over Standard 3, CFRs 3.4 and 3.5 on financial sustainability and resource planning"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC notice removal and continued-notice letters become compact summaries", function() {
+  hilo_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning University of Hawaii at Hilo (UHH). ",
+    "Actions 1. Receive the Special Visit team report 2. Remove Formal Notice of Concern 3. Schedule an Interim Report."
+  )
+  woodbury_removed_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Woodbury University (WoodU). ",
+    "Actions 1. Receive the Special Visit team report 2. Remove the Notice of Concern 3. Continue with previously scheduled reaffirmation review."
+  )
+  ggu_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Golden Gate University (GGU). ",
+    "At that meeting the Commission acted to continue Golden Gate University on Notice of Concern. ",
+    "Standard at Risk of Non-Compliance and Requiring a Response GGU is at risk of non-compliance with Standard 3 (CFRs 3.4, 3.5). ",
+    "The university faces concerning financial challenges: limited cash flow affecting operational flexibility, recurring operating deficits impacting financial stability, and revenue uncertainty creating vulnerability."
+  )
+  assert_identical(
+    derive_action_label_short("removed", hilo_text, "WSCUC"),
+    "Removed Notice of Concern"
+  )
+  assert_identical(
+    derive_action_label_short("removed", woodbury_removed_text, "WSCUC"),
+    "Removed Notice of Concern"
+  )
+  assert_identical(
+    derive_action_label_short("notice", ggu_text, "WSCUC"),
+    "Continued Notice of Concern because it is at risk of non-compliance with Standard 3, CFRs 3.4 and 3.5 on financial sustainability"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC Woodbury notice and SDCC continued show cause use standards-backed summaries", function() {
+  woodbury_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Woodbury University (WoodU). ",
+    "Actions 1. Receive the Accreditation Visit team report 2. Reaffirm accreditation for a period of six years 3. Issue a Formal Notice of Concern. ",
+    "Standard at Risk of Non-Compliance and Requiring a Response Woodbury University is in danger of being found out of compliance with Standard 3, CFRs 3.4 and 3.7. ",
+    "The institution has experienced significant financial problems due to years of declining student enrollment that has contributed to operating expenses exceeding revenues. ",
+    "In addition, significant changes have occurred in leadership and organizational structures."
+  )
+  sdcc_show_cause_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning San Diego Christian College (SDCC). ",
+    "In November 2023 the Commission accepted SDCC's evidence of compliance with CFRs 2.10, 2.13, and 3.8, and found that SDCC remains out of compliance with CFR 3.4. ",
+    "SDCC will remain on Show Cause. Actions 1. Receive the New Evidence Report 2. Continue the sanction of Show Cause. ",
+    "Areas of Noncompliance The Commission determined that SDCC has not demonstrated compliance with Standard 3, specifically with CFR 3.4: ",
+    "The institution is financially stable and has unqualified independent financial audits and resources sufficient to ensure long-term viability. ",
+    "Resource planning and development include realistic budgeting, enrollment management, and diversification of revenue sources."
+  )
+  assert_identical(
+    derive_action_label_short("notice", woodbury_text, "WSCUC"),
+    "Issued a Notice of Concern over Standard 3, CFRs 3.4 and 3.7 on financial sustainability and leadership capacity"
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", sdcc_show_cause_text, "WSCUC"),
+    "Continued Show Cause because it has not demonstrated compliance with Standard 3, CFR 3.4 on financial sustainability and resource planning"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC show-cause letters still summarize when OCR text is garbled", function() {
+  sdcc_garbled_text <- paste0(
+    "These actions were taken after reviewing SDCC's request for consideration of new evidence of compliance. ",
+    "SDCC will remain on Show Cause. Actions 1. Receive the New Evidence Report 2. Continue the sanction of Show Cause. ",
+    "Areas of Noncompliance The Commission determined that SDCC has not demonstrated compliance with Standard 3, specifically with CFR 3.4: ",
+    "The institution is financially stable and has unqualified independent financial audits and resources sufficient to ensure long-term viability. ",
+    "Resource planning and development include realistic budgeting, enrollment management, and diversification of revenue sources."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", sdcc_garbled_text, "WSCUC"),
+    "Continued Show Cause because it has not demonstrated compliance with Standard 3, CFR 3.4 on financial sustainability and resource planning"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC closure notes surface institutional closure", function() {
+  assert_identical(
+    derive_action_label_short(
+      "adverse_action",
+      "Loss of Accreditation or Preaccreditation: Voluntary Withdrawal",
+      "WSCUC",
+      "Loss of Accreditation or Preaccreditation: Voluntary Withdrawal | CC-ASU has officially closed its campus and is no longer accredited"
+    ),
+    "Institution closed and no longer accredited"
   )
 })
 
@@ -1421,6 +1577,18 @@ run_test("derive_action_label_short: WSCUC Sonoma notice wording is normalized",
   assert_identical(
     derive_action_label_short("notice", "Defer Action on Reaffirmation of accreditation/Issue a Notice of Concern", "WSCUC"),
     "Deferred action on reaffirmation of accreditation and issued a Notice of Concern"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC Sonoma scraper heading can use institution-specific DAPIP detail", function() {
+  assert_identical(
+    derive_action_label_short(
+      "notice",
+      "Defer Action on Reaffirmation of accreditation/Issue a Notice of Concern",
+      "WSCUC",
+      "Sonoma State University"
+    ),
+    "Issued a Notice of Concern over Standards 1 and 3, CFRs 1, 1.7, 3.11, and 3.4 on financial sustainability and shared governance"
   )
 })
 

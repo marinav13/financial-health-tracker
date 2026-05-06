@@ -1050,17 +1050,6 @@ build_accreditation_export <- function() {
       public_action_family = as.character(public_action_family)
     ) %>%
     filter(!is.na(dapip_source_key), dapip_source_key != "")
-  selected_wscuc_dapip_enrichment <- audit_df %>%
-    filter(
-      normalize_accreditor_code(accreditor) == "WSCUC"
-    ) %>%
-    group_by(dapip_source_key) %>%
-    slice(1) %>%
-    ungroup() %>%
-    transmute(
-      dapip_source_key = as.character(dapip_source_key)
-    ) %>%
-    filter(!is.na(dapip_source_key), dapip_source_key != "")
   public_scraper_actions <- selected_scraper_audit %>%
     left_join(scraper_actions_df, by = "scraper_source_key")
   if (nrow(public_scraper_actions) > 0L && any(is.na(public_scraper_actions$action_label_raw))) {
@@ -1095,10 +1084,11 @@ build_accreditation_export <- function() {
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
-  wscuc_dapip_enrichment_actions <- selected_wscuc_dapip_enrichment %>%
-    left_join(dapip_actions_df, by = "dapip_source_key")
-  wscuc_dapip_enrichment_actions <- wscuc_dapip_enrichment_actions %>%
-    filter(!is.na(action_label_raw))
+  wscuc_dapip_enrichment_actions <- dapip_actions_df %>%
+    filter(
+      normalize_accreditor_code(accreditor) == "WSCUC",
+      !is.na(action_label_raw)
+    )
   if (nrow(wscuc_dapip_enrichment_actions) == 0L) {
     wscuc_dapip_enrichment_pool <- data.frame(
       unitid = character(),
@@ -1591,6 +1581,36 @@ build_accreditation_export <- function() {
     ungroup() %>%
     filter(!drop_generic_same_year_family) %>%
     select(-is_generic_dapip_code_label, -is_generic_sanction_family_label, -has_detailed_same_year_family, -drop_generic_same_year_family) %>%
+    group_by(export_unitid, accreditor, action_year) %>%
+    mutate(
+      has_wscuc_same_year_show_cause_warning_outcome = accreditor == "WSCUC" &
+        any(
+          public_table_strategy == "dapip_backed_keep" &
+            grepl(
+              "^Removed Show Cause and issued a Warning\\b",
+              trimws(as.character(action_label_short %||% "")),
+              ignore.case = TRUE,
+              perl = TRUE
+            ),
+          na.rm = TRUE
+        ),
+      drop_wscuc_special_visit_overlap = accreditor == "WSCUC" &
+        public_table_strategy == "hybrid_keep" &
+        has_wscuc_same_year_show_cause_warning_outcome &
+        grepl(
+          "remove an order to show cause",
+          tolower(trimws(as.character(action_label_raw %||% ""))),
+          perl = TRUE
+        ) &
+        grepl(
+          "issue a warning",
+          tolower(trimws(as.character(action_label_raw %||% ""))),
+          perl = TRUE
+        )
+    ) %>%
+    ungroup() %>%
+    filter(!drop_wscuc_special_visit_overlap) %>%
+    select(-has_wscuc_same_year_show_cause_warning_outcome, -drop_wscuc_special_visit_overlap) %>%
     mutate(
       sacscoc_sanction_outcome = dplyr::case_when(
         toupper(trimws(as.character(accreditor %||% ""))) != "SACSCOC" ~ NA_character_,

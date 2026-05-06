@@ -639,14 +639,14 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
   code <- toupper(trimws(as.character(action_code %||% "")))
   desc <- trimws(as.character(action_description %||% ""))
 
-  keep_codes <- c("P", "PW", "SC", "HM", "PN", "WE", "PO", "R", "VR", "LD", "LA", "LO", "AD", "SD", "PR", "WR", "RM", "RS")
+  keep_codes <- c("P", "PW", "SC", "HM", "PN", "WE", "PO", "DR", "R", "VR", "LD", "LA", "LO", "AD", "SD", "PR", "WR", "RM", "RS")
   review_codes <- c("DP", "DA")
 
   action_type <- dplyr::case_when(
     code == "P" ~ "probation",
     code == "PW" ~ "warning",
     code == "SC" ~ "show_cause",
-    code %in% c("HM", "PN", "WE", "PO") ~ "notice",
+    code %in% c("HM", "PN", "WE", "PO", "DR") ~ "notice",
     code %in% c("PR", "WR", "RM", "RS") ~ "removed",
     code %in% c("R", "VR", "LD", "LA", "LO", "AD", "SD", "DA", "DP") ~ "adverse_action",
     TRUE ~ "other"
@@ -666,7 +666,7 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
       code == "P" ~ "probation",
       code == "PW" ~ "warning",
       code == "SC" ~ "show_cause",
-      code %in% c("HM", "PN", "WE", "PO") ~ "monitoring_or_notice",
+      code %in% c("HM", "PN", "WE", "PO", "DR") ~ "monitoring_or_notice",
       code %in% c("PR", "WR", "RM", "RS") ~ "removed",
       code %in% c("R", "VR", "LD", "LA", "LO", "AD", "SD", "DA", "DP") ~ "withdrawal_or_loss",
       TRUE ~ "other"

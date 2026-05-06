@@ -343,6 +343,21 @@ run("WSCUC exports prefer richer DAPIP letter detail only when it beats the scra
     "San Diego Christian should use the richer WSCUC warning summary from DAPIP letter text"
   );
   assert(
+    !(sdcc.actions || []).some((row) =>
+      row.action_date === "2024-06-01" &&
+      row.action_label_short === "Remove an order to show cause, issue a warning, issue a good cause extension"
+    ),
+    "San Diego Christian should not keep the duplicate WSCUC special-visit row once the DAPIP-backed sanction summary is present"
+  );
+  assert(
+    (sdcc.actions || []).some((row) =>
+      row.action_date === "2023-11-15" &&
+      row.action_label_short ===
+        "Continued Show Cause because it has not demonstrated compliance with Standard 3, CFR 3.4 on financial sustainability and resource planning"
+    ),
+    "San Diego Christian should summarize the November 2023 WSCUC show-cause letter from substantive letter text"
+  );
+  assert(
     (eastBay.actions || []).some((row) =>
       row.action_label_short ===
       "Issued a Notice of Concern over Standard 3, CFRs 3.4 and 3.5 on financial sustainability and resource planning"

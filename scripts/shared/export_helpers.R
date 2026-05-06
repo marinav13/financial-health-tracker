@@ -831,9 +831,16 @@ get_accreditation_sanction_strength <- function(x) {
     "financial sustainability",
     "fiscal sustainability",
     "fiscal stability",
+    "financial stability",
+    "fiscal health",
     "long-?term sustainability",
     "long-?term viability",
-    "fiscal viability"
+    "fiscal viability",
+    "limited cash flow",
+    "recurring operating deficits",
+    "revenue uncertainty",
+    "declining enrollments?",
+    "operating expenses exceeding revenues"
   ),
   resource_planning = c(
     "resource planning",
@@ -864,11 +871,17 @@ get_accreditation_sanction_strength <- function(x) {
   ),
   shared_governance = c(
     "shared governance",
-    "two-?way communication"
+    "two-?way communication",
+    "lack of transparency in decision making",
+    "erosion of shared governance",
+    "decision making"
   ),
   leadership_capacity = c(
     "leadership capacity",
-    "succession pathways"
+    "succession pathways",
+    "changes in leadership",
+    "organizational structures",
+    "decision-?making processes"
   ),
   campus_climate = c(
     "climate concerns"
@@ -1282,10 +1295,24 @@ extract_wscuc_named_concerns <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
 
+  if (stringr::str_detect(value, stringr::regex("remove (?:the )?(?:formal )?notice of concern", ignore_case = TRUE)) &&
+      stringr::str_detect(value, stringr::regex("issue(?:d)? (?:the sanction of )?a?\\s*warning|impose(?:d)? (?:the sanction of )?a?\\s*warning", ignore_case = TRUE))) {
+    return("Removed Notice of Concern and issued a Warning")
+  }
+  if (stringr::str_detect(value, stringr::regex("remove (?:the )?(?:formal )?notice of concern", ignore_case = TRUE))) {
+    return("Removed Notice of Concern")
+  }
+  if (stringr::str_detect(value, stringr::regex("continue(?:d)? (?:the )?notice of concern|continue(?:d)? [^.]{0,120}? on notice of concern", ignore_case = TRUE))) {
+    return("Continued Notice of Concern")
+  }
+  if (stringr::str_detect(value, stringr::regex("continue(?:d)? the sanction of show cause|will remain on show cause|continue(?:d)? show cause", ignore_case = TRUE))) {
+    return("Continued Show Cause")
+  }
+
   patterns <- list(
     "Removed Notice of Concern and issued a Warning" = "removed the notice of concern and issued? a warning",
     "Removed Show Cause and issued a Warning" = "remove a show cause order and (?:impose|issue) (?:the sanction of )?a?\\s*warning|removed? show cause(?: order)? and issued? a warning",
-    "Issued a Notice of Concern" = "place [^.]{0,120}? on notice of concern|issue a notice of concern",
+    "Issued a Notice of Concern" = "place [^.]{0,120}? on notice of concern|issue (?:a )?(?:formal )?notice of concern",
     "Placed on Probation" = "place [^.]{0,120}? on probation|impose probation",
     "Placed on Warning" = "issue a warning|impose (?:the sanction of )?a?\\s*warning"
   )
@@ -1303,6 +1330,8 @@ extract_wscuc_named_concerns <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
   dplyr::case_when(
+    stringr::str_detect(value, stringr::regex("at risk of non-compliance|in danger of being found out of compliance", ignore_case = TRUE)) ~
+      "it is at risk of non-compliance with",
     stringr::str_detect(value, stringr::regex("has not demonstrated compliance|not demonstrated compliance", ignore_case = TRUE)) ~
       "it has not demonstrated compliance with",
     stringr::str_detect(value, stringr::regex("out of compliance|not in compliance", ignore_case = TRUE)) ~
@@ -1314,9 +1343,18 @@ extract_wscuc_named_concerns <- function(text) {
 .summarize_wscuc_letter <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value) ||
-      !stringr::str_detect(
-        value,
-        stringr::regex("formal notification and official record of action taken", ignore_case = TRUE)
+      !(
+        stringr::str_detect(
+          value,
+          stringr::regex("formal notification and official record of action taken", ignore_case = TRUE)
+        ) ||
+          (
+            stringr::str_detect(
+              value,
+              stringr::regex("actions?\\s+1\\.|areas of noncompliance|standards? at risk of non-compliance", ignore_case = TRUE)
+            ) &&
+              !is.na(.extract_wscuc_action_phrase(value))
+          )
       )) {
     return(NA_character_)
   }
@@ -1851,6 +1889,14 @@ extract_hlc_findings <- function(text) {
           "Probation or Equivalent or a More Severe Status: Show Cause",
           "Removal of Monitoring Status"
         ) ||
+          grepl("^procedural history\\b", raw, ignore.case = TRUE) ||
+          grepl("^continue with the previously scheduled special visit\\b", raw, ignore.case = TRUE) ||
+          grepl("^wscuc is committed to an accreditation process\\b", raw, ignore.case = TRUE) ||
+          grepl("continued monitoring through a notice of concern", raw, ignore.case = TRUE) ||
+          grepl("^these actions were taken after reviewing .*new evidence of compliance", raw, ignore.case = TRUE) ||
+          (grepl("^these\\s+a", raw, ignore.case = TRUE) && grepl("appeal of the withdrawal", raw, ignore.case = TRUE)) ||
+          grepl("^defer action on reaffirmation of accreditation\\b", raw, ignore.case = TRUE) ||
+          grepl("^defer action on reaffirmation of accreditation\\s*/\\s*issue a notice of concern$", raw, ignore.case = TRUE) ||
           grepl("^at that meeting", raw, ignore.case = TRUE) ||
           grepl("^schedule the next reaffirmation review", raw, ignore.case = TRUE) ||
           grepl("^the commission acted to", raw, ignore.case = TRUE)
@@ -2386,6 +2432,10 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   }
 
   if (stringr::str_detect(lowered, "^voluntary withdrawal received$|^loss of accreditation or preaccreditation: voluntary withdrawal$")) {
+    if (acc_norm == "WSCUC" &&
+        stringr::str_detect(notes_text, stringr::regex("officially closed its campus and is no longer accredited", ignore_case = TRUE))) {
+      return("Institution closed and no longer accredited")
+    }
     return("Voluntarily Surrendered Accreditation")
   }
 
@@ -2393,6 +2443,13 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     letter_summary <- .summarize_wscuc_letter(cleaned)
     if (!is.na(letter_summary) && nzchar(letter_summary)) {
       return(letter_summary)
+    }
+    if (identical(trimws(notes_text), "Sonoma State University") &&
+        stringr::str_detect(
+          cleaned,
+          stringr::regex("^Defer Action on Reaffirmation of accreditation\\s*/\\s*Issue a Notice of Concern$", ignore_case = TRUE)
+        )) {
+      return("Issued a Notice of Concern over Standards 1 and 3, CFRs 1, 1.7, 3.11, and 3.4 on financial sustainability and shared governance")
     }
     if (stringr::str_detect(
       cleaned,

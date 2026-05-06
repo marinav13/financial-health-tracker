@@ -1084,6 +1084,73 @@ build_accreditation_export <- function() {
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
+  sacscoc_supplemental_drop_actions <- audit_df %>%
+    filter(
+      public_table_strategy == "drop_from_public_table",
+      normalize_accreditor_code(accreditor) == "SACSCOC",
+      !is.na(dapip_source_key),
+      dapip_source_key != ""
+    ) %>%
+    group_by(dapip_source_key) %>%
+    slice(1) %>%
+    ungroup() %>%
+    transmute(
+      dapip_source_key = as.character(dapip_source_key),
+      public_table_strategy = "dapip_backed_keep",
+      hybrid_candidate = FALSE,
+      hybrid_reason = as.character(hybrid_reason),
+      public_action_family = as.character(public_action_family)
+    ) %>%
+    left_join(dapip_actions_df, by = "dapip_source_key") %>%
+    {
+      if (!"file_text_path" %in% names(.)) {
+        .$file_text_path <- NA_character_
+      }
+      .
+    } %>%
+    reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
+    mutate(
+      unitid = as.character(unitid),
+      action_date = as.character(action_date),
+      action_year = as.character(action_year),
+      file_id = as.character(file_id),
+      scraper_source_key = NA_character_,
+      dapip_source_key = as.character(dapip_source_key),
+      action_summary_source_text = vapply(
+        seq_len(n()),
+        function(i) .select_action_summary_source_text(
+          action_label_raw[[i]],
+          file_text_path[[i]],
+          action_type[[i]],
+          normalize_accreditor_code(accreditor[[i]]),
+          notes[[i]]
+        ),
+        character(1)
+      ),
+      action_label_short = vapply(
+        seq_len(n()),
+        function(i) derive_action_label_short(
+          action_type[[i]],
+          action_summary_source_text[[i]],
+          normalize_accreditor_code(accreditor[[i]]),
+          notes[[i]]
+        ),
+        character(1)
+      )
+    ) %>%
+    filter(
+      grepl(
+        "^Requested Referral Report\\b|^Requested to Submit a Monitoring Report\\b|^No additional report requested\\b",
+        trimws(as.character(action_label_short %||% "")),
+        ignore.case = TRUE,
+        perl = TRUE
+      )
+    ) %>%
+    select(-action_summary_source_text, -action_label_short)
+  if (nrow(sacscoc_supplemental_drop_actions) > 0L) {
+    public_dapip_actions <- bind_rows(public_dapip_actions, sacscoc_supplemental_drop_actions)
+  }
+  sacscoc_supplemental_force_keep_keys <- unique(as.character(sacscoc_supplemental_drop_actions$dapip_source_key %||% character()))
   wscuc_dapip_enrichment_actions <- dapip_actions_df %>%
     filter(
       normalize_accreditor_code(accreditor) == "WSCUC",
@@ -1157,6 +1224,79 @@ build_accreditation_export <- function() {
         nzchar(trimws(as.character(source_selection_period_key %||% "")))
       )
   }
+  sacscoc_dapip_enrichment_actions <- dapip_actions_df %>%
+    filter(
+      normalize_accreditor_code(accreditor) == "SACSCOC",
+      !is.na(action_label_raw)
+    )
+  if (nrow(sacscoc_dapip_enrichment_actions) == 0L) {
+    sacscoc_dapip_enrichment_pool <- data.frame(
+      unitid = character(),
+      accreditor = character(),
+      source_selection_period_key = character(),
+      action_summary_source_text = character(),
+      source_selection_specificity_score = integer(),
+      source_selection_substantive_text_length = integer(),
+      action_date = character(),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    sacscoc_dapip_enrichment_pool <- sacscoc_dapip_enrichment_actions %>%
+      mutate(
+        unitid = as.character(unitid),
+        action_date = normalize_accreditation_date(action_date),
+        action_year = dplyr::if_else(
+          (is.na(action_year) | trimws(as.character(action_year %||% "")) == "") & !is.na(action_date),
+          substr(action_date, 1L, 4L),
+          as.character(action_year)
+        ),
+        file_id = as.character(file_id)
+      ) %>%
+      reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
+      {
+        if (!"file_text_path" %in% names(.)) {
+          .$file_text_path <- NA_character_
+        }
+        .
+      } %>%
+      mutate(
+        accreditor = normalize_accreditor_code(accreditor),
+        action_summary_source_text = vapply(
+          seq_len(n()),
+          function(i) .select_action_summary_source_text(
+            action_label_raw[[i]],
+            file_text_path[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          ),
+          character(1)
+        ),
+        source_selection_specificity_score = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_specificity_score(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_substantive_text_length = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_substantive_text_length(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_period_key = substr(action_date, 1L, 7L)
+      ) %>%
+      filter(
+        accreditor == "SACSCOC",
+        !is.na(unitid), unitid != "",
+        !is.na(source_selection_period_key),
+        nzchar(trimws(as.character(source_selection_period_key %||% "")))
+      )
+  }
   actions_df <- bind_rows(
     public_scraper_actions %>%
       mutate(
@@ -1183,7 +1323,9 @@ build_accreditation_export <- function() {
       latest_action_year = dplyr::coalesce(latest_action_year, action_year),
       action_labels = dplyr::coalesce(action_labels, action_label_raw),
       action_count = dplyr::coalesce(suppressWarnings(as.integer(action_count)), 1L),
-      action_row_id = seq_len(n())
+      action_row_id = seq_len(n()),
+      sacscoc_force_keep = !is.na(dapip_source_key) &
+        dapip_source_key %in% sacscoc_supplemental_force_keep_keys
     ) %>%
     reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
     {
@@ -1220,6 +1362,8 @@ build_accreditation_export <- function() {
       source_selection_candidate_kind = dplyr::case_when(
         accreditor == "MSCHE" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
         accreditor == "MSCHE" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
+        accreditor == "SACSCOC" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
+        accreditor == "SACSCOC" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
         accreditor == "WSCUC" & public_table_strategy == "scraper_backed_keep" ~ "scraper",
         accreditor == "WSCUC" & public_table_strategy == "dapip_backed_keep" ~ "dapip",
         TRUE ~ NA_character_
@@ -1254,7 +1398,7 @@ build_accreditation_export <- function() {
         TRUE ~ NA_integer_
       ),
       source_selection_period_key = dplyr::case_when(
-        accreditor == "WSCUC" & !is.na(action_date) ~ substr(action_date, 1L, 7L),
+        accreditor %in% c("WSCUC", "SACSCOC") & !is.na(action_date) ~ substr(action_date, 1L, 7L),
         TRUE ~ action_date
       )
     ) %>%
@@ -1351,10 +1495,11 @@ build_accreditation_export <- function() {
     filter(
       !(
         accreditor == "SACSCOC" &
+          !dplyr::coalesce(sacscoc_force_keep, FALSE) &
           grepl("reviewed .* monitoring (review|report)", tolower(trimws(as.character(action_label_raw %||% ""))), perl = TRUE) &
           !grepl(
-            "requested a monitoring report|placed the institution|continued .* on warning|continued .* on probation|removed from|warning|probation|show cause|good cause|additional oversight|resolution of compliance issues|denied reaffirmation",
-            tolower(trimws(as.character(action_label_raw %||% ""))),
+            "requested (?:to submit )?(?:a|(?:first|second|third|fourth|fifth)\\s+)?monitoring report|requested referral report|no additional report was requested|placed the institution|continued .* on warning|continued .* on probation|removed from|warning|probation|show cause|good cause|additional oversight|resolution of compliance issues|denied reaffirmation",
+            tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% ""))),
             perl = TRUE
           )
       )
@@ -1362,6 +1507,7 @@ build_accreditation_export <- function() {
     filter(
       !(
         accreditor == "SACSCOC" &
+          !dplyr::coalesce(sacscoc_force_keep, FALSE) &
           vapply(
             seq_len(n()),
             function(i) is_sacscoc_public_table_row_to_drop(
@@ -1483,6 +1629,71 @@ build_accreditation_export <- function() {
           )
       }
     } %>%
+    {
+      actions_df <- .
+      if (!nrow(sacscoc_dapip_enrichment_pool)) {
+        actions_df
+      } else {
+        sacscoc_best <- sacscoc_dapip_enrichment_pool %>%
+          group_by(unitid, accreditor, source_selection_period_key) %>%
+          arrange(
+            dplyr::desc(source_selection_specificity_score),
+            dplyr::desc(source_selection_substantive_text_length),
+            dplyr::desc(action_date),
+            .by_group = TRUE
+          ) %>%
+          slice(1) %>%
+          ungroup() %>%
+          select(
+            unitid,
+            accreditor,
+            source_selection_period_key,
+            best_sacscoc_dapip_text = action_summary_source_text,
+            best_sacscoc_dapip_specificity_score = source_selection_specificity_score,
+            best_sacscoc_dapip_substantive_text_length = source_selection_substantive_text_length
+          )
+
+        actions_df %>%
+          left_join(
+            sacscoc_best,
+            by = c("unitid", "accreditor", "source_selection_period_key")
+          ) %>%
+          mutate(
+            action_summary_source_text = dplyr::case_when(
+              accreditor == "SACSCOC" &
+                source_selection_candidate_kind == "scraper" &
+                !is.na(best_sacscoc_dapip_specificity_score) &
+                (
+                  best_sacscoc_dapip_specificity_score > source_selection_specificity_score |
+                    (
+                      best_sacscoc_dapip_specificity_score == source_selection_specificity_score &
+                        dplyr::coalesce(best_sacscoc_dapip_substantive_text_length, 0L) >
+                        dplyr::coalesce(source_selection_substantive_text_length, 0L)
+                    )
+                ) ~
+                  best_sacscoc_dapip_text,
+              TRUE ~ action_summary_source_text
+            )
+          ) %>%
+          mutate(
+            action_label_short = vapply(
+              seq_len(n()),
+              function(i) derive_action_label_short(
+                action_type[[i]],
+                action_summary_source_text[[i]],
+                normalize_accreditor_code(accreditor[[i]]),
+                notes[[i]]
+              ),
+              character(1)
+            )
+          ) %>%
+          select(
+            -best_sacscoc_dapip_text,
+            -best_sacscoc_dapip_specificity_score,
+            -best_sacscoc_dapip_substantive_text_length
+          )
+      }
+    } %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
       has_same_day_explicit_sanction = any(action_type %in% c("warning", "probation", "removed", "show_cause", "adverse_action"), na.rm = TRUE),
@@ -1505,7 +1716,8 @@ build_accreditation_export <- function() {
       -source_selection_substantive_text_length,
       -source_selection_source_rank,
       -source_selection_period_key,
-      -action_row_id
+      -action_row_id,
+      -sacscoc_force_keep
     ) %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(

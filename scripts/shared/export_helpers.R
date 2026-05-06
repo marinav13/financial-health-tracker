@@ -1755,12 +1755,24 @@ extract_hlc_findings <- function(text) {
     "SACSCOCfollowing" = "SACSCOC following",
     "durina" = "during",
     "ofTrustees" = "of Trustees",
-    "The Board ofTrustees" = "The Board of Trustees"
+    "The Board ofTrustees" = "The Board of Trustees",
+    "Control offinances" = "Control of finances",
+    "learn/n g/information resources" = "learning/information resources",
+    "Level Ill" = "Level III",
+    "addressingthe" = "addressing the",
+    "dueApril" = "due April",
+    "assessthe" = "assess the",
+    "achievesthese" = "achieves these",
+    "Financial resources}" = "Financial resources)"
   )
 
   for (pattern in names(replacements)) {
     value <- gsub(pattern, replacements[[pattern]], value, fixed = TRUE)
   }
+
+  value <- gsub("([0-9])\\.\\s+([0-9])", "\\1.\\2", value, perl = TRUE)
+  value <- gsub("([0-9])\\.\\s+([A-Za-z])", "\\1.\\2", value, perl = TRUE)
+  value <- gsub("\\)\\s+,", "),", value, perl = TRUE)
 
   stringr::str_squish(value)
 }
@@ -1845,6 +1857,20 @@ extract_hlc_findings <- function(text) {
   if (acc_norm == "SACSCOC" &&
       (grepl("disclosure statement regarding the status", raw, ignore.case = TRUE) ||
        grepl("^standard\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?\\s*\\(", raw, ignore.case = TRUE))) {
+    return(TRUE)
+  }
+
+  if (acc_norm == "SACSCOC" &&
+      (
+        grepl("if the institution fails to document compliance with the above listed standards", raw, ignore.case = TRUE) ||
+          grepl("may begin a two-?year monitoring period", raw, ignore.case = TRUE) ||
+          grepl("reviewed .* monitoring report.*response to that report\\.?$", raw, ignore.case = TRUE, perl = TRUE) ||
+          grepl("^.*?reviewed the institution.?s\\s+(?:first|second|third|fourth|fifth)\\s+monitoring report following (?:submission of a referral report|reaffirmation of accreditation|action on reaffirmation of accreditation)\\.?$", raw, ignore.case = TRUE, perl = TRUE) ||
+          grepl("min\\.\\) program continued as a distance education program", raw, ignore.case = TRUE) ||
+          grepl("(?:Core Requirement|CR)\\s+[0-9]+(?:\\.[0-9]+)?\\.?$", raw, ignore.case = TRUE) ||
+          grepl("Standard\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?\\.?$", raw, ignore.case = TRUE) ||
+          stringr::str_count(raw, stringr::fixed("(")) > stringr::str_count(raw, stringr::fixed(")"))
+      )) {
     return(TRUE)
   }
 
@@ -2245,7 +2271,7 @@ extract_hlc_findings <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   value <- stringr::str_replace(
     value,
-    stringr::regex("^reviewed the institution[’'`]s\\s+(?:first|second|third|fourth|fifth)?\\s*monitoring report,?\\s+and\\s+", ignore_case = TRUE),
+    stringr::regex("^reviewed the institution[’'`]s\\s+(?:first|second|third|fourth|fifth)?\\s*monitoring report(?:\\s+following[^,.;]*?)?,?\\s+and\\s+", ignore_case = TRUE),
     ""
   )
   if (!nzchar(value) || !stringr::str_detect(tolower(value), "failure to comply with")) {
@@ -2294,10 +2320,14 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   raw_norm <- tolower(trimws(as.character(action_label_raw %||% "")))
   text_norm <- stringr::str_squish(.normalize_sacscoc_ocr_spacing(paste(short_norm, raw_norm)))
   text_norm <- tolower(text_norm)
+  has_substantive_monitoring_summary <- stringr::str_detect(
+    short_norm,
+    "^requested referral report\\b|^requested to submit a monitoring report\\b|^no additional report requested\\b"
+  )
 
   has_serious_signal <- stringr::str_detect(
     text_norm,
-    "warning|probation|show cause|good cause|denied reaffirmation|removed from|requested (?:to submit )?a monitoring report|placed the institution|continued .* on (warning|probation)"
+    "warning|probation|show cause|good cause|denied reaffirmation|removed from|requested (?:to submit )?(?:a|(?:first|second|third|fourth|fifth)\\s+)?monitoring report|requested referral report|no additional report requested|placed the institution|continued .* on (warning|probation)"
   )
 
   if (stringr::str_detect(text_norm, "publication of accreditation status|disclosure statement regarding accreditation status|institutional obligations for public disclosure|published accreditation status statement did not comply") &&
@@ -2325,15 +2355,19 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     return(TRUE)
   }
 
-  if (stringr::str_detect(text_norm, "we appreciate your continued[_ ]support of sacscoc")) {
+  if (stringr::str_detect(text_norm, "we appreciate your continued[_ ]support of sacscoc") &&
+      !has_substantive_monitoring_summary) {
     return(TRUE)
   }
 
-  if (stringr::str_detect(text_norm, "failure\\s*to\\s*document\\s*compliance.*will result in (?:the|your) institution being placed on a sanction|if (?:the|your) institution fails to document compliance")) {
+  if (stringr::str_detect(text_norm, "failure\\s*to\\s*document\\s*compliance.*will result in (?:the|your) institution being placed on a sanction|if (?:the|your) institution fails to document compliance") &&
+      !has_substantive_monitoring_summary) {
     return(TRUE)
   }
 
-  if (stringr::str_detect(text_norm, "review which may begin a two-year monitoring period") && !has_serious_signal) {
+  if (stringr::str_detect(text_norm, "review which may begin a two-year monitoring period") &&
+      !has_serious_signal &&
+      !has_substantive_monitoring_summary) {
     return(TRUE)
   }
 
@@ -2906,6 +2940,28 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   }
 
   if (acc_norm == "SACSCOC" &&
+      stringr::str_detect(lowered, "recommended the removal of") &&
+      stringr::str_detect(lowered, "from membership") &&
+      stringr::str_detect(lowered, "failure to comply with")) {
+    removal_clause <- stringr::str_match(
+      cleaned,
+      stringr::regex(
+        "(recommended the removal of .+? from membership for failure to comply with .+?)(?=\\s+The recommendation of the Committee\\b|\\s+The policies and procedures of SACSCOC\\b|$)",
+        ignore_case = TRUE
+      )
+    )[, 2]
+    if (!is.na(removal_clause) && nzchar(removal_clause)) {
+      removal_clause <- stringr::str_replace(
+        removal_clause,
+        stringr::regex("^recommended the removal of .+? from membership", ignore_case = TRUE),
+        "Removed from membership"
+      )
+      removal_clause <- .compact_sacscoc_sanction_summary(removal_clause)
+      return(.capitalize_summary_head(stringr::str_squish(removal_clause)))
+    }
+  }
+
+  if (acc_norm == "SACSCOC" &&
       stringr::str_detect(lowered, "removed the institution from warning")) {
     return("Removed from Warning")
   }
@@ -2940,6 +2996,24 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   }
 
   if (acc_norm == "SACSCOC" &&
+      stringr::str_detect(lowered, "no additional report was requested")) {
+    monitoring_round <- stringr::str_match(
+      cleaned,
+      stringr::regex(
+        "reviewed the institution.?s\\s+(first|second|third|fourth|fifth)\\s+monitoring report",
+        ignore_case = TRUE
+      )
+    )[, 2]
+    if (!is.na(monitoring_round) && nzchar(monitoring_round)) {
+      return(.capitalize_summary_head(sprintf(
+        "No additional report requested after the %s Monitoring Report",
+        stringr::str_to_title(tolower(stringr::str_squish(monitoring_round)))
+      )))
+    }
+    return("No additional report requested after review of the Monitoring Report")
+  }
+
+  if (acc_norm == "SACSCOC" &&
       stringr::str_detect(lowered, "^requested a monitoring report\\b")) {
     return(.capitalize_summary_head(stringr::str_replace(
       cleaned,
@@ -2967,7 +3041,10 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       stringr::str_detect(lowered, "recommended that the institution be placed on warning")) {
     recommended_clause <- stringr::str_match(
       cleaned,
-      stringr::regex("(recommended that the institution be placed on warning[^.]*\\.)", ignore_case = TRUE)
+      stringr::regex(
+        "(recommended that the institution be placed on warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|\\s+A Special Committee [^.]*authorized[^.]*\\b|$)",
+        ignore_case = TRUE
+      )
     )[, 2]
     if (!is.na(recommended_clause) && nzchar(recommended_clause)) {
       recommended_clause <- stringr::str_replace(
@@ -3055,7 +3132,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       )
       warning_or_probation_clause <- stringr::str_replace(
         warning_or_probation_clause,
-        stringr::regex("^reviewed the institution[’'`]s\\s+(?:first|second|third|fourth|fifth)?\\s*monitoring report,?\\s+and\\s+", ignore_case = TRUE),
+        stringr::regex("^reviewed the institution[’'`]s\\s+(?:first|second|third|fourth|fifth)?\\s*monitoring report(?:\\s+following[^,.;]*?)?,?\\s+and\\s+", ignore_case = TRUE),
         ""
       )
       warning_or_probation_clause <- stringr::str_replace(
@@ -3109,6 +3186,16 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       substantive,
       stringr::regex("^placed the institution on warning\\b", ignore_case = TRUE),
       "Placed on Warning"
+    )
+    substantive <- stringr::str_replace(
+      substantive,
+      stringr::regex("^reviewed the institution[â€™'`]s\\s+[^.]*?\\s+placed the institution on warning\\b", ignore_case = TRUE),
+      "Placed on Warning"
+    )
+    substantive <- stringr::str_replace(
+      substantive,
+      stringr::regex("^reviewed the institution[â€™'`]s\\s+[^.]*?\\s+placed the institution on probation\\b", ignore_case = TRUE),
+      "Placed on Probation"
     )
     substantive <- stringr::str_replace(
       substantive,

@@ -1668,6 +1668,41 @@ run_test("derive_action_label_short: SACSCOC letter-body monitoring rows use sub
   )
 })
 
+run_test("derive_action_label_short: SACSCOC warning letters keep full spaced standard references", function() {
+  text <- paste0(
+    "Qubein: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 15, 2023: ",
+    "The SACSCOC Board of Trustees reviewed the institution's Referral Report from the submission of a Fifth-Year Interim Report in June 2022 and recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12. 1 (Student support services), Standard 8. 2. a (Student outcomes: educational programs), and Standard 14. 1 (Publication of accreditation status) of the Principles of Accreditation. ",
+    "A Special Committee was not authorized to visit the institution."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status) of the Principles of accreditation."
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC follow-up warning letters drop the report lead-in", function() {
+  text <- paste0(
+    "White: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 4, 2022: ",
+    "The SACSCOC Board of Trustees reviewed the institution's Follow-Up Report requested in June 2018 that focused on finances and placed the institution on Warning for six (6) months for failure to comply with Core Requirement 13. 1 (Financial resources), Core Requirement 13. 2 (Financial documents), and Standard 13. 3 (Financial responsibility) of the Principles of Accreditation."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Placed on Warning for six (6) months for failure to comply with Core Requirement 13.1 (financial resources), Core Requirement 13.2 (financial documents), and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC committee removal letters summarize the non-compliance reasons", function() {
+  text <- paste0(
+    "At its meeting on December 7, 2024, the Committee on Compliance and Reports, Group C, of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Board of Trustees reviewed Saint Augustine’s University’s Fifth Monitoring Report, financial statements, the Report of a Special Committee, and the institution’s response to that Report. ",
+    "The Committee recommended the removal of Saint Augustine’s University from membership for failure to comply with Core Requirement 4.1 (Governing board characteristics), Core Requirement 13.1 (Financial resources), Core Requirement 13.2 (Financial documents), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds) and Standard 13.6 (Federal and state responsibilities) of the Principles of Accreditation. ",
+    "The recommendation of the Committee on Compliance and Reports was approved by the SACSCOC Board of Trustees at its meeting on December 8, 2024."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "SACSCOC"),
+    "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances and sponsored research/external funds"
+  )
+})
+
 run_test("derive_action_label_short: HLC notice retains reason from DAPIP summary", function() {
   text <- "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation."
   assert_identical(

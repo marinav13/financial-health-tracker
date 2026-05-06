@@ -366,6 +366,51 @@ run("WSCUC exports prefer richer DAPIP letter detail only when it beats the scra
   );
 });
 
+run("SACSCOC exports keep substantive monitoring history and standards-backed sanction text", () => {
+  const findByName = (name) =>
+    Object.values(ACCREDITATION.schools || {}).find((school) => school.institution_name === name);
+
+  const highPoint = findByName("High Point University");
+  const lamar = findByName("Lamar University");
+  const saintAugustine = findByName("Saint Augustine's University");
+
+  assert(highPoint, "Accreditation export is missing High Point University");
+  assert(lamar, "Accreditation export is missing Lamar University");
+  assert(saintAugustine, "Accreditation export is missing Saint Augustine's University");
+
+  assert(
+    (highPoint.actions || []).some((row) =>
+      row.action_date === "2023-06-15" &&
+      row.action_label_short ===
+        "Recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status) of the Principles of accreditation."
+    ),
+    "High Point should keep the full standards-backed June 2023 warning summary"
+  );
+  assert(
+    (lamar.actions || []).some((row) =>
+      row.action_date === "2023-12-03" &&
+      row.action_label_short === "No additional report requested after the Second Monitoring Report"
+    ),
+    "Lamar should keep the December 2023 no-additional-report outcome"
+  );
+  assert(
+    (lamar.actions || []).some((row) =>
+      row.action_date === "2022-12-04" &&
+      row.action_label_short ===
+        "Requested to Submit a Monitoring Report on Student Outcomes: Educational Programs And Student Outcomes: General Education"
+    ),
+    "Lamar should keep the December 2022 monitoring-report request"
+  );
+  assert(
+    (saintAugustine.actions || []).some((row) =>
+      row.action_date === "2024-12-01" &&
+      row.action_label_short ===
+        "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances and sponsored research/external funds"
+    ),
+    "Saint Augustine should use the richer SACSCOC removal summary instead of the truncated scraper text"
+  );
+});
+
 run("research export excludes Dartmouth award with zero live remaining funding", () => {
   const dartmouth = RESEARCH_FUNDING.schools?.["182670"];
   assert(dartmouth, "Dartmouth College research record is missing");

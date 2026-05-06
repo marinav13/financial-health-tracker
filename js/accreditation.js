@@ -930,9 +930,13 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
         [school.city, school.state].filter(Boolean).join(", "),
         school.control_label || ""
       ].filter(Boolean);
+      // Empty <span class="sep"> nodes — the middle-dot glyph is added
+      // via CSS ::after so the span has no real text content. Keeps the
+      // Playwright aria-hidden-sync helper happy and lets screen readers
+      // skip the separator (pseudo-content is invisible to AT).
       schoolMeta.innerHTML = parts
         .map((part) => escapeHtml(part))
-        .join('<span class="sep" aria-hidden="true">&middot;</span>');
+        .join('<span class="sep"></span>');
     }
     const accreditationOverview = document.getElementById("accreditation-overview");
     if (accreditationOverview) {

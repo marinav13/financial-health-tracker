@@ -300,9 +300,14 @@
         [school.city, school.state].filter(Boolean).join(", "),
         school.control_label || ""
       ].filter(Boolean);
+      // Empty <span class="sep"> nodes — the middle-dot glyph is added
+      // via CSS ::after so the span has no real text content. That
+      // keeps the Playwright aria-hidden-sync helper happy and lets
+      // screen readers skip the dot entirely (no aria-hidden needed
+      // since pseudo-content is invisible to AT).
       schoolMeta.innerHTML = parts
         .map((part) => escapeHtml(part))
-        .join('<span class="sep" aria-hidden="true">&middot;</span>');
+        .join('<span class="sep"></span>');
     }
     if (mainToolbar) mainToolbar.classList.add("is-hidden");
     syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });

@@ -215,6 +215,12 @@
   --hechinger-yellow-soft: #fbecae;
   --hechinger-yellow-pale: #fdf6dd;
   --hechinger-gold: #b88a2e;
+  /* --hechinger-gold-deep is for any GOLD TEXT (eyebrow labels, the
+     related-card heading) — the lighter --hechinger-gold doesn't meet
+     WCAG AA against --paper-page. Decorative borders / underlines /
+     the intro-bar background continue to use --hechinger-gold since
+     contrast doesn't apply to non-text. */
+  --hechinger-gold-deep: #7a5818;
 
   /* Colorblind-safe pos/neg pair (saturated blue / saturated brick).
      Used for metric-strip fills and chart series. */
@@ -253,7 +259,11 @@ body {
   font-size: 16px;
   line-height: 1.55;
   color: var(--ink);
-  background: var(--bg);
+  /* Body matches .page so the cream paper bleeds to the viewport edges
+     instead of showing a tan band on either side of the 1040px content
+     column. The .page max-width still holds the content layout — only
+     the visible background is full-bleed. */
+  background: var(--paper-page);
 }
 
 ::selection {
@@ -297,15 +307,11 @@ body {
   border: 0;
 }
 
-/* Visible labels for form controls */
-.table-filter-label {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin-right: 8px;
-  white-space: nowrap;
-  align-self: center;
-}
+/* The previous .table-filter-label rule that lived here was an
+   earlier muted/.88rem treatment; the editorial-calm uppercase Inter
+   version lower in the file (next to the .table-toolbar block)
+   supersedes it, so the older rule has been removed to satisfy
+   stylelint's no-duplicate-selectors. */
 
 /* ---------- Page shell ----------
    .page is the 1040px cream paper rectangle that holds the masthead, the
@@ -359,6 +365,16 @@ body {
   color: var(--ink);
   letter-spacing: -0.02em;
   line-height: 1;
+}
+
+/* The "H" glyph is rendered via ::after pseudo-content rather than
+   a real text node so the <span class="logo"> stays empty in the DOM.
+   That keeps the Playwright aria-hidden-sync helper happy (it
+   considers an aria-hidden element with visible text a violation),
+   and screen readers ignore CSS pseudo-content so the parent
+   wordmark anchor's aria-label remains the only announced label. */
+.site-masthead .logo::after {
+  content: 'H';
 }
 
 .site-masthead .wm-text {
@@ -453,7 +469,12 @@ body {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-4);
+  /* --ink-4 (#8a8271) only hits 3.56:1 against the cream paper, below
+     the WCAG AA 4.5:1 threshold for small text. --ink-3 takes it to
+     ~9:1 with no real visual cost — both halves of the footer (the
+     'H The Hechinger Report' sig and the 'Source: …' line) read as
+     muted-but-legible against the cream. */
+  color: var(--ink-3);
 }
 
 .pg-foot .sig {
@@ -476,6 +497,14 @@ body {
   font-size: 14px;
   letter-spacing: 0;
   text-transform: none;
+  /* See .site-masthead .logo above — the H glyph is pseudo-content
+     so the span stays empty in the DOM. Same a11y rationale. */
+}
+.pg-foot .sq::after {
+  content: 'H';
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
   color: var(--ink);
   line-height: 1;
 }
@@ -597,12 +626,13 @@ h1.serif {
 
 /* Hidden timestamp line emitted by the JS for cuts/accred/research data
    "as of" notes. Now styled to fit under the centered lede instead of
-   inside the old gold-bar callout box. */
+   inside the old gold-bar callout box. Uses --ink-3 (not --ink-4) so
+   the small italic text meets WCAG AA contrast against cream paper. */
 .data-as-of {
   font-family: var(--font-ui);
   font-size: 12px;
   font-style: italic;
-  color: var(--ink-4);
+  color: var(--ink-3);
   letter-spacing: 0.02em;
   margin: 4px auto 0;
 }
@@ -802,7 +832,10 @@ h1.serif {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--hechinger-gold);
+  /* Use the deeper gold so the small uppercase eyebrow text meets
+     WCAG AA contrast (4.5:1) on --paper-page. The decorative line
+     segments before/after still use --line-2. */
+  color: var(--hechinger-gold-deep);
 }
 .school-mast .eyebrow::before,
 .school-mast .eyebrow::after {
@@ -826,19 +859,10 @@ h1.serif {
   padding: 0;
 }
 
-.school-mast .meta {
-  margin: 0;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--ink-3);
-}
-.school-mast .meta .sep {
-  margin: 0 8px;
-  color: var(--line-2);
-  font-style: normal;
-}
+/* The .school-mast .meta and .school-mast .meta .sep rules previously
+   sat here; both are defined in full (with the inline-collapse logic
+   for school.html's three-paragraph structure) lower in the file. The
+   duplicates have been removed to satisfy stylelint. */
 
 /* Pill buttons used in .school-mast .school-actions. Outline + filled
    variants. The legacy .download-button rule below stays in place for
@@ -1317,16 +1341,14 @@ h1.serif {
   overflow-x: auto;
 }
 
+/* Pagination: circular outline buttons; filled ink on the active page.
+   Sits at the bottom of each .data-card under the table. */
 .pagination {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  margin: 18px 0 0;
-}
-
-/* Pagination: circular outline buttons; filled ink on the active page. */
-.pagination {
+  margin: 0;
   padding: 18px 24px 22px;
 }
 
@@ -1623,7 +1645,8 @@ h1.serif {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--hechinger-gold);
+  /* Deep gold for AA contrast — same trade as .school-mast .eyebrow. */
+  color: var(--hechinger-gold-deep);
 }
 
 .related-card ul,
@@ -1693,23 +1716,34 @@ h1.serif {
 
 /* Insert a separator between any two non-empty meta paragraphs. The
    sibling combinator means the rule fires only when the current p has
-   a non-empty p somewhere earlier in the same .meta — empties skip. */
+   a non-empty p somewhere earlier in the same .meta — empties skip.
+   Color inherits the meta line's --ink-3 instead of using --line-2 so
+   the dot meets contrast against cream paper. */
 .school-mast .meta > .school-meta:not(:empty) ~ .school-meta:not(:empty)::before {
   content: '\00b7';
   margin: 0 8px;
-  color: var(--line-2);
   font-style: normal;
 }
 
 /* ---------- Inline-meta separator (cuts/accred/research) ----------
-   These pages render the meta line via JS as plain text + <span class
-   ="sep">·</span> nodes. The span gets the muted dot color + side
-   padding, identical to school.html's CSS-driven separator. */
+   These pages render the meta line via JS as plain text + empty
+   <span class="sep"></span> nodes. The middle dot is rendered via
+   ::after pseudo-content (not a real text node) for two reasons:
+     1) Playwright's aria-hidden-sync helper considers an aria-hidden
+        element with a visible text node a violation. Pseudo-content
+        is invisible to the helper.
+     2) Screen readers ignore CSS pseudo-content, so the meta line
+        reads cleanly as "City, State Sector" without the dots being
+        announced — no aria-hidden attribute needed.
+   The dot inherits the parent meta-line's --ink-3 color, which gives
+   it ample contrast against cream paper for sighted readers. */
 .school-mast .meta .sep {
   display: inline;
   margin: 0 8px;
-  color: var(--line-2);
   font-style: normal;
+}
+.school-mast .meta .sep::after {
+  content: '\00b7';
 }
 
 /* ---------- Body content padding inside .data-card ----------

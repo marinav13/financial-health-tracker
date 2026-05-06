@@ -10,29 +10,28 @@
 </head>
 <body data-search-page="accreditation.html" data-search-source="accreditation">
   <a href="#main" class="skip-link">Skip to main content</a>
-  <main id="main" class="page">
-    <nav class="top-tabs" aria-label="Sections">
-      <a class="nav-logo-link" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
-        <img class="nav-logo" src="assets/hechinger-logo-yellow.jpg" alt="The Hechinger Report homepage">
+  <div class="page">
+    <header class="site-masthead">
+      <a class="wordmark" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
+        <span class="logo" aria-hidden="true">H</span>
+        <span class="wm-text">The Hechinger Report</span>
       </a>
+    </header>
+    <nav class="top-tabs" aria-label="Sections">
       <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab is-active" id="tab-accreditation" href="accreditation.html" aria-current="page">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
       <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
+      <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
     </nav>
+    <main id="main" class="main-wrap">
 
-    <header class="masthead">
-      <div class="masthead-title">College Financial Health Explorer</div>
-    </header>
-
-    <section class="intro-callout">
-      <div class="intro-bar"></div>
-      <div class="intro-box">
-      <p id="accreditation-intro-top">Accrediting bodies oversee whether colleges are following educational standards. Explore whether an institution has received a warning, been put on probation, sought approval for closure — or whether it has a probation or warning status lifted.</p>
-      <p id="accreditation-intro-bottom">The first table below shows accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions. Scroll further down the page to see recent accreditation actions at other institutions.</p>
+    <section id="accreditation-landing-hero" class="hero-solo-center">
+      <h1 class="serif">Accreditation</h1>
+      <p class="lede" id="accreditation-intro-top">Accrediting bodies oversee whether colleges are following educational standards. Explore whether an institution has received a warning, been put on probation, sought approval for closure — or whether it has a probation or warning status lifted.</p>
+      <p class="lede" id="accreditation-intro-bottom">The first table below shows accreditation actions from 2019 to the present at 4-year, primarily bachelor's-degree-granting institutions. Scroll further down the page to see recent accreditation actions at other institutions.</p>
       <p class="data-as-of" id="accreditation-data-as-of" aria-live="polite" hidden></p>
-      </div>
     </section>
 
     <section class="school-banner">
@@ -76,7 +75,13 @@
         <p>This section is a placeholder for the project methodology. It can later explain which accreditors are currently tracked, what kinds of actions are included, and the limits of the current coverage.</p>
       </div>
     </details>
-  </main>
+
+    <footer class="pg-foot">
+      <span class="sig"><span class="sq" aria-hidden="true">H</span> The Hechinger Report</span>
+      <span>Source: IPEDS · ED Composite · HCM2 · Grant Witness</span>
+    </footer>
+    </main>
+  </div>
   <script src="js/app.js"></script>
   <script src="js/accreditation.js"></script>
 </body>

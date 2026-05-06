@@ -464,6 +464,11 @@
     const searchLabel = document.querySelector('label[for="research-filter"]');
     if (searchLabel) searchLabel.classList.toggle("is-hidden", !!unitid);
     if (searchInput) searchInput.classList.toggle("is-hidden", !!unitid);
+    // Editorial Calm: hide the landing-mode hero (visible H1 + lede block)
+    // when an institution is requested, so the institution-mode H1 in
+    // .school-banner is the only top-of-page heading.
+    const landingHero = document.getElementById("research-landing-hero");
+    if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
 
     if (!unitid) {
       // Landing view: the h1#research-school-name ships with class="sr-only"

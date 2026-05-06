@@ -201,6 +201,11 @@
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid, { active: "cuts" });
+    // Editorial Calm: hide the landing-mode hero (visible H1 + lede block)
+    // when an institution is requested, so the institution-mode H1 in
+    // .school-banner is the only top-of-page heading.
+    const landingHero = document.getElementById("cuts-landing-hero");
+    if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
     const title = document.getElementById("cuts-section-title");

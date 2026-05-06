@@ -819,6 +819,11 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
   async function init() {
     const unitid = getParam("unitid");
     syncTabs(unitid, { active: "accreditation" });
+    // Editorial Calm: hide the landing-mode hero (visible H1 + lede block)
+    // when an institution is requested, so the institution-mode H1 in
+    // .school-banner is the only top-of-page heading.
+    const landingHero = document.getElementById("accreditation-landing-hero");
+    if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
 
     if (!unitid) {
       const [accreditationIndex, metadata] = await Promise.all([

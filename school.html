@@ -10,21 +10,22 @@
 </head>
 <body data-search-page="school.html">
   <a href="#main" class="skip-link">Skip to main content</a>
-  <main id="main" class="page">
-    <nav class="top-tabs" aria-label="Sections">
-      <a class="nav-logo-link" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
-        <img class="nav-logo" src="assets/hechinger-logo-yellow.jpg" alt="The Hechinger Report homepage">
+  <div class="page">
+    <header class="site-masthead">
+      <a class="wordmark" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
+        <span class="logo" aria-hidden="true">H</span>
+        <span class="wm-text">The Hechinger Report</span>
       </a>
+    </header>
+    <nav class="top-tabs" aria-label="Sections">
       <a class="top-tab is-active" id="tab-finances" href="school.html" aria-current="page">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
       <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
+      <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
     </nav>
-
-    <header class="masthead">
-      <div class="masthead-title">College Financial Health Explorer</div>
-    </header>
+    <main id="main" class="main-wrap">
 
     <section id="school-intro-callout" class="intro-callout">
       <div class="intro-bar"></div>
@@ -193,7 +194,13 @@
         <p>This section is a placeholder for the project methodology. It can later include the source data, filters, inflation adjustment note, and any caveats about missing or system-level reporting.</p>
       </div>
     </details>
-  </main>
+
+    <footer class="pg-foot">
+      <span class="sig"><span class="sq" aria-hidden="true">H</span> The Hechinger Report</span>
+      <span>Source: IPEDS · ED Composite · HCM2 · Grant Witness</span>
+    </footer>
+    </main>
+  </div>
 
   <script src="js/app.js"></script>
   <script src="js/charts.js"></script>

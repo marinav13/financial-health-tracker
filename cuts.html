@@ -10,30 +10,29 @@
 </head>
 <body data-search-page="cuts.html" data-search-source="cuts">
   <a href="#main" class="skip-link">Skip to main content</a>
-  <main id="main" class="page">
-    <nav class="top-tabs" aria-label="Sections">
-      <a class="nav-logo-link" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
-        <img class="nav-logo" src="assets/hechinger-logo-yellow.jpg" alt="The Hechinger Report homepage">
+  <div class="page">
+    <header class="site-masthead">
+      <a class="wordmark" href="https://hechingerreport.org/" target="_blank" rel="noopener noreferrer" aria-label="The Hechinger Report (opens in new tab)">
+        <span class="logo" aria-hidden="true">H</span>
+        <span class="wm-text">The Hechinger Report</span>
       </a>
+    </header>
+    <nav class="top-tabs" aria-label="Sections">
       <a class="top-tab" id="tab-finances" href="index.html">Finances</a>
       <a class="top-tab is-active" id="tab-cuts" href="cuts.html" aria-current="page">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
       <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
+      <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
     </nav>
+    <main id="main" class="main-wrap">
 
-    <header class="masthead">
-      <div class="masthead-title">College Financial Health Explorer</div>
-    </header>
-
-    <section class="intro-callout">
-      <div class="intro-bar"></div>
-      <div class="intro-box">
-        <p>Explore cuts at 4-year institutions nationwide that primarily grant bachelor's degrees. Cuts could reflect ongoing financial challenges or follow federal research cuts or anti-DEI initiatives.</p>
-        <p>Scroll down further to see cuts at other institutions. Data includes cuts collected by <a href="https://www.college-cuts.com/" target="_blank" rel="noopener" aria-label="College Cuts Tracker (opens in new tab)">College Cuts Tracker</a> and The Hechinger Report.</p>
-        <p>Have you heard of a cut at your university? <a href="https://www.college-cuts.com/" target="_blank" rel="noopener" aria-label="Submit information about cuts (opens in new tab)">Submit information about cuts here</a> if you'd like to help grow our database.</p>
-        <p class="data-as-of" id="cuts-data-as-of" aria-live="polite" hidden></p>
-      </div>
+    <section id="cuts-landing-hero" class="hero-solo-center">
+      <h1 class="serif">College Cuts</h1>
+      <p class="lede">Explore cuts at 4-year institutions nationwide that primarily grant bachelor's degrees. Cuts could reflect ongoing financial challenges or follow federal research cuts or anti-DEI initiatives.</p>
+      <p class="lede">Scroll down further to see cuts at other institutions. Data includes cuts collected by <a href="https://www.college-cuts.com/" target="_blank" rel="noopener" aria-label="College Cuts Tracker (opens in new tab)">College Cuts Tracker</a> and The Hechinger Report.</p>
+      <p class="lede">Have you heard of a cut at your university? <a href="https://www.college-cuts.com/" target="_blank" rel="noopener" aria-label="Submit information about cuts (opens in new tab)">Submit information about cuts here</a> if you'd like to help grow our database.</p>
+      <p class="data-as-of" id="cuts-data-as-of" aria-live="polite" hidden></p>
     </section>
 
     <section class="school-banner">
@@ -70,7 +69,13 @@
         <p>This section is a placeholder for the project methodology. It can later explain how college cuts were collected, matched to institutions, and filtered for the tracker.</p>
       </div>
     </details>
-  </main>
+
+    <footer class="pg-foot">
+      <span class="sig"><span class="sq" aria-hidden="true">H</span> The Hechinger Report</span>
+      <span>Source: IPEDS · ED Composite · HCM2 · Grant Witness</span>
+    </footer>
+    </main>
+  </div>
   <script src="js/app.js"></script>
   <script src="js/cuts.js"></script>
 </body>

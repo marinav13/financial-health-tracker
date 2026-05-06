@@ -1712,16 +1712,30 @@ h1.serif {
   font-style: normal;
 }
 
-/* ---------- Cuts-detail body padding ----------
+/* ---------- Body content padding inside .data-card ----------
    .data-card itself has padding: 0 (the h2 + .table-toolbar provide
-   their own horizontal padding). The cut-detail block JS in cuts.js
-   renders <article class="data-card"> with bare <p> children, so
-   without these rules they sit flush against the article's left
-   border. The selectors deliberately scope to article descendants of
-   .data-card so the outer table card is unaffected. */
+   their own horizontal padding). Body content nested inside the card
+   — cut-detail <article> blocks, the accreditation 'Coverage and
+   limitations' panel, and any other paragraph/list text — would
+   otherwise sit flush against the card border. These rules keep all
+   such body content inset by 32px so it reads as part of the card
+   rather than touching the edge.
+
+   Scope: direct children that are body text, plus paragraphs/lists
+   inside the unwrapped <div> containers JS uses for limitations and
+   similar sections. The history-table-wrap / table-toolbar / h2 /
+   pagination already manage their own horizontal padding and are
+   unaffected. */
 .data-card > article p,
-.data-card > article .small-meta {
-  padding: 0 24px;
+.data-card > article .small-meta,
+.data-card > p,
+.data-card > ul,
+.data-card > ol,
+.data-card > div > p,
+.data-card > div > ul,
+.data-card > div > ol {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 .data-card > article > p:last-child,
 .data-card > article > .small-meta:last-child {
@@ -1729,6 +1743,19 @@ h1.serif {
 }
 .data-card > article {
   padding-bottom: 4px;
+}
+.data-card > div > ul,
+.data-card > div > ol {
+  /* The default ul/ol left padding from the user-agent stylesheet
+     (40px) gets added on top of our 32px outer inset, which on
+     narrow cards pushes bullet text awkwardly far right. Reset to a
+     small marker indent so the bullet glyph sits cleanly inside
+     the card's left padding. */
+  padding-left: 64px;
+  margin: 0 0 14px;
+}
+.data-card > div > p {
+  margin: 0 0 12px;
 }
 
 /* ---------- 'Explore this institution' inline list ----------

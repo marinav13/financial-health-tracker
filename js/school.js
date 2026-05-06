@@ -214,15 +214,19 @@ function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
   ].filter((relatedPage) => relatedPage.record);
 
   if (!relatedPages.length) {
-    container.textContent = "";
+    container.replaceChildren();
     setSectionVisibility("school-related-section", false);
     return;
   }
 
-  const copy = document.createElement("p");
-  copy.textContent = "Browse related institution profiles in this tracker.";
-  const list = document.createElement("ul");
-  list.className = "link-list";
+  // Editorial Calm: school.html's #school-related-section is now an
+  // <aside class="related-links"> containing a static
+  // <p><strong>Explore this institution:</strong></p> heading and a
+  // sibling <ul id="school-related-pages" class="link-list">. We only
+  // need to populate the <ul> with one <li> per related section —
+  // matching the pattern emitted by app.js's renderRelatedInstitution-
+  // Links so all four institution-mode pages share visual treatment.
+  container.replaceChildren();
   relatedPages.forEach((relatedPage) => {
     const relatedUnitid = relatedPage.record.unitid || unitid;
     const item = document.createElement("li");
@@ -230,9 +234,8 @@ function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
     link.href = `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`;
     link.textContent = relatedPage.label;
     item.appendChild(link);
-    list.appendChild(item);
+    container.appendChild(item);
   });
-  container.replaceChildren(copy, list);
   setSectionVisibility("school-related-section", true);
 }
 

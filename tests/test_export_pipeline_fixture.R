@@ -1373,6 +1373,16 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
     source_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
     source_page_url = "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
   )
+  current_status_probation_key <- build_accreditation_action_source_key(
+    unitid = "200",
+    institution_name = "Example HLC University",
+    accreditor = "HLC",
+    action_type = "probation",
+    action_label = "On Probation",
+    action_date = "2026-04-28",
+    source_url = "https://www.hlcommission.org/institution/1610/",
+    source_page_url = "https://www.hlcommission.org/for-students/accreditation-actions/"
+  )
 
   readr::write_csv(
     data.frame(
@@ -1400,37 +1410,39 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
 
   readr::write_csv(
     data.frame(
-      unitid = c("200", "200"),
-      institution_name = c("Example HLC University", "Example HLC University"),
-      accreditor = c("HLC", "HLC"),
-      scraper_action_type = c("probation", "adverse_action"),
+      unitid = c("200", "200", "200"),
+      institution_name = c("Example HLC University", "Example HLC University", "Example HLC University"),
+      accreditor = c("HLC", "HLC", "HLC"),
+      scraper_action_type = c("probation", "probation", "adverse_action"),
       scraper_action_label = c(
+        "On Probation",
         "Placed on Probation. The institution was notified of this action on November 11, 2025. Information was posted for the public on November 12, 2025.",
         "Approved the institution's provisional plan and teach-out agreements."
       ),
-      scraper_action_date = c("2025-11-01", "2024-11-01"),
-      dapip_action_type = c("", ""),
-      dapip_action_label = c("", ""),
-      dapip_action_date = c("", ""),
-      audit_result = c("scraper_only", "scraper_only"),
-      date_delta_days = c("", ""),
+      scraper_action_date = c("2026-04-28", "2025-11-01", "2024-11-01"),
+      dapip_action_type = c("", "", ""),
+      dapip_action_label = c("", "", ""),
+      dapip_action_date = c("", "", ""),
+      audit_result = c("scraper_only", "scraper_only", "scraper_only"),
+      date_delta_days = c("", "", ""),
       scraper_source_url = c(
+        "https://www.hlcommission.org/institution/1610/",
         "https://www.hlcommission.org/for-students/accreditation-actions/november-2025-actions/",
         "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
       ),
-      dapip_source_page_url = c("", ""),
-      dapip_file_id = c("", ""),
-      notes = c("", ""),
-      scraper_public_keep = c(TRUE, TRUE),
-      scraper_public_reason = c("core_sanction_signal", "closure_teachout_or_exit_signal"),
-      dapip_public_keep = c(FALSE, FALSE),
-      dapip_public_reason = c("", ""),
-      public_table_strategy = c("scraper_backed_keep", "scraper_backed_keep"),
-      hybrid_candidate = c(FALSE, FALSE),
-      hybrid_reason = c("", ""),
-      public_action_family = c("probation", "withdrawal_or_loss"),
-      scraper_source_key = c("stale-key-should-be-recomputed", teachout_key),
-      dapip_source_key = c("", ""),
+      dapip_source_page_url = c("", "", ""),
+      dapip_file_id = c("", "", ""),
+      notes = c("", "", ""),
+      scraper_public_keep = c(TRUE, TRUE, TRUE),
+      scraper_public_reason = c("core_sanction_signal", "core_sanction_signal", "closure_teachout_or_exit_signal"),
+      dapip_public_keep = c(FALSE, FALSE, FALSE),
+      dapip_public_reason = c("", "", ""),
+      public_table_strategy = c("scraper_backed_keep", "scraper_backed_keep", "scraper_backed_keep"),
+      hybrid_candidate = c(FALSE, FALSE, FALSE),
+      hybrid_reason = c("", "", ""),
+      public_action_family = c("probation", "probation", "withdrawal_or_loss"),
+      scraper_source_key = c(current_status_probation_key, detailed_probation_key, teachout_key),
+      dapip_source_key = c("", "", ""),
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),

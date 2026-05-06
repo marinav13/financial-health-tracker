@@ -970,6 +970,19 @@ build_accreditation_export <- function() {
   summary_df <- reconcile_accreditation_tracker_metadata(summary_df, accreditor_col = "accreditors")
   scraper_actions_df <- scraper_actions_df %>%
     mutate(
+      source_page_modified = dplyr::na_if(as.character(source_page_modified), ""),
+      action_date = dplyr::if_else(
+        (is.na(action_date) | trimws(as.character(action_date %||% "")) == "") &
+          !is.na(action_status) & action_status == "active" & !is.na(source_page_modified),
+        source_page_modified,
+        as.character(action_date)
+      ),
+      action_year = dplyr::if_else(
+        (is.na(action_year) | trimws(as.character(action_year %||% "")) == "") &
+          !is.na(action_status) & action_status == "active" & !is.na(source_page_modified),
+        substr(source_page_modified, 1L, 4L),
+        as.character(action_year)
+      ),
       accreditor_norm = normalize_accreditor_code(accreditor),
       scraper_source_key = build_accreditation_action_source_key(
         unitid = unitid,

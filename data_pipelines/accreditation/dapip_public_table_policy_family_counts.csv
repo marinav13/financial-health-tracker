@@ -26,35 +26,35 @@ HLC,dapip_backed_keep,probation,11
 HLC,dapip_backed_keep,removed,19
 HLC,dapip_backed_keep,warning,5
 HLC,dapip_backed_keep,withdrawal_or_loss,1
-HLC,drop_from_public_table,institutional_change_or_closure,10
-HLC,drop_from_public_table,monitoring_or_notice,12
-HLC,drop_from_public_table,other,1506
+HLC,drop_from_public_table,institutional_change_or_closure,12
+HLC,drop_from_public_table,monitoring_or_notice,14
+HLC,drop_from_public_table,other,2260
 HLC,hybrid_keep,withdrawal_or_loss,2
-HLC,scraper_backed_keep,adverse_action_other,21
-HLC,scraper_backed_keep,institutional_change_or_closure,28
-HLC,scraper_backed_keep,probation,9
-HLC,scraper_backed_keep,removed,8
-HLC,scraper_backed_keep,withdrawal_or_loss,54
+HLC,scraper_backed_keep,adverse_action_other,11
+HLC,scraper_backed_keep,institutional_change_or_closure,46
+HLC,scraper_backed_keep,other,13
+HLC,scraper_backed_keep,probation,11
+HLC,scraper_backed_keep,removed,11
+HLC,scraper_backed_keep,withdrawal_or_loss,58
 MSCHE,dapip_backed_keep,probation,5
 MSCHE,dapip_backed_keep,removed,18
 MSCHE,dapip_backed_keep,show_cause,7
 MSCHE,dapip_backed_keep,warning,28
 MSCHE,dapip_backed_keep,withdrawal_or_loss,15
-MSCHE,drop_from_public_table,adverse_action_other,1446
-MSCHE,drop_from_public_table,institutional_change_or_closure,280
-MSCHE,drop_from_public_table,monitoring_or_notice,181
-MSCHE,drop_from_public_table,other,8841
-MSCHE,drop_from_public_table,probation,125
-MSCHE,drop_from_public_table,show_cause,48
-MSCHE,drop_from_public_table,warning,375
-MSCHE,drop_from_public_table,withdrawal_or_loss,571
+MSCHE,drop_from_public_table,adverse_action_other,351
+MSCHE,drop_from_public_table,institutional_change_or_closure,145
+MSCHE,drop_from_public_table,monitoring_or_notice,7
+MSCHE,drop_from_public_table,other,3392
+MSCHE,drop_from_public_table,probation,101
+MSCHE,drop_from_public_table,show_cause,30
+MSCHE,drop_from_public_table,warning,315
+MSCHE,drop_from_public_table,withdrawal_or_loss,104
 MSCHE,scraper_backed_keep,adverse_action_other,2
-MSCHE,scraper_backed_keep,institutional_change_or_closure,22
-MSCHE,scraper_backed_keep,other,1
-MSCHE,scraper_backed_keep,probation,1
-MSCHE,scraper_backed_keep,show_cause,20
-MSCHE,scraper_backed_keep,warning,3
-MSCHE,scraper_backed_keep,withdrawal_or_loss,44
+MSCHE,scraper_backed_keep,institutional_change_or_closure,21
+MSCHE,scraper_backed_keep,other,2
+MSCHE,scraper_backed_keep,show_cause,18
+MSCHE,scraper_backed_keep,warning,2
+MSCHE,scraper_backed_keep,withdrawal_or_loss,40
 NECHE,dapip_backed_keep,monitoring_or_notice,4
 NECHE,dapip_backed_keep,probation,1
 NECHE,dapip_backed_keep,removed,1
@@ -77,38 +77,41 @@ NWCCU,scraper_backed_keep,warning,1
 "National Association of Schools of Music, Commission on Accreditation",drop_from_public_table,withdrawal_or_loss,4
 "New York State Board of Regents, and the Commissioner of Education",drop_from_public_table,monitoring_or_notice,3
 SACSCOC,dapip_backed_keep,monitoring_or_notice,119
-SACSCOC,dapip_backed_keep,probation,18
-SACSCOC,dapip_backed_keep,removed,116
+SACSCOC,dapip_backed_keep,probation,17
+SACSCOC,dapip_backed_keep,removed,105
 SACSCOC,dapip_backed_keep,show_cause,19
 SACSCOC,dapip_backed_keep,warning,43
 SACSCOC,dapip_backed_keep,withdrawal_or_loss,6
-SACSCOC,drop_from_public_table,monitoring_or_notice,583
+SACSCOC,drop_from_public_table,monitoring_or_notice,581
 SACSCOC,drop_from_public_table,other,6
 SACSCOC,drop_from_public_table,removed,13
 SACSCOC,drop_from_public_table,show_cause,1
-SACSCOC,drop_from_public_table,withdrawal_or_loss,2
-SACSCOC,hybrid_keep,probation,3
-SACSCOC,hybrid_keep,removed,23
+SACSCOC,drop_from_public_table,withdrawal_or_loss,1
+SACSCOC,hybrid_keep,probation,4
+SACSCOC,hybrid_keep,removed,34
 SACSCOC,hybrid_keep,show_cause,1
 SACSCOC,scraper_backed_keep,adverse_action_other,2
-SACSCOC,scraper_backed_keep,monitoring_or_notice,1
-SACSCOC,scraper_backed_keep,probation,2
-SACSCOC,scraper_backed_keep,removed,14
-SACSCOC,scraper_backed_keep,warning,4
-SACSCOC,scraper_backed_keep,withdrawal_or_loss,2
+SACSCOC,scraper_backed_keep,monitoring_or_notice,3
+SACSCOC,scraper_backed_keep,probation,7
+SACSCOC,scraper_backed_keep,removed,25
+SACSCOC,scraper_backed_keep,warning,6
+SACSCOC,scraper_backed_keep,withdrawal_or_loss,3
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,probation,5
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,removed,1
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,show_cause,3
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,warning,3
-WASC Senior College and University Commission,drop_from_public_table,monitoring_or_notice,30
-WASC Senior College and University Commission,drop_from_public_table,probation,3
-WASC Senior College and University Commission,drop_from_public_table,removed,15
-WASC Senior College and University Commission,drop_from_public_table,show_cause,2
-WASC Senior College and University Commission,drop_from_public_table,warning,5
-WASC Senior College and University Commission,drop_from_public_table,withdrawal_or_loss,4
-WSCUC,scraper_backed_keep,monitoring_or_notice,15
-WSCUC,scraper_backed_keep,probation,4
-WSCUC,scraper_backed_keep,removed,4
-WSCUC,scraper_backed_keep,show_cause,2
-WSCUC,scraper_backed_keep,warning,5
+WSCUC,dapip_backed_keep,monitoring_or_notice,20
+WSCUC,dapip_backed_keep,probation,3
+WSCUC,dapip_backed_keep,removed,15
+WSCUC,dapip_backed_keep,show_cause,1
+WSCUC,dapip_backed_keep,warning,5
+WSCUC,dapip_backed_keep,withdrawal_or_loss,4
+WSCUC,drop_from_public_table,monitoring_or_notice,9
+WSCUC,hybrid_keep,monitoring_or_notice,1
+WSCUC,hybrid_keep,show_cause,1
+WSCUC,scraper_backed_keep,monitoring_or_notice,8
+WSCUC,scraper_backed_keep,probation,3
+WSCUC,scraper_backed_keep,removed,2
+WSCUC,scraper_backed_keep,show_cause,1
+WSCUC,scraper_backed_keep,warning,1
 WSCUC,scraper_backed_keep,withdrawal_or_loss,2

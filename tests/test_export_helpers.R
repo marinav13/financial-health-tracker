@@ -916,6 +916,31 @@ run_test("select_action_summary_source_text: HLC DAPIP notes override boilerplat
   )
 })
 
+run_test("select_action_summary_source_text: HLC sanction rows prefer richer cached letter text over generic notes", function() {
+  raw <- "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation."
+  tmp <- tempfile("hlc_file_text_", fileext = ".txt")
+  on.exit(unlink(tmp), add = TRUE)
+  writeLines(
+    paste0(
+      "July 8, 2025 BY CERTIFIED MAIL Brennan Randolph President Saint Mary-of-the-Woods College. ",
+      "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+      "The Institution meets Core Components 2.A, 2.C, 5.A, and 5.B with concerns. ",
+      "The Institution does not meet Assumed Practice D.4. ",
+      "Institutional Disclosure Obligation: HLC policy requires disclosure."
+    ),
+    tmp
+  )
+  selected <- .select_action_summary_source_text(
+    raw,
+    file_text_path = tmp,
+    action_type = "warning",
+    accreditor = "HLC",
+    notes = "Probation or Equivalent or a More Severe Status: Warning | The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation."
+  )
+  assert_true(grepl("Core Components 2.A, 2.C, 5.A, and 5.B", selected, fixed = TRUE))
+  assert_true(grepl("Assumed Practice D.4", selected, fixed = TRUE))
+})
+
 run_test("select_action_summary_source_kind: DAPIP file-text hint maps to pdf_body provenance", function() {
   assert_identical(
     .select_action_summary_source_kind(
@@ -947,6 +972,13 @@ run_test("source selection helper: MSCHE procedural wrapper stripping follows fr
   assert_identical(
     .strip_action_source_selection_wrapper(text, "MSCHE"),
     "The next evaluation visit is scheduled for 2032-2033."
+  )
+})
+
+run_test("normalize_action_summary_text: repairs common mojibake punctuation from OCR/PDF text", function() {
+  assert_identical(
+    .normalize_action_summary_text("HLCâ€™s Criteria â€œfor Accreditationâ€ â€“ resources"),
+    "HLC's Criteria \"for accreditation\" - resources"
   )
 })
 
@@ -1182,6 +1214,20 @@ run_test("derive_action_label_short: HLC DAPIP note-style warning retains concis
   )
 })
 
+run_test("derive_action_label_short: HLC Arkansas Baptist probation uses detailed findings from full letter text", function() {
+  text <- paste0(
+    "March 13, 2019 BY CERTIFIED MAIL Regina Favors, Interim President Arkansas Baptist College. ",
+    "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Component 5.C with concerns. The Institution does not meet Core Component 5.A. ",
+    "The Institution is required to host a comprehensive evaluation no later than September 2020. ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "Placed on Probation because it is out of compliance with Core Components 5.C and 5.A."
+  )
+})
+
 run_test("derive_action_label_short: HLC Saint Mary-of-the-Woods notice names Core Components and Assumed Practice", function() {
   text <- paste0(
     "Probation or Equivalent or a More Severe Status: Warning | ",
@@ -1195,11 +1241,61 @@ run_test("derive_action_label_short: HLC Saint Mary-of-the-Woods notice names Co
   )
 })
 
+run_test("derive_action_label_short: HLC Ohio Christian full letter text resolves generic HLC criteria wording to Core Components", function() {
+  text <- paste0(
+    "March 4, 2020 BY CERTIFIED MAIL Dr. Jon Kulaga, President Ohio Christian University. ",
+    "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 5.A and 5.C with Concerns with concerns and requires monitoring related to the Federal Compliance Requirements. ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
+  )
+  assert_identical(
+    derive_action_label_short(
+      "warning",
+      text,
+      "HLC",
+      "Probation or Equivalent or a More Severe Status: Warning | HLC took this action because it determined that the institution is at risk of being out of compliance with HLC’s Criteria for Accreditation."
+    ),
+    "Placed on Warning because the institution is at risk of being out of compliance with Core Components 5.A and 5.C."
+  )
+})
+
 run_test("derive_action_label_short: HLC Wittenberg probation names a single Core Component", function() {
   text <- paste0(
     "Probation or Equivalent or a More Severe Status: Probation | ",
     "The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
     "The Institution does not meet Core Component 4.B."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "Placed on Probation because it is out of compliance with Core Component 4.B."
+  )
+})
+
+run_test("derive_action_label_short: HLC Wheeling full letter text resolves generic HLC criteria wording to Core Components", function() {
+  text <- paste0(
+    "March 4, 2021 BY CERTIFIED MAIL Ginny R. Favede, President Wheeling University. ",
+    "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.C (sufficient board autonomy), 4.B (assessment of student learning), 4.C (persistence, retention and completion), and 5.D (institutional effectiveness) with concerns. ",
+    "The Institution does not meet Core Components 5.A (resources) and 5.C (strategic planning). ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
+  )
+  assert_identical(
+    derive_action_label_short(
+      "probation",
+      text,
+      "HLC",
+      "Probation or Equivalent or a More Severe Status: Probation | HLC took this action because it determined that the institution is out of compliance with HLC's Criteria for Accreditation."
+    ),
+    "Placed on Probation because the institution is out of compliance with Core Components 2.C, 4.B, 4.C, 5.D, 5.A, and 5.C."
+  )
+})
+
+run_test("derive_action_label_short: HLC Wittenberg full letter text yields detailed probation summary", function() {
+  text <- paste0(
+    "November 11, 2025 BY CERTIFIED MAIL Dr. Christian Brady President Wittenberg University. ",
+    "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
+    "The Institution does not meet Core Component 4.B. The Institution is required to host a comprehensive evaluation for Probation no later than April 2027. ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
   )
   assert_identical(
     derive_action_label_short("probation", text, "HLC"),
@@ -1220,6 +1316,19 @@ run_test("derive_action_label_short: HLC Wilberforce notice names multiple Core 
   )
 })
 
+run_test("derive_action_label_short: HLC Wilberforce probation extension uses detailed findings from full letter text", function() {
+  text <- paste0(
+    "November 11, 2020 BY CERTIFIED MAIL Dr. Elfred Pinkard, President Wilberforce University. ",
+    "Summary of the Action: The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 3.C, 4.C, and 5.C with concerns. The Institution does not meet Core Components 5.A and 5.D, and is out of conformity with Assumed Practices D.1 and D.2. ",
+    "The Institution is required to host a focused visit no later than April 2021."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with Core Components 3.C, 4.C, 5.C, 5.A, and 5.D and Assumed Practices D.1 and D.2."
+  )
+})
+
 run_test("derive_action_label_short: HLC Southwest Baptist probation preserves named concern phrasing", function() {
   text <- paste0(
     "Probation or Equivalent or a More Severe Status: Probation | ",
@@ -1232,14 +1341,25 @@ run_test("derive_action_label_short: HLC Southwest Baptist probation preserves n
   )
 })
 
-run_test("derive_action_label_short: HLC Harris-Stowe notice remains generic when selected source text lacks specific findings", function() {
+run_test("derive_action_label_short: HLC Harris-Stowe notice uses full-letter component detail", function() {
   text <- paste0(
-    "Probation or Equivalent or a More Severe Status: Warning | ",
-    "HLC took this action because it determined that the institution was at risk of being out of compliance with HLC requirements."
+    "November 15, 2022 BY CERTIFIED MAIL Dr. LaTonia Collins Smith, President Harris-Stowe State University. ",
+    "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 2.A, 4.A, 4.B, 4.C, and 5.B with concerns. ",
+    "The Institution is required to host a Notice Visit no later than April 2024. ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
   )
   assert_identical(
     derive_action_label_short("warning", text, "HLC"),
-    "Placed on Warning because the institution was at risk of being out of compliance with HLC requirements."
+    "Placed on Warning because it is at risk of being out of compliance with Core Components 2.A, 4.A, 4.B, 4.C, and 5.B."
+  )
+})
+
+run_test("derive_action_label_short: HLC removal notes outrank descriptive file text for warning removal", function() {
+  text <- "Resources appear to be sufficient to support operations and deliver educational programs, but continued progress and improvement is needed."
+  assert_identical(
+    derive_action_label_short("removed", text, "HLC", "Accreditation Reaffirmed: Warning Removed"),
+    "Accreditation Reaffirmed: Warning Removed"
   )
 })
 
@@ -1255,7 +1375,7 @@ run_test("derive_action_label_short: HLC teach-out location summaries strip stre
   )
   assert_identical(
     derive_action_label_short("adverse_action", text, "HLC"),
-    "Approved the institutionâ€™s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield"
+    "Approved the institution's teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield"
   )
 })
 
@@ -1269,6 +1389,37 @@ run_test("derive_action_label_short: HLC teach-out agreements keep partner summa
   assert_identical(
     derive_action_label_short("adverse_action", text, "HLC"),
     "Approved teach-out agreements with Madonna University, Lourdes University, Siena Heights University, and others"
+  )
+})
+
+run_test("derive_action_label_short: HLC single teach-out agreement trims provisional-plan boilerplate", function() {
+  text <- "Approved the institution’s teach-out agreement with Westminster College in Fulton, Missouri, as an addition to the provisional plan approved by HLC’s Institutional Actions Council in April 2024. (Approved February 14, 2025)"
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved the institution’s teach-out agreement with Westminster College in Fulton, Missouri"
+  )
+})
+
+run_test("derive_action_label_short: HLC plural teach-out agreements drop additions-to-provisional-plan boilerplate", function() {
+  text <- "Approved the institution’s teach-out agreements with Warren Wilson College (North Carolina) and University of Wisconsin-Green Bay, as additions to the provisional plan approved by HLC’s Institutional Actions Council in March 2025. (Approved April 4, 2025)"
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved teach-out agreements with Warren Wilson College (North Carolina) and University of Wisconsin-Green Bay"
+  )
+})
+
+run_test("derive_action_label_short: HLC teach-out plan for two generic locations omits plain city-only list", function() {
+  text <- "Approved the institution’s teach-out plan for two additional locations: North Lauderdale, 955 Rock Island Road, North Lauderdale, FL 33068 Kendall, 9010 SW 137 Ave., Miami, FL 33176."
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved the institution’s teach-out plan for two additional locations:"
+  )
+})
+
+run_test("derive_action_label_short: WSCUC Sonoma notice wording is normalized", function() {
+  assert_identical(
+    derive_action_label_short("notice", "Defer Action on Reaffirmation of accreditation/Issue a Notice of Concern", "WSCUC"),
+    "Deferred action on reaffirmation of accreditation and issued a Notice of Concern"
   )
 })
 
@@ -1352,7 +1503,7 @@ run_test("derive_action_label_short: HLC notice retains reason from DAPIP summar
   text <- "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation."
   assert_identical(
     derive_action_label_short("warning", text, "HLC"),
-    "Placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation."
+    "Placed on Warning because it is at risk of being out of compliance with the Criteria for Accreditation."
   )
 })
 
@@ -1557,7 +1708,7 @@ run_test("derive_action_label_short: HLC teach-out additions retain counterpart 
   )
   assert_identical(
     derive_action_label_short("adverse_action", text, "HLC"),
-    "Approved teach-out agreements with Illinois College, Missouri Baptist University, and Washington University in St. Louis as additions to the provisional plan"
+    "Approved teach-out agreements with Illinois College, Missouri Baptist University, and Washington University in St. Louis"
   )
 })
 

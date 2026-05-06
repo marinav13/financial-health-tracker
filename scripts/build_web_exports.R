@@ -1686,6 +1686,43 @@ build_accreditation_export <- function() {
     dplyr::filter(!(hlc_is_generic_current_status & hlc_has_detailed_same_family)) %>%
     dplyr::select(-hlc_action_family, -hlc_is_generic_current_status, -hlc_has_detailed_same_family)
 
+  actions_df <- actions_df %>%
+    mutate(
+      hlc_sanction_cycle_family = dplyr::case_when(
+        toupper(trimws(as.character(accreditor %||% ""))) != "HLC" ~ NA_character_,
+        grepl(
+          "warning removed|removed from warning|removed from notice|placed on notice|placed on warning|\\bon notice\\b|\\bon warning\\b",
+          tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% "", notes %||% ""))),
+          perl = TRUE
+        ) ~ "warning_notice",
+        grepl(
+          "probation removed|removed from probation|placed on probation|\\bon probation\\b",
+          tolower(trimws(paste(action_label_short %||% "", action_label_raw %||% "", notes %||% ""))),
+          perl = TRUE
+        ) ~ "probation",
+        TRUE ~ NA_character_
+      )
+    ) %>%
+    group_by(export_unitid, accreditor, hlc_sanction_cycle_family) %>%
+    mutate(
+      hlc_latest_removal_date = {
+        removal_dates <- action_date[action_type == "removed"]
+        removal_dates <- removal_dates[!is.na(removal_dates) & nzchar(trimws(as.character(removal_dates)))]
+        if (length(removal_dates)) max(removal_dates) else NA_character_
+      },
+      action_status = dplyr::case_when(
+        toupper(trimws(as.character(accreditor %||% ""))) == "HLC" &
+          !is.na(hlc_sanction_cycle_family) &
+          action_type %in% c("warning", "notice", "probation") &
+          !is.na(hlc_latest_removal_date) &
+          !is.na(action_date) &
+          action_date < hlc_latest_removal_date ~ "resolved",
+        TRUE ~ action_status
+      )
+    ) %>%
+    ungroup() %>%
+    select(-hlc_sanction_cycle_family, -hlc_latest_removal_date)
+
   actions_df <- compact_neche_public_actions(actions_df)
 
   # Always include all accreditors the project actively tracks, even if the

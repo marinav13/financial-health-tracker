@@ -677,6 +677,9 @@ write_export_bundles <- function(specs, data_dir) {
   value <- stringr::str_replace_all(value, "[\r\n\t]+", " ")
   value <- stringr::str_replace_all(value, "\u00a0", " ")
   value <- stringr::str_replace_all(value, "\uf0b7", " ")
+  value <- stringr::str_replace_all(value, "â€™|â€˜", "'")
+  value <- stringr::str_replace_all(value, "â€œ|â€", "\"")
+  value <- stringr::str_replace_all(value, "â€“|â€”", "-")
   spaced_word_patterns <- c(
     "w\\s*a\\s*r\\s*n\\s*i\\s*n\\s*g" = "Warning",
     "p\\s*r\\s*o\\s*b\\s*a\\s*t\\s*i\\s*o\\s*n" = "Probation",
@@ -1378,7 +1381,7 @@ extract_hlc_core_components <- function(text) {
   .extract_hlc_reference_codes(
     text,
     anchor_pattern = "(?:criterion\\s+[a-z0-9]+,\\s*)?core components?",
-    code_pattern = "\\b[1-9]\\.[A-Z0-9]\\b"
+    code_pattern = "\\b[1-9]\\.[A-Z]\\b"
   )
 }
 
@@ -1414,6 +1417,32 @@ extract_hlc_findings <- function(text) {
     assumed_practices = extract_hlc_assumed_practices(text),
     named_concerns = extract_hlc_named_concern_phrases(text)
   )
+}
+
+.extract_hlc_summary_clause <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+
+  summary_clause <- stringr::str_match(
+    value,
+    stringr::regex(
+      paste0(
+        "Summary of the Action:\\s*(.+?)(?=\\s+(?:",
+        "Institutional Disclosure Obligation:",
+        "|Substantive Change:",
+        "|Notification Program:",
+        "|Board Rationale",
+        "|Next Steps in the HLC Review Process",
+        "|HLC Disclosure Obligations",
+        ")\\b|$)"
+      ),
+      ignore_case = TRUE
+    )
+  )[, 2]
+
+  summary_clause <- stringr::str_squish(summary_clause %||% "")
+  if (!nzchar(summary_clause)) return(NA_character_)
+  summary_clause
 }
 
 .format_hlc_reference_detail <- function(values, singular_label, plural_label) {
@@ -1463,11 +1492,11 @@ extract_hlc_findings <- function(text) {
 
   replacement_rules <- list(
     c(
-      "at risk of being out of compliance with (?:hlc\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements)",
+      "at risk of being out of compliance(?: with (?:hlc(?:[^A-Za-z0-9]{0,6}s)?\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements))?",
       paste("at risk of being out of compliance with", findings_detail)
     ),
     c(
-      "out of compliance with (?:hlc\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements)",
+      "out of compliance(?: with (?:hlc(?:[^A-Za-z0-9]{0,6}s)?\\s+)?(?:the\\s+)?(?:criteria for accreditation|requirements))?",
       paste("out of compliance with", findings_detail)
     ),
     c(
@@ -1530,6 +1559,49 @@ extract_hlc_findings <- function(text) {
   .unique_preserve_order(location_names)
 }
 
+.extract_hlc_inline_teachout_target <- function(text) {
+  value <- .normalize_action_summary_text(text)
+  if (!nzchar(value)) return(NA_character_)
+
+  target <- stringr::str_match(
+    value,
+    stringr::regex(
+      paste0(
+        "teach(?:-|\\s)?out agreements? with\\s+(.+?)(?=",
+        ",\\s*(?:wherein|as an addition to the provisional plan|as additions to the provisional plan)",
+        "|\\s+as an addition to the provisional plan",
+        "|\\s+as additions to the provisional plan",
+        "|\\.(?:\\s|$)|$)"
+      ),
+      ignore_case = TRUE
+    )
+  )[, 2]
+
+  target <- stringr::str_squish(target %||% "")
+  target <- gsub("\\s*\\(Approved [^)]+\\)$", "", target, perl = TRUE)
+  target <- gsub("\\s*\\(Approved [^)]+\\)", "", target, perl = TRUE)
+  target <- stringr::str_squish(target)
+  if (!nzchar(target)) return(NA_character_)
+  target
+}
+
+.hlc_location_names_are_plain_places <- function(location_names) {
+  values <- stringr::str_squish(as.character(location_names %||% character()))
+  values <- values[nzchar(values)]
+  if (!length(values)) return(FALSE)
+
+  all(vapply(values, function(value) {
+    token_count <- length(unlist(strsplit(value, "\\s+")))
+    token_count <= 2L &&
+      !grepl(
+        "campus|site|center|college|university|school|academy|base|station|annex|road|avenue|drive|boulevard|blvd|suite|building|hall|jftb|nsb",
+        value,
+        ignore.case = TRUE,
+        perl = TRUE
+      )
+  }, logical(1)))
+}
+
 .build_hlc_teachout_location_summary <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
@@ -1541,6 +1613,11 @@ extract_hlc_findings <- function(text) {
   location_names <- .extract_hlc_location_names(value)
   if (is.na(prefix) || !nzchar(prefix) || length(location_names) == 0L) {
     return(NA_character_)
+  }
+
+  if (stringr::str_detect(prefix, stringr::regex("for two additional locations", ignore_case = TRUE)) &&
+      .hlc_location_names_are_plain_places(location_names)) {
+    return(stringr::str_squish(prefix))
   }
 
   sprintf(
@@ -1865,6 +1942,33 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.should_prefer_hlc_file_text <- function(raw, notes_text, file_text, action_type = NA_character_) {
+  file_value <- .normalize_action_summary_text(file_text)
+  if (!nzchar(file_value)) return(FALSE)
+
+  type_norm <- tolower(trimws(as.character(action_type %||% "")))
+  if (!type_norm %in% c("warning", "notice", "probation", "show_cause")) {
+    return(FALSE)
+  }
+
+  file_detail <- .build_hlc_findings_detail(file_value)
+  if (is.na(file_detail) || !nzchar(file_detail)) {
+    return(FALSE)
+  }
+
+  current_detail <- .build_hlc_findings_detail(
+    paste(
+      .normalize_action_summary_text(raw),
+      .normalize_action_summary_text(notes_text)
+    )
+  )
+  if (is.na(current_detail) || !nzchar(current_detail)) {
+    return(TRUE)
+  }
+
+  !identical(current_detail, file_detail)
+}
+
 .normalize_action_summary_source_hint <- function(x) {
   value <- tolower(trimws(as.character(x %||% "")))
   if (!nzchar(value)) return(NA_character_)
@@ -1894,9 +1998,17 @@ extract_hlc_findings <- function(text) {
   notes_text <- as.character(notes %||% "")
   acc_norm <- toupper(trimws(as.character(accreditor %||% "")))
   source_hint <- .normalize_action_summary_source_hint(action_label_source_hint)
+  file_text <- NA_character_
 
   if (identical(acc_norm, "MSCHE") && .should_prefer_msche_dapip_notes(raw, notes_text)) {
     return(list(text = stringr::str_squish(notes_text), source = "dapip_note"))
+  }
+
+  if (identical(acc_norm, "HLC")) {
+    file_text <- .read_action_summary_file_text(file_text_path)
+    if (.should_prefer_hlc_file_text(raw, notes_text, file_text, action_type = action_type)) {
+      return(list(text = file_text, source = "pdf_body"))
+    }
   }
 
   if (identical(acc_norm, "HLC") && .should_prefer_hlc_dapip_notes(raw, notes_text)) {
@@ -1904,7 +2016,9 @@ extract_hlc_findings <- function(text) {
   }
 
   if (.should_use_file_text_for_summary(raw, action_type, accreditor)) {
-    file_text <- .read_action_summary_file_text(file_text_path)
+    if (is.na(file_text) || !nzchar(file_text)) {
+      file_text <- .read_action_summary_file_text(file_text_path)
+    }
     if (!is.na(file_text) && nzchar(file_text)) {
       return(list(text = file_text, source = "pdf_body"))
     }
@@ -2280,6 +2394,12 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     if (!is.na(letter_summary) && nzchar(letter_summary)) {
       return(letter_summary)
     }
+    if (stringr::str_detect(
+      cleaned,
+      stringr::regex("^Defer Action on Reaffirmation of accreditation\\s*/\\s*Issue a Notice of Concern$", ignore_case = TRUE)
+    )) {
+      return("Deferred action on reaffirmation of accreditation and issued a Notice of Concern")
+    }
     wscuc_summary <- stringr::str_replace(
       cleaned,
       stringr::regex("^Following a Special Visit\\s*(?:–|-|:)\\s*", ignore_case = TRUE),
@@ -2496,19 +2616,25 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       stringr::regex("^summary of the action:\\s*", ignore_case = TRUE),
       ""
     )
-    lowered_no_prefix <- stringr::str_replace(
-      lowered,
-      stringr::regex("^summary of the action:\\s*", ignore_case = TRUE),
-      ""
-    )
-    note_parts <- stringr::str_split(cleaned, stringr::regex("\\s*\\|\\s*"), n = 2)[[1]]
+    lowered_no_prefix <- tolower(cleaned)
+    note_source_text <- if (nzchar(trimws(notes_text))) notes_text else cleaned
+    note_parts <- stringr::str_split(note_source_text, stringr::regex("\\s*\\|\\s*"), n = 2)[[1]]
     primary_note <- if (length(note_parts) >= 1L) stringr::str_squish(note_parts[[1]]) else ""
     secondary_note <- if (length(note_parts) >= 2L) stringr::str_squish(note_parts[[2]]) else ""
-    hlc_context_text <- stringr::str_squish(paste(cleaned, notes_text))
+    hlc_summary_clause <- .extract_hlc_summary_clause(cleaned)
+    hlc_summary_text <- hlc_summary_clause %||% cleaned
+    hlc_summary_lower <- tolower(hlc_summary_text)
+    hlc_context_text <- stringr::str_squish(paste(hlc_summary_text, notes_text))
     reason_match <- stringr::str_match(
       secondary_note,
       stringr::regex("because (.+?)(?:\\.|$)", ignore_case = TRUE)
     )[, 2]
+    if ((is.na(reason_match) || !nzchar(reason_match)) && nzchar(hlc_summary_text)) {
+      reason_match <- stringr::str_match(
+        hlc_summary_text,
+        stringr::regex("because (.+?)(?:\\.|$)", ignore_case = TRUE)
+      )[, 2]
+    }
     if (!is.na(reason_match) && nzchar(reason_match)) {
       reason_match <- stringr::str_squish(reason_match)
       reason_match <- stringr::str_replace(
@@ -2549,15 +2675,34 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     if (stringr::str_detect(primary_note, stringr::regex("^Probation or Equivalent or a More Severe Status:\\s*Show Cause$", ignore_case = TRUE))) {
       return("Asked to Show Cause")
     }
+    board_summary_with_reason <- stringr::str_match(
+      hlc_summary_text,
+      stringr::regex("^(The Board[^.]*? because )(.+?)(\\.)", ignore_case = TRUE)
+    )
+    if (!is.na(board_summary_with_reason[1, 1])) {
+      specialized_reason <- .specialize_hlc_reason(
+        stringr::str_squish(board_summary_with_reason[1, 3]),
+        hlc_context_text
+      )
+      return(sprintf(
+        "%s %s.",
+        stringr::str_squish(board_summary_with_reason[1, 2]),
+        specialized_reason
+      ))
+    }
     placed_with_reason <- stringr::str_match(
-      cleaned,
+      hlc_summary_text,
       stringr::regex(
         "^The Institution has been placed on (Notice|Probation) because (.+?)\\.(?:\\s|$)",
         ignore_case = TRUE
       )
     )
     if (!is.na(placed_with_reason[1, 1])) {
-      status <- stringr::str_to_title(tolower(stringr::str_squish(placed_with_reason[1, 2])))
+      status <- dplyr::case_when(
+        identical(action_type, "warning") ~ "Warning",
+        identical(action_type, "notice") ~ "Notice",
+        TRUE ~ stringr::str_to_title(tolower(stringr::str_squish(placed_with_reason[1, 2])))
+      )
       reason <- stringr::str_squish(placed_with_reason[1, 3])
       reason <- stringr::str_replace(
         reason,
@@ -2567,22 +2712,24 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       reason <- .specialize_hlc_reason(reason, hlc_context_text)
       return(sprintf("Placed on %s because %s.", status, reason))
     }
-    if (stringr::str_detect(lowered_no_prefix, "placed on notice")) {
+    if (stringr::str_detect(hlc_summary_lower, "placed on notice")) {
       return("Placed on Notice")
     }
-    if (stringr::str_detect(lowered_no_prefix, "placed on probation")) {
+    if (stringr::str_detect(hlc_summary_lower, "placed on probation")) {
       return("Placed on Probation")
     }
-    if (stringr::str_detect(lowered_no_prefix, "accreditation reaffirmed:\\s*warning removed")) {
+    if (stringr::str_detect(primary_note, stringr::regex("^Accreditation Reaffirmed:\\s*Warning Removed$", ignore_case = TRUE)) ||
+        stringr::str_detect(hlc_summary_lower, "accreditation reaffirmed:\\s*warning removed")) {
       return("Accreditation Reaffirmed: Warning Removed")
     }
-    if (stringr::str_detect(lowered_no_prefix, "accreditation reaffirmed:\\s*probation removed")) {
+    if (stringr::str_detect(primary_note, stringr::regex("^Accreditation Reaffirmed:\\s*Probation Removed$", ignore_case = TRUE)) ||
+        stringr::str_detect(hlc_summary_lower, "accreditation reaffirmed:\\s*probation removed")) {
       return("Accreditation Reaffirmed: Probation Removed")
     }
-    if (stringr::str_detect(lowered_no_prefix, "removed .* from probation")) {
+    if (stringr::str_detect(hlc_summary_lower, "removed .* from probation")) {
       return("Accreditation Reaffirmed: Probation Removed")
     }
-    if (stringr::str_detect(lowered_no_prefix, "removed .* from notice")) {
+    if (stringr::str_detect(hlc_summary_lower, "removed .* from notice")) {
       return("Accreditation Reaffirmed: Warning Removed")
     }
     if (stringr::str_detect(lowered_no_prefix, "require the institution to provide an interim report")) {
@@ -2610,11 +2757,11 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         return(sprintf("Concerns about %s were resolved after discontinuing the %s.", criterion, program))
       }
     }
-    if (stringr::str_detect(lowered_no_prefix, "teach-?out") &&
+    if (stringr::str_detect(lowered_no_prefix, "teach(?:-|\\s)?out") &&
         stringr::str_detect(lowered_no_prefix, "additional location|additional locations|branch campus") &&
         !stringr::str_detect(
           lowered_no_prefix,
-          "teach-?out agreements?\\s+with\\s+the\\s+following institutions?"
+          "teach(?:-|\\s)?out agreements?\\s+with\\s+the\\s+following institutions?"
         )) {
       location_summary <- .build_hlc_teachout_location_summary(cleaned)
       if (!is.na(location_summary) && nzchar(location_summary)) {
@@ -2622,7 +2769,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       }
     }
     if (stringr::str_detect(lowered_no_prefix, "approved the institution.?s provisional") &&
-        stringr::str_detect(lowered_no_prefix, "teach-?out agreements?")) {
+        stringr::str_detect(lowered_no_prefix, "teach(?:-|\\s)?out agreements?")) {
       partners <- .summarize_partner_list(.extract_teachout_partners(cleaned))
       if (!is.na(partners) && nzchar(partners)) {
         return(sprintf("Approved provisional plan and teach-out agreements with %s", partners))
@@ -2630,18 +2777,26 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       return("Approved provisional plan and teach-out agreements")
     }
     if (stringr::str_detect(lowered_no_prefix, "approved the institution") &&
-        stringr::str_detect(lowered_no_prefix, "teach-?out agreements?") &&
+        stringr::str_detect(lowered_no_prefix, "teach(?:-|\\s)?out agreements?") &&
         (stringr::str_detect(lowered_no_prefix, "following institutions?(?:\\s*\\([^)]*\\))?:") ||
          stringr::str_detect(lowered_no_prefix, "as additions to the provisional plan"))) {
+      inline_partners <- .extract_hlc_inline_teachout_target(cleaned)
+      if (!is.na(inline_partners) && nzchar(inline_partners) &&
+          !stringr::str_detect(lowered_no_prefix, "following institutions?(?:\\s*\\([^)]*\\))?:") &&
+          !stringr::str_detect(inline_partners, stringr::regex("^the following institutions?$", ignore_case = TRUE))) {
+        return(sprintf("Approved teach-out agreements with %s", inline_partners))
+      }
       partners <- .summarize_partner_list(.extract_teachout_partners(cleaned))
       if (!is.na(partners) && nzchar(partners)) {
-        if (stringr::str_detect(lowered_no_prefix, "as additions to the provisional plan")) {
-          return(sprintf("Approved teach-out agreements with %s as additions to the provisional plan", partners))
-        }
         return(sprintf("Approved teach-out agreements with %s", partners))
       }
-      if (stringr::str_detect(lowered_no_prefix, "as additions to the provisional plan")) {
-        return("Approved teach-out agreements as additions to the provisional plan")
+      return("Approved teach-out agreements")
+    }
+    if (stringr::str_detect(lowered_no_prefix, "approved the institution") &&
+        stringr::str_detect(lowered_no_prefix, "teach(?:-|\\s)?out agreement with")) {
+      inline_target <- .extract_hlc_inline_teachout_target(cleaned)
+      if (!is.na(inline_target) && nzchar(inline_target)) {
+        return(sprintf("Approved the institution’s teach-out agreement with %s", inline_target))
       }
     }
 

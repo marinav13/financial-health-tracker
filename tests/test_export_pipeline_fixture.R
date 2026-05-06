@@ -815,6 +815,343 @@ run_test("Web export pipeline fixture", function() {
     sprintf("Download CSV should have substantial data columns (found %d).", ncol(download_csv)))
 })
 
+run_test("Web export pipeline resolves HLC sanctions after warning removal", function() {
+  fixture_root <- tempfile("web-export-hlc-removal-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "data"),
+    file.path(fixture_root, "data", "schools"),
+    file.path(fixture_root, "data", "downloads"),
+    file.path(fixture_root, "data_pipelines", "college_cuts"),
+    file.path(fixture_root, "data_pipelines", "accreditation"),
+    file.path(fixture_root, "data_pipelines", "grant_witness"),
+    file.path(fixture_root, "data_pipelines", "scorecard")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  canonical_path <- file.path(fixture_root, "fixture_canonical.csv")
+  readr::write_csv(
+    data.frame(
+      unitid = c("400", "400"),
+      institution_name = c("Example Bethel College", "Example Bethel College"),
+      institution_unique_name = c("Example Bethel College | North Newton | Kansas", "Example Bethel College | North Newton | Kansas"),
+      city = c("North Newton", "North Newton"),
+      state = c("Kansas", "Kansas"),
+      control_label = c("Private not-for-profit", "Private not-for-profit"),
+      sector = c("Private not-for-profit, 4-year or above", "Private not-for-profit, 4-year or above"),
+      category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+      urbanization = c("Town", "Town"),
+      religious_affiliation = c(NA_character_, NA_character_),
+      all_programs_distance_education = c("No", "No"),
+      year = c("2024", "2025"),
+      enrollment_pct_change_5yr = c("-8", "-7"),
+      enrollment_decline_last_3_of_5 = c("Yes", "Yes"),
+      revenue_pct_change_5yr = c("-5", "-4"),
+      net_tuition_per_fte_change_5yr = c("-1", "0"),
+      staff_total_headcount_pct_change_5yr = c("-4", "-3"),
+      staff_instructional_headcount_pct_change_5yr = c("-3", "-2"),
+      students_per_instructional_staff_fte = c("12", "12"),
+      sector_median_students_per_instructional_staff_fte = c("13", "13"),
+      ended_year_at_loss = c("No", "No"),
+      losses_last_3_of_5 = c("No", "No"),
+      loss_years_last_10 = c("0", "0"),
+      tuition_dependence_pct = c("58", "57"),
+      sector_median_tuition_dependence_pct = c("55", "55"),
+      tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+      discount_rate = c("0.34", "0.33"),
+      discount_pct_change_5yr = c("3", "2"),
+      share_grad_students = c("0.00", "0.00"),
+      research_expense = c("0", "0"),
+      research_expense_per_fte = c("0", "0"),
+      research_expense_pct_core_expenses = c("0", "0"),
+      sector_research_spending_n = c("0", "0"),
+      sector_research_spending_positive_n = c("0", "0"),
+      sector_research_spending_reporting_share_pct = c("0", "0"),
+      sector_median_research_expense_per_fte_positive = c("0", "0"),
+      pct_international_all = c("0.01", "0.01"),
+      pct_international_undergraduate = c("0.01", "0.01"),
+      pct_international_graduate = c("0.00", "0.00"),
+      international_student_count_change_5yr = c("0", "0"),
+      international_enrollment_pct_change_5yr = c("0", "0"),
+      international_students_sentence = c("In 2024, 1% of students were international.", "In 2025, 1% of students were international."),
+      federal_loan_pct_most_recent = c("40", "39"),
+      federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.10", "0.10"),
+      state_funding_pct_core_revenue = c("0.05", "0.05"),
+      federal_grants_contracts_pell_adjusted_pct_change_5yr = c("0", "0"),
+      state_funding_pct_change_5yr = c("0", "0"),
+      endowment_pct_change_5yr = c("0", "0"),
+      endowment_spending_current_use_pct_core_revenue = c("0.02", "0.02"),
+      revenue_total = c("100", "101"),
+      expenses_total = c("95", "96"),
+      revenue_total_adjusted = c("100", "101"),
+      expenses_total_adjusted = c("95", "96"),
+      net_tuition_per_fte_adjusted = c("5", "5.1"),
+      enrollment_headcount_total = c("400", "398"),
+      enrollment_nonresident_total = c("5", "5"),
+      enrollment_nonresident_undergrad = c("5", "5"),
+      enrollment_nonresident_graduate = c("0", "0"),
+      staff_headcount_total = c("80", "79"),
+      staff_headcount_instructional = c("25", "25"),
+      endowment_value_adjusted = c("10", "10"),
+      endowment_spending_current_use = c("2", "2"),
+      federal_grants_contracts_pell_adjusted_adjusted = c("10", "10"),
+      state_funding_adjusted = c("5", "5"),
+      stringsAsFactors = FALSE
+    ),
+    canonical_path,
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "400",
+      institution_name = "Example Bethel College",
+      state = "Kansas",
+      city = "North Newton",
+      control_label = "Private not-for-profit",
+      category = "Degree-granting, primarily baccalaureate or above",
+      accreditors = "HLC",
+      latest_action_date = "2021-11-04",
+      latest_action_year = "2021",
+      action_labels = "Accreditation Reaffirmed: Warning Removed; Placed on Notice",
+      active_actions = "warning",
+      has_active_warning = TRUE,
+      has_active_warning_or_notice = TRUE,
+      has_active_adverse_action = FALSE,
+      action_count = 2L,
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
+    na = ""
+  )
+
+  empty_scraper_actions <- data.frame(
+    unitid = character(), institution_name = character(), state = character(), city = character(),
+    control_label = character(), category = character(), accreditor = character(), action_type = character(),
+    action_label_raw = character(), action_status = character(), action_date = character(), action_year = character(),
+    notes = character(), source_url = character(), source_title = character(), source_page_url = character(),
+    source_page_modified = character(), display_action = logical(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_scraper_actions,
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("400", "400"),
+      institution_name_raw = c("Example Bethel College", "Example Bethel College"),
+      institution_state_raw = c("Kansas", "Kansas"),
+      accreditor = c("Higher Learning Commission", "Higher Learning Commission"),
+      action_type = c("warning", "removed"),
+      action_label_raw = c(
+        "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.",
+        "The Institution continues to meet, but with concerns, Criterion Five, Core Component 5.B, “the institution’s resource base supports its educational offerings and its plans for maintaining and strengthening their quality in the future,” for the following reasons: Many of the key issues that originally resulted in Notice are now resolved."
+      ),
+      action_status = c("active", "resolved"),
+      action_date = c("2019-11-07", "2021-11-04"),
+      action_year = c("2019", "2021"),
+      action_scope = c("", ""),
+      source_url = c("", ""),
+      source_title = c("DAPIP Institutional Accreditation Action", "DAPIP Institutional Accreditation Action"),
+      notes = c(
+        "Probation or Equivalent or a More Severe Status: Warning | HLC took this action because it determined that the institution was at risk of being out of compliance with HLC requirements.",
+        "Accreditation Reaffirmed: Warning Removed"
+      ),
+      source_page_url = c(
+        "https://ope.ed.gov/dapip/#/institution-profile/116642",
+        "https://ope.ed.gov/dapip/#/institution-profile/116642"
+      ),
+      source_page_modified = c("", ""),
+      file_id = c("6319", "11336"),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  warning_key <- build_accreditation_action_source_key(
+    unitid = "400",
+    institution_name = "Example Bethel College",
+    accreditor = "HLC",
+    action_type = "warning",
+    action_label = "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.",
+    action_date = "2019-11-07",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/116642",
+    file_id = "6319"
+  )
+  removed_key <- build_accreditation_action_source_key(
+    unitid = "400",
+    institution_name = "Example Bethel College",
+    accreditor = "HLC",
+    action_type = "removed",
+    action_label = "The Institution continues to meet, but with concerns, Criterion Five, Core Component 5.B, “the institution’s resource base supports its educational offerings and its plans for maintaining and strengthening their quality in the future,” for the following reasons: Many of the key issues that originally resulted in Notice are now resolved.",
+    action_date = "2021-11-04",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/116642",
+    file_id = "11336"
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = c("400", "400"),
+      institution_name = c("Example Bethel College", "Example Bethel College"),
+      accreditor = c("HLC", "HLC"),
+      scraper_action_type = c("", ""),
+      scraper_action_label = c("", ""),
+      scraper_action_date = c("", ""),
+      dapip_action_type = c("warning", "removed"),
+      dapip_action_label = c(
+        "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.",
+        "The Institution continues to meet, but with concerns, Criterion Five, Core Component 5.B, “the institution’s resource base supports its educational offerings and its plans for maintaining and strengthening their quality in the future,” for the following reasons: Many of the key issues that originally resulted in Notice are now resolved."
+      ),
+      dapip_action_date = c("2019-11-07", "2021-11-04"),
+      audit_result = c("dapip_only", "dapip_only"),
+      date_delta_days = c("", ""),
+      scraper_source_url = c("", ""),
+      dapip_source_page_url = c(
+        "https://ope.ed.gov/dapip/#/institution-profile/116642",
+        "https://ope.ed.gov/dapip/#/institution-profile/116642"
+      ),
+      dapip_file_id = c("6319", "11336"),
+      scraper_source_key = c("", ""),
+      dapip_source_key = c(warning_key, removed_key),
+      notes = c("", ""),
+      scraper_public_keep = c(FALSE, FALSE),
+      scraper_public_reason = c("", ""),
+      dapip_public_keep = c(TRUE, TRUE),
+      dapip_public_reason = c("core_sanction_signal", "core_sanction_signal"),
+      public_table_strategy = c("dapip_backed_keep", "dapip_backed_keep"),
+      hybrid_candidate = c(FALSE, FALSE),
+      hybrid_reason = c("", ""),
+      public_action_family = c("warning", "removed"),
+      scraper_display_reason_source = c("", ""),
+      dapip_display_reason_source = c("pdf_body", "pdf_body"),
+      public_display_reason_source = c("pdf_body", "pdf_body"),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(accreditor = "HLC", source_url = "https://www.hlcommission.org/for-students/accreditation-actions/", stringsAsFactors = FALSE),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  empty_research_summary <- data.frame(
+    matched_unitid = character(), display_name = character(), display_city = character(), display_state = character(),
+    tracker_control_label = character(), tracker_category = character(), likely_higher_ed = logical(),
+    total_disrupted_grants = integer(), total_disrupted_award_remaining = numeric(),
+    nih_disrupted_grants = integer(), nih_disrupted_award_remaining = numeric(),
+    nsf_disrupted_grants = integer(), nsf_disrupted_award_remaining = numeric(),
+    epa_disrupted_grants = integer(), epa_disrupted_award_remaining = numeric(),
+    samhsa_disrupted_grants = integer(), samhsa_disrupted_award_remaining = numeric(),
+    cdc_disrupted_grants = integer(), cdc_disrupted_award_remaining = numeric(),
+    institution_key = character(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_research_summary,
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv"),
+    na = ""
+  )
+  empty_grants <- data.frame(
+    matched_unitid = character(), tracker_institution_name = character(), tracker_state = character(),
+    agency = character(), grant_id = character(), grant_id_core = character(), status = character(),
+    organization_name = character(), organization_city = character(), organization_state = character(),
+    organization_type = character(), project_title = character(), project_abstract = character(),
+    start_date = character(), original_end_date = character(), termination_date = character(),
+    award_value = character(), award_outlaid = character(), award_remaining = character(),
+    remaining_field = character(), currently_disrupted = logical(), likely_higher_ed = logical(),
+    source_url = character(), detail_url = character(), stringsAsFactors = FALSE
+  )
+  readr::write_csv(
+    empty_grants,
+    file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv"),
+    na = ""
+  )
+  readr::write_csv(
+    data.frame(
+      unitid = "400",
+      graduation_rate_6yr = "60",
+      median_earnings_10yr = "50000",
+      median_debt_completers = "20000",
+      grad_plus_recipients = "0",
+      grad_plus_disbursements_amt = "0",
+      grad_plus_disbursements_per_recipient = "0",
+      outcomes_data_available = TRUE,
+      scorecard_data_updated = "2024-01-01",
+      grad_plus_data_updated = "2024-01-01",
+      ipeds_graduation_rate_year = "2024",
+      ipeds_graduation_rate_label = "2024 cohort",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      matched_unitid = character(),
+      announcement_date = character(),
+      announcement_year = character(),
+      in_financial_tracker = character(),
+      tracker_institution_name = character(),
+      institution_name_collegecuts = character(),
+      institution_state_full = character(),
+      institution_city = character(),
+      tracker_control_label = character(),
+      institution_control = character(),
+      tracker_category = character(),
+      faculty_affected = character(),
+      notes = character(),
+      source_title = character(),
+      program_name = character(),
+      cut_type = character(),
+      status = character(),
+      effective_term = character(),
+      source_url = character(),
+      source_publication = character(),
+      source_published_at = character(),
+      students_affected = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv"),
+    na = ""
+  )
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+
+  export_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
+  export_env$main(c("--input", canonical_path, "--output-dir", fixture_root))
+
+  accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = TRUE)
+  accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
+
+  school <- accreditation_export$schools[[1]]
+  assert_identical(nrow(school$actions), 2L)
+  assert_true(any(school$actions$action_label_short == "Accreditation Reaffirmed: Warning Removed"))
+  warning_row <- school$actions[school$actions$action_type == "warning", , drop = FALSE]
+  assert_identical(warning_row$action_status[[1]], "resolved")
+  assert_true(is.null(school$latest_status$active_actions) || identical(school$latest_status$active_actions, NA))
+  assert_identical(school$latest_status$latest_action_date, "2021-11-04")
+
+  if (is.data.frame(accred_index)) {
+    row <- accred_index[accred_index$institution_name == "Example Bethel College", , drop = FALSE]
+    assert_identical(row$latest_action_label[[1]], "Accreditation Reaffirmed: Warning Removed")
+    assert_identical(row$action_count[[1]], 2L)
+  } else {
+    row <- accred_index[[1]]
+    assert_identical(row$latest_action_label, "Accreditation Reaffirmed: Warning Removed")
+    assert_identical(row$action_count, 2L)
+  }
+})
+
 run_test("Web export pipeline drops generic HLC current-status rows when a dated action exists", function() {
   fixture_root <- tempfile("web-export-hlc-dedupe-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)

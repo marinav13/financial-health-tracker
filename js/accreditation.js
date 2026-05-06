@@ -211,6 +211,17 @@
   // classify_action upstream typed them as adverse_action (because the
   // body mentions a closure-related noun like "teach-out plan" in a
   // requirement-to-submit context, not an approval context).
+  //
+  // CANONICAL SOURCE: scripts/shared/accreditation_helpers.R
+  //   MSCHE_PROCEDURAL_DROP_PATTERNS  (PCRE strings, same semantics)
+  // The R copy is now applied at the scrape boundary inside
+  // extract_msche_institution_actions(), so newly-scraped rows
+  // matching these patterns never enter the persisted CSVs in the
+  // first place. The JS array below is retained as a defense-in-
+  // depth filter for rows already on disk from prior scrapes and
+  // for any patterns the scrape-side filter doesn't catch.
+  // KEEP IN SYNC: any pattern added or modified here must also be
+  // added or modified in accreditation_helpers.R, and vice versa.
   const MSCHE_PROCEDURAL_DROP_PATTERNS = [
     // Phase 4 hotfix: optional staff-acted prefix is "Staff acted on
     // behalf of the Commission " (no trailing "to") -- the "to" comes

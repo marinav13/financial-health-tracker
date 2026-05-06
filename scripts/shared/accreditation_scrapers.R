@@ -263,6 +263,25 @@ MSCHE_CURRENT_STATUS_ACTION_TYPES <- c(
 MSCHE_CURRENT_STATUS_URL <- "https://www.msche.org/non-compliance-and-adverse-actions-by-status/"
 MSCHE_RECENT_ACTIONS_URL <- "https://www.msche.org/recent-commission-actions/"
 
+# Pure helper: returns H3 heading texts from an MSCHE current-status
+# page that are NOT in MSCHE_CURRENT_STATUS_ACTION_TYPES. Used by
+# parse_msche()'s allowlist guard to surface renamed or newly-added
+# categories before they get silently dropped. Returns character(0)
+# when the page is well-formed (every H3 is a known category) or when
+# the input has no H3 elements at all.
+#
+# Module-level so it can be tested in isolation.
+msche_status_unknown_h3_headings <- function(html) {
+  if (is.null(html) || !nzchar(html)) return(character(0))
+  matches <- stringr::str_match_all(html, "(?s)<h3>(.*?)</h3>")[[1]]
+  if (nrow(matches) == 0L) return(character(0))
+  texts <- vapply(seq_len(nrow(matches)),
+    function(i) clean_text(matches[i, 2]),
+    character(1))
+  texts <- texts[nzchar(texts)]
+  setdiff(unique(texts), names(MSCHE_CURRENT_STATUS_ACTION_TYPES))
+}
+
 # Per-institution page parsing. Verified across Saint Rose (closed),
 # Centro de Estudios Avanzados (currently sanctioned), and Princeton
 # (routine/healthy): every per-institution page renders its full board
@@ -1303,6 +1322,14 @@ parse_hlc_content_nodes <- function(content_nodes, action_date, detail_url, deta
 # Returns an empty tibble (with correct column types) if the container is
 # missing or every <li> fails to parse. Module-level so it can be tested
 # in isolation without staging cache files.
+#
+# Markup note: MSCHE's CMS emits each row as a bare <li> with no class
+# or data-* attribute that types the action -- the only structure is
+# <li><strong>{date}</strong><br />{body}</li>. Spot-checked
+# 2026-05 against cached msche_institution_0004.html and 0005.html.
+# This means classify_action()'s body-text heuristics remain the only
+# classification signal; there is nothing structured to prefer over
+# them. Re-check if MSCHE redesigns the institution profile page.
 extract_msche_institution_actions <- function(html) {
   empty <- tibble::tibble(action_date = as.Date(character()), action_body = character())
   if (is.null(html) || !nzchar(html)) return(empty)
@@ -1329,6 +1356,20 @@ extract_msche_institution_actions <- function(html) {
     )
     body_text <- stringr::str_squish(body_text)
     if (!nzchar(body_text)) return(NULL)
+    # Strip the "Staff acted on behalf of the Commission [to]" boilerplate
+    # preamble at the scrape boundary so downstream consumers
+    # (action_label_raw, notes, scraper_source_key, audit, label
+    # derivation) all see the meaningful action sentence. Helper is
+    # idempotent and a no-op when the preamble is absent.
+    body_text <- strip_msche_staff_preamble(body_text)
+    # Drop pure-procedural rows (progress-report acks, supplemental-info
+    # requests, COVID-era visit delays, candidate-institution paperwork,
+    # etc.) at the scrape boundary so they never enter the persisted
+    # CSVs / audit / export pipelines. Pattern list lives in
+    # accreditation_helpers.R as the canonical single source of truth;
+    # JS-side mirror in js/accreditation.js remains as a defense-in-
+    # depth filter for legacy/historical rows already on disk.
+    if (isTRUE(is_msche_procedural_drop(body_text))) return(NULL)
     tibble::tibble(action_date = parsed_date, action_body = body_text)
   })
   rows <- purrr::compact(rows)
@@ -1476,6 +1517,28 @@ parse_msche <- function(cache_dir, refresh) {
         paste(names(MSCHE_CURRENT_STATUS_ACTION_TYPES), collapse = ", ")
       ))
     }
+  }
+
+  # Allowlist guard: warn loudly if the current-status page contains any
+  # H3 heading we don't already handle. Without this, a renamed or newly
+  # added MSCHE category (e.g. "Heightened Monitoring") gets silently
+  # dropped and the gap only surfaces when someone notices missing data
+  # weeks later. Refactored into msche_status_unknown_h3_headings() so
+  # the detection is unit-testable without staging a full fetch.
+  unknown_headings <- msche_status_unknown_h3_headings(html)
+  if (length(unknown_headings) > 0L) {
+    warning(sprintf(
+      paste(
+        "parse_msche: %s contains H3 heading(s) not in the action-type",
+        "allowlist: %s. Expected only: %s. A renamed or newly-added",
+        "category may be silently dropped \u2014 update",
+        "MSCHE_CURRENT_STATUS_ACTION_TYPES and the section_matches",
+        "regex if this is a real action category."
+      ),
+      url,
+      paste(sprintf("\"%s\"", unknown_headings), collapse = ", "),
+      paste(sprintf("\"%s\"", names(MSCHE_CURRENT_STATUS_ACTION_TYPES)), collapse = ", ")
+    ), call. = FALSE)
   }
 
   current_status_rows <- if (nrow(section_matches) == 0) {

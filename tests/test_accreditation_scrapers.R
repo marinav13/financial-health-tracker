@@ -1217,6 +1217,102 @@ run_test("extract_msche_institution_actions returns an empty tibble when the con
   assert_true(inherits(empty$action_date, "Date"))
 })
 
+run_test("extract_msche_institution_actions strips staff preamble and drops procedural rows", function() {
+  fixture_html <- paste0(
+    "<html><body>",
+    "<ul id=\"accreditation_actions\">",
+    # 1: pure procedural row -> must be dropped at the scrape boundary.
+    "<li><strong>March 1, 2024</strong><br />",
+    "To acknowledge receipt of the supplemental information report.</li>",
+    # 2: procedural-shaped preamble but body contains a substantive
+    # institution-level signal -> must NOT be dropped (keep override).
+    "<li><strong>December 1, 2023</strong><br />",
+    "To acknowledge receipt of the institution's notification of its ",
+    "intention to cease instruction at all locations on June 30, 2024.</li>",
+    # 3: row with the staff-preamble. Preamble must be stripped at
+    # the scrape boundary, then the row should be dropped (procedural).
+    "<li><strong>February 14, 2025</strong><br />",
+    "Staff acted on behalf of the Commission to request a supplemental ",
+    "information report due January 9, 2026.</li>",
+    # 4: a real warning -> must be kept and unmodified.
+    "<li><strong>June 22, 2023</strong><br />",
+    "To warn the institution that its accreditation may be in jeopardy.</li>",
+    "</ul></body></html>"
+  )
+
+  rows <- extract_msche_institution_actions(fixture_html)
+  assert_identical(nrow(rows), 2L,
+    paste("Procedural rows must be dropped at the scrape boundary;",
+          "only the substantive closure announcement and the warning",
+          "should survive."))
+
+  # Surviving rows in document order: closure announcement, warning.
+  assert_identical(rows$action_date[[1]], as.Date("2023-12-01"))
+  assert_true(grepl("intention to cease instruction", rows$action_body[[1]],
+    fixed = TRUE))
+  assert_identical(rows$action_date[[2]], as.Date("2023-06-22"))
+  assert_true(grepl("warn the institution", rows$action_body[[2]],
+    fixed = TRUE))
+})
+
+run_test("msche_status_unknown_h3_headings returns empty when every H3 is allowlisted", function() {
+  html <- paste0(
+    "<html><body><article>",
+    "<h3>Non-Compliance Warning</h3><ul><li>X</li></ul>",
+    "<h3>Non-Compliance Probation</h3><ul><li>Y</li></ul>",
+    "<h3>Non-Compliance Show Cause</h3><ul><li>Z</li></ul>",
+    "<h3>Adverse Action</h3><ul><li>W</li></ul>",
+    "</article></body></html>"
+  )
+  assert_identical(msche_status_unknown_h3_headings(html), character(0))
+})
+
+run_test("msche_status_unknown_h3_headings reports unrecognized headings", function() {
+  # Renamed category and a newly-added one -- both must surface.
+  html <- paste0(
+    "<html><body><article>",
+    "<h3>Non-Compliance Warning</h3>",
+    "<h3>Heightened Monitoring</h3>",
+    "<h3>Critical Status</h3>",
+    "</article></body></html>"
+  )
+  unknown <- msche_status_unknown_h3_headings(html)
+  assert_identical(length(unknown), 2L)
+  assert_true("Heightened Monitoring" %in% unknown)
+  assert_true("Critical Status" %in% unknown)
+  assert_true(!("Non-Compliance Warning" %in% unknown))
+})
+
+run_test("msche_status_unknown_h3_headings is safe on empty / heading-free HTML", function() {
+  assert_identical(msche_status_unknown_h3_headings(""), character(0))
+  assert_identical(msche_status_unknown_h3_headings(NULL), character(0))
+  assert_identical(
+    msche_status_unknown_h3_headings("<html><body><p>no headings</p></body></html>"),
+    character(0)
+  )
+})
+
+run_test("extract_msche_institution_actions strips staff preamble even when body is substantive", function() {
+  fixture_html <- paste0(
+    "<html><body>",
+    "<ul id=\"accreditation_actions\">",
+    "<li><strong>April 1, 2025</strong><br />",
+    "Staff acted on behalf of the Commission to acknowledge receipt of ",
+    "the institution's voluntary surrender of accreditation effective ",
+    "June 30, 2025.</li>",
+    "</ul></body></html>"
+  )
+
+  rows <- extract_msche_institution_actions(fixture_html)
+  assert_identical(nrow(rows), 1L)
+  # Preamble was stripped: body starts with "To acknowledge..." not
+  # "Staff acted...".
+  assert_true(grepl("^To acknowledge receipt of", rows$action_body[[1]]))
+  assert_true(!grepl("Staff acted on behalf", rows$action_body[[1]]))
+  assert_true(grepl("voluntary surrender of accreditation",
+    rows$action_body[[1]], fixed = TRUE))
+})
+
 run_test("discover_msche_institution_page_count returns max paged number from wp-pagenavi", function() {
   no_nav <- "<html><body><p>only one page</p></body></html>"
   assert_identical(discover_msche_institution_page_count(no_nav), 1L)

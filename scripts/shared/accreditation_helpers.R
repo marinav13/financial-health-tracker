@@ -419,31 +419,93 @@ extract_page_title <- function(html) {
 # Classifies free-form action text to canonical types: warning, notice, monitoring,
 # probation, show_cause, adverse_action, removed, other.
 # Matching is case-insensitive and order-dependent (earlier patterns take precedence).
+#
+# Adverse-action disambiguation (MSCHE branch/location vs. institutional):
+# MSCHE substantive-change paperwork frequently mentions "decision to close"
+# and "teach-out plan" in the context of a branch campus or additional
+# location, e.g. "To acknowledge receipt of the substantive change request.
+# To note the institution's decision to close the additional location at
+# 123 Main St." These are routine administrative acknowledgments and must
+# not be classified as institutional adverse actions. The is_branch_or_location
+# guard below detects that context and demotes those rows to "other" so the
+# adverse_action bucket only contains true institution-level signals.
+# Real institutional closures use phrasings the guard intentionally does
+# not match: "close all locations", "cease instruction at all locations",
+# "the institution will close", "decision to close ... institution",
+# "voluntary withdrawal", etc.
 classify_action <- function(raw_action, accreditor = NA_character_) {
   txt <- stringr::str_to_lower(as.character(raw_action))
-  # MSCHE per-institution pages use verb-form phrasings ("to warn the
-  # institution", "to remove the institution from probation", "the
-  # institution will close") that the noun-form patterns ("warning",
-  # "removed from probation", "closure") do NOT match. The added
-  # alternatives below cover MSCHE's verbatim phrasings without
-  # introducing broad word-stem matches that would risk false positives
-  # on adjacent verb forms (notably "withdraw the substantive change
-  # request", which must continue to fall through to "other").
+
+  # Sub-institutional / regulatory-paperwork context: the action concerns
+  # something other than the institution itself ceasing operations.
+  # Covers (a) additional locations, branch campuses, instructional
+  # sites; (b) federally-required candidate-institution teach-out plans
+  # (34 CFR 602.23(f)(1)(ii)) which are application paperwork, not real
+  # teach-outs. Used to suppress false-positive adverse_action
+  # classification on MSCHE substantive-change rows.
+  is_branch_or_location <- stringr::str_detect(
+    txt,
+    paste(
+      "additional location",
+      "branch campus",
+      "instructional site",
+      "off[- ]campus (?:site|location)",
+      "teach-?out (?:plan|agreement|agreements?) as required of candidate",
+      "as required of candidate institutions",
+      sep = "|"
+    )
+  )
+
+  # True institution-level closure / withdrawal signals. These phrasings
+  # describe the institution itself ceasing operations, surrendering
+  # accreditation, or being denied reaffirmation -- not a sub-unit change.
+  is_institutional_adverse <- stringr::str_detect(
+    txt,
+    paste(
+      # institution-level closure verbs
+      "the institution will close",
+      "will close (?:effective|all locations|permanently)",
+      "close all locations",
+      "cease instruction at all locations",
+      "intention to cease instruction",
+      "intent to cease instruction",
+      "institutional closure",
+      # decision-to-close, but only when scoped to the institution itself
+      "decision to close [^.]{0,80}?(?:the institution|all locations|all of its locations|operations|permanently)",
+      # accreditation-status terminations
+      "denied reaffirmation",
+      "deny reaffirmation",
+      "removed from membership",
+      "withdraws from membership",
+      "withdraw accreditation",
+      "withdrawal of accreditation",
+      "voluntar(?:ily|y) surrender",
+      "voluntar(?:ily|y) withdrawal",
+      sep = "|"
+    )
+  )
+
+  # Generic teach-out / closure signals. These trigger adverse_action
+  # only when the branch-or-location guard does not. Most non-MSCHE
+  # accreditors emit short labels like "Accepted Teach-Out Plan" with
+  # no sub-unit qualifier, so they fall through here as adverse.
+  is_generic_teachout_or_closure <- stringr::str_detect(
+    txt,
+    "closure|teach-?out|teach out|withdraw candidate"
+  )
+
   dplyr::case_when(
     # "Removed" actions: a previous action has been lifted or resolved
     stringr::str_detect(txt, "removed from warning|remove the institution from warning|remove notice of concern|removal of sanction") ~ "removed",
     stringr::str_detect(txt, "removed from probation|remove the institution from probation") ~ "removed",
     # "Show Cause": most serious short of actual withdrawal
     stringr::str_detect(txt, "show cause") ~ "show_cause",
-    # "Adverse Action": accreditation withdrawn, membership removed, or institution closed
-    # Phase 3: extended with "cease instruction" / "intention to cease" /
-    # "intent to cease" to catch MSCHE phrasings like Saint Rose's
-    # December 2023 row ("notification ... of its intention to cease
-    # instruction at all locations on June 30, 2024") that previously
-    # fell through to "other" because the body uses "cease" rather
-    # than "close"/"closure".
-    stringr::str_detect(txt, "closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|the institution will close|will close (?:effective|all locations)|decision to close|cease instruction|intention to cease|intent to cease") ~ "adverse_action",
-    stringr::str_detect(txt, "removed from membership|withdrawal|withdraws from membership|withdraw candidate|withdraw accreditation") ~ "adverse_action",
+    # "Adverse Action": accreditation withdrawn, membership removed, or institution closed.
+    # Order matters: institutional signals always win; generic teach-out /
+    # closure language demotes to "other" when the text is clearly about
+    # a branch campus or additional location.
+    is_institutional_adverse ~ "adverse_action",
+    is_generic_teachout_or_closure & !is_branch_or_location ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)
     stringr::str_detect(txt, "probation") ~ "probation",
     # "Warning": institution must fix issues but accreditation not yet threatened
@@ -455,7 +517,9 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     stringr::str_detect(txt, "monitor") ~ "monitoring",
     # Catch-all for other adverse terminology
     stringr::str_detect(txt, "adverse") ~ "adverse_action",
-    # Fallback for unrecognized text
+    # Fallback for unrecognized text (includes branch/location substantive
+    # changes that mention "close" or "teach-out" but lack institutional
+    # signals -- those are administrative, not adverse).
     TRUE ~ "other"
   )
 }
@@ -479,6 +543,175 @@ has_public_action_keywords <- function(x) {
     txt,
     "warning|probation|show cause|notice of concern|notice|withdrawal of accreditation|withdraws from membership|closure|teach-?out|teach out|denied reaffirmation|deny reaffirmation|adverse"
   )
+}
+
+# ---------------------------------------------------------------------------
+# MSCHE PROCEDURAL-DROP PATTERNS (canonical, single source of truth)
+# ---------------------------------------------------------------------------
+#
+# MSCHE per-institution pages emit large volumes of routine procedural rows
+# (progress-report acknowledgments, supplemental-information requests,
+# COVID-era visit delays, candidate-institution paperwork, etc.). These
+# rows have no public-interest signal and were previously filtered only
+# at render time by `MSCHE_PROCEDURAL_DROP_PATTERNS` in
+# `js/accreditation.js`. The list now lives here as the canonical source
+# and is also applied at the scrape boundary so procedural rows never
+# enter the persisted CSVs / audit / export pipelines in the first place.
+#
+# Pattern syntax: PCRE strings, anchored with ^\s* and matched
+# case-insensitively against the action label. Mirror these patterns
+# (case-insensitive, anchored, same semantics) in
+# `js/accreditation.js` -- when in doubt the R copy is canonical.
+# Tests in `tests/test_accreditation_helpers.R` pin behavior.
+#
+# Hold the line on additions: per CLAUDE.md, the right fix for a
+# preamble-stripped row that LOOKS procedural but ISN'T is to add a
+# better short-label rule in `derive_action_label_short()`, not to
+# loosen this list.
+MSCHE_PROCEDURAL_DROP_PATTERNS <- c(
+  # "Staff acted on behalf of the Commission" prefix is now stripped at
+  # the scrape boundary, but kept here as `(?:...)?` so the patterns
+  # also match historical CSV rows that retain the preamble.
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?supplemental information report",
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?monitoring report",
+  "^\\s*(?:staff acted on behalf of the commission )?to request (?:a |an )?candidate assessment",
+  "^\\s*(?:staff acted on behalf of the commission )?to request an? updated teach-?out plan",
+  # Length cap [^.]{0,200} avoids crossing sentence boundaries while
+  # tolerating long "to require ... teach-out plan" preambles.
+  "^\\s*to require [^.]{0,200}?teach-?out plan",
+  "^\\s*to request [^.]{0,200}?teach-?out plan",
+  "^\\s*to note the follow-up team visit",
+  "^\\s*to note that the complex substantive change visit occurred",
+  "^\\s*to note that an? updated teach-?out plan [^.]{0,80}? will not be required",
+  # COVID-19 / pandemic distance-learning waiver -- temporary
+  # procedural relief, not a sanction or status change.
+  "^\\s*(?:staff acted on behalf of the commission )?to temporarily waive substantive change policy",
+  # Federal regulation 34 CFR 602.23(f)(1)(ii) candidate-institution
+  # teach-out plans -- application paperwork, not real teach-outs.
+  "^\\s*to approve the teach-?out plan as required of candidate",
+  # Rejection of a previously-required teach-out plan submission --
+  # procedural feedback, not a sanction action.
+  "^\\s*to reject the teach-?out plan",
+  # Supplemental info report deemed inadequate -- same procedural
+  # feedback shape as above.
+  "^\\s*to note that the supplemental information report was not conducive",
+  "^\\s*(?:staff acted (?:on behalf of the commission )?)?to acknowledge receipt of",
+  "^\\s*to note the (?:show cause |follow-?up |on-site |virtual )?visit by the commission'?s representatives",
+  "^\\s*to note that .* hosted a virtual site visit",
+  "^\\s*to note that .* (?:will not be continuing as|is now due|are now due|was not received)",
+  "^\\s*to note that the institution received the notification of adverse action",
+  "^\\s*to note that the administrator of the appeal",
+  "^\\s*to postpone a decision on",
+  "^\\s*to reject the supplemental information report",
+  "^\\s*to request submission of signed teach-?out agreements",
+  "^\\s*to request an updated accreditation readiness report",
+  "^\\s*to remind the institution of",
+  "^\\s*to grant a delay of the monitoring report",
+  "^\\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor"
+)
+
+# Substantive-keep override: phrasings that signal a real institution-
+# level event (closure, surrender, merger, true teach-out approval) and
+# must NOT be dropped even when the row's preamble matches a procedural
+# pattern. Saint Rose's December 2023 row is the canonical example:
+# starts "To acknowledge receipt of the institution's notification ..."
+# (procedural-shaped) but the body announces "intention to cease
+# instruction at all locations" -- a true adverse_action.
+#
+# Mirrors MSCHE_SUBSTANTIVE_KEEP_PATTERN in js/accreditation.js plus the
+# institution-level signals in classify_action's is_institutional_adverse.
+# The R-side filter is applied to the FULL action body (not just a
+# short label), so patterns search anywhere in the text rather than
+# anchored at the start.
+MSCHE_SUBSTANTIVE_KEEP_PATTERNS <- c(
+  # JS-mirror substantive shapes
+  "merger of",
+  "accepted teach-?out plan",
+  "to approve the (?:updated )?teach-?out plan(?! as required of candidate)",
+  "to approve the teach-?out agreements?",
+  "approved teach-?out plan",
+  "approved teach-?out agreements?",
+  "voluntar(?:ily|y) surrender(?:ed)?(?: accreditation)?",
+  "to accept [^.]{0,160}?voluntar(?:ily|y) surrender",
+  # Institution-level closure / sanction signals
+  "the institution will close",
+  "will close (?:effective|all locations|permanently)",
+  "close all locations",
+  "cease instruction at all locations",
+  "intention to cease instruction",
+  "intent to cease instruction",
+  "institutional closure",
+  "decision to close [^.]{0,80}?(?:the institution|all locations|all of its locations|operations|permanently)",
+  "denied reaffirmation",
+  "deny reaffirmation",
+  "removed from membership",
+  "withdraws from membership",
+  "withdraw accreditation",
+  "withdrawal of accreditation",
+  # Substantive non-closure events tied to legal status / corporate change
+  "surviving institution",
+  "anticipated date of the transaction"
+)
+
+# Returns TRUE for any label that should be dropped at the scrape
+# boundary: matches one of the procedural drop patterns AND does not
+# match any substantive-keep override. Case-insensitive. Vectorized.
+is_msche_procedural_drop <- function(label) {
+  if (length(label) == 0L) return(logical(0))
+  txt <- as.character(label)
+  txt[is.na(txt)] <- ""
+  combined_drop <- paste(MSCHE_PROCEDURAL_DROP_PATTERNS, collapse = "|")
+  combined_keep <- paste(MSCHE_SUBSTANTIVE_KEEP_PATTERNS, collapse = "|")
+  has_drop <- stringr::str_detect(txt, stringr::regex(combined_drop, ignore_case = TRUE))
+  has_keep <- stringr::str_detect(txt, stringr::regex(combined_keep, ignore_case = TRUE))
+  has_drop & !has_keep
+}
+
+# Strips the "Staff acted on behalf of the Commission [to ]" boilerplate
+# preamble from MSCHE action text. Applied at the scrape boundary so
+# downstream consumers (action_label_raw, notes, source keys, audit)
+# see the meaningful action sentence and not the delegated-action
+# preamble. Idempotent: re-running on already-stripped text is a no-op
+# because the preamble pattern is anchored at the start. NA-safe and
+# vectorized.
+#
+# Replacement is "To " (capitalized) so the post-strip string starts
+# with the same casing convention as non-staff MSCHE rows ("To
+# acknowledge receipt of...", "To accept the progress report.").
+strip_msche_staff_preamble <- function(label) {
+  if (length(label) == 0L) return(label)
+  txt <- as.character(label)
+  stripped <- stringr::str_replace(
+    txt,
+    stringr::regex(
+      "^\\s*staff acted on behalf of the commission(?:\\s+to)?\\s+",
+      ignore_case = TRUE
+    ),
+    "To "
+  )
+  matched <- stringr::str_detect(
+    txt,
+    stringr::regex(
+      "^\\s*staff acted on behalf of the commission(?:\\s+to)?\\s+",
+      ignore_case = TRUE
+    )
+  )
+  needs_case_normalization <- matched & stringr::str_detect(
+    stripped,
+    "^To\\s+[A-Z]{2,}\\b"
+  )
+  if (any(needs_case_normalization, na.rm = TRUE)) {
+    parts <- stringr::str_match(
+      stripped[needs_case_normalization],
+      "^(To\\s+)([A-Z]{2,})(\\b.*)$"
+    )
+    stripped[needs_case_normalization] <- paste0(
+      parts[, 2],
+      tolower(parts[, 3]),
+      parts[, 4]
+    )
+  }
+  stripped
 }
 
 # ---------------------------------------------------------------------------

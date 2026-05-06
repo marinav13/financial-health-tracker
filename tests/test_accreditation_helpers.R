@@ -24,6 +24,132 @@ run_test("Accreditation text and classification", function() {
   assert_true(has_public_action_keywords("Public Notice of Concern"))
   assert_true(has_public_action_keywords("Accepted teach-out plan"))
   assert_true(has_public_action_keywords("Denied reaffirmation"))
+
+  # MSCHE adverse_action disambiguation: institutional vs. branch/location.
+  # True institutional adverse actions must classify as adverse_action.
+  saint_rose <- paste(
+    "To acknowledge receipt of the institution's notification dated",
+    "December 1, 2023, of its intention to cease instruction at all",
+    "locations on June 30, 2024."
+  )
+  assert_identical(classify_action(saint_rose, "MSCHE"), "adverse_action")
+  anna_maria <- paste(
+    "To note that the institution announced on April 23, 2026 that its",
+    "Board of Trustees voted to cease academic operations effective",
+    "June 30, 2026. The institution will close all locations."
+  )
+  assert_identical(classify_action(anna_maria, "MSCHE"), "adverse_action")
+  voluntary_surrender <- paste(
+    "To accept the institution's voluntary surrender of accreditation",
+    "effective immediately."
+  )
+  assert_identical(classify_action(voluntary_surrender, "MSCHE"), "adverse_action")
+
+  # False positives that previously classified as adverse_action but are
+  # really substantive-change paperwork tied to a sub-unit. These must
+  # demote to "other" so the adverse_action bucket reflects only true
+  # institutional signals.
+  branch_close <- paste(
+    "To acknowledge receipt of the substantive change request. To note",
+    "the institution's decision to close the additional location at",
+    "123 Main Street, Anytown, PA."
+  )
+  assert_identical(classify_action(branch_close, "MSCHE"), "other")
+  branch_campus_close <- paste(
+    "To acknowledge receipt of the substantive change request. To note",
+    "the institution's decision to close the branch campus at 456 Elm",
+    "Street, Othertown, NJ."
+  )
+  assert_identical(classify_action(branch_campus_close, "MSCHE"), "other")
+  branch_teach_out <- paste(
+    "To acknowledge receipt of the teach-out plan. To approve the",
+    "teach-out plan for the closure of the additional location at",
+    "789 Oak Avenue."
+  )
+  assert_identical(classify_action(branch_teach_out, "MSCHE"), "other")
+  candidate_teach_out <- paste(
+    "To acknowledge receipt of the teach-out plan. To approve the",
+    "teach-out plan as required of candidate institutions."
+  )
+  assert_identical(classify_action(candidate_teach_out, "MSCHE"), "other")
+})
+
+run_test("MSCHE staff-preamble strip", function() {
+  # Idempotent: no preamble -> unchanged.
+  assert_identical(
+    strip_msche_staff_preamble("To accept the progress report."),
+    "To accept the progress report."
+  )
+  # Stripped form is "To " + remainder, regardless of original casing.
+  assert_identical(
+    strip_msche_staff_preamble(
+      "Staff acted on behalf of the Commission to acknowledge receipt of X"
+    ),
+    "To acknowledge receipt of X"
+  )
+  assert_identical(
+    strip_msche_staff_preamble(
+      "STAFF ACTED ON BEHALF OF THE COMMISSION TO REQUEST a monitoring report"
+    ),
+    "To request a monitoring report"
+  )
+  # Preamble without trailing "to" still yields a leading "To ".
+  assert_identical(
+    strip_msche_staff_preamble(
+      "Staff acted on behalf of the Commission acknowledge receipt of X"
+    ),
+    "To acknowledge receipt of X"
+  )
+  # NA pass-through.
+  assert_true(is.na(strip_msche_staff_preamble(NA_character_)))
+})
+
+run_test("MSCHE procedural-drop classifier", function() {
+  # Pure procedural rows -> dropped.
+  assert_true(is_msche_procedural_drop(
+    "To acknowledge receipt of the supplemental information report."
+  ))
+  assert_true(is_msche_procedural_drop(
+    "To request a supplemental information report due January 9, 2023."
+  ))
+  assert_true(is_msche_procedural_drop(
+    "To approve the teach-out plan as required of candidate institutions."
+  ))
+  assert_true(is_msche_procedural_drop(
+    "To remind the institution of its obligations."
+  ))
+  assert_true(is_msche_procedural_drop(
+    "To temporarily waive substantive change policy due to COVID-19."
+  ))
+
+  # Substantive-keep override: institution-level closures must NOT
+  # be dropped even when the row's preamble matches a procedural
+  # pattern. Saint Rose / Anna Maria-style rows.
+  saint_rose <- paste(
+    "To acknowledge receipt of the institution's notification dated",
+    "December 1, 2023, of its intention to cease instruction at all",
+    "locations on June 30, 2024."
+  )
+  assert_true(!is_msche_procedural_drop(saint_rose))
+  voluntary_surrender_via_ack <- paste(
+    "To acknowledge receipt of the institution's notice of voluntary",
+    "surrender of accreditation effective June 30, 2024."
+  )
+  assert_true(!is_msche_procedural_drop(voluntary_surrender_via_ack))
+  merger_via_ack <- paste(
+    "To acknowledge receipt of the substantive change request. To",
+    "approve the merger of College X into University Y, with",
+    "University Y as the surviving institution."
+  )
+  assert_true(!is_msche_procedural_drop(merger_via_ack))
+
+  # Status-page short labels (no procedural shape) -> not dropped.
+  assert_true(!is_msche_procedural_drop("Non-Compliance Warning"))
+  assert_true(!is_msche_procedural_drop("Non-Compliance Probation"))
+
+  # NA / empty inputs are safe.
+  assert_true(!is_msche_procedural_drop(""))
+  assert_identical(length(is_msche_procedural_drop(character(0))), 0L)
 })
 
 run_test("Accreditation tracker matching", function() {

@@ -1320,8 +1320,9 @@ run_test("derive_action_label_short: HLC Wilberforce probation extension uses de
   text <- paste0(
     "November 11, 2020 BY CERTIFIED MAIL Dr. Elfred Pinkard, President Wilberforce University. ",
     "Summary of the Action: The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with the Criteria for Accreditation. ",
-    "The Institution meets Core Components 3.C, 4.C, and 5.C with concerns. The Institution does not meet Core Components 5.A and 5.D, and is out of conformity with Assumed Practices D.1 and D.2. ",
-    "The Institution is required to host a focused visit no later than April 2021."
+    "The Institution meets Core Components 3.C, 4.C, and 5.C with concerns. The Institution does not meet Core Components 5.A and 5.D, and is out of conformity with Assumed Practices D.1 and D.2.1 ",
+    "The Institution is required to host a focused visit no later than April 2021. ",
+    "Institutional Disclosure Obligation: HLC policy2 requires that an Institution inform its constituencies."
   )
   assert_identical(
     derive_action_label_short("probation", text, "HLC"),

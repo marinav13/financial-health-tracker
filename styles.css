@@ -256,8 +256,10 @@
 body {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.55;
+  /* 22px base so editorial copy reads comfortably at 100% zoom for
+     older readers on desktop without forcing browser zoom. */
+  font-size: 22px;
+  line-height: 1.6;
   color: var(--ink);
   /* Body matches .page so the cream paper bleeds to the viewport edges
      instead of showing a tan band on either side of the 1040px content
@@ -277,12 +279,12 @@ body {
   position: absolute;
   top: -100%;
   left: 8px;
-  padding: 8px 14px;
+  padding: 10px 18px;
   background: var(--ink);
   color: var(--paper-page);
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 18px;
   letter-spacing: 0.02em;
   text-decoration: none;
   border-radius: 4px;
@@ -314,13 +316,18 @@ body {
    stylelint's no-duplicate-selectors. */
 
 /* ---------- Page shell ----------
-   .page is the 1040px cream paper rectangle that holds the masthead, the
-   tabs row, and the inner main-wrap. The outer body background (--bg)
-   shows through as the warm tan around it. */
+   ProPublica-style centered container: max-width 1280px (close to
+   their --p-col-size--14 ≈ 78rem / 1248px from the propublica.org
+   grid system). On wider viewports cream paper extends past the
+   page on both sides — the body bg matches --paper-page so there's
+   no visible boundary, the content just stops scaling out at the
+   max-width. Footer flows naturally after content; no sticky-footer
+   flex chain (that left a gap above the footer). */
 .page {
-  width: min(100%, 1040px);
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 0 56px;
+  padding: 0 0 32px;
   background: var(--paper-page);
   color: var(--ink);
   position: relative;
@@ -333,7 +340,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 72px;
+  /* Side padding matches the .main-wrap clamp() so the wordmark/
+     logo and body content share the same viewport-scaled inset. */
+  padding: 22px clamp(20px, 3vw, 32px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -352,8 +361,8 @@ body {
 }
 
 .site-masthead .logo {
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   background: var(--hechinger-yellow);
   border: 2px solid var(--ink);
   border-radius: 4px;
@@ -361,7 +370,7 @@ body {
   place-items: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 24px;
   color: var(--ink);
   letter-spacing: -0.02em;
   line-height: 1;
@@ -380,7 +389,7 @@ body {
 .site-masthead .wm-text {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 22px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink);
@@ -394,21 +403,28 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  padding: 0 72px;
+  /* Side padding matches site-masthead and main-wrap clamp(). */
+  padding: 0 clamp(20px, 3vw, 32px);
   border-bottom: 1px solid var(--line);
   margin: 0;
   background: transparent;
+  /* Distribute the six tabs across the full row width on desktop —
+     "Finances" sits flush left, "Methodology" flush right, and the
+     extra space spreads between the inner four. Replaces the
+     previous left-packed flex-start that left a big empty band on
+     the right of the row. */
+  justify-content: space-between;
 }
 
 .top-tab {
   display: inline-flex;
   align-items: center;
-  padding: 14px 18px;
-  min-height: 44px;
+  padding: 18px 16px;
+  min-height: 52px;
   margin-bottom: -1px;
   font-family: var(--font-ui);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 20px;
   letter-spacing: 0;
   color: var(--ink-2);
   text-decoration: none;
@@ -448,16 +464,19 @@ body {
   transform: none;
 }
 
-/* ---------- Main wrap (content gutter inside .page) ---------- */
+/* ---------- Main wrap (content gutter inside .page) ----------
+   Modest side gutter inside the 1280px page; scales down on smaller
+   screens via clamp() but caps at 32px on desktop so the content
+   uses most of the page width. */
 .main-wrap {
-  padding: 56px 72px 0;
+  padding: 40px clamp(20px, 3vw, 32px) 0;
 }
 
 /* ---------- Page footer signature ----------
-   Sits at the bottom of every page inside .main-wrap. */
+   Sits naturally at end of content. */
 .pg-foot {
   margin: 40px 0 0;
-  padding: 22px 0;
+  padding: 28px 0;
   border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -466,8 +485,8 @@ body {
   flex-wrap: wrap;
   font-family: var(--font-ui);
   font-weight: 500;
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  font-size: 18px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   /* --ink-4 (#8a8271) only hits 3.56:1 against the cream paper, below
      the WCAG AA 4.5:1 threshold for small text. --ink-3 takes it to
@@ -485,8 +504,8 @@ body {
 }
 
 .pg-foot .sq {
-  width: 22px;
-  height: 22px;
+  width: 34px;
+  height: 34px;
   display: grid;
   place-items: center;
   background: var(--hechinger-yellow);
@@ -494,7 +513,7 @@ body {
   border-radius: 3px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 22px;
   letter-spacing: 0;
   text-transform: none;
   /* See .site-masthead .logo above — the H glyph is pseudo-content
@@ -539,13 +558,16 @@ body {
   min-width: 0;
 }
 
-/* Editorial display H1: large Tiempos Headline serif, tight leading. */
+/* Editorial display H1: large Tiempos Headline serif, tight leading.
+   Bumped to 56px to match the larger default body sizing (18px) so
+   the headline still feels like a display element rather than a
+   slightly-bigger paragraph. */
 .hero-split h1,
 .hero-solo h1,
 .hero-solo-center h1,
 h1.serif {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 56px;
   line-height: 1.05;
   font-weight: 600;
   letter-spacing: -0.02em;
@@ -578,10 +600,11 @@ h1.serif {
 }
 
 /* Lede: Tiempos Text serif, larger than body copy, used for the centered
-   intro paragraphs on every landing page. */
+   intro paragraphs on every landing page. 22px to stay one comfortable
+   step above the 18px body. */
 .lede {
   font-family: var(--font-body);
-  font-size: 19px;
+  font-size: 22px;
   line-height: 1.55;
   font-weight: 400;
   color: var(--ink-2);
@@ -630,11 +653,11 @@ h1.serif {
    the small italic text meets WCAG AA contrast against cream paper. */
 .data-as-of {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 18px;
   font-style: italic;
   color: var(--ink-3);
   letter-spacing: 0.02em;
-  margin: 4px auto 0;
+  margin: 6px auto 0;
 }
 
 /* ---------- .intro-callout (Methodology editorial editor's-note only) ----------
@@ -661,9 +684,9 @@ h1.serif {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 22px 28px;
+  padding: 24px 32px;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.65;
   color: var(--ink-2);
   box-shadow: none;
@@ -687,13 +710,18 @@ h1.serif {
   margin-top: 14px;
 }
 
+/* ---------- Search panel ----------
+   The .search-panel itself is now just a transparent layout
+   container — the visible bordered box is .search-input-wrap below.
+   This way the "Search by institution" label sits in muted uppercase
+   ABOVE the search box (not inside a card with the input). */
 .search-panel {
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 16px 18px;
-  margin: 0 auto var(--space-3);
-  max-width: 780px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 8px auto var(--space-3);
+  max-width: 980px;
   position: relative;
 }
 
@@ -730,30 +758,65 @@ h1.serif {
   content: "▴";
 }
 
+/* "SEARCH BY INSTITUTION" label sits above the input box — uppercase
+   muted Inter, not bold serif. */
 .search-label {
-  display: inline-block;
-  margin-right: 8px;
-  font-size: 1.3rem;
-  font-weight: 700;
+  display: block;
+  margin: 0 0 14px;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* The bordered, rounded box that visually contains the icon + input.
+   Border highlights gold on focus-within so the whole control reads
+   as a single focusable element. */
+.search-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--paper);
+  border: 1.5px solid var(--line-2);
+  border-radius: 6px;
+  padding: 0 18px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.search-input-wrap:focus-within {
+  border-color: var(--hechinger-gold);
+  box-shadow: 0 0 0 3px var(--hechinger-yellow-soft);
+}
+
+.search-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: var(--ink-3);
+  margin-right: 14px;
 }
 
 .search {
-  width: 100%;
+  flex: 1;
   border: 0;
   outline: 0;
-  font-size: 1.15rem;
   background: transparent;
-  padding: 4px 0;
-  color: #444;
+  padding: 18px 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.search::placeholder {
+  color: var(--ink-3);
+  opacity: 0.7;
+  font-style: italic;
 }
 
 .search:focus-visible {
   outline: 0;
-}
-
-/* Visible focus indicator for the search panel — replaces the removed browser outline */
-.search-panel:focus-within {
-  box-shadow: 0 0 0 2px var(--status-blue);
 }
 
 .results {
@@ -789,10 +852,14 @@ h1.serif {
 
 /* ---------- Institution masthead ---------------------------------- */
 /* .quad-banner is the full-bleed stylized campus illustration that
-   sits above the institution H1. It breaks out of .main-wrap's
-   72px gutter so it spans the full 1040px page width. */
+   sits above the institution H1. Negative margin matches the
+   .main-wrap clamp() padding so the banner extends edge-to-edge of
+   the page no matter the viewport width. */
 .quad-banner {
-  margin: 0 -72px;
+  margin-left: calc(-1 * clamp(20px, 3vw, 32px));
+  margin-right: calc(-1 * clamp(20px, 3vw, 32px));
+  margin-top: 0;
+  margin-bottom: 0;
   padding: 0;
   width: auto;
   height: 240px;
@@ -825,16 +892,16 @@ h1.serif {
 .school-mast .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 16px;
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 11px;
+  font-size: 18px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  /* Use the deeper gold so the small uppercase eyebrow text meets
-     WCAG AA contrast (4.5:1) on --paper-page. The decorative line
-     segments before/after still use --line-2. */
+  /* Use the deeper gold so the uppercase eyebrow text meets WCAG AA
+     contrast (4.5:1) on --paper-page. The decorative line segments
+     before/after still use --line-2. */
   color: var(--hechinger-gold-deep);
 }
 .school-mast .eyebrow::before,
@@ -849,7 +916,7 @@ h1.serif {
   margin: 0 auto 10px;
   max-width: 24ch;
   font-family: var(--font-display);
-  font-size: 44px;
+  font-size: 50px;
   line-height: 1.08;
   font-weight: 600;
   letter-spacing: -0.016em;
@@ -871,14 +938,14 @@ h1.serif {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 14px 26px;
   border-radius: 999px;
   border: 1px solid var(--ink);
   background: transparent;
   color: var(--ink);
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 18px;
   letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
@@ -931,9 +998,9 @@ h1.serif {
   border-radius: 999px;
   background: var(--ink);
   color: var(--paper-page);
-  padding: 8px 16px;
+  padding: 12px 22px;
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -954,7 +1021,7 @@ h1.serif {
   text-transform: uppercase;
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 18px;
   letter-spacing: 0.04em;
 }
 
@@ -971,7 +1038,7 @@ h1.serif {
   margin: 6px 0 0;
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 15px;
+  font-size: 22px;
   line-height: 1.5;
   color: var(--ink-3);
 }
@@ -983,7 +1050,7 @@ h1.serif {
   margin-top: 8px;
   margin-bottom: 12px;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 18px;
   color: var(--neg-deep);
   font-weight: 600;
 }
@@ -1005,7 +1072,7 @@ h1.serif {
   background: transparent;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 34px;
   line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.012em;
@@ -1023,11 +1090,11 @@ h1.serif {
 }
 
 .section-copy {
-  margin: 16px auto 18px;
+  margin: 18px auto 22px;
   max-width: 62ch;
   font-family: var(--font-body);
-  font-size: 16.5px;
-  line-height: 1.7;
+  font-size: 22px;
+  line-height: 1.65;
   font-style: normal;
   color: var(--ink-2);
   text-align: center;
@@ -1058,13 +1125,13 @@ h1.serif {
    right margin, matching the design template. */
 .metric-strip {
   margin: 10px 0;
-  padding: 16px 22px;
+  padding: 20px 28px;
   width: 100%;
   border-radius: 4px;
   border: 1px solid transparent;
   font-family: var(--font-body);
-  font-size: 15.5px;
-  line-height: 1.5;
+  font-size: 22px;
+  line-height: 1.55;
   text-align: center;
   color: var(--ink-2);
 }
@@ -1103,8 +1170,8 @@ h1.serif {
   opacity: 0.92;
   font-style: italic;
   font-weight: 400;
-  font-size: 14px;
-  margin-bottom: 6px;
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
 .metric-strip.positive .metric-answer,
@@ -1113,7 +1180,7 @@ h1.serif {
 .metric-strip.neg .metric-answer {
   color: #fff;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 26px;
   line-height: 1;
   letter-spacing: -0.01em;
 }
@@ -1121,10 +1188,10 @@ h1.serif {
 .metric-strip .metric-question {
   display: block;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 22px;
   font-style: italic;
   font-weight: 400;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   color: inherit;
   opacity: 0.85;
 }
@@ -1132,7 +1199,7 @@ h1.serif {
 .metric-strip .metric-answer {
   display: block;
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.01em;
@@ -1145,7 +1212,7 @@ h1.serif {
 }
 
 .metric-strip .metric-statement {
-  font-size: 15.5px;
+  font-size: 22px;
   font-weight: 400;
   line-height: 1.5;
   color: inherit;
@@ -1198,7 +1265,7 @@ h1.serif {
   padding: 22px 24px 14px;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--ink);
@@ -1238,18 +1305,18 @@ h1.serif {
 }
 #school-outcomes-section .research-summary-grid .metric-question {
   font-family: var(--font-ui);
-  font-size: 10.5px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   opacity: 1;
 }
 #school-outcomes-section .research-summary-grid .metric-answer {
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 38px;
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -1283,7 +1350,7 @@ h1.serif {
 
 .table-filter-label {
   font-family: var(--font-ui);
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1293,15 +1360,15 @@ h1.serif {
 }
 
 .table-filter-input {
-  min-width: 260px;
+  min-width: 280px;
   max-width: 100%;
-  padding: 8px 14px;
+  padding: 12px 18px;
   border: 1px solid var(--line-2);
   border-radius: 999px;
   background: var(--paper);
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 14px;
+  font-size: 18px;
   color: var(--ink);
 }
 
@@ -1314,11 +1381,21 @@ h1.serif {
 }
 
 .small-meta {
-  color: #555;
-  font-size: 0.95rem;
+  color: var(--ink-3);
+  font-size: 22px;
+  line-height: 1.55;
   margin: 0 auto 10px;
-  max-width: 620px;
+  max-width: 720px;
   text-align: center;
+}
+
+/* Extra breathing room when a .small-meta caption (e.g. the
+   "These are the most recent public scores…" note above the
+   Federal Composite metric strip) is followed directly by a
+   colored metric-strip — without this the dense callout butts up
+   against the muted note above. */
+.small-meta + .metric-strip {
+  margin-top: 28px;
 }
 
 .plain-list,
@@ -1354,15 +1431,15 @@ h1.serif {
 
 .pagination-button {
   appearance: none;
-  min-width: 32px;
-  height: 32px;
-  padding: 0 8px;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 10px;
   border: 1px solid var(--line-2);
   border-radius: 50%;
   background: transparent;
   color: var(--ink-3);
   font-family: var(--font-ui);
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1390,13 +1467,13 @@ h1.serif {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-body);
-  font-size: 14.5px;
+  font-size: 18px;
   line-height: 1.55;
 }
 
 .history-table th,
 .history-table td {
-  padding: 14px 18px;
+  padding: 16px 20px;
   vertical-align: top;
   text-align: left;
   border-bottom: 1px solid var(--line);
@@ -1408,9 +1485,9 @@ h1.serif {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   font-family: var(--font-ui);
-  font-size: 11px;
+  font-size: 18px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
@@ -1562,18 +1639,19 @@ h1.serif {
   margin: 0 0 14px;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 34px;
+  line-height: 1.1;
   font-weight: 600;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.012em;
   color: var(--ink);
 }
 .chart-title .sub {
   display: block;
-  margin-top: 4px;
+  margin-top: 8px;
   font-family: var(--font-body);
   font-style: italic;
   font-weight: 400;
-  font-size: 12.5px;
+  font-size: 22px;
   color: var(--ink-3);
   letter-spacing: 0;
 }
@@ -1587,19 +1665,20 @@ h1.serif {
 .chart-legend {
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 22px;
   flex-wrap: wrap;
-  font-size: 0.85rem;
-  color: #444;
-  margin-top: 10px;
+  font-family: var(--font-ui);
+  font-size: 18px;
+  color: var(--ink-3);
+  margin-top: 14px;
 }
 
 .legend-dot {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .chart-tooltip {
@@ -1639,10 +1718,10 @@ h1.serif {
 }
 
 .related-card h3 {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 11px;
+  font-size: 18px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   /* Deep gold for AA contrast — same trade as .school-mast .eyebrow. */
@@ -1661,7 +1740,7 @@ h1.serif {
   gap: 28px;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 19px;
 }
 
 .related-card ul a,
@@ -1690,11 +1769,11 @@ h1.serif {
    each id keeps working). They render as one comma-spaced italic line
    with hairline middle-dot separators between non-empty siblings. */
 .school-mast .meta {
-  margin: 0 auto 16px;
+  margin: 0 auto 18px;
   text-align: center;
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 15px;
+  font-size: 22px;
   line-height: 1.6;
   color: var(--ink-3);
 }
@@ -1805,9 +1884,9 @@ h1.serif {
 }
 
 .related-links p {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 19px;
   color: var(--ink-2);
 }
 
@@ -1837,20 +1916,22 @@ h1.serif {
 }
 
 @media (max-width: 700px) {
-  .page {
-    width: 100%;
-    max-width: 100%;
-    padding-bottom: 32px;
-  }
+  /* clamp() handles most of the small-screen sizing automatically;
+     these overrides are for the things clamp() can't address. */
 
-  /* Masthead: tighter padding + allow logo/wordmark to wrap on very narrow phones. */
+  /* Masthead: allow logo/wordmark to wrap on very narrow phones. */
   .site-masthead {
     padding: 16px 20px;
     flex-wrap: wrap;
     gap: 10px;
   }
   .site-masthead .wm-text {
-    font-size: 13px;
+    font-size: 14px;
+  }
+  .site-masthead .logo {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
   }
 
   /* Tabs: scroll horizontally so all six fit without truncating labels. */
@@ -1866,6 +1947,7 @@ h1.serif {
     white-space: nowrap;
     text-align: left;
     padding: 14px 4px;
+    font-size: 16px;
   }
 
   /* Inner gutter shrinks on phones. */
@@ -1940,10 +2022,10 @@ h1.serif {
     font-size: 2.4rem;
   }
 
-  /* Quad-banner shortens on mobile and breaks out of the 20px gutter
-     instead of the 72px desktop gutter. */
+  /* Quad-banner shortens on mobile and breaks out of the 20px gutter. */
   .quad-banner {
-    margin: 0 -20px;
+    margin-left: -20px;
+    margin-right: -20px;
     height: 160px;
   }
 

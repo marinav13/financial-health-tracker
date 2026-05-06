@@ -139,14 +139,14 @@ function renderLineChart(containerId, config) {
     const y = pad.top + (i / 4) * innerH;
     const tickValue = maxY - ((maxY - minY) * i / 4);
     gridLines.push(`<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#e5e7eb" stroke-width="1" />`);
-    yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="12" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
+    yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="16" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
   }
 
   // X-axis year labels
   const yearTicks = [];
   for (let year = minYear; year <= maxYear; year += 1) {
     const x = xScale(year);
-    yearTicks.push(`<text x="${x}" y="${height - 8}" text-anchor="middle" font-size="12" fill="#6b7280">${year}</text>`);
+    yearTicks.push(`<text x="${x}" y="${height - 8}" text-anchor="middle" font-size="16" fill="#6b7280">${year}</text>`);
   }
 
   // Line paths (M = move to, L = line to)

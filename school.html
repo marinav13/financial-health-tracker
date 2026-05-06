@@ -38,8 +38,14 @@
     <details id="school-search-wrap" class="school-search-wrap" open>
       <summary class="school-search-summary" aria-label="Toggle search"></summary>
       <section class="search-panel">
-        <label class="search-label" for="school-search">Institution Name:</label>
-        <input id="school-search" class="search" type="search" placeholder="Start typing a college name">
+        <label class="search-label" for="school-search">Search by institution</label>
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, or IPEDS ID" autocomplete="off">
+        </div>
         <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
     </details>

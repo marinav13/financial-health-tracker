@@ -2342,6 +2342,8 @@ build_school_file <- function(df) {
       net_tuition_per_fte_adjusted = build_series(df, "net_tuition_per_fte_adjusted"),
       unfunded_discount_rate = build_series(df, "discount_rate", scale = 100),
       enrollment_headcount_total = build_series(df, "enrollment_headcount_total"),
+      enrollment_headcount_undergrad = build_series(df, "enrollment_headcount_undergrad"),
+      enrollment_headcount_graduate = build_series(df, "enrollment_headcount_graduate"),
       enrollment_nonresident_total = build_series(df, "enrollment_nonresident_total"),
       enrollment_nonresident_undergrad = build_series(df, "enrollment_nonresident_undergrad"),
       enrollment_nonresident_graduate = build_series(df, "enrollment_nonresident_graduate"),

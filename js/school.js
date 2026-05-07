@@ -3,9 +3,9 @@ function getParam(name) {
 }
 
 const SHOW_CLOSURE_FLAGS = false;
-const CHART_COLOR_PRIMARY = "#00adef";
-const CHART_COLOR_SECONDARY = "#ffcc33";
-const CHART_COLOR_TERTIARY = "#000000";
+const CHART_COLOR_PRIMARY = "#005ab5";
+const CHART_COLOR_SECONDARY = "#e69f00";
+const CHART_COLOR_TERTIARY = "#009e73";
 
 function asNumber(value) {
   if (value === null || value === undefined || value === "") return null;
@@ -64,6 +64,125 @@ async function loadJsonOrNull(path) {
   } catch (error) {
     console.warn(`Optional data file could not be loaded: ${path}`, error);
     return null;
+  }
+}
+
+const SCHOOL_SOURCE_URLS = {
+  ipeds: "https://nces.ed.gov/ipeds/use-the-data"
+};
+
+const IPEDS_COMPONENT_LABELS = {
+  finance: "Finance Component",
+  "fall enrollment": "Fall Enrollment Component",
+  "12-month enrollment": "12-month Enrollment Component",
+  "human resources": "Human Resources Component"
+};
+
+function formatSourceDate(value) {
+  if (!value) return "the latest update";
+  const parsed = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "America/New_York"
+  }).format(parsed);
+}
+
+function formatIpedsCollectionYear(year) {
+  const numericYear = Number(year);
+  if (!Number.isFinite(numericYear)) return String(year || "latest");
+  const priorYear = numericYear - 1;
+  const trailingYear = String(numericYear).slice(-2);
+  return `${priorYear}-${trailingYear}`;
+}
+
+function normalizeIpedsComponentLabel(value) {
+  const key = String(value || "").trim().toLowerCase();
+  return IPEDS_COMPONENT_LABELS[key] || String(value || "").trim();
+}
+
+function createSourceLink(url) {
+  try {
+    const parsed = new URL(url);
+    if (!/^https?:$/.test(parsed.protocol)) return document.createTextNode(url);
+    const link = document.createElement("a");
+    link.href = parsed.href;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = parsed.href;
+    return link;
+  } catch (_error) {
+    return document.createTextNode(String(url || ""));
+  }
+}
+
+function createSourceCitation(textBeforeUrl, url, textAfterUrl = ".") {
+  const sentence = document.createElement("span");
+  sentence.append(document.createTextNode(textBeforeUrl));
+  sentence.append(createSourceLink(url));
+  sentence.append(document.createTextNode(textAfterUrl));
+  return sentence;
+}
+
+function createIpedsCitation(collectionYear, surveyComponent, retrievedAt) {
+  return createSourceCitation(
+    `U.S. Department of Education, National Center for Education Statistics, Integrated Postsecondary Education Data System (IPEDS), ${formatIpedsCollectionYear(collectionYear)}, ${normalizeIpedsComponentLabel(surveyComponent)}, Retrieved ${formatSourceDate(retrievedAt)}, from `,
+    SCHOOL_SOURCE_URLS.ipeds,
+    "."
+  );
+}
+
+function setOutcomesGridLayout(visibleCount) {
+  const grid = document.getElementById("school-outcomes-grid");
+  if (!grid) return;
+  grid.classList.remove("outcomes-count-1", "outcomes-count-2", "outcomes-count-3");
+  const normalizedCount = visibleCount >= 3 ? 3 : Math.max(1, visibleCount);
+  grid.classList.add(`outcomes-count-${normalizedCount}`);
+}
+
+function upsertSectionSourceNote(sectionId, citations) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+
+  const existing = section.querySelector(".graphic-source");
+  if (existing) existing.remove();
+
+  const sourceItems = Array.isArray(citations) ? citations.filter(Boolean) : [];
+  if (!sourceItems.length) return;
+
+  const note = document.createElement("p");
+  note.className = "graphic-source";
+
+  const label = document.createElement("strong");
+  label.textContent = sourceItems.length > 1 ? "Sources: " : "Source: ";
+  note.append(label);
+
+  sourceItems.forEach((citation, index) => {
+    if (index > 0) {
+      note.append(document.createTextNode(" "));
+    }
+    note.append(citation);
+  });
+
+  section.append(note);
+}
+
+function moveChartNoteBelowSource(noteId, sectionId, show) {
+  const note = document.getElementById(noteId);
+  const section = document.getElementById(sectionId);
+  if (!note || !section) return;
+
+  note.classList.toggle("is-hidden", !show);
+  note.setAttribute("aria-hidden", show ? "false" : "true");
+  if (!show) return;
+
+  const sourceNote = section.querySelector(".graphic-source");
+  if (sourceNote?.nextSibling) {
+    section.insertBefore(note, sourceNote.nextSibling);
+  } else {
+    section.appendChild(note);
   }
 }
 
@@ -151,6 +270,42 @@ function applyQuestionValueStrip(id, question, value, state = "neutral") {
   node.appendChild(statement);
 }
 
+function strongSegment(text) {
+  return { strong: text };
+}
+
+function setBodyCopy(id, paragraphs) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.replaceChildren();
+
+  const entries = Array.isArray(paragraphs) ? paragraphs.filter(Boolean) : [];
+  if (!entries.length) {
+    node.classList.add("is-hidden");
+    node.setAttribute("aria-hidden", "true");
+    return;
+  }
+
+  entries.forEach((paragraph) => {
+    const p = document.createElement("p");
+    p.className = "section-copy";
+    const segments = Array.isArray(paragraph) ? paragraph : [paragraph];
+    segments.forEach((segment) => {
+      if (segment && typeof segment === "object" && Object.prototype.hasOwnProperty.call(segment, "strong")) {
+        const strong = document.createElement("strong");
+        strong.textContent = segment.strong ?? "";
+        p.appendChild(strong);
+      } else {
+        p.append(document.createTextNode(String(segment ?? "")));
+      }
+    });
+    node.appendChild(p);
+  });
+
+  node.classList.remove("is-hidden");
+  node.setAttribute("aria-hidden", "false");
+}
+
 function setHidden(id, hidden) {
   const node = document.getElementById(id);
   if (!node) return;
@@ -163,10 +318,11 @@ function setEnrollmentTotal(id, latestEnrollment) {
   if (!node) return;
   node.replaceChildren();
   if (!latestEnrollment) return;
-  node.append(`Total enrollment for ${latestEnrollment.year}: `);
+  node.append(`As of ${latestEnrollment.year}, this institution reported a headcount of `);
   const value = document.createElement("strong");
   value.textContent = fmtNumber(latestEnrollment.value, 0);
   node.append(value);
+  node.append(" students.");
 }
 
 function setClosestMetricHidden(id, hidden) {
@@ -271,6 +427,43 @@ function buildIntlSentence(summary, series, latestDataYear) {
   return "International student data are not available.";
 }
 
+function buildIntlSentenceParagraph(summary, series, latestDataYear) {
+  const all = asNumber(summary.pct_international_all);
+  const ug = asNumber(summary.pct_international_undergraduate);
+  const grad = asNumber(summary.pct_international_graduate);
+  const latestYear = latestPoint(series.enrollment_headcount_total)?.year || latestDataYear;
+  const prefixLatestYear = Number.isFinite(latestYear) ? `In ${latestYear}, ` : "In the latest year, ";
+
+  if (all !== null && ug !== null && grad !== null) {
+    return [
+      prefixLatestYear,
+      strongSegment(`${fmtRoundedPct(all)} of students were international`),
+      `. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`
+    ];
+  }
+
+  if (all !== null) {
+    return [
+      prefixLatestYear,
+      strongSegment(`${fmtRoundedPct(all)} of students were international`),
+      "."
+    ];
+  }
+
+  const latestIntl = latestPoint(series.enrollment_nonresident_total);
+  const latestEnrollment = latestPoint(series.enrollment_headcount_total);
+  if (latestIntl && latestEnrollment && latestEnrollment.value > 0) {
+    const pct = (latestIntl.value / latestEnrollment.value) * 100;
+    return [
+      prefixLatestYear,
+      strongSegment(`${fmtRoundedPct(pct)} of students were international`),
+      "."
+    ];
+  }
+
+  return null;
+}
+
 function buildResearchSpendingSentence(profile, summary, latestDataYear) {
   const perFte = asNumber(summary.research_expense_per_fte);
   const sectorLabel = String(profile.control_label || profile.sector || "").toLowerCase();
@@ -311,6 +504,56 @@ function buildResearchSpendingSentence(profile, summary, latestDataYear) {
   return `This institution spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}.`;
 }
 
+function buildResearchSpendingParagraph(profile, summary, latestDataYear) {
+  const perFte = asNumber(summary.research_expense_per_fte);
+  const sectorLabel = String(profile.control_label || profile.sector || "").toLowerCase();
+  const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
+  const sectorMedian = asNumber(summary.sector_median_research_expense_per_fte_positive);
+  const reportingShare = asNumber(summary.sector_research_spending_reporting_share_pct);
+  const yearLabel = Number.isFinite(latestDataYear) ? latestDataYear : "the latest year";
+
+  if (perFte === null) return null;
+
+  let medianComparison = null;
+  if (sectorMedian !== null) {
+    if (sectorMedian === 0) {
+      medianComparison = "about";
+    } else {
+      const pctDiff = Math.abs(perFte - sectorMedian) / sectorMedian;
+      if (pctDiff <= 0.05) medianComparison = "about";
+      else if (perFte > sectorMedian) medianComparison = "above";
+      else medianComparison = "below";
+    }
+  }
+
+  if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
+    const sectorPhrase = sectorLabel ? `${sectorLabel} colleges` : "colleges in the same sector";
+    return [
+      "Research expenses accounted for ",
+      strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
+      " at this institution, which spent ",
+      strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+      ` on research in ${yearLabel}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`
+    ];
+  }
+
+  if (shareOfCoreExpenses !== null) {
+    return [
+      "Research expenses accounted for ",
+      strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
+      " at this institution, which spent ",
+      strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+      ` on research in ${yearLabel}.`
+    ];
+  }
+
+  return [
+    "This institution spent ",
+    strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+    ` on research in ${yearLabel}.`
+  ];
+}
+
 function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   const tuitionDependence = asNumber(summary.tuition_dependence_pct);
   const sectorMedian = asNumber(summary.sector_median_tuition_dependence_pct);
@@ -329,6 +572,30 @@ function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}.`;
 }
 
+function buildTuitionDependenceParagraph(profile, summary, latestDataYear) {
+  const tuitionDependence = asNumber(summary.tuition_dependence_pct);
+  const sectorMedian = asNumber(summary.sector_median_tuition_dependence_pct);
+  const sectorLabel = String(profile.control_label || "").toLowerCase();
+  const yearLabel = Number.isFinite(latestDataYear) ? latestDataYear : "the latest year";
+
+  if (tuitionDependence === null) return null;
+
+  if (sectorMedian !== null && sectorLabel) {
+    const relation = tuitionDependence >= sectorMedian ? "above" : "below";
+    return [
+      "This college got ",
+      strongSegment(`${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition`),
+      ` in ${yearLabel}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`
+    ];
+  }
+
+  return [
+    "This college got ",
+    strongSegment(`${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition`),
+    ` in ${yearLabel}.`
+  ];
+}
+
 function isPrivateNotForProfitProfile(profile) {
   return String(profile?.control_label || "").trim().toLowerCase() === "private not-for-profit";
 }
@@ -339,6 +606,34 @@ function discountRateState(discountRate) {
   if (rate >= 50) return "negative";
   if (rate >= 35) return "neutral";
   return "positive";
+}
+
+function discountRateTrendState(change) {
+  const delta = asNumber(change);
+  if (delta === null) return "neutral";
+  if (delta >= 5) return "negative";
+  if (delta <= -5) return "positive";
+  return "neutral";
+}
+
+function lossYearsState(value) {
+  const count = asNumber(value);
+  if (count === null) return "neutral";
+  if (count >= 5) return "negative";
+  if (count <= 1) return "positive";
+  return "neutral";
+}
+
+function getDiscountRateChange(summary, series, latestDataYear) {
+  const latestSeriesYear = Number.isFinite(latestDataYear) ? latestDataYear : latestPoint(series.unfunded_discount_rate)?.year ?? null;
+  if (latestSeriesYear !== null) {
+    const latestRate = asNumber(summary.unfunded_discount_rate) ?? latestPoint(series.unfunded_discount_rate)?.value ?? null;
+    const priorPoint = findPointByYear(series.unfunded_discount_rate, latestSeriesYear - 5);
+    if (latestRate !== null && priorPoint) {
+      return latestRate - priorPoint.value;
+    }
+  }
+  return asNumber(summary.unfunded_discount_pct_change_5yr);
 }
 
 function findPointByYear(values, year) {
@@ -359,21 +654,22 @@ function buildDiscountRateSentence(profile, summary, series, latestDataYear) {
   if (priorPoint) {
     const delta = latestRate - priorPoint.value;
     if (Math.abs(delta) < 0.25) {
-      return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, with little change from ${priorYear} to ${latestYear}.`;
+      return `${institutionName} had a discount rate of ${fmtRoundedPct(latestRate)} in ${latestYear}, about the same as ${fmtRoundedPct(priorPoint.value)} in ${priorYear}.`;
     }
-    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, ${delta > 0 ? "an increase" : "a decrease"} of ${fmtRoundedPct(Math.abs(delta))} percentage points from ${priorYear} to ${latestYear}.`;
+    return `${institutionName} had a discount rate of ${fmtRoundedPct(latestRate)} in ${latestYear}, ${delta > 0 ? "up" : "down"} from ${fmtRoundedPct(priorPoint.value)} in ${priorYear}.`;
   }
 
   const change = asNumber(summary.unfunded_discount_pct_change_5yr);
   if (change === null) {
-    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid in ${latestYear}.`;
+    return `${institutionName} had a discount rate of ${fmtRoundedPct(latestRate)} in ${latestYear}.`;
   }
 
+  const priorRate = latestRate - change;
   if (Math.abs(change) < 0.25) {
-    return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, with little change over the five years ending in ${latestYear}.`;
+    return `${institutionName} had a discount rate of ${fmtRoundedPct(latestRate)} in ${latestYear}, about the same as ${fmtRoundedPct(priorRate)} five years earlier.`;
   }
 
-  return `${institutionName} forgoes ${fmtRoundedPct(latestRate)} of gross tuition revenue through unfunded institutional aid, ${change > 0 ? "an increase" : "a decrease"} of ${fmtRoundedPct(Math.abs(change))} percentage points over the five years ending in ${latestYear}.`;
+  return `${institutionName} had a discount rate of ${fmtRoundedPct(latestRate)} in ${latestYear}, ${change > 0 ? "up" : "down"} from ${fmtRoundedPct(priorRate)} five years earlier.`;
 }
 
 function buildGradLoanSentence(profile, summary) {
@@ -399,6 +695,33 @@ function buildGradLoanSentence(profile, summary) {
   return sentences.join(" ");
 }
 
+function buildGradLoanParagraphs(profile, summary) {
+  const paragraphs = [];
+  const gradShare = asNumber(summary.share_grad_students);
+  const sectorGradShare = asNumber(summary.sector_avg_share_grad_students);
+  const gradPlusPerRecipient = asNumber(summary.grad_plus_disbursements_per_recipient);
+  const sectorGradPlusMedian = asNumber(summary.sector_median_grad_plus_disbursements_per_recipient);
+  const sectorLabel = String(profile.control_label || "").toLowerCase();
+
+  if (gradShare !== null && sectorGradShare !== null && sectorLabel) {
+    paragraphs.push([
+      "At this institution, ",
+      strongSegment(`${fmtPlainPct(gradShare, 0)} of students are graduate students.`),
+      ` That's compared to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
+    ]);
+  }
+
+  if (gradPlusPerRecipient !== null && sectorGradPlusMedian !== null && sectorLabel) {
+    paragraphs.push([
+      "On average, ",
+      strongSegment(`graduate students who took out Grad PLUS loans at this institution borrowed ${fmtCurrency(gradPlusPerRecipient)}`),
+      ` in the most recent year, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
+    ]);
+  }
+
+  return paragraphs;
+}
+
 function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) {
   const ratio = asNumber(summary.students_per_instructional_staff_fte);
   const benchmark = asNumber(summary.sector_median_students_per_instructional_staff_fte);
@@ -406,6 +729,19 @@ function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) 
   if (ratio === null || benchmark === null || !sectorLabel) return null;
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}` : "In the latest year";
   return `${prefix}, this institution had about ${fmtNumber(ratio)} students per 1 instructional staff member, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`;
+}
+
+function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear) {
+  const ratio = asNumber(summary.students_per_instructional_staff_fte);
+  const benchmark = asNumber(summary.sector_median_students_per_instructional_staff_fte);
+  const sectorLabel = String(profile.control_label || "").toLowerCase();
+  if (ratio === null || benchmark === null || !sectorLabel) return null;
+  const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}, this institution had ` : "In the latest year, this institution had ";
+  return [
+    prefix,
+    strongSegment(`${fmtNumber(ratio)} students per 1 instructional staff member`),
+    `, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`
+  ];
 }
 
 function federalCompositeState(score) {
@@ -531,6 +867,7 @@ function showSchoolLoadError(message) {
   setSectionVisibility("school-outcomes-section", false);
   setSectionVisibility("financial-section", false);
   setSectionVisibility("enrollment-section", false);
+  setSectionVisibility("graduate-section", false);
   setSectionVisibility("staffing-section", false);
   setSectionVisibility("endowment-section", false);
   setSectionVisibility("aid-section", false);
@@ -655,12 +992,18 @@ async function init() {
   const composite = compositeLookup?.schools?.[unitid] || null;
   const hcmRecord = hcmLookup?.schools?.[unitid] || null;
   const closureRecord = SHOW_CLOSURE_FLAGS ? closureLookup?.schools?.[unitid] || null : null;
+  const schoolRetrievedAt = school.generated_at || null;
+  const graduationRate = asNumber(s.graduation_rate_6yr);
+  const medianEarnings = asNumber(s.median_earnings_10yr);
+  const medianDebt = asNumber(s.median_debt_completers);
   const fiveYearRangeText = recentFiveYearRangeText(series.revenue_total_adjusted || series.enrollment_headcount_total || []);
   const revenueSeries = toSeries(series.revenue_total_adjusted);
   const expensesSeries = toSeries(series.expenses_total_adjusted);
   const netTuitionSeries = toSeries(series.net_tuition_per_fte_adjusted);
   const discountRateSeries = toSeries(series.unfunded_discount_rate);
   const enrollmentSeries = toSeries(series.enrollment_headcount_total);
+  const enrollmentUndergradSeries = toSeries(series.enrollment_headcount_undergrad);
+  const enrollmentGraduateSeries = toSeries(series.enrollment_headcount_graduate);
   const staffTotalSeries = toSeries(series.staff_headcount_total);
   const staffInstructionalSeries = toSeries(series.staff_headcount_instructional);
   const endowmentValueSeries = toSeries(series.endowment_value_adjusted);
@@ -694,12 +1037,10 @@ async function init() {
   setText("school-location", [p.city, p.state].filter(Boolean).join(", ") || "");
   setText("school-control", p.sector || "");
   setText("school-urbanization", p.urbanization || "");
-  const graduationRate = asNumber(s.graduation_rate_6yr);
-  const medianEarnings = asNumber(s.median_earnings_10yr);
-  const medianDebt = asNumber(s.median_debt_completers);
   const hasGraduationRate = graduationRate !== null;
   const hasMedianEarnings = medianEarnings !== null;
   const hasMedianDebt = medianDebt !== null;
+  const visibleOutcomeCount = [hasGraduationRate, hasMedianEarnings, hasMedianDebt].filter(Boolean).length;
   setText("school-graduation-rate", hasGraduationRate ? fmtPlainPct(graduationRate, 0) : "");
   setText("school-median-earnings", hasMedianEarnings ? fmtCurrency(medianEarnings) : "");
   setText("school-median-debt", hasMedianDebt ? fmtCurrency(medianDebt) : "");
@@ -707,6 +1048,9 @@ async function init() {
   setHidden("school-earnings-card", !hasMedianEarnings);
   setHidden("school-debt-card", !hasMedianDebt);
   setHidden("school-outcomes-section", !(hasGraduationRate || hasMedianEarnings || hasMedianDebt));
+  if (visibleOutcomeCount > 0) {
+    setOutcomesGridLayout(visibleOutcomeCount);
+  }
 
   applyStrip(
     "revenue-change-card",
@@ -725,6 +1069,15 @@ async function init() {
   styleAnswerCard("loss-repeat", s.losses_last_3_of_5);
   setClosestMetricHidden("loss-repeat", !s.losses_last_3_of_5);
   setText("loss-years", s.loss_years_last_10 ?? "No data");
+  const lossYearsStateValue = lossYearsState(s.loss_years_last_10);
+  const lossYearsAnswer = document.getElementById("loss-years");
+  const lossYearsCard = lossYearsAnswer?.closest(".metric-strip");
+  if (lossYearsAnswer) {
+    lossYearsAnswer.className = `metric-answer ${lossYearsStateValue}`;
+  }
+  if (lossYearsCard) {
+    lossYearsCard.className = `metric-strip ${lossYearsStateValue}`;
+  }
   setClosestMetricHidden("loss-years", s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
 
   applyStrip(
@@ -737,15 +1090,12 @@ async function init() {
   const hasNetTuitionCard = asNumber(s.net_tuition_per_fte_change_5yr) !== null;
   setHidden("net-tuition-change-card", !hasNetTuitionCard);
 
-  applyStrip(
-    "tuition-sentence-card",
-    buildTuitionDependenceSentence(p, s, latestDataYear),
-    "neutral"
-  );
-  const hasTuitionSentence = asNumber(s.tuition_dependence_pct) !== null || !!s.tuition_dependence_vs_sector_median_sentence;
-  setHidden("tuition-sentence-card", !hasTuitionSentence);
+  const tuitionDependenceParagraph = buildTuitionDependenceParagraph(p, s, latestDataYear);
+  const hasTuitionSentence = Array.isArray(tuitionDependenceParagraph) && tuitionDependenceParagraph.length > 0;
+  setBodyCopy("tuition-sentence-copy", hasTuitionSentence ? [tuitionDependenceParagraph] : []);
 
   const discountRateSentence = buildDiscountRateSentence(p, s, series, latestDataYear);
+  const discountRateChange = getDiscountRateChange(s, series, latestDataYear);
   const hasDiscountRateChart = isPrivateNotForProfitProfile(p) && discountRateSeries.length > 0;
   const hasDiscountRateSection = Boolean(discountRateSentence) || hasDiscountRateChart;
   setSectionVisibility("discount-rate-section", hasDiscountRateSection);
@@ -753,16 +1103,12 @@ async function init() {
     applyStrip(
       "discount-rate-card",
       discountRateSentence || "Discount-rate data are not available.",
-      discountRateState(s.unfunded_discount_rate ?? latestPoint(series.unfunded_discount_rate)?.value ?? null)
+      discountRateTrendState(discountRateChange)
     );
   }
   setHidden("discount-rate-card", !discountRateSentence);
 
-  applyStrip(
-    "research-spending-card",
-    buildResearchSpendingSentence(p, s, latestDataYear),
-    "neutral"
-  );
+  const researchSpendingParagraph = buildResearchSpendingParagraph(p, s, latestDataYear);
 
   applyStrip(
     "enrollment-change-card",
@@ -790,27 +1136,29 @@ async function init() {
     ...intlUndergradSeries
   ].some((point) => point.value > 0);
 
-  applyStrip("intl-sentence-card", buildIntlSentence(s, series, latestDataYear), "neutral");
+  const intlSentenceParagraph = buildIntlSentenceParagraph(s, series, latestDataYear);
   const hasIntlSentence = asNumber(s.pct_international_all) !== null || (latestPoint(series.enrollment_nonresident_total) && latestPoint(series.enrollment_headcount_total));
-  setHidden("intl-sentence-card", !hasIntlSentence);
+  setBodyCopy("intl-sentence-copy", hasIntlSentence && intlSentenceParagraph ? [intlSentenceParagraph] : []);
 
   if (hasAnyInternationalEnrollment) {
-    applyStrip(
-      "intl-change-card",
-      asNumber(s.international_enrollment_pct_change_5yr) === null
-        ? "The number of international students is not available."
-        : `The number of international students ${asNumber(s.international_enrollment_pct_change_5yr) >= 0 ? "increased" : "decreased"} ${fmtRoundedPct(Math.abs(asNumber(s.international_enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
-      "neutral"
-    );
+    const intlChange = asNumber(s.international_enrollment_pct_change_5yr);
+    if (intlChange === null) {
+      setBodyCopy("intl-change-copy", []);
+    } else {
+      setBodyCopy("intl-change-copy", [[
+        "The number of international students ",
+        strongSegment(`${intlChange >= 0 ? "increased" : "decreased"} ${fmtRoundedPct(Math.abs(intlChange))}`),
+        ` ${fiveYearRangeText}.`
+      ]]);
+    }
+  } else {
+    setBodyCopy("intl-change-copy", []);
   }
-  setHidden("intl-change-card", !hasAnyInternationalEnrollment);
 
-  const gradLoanSentence = buildGradLoanSentence(p, s);
-  setHidden("grad-loan-intro", !gradLoanSentence);
-  setHidden("loan-card", !gradLoanSentence);
-  if (gradLoanSentence) {
-    applyStrip("loan-card", gradLoanSentence, "neutral");
-  }
+  const gradLoanParagraphs = buildGradLoanParagraphs(p, s);
+  const hasGradLoanCopy = gradLoanParagraphs.length > 0;
+  setHidden("grad-loan-intro", !hasGradLoanCopy);
+  setBodyCopy("loan-copy", gradLoanParagraphs);
 
   applyStrip(
     "staff-change-card",
@@ -822,11 +1170,8 @@ async function init() {
   const hasStaffCard = asNumber(s.staff_total_headcount_pct_change_5yr) !== null;
   setHidden("staff-change-card", !hasStaffCard);
 
-  const ratioSentence = buildInstructionalStaffRatioSentence(p, s, latestDataYear);
-  setHidden("staff-ratio-card", !ratioSentence);
-  if (ratioSentence) {
-    applyStrip("staff-ratio-card", ratioSentence, "neutral");
-  }
+  const ratioParagraph = buildInstructionalStaffRatioParagraph(p, s, latestDataYear);
+  setBodyCopy("staff-ratio-copy", ratioParagraph ? [ratioParagraph] : []);
 
   applyStrip(
     "endowment-change-card",
@@ -852,28 +1197,28 @@ async function init() {
   const hasResearchSpending = (asNumber(s.research_expense_per_fte) ?? 0) > 0;
 
   const endowmentSpendingSeries = toSeries(series.endowment_spending_current_use);
-  const hasEndowmentSpending = endowmentSpendingSeries.length > 0;
+  const hasEndowmentSpending = endowmentSpendingSeries.some((point) => Number(point.value) !== 0);
   const showEndowmentSection = hasEndowmentValue || hasEndowmentSpending;
   const hasRevenueChart = revenueSeries.length > 0 || expensesSeries.length > 0;
   const hasNetTuitionChart = netTuitionSeries.length > 0;
-  const hasEnrollmentChart = enrollmentSeries.length > 0;
+  const hasEnrollmentChart = enrollmentSeries.length > 0 || enrollmentUndergradSeries.length > 0 || enrollmentGraduateSeries.length > 0;
   const hasStaffingChart = staffTotalSeries.length > 0 || staffInstructionalSeries.length > 0;
   const hasLossBlock = !!s.ended_year_at_loss || !!s.losses_last_3_of_5 || !(s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
   const showFinancialSection = hasRevenueCard || hasRevenueChart || hasLossBlock || hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence || hasDiscountRateSection;
-  const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasIntlSentence || hasAnyInternationalEnrollment || !!gradLoanSentence;
-  const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioSentence;
+  const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasIntlSentence || hasAnyInternationalEnrollment;
+  const showGraduateSection = hasGradLoanCopy;
+  const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
 
   setSectionVisibility("financial-section", showFinancialSection);
   setSectionVisibility("enrollment-section", showEnrollmentSection);
+  setSectionVisibility("graduate-section", showGraduateSection);
   setSectionVisibility("staffing-section", showStaffingSection);
   setSectionVisibility("endowment-section", showEndowmentSection);
   setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
   setSectionVisibility("aid-section", hasFederal || hasState || hasResearchSpending);
   setHidden("research-aid-intro", !hasResearchSpending);
-  setHidden("research-spending-card", !hasResearchSpending);
-  setHidden("state-negative-note", !(hasState && hasNegativePoint(series.state_funding_adjusted)));
-
+  setBodyCopy("research-spending-copy", hasResearchSpending && researchSpendingParagraph ? [researchSpendingParagraph] : []);
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
     if (hasFederal && hasState) aidTitle.textContent = "Federal And State Aid";
@@ -883,11 +1228,11 @@ async function init() {
   }
 
   if (hasFederal) {
-    applyStrip(
-      "federal-share-card",
-      `${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants, ${yearPhrase(latestDataYear)}.`,
-      "neutral"
+    setText(
+      "federal-share-copy",
+      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants.${asNumber(s.federal_grants_contracts_pell_adjusted_pct_core_revenue) === 0 ? " Many colleges saw a big increase in federal aid amid the COVID-19 pandemic." : ""}`
     );
+    setHidden("federal-share-copy", false);
 
     applyQuestionValueStrip(
       "federal-change-card",
@@ -897,14 +1242,16 @@ async function init() {
         : fmtRoundedPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, true),
       asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
     );
+  } else {
+    setHidden("federal-share-copy", true);
   }
 
   if (hasState) {
-    applyStrip(
-      "state-share-card",
-      `${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of core revenue came from state appropriations.`,
-      "neutral"
+    setText(
+      "state-share-copy",
+      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of core revenue came from state appropriations.`
     );
+    setHidden("state-share-copy", false);
 
     applyQuestionValueStrip(
       "state-change-card",
@@ -914,14 +1261,12 @@ async function init() {
         : fmtRoundedPct(s.state_funding_pct_change_5yr, true),
       asNumber(s.state_funding_pct_change_5yr) === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr)
     );
+  } else {
+    setHidden("state-share-copy", true);
   }
 
   if (hasResearchSpending) {
-    applyStrip(
-      "research-spending-card",
-      buildResearchSpendingSentence(p, s, latestDataYear),
-      "neutral"
-    );
+    setBodyCopy("research-spending-copy", researchSpendingParagraph ? [researchSpendingParagraph] : []);
   }
 
   renderLineChart("chart-revenue", {
@@ -934,6 +1279,9 @@ async function init() {
     ]
   });
   setHidden("chart-revenue", !hasRevenueChart);
+  upsertSectionSourceNote("chart-revenue", hasRevenueChart ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   renderLineChart("chart-net-tuition", {
     title: "Net tuition revenue over time (per full-time equivalent student, adjusted for inflation)",
@@ -945,9 +1293,12 @@ async function init() {
     ]
   });
   setHidden("chart-net-tuition", !hasNetTuitionChart);
+  upsertSectionSourceNote("chart-net-tuition", hasNetTuitionChart ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   renderLineChart("chart-discount-rate", {
-    title: "Discount rate over time (based on unfunded student aid)",
+    title: "Discount rate over time",
     format: "percent",
     showLegend: false,
     series: [
@@ -955,21 +1306,30 @@ async function init() {
     ]
   });
   setHidden("chart-discount-rate", !hasDiscountRateChart);
+  upsertSectionSourceNote("chart-discount-rate", hasDiscountRateChart ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   renderLineChart("chart-enrollment", {
     title: "Enrollment trends (12-month unduplicated headcount)",
     format: "number",
-    showLegend: false,
     series: [
-      { label: "Enrollment", color: CHART_COLOR_PRIMARY, values: toSeries(series.enrollment_headcount_total) }
-    ]
+      { label: "Total Enrollment", color: CHART_COLOR_PRIMARY, values: enrollmentSeries },
+      { label: "Undergraduate Enrollment", color: CHART_COLOR_SECONDARY, values: enrollmentUndergradSeries },
+      { label: "Graduate Enrollment", color: CHART_COLOR_TERTIARY, values: enrollmentGraduateSeries }
+    ],
+    enableSeriesToggle: true
   });
   setHidden("chart-enrollment", !hasEnrollmentChart);
+  upsertSectionSourceNote("chart-enrollment", hasEnrollmentChart ? [
+    createIpedsCitation(latestDataYear || "latest", "12-month Enrollment", schoolRetrievedAt)
+  ] : []);
 
   if (hasAnyInternationalEnrollment) {
     renderLineChart("chart-international", {
       title: "International enrollment over time",
       format: "number",
+      enableSeriesToggle: true,
       series: [
         { label: "International Student Total", color: CHART_COLOR_PRIMARY, values: intlTotalSeries },
         { label: "International Graduate Students", color: CHART_COLOR_SECONDARY, values: intlGradSeries },
@@ -978,6 +1338,9 @@ async function init() {
     });
   }
   setHidden("chart-international", !hasAnyInternationalEnrollment);
+  upsertSectionSourceNote("chart-international", hasAnyInternationalEnrollment ? [
+    createIpedsCitation(latestDataYear || "latest", "Fall Enrollment", schoolRetrievedAt)
+  ] : []);
 
   renderLineChart("chart-staffing", {
     title: "Staffing levels over time",
@@ -988,6 +1351,9 @@ async function init() {
     ]
   });
   setHidden("chart-staffing", !hasStaffingChart);
+  upsertSectionSourceNote("chart-staffing", hasStaffingChart ? [
+    createIpedsCitation(latestDataYear || "latest", "Human Resources", schoolRetrievedAt)
+  ] : []);
 
   renderLineChart("chart-endowment", {
     title: "Endowment value over time (adjusted for inflation)",
@@ -999,6 +1365,9 @@ async function init() {
     ]
   });
   setHidden("chart-endowment", !hasEndowmentValue);
+  upsertSectionSourceNote("chart-endowment", hasEndowmentValue ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   const endowmentSpendingShareSeries = toSeries(series.endowment_spending_current_use_pct_core_revenue)
     .map((point) => ({ year: point.year, value: point.value * 100 }));
@@ -1029,6 +1398,9 @@ async function init() {
       }
     });
   }
+  upsertSectionSourceNote("chart-endowment-spending", hasEndowmentSpending ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   if (hasFederal) {
     renderLineChart("chart-federal", {
@@ -1048,6 +1420,9 @@ async function init() {
       ]
     });
   }
+  upsertSectionSourceNote("chart-federal", hasFederal ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
 
   if (hasState) {
     renderLineChart("chart-state", {
@@ -1060,13 +1435,16 @@ async function init() {
       ]
     });
   }
+  upsertSectionSourceNote("chart-state", hasState ? [
+    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
+  ] : []);
+  moveChartNoteBelowSource("state-negative-note", "chart-state", hasState && hasNegativePoint(series.state_funding_adjusted));
 
   const compositeSentence = buildFederalCompositeSentence(composite);
   setHidden("federal-composite-section", !compositeSentence);
   if (compositeSentence) {
     applyStrip("federal-composite-card", compositeSentence, federalCompositeState(composite.federal_composite_score_2022_2023));
   }
-
   const hcmSentence = buildHcm2Sentence(p, hcmRecord, hcmLookup);
   setHidden("hcm2-section", !hcmSentence);
   if (hcmSentence) {

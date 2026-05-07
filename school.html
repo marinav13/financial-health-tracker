@@ -22,8 +22,8 @@
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
-      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
       <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
+      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
     </nav>
     <main id="main" class="main-wrap">
 
@@ -44,15 +44,13 @@
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, or IPEDS ID" autocomplete="off">
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state or IPEDS ID" autocomplete="off">
         </div>
         <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
     </details>
 
-    <figure class="quad-banner" aria-hidden="true">
-      <img src="assets/quad-banner.svg" alt="" loading="lazy">
-    </figure>
+    <figure class="quad-banner" aria-hidden="true"></figure>
     <section class="school-mast">
       <div class="eyebrow">Institution Profile</div>
       <h1 id="school-name">Loading...</h1>
@@ -113,17 +111,17 @@
 
     <section class="section-block" id="net-tuition-section">
       <h2 class="section-title">Net tuition revenue</h2>
-      <p class="section-copy">Net tuition revenue shows how much money a college brings in per student after institutional discounts and aid.</p>
+      <p class="section-copy">Net tuition revenue shows how much money a college brings in per student after institutional aid and other kinds of discounts.</p>
       <p class="section-copy">When net tuition revenue falls, it can put pressure on college finances. But it can also mean a college is giving students more aid and lowering what they pay.</p>
       <div id="chart-net-tuition" class="chart-panel"></div>
       <div id="net-tuition-change-card" class="metric-strip"></div>
     </section>
 
     <section class="section-block" id="tuition-dependence-section">
+      <div id="tuition-sentence-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
       <p class="section-copy">Higher dependence on tuition can make a college more financially vulnerable when enrollment drops.</p>
-      <div id="tuition-sentence-card" class="metric-strip neutral"></div>
       <div id="discount-rate-section" class="is-hidden" aria-hidden="true">
-        <p id="discount-rate-intro" class="section-copy">Colleges under financial pressure may increase unfunded aid to attract more students. That can help students' wallets while reducing the tuition dollars a college has available to spend.</p>
+        <p id="discount-rate-intro" class="section-copy">Colleges under financial pressure may discount their tuition to attract more students. That can help students' wallets while reducing the tuition dollars a college has available to spend.</p>
         <div id="chart-discount-rate" class="chart-panel"></div>
         <div id="discount-rate-card" class="metric-strip neutral"></div>
       </div>
@@ -144,15 +142,15 @@
     <section class="section-block" id="graduate-section">
       <h2 class="section-title">Graduate students</h2>
       <p id="grad-loan-intro" class="section-copy">Congress has capped federal loans for new graduate students starting July 1, 2026. This change could hit colleges with higher rates of graduate students who borrow.</p>
-      <div id="loan-card" class="metric-strip neutral"></div>
+      <div id="loan-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
     </section>
 
     <section class="section-block" id="intl-section">
       <h2 class="section-title">International students</h2>
       <p class="section-copy">Institutions with higher rates of international students may be more vulnerable to the federal push to make it harder to obtain student visas.</p>
-      <div id="intl-sentence-card" class="metric-strip neutral"></div>
+      <div id="intl-sentence-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
       <div id="chart-international" class="chart-panel"></div>
-      <div id="intl-change-card" class="metric-strip"></div>
+      <div id="intl-change-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
     </section>
 
     <section class="section-block" id="staffing-section">
@@ -160,7 +158,7 @@
       <p class="section-copy">Drops in staffing can signal that a college is cutting back as a result of financial and enrollment challenges.</p>
       <div id="staff-change-card" class="metric-strip"></div>
       <div id="chart-staffing" class="chart-panel"></div>
-      <div id="staff-ratio-card" class="metric-strip neutral"></div>
+      <div id="staff-ratio-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
     </section>
 
     <section class="section-block" id="endowment-section">
@@ -176,18 +174,18 @@
       <h2 id="aid-section-title" class="section-title">Federal And State Aid</h2>
       <p class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
       <div id="federal-group">
-        <div id="federal-share-card" class="metric-strip neutral"></div>
+        <p id="federal-share-copy" class="section-copy is-hidden"></p>
         <div id="federal-change-card" class="metric-strip neutral"></div>
         <div id="chart-federal" class="chart-panel"></div>
       </div>
       <div id="state-group">
-        <div id="state-share-card" class="metric-strip neutral"></div>
+        <p id="state-share-copy" class="section-copy is-hidden"></p>
         <div id="state-change-card" class="metric-strip neutral"></div>
         <div id="chart-state" class="chart-panel"></div>
         <p id="state-negative-note" class="chart-note is-hidden">*<em>IPEDS shows a negative state-appropriations value in at least one year for this institution. That may reflect a reporting adjustment or reclassification rather than negative aid in the everyday sense.</em></p>
       </div>
       <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
-      <div id="research-spending-card" class="metric-strip neutral"></div>
+      <div id="research-spending-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
     </section>
 
     <section class="section-block is-hidden" id="federal-composite-section">
@@ -206,7 +204,7 @@
     </section>
 
     <aside class="related-links is-hidden" id="school-related-section" aria-hidden="true">
-      <p><strong>Explore this institution:</strong></p>
+      <p><strong>Explore this institution further by looking at its:</strong></p>
       <ul class="link-list" id="school-related-pages"></ul>
     </aside>
 

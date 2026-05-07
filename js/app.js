@@ -155,10 +155,57 @@ function renderRelatedInstitutionLinks(options = {}) {
   if (!links.length) return "";
   return `
     <div class="related-links">
-      <p><strong>Explore this institution:</strong></p>
+      <p><strong>Explore this institution further by looking at its:</strong></p>
       <ul class="link-list">${links.map((link) => `<li>${link}</li>`).join("")}</ul>
     </div>
   `;
+}
+
+function upgradeSiteFooter() {
+  if (typeof document === "undefined" || typeof document.querySelector !== "function") return;
+  const footer = document.querySelector(".pg-foot");
+  if (!footer) return;
+
+  footer.replaceChildren();
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "ftr-bottom";
+
+  const content = document.createElement("div");
+  content.className = "site-nav-copyright";
+
+  const message = document.createElement("p");
+  message.className = "ftr-info-msg";
+  message.textContent = "The Hechinger Report covers inequality and innovation in education with in-depth journalism that uses research, data and stories from classrooms and campuses to show the public how education can be improved and why it matters.";
+
+  const nav = document.createElement("nav");
+  nav.className = "ftr-site-nav";
+  nav.setAttribute("aria-label", "Footer");
+
+  const list = document.createElement("ul");
+  list.className = "ftr-nav-items";
+
+  [
+    ["Our work", "https://hechingerreport.org/"],
+    ["Our Mission", "https://hechingerreport.org/our-mission/"],
+    ["Contact Us", "https://hechingerreport.org/contact/"]
+  ].forEach(([label, href]) => {
+    const item = document.createElement("li");
+    item.className = "ftr-nav-item";
+
+    const link = document.createElement("a");
+    link.className = "ftr-nav-link";
+    link.href = href;
+    link.textContent = label;
+
+    item.appendChild(link);
+    list.appendChild(item);
+  });
+
+  nav.appendChild(list);
+  content.append(message, nav);
+  wrapper.appendChild(content);
+  footer.appendChild(wrapper);
 }
 
 // ------ Search Tokenization & Matching ------
@@ -375,6 +422,8 @@ async function initSearch() {
     }
   });
 }
+
+upgradeSiteFooter();
 
 initSearch().catch((error) => {
   console.error("Search initialization failed:", error);

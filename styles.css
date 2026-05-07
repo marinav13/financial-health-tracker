@@ -472,60 +472,62 @@ body {
   padding: 40px clamp(20px, 3vw, 32px) 0;
 }
 
-/* ---------- Page footer signature ----------
-   Sits naturally at end of content. */
+/* ---------- Page footer ----------
+   Sits naturally at end of content and uses the site's existing paper
+   background rather than a separate dark band. */
 .pg-foot {
   margin: 40px 0 0;
-  padding: 28px 0;
+  padding: 28px 0 0;
   border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  font-family: var(--font-ui);
-  font-weight: 500;
-  font-size: 18px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  /* --ink-4 (#8a8271) only hits 3.56:1 against the cream paper, below
-     the WCAG AA 4.5:1 threshold for small text. --ink-3 takes it to
-     ~9:1 with no real visual cost — both halves of the footer (the
-     'H The Hechinger Report' sig and the 'Source: …' line) read as
-     muted-but-legible against the cream. */
-  color: var(--ink-3);
+  color: var(--ink);
 }
 
-.pg-foot .sig {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+.pg-foot .ftr-bottom {
+  width: 100%;
+}
+
+.pg-foot .site-nav-copyright {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.pg-foot .ftr-info-msg {
+  margin: 0;
+  max-width: 68ch;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.55;
   color: var(--ink-2);
 }
 
-.pg-foot .sq {
-  width: 34px;
-  height: 34px;
-  display: grid;
-  place-items: center;
-  background: var(--hechinger-yellow);
-  border: 1.5px solid var(--ink);
-  border-radius: 3px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: 0;
-  text-transform: none;
-  /* See .site-masthead .logo above — the H glyph is pseudo-content
-     so the span stays empty in the DOM. Same a11y rationale. */
+.pg-foot .ftr-site-nav {
+  width: auto;
 }
-.pg-foot .sq::after {
-  content: 'H';
-  font-family: inherit;
-  font-weight: inherit;
-  font-size: inherit;
+
+.pg-foot .ftr-nav-items {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.pg-foot .ftr-nav-item {
+  margin: 0;
+}
+
+.pg-foot .ftr-nav-link {
   color: var(--ink);
-  line-height: 1;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
 }
 
 /* ---------- Editorial hero blocks ----------
@@ -623,28 +625,22 @@ h1.serif {
   text-underline-offset: 3px;
 }
 
-/* Cartoon-illustration banner on the homepage hero (right column). */
+/* Solid-color decorative panel on the homepage hero (right column).
+   Sized to the same 360 × 420 box that previously held the cartoon
+   college SVG so the hero column geometry doesn't shift. */
 .banner {
   position: relative;
   width: 360px;
   height: 420px;
   border-radius: 4px;
   overflow: hidden;
-  background: var(--paper-page);
+  background: #ffcc33;
   border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
   margin: 0;
 }
 
 .banner.short {
   height: 280px;
-}
-
-.banner svg {
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 
 /* Hidden timestamp line emitted by the JS for cuts/accred/research data
@@ -851,10 +847,10 @@ h1.serif {
 }
 
 /* ---------- Institution masthead ---------------------------------- */
-/* .quad-banner is the full-bleed stylized campus illustration that
-   sits above the institution H1. Negative margin matches the
-   .main-wrap clamp() padding so the banner extends edge-to-edge of
-   the page no matter the viewport width. */
+/* .quad-banner is the full-bleed Hechinger Yellow color band that sits
+   above the institution H1. Negative margin matches the .main-wrap
+   clamp() padding so the band extends edge-to-edge of the page no
+   matter the viewport width. */
 .quad-banner {
   margin-left: calc(-1 * clamp(20px, 3vw, 32px));
   margin-right: calc(-1 * clamp(20px, 3vw, 32px));
@@ -866,9 +862,12 @@ h1.serif {
   overflow: hidden;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: #b4c2cf;
+  background: #ffcc33;
   display: block;
 }
+/* When other pages (cuts / accreditation / research) keep the SVG band,
+   stretch it to fill the same 240px tall container. The school page
+   leaves the figure empty so only the yellow background shows. */
 .quad-banner img,
 .quad-banner svg {
   width: 100%;
@@ -1105,6 +1104,19 @@ h1.serif {
   color: var(--ink);
 }
 
+.section-copy-block {
+  margin: 18px auto 22px;
+  max-width: 62ch;
+}
+
+.section-copy-block .section-copy {
+  margin: 0 0 16px;
+}
+
+.section-copy-block .section-copy:last-child {
+  margin-bottom: 0;
+}
+
 .chart-note {
   margin: 0.75rem auto 0;
   max-width: 760px;
@@ -1288,6 +1300,17 @@ h1.serif {
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
   margin: 28px 0 24px;
+}
+#school-outcomes-section .research-summary-grid.outcomes-count-1 {
+  grid-template-columns: minmax(280px, 420px);
+  justify-content: center;
+}
+#school-outcomes-section .research-summary-grid.outcomes-count-2 {
+  grid-template-columns: repeat(2, minmax(280px, 420px));
+  justify-content: center;
+}
+#school-outcomes-section .research-summary-grid.outcomes-count-3 {
+  grid-template-columns: repeat(3, 1fr);
 }
 #school-outcomes-section .research-summary-grid .metric-strip {
   width: 100%;
@@ -1673,6 +1696,33 @@ h1.serif {
   margin-top: 14px;
 }
 
+.chart-legend-button {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid transparent;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.chart-legend-button.is-active {
+  color: var(--ink-2);
+  border-color: rgba(17, 17, 17, 0.14);
+  background: rgba(17, 17, 17, 0.04);
+}
+
+.chart-legend-button:not(.is-active) {
+  opacity: 0.62;
+}
+
+.chart-legend-button:focus-visible {
+  outline: 2px solid var(--status-blue-dark);
+  outline-offset: 2px;
+}
+
 .legend-dot {
   display: inline-block;
   width: 12px;
@@ -1703,6 +1753,26 @@ h1.serif {
 
 .chart-tooltip-row {
   display: block;
+}
+
+.graphic-source {
+  margin: 14px 0 0;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.graphic-source strong {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.graphic-source a {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  word-break: break-word;
 }
 
 /* ---------- Related-pages footer (institution profile pages) ----------
@@ -1881,6 +1951,7 @@ h1.serif {
 .related-links {
   padding: 18px 32px 6px;
   margin: 0;
+  text-align: center;
 }
 
 .related-links p {
@@ -1896,13 +1967,28 @@ h1.serif {
 
 .related-links .link-list {
   margin: 0;
-  padding-left: 22px;
+  padding: 0;
+  list-style: none;
   font-family: var(--font-body);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
 }
 
 .related-links .link-list li {
-  margin-bottom: 8px;
   line-height: 1.5;
+}
+
+.related-links .link-list li::after {
+  content: "·";
+  margin-left: 18px;
+  color: var(--ink-3);
+}
+
+.related-links .link-list li:last-child::after {
+  content: none;
+  margin: 0;
 }
 
 .related-links .link-list a {
@@ -1955,11 +2041,10 @@ h1.serif {
     padding: 32px 20px 0;
   }
 
-  /* Footer wraps cleanly when its two halves don't both fit on one line. */
-  .pg-foot {
+  /* Footer navigation stacks cleanly on small screens. */
+  .pg-foot .ftr-nav-items {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 8px;
   }
 
   /* Hero blocks: split collapses to single column with the SVG below the
@@ -2047,6 +2132,12 @@ h1.serif {
   /* Outcomes grid stacks; horizontal dividers turn into bottom dividers. */
   #school-outcomes-section .research-summary-grid {
     grid-template-columns: 1fr;
+  }
+  #school-outcomes-section .research-summary-grid.outcomes-count-1,
+  #school-outcomes-section .research-summary-grid.outcomes-count-2,
+  #school-outcomes-section .research-summary-grid.outcomes-count-3 {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
   }
   #school-outcomes-section .research-summary-grid .metric-strip {
     border-right: 0;

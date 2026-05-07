@@ -322,12 +322,15 @@ build_series <- function(df, value_col, scale = 1) {
   keep <- !is.na(df[[value_col]])
   if (!any(keep)) return(list())
   rows <- df[keep, c("year", value_col), drop = FALSE]
-  lapply(seq_len(nrow(rows)), function(i) {
+  series_rows <- lapply(seq_len(nrow(rows)), function(i) {
+    value <- to_num(rows[[value_col]][[i]])
+    if (is.na(value)) return(NULL)
     list(
       year  = as.integer(rows$year[[i]]),
-      value = unname(rows[[value_col]][[i]]) * scale
+      value = unname(value) * scale
     )
   })
+  Filter(Negate(is.null), series_rows)
 }
 
 # Returns the first non-missing value from a set of candidate columns, in order.

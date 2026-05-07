@@ -113,12 +113,26 @@ function renderLineChart(containerId, config) {
   const format = config.format || "number";
   const width = 760;
   const height = 260;
-  const pad = {
-    top: 18,
-    right: format === "currency" ? 40 : 32,
-    bottom: 34,
-    left: format === "currency" ? 138 : 80
-  };
+  // Detect a narrow viewport so we can shrink the chart's outer padding
+  // and let the (CSS-bumped) axis labels reclaim space. Falls back to
+  // desktop sizing in non-DOM environments (the JS unit tests).
+  const isMobile =
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(max-width: 700px)").matches;
+  const pad = isMobile
+    ? {
+        top: 14,
+        right: format === "currency" ? 28 : 22,
+        bottom: 36,
+        left: format === "currency" ? 118 : 64
+      }
+    : {
+        top: 18,
+        right: format === "currency" ? 40 : 32,
+        bottom: 34,
+        left: format === "currency" ? 138 : 80
+      };
   const innerW = width - pad.left - pad.right;
   const innerH = height - pad.top - pad.bottom;
   const safeTitle = escapeChartHtml(config.title || "Chart");
@@ -162,13 +176,13 @@ function renderLineChart(containerId, config) {
       const y = pad.top + (i / 4) * innerH;
       const tickValue = maxY - ((maxY - minY) * i / 4);
       gridLines.push(`<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#e5e7eb" stroke-width="1" />`);
-      yTicks.push(`<text x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="14" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
+      yTicks.push(`<text class="chart-axis-tick chart-axis-tick--y" x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="14" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
     }
 
     const yearTicks = [];
     for (let year = minYear; year <= maxYear; year += 1) {
       const x = xScale(year);
-      yearTicks.push(`<text x="${x}" y="${height - 8}" text-anchor="middle" font-size="14" fill="#6b7280">${year}</text>`);
+      yearTicks.push(`<text class="chart-axis-tick chart-axis-tick--x" x="${x}" y="${height - 8}" text-anchor="middle" font-size="14" fill="#6b7280">${year}</text>`);
     }
 
     const paths = seriesList.map((series) => {

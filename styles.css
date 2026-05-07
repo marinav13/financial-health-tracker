@@ -1685,6 +1685,22 @@ h1.serif {
   height: auto;
 }
 
+/* Axis tick labels (year on the X axis, value on the Y axis). The
+   chart SVG has a fixed viewBox of 760 x 260 user units, so any
+   font-size set in user units shrinks linearly when the SVG scales
+   into a narrow container. The default 14u looks fine on desktop
+   (~14 displayed px when the chart is ~760px wide) but renders at
+   ~6 displayed px on a 340px-wide phone. CSS overrides the inline
+   font-size attribute, so bumping these values in a media query
+   restores legibility on mobile without growing the SVG itself. */
+.chart-axis-tick {
+  font-size: 14px;
+}
+@media (max-width: 700px) {
+  .chart-axis-tick--y { font-size: 24px; }
+  .chart-axis-tick--x { font-size: 22px; }
+}
+
 .chart-legend {
   display: flex;
   justify-content: center;
@@ -2093,6 +2109,30 @@ h1.serif {
   .search-panel {
     max-width: 100%;
   }
+
+  /* On the homepage at narrow widths, lift the search panel above the
+     yellow decorative box and the secondary helper paragraph so it sits
+     immediately under the lede headline / first lede paragraph. The
+     trick: flatten .hero-split and its inner .hero-text into the main
+     flex column via display: contents, then use `order` to interleave
+     the search panel between the first and second lede paragraphs.
+     Scoped to .home-layout so school.html and the dataset landing
+     pages (which share .main-wrap but not this hero structure) are
+     untouched. */
+  .home-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .home-layout .hero-split,
+  .home-layout .hero-split .hero-text {
+    display: contents;
+  }
+  .home-layout .hero-split h1 { order: 1; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 2; }
+  .home-layout > .search-panel { order: 3; margin-top: 4px; margin-bottom: 20px; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 4; }
+  .home-layout .hero-split .banner { order: 5; margin-top: 8px; }
+  .home-layout > .pg-foot { order: 6; }
 
   .school-search-summary {
     display: block;

@@ -91,10 +91,10 @@ function latestEnrollmentText(unitid) {
     .filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
   if (!points.length) return '';
   const latest = points[points.length - 1];
-  return `Total enrollment for ${latest.year}: ${new Intl.NumberFormat('en-US', {
+  return `As of ${latest.year}, this institution reported a headcount of ${new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
-  }).format(latest.value)}`;
+  }).format(latest.value)} students.`;
 }
 
 function schoolWithClosureStatus() {

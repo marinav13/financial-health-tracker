@@ -165,6 +165,21 @@ jobs:
           node ./tests/test_data_exports.js
           python ./tests/test_import_supabase.py
 
+      # Preserve the rebuilt accreditation outputs when validation fails so
+      # refresh regressions can be debugged from the exact JSON / pipeline
+      # rows that triggered the red run.
+      - name: Upload failed accreditation rebuild outputs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-accreditation-outputs
+          path: |
+            data/accreditation.json
+            data/accreditation_index.json
+            data_pipelines/accreditation/dapip_action_rows_filtered.csv
+            data_pipelines/accreditation/dapip_vs_scraper_audit.csv
+          retention-days: 30
+
       - name: Commit and push updated data
         shell: bash
         timeout-minutes: 5

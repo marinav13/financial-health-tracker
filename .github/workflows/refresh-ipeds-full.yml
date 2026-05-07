@@ -176,6 +176,7 @@ jobs:
           path: |
             data/accreditation.json
             data/accreditation_index.json
+            data_pipelines/accreditation/accreditation_tracker_actions_joined.csv
             data_pipelines/accreditation/dapip_action_rows_filtered.csv
             data_pipelines/accreditation/dapip_vs_scraper_audit.csv
           retention-days: 30

@@ -344,8 +344,26 @@
       }
     }
 
+    // NWCCU runs several flavors of routine periodic review whose
+    // outcomes are reported on the same status form ("Accredited",
+    // "substantially compliant"), without representing a sanction or
+    // status change. Drop these from BOTH the primary and other-
+    // institutions tables so the page surfaces only meaningful
+    // accreditation events.
+    //
+    //   "Policies, Regulations, and Financial Review"  — original case
+    //   "Financial Resources Review"                   — newer label
+    //                                                    used in the
+    //                                                    NWCCU-synthetic
+    //                                                    index entry
+    //                                                    that Warner
+    //                                                    Pacific lands in
+    //
+    // Both are paired with notes containing "substantially compliant"
+    // so the second condition keeps the rule narrow — actual sanction
+    // rows under the same accreditor still pass through.
     if (accreditor === "NWCCU" &&
-        /policies, regulations, and financial review/i.test(contentOnly) &&
+        /(?:policies,?\s+regulations,?\s+and\s+financial review|financial resources review)/i.test(contentOnly) &&
         /substantially compliant/i.test(notes)) {
       return false;
     }

@@ -120,7 +120,8 @@ function indexedRelatedRecord(index, unitid, countField) {
   );
 }
 
-function relatedPagesForSchool(unitid) {
+function relatedPagesForSchool(unitid, options = {}) {
+  const current = String(options.current || 'finances');
   const specs = [
     {
       label: 'College Cuts',
@@ -141,16 +142,60 @@ function relatedPagesForSchool(unitid) {
       countField: 'total_disrupted_grants'
     }
   ];
-  return specs
+  const links = specs
     .map((spec) => {
       const record = indexedRelatedRecord(spec.index, unitid, spec.countField);
       if (!record) return null;
       return {
         label: spec.label,
-        href: `${spec.page}?unitid=${encodeURIComponent(record.unitid || unitid)}`
+        href: `${spec.page}?unitid=${encodeURIComponent(record.unitid || unitid)}`,
+        // Carry through the financial_unitid so the Finances spec
+        // below can be derived from whichever cuts/accred/research
+        // record matched the lookup, mirroring the JS path:
+        // app.js renderRelatedInstitutionLinks pushes a Finances
+        // link iff school.financial_unitid is numeric.
+        financialUnitid: String(record.financial_unitid || '')
       };
     })
     .filter(Boolean);
+
+  // Finances link parity with app.js renderRelatedInstitutionLinks:
+  // the JS pushes a 'Finances' entry whenever the calling page has a
+  // numeric financial_unitid AND the current page isn't itself
+  // school.html. The test helper synthesizes the same expectation by
+  // walking the cuts/accred/research records we just collected, taking
+  // the first numeric financial_unitid we see, and emitting the link
+  // pointed at school.html?unitid=<financial_unitid>.
+  //
+  // We additionally require the schools_index.json catalog to
+  // recognize that financial_unitid before we add the link — the JS
+  // doesn't gate on this, but our test fixtures only include schools
+  // listed in schools_index.json, and emitting a phantom Finances link
+  // for an unknown school would break every assertion downstream.
+  const schoolsIndex = readJson('data/schools_index.json');
+  const knownSchoolUnitids = new Set(
+    (Array.isArray(schoolsIndex) ? schoolsIndex : [])
+      .map((entry) => String(entry?.unitid || ''))
+      .filter(Boolean)
+  );
+  const financeUnitid = links
+    .map((link) => link.financialUnitid)
+    .find((value) => /^[0-9]+$/.test(value));
+
+  // Match the order app.js renderRelatedInstitutionLinks emits:
+  // Finances first, then Cuts, Accreditation, Research. The test
+  // asserts order via links.nth(index).toHaveText(...), so the
+  // helper has to mirror that sequence exactly.
+  if (current !== 'finances' && financeUnitid && knownSchoolUnitids.has(financeUnitid)) {
+    links.unshift({
+      label: 'Finances',
+      href: `school.html?unitid=${encodeURIComponent(financeUnitid)}`
+    });
+  }
+
+  // Don't leak the helper's internal bookkeeping field to callers —
+  // assertions test {label, href} only.
+  return links.map(({ label, href }) => ({ label, href }));
 }
 
 function schoolWithRelatedPages() {

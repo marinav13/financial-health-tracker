@@ -268,7 +268,7 @@ test.describe('Frontend state synchronization', () => {
   });
 
   test('cuts detail only shows related institution pages with corresponding records', async ({ page }) => {
-    const expectedLinks = relatedPagesForSchool(cutsUnitid).filter((item) => item.label !== 'College Cuts');
+    const expectedLinks = relatedPagesForSchool(cutsUnitid, { current: 'cuts' }).filter((item) => item.label !== 'College Cuts');
 
     await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
     const links = page.locator('.related-links a');
@@ -280,7 +280,7 @@ test.describe('Frontend state synchronization', () => {
   });
 
   test('accreditation detail only shows related institution pages with corresponding records', async ({ page }) => {
-    const expectedLinks = relatedPagesForSchool(accreditationUnitid).filter((item) => item.label !== 'Accreditation');
+    const expectedLinks = relatedPagesForSchool(accreditationUnitid, { current: 'accreditation' }).filter((item) => item.label !== 'Accreditation');
 
     await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
     const links = page.locator('.related-links a');

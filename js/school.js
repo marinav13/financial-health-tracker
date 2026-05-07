@@ -3,6 +3,9 @@ function getParam(name) {
 }
 
 const SHOW_CLOSURE_FLAGS = false;
+const CHART_COLOR_PRIMARY = "#00adef";
+const CHART_COLOR_SECONDARY = "#ffcc33";
+const CHART_COLOR_TERTIARY = "#000000";
 
 function asNumber(value) {
   if (value === null || value === undefined || value === "") return null;
@@ -926,8 +929,8 @@ async function init() {
     format: "currency",
     showTooltip: false,
     series: [
-      { label: "Revenue", color: "#005ab5", values: toSeries(series.revenue_total_adjusted) },
-      { label: "Expenses", color: "#dc3220", values: toSeries(series.expenses_total_adjusted) }
+      { label: "Revenue", color: CHART_COLOR_PRIMARY, values: toSeries(series.revenue_total_adjusted) },
+      { label: "Expenses", color: CHART_COLOR_SECONDARY, values: toSeries(series.expenses_total_adjusted) }
     ]
   });
   setHidden("chart-revenue", !hasRevenueChart);
@@ -938,7 +941,7 @@ async function init() {
     showTooltip: false,
     showLegend: false,
     series: [
-      { label: "Net Tuition Revenue", color: "#005ab5", values: toSeries(series.net_tuition_per_fte_adjusted) }
+      { label: "Net Tuition Revenue", color: CHART_COLOR_PRIMARY, values: toSeries(series.net_tuition_per_fte_adjusted) }
     ]
   });
   setHidden("chart-net-tuition", !hasNetTuitionChart);
@@ -948,7 +951,7 @@ async function init() {
     format: "percent",
     showLegend: false,
     series: [
-      { label: "Unfunded Discount Rate", color: "#dc3220", values: discountRateSeries }
+      { label: "Unfunded Discount Rate", color: CHART_COLOR_SECONDARY, values: discountRateSeries }
     ]
   });
   setHidden("chart-discount-rate", !hasDiscountRateChart);
@@ -958,7 +961,7 @@ async function init() {
     format: "number",
     showLegend: false,
     series: [
-      { label: "Enrollment", color: "#005ab5", values: toSeries(series.enrollment_headcount_total) }
+      { label: "Enrollment", color: CHART_COLOR_PRIMARY, values: toSeries(series.enrollment_headcount_total) }
     ]
   });
   setHidden("chart-enrollment", !hasEnrollmentChart);
@@ -968,9 +971,9 @@ async function init() {
       title: "International enrollment over time",
       format: "number",
       series: [
-        { label: "International Student Total", color: "#005ab5", values: intlTotalSeries },
-        { label: "International Graduate Students", color: "#56b4e9", values: intlGradSeries },
-        { label: "International Undergraduate Students", color: "#cc79a7", values: intlUndergradSeries }
+        { label: "International Student Total", color: CHART_COLOR_PRIMARY, values: intlTotalSeries },
+        { label: "International Graduate Students", color: CHART_COLOR_SECONDARY, values: intlGradSeries },
+        { label: "International Undergraduate Students", color: CHART_COLOR_TERTIARY, values: intlUndergradSeries }
       ]
     });
   }
@@ -980,8 +983,8 @@ async function init() {
     title: "Staffing levels over time",
     format: "number",
     series: [
-      { label: "Total Staff Headcount", color: "#005ab5", values: toSeries(series.staff_headcount_total) },
-      { label: "Total Instructional Staff", color: "#dc3220", values: toSeries(series.staff_headcount_instructional) }
+      { label: "Total Staff Headcount", color: CHART_COLOR_PRIMARY, values: toSeries(series.staff_headcount_total) },
+      { label: "Total Instructional Staff", color: CHART_COLOR_SECONDARY, values: toSeries(series.staff_headcount_instructional) }
     ]
   });
   setHidden("chart-staffing", !hasStaffingChart);
@@ -992,7 +995,7 @@ async function init() {
     showTooltip: false,
     showLegend: false,
     series: [
-      { label: "Endowment Value", color: "#005ab5", values: toSeries(series.endowment_value_adjusted) }
+      { label: "Endowment Value", color: CHART_COLOR_PRIMARY, values: toSeries(series.endowment_value_adjusted) }
     ]
   });
   setHidden("chart-endowment", !hasEndowmentValue);
@@ -1010,7 +1013,7 @@ async function init() {
       format: "currency",
       showLegend: false,
       series: [
-        { label: "Spending Distribution For Current Use", color: "#dc3220", values: endowmentSpendingSeries }
+        { label: "Spending Distribution For Current Use", color: CHART_COLOR_SECONDARY, values: endowmentSpendingSeries }
       ],
       tooltipRows: (year, seriesList, formatValue) => {
         const point = seriesList[0]?.values?.find((value) => Number(value.year) === Number(year));
@@ -1036,7 +1039,7 @@ async function init() {
       series: [
         {
           label: "Federal Grants",
-          color: "#005ab5",
+          color: CHART_COLOR_PRIMARY,
           values: toSeries(
             series.federal_grants_contracts_pell_adjusted ||
             series.federal_grants_contracts_pell_adjusted_adjusted
@@ -1053,7 +1056,7 @@ async function init() {
       showTooltip: false,
       showLegend: false,
       series: [
-        { label: "State Funding", color: "#005ab5", values: toSeries(series.state_funding_adjusted) }
+        { label: "State Funding", color: CHART_COLOR_PRIMARY, values: toSeries(series.state_funding_adjusted) }
       ]
     });
   }

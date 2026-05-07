@@ -36,7 +36,10 @@ function escapeChartHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-function safeChartColor(value, fallback = "#005ab5") {
+const DEFAULT_CHART_COLOR_PRIMARY = "#00adef";
+const DEFAULT_CHART_COLOR_SECONDARY = "#ffcc33";
+
+function safeChartColor(value, fallback = DEFAULT_CHART_COLOR_PRIMARY) {
   const color = String(value || "").trim();
   // Valid CSS hex colors are exactly 3, 4, 6, or 8 hex digits. The prior
   // {3,8} quantifier accepted 5 and 7, which no browser renders.
@@ -96,7 +99,10 @@ function renderLineChart(containerId, config) {
     .filter((s) => Array.isArray(s.values) && s.values.length > 0)
     .map((series, index) => ({
       ...series,
-      color: safeChartColor(series.color, index === 1 ? "#dc3220" : "#005ab5")
+      color: safeChartColor(
+        series.color,
+        index === 1 ? DEFAULT_CHART_COLOR_SECONDARY : DEFAULT_CHART_COLOR_PRIMARY
+      )
     }));
   if (!seriesList.length) {
     container.innerHTML = `<p class="metric-copy">No data available.</p>`;

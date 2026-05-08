@@ -38,6 +38,16 @@ main <- function(cli_args = NULL) {
   aux_root <- resolved_paths$cache_aux_dir
   aux_data_root <- resolved_paths$cache_aux_data_dir
   aux_extract_root <- resolved_paths$cache_aux_extract_dir
+  ipeds_source_csv_locale <- readr::locale(encoding = "Latin1")
+
+  read_ipeds_source_csv <- function(file, ...) {
+    suppressMessages(readr::read_csv(
+      file,
+      ...,
+      show_col_types = FALSE,
+      locale = ipeds_source_csv_locale
+    ))
+  }
 
   # ---------------------------------------------------------------------------
   # LOAD RAW DATASET AND FILE CATALOG
@@ -137,7 +147,7 @@ main <- function(cli_args = NULL) {
         return(list(
           year = year,
           table_name = table_name,
-          data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000))
+          data = read_ipeds_source_csv(csv_file, guess_max = 100000)
         ))
       }
     }
@@ -147,7 +157,7 @@ main <- function(cli_args = NULL) {
         return(list(
           year = year,
           table_name = table_name,
-          data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000))
+          data = read_ipeds_source_csv(csv_file, guess_max = 100000)
         ))
       }
     }
@@ -169,7 +179,7 @@ main <- function(cli_args = NULL) {
     expand_zip_if_missing(zip_path, extract_path)
     csv_file <- find_first_file(extract_path, "\\.csv$")
     if (is.na(csv_file)) return(NULL)
-    list(year = year, table_name = table_name, data = suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000)))
+    list(year = year, table_name = table_name, data = read_ipeds_source_csv(csv_file, guess_max = 100000))
   }
 
   coalesce_missing_character <- function(primary, fallback) {
@@ -345,7 +355,7 @@ main <- function(cli_args = NULL) {
     expand_zip_if_missing(zip_path, extract_path)
     csv_file <- find_first_file(extract_path, "\\.csv$")
     if (is.na(csv_file)) next
-    dat <- suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 100000))
+    dat <- read_ipeds_source_csv(csv_file, guess_max = 100000)
     names(dat) <- toupper(names(dat))
     if (!all(c("UNITID", "GBATRRT") %in% names(dat))) next
     transfer_out_by_year_unit[[as.character(yr)]] <- dat %>%
@@ -363,7 +373,7 @@ main <- function(cli_args = NULL) {
     expand_zip_if_missing(gr_zip, gr_extract)
     gr_csv <- find_first_file(gr_extract, "\\.csv$")
     if (is.na(gr_csv)) next
-    gr <- suppressMessages(readr::read_csv(gr_csv, show_col_types = FALSE, guess_max = 100000))
+    gr <- read_ipeds_source_csv(gr_csv, guess_max = 100000)
     if (!all(c("UNITID", "GRTYPE", "GRTOTLT") %in% names(gr))) next
     transfer_out_by_year_unit[[as.character(yr)]] <- gr %>%
       transmute(
@@ -420,14 +430,12 @@ main <- function(cli_args = NULL) {
       if (is.na(csv_path)) {
         return(tibble::tibble())
       }
-      header <- suppressMessages(readr::read_csv(csv_path, show_col_types = FALSE, n_max = 0))
+      header <- read_ipeds_source_csv(csv_path, n_max = 0)
       available_fields <- intersect(required_fields, names(header))
       if (!("UNITID" %in% available_fields) || length(available_fields) <= 1) {
         return(tibble::tibble())
       }
-      tbl <- suppressMessages(
-        readr::read_csv(csv_path, show_col_types = FALSE, col_select = any_of(available_fields))
-      ) %>%
+      tbl <- read_ipeds_source_csv(csv_path, col_select = any_of(available_fields)) %>%
         mutate(unitid = as.character(UNITID), year = as.integer(year))
 
       if (identical(alias, "DRVF")) {
@@ -628,6 +636,67 @@ main <- function(cli_args = NULL) {
   prepared_rows <- purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
     build_canonical_ipeds_row(raw_enriched[i, , drop = FALSE], decode_lookups = decode_lookups)
   })
+
+  if (nrow(prepared_rows) == 0L || !all(c("unitid", "year") %in% names(prepared_rows))) {
+    context_rows <- if (nrow(raw_enriched) == 0L) {
+      tibble::tibble(
+        control_label = character(),
+        level_decoded = character(),
+        is_active_decoded = character(),
+        sector_decoded = character(),
+        keep_row = logical()
+      )
+    } else {
+      purrr::map_dfr(seq_len(nrow(raw_enriched)), function(i) {
+        context <- make_ipeds_row_context(raw_enriched[i, , drop = FALSE], decode_lookups)
+        tibble::tibble(
+          control_label = as.character(context$control_label %||% NA_character_),
+          level_decoded = as.character(context$level_decoded %||% NA_character_),
+          is_active_decoded = as.character(context$is_active_decoded %||% NA_character_),
+          sector_decoded = as.character(context$sector_decoded %||% NA_character_),
+          keep_row = isTRUE(keep_ipeds_canonical_row(context))
+        )
+      })
+    }
+
+    control_ok <- sum(
+      context_rows$control_label %in% c("Public", "Private not-for-profit", "Private for-profit"),
+      na.rm = TRUE
+    )
+    level_ok <- sum(context_rows$level_decoded == "Four or more years", na.rm = TRUE)
+    active_ok <- sum(
+      is.na(context_rows$is_active_decoded) |
+        context_rows$is_active_decoded %in% c("Yes", "Imputed as active"),
+      na.rm = TRUE
+    )
+    sector_admin <- sum(
+      !is.na(context_rows$sector_decoded) &
+        grepl("^Administrative Unit", context_rows$sector_decoded),
+      na.rm = TRUE
+    )
+    kept_rows <- sum(context_rows$keep_row, na.rm = TRUE)
+
+    stop(
+      paste(
+        "Canonical row build produced an unusable prepared_rows table before auxiliary backfill joins.",
+        sprintf("raw_enriched rows=%d; prepared_rows rows=%d.", nrow(raw_enriched), nrow(prepared_rows)),
+        sprintf(
+          "prepared_rows columns=[%s].",
+          paste(names(prepared_rows), collapse = ", ")
+        ),
+        sprintf(
+          "Filter diagnostics: keep=%d/%d, control-ok=%d/%d, level-four-years=%d/%d, active-ok=%d/%d, admin-sector=%d/%d.",
+          kept_rows, nrow(context_rows),
+          control_ok, nrow(context_rows),
+          level_ok, nrow(context_rows),
+          active_ok, nrow(context_rows),
+          sector_admin, nrow(context_rows)
+        ),
+        "This usually means decoded HD lookup values did not match the canonical row filter, so every build_canonical_ipeds_row() call returned NULL."
+      ),
+      call. = FALSE
+    )
+  }
 
 
   effy_backfill <- effy_long %>%

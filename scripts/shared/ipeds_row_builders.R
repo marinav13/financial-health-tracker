@@ -636,7 +636,13 @@ is_valid_zip_archive <- function(path) {
 # backoff inside download_if_missing, so the fallback only runs after the
 # primary has fully exhausted retries.
 ensure_dictionary_archive <- function(table_name, out_file, year = 2024) {
-  if (is_valid_zip_archive(out_file)) return(invisible(out_file))
+  if (is_valid_zip_archive(out_file)) {
+    message(sprintf(
+      "ensure_dictionary_archive: using cached dictionary for %s at %s",
+      table_name, out_file
+    ))
+    return(invisible(out_file))
+  }
   dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
 
   static_url <- sprintf(
@@ -665,8 +671,20 @@ ensure_dictionary_archive <- function(table_name, out_file, year = 2024) {
     isTRUE(ok)
   }
 
-  if (attempt_one_url(static_url)) return(invisible(out_file))
-  if (attempt_one_url(generator_url)) return(invisible(out_file))
+  if (attempt_one_url(static_url)) {
+    message(sprintf(
+      "ensure_dictionary_archive: downloaded %s dictionary from static archive URL",
+      table_name
+    ))
+    return(invisible(out_file))
+  }
+  if (attempt_one_url(generator_url)) {
+    message(sprintf(
+      "ensure_dictionary_archive: downloaded %s dictionary from generator fallback URL after static archive failed",
+      table_name
+    ))
+    return(invisible(out_file))
+  }
 
   stop(sprintf(
     "Dictionary download for %s failed from both %s and %s.",

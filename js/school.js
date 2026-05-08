@@ -1198,7 +1198,7 @@ async function init() {
     hasMeaningfulData(series.state_funding_adjusted);
   const hasResearchSpending = (asNumber(s.research_expense_per_fte) ?? 0) > 0;
 
-  const endowmentSpendingSeries = toSeries(series.endowment_spending_current_use);
+  const endowmentSpendingSeries = toSeries(series.endowment_spending_current_use_adjusted);
   const hasEndowmentSpending = endowmentSpendingSeries.some((point) => Number(point.value) !== 0);
   const showEndowmentSection = hasEndowmentValue || hasEndowmentSpending;
   const hasRevenueChart = revenueSeries.length > 0 || expensesSeries.length > 0;

@@ -2351,6 +2351,7 @@ build_school_file <- function(df) {
       staff_headcount_instructional = build_series(df, "staff_headcount_instructional"),
       endowment_value_adjusted = build_series(df, "endowment_value_adjusted"),
       endowment_spending_current_use = build_series(df, "endowment_spending_current_use"),
+      endowment_spending_current_use_adjusted = build_series(df, "endowment_spending_current_use_adjusted"),
       endowment_spending_current_use_pct_core_revenue = build_series(df, "endowment_spending_current_use_pct_core_revenue"),
       federal_grants_contracts_pell_adjusted_adjusted = build_series(df, "federal_grants_contracts_pell_adjusted_adjusted"),
       state_funding_adjusted = build_series(df, "state_funding_adjusted")
@@ -2397,7 +2398,7 @@ numeric_cols <- c(
   "expenses_total_adjusted","net_tuition_per_fte_adjusted","enrollment_headcount_total",
   "enrollment_nonresident_total","enrollment_nonresident_undergrad","enrollment_nonresident_graduate",
   "staff_headcount_total","staff_headcount_instructional",
-  "endowment_value_adjusted","endowment_spending_current_use","endowment_spending_current_use_pct_core_revenue","federal_grants_contracts_pell_adjusted_adjusted","state_funding_adjusted"
+  "endowment_value_adjusted","endowment_spending_current_use","endowment_spending_current_use_adjusted","endowment_spending_current_use_pct_core_revenue","federal_grants_contracts_pell_adjusted_adjusted","state_funding_adjusted"
 )
 
 for (nm in intersect(numeric_cols, names(df))) {

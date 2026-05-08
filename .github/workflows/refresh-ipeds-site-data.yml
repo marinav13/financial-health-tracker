@@ -97,6 +97,29 @@ jobs:
           restore-keys: |
             grant-witness-cache-v1-
 
+      # Cache the canonical IPEDS CSV between weekly runs. IPEDS releases
+      # data 3 times a year (fall, winter, spring); refresh-ipeds-full.yml
+      # is scheduled to rebuild on those releases and seeds this cache.
+      # The weekly Monday refresh just needs the CSV to feed downstream
+      # steps (build_web_exports, import_supabase_institution_mapping),
+      # not to rebuild it from scratch — that's a 60-180 min step that
+      # produces identical output until NCES releases new data.
+      #
+      # Cache keys are scoped by IPEDS_END_YEAR + a hash of the rebuild
+      # scripts so the cache automatically invalidates when either the
+      # input year window or the build logic changes. Restore-keys keeps
+      # us reading any prior cache for the same end year if the script
+      # hash drifts mid-cycle (still better than a 2-hour cold rebuild).
+      - name: Cache canonical IPEDS dataset
+        id: cache-ipeds-canonical
+        uses: actions/cache@v4
+        with:
+          path: ipeds/derived
+          key: ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-${{ hashFiles('scripts/build_ipeds_dataset.R', 'scripts/build_ipeds_canonical_dataset.R', 'scripts/collect_ipeds_data.R', 'scripts/shared/ipeds_helpers.R', 'scripts/shared/ipeds_row_builders.R', 'scripts/shared/ipeds_collector_helpers.R') }}
+          restore-keys: |
+            ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-
+            ipeds-derived-v1-${{ runner.os }}-
+
       - name: Run shared helper smoke tests
         shell: bash
         run: >
@@ -106,16 +129,28 @@ jobs:
       # not exist on a fresh checkout. Several downstream steps in this
       # workflow depend on it: import_supabase_institution_mapping.py
       # (Pass-2 IPEDS name match) and build_web_exports.R (--input flag).
-      # Rebuild it here so those steps have the file they expect. Mirrors
-      # the equivalent step in refresh-ipeds-full.yml; the IPEDS download
-      # cache restored above keeps the warm path fast.
-      - name: Rebuild canonical IPEDS dataset
+      #
+      # IPEDS only releases new data 3x/year (fall, winter, spring). The
+      # rebuild is identical between releases, so we cache the canonical
+      # CSV across weekly runs and only run the 60-180 min rebuild when
+      # the cache is cold (eviction, year bump, or rebuild-script change).
+      # refresh-ipeds-full.yml runs this rebuild on the IPEDS release
+      # cadence and seeds the same cache.
+      - name: Rebuild canonical IPEDS dataset (skip if cached)
         shell: bash
         timeout-minutes: 180
-        run: >
-          Rscript ./scripts/build_ipeds_dataset.R
-          --start-year "${IPEDS_START_YEAR}"
-          --end-year "${IPEDS_END_YEAR}"
+        env:
+          CANONICAL_CSV: ipeds/derived/ipeds_financial_health_canonical_${{ env.IPEDS_START_YEAR }}_${{ env.IPEDS_END_YEAR }}.csv
+        run: |
+          if [ -s "$CANONICAL_CSV" ]; then
+            echo "Canonical IPEDS dataset cache hit at $CANONICAL_CSV — skipping rebuild."
+            ls -lh "$CANONICAL_CSV"
+            exit 0
+          fi
+          echo "Canonical IPEDS dataset not found — rebuilding."
+          Rscript ./scripts/build_ipeds_dataset.R \
+            --start-year "${IPEDS_START_YEAR}" \
+            --end-year "${IPEDS_END_YEAR}"
 
       # All subsequent scraper / refresh steps `tee` their stdout+stderr
       # into a single log file that the drift-warning gate (at the end of
@@ -251,7 +286,6 @@ jobs:
       # Drift-warning gate. Scrapers emit named warnings whenever a structural
       # assumption breaks (site layout change, action type disappears, parse
       # returns 0 rows from a non-empty page). We fail the refresh job if any
-      # of these surface so nobody silently publishes partial data. See
       # docs/SCRAPER_DRIFT_RUNBOOK.md for remediation steps per pattern.
       - name: Check for scraper drift warnings
         shell: bash

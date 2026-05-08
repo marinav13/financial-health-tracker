@@ -166,7 +166,21 @@ load_year_tables_and_dictionaries <- function(aliases, year_catalog, data_root, 
 
     csv_file <- find_first_file(data_folder, "\\.csv$")
     if (!is.na(csv_file)) {
-      tbl <- suppressMessages(readr::read_csv(csv_file, show_col_types = FALSE, guess_max = 2000))
+      # NCES IPEDS data CSVs ship as Windows-1252 / Latin-1 (institution
+      # names, addresses, comment fields contain non-ASCII bytes that are
+      # not valid UTF-8 — e.g. Hawaiian and Spanish-language institution
+      # names). On Windows the default locale tolerates these; on a Linux
+      # CI runner with a UTF-8 locale, readr / nchar later raise
+      # "invalid multibyte string" the moment any downstream helper
+      # touches the value (caught at get_string -> nchar). Reading with
+      # an explicit Latin1 locale converts the bytes to UTF-8 once at
+      # the boundary, so every downstream consumer sees clean UTF-8.
+      tbl <- suppressMessages(readr::read_csv(
+        csv_file,
+        show_col_types = FALSE,
+        guess_max = 2000,
+        locale = readr::locale(encoding = "Latin1")
+      ))
       names(tbl) <- toupper(names(tbl))
       if ("UNITID" %in% names(tbl)) {
         data_tables[[alias]] <- tbl %>% mutate(UNITID = as.character(UNITID))

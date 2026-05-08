@@ -2044,6 +2044,76 @@ extract_hlc_findings <- function(text) {
   !identical(current_detail, file_detail)
 }
 
+# ---------------------------------------------------------------------------
+# WSCUC / SACSCOC fallback tier for file-text preference
+# ---------------------------------------------------------------------------
+#
+# Background: the prior rescue path keyed on `.should_use_file_text_for_summary`
+# matching one of a handful of WSCUC / SACSCOC raw-title prefixes (the
+# scraper's first sentence was assumed to start with "At that meeting,",
+# "The Commission acted to", "The following action regarding your institution
+# was taken", etc.). A small drift in scraper output -- a fresher fetch with
+# a slightly different lead-in, a different first sentence captured -- caused
+# the rescue to silently miss for institutions whose cached PDF letter
+# contained the full substantive content (e.g. Providence Christian College
+# / WSCUC, High Point University / SACSCOC). The downstream test suite
+# then surfaced that as "the richer summary disappeared".
+#
+# These two helpers add a second tier: if the cached file text itself
+# contains a marker that the corresponding summarizer is built to consume,
+# prefer the file text regardless of what the raw title looks like. The
+# marker is the same phrase the summarizer already uses as its gate (see
+# .summarize_wscuc_letter / the SACSCOC branches in
+# .summarize_non_msche_action_label), so the new tier never produces an
+# input the summarizer can't process.
+#
+# Architectural note: this is the "fallback chain" approach. The strict
+# raw-title patterns in .should_use_file_text_for_summary stay in place
+# unchanged so fixture-shaped inputs keep their current behavior. These
+# helpers run BEFORE that strict-pattern check inside
+# .select_action_summary_source, so when both fire they agree; when only
+# the marker fires (live phrasing drift), the rescue still happens.
+
+.should_prefer_wscuc_file_text <- function(raw, notes_text, file_text) {
+  file_value <- .normalize_action_summary_text(file_text)
+  if (!nzchar(file_value)) return(FALSE)
+  # .summarize_wscuc_letter gates on this exact phrase as the marker
+  # for "this is a substantive WSCUC commission letter". Reusing the
+  # same gate here means the new tier only fires when the summarizer
+  # is guaranteed to be able to do something useful with the text.
+  stringr::str_detect(
+    file_value,
+    stringr::regex(
+      "formal notification and official record of action taken",
+      ignore_case = TRUE
+    )
+  )
+}
+
+.should_prefer_sacscoc_file_text <- function(raw, notes_text, file_text) {
+  file_value <- .normalize_action_summary_text(file_text)
+  if (!nzchar(file_value)) return(FALSE)
+  # SACSCOC board-action letters open with one of these phrases. Each
+  # corresponds to a SACSCOC summarizer branch in
+  # .summarize_non_msche_action_label that knows how to extract the
+  # substantive sanction / monitoring clause from the surrounding
+  # boilerplate.
+  marker <- stringr::regex(
+    paste(
+      "the following action regarding your institution was taken",
+      "the following actions regarding your institution were taken",
+      "recommended that the institution be placed on",
+      "placed the institution on (?:warning|probation)",
+      "continued the institution on (?:warning|probation)",
+      "removed the institution from (?:warning|probation)",
+      "denied reaffirmation",
+      sep = "|"
+    ),
+    ignore_case = TRUE
+  )
+  stringr::str_detect(file_value, marker)
+}
+
 .normalize_action_summary_source_hint <- function(x) {
   value <- tolower(trimws(as.character(x %||% "")))
   if (!nzchar(value)) return(NA_character_)
@@ -2088,6 +2158,30 @@ extract_hlc_findings <- function(text) {
 
   if (identical(acc_norm, "HLC") && .should_prefer_hlc_dapip_notes(raw, notes_text)) {
     return(list(text = stringr::str_squish(notes_text), source = "dapip_note"))
+  }
+
+  # Fallback tier for WSCUC and SACSCOC: when the cached file text
+  # contains the marker phrase the corresponding summarizer needs,
+  # prefer it regardless of the raw title's shape. This runs before
+  # the strict raw-title patterns in .should_use_file_text_for_summary
+  # so live phrasing drift in the scraper's leader sentence does not
+  # silently disable the rescue.
+  if (identical(acc_norm, "WSCUC")) {
+    if (is.na(file_text) || !nzchar(file_text)) {
+      file_text <- .read_action_summary_file_text(file_text_path)
+    }
+    if (.should_prefer_wscuc_file_text(raw, notes_text, file_text)) {
+      return(list(text = file_text, source = "pdf_body"))
+    }
+  }
+
+  if (identical(acc_norm, "SACSCOC")) {
+    if (is.na(file_text) || !nzchar(file_text)) {
+      file_text <- .read_action_summary_file_text(file_text_path)
+    }
+    if (.should_prefer_sacscoc_file_text(raw, notes_text, file_text)) {
+      return(list(text = file_text, source = "pdf_body"))
+    }
   }
 
   if (.should_use_file_text_for_summary(raw, action_type, accreditor)) {

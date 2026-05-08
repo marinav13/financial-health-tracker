@@ -1125,6 +1125,81 @@ run_test("select_action_summary_source_text: WSCUC footer and procedural snippet
   )
 })
 
+run_test("select_action_summary_source_text: WSCUC fallback tier prefers file text when raw drifts off strict patterns", function() {
+  # Reproduces Refresh #35 / #36 failure mode: the WSCUC scraper's raw
+  # title shifted to a phrasing that does NOT match any of the strict
+  # patterns in .should_use_file_text_for_summary (it doesn't start with
+  # "At that meeting", "The Commission acted to", "WSCUC is committed
+  # to", etc.). With only the strict-pattern tier, the rescue fails and
+  # the generic raw title leaks through. With the fallback tier added
+  # in .should_prefer_wscuc_file_text, the file text's
+  # "formal notification and official record of action taken" marker
+  # triggers the rescue regardless of raw shape.
+  drift_raw <- "Action by the WASC Senior College and University Commission concerning Providence Christian College on February 14, 2025."
+  letter_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Providence Christian College. ",
+    "At that meeting, the Commission acted to place Providence Christian College on Probation. ",
+    "The Commission has determined that Providence Christian College is not in compliance with WSCUC Standards 3 and 4."
+  )
+  file_path <- tempfile(fileext = ".txt")
+  writeLines(letter_text, file_path, useBytes = TRUE)
+  on.exit(unlink(file_path), add = TRUE)
+
+  assert_identical(
+    .select_action_summary_source_text(
+      drift_raw,
+      file_text_path = file_path,
+      action_type = "probation",
+      accreditor = "WSCUC"
+    ),
+    letter_text
+  )
+})
+
+run_test("select_action_summary_source_text: SACSCOC fallback tier prefers file text when raw drifts off strict patterns", function() {
+  # Reproduces Refresh #35 / #36 failure mode for SACSCOC. The strict
+  # rescue tier only fires when raw matches a narrow set of OCR /
+  # standards-reference patterns. When the live scraper produces a
+  # plain leader sentence (no Standard / Core Requirement reference at
+  # the end, no monitoring-report phrasing), the rescue silently misses
+  # and the standards-backed summary disappears. The fallback tier in
+  # .should_prefer_sacscoc_file_text recognizes the file text as a
+  # SACSCOC board-action letter via its opener phrase.
+  #
+  # Asserted with grepl rather than assert_identical because the source
+  # selector runs file text through .normalize_action_summary_text on
+  # read, which lowercases the word "accreditation" via its spaced-word
+  # patterns. What the test cares about is that the returned text is
+  # the file body (containing the recommended-warning clause), not the
+  # drift_raw title.
+  drift_raw <- "SACSCOC Board of Trustees action concerning High Point University, June 15, 2023."
+  letter_text <- paste0(
+    "The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 15, 2023: ",
+    "The SACSCOC Board of Trustees reviewed the institution's Referral Report and recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status) of the Principles of Accreditation."
+  )
+  file_path <- tempfile(fileext = ".txt")
+  writeLines(letter_text, file_path, useBytes = TRUE)
+  on.exit(unlink(file_path), add = TRUE)
+
+  result <- .select_action_summary_source_text(
+    drift_raw,
+    file_text_path = file_path,
+    action_type = "warning",
+    accreditor = "SACSCOC"
+  )
+
+  # Result is the file body, not the drift-shaped raw title.
+  assert_true(
+    grepl("the following action regarding your institution was taken", result, ignore.case = TRUE)
+  )
+  assert_true(
+    grepl("recommended that the institution be placed on Warning for twelve months", result)
+  )
+  assert_true(
+    !grepl("SACSCOC Board of Trustees action concerning High Point University", result, fixed = TRUE)
+  )
+})
+
 run_test("source selection helper: long procedural text does not beat shorter substantive text", function() {
   procedural_text <- paste0(
     "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",

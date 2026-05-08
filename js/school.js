@@ -1271,10 +1271,16 @@ async function init() {
     setBodyCopy("research-spending-copy", researchSpendingParagraph ? [researchSpendingParagraph] : []);
   }
 
+  const financeTooltip2024Config = {
+    showTooltip: true,
+    tooltipYear: 2024,
+    tooltipPointOnly: true
+  };
+
   renderLineChart("chart-revenue", {
     title: "Revenue compared to expenses (adjusted for inflation)",
     format: "currency",
-    showTooltip: false,
+    ...financeTooltip2024Config,
     series: [
       { label: "Revenue", color: CHART_COLOR_PRIMARY, values: toSeries(series.revenue_total_adjusted) },
       { label: "Expenses", color: CHART_COLOR_SECONDARY, values: toSeries(series.expenses_total_adjusted) }
@@ -1288,7 +1294,7 @@ async function init() {
   renderLineChart("chart-net-tuition", {
     title: "Net tuition revenue over time (per full-time equivalent student, adjusted for inflation)",
     format: "currency",
-    showTooltip: false,
+    ...financeTooltip2024Config,
     showLegend: false,
     series: [
       { label: "Net Tuition Revenue", color: CHART_COLOR_PRIMARY, values: toSeries(series.net_tuition_per_fte_adjusted) }
@@ -1360,7 +1366,7 @@ async function init() {
   renderLineChart("chart-endowment", {
     title: "Endowment value over time (adjusted for inflation)",
     format: "currency",
-    showTooltip: false,
+    ...financeTooltip2024Config,
     showLegend: false,
     series: [
       { label: "Endowment Value", color: CHART_COLOR_PRIMARY, values: toSeries(series.endowment_value_adjusted) }
@@ -1380,7 +1386,7 @@ async function init() {
   setHidden("chart-endowment-spending", !hasEndowmentSpending);
   if (hasEndowmentSpending) {
     renderLineChart("chart-endowment-spending", {
-      title: "Withdrawals from endowments to fund the institution's expenses",
+      title: "Withdrawals from endowments to fund the institution's expenses (adjusted for inflation)",
       format: "currency",
       showLegend: false,
       series: [
@@ -1408,7 +1414,7 @@ async function init() {
     renderLineChart("chart-federal", {
       title: "Revenue from federal grants and contracts (excluding Pell grants, adjusted for inflation)",
       format: "currency",
-      showTooltip: false,
+      ...financeTooltip2024Config,
       showLegend: false,
       series: [
         {
@@ -1430,7 +1436,7 @@ async function init() {
     renderLineChart("chart-state", {
       title: "State government appropriations over time (adjusted for inflation)",
       format: "currency",
-      showTooltip: false,
+      ...financeTooltip2024Config,
       showLegend: false,
       series: [
         { label: "State Funding", color: CHART_COLOR_PRIMARY, values: toSeries(series.state_funding_adjusted) }

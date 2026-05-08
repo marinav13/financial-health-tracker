@@ -115,6 +115,9 @@ function renderLineChart(containerId, config) {
   const showTooltip = config.showTooltip !== false;
   const showLegend = config.showLegend !== false;
   const enableSeriesToggle = config.enableSeriesToggle === true;
+  const tooltipYear = Number(config.tooltipYear);
+  const hasTooltipYearFilter = Number.isFinite(tooltipYear);
+  const tooltipPointOnly = config.tooltipPointOnly === true;
 
   const fullSeriesList = (config.series || [])
     .filter((s) => Array.isArray(s.values) && s.values.length > 0)
@@ -284,6 +287,7 @@ function renderLineChart(containerId, config) {
     const renderTooltip = (evt) => {
       const rect = svg.getBoundingClientRect();
       const localX = ((evt.clientX - rect.left) / rect.width) * width;
+      const localY = ((evt.clientY - rect.top) / rect.height) * height;
 
       let bestYear = yearsSorted[0];
       let bestDistance = Math.abs(localX - xScale(bestYear));
@@ -294,6 +298,25 @@ function renderLineChart(containerId, config) {
           bestYear = year;
         }
       });
+
+      if (hasTooltipYearFilter && bestYear !== tooltipYear) {
+        setElementClassState(tooltip, "visible", false);
+        return;
+      }
+
+      if (tooltipPointOnly) {
+        const isOverPoint = seriesList.some((series) => {
+          const point = series.values.find((value) => Number(value.year) === bestYear);
+          if (!point) return false;
+          const dx = localX - xScale(Number(point.year));
+          const dy = localY - yScale(Number(point.value));
+          return Math.hypot(dx, dy) <= 12;
+        });
+        if (!isOverPoint) {
+          setElementClassState(tooltip, "visible", false);
+          return;
+        }
+      }
 
       const rows = seriesList.map((series) => {
         const point = series.values.find((value) => Number(value.year) === bestYear);

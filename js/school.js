@@ -1388,6 +1388,7 @@ async function init() {
     renderLineChart("chart-endowment-spending", {
       title: "Withdrawals from endowments to fund the institution's expenses (adjusted for inflation)",
       format: "currency",
+      ...financeTooltip2024Config,
       showLegend: false,
       series: [
         { label: "Spending Distribution For Current Use", color: CHART_COLOR_SECONDARY, values: endowmentSpendingSeries }

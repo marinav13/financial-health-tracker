@@ -775,18 +775,17 @@ get_frequency_lookup <- function(dictionary_archive, table_name, var_name,
     label_col   <- pick_col("valuelabel")
 
     if (!is.na(varname_col) && !is.na(code_col) && !is.na(label_col)) {
-      filtered <- rows %>%
-        transmute(
-          .var_name = trimws(as.character(.data[[varname_col]])),
-          .code     = trimws(as.character(.data[[code_col]])),
-          .label    = trimws(as.character(.data[[label_col]]))
-        ) %>%
-        filter(
-          .var_name == var_name,
-          !is.na(.code), .code != "",
-          !is.na(.label), .label != ""
-        )
-      return(stats::setNames(filtered$.label, filtered$.code))
+      var_vec   <- trimws(as.character(rows[[varname_col]]))
+      code_vec  <- trimws(as.character(rows[[code_col]]))
+      label_vec <- trimws(as.character(rows[[label_col]]))
+
+      match_idx <- which(
+        !is.na(var_vec) & var_vec == var_name &
+          !is.na(code_vec)  & code_vec  != "" &
+          !is.na(label_vec) & label_vec != ""
+      )
+      if (length(match_idx) == 0L) return(character())
+      return(stats::setNames(label_vec[match_idx], code_vec[match_idx]))
     }
   }
 
@@ -858,7 +857,7 @@ loss_frequency <- function(years, values, end_year, window_years) {
   lookup     <- stats::setNames(values, years)
   start_year <- end_year - window_years + 1L
   sum(vapply(start_year:end_year, function(yr) {
+    val <- unname(lookup[as.character(yr)])
     !is.na(val) && val < 0
   }, logical(1)))
 }
-

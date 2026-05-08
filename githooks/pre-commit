@@ -1,0 +1,66 @@
+#!/bin/bash
+# Pre-commit syntax + truncation guard.
+#
+# Cowork-on-Windows write semantics occasionally truncate a file mid-line near
+# the end (mid-Edit-tool flush, killed Rscript holding a file handle, session
+# ending mid-write). Truncated R / JS / JSON files always parse-fail. Catching
+# them here means a corrupted file never lands on a remote.
+#
+# To skip in genuine emergencies: git commit --no-verify
+set -e
+
+fail() { echo "PRE-COMMIT FAIL: $1"; exit 1; }
+
+# R: parse with Rscript -e parse(). Skip if Rscript isn't on PATH.
+if command -v Rscript >/dev/null 2>&1; then
+  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.R$|\.r$' || true); do
+    [ -f "$f" ] || continue
+    Rscript -e "tryCatch(parse('$f'), error = function(e) { cat(conditionMessage(e), '\n'); quit(status=1) })" \
+      || fail "R parse failed: $f"
+  done
+fi
+
+# JavaScript: node --check.
+if command -v node >/dev/null 2>&1; then
+  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$|\.mjs$|\.cjs$' || true); do
+    [ -f "$f" ] || continue
+    node --check "$f" || fail "JS parse failed: $f"
+  done
+fi
+
+# JSON: python json.load().
+if command -v python >/dev/null 2>&1; then
+  PY=python
+elif command -v python3 >/dev/null 2>&1; then
+  PY=python3
+else
+  PY=
+fi
+if [ -n "$PY" ]; then
+  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.json$' || true); do
+    [ -f "$f" ] || continue
+    "$PY" -c "import json,sys; json.load(open(sys.argv[1], encoding='utf-8'))" "$f" \
+      || fail "JSON parse failed: $f"
+  done
+fi
+
+# YAML (workflow files etc.): python yaml.safe_load.
+if [ -n "$PY" ]; then
+  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ya?ml$' || true); do
+    [ -f "$f" ] || continue
+    "$PY" -c "import yaml,sys; yaml.safe_load(open(sys.argv[1], encoding='utf-8'))" "$f" \
+      || fail "YAML parse failed: $f"
+  done
+fi
+
+# Trailing-line sanity check: a file whose last line has no terminating newline
+# is the classic Cowork-truncation fingerprint. Allow opt-out via shebang-style
+# magic file extensions where it's intentional.
+for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(R|r|js|mjs|cjs|json|ya?ml|html|css|md|py)$' || true); do
+  [ -f "$f" ] || continue
+  if [ -n "$(tail -c 1 "$f")" ]; then
+    fail "File ends without a trailing newline (truncation fingerprint): $f"
+  fi
+done
+
+echo "pre-commit: OK"

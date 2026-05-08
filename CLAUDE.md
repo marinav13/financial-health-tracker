@@ -178,3 +178,38 @@ Prioritize:
 
 Do not recommend adding methodology text or enabling closure display unless explicitly asked.
 The public Supabase anonymous key is intentional and should not be flagged by itself as a secret exposure.
+---
+
+## File-integrity rules (Cowork-on-Windows safety)
+
+Cowork sessions occasionally write through a Windows-mounted filesystem and can leave a file truncated mid-line near the end. The pattern: file looks intact at the start, then cuts off in the middle of a statement, paren/brace counts no longer balance, and the next session reads the broken state and splices on top of it. Don't trust file state across sessions without checking.
+
+The `githooks/pre-commit` hook in this repo refuses to commit any R/JS/JSON/YAML file that fails to parse, and refuses any file missing a trailing newline (the classic truncation fingerprint). To skip in a genuine emergency: `git commit --no-verify`. Default to leaving the hook on.
+
+One-time setup per clone (before the first commit):
+
+```
+git config core.hooksPath githooks
+```
+
+This points git at the tracked hook directory so the hook survives fresh clones. Without it, git falls back to its default `.git/hooks/` directory which is per-clone and not version-controlled.
+
+Operational rules during a Cowork session:
+
+1. **Pre-commit hook stays on.** It catches truncated R/JS/JSON/YAML before they reach a remote. Never disable it casually.
+
+2. **Start every Cowork session on a clean tree.** Run `git status --short` first. If it shows files you didn't intentionally modify, run `git checkout -- <those-files>` before letting Claude touch anything. Splices on top of corruption amplify the problem.
+
+3. **Use a `claude-wip` branch for Claude-driven changes.** Branch off `main`, do all Claude edits there, merge to `main` only after the pre-commit hook passes. If the wip branch corrupts, `git reset --hard main` and try again. Main stays pristine.
+
+4. **Per-fix commits, not session-end mega-commits.** Smaller atomic commits cap blast radius. If commit N corrupts a file, you've lost only that commit. Cherry-picking forward is straightforward.
+
+5. **End-of-session integrity check.** Before closing a Cowork session, run `git diff --stat HEAD` and eyeball the line counts. A truncated file usually shows a wildly different `+/-` than expected.
+
+6. **For >100-line edits, prefer direct bash writes to a temp file followed by `cp` into place over the Edit tool.** The Edit tool routes through the Cowork → Windows mount and is where truncation happens. `bash > /tmp/file && cp /tmp/file scripts/...` goes through one filesystem layer instead of three and survives session interrupts more reliably.
+
+When a file is found truncated:
+
+- Don't keep editing it. Restore from HEAD with `git checkout -- <file>` and re-apply only the intended change.
+- Re-applying edits on top of a corrupted file is what produced this repo's worst restoration loops; one clean revert is faster than three splice-and-pray rounds.
+

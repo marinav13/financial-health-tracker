@@ -480,6 +480,28 @@ body {
   padding: 28px 0 0;
   border-top: 1px solid var(--line);
   color: var(--ink);
+  text-align: center;
+}
+
+.pg-foot > * {
+  display: block;
+}
+
+.pg-foot > * + * {
+  margin-top: 8px;
+}
+
+.home-layout .pg-foot {
+  text-align: left;
+}
+
+.home-layout .pg-foot > * {
+  display: inline;
+}
+
+.home-layout .pg-foot > * + * {
+  margin-top: 0;
+  margin-left: 12px;
 }
 
 .pg-foot .ftr-bottom {

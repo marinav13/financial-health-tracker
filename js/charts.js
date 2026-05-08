@@ -90,6 +90,18 @@ function setElementClassState(element, className, shouldHaveClass) {
   }
 }
 
+function clampChartTooltipLeft(containerWidth, targetLeft, tooltipWidth, gutter = 8) {
+  if (!Number.isFinite(containerWidth) || containerWidth <= 0) return targetLeft;
+  if (!Number.isFinite(targetLeft)) return gutter;
+  if (!Number.isFinite(tooltipWidth) || tooltipWidth <= 0) {
+    return Math.max(gutter, Math.min(targetLeft, containerWidth - gutter));
+  }
+  const minLeft = gutter + (tooltipWidth / 2);
+  const maxLeft = containerWidth - gutter - (tooltipWidth / 2);
+  if (minLeft > maxLeft) return containerWidth / 2;
+  return Math.max(minLeft, Math.min(targetLeft, maxLeft));
+}
+
 // ------ Axis Scaling ------
 
 // Calculates "nice" ceiling for Y-axis (1, 2, 5, or 10 x 10^n)
@@ -331,7 +343,14 @@ function renderLineChart(containerId, config) {
       if (!tooltipRows.length) return;
 
       tooltip.innerHTML = `<strong>${escapeChartHtml(bestYear)}</strong>${tooltipRows.map(renderTooltipRow).join("")}`;
-      tooltip.style.left = `${((xScale(bestYear) / width) * 100).toFixed(1)}%`;
+      const containerRect = container.getBoundingClientRect();
+      const targetLeft = ((xScale(bestYear) / width) * containerRect.width);
+      const clampedLeft = clampChartTooltipLeft(
+        containerRect.width,
+        targetLeft,
+        tooltip.offsetWidth
+      );
+      tooltip.style.left = `${clampedLeft}px`;
       setElementClassState(tooltip, "visible", true);
     };
 

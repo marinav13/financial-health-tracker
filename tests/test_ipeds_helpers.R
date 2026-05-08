@@ -128,3 +128,117 @@ run_test("IPEDS canonical row builder", function() {
   assert_equal(built$pct_international_all[[1]], 0.1)
   assert_equal(built$leverage[[1]], 0.4)
 })
+
+# ---------------------------------------------------------------------------
+# get_frequency_lookup column-layout drift coverage
+# ---------------------------------------------------------------------------
+# NCES has shipped at least two header layouts for the IPEDS dictionary
+# Frequencies sheet across releases:
+#   * legacy (still found in older cached extracts on contributor machines):
+#       VarName | VarNumber | TableName | CodeValue | valuelabel | Frequency
+#   * current (Sept 2025 HD2024_dict.xlsx onward):
+#       varNumber | VarName | CodeValue | ValueLabel | Frequency | Percent
+#
+# Both layouts share the same case-insensitive header tokens but at different
+# column positions, which previously broke the canonical build silently when
+# CI re-extracted a fresh dict zip (Refresh #41).  These tests pin both
+# layouts so any future positional regression surfaces here instead of in a
+# 46-minute IPEDS rebuild.
+
+# Helper: build a tiny xlsx with a single Frequencies sheet matching the
+# header layout passed in, then return a fake (empty) zip path plus the
+# extract root.  Skips the actual zip step by pre-populating the expected
+# extract directory; expand_zip_if_missing() short-circuits when the
+# destination exists with files.
+.write_freq_fixture <- function(fixture_root, table_name, freq_df) {
+  extract_dir <- file.path(fixture_root, "extracted")
+  table_dir <- file.path(extract_dir, paste0("dict_", table_name))
+  dir.create(table_dir, recursive = TRUE, showWarnings = FALSE)
+  xlsx_path <- file.path(table_dir, paste0(tolower(table_name), ".xlsx"))
+
+  wb <- openxlsx::createWorkbook()
+  openxlsx::addWorksheet(wb, "Frequencies")
+  openxlsx::writeData(wb, "Frequencies", freq_df, colNames = TRUE)
+  openxlsx::saveWorkbook(wb, xlsx_path, overwrite = TRUE)
+
+  fake_zip <- file.path(fixture_root, paste0(table_name, "_dict.zip"))
+  invisible(file.create(fake_zip))
+  list(zip = fake_zip, extract_root = extract_dir)
+}
+
+run_test("get_frequency_lookup handles current NCES header layout (varNumber/VarName/CodeValue/ValueLabel)", function() {
+  fixture_root <- tempfile("freq-lookup-current-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  freq_df <- data.frame(
+    varNumber = c("10016", "10016", "10031", "10031", "10031"),
+    VarName = c("STABBR", "STABBR", "ICLEVEL", "ICLEVEL", "ICLEVEL"),
+    CodeValue = c("AL", "CA", "1", "2", "3"),
+    ValueLabel = c("Alabama", "California",
+                   "Four or more years",
+                   "At least 2 but less than 4 years",
+                   "Less than 2 years"),
+    Frequency = c("79", "668", "2500", "1100", "400"),
+    Percent = c("1.3", "11", "62", "27", "10"),
+    stringsAsFactors = FALSE,
+    check.names = FALSE
+  )
+  fixture <- .write_freq_fixture(fixture_root, "HD2024", freq_df)
+
+  result <- get_frequency_lookup(fixture$zip, "HD2024", "ICLEVEL", fixture$extract_root)
+
+  assert_true(length(result) == 3L)
+  assert_identical(sort(names(result)), c("1", "2", "3"))
+  assert_identical(unname(result[["1"]]), "Four or more years")
+  assert_identical(unname(result[["2"]]), "At least 2 but less than 4 years")
+})
+
+run_test("get_frequency_lookup handles legacy NCES header layout (VarName at column A, valuelabel lowercase)", function() {
+  fixture_root <- tempfile("freq-lookup-legacy-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  freq_df <- data.frame(
+    VarName = c("ICLEVEL", "ICLEVEL", "STABBR"),
+    VarNumber = c("10031", "10031", "10016"),
+    TableName = c("HD2024", "HD2024", "HD2024"),
+    CodeValue = c("1", "2", "AL"),
+    valuelabel = c("Four or more years",
+                   "At least 2 but less than 4 years",
+                   "Alabama"),
+    Frequency = c("2500", "1100", "79"),
+    stringsAsFactors = FALSE,
+    check.names = FALSE
+  )
+  fixture <- .write_freq_fixture(fixture_root, "HD2024", freq_df)
+
+  result <- get_frequency_lookup(fixture$zip, "HD2024", "ICLEVEL", fixture$extract_root)
+
+  assert_true(length(result) == 2L)
+  assert_identical(sort(names(result)), c("1", "2"))
+  assert_identical(unname(result[["1"]]), "Four or more years")
+  assert_identical(unname(result[["2"]]), "At least 2 but less than 4 years")
+})
+
+run_test("get_frequency_lookup returns empty character() when var_name is not in the sheet", function() {
+  fixture_root <- tempfile("freq-lookup-empty-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  freq_df <- data.frame(
+    varNumber = c("10016"),
+    VarName = c("STABBR"),
+    CodeValue = c("AL"),
+    ValueLabel = c("Alabama"),
+    Frequency = c("79"),
+    Percent = c("1.3"),
+    stringsAsFactors = FALSE,
+    check.names = FALSE
+  )
+  fixture <- .write_freq_fixture(fixture_root, "HD2024", freq_df)
+
+  result <- get_frequency_lookup(fixture$zip, "HD2024", "ICLEVEL", fixture$extract_root)
+  assert_true(length(result) == 0L)
+  assert_true(is.character(result))
+})

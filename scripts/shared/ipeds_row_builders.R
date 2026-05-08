@@ -720,6 +720,22 @@ find_first_file <- function(path, pattern) {
 # Reads the frequency (code ? label) table for `var_name` from a downloaded
 # IPEDS dictionary archive.  `extract_root` is the directory under which
 # per-table extractions are cached (typically paths$cache_aux_extract_dir).
+#
+# Column-layout drift: NCES has shipped at least two header layouts for the
+# Frequencies sheet across its dictionary releases.  Older cached extracts
+# still in contributor working trees use:
+#     VarName | VarNumber | TableName | CodeValue | valuelabel | Frequency
+# The current September-2025 release of HD2024_dict.xlsx uses:
+#     varNumber | VarName | CodeValue | ValueLabel | Frequency | Percent
+# Both layouts share the same case-insensitive header tokens but at different
+# column positions, which is why the previous A/D/E positional reader silently
+# returned an empty lookup on the new release (resolved label codes never
+# matched the canonical filter, so every row got dropped).
+#
+# Strategy: read the sheet with col_names = TRUE, locate the columns by header
+# name (varname / codevalue / valuelabel, case-insensitive), and filter by
+# header.  Fall back to the legacy A/D/E positional read so any future caches
+# extracted under a still-different layout do not silently break.
 get_frequency_lookup <- function(dictionary_archive, table_name, var_name,
                                   extract_root) {
   expanded <- file.path(extract_root, paste0("dict_", table_name))
@@ -742,28 +758,62 @@ get_frequency_lookup <- function(dictionary_archive, table_name, var_name,
   freq_sheet <- sheets[tolower(sheets) == "frequencies"][1]
   if (length(freq_sheet) == 0 || is.na(freq_sheet)) return(character())
 
+  # Header-driven path: read with col_names = TRUE so headers become column
+  # names, then locate the three columns we need by case-insensitive match.
   rows <- suppressMessages(
+    readxl::read_excel(xlsx_path, sheet = freq_sheet,
+                       col_names = TRUE, .name_repair = "minimal")
+  )
+  if (ncol(rows) > 0 && nrow(rows) > 0) {
+    header_lower <- tolower(trimws(names(rows)))
+    pick_col <- function(target) {
+      idx <- which(header_lower == target)
+      if (length(idx) == 0) NA_character_ else names(rows)[idx[1]]
+    }
+    varname_col <- pick_col("varname")
+    code_col    <- pick_col("codevalue")
+    label_col   <- pick_col("valuelabel")
+
+    if (!is.na(varname_col) && !is.na(code_col) && !is.na(label_col)) {
+      filtered <- rows %>%
+        transmute(
+          .var_name = trimws(as.character(.data[[varname_col]])),
+          .code     = trimws(as.character(.data[[code_col]])),
+          .label    = trimws(as.character(.data[[label_col]]))
+        ) %>%
+        filter(
+          .var_name == var_name,
+          !is.na(.code), .code != "",
+          !is.na(.label), .label != ""
+        )
+      return(stats::setNames(filtered$.label, filtered$.code))
+    }
+  }
+
+  # Legacy positional fallback: re-read raw and assume A/D/E layout.  Kept
+  # so any future cache state where headers are missing or non-standard
+  # still produces a usable lookup instead of silently dropping every row.
+  legacy <- suppressMessages(
     readxl::read_excel(xlsx_path, sheet = freq_sheet,
                         col_names = FALSE, .name_repair = "minimal")
   )
-  if (ncol(rows) == 0) return(character())
+  if (ncol(legacy) == 0) return(character())
 
-  bad_names <- is.na(names(rows)) | names(rows) == ""
-  names(rows)[bad_names] <- paste0("X", which(bad_names))
-  names(rows)[seq_len(min(5L, ncol(rows)))] <-
-    c("A", "B", "C", "D", "E")[seq_len(min(5L, ncol(rows)))]
+  bad_names <- is.na(names(legacy)) | names(legacy) == ""
+  names(legacy)[bad_names] <- paste0("X", which(bad_names))
+  names(legacy)[seq_len(min(5L, ncol(legacy)))] <-
+    c("A", "B", "C", "D", "E")[seq_len(min(5L, ncol(legacy)))]
 
-  if (!all(c("A", "D", "E") %in% names(rows))) return(character())
+  if (!all(c("A", "D", "E") %in% names(legacy))) return(character())
 
-  rows <- rows %>%
+  legacy <- legacy %>%
     mutate(A = trimws(as.character(A)),
            D = trimws(as.character(D)),
            E = trimws(as.character(E))) %>%
     filter(A == var_name, !is.na(D), D != "", !is.na(E), E != "")
 
-  stats::setNames(rows$E, rows$D)
+  stats::setNames(legacy$E, legacy$D)
 }
-
 # ---------------------------------------------------------------------------
 # Time-series analysis helpers
 # ---------------------------------------------------------------------------
@@ -808,7 +858,6 @@ loss_frequency <- function(years, values, end_year, window_years) {
   lookup     <- stats::setNames(values, years)
   start_year <- end_year - window_years + 1L
   sum(vapply(start_year:end_year, function(yr) {
-    val <- unname(lookup[as.character(yr)])
     !is.na(val) && val < 0
   }, logical(1)))
 }

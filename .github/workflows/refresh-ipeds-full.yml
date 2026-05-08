@@ -57,6 +57,19 @@ jobs:
           restore-keys: |
             ipeds-downloads-${{ runner.os }}-
 
+      # Mirror the weekly workflow's accreditation cache so the DAPIP
+      # crosswalk + actions rebuild reuses cached PDFs and extracted text
+      # across the 3-times-a-year full IPEDS runs. Cold runs still work
+      # (cache is just empty) but warm runs avoid re-downloading the
+      # full DAPIP file inventory.
+      - name: Cache accreditation scraped HTML
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/accreditation/cache
+          key: accreditation-cache-v1-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            accreditation-cache-v1-
+
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
@@ -102,6 +115,25 @@ jobs:
         timeout-minutes: 60
         run: >
           Rscript --vanilla ./scripts/build_accreditation_actions.R
+
+      # Rebuild the DAPIP institutional-action pipeline so build_web_exports.R
+      # has fresh file_text_path values pointing at this runner's filesystem.
+      # See refresh-ipeds-site-data.yml for the full rationale; in short, the
+      # committed dapip_action_rows_filtered.csv carries absolute paths from
+      # the workstation that last regenerated it, and without this rebuild
+      # the WSCUC / SACSCOC fallback tier can't read the cached letter text
+      # on CI.
+      - name: Rebuild DAPIP institution crosswalk
+        shell: bash
+        timeout-minutes: 30
+        run: >
+          Rscript --vanilla ./scripts/build_dapip_crosswalk.R
+
+      - name: Rebuild DAPIP institutional action rows
+        shell: bash
+        timeout-minutes: 90
+        run: >
+          Rscript --vanilla ./scripts/build_dapip_accreditation_actions.R
 
       - name: Refresh college cuts with cache fallback
         shell: bash

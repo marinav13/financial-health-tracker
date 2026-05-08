@@ -2125,12 +2125,40 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.DAPIP_TEXT_CACHE_RELDIR <- file.path(
+  "data_pipelines", "accreditation", "cache", "dapip", "text"
+)
+
+# Resolve a `file_text_path` that may have been written by a different
+# checkout (committed CSVs sometimes carry a contributor's absolute path,
+# e.g. `C:/Users/.../data_pipelines/...` from a Windows working tree).
+# build_dapip_accreditation_actions.R always writes DAPIP text files into
+# `<repo>/data_pipelines/accreditation/cache/dapip/text/` with a unique
+# `<dapip_id>_action-<action_id>_file-<file_id>.txt` basename, so when the
+# stored path doesn't resolve we fall back to that canonical location
+# under the current working directory before giving up. This keeps CI
+# (Linux runners reading a CSV last written from a maintainer's Windows
+# machine) reading the same letter text the writer produced -- without
+# loosening behavior on the happy path where the literal path exists.
+.resolve_action_summary_file_text_path <- function(path) {
+  if (!nzchar(path)) return(NA_character_)
+  if (file.exists(path)) return(path)
+
+  basename_value <- basename(path)
+  if (!nzchar(basename_value)) return(NA_character_)
+  fallback <- file.path(getwd(), .DAPIP_TEXT_CACHE_RELDIR, basename_value)
+  if (file.exists(fallback)) return(fallback)
+
+  NA_character_
+}
+
 .read_action_summary_file_text <- function(file_text_path = NA_character_) {
   path <- trimws(as.character(file_text_path %||% ""))
-  if (!nzchar(path) || !file.exists(path)) return(NA_character_)
+  resolved <- .resolve_action_summary_file_text_path(path)
+  if (is.na(resolved)) return(NA_character_)
 
   file_text <- tryCatch(
-    paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = " "),
+    paste(readLines(resolved, warn = FALSE, encoding = "UTF-8"), collapse = " "),
     error = function(e) ""
   )
   file_text <- .normalize_action_summary_text(file_text)

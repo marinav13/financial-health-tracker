@@ -1200,6 +1200,55 @@ run_test("select_action_summary_source_text: SACSCOC fallback tier prefers file 
   )
 })
 
+run_test("select_action_summary_source_text: stale absolute file_text_path resolves to canonical DAPIP cache by basename", function() {
+  # Reproduces the Refresh #37 failure mode. The committed
+  # data_pipelines/accreditation/dapip_action_rows_filtered.csv stores
+  # `file_text_path` as an absolute path under whatever workstation last
+  # ran build_dapip_accreditation_actions.R (in practice, a Windows
+  # checkout: "C:/Users/.../<basename>.txt"). On a Linux CI runner the
+  # absolute path doesn't exist, but the matching cached letter is
+  # restored to the canonical relative location
+  # (data_pipelines/accreditation/cache/dapip/text/<basename>) via the
+  # workflow's accreditation cache step. .read_action_summary_file_text
+  # must fall back to that location so the WSCUC / SACSCOC fallback
+  # tiers actually see the cached letter text.
+  cache_rel <- file.path(
+    "data_pipelines", "accreditation", "cache", "dapip", "text"
+  )
+  basename_value <- "test-stale-path_action-1_file-1.txt"
+  full_dir <- file.path(getwd(), cache_rel)
+  dir.create(full_dir, recursive = TRUE, showWarnings = FALSE)
+  canonical_file <- file.path(full_dir, basename_value)
+  letter_text <- paste0(
+    "This letter serves as formal notification and official record of action taken concerning Providence Christian College. ",
+    "At that meeting, the Commission acted to place Providence Christian College on Probation."
+  )
+  writeLines(letter_text, canonical_file, useBytes = TRUE)
+  on.exit(unlink(canonical_file), add = TRUE)
+
+  stale_windows_path <- paste0(
+    "C:/Users/example/Desktop/Financial Health Tracker - For Github/",
+    cache_rel, "/", basename_value
+  )
+  drift_raw <- "Action by the WASC Senior College and University Commission concerning Providence Christian College on February 14, 2025."
+
+  result <- .select_action_summary_source_text(
+    drift_raw,
+    file_text_path = stale_windows_path,
+    action_type = "probation",
+    accreditor = "WSCUC"
+  )
+
+  assert_true(
+    grepl("formal notification and official record of action taken", result, ignore.case = TRUE),
+    "Resolver should fall back to the canonical DAPIP text cache when the stored absolute path is from another machine."
+  )
+  assert_true(
+    !grepl("Action by the WASC Senior College", result, fixed = TRUE),
+    "Stale-path fallback should produce the cached letter, not the drift-shaped raw title."
+  )
+})
+
 run_test("source selection helper: long procedural text does not beat shorter substantive text", function() {
   procedural_text <- paste0(
     "Staff acted on behalf of the Commission to acknowledge receipt of the monitoring report. ",

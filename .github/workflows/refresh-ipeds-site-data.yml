@@ -136,6 +136,31 @@ jobs:
             --financial-input data/downloads/full_dataset.csv \
             2>&1 | tee -a refresh-logs/combined.log
 
+      # Rebuild the DAPIP institutional-action pipeline so build_web_exports.R
+      # has fresh file_text_path values pointing at this runner's filesystem
+      # (the committed dapip_action_rows_filtered.csv carries absolute paths
+      # from whichever workstation last regenerated it, e.g. "C:/Users/...").
+      # Without this, the WSCUC / SACSCOC fallback tier in
+      # .select_action_summary_source_text can't read the cached letter
+      # text on CI and the export falls back to the raw scraper heading,
+      # which makes test_data_exports.js (Providence Christian, High Point)
+      # red. The accreditation cache step above also restores any prior
+      # week's PDF/text cache so this stays fast on warm runs.
+      - name: Rebuild DAPIP institution crosswalk
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          Rscript ./scripts/build_dapip_crosswalk.R \
+            --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv \
+            2>&1 | tee -a refresh-logs/combined.log
+
+      - name: Rebuild DAPIP institutional action rows
+        shell: bash
+        timeout-minutes: 90
+        run: |
+          Rscript ./scripts/build_dapip_accreditation_actions.R \
+            2>&1 | tee -a refresh-logs/combined.log
+
       - name: Sync Supabase institution → unitid mapping
         shell: bash
         timeout-minutes: 10

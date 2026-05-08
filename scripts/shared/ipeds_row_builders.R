@@ -615,21 +615,63 @@ is_valid_zip_archive <- function(path) {
 
 # Fetches the IPEDS data-dictionary ZIP for `table_name` if it is missing or
 # corrupt, placing the result at `out_file`.
+#
+# NCES serves dictionary archives from two endpoints, and the older one
+# silently became latest-two-years-only on us:
+#
+#   1. https://nces.ed.gov/ipeds/datacenter/data/<TABLE>_Dict.zip
+#      Static archive. Verified to return 200 for every table+year pair we
+#      pull, 2014 through the latest year. This is the stable contract.
+#
+#   2. https://nces.ed.gov/ipeds/dictionary-generator?year=<YEAR>&tableName=<TABLE>
+#      Dynamic generator. Currently returns 200 only for the latest two
+#      years; everything older 404s. Used to be the canonical endpoint and
+#      is still the link the cached DataFiles.aspx HTML hands out, which
+#      is why a fresh CI run on an evicted cache started failing every
+#      old-year dictionary fetch in Refresh #38.
+#
+# Try the static URL first. If it fails (network blip, bad name, NCES
+# decides to stop serving the static path), fall back to the dynamic
+# generator. Each URL is wrapped in download_with_retry's exponential
+# backoff inside download_if_missing, so the fallback only runs after the
+# primary has fully exhausted retries.
 ensure_dictionary_archive <- function(table_name, out_file, year = 2024) {
   if (is_valid_zip_archive(out_file)) return(invisible(out_file))
   dir.create(dirname(out_file), recursive = TRUE, showWarnings = FALSE)
-  url <- sprintf(
+
+  static_url <- sprintf(
+    "https://nces.ed.gov/ipeds/datacenter/data/%s_Dict.zip", table_name
+  )
+  generator_url <- sprintf(
     "https://nces.ed.gov/ipeds/dictionary-generator?year=%s&tableName=%s",
     year, table_name
   )
+
   if (file.exists(out_file)) file.remove(out_file)
-  download_if_missing(url, out_file)
-  if (!is_valid_zip_archive(out_file)) {
-    stop(sprintf(
-      "Dictionary download for %s did not produce a valid archive.", table_name
-    ))
+
+  attempt_one_url <- function(url) {
+    ok <- tryCatch(
+      {
+        download_if_missing(url, out_file)
+        is_valid_zip_archive(out_file)
+      },
+      error = function(e) FALSE
+    )
+    # download_if_missing returns early when out_file already exists, so a
+    # successful-but-garbage download from one URL would short-circuit the
+    # next attempt. Always clear the file on failure so the fallback URL
+    # gets a real attempt.
+    if (!isTRUE(ok) && file.exists(out_file)) file.remove(out_file)
+    isTRUE(ok)
   }
-  out_file
+
+  if (attempt_one_url(static_url)) return(invisible(out_file))
+  if (attempt_one_url(generator_url)) return(invisible(out_file))
+
+  stop(sprintf(
+    "Dictionary download for %s failed from both %s and %s.",
+    table_name, static_url, generator_url
+  ))
 }
 
 # Expands `zip_path` into `destination_path` only when the destination is

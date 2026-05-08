@@ -2230,8 +2230,17 @@ h1.serif {
   }
 
   .metric-strip,
+  /* On phones the chart-panel's 26px horizontal padding plus the
+     20px main-wrap gutter eats ~92px of a 360px viewport, leaving
+     the SVG only ~268px to scale into. With pad.left fixed in
+     viewBox user units, less rendered width means each user unit is
+     fewer displayed pixels and abbreviated currency labels start to
+     clip on the left. Trim the chart-panel padding to give the SVG
+     ~32px more horizontal room. */
   .chart-panel {
     width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .data-card h2,

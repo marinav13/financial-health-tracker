@@ -140,15 +140,25 @@ function renderLineChart(containerId, config) {
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
     window.matchMedia("(max-width: 700px)").matches;
-  // Narrower pad.left on mobile — the abbreviated Y-axis labels
-  // ("$50M", "32K") emitted by formatChartAxisTick fit comfortably in
-  // ~70u currency / ~56u non-currency at the bumped 24u tick font.
+  // Mobile pad.left has to fit the WIDEST abbreviated tick label at
+  // the bumped 24u Y-axis font, plus the 10u buffer between text-end
+  // and the chart line. Currency abbreviations top out at "$1.5B" /
+  // "$750M" (5 chars). At 24u font with ~0.55 char-width ratio the
+  // label runs ~70u; 90u gives a clean ~10u margin. Number-format
+  // abbreviations top out at "100K" (4 chars / ~52u), so 66u keeps
+  // the same buffer. These are the WHY-numbers — don't shrink them
+  // unless you also shrink the font or shorten the abbreviation.
   const pad = isMobile
     ? {
         top: 14,
-        right: format === "currency" ? 22 : 18,
+        // pad.right has to leave at least half the rightmost year
+        // label inside the viewBox -- "2024" at the bumped 22u X-axis
+        // font is ~48u wide centered, so ~24u of half-width must fit.
+        // 26u keeps a small buffer so the SVG's own viewBox clip
+        // doesn't shave the last digit.
+        right: 26,
         bottom: 36,
-        left: format === "currency" ? 76 : 56
+        left: format === "currency" ? 90 : 66
       }
     : {
         top: 18,

@@ -842,8 +842,11 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
     currentPage = pageState.currentPage;
 
     if (downloadButton && typeof downloadRows === "function") {
-      downloadButton.classList.toggle("is-hidden", pageState.pageItems.length === 0);
-      downloadButton.onclick = () => downloadRows(pageState.pageItems);
+      // Download exports the full filtered + sorted list, not just the
+      // current page. Hidden when the filtered list itself is empty so
+      // an "empty" filter doesn't surface a zero-row CSV.
+      downloadButton.classList.toggle("is-hidden", sortedItems.length === 0);
+      downloadButton.onclick = () => downloadRows(sortedItems);
     }
 
     window.TrackerApp.bindPaginationControls(container, currentPage, (nextPage, nextFocusSelector) => {

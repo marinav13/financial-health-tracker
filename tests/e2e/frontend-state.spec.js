@@ -142,7 +142,9 @@ test.describe('Frontend state synchronization', () => {
     const landingList = page.locator('#accreditation-status');
     await expect(landingList.locator('table.history-table')).toBeVisible();
     await expect(landingList.locator('th[aria-sort="descending"]')).toContainText('Date');
-    const landingDates = await landingList.locator('tbody tr td:nth-child(6)').evaluateAll((cells) =>
+    // Date column moved from col 6 -> col 5 when the visible Accreditor
+    // column was hidden (it still ships in the CSV).
+    const landingDates = await landingList.locator('tbody tr td:nth-child(5)').evaluateAll((cells) =>
       cells.slice(0, 5).map((cell) => (cell.textContent || '').trim())
     );
     expect(landingDates.length).toBeGreaterThan(1);
@@ -159,7 +161,9 @@ test.describe('Frontend state synchronization', () => {
     const detailList = page.locator('#accreditation-status');
     await expect(detailList.locator('table.history-table')).toBeVisible();
     await expect(detailList.locator('th[aria-sort="descending"]')).toContainText('Date');
-    const detailDates = await detailList.locator('tbody tr td:nth-child(5)').evaluateAll((cells) =>
+    // Date column moved from col 5 -> col 4 in the detail table when
+    // the visible Accreditor column was hidden.
+    const detailDates = await detailList.locator('tbody tr td:nth-child(4)').evaluateAll((cells) =>
       cells.slice(0, 5).map((cell) => (cell.textContent || '').trim())
     );
     expect(detailDates.length).toBeGreaterThan(0);
@@ -169,9 +173,11 @@ test.describe('Frontend state synchronization', () => {
       }
     }
 
-    await detailList.locator('button[data-sort-key="accreditor"][data-sort-direction="asc"]').click();
+    // Detail-table sort coverage moved from "accreditor" (column hidden)
+    // to "state" — same aria-sort wiring path, different sort key.
+    await detailList.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
     await expect(detailList.locator('th[aria-sort]')).toHaveCount(1);
-    await expect(detailList.locator('th[aria-sort="ascending"]')).toContainText('Accreditor');
+    await expect(detailList.locator('th[aria-sort="ascending"]')).toContainText('State');
   });
 
   test('hidden secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {

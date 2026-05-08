@@ -27,6 +27,26 @@ function formatChartValue(value, format = "number") {
   }).format(value);
 }
 
+// Abbreviated form of formatChartValue for Y-axis tick labels on
+// narrow viewports. Trades precision (which the tooltip still has)
+// for width: "$50M" instead of "$50,000,000", "32K" instead of
+// "32,000". Keeps full formatChartValue behavior for percent and for
+// any value below 1,000 where abbreviation gains nothing. Tooltips
+// and aria descriptions continue to use the unabbreviated formatter.
+function formatChartAxisTick(value, format = "number", abbreviate = false) {
+  if (!abbreviate) return formatChartValue(value, format);
+  if (value === null || value === undefined || Number.isNaN(value)) return "No data";
+  if (format === "percent") return formatChartValue(value, format);
+  const abs = Math.abs(value);
+  const sign = value < 0 ? "-" : "";
+  const prefix = format === "currency" ? "$" : "";
+  const trim = (n) => n.toFixed(1).replace(/\.0$/, "");
+  if (abs >= 1e9) return `${sign}${prefix}${trim(abs / 1e9)}B`;
+  if (abs >= 1e6) return `${sign}${prefix}${trim(abs / 1e6)}M`;
+  if (abs >= 1e3) return `${sign}${prefix}${Math.round(abs / 1e3)}K`;
+  return formatChartValue(value, format);
+}
+
 function escapeChartHtml(value) {
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -120,12 +140,15 @@ function renderLineChart(containerId, config) {
     typeof window !== "undefined" &&
     typeof window.matchMedia === "function" &&
     window.matchMedia("(max-width: 700px)").matches;
+  // Narrower pad.left on mobile — the abbreviated Y-axis labels
+  // ("$50M", "32K") emitted by formatChartAxisTick fit comfortably in
+  // ~70u currency / ~56u non-currency at the bumped 24u tick font.
   const pad = isMobile
     ? {
         top: 14,
-        right: format === "currency" ? 28 : 22,
+        right: format === "currency" ? 22 : 18,
         bottom: 36,
-        left: format === "currency" ? 118 : 64
+        left: format === "currency" ? 76 : 56
       }
     : {
         top: 18,
@@ -176,7 +199,7 @@ function renderLineChart(containerId, config) {
       const y = pad.top + (i / 4) * innerH;
       const tickValue = maxY - ((maxY - minY) * i / 4);
       gridLines.push(`<line x1="${pad.left}" y1="${y}" x2="${width - pad.right}" y2="${y}" stroke="#e5e7eb" stroke-width="1" />`);
-      yTicks.push(`<text class="chart-axis-tick chart-axis-tick--y" x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="14" fill="#6b7280">${formatChartValue(tickValue, format)}</text>`);
+      yTicks.push(`<text class="chart-axis-tick chart-axis-tick--y" x="${pad.left - 10}" y="${y + 4}" text-anchor="end" font-size="14" fill="#6b7280">${formatChartAxisTick(tickValue, format, isMobile)}</text>`);
     }
 
     const yearTicks = [];

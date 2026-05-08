@@ -944,13 +944,15 @@ async function shareSchoolProfile(school, unitid) {
 }
 
 function syncSearchToggle() {
+  // Search stays expanded at every viewport — the previous mobile
+  // behavior collapsed the panel behind a <summary> dropdown the user
+  // had to tap to reach the input. The mobile CSS now hides that
+  // summary and keeps .search-panel visible, so we always force the
+  // <details> element open here too. This still uses .school-search-wrap
+  // as the lookup so the no-op safely returns when other pages call it.
   const wrap = document.getElementById("school-search-wrap");
   if (!wrap) return;
-  if (window.innerWidth <= 700) {
-    wrap.removeAttribute("open");
-  } else {
-    wrap.setAttribute("open", "");
-  }
+  wrap.setAttribute("open", "");
 }
 
 function styleAnswerCard(answerId, value) {

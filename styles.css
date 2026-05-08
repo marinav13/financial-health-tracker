@@ -1283,6 +1283,23 @@ h1.serif {
   color: var(--ink);
 }
 
+/* Per-cut card on cuts.html?unitid=... — the program-name heading
+   was rendering at the full 25px serif data-card h3 size, which made
+   long sentences ("Men's and women's tennis programs discontinued
+   effective end of spring 2026 season...") feel oversized vs. the
+   surrounding meta. Match the table-cell font instead so the cut
+   reads like a row body, not a section heading. Source-order placed
+   below the .data-card h3 rule so the same-specificity override
+   wins. */
+.data-card--cut h3 {
+  padding: 16px 24px 6px;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
 #school-outcomes-section.data-card {
   background: transparent;
   border: 0;
@@ -1456,9 +1473,9 @@ h1.serif {
   appearance: none;
   min-width: 40px;
   height: 40px;
-  padding: 0 10px;
+  padding: 0 12px;
   border: 1px solid var(--line-2);
-  border-radius: 50%;
+  border-radius: 4px;
   background: transparent;
   color: var(--ink-3);
   font-family: var(--font-ui);
@@ -2110,6 +2127,36 @@ h1.serif {
     max-width: 100%;
   }
 
+  /* On narrow widths the placeholder ("Start typing a college name,
+     city, state or IPEDS ID") was getting clipped after about 22
+     characters. Shrink the input chrome (wrap padding, icon margin)
+     and the input font so more of the placeholder fits before the
+     right edge truncates it. */
+  .search-input-wrap {
+    padding: 0 12px;
+  }
+  .search-icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  .search {
+    font-size: 15px;
+    padding: 14px 0;
+  }
+
+  /* On the school page at narrow widths the search lived behind a
+     collapsed <details> toggle ("click the dropdown to see the search
+     bar"). Hide that toggle and keep the panel always visible so the
+     search input is reachable in one tap, matching the homepage
+     pattern. */
+  .school-search-wrap > .school-search-summary {
+    display: none;
+  }
+  .school-search-wrap .search-panel {
+    display: block;
+  }
+
   /* On the homepage at narrow widths, lift the search panel above the
      yellow decorative box and the secondary helper paragraph so it sits
      immediately under the lede headline / first lede paragraph. The
@@ -2134,14 +2181,9 @@ h1.serif {
   .home-layout .hero-split .banner { order: 5; margin-top: 8px; }
   .home-layout > .pg-foot { order: 6; }
 
-  .school-search-summary {
-    display: block;
-    max-width: 100%;
-  }
-
-  .school-search-wrap:not([open]) .search-panel {
-    display: none;
-  }
+  /* The previous mobile behavior (collapsed search behind a summary
+     toggle) was replaced above — search is now always visible on the
+     school page at narrow widths. */
 
   .school-banner h1 {
     font-size: 2.4rem;

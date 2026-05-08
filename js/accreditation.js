@@ -586,8 +586,11 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
         const labelCell = scope
           ? (fullLabel ? `${fullLabel} (${scope})` : `(${scope})`)
           : fullLabel;
+        // Accreditor column was hidden from the visible table (it remains
+        // in the CSV download). If you re-enable it, restore both the
+        // expandAccreditors() cell here and the matching sortable header
+        // below.
         return [
-          expandAccreditors(action.accreditor || ""),
           labelCell,
           action.state || "",
           action.control_label || "",
@@ -598,7 +601,6 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     return `${renderHistoryTable({
       ariaLabel: "Accreditation actions for this institution",
       headers: [
-        renderSortableHeader("accreditor", sortState, "Accreditor"),
         renderSortableHeader("action_label", sortState, "Action"),
         renderSortableHeader("state", sortState, "State"),
         renderSortableHeader("control_label", sortState, "Sector"),
@@ -656,10 +658,11 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
       return renderEmpty(emptyMessage);
     }
 
+    // Accreditor column hidden from the visible table; it still ships
+    // in the CSV via downloadHeaders / downloadRow below.
     const rows = pageItems
       .map((action) => [
         linkNames ? renderSchoolLinkCell(action.unitid, action.institution_name, "accreditation.html") : action.institution_name || "",
-        expandAccreditors(action.accreditor || ""),
         actionLabelCell(action),
         action.state || "",
         action.control_label || "",
@@ -672,7 +675,6 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
         ariaLabel: linkNames ? "Recent accreditation actions by institution" : "Recent accreditation actions",
         headers: [
           renderSortableHeader("institution_name", sortState, "Institution"),
-          renderSortableHeader("accreditor", sortState, "Accreditor"),
           renderSortableHeader("action_label", sortState, "Action"),
           renderSortableHeader("state", sortState, "State"),
           renderSortableHeader("control_label", sortState, "Sector"),

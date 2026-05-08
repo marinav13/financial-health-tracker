@@ -40,7 +40,7 @@
       ? `<p class="small-meta">${sourceLink}${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
       : "";
     return `
-      <article class="data-card">
+      <article class="data-card data-card--cut">
         <h3>${escapeHtml(cut.program_name || "Unnamed cut")}</h3>
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
@@ -159,7 +159,7 @@
     return `
       <div class="table-toolbar detail-download-toolbar">
         <div class="table-toolbar-actions">
-          <button id="cuts-detail-download" class="download-button" type="button">Download Displayed Table</button>
+          <button id="cuts-detail-download" class="download-button" type="button">Download college cuts data</button>
         </div>
       </div>
     `;

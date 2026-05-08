@@ -3,13 +3,16 @@
  *
  * The static export tests verify the JSON contracts on disk; the rendering
  * tests verify the table HTML. Nothing in the previous suite actually
- * clicked the "Download Displayed Table" button and inspected the CSV.
+ * clicked the data-download button and inspected the CSV.
  *
  * This spec does. It loads accreditation.html, clicks the primary-table
  * download button, captures the blob download, reads it, and asserts:
  *   - The header row matches the contract defined in js/accreditation.js
- *   - The CSV contains exactly one data row per visible table row
- *     (downloadButton.onclick exports pageState.pageItems, not the full set)
+ *   - The CSV contains at least as many data rows as the visible page
+ *     (downloadButton.onclick now exports the full filtered + sorted
+ *     set, not just pageState.pageItems, so cross-page rows are
+ *     included). Anything less than the visible page count would mean
+ *     the download regressed back to per-page export.
  *   - The first data row's institution name matches the first rendered row
  *
  * This closes the gap where a silent change to downloadHeaders, downloadRow,
@@ -90,8 +93,10 @@ test.describe('CSV download content', () => {
     const [header, ...dataRows] = parsed;
     expect(header).toEqual(['Institution', 'Accreditor', 'Action', 'Scope', 'State', 'Sector', 'Date', 'Source']);
 
-    // Download exports the displayed page, so row counts must match.
-    expect(dataRows.length).toBe(visibleRowCount);
+    // Download exports the full filtered + sorted set, so the CSV row
+    // count is at least as large as the visible page. A strict-equal
+    // assertion would now pass only when the dataset fits on one page.
+    expect(dataRows.length).toBeGreaterThanOrEqual(visibleRowCount);
 
     // First CSV data row's institution cell must match the first visible row.
     expect(dataRows[0][0]).toBe(firstRowInstitution);

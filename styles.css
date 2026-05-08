@@ -1773,9 +1773,11 @@ h1.serif {
   border-radius: 6px;
   font-size: 0.82rem;
   line-height: 1.35;
+  width: max-content;
   max-width: min(320px, calc(100% - 16px));
   white-space: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  word-break: normal;
   transform: translate(-50%, -115%);
   opacity: 0;
   transition: opacity 0.12s ease;
@@ -1788,6 +1790,19 @@ h1.serif {
 
 .chart-tooltip-row {
   display: block;
+  white-space: nowrap;
+}
+
+.chart-tooltip strong {
+  display: block;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .chart-tooltip {
+    font-size: 0.76rem;
+    padding: 7px 9px;
+  }
 }
 
 .graphic-source {

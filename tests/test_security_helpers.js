@@ -214,7 +214,7 @@ run("school visibility and yes/no helpers handle non-string values", () => {
   assert(!("aria-hidden" in elements.get("sample-section").attrs), "Expected aria-hidden to be removed when shown");
 });
 
-run("setupPaginatedTable renders filtered rows and wires downloads", () => {
+run("setupPaginatedTable renders filtered rows and downloads the full sorted set", () => {
   const listeners = {};
   const searchInput = {
     value: "",
@@ -264,11 +264,25 @@ run("setupPaginatedTable renders filtered rows and wires downloads", () => {
   assert(container.innerHTML === "Alpha,Beta", "Expected first page to use supplied sort and page size");
   assert(downloadButton.hidden === false, "Expected download button to be shown for non-empty pages");
   downloadButton.onclick();
-  assert(downloadedRows.join(",") === "Alpha,Beta", "Expected download to receive current page rows");
+  // setupPaginatedTable now passes the full filtered + sorted list to
+  // downloadRows (not just the current page). Three items in the
+  // fixture, sorted desc by score: Alpha (3), Beta (2), Gamma (1).
+  assert(
+    downloadedRows.join(",") === "Alpha,Beta,Gamma",
+    "Expected download to receive the full sorted set, not just the current page"
+  );
 
   searchInput.value = "ga";
   listeners.input();
   assert(container.innerHTML === "Gamma", "Expected search input to filter and reset table render");
+  // After filtering, the download payload should narrow to the
+  // matching rows (still cross-page, but the filter is what scopes
+  // it).
+  downloadButton.onclick();
+  assert(
+    downloadedRows.join(",") === "Gamma",
+    "Expected download after filter to receive only matching sorted rows"
+  );
 });
 
 run("renderSortableHeader puts aria-sort on the active table header only", () => {

@@ -1,6 +1,6 @@
 {
   "unitid": "175272",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "Winona State University",
     "institution_unique_name": "Winona State University | Winona | Minnesota",
@@ -18,28 +18,28 @@
     "enrollment_pct_change_5yr": -22.0754,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -27.4279,
-    "net_tuition_per_fte_change_5yr": -5.5567,
+    "net_tuition_per_fte_change_5yr": -6.211,
     "staff_total_headcount_pct_change_5yr": -14.4711,
     "staff_instructional_headcount_pct_change_5yr": -4.7722,
-    "students_per_instructional_staff_fte": 15.1727,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 15.2786,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 26.2541,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 26% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 32.2962,
+    "unfunded_discount_pct_change_5yr": 7.7249,
     "share_grad_students": 13.8241,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 630000,
-    "research_expense_per_fte": 115.66,
+    "research_expense_per_fte": 114.8587,
     "research_expense_pct_core_expenses": 0.5531,
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 2.0722,
     "pct_international_undergraduate": 2.2196,
     "pct_international_graduate": 1.153,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 6538.697,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 1.9712,
+    "state_funding_pct_core_revenue": 44.8756,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 0.8315,
+    "state_funding_pct_change_5yr": 3.7331,
     "endowment_pct_change_5yr": 17.5328,
     "endowment_spending_current_use_pct_core_revenue": 0.0187,
     "graduation_rate_6yr": 56,
@@ -189,22 +189,67 @@
       },
       {
         "year": 2021,
-        "value": 7323.4236
+        "value": 7269.723
       },
       {
         "year": 2022,
-        "value": 7327.5111
+        "value": 7276.6515
       },
       {
         "year": 2023,
-        "value": 7416.5388
+        "value": 7352.5801
       },
       {
         "year": 2024,
-        "value": 6899.027
+        "value": 6851.2306
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 25.2989
+      },
+      {
+        "year": 2015,
+        "value": 26.1239
+      },
+      {
+        "year": 2016,
+        "value": 26.4789
+      },
+      {
+        "year": 2017,
+        "value": 27.2417
+      },
+      {
+        "year": 2018,
+        "value": 28.6472
+      },
+      {
+        "year": 2019,
+        "value": 29.9803
+      },
+      {
+        "year": 2020,
+        "value": 29.0382
+      },
+      {
+        "year": 2021,
+        "value": 28.9347
+      },
+      {
+        "year": 2022,
+        "value": 28.8295
+      },
+      {
+        "year": 2023,
+        "value": 29.4752
+      },
+      {
+        "year": 2024,
+        "value": 32.2962
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -734,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 1704024.9645
+        "value": 42445592.2927
       },
       {
         "year": 2015,
-        "value": 983351.0972
+        "value": 45300324.8375
       },
       {
         "year": 2016,
-        "value": 999854.5251
+        "value": 48300162.0578
       },
       {
         "year": 2017,
-        "value": 1616307.1434
+        "value": 48178238.3445
       },
       {
         "year": 2018,
-        "value": 1786390.9409
+        "value": 51003335.1997
       },
       {
         "year": 2019,
-        "value": 2203676.9734
+        "value": 48765555.4747
       },
       {
         "year": 2020,
-        "value": 1551409.7932
+        "value": 49040305.9723
       },
       {
         "year": 2021,
-        "value": 1327827.003
+        "value": 46963631.9593
       },
       {
         "year": 2022,
-        "value": 346214.9869
+        "value": 44135443.6589
       },
       {
         "year": 2023,
-        "value": 1402171.3609
+        "value": 41702758.8004
       },
       {
         "year": 2024,
-        "value": 2222000
+        "value": 50586000
       }
     ]
   }

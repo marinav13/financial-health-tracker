@@ -1,6 +1,6 @@
 {
   "unitid": "229018",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "The University of Texas Permian Basin",
     "institution_unique_name": "The University of Texas Permian Basin | Odessa | Texas",
@@ -22,15 +22,15 @@
     "staff_total_headcount_pct_change_5yr": -27.3529,
     "staff_instructional_headcount_pct_change_5yr": -0.3236,
     "students_per_instructional_staff_fte": 21.6779,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 13.7613,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 36.5974,
+    "unfunded_discount_pct_change_5yr": 124.565,
     "share_grad_students": 24.6202,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 5372856,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 7.3793,
     "pct_international_undergraduate": 5.4886,
     "pct_international_graduate": 13.168,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 187478,
     "grad_plus_disbursements_per_recipient": 7210.6923,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5714,
-    "state_funding_pct_core_revenue": 1.4596,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -80.1474,
-    "state_funding_pct_change_5yr": -16.0837,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.5441,
+    "state_funding_pct_core_revenue": 22.5393,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 81.5801,
+    "state_funding_pct_change_5yr": 3.3048,
     "endowment_pct_change_5yr": 13.3292,
     "endowment_spending_current_use_pct_core_revenue": 0,
     "graduation_rate_6yr": 40,
@@ -204,7 +204,52 @@
         "value": 6331.5367
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 19.7457
+      },
+      {
+        "year": 2015,
+        "value": 26.8586
+      },
+      {
+        "year": 2016,
+        "value": 24.854
+      },
+      {
+        "year": 2017,
+        "value": 35.6021
+      },
+      {
+        "year": 2018,
+        "value": 26.3533
+      },
+      {
+        "year": 2019,
+        "value": 16.297
+      },
+      {
+        "year": 2020,
+        "value": 16.7909
+      },
+      {
+        "year": 2021,
+        "value": 26.4368
+      },
+      {
+        "year": 2022,
+        "value": 32.5208
+      },
+      {
+        "year": 2023,
+        "value": 30.3575
+      },
+      {
+        "year": 2024,
+        "value": 36.5974
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -688,93 +733,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 136431.977
+        "value": 3504742.0828
       },
       {
         "year": 2015,
-        "value": 1622244.7606
+        "value": 5461367.8813
       },
       {
         "year": 2016,
-        "value": 1649163.9747
+        "value": 4477012.6645
       },
       {
         "year": 2017,
-        "value": 1859076.9883
+        "value": 4488554.0431
       },
       {
         "year": 2018,
-        "value": 1139586.2517
+        "value": 3945023.2803
       },
       {
         "year": 2019,
-        "value": 5781593.1652
+        "value": 2814485.6784
       },
       {
         "year": 2020,
-        "value": 3972428.409
+        "value": 3424700.7574
       },
       {
         "year": 2021,
-        "value": 2459998.0604
+        "value": 5523632.9907
       },
       {
         "year": 2022,
-        "value": 4576523.7311
+        "value": 5491201.2173
       },
       {
         "year": 2023,
-        "value": 2604337.6989
+        "value": 4984558.5868
       },
       {
         "year": 2024,
-        "value": 1147794
+        "value": 5110545
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 7278897.6678
+        "value": 39001181.439
       },
       {
         "year": 2015,
-        "value": 28871.8764
+        "value": 38654810.3295
       },
       {
         "year": 2016,
-        "value": 2066661.4004
+        "value": 44805999.8565
       },
       {
         "year": 2017,
-        "value": 7729727.2074
+        "value": 43958276.6684
       },
       {
         "year": 2018,
-        "value": 5920190.7716
+        "value": 44448873.2077
       },
       {
         "year": 2019,
-        "value": 3493890.5777
+        "value": 43827290.837
       },
       {
         "year": 2020,
-        "value": 7198586.2861
+        "value": 44195638.6164
       },
       {
         "year": 2021,
-        "value": 20226369.6665
+        "value": 38799554.1964
       },
       {
         "year": 2022,
-        "value": 2159319.2923
+        "value": 40406735.0465
       },
       {
         "year": 2023,
-        "value": 2609149.5557
+        "value": 38524505.7748
       },
       {
         "year": 2024,
-        "value": 2931942
+        "value": 45275696
       }
     ]
   }

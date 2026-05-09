@@ -1,6 +1,6 @@
 {
   "unitid": "211608",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "Cheyney University of Pennsylvania",
     "institution_unique_name": "Cheyney University of Pennsylvania | Cheyney | Pennsylvania",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -100,
     "staff_total_headcount_pct_change_5yr": -0.6536,
     "staff_instructional_headcount_pct_change_5yr": -14.5455,
-    "students_per_instructional_staff_fte": 18.4779,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 18.4762,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 0,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 0% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 100,
+    "unfunded_discount_pct_change_5yr": 1.0946,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 49626,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 0.2601,
     "pct_international_undergraduate": 0.2601,
     "pct_international_graduate": null,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.5127,
-    "state_funding_pct_core_revenue": 1.025,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 62.0953,
-    "state_funding_pct_change_5yr": -27.6836,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 8.837,
+    "state_funding_pct_core_revenue": 61.5494,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -32.3633,
+    "state_funding_pct_change_5yr": 28.1944,
     "endowment_pct_change_5yr": 6.9289,
     "endowment_spending_current_use_pct_core_revenue": 0,
     "graduation_rate_6yr": 41,
@@ -204,7 +204,52 @@
         "value": 0
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 67.7209
+      },
+      {
+        "year": 2015,
+        "value": 76.5974
+      },
+      {
+        "year": 2016,
+        "value": 71.9308
+      },
+      {
+        "year": 2017,
+        "value": 69.6406
+      },
+      {
+        "year": 2018,
+        "value": 70.1431
+      },
+      {
+        "year": 2019,
+        "value": 98.9172
+      },
+      {
+        "year": 2020,
+        "value": 91.1236
+      },
+      {
+        "year": 2021,
+        "value": 95.3416
+      },
+      {
+        "year": 2022,
+        "value": 99.9971
+      },
+      {
+        "year": 2023,
+        "value": 100
+      },
+      {
+        "year": 2024,
+        "value": 100
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -640,93 +685,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 540430.3249
+        "value": 4213421.6844
       },
       {
         "year": 2015,
-        "value": 133620.6058
+        "value": 2893505.9712
       },
       {
         "year": 2016,
-        "value": 268360.9545
+        "value": 3354336.7937
       },
       {
         "year": 2017,
-        "value": 201180.9695
+        "value": 2973957.7937
       },
       {
         "year": 2018,
-        "value": 347877.7743
+        "value": 2527926.8174
       },
       {
         "year": 2019,
-        "value": 106743.3641
+        "value": 4409394.434
       },
       {
         "year": 2020,
-        "value": 215413.2498
+        "value": 3511926.349
       },
       {
         "year": 2021,
-        "value": 142380.7942
+        "value": 5415646.0416
       },
       {
         "year": 2022,
-        "value": 120952.2958
+        "value": 3398162.2654
       },
       {
         "year": 2023,
-        "value": 270861.0038
+        "value": 3831263.377
       },
       {
         "year": 2024,
-        "value": 173026
+        "value": 2982369
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 192900.6612
+        "value": 17355822.8781
       },
       {
         "year": 2015,
-        "value": 101459.8633
+        "value": 17194279.069
       },
       {
         "year": 2016,
-        "value": 127556.6044
+        "value": 17079482.3224
       },
       {
         "year": 2017,
-        "value": 215338.6939
+        "value": 16520079.5134
       },
       {
         "year": 2018,
-        "value": 243841.1142
+        "value": 15782084.3849
       },
       {
         "year": 2019,
-        "value": 478331.6453
+        "value": 16203565.6202
       },
       {
         "year": 2020,
-        "value": 305167.1545
+        "value": 16359697.4764
       },
       {
         "year": 2021,
-        "value": 420018.1913
+        "value": 15625603.0688
       },
       {
         "year": 2022,
-        "value": -252357.4974
+        "value": 14282550.4868
       },
       {
         "year": 2023,
-        "value": 326167.5015
+        "value": 19949604.0831
       },
       {
         "year": 2024,
-        "value": 345912
+        "value": 20772066
       }
     ]
   }

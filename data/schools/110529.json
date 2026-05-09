@@ -1,6 +1,6 @@
 {
   "unitid": "110529",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "California State Polytechnic University-Pomona",
     "institution_unique_name": "California State Polytechnic University-Pomona | Pomona | California",
@@ -22,15 +22,15 @@
     "staff_total_headcount_pct_change_5yr": 2.3414,
     "staff_instructional_headcount_pct_change_5yr": -0.0688,
     "students_per_instructional_staff_fte": 24.7806,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 19.2349,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 19% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 46.4415,
+    "unfunded_discount_pct_change_5yr": -9.3051,
     "share_grad_students": 9.4887,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 3165785,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 2.3466,
     "pct_international_undergraduate": 1.3227,
     "pct_international_graduate": 12.1136,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 8568.1935,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 4.4324,
+    "state_funding_pct_core_revenue": 42.766,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 157.1957,
+    "state_funding_pct_change_5yr": 12.2632,
     "endowment_pct_change_5yr": 47.9043,
     "endowment_spending_current_use_pct_core_revenue": 0.0093,
     "graduation_rate_6yr": 68,
@@ -204,7 +204,52 @@
         "value": 5059.0089
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 44.0251
+      },
+      {
+        "year": 2015,
+        "value": 44.9928
+      },
+      {
+        "year": 2016,
+        "value": 46.2291
+      },
+      {
+        "year": 2017,
+        "value": 45.9326
+      },
+      {
+        "year": 2018,
+        "value": 46.5007
+      },
+      {
+        "year": 2019,
+        "value": 51.2063
+      },
+      {
+        "year": 2020,
+        "value": 50.8241
+      },
+      {
+        "year": 2021,
+        "value": 54.1195
+      },
+      {
+        "year": 2022,
+        "value": 55.0287
+      },
+      {
+        "year": 2023,
+        "value": 48.0109
+      },
+      {
+        "year": 2024,
+        "value": 46.4415
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -700,7 +745,7 @@
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 48374.038
       },
       {
         "year": 2018,
@@ -734,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 3365119.3654
+        "value": 143960090.3061
       },
       {
         "year": 2015,
-        "value": 3201957.9318
+        "value": 156048217.2216
       },
       {
         "year": 2016,
-        "value": 4677969.047
+        "value": 169652229.9894
       },
       {
         "year": 2017,
-        "value": 3224221.7752
+        "value": 177509799.4615
       },
       {
         "year": 2018,
-        "value": 3997701.8254
+        "value": 255993971.7565
       },
       {
         "year": 2019,
-        "value": 9822196.8589
+        "value": 217116455.4052
       },
       {
         "year": 2020,
-        "value": 8541246.6194
+        "value": 252529262.5287
       },
       {
         "year": 2021,
-        "value": 24767722.0834
+        "value": 204297158.9522
       },
       {
         "year": 2022,
-        "value": -25265705.3762
+        "value": 232527706.0387
       },
       {
         "year": 2023,
-        "value": 9774775.3993
+        "value": 267201983.1006
       },
       {
         "year": 2024,
-        "value": 25262269
+        "value": 243741932
       }
     ]
   }

@@ -1,6 +1,6 @@
 {
   "unitid": "110608",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "California State University-Northridge",
     "institution_unique_name": "California State University-Northridge | Northridge | California",
@@ -18,28 +18,28 @@
     "enrollment_pct_change_5yr": -3.0682,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 0.6541,
-    "net_tuition_per_fte_change_5yr": -16.6474,
+    "net_tuition_per_fte_change_5yr": -17.1538,
     "staff_total_headcount_pct_change_5yr": 1.8533,
     "staff_instructional_headcount_pct_change_5yr": 1.0721,
-    "students_per_instructional_staff_fte": 24.4902,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 24.6399,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 18.015,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 18% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 52.6754,
+    "unfunded_discount_pct_change_5yr": 3.4213,
     "share_grad_students": 14.7508,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 4256766,
-    "research_expense_per_fte": 134.8102,
+    "research_expense_per_fte": 133.9912,
     "research_expense_pct_core_expenses": 0.5731,
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 4.7956,
     "pct_international_undergraduate": 3.297,
     "pct_international_graduate": 13.456,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 8607.6324,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 4.0154,
+    "state_funding_pct_core_revenue": 38.7714,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 189.2995,
+    "state_funding_pct_change_5yr": -1.3479,
     "endowment_pct_change_5yr": 72.5305,
     "endowment_spending_current_use_pct_core_revenue": 0.0075,
     "graduation_rate_6yr": 57,
@@ -189,22 +189,67 @@
       },
       {
         "year": 2021,
-        "value": 4945.5189
+        "value": 4921.1733
       },
       {
         "year": 2022,
-        "value": 5113.4942
+        "value": 5083.9966
       },
       {
         "year": 2023,
-        "value": 4551.0044
+        "value": 4521.9095
       },
       {
         "year": 2024,
-        "value": 4602.2362
+        "value": 4574.2772
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 38.4915
+      },
+      {
+        "year": 2015,
+        "value": 42.0447
+      },
+      {
+        "year": 2016,
+        "value": 43.9276
+      },
+      {
+        "year": 2017,
+        "value": 46.0983
+      },
+      {
+        "year": 2018,
+        "value": 49.4118
+      },
+      {
+        "year": 2019,
+        "value": 50.9328
+      },
+      {
+        "year": 2020,
+        "value": 52.5338
+      },
+      {
+        "year": 2021,
+        "value": 53.7718
+      },
+      {
+        "year": 2022,
+        "value": 50.4848
+      },
+      {
+        "year": 2023,
+        "value": 54.6042
+      },
+      {
+        "year": 2024,
+        "value": 52.6754
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -688,19 +733,19 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 157393.0741
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 99577.8643
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 97827.5965
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 98162.1848
+        "value": 0
       },
       {
         "year": 2018,
@@ -724,7 +769,7 @@
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 1411732.2753
       },
       {
         "year": 2024,
@@ -734,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 2936068.1403
+        "value": 195149467.9858
       },
       {
         "year": 2015,
-        "value": 2829850.2004
+        "value": 211692981.3498
       },
       {
         "year": 2016,
-        "value": 4553911.2799
+        "value": 220807817.1169
       },
       {
         "year": 2017,
-        "value": 2586671.1501
+        "value": 245736076.864
       },
       {
         "year": 2018,
-        "value": 3172957.6079
+        "value": 372073807.5024
       },
       {
         "year": 2019,
-        "value": 10791168.1026
+        "value": 305555323.9964
       },
       {
         "year": 2020,
-        "value": 9357736.6251
+        "value": 356383026.6534
       },
       {
         "year": 2021,
-        "value": 29499192.2381
+        "value": 294643209.7728
       },
       {
         "year": 2022,
-        "value": -30886711.4887
+        "value": 356893251.8251
       },
       {
         "year": 2023,
-        "value": 14722896.0616
+        "value": 376930735.4455
       },
       {
         "year": 2024,
-        "value": 31218790
+        "value": 301436849
       }
     ]
   }

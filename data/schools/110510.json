@@ -1,6 +1,6 @@
 {
   "unitid": "110510",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "California State University-San Bernardino",
     "institution_unique_name": "California State University-San Bernardino | San Bernardino | California",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -14.2656,
     "staff_total_headcount_pct_change_5yr": 1.8895,
     "staff_instructional_headcount_pct_change_5yr": 7.9286,
-    "students_per_instructional_staff_fte": 22.7919,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 22.7918,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 16.6443,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 62.008,
+    "unfunded_discount_pct_change_5yr": 5.4904,
     "share_grad_students": 15.6527,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 694691,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 3.2492,
     "pct_international_undergraduate": 1.4906,
     "pct_international_graduate": 12.7256,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 7607.1406,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 3.286,
+    "state_funding_pct_core_revenue": 31.6462,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 131.6371,
+    "state_funding_pct_change_5yr": -34.1346,
     "endowment_pct_change_5yr": 15.55,
     "endowment_spending_current_use_pct_core_revenue": 0.0072,
     "graduation_rate_6yr": 55,
@@ -204,7 +204,52 @@
         "value": 3725.1038
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 49.9576
+      },
+      {
+        "year": 2015,
+        "value": 54.5821
+      },
+      {
+        "year": 2016,
+        "value": 54.0904
+      },
+      {
+        "year": 2017,
+        "value": 56.3196
+      },
+      {
+        "year": 2018,
+        "value": 58.1999
+      },
+      {
+        "year": 2019,
+        "value": 58.7807
+      },
+      {
+        "year": 2020,
+        "value": 62.0983
+      },
+      {
+        "year": 2021,
+        "value": 64.3651
+      },
+      {
+        "year": 2022,
+        "value": 73.2723
+      },
+      {
+        "year": 2023,
+        "value": 61.4948
+      },
+      {
+        "year": 2024,
+        "value": 62.008
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -734,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 904903.5091
+        "value": 108032569.7355
       },
       {
         "year": 2015,
-        "value": 749403.5332
+        "value": 119766732.0443
       },
       {
         "year": 2016,
-        "value": 1520356.5718
+        "value": 126431862.1748
       },
       {
         "year": 2017,
-        "value": 1172497.1001
+        "value": 140070039.5929
       },
       {
         "year": 2018,
-        "value": 1816006.3046
+        "value": 210189638.8194
       },
       {
         "year": 2019,
-        "value": 5040160.1579
+        "value": 170709018.3409
       },
       {
         "year": 2020,
-        "value": 5282023.1091
+        "value": 198813362.5669
       },
       {
         "year": 2021,
-        "value": 9084733.0404
+        "value": 168910811.2718
       },
       {
         "year": 2022,
-        "value": -7323368.7844
+        "value": 198011048.3181
       },
       {
         "year": 2023,
-        "value": 3314222.4679
+        "value": 285058669.3546
       },
       {
         "year": 2024,
-        "value": 11674883
+        "value": 112438111
       }
     ]
   }

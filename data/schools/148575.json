@@ -1,6 +1,6 @@
 {
   "unitid": "148575",
-  "generated_at": "2026-05-07",
+  "generated_at": "2026-05-09",
   "profile": {
     "institution_name": "Saint Francis Medical Center College of Nursing",
     "institution_unique_name": "Saint Francis Medical Center College of Nursing | Peoria | Illinois",
@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": 1.0558,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": null,
+    "revenue_pct_change_5yr": 6.5389,
     "net_tuition_per_fte_change_5yr": -11.8989,
     "staff_total_headcount_pct_change_5yr": -9.0909,
     "staff_instructional_headcount_pct_change_5yr": -13.2075,
-    "students_per_instructional_staff_fte": 10.3729,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
-    "ended_year_at_loss": null,
-    "losses_last_3_of_5": "No",
-    "loss_years_last_10": 0,
-    "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": null,
+    "students_per_instructional_staff_fte": 10.3738,
+    "sector_median_students_per_instructional_staff_fte": 13.0124,
+    "ended_year_at_loss": "Yes",
+    "losses_last_3_of_5": "Yes",
+    "loss_years_last_10": 3,
+    "tuition_dependence_pct": 68.6997,
+    "sector_median_tuition_dependence_pct": 44.8638,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 69% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 40.8125,
     "unfunded_discount_pct_change_5yr": 397.7782,
     "share_grad_students": 49.7015,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0.1493,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0.3003,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": 0,
     "international_students_sentence": "In 2024, 0.1% of students were international. That includes 0% of undergraduates and 0.3% of graduate students.",
     "federal_loan_pct_most_recent": 26,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": 10,
     "grad_plus_disbursements_amt": 127211,
     "grad_plus_disbursements_per_recipient": 12721.1,
@@ -66,7 +66,52 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [],
+    "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 10843627.7896
+      },
+      {
+        "year": 2015,
+        "value": 11272090.0996
+      },
+      {
+        "year": 2016,
+        "value": 11154526.0797
+      },
+      {
+        "year": 2017,
+        "value": 11124697.8192
+      },
+      {
+        "year": 2018,
+        "value": 11452215.0316
+      },
+      {
+        "year": 2019,
+        "value": 10636705.8068
+      },
+      {
+        "year": 2020,
+        "value": 9278375.954
+      },
+      {
+        "year": 2021,
+        "value": 8916475.2479
+      },
+      {
+        "year": 2022,
+        "value": 7413103.8502
+      },
+      {
+        "year": 2023,
+        "value": 7221238.1012
+      },
+      {
+        "year": 2024,
+        "value": 11332226
+      }
+    ],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -148,7 +193,7 @@
       },
       {
         "year": 2022,
-        "value": 19739.5938
+        "value": 19558.4966
       },
       {
         "year": 2023,

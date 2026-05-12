@@ -1,6 +1,6 @@
 {
   "unitid": "159382",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Louisiana State University-Alexandria",
     "institution_unique_name": "Louisiana State University-Alexandria | Alexandria | Louisiana",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -18.7178,
     "staff_total_headcount_pct_change_5yr": 36.4238,
     "staff_instructional_headcount_pct_change_5yr": 25.3247,
-    "students_per_instructional_staff_fte": 31.5601,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "students_per_instructional_staff_fte": 31.5609,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 44.3388,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 44% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": 23.2868,
-    "unfunded_discount_pct_change_5yr": 6.2812,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 134629,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 1.1922,
     "pct_international_undergraduate": 1.1922,
     "pct_international_graduate": null,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.0198,
-    "state_funding_pct_core_revenue": 16.0727,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 297.129,
-    "state_funding_pct_change_5yr": 34.7528,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.9455,
+    "state_funding_pct_core_revenue": 1.402,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 426.8436,
+    "state_funding_pct_change_5yr": 208.9934,
     "endowment_pct_change_5yr": 10.7741,
     "endowment_spending_current_use_pct_core_revenue": 0.02,
     "graduation_rate_6yr": 34,
@@ -204,52 +204,7 @@
         "value": 5821.0213
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 19.5026
-      },
-      {
-        "year": 2015,
-        "value": 22.6248
-      },
-      {
-        "year": 2016,
-        "value": 23.0813
-      },
-      {
-        "year": 2017,
-        "value": 20.0571
-      },
-      {
-        "year": 2018,
-        "value": 18.3958
-      },
-      {
-        "year": 2019,
-        "value": 21.9105
-      },
-      {
-        "year": 2020,
-        "value": 19.7563
-      },
-      {
-        "year": 2021,
-        "value": 19.3077
-      },
-      {
-        "year": 2022,
-        "value": 16.6881
-      },
-      {
-        "year": 2023,
-        "value": 19.7826
-      },
-      {
-        "year": 2024,
-        "value": 23.2868
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -643,93 +598,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 174173.6124
+        "value": 171971.3655
       },
       {
         "year": 2015,
-        "value": 177082.6067
+        "value": 172692.5992
       },
       {
         "year": 2016,
-        "value": 293589.9635
+        "value": 130829.3309
       },
       {
         "year": 2017,
-        "value": 200327.3853
+        "value": 151422.2566
       },
       {
         "year": 2018,
-        "value": 235221.4656
+        "value": 97734.3228
       },
       {
         "year": 2019,
-        "value": 273270.6686
+        "value": 96428.0455
       },
       {
         "year": 2020,
-        "value": 235611.8781
+        "value": 59838.3605
       },
       {
         "year": 2021,
-        "value": 263503.6221
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 430158.7228
+        "value": 324920.0856
       },
       {
         "year": 2023,
-        "value": 605719.497
+        "value": 431604.1991
       },
       {
         "year": 2024,
-        "value": 1085237
+        "value": 508025
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 7701839.0491
+        "value": 185555.8631
       },
       {
         "year": 2015,
-        "value": 7194692.9347
+        "value": 115568.2384
       },
       {
         "year": 2016,
-        "value": 7034577.8036
+        "value": 265812.3057
       },
       {
         "year": 2017,
-        "value": 6750837.5965
+        "value": 260010.4544
       },
       {
         "year": 2018,
-        "value": 6390242.6956
+        "value": 242394.5123
       },
       {
         "year": 2019,
-        "value": 6408611.6566
+        "value": 243790.9676
       },
       {
         "year": 2020,
-        "value": 9576964.1613
+        "value": 637536.098
       },
       {
         "year": 2021,
-        "value": 3117580.3623
+        "value": 297884.733
       },
       {
         "year": 2022,
-        "value": 6826882.5588
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 7511571.9914
+        "value": 99945.3745
       },
       {
         "year": 2024,
-        "value": 8635781
+        "value": 753298
       }
     ]
   }

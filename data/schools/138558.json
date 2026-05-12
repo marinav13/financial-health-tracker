@@ -1,6 +1,6 @@
 {
   "unitid": "138558",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Abraham Baldwin Agricultural College",
     "institution_unique_name": "Abraham Baldwin Agricultural College | Tifton | Georgia",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -19.953,
     "staff_total_headcount_pct_change_5yr": -15.0094,
     "staff_instructional_headcount_pct_change_5yr": -9,
-    "students_per_instructional_staff_fte": 20.0496,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "students_per_instructional_staff_fte": 20.0491,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 13.6842,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 14% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": 48.7457,
-    "unfunded_discount_pct_change_5yr": 20.0568,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 0,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 0.7321,
     "pct_international_undergraduate": 0.7321,
     "pct_international_graduate": null,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3992,
-    "state_funding_pct_core_revenue": 41.3661,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 8.7109,
-    "state_funding_pct_change_5yr": -16.052,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 1.6484,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 545.5824,
     "endowment_pct_change_5yr": 5.7322,
     "endowment_spending_current_use_pct_core_revenue": 0.0065,
     "graduation_rate_6yr": 38,
@@ -204,52 +204,7 @@
         "value": 3390.4903
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 26.4449
-      },
-      {
-        "year": 2015,
-        "value": 20.5611
-      },
-      {
-        "year": 2016,
-        "value": 18.3864
-      },
-      {
-        "year": 2017,
-        "value": 18.123
-      },
-      {
-        "year": 2018,
-        "value": 42.7669
-      },
-      {
-        "year": 2019,
-        "value": 40.6022
-      },
-      {
-        "year": 2020,
-        "value": 43.2588
-      },
-      {
-        "year": 2021,
-        "value": 45.5172
-      },
-      {
-        "year": 2022,
-        "value": 54.158
-      },
-      {
-        "year": 2023,
-        "value": 49.7257
-      },
-      {
-        "year": 2024,
-        "value": 48.7457
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -467,7 +422,7 @@
       },
       {
         "year": 2021,
-        "value": 453
+        "value": 452
       },
       {
         "year": 2022,
@@ -643,93 +598,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 176137.3487
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 152959.4029
+        "value": 3233.2796
       },
       {
         "year": 2016,
-        "value": 186757.1413
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 159789.1736
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 357375.6277
+        "value": 88031.5967
       },
       {
         "year": 2019,
-        "value": 237792.2055
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 207714.3787
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 202842.6501
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 167625.9348
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 192316.7587
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 258506
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 17784092.3188
+        "value": 6360.2798
       },
       {
         "year": 2015,
-        "value": 18376378.2607
+        "value": 694.8309
       },
       {
         "year": 2016,
-        "value": 19543874.0898
+        "value": 158.1469
       },
       {
         "year": 2017,
-        "value": 21281716.5188
+        "value": 152.2886
       },
       {
         "year": 2018,
-        "value": 30944276.1226
+        "value": 121529.5499
       },
       {
         "year": 2019,
-        "value": 31911049.9342
+        "value": 165359.2084
       },
       {
         "year": 2020,
-        "value": 30937788.6713
+        "value": 183262.7059
       },
       {
         "year": 2021,
-        "value": 25631428.9792
+        "value": 340693.5514
       },
       {
         "year": 2022,
-        "value": 26344780.3156
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 31701729.3597
+        "value": 609180.6571
       },
       {
         "year": 2024,
-        "value": 26788684
+        "value": 1067530
       }
     ]
   }

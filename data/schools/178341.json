@@ -1,6 +1,6 @@
 {
   "unitid": "178341",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Missouri Southern State University",
     "institution_unique_name": "Missouri Southern State University | Joplin | Missouri",
@@ -22,15 +22,15 @@
     "staff_total_headcount_pct_change_5yr": -18.6486,
     "staff_instructional_headcount_pct_change_5yr": -14.5401,
     "students_per_instructional_staff_fte": 16.3906,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 15.7689,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 16% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": 53.6675,
-    "unfunded_discount_pct_change_5yr": 10.4204,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 4.2279,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 0,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 4.2078,
     "pct_international_undergraduate": 4.3305,
     "pct_international_graduate": 1.4286,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 1804,
     "grad_plus_disbursements_per_recipient": 1804,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.5591,
-    "state_funding_pct_core_revenue": 41.6089,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 6.0408,
-    "state_funding_pct_change_5yr": 2.9646,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.0112,
+    "state_funding_pct_core_revenue": 2.2679,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -90.1727,
+    "state_funding_pct_change_5yr": 162.6963,
     "endowment_pct_change_5yr": 14.3508,
     "endowment_spending_current_use_pct_core_revenue": 0.0464,
     "graduation_rate_6yr": 40,
@@ -204,52 +204,7 @@
         "value": 3890.4703
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 42.4277
-      },
-      {
-        "year": 2015,
-        "value": 45.75
-      },
-      {
-        "year": 2016,
-        "value": 46.3641
-      },
-      {
-        "year": 2017,
-        "value": 47.7779
-      },
-      {
-        "year": 2018,
-        "value": 49.8662
-      },
-      {
-        "year": 2019,
-        "value": 48.6028
-      },
-      {
-        "year": 2020,
-        "value": 54.8884
-      },
-      {
-        "year": 2021,
-        "value": 49.3117
-      },
-      {
-        "year": 2022,
-        "value": 49.9758
-      },
-      {
-        "year": 2023,
-        "value": 53.0394
-      },
-      {
-        "year": 2024,
-        "value": 53.6675
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -541,7 +496,7 @@
       },
       {
         "year": 2017,
-        "value": 775
+        "value": 756
       },
       {
         "year": 2018,
@@ -587,7 +542,7 @@
       },
       {
         "year": 2017,
-        "value": 349
+        "value": 354
       },
       {
         "year": 2018,
@@ -733,93 +688,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 3427208.9469
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 3334611.0684
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 3128902.9268
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 3153823.4728
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 3028399.8548
+        "value": 66400.0264
       },
       {
         "year": 2019,
-        "value": 3042993.2383
+        "value": 80540.9578
       },
       {
         "year": 2020,
-        "value": 2901221.1561
+        "value": 71180.6206
       },
       {
         "year": 2021,
-        "value": 2887767.8904
+        "value": 83848.7444
       },
       {
         "year": 2022,
-        "value": 2741544.6411
+        "value": 127199.1718
       },
       {
         "year": 2023,
-        "value": 2702554.5523
+        "value": 54120.5201
       },
       {
         "year": 2024,
-        "value": 3226813
+        "value": 7915
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 29279897.8993
+        "value": 75162.6066
       },
       {
         "year": 2015,
-        "value": 31048569.7405
+        "value": 75368.6338
       },
       {
         "year": 2016,
-        "value": 30954300.1919
+        "value": 68337.7695
       },
       {
         "year": 2017,
-        "value": 29143072.2991
+        "value": 114327.8157
       },
       {
         "year": 2018,
-        "value": 27908054.8736
+        "value": 379429.4359
       },
       {
         "year": 2019,
-        "value": 28601549.2052
+        "value": 611034.4714
       },
       {
         "year": 2020,
-        "value": 26904937.699
+        "value": 389207.5078
       },
       {
         "year": 2021,
-        "value": 27060239.1359
+        "value": 43344.8114
       },
       {
         "year": 2022,
-        "value": 28238206.498
+        "value": 110816.6645
       },
       {
         "year": 2023,
-        "value": 29587447.463
+        "value": 1065394.9197
       },
       {
         "year": 2024,
-        "value": 29449478
+        "value": 1605165
       }
     ]
   }

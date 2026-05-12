@@ -1,6 +1,6 @@
 {
   "unitid": "176770",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Cox College",
     "institution_unique_name": "Cox College | Springfield | Missouri",
@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -12.9771,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": -25.2508,
-    "net_tuition_per_fte_change_5yr": -18.7025,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": -17.1752,
     "staff_total_headcount_pct_change_5yr": -36.4341,
     "staff_instructional_headcount_pct_change_5yr": -37.3494,
-    "students_per_instructional_staff_fte": 13.7347,
-    "sector_median_students_per_instructional_staff_fte": 13.0124,
-    "ended_year_at_loss": "Yes",
+    "students_per_instructional_staff_fte": 13.4805,
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 2,
-    "tuition_dependence_pct": 96.1929,
-    "sector_median_tuition_dependence_pct": 44.8638,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 96% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "loss_years_last_10": 0,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": 0,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 20.5653,
-    "sector_avg_share_grad_students": 29.1503,
+    "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1148,
+    "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 585.5059,
+    "sector_median_research_expense_per_fte_positive": 672.3376,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": null,
     "international_students_sentence": "In 2024, 0% of students were international. That includes 0% of undergraduates and 0% of graduate students.",
     "federal_loan_pct_most_recent": 58,
-    "sector_avg_federal_loan_pct_most_recent": 46.041,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": 19,
     "grad_plus_disbursements_amt": 167526,
     "grad_plus_disbursements_per_recipient": 8817.1579,
@@ -66,52 +66,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 11317366.6056
-      },
-      {
-        "year": 2015,
-        "value": 11019056.5246
-      },
-      {
-        "year": 2016,
-        "value": 12211520.0036
-      },
-      {
-        "year": 2017,
-        "value": 14123755.084
-      },
-      {
-        "year": 2018,
-        "value": 15158957.4956
-      },
-      {
-        "year": 2019,
-        "value": 16151041.7894
-      },
-      {
-        "year": 2020,
-        "value": 16542725.0468
-      },
-      {
-        "year": 2021,
-        "value": 20103366.8114
-      },
-      {
-        "year": 2022,
-        "value": 15164789.8796
-      },
-      {
-        "year": 2023,
-        "value": 13669169.4314
-      },
-      {
-        "year": 2024,
-        "value": 12072775
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -177,7 +132,7 @@
       },
       {
         "year": 2018,
-        "value": 19525.5704
+        "value": 19674.0795
       },
       {
         "year": 2019,
@@ -201,7 +156,7 @@
       },
       {
         "year": 2024,
-        "value": 16472.5532
+        "value": 16782.0087
       }
     ],
     "unfunded_discount_rate": [
@@ -545,7 +500,7 @@
       },
       {
         "year": 2018,
-        "value": 142
+        "value": 157
       },
       {
         "year": 2019,
@@ -673,10 +628,6 @@
       }
     ],
     "endowment_spending_current_use_pct_core_revenue": [
-      {
-        "year": 2020,
-        "value": 0.0133
-      },
       {
         "year": 2021,
         "value": 0.0219

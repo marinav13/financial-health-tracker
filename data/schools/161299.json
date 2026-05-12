@@ -1,6 +1,6 @@
 {
   "unitid": "161299",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Maine Maritime Academy",
     "institution_unique_name": "Maine Maritime Academy | Castine | Maine",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -30.258,
     "staff_total_headcount_pct_change_5yr": -10.8696,
     "staff_instructional_headcount_pct_change_5yr": -15,
-    "students_per_instructional_staff_fte": 12.3688,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "students_per_instructional_staff_fte": 12.3692,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": 27.9166,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": 18.1236,
-    "unfunded_discount_pct_change_5yr": 284.5643,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 4.1188,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 821376,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 0.6705,
     "pct_international_undergraduate": 0.6993,
     "pct_international_graduate": 0,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 15606,
     "grad_plus_disbursements_per_recipient": 15606,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.282,
-    "state_funding_pct_core_revenue": 26.1888,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 153.0358,
-    "state_funding_pct_change_5yr": 15.5562,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 18.3181,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": 157.0752,
     "endowment_pct_change_5yr": 24.789,
     "endowment_spending_current_use_pct_core_revenue": 0,
     "graduation_rate_6yr": 59,
@@ -204,52 +204,7 @@
         "value": 17345.3591
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 4.486
-      },
-      {
-        "year": 2015,
-        "value": 3.3173
-      },
-      {
-        "year": 2016,
-        "value": 3.009
-      },
-      {
-        "year": 2017,
-        "value": 3.2406
-      },
-      {
-        "year": 2018,
-        "value": 4.003
-      },
-      {
-        "year": 2019,
-        "value": 4.7128
-      },
-      {
-        "year": 2020,
-        "value": 4.561
-      },
-      {
-        "year": 2021,
-        "value": 4.905
-      },
-      {
-        "year": 2022,
-        "value": 7.118
-      },
-      {
-        "year": 2023,
-        "value": 14.8988
-      },
-      {
-        "year": 2024,
-        "value": 18.1236
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -529,7 +484,7 @@
     "staff_headcount_total": [
       {
         "year": 2014,
-        "value": 290
+        "value": 312
       },
       {
         "year": 2015,
@@ -575,7 +530,7 @@
     "staff_headcount_instructional": [
       {
         "year": 2014,
-        "value": 96
+        "value": 102
       },
       {
         "year": 2015,
@@ -733,93 +688,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 561122.4352
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 2154168.8828
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 2820030.2195
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 2312102.4138
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 1733481.2892
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 532032.1611
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 1050035.3574
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 366594.8604
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 384257.9043
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 272810.8662
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 1346232
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 11346922.0308
+        "value": 6027939.2848
       },
       {
         "year": 2015,
-        "value": 11392830.5265
+        "value": 208442.6394
       },
       {
         "year": 2016,
-        "value": 11783111.7471
+        "value": 431673.141
       },
       {
         "year": 2017,
-        "value": 11537238.782
+        "value": 5257701.2477
       },
       {
         "year": 2018,
-        "value": 12112605.0365
+        "value": 3823613.656
       },
       {
         "year": 2019,
-        "value": 13369941.3263
+        "value": 4203664.7468
       },
       {
         "year": 2020,
-        "value": 11350810.9698
+        "value": 905252.4625
       },
       {
         "year": 2021,
-        "value": 10748178.4478
+        "value": 18415296.9853
       },
       {
         "year": 2022,
-        "value": 10724942.8216
+        "value": -4176155.5753
       },
       {
         "year": 2023,
-        "value": 12304351.2155
+        "value": 7751741.7085
       },
       {
         "year": 2024,
-        "value": 15449801
+        "value": 10806579
       }
     ]
   }

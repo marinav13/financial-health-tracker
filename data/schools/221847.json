@@ -1,6 +1,6 @@
 {
   "unitid": "221847",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Tennessee Technological University",
     "institution_unique_name": "Tennessee Technological University | Cookeville | Tennessee",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -17.7386,
     "staff_total_headcount_pct_change_5yr": 4.1667,
     "staff_instructional_headcount_pct_change_5yr": -6.6461,
-    "students_per_instructional_staff_fte": 17.8057,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "students_per_instructional_staff_fte": 17.8058,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 17.1143,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 17% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": 49.9671,
-    "unfunded_discount_pct_change_5yr": 11.6291,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 13.6979,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 23761841,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 3.479,
     "pct_international_undergraduate": 2.2313,
     "pct_international_graduate": 11.3395,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 67177,
     "grad_plus_disbursements_per_recipient": 6107,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 6.7761,
-    "state_funding_pct_core_revenue": 38.6566,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 56.6242,
-    "state_funding_pct_change_5yr": 53.6931,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.3931,
+    "state_funding_pct_core_revenue": 3.8969,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 41.7192,
+    "state_funding_pct_change_5yr": 236.2104,
     "endowment_pct_change_5yr": 20.9402,
     "endowment_spending_current_use_pct_core_revenue": 0.0129,
     "graduation_rate_6yr": 58,
@@ -204,52 +204,7 @@
         "value": 6047.2982
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 40.1243
-      },
-      {
-        "year": 2015,
-        "value": 39.8008
-      },
-      {
-        "year": 2016,
-        "value": 40.9419
-      },
-      {
-        "year": 2017,
-        "value": 43.2799
-      },
-      {
-        "year": 2018,
-        "value": 45.2343
-      },
-      {
-        "year": 2019,
-        "value": 44.7617
-      },
-      {
-        "year": 2020,
-        "value": 41.5528
-      },
-      {
-        "year": 2021,
-        "value": 42.5918
-      },
-      {
-        "year": 2022,
-        "value": 42.4426
-      },
-      {
-        "year": 2023,
-        "value": 47.5631
-      },
-      {
-        "year": 2024,
-        "value": 49.9671
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -733,93 +688,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 8875437.8787
+        "value": 575537.7444
       },
       {
         "year": 2015,
-        "value": 7708931.2956
+        "value": 759030.5801
       },
       {
         "year": 2016,
-        "value": 7621560.3738
+        "value": 535105.1508
       },
       {
         "year": 2017,
-        "value": 10186398.8891
+        "value": 655747.1977
       },
       {
         "year": 2018,
-        "value": 9984628.6647
+        "value": 1048557.7657
       },
       {
         "year": 2019,
-        "value": 12780720.3121
+        "value": 819380.1048
       },
       {
         "year": 2020,
-        "value": 21303623.5461
+        "value": 1338361.2314
       },
       {
         "year": 2021,
-        "value": 15647513.9509
+        "value": 785034.0141
       },
       {
         "year": 2022,
-        "value": 15059835.2887
+        "value": 1314988.8327
       },
       {
         "year": 2023,
-        "value": 15637470.053
+        "value": 1309389.2084
       },
       {
         "year": 2024,
-        "value": 20017695
+        "value": 1161219
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 57569918.9514
+        "value": 343997.0583
       },
       {
         "year": 2015,
-        "value": 55868254.8187
+        "value": 418924.7727
       },
       {
         "year": 2016,
-        "value": 56286566.0803
+        "value": 624758.7732
       },
       {
         "year": 2017,
-        "value": 59292958.0585
+        "value": 1110250.7189
       },
       {
         "year": 2018,
-        "value": 64349766.7301
+        "value": 2326736.7238
       },
       {
         "year": 2019,
-        "value": 74302166.6963
+        "value": 3424080.8887
       },
       {
         "year": 2020,
-        "value": 77862182.5804
+        "value": 3201740.1414
       },
       {
         "year": 2021,
-        "value": 75994392.9936
+        "value": 1070300.3388
       },
       {
         "year": 2022,
-        "value": 77175625.2288
+        "value": 63189.0585
       },
       {
         "year": 2023,
-        "value": 87627216.7257
+        "value": 7575729.0524
       },
       {
         "year": 2024,
-        "value": 114197278
+        "value": 11512115
       }
     ]
   }

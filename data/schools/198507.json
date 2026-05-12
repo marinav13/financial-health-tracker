@@ -1,6 +1,6 @@
 {
   "unitid": "198507",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "Elizabeth City State University",
     "institution_unique_name": "Elizabeth City State University | Elizabeth City | North Carolina",
@@ -22,15 +22,15 @@
     "staff_total_headcount_pct_change_5yr": 4.5213,
     "staff_instructional_headcount_pct_change_5yr": 11.7117,
     "students_per_instructional_staff_fte": 18.2547,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 5.918,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 6% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": 42.205,
-    "unfunded_discount_pct_change_5yr": -19.3015,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 5.1518,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1389640,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 1.238,
     "pct_international_undergraduate": 1.2211,
     "pct_international_graduate": 1.5504,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 46.3756,
+    "state_funding_pct_core_revenue": 4.821,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": 7.7031,
+    "state_funding_pct_change_5yr": 386.3196,
     "endowment_pct_change_5yr": 53.1128,
     "endowment_spending_current_use_pct_core_revenue": 0.0027,
     "graduation_rate_6yr": 44,
@@ -204,52 +204,7 @@
         "value": 3544.154
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 41.5433
-      },
-      {
-        "year": 2015,
-        "value": 50.6501
-      },
-      {
-        "year": 2016,
-        "value": 37.9676
-      },
-      {
-        "year": 2017,
-        "value": 48.1086
-      },
-      {
-        "year": 2018,
-        "value": 52.5508
-      },
-      {
-        "year": 2019,
-        "value": 52.2996
-      },
-      {
-        "year": 2020,
-        "value": 47.1108
-      },
-      {
-        "year": 2021,
-        "value": 46.7679
-      },
-      {
-        "year": 2022,
-        "value": 34.8231
-      },
-      {
-        "year": 2023,
-        "value": 41.754
-      },
-      {
-        "year": 2024,
-        "value": 42.205
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -733,31 +688,31 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 2029480.4822
+        "value": 85129.6951
       },
       {
         "year": 2015,
-        "value": 2916999.1951
+        "value": 20743.0172
       },
       {
         "year": 2016,
-        "value": 377105.9169
+        "value": 7848.5313
       },
       {
         "year": 2017,
-        "value": 194545.536
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 507391.2423
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 163018.1084
+        "value": 207818.0269
       },
       {
         "year": 2020,
-        "value": 80416.357
+        "value": 47238.0041
       },
       {
         "year": 2021,
@@ -779,47 +734,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 44878572.9009
+        "value": 1137328.009
       },
       {
         "year": 2015,
-        "value": 41905207.8981
+        "value": 148639.5402
       },
       {
         "year": 2016,
-        "value": 42275464.7715
+        "value": 53794.7874
       },
       {
         "year": 2017,
-        "value": 42711293.7877
+        "value": 1376949.076
       },
       {
         "year": 2018,
-        "value": 41233979.1356
+        "value": 1157577.582
       },
       {
         "year": 2019,
-        "value": 46497300.7046
+        "value": 1070485.1695
       },
       {
         "year": 2020,
-        "value": 43091735.4021
+        "value": 565058.5958
       },
       {
         "year": 2021,
-        "value": 40970378.8561
+        "value": 6156104.6601
       },
       {
         "year": 2022,
-        "value": 45616553.5167
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 49435654.5845
+        "value": 1283323.4399
       },
       {
         "year": 2024,
-        "value": 50079022
+        "value": 5205979
       }
     ]
   }

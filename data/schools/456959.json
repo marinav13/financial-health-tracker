@@ -1,6 +1,6 @@
 {
   "unitid": "456959",
-  "generated_at": "2026-05-09",
+  "generated_at": "2026-05-12",
   "profile": {
     "institution_name": "University of Minnesota-Rochester",
     "institution_unique_name": "University of Minnesota-Rochester | Rochester | Minnesota",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -23.0938,
     "staff_total_headcount_pct_change_5yr": 12.0879,
     "staff_instructional_headcount_pct_change_5yr": 21.6216,
-    "students_per_instructional_staff_fte": 12.8692,
-    "sector_median_students_per_instructional_staff_fte": 16.7858,
+    "students_per_instructional_staff_fte": 12.8702,
+    "sector_median_students_per_instructional_staff_fte": 16.4762,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 8,
     "tuition_dependence_pct": 24.744,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.1973,
     "tuition_dependence_vs_sector_median_sentence": "This college got 25% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": 18.1358,
-    "unfunded_discount_pct_change_5yr": 140.3341,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 976444,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1080.4519,
+    "sector_median_research_expense_per_fte_positive": 1119.6078,
     "pct_international_all": 1.2945,
     "pct_international_undergraduate": 1.2945,
     "pct_international_graduate": null,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 37.5578,
+    "state_funding_pct_core_revenue": 0.7872,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": -1.4401,
+    "state_funding_pct_change_5yr": 61.115,
     "endowment_pct_change_5yr": 67.7885,
     "endowment_spending_current_use_pct_core_revenue": 0.0057,
     "graduation_rate_6yr": 57,
@@ -204,52 +204,7 @@
         "value": 13963.5694
       }
     ],
-    "unfunded_discount_rate": [
-      {
-        "year": 2014,
-        "value": 2.22
-      },
-      {
-        "year": 2015,
-        "value": 2.5652
-      },
-      {
-        "year": 2016,
-        "value": 2.5275
-      },
-      {
-        "year": 2017,
-        "value": 5.62
-      },
-      {
-        "year": 2018,
-        "value": 6.5548
-      },
-      {
-        "year": 2019,
-        "value": 7.5461
-      },
-      {
-        "year": 2020,
-        "value": 7.4535
-      },
-      {
-        "year": 2021,
-        "value": 10.0383
-      },
-      {
-        "year": 2022,
-        "value": 8.8025
-      },
-      {
-        "year": 2023,
-        "value": 12.7411
-      },
-      {
-        "year": 2024,
-        "value": 18.1358
-      }
-    ],
+    "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -269,7 +224,7 @@
       },
       {
         "year": 2018,
-        "value": 484
+        "value": 479
       },
       {
         "year": 2019,
@@ -315,7 +270,7 @@
       },
       {
         "year": 2018,
-        "value": 484
+        "value": 479
       },
       {
         "year": 2019,
@@ -643,15 +598,15 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 27794.4227
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 58756.2207
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 68925.9193
       },
       {
         "year": 2017,
@@ -659,27 +614,27 @@
       },
       {
         "year": 2018,
-        "value": 21090.6561
+        "value": 109067.2869
       },
       {
         "year": 2019,
-        "value": 36644.1051
+        "value": 4552.139
       },
       {
         "year": 2020,
-        "value": 14423.2629
+        "value": 128433.7021
       },
       {
         "year": 2021,
-        "value": 31194.0945
+        "value": 88084.5936
       },
       {
         "year": 2022,
-        "value": 14440.2734
+        "value": 352207.829
       },
       {
         "year": 2023,
-        "value": 18144.8386
+        "value": 20276.9215
       },
       {
         "year": 2024,
@@ -689,47 +644,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 10066065.0325
+        "value": 0
       },
       {
         "year": 2015,
-        "value": 10367677.0816
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 10343725.0938
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 10601228.0207
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 10316124.1098
+        "value": 121969.2769
       },
       {
         "year": 2019,
-        "value": 10163840.4092
+        "value": 130326.1433
       },
       {
         "year": 2020,
-        "value": 10148113.2526
+        "value": 145952.5124
       },
       {
         "year": 2021,
-        "value": 9700078.404
+        "value": 157974.3685
       },
       {
         "year": 2022,
-        "value": 8986704.5595
+        "value": 186308.6816
       },
       {
         "year": 2023,
-        "value": 9839231.0137
+        "value": 213666.4134
       },
       {
         "year": 2024,
-        "value": 10017472
+        "value": 209975
       }
     ]
   }

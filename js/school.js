@@ -1230,6 +1230,7 @@ async function init() {
   }
 
   if (hasFederal) {
+    const federalChange5yr = asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr);
     setText(
       "federal-share-copy",
       `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants.${asNumber(s.federal_grants_contracts_pell_adjusted_pct_core_revenue) === 0 ? " Many colleges saw a big increase in federal aid amid the COVID-19 pandemic." : ""}`
@@ -1239,16 +1240,19 @@ async function init() {
     applyQuestionValueStrip(
       "federal-change-card",
       "How much have federal grants and contracts changed over the past 5 years?",
-      asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) === null
+      federalChange5yr === null
         ? "No data"
         : fmtRoundedPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, true),
-      asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
+      federalChange5yr === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
     );
+    setHidden("federal-change-card", federalChange5yr === null);
   } else {
     setHidden("federal-share-copy", true);
+    setHidden("federal-change-card", true);
   }
 
   if (hasState) {
+    const stateChange5yr = asNumber(s.state_funding_pct_change_5yr);
     setText(
       "state-share-copy",
       `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of core revenue came from state appropriations.`
@@ -1258,13 +1262,15 @@ async function init() {
     applyQuestionValueStrip(
       "state-change-card",
       "How much has state aid changed over the past 5 years?",
-      asNumber(s.state_funding_pct_change_5yr) === null
+      stateChange5yr === null
         ? "No data"
         : fmtRoundedPct(s.state_funding_pct_change_5yr, true),
-      asNumber(s.state_funding_pct_change_5yr) === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr)
+      stateChange5yr === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr)
     );
+    setHidden("state-change-card", stateChange5yr === null);
   } else {
     setHidden("state-share-copy", true);
+    setHidden("state-change-card", true);
   }
 
   if (hasResearchSpending) {

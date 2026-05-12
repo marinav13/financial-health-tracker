@@ -13,7 +13,6 @@
 #   - Grant Witness CSV files (nih, nsf, epa, samhsa, cdc terminations)
 #   - Manual inclusion/override lists (optional)
 #   - Manual amount corrections from live USAspending spot checks (optional)
-#   - USAspending sensitivity filter
 #
 # OUTPUTS:
 #   - grant_witness_grant_level_joined.csv
@@ -23,7 +22,6 @@
 #   - grant_witness_unmatched_for_review.csv
 #   - grant_witness_likely_higher_ed_unmatched_for_review.csv
 #   - grant_witness_excluded_pass_through_grants.csv
-#   - grant_witness_excluded_risky_continuation_grants.csv
 #
 # WORKFLOW:
 #   1. Download or cache all 5 Grant Witness agency files
@@ -32,9 +30,18 @@
 #   4. Read and standardize all grant records
 #   5. Apply matching cascade
 #   6. Filter out non-higher-ed and pass-through organizations
-#   7. Filter out "risky continuation" grants
-#   8. Build institution summaries
-#   9. Write outputs as CSVs
+#   7. Build institution summaries
+#   8. Write outputs as CSVs
+#
+# DESIGN NOTE:
+#   We rely on Grant Witness's own status field (terminated/frozen vs.
+#   reinstated/unfrozen) as the sole signal for whether a grant is currently
+#   disrupted. A prior version of this pipeline also filtered using a
+#   USAspending post-termination outlay heuristic; that heuristic was removed
+#   because statutory wind-down outlays (30-90 days after termination) are
+#   indistinguishable from reinstatement outlays in the public data, and
+#   Grant Witness already adjudicates reinstatement using legal/court signals
+#   that are more reliable than outlay shape. See docs/REFRESH_CYCLE.md.
 
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
@@ -72,22 +79,10 @@ main <- function(cli_args = NULL) {
     "--amount-corrections",
     file.path(getwd(), "data_pipelines", "grant_witness", "manual_amount_corrections.csv")
   )
-  usaspending_filter_path <- get_arg_value(
-    "--usaspending-filter",
-    file.path(getwd(), "data_pipelines", "grant_witness", "analysis", "grant_witness_usaspending_risky_continuation_filter.csv")
-  )
   skip_download <- has_flag("--skip-download")
-  skip_usaspending_filter <- has_flag("--skip-usaspending-filter")
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
-  }
-  if (!skip_usaspending_filter && !file.exists(usaspending_filter_path)) {
-    stop(
-      "Risky continuation filter file not found: ",
-      usaspending_filter_path,
-      ". Run scripts/build_grant_witness_usaspending_sensitivity.R first."
-    )
   }
 
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
@@ -634,33 +629,15 @@ main <- function(cli_args = NULL) {
     dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
 
   # -----------------------------------------------------------------------
-  # FILTER 1: Remove pass-through/grantmaker awards
+  # FILTER: Remove pass-through/grantmaker awards.
+  # Pass-through awards aren't direct university research grants and would
+  # double-count if left in (the subgrantees show up under their own rows).
   excluded_pass_through_grants <- grants_joined |>
     dplyr::filter(currently_disrupted, is_pass_through_or_grantmaker) |>
     dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
 
   grants_joined <- grants_joined |>
     dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
-
-  # -----------------------------------------------------------------------
-  # FILTER 2: Apply USAspending sensitivity filter
-  if (skip_usaspending_filter) {
-    usaspending_filter_ids <- tibble::tibble(award_id_string = character())
-    excluded_risky_continuation_grants <- grants_joined[0, ]
-  } else {
-    usaspending_filter_ids <- readr::read_csv(usaspending_filter_path, show_col_types = FALSE) |>
-      dplyr::transmute(award_id_string = as.character(award_id_string)) |>
-      dplyr::filter(!is.na(award_id_string), trimws(award_id_string) != "") |>
-      dplyr::distinct()
-
-    excluded_risky_continuation_grants <- grants_joined |>
-      dplyr::filter(currently_disrupted, !is.na(award_id_string)) |>
-      dplyr::semi_join(usaspending_filter_ids, by = "award_id_string") |>
-      dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
-
-    grants_joined <- grants_joined |>
-      dplyr::filter(!(currently_disrupted & !is.na(award_id_string) & award_id_string %in% usaspending_filter_ids$award_id_string))
-  }
 
   # -----------------------------------------------------------------------
   # BUILD INSTITUTION SUMMARY TABLES
@@ -751,7 +728,6 @@ main <- function(cli_args = NULL) {
   unmatched_path <- paste0(output_prefix, "_unmatched_for_review.csv")
   likely_higher_ed_unmatched_path <- paste0(output_prefix, "_likely_higher_ed_unmatched_for_review.csv")
   excluded_pass_through_path <- paste0(output_prefix, "_excluded_pass_through_grants.csv")
-  excluded_risky_continuation_path <- paste0(output_prefix, "_excluded_risky_continuation_grants.csv")
 
   # -----------------------------------------------------------------------
   # FILTER TO HIGHER-ED INSTITUTIONS FOR MAIN OUTPUTS
@@ -786,7 +762,6 @@ main <- function(cli_args = NULL) {
   write_csv_atomic(likely_higher_ed_unmatched, likely_higher_ed_unmatched_path)
   write_csv_atomic(likely_higher_ed_review_ready, paste0(output_prefix, "_likely_higher_ed_review_ready.csv"))
   write_csv_atomic(excluded_pass_through_grants, excluded_pass_through_path)
-  write_csv_atomic(excluded_risky_continuation_grants, excluded_risky_continuation_path)
 
   # -----------------------------------------------------------------------
   # LOG COMPLETION
@@ -798,7 +773,6 @@ main <- function(cli_args = NULL) {
   cat(sprintf("Saved likely higher-ed unmatched review file to %s\n", likely_higher_ed_unmatched_path))
   cat(sprintf("Saved likely higher-ed review-ready file to %s\n", paste0(output_prefix, "_likely_higher_ed_review_ready.csv")))
   cat(sprintf("Saved excluded pass-through grants file to %s\n", excluded_pass_through_path))
-  cat(sprintf("Saved excluded risky continuation grants file to %s\n", excluded_risky_continuation_path))
 }
 
 if (sys.nframe() == 0) {

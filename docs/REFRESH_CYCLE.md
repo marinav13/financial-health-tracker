@@ -20,16 +20,15 @@ IPEDS DRVGR download
              └─► data_pipelines/scorecard/tracker_outcomes_joined.csv  ← outcomes
 
 Grant Witness API
-    └─► build_grant_witness_join.R  (first pass: no filter)
+    └─► build_grant_witness_join.R
              └─► grant_witness_grant_level_joined.csv
              └─► grant_witness_higher_ed_institution_summary.csv
-
-    └─► build_grant_witness_usaspending_sensitivity.R
-             └─► grant_witness_usaspending_risky_continuation_filter.csv  ← Proposal G / risky continuation
-
-    └─► build_grant_witness_join.R  (second pass: with filter)
-             └─► grant_witness_grant_level_joined.csv  (filtered)
-             └─► grant_witness_higher_ed_institution_summary.csv  (filtered)
+             # Filters to currently-disrupted (terminated/frozen) grants using
+             # the Grant Witness status field only. No USAspending outlay
+             # heuristic is applied: wind-down outlays after termination are
+             # indistinguishable from real reinstatement outlays in the public
+             # data, so Grant Witness's own legal/court-driven reinstatement
+             # adjudication is the single source of truth.
 
 College Cuts (Supabase)
     └─► build_college_cuts_join.R
@@ -81,17 +80,12 @@ The GitHub Actions workflow (`refresh-ipeds-site-data.yml`) runs this sequence e
 ```
 1. build_accreditation_actions.R
 2. build_college_cuts_join.R
-3. build_grant_witness_join.R --skip-usaspending-filter   ← unfiltered join
-4. build_grant_witness_usaspending_sensitivity.R           ← sensitivity analysis
-5. build_grant_witness_join.R                               ← filtered join
-6. import_closure_sheet.py
-7. build_web_exports.R
+3. build_grant_witness_join.R
+4. import_closure_sheet.py
+5. build_web_exports.R
 ```
 
-Steps 1–2 fetch live data (with local cache fallback) and are idempotent.
-Step 3 must run before step 4 (it produces the input).
-Step 4 is the only step that makes network calls to USAspending.gov.
-Steps 5–7 are deterministic rebuilds from the joined datasets.
+All steps fetch live data (with local cache fallback) and are idempotent.
 
 ---
 
@@ -112,14 +106,11 @@ Steps 5–7 are deterministic rebuilds from the joined datasets.
 |---|---|---|
 | `build_accreditation_actions.R` | Scrapes accreditor websites with cache. Reruns refresh from live sources. | ⚠️ Safe; may add new actions |
 | `import_closure_sheet.py` | Imports from Google Sheet. Reruns overwrite the closure JSON. | ⚠️ Safe; overwrites `closure_status_by_unitid.json` |
-| `build_grant_witness_join.R --skip-usaspending-filter` | Runs first pass before sensitivity analysis. | ⚠️ Must run before step 4 |
-| `build_grant_witness_usaspending_sensitivity.R` | Makes live USAspending API calls. Reruns refresh from API. | ⚠️ Safe; makes real API requests |
 
 ### Destructive
 
 | Script | What it does | Notes |
 |---|---|---|
-| `build_grant_witness_usaspending_sensitivity.R` | **Overwrites** `grant_witness_usaspending_risky_continuation_filter.csv`. This changes which grants are excluded from the research cuts page. | ⚠️ Run only when you intend to refresh the filter |
 | `collect_ipeds_data.R` | Downloads fresh IPEDS data. May change which schools/variables are in the canonical dataset. | ⚠️ Run during the IPEDS refresh window (typically January–April) |
 
 ---
@@ -145,7 +136,6 @@ The site production path does **not** include any workbook files.
 
 ## Skipping steps
 
-- **`--skip-usaspending-filter`** in `build_grant_witness_join.R` skips the USAspending filter entirely, keeping all grants in the join. Use for a full grant-level export without the risky-continuation filter.
 - **`--skip-publish`** in `annual_refresh_and_publish.R` skips Google Sheets publishing (Google Sheets publishing is no longer part of the default flow).
 - **`--refresh=false`** in `build_accreditation_actions.R` uses only cached data without re-scraping accreditor sites.
 
@@ -156,9 +146,7 @@ The site production path does **not** include any workbook files.
 If you only need to refresh one section of the site (e.g., research cuts) without touching anything else:
 
 ```sh
-# 1. Rebuild research joins (reads cached Grant Witness data)
-Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
-Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
+# 1. Rebuild research join (reads cached Grant Witness data)
 Rscript --vanilla ./scripts/build_grant_witness_join.R
 
 # 2. Rebuild web exports (reads all joins, writes all JSON)

@@ -11,8 +11,7 @@ run_test("Grant Witness join pipeline fixture", function() {
     file.path(fixture_root, "scripts", "shared"),
     file.path(fixture_root, "data_pipelines"),
     file.path(fixture_root, "data_pipelines", "grant_witness"),
-    file.path(fixture_root, "data_pipelines", "grant_witness", "cache"),
-    file.path(fixture_root, "data_pipelines", "grant_witness", "analysis")
+    file.path(fixture_root, "data_pipelines", "grant_witness", "cache")
   )
   invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
 
@@ -32,10 +31,6 @@ run_test("Grant Witness join pipeline fixture", function() {
   financial_input <- file.path(fixture_root, "fixture_financial.csv")
   output_prefix <- file.path(fixture_root, "data_pipelines", "grant_witness", "fixture_grant_witness")
   cache_dir <- file.path(fixture_root, "data_pipelines", "grant_witness", "cache")
-  risky_filter_path <- file.path(
-    fixture_root, "data_pipelines", "grant_witness", "analysis",
-    "grant_witness_usaspending_risky_continuation_filter.csv"
-  )
 
   financial_df <- data.frame(
     unitid = c("100", "200"),
@@ -105,11 +100,6 @@ run_test("Grant Witness join pipeline fixture", function() {
     readr::write_csv(empty_df, file.path(cache_dir, paste0(agency, "_terminations.csv")), na = "")
   }
 
-  readr::write_csv(
-    data.frame(award_id_string = "AWARD1", stringsAsFactors = FALSE),
-    risky_filter_path,
-    na = ""
-  )
   amount_corrections_path <- file.path(
     fixture_root, "data_pipelines", "grant_witness", "manual_amount_corrections.csv"
   )
@@ -134,7 +124,6 @@ run_test("Grant Witness join pipeline fixture", function() {
     "--output-prefix", output_prefix,
     "--cache-dir", cache_dir,
     "--amount-corrections", amount_corrections_path,
-    "--usaspending-filter", risky_filter_path,
     "--skip-download"
   ))
 
@@ -144,18 +133,22 @@ run_test("Grant Witness join pipeline fixture", function() {
 
   assert_true(file.exists(grant_path), "Grant-level joined output should exist.")
   assert_true(file.exists(higher_ed_summary_path), "Higher-ed summary output should exist.")
-  assert_true(file.exists(excluded_risky_path), "Excluded risky continuation output should exist.")
+  assert_true(!file.exists(excluded_risky_path),
+              "Risky continuation output should no longer be produced after the USAspending outlay filter was removed.")
 
   grants_joined <- readr::read_csv(grant_path, show_col_types = FALSE)
   higher_ed_summary <- readr::read_csv(higher_ed_summary_path, show_col_types = FALSE)
-  excluded_risky <- readr::read_csv(excluded_risky_path, show_col_types = FALSE)
 
-  assert_equal(nrow(excluded_risky), 1L, "Fixture should exclude exactly one risky continuation grant.")
-  assert_true("AWARD1" %in% excluded_risky$award_id_string, "Excluded risky file should contain AWARD1.")
-  assert_true(!("AWARD1" %in% grants_joined$award_id_string), "Joined grants should not retain filtered award AWARD1.")
-  assert_true(!("AWARD3" %in% grants_joined$award_id_string), "Joined grants should not retain amount-corrected zero award AWARD3.")
-  assert_true("AWARD2" %in% grants_joined$award_id_string, "Joined grants should retain non-filtered award AWARD2.")
-  assert_true(nrow(higher_ed_summary) == 1L, "Higher-ed summary should contain one retained institution.")
-  assert_true("Sample College" %in% higher_ed_summary$display_name, "Retained summary row should be Sample College.")
-  assert_true(higher_ed_summary$total_disrupted_grants[[1]] == 1, "Retained institution should have one disrupted grant.")
+  assert_true("AWARD1" %in% grants_joined$award_id_string,
+              "Joined grants should retain AWARD1 now that the USAspending outlay filter is gone.")
+  assert_true("AWARD2" %in% grants_joined$award_id_string,
+              "Joined grants should retain AWARD2.")
+  assert_true(!("AWARD3" %in% grants_joined$award_id_string),
+              "Joined grants should not retain amount-corrected zero award AWARD3.")
+  assert_equal(nrow(higher_ed_summary), 2L,
+               "Higher-ed summary should contain both retained institutions.")
+  assert_true(all(c("Example University", "Sample College") %in% higher_ed_summary$display_name),
+              "Retained summary rows should include both Example University and Sample College.")
+  assert_equal(sum(higher_ed_summary$total_disrupted_grants), 2L,
+               "Two disrupted grants should survive the pipeline (AWARD1 + AWARD2).")
 })

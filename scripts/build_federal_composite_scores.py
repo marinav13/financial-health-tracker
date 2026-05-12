@@ -181,6 +181,7 @@ def main():
             handle,
             indent=2
         )
+        handle.write("\n")
 
     print(f"Wrote {len(rows_by_unitid)} matched federal composite scores to {OUTPUT_JSON}")
 

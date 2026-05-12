@@ -525,6 +525,7 @@ def main():
             handle,
             indent=2,
         )
+        handle.write("\n")
 
     print(f"Wrote {len(hcm2_rows)} HCM2 snapshot rows to {OUTPUT_ALL}")
     print(f"Wrote {len(hcm1_rows)} HCM1 snapshot rows to {OUTPUT_HCM1}")

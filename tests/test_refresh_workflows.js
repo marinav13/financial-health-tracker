@@ -80,9 +80,7 @@ run("weekly external-data steps have bounded timeouts", () => {
     "Refresh accreditation actions with cache fallback",
     "Sync Supabase",
     "Refresh college cuts from public API",
-    "Build unfiltered research join for USAspending analysis",
-    "Refresh USAspending reinstatement analysis",
-    "Refresh research cuts with Proposal G filter",
+    "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
     "Rebuild static web exports"
   ];
@@ -99,9 +97,7 @@ run("full refresh external and build steps have bounded timeouts", () => {
     "Rebuild Scorecard and graduation-rate joins",
     "Refresh accreditation actions with cache fallback",
     "Refresh college cuts with cache fallback",
-    "Build unfiltered research join for USAspending analysis",
-    "Refresh USAspending reinstatement analysis",
-    "Refresh research cuts with Proposal G filter",
+    "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
     "Rebuild HCM lookup",
     "Rebuild federal composite score lookup",

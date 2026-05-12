@@ -2116,7 +2116,17 @@ build_research_export <- function() {
     research_grants_path,
     show_col_types = FALSE,
     col_types = readr::cols(.default = readr::col_character())
-  ) %>%
+  )
+  # `display_name_override` is a relatively recent column on the grant-witness
+  # join (added by the manual-include force_other flow). Older committed
+  # fixtures and any externally-supplied research-grant CSV may omit it, so
+  # default it to NA before the mutate below references it. Use base R rather
+  # than ensure_columns() so the defensive add does not depend on helper
+  # lookup order at the time this nested function is called.
+  if (!"display_name_override" %in% names(grants_df)) {
+    grants_df$display_name_override <- NA_character_
+  }
+  grants_df <- grants_df %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
       display_name_override = as.character(display_name_override),

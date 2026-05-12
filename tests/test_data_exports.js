@@ -18,8 +18,6 @@ const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data"
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
 const HCM_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "hcm2_by_unitid.json"), "utf8"));
 const FEDERAL_COMPOSITE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "federal_composite_scores_by_unitid.json"), "utf8"));
-const MIN_RESEARCH_AWARD_REMAINING = 100;
-
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
@@ -422,23 +420,30 @@ run("research export excludes Dartmouth award with zero live remaining funding",
   assert(!staleAward, "Dartmouth award F31DA060690 should not appear after live USAspending zeroes out the remaining amount");
 });
 
-run("research export excludes de minimis disrupted grant balances", () => {
-  const smallAwards = [];
+run("research export keeps positive de minimis disrupted grant balances", () => {
+  const nonPositiveAwards = [];
+  const smallPositiveAwards = [];
   for (const school of Object.values(RESEARCH_FUNDING.schools || {})) {
     for (const grant of school.grants || []) {
       const amount = Number(grant.award_remaining);
-      if (Number.isFinite(amount) && amount < MIN_RESEARCH_AWARD_REMAINING) {
-        smallAwards.push(`${school.institution_name || school.unitid}: ${grant.grant_id || grant.source_url} (${amount})`);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        nonPositiveAwards.push(`${school.institution_name || school.unitid}: ${grant.grant_id || grant.source_url} (${amount})`);
+      } else if (amount < 100) {
+        smallPositiveAwards.push(`${school.institution_name || school.unitid}: ${grant.grant_id || grant.source_url} (${amount})`);
       }
     }
   }
   assert(
-    smallAwards.length === 0,
-    `Research export should not include grants below $${MIN_RESEARCH_AWARD_REMAINING}: ${smallAwards.slice(0, 10).join(", ")}`
+    nonPositiveAwards.length === 0,
+    `Research export should not include zero or negative remaining awards: ${nonPositiveAwards.slice(0, 10).join(", ")}`
+  );
+  assert(
+    smallPositiveAwards.length > 0,
+    "Research export should retain positive sub-$100 disrupted grants so UI-only suppression does not alter the exported dataset."
   );
 });
 
-run("research export totals match displayed grants after de minimis filtering", () => {
+run("research export totals match exported grant rows", () => {
   for (const [unitid, school] of Object.entries(RESEARCH_FUNDING.schools || {})) {
     const grants = school.grants || [];
     const grantTotal = grants.reduce((sum, grant) => sum + Number(grant.award_remaining || 0), 0);

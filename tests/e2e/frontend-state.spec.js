@@ -103,6 +103,15 @@ test.describe('Frontend state synchronization', () => {
     expect(requested.some((url) => url.endsWith('/data/research_funding.json'))).toBe(true);
   });
 
+  test('research detail table shows description instead of grant id', async ({ page }) => {
+    await page.goto(`/research.html?unitid=${researchUnitid}`);
+
+    const list = page.locator('#research-list');
+    await expect(list.locator('table.history-table')).toBeVisible();
+    await expect(list.locator('thead th')).toContainText(['Agency', 'Grant', 'Description', 'Funding still disrupted', 'Termination date', 'Source']);
+    await expect(list.locator('thead th')).not.toContainText(['Grant ID']);
+  });
+
   test('sortable headers move aria-sort with the active sort state', async ({ page }) => {
     await page.goto('/research.html');
 

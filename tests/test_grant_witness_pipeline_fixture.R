@@ -48,7 +48,7 @@ run_test("Grant Witness join pipeline fixture", function() {
     full_award_number = c("NIH-001", "NIH-002", "NIH-003"),
     core_award_number = c("NIH-001", "NIH-002", "NIH-003"),
     status = c("terminated", "terminated", "terminated"),
-    org_name = c("Example University", "Sample College", "Sample College"),
+    org_name = c("Example University", "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College", "Sample College"),
     org_state = c("MA", "MA", "MA"),
     org_city = c("Boston", "Springfield", "Springfield"),
     org_type = c("University", "College", "College"),
@@ -116,6 +116,20 @@ run_test("Grant Witness join pipeline fixture", function() {
     na = ""
   )
 
+  manual_include_path <- file.path(
+    fixture_root, "data_pipelines", "grant_witness", "manual_include.csv"
+  )
+  readr::write_csv(
+    data.frame(
+      organization_name = "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College",
+      organization_state = "Massachusetts",
+      include_in_dataset = "TRUE",
+      stringsAsFactors = FALSE
+    ),
+    manual_include_path,
+    na = ""
+  )
+
   setwd(fixture_root)
   join_env <- new.env(parent = globalenv())
   sys.source(file.path(fixture_root, "scripts", "build_grant_witness_join.R"), envir = join_env)
@@ -145,10 +159,15 @@ run_test("Grant Witness join pipeline fixture", function() {
               "Joined grants should retain AWARD2.")
   assert_true(!("AWARD3" %in% grants_joined$award_id_string),
               "Joined grants should not retain amount-corrected zero award AWARD3.")
+  assert_identical(
+    grants_joined$match_method[grants_joined$award_id_string == "AWARD2"][[1]],
+    "manual_include_unmatched",
+    "Manual include should survive case/display-name differences without falling back to likely_higher_ed_unmatched."
+  )
   assert_equal(nrow(higher_ed_summary), 2L,
                "Higher-ed summary should contain both retained institutions.")
-  assert_true(all(c("Example University", "Sample College") %in% higher_ed_summary$display_name),
-              "Retained summary rows should include both Example University and Sample College.")
+  assert_true(all(c("Example University", "Alamo Community College District - St. Philip's College") %in% higher_ed_summary$display_name),
+              "Retained summary rows should include both Example University and the manual-include-only institution.")
   assert_equal(sum(higher_ed_summary$total_disrupted_grants), 2L,
                "Two disrupted grants should survive the pipeline (AWARD1 + AWARD2).")
 })

@@ -213,17 +213,28 @@ main <- function(cli_args = NULL) {
   # -----------------------------------------------------------------------
   # LOAD MANUAL INCLUSION/OVERRIDE LISTS
   manual_include <- if (file.exists(manual_include_path)) {
-    readr::read_csv(manual_include_path, show_col_types = FALSE, progress = FALSE) |>
+    mi_raw <- readr::read_csv(manual_include_path, show_col_types = FALSE, progress = FALSE)
+    if (!"force_other" %in% names(mi_raw)) {
+      mi_raw$force_other <- NA_character_
+    }
+    mi_raw |>
       dplyr::transmute(
         organization_name,
+        organization_name_display = prettify_institution_name(organization_name),
         organization_state = null_if_empty(organization_state),
-        include_in_dataset = toupper(as.character(include_in_dataset %||% "TRUE")) == "TRUE"
+        organization_state = prettify_location_text(organization_state),
+        simplified_norm_name = simplify_institution_name(organization_name),
+        include_in_dataset = toupper(as.character(include_in_dataset %||% "TRUE")) == "TRUE",
+        force_other = toupper(as.character(force_other %||% "FALSE")) == "TRUE"
       )
   } else {
     data.frame(
       organization_name = character(),
+      organization_name_display = character(),
       organization_state = character(),
+      simplified_norm_name = character(),
       include_in_dataset = logical(),
+      force_other = logical(),
       stringsAsFactors = FALSE
     )
   }
@@ -425,8 +436,26 @@ main <- function(cli_args = NULL) {
     ) |>
     # Matching priority 4: manual inclusion flag
     dplyr::left_join(
-      manual_include,
-      by = c("organization_name_display" = "organization_name", "organization_state")
+      manual_include |>
+        dplyr::distinct(organization_name_display, organization_state, .keep_all = TRUE) |>
+        dplyr::transmute(
+          organization_name_display,
+          organization_state,
+          include_in_dataset,
+          force_other
+        ),
+      by = c("organization_name_display", "organization_state")
+    ) |>
+    dplyr::left_join(
+      manual_include |>
+        dplyr::distinct(simplified_norm_name, organization_state, .keep_all = TRUE) |>
+        dplyr::transmute(
+          manual_include_norm_name = simplified_norm_name,
+          organization_state,
+          include_in_dataset_norm = include_in_dataset,
+          force_other_norm = force_other
+        ),
+      by = c("simplified_norm_name" = "manual_include_norm_name", "organization_state")
     ) |>
     # Matching priority 5: manual name override
     dplyr::left_join(
@@ -510,6 +539,7 @@ main <- function(cli_args = NULL) {
     ) |>
     # Coalesce all matching attempts into single columns
     dplyr::mutate(
+      force_other = dplyr::coalesce(force_other, force_other_norm) %in% TRUE,
       matched_unitid = dplyr::coalesce(city_unitid, unitid, alias_unitid, city_override_unitid, override_unitid, display_city_override_unitid, display_override_unitid),
       tracker_institution_name = dplyr::coalesce(city_tracker_institution_name, tracker_institution_name, alias_tracker_institution_name, city_override_tracker_institution_name, override_tracker_institution_name, display_city_override_tracker_institution_name, display_override_tracker_institution_name),
       tracker_city = dplyr::coalesce(city_tracker_city, tracker_city, alias_tracker_city, city_override_tracker_city, override_tracker_city, display_city_override_tracker_city, display_override_tracker_city),
@@ -519,8 +549,15 @@ main <- function(cli_args = NULL) {
       likely_higher_ed = dplyr::if_else(
         is_noncampus_medical_or_foundation_name(organization_name),
         FALSE,
-        dplyr::coalesce(city_override_likely_higher_ed, override_likely_higher_ed, display_city_override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, likely_higher_ed)
+        dplyr::coalesce(city_override_likely_higher_ed, override_likely_higher_ed, display_city_override_likely_higher_ed, display_override_likely_higher_ed, include_in_dataset, include_in_dataset_norm, likely_higher_ed)
       ),
+      matched_unitid = dplyr::if_else(force_other, NA_character_, matched_unitid),
+      tracker_institution_name = dplyr::if_else(force_other, NA_character_, tracker_institution_name),
+      tracker_city = dplyr::if_else(force_other, NA_character_, tracker_city),
+      tracker_state = dplyr::if_else(force_other, NA_character_, tracker_state),
+      tracker_control_label = dplyr::if_else(force_other, NA_character_, tracker_control_label),
+      tracker_category = dplyr::if_else(force_other, NA_character_, tracker_category),
+      likely_higher_ed = dplyr::if_else(force_other, TRUE, likely_higher_ed),
       pass_through_keyword_match = vapply(
         seq_len(dplyr::n()),
         function(i) detect_pass_through_phrase(project_title[[i]], project_abstract[[i]]),
@@ -529,6 +566,7 @@ main <- function(cli_args = NULL) {
       award_id_string = stringr::str_match(source_url, "award/([^/?#]+)")[, 2],
       is_pass_through_or_grantmaker = !is.na(pass_through_keyword_match),
       match_method = dplyr::case_when(
+        force_other ~ "manual_include_unmatched",
         !is.na(city_unitid) ~ "normalized_name_city_state",
         is.na(city_unitid) & !is.na(unitid) ~ "normalized_name_state_fallback",
         is.na(city_unitid) & is.na(unitid) & !is.na(alias_unitid) ~ "alias_name_state_fallback",
@@ -536,7 +574,7 @@ main <- function(cli_args = NULL) {
         is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & !is.na(override_unitid) ~ "manual_name_override",
         is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & is.na(override_unitid) & !is.na(display_city_override_unitid) ~ "manual_display_name_city_override",
         is.na(city_unitid) & is.na(unitid) & is.na(alias_unitid) & is.na(city_override_unitid) & is.na(override_unitid) & is.na(display_city_override_unitid) & !is.na(display_override_unitid) ~ "manual_display_name_override",
-        include_in_dataset %in% TRUE ~ "manual_include_unmatched",
+        dplyr::coalesce(include_in_dataset, include_in_dataset_norm) %in% TRUE ~ "manual_include_unmatched",
         likely_higher_ed ~ "likely_higher_ed_unmatched",
         TRUE ~ "unmatched"
       ),

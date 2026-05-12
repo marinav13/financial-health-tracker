@@ -146,7 +146,7 @@
     const rows = sortGrants(visibleGrants, sortState).map((grant) => [
       agencyLabel(grant.agency),
       grant.project_title,
-      grant.grant_id,
+      grant.project_abstract || "",
       formatCurrency(grant.award_remaining),
       formatDate(grant.termination_date),
       renderExternalLinkCell(grant.source_url, "Source")
@@ -156,7 +156,7 @@
       headers: [
         "<th>Agency</th>",
         "<th>Grant</th>",
-        "<th>Grant ID</th>",
+        "<th>Description</th>",
         "<th>Funding still disrupted</th>",
         renderSortableHeader("termination_date", sortState, "Termination date"),
         "<th>Source</th>"
@@ -577,11 +577,11 @@
       mainDownload.classList.remove("is-hidden");
       mainDownload.onclick = () => downloadRowsCsv(
         `${String(school.institution_name || "research-funding").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-research-funding.csv`,
-        ["Agency", "Grant", "Grant ID", "Funding still disrupted", "Termination date", "Source"],
+        ["Agency", "Grant", "Description", "Funding still disrupted", "Termination date", "Source"],
         filterPositiveFundingGrants(school.grants || []).map((grant) => [
           agencyLabel(grant.agency),
           grant.project_title || "",
-          grant.grant_id || "",
+          grant.project_abstract || "",
           grant.award_remaining || "",
           grant.termination_date || "",
           grant.source_url || ""

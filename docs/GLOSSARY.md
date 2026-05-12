@@ -98,7 +98,7 @@ An NCES database tracking federal grant awards to colleges by agency, award year
 
 ## USAspending.gov
 
-A federal website publishing government contract and grant spending data. The `build_grant_witness_usaspending_sensitivity.R` script queries it to check whether a grant cut signal from Grant Witness is reliable (the grant was actually reduced) or might be a false positive (an institution was renamed, a grant was transferred, etc.).
+A federal website publishing government contract and grant spending data. Linked from individual grant rows so readers can verify the official obligation/outlay record. We do **not** filter Grant Witness rows by USAspending outlay shape: statutory wind-down outlays (30-90 days after termination) are indistinguishable from real reinstatement outlays in the public data, so Grant Witness's own legal/court-driven reinstatement adjudication is the single source of truth. A previous version of this pipeline applied an outlay heuristic via `build_grant_witness_usaspending_sensitivity.R`; that script is retained for archival/methodology purposes but is no longer wired into the production refresh.
 
 ---
 

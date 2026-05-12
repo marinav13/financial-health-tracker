@@ -216,23 +216,7 @@ jobs:
             --financial-input data/downloads/full_dataset.csv \
             2>&1 | tee -a refresh-logs/combined.log
 
-      - name: Build unfiltered research join for USAspending analysis
-        shell: bash
-        timeout-minutes: 60
-        run: |
-          Rscript ./scripts/build_grant_witness_join.R \
-            --financial-input data/downloads/full_dataset.csv \
-            --skip-usaspending-filter \
-            2>&1 | tee -a refresh-logs/combined.log
-
-      - name: Refresh USAspending reinstatement analysis
-        shell: bash
-        timeout-minutes: 60
-        run: |
-          Rscript ./scripts/build_grant_witness_usaspending_sensitivity.R \
-            2>&1 | tee -a refresh-logs/combined.log
-
-      - name: Refresh research cuts with Proposal G filter
+      - name: Refresh research cuts from Grant Witness
         shell: bash
         timeout-minutes: 60
         run: |

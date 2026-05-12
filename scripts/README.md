@@ -86,16 +86,16 @@ Current shared helper roles:
 ## Supporting Scripts
 
 - `build_grant_witness_usaspending_sensitivity.R`
-  - supporting research QA analysis used by the scheduled grant workflow
-  - writes the risky continuation filter used by the Grant Witness join
+  - archived QA tooling that compared Grant Witness terminations against
+    live USAspending obligation / outlay snapshots
+  - no longer run by the production refresh: post-termination wind-down
+    outlays cannot be reliably distinguished from real reinstatement
+    outlays, so the join now relies solely on the Grant Witness status
+    field. Retained in-tree for methodology and ad-hoc analysis.
 
 - `build_article_workbook.R`
   - optional local reporting script
   - not part of the shipped-output path or public smoke gate
-
-The sensitivity script no longer maintains multiple proposal variants. Its
-current production purpose is to build the risky continuation filter and a
-small summary of that filter for QA.
 
 - `annual_refresh_and_publish.R`
   - convenience wrapper for a partial refresh
@@ -136,7 +136,8 @@ small summary of that filter for QA.
   - runs canonical build first, then web exports from that generated canonical output
 - `tests/test_grant_witness_pipeline_fixture.R`
   - tiny fixture-driven regression check for the Grant Witness join
-  - verifies risky continuation exclusions and higher-ed summary outputs
+  - verifies status-based disruption filtering, amount-correction handling,
+    and higher-ed summary outputs
 - `tests/test_accreditation_actions_pipeline_fixture.R`
   - tiny fixture-driven regression check for the accreditation actions pipeline
   - verifies matched actions, current-status output, unmatched review, and coverage outputs
@@ -198,7 +199,7 @@ you know where to look when something breaks.
 **Orchestrators** — mostly call other scripts or arrange data flow:
 - `build_ipeds_dataset.R` — runs collector → canonical in order
 - `annual_refresh_and_publish.R` — convenience wrapper for partial refresh
-- `build_grant_witness_usaspending_sensitivity.R` - calls the API and computes the risky continuation filter
+- `build_grant_witness_usaspending_sensitivity.R` - archived QA tooling (not in production refresh; see Supporting Scripts above)
 
 **Heavy transforms** — do the actual data shaping:
 - `collect_ipeds_data.R` — downloads IPEDS, resolves variable names, writes raw CSV

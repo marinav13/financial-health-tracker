@@ -93,15 +93,15 @@ workflow:
 Rscript --vanilla ./scripts/build_accreditation_actions.R
 python ./scripts/import_supabase_institution_mapping.py --skip-stale-check
 Rscript --vanilla ./scripts/build_college_cuts_join.R
-Rscript --vanilla ./scripts/build_grant_witness_join.R --skip-usaspending-filter
-Rscript --vanilla ./scripts/build_grant_witness_usaspending_sensitivity.R
 Rscript --vanilla ./scripts/build_grant_witness_join.R
 python ./scripts/import_closure_sheet.py --sheet "YOUR_GOOGLE_SHEET_URL_OR_ID"
 Rscript --vanilla ./scripts/build_web_exports.R
 ```
 
-The USAspending sensitivity step overwrites the risky-continuation filter used
-by the research page. Run it only when you intend to refresh that filter.
+The research page is filtered to currently-disrupted (terminated / frozen)
+grants using the Grant Witness status field. No USAspending outlay heuristic
+is applied; Grant Witness's own reinstatement adjudication is the single
+source of truth.
 
 ## Verify Before Commit
 

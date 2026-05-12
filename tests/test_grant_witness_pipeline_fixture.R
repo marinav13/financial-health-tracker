@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Grant Witness join pipeline fixture", function() {
   fixture_root <- tempfile("grant-witness-fixture-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
@@ -45,32 +49,34 @@ run_test("Grant Witness join pipeline fixture", function() {
   readr::write_csv(financial_df, financial_input, na = "")
 
   nih_df <- data.frame(
-    full_award_number = c("NIH-001", "NIH-002", "NIH-003"),
-    core_award_number = c("NIH-001", "NIH-002", "NIH-003"),
-    status = c("terminated", "terminated", "terminated"),
-    org_name = c("Example University", "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College", "Sample College"),
-    org_state = c("MA", "MA", "MA"),
-    org_city = c("Boston", "Springfield", "Springfield"),
-    org_type = c("University", "College", "College"),
-    org_traits = c(NA, NA, NA),
-    project_title = c("Immune Response Study", "Campus Health Study", "Corrected Zero Study"),
-    abstract_text = c("Research abstract", "More research", "Stale amount"),
-    targeted_start_date = c("2024-01-01", "2024-02-01", "2024-03-01"),
-    targeted_end_date = c("2025-12-31", "2025-12-31", "2025-12-31"),
-    termination_date = c("2025-01-15", "2025-01-20", "2025-02-01"),
-    reinstated_est_date = c(NA, NA, NA),
-    total_award = c(1000000, 500000, 48974),
-    total_estimated_outlays = c(400000, 100000, 48973.15),
-    total_estimated_remaining = c(600000, 400000, 0.85),
+    full_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004"),
+    core_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004"),
+    status = c("terminated", "terminated", "terminated", "terminated"),
+    org_name = c("Example University", "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College", "Sample College", "Sample College"),
+    org_state = c("MA", "MA", "MA", "MA"),
+    org_city = c("Boston", "Springfield", "Springfield", "Springfield"),
+    org_type = c("University", "College", "College", "College"),
+    org_traits = c(NA, NA, NA, NA),
+    project_title = c("Immune Response Study", "Campus Health Study", "Corrected Zero Study", "Forced Other Study"),
+    abstract_text = c("Research abstract", "More research", "Stale amount", "Force other match override"),
+    targeted_start_date = c("2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01"),
+    targeted_end_date = c("2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31"),
+    termination_date = c("2025-01-15", "2025-01-20", "2025-02-01", "2025-02-15"),
+    reinstated_est_date = c(NA, NA, NA, NA),
+    total_award = c(1000000, 500000, 48974, 200000),
+    total_estimated_outlays = c(400000, 100000, 48973.15, 50000),
+    total_estimated_remaining = c(600000, 400000, 0.85, 150000),
     usaspending_url = c(
       "https://www.usaspending.gov/award/AWARD1",
       "https://www.usaspending.gov/award/AWARD2",
-      "https://www.usaspending.gov/award/AWARD3"
+      "https://www.usaspending.gov/award/AWARD3",
+      "https://www.usaspending.gov/award/AWARD4"
     ),
     reporter_url = c(
       "https://grant-witness.us/nih/1",
       "https://grant-witness.us/nih/2",
-      "https://grant-witness.us/nih/3"
+      "https://grant-witness.us/nih/3",
+      "https://grant-witness.us/nih/4"
     ),
     stringsAsFactors = FALSE
   )
@@ -121,9 +127,14 @@ run_test("Grant Witness join pipeline fixture", function() {
   )
   readr::write_csv(
     data.frame(
-      organization_name = "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College",
-      organization_state = "Massachusetts",
-      include_in_dataset = "TRUE",
+      organization_name = c(
+        "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College",
+        "Sample College"
+      ),
+      organization_state = c("Massachusetts", "Massachusetts"),
+      include_in_dataset = c("TRUE", "TRUE"),
+      display_name_override = c(NA, "Sample Other College"),
+      force_other = c(NA, "TRUE"),
       stringsAsFactors = FALSE
     ),
     manual_include_path,
@@ -157,6 +168,8 @@ run_test("Grant Witness join pipeline fixture", function() {
               "Joined grants should retain AWARD1 now that the USAspending outlay filter is gone.")
   assert_true("AWARD2" %in% grants_joined$award_id_string,
               "Joined grants should retain AWARD2.")
+  assert_true("AWARD4" %in% grants_joined$award_id_string,
+              "Joined grants should retain AWARD4 when a manual include forces the institution into other.")
   assert_true(!("AWARD3" %in% grants_joined$award_id_string),
               "Joined grants should not retain amount-corrected zero award AWARD3.")
   assert_identical(
@@ -164,10 +177,24 @@ run_test("Grant Witness join pipeline fixture", function() {
     "manual_include_unmatched",
     "Manual include should survive case/display-name differences without falling back to likely_higher_ed_unmatched."
   )
-  assert_equal(nrow(higher_ed_summary), 2L,
-               "Higher-ed summary should contain both retained institutions.")
-  assert_true(all(c("Example University", "Alamo Community College District - St. Philip's College") %in% higher_ed_summary$display_name),
-              "Retained summary rows should include both Example University and the manual-include-only institution.")
-  assert_equal(sum(higher_ed_summary$total_disrupted_grants), 2L,
-               "Two disrupted grants should survive the pipeline (AWARD1 + AWARD2).")
+  assert_identical(
+    grants_joined$match_method[grants_joined$award_id_string == "AWARD4"][[1]],
+    "manual_include_unmatched",
+    "Force-other manual includes should suppress profile matches and keep the institution in other."
+  )
+  assert_true(
+    is.na(grants_joined$matched_unitid[grants_joined$award_id_string == "AWARD4"][[1]]),
+    "Force-other manual includes should clear matched_unitid."
+  )
+  assert_identical(
+    grants_joined$display_name_override[grants_joined$award_id_string == "AWARD4"][[1]],
+    "Sample Other College",
+    "Manual include display name override should be carried through to the joined grant output."
+  )
+  assert_equal(nrow(higher_ed_summary), 3L,
+               "Higher-ed summary should contain all three retained institutions.")
+  assert_true(all(c("Example University", "Alamo Community College District - St. Philip's College", "Sample Other College") %in% higher_ed_summary$display_name),
+              "Retained summary rows should include the matched institution, the manual-include-only institution, and the display-overridden force-other institution.")
+  assert_equal(sum(higher_ed_summary$total_disrupted_grants), 3L,
+               "Three disrupted grants should survive the pipeline (AWARD1 + AWARD2 + AWARD4).")
 })

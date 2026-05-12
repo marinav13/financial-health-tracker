@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Article workbook fixture", function() {
   # Use an absolute path before any setwd() to avoid fixture directory nesting.
   sys_tmp_root <- normalizePath(file.path(tempdir(), ".."), winslash = "/", mustWork = TRUE)

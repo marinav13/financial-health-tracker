@@ -150,6 +150,14 @@ jobs:
         run: >
           Rscript --vanilla ./scripts/build_dapip_accreditation_actions.R
 
+      # Keep the public-table audit in sync with the freshly rebuilt DAPIP
+      # rows before build_web_exports.R attempts to join them back together.
+      - name: Rebuild DAPIP vs scraper audit
+        shell: bash
+        timeout-minutes: 30
+        run: >
+          Rscript --vanilla ./scripts/build_dapip_vs_scraper_audit.R
+
       - name: Refresh college cuts with cache fallback
         shell: bash
         timeout-minutes: 60

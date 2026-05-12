@@ -214,6 +214,9 @@ main <- function(cli_args = NULL) {
   # LOAD MANUAL INCLUSION/OVERRIDE LISTS
   manual_include <- if (file.exists(manual_include_path)) {
     mi_raw <- readr::read_csv(manual_include_path, show_col_types = FALSE, progress = FALSE)
+    if (!"display_name_override" %in% names(mi_raw)) {
+      mi_raw$display_name_override <- NA_character_
+    }
     if (!"force_other" %in% names(mi_raw)) {
       mi_raw$force_other <- NA_character_
     }
@@ -225,6 +228,7 @@ main <- function(cli_args = NULL) {
         organization_state = prettify_location_text(organization_state),
         simplified_norm_name = simplify_institution_name(organization_name),
         include_in_dataset = toupper(as.character(include_in_dataset %||% "TRUE")) == "TRUE",
+        display_name_override = null_if_empty(prettify_institution_name(display_name_override)),
         force_other = toupper(as.character(force_other %||% "FALSE")) == "TRUE"
       )
   } else {
@@ -234,6 +238,7 @@ main <- function(cli_args = NULL) {
       organization_state = character(),
       simplified_norm_name = character(),
       include_in_dataset = logical(),
+      display_name_override = character(),
       force_other = logical(),
       stringsAsFactors = FALSE
     )
@@ -434,7 +439,9 @@ main <- function(cli_args = NULL) {
         ),
       by = c("simplified_norm_name" = "alias_norm", "organization_state" = "state_full")
     ) |>
-    # Matching priority 4: manual inclusion flag
+    # Matching priority 4: manual inclusion flag. `force_other` keeps a
+    # higher-ed institution in the research dataset while suppressing any
+    # profile match so it lands in the "other" bucket.
     dplyr::left_join(
       manual_include |>
         dplyr::distinct(organization_name_display, organization_state, .keep_all = TRUE) |>
@@ -442,6 +449,7 @@ main <- function(cli_args = NULL) {
           organization_name_display,
           organization_state,
           include_in_dataset,
+          display_name_override,
           force_other
         ),
       by = c("organization_name_display", "organization_state")
@@ -453,6 +461,7 @@ main <- function(cli_args = NULL) {
           manual_include_norm_name = simplified_norm_name,
           organization_state,
           include_in_dataset_norm = include_in_dataset,
+          display_name_override_norm = display_name_override,
           force_other_norm = force_other
         ),
       by = c("simplified_norm_name" = "manual_include_norm_name", "organization_state")
@@ -539,6 +548,7 @@ main <- function(cli_args = NULL) {
     ) |>
     # Coalesce all matching attempts into single columns
     dplyr::mutate(
+      display_name_override = dplyr::coalesce(display_name_override, display_name_override_norm),
       force_other = dplyr::coalesce(force_other, force_other_norm) %in% TRUE,
       matched_unitid = dplyr::coalesce(city_unitid, unitid, alias_unitid, city_override_unitid, override_unitid, display_city_override_unitid, display_override_unitid),
       tracker_institution_name = dplyr::coalesce(city_tracker_institution_name, tracker_institution_name, alias_tracker_institution_name, city_override_tracker_institution_name, override_tracker_institution_name, display_city_override_tracker_institution_name, display_override_tracker_institution_name),
@@ -609,6 +619,7 @@ main <- function(cli_args = NULL) {
       source_url,
       detail_url,
       likely_higher_ed,
+      display_name_override,
       matched_unitid,
       tracker_institution_name,
       tracker_city,
@@ -686,7 +697,7 @@ main <- function(cli_args = NULL) {
         paste0("unitid:", matched_unitid),
         paste0("name_state:", normalize_name(organization_name), "|", organization_state)
       ),
-      display_name = dplyr::coalesce(tracker_institution_name, organization_name),
+      display_name = dplyr::coalesce(tracker_institution_name, display_name_override, organization_name),
       display_name = prettify_institution_name(display_name),
       display_city = dplyr::coalesce(tracker_city, organization_city),
       display_city = prettify_location_text(display_city),

@@ -203,6 +203,15 @@ jobs:
           python ./scripts/import_supabase_institution_mapping.py --skip-stale-check \
             2>&1 | tee -a refresh-logs/combined.log
 
+      # build_web_exports.R joins the public-table audit back to the freshly
+      # rebuilt DAPIP rows, so the audit must be regenerated in the same run.
+      - name: Rebuild DAPIP vs scraper audit
+        shell: bash
+        timeout-minutes: 30
+        run: |
+          Rscript ./scripts/build_dapip_vs_scraper_audit.R \
+            2>&1 | tee -a refresh-logs/combined.log
+
       - name: Verify Supabase mapping exists
         shell: bash
         run: |

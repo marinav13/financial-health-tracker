@@ -60,7 +60,7 @@ closure_status_json_path <- file.path(data_dir, "closure_status_by_unitid.json")
 hcm_json_path <- file.path(data_dir, "hcm2_by_unitid.json")
 federal_composite_json_path <- file.path(data_dir, "federal_composite_scores_by_unitid.json")
 
-research_min_public_award_remaining <- 100
+research_min_public_award_remaining <- 0
 
 
 # Helper functions (require_local_file, ensure_columns, null_if_empty,
@@ -2119,6 +2119,7 @@ build_research_export <- function() {
   ) %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
+      display_name_override = as.character(display_name_override),
       organization_state = as.character(organization_state),
       award_value = to_num(award_value),
       award_outlaid = to_num(award_outlaid),
@@ -2128,7 +2129,7 @@ build_research_export <- function() {
         function(i) make_export_id(
           "research",
           matched_unitid[[i]],
-          dplyr::coalesce(tracker_institution_name[[i]], organization_name[[i]]),
+          dplyr::coalesce(tracker_institution_name[[i]], display_name_override[[i]], organization_name[[i]]),
           dplyr::coalesce(tracker_state[[i]], organization_state[[i]])
         ),
         character(1)
@@ -2139,7 +2140,7 @@ build_research_export <- function() {
     filter(
       currently_disrupted == TRUE,
       !is.na(award_remaining),
-      award_remaining >= research_min_public_award_remaining
+      award_remaining > research_min_public_award_remaining
     )
 
   if (nrow(summary_df) == 0 || nrow(grants_df) == 0) return(NULL)

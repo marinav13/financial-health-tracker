@@ -72,3 +72,14 @@ __pycache__/
 opencode.jsonc
 debug_workbook_fixture.R
 .claude/
+# Local analyst scratch — MSI/PMI side analyses (not part of the published site)
+nasa_msi_*.csv
+data/downloads/nasa_msi_*.csv
+public_research_university_federal_cuts_vulnerability_with_msi_*.csv
+data/downloads/public_research_university_federal_cuts_vulnerability_with_msi_*.csv
+pmi_script.R
+scripts/*_PMI.R
+scripts/msi_analysis.R
+
+# RStudio per-project file (per-user)
+Financial Health Tracker - For Github.Rproj

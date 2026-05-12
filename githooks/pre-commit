@@ -15,7 +15,7 @@ fail() { echo "PRE-COMMIT FAIL: $1"; exit 1; }
 if command -v Rscript >/dev/null 2>&1; then
   for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.R$|\.r$' || true); do
     [ -f "$f" ] || continue
-    Rscript -e "tryCatch(parse('$f'), error = function(e) { cat(conditionMessage(e), '\n'); quit(status=1) })" \
+    Rscript -e "tryCatch(invisible(parse('$f')), error = function(e) { cat(conditionMessage(e), '\n'); quit(status=1) })" \
       || fail "R parse failed: $f"
   done
 fi

@@ -6,29 +6,63 @@
 # ending mid-write). Truncated R / JS / JSON files always parse-fail. Catching
 # them here means a corrupted file never lands on a remote.
 #
+# This version batches parse checks per language to avoid spawning a fresh
+# interpreter per file. With ~1900 staged JSON files, the per-file loop took
+# 2-3 minutes; the batched loop takes seconds.
+#
 # To skip in genuine emergencies: git commit --no-verify
 set -e
 
 fail() { echo "PRE-COMMIT FAIL: $1"; exit 1; }
 
-# R: parse with Rscript -e parse(). Skip if Rscript isn't on PATH.
+# Cache the staged file list once so we don't re-run git diff per language.
+CHANGED=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$CHANGED" ] && { echo "pre-commit: OK (no staged changes)"; exit 0; }
+
+# Filter helper: select files matching a regex AND that exist on disk.
+filter_existing() {
+  local pattern=$1
+  printf '%s\n' "$CHANGED" | grep -E "$pattern" 2>/dev/null | while IFS= read -r f; do
+    [ -f "$f" ] && printf '%s\n' "$f"
+  done
+}
+
+# R: batch all R files into one Rscript invocation. Each file is parse()-ed in
+# turn; the script collects failures and exits non-zero if any failed.
 if command -v Rscript >/dev/null 2>&1; then
-  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.R$|\.r$' || true); do
-    [ -f "$f" ] || continue
-    Rscript -e "tryCatch(invisible(parse('$f')), error = function(e) { cat(conditionMessage(e), '\n'); quit(status=1) })" \
-      || fail "R parse failed: $f"
-  done
+  R_FILES=$(filter_existing '\.[Rr]$')
+  if [ -n "$R_FILES" ]; then
+    printf '%s\n' "$R_FILES" | Rscript --vanilla -e '
+      paths <- readLines("stdin", warn = FALSE)
+      paths <- paths[nzchar(paths)]
+      failed <- character()
+      for (p in paths) {
+        ok <- tryCatch({ invisible(parse(file = p)); TRUE },
+                       error = function(e) {
+                         cat("R parse failed: ", p, ": ", conditionMessage(e), "\n",
+                             sep = "", file = stderr())
+                         FALSE
+                       })
+        if (!ok) failed <- c(failed, p)
+      }
+      if (length(failed) > 0L) quit(status = 1L, save = "no")
+    ' || fail "R parse failed (see stderr above)"
+  fi
 fi
 
-# JavaScript: node --check.
+# JavaScript: node --check is per-file, but JS changes are usually few. Keep
+# the per-file loop rather than reimplementing a parser.
 if command -v node >/dev/null 2>&1; then
-  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.js$|\.mjs$|\.cjs$' || true); do
-    [ -f "$f" ] || continue
-    node --check "$f" || fail "JS parse failed: $f"
-  done
+  JS_FILES=$(filter_existing '\.(js|mjs|cjs)$')
+  if [ -n "$JS_FILES" ]; then
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      node --check "$f" || fail "JS parse failed: $f"
+    done <<< "$JS_FILES"
+  fi
 fi
 
-# JSON: python json.load().
+# Detect Python interpreter.
 if command -v python >/dev/null 2>&1; then
   PY=python
 elif command -v python3 >/dev/null 2>&1; then
@@ -36,31 +70,63 @@ elif command -v python3 >/dev/null 2>&1; then
 else
   PY=
 fi
-if [ -n "$PY" ]; then
-  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.json$' || true); do
-    [ -f "$f" ] || continue
-    "$PY" -c "import json,sys; json.load(open(sys.argv[1], encoding='utf-8'))" "$f" \
-      || fail "JSON parse failed: $f"
-  done
-fi
 
-# YAML (workflow files etc.): python yaml.safe_load.
+# JSON: batch via one python invocation. Reads file paths from stdin.
 if [ -n "$PY" ]; then
-  for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.ya?ml$' || true); do
-    [ -f "$f" ] || continue
-    "$PY" -c "import yaml,sys; yaml.safe_load(open(sys.argv[1], encoding='utf-8'))" "$f" \
-      || fail "YAML parse failed: $f"
-  done
-fi
-
-# Trailing-line sanity check: a file whose last line has no terminating newline
-# is the classic Cowork-truncation fingerprint. Allow opt-out via shebang-style
-# magic file extensions where it's intentional.
-for f in $(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(R|r|js|mjs|cjs|json|ya?ml|html|css|md|py)$' || true); do
-  [ -f "$f" ] || continue
-  if [ -n "$(tail -c 1 "$f")" ]; then
-    fail "File ends without a trailing newline (truncation fingerprint): $f"
+  JSON_FILES=$(filter_existing '\.json$')
+  if [ -n "$JSON_FILES" ]; then
+    printf '%s\n' "$JSON_FILES" | "$PY" -c '
+import json, sys
+failed = 0
+for line in sys.stdin:
+    path = line.rstrip("\r\n")
+    if not path:
+        continue
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            json.load(f)
+    except Exception as e:
+        print(f"JSON parse failed: {path}: {e}", file=sys.stderr)
+        failed += 1
+sys.exit(1 if failed else 0)
+' || fail "JSON parse failed (see stderr above)"
   fi
-done
+fi
+
+# YAML: same batching pattern.
+if [ -n "$PY" ]; then
+  YAML_FILES=$(filter_existing '\.ya?ml$')
+  if [ -n "$YAML_FILES" ]; then
+    printf '%s\n' "$YAML_FILES" | "$PY" -c '
+import yaml, sys
+failed = 0
+for line in sys.stdin:
+    path = line.rstrip("\r\n")
+    if not path:
+        continue
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            yaml.safe_load(f)
+    except Exception as e:
+        print(f"YAML parse failed: {path}: {e}", file=sys.stderr)
+        failed += 1
+sys.exit(1 if failed else 0)
+' || fail "YAML parse failed (see stderr above)"
+  fi
+fi
+
+# Trailing-newline check: a file whose last line lacks a terminating newline
+# is the classic Cowork-truncation fingerprint. tail -c 1 is tiny and fast,
+# but iterating in shell is still the bottleneck after batching the parsers.
+# Acceptable for now since the average commit doesnt regen 1900 data files.
+TRAILING_FILES=$(filter_existing '\.(R|r|js|mjs|cjs|json|ya?ml|html|css|md|py)$')
+if [ -n "$TRAILING_FILES" ]; then
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    if [ -n "$(tail -c 1 "$f")" ]; then
+      fail "File ends without a trailing newline (truncation fingerprint): $f"
+    fi
+  done <<< "$TRAILING_FILES"
+fi
 
 echo "pre-commit: OK"

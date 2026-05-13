@@ -476,7 +476,7 @@
       // Landing view: the h1#research-school-name ships with class="sr-only"
       // in research.html, so the heading is already correct for screen-reader
       // users without being visually present. The h2#research-section-title
-      // ships with class="is-hidden" and stays hidden on the landing view.
+      // ships with class="is-hidden" and is shown on the landing view below.
       const ranked = sortByAmountThenName(schools);
       const primary = ranked.filter(isPrimaryBachelorsInstitution);
       const other = ranked.filter((school) => !isPrimaryBachelorsInstitution(school));
@@ -507,6 +507,7 @@
       };
       setDataCardVisible("research-other-list", other.length > 0);
       if (otherTitle) otherTitle.textContent = "Research funding cuts at other higher-ed institutions";
+      if (title) title.classList.remove("is-hidden");
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);
       renderLanding();

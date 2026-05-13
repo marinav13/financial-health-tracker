@@ -1,6 +1,6 @@
 {
   "unitid": "174783",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Saint Cloud State University",
     "institution_unique_name": "Saint Cloud State University | Saint Cloud | Minnesota",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": 3.2092,
     "staff_total_headcount_pct_change_5yr": -22.6344,
     "staff_instructional_headcount_pct_change_5yr": -24.3464,
-    "students_per_instructional_staff_fte": 19.3784,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 19.3782,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 27.764,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 28% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 31.1425,
+    "unfunded_discount_pct_change_5yr": -4.6153,
     "share_grad_students": 21.3663,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 5839000,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 12.2761,
     "pct_international_undergraduate": 8.5668,
     "pct_international_graduate": 25.9273,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 6195.5789,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 1.1122,
+    "state_funding_pct_core_revenue": 47.1064,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": -4.4843,
+    "state_funding_pct_change_5yr": -6.5385,
     "endowment_pct_change_5yr": 22.7722,
     "endowment_spending_current_use_pct_core_revenue": 0.0212,
     "graduation_rate_6yr": 39,
@@ -204,7 +204,52 @@
         "value": 7229.6927
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 31.6395
+      },
+      {
+        "year": 2015,
+        "value": 32.1519
+      },
+      {
+        "year": 2016,
+        "value": 31.6521
+      },
+      {
+        "year": 2017,
+        "value": 30.4793
+      },
+      {
+        "year": 2018,
+        "value": 31.3416
+      },
+      {
+        "year": 2019,
+        "value": 32.6493
+      },
+      {
+        "year": 2020,
+        "value": 29.9917
+      },
+      {
+        "year": 2021,
+        "value": 31.9579
+      },
+      {
+        "year": 2022,
+        "value": 30.6259
+      },
+      {
+        "year": 2023,
+        "value": 30.5464
+      },
+      {
+        "year": 2024,
+        "value": 31.1425
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -734,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 806960.5003
+        "value": 77876325.9834
       },
       {
         "year": 2015,
-        "value": 579687.457
+        "value": 80988161.0897
       },
       {
         "year": 2016,
-        "value": 694016.6703
+        "value": 83568233.3057
       },
       {
         "year": 2017,
-        "value": 776800.0286
+        "value": 80596522.2381
       },
       {
         "year": 2018,
-        "value": 1183015.5392
+        "value": 82649937.7915
       },
       {
         "year": 2019,
-        "value": 1812266.6424
+        "value": 78444029.1015
       },
       {
         "year": 2020,
-        "value": 1536865.3264
+        "value": 76992347.1066
       },
       {
         "year": 2021,
-        "value": 527889.3752
+        "value": 70923558.2721
       },
       {
         "year": 2022,
-        "value": 234740.1924
+        "value": 64824736.7788
       },
       {
         "year": 2023,
-        "value": 1214803.3817
+        "value": 59669494.9163
       },
       {
         "year": 2024,
-        "value": 1731000
+        "value": 73315000
       }
     ]
   }

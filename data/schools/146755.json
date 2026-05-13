@@ -1,6 +1,6 @@
 {
   "unitid": "146755",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Trinity College of Nursing & Health Sciences",
     "institution_unique_name": "Trinity College of Nursing & Health Sciences | Rock Island | Illinois",
@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -45,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": null,
+    "revenue_pct_change_5yr": -48.0367,
     "net_tuition_per_fte_change_5yr": -27.4664,
     "staff_total_headcount_pct_change_5yr": -11.1111,
     "staff_instructional_headcount_pct_change_5yr": -15.3846,
     "students_per_instructional_staff_fte": 11,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
-    "ended_year_at_loss": null,
+    "sector_median_students_per_instructional_staff_fte": 13.0124,
+    "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 0,
-    "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": null,
+    "loss_years_last_10": 1,
+    "tuition_dependence_pct": 73.6958,
+    "sector_median_tuition_dependence_pct": 44.8638,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 74% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 0.2009,
     "unfunded_discount_pct_change_5yr": 162.4474,
     "share_grad_students": 15.5844,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": null,
     "international_students_sentence": "In 2024, 0% of students were international. That includes 0% of undergraduates and 0% of graduate students.",
     "federal_loan_pct_most_recent": 78,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": null,
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
@@ -66,7 +66,52 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [],
+    "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 4559838.2992
+      },
+      {
+        "year": 2015,
+        "value": 5453086.821
+      },
+      {
+        "year": 2016,
+        "value": 6069310.4031
+      },
+      {
+        "year": 2017,
+        "value": 6080660.0904
+      },
+      {
+        "year": 2018,
+        "value": 6093972.8811
+      },
+      {
+        "year": 2019,
+        "value": 6025937.506
+      },
+      {
+        "year": 2020,
+        "value": 5537637.2651
+      },
+      {
+        "year": 2021,
+        "value": 5706392.6915
+      },
+      {
+        "year": 2022,
+        "value": 5406248.8488
+      },
+      {
+        "year": 2023,
+        "value": 3934327.09
+      },
+      {
+        "year": 2024,
+        "value": 3131278
+      }
+    ],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -152,7 +197,7 @@
       },
       {
         "year": 2023,
-        "value": 24178.0089
+        "value": 26517.8162
       },
       {
         "year": 2024,
@@ -664,6 +709,10 @@
       }
     ],
     "endowment_spending_current_use_pct_core_revenue": [
+      {
+        "year": 2020,
+        "value": 0.0164
+      },
       {
         "year": 2021,
         "value": 0

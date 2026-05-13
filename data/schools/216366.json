@@ -1,6 +1,6 @@
 {
   "unitid": "216366",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Thomas Jefferson University",
     "institution_unique_name": "Thomas Jefferson University | Philadelphia | Pennsylvania",
@@ -18,28 +18,28 @@
     "enrollment_pct_change_5yr": 8.4236,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 54.4771,
-    "net_tuition_per_fte_change_5yr": -18.6552,
+    "net_tuition_per_fte_change_5yr": -35.6906,
     "staff_total_headcount_pct_change_5yr": 23.0693,
     "staff_instructional_headcount_pct_change_5yr": -39.0994,
-    "students_per_instructional_staff_fte": 13.3115,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 16.8378,
+    "sector_median_students_per_instructional_staff_fte": 13.0124,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 2.2017,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 2% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.8638,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 2% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 26.3329,
     "unfunded_discount_pct_change_5yr": 23.8195,
     "share_grad_students": 56.7178,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 241539104,
-    "research_expense_per_fte": 35625.2366,
+    "research_expense_per_fte": 28164.541,
     "research_expense_pct_core_expenses": 32.3096,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 5.4142,
     "pct_international_undergraduate": 2.2832,
     "pct_international_graduate": 7.8035,
@@ -47,15 +47,15 @@
     "international_enrollment_pct_change_5yr": 7.2917,
     "international_students_sentence": "In 2024, 5.4% of students were international. That includes 2.3% of undergraduates and 7.8% of graduate students.",
     "federal_loan_pct_most_recent": 86,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": 923,
     "grad_plus_disbursements_amt": 17050062,
     "grad_plus_disbursements_per_recipient": 18472.4399,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 8.6982,
-    "state_funding_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.0615,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 31.275,
-    "state_funding_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -18.4999,
     "endowment_pct_change_5yr": 148.7735,
     "endowment_spending_current_use_pct_core_revenue": 0.1123,
     "graduation_rate_6yr": 69,
@@ -161,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 70153.9455
+        "value": 83382.9752
       },
       {
         "year": 2015,
@@ -173,7 +173,7 @@
       },
       {
         "year": 2017,
-        "value": 90724.6709
+        "value": 110261.7696
       },
       {
         "year": 2018,
@@ -189,19 +189,19 @@
       },
       {
         "year": 2021,
-        "value": 34327.8754
+        "value": 26843.6805
       },
       {
         "year": 2022,
-        "value": 32773.8246
+        "value": 25729.6513
       },
       {
         "year": 2023,
-        "value": 32497.9021
+        "value": 25673.0792
       },
       {
         "year": 2024,
-        "value": 33062.6305
+        "value": 26138.6002
       }
     ],
     "unfunded_discount_rate": [
@@ -561,7 +561,7 @@
       },
       {
         "year": 2022,
-        "value": 5948
+        "value": 6064
       },
       {
         "year": 2023,
@@ -607,7 +607,7 @@
       },
       {
         "year": 2022,
-        "value": 932
+        "value": 951
       },
       {
         "year": 2023,
@@ -733,15 +733,15 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 82120430.7176
+        "value": 81048231.9738
       },
       {
         "year": 2015,
-        "value": 87088180.4362
+        "value": 86145083.2066
       },
       {
         "year": 2016,
-        "value": 85023203.3126
+        "value": 83517400.1788
       },
       {
         "year": 2017,
@@ -779,47 +779,47 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 1325058.2928
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 4784787.9158
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 1306999.3792
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 1279736.4556
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 1249224.4342
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 1226991.6333
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 1212038.901
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 1157652.1386
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 1071873.0246
       },
       {
         "year": 2023,
-        "value": 0
+        "value": 1029494.3912
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 1000000
       }
     ]
   }

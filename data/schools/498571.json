@@ -1,6 +1,6 @@
 {
   "unitid": "498571",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Pennsylvania Western University",
     "institution_unique_name": "Pennsylvania Western University | California | Pennsylvania",
@@ -21,25 +21,25 @@
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": null,
     "staff_instructional_headcount_pct_change_5yr": null,
-    "students_per_instructional_staff_fte": 20.0176,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 20.2168,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 19.6045,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 20% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
+    "unfunded_discount_rate": 35.7964,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 31.8262,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 721489,
-    "research_expense_per_fte": 73.3072,
+    "research_expense_per_fte": 72.5844,
     "research_expense_pct_core_expenses": 0.3382,
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 1.1744,
     "pct_international_undergraduate": 1.1628,
     "pct_international_graduate": 1.1993,
@@ -52,8 +52,8 @@
     "grad_plus_disbursements_amt": 544591,
     "grad_plus_disbursements_per_recipient": 5919.4674,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.22,
-    "state_funding_pct_core_revenue": 2.3808,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 3.2407,
+    "state_funding_pct_core_revenue": 43.7232,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
@@ -97,18 +97,31 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2022,
-        "value": 10116.5176
+        "value": 10020.8799
       },
       {
         "year": 2023,
-        "value": 8280.1559
+        "value": 8188.2028
       },
       {
         "year": 2024,
-        "value": 7718.6823
+        "value": 7642.5826
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2022,
+        "value": 22.5122
+      },
+      {
+        "year": 2023,
+        "value": 32.8191
+      },
+      {
+        "year": 2024,
+        "value": 35.7964
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2022,
@@ -280,29 +293,29 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2022,
-        "value": 474018.6951
+        "value": 7915975.2235
       },
       {
         "year": 2023,
-        "value": 838997.7786
+        "value": 13264752.1202
       },
       {
         "year": 2024,
-        "value": 763557
+        "value": 11247721
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2022,
-        "value": -4263920.5385
+        "value": 93331050.8764
       },
       {
         "year": 2023,
-        "value": 4883267.6631
+        "value": 89875818.8146
       },
       {
         "year": 2024,
-        "value": 8263267
+        "value": 151752241
       }
     ]
   }

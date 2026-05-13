@@ -1,6 +1,6 @@
 {
   "unitid": "130776",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Western Connecticut State University",
     "institution_unique_name": "Western Connecticut State University | Danbury | Connecticut",
@@ -18,28 +18,28 @@
     "enrollment_pct_change_5yr": -26.2586,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -30.9864,
-    "net_tuition_per_fte_change_5yr": -11.0547,
+    "net_tuition_per_fte_change_5yr": -11.5951,
     "staff_total_headcount_pct_change_5yr": -4.2095,
     "staff_instructional_headcount_pct_change_5yr": -14.9163,
-    "students_per_instructional_staff_fte": 11.7743,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 11.8461,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 6,
     "tuition_dependence_pct": 32.2666,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 32% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 14.4871,
+    "unfunded_discount_pct_change_5yr": 49.6028,
     "share_grad_students": 15.6464,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 1284166,
-    "research_expense_per_fte": 356.8119,
+    "research_expense_per_fte": 354.644,
     "research_expense_pct_core_expenses": 1.0243,
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 0.4358,
     "pct_international_undergraduate": 0.3444,
     "pct_international_graduate": 0.9284,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 52326,
     "grad_plus_disbursements_per_recipient": 7475.1429,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0.0336,
-    "state_funding_pct_core_revenue": 1.9018,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.0249,
+    "state_funding_pct_core_revenue": 34.4563,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 118.8266,
+    "state_funding_pct_change_5yr": -38.2018,
     "endowment_pct_change_5yr": 6.3034,
     "endowment_spending_current_use_pct_core_revenue": 0.0068,
     "graduation_rate_6yr": 52,
@@ -189,22 +189,67 @@
       },
       {
         "year": 2021,
-        "value": 13433.7111
+        "value": 13387.7263
       },
       {
         "year": 2022,
-        "value": 11069.9162
+        "value": 11016.7928
       },
       {
         "year": 2023,
-        "value": 12521.6515
+        "value": 12464.1817
       },
       {
         "year": 2024,
-        "value": 11532.182
+        "value": 11462.1163
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 14.9678
+      },
+      {
+        "year": 2015,
+        "value": 15.1394
+      },
+      {
+        "year": 2016,
+        "value": 11.5669
+      },
+      {
+        "year": 2017,
+        "value": 11.163
+      },
+      {
+        "year": 2018,
+        "value": 11.0145
+      },
+      {
+        "year": 2019,
+        "value": 9.6837
+      },
+      {
+        "year": 2020,
+        "value": 10.7953
+      },
+      {
+        "year": 2021,
+        "value": 9.1164
+      },
+      {
+        "year": 2022,
+        "value": 11.7134
+      },
+      {
+        "year": 2023,
+        "value": 10.0666
+      },
+      {
+        "year": 2024,
+        "value": 14.4871
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -716,65 +761,65 @@
       },
       {
         "year": 2021,
-        "value": 66392.5078
+        "value": 1881345.6389
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 1526437.2243
       },
       {
         "year": 2023,
-        "value": 22020.885
+        "value": 2898298.4979
       },
       {
         "year": 2024,
-        "value": 37922
+        "value": 1157772
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 66797.5136
+        "value": 65333146.6261
       },
       {
         "year": 2015,
-        "value": 70204.3862
+        "value": 69759314.6156
       },
       {
         "year": 2016,
-        "value": 139429.3868
+        "value": 72000942.4451
       },
       {
         "year": 2017,
-        "value": 298785.1892
+        "value": 65736425.9936
       },
       {
         "year": 2018,
-        "value": 570462.0856
+        "value": 59672534.2829
       },
       {
         "year": 2019,
-        "value": 981757.7235
+        "value": 62984944.3358
       },
       {
         "year": 2020,
-        "value": 561455.2042
+        "value": 62991119.7664
       },
       {
         "year": 2021,
-        "value": 26025.1777
+        "value": 63004056.5189
       },
       {
         "year": 2022,
-        "value": 70979.4317
+        "value": 72913584.7555
       },
       {
         "year": 2023,
-        "value": 1183882.5176
+        "value": 68145226.4965
       },
       {
         "year": 2024,
-        "value": 2148347
+        "value": 38923537
       }
     ]
   }

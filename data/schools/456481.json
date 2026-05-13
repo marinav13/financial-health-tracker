@@ -1,6 +1,6 @@
 {
   "unitid": "456481",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Polytechnic University of Puerto Rico-Miami",
     "institution_unique_name": "Polytechnic University of Puerto Rico-Miami | Miami | Florida",
@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -73.8095,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": null,
+    "revenue_pct_change_5yr": -76.6172,
     "net_tuition_per_fte_change_5yr": 37.241,
     "staff_total_headcount_pct_change_5yr": -35.7143,
     "staff_instructional_headcount_pct_change_5yr": -31.8182,
-    "students_per_instructional_staff_fte": 4.4118,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
-    "ended_year_at_loss": null,
-    "losses_last_3_of_5": "No",
-    "loss_years_last_10": 0,
-    "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": null,
+    "students_per_instructional_staff_fte": 4.4092,
+    "sector_median_students_per_instructional_staff_fte": 13.0124,
+    "ended_year_at_loss": "Yes",
+    "losses_last_3_of_5": "Yes",
+    "loss_years_last_10": 8,
+    "tuition_dependence_pct": 91.1384,
+    "sector_median_tuition_dependence_pct": 44.8638,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 91% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 0,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 41.8182,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": null,
     "international_students_sentence": "In 2024, 0% of students were international. That includes 0% of undergraduates and 0% of graduate students.",
     "federal_loan_pct_most_recent": 97,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": null,
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
@@ -66,7 +66,52 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [],
+    "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 1159184.8456
+      },
+      {
+        "year": 2015,
+        "value": 1097523.0565
+      },
+      {
+        "year": 2016,
+        "value": 1006069.3071
+      },
+      {
+        "year": 2017,
+        "value": 1153083.4981
+      },
+      {
+        "year": 2018,
+        "value": 1260267.5782
+      },
+      {
+        "year": 2019,
+        "value": 1502343.2797
+      },
+      {
+        "year": 2020,
+        "value": 1569584.3166
+      },
+      {
+        "year": 2021,
+        "value": 1636512.6304
+      },
+      {
+        "year": 2022,
+        "value": 1278372.5783
+      },
+      {
+        "year": 2023,
+        "value": 442890.5461
+      },
+      {
+        "year": 2024,
+        "value": 351290
+      }
+    ],
     "expenses_total_adjusted": [
       {
         "year": 2014,

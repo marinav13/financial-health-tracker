@@ -1,6 +1,6 @@
 {
   "unitid": "218724",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Coastal Carolina University",
     "institution_unique_name": "Coastal Carolina University | Conway | South Carolina",
@@ -22,15 +22,15 @@
     "staff_total_headcount_pct_change_5yr": 1.9509,
     "staff_instructional_headcount_pct_change_5yr": 9.9698,
     "students_per_instructional_staff_fte": 18.4072,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 48.7705,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 49% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 28.2826,
+    "unfunded_discount_pct_change_5yr": 10.8766,
     "share_grad_students": 6.3667,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 3983356,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 1.0909,
     "pct_international_undergraduate": 0.8829,
     "pct_international_graduate": 4.1499,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 95457,
     "grad_plus_disbursements_per_recipient": 6363.8,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.4088,
-    "state_funding_pct_core_revenue": 2.4155,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -8.7122,
-    "state_funding_pct_change_5yr": 65.1104,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.2805,
+    "state_funding_pct_core_revenue": 10.7984,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 20.8477,
+    "state_funding_pct_change_5yr": 73.0377,
     "endowment_pct_change_5yr": 12.7393,
     "endowment_spending_current_use_pct_core_revenue": 0.0045,
     "graduation_rate_6yr": 48,
@@ -204,7 +204,52 @@
         "value": 15363.5228
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 20.1251
+      },
+      {
+        "year": 2015,
+        "value": 19.6591
+      },
+      {
+        "year": 2016,
+        "value": 18.8086
+      },
+      {
+        "year": 2017,
+        "value": 18.8578
+      },
+      {
+        "year": 2018,
+        "value": 20.0771
+      },
+      {
+        "year": 2019,
+        "value": 25.5082
+      },
+      {
+        "year": 2020,
+        "value": 25.8641
+      },
+      {
+        "year": 2021,
+        "value": 26.8257
+      },
+      {
+        "year": 2022,
+        "value": 28.3582
+      },
+      {
+        "year": 2023,
+        "value": 27.7862
+      },
+      {
+        "year": 2024,
+        "value": 28.2826
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -688,93 +733,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 3097158.1271
+        "value": 2964313.0829
       },
       {
         "year": 2015,
-        "value": 3259274.1983
+        "value": 2918959.2799
       },
       {
         "year": 2016,
-        "value": 3249541.5835
+        "value": 3259529.6727
       },
       {
         "year": 2017,
-        "value": 4562036.5104
+        "value": 2905833.5829
       },
       {
         "year": 2018,
-        "value": 4447560.0365
+        "value": 2521284.6911
       },
       {
         "year": 2019,
-        "value": 4644190.3259
+        "value": 3188694.8138
       },
       {
         "year": 2020,
-        "value": 3177339.3742
+        "value": 4299266.819
       },
       {
         "year": 2021,
-        "value": 4432514.5934
+        "value": 2973060.227
       },
       {
         "year": 2022,
-        "value": 4606427.9167
+        "value": 3627740.3172
       },
       {
         "year": 2023,
-        "value": 4979018.8775
+        "value": 3417062.7806
       },
       {
         "year": 2024,
-        "value": 4239579
+        "value": 3853464
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 1774129.8236
+        "value": 13601377.5352
       },
       {
         "year": 2015,
-        "value": 548196.3991
+        "value": 14362100.8543
       },
       {
         "year": 2016,
-        "value": 791182.9252
+        "value": 15960566.6888
       },
       {
         "year": 2017,
-        "value": 1263984.1796
+        "value": 16504899.2796
       },
       {
         "year": 2018,
-        "value": 778103.1741
+        "value": 16616871.1177
       },
       {
         "year": 2019,
-        "value": 4402394.4467
+        "value": 18779208.7883
       },
       {
         "year": 2020,
-        "value": 3187732.6078
+        "value": 21775033.9562
       },
       {
         "year": 2021,
-        "value": 1165407.2503
+        "value": 20747728.726
       },
       {
         "year": 2022,
-        "value": -5758057.9411
+        "value": 21636915.6953
       },
       {
         "year": 2023,
-        "value": 3286415.8244
+        "value": 26365957.7319
       },
       {
         "year": 2024,
-        "value": 7268812
+        "value": 32495119
       }
     ]
   }

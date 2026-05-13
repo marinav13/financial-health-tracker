@@ -1,6 +1,6 @@
 {
   "unitid": "160630",
-  "generated_at": "2026-05-12",
+  "generated_at": "2026-05-13",
   "profile": {
     "institution_name": "Southern University at New Orleans",
     "institution_unique_name": "Southern University at New Orleans | New Orleans | Louisiana",
@@ -21,16 +21,16 @@
     "net_tuition_per_fte_change_5yr": -43.7555,
     "staff_total_headcount_pct_change_5yr": -2.0833,
     "staff_instructional_headcount_pct_change_5yr": 12,
-    "students_per_instructional_staff_fte": 15.453,
-    "sector_median_students_per_instructional_staff_fte": 16.4762,
+    "students_per_instructional_staff_fte": 15.4535,
+    "sector_median_students_per_instructional_staff_fte": 16.7858,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 14.9556,
-    "sector_median_tuition_dependence_pct": 21.1973,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 15% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": null,
-    "unfunded_discount_pct_change_5yr": null,
+    "unfunded_discount_rate": 47.736,
+    "unfunded_discount_pct_change_5yr": 59.702,
     "share_grad_students": 11.6726,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 402457,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 548,
     "sector_research_spending_positive_n": 522,
     "sector_research_spending_reporting_share_pct": 95.3,
-    "sector_median_research_expense_per_fte_positive": 1119.6078,
+    "sector_median_research_expense_per_fte_positive": 1080.4519,
     "pct_international_all": 0.0356,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0.3049,
@@ -52,10 +52,10 @@
     "grad_plus_disbursements_amt": 157408,
     "grad_plus_disbursements_per_recipient": 5427.8621,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
-    "state_funding_pct_core_revenue": 0.4952,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
-    "state_funding_pct_change_5yr": 107.7132,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 26.9308,
+    "state_funding_pct_core_revenue": 28.8129,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 10.6187,
+    "state_funding_pct_change_5yr": -9.1663,
     "endowment_pct_change_5yr": -8.9346,
     "endowment_spending_current_use_pct_core_revenue": 0,
     "graduation_rate_6yr": 13,
@@ -204,7 +204,52 @@
         "value": 3784.4866
       }
     ],
-    "unfunded_discount_rate": [],
+    "unfunded_discount_rate": [
+      {
+        "year": 2014,
+        "value": 26.5486
+      },
+      {
+        "year": 2015,
+        "value": 27.6028
+      },
+      {
+        "year": 2016,
+        "value": 26.85
+      },
+      {
+        "year": 2017,
+        "value": 29.9262
+      },
+      {
+        "year": 2018,
+        "value": 33.4114
+      },
+      {
+        "year": 2019,
+        "value": 29.8907
+      },
+      {
+        "year": 2020,
+        "value": 35.8314
+      },
+      {
+        "year": 2021,
+        "value": 48.1525
+      },
+      {
+        "year": 2022,
+        "value": 32.9411
+      },
+      {
+        "year": 2023,
+        "value": 56.5138
+      },
+      {
+        "year": 2024,
+        "value": 47.736
+      }
+    ],
     "enrollment_headcount_total": [
       {
         "year": 2014,
@@ -488,7 +533,7 @@
       },
       {
         "year": 2015,
-        "value": 347
+        "value": 326
       },
       {
         "year": 2016,
@@ -534,7 +579,7 @@
       },
       {
         "year": 2015,
-        "value": 186
+        "value": 129
       },
       {
         "year": 2016,
@@ -688,93 +733,93 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 49953.3726
+        "value": 10074559.9813
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 7316759.496
       },
       {
         "year": 2016,
-        "value": 17579.1417
+        "value": 9262485.0244
       },
       {
         "year": 2017,
-        "value": 65207.6914
+        "value": 10200513.1025
       },
       {
         "year": 2018,
-        "value": 89020.9824
+        "value": 10999462.3676
       },
       {
         "year": 2019,
-        "value": 297755.2866
+        "value": 8903713.8669
       },
       {
         "year": 2020,
-        "value": 985590.037
+        "value": 11829894.7982
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 8958315.1115
       },
       {
         "year": 2022,
-        "value": 29738.0452
+        "value": 7822880.9075
       },
       {
         "year": 2023,
-        "value": 18738.8569
+        "value": 10718487.1704
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 9849175
       }
     ],
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 318281.652
+        "value": 10651795.1253
       },
       {
         "year": 2015,
-        "value": 29337.744
+        "value": 9185284.0756
       },
       {
         "year": 2016,
-        "value": 10488.67
+        "value": 8258610.1692
       },
       {
         "year": 2017,
-        "value": 25564.0154
+        "value": 8999598.1747
       },
       {
         "year": 2018,
-        "value": 22496.0336
+        "value": 8429790.2173
       },
       {
         "year": 2019,
-        "value": 87198.6144
+        "value": 11600872.1513
       },
       {
         "year": 2020,
-        "value": 63701.1285
+        "value": 11715168.044
       },
       {
         "year": 2021,
-        "value": 21282.2769
+        "value": 10027027.1516
       },
       {
         "year": 2022,
-        "value": -20289.4845
+        "value": 7994038.664
       },
       {
         "year": 2023,
-        "value": 154333.5632
+        "value": 10564006.3895
       },
       {
         "year": 2024,
-        "value": 181123
+        "value": 10537499
       }
     ]
   }

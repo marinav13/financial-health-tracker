@@ -154,6 +154,28 @@ main <- function(cli_args = NULL) {
   allow_partial_accreditation <- arg_has(args, "--allow-partial-accreditation")
   in_ci <- identical(Sys.getenv("CI"), "true") || identical(Sys.getenv("GITHUB_ACTIONS"), "true")
 
+  # Cache reuse policy. When set to a positive number, fetch_html_text reads
+  # the cached HTML for any URL whose local file is younger than this many
+  # days, even when refresh=TRUE. The default (NA) preserves prior force-
+  # refresh semantics. In weekly CI we expect actions/cache@v4 to restore
+  # the prior run's HTML, so a 6-day window means a Monday refresh reuses
+  # last Monday's pages while the cache is still warm. Pages older than the
+  # window get refetched fresh, which preserves the weekly-refresh intent.
+  cache_max_age_days <- suppressWarnings(as.numeric(
+    get_arg_value("--cache-max-age-days", NA_character_)
+  ))
+  options(tracker.cache_max_age_days = cache_max_age_days)
+
+  # MSCHE per-institution fetch parallelism. Default 4 workers is a deliberate
+  # compromise: gets ~4x speedup on the 565-page loop without triggering
+  # MSCHE rate limits. Set to 1 to force sequential (preserves the existing
+  # Sys.sleep(0.5) per-fetch throttle).
+  msche_workers <- suppressWarnings(as.integer(
+    get_arg_value("--msche-parallel-workers", 4L)
+  ))
+  if (is.na(msche_workers) || msche_workers < 1L) msche_workers <- 1L
+  options(tracker.msche_parallel_workers = msche_workers)
+
   # Per-site warn_on_empty_parse() reads this option as its default `fail`.
   # In CI (without the --allow-partial-accreditation override) we want a
   # suspicious empty parse to stop() at the call site, so the refresh fails

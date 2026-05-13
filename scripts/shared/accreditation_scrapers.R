@@ -1714,13 +1714,34 @@ parse_msche <- function(cache_dir, refresh) {
       dplyr::distinct(institution_url, .keep_all = TRUE)
     if (nrow(unique_inst) == 0L) return(tibble::tibble())
 
+    # Parallel fetch policy:
+    #   The per-institution loop fetches one MSCHE page per call. With 565
+    #   institutions and ~0.5-1s per fetch, a sequential pass takes 15-25
+    #   minutes wall-clock and dominates the entire refresh.
+    #
+    #   We parallelize via the `future` framework when `furrr` is installed,
+    #   bounded by tracker.msche_parallel_workers (default 4) to stay
+    #   well under MSCHE rate-limit thresholds. The Sys.sleep(0.5) throttle
+    #   that worked for a sequential loop is dropped here — the bottleneck
+    #   becomes worker concurrency rather than fetch frequency.
+    #
+    #   Falls back to the sequential purrr loop when furrr is unavailable,
+    #   preserving exact prior behaviour for environments that haven't
+    #   added the dependency. The sequential path keeps the rate-limit
+    #   sleep.
+    workers <- as.integer(getOption("tracker.msche_parallel_workers", 4L))
+    if (is.na(workers) || workers < 1L) workers <- 1L
+    use_parallel <- workers > 1L &&
+      requireNamespace("furrr", quietly = TRUE) &&
+      requireNamespace("future", quietly = TRUE)
+
     message(sprintf(
-      "  MSCHE: parsing %d unique institution pages (per-action enrichment)...",
-      nrow(unique_inst)
+      "  MSCHE: parsing %d unique institution pages (per-action enrichment, %s)...",
+      nrow(unique_inst),
+      if (use_parallel) sprintf("%d workers", workers) else "sequential"
     ))
 
-    purrr::map_dfr(seq_len(nrow(unique_inst)), function(i) {
-      Sys.sleep(0.5)  # rate limit per institution; pagination adds its own
+    fetch_one_institution <- function(i) {
       r <- unique_inst[i, ]
       result <- tryCatch(
         parse_msche_institution_page(
@@ -1748,7 +1769,23 @@ parse_msche <- function(cache_dir, refresh) {
         return(build_stub_fallback(fallback))
       }
       result
-    })
+    }
+
+    if (use_parallel) {
+      old_plan <- future::plan(future::multisession, workers = workers)
+      on.exit(future::plan(old_plan), add = TRUE)
+      # furrr::future_map_dfr inherits the multisession plan. Globals are
+      # autodetected from the lexical scope of fetch_one_institution; we
+      # explicitly seed=TRUE for reproducibility even though there is no
+      # randomness here, because future complains otherwise.
+      furrr::future_map_dfr(seq_len(nrow(unique_inst)), fetch_one_institution,
+                            .options = furrr::furrr_options(seed = TRUE))
+    } else {
+      purrr::map_dfr(seq_len(nrow(unique_inst)), function(i) {
+        Sys.sleep(0.5)  # rate limit per institution; pagination adds its own
+        fetch_one_institution(i)
+      })
+    }
   }
 
   discoveries <- parse_msche_recent_actions()

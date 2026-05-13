@@ -247,6 +247,34 @@ fetch_html_text <- function(url, cache_name, cache_dir, refresh = TRUE,
                             validate_fn = NULL) {
   cache_path <- file.path(cache_dir, cache_name)
   accreditor <- getOption("tracker.current_accreditor", default = NA_character_)
+
+  # Cache age policy: even when callers pass refresh=TRUE, treat the cache
+  # as fresh enough to reuse if it was downloaded within
+  # tracker.cache_max_age_days. This lets a weekly CI refresh skip
+  # thousands of HTTP fetches when the previous week's cache was just
+  # restored by actions/cache. Setting the option to NA (or <= 0) preserves
+  # the original force-refresh semantics. Default is unset (NA), so
+  # behaviour is byte-identical for callers that don't opt in.
+  max_age_days <- suppressWarnings(as.numeric(
+    getOption("tracker.cache_max_age_days", default = NA_real_)
+  ))
+  if (refresh && file.exists(cache_path) &&
+      !is.na(max_age_days) && max_age_days > 0) {
+    cache_age_days <- as.numeric(
+      difftime(Sys.time(), file.info(cache_path)$mtime, units = "days")
+    )
+    if (!is.na(cache_age_days) && cache_age_days < max_age_days) {
+      record_accreditation_fetch_event(accreditor, url, "html", "cache_read", cache_path)
+      message(sprintf(
+        "Using cached copy for %s (%s; within %.1f-day reuse window)",
+        url,
+        cache_freshness_label(cache_path),
+        max_age_days
+      ))
+      return(readr::read_file(cache_path))
+    }
+  }
+
   fetch_fresh_body <- function() {
     primary_err <- NULL
     body <- tryCatch(

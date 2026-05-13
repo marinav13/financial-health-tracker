@@ -167,8 +167,17 @@ jobs:
         shell: bash
         timeout-minutes: 60
         run: |
+          # --cache-max-age-days: reuse HTML cached within this many days even
+          #   when refresh=TRUE. actions/cache@v4 restores last week's cache, so
+          #   a 6-day window means a Monday run reuses last Monday's pages but
+          #   any older page (or any new institution since last week) refetches.
+          # --msche-parallel-workers: number of concurrent workers for the
+          #   per-institution MSCHE fetch loop. 4 is conservative; raise if no
+          #   rate-limit warnings appear in logs over a few weeks.
           Rscript ./scripts/build_accreditation_actions.R \
             --financial-input data/downloads/full_dataset.csv \
+            --cache-max-age-days 6 \
+            --msche-parallel-workers 4 \
             2>&1 | tee -a refresh-logs/combined.log
 
       # Rebuild the DAPIP institutional-action pipeline so build_web_exports.R
@@ -323,8 +332,65 @@ jobs:
         shell: bash
         timeout-minutes: 5
         run: |
+          set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -f data/ data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
-          git diff --staged --quiet || git commit -m "chore: refresh data [skip ci]"
-          git push
+          if git diff --staged --quiet; then
+            echo "No data changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh data [skip ci]"
+          # The refresh job often runs for 30-90 minutes, during which contributors
+          # can land code or data commits on main. A bare git push then fails with
+          # "fetch first" and the whole run is wasted. Pull --rebase before push,
+          # auto-resolving any conflicts on regenerated data paths in favour of
+          # the runner's fresh build (it pulled live upstream data; concurrent
+          # human commits are usually code/config, not competing data regens).
+          # Retry a small number of times in case multiple human commits arrive
+          # while we are mid-push.
+          for attempt in 1 2 3; do
+            echo "Push attempt $attempt/3"
+            git fetch origin main
+            # Rebase strategy:
+            #   -X ours during rebase keeps remote's version on conflicts in
+            #   the rebase base (origin/main). For regenerated data files we
+            #   want the runner's fresh build, which is "theirs" in rebase
+            #   semantics. Use -X theirs for the data paths specifically by
+            #   first letting auto-merge try (no strategy), and only fall
+            #   back to a path-scoped checkout if conflicts remain.
+            if git rebase origin/main; then
+              :
+            else
+              # Conflict — resolve regenerated data paths to ours (the
+              # workflow commit being replayed onto origin/main).
+              conflicted=$(git diff --name-only --diff-filter=U || true)
+              if [ -n "$conflicted" ]; then
+                echo "Conflicts on: $conflicted"
+                # Take the runner's regen for data/ and the supabase mapping
+                git checkout --theirs -- data/ 2>/dev/null || true
+                git checkout --theirs -- data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv 2>/dev/null || true
+                # Anything else conflicted is non-data — abort and surface
+                still_conflicted=$(git diff --name-only --diff-filter=U | grep -vE '^(data/|data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv$)' || true)
+                if [ -n "$still_conflicted" ]; then
+                  echo "Non-data conflicts remain; aborting rebase: $still_conflicted"
+                  git rebase --abort
+                  exit 1
+                fi
+                git add data/ data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv 2>/dev/null || true
+                git rebase --continue
+              else
+                # Rebase failed without unmerged paths — abort and bail
+                git rebase --abort 2>/dev/null || true
+                exit 1
+              fi
+            fi
+            if git push; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            fi
+            echo "Push attempt $attempt rejected, retrying after a short backoff"
+            sleep $((attempt * 5))
+          done
+          echo "All push attempts failed."
+          exit 1

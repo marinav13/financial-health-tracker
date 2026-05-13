@@ -15,11 +15,9 @@ set -e
 
 fail() { echo "PRE-COMMIT FAIL: $1"; exit 1; }
 
-# Cache the staged file list once so we don't re-run git diff per language.
 CHANGED=$(git diff --cached --name-only --diff-filter=ACM)
 [ -z "$CHANGED" ] && { echo "pre-commit: OK (no staged changes)"; exit 0; }
 
-# Filter helper: select files matching a regex AND that exist on disk.
 filter_existing() {
   local pattern=$1
   printf '%s\n' "$CHANGED" | grep -E "$pattern" 2>/dev/null | while IFS= read -r f; do
@@ -27,12 +25,6 @@ filter_existing() {
   done
 }
 
-# R: parse each R file in its own Rscript invocation. Tried batching via
-# readLines("stdin"), but Rscript on Windows segfaults reading stdin via the
-# Git-Bash mintty pipe. Per-file is slower (one R startup per file) but
-# robust. R files in a typical commit are few (<10), so the wall-clock cost
-# is bounded; the JSON batching below handles the data-regen case where
-# 1900 files would have killed us.
 if command -v Rscript >/dev/null 2>&1; then
   R_FILES=$(filter_existing '\.[Rr]$')
   if [ -n "$R_FILES" ]; then
@@ -44,8 +36,6 @@ if command -v Rscript >/dev/null 2>&1; then
   fi
 fi
 
-# JavaScript: node --check is per-file, but JS changes are usually few. Keep
-# the per-file loop rather than reimplementing a parser.
 if command -v node >/dev/null 2>&1; then
   JS_FILES=$(filter_existing '\.(js|mjs|cjs)$')
   if [ -n "$JS_FILES" ]; then
@@ -56,7 +46,6 @@ if command -v node >/dev/null 2>&1; then
   fi
 fi
 
-# Detect Python interpreter.
 if command -v python >/dev/null 2>&1; then
   PY=python
 elif command -v python3 >/dev/null 2>&1; then
@@ -65,7 +54,6 @@ else
   PY=
 fi
 
-# JSON: batch via one python invocation. Reads file paths from stdin.
 if [ -n "$PY" ]; then
   JSON_FILES=$(filter_existing '\.json$')
   if [ -n "$JSON_FILES" ]; then
@@ -87,7 +75,6 @@ sys.exit(1 if failed else 0)
   fi
 fi
 
-# YAML: same batching pattern.
 if [ -n "$PY" ]; then
   YAML_FILES=$(filter_existing '\.ya?ml$')
   if [ -n "$YAML_FILES" ]; then
@@ -109,18 +96,39 @@ sys.exit(1 if failed else 0)
   fi
 fi
 
-# Trailing-newline check: a file whose last line lacks a terminating newline
-# is the classic Cowork-truncation fingerprint. tail -c 1 is tiny and fast,
-# but iterating in shell is still the bottleneck after batching the parsers.
-# Acceptable for now since the average commit doesnt regen 1900 data files.
-TRAILING_FILES=$(filter_existing '\.(R|r|js|mjs|cjs|json|ya?ml|html|css|md|py)$')
-if [ -n "$TRAILING_FILES" ]; then
-  while IFS= read -r f; do
-    [ -z "$f" ] && continue
-    if [ -n "$(tail -c 1 "$f")" ]; then
-      fail "File ends without a trailing newline (truncation fingerprint): $f"
-    fi
-  done <<< "$TRAILING_FILES"
+# File-integrity check: null bytes + trailing newline.
+# Cowork-on-Windows Edit tool can leave trailing null bytes after content.
+# Parsers tolerate them; the previous bash tail-based check was defeated
+# because bash command substitution strips null bytes silently. Python here.
+if [ -n "$PY" ]; then
+  INTEGRITY_FILES=$(filter_existing '\.(R|r|js|mjs|cjs|json|ya?ml|html|css|md|py|toml|sh)$')
+  if [ -n "$INTEGRITY_FILES" ]; then
+    printf '%s\n' "$INTEGRITY_FILES" | "$PY" -c '
+import sys
+failed = 0
+for line in sys.stdin:
+    path = line.rstrip("\r\n")
+    if not path:
+        continue
+    try:
+        with open(path, "rb") as f:
+            data = f.read()
+    except Exception as e:
+        print(f"read failed: {path}: {e}", file=sys.stderr)
+        failed += 1
+        continue
+    if b"\x00" in data:
+        n = data.count(b"\x00")
+        trail = len(data) - len(data.rstrip(b"\x00"))
+        print(f"null bytes detected: {path}  nulls={n} trailing={trail}", file=sys.stderr)
+        failed += 1
+        continue
+    if data and not data.endswith(b"\n"):
+        print(f"no trailing newline: {path}", file=sys.stderr)
+        failed += 1
+sys.exit(1 if failed else 0)
+' || fail "File integrity check failed (see stderr above)"
+  fi
 fi
 
 echo "pre-commit: OK"

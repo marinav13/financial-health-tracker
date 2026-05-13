@@ -237,6 +237,20 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  
+  fallback_lookup <- fallback_lookup |>
+    dplyr::distinct()
+  
+  duplicate_fallback_keys <- fallback_lookup |>
+    dplyr::count(norm_name, state_full, name = "n") |>
+    dplyr::filter(n > 1)
+  
+  if (nrow(duplicate_fallback_keys) > 0) {
+    stop(
+      "fallback_lookup still has duplicate (norm_name, state_full) keys after deduping; inspect supabase/manual alias overlays."
+    )
+  }
+  
   # -----------------------------------------------------------------------
   # FETCH CUTS DATA FROM PUBLIC API
   # college-cuts.com/api/cuts — no authentication required

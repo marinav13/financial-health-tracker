@@ -27,26 +27,20 @@ filter_existing() {
   done
 }
 
-# R: batch all R files into one Rscript invocation. Each file is parse()-ed in
-# turn; the script collects failures and exits non-zero if any failed.
+# R: parse each R file in its own Rscript invocation. Tried batching via
+# readLines("stdin"), but Rscript on Windows segfaults reading stdin via the
+# Git-Bash mintty pipe. Per-file is slower (one R startup per file) but
+# robust. R files in a typical commit are few (<10), so the wall-clock cost
+# is bounded; the JSON batching below handles the data-regen case where
+# 1900 files would have killed us.
 if command -v Rscript >/dev/null 2>&1; then
   R_FILES=$(filter_existing '\.[Rr]$')
   if [ -n "$R_FILES" ]; then
-    printf '%s\n' "$R_FILES" | Rscript --vanilla -e '
-      paths <- readLines("stdin", warn = FALSE)
-      paths <- paths[nzchar(paths)]
-      failed <- character()
-      for (p in paths) {
-        ok <- tryCatch({ invisible(parse(file = p)); TRUE },
-                       error = function(e) {
-                         cat("R parse failed: ", p, ": ", conditionMessage(e), "\n",
-                             sep = "", file = stderr())
-                         FALSE
-                       })
-        if (!ok) failed <- c(failed, p)
-      }
-      if (length(failed) > 0L) quit(status = 1L, save = "no")
-    ' || fail "R parse failed (see stderr above)"
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      Rscript --vanilla -e "tryCatch(invisible(parse(file = '$f')), error = function(e) { cat(conditionMessage(e), '\n', file = stderr()); quit(status = 1L) })" \
+        || fail "R parse failed: $f"
+    done <<< "$R_FILES"
   fi
 fi
 

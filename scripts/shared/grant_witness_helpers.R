@@ -390,11 +390,17 @@ normalize_status <- function(x) {
 # tables so changing a label means editing one row, not rewriting case_when().
 GRANT_WITNESS_STATUS_RULES <- list(
   currently_disrupted = list(
+    # CDC "at risk" is Grant Witness's own flag for grants reported as
+    # targeted for cuts but with no formal termination notice yet. Per the
+    # GW manager, those are not confirmed losses, so we exclude them and
+    # count only formally terminated CDC grants. NIH "frozen funding" stays
+    # because the agency has stopped processing expense reports on those
+    # awards — they are disrupted in a way researchers feel directly.
     nih = c("terminated", "frozen funding"),
     nsf = c("terminated"),
     epa = c("terminated"),
     samhsa = c("terminated"),
-    cdc = c("terminated", "at risk")
+    cdc = c("terminated")
   ),
   not_currently_disrupted = list(
     nih = c("possibly reinstated", "possibly unfrozen funding", "unfrozen funding"),

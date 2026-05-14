@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -10.03,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": -18.0226,
+    "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": -13.0322,
     "staff_total_headcount_pct_change_5yr": -5.761,
     "staff_instructional_headcount_pct_change_5yr": -6.5844,
     "students_per_instructional_staff_fte": 10.0215,
-    "sector_median_students_per_instructional_staff_fte": 13.0124,
-    "ended_year_at_loss": "No",
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
-    "tuition_dependence_pct": 75.0814,
-    "sector_median_tuition_dependence_pct": 44.8638,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 75% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": 26.8204,
     "unfunded_discount_pct_change_5yr": 9.2784,
     "share_grad_students": 19.0436,
-    "sector_avg_share_grad_students": 29.1503,
+    "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1148,
+    "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 585.5059,
+    "sector_median_research_expense_per_fte_positive": 672.3376,
     "pct_international_all": 30.6088,
     "pct_international_undergraduate": 29.6703,
     "pct_international_graduate": 34.5985,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": -18.5048,
     "international_students_sentence": "In 2024, 30.6% of students were international. That includes 29.7% of undergraduates and 34.6% of graduate students.",
     "federal_loan_pct_most_recent": 37,
-    "sector_avg_federal_loan_pct_most_recent": 46.041,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": 101,
     "grad_plus_disbursements_amt": 1287225,
     "grad_plus_disbursements_per_recipient": 12744.802,
@@ -66,52 +66,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 179211901.3755
-      },
-      {
-        "year": 2015,
-        "value": 203421214.5616
-      },
-      {
-        "year": 2016,
-        "value": 193581688.2161
-      },
-      {
-        "year": 2017,
-        "value": 195526603.7048
-      },
-      {
-        "year": 2018,
-        "value": 199930900.3324
-      },
-      {
-        "year": 2019,
-        "value": 197307222.7235
-      },
-      {
-        "year": 2020,
-        "value": 194883600.3513
-      },
-      {
-        "year": 2021,
-        "value": 167940284.3402
-      },
-      {
-        "year": 2022,
-        "value": 170611337.0029
-      },
-      {
-        "year": 2023,
-        "value": 174072401.9647
-      },
-      {
-        "year": 2024,
-        "value": 161747345
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -709,10 +664,6 @@
       }
     ],
     "endowment_spending_current_use_pct_core_revenue": [
-      {
-        "year": 2020,
-        "value": 0.0685
-      },
       {
         "year": 2021,
         "value": 0.0756

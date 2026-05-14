@@ -1858,6 +1858,21 @@ run_test("derive_action_label_short: SACSCOC disclosure statement retains injunc
   )
 })
 
+run_test("derive_action_label_short: SACSCOC combined letter-plus-disclosure text prefers the sanction letter summary", function() {
+  text <- paste0(
+    "January 14, 2025 Ms. Jean Bordewich Acting President Guilford College 5800 West Friendly Avenue Greensboro, NC 27410 Dear President Bordewich: ",
+    "The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges during its meeting held on December 8, 2024: ",
+    "The SACSCOC Board of Trustees reviewed a Third Monitoring Report, a Special Committee Report, and financial statements, continued accreditation, and continued the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility) of the Principles of Accreditation. ",
+    "A Special Committee has been authorized to visit the institution to determine compliance with the standards cited above. ",
+    "Disclosure Statement Regarding the Status of GUILFORD COLLEGE Greensboro, NC Issued December 19, 2024, by SACSCOC. ",
+    "What is the accreditation status of Guilford College? Guilford College is accredited by the Southern Association of Colleges and Schools Commission on Colleges."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "SACSCOC"),
+    "Continued accreditation, and continued the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 13.1 (financial resources) and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+  )
+})
+
 run_test("derive_action_label_short: SACSCOC removal letters become compact removal summaries", function() {
   text <- paste0(
     "January 6, 2026 Brother Chris Englert Interim President Christian Brothers University 650 East Parkway South Memphis, TN 38104 Dear Brother Englert: ",

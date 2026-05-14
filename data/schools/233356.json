@@ -17,29 +17,29 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": 16.6667,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": 23.6726,
+    "revenue_pct_change_5yr": null,
     "net_tuition_per_fte_change_5yr": -19.4316,
     "staff_total_headcount_pct_change_5yr": 33.6842,
     "staff_instructional_headcount_pct_change_5yr": 33.3333,
     "students_per_instructional_staff_fte": 10.4348,
-    "sector_median_students_per_instructional_staff_fte": 13.0124,
-    "ended_year_at_loss": "Yes",
-    "losses_last_3_of_5": "Yes",
-    "loss_years_last_10": 7,
-    "tuition_dependence_pct": 76.0433,
-    "sector_median_tuition_dependence_pct": 44.8638,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 76% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "ended_year_at_loss": null,
+    "losses_last_3_of_5": "No",
+    "loss_years_last_10": 0,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": 0,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": null,
-    "sector_avg_share_grad_students": 29.1503,
+    "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1148,
+    "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 585.5059,
+    "sector_median_research_expense_per_fte_positive": 672.3376,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": null,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": null,
     "international_students_sentence": "In 2024, 0% of students were international.",
     "federal_loan_pct_most_recent": 41,
-    "sector_avg_federal_loan_pct_most_recent": 46.041,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": null,
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
@@ -66,52 +66,7 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 12544371.9097
-      },
-      {
-        "year": 2015,
-        "value": 14016469.4873
-      },
-      {
-        "year": 2016,
-        "value": 16702594.6744
-      },
-      {
-        "year": 2017,
-        "value": 16170266.1128
-      },
-      {
-        "year": 2018,
-        "value": 5012274.4404
-      },
-      {
-        "year": 2019,
-        "value": 4956156.6297
-      },
-      {
-        "year": 2020,
-        "value": 5612887.9123
-      },
-      {
-        "year": 2021,
-        "value": 6011513.908
-      },
-      {
-        "year": 2022,
-        "value": 5568675.1276
-      },
-      {
-        "year": 2023,
-        "value": 5525914.0944
-      },
-      {
-        "year": 2024,
-        "value": 6129409
-      }
-    ],
+    "revenue_total_adjusted": [],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -161,7 +116,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 8903.9212
+        "value": 12994.238
       },
       {
         "year": 2015,
@@ -604,10 +559,6 @@
     ],
     "endowment_spending_current_use_pct_core_revenue": [
       {
-        "year": 2020,
-        "value": 0
-      },
-      {
         "year": 2021,
         "value": 0
       },
@@ -627,7 +578,7 @@
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
         "year": 2014,
-        "value": 86858.8962
+        "value": 579210.806
       },
       {
         "year": 2015,
@@ -639,7 +590,7 @@
       },
       {
         "year": 2017,
-        "value": 18291.2732
+        "value": 441766.3042
       },
       {
         "year": 2018,

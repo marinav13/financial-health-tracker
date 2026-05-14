@@ -2396,6 +2396,14 @@ extract_hlc_findings <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   value <- stringr::str_replace(
     value,
+    stringr::regex(
+      "^the sacscoc board of trustees reviewed .*?\\s+(?=(?:continued accreditation|denied reaffirmation|recommended continued accreditation|recommended that the institution be placed|placed the institution on warning|placed the institution on probation|continued the institution on probation|continued the institution on warning|removed the institution from|recommended the removal of))",
+      ignore_case = TRUE
+    ),
+    ""
+  )
+  value <- stringr::str_replace(
+    value,
     stringr::regex("^reviewed the institution[’'`]s\\s+(?:first|second|third|fourth|fifth)?\\s*monitoring report(?:\\s+following[^,.;]*?)?,?\\s+and\\s+", ignore_case = TRUE),
     ""
   )
@@ -3275,6 +3283,34 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     }
 
     if (stringr::str_detect(lowered, "disclosure statement regarding the status")) {
+      if (stringr::str_detect(
+        lowered,
+        "the following action regarding your institution was taken|the sacscoc board of trustees"
+      )) {
+        disclosure_split <- stringr::str_split(
+          cleaned,
+          stringr::regex("Disclosure Statement Regarding the Status", ignore_case = TRUE),
+          n = 2
+        )[[1]]
+        substantive_prefix <- stringr::str_squish(disclosure_split[[1]] %||% "")
+        if (nzchar(substantive_prefix)) {
+          prefixed_clause <- .extract_action_clause_after_marker(substantive_prefix)
+          prefixed_substantive <- .extract_substantive_action_sentence(prefixed_clause)
+          prefixed_substantive <- stringr::str_replace(
+            prefixed_substantive,
+            stringr::regex("\\s*A Special Committee [^.]*authorized[^.]*\\.?$", ignore_case = TRUE),
+            ""
+          )
+          prefixed_substantive <- .compact_sacscoc_sanction_summary(prefixed_substantive)
+          if (!.is_garbled_action_summary(prefixed_substantive) &&
+              stringr::str_detect(
+                tolower(prefixed_substantive),
+                "warning|probation|show cause|good cause|removed from|denied reaffirmation|continued accreditation"
+              )) {
+            return(.capitalize_summary_head(stringr::str_squish(prefixed_substantive)))
+          }
+        }
+      }
       disclosure_reason <- .extract_sacscoc_disclosure_reason_summary(cleaned)
       if (!is.na(disclosure_reason) && nzchar(disclosure_reason)) {
         return(disclosure_reason)

@@ -1058,6 +1058,9 @@ build_accreditation_export <- function() {
       call. = FALSE
     )
   }
+  if (!"action_label_short" %in% names(public_scraper_actions)) {
+    public_scraper_actions$action_label_short <- NA_character_
+  }
   public_scraper_actions <- public_scraper_actions %>%
     mutate(
       unitid = as.character(unitid),
@@ -1075,82 +1078,23 @@ build_accreditation_export <- function() {
       call. = FALSE
     )
   }
+  if (!"action_label_short" %in% names(public_dapip_actions)) {
+    public_dapip_actions$action_label_short <- dplyr::coalesce(
+      public_dapip_actions$parsed_reason_snippet %||% NA_character_,
+      NA_character_
+    )
+  }
   public_dapip_actions <- public_dapip_actions %>%
     mutate(
       unitid = as.character(unitid),
       action_date = as.character(action_date),
       action_year = as.character(action_year),
       file_id = as.character(file_id),
+      source_action_label_short = as.character(action_label_short),
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
-  sacscoc_supplemental_drop_actions <- audit_df %>%
-    filter(
-      public_table_strategy == "drop_from_public_table",
-      normalize_accreditor_code(accreditor) == "SACSCOC",
-      !is.na(dapip_source_key),
-      dapip_source_key != ""
-    ) %>%
-    group_by(dapip_source_key) %>%
-    slice(1) %>%
-    ungroup() %>%
-    transmute(
-      dapip_source_key = as.character(dapip_source_key),
-      public_table_strategy = "dapip_backed_keep",
-      hybrid_candidate = FALSE,
-      hybrid_reason = as.character(hybrid_reason),
-      public_action_family = as.character(public_action_family)
-    ) %>%
-    left_join(dapip_actions_df, by = "dapip_source_key") %>%
-    {
-      if (!"file_text_path" %in% names(.)) {
-        .$file_text_path <- NA_character_
-      }
-      .
-    } %>%
-    reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
-    mutate(
-      unitid = as.character(unitid),
-      action_date = as.character(action_date),
-      action_year = as.character(action_year),
-      file_id = as.character(file_id),
-      scraper_source_key = NA_character_,
-      dapip_source_key = as.character(dapip_source_key),
-      action_summary_source_text = vapply(
-        seq_len(n()),
-        function(i) .select_action_summary_source_text(
-          action_label_raw[[i]],
-          file_text_path[[i]],
-          action_type[[i]],
-          normalize_accreditor_code(accreditor[[i]]),
-          notes[[i]]
-        ),
-        character(1)
-      ),
-      action_label_short = vapply(
-        seq_len(n()),
-        function(i) derive_action_label_short(
-          action_type[[i]],
-          action_summary_source_text[[i]],
-          normalize_accreditor_code(accreditor[[i]]),
-          notes[[i]]
-        ),
-        character(1)
-      )
-    ) %>%
-    filter(
-      grepl(
-        "^Requested Referral Report\\b|^Requested to Submit a Monitoring Report\\b|^No additional report requested\\b",
-        trimws(as.character(action_label_short %||% "")),
-        ignore.case = TRUE,
-        perl = TRUE
-      )
-    ) %>%
-    select(-action_summary_source_text, -action_label_short)
-  if (nrow(sacscoc_supplemental_drop_actions) > 0L) {
-    public_dapip_actions <- bind_rows(public_dapip_actions, sacscoc_supplemental_drop_actions)
-  }
-  sacscoc_supplemental_force_keep_keys <- unique(as.character(sacscoc_supplemental_drop_actions$dapip_source_key %||% character()))
+  sacscoc_supplemental_force_keep_keys <- character()
   wscuc_dapip_enrichment_actions <- dapip_actions_df %>%
     filter(
       normalize_accreditor_code(accreditor) == "WSCUC",
@@ -1303,6 +1247,7 @@ build_accreditation_export <- function() {
         action_type = dplyr::coalesce(action_type, preferred_scraper_action_type),
         action_label_raw = dplyr::coalesce(action_label_raw, preferred_scraper_action_label),
         action_date = dplyr::coalesce(action_date, preferred_scraper_action_date),
+        source_action_label_short = as.character(action_label_short),
         display_action = TRUE
       ),
     public_dapip_actions %>%
@@ -1348,12 +1293,18 @@ build_accreditation_export <- function() {
       ),
       action_label_short = vapply(
         seq_len(n()),
-        function(i) derive_action_label_short(
-          action_type[[i]],
-          action_summary_source_text[[i]],
-          normalize_accreditor_code(accreditor[[i]]),
-          notes[[i]]
-        ),
+        function(i) {
+          preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
+          if (identical(public_table_strategy[[i]], "dapip_backed_keep") && nzchar(preserved_short)) {
+            return(preserved_short)
+          }
+          derive_action_label_short(
+            action_type[[i]],
+            action_summary_source_text[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          )
+        },
         character(1)
       )
     ) %>%
@@ -1417,9 +1368,11 @@ build_accreditation_export <- function() {
     filter(
       !(
         accreditor == "SACSCOC" &
-          trimws(as.character(action_label_short %||% "")) %in% c(
-            "Requested Monitoring Report",
-            "Requested to Submit a Monitoring Report"
+          grepl(
+            "^requested (?:to submit a )?(?:referral|monitoring) report\\b|^no additional report requested\\b",
+            trimws(as.character(action_label_short %||% "")),
+            ignore.case = TRUE,
+            perl = TRUE
           )
       )
     ) %>%
@@ -1614,12 +1567,18 @@ build_accreditation_export <- function() {
           mutate(
             action_label_short = vapply(
               seq_len(n()),
-              function(i) derive_action_label_short(
-                action_type[[i]],
-                action_summary_source_text[[i]],
-                normalize_accreditor_code(accreditor[[i]]),
-                notes[[i]]
-              ),
+              function(i) {
+                preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
+                if (identical(source_selection_candidate_kind[[i]], "dapip") && nzchar(preserved_short)) {
+                  return(preserved_short)
+                }
+                derive_action_label_short(
+                  action_type[[i]],
+                  action_summary_source_text[[i]],
+                  normalize_accreditor_code(accreditor[[i]]),
+                  notes[[i]]
+                )
+              },
               character(1)
             )
           ) %>%
@@ -1678,12 +1637,18 @@ build_accreditation_export <- function() {
           mutate(
             action_label_short = vapply(
               seq_len(n()),
-              function(i) derive_action_label_short(
-                action_type[[i]],
-                action_summary_source_text[[i]],
-                normalize_accreditor_code(accreditor[[i]]),
-                notes[[i]]
-              ),
+              function(i) {
+                preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
+                if (identical(source_selection_candidate_kind[[i]], "dapip") && nzchar(preserved_short)) {
+                  return(preserved_short)
+                }
+                derive_action_label_short(
+                  action_type[[i]],
+                  action_summary_source_text[[i]],
+                  normalize_accreditor_code(accreditor[[i]]),
+                  notes[[i]]
+                )
+              },
               character(1)
             )
           ) %>%
@@ -1824,13 +1789,18 @@ build_accreditation_export <- function() {
     filter(!drop_wscuc_special_visit_overlap) %>%
     select(-has_wscuc_same_year_show_cause_warning_outcome, -drop_wscuc_special_visit_overlap) %>%
     mutate(
+      sacscoc_outcome_haystack = trimws(as.character(paste(
+        action_label_short %||% "",
+        action_label_raw %||% "",
+        notes %||% ""
+      ))),
       sacscoc_sanction_outcome = dplyr::case_when(
         toupper(trimws(as.character(accreditor %||% ""))) != "SACSCOC" ~ NA_character_,
-        grepl("\\bremoved from probation\\b|\\bprobation removed\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "removed_probation",
-        grepl("\\bremoved from warning\\b|\\bwarning removed\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "removed_warning",
-        grepl("\\bshow cause\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "show_cause",
-        grepl("\\bprobation\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "probation",
-        grepl("\\bwarning\\b", trimws(as.character(action_label_short %||% "")), ignore.case = TRUE, perl = TRUE) ~ "warning",
+        grepl("\\bremoved from probation\\b|\\bprobation removed\\b", sacscoc_outcome_haystack, ignore.case = TRUE, perl = TRUE) ~ "removed_probation",
+        grepl("\\bremoved from warning\\b|\\bwarning removed\\b", sacscoc_outcome_haystack, ignore.case = TRUE, perl = TRUE) ~ "removed_warning",
+        grepl("\\bshow cause\\b", sacscoc_outcome_haystack, ignore.case = TRUE, perl = TRUE) ~ "show_cause",
+        grepl("\\bprobation\\b", sacscoc_outcome_haystack, ignore.case = TRUE, perl = TRUE) ~ "probation",
+        grepl("\\bwarning\\b", sacscoc_outcome_haystack, ignore.case = TRUE, perl = TRUE) ~ "warning",
         TRUE ~ NA_character_
       )
     ) %>%
@@ -1838,7 +1808,7 @@ build_accreditation_export <- function() {
     mutate(
       sacscoc_is_generic_outcome_label = toupper(trimws(as.character(accreditor %||% ""))) == "SACSCOC" &
         grepl(
-          "^(Placed on Warning(?: for Good Cause)?|Placed on Probation(?: for Good Cause)?|Continued on Warning(?: for Good Cause)?|Continued on Probation(?: for Good Cause)?|Removed from Warning|Removed from Probation(?: for Good Cause)?|Required to Show Cause)$",
+          "^(Placed on Warning(?: for Good Cause)?|Placed on Probation(?: for Good Cause)?|Continued on Warning(?: for Good Cause)?|Continued on Probation(?: for Good Cause)?|Removed from Warning|Removed from Probation(?: for Good Cause)?|Required to Show Cause|Disclosure Statement Regarding (?:Show Cause|Accreditation) Status)$",
           trimws(as.character(action_label_short %||% "")),
           ignore.case = TRUE,
           perl = TRUE
@@ -1853,7 +1823,7 @@ build_accreditation_export <- function() {
     ) %>%
     ungroup() %>%
     filter(!drop_generic_same_year_sacscoc_outcome) %>%
-    select(-sacscoc_sanction_outcome, -sacscoc_is_generic_outcome_label, -sacscoc_has_detailed_same_year_outcome, -drop_generic_same_year_sacscoc_outcome) %>%
+    select(-sacscoc_outcome_haystack, -sacscoc_sanction_outcome, -sacscoc_is_generic_outcome_label, -sacscoc_has_detailed_same_year_outcome, -drop_generic_same_year_sacscoc_outcome) %>%
     mutate(
       duplicate_source_locator = dplyr::coalesce(source_page_url, source_url),
       duplicate_action_text = tolower(gsub("[^a-z0-9]+", " ", trimws(paste(action_label_short %||% "", action_label_raw %||% "")))),

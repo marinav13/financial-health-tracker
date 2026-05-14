@@ -364,18 +364,34 @@ run("WSCUC exports prefer richer DAPIP letter detail only when it beats the scra
   );
 });
 
-run("SACSCOC exports keep substantive monitoring history and standards-backed sanction text", () => {
+run("SACSCOC exports keep substantive sanction text and drop low-signal monitoring/report rows", () => {
   const findByName = (name) =>
     Object.values(ACCREDITATION.schools || {}).find((school) => school.institution_name === name);
 
+  const guilford = findByName("Guilford College");
   const highPoint = findByName("High Point University");
   const lamar = findByName("Lamar University");
   const saintAugustine = findByName("Saint Augustine's University");
 
+  assert(guilford, "Accreditation export is missing Guilford College");
   assert(highPoint, "Accreditation export is missing High Point University");
   assert(lamar, "Accreditation export is missing Lamar University");
   assert(saintAugustine, "Accreditation export is missing Saint Augustine's University");
 
+  assert(
+    (guilford.actions || []).some((row) =>
+      row.action_date === "2024-12-08" &&
+      row.action_label_short ===
+        "Continued the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 13.1 (financial resources) and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+    ),
+    "Guilford should keep the detailed December 2024 probation summary from the DAPIP letter text"
+  );
+  assert(
+    !(guilford.actions || []).some((row) =>
+      /^Disclosure Statement Regarding /i.test(String(row.action_label_short || ""))
+    ),
+    "Guilford should not show generic disclosure-statement labels when a detailed sanction row exists"
+  );
   assert(
     (highPoint.actions || []).some((row) =>
       row.action_date === "2023-06-15" &&
@@ -385,19 +401,12 @@ run("SACSCOC exports keep substantive monitoring history and standards-backed sa
     "High Point should keep the full standards-backed June 2023 warning summary"
   );
   assert(
-    (lamar.actions || []).some((row) =>
-      row.action_date === "2023-12-03" &&
-      row.action_label_short === "No additional report requested after the Second Monitoring Report"
+    !(lamar.actions || []).some((row) =>
+      /^(Requested (?:to submit a )?(?:Referral|Monitoring) Report|No additional report requested)/i.test(
+        String(row.action_label_short || "")
+      )
     ),
-    "Lamar should keep the December 2023 no-additional-report outcome"
-  );
-  assert(
-    (lamar.actions || []).some((row) =>
-      row.action_date === "2022-12-04" &&
-      row.action_label_short ===
-        "Requested to Submit a Monitoring Report on Student Outcomes: Educational Programs And Student Outcomes: General Education"
-    ),
-    "Lamar should keep the December 2022 monitoring-report request"
+    "Lamar should not surface low-signal requested-report or no-additional-report rows"
   );
   assert(
     (saintAugustine.actions || []).some((row) =>

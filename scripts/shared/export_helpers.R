@@ -2302,6 +2302,10 @@ extract_hlc_findings <- function(text) {
 
   special_committee_stop <- "\\s+A Special Committee [^.]*authorized[^.]*\\b"
   patterns <- c(
+    paste0("(continued accreditation,? and continued the institution on Warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
+    paste0("(continued accreditation,? and continued the institution on Probation.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
+    paste0("(continued accreditation,? and placed the institution on Warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
+    paste0("(continued accreditation,? and placed the institution on Probation.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
     paste0("(continued in accreditation and placed on Warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
     paste0("(placed the institution on Warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),
     paste0("(placed on Warning.+?)(?=\\s+The institution is requested\\b|\\s+Guidelines for the Monitoring Report\\b|", special_committee_stop, "|$)"),

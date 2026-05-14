@@ -1079,10 +1079,12 @@ build_accreditation_export <- function() {
     )
   }
   if (!"action_label_short" %in% names(public_dapip_actions)) {
-    public_dapip_actions$action_label_short <- dplyr::coalesce(
-      public_dapip_actions$parsed_reason_snippet %||% NA_character_,
-      NA_character_
-    )
+    fallback_short <- if ("parsed_reason_snippet" %in% names(public_dapip_actions)) {
+      as.character(public_dapip_actions$parsed_reason_snippet)
+    } else {
+      rep(NA_character_, nrow(public_dapip_actions))
+    }
+    public_dapip_actions$action_label_short <- fallback_short
   }
   public_dapip_actions <- public_dapip_actions %>%
     mutate(

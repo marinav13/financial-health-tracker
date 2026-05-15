@@ -1,6 +1,6 @@
 {
   "unitid": "190114",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Metropolitan College of New York",
     "institution_unique_name": "Metropolitan College of New York | New York | New York",
@@ -822,5 +822,95 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Required to Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); To approve the teach-out plan and signed teach-out agreements, requested by the Commission action of June 26, 2025, and the updated teach-out plan received on November 16, 2025.",
+    "active_actions": "adverse_action; show_cause",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-12-05",
+    "latest_action_year": "2025",
+    "action_count": 3
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "adverse_action",
+      "action_label": "To approve the teach-out plan and signed teach-out agreements, requested by the Commission action of June 26, 2025, and the updated teach-out plan received on November 16, 2025. To approve the teach-out agreements with 1 Adelphi University, Garden City, NY 2 Berkeley College-New York, New York, NY 3 Borough of Manhattan Community College of the City University of New York, New York, NY 4 Bronx Community College of the City University of New York, Bronx, NY 5 Brooklyn College of the City University of New York, Brooklyn, NY 6 D'Youville University, Buffalo, NY 7 Excelsior University, Albany, NY 8 Hunter College of the City University of New York, New York, NY 9 Lehman College of the City University of New York, Bronx, NY 10 Mercy University, Dobbs Ferry, NY 11 Monroe University, Bronx, NY 12 St. Joseph's University, Brooklyn, NY 13 Stella and Charles Guttman Community College of the City University of New York, New York, NY 14 Touro University, New York, NY and 15 University of Mount Saint Vincent, Riverdale, NY.",
+      "action_label_short": "To approve the teach-out plan and signed teach-out agreements, requested by the Commission action of June 26, 2025, and the updated teach-out plan received on November 16, 2025.",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2025-12-05",
+      "action_year": "2025",
+      "notes": "To approve the teach-out plan and signed teach-out agreements, requested by the Commission action of June 26, 2025, and the updated teach-out plan received on November 16, 2025. To approve the teach-out agreements with 1 Adelphi University, Garden City, NY 2 Berkeley College-New York, New York, NY 3 Borough of Manhattan Community College of the City University of New York, New York, NY 4 Bronx Community College of the City University of New York, Bronx, NY 5 Brooklyn College of the City University of New York, Brooklyn, NY 6 D'Youville University, Buffalo, NY 7 Excelsior University, Albany, NY 8 Hunter College of the City University of New York, New York, NY 9 Lehman College of the City University of New York, Bronx, NY 10 Mercy University, Dobbs Ferry, NY 11 Monroe University, Bronx, NY 12 St. Joseph's University, Brooklyn, NY 13 Stella and Charles Guttman Community College of the City University of New York, New York, NY 14 Touro University, New York, NY and 15 University of Mount Saint Vincent, Riverdale, NY.",
+      "source_url": "https://www.msche.org/institution/0706/",
+      "source_title": "MSCHE Statement of Accreditation Status - Metropolitan College of New York",
+      "source_page_url": "https://www.msche.org/institution/0706/",
+      "source_page_modified": "2026-05-05",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "show_cause",
+      "action_label": "Gibbs President Metropolitan College of New York 60 West Street New York, NY 10006 NOTIFICATION OF NON-COMPLIANCE SHOW CAUSE ACTION Dear Dr.",
+      "action_label_short": "Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-11-20",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/129899",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "show_cause",
+      "action_label": "To require the institution to show cause, by September 2, 2025, to demonstrate why its accreditation should not be withdrawn because of insufficient evidence that the institution is in compliance with Standard VI (Planning, Resources, and Institutional Improvement).",
+      "action_label_short": "Required to Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-06-26",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/129899",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Metropolitan College of New York",
+      "source_url": "https://www.msche.org/institution/0706/",
+      "source_page_url": "https://www.msche.org/institution/0706/"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/129899"
+    }
+  ]
 }

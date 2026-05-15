@@ -1,6 +1,6 @@
 {
   "unitid": "232609",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Lynchburg",
     "institution_unique_name": "University of Lynchburg | Lynchburg | Virginia",
@@ -822,5 +822,74 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Denied reaffirmation and continued on warning for twelve months for failure to comply with Standards 8.2.a; Placed on warning for twelve months for failure to comply with standards concerning financial documents, administrative effectiveness, student outcomes, and financial responsibility",
+    "active_actions": "adverse_action; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-12-07",
+    "latest_action_year": "2025",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "adverse_action",
+      "action_label": "denied reaffirmation, continued accreditation, and continued the University of Lynchburg on Warning for twelve months",
+      "action_label_short": "Denied reaffirmation and continued on warning for twelve months for failure to comply with Standards 8.2.a",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-12-07",
+      "action_year": "2025",
+      "notes": "University of Lynchburg Lynchburg Virginia",
+      "source_url": "https://sacscoc.box.com/s/ez0994jeki97xd17r0pre0o08jywi2pt",
+      "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC - Public Disclosure Statement",
+      "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2026-01-16",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Morrison-Shetlar: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 8, 2024: The SACSCOC Board of Trustees continued accreditation, denied reaffirmation and placed the institution on Warning for twelve months for failure to comply with Core Requirement 13.2 (Financial documents), Standard 7.3 (Administrative effectiveness), Standard 8.2.a (Student outcomes: educational programs), Standard 8.2.c (Student outcomes: academic and student services), and Standard 13.3 (Financial responsibility). A Special Committee was not authorized to visit the institution.",
+      "action_label_short": "Placed on warning for twelve months for failure to comply with standards concerning financial documents, administrative effectiveness, student outcomes, and financial responsibility",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-12-08",
+      "action_year": "2024",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147730",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC - Public Disclosure Statement",
+      "source_url": "https://sacscoc.box.com/s/ez0994jeki97xd17r0pre0o08jywi2pt",
+      "source_page_url": "https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2025-accreditation-actions-and-public-disclosure-statements/"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147730"
+    }
+  ]
 }

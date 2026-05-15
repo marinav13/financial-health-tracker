@@ -1,6 +1,6 @@
 {
   "unitid": "154013",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Mount Mercy University",
     "institution_unique_name": "Mount Mercy University | Cedar Rapids | Iowa",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Affirmed change-of-control concerns were addressed",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-01-01",
+    "latest_action_year": "2026",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Affirmed that the institution has demonstrated sufficient evidence that it has addressed the concerns related to the institution’s general ongoing compliance with the Criteria for Accreditation and other applicable HLC requirements in light of the Change of Control, Structure or Organization.",
+      "action_label_short": "Affirmed change-of-control concerns were addressed",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-01-01",
+      "action_year": "2026",
+      "notes": "Affirmed that the institution has demonstrated sufficient evidence that it has addressed the concerns related to the institution’s general ongoing compliance with the Criteria for Accreditation and other applicable HLC requirements in light of the Change of Control, Structure or Organization.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_page_modified": "2026-02-24",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
+    }
+  ]
 }

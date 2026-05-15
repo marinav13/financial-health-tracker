@@ -1,6 +1,6 @@
 {
   "unitid": "108232",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Academy of Art University",
     "institution_unique_name": "Academy of Art University | San Francisco | California",
@@ -669,5 +669,74 @@
         "value": 37
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Heightened Monitoring or Focused Review; Removed Notice of Concern and issued a Warning because it is out of compliance with standards concerning student completion and resource planning",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-02-01",
+    "latest_action_year": "2026",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "removed",
+      "action_label": "Following a Special Visit – Remove Notice of Concern/Issue a Warning",
+      "action_label_short": "Removed Notice of Concern and issued a Warning because it is out of compliance with standards concerning student completion and resource planning",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2026-02-01",
+      "action_year": "2026",
+      "notes": "Academy of Art University",
+      "source_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_title": "February 2026 Commission Actions - WSCUC",
+      "source_page_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_page_modified": "2026-03-04",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "WSCUC",
+      "action_type": "notice",
+      "action_label": "Heightened Monitoring or Focused Review",
+      "action_label_short": "Heightened Monitoring or Focused Review",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-28",
+      "action_year": "2024",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/102368",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "February 2026 Commission Actions - WSCUC",
+      "source_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_page_url": "https://www.wscuc.org/post/february-2026-commission-actions/"
+    },
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/102368"
+    }
+  ]
 }

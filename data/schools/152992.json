@@ -1,6 +1,6 @@
 {
   "unitid": "152992",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Briar Cliff University",
     "institution_unique_name": "Briar Cliff University | Sioux City | Iowa",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
+    "active_actions": "adverse_action",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2024-11-01",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "adverse_action",
+      "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
+      "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2024-11-01",
+      "action_year": "2024",
+      "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_title": "November 2024 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "November 2024 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+    }
+  ]
 }

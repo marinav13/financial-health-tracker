@@ -1,6 +1,6 @@
 {
   "unitid": "219718",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Bethel University",
     "institution_unique_name": "Bethel University | McKenzie | Tennessee",
@@ -822,5 +822,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Continued on probation for 12 months for failure to comply with Core Requirement 13.1 and Standard 13.3; Removed from probation",
+    "active_actions": "show_cause",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2022-12-04",
+    "latest_action_year": "2022",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Butler: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 4, 2022: The SACSCOC Board of Trustees reviewed the institution's Fourth Monitoring Report, Special Committee Report, and financial statements and recommended removal from Probation for Good Cause.",
+      "action_label_short": "Removed from probation",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2022-12-04",
+      "action_year": "2022",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/143145",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "show_cause",
+      "action_label": "Butler: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 2, 2021: The SACSCOC Board of Trustees reviewed the institution's Third Monitoring Report, continued the institution in accreditation for Good Cause, and continued the institution on Probation for 12 months for failure to comply with Core Requirement 4 .1 (Governing board characteristics) , Core Requirement 13.1 (Financial resources), and Standard 13.3 (Financial responsibility) of the Principles of Accreditation (Principles) . A Special Committee was authorized to visit the institution.",
+      "action_label_short": "Continued on probation for 12 months for failure to comply with Core Requirement 13.1 and Standard 13.3",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2021-12-02",
+      "action_year": "2021",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/143145",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/143145"
+    }
+  ]
 }

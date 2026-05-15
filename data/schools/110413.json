@@ -1,6 +1,6 @@
 {
   "unitid": "110413",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "California Lutheran University",
     "institution_unique_name": "California Lutheran University | Thousand Oaks | California",
@@ -822,5 +822,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Heightened Monitoring or Focused Review; Removal of Monitoring Status",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2023-02-24",
+    "latest_action_year": "2023",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "removed",
+      "action_label": "Removal of Monitoring Status",
+      "action_label_short": "Removal of Monitoring Status",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2023-02-24",
+      "action_year": "2023",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/102809",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "WSCUC",
+      "action_type": "notice",
+      "action_label": "Heightened Monitoring or Focused Review",
+      "action_label_short": "Heightened Monitoring or Focused Review",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2021-02-19",
+      "action_year": "2021",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/102809",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/102809"
+    }
+  ]
 }

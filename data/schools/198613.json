@@ -1,6 +1,6 @@
 {
   "unitid": "198613",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Guilford College",
     "institution_unique_name": "Guilford College | Greensboro | North Carolina",
@@ -790,5 +790,122 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 and Standard 13.3; Placed on probation for failure to comply with Standard 13.3; Placed on probation for good cause; Removed from probation for good cause",
+    "active_actions": "probation; show_cause",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-12-07",
+    "latest_action_year": "2025",
+    "action_count": 4
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Jean Bordewich President Guilford College 5800 West Friendly Avenue Greensboro, NC 27410 Dear President Bordewich: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 7, 2025: The SACSCOC Board of Trustees removed the institution from Probation for Good Cause.",
+      "action_label_short": "Removed from probation for good cause",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2025-12-07",
+      "action_year": "2025",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133508",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "probation",
+      "action_label": "continued on Probation for Good Cause",
+      "action_label_short": "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 and Standard 13.3",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-12-01",
+      "action_year": "2024",
+      "notes": "Guilford College, Greensboro, North Carolina (continued on Probation for Good Cause) [PDF]",
+      "source_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2024 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2024-12-19",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "show_cause",
+      "action_label": "Farmbry: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 3, 2023: The SACSCOC Board of Trustees reviewed a Second Monitoring Report following action on a Special Report following receipt of unsolicited information from media sources.",
+      "action_label_short": "Placed on probation for failure to comply with Standard 13.3",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-12-03",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133508",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "probation",
+      "action_label": "placed on Probation for Good Cause",
+      "action_label_short": "Placed on probation for good cause",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-12-01",
+      "action_year": "2023",
+      "notes": "Guilford College, Greensboro, North Carolina (placed on Probation for Good Cause) [PDF]",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2023-12-07",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133508"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2024 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/"
+    }
+  ]
 }

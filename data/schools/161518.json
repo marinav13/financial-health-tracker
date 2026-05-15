@@ -1,6 +1,6 @@
 {
   "unitid": "161518",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Saint Joseph's College of Maine",
     "institution_unique_name": "Saint Joseph's College of Maine | Standish | Maine",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NECHE",
+    "action_labels": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional resources,…",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-12-13",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "NECHE",
+      "action_type": "notice",
+      "action_label": "At its meeting on November 21, 2024, the New England Commission of Higher Education (NECHE) issued Saint Joseph’s College of Maine (SJC) a Notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources,…",
+      "action_label_short": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional resources,…",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-12-13",
+      "action_year": "2024",
+      "notes": "Joint Statement by Saint Joseph’s College of Maine and the Commission December 13, 2024",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-josephs-college-of-maine-and-the-commission-december-13-2024/",
+      "source_title": "Joint Statement by Saint Joseph’s College of Maine and the Commission December 13, 2024",
+      "source_page_url": "https://www.neche.org/commission-statements/",
+      "source_page_modified": "2024-12-13",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NECHE",
+      "source_title": "Joint Statement by Saint Joseph’s College of Maine and the Commission December 13, 2024",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-josephs-college-of-maine-and-the-commission-december-13-2024/",
+      "source_page_url": "https://www.neche.org/commission-statements/"
+    }
+  ]
 }

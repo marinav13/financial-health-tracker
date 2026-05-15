@@ -1,6 +1,6 @@
 {
   "unitid": "199306",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Pfeiffer University",
     "institution_unique_name": "Pfeiffer University | Misenheimer | North Carolina",
@@ -822,5 +822,137 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Placed on probation; Placed on warning; Placed on warning for twelve (12) months for failure to comply with Standard 13.1 and Standard 13.3; Removed from probation",
+    "active_actions": "probation; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-06-12",
+    "latest_action_year": "2025",
+    "action_count": 5
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Department of Education indicating the institutions federal composite score failed to meet the standards for financial responsibility for fiscal year ended June 30, 2023, and placed the institution on Warning for twelve (12) months for faure to comply with Standard 13.1 (Financial resources) and Standard 13.3 (Financial responsibility) of the Principles of Accreditation (Principles).",
+      "action_label_short": "Placed on warning for twelve (12) months for failure to comply with Standard 13.1 and Standard 13.3",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-06-12",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "removed from Probation",
+      "action_label_short": "Removed from probation",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2022-06-01",
+      "action_year": "2022",
+      "notes": "Pfeiffer University, Misenheimer, North Carolina (removed from Probation)",
+      "source_url": "https://web.archive.org/web/20220703182506id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2022-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "June 2022 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20220703182506id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2022-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2022-06-17",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "probation",
+      "action_label": "Probation or Equivalent or a More Severe Status: Probation",
+      "action_label_short": "Placed on probation",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2021-06-17",
+      "action_year": "2021",
+      "notes": "Probation or Equivalent or a More Severe Status: Probation",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Probation or Equivalent or a More Severe Status: Warning",
+      "action_label_short": "Placed on warning",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2020-09-03",
+      "action_year": "2020",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Probation or Equivalent or a More Severe Status: Warning",
+      "action_label_short": "Placed on warning",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2019-12-08",
+      "action_year": "2019",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "June 2022 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20220703182506id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2022-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20220703182506id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2022-accreditation-actions-and-public-disclosure-statements/"
+    }
+  ]
 }

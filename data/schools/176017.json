@@ -1,6 +1,6 @@
 {
   "unitid": "176017",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Mississippi",
     "institution_unique_name": "University of Mississippi | University | Mississippi",
@@ -777,5 +777,47 @@
         "value": 73425332
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "The institution had been placed on and later removed from heightened cash monitoring payment method due to late submittal of FY 2022 audit.",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-04-05",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "The institution had been placed on and later removed from heightened cash monitoring payment method due to late submittal of FY 2022 audit.",
+      "action_label_short": "The institution had been placed on and later removed from heightened cash monitoring payment method due to late submittal of FY 2022 audit.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-04-05",
+      "action_year": "2025",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/124779",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/124779"
+    }
+  ]
 }

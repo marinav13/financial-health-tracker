@@ -1066,7 +1066,27 @@ get_accreditation_sanction_strength <- function(x) {
   detail_parts <- character()
 
   if (length(standards) > 0L) {
-    if (length(standards) <= 3L) {
+    if (length(standards) == 1L) {
+      single_title <- stringr::str_match(
+        text %||% "",
+        stringr::regex(
+          paste0("Standard\\s+", standards[[1]], "\\s*\\(([^)]+)\\)"),
+          ignore_case = TRUE
+        )
+      )[, 2]
+      if (!is.na(single_title) && nzchar(single_title)) {
+        detail_parts <- c(
+          detail_parts,
+          sprintf(
+            "Standard %s (%s)",
+            standards[[1]],
+            tools::toTitleCase(tolower(stringr::str_squish(single_title)))
+          )
+        )
+      } else {
+        detail_parts <- c(detail_parts, sprintf("Standard %s", standards[[1]]))
+      }
+    } else if (length(standards) <= 3L) {
       standard_label <- if (length(standards) == 1L) "Standard" else "Standards"
       detail_parts <- c(
         detail_parts,
@@ -2175,6 +2195,12 @@ extract_hlc_findings <- function(text) {
   raw_is_thin <- .is_dapip_public_action_code_label(raw_value) ||
     .should_prefer_msche_dapip_notes(raw_value, notes_value) ||
     grepl(
+      "notification of non-compliance (probation|warning|show cause) action",
+      raw_value,
+      ignore.case = TRUE,
+      perl = TRUE
+    ) ||
+    grepl(
       paste(
         "^Loss of Accreditation or Preaccreditation:",
         "^Heightened Monitoring or Focused Review$",
@@ -2829,6 +2855,11 @@ extract_hlc_findings <- function(text) {
     stringr::regex("^placed the institution on probation for good cause\\b", ignore_case = TRUE),
     "Placed on Probation for Good Cause"
   )
+  prefix <- stringr::str_replace(
+    prefix,
+    stringr::regex("\\.\\s+For\\s+", ignore_case = TRUE),
+    " for "
+  )
   value <- paste0(
     stringr::str_trim(prefix),
     " for failure to comply with ",
@@ -2850,6 +2881,15 @@ extract_hlc_findings <- function(text) {
 .normalize_sacscoc_summary_sentence_case <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   if (!nzchar(value)) return(value)
+
+  value <- stringr::str_replace(
+    value,
+    stringr::regex(
+      "\\.\\s+For\\s+(?=(?:[A-Za-z0-9()/-]+\\s+){0,2}(?:month|months|week|weeks|year|years)\\b)",
+      ignore_case = TRUE
+    ),
+    " for "
+  )
 
   replacements <- list(
     list(pattern = stringr::fixed("Accreditation Reaffirmed:"), replacement = "Accreditation reaffirmed:"),
@@ -3316,6 +3356,26 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         "Concerns %s may no longer meet the standards on %s.",
         lead,
         stringr::str_squish(standards_text)
+      )))
+    }
+  }
+
+  if (acc_norm == "NECHE" &&
+      stringr::str_detect(lowered, "\\bnotation\\b") &&
+      stringr::str_detect(lowered, "\\bbecause\\b")) {
+    notation_reason <- stringr::str_match(
+      cleaned,
+      stringr::regex(
+        "\\bissued\\s+.+?\\s+a\\s+notation\\s+because\\s+(.+?)(?:,\\s+specifically\\b|\\.{1,3}|$)",
+        ignore_case = TRUE
+      )
+    )[, 2]
+    if (!is.na(notation_reason) && nzchar(notation_reason)) {
+      notation_reason <- stringr::str_squish(notation_reason)
+      notation_reason <- sub("[.]+$", "", notation_reason)
+      return(.capitalize_summary_head(sprintf(
+        "Received a notation because %s",
+        notation_reason
       )))
     }
   }
@@ -4089,6 +4149,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     )
     if (acc_norm == "SACSCOC") {
       substantive <- .compact_sacscoc_sanction_summary(substantive)
+      substantive <- .normalize_sacscoc_summary_sentence_case(substantive)
     }
     if (acc_norm == "SACSCOC" && .is_garbled_action_summary(substantive)) {
       type_norm <- tolower(trimws(as.character(action_type %||% "")))
@@ -4146,13 +4207,25 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
     return("Asked to Show Cause")
   }
 
-  if (stringr::str_detect(tolower(raw), "notification of non-compliance probation action")) {
+  if (stringr::str_detect(tolower(raw), "notification of non-compliance probation action") &&
+      !stringr::str_detect(
+        raw,
+        stringr::regex("to\\s+(?:place\\s+the\\s+institution\\s+on\\s+probation|continue\\s+probation)", ignore_case = TRUE)
+      )) {
     return("Non-Compliance Probation")
   }
-  if (stringr::str_detect(tolower(raw), "notification of non-compliance show cause action")) {
+  if (stringr::str_detect(tolower(raw), "notification of non-compliance show cause action") &&
+      !stringr::str_detect(
+        raw,
+        stringr::regex("to\\s+require\\s+the\\s+institution\\s+to\\s+(?:continue\\s+to\\s+)?show\\s+cause", ignore_case = TRUE)
+      )) {
     return("Required to Show Cause")
   }
-  if (stringr::str_detect(tolower(raw), "notification of non-compliance warning action")) {
+  if (stringr::str_detect(tolower(raw), "notification of non-compliance warning action") &&
+      !stringr::str_detect(
+        raw,
+        stringr::regex("to\\s+warn\\s+the\\s+institution", ignore_case = TRUE)
+      )) {
     return("Non-Compliance Warning")
   }
   if (stringr::str_detect(tolower(raw), "^voluntary withdrawal received$|^loss of accreditation or preaccreditation: voluntary withdrawal$")) {
@@ -4324,6 +4397,27 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
       stringr::str_detect(raw, stringr::regex("annual independent audit confirming financial viability", ignore_case = TRUE))
   ) {
     return("Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2)")
+  }
+
+  if (stringr::str_detect(
+    raw,
+    stringr::regex(
+      paste0(
+        "to\\s+continue\\s+probation",
+        ".*?insufficient\\s+evidence",
+        ".*?currently\\s+in\\s+compliance\\s+with\\s+standard"
+      ),
+      ignore_case = TRUE
+    )
+  )) {
+    detail_parts <- .format_msche_probation_detail(raw)
+    if (length(detail_parts) > 0L) {
+      return(sprintf(
+        "Continued on Probation because of insufficient evidence of compliance with %s",
+        .format_readable_list(detail_parts)
+      ))
+    }
+    return("Continued on Probation")
   }
 
   if (stringr::str_detect(

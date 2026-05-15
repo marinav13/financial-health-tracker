@@ -1,6 +1,6 @@
 {
   "unitid": "191621",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Hilbert College",
     "institution_unique_name": "Hilbert College | Hamburg | New York",
@@ -822,5 +822,95 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Accreditation Reaffirmed: Warning Removed; To note that the complex substantive change site visit occurred on December 4, 2024, to the main campus at 5200 South Park Ave.; Warning (Standard II)",
+    "active_actions": "other; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-02-27",
+    "latest_action_year": "2025",
+    "action_count": 3
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "To note that the complex substantive change site visit occurred on December 4, 2024, to the main campus at 5200 South Park Ave., Hamburg, NY 14075. To request a supplemental information report, due June 30, 2025 providing further evidence of (1) the avoidance of conflict of interest or the appearance of such conflict in all activities and among all constituents (Standard II); (2) compliance with all applicable Commission policies and procedures, including substantive changes affecting institutional mission, goals, programs, operations, sites, and other material issues which must be disclosed in a timely and accurate fashion, included but not limited to written arrangements (Standard II and Complex Substantive Change Procedures); (3) final approval for the transaction from USDE, including copies of documentation submitted by the institution to request such approval (Complex Substantive Change Procedures); (4) documented financial resources, funding base, and plans for financial development, including those from any related entities adequate to support its educational purposes and programs and to ensure financial stability (Standard VI); (5) comprehensive and consolidated financial audit for fiscal year 2024 (Standard VI); and (6) a governing body with members that have primary responsibility to the accredited institution and does not allow financial relationship with a related entity, or other undue influences to interfere with their governing responsibilities (Standard VII)(Fourteenth Edition and Evidence Expectations by Standard Guidelines). The next evaluation visit is scheduled for 2025-2026.",
+      "action_label_short": "To note that the complex substantive change site visit occurred on December 4, 2024, to the main campus at 5200 South Park Ave.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-02-27",
+      "action_year": "2025",
+      "notes": "To note that the complex substantive change site visit occurred on December 4, 2024, to the main campus at 5200 South Park Ave., Hamburg, NY 14075. To request a supplemental information report, due June 30, 2025 providing further evidence of (1) the avoidance of conflict of interest or the appearance of such conflict in all activities and among all constituents (Standard II); (2) compliance with all applicable Commission policies and procedures, including substantive changes affecting institutional mission, goals, programs, operations, sites, and other material issues which must be disclosed in a timely and accurate fashion, included but not limited to written arrangements (Standard II and Complex Substantive Change Procedures); (3) final approval for the transaction from USDE, including copies of documentation submitted by the institution to request such approval (Complex Substantive Change Procedures); (4) documented financial resources, funding base, and plans for financial development, including those from any related entities adequate to support its educational purposes and programs and to ensure financial stability (Standard VI); (5) comprehensive and consolidated financial audit for fiscal year 2024 (Standard VI); and (6) a governing body with members that have primary responsibility to the accredited institution and does not allow financial relationship with a related entity, or other undue influences to interfere with their governing responsibilities (Standard VII)(Fourteenth Edition and Evidence Expectations by Standard Guidelines). The next evaluation visit is scheduled for 2025-2026.",
+      "source_url": "https://www.msche.org/institution/0440/",
+      "source_title": "MSCHE Statement of Accreditation Status - Hilbert College",
+      "source_page_url": "https://www.msche.org/institution/0440/",
+      "source_page_modified": "2026-05-05",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "removed",
+      "action_label": "Accreditation Reaffirmed:  Warning Removed",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2024-02-15",
+      "action_year": "2024",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/130563",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "warning",
+      "action_label": "To note that the institution remains accredited while on warning.",
+      "action_label_short": "Warning (Standard II)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-09-25",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/130563",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Hilbert College",
+      "source_url": "https://www.msche.org/institution/0440/",
+      "source_page_url": "https://www.msche.org/institution/0440/"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/130563"
+    }
+  ]
 }

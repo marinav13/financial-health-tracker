@@ -1,6 +1,6 @@
 {
   "unitid": "141565",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Hawaii at Hilo",
     "institution_unique_name": "University of Hawaii at Hilo | Hilo | Hawaii",
@@ -777,5 +777,68 @@
         "value": 3122458
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Heightened Monitoring or Focused Review; Removed Notice of Concern",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-06-27",
+    "latest_action_year": "2025",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "removed",
+      "action_label": "WSCUC is committed to an accreditation process that adds value to institutions while contributing to public accountability, and we thank you for your continued support of this process.",
+      "action_label_short": "Removed Notice of Concern",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2025-06-27",
+      "action_year": "2025",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111920",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "WSCUC",
+      "action_type": "notice",
+      "action_label": "Heightened Monitoring or Focused Review",
+      "action_label_short": "Heightened Monitoring or Focused Review",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-28",
+      "action_year": "2024",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111920",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111920"
+    }
+  ]
 }

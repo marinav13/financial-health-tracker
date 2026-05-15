@@ -1,6 +1,6 @@
 {
   "unitid": "199069",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Mount Olive",
     "institution_unique_name": "University of Mount Olive | Mount Olive | North Carolina",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Removed from warning",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2022-12-04",
+    "latest_action_year": "2022",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Croom: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 4, 2022: The SACSCOC Board of Trustees reaffirmed accreditation and removed the institution from Warning following review of a Monitoring Report and financial statements.",
+      "action_label_short": "Removed from warning",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2022-12-04",
+      "action_year": "2022",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133827",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133827"
+    }
+  ]
 }

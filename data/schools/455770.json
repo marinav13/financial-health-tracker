@@ -1,6 +1,6 @@
 {
   "unitid": "455770",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Providence Christian College",
     "institution_unique_name": "Providence Christian College | Pasadena | California",
@@ -732,5 +732,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Placed on Probation because it is out of compliance with standards concerning financial sustainability and quality assurance",
+    "active_actions": "probation",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-02-14",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "probation",
+      "action_label": "At that meeting, the Commission acted to place Providence Christian College on Probation.",
+      "action_label_short": "Placed on Probation because it is out of compliance with standards concerning financial sustainability and quality assurance",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-02-14",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Probation",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/209472",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/209472"
+    }
+  ]
 }

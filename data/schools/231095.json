@@ -1,6 +1,6 @@
 {
   "unitid": "231095",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Sterling College",
     "institution_unique_name": "Sterling College | Craftsbury Common | Vermont",
@@ -732,5 +732,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NECHE",
+    "action_labels": "Accepted Notification of Institutional Closure; Accepted Teach-Out Plan",
+    "active_actions": "adverse_action",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-12-08",
+    "latest_action_year": "2025",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "NECHE",
+      "action_type": "adverse_action",
+      "action_label": "Accepted Teach-Out Plan",
+      "action_label_short": "Accepted Teach-Out Plan",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2025-12-08",
+      "action_year": "2025",
+      "notes": "Sterling College, Craftsbury Common, VT",
+      "source_url": "https://www.neche.org/recent-commission-actions/",
+      "source_title": "Recent Commission Actions - New England Commission Higher Education",
+      "source_page_url": "https://www.neche.org/recent-commission-actions/",
+      "source_page_modified": "2026-04-27",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "NECHE",
+      "action_type": "adverse_action",
+      "action_label": "Accepted Notification of Institutional Closure",
+      "action_label_short": "Accepted Notification of Institutional Closure",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2025-11-20",
+      "action_year": "2025",
+      "notes": "Sterling College, Craftsbury Common, VT",
+      "source_url": "https://www.neche.org/recent-commission-actions/",
+      "source_title": "Recent Commission Actions - New England Commission Higher Education",
+      "source_page_url": "https://www.neche.org/recent-commission-actions/",
+      "source_page_modified": "2026-04-27",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NECHE",
+      "source_title": "Recent Commission Actions - New England Commission Higher Education",
+      "source_url": "https://www.neche.org/recent-commission-actions/",
+      "source_page_url": "https://www.neche.org/recent-commission-actions/"
+    }
+  ]
 }

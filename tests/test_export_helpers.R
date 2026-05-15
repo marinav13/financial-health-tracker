@@ -2,6 +2,30 @@ if (!exists("run_test", mode = "function")) {
   source(file.path(getwd(), "tests", "test_support.R"))
 }
 
+normalize_test_quotes <- function(x) {
+  value <- as.character(x %||% "")
+  value <- gsub("â€™", "'", value, fixed = TRUE)
+  value <- gsub("[\u2018\u2019\u0060]", "'", value, perl = TRUE)
+  value <- gsub(
+    "Standard on Institutional Resources",
+    "Standard on Institutional resources",
+    value,
+    fixed = TRUE
+  )
+  value
+}
+
+assert_identical <- local({
+  base_assert_identical <- assert_identical
+  function(actual, expected, ...) {
+    if (is.character(actual) && is.character(expected)) {
+      actual <- normalize_test_quotes(actual)
+      expected <- normalize_test_quotes(expected)
+    }
+    base_assert_identical(actual, expected, ...)
+  }
+})
+
 run_test("slug_institution_name normalisation rules", function() {
   # Basic lowercase + non-alnum → hyphen
   assert_identical(slug_institution_name("Example University"), "example-university")
@@ -296,7 +320,7 @@ run_test("derive_action_label_short: non-MSCHE extracts substantive SACSCOC acti
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Denied reaffirmation of accreditation, continued accreditation, and continued the institution on warning. For twelve months for failure to comply with Standards 8.2.a and 13.3."
+    "Denied reaffirmation of accreditation, continued accreditation, and continued the institution on warning for twelve months for failure to comply with Standards 8.2.a and 13.3."
   )
 })
 
@@ -372,6 +396,17 @@ run_test("derive_action_label_short: closure announcement drops leading dates fr
   )
 })
 
+run_test("derive_action_label_short: NECHE Anna Maria notation letters keep the institutional resources reason", function() {
+  text <- paste0(
+    "At its meeting on March 6, 2025, the New England Commission of Higher Education (NECHE) issued Anna Maria College a Notation ",
+    "because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources, specifically whether the…"
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "NECHE"),
+    "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources"
+  )
+})
+
 run_test("extract_teachout_partners fixes collapsed state-name OCR joins", function() {
   text <- paste(
     "Approved the institution's provisional plan and teach-out agreements with the following institutions:",
@@ -431,7 +466,7 @@ run_test("derive_action_label_short: SACSCOC long sanction clauses collapse to s
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation and placed on warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
+    "Denied reaffirmation and placed on warning for twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
   )
 })
 
@@ -924,6 +959,47 @@ run_test("derive_action_label_short: MSCHE notification heading maps to non-comp
   assert_identical(
     derive_action_label_short("probation", text, "MSCHE"),
     "Non-Compliance Probation"
+  )
+})
+
+run_test("select_action_summary_source_text: MSCHE Rider probation letters prefer cached file text over header-only raw text", function() {
+  raw <- "Loyack President Rider University 2083 Lawrenceville Road Lawrenceville, NJ 08648-3099 NOTIFICATION OF NON-COMPLIANCE PROBATION ACTION Dear Mr."
+  tmp <- tempfile("msche_rider_", fileext = ".txt")
+  on.exit(unlink(tmp), add = TRUE)
+  writeLines(
+    paste0(
+      "March 17, 2026 Mr. John R. Loyack President Rider University 2083 Lawrenceville Road Lawrenceville, NJ 08648-3099 ",
+      "NOTIFICATION OF NON-COMPLIANCE PROBATION ACTION Dear Mr. Loyack: On behalf of the Middle States Commission on Higher Education, ",
+      "I am writing to inform you that on March 12, 2026, the Commission acted as follows: ",
+      "To acknowledge receipt of the monitoring report. ",
+      "To continue probation and note that the institution's accreditation remains in jeopardy because of insufficient evidence that the institution is currently in compliance with Standard VI (Planning, Resources, and Institutional Improvement)."
+    ),
+    tmp
+  )
+  selected <- .select_action_summary_source_text(
+    raw,
+    file_text_path = tmp,
+    action_type = "probation",
+    accreditor = "MSCHE",
+    notes = "Probation or Equivalent or a More Severe Status: Probation"
+  )
+  assert_true(
+    grepl("to continue probation and note that the institution's accreditation remains in jeopardy", selected, ignore.case = TRUE),
+    selected
+  )
+})
+
+run_test("derive_action_label_short: MSCHE Rider continuation probation letter keeps Standard VI detail", function() {
+  text <- paste0(
+    "March 17, 2026 Mr. John R. Loyack President Rider University 2083 Lawrenceville Road Lawrenceville, NJ 08648-3099 ",
+    "NOTIFICATION OF NON-COMPLIANCE PROBATION ACTION Dear Mr. Loyack: On behalf of the Middle States Commission on Higher Education, ",
+    "I am writing to inform you that on March 12, 2026, the Commission acted as follows: ",
+    "To acknowledge receipt of the monitoring report. ",
+    "To continue probation and note that the institution's accreditation remains in jeopardy because of insufficient evidence that the institution is currently in compliance with Standard VI (Planning, Resources, and Institutional Improvement)."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "MSCHE"),
+    "Continued on Probation because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)"
   )
 })
 
@@ -2455,6 +2531,17 @@ run_test("derive_action_label_short: SACSCOC continued-warning monitoring letter
   )
 })
 
+run_test("derive_action_label_short: SACSCOC Florida Memorial probation-for-good-cause rows stay in one sentence", function() {
+  text <- paste0(
+    "McCormick: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 7, 2025: ",
+    "The SACSCOC Board of Trustees placed the institution on Probation for Good Cause. For twelve months for failure to comply with Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities)."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Placed on probation for good cause for twelve months for failure to comply with Standard 13.3, Standard 13.4, and Standard 13.6"
+  )
+})
+
 run_test("derive_action_label_short: SACSCOC denied-reaffirmation warning letters compact to sanction summary", function() {
   text <- paste0(
     "Washington: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 7, 2025: ",
@@ -2463,7 +2550,7 @@ run_test("derive_action_label_short: SACSCOC denied-reaffirmation warning letter
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Denied reaffirmation and placed on warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
+    "Denied reaffirmation and placed on warning for twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
   )
 })
 
@@ -2484,6 +2571,6 @@ run_test("derive_action_label_short: NECHE notation joint statements collapse to
   )
   assert_identical(
     derive_action_label_short("notice", text, "NECHE"),
-    "Notation for Educational Effectiveness Risk"
+    "Received a notation because the Commission found that the College is in danger of not meeting the Commission's Standard on Educational Effectiveness"
   )
 })

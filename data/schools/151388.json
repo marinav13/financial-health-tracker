@@ -1,6 +1,6 @@
 {
   "unitid": "151388",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Indiana University-East",
     "institution_unique_name": "Indiana University-East | Richmond | Indiana",
@@ -777,5 +777,47 @@
         "value": 3367331
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2023-04-01",
+    "latest_action_year": "2023",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg, 50 Walnut Drive, Lawrenceburg, IN 47025—Effective August 18, 2023 Indiana University East Madison, 590 Ivy Tech Drive, Madison, IN 47250—Effective August 18, 2023",
+      "action_label_short": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2023-04-01",
+      "action_year": "2023",
+      "notes": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg, 50 Walnut Drive, Lawrenceburg, IN 47025—Effective August 18, 2023 Indiana University East Madison, 590 Ivy Tech Drive, Madison, IN 47250—Effective August 18, 2023",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_title": "April 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "April 2023 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/"
+    }
+  ]
 }

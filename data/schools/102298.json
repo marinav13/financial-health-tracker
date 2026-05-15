@@ -1,6 +1,6 @@
 {
   "unitid": "102298",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Talladega College",
     "institution_unique_name": "Talladega College | Talladega | Alabama",
@@ -782,5 +782,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Placed on warning for twelve months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, and sponsored research/external funds",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-06-12",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Kimbrough: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 12, 2025: The SACSCOC Board of Trustees reviewed the institution’s Special Report following receipt of unsolicited information addressing the institution’s ongoing compliance with Core Requirement 13.1 (Financial resources), Core Requirement 13.2 (Financial documents), and Standard 13.3 (Financial responsibility) of the Principles of Accreditation, and placed the institution on Warning for twelve months for failure to comply with Core Requirement 13.1 (Financial resources), Core Requirement 13.2 (Financial documents), Standard 13.3 (Financial responsibility), and Standard 13.5 (Control of sponsored research/external funds). A Special Committee was not authorized to visit the institution.",
+      "action_label_short": "Placed on warning for twelve months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, and sponsored research/external funds",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-06-12",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/100681",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/100681"
+    }
+  ]
 }

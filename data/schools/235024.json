@@ -1,6 +1,6 @@
 {
   "unitid": "235024",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Cornish College of the Arts",
     "institution_unique_name": "Cornish College of the Arts | Seattle | Washington",
@@ -758,5 +758,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NWCCU",
+    "action_labels": "Accreditation Reaffirmed: Warning Removed; Placed on Warning",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-07-12",
+    "latest_action_year": "2024",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "NWCCU",
+      "action_type": "removed",
+      "action_label": "Accreditation Accept the Report, Remove Sanction of Warning Status of Previous Recommendations Addressed in this Evaluation • Recommendation 1: Spring 2021 Evaluation of Institutional Effectiveness - Continued as Needs Improvement and revised to Recommendation 1: Spring 2024 Ad Hoc Report Recommendations Substantially in Compliance but in Need of Improvement The Commission recommends that Cornish College of the Arts: • Recommendation 1: Spring 2024 Ad Hoc Report - Regularly monitor institutional finances to ensure sufficient cash flows and reserves to achieve its mission.",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2024-07-12",
+      "action_year": "2024",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148575",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "NWCCU",
+      "action_type": "warning",
+      "action_label": "Accreditation Accept the Report, Issue a Sanction of Warning on Recommendation 1: Spring 2021 Evaluation of Institutional Effectiveness Status of Previous Recommendations Addressed in this Evaluation Recommendation 1: Spring 2021 Evaluation of Institutional Effectiveness – Continued as Non-Compliant Recommendations Out of Compliance The Commission finds that the following Recommendations are areas where Cornish College of the Arts is out of compliance with the NWCCU Standards for Accreditation.",
+      "action_label_short": "Placed on Warning",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2022-07-25",
+      "action_year": "2022",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148575",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NWCCU",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148575"
+    }
+  ]
 }

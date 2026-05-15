@@ -1,6 +1,6 @@
 {
   "unitid": "232706",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Marymount University",
     "institution_unique_name": "Marymount University | Arlington | Virginia",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Placed on warning for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-06-12",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Becerra: Bo ard of Trustees of the was ta ke n by th e ring its g ac tio n re ga rd ing your institution m is si on on C ol le ges (SACSCOC) du The followin d Schools Com tion of Colleges an Southern Associa ne 12, 2025: meeting held on Ju n’s Referral Report, continued vi ew ed th e insti tu tio re to ard of Trustees re elve months for failu The SAC SCOC Bo n on W ar ni ng fo r tw cial cred ita tio n, an d placed the institutio al re so ur ce s) , St andard 13.3 (Finan ac an ci and y w ith C or e R eq uirement 13.1 (Fin ce s) , an d St an dard 13.6 (Federal com pl fin an not sib ili ty ), St an da rd 13.4 (Control of di ta tio n.",
+      "action_label_short": "Placed on warning for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-06-12",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147776",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147776"
+    }
+  ]
 }

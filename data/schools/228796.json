@@ -1,6 +1,6 @@
 {
   "unitid": "228796",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "The University of Texas at El Paso",
     "institution_unique_name": "The University of Texas at El Paso | El Paso | Texas",
@@ -777,5 +777,74 @@
         "value": 60704829
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Placed on warning for failure to comply with standards concerning faculty, Program length, Qualified administrative/academic officers, and Program coordination; Removed from warning",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2023-12-01",
+    "latest_action_year": "2023",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "removed from Warning",
+      "action_label_short": "Removed from warning",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2023-12-01",
+      "action_year": "2023",
+      "notes": "The University of Texas at El Paso, El Paso, Texas (removed from Warning)",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2023-12-07",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) http://www.sacscoc.org Disclosure Statement Regarding the Status of THE UNIVERSITY OF TEXAS AT EL PASO El Paso, Texas Issued June 23, 2023, by SACSCOC The following publicly available information is provided by the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) concerning the accreditation of The University of Texas at El Paso.",
+      "action_label_short": "Placed on warning for failure to comply with standards concerning faculty, Program length, Qualified administrative/academic officers, and Program coordination",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2023-06-15",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/146320",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/146320"
+    }
+  ]
 }

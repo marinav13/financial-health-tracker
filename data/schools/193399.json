@@ -1,6 +1,6 @@
 {
   "unitid": "193399",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Mount Saint Vincent",
     "institution_unique_name": "University of Mount Saint Vincent | Bronx | New York",
@@ -822,5 +822,116 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Accreditation Reaffirmed: Warning Removed; Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2); Warning (Standard V)",
+    "active_actions": "adverse_action; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-06-26",
+    "latest_action_year": "2025",
+    "action_count": 4
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "removed",
+      "action_label": "Accreditation Reaffirmed:  Warning Removed",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2025-06-26",
+      "action_year": "2025",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131256",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "adverse_action",
+      "action_label": "To request that the monitoring report, due March 3, 2025, also provide evidence of (1) compliance with any and all conditions established by the USDE Office of Federal Student Aid (FSA) relating to the institution's Heightened Cash Monitoring (HCM2) status (Standard VI: Planning, Resources, and Institutional Improvement) and (2) an annual independent audit confirming financial viability with evidence of follow-up on any cited concerns, including but not limited to the audited financial statements for fiscal year 2023 (Standard VI). To require that the institution complete and submit for approval, by March 3, 2025, a teach-out plan and teach-out agreements as required by the Commission's Teach-Out Plans and Agreements Policy and Procedures and federal regulation 34 CFR 602.24(c)(2)(i) because the Secretary of Education has placed the institution on Heightened Cash Monitoring (HCM2). To remind the institution and its governing body of its obligation to inform the Commission immediately about any and all significant developments relevant to this action and to make freely available to the Commission accurate, fair, and complete information on all aspects of the institution and its operations. The next evaluation visit is scheduled for 2030-2031.",
+      "action_label_short": "Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2)",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2025-01-24",
+      "action_year": "2025",
+      "notes": "To request that the monitoring report, due March 3, 2025, also provide evidence of (1) compliance with any and all conditions established by the USDE Office of Federal Student Aid (FSA) relating to the institution's Heightened Cash Monitoring (HCM2) status (Standard VI: Planning, Resources, and Institutional Improvement) and (2) an annual independent audit confirming financial viability with evidence of follow-up on any cited concerns, including but not limited to the audited financial statements for fiscal year 2023 (Standard VI). To require that the institution complete and submit for approval, by March 3, 2025, a teach-out plan and teach-out agreements as required by the Commission's Teach-Out Plans and Agreements Policy and Procedures and federal regulation 34 CFR 602.24(c)(2)(i) because the Secretary of Education has placed the institution on Heightened Cash Monitoring (HCM2). To remind the institution and its governing body of its obligation to inform the Commission immediately about any and all significant developments relevant to this action and to make freely available to the Commission accurate, fair, and complete information on all aspects of the institution and its operations. The next evaluation visit is scheduled for 2030-2031.",
+      "source_url": "https://www.msche.org/institution/0294/",
+      "source_title": "MSCHE Statement of Accreditation Status - University of Mount Saint Vincent",
+      "source_page_url": "https://www.msche.org/institution/0294/",
+      "source_page_modified": "2026-05-05",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "warning",
+      "action_label": "Burns: On behalf of the Middle States Commission on Higher Education, I am writing to inform you that on June 27, 2024, the Commission acted as follows: To acknowledge receipt of the monitoring report.",
+      "action_label_short": "Warning (Standard V)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-27",
+      "action_year": "2024",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131256",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "warning",
+      "action_label": "To note that the institution remains accredited while on warning.",
+      "action_label_short": "Warning (Standard V)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-06-22",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131256",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131256"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - University of Mount Saint Vincent",
+      "source_url": "https://www.msche.org/institution/0294/",
+      "source_page_url": "https://www.msche.org/institution/0294/"
+    }
+  ]
 }

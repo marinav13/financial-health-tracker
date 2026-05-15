@@ -1,6 +1,6 @@
 {
   "unitid": "214971",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Pennsylvania Academy of the Fine Arts",
     "institution_unique_name": "Pennsylvania Academy of the Fine Arts | Philadelphia | Pennsylvania",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Loss of accreditation or Preaccreditation: Other",
+    "active_actions": "adverse_action",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2024-06-26",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "adverse_action",
+      "action_label": "Loss of Accreditation or Preaccreditation: Other",
+      "action_label_short": "Loss of accreditation or Preaccreditation: Other",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-26",
+      "action_year": "2024",
+      "notes": "Loss of Accreditation or Preaccreditation: Other | Accreditation to cease effective August 25, 2025. As of August 26, 2025 the institution will no longer be accredited by the Middle States Commission on Higher Education.",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/140845",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/140845"
+    }
+  ]
 }

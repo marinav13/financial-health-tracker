@@ -1,6 +1,6 @@
 {
   "unitid": "217721",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Benedict College",
     "institution_unique_name": "Benedict College | Columbia | South Carolina",
@@ -774,5 +774,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Removed from probation",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2020-12-01",
+    "latest_action_year": "2020",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "removed from Probation",
+      "action_label_short": "Removed from probation",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2020-12-01",
+      "action_year": "2020",
+      "notes": "Benedict College, Columbia, South Carolina (removed from Probation)",
+      "source_url": "https://web.archive.org/web/20210117150616id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2020-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2020 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20210117150616id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2020-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2020-12-09",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2020 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20210117150616id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2020-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20210117150616id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2020-accreditation-actions-and-public-disclosure-statements/"
+    }
+  ]
 }

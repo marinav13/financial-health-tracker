@@ -1,6 +1,6 @@
 {
   "unitid": "143118",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Aurora University",
     "institution_unique_name": "Aurora University | Aurora | Illinois",
@@ -822,5 +822,95 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.; Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology; Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+    "active_actions": "adverse_action; other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2023-04-01",
+    "latest_action_year": "2023",
+    "action_count": 3
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "adverse_action",
+      "action_label": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.",
+      "action_label_short": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2023-04-01",
+      "action_year": "2023",
+      "notes": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_title": "April 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
+      "action_label_short": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2023-04-01",
+      "action_year": "2023",
+      "notes": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_title": "April 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "adverse_action",
+      "action_label": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+      "action_label_short": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2023-01-01",
+      "action_year": "2023",
+      "notes": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
+      "source_title": "January 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "April 2023 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/"
+    },
+    {
+      "accreditor": "HLC",
+      "source_title": "January 2023 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/"
+    }
+  ]
 }

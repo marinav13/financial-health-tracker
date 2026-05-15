@@ -1,6 +1,6 @@
 {
   "unitid": "156541",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of the Cumberlands",
     "institution_unique_name": "University of the Cumberlands | Williamsburg | Kentucky",
@@ -822,5 +822,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Continued accreditation following review of the off-campus instructional site at the University of the Cumberlands Palla Institute in Hyderabad, Telangana, India.; Continued accreditation following review of the off-campus instructional site at Williamsburg Independent High School in Williamsburg, Kentucky.",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-06-13",
+    "latest_action_year": "2024",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Cockrum: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 13, 2024: The SACSCOC Board of Trustees continued accreditation following the review of an off- campus instructional site located at Williamsburg Independent High School in Williamsburg, Kentucky (approved June 2023).",
+      "action_label_short": "Continued accreditation following review of the off-campus instructional site at Williamsburg Independent High School in Williamsburg, Kentucky.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-13",
+      "action_year": "2024",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117502",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Cockrum: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 15, 2023: The SACSCOC Board of Trustees continued accreditation following the review of an off- campus instructional site located at the University of the Cumberlands Palla Institute in Hyderabad, Telangana, India (approved July 2021).",
+      "action_label_short": "Continued accreditation following review of the off-campus instructional site at the University of the Cumberlands Palla Institute in Hyderabad, Telangana, India.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-06-15",
+      "action_year": "2023",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117502",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117502"
+    }
+  ]
 }

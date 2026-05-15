@@ -1,6 +1,6 @@
 {
   "unitid": "194569",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Davis College",
     "institution_unique_name": "Davis College | Pottersville | New York",
@@ -732,5 +732,95 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC; MSCHE",
+    "action_labels": "Approved extension of accreditation related to change of control involving the institution; Required to Show Cause because of insufficient evidence of compliance with Standard V (Educational Effectiveness Assessment); Warning (Standard V)",
+    "active_actions": "other; show_cause; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2022-11-01",
+    "latest_action_year": "2022",
+    "action_count": 3
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved the extension of accreditation related to the application for Change of Control, Structure or Organization wherein Elite Education Group International Limited, through a Debt Conversion Agreement and its subsidiary Ameri-Can Education Corporation, acquires the institution, thereby becoming the superordinate entity of the Institution.",
+      "action_label_short": "Approved extension of accreditation related to change of control involving the institution",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2022-11-01",
+      "action_year": "2022",
+      "notes": "Approved the extension of accreditation related to the application for Change of Control, Structure or Organization wherein Elite Education Group International Limited, through a Debt Conversion Agreement and its subsidiary Ameri-Can Education Corporation, acquires the institution, thereby becoming the superordinate entity of the Institution.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_title": "November 2022 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "warning",
+      "action_label": "Blanc: On behalf of the Middle States Commission on Higher Education, I am writing to inform you that on December 2, 2021, the Commission acted as follows: To acknowledge receipt of the show cause report.",
+      "action_label_short": "Warning (Standard V)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2021-12-02",
+      "action_year": "2021",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning | Extension for Good Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131654",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "show_cause",
+      "action_label": "Blanc: Notification of Non-Compliance Action On behalf of the Middle States Commission on Higher Education, I am writing to inform you that on June 24, 2021, the Commission acted as follows: To acknowledge receipt of the monitoring report.",
+      "action_label_short": "Required to Show Cause because of insufficient evidence of compliance with Standard V (Educational Effectiveness Assessment)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2021-06-24",
+      "action_year": "2021",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause |",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131654",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "November 2022 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131654"
+    }
+  ]
 }

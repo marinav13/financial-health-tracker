@@ -1,6 +1,6 @@
 {
   "unitid": "139579",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "South University-Savannah",
     "institution_unique_name": "South University-Savannah | Savannah | Georgia",
@@ -669,5 +669,68 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Accreditation reaffirmed: warning removed; Placed on warning for six months for failure to comply with Core Requirement 4.1 and Standard 4.2.b",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-12-08",
+    "latest_action_year": "2024",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Accreditation Reaffirmed:  Warning Removed",
+      "action_label_short": "Accreditation reaffirmed: warning removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2024-12-08",
+      "action_year": "2024",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111188",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Yoho: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 13, 2024: The SACSCOC Board of Trustees continued accreditation following the review of the institution’s change in ownership/control/governance and placed the institution on Warning for six months for failure to comply with Core Requirement 4.1 (Governing board characteristics) and Standard 4.2.b (Board/administrative distinction). A Special Committee was not authorized to visit the institution.",
+      "action_label_short": "Placed on warning for six months for failure to comply with Core Requirement 4.1 and Standard 4.2.b",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-06-13",
+      "action_year": "2024",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111188",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/111188"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "unitid": "164076",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Towson University",
     "institution_unique_name": "Towson University | Towson | Maryland",
@@ -777,5 +777,47 @@
         "value": 14613599
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2019-01-04",
+    "latest_action_year": "2019",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
+      "action_label_short": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2019-01-04",
+      "action_year": "2019",
+      "notes": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
+      "source_url": "https://www.msche.org/institution/0180/",
+      "source_title": "MSCHE Statement of Accreditation Status - Towson University",
+      "source_page_url": "https://www.msche.org/institution/0180/",
+      "source_page_modified": "2026-05-05",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Towson University",
+      "source_url": "https://www.msche.org/institution/0180/",
+      "source_page_url": "https://www.msche.org/institution/0180/"
+    }
+  ]
 }

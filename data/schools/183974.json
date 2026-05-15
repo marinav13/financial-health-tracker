@@ -1,6 +1,6 @@
 {
   "unitid": "183974",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Centenary University",
     "institution_unique_name": "Centenary University | Hackettstown | New Jersey",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "To note the institution remains accredited while on Warning.",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-03-14",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "warning",
+      "action_label": "To note the institution remains accredited while on warning.",
+      "action_label_short": "To note the institution remains accredited while on Warning.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-03-14",
+      "action_year": "2024",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/127909",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/127909"
+    }
+  ]
 }

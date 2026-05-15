@@ -1,6 +1,6 @@
 {
   "unitid": "199032",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Montreat College",
     "institution_unique_name": "Montreat College | Montreat | North Carolina",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Denied reaffirmation, continued accreditation, and placed the institution on warning for 12 months",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2021-12-01",
+    "latest_action_year": "2021",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Maurer: Thefollowing action regardingyourinstitution wastaken bythe BoardofTrustees ofthe Southern Association ofColleges and Schools Commission on Colleges (SACSCOC) durina its meeting held on December 4, 2020: The Board ofTrustees denied reaffirmation, continued accreditation, and placed the institution on Warning for 12 months for failure to comply with Core Requirement (CR) 13.",
+      "action_label_short": "Denied reaffirmation, continued accreditation, and placed the institution on warning for 12 months",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2021-12-01",
+      "action_year": "2021",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133809",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133809"
+    }
+  ]
 }

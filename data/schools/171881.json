@@ -1,6 +1,6 @@
 {
   "unitid": "171881",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Kuyper College",
     "institution_unique_name": "Kuyper College | Grand Rapids | Michigan",
@@ -790,5 +790,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Accreditation Reaffirmed: Warning Removed",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2019-06-27",
+    "latest_action_year": "2019",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "removed",
+      "action_label": "Comprehensive Evaluation: The Board maintained the Institution on the Standard Pathway with its next comprehensive evaluation for reaffirmation of accreditation in 2022-23.",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2019-06-27",
+      "action_year": "2019",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/123059",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/123059"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "unitid": "166018",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Hampshire College",
     "institution_unique_name": "Hampshire College | Amherst | Massachusetts",
@@ -732,5 +732,95 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NECHE",
+    "action_labels": "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns; In danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources. Placed on Heightened Monitoring or Focused Review.; Voluntarily Surrendered Accreditation",
+    "active_actions": "adverse_action; notice; show_cause",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2026-04-15",
+    "latest_action_year": "2026",
+    "action_count": 3
+  },
+  "actions": [
+    {
+      "accreditor": "NECHE",
+      "action_type": "adverse_action",
+      "action_label": "Voluntary Withdrawal Received",
+      "action_label_short": "Voluntarily Surrendered Accreditation",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2026-04-15",
+      "action_year": "2026",
+      "notes": "Voluntary Withdrawal Received | Anticipated closure date and accreditation withdrawal effective date of April 15, 2027",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/121141",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "NECHE",
+      "action_type": "show_cause",
+      "action_label": "On March 5, 2026, the New England Commission of Higher Education (NECHE) took action to require Hampshire College to show cause at the Commission’s June 2026 meeting why the institution should not be placed on probation or why its accreditation should not be withdrawn should…",
+      "action_label_short": "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-03-24",
+      "action_year": "2026",
+      "notes": "Joint Statement by Hampshire College and the Commission March 24, 2026",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-hampshire-college-and-the-commission-march-24-2026/",
+      "source_title": "Joint Statement by Hampshire College and the Commission March 24, 2026",
+      "source_page_url": "https://www.neche.org/commission-statements/",
+      "source_page_modified": "2026-03-24",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "NECHE",
+      "action_type": "notice",
+      "action_label": "JOINT PRESS RELEASE New England Commission of Higher Education and Hampshire College At its meeting on May 30, 2019, the New England Commission of Higher Education (NECHE) met with representatives of Hampshire College to consider the College’s show-cause response regarding why it should not be placed on probation or have its accreditation withdrawn because the Commission had reason to believe that Hampshire College is not meeting the Commission’s Standards on Organization and Governance and Institutional Resources.",
+      "action_label_short": "In danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources. Placed on Heightened Monitoring or Focused Review.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2019-05-31",
+      "action_year": "2019",
+      "notes": "Heightened Monitoring or Focused Review | In danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/121141",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NECHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/121141"
+    },
+    {
+      "accreditor": "NECHE",
+      "source_title": "Joint Statement by Hampshire College and the Commission March 24, 2026",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-hampshire-college-and-the-commission-march-24-2026/",
+      "source_page_url": "https://www.neche.org/commission-statements/"
+    }
+  ]
 }

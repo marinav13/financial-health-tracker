@@ -1,6 +1,6 @@
 {
   "unitid": "177065",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Columbia College",
     "institution_unique_name": "Columbia College | Columbia | Missouri",
@@ -822,5 +822,74 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302); Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-01-01",
+    "latest_action_year": "2024",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, 7077 Bonneval Rd #114 , Jacksonville, FL 32216-4050 Mesquite, 3737 Motley Drive, Mesquite, TX 75150 JFTB Los Alamitos, 11206 Lexington Avenue, Suite 110, Los Alamitos, CA 90720 NSB Kings Bay, 918 USS James Madison Rd, Kings Bay, GA 31547-2533 Kansas City, 4240 Blue Ridge Blvd., Suite 400, Kansas City, MO 64133-1702 Springfield, 3271 East Battlefield Road, Suite 250, Springfield, MO 65804",
+      "action_label_short": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2024-01-01",
+      "action_year": "2024",
+      "notes": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, 7077 Bonneval Rd #114 , Jacksonville, FL 32216-4050 Mesquite, 3737 Motley Drive, Mesquite, TX 75150 JFTB Los Alamitos, 11206 Lexington Avenue, Suite 110, Los Alamitos, CA 90720 NSB Kings Bay, 918 USS James Madison Rd, Kings Bay, GA 31547-2533 Kansas City, 4240 Blue Ridge Blvd., Suite 400, Kansas City, MO 64133-1702 Springfield, 3271 East Battlefield Road, Suite 250, Springfield, MO 65804",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
+      "source_title": "January 2024 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302)",
+      "action_label_short": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-08-01",
+      "action_year": "2023",
+      "notes": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302)",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
+      "source_title": "August 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "January 2024 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/"
+    },
+    {
+      "accreditor": "HLC",
+      "source_title": "August 2023 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/"
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 {
   "unitid": "186432",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Saint Peter's University",
     "institution_unique_name": "Saint Peter's University | Jersey City | New Jersey",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "To note the institution's decision to close the additional location at 84 Route 31, Flemington, NJ 08822 that ceased operations effective May 13, 2020.",
+    "active_actions": "adverse_action",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2024-01-04",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "adverse_action",
+      "action_label": "To note the institution's decision to close the additional location at 84 Route 31, Flemington, NJ 08822 that ceased operations effective May 13, 2020. To remove the additional location from the institution's scope of accreditation. To note that the Commission reserves the right to rescind this action if any developments reveal additional information that might have affected the Commission's decision.",
+      "action_label_short": "To note the institution's decision to close the additional location at 84 Route 31, Flemington, NJ 08822 that ceased operations effective May 13, 2020.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-01-04",
+      "action_year": "2024",
+      "notes": "To note the institution's decision to close the additional location at 84 Route 31, Flemington, NJ 08822 that ceased operations effective May 13, 2020. To remove the additional location from the institution's scope of accreditation. To note that the Commission reserves the right to rescind this action if any developments reveal additional information that might have affected the Commission's decision.",
+      "source_url": "https://www.msche.org/institution/0232/",
+      "source_title": "MSCHE Statement of Accreditation Status - Saint Peter’s University",
+      "source_page_url": "https://www.msche.org/institution/0232/",
+      "source_page_modified": "2026-05-05",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Saint Peter’s University",
+      "source_url": "https://www.msche.org/institution/0232/",
+      "source_page_url": "https://www.msche.org/institution/0232/"
+    }
+  ]
 }

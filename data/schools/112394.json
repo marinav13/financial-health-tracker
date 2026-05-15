@@ -1,6 +1,6 @@
 {
   "unitid": "112394",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "University of Silicon Valley",
     "institution_unique_name": "University of Silicon Valley | San Jose | California",
@@ -637,5 +637,47 @@
         "value": 11347
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Accreditation Reaffirmed: Warning Removed",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2020-02-14",
+    "latest_action_year": "2020",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "removed",
+      "action_label": "Accreditation Reaffirmed:  Warning Removed",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2020-02-14",
+      "action_year": "2020",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/103538",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/103538"
+    }
+  ]
 }

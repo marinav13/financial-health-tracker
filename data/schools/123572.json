@@ -1,6 +1,6 @@
 {
   "unitid": "123572",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Sonoma State University",
     "institution_unique_name": "Sonoma State University | Rohnert Park | California",
@@ -777,5 +777,47 @@
         "value": 7782904
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Issued a Notice of Concern over standards concerning financial sustainability and shared governance",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-02-01",
+    "latest_action_year": "2026",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "notice",
+      "action_label": "Defer Action on Reaffirmation of Accreditation/Issue a Notice of Concern",
+      "action_label_short": "Issued a Notice of Concern over standards concerning financial sustainability and shared governance",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-02-01",
+      "action_year": "2026",
+      "notes": "Sonoma State University",
+      "source_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_title": "February 2026 Commission Actions - WSCUC",
+      "source_page_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_page_modified": "2026-03-04",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "February 2026 Commission Actions - WSCUC",
+      "source_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
+      "source_page_url": "https://www.wscuc.org/post/february-2026-commission-actions/"
+    }
+  ]
 }

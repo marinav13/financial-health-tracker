@@ -1,6 +1,6 @@
 {
   "unitid": "128498",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Albertus Magnus College",
     "institution_unique_name": "Albertus Magnus College | New Haven | Connecticut",
@@ -822,5 +822,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NECHE",
+    "action_labels": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional resources",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2023-03-15",
+    "latest_action_year": "2023",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "NECHE",
+      "action_type": "notice",
+      "action_label": "At its meeting on March 2, 2023, the New England Commission of Higher Education (NECHE) issued Albertus Magnus College a Notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources, specifically that…",
+      "action_label_short": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional resources",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-03-15",
+      "action_year": "2023",
+      "notes": "Joint Statement by Albertus Magnus College and the Commission March 15, 2023",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-albertus-magnus-college-and-the-commission-march-15-2023/",
+      "source_title": "Joint Statement by Albertus Magnus College and the Commission March 15, 2023",
+      "source_page_url": "https://www.neche.org/commission-statements/",
+      "source_page_modified": "2023-05-09",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NECHE",
+      "source_title": "Joint Statement by Albertus Magnus College and the Commission March 15, 2023",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-albertus-magnus-college-and-the-commission-march-15-2023/",
+      "source_page_url": "https://www.neche.org/commission-statements/"
+    }
+  ]
 }

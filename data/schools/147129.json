@@ -1,6 +1,6 @@
 {
   "unitid": "147129",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Methodist College",
     "institution_unique_name": "Methodist College | Peoria | Illinois",
@@ -757,5 +757,74 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Affirmed institution is addressing change-of-control concerns; Approved extension of accreditation related to change of control",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2023-11-01",
+    "latest_action_year": "2023",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Affirmed that the institution is addressing the concerns related to the appropriateness of the approval and the institution’s compliance with any commitments made in the Change of Control application and the Criteria for Accreditation or other requirements specifically articulated by the Board.",
+      "action_label_short": "Affirmed institution is addressing change-of-control concerns",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-11-01",
+      "action_year": "2023",
+      "notes": "Affirmed that the institution is addressing the concerns related to the appropriateness of the approval and the institution’s compliance with any commitments made in the Change of Control application and the Criteria for Accreditation or other requirements specifically articulated by the Board.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
+      "source_title": "November 2023 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "other",
+      "action_label": "Approved the extension of accreditation related to the application for Change of Control, Structure or Organization wherein pursuant to the proposed Definitive Agreement, Carle Health replaces Iowa Health System as the sole member of Methodist Health Services Corporation, the current sole member of the Institution’s current corporate parent, Methodist Medical Center of Illinois.",
+      "action_label_short": "Approved extension of accreditation related to change of control",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2022-11-01",
+      "action_year": "2022",
+      "notes": "Approved the extension of accreditation related to the application for Change of Control, Structure or Organization wherein pursuant to the proposed Definitive Agreement, Carle Health replaces Iowa Health System as the sole member of Methodist Health Services Corporation, the current sole member of the Institution’s current corporate parent, Methodist Medical Center of Illinois.",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_title": "November 2022 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "November 2023 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/"
+    },
+    {
+      "accreditor": "HLC",
+      "source_title": "November 2022 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2022/"
+    }
+  ]
 }

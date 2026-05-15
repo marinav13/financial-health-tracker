@@ -1,6 +1,6 @@
 {
   "unitid": "234164",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Virginia Union University",
     "institution_unique_name": "Virginia Union University | Richmond | Virginia",
@@ -822,5 +822,143 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Continued on probation for good cause for twelve months for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities; Placed on probation for good cause; Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Placed on warning for failure to comply with standards concerning governance, financial documents, administrative effectiveness, student outcomes, financial responsibility, and control of finances; Removed from probation for good cause",
+    "active_actions": "probation; show_cause; warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-12-07",
+    "latest_action_year": "2025",
+    "action_count": 5
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Lucas: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 7, 2025: The SACSCOC Board of Trustees removed the institution from Probation for Good Cause.",
+      "action_label_short": "Removed from probation for good cause",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2025-12-07",
+      "action_year": "2025",
+      "notes": "Removal of Monitoring Status",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148308",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "probation",
+      "action_label": "continued on Probation for Good Cause",
+      "action_label_short": "Continued on probation for good cause for twelve months for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-12-01",
+      "action_year": "2024",
+      "notes": "Virginia Union University, Richmond, Virginia (continued on Probation for Good Cause) [PDF]",
+      "source_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2024 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2024-12-19",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "show_cause",
+      "action_label": "Lucas: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 3, 2023: The SACSCOC Board of Trustees reviewed the institution’s Second Monitoring Report and recommended continued accreditation and placed the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 4.1 (Governing board characteristics), Core Requirement 13.2 (Financial documents), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances) and Standard 13.6 (Federal and state responsibilities) of the Principles of Accreditation (Principles). A Special Committee was authorized to visit the institution.",
+      "action_label_short": "Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial documents, financial responsibility, control of finances, and federal/state responsibilities",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-12-03",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148308",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "probation",
+      "action_label": "placed on Probation for Good Cause",
+      "action_label_short": "Placed on probation for good cause",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-12-01",
+      "action_year": "2023",
+      "notes": "Virginia Union University, Richmond, Virginia (placed on Probation for Good Cause) [PDF]",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_modified": "2023-12-07",
+      "display_action": true,
+      "public_table_strategy": "hybrid_keep",
+      "hybrid_candidate": true,
+      "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Lucas: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 4, 2022: The SACSCOC Board of Trustees reviewed the institution's First Monitoring Report following submission of a Referral Report in December 2021 and placed the institution on Warning for twelve months for failure to comply with Core Requirement 4.1 (Governing board characteristics) , Core Requirement 13.2 (Financial documents}, Standard 7.3 (Administrative effectiveness), Standard 8.2.a (Student outcomes: educational programs), Standard 8.2.c (Student outcomes: academic and student services), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances) , and Standard 13.6 (Federal and state responsibilities) of the Principles of Accreditation. A Special Committee was not authorized to visit the institution.",
+      "action_label_short": "Placed on warning for failure to comply with standards concerning governance, financial documents, administrative effectiveness, student outcomes, financial responsibility, and control of finances",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2022-12-04",
+      "action_year": "2022",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148308",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/148308"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2024 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20241220085302id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2024-accreditation-actions-and-public-disclosure-statements/"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "December 2023 Accreditation Actions and Public Disclosure Statements - SACSCOC",
+      "source_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/",
+      "source_page_url": "https://web.archive.org/web/20240223043409id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/december-2023-accreditation-actions-and-public-disclosure-statements/"
+    }
+  ]
 }

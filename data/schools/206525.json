@@ -1,6 +1,6 @@
 {
   "unitid": "206525",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Wittenberg University",
     "institution_unique_name": "Wittenberg University | Springfield | Ohio",
@@ -822,5 +822,74 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Approved provisional plan and teach-out agreements with Capital University, Baldwin Wallace University, and University of Dayton; Placed on Probation because it is out of compliance with Core Component 4.B.",
+    "active_actions": "adverse_action; probation",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-11-06",
+    "latest_action_year": "2025",
+    "action_count": 2
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "probation",
+      "action_label": "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation.",
+      "action_label_short": "Placed on Probation because it is out of compliance with Core Component 4.B.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-11-06",
+      "action_year": "2025",
+      "notes": "Probation or Equivalent or a More Severe Status: Probation | The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. The Institution does not meet Core Component 4.B.",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137218",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "adverse_action",
+      "action_label": "Approved the institution’s provisional plan and teach-out agreements to teach out students enrolled in the following programs: Bachelor of Arts in East Asian Studies, Bachelor of Arts in German, Bachelor of Arts in Music, Bachelor of Music Education in Music, and the Bachelor of Arts in Spanish. The approved teach-out agreements are with the following institutions: Capital University, OH Baldwin Wallace University, OH University of Dayton, OH",
+      "action_label_short": "Approved provisional plan and teach-out agreements with Capital University, Baldwin Wallace University, and University of Dayton",
+      "action_scope": "institution-level",
+      "action_status": "active",
+      "action_date": "2024-11-01",
+      "action_year": "2024",
+      "notes": "Approved the institution’s provisional plan and teach-out agreements to teach out students enrolled in the following programs: Bachelor of Arts in East Asian Studies, Bachelor of Arts in German, Bachelor of Arts in Music, Bachelor of Music Education in Music, and the Bachelor of Arts in Spanish. The approved teach-out agreements are with the following institutions: Capital University, OH Baldwin Wallace University, OH University of Dayton, OH",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_title": "November 2024 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_page_modified": "2025-04-03",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137218"
+    },
+    {
+      "accreditor": "HLC",
+      "source_title": "November 2024 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
+    }
+  ]
 }

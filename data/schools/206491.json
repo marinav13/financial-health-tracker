@@ -1,6 +1,6 @@
 {
   "unitid": "206491",
-  "generated_at": "2026-05-13",
+  "generated_at": "2026-05-15",
   "profile": {
     "institution_name": "Wilberforce University",
     "institution_unique_name": "Wilberforce University | Wilberforce | Ohio",
@@ -822,5 +822,110 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "HLC",
+    "action_labels": "Accreditation Reaffirmed: Probation Removed; Accreditation Reaffirmed: Warning Removed; Placed on Probation because despite the university's progress, the university remains out of compliance with Core Components 3.C, 4.C, 5.C, 5.A, and 5.D and Assumed Practices D.1 and D.2.; Placed on Warning because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C and Assumed Practices D.3 and D.4.",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-10-31",
+    "latest_action_year": "2024",
+    "action_count": 4
+  },
+  "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "removed",
+      "action_label": "Next Steps in the HLC Review Process Interim Report: The Board required that the Institution submit an embedded Interim Report with its next Assurance Filing on Core Component 5.B and Assumed Practice D.3.1 Comprehensive Evaluation: The Board maintained the Institution on the Standard Pathway with its next comprehensive evaluation for reaffirmation of accreditation in 2025-26.",
+      "action_label_short": "Accreditation Reaffirmed: Warning Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2024-10-31",
+      "action_year": "2024",
+      "notes": "Accreditation Reaffirmed: Warning Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "warning",
+      "action_label": "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.",
+      "action_label_short": "Placed on Warning because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C and Assumed Practices D.3 and D.4.",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2023-11-02",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning | The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. The Institution meets Core Components 3.C, 4.C, 5.B, and 5.C with concerns. The Institution does not meet Assumed Practices D.3 and D.4.",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "removed",
+      "action_label": "Summary of the Action: The Board determined that the Institution is no longer out of compliance with the Criteria for Accreditation and removed the Institution from Probation and assigned interim monitoring.",
+      "action_label_short": "Accreditation Reaffirmed: Probation Removed",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2021-11-04",
+      "action_year": "2021",
+      "notes": "Accreditation Reaffirmed: Probation Removed",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "probation",
+      "action_label": "Summary of the Action: The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with the Criteria for Accreditation.",
+      "action_label_short": "Placed on Probation because despite the university's progress, the university remains out of compliance with Core Components 3.C, 4.C, 5.C, 5.A, and 5.D and Assumed Practices D.1 and D.2.",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2020-11-05",
+      "action_year": "2020",
+      "notes": "Probation or Equivalent or a More Severe Status: Probation | The institution initially was placed on Probation in June 2018. HLC extended probation in April 2020. In November 2020, the Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the university's progress, the university remains out of compliance.",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184"
+    }
+  ]
 }

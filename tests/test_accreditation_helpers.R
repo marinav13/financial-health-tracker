@@ -72,6 +72,17 @@ run_test("Accreditation text and classification", function() {
     "teach-out plan as required of candidate institutions."
   )
   assert_identical(classify_action(candidate_teach_out, "MSCHE"), "other")
+  preapp_candidate <- paste(
+    "Pending the successful completion of the on-site Pre-Applicant",
+    "Site Visit, to allow the institution to submit an application",
+    "for Candidate for Accreditation Status because the pre-applicant",
+    "institution appears to meet the minimum requirements."
+  )
+  assert_identical(classify_action(preapp_candidate, "MSCHE"), "other")
+  assert_identical(
+    classify_action(c(preapp_candidate, "Placed on probation"), "MSCHE"),
+    c("other", "probation")
+  )
 })
 
 run_test("MSCHE staff-preamble strip", function() {

@@ -463,6 +463,10 @@ extract_page_title <- function(html) {
 # "voluntary withdrawal", etc.
 classify_action <- function(raw_action, accreditor = NA_character_) {
   txt <- stringr::str_to_lower(as.character(raw_action))
+  acc_norm <- normalize_accreditor_code(accreditor)
+  if (length(acc_norm) == 1L && length(txt) > 1L) {
+    acc_norm <- rep(acc_norm, length(txt))
+  }
 
   # Sub-institutional / regulatory-paperwork context: the action concerns
   # something other than the institution itself ceasing operations.
@@ -522,6 +526,19 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     "closure|teach-?out|teach out|withdraw candidate"
   )
 
+  # MSCHE pre-applicant approval rows allow an institution to proceed to a
+  # Candidate application after satisfying pre-application requirements.
+  # These are positive procedural approvals, not adverse actions.
+  is_msche_preapp_approval <- acc_norm == "MSCHE" & stringr::str_detect(
+    txt,
+    paste(
+      "pre-applicant site visit",
+      "allow the institution to submit an application for candidate for accreditation status",
+      "allow the institution to submit an application for candidate for accreditation status because the pre-applicant institution appears to meet the minimum requirements",
+      sep = ".*"
+    )
+  )
+
   dplyr::case_when(
     # "Removed" actions: a previous action has been lifted or resolved
     stringr::str_detect(txt, "removed from warning|remove the institution from warning|remove notice of concern|removal of sanction") ~ "removed",
@@ -532,6 +549,7 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     # Order matters: institutional signals always win; generic teach-out /
     # closure language demotes to "other" when the text is clearly about
     # a branch campus or additional location.
+    is_msche_preapp_approval ~ "other",
     is_institutional_adverse ~ "adverse_action",
     is_generic_teachout_or_closure & !is_branch_or_location ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)

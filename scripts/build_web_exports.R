@@ -1095,6 +1095,79 @@ build_accreditation_export <- function() {
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
+  msche_dapip_enrichment_actions <- dapip_actions_df %>%
+    filter(
+      normalize_accreditor_code(accreditor) == "MSCHE",
+      !is.na(action_label_raw)
+    )
+  if (nrow(msche_dapip_enrichment_actions) == 0L) {
+    msche_dapip_enrichment_pool <- data.frame(
+      unitid = character(),
+      accreditor = character(),
+      source_selection_period_key = character(),
+      action_summary_source_text = character(),
+      source_selection_specificity_score = integer(),
+      source_selection_substantive_text_length = integer(),
+      action_date = character(),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    msche_dapip_enrichment_pool <- msche_dapip_enrichment_actions %>%
+      mutate(
+        unitid = as.character(unitid),
+        action_date = normalize_accreditation_date(action_date),
+        action_year = dplyr::if_else(
+          (is.na(action_year) | trimws(as.character(action_year %||% "")) == "") & !is.na(action_date),
+          substr(action_date, 1L, 4L),
+          as.character(action_year)
+        ),
+        file_id = as.character(file_id)
+      ) %>%
+      reconcile_accreditation_tracker_metadata(accreditor_col = "accreditor") %>%
+      {
+        if (!"file_text_path" %in% names(.)) {
+          .$file_text_path <- NA_character_
+        }
+        .
+      } %>%
+      mutate(
+        accreditor = normalize_accreditor_code(accreditor),
+        action_summary_source_text = vapply(
+          seq_len(n()),
+          function(i) .select_action_summary_source_text(
+            action_label_raw[[i]],
+            file_text_path[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          ),
+          character(1)
+        ),
+        source_selection_specificity_score = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_specificity_score(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_substantive_text_length = vapply(
+          seq_len(n()),
+          function(i) get_action_summary_substantive_text_length(
+            action_summary_source_text[[i]],
+            accreditor[[i]]
+          ),
+          integer(1)
+        ),
+        source_selection_period_key = action_date
+      ) %>%
+      filter(
+        accreditor == "MSCHE",
+        !is.na(unitid), unitid != "",
+        !is.na(source_selection_period_key),
+        nzchar(trimws(as.character(source_selection_period_key %||% "")))
+      )
+  }
   sacscoc_supplemental_force_keep_keys <- character()
   wscuc_dapip_enrichment_actions <- dapip_actions_df %>%
     filter(
@@ -1524,6 +1597,73 @@ build_accreditation_export <- function() {
     ) %>%
     {
       actions_df <- .
+      if (!nrow(msche_dapip_enrichment_pool)) {
+        actions_df
+      } else {
+        msche_best <- msche_dapip_enrichment_pool %>%
+          group_by(unitid, accreditor, source_selection_period_key) %>%
+          arrange(
+            dplyr::desc(source_selection_specificity_score),
+            dplyr::desc(source_selection_substantive_text_length),
+            dplyr::desc(action_date),
+            .by_group = TRUE
+          ) %>%
+          slice(1) %>%
+          ungroup() %>%
+          select(
+            unitid,
+            accreditor,
+            source_selection_period_key,
+            best_msche_dapip_text = action_summary_source_text,
+            best_msche_dapip_specificity_score = source_selection_specificity_score,
+            best_msche_dapip_substantive_text_length = source_selection_substantive_text_length
+          )
+
+        actions_df %>%
+          left_join(
+            msche_best,
+            by = c("unitid", "accreditor", "source_selection_period_key")
+          ) %>%
+          mutate(
+            action_summary_source_text = dplyr::case_when(
+              accreditor == "MSCHE" &
+                source_selection_candidate_kind == "scraper" &
+                !is.na(best_msche_dapip_specificity_score) &
+                (
+                  best_msche_dapip_specificity_score > source_selection_specificity_score |
+                    (
+                      best_msche_dapip_specificity_score == source_selection_specificity_score &
+                        dplyr::coalesce(best_msche_dapip_substantive_text_length, 0L) >
+                        dplyr::coalesce(source_selection_substantive_text_length, 0L)
+                    )
+                ) ~
+                  best_msche_dapip_text,
+              TRUE ~ action_summary_source_text
+            )
+          ) %>%
+          mutate(
+            action_label_short = vapply(
+              seq_len(n()),
+              function(i) {
+                derive_action_label_short(
+                  action_type[[i]],
+                  action_summary_source_text[[i]],
+                  normalize_accreditor_code(accreditor[[i]]),
+                  notes[[i]]
+                )
+              },
+              character(1)
+            )
+          ) %>%
+          select(
+            -best_msche_dapip_text,
+            -best_msche_dapip_specificity_score,
+            -best_msche_dapip_substantive_text_length
+          )
+      }
+    } %>%
+    {
+      actions_df <- .
       if (!nrow(wscuc_dapip_enrichment_pool)) {
         actions_df
       } else {
@@ -1647,6 +1787,18 @@ build_accreditation_export <- function() {
           )
       }
     } %>%
+    mutate(
+      action_scope = vapply(
+        seq_len(n()),
+        function(i) derive_action_scope_label(
+          action_scope[[i]],
+          action_label_short[[i]],
+          action_label_raw[[i]],
+          normalize_accreditor_code(accreditor[[i]])
+        ),
+        character(1)
+      )
+    ) %>%
     group_by(export_unitid, accreditor, action_date) %>%
     mutate(
       has_same_day_explicit_sanction = any(action_type %in% c("warning", "probation", "removed", "show_cause", "adverse_action"), na.rm = TRUE),

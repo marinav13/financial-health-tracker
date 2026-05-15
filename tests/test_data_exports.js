@@ -69,7 +69,7 @@ run("school JSON files match the frozen shape contract", () => {
 
   const missing = [];           // keys the contract requires but a file is missing
   const unexpectedCandidates = { profile: new Map(), summary: new Map(), series: new Map() };
-  const observedTopLevel = new Set();
+  const observedTopLevel = new Map();
   let fileCount = 0;
 
   for (const file of files) {
@@ -81,7 +81,9 @@ run("school JSON files match the frozen shape contract", () => {
         missing.push(`${file}: top-level.${key}`);
       }
     }
-    for (const key of Object.keys(school)) observedTopLevel.add(key);
+    for (const key of Object.keys(school)) {
+      observedTopLevel.set(key, (observedTopLevel.get(key) || 0) + 1);
+    }
 
     for (const nested of ["profile", "summary", "series"]) {
       const value = school[nested];
@@ -107,8 +109,9 @@ run("school JSON files match the frozen shape contract", () => {
   // Additions: any key that appears in EVERY file but isn't in the contract
   // is new shared schema that the frontend should know about. Flag it so new
   // fields can't silently ship without updating the contract.
-  const addedTopLevel = Array.from(observedTopLevel)
-    .filter((key) => !required.top_level.includes(key));
+  const addedTopLevel = Array.from(observedTopLevel.entries())
+    .filter(([key, count]) => count === fileCount && !required.top_level.includes(key))
+    .map(([key]) => key);
   const addedNested = [];
   for (const nested of ["profile", "summary", "series"]) {
     for (const [key, count] of unexpectedCandidates[nested]) {
@@ -322,14 +325,14 @@ run("WSCUC exports prefer richer DAPIP letter detail only when it beats the scra
   assert(
     (providence.actions || []).some((row) =>
       row.action_label_short ===
-      "Placed on Probation because it is out of compliance with Standards 3 and 4, CFRs 3.4, 3.7, 4.1, 4.2, 4.3, 4.4, and 4.5 on financial sustainability and quality assurance"
+      "Placed on Probation because it is out of compliance with standards concerning financial sustainability and quality assurance"
     ),
     "Providence should use the richer WSCUC probation summary from DAPIP letter text"
   );
   assert(
     (academy.actions || []).some((row) =>
       row.action_label_short ===
-      "Removed Notice of Concern and issued a Warning because it is out of compliance with Standards 2 and 3, CFRs 2.10 and 3.4 on student completion and resource planning"
+      "Removed Notice of Concern and issued a Warning because it is out of compliance with standards concerning student completion and resource planning"
     ),
     "Academy of Art should use the richer WSCUC warning summary from DAPIP letter text"
   );
@@ -380,7 +383,7 @@ run("SACSCOC exports keep substantive sanction text and drop low-signal monitori
     (guilford.actions || []).some((row) =>
       String(row.action_date || "").startsWith("2024-12") &&
       row.action_label_short ===
-        "Continued accreditation, and continued the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 13.1 (financial resources) and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+        "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 and Standard 13.3"
     ),
     "Guilford should keep the detailed December 2024 probation summary from the DAPIP letter text"
   );
@@ -394,7 +397,7 @@ run("SACSCOC exports keep substantive sanction text and drop low-signal monitori
     (highPoint.actions || []).some((row) =>
       row.action_date === "2023-06-15" &&
       row.action_label_short ===
-        "Recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status) of the Principles of accreditation."
+        "Recommended warning for twelve months for failure to comply with Core Requirement 12.1, Standard 8.2.a, and Standard 14.1"
     ),
     "High Point should keep the full standards-backed June 2023 warning summary"
   );
@@ -413,7 +416,7 @@ run("SACSCOC exports keep substantive sanction text and drop low-signal monitori
     (saintAugustine.actions || []).some((row) =>
       row.action_date === "2024-12-01" &&
       row.action_label_short ===
-        "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances and sponsored research/external funds"
+        "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds"
     ),
     "Saint Augustine should use the richer SACSCOC removal summary instead of the truncated scraper text"
   );

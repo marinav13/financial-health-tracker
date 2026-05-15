@@ -283,7 +283,7 @@ run_test("derive_action_label_short: non-MSCHE passthrough", function() {
     derive_action_label_short("warning",
       "Denied reaffirmation, continued accreditation, and continued the University of Lynchburg on Warning for twelve months",
       "SACSCOC"),
-    "Denied reaffirmation, continued accreditation, and continued the University of Lynchburg on Warning for twelve months"
+    "Denied reaffirmation, continued accreditation, and continued the University of Lynchburg on warning for twelve months"
   )
 })
 
@@ -296,7 +296,7 @@ run_test("derive_action_label_short: non-MSCHE extracts substantive SACSCOC acti
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Denied reaffirmation of accreditation, continued accreditation, and continued the institution on Warning. For twelve months for failure to comply with Standards 8.2.a and 13.3."
+    "Denied reaffirmation of accreditation, continued accreditation, and continued the institution on warning. For twelve months for failure to comply with Standards 8.2.a and 13.3."
   )
 })
 
@@ -309,7 +309,7 @@ run_test("derive_action_label_short: non-MSCHE falls back to compact label for g
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Placed on Warning"
+    "Placed on warning"
   )
 })
 
@@ -321,7 +321,7 @@ run_test("derive_action_label_short: strips SACSCOC Special Committee boilerplat
   )
   assert_identical(
     derive_action_label_short("probation", text, "SACSCOC"),
-    "Placed on Probation for Good Cause for twelve months for failure to comply with standards concerning financial responsibility, control of finances, and federal/state responsibilities"
+    "Placed on probation for good cause for twelve months for failure to comply with Standard 13.3, Standard 13.4, and Standard 13.6"
   )
 })
 
@@ -407,7 +407,7 @@ run_test("derive_action_label_short: SACSCOC disclosure statement extracts warni
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Placed on Warning for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities"
+    "Placed on warning for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities"
   )
 })
 
@@ -419,7 +419,7 @@ run_test("derive_action_label_short: SACSCOC warning clause strips lead-in and d
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Placed on Warning for twelve (12) months for failure to comply with standards concerning financial resources and financial responsibility"
+    "Placed on warning for twelve (12) months for failure to comply with Standard 13.1 and Standard 13.3"
   )
 })
 
@@ -431,7 +431,7 @@ run_test("derive_action_label_short: SACSCOC long sanction clauses collapse to s
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation and placed on Warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
+    "Denied reaffirmation and placed on warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
   )
 })
 
@@ -442,7 +442,7 @@ run_test("derive_action_label_short: SACSCOC monitoring review lead-in is stripp
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation and continued on Warning for twelve months for failure to comply with standards concerning governance, financial resources, and financial responsibility"
+    "Denied reaffirmation and continued on warning for twelve months for failure to comply with Core Requirement 4.1, Core Requirement 13.1, and Standard 13.3"
   )
 })
 
@@ -534,6 +534,40 @@ run_test("derive_action_label_short: MSCHE pattern 1 — Approved Teach-Out Plan
       "MSCHE"
     ),
     "Approved Teach-Out Plan (several institutions)"
+  )
+})
+
+run_test("derive_action_scope_label: normalizes existing teach-out scopes", function() {
+  assert_identical(
+    derive_action_scope_label(
+      existing_scope = "Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations"
+    ),
+    "program: Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations"
+  )
+  assert_identical(
+    derive_action_scope_label(
+      existing_scope = "closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India"
+    ),
+    "location: closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India"
+  )
+})
+
+run_test("derive_action_scope_label: derives program and institution-level teach-out scopes", function() {
+  assert_identical(
+    derive_action_scope_label(
+      action_label_short = "Approved Teach-Out Agreement with Touro University for 6 programs",
+      action_label_raw = "Approved Teach-Out Agreement with Touro University for 6 programs.",
+      accreditor = "MSCHE"
+    ),
+    "program: 6 programs"
+  )
+  assert_identical(
+    derive_action_scope_label(
+      action_label_short = "Accepted Voluntary Withdrawal of Accreditation",
+      action_label_raw = "The Commission accepted the institution's request to voluntarily surrender accreditation and terminate membership effective June 30, 2025.",
+      accreditor = "NECHE"
+    ),
+    "institution-level"
   )
 })
 
@@ -1391,7 +1425,7 @@ run_test("derive_action_label_short: WSCUC Providence letter text yields standar
   )
   assert_identical(
     derive_action_label_short("probation", text, "WSCUC"),
-    "Placed on Probation because it is out of compliance with Standards 3 and 4, CFRs 3.4, 3.7, 4.1, 4.2, 4.3, 4.4, and 4.5 on financial sustainability and quality assurance"
+    "Placed on Probation because it is out of compliance with standards concerning financial sustainability and quality assurance"
   )
 })
 
@@ -1406,7 +1440,7 @@ run_test("derive_action_label_short: WSCUC Academy of Art letter text yields sta
   )
   assert_identical(
     derive_action_label_short("warning", text, "WSCUC"),
-    "Removed Notice of Concern and issued a Warning because it is out of compliance with Standards 2 and 3, CFRs 2.10 and 3.4 on student completion and resource planning"
+    "Removed Notice of Concern and issued a Warning because it is out of compliance with standards concerning student completion and resource planning"
   )
 })
 
@@ -1971,7 +2005,7 @@ run_test("derive_action_label_short: SACSCOC warning letters compact spaced stan
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Recommended Warning for twelve months for failure to comply with standards concerning student support services, student outcomes, and publication of accreditation status"
+    "Recommended warning for twelve months for failure to comply with Core Requirement 12.1, Standard 8.2.a, and Standard 14.1"
   )
 })
 
@@ -1982,7 +2016,7 @@ run_test("derive_action_label_short: SACSCOC follow-up warning letters drop the 
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Placed on Warning for six (6) months for failure to comply with standards concerning financial resources, financial documents, and financial responsibility"
+    "Placed on warning for six (6) months for failure to comply with Core Requirement 13.1, Core Requirement 13.2, and Standard 13.3"
   )
 })
 
@@ -2025,7 +2059,7 @@ run_test("derive_action_label_short: SACSCOC disclosure statement retains injunc
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "SACSCOC"),
-    "Accreditation on Probation was reinstated pending litigation after a temporary restraining order and preliminary injunction."
+    "Accreditation on probation was reinstated pending litigation after a temporary restraining order and preliminary injunction."
   )
 })
 
@@ -2040,7 +2074,7 @@ run_test("derive_action_label_short: SACSCOC combined letter-plus-disclosure tex
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "SACSCOC"),
-    "Continued on Probation for Good Cause for twelve months for failure to comply with standards concerning financial resources and financial responsibility"
+    "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 and Standard 13.3"
   )
 })
 
@@ -2051,7 +2085,7 @@ run_test("derive_action_label_short: SACSCOC probation-for-good-cause placement 
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "SACSCOC"),
-    "Placed on Probation for Good Cause for twelve months for failure to comply with standards concerning control of finances, sponsored research/external funds, and federal/state responsibilities"
+    "Placed on probation for good cause for twelve months for failure to comply with Standard 13.4, Standard 13.5, and Standard 13.6"
   )
 })
 
@@ -2062,7 +2096,7 @@ run_test("derive_action_label_short: SACSCOC probation continuations drop accred
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "SACSCOC"),
-    "Continued on Probation for 12 months for failure to comply with standards concerning financial resources and financial responsibility"
+    "Continued on probation for 12 months for failure to comply with Core Requirement 13.1 and Standard 13.3"
   )
 })
 
@@ -2074,7 +2108,7 @@ run_test("derive_action_label_short: SACSCOC removal letters become compact remo
   )
   assert_identical(
     derive_action_label_short("removed", text, "SACSCOC"),
-    "Removed from Probation for Good Cause"
+    "Removed from probation for good cause"
   )
 })
 
@@ -2098,7 +2132,7 @@ run_test("derive_action_label_short: SACSCOC denied-program letters put the acti
   )
   assert_identical(
     derive_action_label_short("other", text, "SACSCOC"),
-    "Denied approval of 2 programs because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources and financial responsibility."
+    "Denied approval of 2 programs because the institution did not provide an acceptable plan and supporting documentation to show compliance with Core Requirement 13.1 and Standard 13.3."
   )
 })
 
@@ -2110,7 +2144,7 @@ run_test("derive_action_label_short: SACSCOC denied-program letters join exactly
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Denied approval of a Master of Education in Clinical Mental Health Counseling because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources, financial responsibility, and Governing board characteristics."
+    "Denied approval of a Master of Education in Clinical Mental Health Counseling because the institution did not provide an acceptable plan and supporting documentation to show compliance with Core Requirement 13.1, Standard 13.3, and Core Requirement 4.1."
   )
 })
 
@@ -2121,7 +2155,7 @@ run_test("derive_action_label_short: SACSCOC recommended-warning clauses compact
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Recommended Warning for 12 months for failure to comply with standards concerning governance, financial resources, financial documents, Board/administrative distinction, CEO evaluation/selection, and Board self-evaluation"
+    "Recommended warning for 12 months for failure to comply with standards concerning governance, financial resources, financial documents, Board/administrative distinction, CEO evaluation/selection, and Board self-evaluation"
   )
 })
 
@@ -2153,7 +2187,7 @@ run_test("is_sacscoc_public_table_row_to_drop: drops routine publication and pro
   ))
   assert_true(!is_sacscoc_public_table_row_to_drop(
     "warning",
-    "Placed on Warning for failure to comply with financial resources and financial responsibility",
+    "Placed on warning for failure to comply with financial resources and financial responsibility",
     "The institution was placed on Warning for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility)."
   ))
 })
@@ -2165,18 +2199,18 @@ run_test("derive_action_label_short: SACSCOC garbled OCR warning letters still s
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation, continued accreditation, and placed the institution on Warning for 12 months"
+    "Denied reaffirmation, continued accreditation, and placed the institution on warning for 12 months"
   )
 })
 
 run_test("derive_action_label_short: SACSCOC DAPIP code labels become compact sanction summaries", function() {
   assert_identical(
     derive_action_label_short("warning", "Probation or Equivalent or a More Severe Status: Warning", "SACSCOC"),
-    "Placed on Warning"
+    "Placed on warning"
   )
   assert_identical(
     derive_action_label_short("probation", "Probation or Equivalent or a More Severe Status: Probation", "SACSCOC"),
-    "Placed on Probation"
+    "Placed on probation"
   )
 })
 
@@ -2417,7 +2451,7 @@ run_test("derive_action_label_short: SACSCOC continued-warning monitoring letter
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Continued on Warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities"
+    "Continued on warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities"
   )
 })
 
@@ -2429,7 +2463,7 @@ run_test("derive_action_label_short: SACSCOC denied-reaffirmation warning letter
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Denied reaffirmation and placed on Warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
+    "Denied reaffirmation and placed on warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
   )
 })
 

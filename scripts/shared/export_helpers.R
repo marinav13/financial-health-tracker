@@ -1006,6 +1006,16 @@ get_accreditation_sanction_strength <- function(x) {
   )
 }
 
+.format_standards_concerning <- function(values, limit = 3L) {
+  values <- .unique_preserve_order(stringr::str_squish(as.character(values %||% character())))
+  values <- values[nzchar(values)]
+  if (length(values) == 0L) return(NA_character_)
+  if (!is.na(limit) && limit > 0L && length(values) > limit) {
+    values <- values[seq_len(limit)]
+  }
+  paste0("standards concerning ", .format_readable_list(values))
+}
+
 .extract_msche_standard_refs <- function(text) {
   matches <- stringr::str_match_all(
     text %||% "",
@@ -1013,6 +1023,15 @@ get_accreditation_sanction_strength <- function(x) {
   )[[1]]
   if (nrow(matches) == 0L) return(character())
   unique(toupper(matches[, 2]))
+}
+
+.extract_msche_standard_titles <- function(text) {
+  matches <- stringr::str_match_all(
+    text %||% "",
+    stringr::regex("Standard\\s+[IVX]+\\s*\\(([^)]+)\\)", ignore_case = TRUE)
+  )[[1]]
+  if (nrow(matches) == 0L) return(character())
+  unique(stringr::str_to_lower(stringr::str_squish(matches[, 2])))
 }
 
 .extract_msche_affiliation_refs <- function(text) {
@@ -1038,6 +1057,39 @@ get_accreditation_sanction_strength <- function(x) {
     label = label,
     values = unique(value_matches[nzchar(value_matches)])
   )
+}
+
+.format_msche_probation_detail <- function(text) {
+  standards <- .extract_msche_standard_refs(text)
+  standard_titles <- .extract_msche_standard_titles(text)
+  affiliation_refs <- .extract_msche_affiliation_refs(text)
+  detail_parts <- character()
+
+  if (length(standards) > 0L) {
+    if (length(standards) <= 3L) {
+      standard_label <- if (length(standards) == 1L) "Standard" else "Standards"
+      detail_parts <- c(
+        detail_parts,
+        sprintf("%s %s", standard_label, .format_readable_list(standards))
+      )
+    } else if (length(standard_titles) > 0L) {
+      detail_parts <- c(detail_parts, .format_standards_concerning(standard_titles))
+    } else {
+      detail_parts <- c(
+        detail_parts,
+        sprintf("Standards %s", .format_readable_list(standards))
+      )
+    }
+  }
+
+  if (length(affiliation_refs$values) > 0L && !is.na(affiliation_refs$label)) {
+    detail_parts <- c(
+      detail_parts,
+      sprintf("%s %s", affiliation_refs$label, .format_readable_list(affiliation_refs$values))
+    )
+  }
+
+  detail_parts
 }
 
 extract_neche_standard_families <- function(text) {
@@ -1300,6 +1352,8 @@ extract_wscuc_named_concerns <- function(text) {
 .build_wscuc_concern_detail <- function(text) {
   standard_detail <- .format_wscuc_standard_detail(text)
   standards <- .extract_wscuc_standards(text)
+  cfrs <- .extract_wscuc_cfrs(text)
+  ref_count <- length(standards) + length(cfrs)
   named_concerns <- extract_wscuc_named_concerns(text)
   priority_concerns <- character()
   if ("2" %in% standards) {
@@ -1327,6 +1381,9 @@ extract_wscuc_named_concerns <- function(text) {
     NA_character_
   }
 
+  if (ref_count > 3L && !is.na(concern_label) && nzchar(concern_label)) {
+    return(.format_standards_concerning(named_concerns, limit = 2L))
+  }
   if (!is.na(standard_detail) && !is.na(concern_label)) {
     return(sprintf("%s on %s", standard_detail, concern_label))
   }
@@ -1534,6 +1591,11 @@ extract_hlc_findings <- function(text) {
 
 .build_hlc_findings_detail <- function(text) {
   findings <- extract_hlc_findings(text)
+  ref_count <- length(findings$core_components) + length(findings$assumed_practices)
+  named_concern <- .unique_preserve_order(extract_hlc_named_concern_phrases(text))
+  if (ref_count > 3L && length(named_concern) > 0L) {
+    return(.format_standards_concerning(named_concern, limit = 2L))
+  }
   detail_parts <- c(
     .format_hlc_reference_detail(
       findings$core_components,
@@ -1551,7 +1613,6 @@ extract_hlc_findings <- function(text) {
     return(.format_readable_list(detail_parts))
   }
 
-  named_concern <- .unique_preserve_order(extract_hlc_named_concern_phrases(text))
   if (length(named_concern) == 0L) return(NA_character_)
   sprintf("HLC's Criteria for Accreditation related to %s", named_concern[[1]])
 }
@@ -2102,6 +2163,52 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.should_prefer_msche_file_text <- function(raw, notes_text, file_text) {
+  raw_value <- .normalize_action_summary_text(raw)
+  notes_value <- .normalize_action_summary_text(notes_text)
+  file_value <- .normalize_action_summary_text(file_text)
+
+  if (!nzchar(file_value)) {
+    return(FALSE)
+  }
+
+  raw_is_thin <- .is_dapip_public_action_code_label(raw_value) ||
+    .should_prefer_msche_dapip_notes(raw_value, notes_value) ||
+    grepl(
+      paste(
+        "^Loss of Accreditation or Preaccreditation:",
+        "^Heightened Monitoring or Focused Review$",
+        "^Voluntary Withdrawal Received$",
+        "^Accreditation Reaffirmed:\\s*(Warning|Probation) Removed$",
+        sep = "|"
+      ),
+      raw_value,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
+  if (!raw_is_thin) {
+    return(FALSE)
+  }
+
+  grepl(
+    paste(
+      "to place the institution on probation",
+      "to warn the institution",
+      "to require the institution to (?:continue to )?show cause",
+      "to accept the institution'?s request to voluntarily surrender",
+      "to include the change in legal status",
+      "to note (?:that )?the institution will close",
+      "to approve (?:the )?teach-?out",
+      "to remove the institution from probation",
+      "because of insufficient evidence",
+      sep = "|"
+    ),
+    file_value,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+}
+
 .is_hlc_public_action_code_label <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(FALSE)
@@ -2341,6 +2448,13 @@ extract_hlc_findings <- function(text) {
   source_hint <- .normalize_action_summary_source_hint(action_label_source_hint)
   file_text <- NA_character_
 
+  if (identical(acc_norm, "MSCHE")) {
+    file_text <- .read_action_summary_file_text(file_text_path)
+    if (.should_prefer_msche_file_text(raw, notes_text, file_text)) {
+      return(list(text = file_text, source = "pdf_body"))
+    }
+  }
+
   if (identical(acc_norm, "MSCHE") && .should_prefer_msche_dapip_notes(raw, notes_text)) {
     return(list(text = stringr::str_squish(notes_text), source = "dapip_note"))
   }
@@ -2511,19 +2625,39 @@ extract_hlc_findings <- function(text) {
   NA_character_
 }
 
-.extract_standard_areas <- function(text) {
+.extract_sacscoc_standard_entries <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
-  if (!nzchar(value)) return(character())
+  if (!nzchar(value)) {
+    return(data.frame(ref = character(), area = character(), stringsAsFactors = FALSE))
+  }
 
   matches <- stringr::str_match_all(
     value,
     stringr::regex(
-      "(?:Core Requirement|CR|Standard|Standards)\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?(?:\\s+and\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?)?\\s*[\\(\\{]([^\\)\\}]+)[\\)\\}]",
+      "((?:Core Requirement|CR|Standard|Standards)\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?(?:\\s+and\\s+[0-9]+(?:\\.[0-9]+)?(?:\\.[a-z])?)?)\\s*[\\(\\{]([^\\)\\}]+)[\\)\\}]",
       ignore_case = TRUE
     )
   )[[1]]
-  if (!nrow(matches)) return(character())
-  unique(stringr::str_squish(matches[, 2]))
+  if (!nrow(matches)) {
+    return(data.frame(ref = character(), area = character(), stringsAsFactors = FALSE))
+  }
+
+  refs <- stringr::str_squish(matches[, 2])
+  refs <- stringr::str_replace(refs, stringr::regex("^CR\\b", ignore_case = TRUE), "Core Requirement")
+  refs <- stringr::str_replace(refs, stringr::regex("^Core Requirement\\s+([0-9].*\\sand\\s[0-9])", ignore_case = TRUE), "Core Requirements \\1")
+  refs <- stringr::str_replace(refs, stringr::regex("^Standard\\s+([0-9].*\\sand\\s[0-9])", ignore_case = TRUE), "Standards \\1")
+
+  dplyr::distinct(data.frame(
+    ref = refs,
+    area = stringr::str_squish(matches[, 3]),
+    stringsAsFactors = FALSE
+  ))
+}
+
+.extract_standard_areas <- function(text) {
+  entries <- .extract_sacscoc_standard_entries(text)
+  if (nrow(entries) == 0L) return(character())
+  unique(entries$area)
 }
 
 .summarize_standard_areas <- function(areas) {
@@ -2576,6 +2710,15 @@ extract_hlc_findings <- function(text) {
   paste0("standards concerning ", area_text)
 }
 
+.format_sacscoc_reference_detail <- function(text, full_ref_limit = 3L, area_limit = 6L) {
+  entries <- .extract_sacscoc_standard_entries(text)
+  refs <- .unique_preserve_order(entries$ref)
+  if (length(refs) > 0L && length(refs) <= full_ref_limit) {
+    return(.format_readable_list(refs))
+  }
+  .summarize_standard_areas_for_sanction(entries$area, max_items = area_limit)
+}
+
 .compact_sacscoc_sanction_summary <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   value <- stringr::str_replace(
@@ -2610,9 +2753,8 @@ extract_hlc_findings <- function(text) {
   if (!nzchar(value) || !stringr::str_detect(tolower(value), "failure to comply with")) {
     return(value)
   }
-  areas <- .extract_standard_areas(value)
-  area_summary <- .summarize_standard_areas_for_sanction(areas)
-  if (is.na(area_summary) || !nzchar(area_summary) || !stringr::str_detect(area_summary, "^standards concerning\\b")) {
+  reference_detail <- .format_sacscoc_reference_detail(value)
+  if (is.na(reference_detail) || !nzchar(reference_detail)) {
     return(value)
   }
   prefix <- stringr::str_match(
@@ -2690,7 +2832,7 @@ extract_hlc_findings <- function(text) {
   value <- paste0(
     stringr::str_trim(prefix),
     " for failure to comply with ",
-    area_summary
+    reference_detail
   )
   stringr::str_squish(value)
 }
@@ -2705,11 +2847,108 @@ extract_hlc_findings <- function(text) {
   paste0(prefix, " (", detail, ")")
 }
 
+.normalize_sacscoc_summary_sentence_case <- function(text) {
+  value <- stringr::str_squish(as.character(text %||% ""))
+  if (!nzchar(value)) return(value)
+
+  replacements <- list(
+    list(pattern = stringr::fixed("Accreditation Reaffirmed:"), replacement = "Accreditation reaffirmed:"),
+    list(pattern = stringr::regex("\\bWarning Removed\\b", ignore_case = TRUE), replacement = "warning removed"),
+    list(pattern = stringr::regex("\\bProbation Removed\\b", ignore_case = TRUE), replacement = "probation removed"),
+    list(pattern = stringr::regex("\\bNotice of Concern\\b", ignore_case = TRUE), replacement = "notice of concern"),
+    list(pattern = stringr::regex("\\bHeightened Monitoring or Focused Review\\b", ignore_case = TRUE), replacement = "Heightened monitoring or focused review"),
+    list(pattern = stringr::regex("\\bShow Cause\\b", ignore_case = TRUE), replacement = "show cause"),
+    list(pattern = stringr::regex("\\bGood Cause\\b", ignore_case = TRUE), replacement = "good cause"),
+    list(pattern = stringr::regex("\\bWarning\\b", ignore_case = TRUE), replacement = "warning"),
+    list(pattern = stringr::regex("\\bProbation\\b", ignore_case = TRUE), replacement = "probation")
+  )
+
+  for (rule in replacements) {
+    value <- stringr::str_replace_all(value, rule$pattern, rule$replacement)
+  }
+
+  .capitalize_summary_head(value)
+}
+
 .normalize_sentence_case_summary <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   if (!nzchar(value)) return(value)
   value <- tolower(value)
   .capitalize_summary_head(value)
+}
+
+derive_action_scope_label <- function(existing_scope = NA_character_,
+                                      action_label_short = NA_character_,
+                                      action_label_raw = NA_character_,
+                                      accreditor = NA_character_) {
+  classify_scope <- function(scope_text) {
+    value <- stringr::str_squish(as.character(scope_text %||% ""))
+    if (!nzchar(value)) return(NA_character_)
+    lower <- tolower(value)
+    if (lower %in% c("institution-level", "program:", "location:")) return(value)
+    if (grepl("^(program|location):\\s*", lower, perl = TRUE)) return(value)
+    if (grepl("degree|program|certificate|major|concentration|curriculum", lower, perl = TRUE)) {
+      return(sprintf("program: %s", value))
+    }
+    if (grepl("location|locations|campus|site", lower, perl = TRUE)) {
+      return(sprintf("location: %s", value))
+    }
+    "institution-level"
+  }
+
+  existing <- classify_scope(existing_scope)
+  if (!is.na(existing) && nzchar(existing)) {
+    return(existing)
+  }
+
+  short <- .normalize_action_summary_text(action_label_short)
+  raw <- .normalize_action_summary_text(action_label_raw)
+  combined <- stringr::str_squish(paste(short, raw))
+  if (!nzchar(combined) ||
+      !grepl("teach-?out|teach out|closure|close all locations|voluntar(?:ily|y) surrender|removed from membership", combined, ignore.case = TRUE, perl = TRUE)) {
+    return(NA_character_)
+  }
+
+  short_scope <- stringr::str_match(short, stringr::regex("^Approved Teach-Out Plan \\(([^)]+)\\)$", ignore_case = TRUE))[, 2]
+  if (!is.na(short_scope) && nzchar(short_scope)) {
+    return(classify_scope(short_scope))
+  }
+
+  program_count <- stringr::str_match(short, stringr::regex("\\bfor\\s+(\\d+\\s+programs?)\\b", ignore_case = TRUE))[, 2]
+  if (!is.na(program_count) && nzchar(program_count)) {
+    return(sprintf("program: %s", stringr::str_to_lower(stringr::str_squish(program_count))))
+  }
+
+  program_scope <- stringr::str_match(
+    raw,
+    stringr::regex(
+      "for students currently enrolled in ([^.]+?)(?:, including|\\.|$)",
+      ignore_case = TRUE
+    )
+  )[, 2]
+  if (!is.na(program_scope) && nzchar(program_scope)) {
+    return(classify_scope(program_scope))
+  }
+
+  location_scope <- stringr::str_match(
+    combined,
+    stringr::regex(
+      "additional location(?:s)? at ([^.]+?)(?:\\.|$)|branch campus(?: at)? ([^.]+?)(?:\\.|$)|off-?campus instructional site (?:located )?at ([^.]+?)(?:\\.|$)",
+      ignore_case = TRUE
+    )
+  )
+  location_value <- location_scope[1, 2]
+  if (is.na(location_value) || !nzchar(location_value)) location_value <- location_scope[1, 3]
+  if (is.na(location_value) || !nzchar(location_value)) location_value <- location_scope[1, 4]
+  if (!is.na(location_value) && nzchar(location_value)) {
+    return(sprintf("location: %s", stringr::str_squish(location_value)))
+  }
+
+  if (grepl("teach-?out|teach out|closure|voluntar(?:ily|y) surrender|removed from membership", combined, ignore.case = TRUE, perl = TRUE)) {
+    return("institution-level")
+  }
+
+  NA_character_
 }
 
 is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short, action_label_raw) {
@@ -3648,9 +3887,9 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     if (!is.na(denied_program_match[1, 1])) {
       program_text <- stringr::str_squish(denied_program_match[1, 2])
       standards_text <- stringr::str_squish(sub("\\.?$", "", denied_program_match[1, 3]))
-      area_summary <- .summarize_standard_areas(.extract_standard_areas(standards_text))
-      if (is.na(area_summary) || !nzchar(area_summary)) {
-        area_summary <- "certain accreditation standards"
+      reference_detail <- .format_sacscoc_reference_detail(standards_text)
+      if (is.na(reference_detail) || !nzchar(reference_detail)) {
+        reference_detail <- "certain accreditation standards"
       }
       program_count <- stringr::str_count(
         program_text,
@@ -3662,7 +3901,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
       return(.capitalize_summary_head(sprintf(
         "Denied approval of %s because the institution did not provide an acceptable plan and supporting documentation to show compliance with %s.",
         program_text,
-        area_summary
+        reference_detail
       )))
     }
 
@@ -3880,6 +4119,9 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   if (!identical(acc_norm, "MSCHE")) {
     summary <- .summarize_non_msche_action_label(action_type, raw, accreditor, notes)
     if (!is.na(summary) && nzchar(summary)) {
+      if (identical(acc_norm, "SACSCOC")) {
+        return(.normalize_sacscoc_summary_sentence_case(as.character(summary)))
+      }
       return(.capitalize_summary_head(as.character(summary)))
     }
     if (!is.na(action_type) && nzchar(action_type)) {
@@ -4095,24 +4337,7 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
       ignore_case = TRUE
     )
   )) {
-    standards <- .extract_msche_standard_refs(raw)
-    affiliation_refs <- .extract_msche_affiliation_refs(raw)
-    detail_parts <- character()
-
-    if (length(standards) > 0L) {
-      standard_label <- if (length(standards) == 1L) "Standard" else "Standards"
-      detail_parts <- c(
-        detail_parts,
-        sprintf("%s %s", standard_label, .format_readable_list(standards))
-      )
-    }
-    if (length(affiliation_refs$values) > 0L && !is.na(affiliation_refs$label)) {
-      detail_parts <- c(
-        detail_parts,
-        sprintf("%s %s", affiliation_refs$label, .format_readable_list(affiliation_refs$values))
-      )
-    }
-
+    detail_parts <- .format_msche_probation_detail(raw)
     if (length(detail_parts) > 0L) {
       return(sprintf(
         "Placed on Probation for insufficient evidence of compliance with %s",

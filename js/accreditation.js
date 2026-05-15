@@ -160,13 +160,13 @@
     return action?.display_action !== false;
   }
 
-  // Builds the action cell for the GLOBAL recent-actions table. Prefers
-  // action_label_short (the compact bucket label set by build_web_exports.R
-  // for MSCHE per-institution rows whose verbatim sentences are too long
-  // for a table view) and falls back through action_label, action_label_raw,
-  // and action_type. The per-school detail view must NOT use this helper --
-  // it explicitly references action_label_raw / action_label so the full
-  // source sentence stays visible one click away.
+  // Builds the visible action cell for accreditation tables and CSV
+  // downloads. Prefers action_label_short (the compact label set by
+  // build_web_exports.R) and falls back through action_label,
+  // action_label_raw, and action_type. The same primary label is shown on
+  // the global table and the per-school accreditation page; the full board
+  // sentence remains reachable via the existing Source link instead of
+  // being rendered inline in the Action column.
   //
   // When the scraper captured a scope qualifier (e.g. "Master of Social
   // Work degree at its Bedford, Cape Cod, and Fall River locations" for
@@ -562,7 +562,7 @@
     return sorted;
   }
 
-function renderSchoolActions(actions, school, sortState, relatedIndexes) {
+  function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     const filtered = (actions || []).filter(isRecentDisplayAction);
     if (!filtered.length) return renderEmpty("No accreditation actions found.");
     const schoolName = resolveInstitutionName(school?.institution_name, filtered[0]);
@@ -574,24 +574,12 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
     }));
     const rows = sortAccreditationActions(detailRows, sortState)
       .map((action) => {
-        // Per-school detail must show the FULL board-action language, not
-        // the compact bucket label used in the global table. Explicit
-        // reference to action_label_raw documents the intent for future
-        // maintainers; action_label_short is intentionally NOT consulted.
-        const fullLabel = action.action_label
-          || action.action_label_raw
-          || action.action_type
-          || "";
-        const scope = String(action.action_scope || "").trim();
-        const labelCell = scope
-          ? (fullLabel ? `${fullLabel} (${scope})` : `(${scope})`)
-          : fullLabel;
         // Accreditor column was hidden from the visible table (it remains
         // in the CSV download). If you re-enable it, restore both the
         // expandAccreditors() cell here and the matching sortable header
         // below.
         return [
-          labelCell,
+          actionLabelCell(action),
           action.state || "",
           action.control_label || "",
           formatActionDate(action),
@@ -749,7 +737,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
       downloadRow: (action) => [
         action.institution_name || "",
         expandAccreditors(action.accreditor || ""),
-        action.action_label || action.action_type || "",
+        actionLabelCell(action),
         action.action_scope || "",
         action.state || "",
         action.control_label || "",
@@ -782,7 +770,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
       downloadHeaders: ["Institution", "Action", "Scope", "State", "Date", "Source"],
       downloadRow: (action) => [
         action.institution_name || "",
-        action.action_label || action.action_type || "",
+        actionLabelCell(action),
         action.action_scope || "",
         action.state || "",
         action.action_date || action.action_year || "",
@@ -999,7 +987,7 @@ function renderSchoolActions(actions, school, sortState, relatedIndexes) {
         ["Accreditor", "Action", "Scope", "State", "Sector", "Date", "Source"],
         schoolActions.map((action) => [
           expandAccreditors(action.accreditor || ""),
-          action.action_label || action.action_label_raw || action.action_type || "",
+          actionLabelCell(action),
           action.action_scope || "",
           school.state || "",
           school.control_label || "",

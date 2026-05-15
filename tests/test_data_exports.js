@@ -397,7 +397,7 @@ run("SACSCOC exports keep substantive sanction text and drop low-signal monitori
     (highPoint.actions || []).some((row) =>
       row.action_date === "2023-06-15" &&
       row.action_label_short ===
-        "Recommended warning for twelve months for failure to comply with Core Requirement 12.1, Standard 8.2.a, and Standard 14.1"
+        "Recommended warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status)"
     ),
     "High Point should keep the full standards-backed June 2023 warning summary"
   );

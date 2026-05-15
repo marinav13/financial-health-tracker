@@ -1092,7 +1092,6 @@ build_accreditation_export <- function() {
       action_date = as.character(action_date),
       action_year = as.character(action_year),
       file_id = as.character(file_id),
-      source_action_label_short = as.character(action_label_short),
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
@@ -1249,7 +1248,6 @@ build_accreditation_export <- function() {
         action_type = dplyr::coalesce(action_type, preferred_scraper_action_type),
         action_label_raw = dplyr::coalesce(action_label_raw, preferred_scraper_action_label),
         action_date = dplyr::coalesce(action_date, preferred_scraper_action_date),
-        source_action_label_short = as.character(action_label_short),
         display_action = TRUE
       ),
     public_dapip_actions %>%

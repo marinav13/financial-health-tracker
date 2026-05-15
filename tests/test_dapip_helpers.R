@@ -1,5 +1,9 @@
 source(file.path(root, "scripts", "shared", "dapip_helpers.R"))
 
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("DAPIP OPEID normalization and cache keys", function() {
   assert_equal(normalize_opeid("372000"), "00372000")
   assert_equal(normalize_opeid("003720-00"), "00372000")

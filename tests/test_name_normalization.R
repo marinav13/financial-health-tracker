@@ -7,6 +7,10 @@
 # other side isn't updated, one of the two tests fails. This is the drift
 # guard the audit asked for.
 
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Name normalization: cuts fixtures match R implementation", function() {
   cuts_fixture <- jsonlite::fromJSON(
     file.path(root, "tests", "fixtures", "name_normalization_cuts.json"),

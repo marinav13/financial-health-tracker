@@ -535,6 +535,9 @@ run_test("Web export pipeline fixture", function() {
   accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
   research_index <- jsonlite::read_json(file.path(fixture_root, "data", "research_funding_index.json"), simplifyVector = TRUE)
   download_csv <- readr::read_csv(file.path(fixture_root, "data", "downloads", "full_dataset.csv"), show_col_types = FALSE)
+  review_candidates <- read_accreditation_review_candidates(
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
+  )
 
   # ── metadata schema ─────────────────────────────────────────────────────────
   assert_identical(metadata$title, "College Financial Health Tracker")
@@ -619,6 +622,13 @@ run_test("Web export pipeline fixture", function() {
     assert_true(all(c("accreditor", "action_label", "action_date", "source_url") %in% first_action_row_names),
       "landing_actions rows should include the compact row-level fields used by accreditation.html.")
   }
+
+  school_action_count <- sum(vapply(accreditation_export$schools, function(school) nrow(school$actions), integer(1)))
+  assert_identical(nrow(review_candidates), school_action_count)
+  assert_true(all(nchar(review_candidates$action_id) == 12L),
+    "Accreditation review candidates should carry stable 12-character action ids.")
+  assert_true("generated_statement" %in% names(review_candidates),
+    "Accreditation review candidates should expose the generated statement editors review.")
 
   assert_identical(school_file$profile$institution_name, "Example University")
 

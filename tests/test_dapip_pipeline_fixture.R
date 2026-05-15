@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("DAPIP crosswalk pipeline fixture", function() {
   fixture_root <- tempfile("dapip-fixture-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)

@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("End-to-end canonical to web export fixture", function() {
   fixture_root <- tempfile("end-to-end-fixture-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
@@ -55,6 +59,11 @@ run_test("End-to-end canonical to web export fixture", function() {
   file.copy(
     file.path(root, "scripts", "shared", "accreditation_helpers.R"),
     file.path(fixture_root, "scripts", "shared", "accreditation_helpers.R"),
+    overwrite = TRUE
+  )
+  file.copy(
+    file.path(root, "scripts", "shared", "editorial_review_helpers.R"),
+    file.path(fixture_root, "scripts", "shared", "editorial_review_helpers.R"),
     overwrite = TRUE
   )
   file.copy(

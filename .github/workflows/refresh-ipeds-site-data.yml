@@ -3,12 +3,13 @@ name: Refresh Source Data Weekly
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 12 * * 1"
+    - cron: "0 0 * * 1"
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
+  ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
   # Closure sheet import is temporarily disabled while the upstream
   # closure tracker is being rebuilt outside this repo. Re-enable by
   # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
@@ -255,12 +256,65 @@ jobs:
       #     python ./scripts/import_closure_sheet.py
       #     --sheet "${CLOSURE_SHEET_URL}"
 
-      - name: Rebuild static web exports
+      - name: Rebuild static web exports (candidate generation)
         shell: bash
         timeout-minutes: 60
         run: >
           Rscript ./scripts/build_web_exports.R
           --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
+
+      - name: Decode Google service account credentials
+        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_B64 != '' }}
+        shell: bash
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_B64 }}" | base64 --decode > "$RUNNER_TEMP/google-service-account.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/google-service-account.json" >> "$GITHUB_ENV"
+
+      - name: Stage accreditation review queue
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            Rscript ./scripts/stage_accreditation_review.R \
+              --input data_pipelines/accreditation/accreditation_review_candidates.csv \
+              --output data_pipelines/accreditation/editorial_overrides.csv \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            Rscript ./scripts/stage_accreditation_review.R \
+              --input data_pipelines/accreditation/accreditation_review_candidates.csv \
+              --output data_pipelines/accreditation/editorial_overrides.csv \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          fi
+
+      - name: Pull accreditation review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            Rscript ./scripts/pull_accreditation_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
+          fi
+
+      - name: Rebuild static web exports (review gate)
+        shell: bash
+        timeout-minutes: 60
+        run: >
+          Rscript ./scripts/build_web_exports.R
+          --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
+          --enforce-review-gate
 
       - name: Validate rebuilt artifacts
         shell: bash
@@ -335,7 +389,7 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/ data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
+          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
           if git diff --staged --quiet; then
             echo "No data changes to commit."
             exit 0

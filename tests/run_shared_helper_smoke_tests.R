@@ -4,6 +4,7 @@ test_files <- c(
   "test_utils.R",
   "test_contracts.R",
   "test_export_helpers.R",
+  "test_editorial_review_helpers.R",
   "test_accreditation_helpers.R",
   "test_accreditation_scrapers.R",
   "test_grant_witness_helpers.R",

@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("IPEDS canonical pipeline fixture with aux enrollment backfill", function() {
   fixture_root <- tempfile("canonical-aux-fixture-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)

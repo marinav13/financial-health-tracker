@@ -5,8 +5,9 @@
 # Source this after utils.R inside main() in build_grant_witness_join.R.
 #
 # Requires: dplyr, stringr, tools (loaded by the caller)
-# Note: to_num here strips "$" and "," which differs slightly from utils.R;
-# it intentionally shadows the version from utils.R in this script's scope.
+# Note: Grant Witness amount fields often include "$" prefixes, so this helper
+# keeps its own numeric parser instead of relying on the repo-wide to_num()
+# binding, which can be overwritten in long-lived test/source sessions.
 
 # Normalizes institution names for Grant Witness / USAspending matching.
 # Implementation is centralized in scripts/shared/name_normalization.R so
@@ -344,7 +345,7 @@ abbr_to_state <- function(x) {
   out
 }
 
-to_num <- function(x) {
+grant_witness_to_num <- function(x) {
   if (is.null(x)) return(rep(NA_real_, length.out = length(x)))
   x_chr <- trimws(as.character(x))
   x_chr[x_chr %in% c("", "NA", "NULL", "N/A")] <- NA_character_
@@ -573,7 +574,7 @@ transform_grant_witness_field <- function(values, transform = "identity") {
   switch(
     transform,
     identity = as.character(values),
-    numeric = to_num(values),
+    numeric = grant_witness_to_num(values),
     state = abbr_to_state(values),
     stop("Unsupported Grant Witness field transform: ", transform, call. = FALSE)
   )

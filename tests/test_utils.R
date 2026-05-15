@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("CLI arg helpers", function() {
   args <- c("--input", "file.csv", "--refresh", "TRUE", "--dry-run")
   assert_identical(get_arg(args, "--input"), "file.csv")

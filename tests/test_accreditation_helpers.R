@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Accreditation text and classification", function() {
   assert_identical(unname(clean_text("<p>Hello<br>World</p>")), "Hello World")
   html <- paste0(

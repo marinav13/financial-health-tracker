@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Pipeline scripts parse cleanly", function() {
   # Prefer `git ls-files --cached --others --exclude-standard` so untracked
   # scratch files (analyst one-offs gitignored by pattern, e.g. *_PMI.R) don't
@@ -67,7 +71,12 @@ run_test("Pipeline entry scripts source cleanly", function() {
     file.path(root, "scripts", "build_grant_witness_join.R"),
     file.path(root, "scripts", "build_grant_witness_usaspending_sensitivity.R"),
     file.path(root, "scripts", "build_ipeds_canonical_dataset.R"),
-    file.path(root, "scripts", "collect_ipeds_data.R")
+    file.path(root, "scripts", "collect_ipeds_data.R"),
+    file.path(root, "scripts", "stage_accreditation_review.R"),
+    file.path(root, "scripts", "grandfather_accreditation_review.R"),
+    file.path(root, "scripts", "pull_accreditation_overrides.R"),
+    file.path(root, "scripts", "publish_to_google_sheets.R"),
+    file.path(root, "scripts", "write_accreditation_review_instructions.R")
   )
 
   for (script_path in script_paths) {
@@ -99,4 +108,34 @@ run_test("Deprecated college cuts JSON exporter hard-stops before writing produc
     grepl("build_web_exports.R", err, fixed = TRUE),
     "Deprecated exporter stop message should redirect maintainers to build_web_exports.R."
   )
+})
+
+run_test("Direct-run R test files bootstrap the shared harness", function() {
+  test_paths <- sort(list.files(
+    file.path(root, "tests"),
+    pattern = "^test_.*\\.R$",
+    full.names = TRUE
+  ))
+  test_paths <- test_paths[basename(test_paths) != "test_support.R"]
+  assert_true(length(test_paths) > 0L, "Expected at least one tests/test_*.R file.")
+
+  missing_bootstrap <- character()
+  for (path in test_paths) {
+    lines <- readLines(path, warn = FALSE)
+    has_run_test <- any(grepl("^run_test\\(", lines))
+    has_bootstrap <- any(grepl('^if \\(!exists\\("run_test"', lines))
+    if (has_run_test && !has_bootstrap) {
+      missing_bootstrap <- c(missing_bootstrap, basename(path))
+    }
+  }
+
+  if (length(missing_bootstrap) > 0L) {
+    stop(
+      paste(
+        "Direct-runnable test files are missing the run_test bootstrap:",
+        paste(missing_bootstrap, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
 })

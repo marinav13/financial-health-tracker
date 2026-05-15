@@ -1,5 +1,9 @@
 source(file.path(root, "scripts", "shared", "accreditation_scrapers.R"))
 
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Accreditation scraper action schema helper", function() {
   empty_rows <- ensure_accreditation_action_schema(tibble::tibble(), "empty fixture")
   assert_identical(nrow(empty_rows), 0L)

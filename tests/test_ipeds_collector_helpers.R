@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("IPEDS collector EAP total FTE returns NA for missing unitid", function() {
   empty_index <- list()
   result <- get_eap_total_fte("99999", empty_index)

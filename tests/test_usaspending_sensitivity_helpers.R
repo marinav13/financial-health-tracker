@@ -13,6 +13,10 @@ source(file.path(root, "scripts", "shared", "usaspending_sensitivity_helpers.R")
 # safe_num
 # -------------------------------------------------------------------
 
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("USAspending helpers: safe_num parses numeric string", function() {
   assert_equal(safe_num("42.5"), 42.5)
 })

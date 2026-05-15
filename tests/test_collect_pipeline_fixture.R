@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("IPEDS collector pipeline fixture", function() {
   workspace <- file.path(tempdir(), paste0("collect-fixture-", as.hexmode(sample.int(10^7, 1))))
   dir.create(file.path(workspace, "scripts", "shared"), recursive = TRUE, showWarnings = FALSE)

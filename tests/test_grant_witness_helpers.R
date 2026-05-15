@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Grant Witness name helpers", function() {
   assert_identical(
     prettify_institution_name("TEXAS A&M UNIVERSITY"),
@@ -89,4 +93,43 @@ run_test("Grant Witness standardization config", function() {
   writeLines("cached", temp_file)
   maybe_download("https://invalid.example/grants.csv", temp_file, skip_download = TRUE)
   assert_true(file.exists(temp_file), "Expected cached Grant Witness file to be reused.")
+})
+
+run_test("Grant Witness standardization uses its own numeric parser", function() {
+  sample_nsf <- data.frame(
+    grant_id = "12345",
+    status = "Terminated",
+    org_name = "Example University",
+    org_state = "IL",
+    org_city = "Carbondale",
+    award_type = "Research",
+    project_title = "CAMPUS RESEARCH",
+    abstract = "Study of campus finance",
+    nsf_start_date = "2024-01-01",
+    usasp_start_date = NA_character_,
+    nsf_end_date = "2025-01-01",
+    usasp_end_date = NA_character_,
+    termination_date = "2024-10-01",
+    reinstatement_date = NA_character_,
+    estimated_budget = "$100,000",
+    estimated_outlays = "50000",
+    estimated_remaining = "50000",
+    usaspending_url = "https://example.com/award/abc",
+    nsf_url = "https://nsf.example/123",
+    stringsAsFactors = FALSE
+  )
+
+  prior_to_num <- if (exists("to_num", envir = .GlobalEnv, inherits = FALSE)) get("to_num", envir = .GlobalEnv) else NULL
+  had_prior_to_num <- exists("to_num", envir = .GlobalEnv, inherits = FALSE)
+  assign("to_num", function(x) suppressWarnings(as.numeric(gsub(",", "", as.character(x)))), envir = .GlobalEnv)
+  on.exit({
+    if (had_prior_to_num) {
+      assign("to_num", prior_to_num, envir = .GlobalEnv)
+    } else if (exists("to_num", envir = .GlobalEnv, inherits = FALSE)) {
+      rm("to_num", envir = .GlobalEnv)
+    }
+  }, add = TRUE)
+
+  standardized <- standardize_grant_witness_rows("nsf", sample_nsf, "nsf_terminations.csv")
+  assert_equal(standardized$award_value[[1]], 100000)
 })

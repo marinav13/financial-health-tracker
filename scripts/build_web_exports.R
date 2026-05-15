@@ -4,6 +4,7 @@ main <- function(cli_args = NULL) {
   ipeds         <- load_ipeds_paths()
   ipeds_layout  <- ipeds$ipeds_layout
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
+  has_flag      <- function(flag) arg_has(args, flag)
 
 # This script turns the canonical IPEDS dataset plus the joined cuts,
 # accreditation, research, and scorecard files into the JSON payloads used by
@@ -11,9 +12,10 @@ main <- function(cli_args = NULL) {
 # The helpers below focus on making those exports resilient to missing values so
 # a sparse field in one source does not break the generated pages.
 
-ensure_packages(c("dplyr", "jsonlite", "readr"))
+ensure_packages(c("dplyr", "digest", "jsonlite", "readr"))
 source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "accreditation_helpers.R"))
+source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "contracts.R"))
 
 validate_multi_year_web_input <- function(df, input_path) {
@@ -37,6 +39,7 @@ validate_multi_year_web_input <- function(df, input_path) {
 
 input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
+enforce_review_gate <- has_flag("--enforce-review-gate")
 
 root <- normalizePath(output_dir, winslash = "/", mustWork = TRUE)
 input_path <- normalizePath(input_csv, winslash = "/", mustWork = TRUE)
@@ -51,6 +54,8 @@ cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_fin
 accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
 accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
 accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
+accreditation_review_candidates_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
+accreditation_editorial_overrides_path <- file.path(root, "data_pipelines", "accreditation", "editorial_overrides.csv")
 dapip_filtered_actions_path <- file.path(root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv")
 dapip_public_audit_path <- file.path(root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv")
 research_summary_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
@@ -2079,6 +2084,20 @@ build_accreditation_export <- function() {
     select(-hlc_sanction_cycle_family, -hlc_latest_removal_date)
 
   actions_df <- compact_neche_public_actions(actions_df)
+  write_csv_atomic(
+    build_accreditation_review_candidates(actions_df),
+    accreditation_review_candidates_path
+  )
+  editorial_overrides <- if (file.exists(accreditation_editorial_overrides_path)) {
+    read_accreditation_editorial_overrides(accreditation_editorial_overrides_path)
+  } else {
+    empty_accreditation_editorial_overrides()
+  }
+  actions_df <- apply_accreditation_editorial_overrides(
+    actions_df,
+    overrides = editorial_overrides,
+    enforce_review_gate = enforce_review_gate
+  )
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying

@@ -1,26 +1,13 @@
 main <- function(cli_args = NULL) {
-  args <- if (is.null(cli_args)) commandArgs(trailingOnly = TRUE) else cli_args
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  source(file.path(getwd(), "scripts", "shared", "google_sheets_helpers.R"))
+  args <- parse_cli_args(cli_args)
 
   paths_env <- new.env(parent = baseenv())
   sys.source(file.path(getwd(), "scripts", "shared", "ipeds_paths.R"), envir = paths_env)
   ipeds_layout <- get("ipeds_layout", envir = paths_env, inherits = FALSE)
-
-  get_arg_value <- function(flag, default = NULL) {
-    idx <- match(flag, args)
-    if (!is.na(idx) && idx < length(args)) args[[idx + 1L]] else default
-  }
-
-  has_flag <- function(flag) {
-    flag %in% args
-  }
-
-  ensure_packages <- function(pkgs) {
-    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]
-    if (length(missing) > 0) {
-      install.packages(missing, repos = "https://cloud.r-project.org")
-    }
-    invisible(lapply(pkgs, library, character.only = TRUE))
-  }
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
+  has_flag <- function(flag) arg_has(args, flag)
 
   ensure_packages(c("googlesheets4", "readr"))
 
@@ -44,9 +31,6 @@ main <- function(cli_args = NULL) {
     stop("Provide either --sheet <Google Sheet URL or ID> or --create <new spreadsheet name>.")
   }
 
-  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
-
-  auth_json <- if (!is.na(auth_json) && nzchar(auth_json) && file.exists(auth_json)) auth_json else NA_character_
   email <- if (!is.na(email) && nzchar(email)) email else NA_character_
 
   if (verbose) {
@@ -58,25 +42,13 @@ main <- function(cli_args = NULL) {
     message("Rows: ", nrow(data), " | Columns: ", ncol(data))
   }
 
-  if (!is.na(auth_json)) {
-    if (verbose) {
-      message("Authenticating with service account JSON: ", auth_json)
-    }
-    googlesheets4::gs4_auth(
-      path = auth_json,
-      scopes = "spreadsheets",
-      cache = FALSE
-    )
-  } else {
-    if (verbose) {
-      message("Authenticating with interactive OAuth cache at: ", cache_dir)
-    }
-    googlesheets4::gs4_auth(
-      email = email,
-      scopes = "spreadsheets",
-      cache = cache_dir
-    )
-  }
+  authenticate_google_sheets(
+    auth_json = auth_json,
+    email = email,
+    cache_dir = cache_dir,
+    scopes = "spreadsheets",
+    verbose = verbose
+  )
 
   target_sheet <- sheet_id_or_url
   if (is.null(target_sheet)) {

@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("IPEDS sector benchmarks", function() {
   df <- data.frame(
     unitid = c("100", "200", "100", "200"),

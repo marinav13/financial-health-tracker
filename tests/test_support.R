@@ -4,7 +4,7 @@ root <- normalizePath(file.path(getwd()), winslash = "/", mustWork = TRUE)
 
 source(file.path(root, "scripts", "shared", "utils.R"))
 
-required_pkgs <- c("dplyr", "jsonlite", "pdftools", "purrr", "readr", "readxl", "stringr", "xml2", "httr2")
+required_pkgs <- c("digest", "dplyr", "jsonlite", "pdftools", "purrr", "readr", "readxl", "stringr", "xml2", "httr2")
 missing_pkgs <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1L), quietly = TRUE)]
 if (length(missing_pkgs) > 0L) {
   stop(
@@ -19,6 +19,7 @@ invisible(lapply(required_pkgs, library, character.only = TRUE))
 
 source(file.path(root, "scripts", "shared", "export_helpers.R"))
 source(file.path(root, "scripts", "shared", "accreditation_helpers.R"))
+source(file.path(root, "scripts", "shared", "editorial_review_helpers.R"))
 source(file.path(root, "scripts", "shared", "grant_witness_helpers.R"))
 source(file.path(root, "scripts", "shared", "workbook_helpers.R"))
 source(file.path(root, "scripts", "shared", "ipeds_helpers.R"))

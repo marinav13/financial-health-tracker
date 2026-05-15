@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("Workbook helper grouping", function() {
   group_list <- list(
     all = data.frame(flag = c("Yes", "No"), value = c("10", "20"), metric = c(1, 2), stringsAsFactors = FALSE),

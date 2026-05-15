@@ -1,0 +1,146 @@
+﻿name: Publish Editorial Overrides
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-editorial-overrides
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  IPEDS_START_YEAR: "2014"
+  IPEDS_END_YEAR: "2024"
+  ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.5.1"
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: renv/library
+          key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
+          restore-keys: |
+            r-${{ runner.os }}-
+
+      - name: Restore R packages
+        run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
+
+      - name: Restore IPEDS download cache
+        uses: actions/cache@v4
+        with:
+          path: ipeds/cache/downloads
+          key: ipeds-downloads-${{ runner.os }}-${{ hashFiles('scripts/collect_ipeds_data.R', 'scripts/build_ipeds_dataset.R') }}
+          restore-keys: |
+            ipeds-downloads-${{ runner.os }}-
+
+      - name: Restore canonical IPEDS dataset cache
+        uses: actions/cache@v4
+        with:
+          path: ipeds/derived
+          key: ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-${{ hashFiles('scripts/build_ipeds_dataset.R', 'scripts/build_ipeds_canonical_dataset.R', 'scripts/collect_ipeds_data.R', 'scripts/shared/ipeds_helpers.R', 'scripts/shared/ipeds_row_builders.R', 'scripts/shared/ipeds_collector_helpers.R') }}
+          restore-keys: |
+            ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-
+            ipeds-derived-v1-${{ runner.os }}-
+
+      - name: Rebuild canonical IPEDS dataset (skip if cached)
+        shell: bash
+        timeout-minutes: 180
+        env:
+          CANONICAL_CSV: ipeds/derived/ipeds_financial_health_canonical_${{ env.IPEDS_START_YEAR }}_${{ env.IPEDS_END_YEAR }}.csv
+        run: |
+          if [ -s "$CANONICAL_CSV" ]; then
+            echo "Canonical IPEDS dataset cache hit at $CANONICAL_CSV - skipping rebuild."
+            ls -lh "$CANONICAL_CSV"
+            exit 0
+          fi
+          echo "Canonical IPEDS dataset not found - rebuilding."
+          Rscript ./scripts/build_ipeds_dataset.R \
+            --start-year "${IPEDS_START_YEAR}" \
+            --end-year "${IPEDS_END_YEAR}"
+      - name: Decode Google service account credentials
+        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_B64 != '' }}
+        shell: bash
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON_B64 }}" | base64 --decode > "$RUNNER_TEMP/google-service-account.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/google-service-account.json" >> "$GITHUB_ENV"
+
+      - name: Require Google Sheet configuration
+        shell: bash
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -z "${ACCREDITATION_REVIEW_SHEET_ID}" ]; then
+            echo "Missing ACCREDITATION_REVIEW_SHEET_ID secret."
+            exit 1
+          fi
+          if [ -z "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            echo "Missing GOOGLE_SERVICE_ACCOUNT_JSON_B64 secret or decoded credentials."
+            exit 1
+          fi
+
+      - name: Pull accreditation review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          Rscript ./scripts/pull_accreditation_overrides.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --verbose
+      - name: Rebuild static web exports (review gate)
+        shell: bash
+        timeout-minutes: 60
+        run: >
+          Rscript ./scripts/build_web_exports.R
+          --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
+          --enforce-review-gate
+
+      - name: Validate rebuilt artifacts
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          node ./tests/test_data_exports.js
+          python ./tests/test_import_supabase.py
+
+      - name: Commit and push editorial publish
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv
+          if git diff --staged --quiet; then
+            echo "No editorial publish changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: publish accreditation editorial updates [skip ci]"
+          git pull --rebase origin main
+          git push

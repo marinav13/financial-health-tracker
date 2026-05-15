@@ -9,6 +9,10 @@
 # assert_columns
 # ---------------------------------------------------------------------------
 
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("assert_columns passes when all required columns present", function() {
   df <- data.frame(unitid = "1", year = 2024, revenue_total = 1e6)
   result <- assert_columns(df, c("unitid", "year"), "test df")

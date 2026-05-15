@@ -248,7 +248,12 @@ build_cuts_export <- function() {
     "Run `Rscript --vanilla ./scripts/build_college_cuts_join.R` first."
   )
 
-  cuts <- readr::read_csv(cuts_path, show_col_types = FALSE) %>%
+  cuts <- readr::read_csv(cuts_path, show_col_types = FALSE)
+  if (!"cut_id" %in% names(cuts)) {
+    cuts$cut_id <- NA_character_
+  }
+
+  cuts <- cuts %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
       cut_id = as.character(cut_id),

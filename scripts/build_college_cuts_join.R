@@ -327,21 +327,13 @@ main <- function(cli_args = NULL) {
   # Falls back to a label constructed from cutType + affected counts.
   make_program_name <- function(api_program_name, institution_name, cut_type,
                                 faculty_affected, students_affected) {
-    fa <- suppressWarnings(as.integer(faculty_affected))
-    sa <- suppressWarnings(as.integer(students_affected))
     generic_label <- switch(
       cut_type %||% "",
       institution_closure = "Institution closure",
       department_closure  = "Department closure",
       hiring_freeze       = "Hiring freeze",
-      staff_layoff = paste0(
-        "Staff layoff",
-        if (!is.na(fa) && fa > 0L) paste0(" (", fa, " positions affected)") else ""
-      ),
-      program_suspension = paste0(
-        "Programs suspended",
-        if (!is.na(sa) && sa > 0L) paste0(" (", sa, " students affected)") else ""
-      ),
+      staff_layoff        = "Staff layoff",
+      program_suspension  = "Programs suspended",
       stringr::str_to_title(gsub("_", " ", cut_type %||% "Unknown"))
     )
     api_name <- trimws(api_program_name %||% "")

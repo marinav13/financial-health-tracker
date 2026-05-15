@@ -217,6 +217,13 @@ function normalizeSearchText(value) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+const AFFECTED_PARENS_RE =
+  /\s*\(\s*[\d,]+\s+(?:students?|faculty|staff|positions?|employees?|people)?\s*affected\s*\)\s*$/i;
+
+function cleanCutLabel(value) {
+  return String(value || "").replace(AFFECTED_PARENS_RE, "").trim();
+}
+
 // Splits query into searchable tokens (alphanumeric only, lowercase)
 function tokenizeSearch(value) {
   return normalizeSearchText(value)
@@ -301,7 +308,7 @@ async function initSearch() {
     }
     if (sourceKind === "cuts" && row.latest_cut_label) {
       const date = row.latest_cut_date || "";
-      return `Latest cut${date ? ` (${date})` : ""}: ${trimBadge(row.latest_cut_label)}`;
+      return `Latest cut${date ? ` (${date})` : ""}: ${trimBadge(cleanCutLabel(row.latest_cut_label))}`;
     }
     if (sourceKind === "accreditation" && row.latest_action_label) {
       const date = row.latest_action_date || "";
@@ -489,6 +496,7 @@ window.TrackerApp.renderRelatedInstitutionLinks = renderRelatedInstitutionLinks;
 
 window.TrackerApp.escapeHtml = escapeHtml;
 window.TrackerApp.normalizeSearchText = normalizeSearchText;
+window.TrackerApp.cleanCutLabel = cleanCutLabel;
 window.TrackerApp.tokenizeSearch = tokenizeSearch;
 
 window.TrackerApp.normalizeQuery = function normalizeQuery(value) {

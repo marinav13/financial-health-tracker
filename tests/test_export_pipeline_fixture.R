@@ -1139,7 +1139,7 @@ run_test("Web export pipeline resolves HLC sanctions after warning removal", fun
 
   school <- accreditation_export$schools[[1]]
   assert_identical(nrow(school$actions), 2L)
-  assert_true(any(school$actions$action_label_short == "Accreditation Reaffirmed: Warning Removed"))
+  assert_true(any(school$actions$action_label_short == "Warning removed"))
   warning_row <- school$actions[school$actions$action_type == "warning", , drop = FALSE]
   assert_identical(warning_row$action_status[[1]], "resolved")
   assert_true(is.null(school$latest_status$active_actions) || identical(school$latest_status$active_actions, NA))
@@ -1147,11 +1147,11 @@ run_test("Web export pipeline resolves HLC sanctions after warning removal", fun
 
   if (is.data.frame(accred_index)) {
     row <- accred_index[accred_index$institution_name == "Example Bethel College", , drop = FALSE]
-    assert_identical(row$latest_action_label[[1]], "Accreditation Reaffirmed: Warning Removed")
+    assert_identical(row$latest_action_label[[1]], "Warning removed")
     assert_identical(row$action_count[[1]], 2L)
   } else {
     row <- accred_index[[1]]
-    assert_identical(row$latest_action_label, "Accreditation Reaffirmed: Warning Removed")
+    assert_identical(row$latest_action_label, "Warning removed")
     assert_identical(row$action_count, 2L)
   }
 })
@@ -2006,13 +2006,13 @@ run_test("Web export pipeline compacts duplicate NECHE concern-cycle rows before
     assert_identical(hampshire_index$action_count[[1]], 1L)
     assert_identical(hampshire_index$latest_action_label[[1]], "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns")
     assert_identical(hellenic_index$action_count[[1]], 2L)
-    assert_identical(hellenic_index$latest_action_label[[1]], "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional resources.")
+    assert_identical(hellenic_index$latest_action_label[[1]], "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional Resources.")
   } else {
     hampshire_index <- accred_index[[which(vapply(accred_index, function(row) identical(row$institution_name, "Example Hampshire College"), logical(1)))]]
     hellenic_index <- accred_index[[which(vapply(accred_index, function(row) identical(row$institution_name, "Example Hellenic College"), logical(1)))]]
     assert_identical(hampshire_index$action_count, 1L)
     assert_identical(hampshire_index$latest_action_label, "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns")
     assert_identical(hellenic_index$action_count, 2L)
-    assert_identical(hellenic_index$latest_action_label, "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional resources.")
+    assert_identical(hellenic_index$latest_action_label, "Placed on Probation for failure to meet the standards on Planning and Evaluation and Institutional Resources.")
   }
 })

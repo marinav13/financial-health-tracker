@@ -22,7 +22,8 @@
     syncTabs,
     renderRelatedInstitutionLinks,
     renderDataAsOf,
-    makeTableController
+    makeTableController,
+    cleanCutLabel
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -41,7 +42,7 @@
       : "";
     return `
       <article class="data-card data-card--cut">
-        <h3>${escapeHtml(cut.program_name || "Unnamed cut")}</h3>
+        <h3>${escapeHtml(cleanCutLabel(cut.program_name) || "Unnamed cut")}</h3>
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
         ${cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : ""}
@@ -50,14 +51,6 @@
     `;
   }
 
-  function formatAffectedCount(cut) {
-    const affected = Number(cut.positions_affected || cut.faculty_affected);
-    if (!Number.isFinite(affected) || affected <= 0) return "";
-    // Skip if program_name already contains the count (e.g. "Staff layoff (20 positions affected)")
-    const label = cut.program_name || "";
-    if (label.includes("positions affected") || label.includes("students affected")) return "";
-    return ` (${affected} affected)`;
-  }
 
   function sortCuts(items, sortState) {
     const sorted = (items || []).slice();
@@ -89,7 +82,7 @@
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => [
       renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
-      (cut.program_name || "") + formatAffectedCount(cut),
+      cleanCutLabel(cut.program_name),
       cut.state,
       cut.control_label,
       cut.announcement_date || cut.announcement_year || ""
@@ -191,7 +184,7 @@
         cut.institution_name || "",
         cut.state || "",
         cut.control_label || "",
-        (cut.program_name || "") + formatAffectedCount(cut),
+        cleanCutLabel(cut.program_name),
         cut.announcement_date || cut.announcement_year || "",
         cut.source_url || ""
       ]
@@ -350,7 +343,7 @@
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
-            (cut.program_name || "") + formatAffectedCount(cut),
+            cleanCutLabel(cut.program_name),
             cut.announcement_date || cut.announcement_year || "",
             cut.source_url || ""
           ])

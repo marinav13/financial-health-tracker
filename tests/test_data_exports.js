@@ -383,7 +383,7 @@ run("SACSCOC exports keep substantive sanction text and drop low-signal monitori
     (guilford.actions || []).some((row) =>
       String(row.action_date || "").startsWith("2024-12") &&
       row.action_label_short ===
-        "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 and Standard 13.3"
+        "Continued on probation for good cause for twelve months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility)"
     ),
     "Guilford should keep the detailed December 2024 probation summary from the DAPIP letter text"
   );

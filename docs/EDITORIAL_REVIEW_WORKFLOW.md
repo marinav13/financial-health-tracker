@@ -111,9 +111,17 @@ the plain hash; measure churn in Phase 1 before adding complexity.
 Editor-added rows (Section 8) get ids like `editor-<short-uuid>` so they never
 collide with scraper ids and are never expected to appear in scraper output.
 
-## 6. Google Sheet schema (accreditation pilot)
+## 6. Google Sheet schema
 
-One tab: `accreditation_review`.
+This worksheet now has separate review tabs:
+
+- `accreditation_review`
+- `college_cuts_review`
+
+Research grants remain trusted and do **not** go through an editorial review
+queue right now.
+
+### Accreditation tab
 
 **System columns** â€” written by the pipeline, protected so editors cannot edit
 them (the service account can still write):
@@ -137,6 +145,35 @@ column range; conditional formatting on `review_status`; saved filter views for
 The pipeline **only ever** appends new rows and writes system columns. It never
 touches an existing row's editor columns. That one-directional rule is what
 makes the two-way sync safe.
+
+### College Cuts tab
+
+Separate tab: `college_cuts_review`.
+
+**System columns** — written by the pipeline, protected so editors cannot edit
+them:
+
+`cut_id`, `first_seen`, `unitid`, `institution_name`, `state`,
+`announcement_date`, `announcement_year`, `cut_type`, `program_name`
+(shown to editors in the Sheet as `cut_description`),
+`source_url`, `source_title`, `source_publication`, `row_origin`,
+`grandfathered`.
+
+**Editor columns** — editors own these:
+
+`review_status` (dropdown: `unreviewed` / `in_review` / `approved` /
+`needs_revision` / `reject`), `editor_program_name` (shown in the Sheet as
+`editor_cut_description`),
+`editor_announcement_date`, `editor_cut_type`, `editor_source_url`,
+`editor_source_title`, `editor_source_publication`, `editor_notes`,
+`reviewer`, `reviewed_at`.
+
+The operational rules are the same as accreditation:
+
+- the pipeline refreshes system columns from the latest joined cuts data
+- it never overwrites editor columns
+- approved editor fields are overlaid onto the exported cuts JSON
+- the review gate for cuts can be turned on separately from accreditation
 
 ## 7. The publish gate (in `build_web_exports.R`)
 
@@ -209,7 +246,9 @@ Script Properties, not hard-coded in the script body.
    - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
    - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
    - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
-6. Run `installTriggers()` once and approve permissions.
+6. Add `CUTS_REVIEW_SHEET_TAB` (optional; default `college_cuts_review`) if the
+   same Apps Script project should watch the cuts tab too.
+7. Run `installTriggers()` once and approve permissions.
 
 After that, approved edits should publish automatically on the next debounce
 cycle, usually within about 15 minutes.
@@ -251,6 +290,7 @@ Functional, but hand-editing CSV is error-prone, so the Sheet path is preferred.
   - `GITHUB_REPO`
   - `GITHUB_TOKEN`
   - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
+  - `CUTS_REVIEW_SHEET_TAB` (optional; default `college_cuts_review`)
   - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
   - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
 - `SLACK_WEBHOOK_URL` â€” incoming webhook for the alert.
@@ -275,7 +315,7 @@ from prior weeks, a link to the Sheet, and a link to the Action run. Make it
 | 3 | `pull_accreditation_overrides.R` + the gate in `build_web_exports.R` behind `--enforce-review-gate`. Grandfather all current live rows as approved. Flip the gate on. | gate live |
 | 4 | `publish-editorial-overrides.yml` + the Sheet Apps Script auto-dispatch + Slack alert. Same-day publish on approval is now the normal case. | same-day publish live |
 | 5 | Editor-added rows (blank-id minting). | editors can add rows |
-| 6 | Template the whole thing to **cuts** (`build_college_cuts_join.R`) and **research** (`build_grant_witness_join.R`), each with its own Sheet tab and `action_id` derivation. | cuts + research gated |
+| 6 | Extend the pattern to **cuts** (`build_college_cuts_join.R`) on its own Sheet tab and keep **research** trusted for now. | cuts review live; research unchanged |
 
 ## 12. Risks and honest caveats
 

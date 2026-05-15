@@ -445,3 +445,293 @@ run_test("Editorial overrides helper applies approved edits and gate filtering",
   assert_identical(gated$unitid[[1]], "100")
   assert_identical(gated$review_status[[1]], "approved")
 })
+
+run_test("College cuts review candidates derive from joined export rows", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", NA_character_),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(cuts_df)
+
+  assert_identical(nrow(candidates), 2L)
+  assert_identical(candidates$cut_id[[1]], "cut-1")
+  assert_identical(candidates$unitid[[2]], "101")
+  assert_identical(candidates$institution_name[[1]], "Example University")
+  assert_identical(candidates$row_origin[[1]], "scraper")
+})
+
+run_test("Stage college cuts review appends only new ids and preserves editor columns", function() {
+  existing_id <- "cut-1"
+  candidates <- build_college_cuts_review_candidates(data.frame(
+    cut_id = c(existing_id, "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    stringsAsFactors = FALSE
+  ))
+
+  existing <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = existing_id,
+    unitid = "100",
+    institution_name = "Old Name",
+    state = "Old State",
+    announcement_date = "2026-04-01",
+    announcement_year = "2026",
+    cut_type = "other",
+    program_name = "Old program",
+    source_url = "https://example.org/old-cut",
+    source_title = "Old title",
+    source_publication = "Old publication",
+    row_origin = "scraper",
+    first_seen = "2026-05-01",
+    review_status = "approved",
+    editor_program_name = "Editor Program",
+    editor_announcement_date = "2026-04-30",
+    editor_cut_type = "restructuring",
+    editor_source_url = "https://example.org/editor-cut",
+    editor_source_title = "Editor title",
+    editor_source_publication = "Editor publication",
+    editor_notes = "checked",
+    reviewer = "editor@example.org",
+    reviewed_at = "2026-05-02",
+    grandfathered = TRUE,
+    stringsAsFactors = FALSE
+  ))
+
+  staged <- stage_college_cuts_editorial_overrides(
+    candidates = candidates,
+    existing = existing,
+    first_seen = "2026-05-15"
+  )
+
+  assert_identical(nrow(staged), 2L)
+  assert_identical(staged$institution_name[[1]], "Example University")
+  assert_identical(staged$state[[1]], "Alabama")
+  assert_identical(staged$cut_type[[1]], "program_closure")
+  assert_identical(staged$program_name[[1]], "History BA")
+  assert_identical(staged$source_publication[[1]], "Local Paper")
+  assert_identical(staged$editor_program_name[[1]], "Editor Program")
+  assert_identical(staged$review_status[[1]], "approved")
+  assert_identical(staged$grandfathered[[1]], TRUE)
+  assert_identical(staged$first_seen[[1]], "2026-05-01")
+
+  assert_identical(staged$cut_id[[2]], "cut-2")
+  assert_identical(staged$review_status[[2]], "unreviewed")
+  assert_identical(staged$first_seen[[2]], "2026-05-15")
+})
+
+run_test("College cuts sheet pull overwrites editor fields only", function() {
+  local_overrides <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = "cut-1",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = "2026",
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/cut-1",
+    source_title = "Cut One",
+    source_publication = "Local Paper",
+    row_origin = "scraper",
+    first_seen = "2026-05-01",
+    review_status = "unreviewed",
+    editor_program_name = NA_character_,
+    editor_announcement_date = NA_character_,
+    editor_cut_type = NA_character_,
+    editor_source_url = NA_character_,
+    editor_source_title = NA_character_,
+    editor_source_publication = NA_character_,
+    reviewer = NA_character_,
+    reviewed_at = NA_character_,
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  ))
+
+  sheet_rows <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = "cut-1",
+    unitid = "999",
+    institution_name = "Wrong system columns",
+    state = "Wrong state",
+    announcement_date = "1999-01-01",
+    announcement_year = "1999",
+    cut_type = "wrong",
+    program_name = "Wrong program",
+    source_url = "https://example.org/wrong-cut",
+    source_title = "Wrong title",
+    source_publication = "Wrong publication",
+    row_origin = "scraper",
+    first_seen = "1999-01-01",
+    review_status = "approved",
+    editor_program_name = "Edited Program",
+    editor_announcement_date = "2026-04-30",
+    editor_cut_type = "restructuring",
+    editor_source_url = "https://example.org/editor-cut",
+    editor_source_title = "Edited source",
+    editor_source_publication = "Edited publication",
+    editor_notes = "checked",
+    reviewer = "editor@example.org",
+    reviewed_at = "2026-05-02",
+    grandfathered = TRUE,
+    stringsAsFactors = FALSE
+  ))
+
+  merged <- merge_college_cuts_review_sheet_editor_columns(local_overrides, sheet_rows)
+
+  assert_identical(merged$unitid[[1]], "100")
+  assert_identical(merged$institution_name[[1]], "Example University")
+  assert_identical(merged$program_name[[1]], "History BA")
+  assert_identical(merged$review_status[[1]], "approved")
+  assert_identical(merged$editor_program_name[[1]], "Edited Program")
+  assert_identical(merged$editor_source_publication[[1]], "Edited publication")
+  assert_identical(merged$reviewer[[1]], "editor@example.org")
+})
+
+run_test("College cuts sheet header aliases map to internal fields", function() {
+  sheet_rows <- data.frame(
+    cut_id = "cut-1",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = "2026",
+    cut_type = "program_closure",
+    cut_description = "History BA",
+    source_url = "https://example.org/cut-1",
+    source_title = "Cut One",
+    source_publication = "Local Paper",
+    row_origin = "scraper",
+    first_seen = "2026-05-01",
+    review_status = "approved",
+    editor_cut_description = "Edited Program",
+    editor_announcement_date = "2026-04-30",
+    editor_cut_type = "restructuring",
+    editor_source_url = "https://example.org/editor-cut",
+    editor_source_title = "Edited source",
+    editor_source_publication = "Edited publication",
+    editor_notes = "checked",
+    reviewer = "editor@example.org",
+    reviewed_at = "2026-05-02",
+    grandfathered = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  assert_college_cuts_review_sheet_header(sheet_rows)
+  coerced <- coerce_college_cuts_editorial_overrides(sheet_rows)
+  assert_identical(coerced$program_name[[1]], "History BA")
+  assert_identical(coerced$editor_program_name[[1]], "Edited Program")
+})
+
+run_test("College cuts grandfather helper approves current unreviewed rows", function() {
+  overrides <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    unitid = c("100", "101"),
+    institution_name = c("Example U", "Example V"),
+    state = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/one", "https://example.org/two"),
+    source_title = c("Source one", "Source two"),
+    source_publication = c("Local Paper", "Campus News"),
+    row_origin = c("scraper", "scraper"),
+    first_seen = c("2026-05-01", "2026-05-01"),
+    review_status = c("unreviewed", "approved"),
+    reviewer = c(NA_character_, "editor@example.org"),
+    reviewed_at = c(NA_character_, "2026-05-02"),
+    grandfathered = c(FALSE, FALSE),
+    stringsAsFactors = FALSE
+  ))
+
+  grandfathered <- grandfather_college_cuts_editorial_overrides(
+    overrides,
+    reviewed_at = "2026-05-15",
+    reviewer = "grandfathered"
+  )
+
+  assert_identical(grandfathered$review_status[[1]], "approved")
+  assert_identical(grandfathered$grandfathered[[1]], TRUE)
+  assert_identical(grandfathered$reviewer[[1]], "grandfathered")
+  assert_identical(grandfathered$reviewed_at[[1]], "2026-05-15")
+
+  assert_identical(grandfathered$review_status[[2]], "approved")
+  assert_identical(grandfathered$grandfathered[[2]], FALSE)
+  assert_identical(grandfathered$reviewer[[2]], "editor@example.org")
+})
+
+run_test("College cuts overrides apply approved edits and gate filtering", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    stringsAsFactors = FALSE
+  )
+
+  overrides <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    unitid = c("100", "101"),
+    institution_name = c("Example University", "Example College"),
+    state = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    row_origin = c("scraper", "scraper"),
+    first_seen = c("2026-05-01", "2026-05-01"),
+    review_status = c("approved", "unreviewed"),
+    editor_program_name = c("Edited Program", NA_character_),
+    editor_announcement_date = c("2026-04-30", NA_character_),
+    editor_cut_type = c("restructuring", NA_character_),
+    editor_source_url = c("https://example.org/editor-cut", NA_character_),
+    editor_source_title = c("Edited title", NA_character_),
+    editor_source_publication = c("Edited publication", NA_character_),
+    grandfathered = c(TRUE, FALSE),
+    stringsAsFactors = FALSE
+  ))
+
+  ungated <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = FALSE)
+  assert_identical(nrow(ungated), 2L)
+  assert_identical(ungated$program_name[[1]], "Edited Program")
+  assert_identical(ungated$announcement_date[[1]], "2026-04-30")
+  assert_identical(ungated$cut_type[[1]], "restructuring")
+  assert_identical(ungated$source_url[[1]], "https://example.org/editor-cut")
+  assert_identical(ungated$source_publication[[1]], "Edited publication")
+
+  gated <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = TRUE)
+  assert_identical(nrow(gated), 1L)
+  assert_identical(gated$cut_id[[1]], "cut-1")
+  assert_identical(gated$review_status[[1]], "approved")
+})

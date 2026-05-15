@@ -6,19 +6,37 @@ const LAST_DISPATCH_AT_PROPERTY = 'ACCREDITATION_REVIEW_LAST_DISPATCH_AT';
 const LAST_DISPATCH_STATUS_PROPERTY = 'ACCREDITATION_REVIEW_LAST_DISPATCH_STATUS';
 const LAST_DISPATCH_RESPONSE_PROPERTY = 'ACCREDITATION_REVIEW_LAST_DISPATCH_RESPONSE';
 
-const PUBLISH_TRIGGER_HEADERS = [
-  'review_status',
-  'editor_action_label_short',
-  'editor_action_date',
-  'editor_action_type',
-  'editor_source_url',
-  'editor_source_title'
-];
-
 const DEFAULT_SETTINGS = {
-  sheetTabName: 'accreditation_review',
+  accreditationTabName: 'accreditation_review',
+  collegeCutsTabName: 'college_cuts_review',
   eventType: 'accreditation_review_publish',
   dispatchIntervalMinutes: 15
+};
+
+const DATASET_CONFIG = {
+  accreditation_review: {
+    idHeader: 'action_id',
+    publishHeaders: [
+      'review_status',
+      'editor_action_label_short',
+      'editor_action_date',
+      'editor_action_type',
+      'editor_source_url',
+      'editor_source_title'
+    ]
+  },
+  college_cuts_review: {
+    idHeader: 'cut_id',
+    publishHeaders: [
+      'review_status',
+      'editor_cut_description',
+      'editor_announcement_date',
+      'editor_cut_type',
+      'editor_source_url',
+      'editor_source_title',
+      'editor_source_publication'
+    ]
+  }
 };
 
 function installTriggers() {
@@ -56,7 +74,13 @@ function onAccreditationReviewEdit(e) {
 
   const settings = getSettings_();
   const sheet = e.range.getSheet();
-  if (!sheet || sheet.getName() !== settings.sheetTabName) {
+  if (!sheet) {
+    return;
+  }
+
+  const datasetKey = getDatasetKeyForSheet_(sheet.getName(), settings);
+  const datasetConfig = DATASET_CONFIG[datasetKey];
+  if (!datasetConfig) {
     return;
   }
 
@@ -66,8 +90,9 @@ function onAccreditationReviewEdit(e) {
 
   const headerMap = getHeaderMap_(sheet);
   const touchedHeaders = getTouchedHeaders_(e.range, headerMap);
+  const publishHeaders = datasetConfig.publishHeaders;
   const touchedPublishHeaders = touchedHeaders.filter(function(header) {
-    return PUBLISH_TRIGGER_HEADERS.indexOf(header) !== -1;
+    return publishHeaders.indexOf(header) !== -1;
   });
 
   if (!touchedPublishHeaders.length) {
@@ -85,10 +110,11 @@ function onAccreditationReviewEdit(e) {
     return;
   }
 
-  const actionId = getRowValueByHeader_(rowValues, headerMap, 'action_id');
+  const rowId = getRowValueByHeader_(rowValues, headerMap, datasetConfig.idHeader);
   const reason = [
+    datasetKey,
     'approved row edited',
-    normalizeCellValue_(actionId) || '(missing action_id)',
+    cleanPropertyValue_(rowId) || '(missing row id)',
     touchedPublishHeaders.join(', ')
   ].join(' | ');
 
@@ -188,7 +214,7 @@ function getHeaderMap_(sheet) {
     }
   });
 
-  ['action_id', 'review_status'].forEach(function(requiredHeader) {
+  ['review_status'].forEach(function(requiredHeader) {
     if (!headerMap[requiredHeader]) {
       throw new Error('Missing required sheet header: ' + requiredHeader);
     }
@@ -219,9 +245,14 @@ function getSettings_() {
   const githubOwner = cleanPropertyValue_(properties.getProperty('GITHUB_OWNER'));
   const githubRepo = cleanPropertyValue_(properties.getProperty('GITHUB_REPO'));
   const githubToken = cleanPropertyValue_(properties.getProperty('GITHUB_TOKEN'));
-  const sheetTabName =
+  const accreditationTabName =
     cleanPropertyValue_(properties.getProperty('REVIEW_SHEET_TAB')) ||
-    DEFAULT_SETTINGS.sheetTabName;
+    cleanPropertyValue_(properties.getProperty('ACCREDITATION_REVIEW_SHEET_TAB')) ||
+    DEFAULT_SETTINGS.accreditationTabName;
+  const collegeCutsTabName =
+    cleanPropertyValue_(properties.getProperty('CUTS_REVIEW_SHEET_TAB')) ||
+    cleanPropertyValue_(properties.getProperty('COLLEGE_CUTS_REVIEW_SHEET_TAB')) ||
+    DEFAULT_SETTINGS.collegeCutsTabName;
   const eventType =
     cleanPropertyValue_(properties.getProperty('DISPATCH_EVENT_TYPE')) ||
     DEFAULT_SETTINGS.eventType;
@@ -240,10 +271,21 @@ function getSettings_() {
     githubOwner: githubOwner,
     githubRepo: githubRepo,
     githubToken: githubToken,
-    sheetTabName: sheetTabName,
+    accreditationTabName: accreditationTabName,
+    collegeCutsTabName: collegeCutsTabName,
     eventType: eventType,
     dispatchIntervalMinutes: dispatchIntervalMinutes
   };
+}
+
+function getDatasetKeyForSheet_(sheetName, settings) {
+  if (sheetName === settings.accreditationTabName) {
+    return 'accreditation_review';
+  }
+  if (sheetName === settings.collegeCutsTabName) {
+    return 'college_cuts_review';
+  }
+  return '';
 }
 
 function normalizeDispatchInterval_(value) {

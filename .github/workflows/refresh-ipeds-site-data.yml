@@ -10,6 +10,7 @@ env:
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
   ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
+  COLLEGE_CUTS_REVIEW_SHEET_TAB: "college_cuts_review"
   # Closure sheet import is temporarily disabled while the upstream
   # closure tracker is being rebuilt outside this repo. Re-enable by
   # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
@@ -297,6 +298,28 @@ jobs:
               2>&1 | tee -a refresh-logs/combined.log
           fi
 
+      - name: Stage college cuts review queue
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            Rscript ./scripts/stage_college_cuts_review.R \
+              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+              --output data_pipelines/college_cuts/editorial_overrides.csv \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            Rscript ./scripts/stage_college_cuts_review.R \
+              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+              --output data_pipelines/college_cuts/editorial_overrides.csv \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          fi
+
       - name: Pull accreditation review decisions
         shell: bash
         timeout-minutes: 15
@@ -313,6 +336,22 @@ jobs:
             echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
           fi
 
+      - name: Pull college cuts review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            Rscript ./scripts/pull_college_cuts_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping Google Sheet pull for college cuts; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
+          fi
+
       - name: Rebuild static web exports (review gate)
         shell: bash
         timeout-minutes: 60
@@ -320,6 +359,7 @@ jobs:
           Rscript ./scripts/build_web_exports.R
           --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
           --enforce-review-gate
+          --enforce-cuts-review-gate
 
       - name: Validate rebuilt artifacts
         shell: bash
@@ -394,7 +434,7 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
+          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv data_pipelines/college_cuts/editorial_overrides.csv data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || true
           if git diff --staged --quiet; then
             echo "No data changes to commit."
             exit 0

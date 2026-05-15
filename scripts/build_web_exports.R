@@ -40,6 +40,7 @@ validate_multi_year_web_input <- function(df, input_path) {
 input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 enforce_review_gate <- has_flag("--enforce-review-gate")
+enforce_cuts_review_gate <- has_flag("--enforce-cuts-review-gate")
 
 root <- normalizePath(output_dir, winslash = "/", mustWork = TRUE)
 input_path <- normalizePath(input_csv, winslash = "/", mustWork = TRUE)
@@ -51,6 +52,8 @@ dir.create(schools_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(downloads_dir, recursive = TRUE, showWarnings = FALSE)
 
 cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv")
+cuts_review_candidates_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_review_candidates.csv")
+cuts_editorial_overrides_path <- file.path(root, "data_pipelines", "college_cuts", "editorial_overrides.csv")
 accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
 accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
 accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
@@ -248,6 +251,7 @@ build_cuts_export <- function() {
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE) %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
+      cut_id = as.character(cut_id),
       announcement_date = as.character(announcement_date),
       announcement_year = as.integer(announcement_year),   # integer in JSON, not string
       in_financial_tracker = as.character(in_financial_tracker),
@@ -284,6 +288,21 @@ build_cuts_export <- function() {
         integer(1)
       )
     )
+
+  write_csv_atomic(
+    build_college_cuts_review_candidates(cuts),
+    cuts_review_candidates_path
+  )
+  cuts_editorial_overrides <- if (file.exists(cuts_editorial_overrides_path)) {
+    read_college_cuts_editorial_overrides(cuts_editorial_overrides_path)
+  } else {
+    empty_college_cuts_editorial_overrides()
+  }
+  cuts <- apply_college_cuts_editorial_overrides(
+    cuts,
+    overrides = cuts_editorial_overrides,
+    enforce_review_gate = enforce_cuts_review_gate
+  )
 
   if (nrow(cuts) == 0) return(NULL)
 

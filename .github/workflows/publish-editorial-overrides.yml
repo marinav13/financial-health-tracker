@@ -18,6 +18,7 @@ env:
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
   ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
+  COLLEGE_CUTS_REVIEW_SHEET_TAB: "college_cuts_review"
 
 jobs:
   publish:
@@ -122,6 +123,21 @@ jobs:
             --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
             --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
             --verbose
+
+      - name: Pull college cuts review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -f data_pipelines/college_cuts/editorial_overrides.csv ]; then
+            Rscript ./scripts/pull_college_cuts_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+              --verbose
+          else
+            echo "Skipping college cuts pull; editorial_overrides.csv is not initialized yet."
+          fi
       - name: Rebuild static web exports (review gate)
         shell: bash
         timeout-minutes: 60
@@ -129,6 +145,7 @@ jobs:
           Rscript ./scripts/build_web_exports.R
           --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
           --enforce-review-gate
+          --enforce-cuts-review-gate
 
       - name: Validate rebuilt artifacts
         shell: bash
@@ -144,7 +161,7 @@ jobs:
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv
+          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv data_pipelines/college_cuts/editorial_overrides.csv
           if git diff --staged --quiet; then
             echo "No editorial publish changes to commit."
             exit 0

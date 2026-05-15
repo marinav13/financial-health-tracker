@@ -4,8 +4,8 @@ This bound Google Apps Script automates same-day accreditation publishes.
 
 It does two things:
 
-1. An installable edit trigger watches the `accreditation_review` tab.
-2. A 15-minute clock trigger sends a GitHub `repository_dispatch` event if an approved row was edited since the last successful dispatch.
+1. An installable edit trigger watches the `accreditation_review` and `college_cuts_review` tabs.
+2. A 15-minute clock trigger sends a GitHub `repository_dispatch` event if a publish-relevant row was edited since the last successful dispatch.
 
 The script source is mirrored here so the automation logic is reviewable and restorable even though the live trigger runs inside Google.
 
@@ -13,7 +13,7 @@ The script source is mirrored here so the automation logic is reviewable and res
 
 When this automation is turned on:
 
-1. An editor changes an approved row in `accreditation_review`.
+1. An editor changes an approved row in `accreditation_review` or `college_cuts_review`.
 2. The sheet quietly marks itself "dirty".
 3. About every 15 minutes, Apps Script checks whether anything publish-worthy changed.
 4. If yes, it tells GitHub to run `Publish Editorial Overrides`.
@@ -34,6 +34,9 @@ Set these in the Apps Script project under `Project Settings` -> `Script propert
 - `REVIEW_SHEET_TAB`
   - Optional
   - Default: `accreditation_review`
+- `CUTS_REVIEW_SHEET_TAB`
+  - Optional
+  - Default: `college_cuts_review`
 - `DISPATCH_EVENT_TYPE`
   - Optional
   - Default: `accreditation_review_publish`
@@ -59,14 +62,23 @@ Set these in the Apps Script project under `Project Settings` -> `Script propert
 
 The sheet is marked dirty only when:
 
-- the edit happens on the `accreditation_review` tab
+- the edit happens on the `accreditation_review` or `college_cuts_review` tab
 - and the edit touches one of these publish-relevant columns:
-  - `review_status`
-  - `editor_action_label_short`
-  - `editor_action_date`
-  - `editor_action_type`
-  - `editor_source_url`
-  - `editor_source_title`
+  - `accreditation_review`
+    - `review_status`
+    - `editor_action_label_short`
+    - `editor_action_date`
+    - `editor_action_type`
+    - `editor_source_url`
+    - `editor_source_title`
+  - `college_cuts_review`
+    - `review_status`
+    - `editor_cut_description`
+    - `editor_announcement_date`
+    - `editor_cut_type`
+    - `editor_source_url`
+    - `editor_source_title`
+    - `editor_source_publication`
 
 For the non-status fields above, the row must currently be `approved`.
 For `review_status` itself, any change marks the sheet dirty so rows can both
@@ -88,5 +100,5 @@ If dispatches stop unexpectedly, verify:
 
 - the `Publish Editorial Overrides` workflow exists on the repo default branch
 - the GitHub token is still valid
-- the sheet tab is still named `accreditation_review`
+- the sheet tabs are still named `accreditation_review` and `college_cuts_review`
 - the installable triggers still exist in the Apps Script project

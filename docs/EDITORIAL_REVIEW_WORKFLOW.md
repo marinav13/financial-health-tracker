@@ -1,4 +1,4 @@
-# Editorial Review Workflow — Plan
+﻿# Editorial Review Workflow â€” Plan
 
 Status: proposal / not yet implemented. Pilot dataset: **accreditation actions**.
 Cuts and research funding cuts follow the same machinery once the pilot is proven.
@@ -8,10 +8,10 @@ Cuts and research funding cuts follow the same machinery once the pilot is prove
 ## 1. The problem
 
 Today the weekly Action (`.github/workflows/refresh-ipeds-site-data.yml`,
-Mondays at noon) runs scrape → join → `build_web_exports.R` → commits
-`data/*.json` → the site updates. There is **no human in the loop**. Whatever
-the scrapers produce — including `derive_action_label_short()` statement text
-that may be wrong — publishes automatically.
+Mondays at noon) runs scrape â†’ join â†’ `build_web_exports.R` â†’ commits
+`data/*.json` â†’ the site updates. There is **no human in the loop**. Whatever
+the scrapers produce â€” including `derive_action_label_short()` statement text
+that may be wrong â€” publishes automatically.
 
 We want: new rows land in a Google Sheet for human review first; the site only
 shows rows a human has approved; **approved rows publish the same day**; editors
@@ -26,7 +26,7 @@ already works:
 - **The Google Sheet is the editorial queue / workflow UI. It is NOT the system
   of record.** Production must not depend on someone free-typing in Sheets.
 - **A git-tracked override CSV is the system of record.** This repo already does
-  exactly this — `data_pipelines/grant_witness/manual_include.csv` and
+  exactly this â€” `data_pipelines/grant_witness/manual_include.csv` and
   `manual_match_overrides.csv` are committed CSVs that `build_grant_witness_join.R`
   merges in as a controlled layer. We extend that pattern, we don't invent a new one.
 - **A stable `action_id` is the linchpin.** Without it, row matching breaks every
@@ -34,7 +34,7 @@ already works:
 - **The scrapers and `derive_action_label_short()` stay exactly as they are.**
   The review layer sits *on top* of the generated statement, it does not replace it.
 
-## 3. Timing — the review week
+## 3. Timing â€” the review week
 
 The cadence is built around how you want to work: rows in hand Sunday evening,
 reviewed and approved through Monday, each approval live the same day.
@@ -48,13 +48,13 @@ Monday           triggers an auto-publish (Section 8) -> live the same day
 ongoing          editors copy-edit anytime; edits re-publish the same way
 ```
 
-The only schedule change is moving the cron earlier — from `0 12 * * 1`
-(Monday noon UTC) to roughly `0 0 * * 1` (Monday 00:00 UTC ≈ Sunday 7–8pm US
+The only schedule change is moving the cron earlier â€” from `0 12 * * 1`
+(Monday noon UTC) to roughly `0 0 * * 1` (Monday 00:00 UTC â‰ˆ Sunday 7â€“8pm US
 Eastern). That exact value is the one knob to set for your timezone; note that
 GitHub scheduled runs can be delayed under load, so treat it as "Sunday
 evening-ish," not a hard clock.
 
-## 4. Architecture: stage → review → gate → publish
+## 4. Architecture: stage â†’ review â†’ gate â†’ publish
 
 One new git-tracked file per dataset is the spine. For the accreditation pilot:
 
@@ -72,7 +72,7 @@ Two new scripts, an Apps Script on the Sheet, and three modified/new workflow pi
 | Sheet-bound Apps Script | new | Watches `review_status`; when rows reach `approved`, fires a debounced `repository_dispatch` so approvals publish the same day with no button to click. |
 | `build_web_exports.R` | modified | Join actions to `editorial_overrides.csv` on `action_id`; apply the publish gate; use explicit `editor_*` field overrides when present. |
 | `refresh-ipeds-site-data.yml` | modified | Move cron to Sunday evening; insert the stage + pull steps; build runs gated. |
-| `publish-editorial-overrides.yml` | new | The same-day publish path: pull Sheet → rebuild → publish, no scraping, ~minutes. Triggered by the Apps Script dispatch and available as a manual `workflow_dispatch` button. |
+| `publish-editorial-overrides.yml` | new | The same-day publish path: pull Sheet â†’ rebuild â†’ publish, no scraping, ~minutes. Triggered by the Apps Script dispatch and available as a manual `workflow_dispatch` button. |
 
 ### Weekly flow (across time)
 
@@ -88,7 +88,7 @@ Sunday night / Monday (editors review in the Sheet):
     -> publish-editorial-overrides.yml -> row live the same day (~15 min)
 ```
 
-## 5. `action_id` — the stable key
+## 5. `action_id` â€” the stable key
 
 Derive it from normalized identity fields, hashed:
 
@@ -102,8 +102,8 @@ normalization is what keeps the id stable when the scraper returns cosmetically
 different text for the same action.
 
 Honest tradeoff: if the *substance* of `action_label_raw` changes, the id
-changes and the row returns to the queue as "new." That is arguably correct —
-changed source text deserves re-review — but it does mean some churn. A v2
+changes and the row returns to the queue as "new." That is arguably correct â€”
+changed source text deserves re-review â€” but it does mean some churn. A v2
 upgrade is "sticky" matching on `(unitid, accreditor, action_date)` + fuzzy
 label, minting a new id only when no plausible prior match exists. Start with
 the plain hash; measure churn in Phase 1 before adding complexity.
@@ -115,7 +115,7 @@ collide with scraper ids and are never expected to appear in scraper output.
 
 One tab: `accreditation_review`.
 
-**System columns** — written by the pipeline, protected so editors cannot edit
+**System columns** â€” written by the pipeline, protected so editors cannot edit
 them (the service account can still write):
 
 `action_id`, `first_seen`, `unitid`, `institution_name`, `accreditor`,
@@ -123,7 +123,7 @@ them (the service account can still write):
 (the current `derive_action_label_short()` output), `source_url`,
 `source_title`, `row_origin` (`scraper` | `editor`), `grandfathered`.
 
-**Editor columns** — editors own these:
+**Editor columns** â€” editors own these:
 
 `review_status` (dropdown: `unreviewed` / `in_review` / `approved` /
 `needs_revision` / `reject`), `editor_action_label_short`,
@@ -158,7 +158,7 @@ A new helper runs just before the accreditation JSON is written:
 Gate it behind a flag (`--enforce-review-gate`) so it can be turned on
 deliberately in Phase 3 and rolled back fast if something is wrong.
 
-### Grandfathering — do not skip this
+### Grandfathering â€” do not skip this
 
 The joined actions file currently has ~7,100 rows. If the gate switches on cold,
 every one of them is `unreviewed` and the accreditation table empties out. So
@@ -184,12 +184,37 @@ Runs in a few minutes. It is triggered two ways:
   sets a "dirty" flag; a time-driven trigger (every ~15 min) checks the flag and,
   if set, fires `repository_dispatch` to run this workflow. The debounce means a
   Monday batch-approval session triggers a handful of publishes, not one per
-  cell edit — and an editor never has to click anything.
+  cell edit â€” and an editor never has to click anything.
 - **Manual.** The same workflow is also a `workflow_dispatch` button in the
   Actions tab, for an immediate push or when you want to force a rebuild.
 
-Either way, an approved row — or a corrected field on an
-already-published row — is live the same day, usually within ~15 minutes.
+The Apps Script source is mirrored in
+`tooling/apps_script/accreditation_review_dispatch/`. The live Google project
+should use that code verbatim and keep repo-specific secrets and settings in
+Script Properties, not hard-coded in the script body.
+
+### Turning on the no-button version
+
+1. Push `publish-editorial-overrides.yml` to the repo default branch so GitHub
+   can see the workflow.
+2. In the Google Sheet, open **Extensions -> Apps Script**.
+3. Replace the bound script contents with
+   `tooling/apps_script/accreditation_review_dispatch/Code.gs`.
+4. Replace the manifest with
+   `tooling/apps_script/accreditation_review_dispatch/appsscript.json`.
+5. Add Script Properties:
+   - `GITHUB_OWNER`
+   - `GITHUB_REPO`
+   - `GITHUB_TOKEN`
+   - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
+   - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
+   - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
+6. Run `installTriggers()` once and approve permissions.
+
+After that, approved edits should publish automatically on the next debounce
+cycle, usually within about 15 minutes.
+Either way, an approved row â€” or a corrected field on an
+already-published row â€” is live the same day, usually within ~15 minutes.
 
 Editor-added rows: an editor adds a row at the bottom of the Sheet, leaves
 `action_id` blank, fills in `institution_name` / `accreditor` / `action_date` /
@@ -197,14 +222,14 @@ Editor-added rows: an editor adds a row at the bottom of the Sheet, leaves
 `pull_accreditation_overrides.R` mints an `editor-<uuid>` id for any
 blank-id row and writes it into `editorial_overrides.csv` with
 `row_origin = editor`. `build_web_exports.R` publishes approved editor rows even
-though no scraper row backs them — this covers "news broke on the institution's
+though no scraper row backs them â€” this covers "news broke on the institution's
 site before our scraper saw it."
 
 If a later scraper or DAPIP refresh stages what appears to be the **same**
 accreditation action as a previously editor-added row, that new scraper-backed
 row should still enter the review queue as a separate `action_id`. The expected
 editor workflow is to compare the two rows, confirm whether they are truly the
-same action, and then resolve the duplicate deliberately — typically by keeping
+same action, and then resolve the duplicate deliberately â€” typically by keeping
 the scraper-backed row as the long-term record and marking the older editor row
 `reject` once its replacement is approved. The system should not try to guess
 that match automatically in Phase 1.
@@ -214,12 +239,21 @@ Functional, but hand-editing CSV is error-prone, so the Sheet path is preferred.
 
 ## 9. Auth and secrets
 
-- `GOOGLE_SERVICE_ACCOUNT_JSON_B64` — base64-encoded service account JSON stored
+- `GOOGLE_SERVICE_ACCOUNT_JSON_B64` â€” base64-encoded service account JSON stored
   as a GitHub repo secret. The workflow decodes it to a temp file and exports
   `GOOGLE_APPLICATION_CREDENTIALS` for `googlesheets4`. Share the Sheet with the
   service account email as **Editor**.
-- `ACCREDITATION_REVIEW_SHEET_ID` — the Sheet id (repo secret or workflow env).
-- `SLACK_WEBHOOK_URL` — incoming webhook for the alert.
+- `ACCREDITATION_REVIEW_SHEET_ID` â€” the Sheet id (repo secret or workflow env).
+- GitHub workflow file that must exist on the repo default branch:
+  `publish-editorial-overrides.yml`
+- Recommended Script Properties for the bound Apps Script project:
+  - `GITHUB_OWNER`
+  - `GITHUB_REPO`
+  - `GITHUB_TOKEN`
+  - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
+  - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
+  - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
+- `SLACK_WEBHOOK_URL` â€” incoming webhook for the alert.
 - A **fine-scoped GitHub token** stored as a Script Property in the Apps Script
   project, used only to call the `repository_dispatch` API. Scoped to this one
   repo, nothing else.
@@ -249,13 +283,13 @@ from prior weeks, a link to the Sheet, and a link to the Action run. Make it
   limits it; the sticky-matching upgrade is the fix if churn is high. Measure first.
 - **The Sheet becomes a build dependency.** If the pull step can't reach the Sheet
   or the header is broken, it must **fail loudly and fall back to the last
-  committed `editorial_overrides.csv`** — never "publish everything ungated."
+  committed `editorial_overrides.csv`** â€” never "publish everything ungated."
   This is the single most important failure-mode rule.
 - **Apps Script is a moving part outside the repo.** The trigger token, the
   debounce logic, and the dispatch payload live in Google's environment, not in
   version control. Keep the Apps Script source mirrored in the repo
   (`tooling/apps_script/`) so it is reviewable and restorable, and treat a
-  silent trigger failure as a real incident — if it stops firing, approvals
+  silent trigger failure as a real incident â€” if it stops firing, approvals
   stop publishing with no error anywhere.
 - **Debounce tuning.** Too tight and a batch-approval session spams the workflow;
   too loose and "same-day" drifts toward "same-evening." ~15 min is a starting
@@ -270,7 +304,7 @@ from prior weeks, a link to the Sheet, and a link to the Action run. Make it
   against the existing editor row, approve the canonical replacement, then
   retire the older manual row explicitly instead of trying to auto-merge them.
 - **Weekly CSV churn.** `editorial_overrides.csv` grows and changes every week;
-  expect sizeable diffs. It is data, not code — fine, but worth noting against the
+  expect sizeable diffs. It is data, not code â€” fine, but worth noting against the
   repo's file-integrity tooling.
 - **Volume unknown.** ~7,100 historical rows is a lot, but the *new* actions per
   week is probably small (tens). Phase 1 measures this before anyone commits to a

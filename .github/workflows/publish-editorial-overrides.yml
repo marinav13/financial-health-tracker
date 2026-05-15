@@ -2,6 +2,9 @@
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types:
+      - accreditation_review_publish
 
 permissions:
   contents: write

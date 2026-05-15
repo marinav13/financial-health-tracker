@@ -34,70 +34,67 @@ main <- function(cli_args = NULL) {
 
   instructions <- data.frame(
     section = c(
-      "Purpose",
-      "What appears here",
-      "System columns",
-      "Editor columns",
-      "Review status",
-      "When to edit the statement",
-      "When to edit date or type",
-      "When to edit source fields",
-      "Grandfathered rows",
-      "Duplicate handling",
+      "Start here",
+      "Start here",
+      "Start here",
+      "What to edit",
+      "What to edit",
+      "What to edit",
+      "What to edit",
+      "What not to edit",
+      "Statuses",
+      "Statuses",
+      "Statuses",
+      "Statuses",
+      "Current rows",
+      "Urgent fixes",
+      "Automatic publishing",
+      "Automatic publishing",
+      "Duplicates",
       "Manual rows",
-      "Publishing rule",
-      "Do not change",
-      "Hotfix workflow"
+      "If something looks wrong"
     ),
-    guidance = c(
-      "This tab explains how to review rows in accreditation_review before they publish to the site.",
-      "Each row is one accreditation action staged from scraper or DAPIP-backed pipeline output.",
-      "Columns A through L are pipeline-owned system columns. Treat them as read-only.",
-      paste(
-        "Editors are expected to use review_status, editor_action_label_short,",
-        "editor_action_date, editor_action_type, editor_source_url, editor_source_title,",
-        "editor_notes, reviewer, and reviewed_at."
-      ),
-      paste(
-        "Use unreviewed for new rows, in_review while checking, approved when ready to publish,",
-        "needs_revision if more work is required, and reject for rows that should never publish."
-      ),
-      paste(
-        "Use editor_action_label_short when the generated statement is wrong, unclear, too long,",
-        "or needs copy-editing. This is the main human-written visible label."
-      ),
-      paste(
-        "Use editor_action_date or editor_action_type only when the staged values are materially wrong",
-        "and the corrected values are supported by the source."
-      ),
-      paste(
-        "Use editor_source_title to improve the public source caption. Use editor_source_url when the",
-        "link target itself is wrong or a better public source page should be used."
-      ),
-      paste(
-        "grandfathered = TRUE means the row was pre-approved during rollout. It does not lock the row.",
-        "Editors can still update editor_action_label_short, editor_action_date, editor_action_type,",
-        "editor_source_url, editor_source_title, editor_notes, reviewer, and reviewed_at while leaving",
-        "review_status as approved."
-      ),
-      paste(
-        "If a later scraper-backed or DAPIP-backed row appears to duplicate a manual editor-added row,",
-        "compare both carefully. Approve the canonical replacement, then mark the older manual row reject.",
-        "Do not assume the system will auto-merge duplicates."
-      ),
-      paste(
-        "For manual rows, leave action_id blank in the editor workflow only if the dedicated manual-row",
-        "sync path is in use. Otherwise ask the maintainer before adding rows directly."
-      ),
-      "Only rows with review_status = approved are eligible to publish once the gate is enabled.",
-      paste(
-        "Do not edit action_id, unitid, institution_name, accreditor, action_label_raw, generated_statement,",
-        "row_origin, or first_seen directly."
-      ),
-      paste(
-        "For urgent fixes on already published rows: update the editor columns, set reviewer and reviewed_at,",
-        "leave review_status as approved, and trigger the publish workflow if needed."
-      )
+    question = c(
+      "What is this sheet for?",
+      "What should I do first on a new row?",
+      "What is the main editing field?",
+      "Fix the public wording",
+      "Fix the date",
+      "Fix the action type",
+      "Fix the source link or source title",
+      "Do not edit these columns",
+      "unreviewed",
+      "in_review",
+      "approved",
+      "needs_revision / reject",
+      "Can I still edit old approved rows?",
+      "How do I make a quick copy edit live?",
+      "Do I need to click a publish button every time?",
+      "What triggers auto-publish?",
+      "What if a new scraper row duplicates a manual row?",
+      "Can I add rows myself?",
+      "What if the generated statement is blank or obviously wrong?"
+    ),
+    answer = c(
+      "Each row is one accreditation action. Review it before it appears on the public site.",
+      "Check the generated statement, source, date, and type. Then set the right review_status.",
+      "Use editor_action_label_short. This is the main human-written label that can appear on the site.",
+      "Use editor_action_label_short when the generated statement is unclear, too long, inaccurate, or just needs copy editing.",
+      "Use editor_action_date only when the staged date is materially wrong and you can confirm the correction from the source.",
+      "Use editor_action_type only when the staged type is materially wrong and you can confirm the correction from the source.",
+      "Use editor_source_title to improve the caption. Use editor_source_url when the link target itself is wrong or a better public source should be used.",
+      "Do not edit action_id, unitid, institution_name, accreditor, action_label_raw, generated_statement, source_url, source_title, row_origin, first_seen, or grandfathered.",
+      "Brand-new row. It is not ready for the site yet.",
+      "You are checking it now. Leave notes if needed.",
+      "Ready for the site. Approved rows are eligible to publish.",
+      "Use needs_revision if more work is needed. Use reject if the row should never publish.",
+      "Yes. grandfathered = TRUE only means the row was pre-approved during rollout. It does not lock the row.",
+      "Edit the editor_* fields, leave review_status = approved, and the auto-publish system should pick it up on the next cycle. Manual GitHub publish is still available as a backup.",
+      "Usually no. The normal path is automatic.",
+      "The sheet marks itself dirty when an approved row's publish-relevant fields change, or when review_status changes. A background trigger checks every ~15 minutes and starts the GitHub publish workflow if needed.",
+      "Compare the rows carefully. If they are the same action, keep the scraper-backed row as the long-term record and mark the older manual row reject after the replacement is approved.",
+      "Only with the manual-row workflow. If you are not sure, ask the maintainer before adding rows directly.",
+      "Flag it in editor_notes, fix the editor fields you can confirm, and keep review_status off approved until the row is truly ready."
     ),
     stringsAsFactors = FALSE
   )

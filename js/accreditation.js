@@ -179,8 +179,11 @@
       || action.action_label_raw
       || action.action_type
       || "";
-    const scope = String(action.action_scope || "").trim();
-    if (!scope) return label;
+    const rawScope = String(action.action_scope || "").trim();
+    const scope = rawScope
+      .replace(/^(program|location):\s*/i, "")
+      .trim();
+    if (!scope || /^institution-level$/i.test(scope)) return label;
     if (!label) return `(${scope})`;
     return `${label} (${scope})`;
   }

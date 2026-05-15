@@ -84,3 +84,9 @@ scripts/msi_analysis.R
 
 # RStudio per-project file (per-user)
 Financial Health Tracker - For Github.Rproj
+
+# Internal audit notes — not for the public repo
+AUDIT_*.md
+# Local audit/diagnostic scripts
+scripts/audit_action_label_short.py
+scripts/print_action_label_audit_buckets.py

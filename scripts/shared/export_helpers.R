@@ -1952,6 +1952,34 @@ extract_hlc_findings <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
 
+  two_location_prefix <- stringr::str_match(
+    value,
+    stringr::regex("^(.+?for two additional locations)(?::|,)\\s+.+$", ignore_case = TRUE)
+  )[, 2]
+  if (!is.na(two_location_prefix) && nzchar(two_location_prefix)) {
+    first_location <- stringr::str_match(
+      value,
+      stringr::regex(
+        "^.+?for two additional locations(?::|,)\\s*([A-Z][A-Za-z .'-]+),\\s*\\d{1,5}\\b",
+        ignore_case = TRUE
+      )
+    )[, 2]
+    state_match <- stringr::str_match(
+      value,
+      stringr::regex(
+        "^.+?for two additional locations(?::|,)\\s*[A-Z][A-Za-z .'-]+,\\s*\\d{1,5}[^,]*,\\s*[A-Z][A-Za-z .'-]+,\\s*([A-Z]{2})\\s+\\d{5}(?:-\\d{4})?\\b",
+        ignore_case = TRUE
+      )
+    )[, 2]
+    first_location <- stringr::str_squish(first_location %||% "")
+    if (nzchar(first_location)) {
+      if (!is.na(state_match) && nzchar(state_match)) {
+        return(sprintf("%s in %s, %s", stringr::str_squish(two_location_prefix), first_location, state_match))
+      }
+      return(sprintf("%s in %s", stringr::str_squish(two_location_prefix), first_location))
+    }
+  }
+
   prefix <- stringr::str_match(
     value,
     stringr::regex("^(.+?:)\\s*.+$", ignore_case = TRUE)

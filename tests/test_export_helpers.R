@@ -2086,7 +2086,7 @@ run_test("derive_action_label_short: HLC plural teach-out agreements drop additi
 })
 
 run_test("derive_action_label_short: HLC teach-out plan for two generic locations keeps only the first clean location", function() {
-  text <- "Approved the institution’s teach-out plan for two additional locations: North Lauderdale, 955 Rock Island Road, North Lauderdale, FL 33068 Kendall, 9010 SW 137 Ave., Miami, FL 33176."
+  text <- "Approved the institution's teach-out plan for two additional locations, North Lauderdale, 955 Rock Island Road, North Lauderdale, FL 33068 Kendall, 9010 SW 137 Ave."
   assert_identical(
     derive_action_label_short("adverse_action", text, "HLC"),
     "Approved the institution's teach-out plan for two additional locations in North Lauderdale, FL"

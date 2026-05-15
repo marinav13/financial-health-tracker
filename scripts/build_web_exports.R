@@ -1296,10 +1296,6 @@ build_accreditation_export <- function() {
       action_label_short = vapply(
         seq_len(n()),
         function(i) {
-          preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
-          if (identical(public_table_strategy[[i]], "dapip_backed_keep") && nzchar(preserved_short)) {
-            return(preserved_short)
-          }
           derive_action_label_short(
             action_type[[i]],
             action_summary_source_text[[i]],
@@ -1570,10 +1566,6 @@ build_accreditation_export <- function() {
             action_label_short = vapply(
               seq_len(n()),
               function(i) {
-                preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
-                if (identical(source_selection_candidate_kind[[i]], "dapip") && nzchar(preserved_short)) {
-                  return(preserved_short)
-                }
                 derive_action_label_short(
                   action_type[[i]],
                   action_summary_source_text[[i]],
@@ -1640,10 +1632,6 @@ build_accreditation_export <- function() {
             action_label_short = vapply(
               seq_len(n()),
               function(i) {
-                preserved_short <- trimws(as.character(source_action_label_short[[i]] %||% ""))
-                if (identical(source_selection_candidate_kind[[i]], "dapip") && nzchar(preserved_short)) {
-                  return(preserved_short)
-                }
                 derive_action_label_short(
                   action_type[[i]],
                   action_summary_source_text[[i]],
@@ -2210,7 +2198,7 @@ build_research_export <- function() {
   )
 }
 
-build_school_file <- function(df) {
+build_school_file <- function(df, accreditation_school = NULL) {
   latest <- df %>% filter(year == max(year, na.rm = TRUE)) %>% slice(1)
   pct_international_all <- scale_ratio_to_pct(latest$pct_international_all[[1]])
   pct_international_undergraduate <- scale_ratio_to_pct(latest$pct_international_undergraduate[[1]])
@@ -2248,7 +2236,7 @@ build_school_file <- function(df) {
     NA_real_
   }
 
-  list(
+  school <- list(
     unitid = as.character(latest$unitid[[1]]),
     generated_at = as.character(Sys.Date()),
     profile = list(
@@ -2340,6 +2328,14 @@ build_school_file <- function(df) {
       state_funding_adjusted = build_series(df, "state_funding_adjusted")
     )
   )
+
+  if (!is.null(accreditation_school)) {
+    school$latest_status <- accreditation_school$latest_status %||% NULL
+    school$actions <- accreditation_school$actions %||% NULL
+    school$sources <- accreditation_school$sources %||% NULL
+  }
+
+  school
 }
 
 # Load the canonical finance dataset that serves as the backbone for school
@@ -2577,6 +2573,24 @@ cuts_paths <- export_paths$cuts
 accreditation_paths <- export_paths$accreditation
 research_paths <- export_paths$research
 
+find_related_export_school <- function(export_bundle, unitid) {
+  if (is.null(export_bundle) || is.null(export_bundle$export_obj)) return(NULL)
+  schools <- export_bundle$export_obj$schools %||% NULL
+  if (is.null(schools) || !length(schools)) return(NULL)
+
+  financial_matches <- Filter(function(school) {
+    identical(as.character(school$financial_unitid %||% ""), as.character(unitid))
+  }, schools)
+  if (length(financial_matches) > 0L) return(financial_matches[[1]])
+
+  direct_matches <- Filter(function(school) {
+    identical(as.character(school$unitid %||% ""), as.character(unitid))
+  }, schools)
+  if (length(direct_matches) > 0L) return(direct_matches[[1]])
+
+  NULL
+}
+
 # ── H1: Slug-ID stability diagnostic ─────────────────────────────────────────
 # Count how many exported school IDs are name-based slugs (unmatched, potentially
 # unstable) vs. numeric IPEDS unitids (matched, stable).  Reads from the small
@@ -2615,7 +2629,11 @@ by_school <- df %>%
   dplyr::group_split(.keep = TRUE)
 for (school_df in by_school) {
   unitid <- as.character(school_df$unitid[[1]])
-  school_json <- build_school_file(school_df)
+  accreditation_school <- find_related_export_school(accreditation_paths, unitid)
+  school_json <- build_school_file(
+    school_df,
+    accreditation_school = accreditation_school
+  )
   write_json_file(school_json, file.path(schools_dir, paste0(unitid, ".json")))
 }
 

@@ -400,7 +400,7 @@ write_export_bundle <- function(export_obj, data_dir, export_filename,
     )
   }
 
-  list(export_path = export_path, index_path = index_path)
+  list(export_path = export_path, index_path = index_path, export_obj = export_obj)
 }
 
 # Builds a named lookup vector by summarising `value_col` within `group_col`.
@@ -2215,6 +2215,41 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.sacscoc_raw_text_is_already_substantive <- function(raw) {
+  raw_value <- .normalize_action_summary_text(raw)
+  if (!nzchar(raw_value) || .is_garbled_action_summary(raw_value)) {
+    return(FALSE)
+  }
+
+  warning_or_probation_clause <- .extract_sacscoc_warning_probation_clause(raw_value)
+  if (!is.na(warning_or_probation_clause) && nzchar(warning_or_probation_clause)) {
+    return(TRUE)
+  }
+
+  disclosure_reason <- .extract_sacscoc_disclosure_reason_summary(raw_value)
+  if (!is.na(disclosure_reason) && nzchar(disclosure_reason)) {
+    return(TRUE)
+  }
+
+  stringr::str_detect(
+    raw_value,
+    stringr::regex(
+      paste(
+        "^requested (?:to submit )?a monitoring report\\b",
+        "^requested referral report\\b",
+        "^no additional report requested\\b",
+        "denied approval of\\b",
+        "continued accreditation following the review of an off-?\\s*campus instructional site\\b",
+        "removed the institution from (?:warning|probation)\\b",
+        "removed from membership\\b",
+        "loss of accreditation or preaccreditation\\b",
+        sep = "|"
+      ),
+      ignore_case = TRUE
+    )
+  )
+}
+
 .should_prefer_sacscoc_file_text <- function(raw, notes_text, file_text) {
   file_value <- .normalize_action_summary_text(file_text)
   if (!nzchar(file_value)) return(FALSE)
@@ -2236,7 +2271,15 @@ extract_hlc_findings <- function(text) {
     ),
     ignore_case = TRUE
   )
-  stringr::str_detect(file_value, marker)
+  if (!stringr::str_detect(file_value, marker)) {
+    return(FALSE)
+  }
+
+  # Some DAPIP cached SACSCOC text blobs concatenate multiple letters for the
+  # same institution. When the raw row already carries the substantive sanction
+  # sentence, keep that trusted row text instead of letting an unrelated later
+  # letter in the cached blob override it.
+  !.sacscoc_raw_text_is_already_substantive(raw)
 }
 
 .normalize_action_summary_source_hint <- function(x) {

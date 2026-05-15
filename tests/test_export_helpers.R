@@ -1,3 +1,7 @@
+if (!exists("run_test", mode = "function")) {
+  source(file.path(getwd(), "tests", "test_support.R"))
+}
+
 run_test("slug_institution_name normalisation rules", function() {
   # Basic lowercase + non-alnum → hyphen
   assert_identical(slug_institution_name("Example University"), "example-university")
@@ -1278,6 +1282,35 @@ run_test("select_action_summary_source_text: SACSCOC fallback tier prefers file 
   )
   assert_true(
     !grepl("SACSCOC Board of Trustees action concerning High Point University", result, fixed = TRUE)
+  )
+})
+
+run_test("select_action_summary_source_text: SACSCOC keeps substantive raw sanction text when cached file concatenates unrelated letters", function() {
+  raw_text <- paste0(
+    "Morrison-Shetlar: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 8, 2024: ",
+    "The SACSCOC Board of Trustees continued accreditation, denied reaffirmation and placed the institution on Warning for twelve months for failure to comply with Core Requirement 13.2 (Financial documents), Standard 7.3 (Administrative effectiveness), Standard 8.2.a (Student outcomes: educational programs), Standard 8.2.c (Student outcomes: academic and student services), and Standard 13.3 (Financial responsibility). A Special Committee was not authorized to visit the institution."
+  )
+  concatenated_file_text <- paste(
+    raw_text,
+    paste0(
+      "Morrison-Shetlar: The following actions regarding your institution were taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 12, 2025: ",
+      "The SACSCOC Board of Trustees denied approval of the (96 hour) Bachelor of Science in Exercise Physiology program (intended implementation: July 2025), because the institution did not provide an acceptable plan and supporting documentation to ensure that it has the capability to comply with the following standards of the Principles of Accreditation as they relate to the substantive change: Core Requirement 9.2 (Program length) and Standard 9.7 (Program requirements)."
+    )
+  )
+  file_path <- tempfile(fileext = ".txt")
+  writeLines(concatenated_file_text, file_path, useBytes = TRUE)
+  on.exit(unlink(file_path), add = TRUE)
+
+  result <- .select_action_summary_source_text(
+    raw_text,
+    file_text_path = file_path,
+    action_type = "warning",
+    accreditor = "SACSCOC"
+  )
+
+  assert_identical(result, raw_text)
+  assert_true(
+    !grepl("Denied approval of the \\(96 hour\\) Bachelor of Science in Exercise Physiology program", result, fixed = TRUE)
   )
 })
 

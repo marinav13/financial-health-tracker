@@ -317,7 +317,7 @@ run_test("derive_action_label_short: strips SACSCOC Special Committee boilerplat
   )
   assert_identical(
     derive_action_label_short("probation", text, "SACSCOC"),
-    "Placed on Probation for Good Cause for twelve months for failure to comply with Standard 13.3 (financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities) of the Principles of accreditation."
+    "Placed on Probation for Good Cause for twelve months for failure to comply with standards concerning financial responsibility, control of finances, and federal/state responsibilities"
   )
 })
 
@@ -379,6 +379,20 @@ run_test("extract_teachout_partners fixes collapsed state-name OCR joins", funct
   assert_true("Saint Xavier University" %in% partners)
 })
 
+run_test("extract_teachout_partners parses real HLC closure-arrangements state-only lists", function() {
+  text <- paste0(
+    "Approved the institution’s Provisional Plan and teach-out arrangements for the closure of Cardinal Stritch University ",
+    "with the following institutions: Alverno College, WI Carroll University, WI Concordia University Chicago, IL ",
+    "Edgewood College, WI Herzing University, WI Holy Cross College, IN Lakeland University, WI Marian University, WI ",
+    "Millikin University, IL Mount Mary University, WI Norbert College, WI Tiffin University, OH ",
+    "University of Wisconsin-Stout, WI Viterbo University, WI Wheeling University, WV"
+  )
+  partners <- .extract_teachout_partners(text)
+  assert_identical(length(partners), 15L)
+  assert_true("Alverno College" %in% partners)
+  assert_true("Wheeling University" %in% partners)
+})
+
 run_test("derive_action_label_short: SACSCOC disclosure statement extracts warning reason from readable section", function() {
   text <- paste0(
     "Disclosure Statement Regarding the Status of Marymount University. ",
@@ -389,7 +403,7 @@ run_test("derive_action_label_short: SACSCOC disclosure statement extracts warni
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Placed on Warning for failure to comply with Core Requirement 13.1 (financial resources), Standard 13.3 (financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities) of the Principles of accreditation."
+    "Placed on Warning for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and federal/state responsibilities"
   )
 })
 
@@ -401,7 +415,7 @@ run_test("derive_action_label_short: SACSCOC warning clause strips lead-in and d
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Placed on Warning for twelve (12) months for failure to comply with Standard 13.1 (financial resources) and Standard 13.3 (financial responsibility) of the Principles of accreditation (Principles)."
+    "Placed on Warning for twelve (12) months for failure to comply with standards concerning financial resources and financial responsibility"
   )
 })
 
@@ -413,7 +427,7 @@ run_test("derive_action_label_short: SACSCOC long sanction clauses collapse to s
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation of accreditation, continued accreditation, and placed the institution on Warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission and CEO evaluation/selection"
+    "Denied reaffirmation and placed on Warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
   )
 })
 
@@ -424,7 +438,7 @@ run_test("derive_action_label_short: SACSCOC monitoring review lead-in is stripp
   )
   assert_identical(
     derive_action_label_short("warning", text, "SACSCOC"),
-    "Denied reaffirmation, continued accreditation, and continued the institution on Warning for twelve months for failure to comply with Core Requirement 4.1 (Governing board characteristics), Core Requirement 13.1 (financial resources), and Standard 13.3 (financial responsibility)."
+    "Denied reaffirmation and continued on Warning for twelve months for failure to comply with standards concerning governance, financial resources, and financial responsibility"
   )
 })
 
@@ -557,6 +571,20 @@ run_test("derive_action_label_short: MSCHE pattern 2 — Voluntarily Surrendered
       "MSCHE"
     ),
     "Voluntarily Surrendered Accreditation"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE pre-applicant approvals become compact candidate-status summaries", function() {
+  text <- paste0(
+    "Pending the successful completion of the on-site Pre-Applicant Site Visit, ",
+    "to allow the institution to submit an application for Candidate for Accreditation Status ",
+    "because the pre-applicant institution appears to meet the minimum requirements, appears ready to continue in the accreditation process, ",
+    "and is not otherwise disqualified from proceeding with the pre-application process based on the report and evidence submitted, ",
+    "including the Certification and Disclosures Statement."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "MSCHE"),
+    "Approved to Apply for Candidate for Accreditation Status"
   )
 })
 
@@ -749,6 +777,55 @@ run_test("derive_action_label_short Phase 4: Pattern 0b — Approved Teach-Out A
   assert_identical(
     derive_action_label_short("adverse_action", albany_agreement, "MSCHE"),
     "Approved Teach-Out Agreement with Russell Sage College"
+  )
+})
+
+run_test("derive_action_label_short Phase 4: MSCHE plural teach-out agreement batches collapse to institution count", function() {
+  wells_text <- paste0(
+    "To approve the following teach-out agreements: ",
+    "(1) Alfred University, Alfred, NY; (2) Daemen University, Amherst, NY; ",
+    "(3) Excelsior University, Albany, NY; (4) Hartwick College, Oneonta, NY; ",
+    "(5) Ithaca College, Ithaca, NY; (6) Keuka College, Keuka Park, NY; ",
+    "(7) Le Moyne College, Syracuse, NY; (8) Manhattanville University, Purchase, NY; ",
+    "(9) Mercy University, Dobbs Ferry, NY; (10) Niagara University, Niagara Falls, NY; ",
+    "(11) Russell Sage College, Troy, NY; (12) St. Thomas Aquinas College, Sparkill, NY."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", wells_text, "MSCHE"),
+    "Approved Teach-Out Agreements with 12 institutions"
+  )
+
+  uarts_text <- paste0(
+    "To approve the teach-out agreements with: ",
+    "(1) Alfred University, Alfred, NY; (2) Arcadia University, Glenside, PA; ",
+    "(3) Drexel University, Philadelphia, PA; (4) Maryland Institute College of Art, Baltimore, MD; ",
+    "(5) Montclair State University, Upper Montclair, NJ; (6) Moore College of Art and Design, Philadelphia, PA; ",
+    "(7) Point Park University, Pittsburgh, PA; (8) Temple University, Philadelphia, PA; and (9) The New School, New York, NY."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", uarts_text, "MSCHE"),
+    "Approved Teach-Out Agreements with 9 institutions"
+  )
+})
+
+run_test("derive_action_label_short Phase 4: MSCHE corrected-program teach-out agreement keeps partner and program count", function() {
+  touro_text <- paste0(
+    "To amend the action of January 27, 2023, as follows: To approve a teach-out agreement with Touro University, New York, NY, ",
+    "and to correct the programs to include Business Administration (AAS), Business Management and Administration with a concentration in Information Systems (AOS), ",
+    "Business Management and Administration with a concentration in Data Communications (AOS), Criminal Justice (AS), Nursing (AAS), and Paralegal Studies (AS)."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", touro_text, "MSCHE"),
+    "Approved Teach-Out Agreement with Touro University for 6 programs"
+  )
+
+  berkeley_text <- paste0(
+    "To amend the action of January 27, 2023, as follows: To approve a teach-out agreement with Berkeley College (New York) New York, NY ",
+    "and to correct the programs to include Business Administration-Management (AAS), Justice Studies-Criminal Justice (AAS), and Legal Studies (AAS)."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", berkeley_text, "MSCHE"),
+    "Approved Teach-Out Agreement with Berkeley College (New York) for 3 programs"
   )
 })
 
@@ -979,6 +1056,10 @@ run_test("normalize_action_summary_text: repairs common mojibake punctuation fro
   assert_identical(
     .normalize_action_summary_text("HLCâ€™s Criteria â€œfor Accreditationâ€ â€“ resources"),
     "HLC's Criteria \"for accreditation\" - resources"
+  )
+  assert_identical(
+    .normalize_action_summary_text("...the Criteria for Accreditation.."),
+    "...the Criteria for accreditation."
   )
 })
 
@@ -1636,6 +1717,63 @@ run_test("derive_action_label_short: HLC Harris-Stowe notice uses full-letter co
   )
 })
 
+run_test("derive_action_label_short: HLC change-of-control resolved rows become compact summaries", function() {
+  text <- paste0(
+    "Affirmed that the institution has demonstrated sufficient evidence that it has addressed the concerns related to the appropriateness of the approval ",
+    "and the institution’s compliance with any commitments made in the Change of Control application and with the Criteria for Accreditation, ",
+    "with specific emphasis on Core Components 2.C, 4.B and 5.B."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Affirmed change-of-control concerns were addressed, including Core Components 2.C, 4.B, and 5.B"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control ongoing single-component rows keep focus detail", function() {
+  text <- paste0(
+    "Affirmed that the institution is addressing the concerns related to ascertaining the appropriateness of the approval ",
+    "and the institution’s fulfillment of any commitments made in the Change of Control application and ongoing compliance with the Criteria for Accreditation, ",
+    "with specific focus on Core Component 5.B."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Affirmed institution is addressing change-of-control concerns, with focus on Core Component 5.B"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control ongoing multi-component rows include findings detail", function() {
+  text <- paste0(
+    "Affirmed that the institution is addressing the concerns related to the appropriateness of the approval and the institution’s compliance ",
+    "with any commitments made in the Change of Control application and the Criteria for Accreditation, with special emphasis on Core Components 3.A, 3.B, 3.C, 4.A, 4.B and 4.C."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Affirmed institution is addressing change-of-control concerns, including Core Components 3.A, 3.B, 3.C, 4.A, 4.B, and 4.C"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control resolved rows without findings become compact summaries", function() {
+  text <- paste0(
+    "Affirmed that the institution has demonstrated sufficient evidence that it has addressed the concerns related to the general ongoing compliance ",
+    "with the Criteria for Accreditation and other applicable HLC requirements in light of the Change of Control, Structure, or Organization approved by HLC’s Board of Trustees in June 2024."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Affirmed change-of-control concerns were addressed"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control affirmed-compliance rows become compact summaries", function() {
+  text <- paste0(
+    "Affirmed that the institution has addressed the concerns related to the appropriateness of the approval of the Change of Control, ",
+    "and affirmed the institution’s compliance with any commitments made in the Change of Control application and the Criteria for Accreditation."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Affirmed change-of-control concerns were addressed"
+  )
+})
+
 run_test("derive_action_label_short: HLC removal notes outrank descriptive file text for warning removal", function() {
   text <- "Resources appear to be sufficient to support operations and deliver educational programs, but continued progress and improvement is needed."
   assert_identical(
@@ -1792,7 +1930,7 @@ run_test("derive_action_label_short: SACSCOC letter-body monitoring rows use sub
   )
 })
 
-run_test("derive_action_label_short: SACSCOC warning letters keep full spaced standard references", function() {
+run_test("derive_action_label_short: SACSCOC warning letters compact spaced standard references", function() {
   text <- paste0(
     "Qubein: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 15, 2023: ",
     "The SACSCOC Board of Trustees reviewed the institution's Referral Report from the submission of a Fifth-Year Interim Report in June 2022 and recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12. 1 (Student support services), Standard 8. 2. a (Student outcomes: educational programs), and Standard 14. 1 (Publication of accreditation status) of the Principles of Accreditation. ",
@@ -1800,7 +1938,7 @@ run_test("derive_action_label_short: SACSCOC warning letters keep full spaced st
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Recommended that the institution be placed on Warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status) of the Principles of accreditation."
+    "Recommended Warning for twelve months for failure to comply with standards concerning student support services, student outcomes, and publication of accreditation status"
   )
 })
 
@@ -1811,7 +1949,7 @@ run_test("derive_action_label_short: SACSCOC follow-up warning letters drop the 
   )
   assert_identical(
     derive_action_label_short("notice", text, "SACSCOC"),
-    "Placed on Warning for six (6) months for failure to comply with Core Requirement 13.1 (financial resources), Core Requirement 13.2 (financial documents), and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+    "Placed on Warning for six (6) months for failure to comply with standards concerning financial resources, financial documents, and financial responsibility"
   )
 })
 
@@ -1823,7 +1961,7 @@ run_test("derive_action_label_short: SACSCOC committee removal letters summarize
   )
   assert_identical(
     derive_action_label_short("adverse_action", text, "SACSCOC"),
-    "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances and sponsored research/external funds"
+    "Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds"
   )
 })
 
@@ -1869,7 +2007,29 @@ run_test("derive_action_label_short: SACSCOC combined letter-plus-disclosure tex
   )
   assert_identical(
     derive_action_label_short("show_cause", text, "SACSCOC"),
-    "Continued accreditation, and continued the institution on Probation for Good Cause for twelve months for failure to comply with Core Requirement 13.1 (financial resources) and Standard 13.3 (financial responsibility) of the Principles of accreditation."
+    "Continued on Probation for Good Cause for twelve months for failure to comply with standards concerning financial resources and financial responsibility"
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC probation-for-good-cause placement letters compact to sanction summary", function() {
+  text <- paste0(
+    "Kinloch: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges during its meeting held on June 12, 2025: ",
+    "The SACSCOC Board of Trustees reviewed the institution’s Second Monitoring Report, continued accreditation, and placed the institution on Probation for Good Cause for twelve months for failure to comply with Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), and Standard 13.6 (Federal and state responsibilities)."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "SACSCOC"),
+    "Placed on Probation for Good Cause for twelve months for failure to comply with standards concerning control of finances, sponsored research/external funds, and federal/state responsibilities"
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC probation continuations drop accreditation-for-good-cause lead-in", function() {
+  text <- paste0(
+    "Butler: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 2, 2021: ",
+    "The SACSCOC Board of Trustees reviewed the institution's Third Monitoring Report, continued the institution in accreditation for Good Cause, and continued the institution on Probation for 12 months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility)."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "SACSCOC"),
+    "Continued on Probation for 12 months for failure to comply with standards concerning financial resources and financial responsibility"
   )
 })
 
@@ -1905,7 +2065,30 @@ run_test("derive_action_label_short: SACSCOC denied-program letters put the acti
   )
   assert_identical(
     derive_action_label_short("other", text, "SACSCOC"),
-    "Denied approval of a Master of Education in Clinical Mental Health Counseling and a Master of Education in Professional School Counseling (intended implementation: August 2025) because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources and financial responsibility."
+    "Denied approval of 2 programs because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources and financial responsibility."
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC denied-program letters join exactly three standard areas cleanly", function() {
+  text <- paste0(
+    "Allen: The following actions regarding your institution were taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 8, 2024: ",
+    "The SACSCOC Board of Trustees denied approval of a Master of Education in Clinical Mental Health Counseling because the institution did not provide an acceptable plan and supporting documentation to ensure that it has the capability to comply with the following standards of the Principles of Accreditation: ",
+    "Core Requirement 13.1 (financial resources), Standard 13.3 (financial responsibility), and Core Requirement 4.1 (Governing board characteristics)."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Denied approval of a Master of Education in Clinical Mental Health Counseling because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources, financial responsibility, and Governing board characteristics."
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC recommended-warning clauses compact to standards summary", function() {
+  text <- paste0(
+    "Akakpo: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 3, 2023: ",
+    "The SACSCOC Board of Trustees reviewed the institution’s Special Report and recommended that the institution be placed on Warning for 12 months for failure to comply with Core Requirement 4.1 (Governing board characteristics), Core Requirement 13.1 (Financial resources), Core Requirement 13.2 (Financial documents), Standard 4.2.b (Board/administrative distinction), Standard 4.2.c (CEO evaluation/selection), Standard 4.2.g (Board self-evaluation), Standard 5.2.a (CEO control), Standard 5.3 (Institution-related entities), Standard 5.4 (Qualified administrative/academic officers), Standard 5.5 (Personnel appointment and evaluation), Standard 12.5 (Student records), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), Standard 13.6 (Federal and state responsibilities), and Standard 13.7 (Physical resources) of the Principles of accreditation."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "SACSCOC"),
+    "Recommended Warning for 12 months for failure to comply with standards concerning governance, financial resources, financial documents, Board/administrative distinction, CEO evaluation/selection, and Board self-evaluation"
   )
 })
 
@@ -1917,7 +2100,7 @@ run_test("is_sacscoc_public_table_row_to_drop: drops routine publication and pro
   ))
   assert_true(is_sacscoc_public_table_row_to_drop(
     "other",
-    "Denied approval of a Master of Education in Clinical Mental Health Counseling and a Master of Education in Professional School Counseling (intended implementation: August 2025) because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources and financial responsibility.",
+    "Denied approval of 2 programs because the institution did not provide an acceptable plan and supporting documentation to show compliance with financial resources and financial responsibility.",
     "Denied approval of a Master of Education in Clinical Mental Health Counseling."
   ))
   assert_true(is_sacscoc_public_table_row_to_drop(
@@ -2055,6 +2238,103 @@ run_test("derive_action_label_short: HLC teach-out additions retain counterpart 
   )
 })
 
+run_test("derive_action_label_short: HLC aggregate program-content changes collapse to program count", function() {
+  text <- paste0(
+    "Approved the institution’s request for approval for an aggregate change of 25% or more in program content and credit hours since the last accreditation review for the following programs: ",
+    "Associate of Applied Science in Hospitality and Tourism Food & Beverage (Associate, 60 credit hours, CIP code 52.0901) ",
+    "Associate in Criminal Justice (Associate, 60 credit hours, CIP code 43.0104) ",
+    "Certificate of Completion in Heritage Interpretation (Pre-Associates Certificate, 33 credit hours, CIP code 05.0299) ",
+    "Associate of Social Work (Associate, 60 credit hours, CIP code 44.0701)."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Approved aggregate change of 25% or more in program content and credit hours across 4 programs"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control merger approvals surface the counterpart entity", function() {
+  text <- paste0(
+    "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein ACE PB LLC, the superordinate entity of the institution, executes an Agreement and Plan of Merger with Bain Capital Double Impact L.P., ",
+    "by and through related intermediaries, resulting in Bain Capital becoming the ultimate holder of 75% of the ownership interest in ACE PB LLC, ",
+    "with five current ACE PB LLC unit holders to retain a collective 25% ultimate ownership interest in ACE PB LLC as set forth in the Agreement and Plan of Merger."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Approved continuation of accreditation related to change of control involving Bain Capital Double Impact L.P."
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control acquisition approvals surface the acquired institution", function() {
+  text <- paste0(
+    "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution, through an Asset Purchase Agreement, acquires Ambria College of Nursing, ",
+    "with the intent of ultimately merging/consolidating Ambria College of Nursing within its structure and HLC accreditation. This was the first phase of two phases of approval."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Approved continuation of accreditation related to change of control involving Ambria College of Nursing"
+  )
+})
+
+run_test("derive_action_label_short: HLC change-of-control merger approvals handle post-phrase application wording", function() {
+  text <- paste0(
+    "Approved the continuation of accreditation related to the Change of Control, Structure, or Organization application wherein Judson University merges and consolidates Ambria College of Nursing within its structure, ",
+    "with Ambria College of Nursing ceasing to be an independent institution and to be operated as an additional location of Judson University. ",
+    "This was the second phase of two phases of approval. The Board approved the first phase in November 2023."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "HLC"),
+    "Approved continuation of accreditation related to change of control involving Ambria College of Nursing"
+  )
+})
+
+run_test("derive_action_label_short: HLC provisional-plan closure approvals collapse to partner count", function() {
+  text <- paste0(
+    "Approved the institution’s Provisional Plan and teach-out arrangements for the closure of Cardinal Stritch University ",
+    "with the following institutions: Alverno College, WI Carroll University, WI Concordia University Chicago, IL ",
+    "Edgewood College, WI Herzing University, WI Holy Cross College, IN Lakeland University, WI Marian University, WI ",
+    "Millikin University, IL Mount Mary University, WI Norbert College, WI Tiffin University, OH ",
+    "University of Wisconsin-Stout, WI Viterbo University, WI Wheeling University, WV"
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved provisional plan and teach-out arrangements for closure with 15 institutions"
+  )
+})
+
+run_test("derive_action_label_short: HLC provisional teach-out plan collapses to program count", function() {
+  text <- paste0(
+    "Approved the Provisional Plan to teach out students enrolled in the adult degree-completion evening programs: ",
+    "Bachelor of Science in Business Administration, Bachelor of Science in Nursing (RN-BSN), ",
+    "Bachelor of Science in Organizational Leadership and Communication, and Bachelor of Science in Social Work."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved provisional teach-out plan for 4 programs"
+  )
+})
+
+run_test("derive_action_label_short: HLC modified provisional plan with teach-out agreement keeps partner and program count", function() {
+  text <- paste0(
+    "Approved the modified Provisional Plan with a teach-out agreement for Antioch University to serve as a teach-out receiving institution for the following programs: ",
+    "Doctor of Philosophy (Ph.D.) in Interdisciplinary Studies, Master of Science in Clinical Mental Health, and Master of Business Administration"
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved modified provisional plan with teach-out agreement with Antioch University for 3 programs"
+  )
+})
+
+run_test("derive_action_label_short: HLC provisional plan with teach-out arrangement keeps partner and program count", function() {
+  text <- paste0(
+    "Approved the institution’s Provisional Plan for students currently enrolled in the Master of Education in Montessori Integrative Learning and ",
+    "Master of Education in Integrative Learning, including the Teach-Out Arrangement with Lasell University (Newton, MA)."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "HLC"),
+    "Approved provisional plan with teach-out arrangement with Lasell University for 2 programs"
+  )
+})
+
 run_test("derive_action_label_short: HLC resolved concerns row becomes compact summary", function() {
   text <- paste0(
     "The Institution now meets without concerns Criterion Three, Core Component 3.A, “the institution’s degree programs are appropriate to higher education,” for the following reason: ",
@@ -2063,5 +2343,80 @@ run_test("derive_action_label_short: HLC resolved concerns row becomes compact s
   assert_identical(
     derive_action_label_short("removed", text, "HLC"),
     "Concerns about Criterion Three, Core Component 3.A were resolved after discontinuing the Doctor of Counseling program."
+  )
+})
+run_test("derive_action_label_short: MSCHE probation rows compact standards enumerations", function() {
+  cheyney_text <- paste0(
+    "To place the institution on Probation and note that the institution's accreditation is in jeopardy because of insufficient evidence ",
+    "that the institution is currently in compliance with Standard II (Ethics and Integrity), Standard III (Design and Delivery of the Student Learning Experience), ",
+    "Standard VI (Planning, Resources, and Institutional Improvement), and former Requirements of Affiliation 5 and 11."
+  )
+  assert_identical(
+    derive_action_label_short("probation", cheyney_text, "MSCHE"),
+    "Placed on Probation for insufficient evidence of compliance with Standards II, III, and VI and former Requirements of Affiliation 5 and 11"
+  )
+
+  pillar_text <- paste0(
+    "To place the institution on Probation and note that the institution's accreditation is in jeopardy because of insufficient evidence ",
+    "that the institution is currently in compliance with Standard V (Educational Effectiveness Assessment), Standard VI (Planning, Resources, and Institutional Improvement), ",
+    "and former Requirements of Affiliation 9, 11, and 12."
+  )
+  assert_identical(
+    derive_action_label_short("probation", pillar_text, "MSCHE"),
+    "Placed on Probation for insufficient evidence of compliance with Standards V and VI and former Requirements of Affiliation 9, 11, and 12"
+  )
+
+  bloomfield_text <- paste0(
+    "To place the institution on Probation and note that the institution’s accreditation is in jeopardy because of insufficient evidence ",
+    "that the institution is currently in compliance with Standard V (Educational Effectiveness Assessment); Standard VI (Planning, Resources, and Institutional Improvement); ",
+    "and Requirements of Affiliation 8, 9, 10, and 11."
+  )
+  assert_identical(
+    derive_action_label_short("probation", bloomfield_text, "MSCHE"),
+    "Placed on Probation for insufficient evidence of compliance with Standards V and VI and Requirements of Affiliation 8, 9, 10, and 11"
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC continued-warning monitoring letters compact to sanction summary", function() {
+  text <- paste0(
+    "Johnson McPhail: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 16, 2022: ",
+    "The SACSCOC Board of Trustees reviewed the institution's Second Monitoring Report and recommended that the institution be continued on Warning for six months for failure to comply with CR 13.1 (Financial resources), CR 13.2 (Financial documents), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities)."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "SACSCOC"),
+    "Continued on Warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities"
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC denied-reaffirmation warning letters compact to sanction summary", function() {
+  text <- paste0(
+    "Washington: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on December 7, 2025: ",
+    "The SACSCOC Board of Trustees denied reaffirmation of accreditation, continued accreditation, and placed the institution on Warning. ",
+    "For twelve months for failure to comply with Core Requirement 6.1 (Full-time faculty), Core Requirement 7.1 (Institutional planning), Core Requirement 13.1 (Financial resources), Core Requirement 13.2 (Financial documents), Standard 4.2.a (Mission review), Standard 4.2.c (CEO evaluation/selection), Standard 6.2.b (Program faculty), Standard 8.2.a (Student outcomes: educational programs), Standard 8.2.c (Student outcomes: academic and student services), Standard 10.9 (Cooperative academic arrangements), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), and Standard 13.6 (Federal and state responsibilities)."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Denied reaffirmation and placed on Warning. For twelve months for failure to comply with standards concerning faculty, institutional planning, financial resources, financial documents, mission, and CEO evaluation/selection"
+  )
+})
+
+run_test("derive_action_label_short: NECHE joint-statement show-cause rows collapse to generic show-cause summary", function() {
+  text <- paste0(
+    "At its meeting on April 23, 2021, the New England Commission of Higher Education (NECHE) voted to ask Bay State College to show cause why the College should not be placed on probation ",
+    "or have its accreditation withdrawn because the Commission has reason to believe that Bay…"
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "NECHE"),
+    "Asked to Show Cause for Probation or Withdrawal of Accreditation"
+  )
+})
+
+run_test("derive_action_label_short: NECHE notation joint statements collapse to notation risk summary", function() {
+  text <- paste0(
+    "At its meeting on March 2, 2023, the New England Commission of Higher Education (NECHE) issued Roxbury Community College a Notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Educational Effectiveness, specifically…"
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "NECHE"),
+    "Notation for Educational Effectiveness Risk"
   )
 })

@@ -1,13 +1,40 @@
-source(file.path(root, "scripts", "shared", "accreditation_scrapers.R"))
-
 if (!exists("run_test", mode = "function")) {
   source(file.path(getwd(), "tests", "test_support.R"))
 }
+
+source(file.path(root, "scripts", "shared", "accreditation_scrapers.R"))
 
 run_test("Accreditation scraper action schema helper", function() {
   empty_rows <- ensure_accreditation_action_schema(tibble::tibble(), "empty fixture")
   assert_identical(nrow(empty_rows), 0L)
   assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(empty_rows)))
+  assert_true(is.character(empty_rows$last_seen_at),
+    "Empty schema rows should serialize last_seen_at as character.")
+
+  non_empty_rows <- ensure_accreditation_action_schema(
+    tibble::tibble(
+      institution_name_raw = "Schema University",
+      institution_state_raw = "WA",
+      accreditor = "NWCCU",
+      action_type = "warning",
+      action_label_raw = "Probation",
+      action_status = "active",
+      action_date = as.Date("2025-01-15"),
+      action_year = 2025L,
+      action_scope = NA_character_,
+      source_url = "https://example.org/action",
+      source_title = "Schema fixture",
+      notes = "Schema fixture notes",
+      last_seen_at = Sys.time(),
+      source_page_url = "https://example.org/page",
+      source_page_modified = "2025-01-16"
+    ),
+    "non-empty fixture"
+  )
+  bound_rows <- dplyr::bind_rows(list(empty_rows, non_empty_rows))
+  assert_identical(nrow(bound_rows), 1L)
+  assert_true(is.character(bound_rows$last_seen_at),
+    "Mixed empty/non-empty schema outputs should bind with character last_seen_at.")
 
   err <- tryCatch(
     {
@@ -699,6 +726,22 @@ run_test("NWCCU directory selector matches the live `nwccu-degree-baccalaureate`
     NWCCU_BACCALAUREATE_CLASS != "nwccu-degree-bachelor",
     "NWCCU_BACCALAUREATE_CLASS must reflect the post-2025 schema rename."
   )
+})
+
+run_test("NWCCU directory validator rejects tiny alternate pages and accepts live-shape HTML", function() {
+  good_html <- paste0(
+    "<!DOCTYPE html><html><head><title>Institutional Directory - NWCCU</title></head><body>",
+    "<input class=\"nwccu-checkbox\" type=\"checkbox\" value=\"nwccu-degree-baccalaureate\" />",
+    "<article id=\"post-1\" class=\"institution-item nwccu-state-washington ",
+    "nwccu-type-private-not-for-profit nwccu-type-four-year ",
+    "nwccu-degree-associates nwccu-degree-baccalaureate nwccu-degree-masters \">",
+    "<h3>Alpha University</h3>",
+    "</article></body></html>"
+  )
+  bad_html <- "<html><body>Access denied</body></html>"
+
+  assert_identical(validate_nwccu_directory_html(good_html), TRUE)
+  assert_identical(validate_nwccu_directory_html(bad_html), FALSE)
 })
 
 run_test("parse_nwccu warns when the directory carries no baccalaureate-tagged articles", function() {
@@ -1905,6 +1948,8 @@ run_test("parse_neche extracts meeting date from H2 heading and per-row scope", 
   rows <- parse_neche(cache_dir, refresh = FALSE)
 
   assert_identical(nrow(rows), 2L)
+  assert_true(is.character(rows$last_seen_at),
+    "parse_neche should serialize last_seen_at after combining recent-actions with empty statement rows.")
 
   # Filter by action label rather than parsed institution_name_raw:
   # extract_name_state_from_item only strips a narrow allowlist of trailing

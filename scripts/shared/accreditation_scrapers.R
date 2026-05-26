@@ -49,7 +49,9 @@ empty_accreditation_action_rows <- function() {
     source_url = character(),
     source_title = character(),
     notes = character(),
-    last_seen_at = as.POSIXct(character()),
+    # Schema boundary contract: serialized timestamp string, consistent with
+    # ensure_accreditation_action_schema() and the downstream DAPIP builders.
+    last_seen_at = character(),
     source_page_url = character(),
     source_page_modified = character()
   )
@@ -2527,6 +2529,7 @@ parse_neche <- function(cache_dir, refresh) {
       source_page_modified = page_modified
     )
   })
+  recent_rows <- ensure_accreditation_action_schema(recent_rows, "NECHE recent-actions output")
 
   warn_on_empty_parse(
     "NECHE", url, recent_rows, html,
@@ -2549,6 +2552,7 @@ parse_neche <- function(cache_dir, refresh) {
       empty_accreditation_action_rows()
     }
   )
+  statement_rows <- ensure_accreditation_action_schema(statement_rows, "NECHE commission-statements output")
 
   state_lookup <- recent_rows %>%
     dplyr::filter(
@@ -2710,6 +2714,19 @@ NWCCU_STATUS_PATTERN   <- "Current Accreditation Status</span>\\s*<p[^>]*>([^<]+
 NWCCU_EVAL_PATTERN     <- "Most Recent Evaluation</span>\\s*<span[^>]*>([^<]+)</span>"
 NWCCU_REASON_PATTERN   <- "Reason for Accreditation</span>\\s*<span[^>]*>([^<]+)</span>"
 
+# Fresh NWCCU directory fetches occasionally return a tiny alternate page
+# (observed in CI at ~195 bytes) instead of the real institutional directory.
+# Treat that as an invalid fetch shape up front so fetch_html_text() can fall
+# back to a last-known-good cache or fail loudly when no cache exists, rather
+# than letting parse_nwccu misclassify the response as an expected zero-row run.
+validate_nwccu_directory_html <- function(html) {
+  if (is.null(html) || !nzchar(html)) return(FALSE)
+  has_directory_title <- stringr::str_detect(html, stringr::fixed("Institutional Directory - NWCCU"))
+  has_institution_articles <- stringr::str_detect(html, "class=\"institution-item")
+  has_baccalaureate_marker <- stringr::str_detect(html, stringr::fixed(NWCCU_BACCALAUREATE_CLASS))
+  has_directory_title && has_institution_articles && has_baccalaureate_marker
+}
+
 # Keywords that indicate an actionable adverse finding in page text or eval text
 NWCCU_ADVERSE_KEYWORDS <- paste(
   c("show cause", "warning", "probation", "notice of concern",
@@ -2834,13 +2851,22 @@ parse_nwccu_institution_page <- function(inst_url, inst_name, cache_dir, refresh
     source_title          = paste0("NWCCU Institution Notification Letter – ", inst_name),
     source_url            = source_url,
     notes                 = notes,
-    last_seen_at          = as.character(Sys.Date()),
+    # Keep scraper internals on the same timestamp convention as the other
+    # accreditors and let ensure_accreditation_action_schema() serialize at
+    # the shared boundary.
+    last_seen_at          = Sys.time(),
     source_page_modified  = page_modified
   )
 }
 
 parse_nwccu <- function(cache_dir, refresh = FALSE) {
-  dir_html <- fetch_html_text(NWCCU_DIRECTORY_URL, "nwccu_directory.html", cache_dir, refresh = refresh)
+  dir_html <- fetch_html_text(
+    NWCCU_DIRECTORY_URL,
+    "nwccu_directory.html",
+    cache_dir,
+    refresh = refresh,
+    validate_fn = validate_nwccu_directory_html
+  )
   if (is.null(dir_html) || nchar(dir_html) < 100) {
     message("NWCCU: could not fetch directory")
     return(tibble::tibble())

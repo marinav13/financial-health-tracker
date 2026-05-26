@@ -119,8 +119,11 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
 });
 
 run("weekly refresh runs R smoke tests through activated renv library", () => {
-  const depsBlock = stepBlock(WEEKLY, "Set up CI-only R dependencies");
-  assert(depsBlock.includes("any::pdftools"), "Expected weekly refresh to install pdftools before smoke tests");
+  const sysreqBlock = stepBlock(WEEKLY, "Install system dependencies");
+  assert(sysreqBlock.includes("libpoppler-cpp-dev"), "Expected weekly refresh to install poppler sysreqs before renv restore");
+  assert(sysreqBlock.includes("libcurl4-openssl-dev"), "Expected weekly refresh to install libcurl sysreqs before renv restore");
+  const restoreBlock = stepBlock(WEEKLY, "Restore R packages");
+  assert(restoreBlock.includes("renv::restore()"), "Expected weekly refresh to restore the renv library before smoke tests");
   const block = stepBlock(WEEKLY, "Run shared helper smoke tests");
   assert(block.includes("Rscript ./tests/run_shared_helper_smoke_tests.R"), "Expected R smoke tests to run");
   assert(!block.includes("--vanilla"), "Expected weekly smoke tests not to bypass renv activation with --vanilla");
@@ -134,12 +137,14 @@ run("weekly refresh caches the same renv library path as test workflow", () => {
   assert(!weeklyBlock.includes("R_LIBS_USER"), "Expected weekly refresh not to cache a divergent R_LIBS_USER path");
 });
 
-run("full refresh explicitly installs packages used by --vanilla R scripts", () => {
-  const dependencyBlock = stepBlock(FULL, "Set up R dependencies");
-  ["dplyr", "httr2", "jsonlite", "openxlsx", "pdftools", "purrr", "readr", "readxl", "stringr", "tidyr", "xml2"].forEach((pkg) => {
-    assert(dependencyBlock.includes(`any::${pkg}`), `Expected setup-r-dependencies to install ${pkg}`);
-  });
-
+run("full refresh restores renv and installs system dependencies before --vanilla R scripts", () => {
+  const cacheBlock = stepBlock(FULL, "Cache R packages");
+  assert(cacheBlock.includes("path: renv/library"), "Expected full refresh to cache renv/library");
+  const sysreqBlock = stepBlock(FULL, "Install system dependencies");
+  assert(sysreqBlock.includes("libpoppler-cpp-dev"), "Expected full refresh to install poppler sysreqs before renv restore");
+  assert(sysreqBlock.includes("libcurl4-openssl-dev"), "Expected full refresh to install libcurl sysreqs before renv restore");
+  const restoreBlock = stepBlock(FULL, "Restore R packages");
+  assert(restoreBlock.includes("renv::restore()"), "Expected full refresh to restore packages from renv.lock");
   const smokeBlock = stepBlock(FULL, "Run shared helper smoke tests");
   assert(smokeBlock.includes("Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R"), "Expected full refresh smoke tests to preserve --vanilla coverage");
 });

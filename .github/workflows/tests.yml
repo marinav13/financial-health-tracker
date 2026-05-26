@@ -31,15 +31,11 @@ jobs:
           restore-keys: |
             r-${{ runner.os }}-
 
+      - name: Install system dependencies
+        run: sudo apt-get install -y --no-install-recommends libpoppler-cpp-dev
+
       - name: Restore R packages
         run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
-
-      - name: Set up CI-only R dependencies
-        uses: r-lib/actions/setup-r-dependencies@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2.11.4
-        with:
-          packages: |
-            any::pdftools
-            any::lintr
 
       - name: Lint R sources
         run: Rscript tests/run_lintr.R

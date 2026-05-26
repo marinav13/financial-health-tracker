@@ -97,76 +97,163 @@ run_test("Workbook helper distress and staffing summaries", function() {
 run_test("Workbook helper report answers builder", function() {
   distress_compare <- data.frame(
     year = c(2024L, 2019L, 2014L),
-    distress_count = c(12, 9, 0),
-    distress_pct = c(15, 11, NA),
-    enrollment_drop_10pct_count = c(7, 5, 0),
-    revenue_drop_10pct_count = c(6, 4, 0),
-    distress_students = c(5000, 4200, 0),
-    longrun_count = c(3, 2, 0),
-    longrun_students = c(1200, 900, 0),
+    distress_count = c(2, 1, 0),
+    distress_pct = c(66.7, 33.3, NA),
+    institutions_total = c(3, 3, 0),
+    distress_students = c(1700, 1500, 0),
+    longrun_count = c(1, 1, 0),
+    longrun_students = c(880, 1000, 0),
     comparison_note = c("2024 comparable", "2019 comparable", "2014 not comparable"),
     stringsAsFactors = FALSE
   )
-  distress_intl10 <- data.frame(unitid = c(1, 2), stringsAsFactors = FALSE)
-  flagship_cuts <- data.frame(
-    total_disrupted_award_remaining = c(1500000, 500000),
-    stringsAsFactors = FALSE
+  years <- 2014:2024
+  category_label <- "Degree-granting, primarily baccalaureate or above"
+  make_inst_rows <- function(unitid, control_label, enroll_values, revenue_values, latest_students,
+                             summary_2019, summary_2024) {
+    rows <- lapply(seq_along(years), function(idx) {
+      year_value <- years[[idx]]
+      summary_values <- if (year_value == 2019L) summary_2019 else if (year_value == 2024L) summary_2024 else NULL
+      data.frame(
+        unitid = unitid,
+        year = year_value,
+        category = category_label,
+        control_label = control_label,
+        enrollment_headcount_total = if (year_value == 2024L) latest_students else enroll_values[[idx]],
+        revenue_total_adjusted = revenue_values[[idx]],
+        enrollment_decline_last_3_of_5 = if (is.null(summary_values)) "No" else summary_values$enrollment_decline_last_3_of_5,
+        revenue_10pct_drop_last_3_of_5 = if (is.null(summary_values)) "No" else summary_values$revenue_10pct_drop_last_3_of_5,
+        losses_last_3_of_5 = if (is.null(summary_values)) "No" else summary_values$losses_last_3_of_5,
+        ended_year_at_loss = if (is.null(summary_values)) "No" else summary_values$ended_year_at_loss,
+        enrollment_pct_change_5yr = if (is.null(summary_values)) NA_real_ else summary_values$enrollment_pct_change_5yr,
+        revenue_pct_change_5yr = if (is.null(summary_values)) NA_real_ else summary_values$revenue_pct_change_5yr,
+        staff_total_headcount_pct_change_5yr = if (is.null(summary_values)) NA_real_ else summary_values$staff_total_headcount_pct_change_5yr,
+        net_tuition_per_fte_change_5yr = if (is.null(summary_values)) NA_real_ else summary_values$net_tuition_per_fte_change_5yr,
+        discount_pct_change_5yr = if (is.null(summary_values)) NA_real_ else summary_values$discount_pct_change_5yr,
+        stringsAsFactors = FALSE
+      )
+    })
+    do.call(rbind, rows)
+  }
+  public_rows <- make_inst_rows(
+    unitid = "100",
+    control_label = "Public",
+    enroll_values = round(1000 * (0.88 ^ (0:10))),
+    revenue_values = round(200 * (0.88 ^ (0:10))),
+    latest_students = 278,
+    summary_2019 = list(enrollment_decline_last_3_of_5 = "Yes", revenue_10pct_drop_last_3_of_5 = "Yes", losses_last_3_of_5 = "Yes", ended_year_at_loss = "Yes", enrollment_pct_change_5yr = -47, revenue_pct_change_5yr = -47, staff_total_headcount_pct_change_5yr = -12, net_tuition_per_fte_change_5yr = -15, discount_pct_change_5yr = 3),
+    summary_2024 = list(enrollment_decline_last_3_of_5 = "Yes", revenue_10pct_drop_last_3_of_5 = "Yes", losses_last_3_of_5 = "Yes", ended_year_at_loss = "Yes", enrollment_pct_change_5yr = -47, revenue_pct_change_5yr = -47, staff_total_headcount_pct_change_5yr = -12, net_tuition_per_fte_change_5yr = -15, discount_pct_change_5yr = 3)
   )
-  staff_cut_yoy <- data.frame(
-    year = c(2023L, 2024L),
-    institutions_cutting_staff = c(8, 11),
-    stringsAsFactors = FALSE
+  private_nfp_rows <- make_inst_rows(
+    unitid = "200",
+    control_label = "Private not-for-profit",
+    enroll_values = round(800 * (1.01 ^ (0:10))),
+    revenue_values = round(150 * (0.975 ^ (0:10))),
+    latest_students = 884,
+    summary_2019 = list(enrollment_decline_last_3_of_5 = "No", revenue_10pct_drop_last_3_of_5 = "No", losses_last_3_of_5 = "Yes", ended_year_at_loss = "Yes", enrollment_pct_change_5yr = 5, revenue_pct_change_5yr = -12, staff_total_headcount_pct_change_5yr = -4, net_tuition_per_fte_change_5yr = -12, discount_pct_change_5yr = 12),
+    summary_2024 = list(enrollment_decline_last_3_of_5 = "No", revenue_10pct_drop_last_3_of_5 = "No", losses_last_3_of_5 = "Yes", ended_year_at_loss = "Yes", enrollment_pct_change_5yr = 5, revenue_pct_change_5yr = -12, staff_total_headcount_pct_change_5yr = -4, net_tuition_per_fte_change_5yr = -12, discount_pct_change_5yr = 12)
   )
+  private_fp_rows <- make_inst_rows(
+    unitid = "300",
+    control_label = "Private for-profit",
+    enroll_values = round(600 * (1.03 ^ (0:10))),
+    revenue_values = round(100 * (1.02 ^ (0:10))),
+    latest_students = 806,
+    summary_2019 = list(enrollment_decline_last_3_of_5 = "No", revenue_10pct_drop_last_3_of_5 = "No", losses_last_3_of_5 = "No", ended_year_at_loss = "No", enrollment_pct_change_5yr = 16, revenue_pct_change_5yr = 10, staff_total_headcount_pct_change_5yr = 6, net_tuition_per_fte_change_5yr = 5, discount_pct_change_5yr = -2),
+    summary_2024 = list(enrollment_decline_last_3_of_5 = "No", revenue_10pct_drop_last_3_of_5 = "No", losses_last_3_of_5 = "No", ended_year_at_loss = "No", enrollment_pct_change_5yr = 16, revenue_pct_change_5yr = 10, staff_total_headcount_pct_change_5yr = 6, net_tuition_per_fte_change_5yr = 5, discount_pct_change_5yr = -2)
+  )
+  read_df <- rbind(public_rows, private_nfp_rows, private_fp_rows)
 
   report_answers <- build_report_answers(
+    read_df = read_df,
     distress_compare = distress_compare,
-    distress_intl10 = distress_intl10,
-    flagship_cuts = flagship_cuts,
-    staff_cut_yoy = staff_cut_yoy
+    bacc_category_label = category_label,
+    latest_year = 2024L,
+    comparison_year = 2019L,
+    baseline_year = 2014L
   )
 
-  assert_identical(nrow(report_answers), 16L)
-  assert_identical(report_answers$value[[1]], "12")
-  assert_identical(report_answers$value[[13]], "2")
-  assert_identical(report_answers$value[[15]], "1")
-  assert_identical(report_answers$value[[16]], "11")
+  assert_identical(nrow(report_answers), 226L)
+  assert_true(all(c("group", "scope", "count_yes", "students_at_yes_institutions", "pct_of_yes_institutions") %in% names(report_answers)))
+  assert_identical(report_answers$question[[1]], "2014 comparison note")
+  assert_identical(report_answers$question[[2]], "How the workbook defines rising discount rates and falling net tuition per FTE")
+  assert_identical(report_answers$note[[1]], "2014 not comparable")
+  assert_identical(report_answers$calculation[[2]], "discount_pct_change_5yr > 0 AND net_tuition_per_fte_change_5yr < 0")
+
+  public_rev_decline <- report_answers[
+    report_answers$question == "2024 Public institutions with revenue declines in at least 3 of the last 5 year-to-year comparisons",
+    ,
+    drop = FALSE
+  ]
+  assert_identical(nrow(public_rev_decline), 1L)
+  assert_equal(public_rev_decline$count_yes[[1]], 1)
+  assert_equal(public_rev_decline$pct_of_scope_institutions[[1]], 100)
+
+  mixed_repeated <- report_answers[
+    report_answers$question == "2024 institutions with enrollment declines in at least 3 of the last 5 year-to-year comparisons, a revenue decline of at least 10% in at least 3 of the last 5 year-to-year comparisons, and losses in 3 of the last 5 years",
+    ,
+    drop = FALSE
+  ]
+  assert_identical(mixed_repeated$group[[1]], "2024 Repeated-decline flags")
+  assert_equal(mixed_repeated$count_yes[[1]], 1)
+
+  discount_stress <- report_answers[
+    report_answers$question == "2024 Private not-for-profit institutions with rising discount rates and falling net tuition per FTE",
+    ,
+    drop = FALSE
+  ]
+  assert_equal(discount_stress$count_yes[[1]], 1)
+  assert_equal(discount_stress$students_at_yes_institutions[[1]], 884)
 })
 
-run_test("Workbook report answers labels follow supplied years", function() {
+run_test("Workbook helper distress and research answer builders", function() {
   distress_compare <- data.frame(
-    year = c(2025L, 2020L, 2015L),
-    distress_count = c(13, 10, 0),
-    distress_pct = c(16, 12, NA),
-    enrollment_drop_10pct_count = c(8, 6, 0),
-    revenue_drop_10pct_count = c(7, 5, 0),
-    distress_students = c(5100, 4300, 0),
-    longrun_count = c(4, 3, 0),
-    longrun_students = c(1300, 950, 0),
-    comparison_note = c("2025 comparable", "2020 comparable", "2015 not comparable"),
+    year = c(2024L, 2019L, 2014L),
+    distress_count = c(2, 1, 0),
+    distress_pct = c(66.7, 33.3, NA),
+    institutions_total = c(3, 3, 0),
+    distress_students = c(1700, 1500, 0),
+    longrun_count = c(1, 1, 0),
+    comparison_note = c("2024 comparable", "2019 comparable", "2014 not comparable"),
     stringsAsFactors = FALSE
   )
-  staff_cut_yoy <- data.frame(
-    year = c(2024L, 2025L),
-    institutions_cutting_staff = c(8, 12),
+  read_df <- data.frame(
+    unitid = c("100", "200", "300", "100", "200", "300"),
+    year = c(2019L, 2019L, 2019L, 2024L, 2024L, 2024L),
+    category = rep("Degree-granting, primarily baccalaureate or above", 6),
+    control_label = c("Public", "Private not-for-profit", "Private for-profit", "Public", "Private not-for-profit", "Private for-profit"),
+    enrollment_decline_last_3_of_5 = c("Yes", "No", "No", "Yes", "No", "No"),
+    revenue_10pct_drop_last_3_of_5 = c("Yes", "No", "No", "Yes", "No", "No"),
+    losses_last_3_of_5 = c("Yes", "Yes", "No", "Yes", "Yes", "No"),
+    ended_year_at_loss = c("Yes", "Yes", "No", "Yes", "Yes", "No"),
+    staff_total_headcount_pct_change_5yr = c(-12, -4, 6, -12, -4, 6),
+    net_tuition_per_fte_change_5yr = c(-15, -12, 5, -15, -12, 5),
+    enrollment_headcount_total = c(527, 840, 694, 278, 884, 806),
     stringsAsFactors = FALSE
   )
-
-  report_answers <- build_report_answers(
+  distress_answers <- build_distress_answers(
+    read_df = read_df,
     distress_compare = distress_compare,
-    distress_intl10 = data.frame(unitid = integer(), stringsAsFactors = FALSE),
-    flagship_cuts = data.frame(total_disrupted_award_remaining = numeric(), stringsAsFactors = FALSE),
-    staff_cut_yoy = staff_cut_yoy,
-    latest_year = 2025L,
-    comparison_year = 2020L,
-    baseline_year = 2015L,
-    prior_year = 2024L
+    distress_intl10 = data.frame(unitid = c(1, 2), stringsAsFactors = FALSE),
+    accredit_finance_xtab = data.frame(
+      event_type = c("Active warning/notice", "Active warning/notice"),
+      control_scope = c("All", "All"),
+      cohort = c("With event", "Without event"),
+      distress_share_pct = c(40, 20),
+      staff_total_decline_5yr_pct = c(60, 30),
+      stringsAsFactors = FALSE
+    )
+  )
+  research_cuts_answers <- build_research_cuts_answers(
+    flagship_cuts = data.frame(total_disrupted_award_remaining = c(1500000, 500000), stringsAsFactors = FALSE)
   )
 
-  assert_true(grepl("2025 distressed institutions", report_answers$question[[1]], fixed = TRUE))
-  assert_true(grepl("2020 distressed institutions", report_answers$question[[8]], fixed = TRUE))
-  assert_true(grepl("2015 comparison note", report_answers$question[[12]], fixed = TRUE))
-  assert_true(grepl("2024 to 2025", report_answers$question[[16]], fixed = TRUE))
-  assert_identical(report_answers$value[[16]], "12")
+  assert_true("How the workbook defines distressed institutions" %in% distress_answers$question)
+  assert_true("How the workbook defines long-running challenge institutions" %in% distress_answers$question)
+  assert_true("Public flagships with still-disrupted federal research cuts" %in% research_cuts_answers$question)
+  assert_identical(
+    distress_answers$value[distress_answers$question == "Active accreditation warning/notice overlap with workbook distress"][[1]],
+    "40.0% with warning/notice vs 20.0% without; 60.0% with warning/notice also cut staff"
+  )
 })
 
 run_test("Workbook helper state breakdown builder", function() {
@@ -237,7 +324,9 @@ run_test("Workbook helper worksheet registry builder", function() {
 
   worksheets <- build_article_workbook_registry(
     summary_rows = data.frame(metric = "Worksheet index", statistic = "Summary", stringsAsFactors = FALSE),
-    report_answers = data.frame(question = "q", value = "v", note = "n", stringsAsFactors = FALSE),
+    report_answers = data.frame(question = "q", calculation = "c", note = "n", stringsAsFactors = FALSE),
+    distress_answers = data.frame(question = "dq", value = "dv", calculation = "dc", note = "dn", stringsAsFactors = FALSE),
+    research_cuts_answers = data.frame(question = "rq", value = "rv", calculation = "rc", note = "rn", stringsAsFactors = FALSE),
     bacc_benchmarks = data.frame(group = "all", stringsAsFactors = FALSE),
     all_sheet_bacc = data.frame(unitid = 1, stringsAsFactors = FALSE),
     base_sheets = base_sheets,
@@ -272,6 +361,8 @@ run_test("Workbook helper worksheet registry builder", function() {
 
   assert_identical(names(worksheets)[1], "Summary")
   assert_identical(names(worksheets)[2], "ReportAnswers")
+  assert_identical(names(worksheets)[3], "DistressAnswers")
+  assert_identical(names(worksheets)[4], "ResearchCutsAnswers")
   assert_true("StateBySt" %in% names(worksheets))
   assert_true("IntlVulnLarge" %in% names(worksheets))
 })

@@ -253,8 +253,11 @@ build_benchmark_tab <- function(group_list, label_prefix = "") {
   do.call(rbind, rows)
 }
 
-# Builds the ReportAnswers tab: 16 key topline statistics with interpretation notes.
-build_report_answers <- function(distress_compare, distress_intl10, flagship_cuts, staff_cut_yoy,
+# Legacy ReportAnswers builder retained temporarily for reference while the
+# workbook uses the newer grouped answer-tab builders defined below.
+build_report_answers_legacy <- function(distress_compare, distress_intl10, flagship_cuts, staff_cut_yoy,
+                                 all_sheet_bacc = data.frame(stringsAsFactors = FALSE),
+                                 accredit_finance_xtab = data.frame(stringsAsFactors = FALSE),
                                  latest_year = 2024L, comparison_year = latest_year - 5L,
                                  baseline_year = latest_year - 10L, prior_year = latest_year - 1L) {
   value_for_year <- function(field, year_value) {
@@ -266,62 +269,882 @@ build_report_answers <- function(distress_compare, distress_intl10, flagship_cut
     if (length(value) == 0) NA else value[[1]]
   }
 
-  data.frame(
-    question = c(
+  format_value <- function(x, digits = NULL, suffix = "") {
+    if (length(x) == 0 || is.null(x) || all(is.na(x))) return(NA_character_)
+    val <- x[[1]]
+    if (is.numeric(val)) {
+      if (!is.null(digits)) {
+        val <- formatC(val, format = "f", digits = digits, big.mark = ",")
+      } else {
+        val <- format(round(val), big.mark = ",", scientific = FALSE, trim = TRUE)
+      }
+    }
+    paste0(as.character(val), suffix)
+  }
+  format_count_student_value <- function(count, denominator, students = NULL) {
+    pieces <- c(
+      sprintf("%s of %s institutions", format_value(count), format_value(denominator))
+    )
+    if (!is.null(students) && !is.na(students)) {
+      pieces <- c(pieces, sprintf("%s students", format_value(students)))
+    }
+    paste(pieces, collapse = "; ")
+  }
+  format_pct_comparison <- function(a, b, digits = 1) {
+    sprintf("%s vs %s", format_value(a, digits = digits, suffix = "%"), format_value(b, digits = digits, suffix = "%"))
+  }
+  make_answer_row <- function(question, value, calculation, note) {
+    data.frame(
+      question = question,
+      value = if (length(value) == 0 || is.null(value) || all(is.na(value))) NA_character_ else as.character(value[[1]]),
+      calculation = calculation,
+      note = note,
+      stringsAsFactors = FALSE
+    )
+  }
+  subset_stats <- function(df, predicate) {
+    if (nrow(df) == 0) {
+      return(list(
+        count = 0L,
+        denominator = 0L,
+        students = NA_real_,
+        pct = NA_real_
+      ))
+    }
+    matches <- predicate(df)
+    matches[is.na(matches)] <- FALSE
+    subset_df <- df[matches, , drop = FALSE]
+    list(
+      count = nrow(subset_df),
+      denominator = nrow(df),
+      students = if ("enrollment_headcount_total" %in% names(subset_df)) {
+        sum(to_num(subset_df$enrollment_headcount_total), na.rm = TRUE)
+      } else {
+        NA_real_
+      },
+      pct = safe_pct(nrow(subset_df), nrow(df))
+    )
+  }
+  xtab_value <- function(event_type, cohort, field) {
+    if (nrow(accredit_finance_xtab) == 0) return(NA)
+    value <- accredit_finance_xtab[[field]][
+      accredit_finance_xtab$event_type == event_type &
+        accredit_finance_xtab$control_scope == "All" &
+        accredit_finance_xtab$cohort == cohort
+    ]
+    if (length(value) == 0) NA else value[[1]]
+  }
+
+  all_2024_stats <- subset_stats(all_sheet_bacc, function(df) rep(TRUE, nrow(df)))
+  private_nfp_df <- all_sheet_bacc[all_sheet_bacc$control_label == "Private not-for-profit", , drop = FALSE]
+  public_df <- all_sheet_bacc[all_sheet_bacc$control_label == "Public", , drop = FALSE]
+  private_fp_df <- all_sheet_bacc[all_sheet_bacc$control_label == "Private for-profit", , drop = FALSE]
+  scope_dfs <- list(
+    Public = public_df,
+    `Private not-for-profit` = private_nfp_df,
+    `Private for-profit` = private_fp_df
+  )
+
+  net_tuition_down_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0)
+  private_nfp_net_tuition_down_stats <- subset_stats(private_nfp_df, function(df) !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0)
+  private_nfp_stress_stats <- subset_stats(private_nfp_df, function(df) !is.na(df$discount_pct_change_5yr) & to_num(df$discount_pct_change_5yr) > 0 & !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0)
+  public_distress_stats <- subset_stats(public_df, function(df) !is.na(df$warning_score_core) & to_num(df$warning_score_core) >= 4)
+  private_nfp_distress_stats <- subset_stats(private_nfp_df, function(df) !is.na(df$warning_score_core) & to_num(df$warning_score_core) >= 4)
+  all3signals_stats <- subset_stats(all_sheet_bacc, function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
+  enroll_decline_stats <- subset_stats(all_sheet_bacc, function(df) yes_flag(df$enrollment_decline_last_3_of_5))
+  enroll_10pct_5yr_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10)
+  staff_cut_5yr_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & to_num(df$staff_total_headcount_pct_change_5yr) < 0)
+  rev_10pct_3of5_stats <- subset_stats(all_sheet_bacc, function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5))
+  losses_3of5_stats <- subset_stats(all_sheet_bacc, function(df) yes_flag(df$losses_last_3_of_5))
+  private_nfp_enroll_loss_stats <- subset_stats(private_nfp_df, function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
+  enroll10_rev10_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$revenue_10pct_drop_last_3_of_5))
+  enroll10_loss_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$losses_last_3_of_5))
+  rev10_loss_stats <- subset_stats(all_sheet_bacc, function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
+  enroll10_rev10_loss_stats <- subset_stats(all_sheet_bacc, function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5))
+  private_nfp_enroll10_loss_stats <- subset_stats(private_nfp_df, function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$losses_last_3_of_5))
+  sector_metric_specs <- list(
+    list(
+      question_suffix = "with enrollment declines in at least 3 of the last 5 year-to-year comparisons",
+      calculation_suffix = "enrollment_decline_last_3_of_5 == Yes",
+      note = "Repeated year-over-year decline flag, not the five-year 10% threshold version.",
+      predicate = function(df) yes_flag(df$enrollment_decline_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with at least a 10% five-year enrollment drop",
+      calculation_suffix = "enrollment_pct_change_5yr <= -10",
+      note = "Five-year enrollment threshold version.",
+      predicate = function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10
+    ),
+    list(
+      question_suffix = "with a revenue drop of at least 10% in 3 of the last 5 years",
+      calculation_suffix = "revenue_10pct_drop_last_3_of_5 == Yes",
+      note = "Repeated 10% year-over-year revenue-drop flag.",
+      predicate = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with at least a 10% five-year revenue drop",
+      calculation_suffix = "revenue_pct_change_5yr <= -10",
+      note = "Five-year revenue threshold version.",
+      predicate = function(df) !is.na(df$revenue_pct_change_5yr) & to_num(df$revenue_pct_change_5yr) <= -10
+    ),
+    list(
+      question_suffix = "that cut total staff over the past 5 years",
+      calculation_suffix = "staff_total_headcount_pct_change_5yr < 0",
+      note = sprintf("Means %s staff_headcount_total is below %s.", latest_year, latest_year - 5L),
+      predicate = function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & to_num(df$staff_total_headcount_pct_change_5yr) < 0
+    ),
+    list(
+      question_suffix = "with losses in 3 of the last 5 years",
+      calculation_suffix = "losses_last_3_of_5 == Yes",
+      note = "Repeated-loss flag based on at least three negative operating-margin years in the five-year window.",
+      predicate = function(df) yes_flag(df$losses_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with falling net tuition per FTE over the past 5 years",
+      calculation_suffix = "net_tuition_per_fte_change_5yr < 0",
+      note = "Inflation-adjusted net tuition revenue per FTE declined over five years.",
+      predicate = function(df) !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0
+    ),
+    list(
+      question_suffix = "with rising discount rates and falling net tuition per FTE",
+      calculation_suffix = "discount_pct_change_5yr > 0 AND net_tuition_per_fte_change_5yr < 0",
+      note = "Discounting more heavily while net tuition collected per student is falling.",
+      predicate = function(df) !is.na(df$discount_pct_change_5yr) & to_num(df$discount_pct_change_5yr) > 0 & !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0
+    ),
+    list(
+      question_suffix = "with both enrollment declines in at least 3 of the last 5 year-to-year comparisons and a revenue drop of at least 10% in 3 of the last 5 years",
+      calculation_suffix = "enrollment_decline_last_3_of_5 == Yes AND revenue_10pct_drop_last_3_of_5 == Yes",
+      note = "Repeated enrollment-decline flag combined with repeated 10% revenue-drop flag.",
+      predicate = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with both a five-year enrollment drop of at least 10% and a revenue drop of at least 10% in 3 of the last 5 years",
+      calculation_suffix = "enrollment_pct_change_5yr <= -10 AND revenue_10pct_drop_last_3_of_5 == Yes",
+      note = "Five-year enrollment threshold combined with repeated 10% revenue-drop flag.",
+      predicate = function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$revenue_10pct_drop_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with both enrollment declines in at least 3 of the last 5 year-to-year comparisons and losses in 3 of the last 5 years",
+      calculation_suffix = "enrollment_decline_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes",
+      note = "Repeated enrollment-decline flag combined with repeated-loss flag.",
+      predicate = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$losses_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with both a five-year enrollment drop of at least 10% and losses in 3 of the last 5 years",
+      calculation_suffix = "enrollment_pct_change_5yr <= -10 AND losses_last_3_of_5 == Yes",
+      note = "Five-year enrollment threshold combined with repeated-loss flag.",
+      predicate = function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$losses_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with a revenue drop of at least 10% in 3 of the last 5 years and losses in 3 of the last 5 years",
+      calculation_suffix = "revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes",
+      note = "Repeated 10% revenue-drop flag combined with repeated-loss flag.",
+      predicate = function(df) yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with enrollment declines in at least 3 of the last 5 year-to-year comparisons, a revenue drop of at least 10% in 3 of the last 5 years, and losses in 3 of the last 5 years",
+      calculation_suffix = "enrollment_decline_last_3_of_5 == Yes AND revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes",
+      note = "Most severe repeated-signal combination using the year-over-year enrollment flag.",
+      predicate = function(df) yes_flag(df$enrollment_decline_last_3_of_5) & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)
+    ),
+    list(
+      question_suffix = "with a five-year enrollment drop of at least 10%, a revenue drop of at least 10% in 3 of the last 5 years, and losses in 3 of the last 5 years",
+      calculation_suffix = "enrollment_pct_change_5yr <= -10 AND revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes",
+      note = "Most severe 10%-threshold combination.",
+      predicate = function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10 & yes_flag(df$revenue_10pct_drop_last_3_of_5) & yes_flag(df$losses_last_3_of_5)
+    )
+  )
+  build_sector_breakdown_rows <- function(scope_name, scope_df, metric_specs) {
+    rows <- lapply(metric_specs, function(spec) {
+      stats <- subset_stats(scope_df, spec$predicate)
+      make_answer_row(
+        sprintf("%s %s institutions %s", latest_year, tolower(scope_name), spec$question_suffix),
+        format_count_student_value(stats$count, stats$denominator, stats$students),
+        sprintf("Within %s %s rows in All_2024, count %s; students = sum(enrollment_headcount_total).", latest_year, tolower(scope_name), spec$calculation_suffix),
+        sprintf("%s Sector breakout.", spec$note)
+      )
+    })
+    do.call(rbind, rows)
+  }
+
+  distress_count_latest <- value_for_year("distress_count", latest_year)
+  distress_pct_latest <- value_for_year("distress_pct", latest_year)
+  distress_students_latest <- value_for_year("distress_students", latest_year)
+  distress_universe_latest <- value_for_year("institutions_total", latest_year)
+  distress_count_comparison <- value_for_year("distress_count", comparison_year)
+  distress_pct_comparison <- value_for_year("distress_pct", comparison_year)
+  comparison_universe <- value_for_year("institutions_total", comparison_year)
+
+  rows <- list(
+    make_answer_row(
       sprintf("%s distressed institutions in the primarily baccalaureate universe", latest_year),
+      format_value(distress_count_latest),
+      sprintf("Count %s rows in DistressCore where warning_score_core >= 4.", latest_year),
+      sprintf("warning_score_core >= 4 in the %s primarily baccalaureate workbook universe.", latest_year)
+    ),
+    make_answer_row(
       sprintf("%s distressed institutions as a share of the primarily baccalaureate universe", latest_year),
+      format_value(distress_pct_latest, digits = 1, suffix = "%"),
+      sprintf("distress_count / institutions_total for %s in DistressCompare.", latest_year),
+      sprintf("Share of the %s primarily baccalaureate workbook universe with warning_score_core >= 4.", latest_year)
+    ),
+    make_answer_row(
       sprintf("%s institutions with at least a 10%% five-year enrollment drop", latest_year),
+      format_value(value_for_year("enrollment_drop_10pct_count", latest_year)),
+      sprintf("Count %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", latest_year),
+      sprintf("Five-year enrollment change uses the %s versus %s comparison.", latest_year, latest_year - 5L)
+    ),
+    make_answer_row(
       sprintf("%s institutions with at least a 10%% five-year revenue drop", latest_year),
+      format_value(value_for_year("revenue_drop_10pct_count", latest_year)),
+      sprintf("Count %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", latest_year),
+      sprintf("Five-year revenue change uses inflation-adjusted revenue totals for %s versus %s.", latest_year, latest_year - 5L)
+    ),
+    make_answer_row(
       sprintf("%s students enrolled at distressed institutions", latest_year),
+      format_value(distress_students_latest),
+      sprintf("Sum %s enrollment_headcount_total for rows where warning_score_core >= 4.", latest_year),
+      sprintf("Student total covers the %s primarily baccalaureate distress group.", latest_year)
+    ),
+    make_answer_row(
       sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", latest_year),
+      format_value(value_for_year("longrun_count", latest_year)),
+      sprintf("Count %s rows where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", latest_year),
+      sprintf("This is the all-sector version of the repeated enrollment-losses framing for %s.", latest_year)
+    ),
+    make_answer_row(
       sprintf("%s students enrolled at those long-running challenge institutions", latest_year),
+      format_value(value_for_year("longrun_students", latest_year)),
+      sprintf("Sum %s enrollment_headcount_total for rows where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", latest_year),
+      sprintf("Student total for institutions with both repeated enrollment declines and repeated losses in %s.", latest_year)
+    ),
+    make_answer_row(
       sprintf("%s distressed institutions in the same universe", comparison_year),
+      format_value(distress_count_comparison),
+      sprintf("Count %s rows in DistressCompare where warning_score_core >= 4.", comparison_year),
+      sprintf("Uses the same primarily baccalaureate distress definition for %s.", comparison_year)
+    ),
+    make_answer_row(
       sprintf("%s institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      format_value(value_for_year("enrollment_drop_10pct_count", comparison_year)),
+      sprintf("Count %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", comparison_year),
+      sprintf("Five-year enrollment change uses the %s versus %s comparison.", comparison_year, comparison_year - 5L)
+    ),
+    make_answer_row(
       sprintf("%s institutions with at least a 10%% five-year revenue drop", comparison_year),
+      format_value(value_for_year("revenue_drop_10pct_count", comparison_year)),
+      sprintf("Count %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", comparison_year),
+      sprintf("Five-year revenue change uses inflation-adjusted revenue totals for %s versus %s.", comparison_year, comparison_year - 5L)
+    ),
+    make_answer_row(
       sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", comparison_year),
+      format_value(value_for_year("longrun_count", comparison_year)),
+      sprintf("Count %s rows where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", comparison_year),
+      sprintf("Comparable long-running challenge count for %s.", comparison_year)
+    ),
+    make_answer_row(
       sprintf("%s comparison note", baseline_year),
+      format_value(value_for_year("comparison_note", baseline_year)),
+      sprintf("Read the comparison_note field for %s in DistressCompare.", baseline_year),
+      sprintf("%s lacks populated five-year trend fields in the canonical dataset, so it is not directly comparable to %s and %s on this framing.", baseline_year, comparison_year, latest_year)
+    ),
+    make_answer_row(
       "Colleges in distress with rising international enrollment over 10 years",
+      format_value(nrow(distress_intl10)),
+      sprintf("Count DistressIntl10 rows where warning_score_core >= 4 and international_enrollment_increase_10yr == Yes in %s.", latest_year),
+      "Same distress definition, limited to institutions with international_enrollment_increase_10yr == Yes."
+    ),
+    make_answer_row(
       "Public flagships with still-disrupted federal research cuts",
+      format_value(nrow(flagship_cuts)),
+      "Count FlagshipCuts rows with positive still-disrupted Grant Witness totals.",
+      "Matched Grant Witness research-funding schools to the predefined flagship unitid list and kept positive still-disrupted totals only."
+    ),
+    make_answer_row(
       "Public flagships with at least $1M still disrupted in federal research cuts",
-      sprintf("Institutions cutting staffing from %s to %s", prior_year, latest_year)
+      format_value(if (nrow(flagship_cuts) == 0) 0 else sum(flagship_cuts$total_disrupted_award_remaining >= 1e6, na.rm = TRUE)),
+      "Count FlagshipCuts rows where total_disrupted_award_remaining >= 1,000,000.",
+      "Subset of public flagships with positive still-disrupted totals of at least $1 million."
     ),
-    value = c(
-      value_for_year("distress_count", latest_year),
-      value_for_year("distress_pct", latest_year),
-      value_for_year("enrollment_drop_10pct_count", latest_year),
-      value_for_year("revenue_drop_10pct_count", latest_year),
-      value_for_year("distress_students", latest_year),
-      value_for_year("longrun_count", latest_year),
-      value_for_year("longrun_students", latest_year),
-      value_for_year("distress_count", comparison_year),
-      value_for_year("enrollment_drop_10pct_count", comparison_year),
-      value_for_year("revenue_drop_10pct_count", comparison_year),
-      value_for_year("longrun_count", comparison_year),
-      value_for_year("comparison_note", baseline_year),
-      nrow(distress_intl10),
-      nrow(flagship_cuts),
-      if (nrow(flagship_cuts) == 0) 0 else sum(flagship_cuts$total_disrupted_award_remaining >= 1e6, na.rm = TRUE),
-      staff_cutting_value(latest_year)
+    make_answer_row(
+      sprintf("Institutions cutting staffing from %s to %s", prior_year, latest_year),
+      format_value(staff_cutting_value(latest_year)),
+      sprintf("Read StaffCutsYoY for %s and count institutions whose %s staff_headcount_total is below %s.", latest_year, latest_year, prior_year),
+      sprintf("Year-over-year staffing comparison, not the five-year staff-cut metric.")
     ),
-    note = c(
-      sprintf("warning_score_core >= 4 in the %s primarily baccalaureate workbook universe.", latest_year),
-      sprintf("Share of the %s primarily baccalaureate workbook universe with warning_score_core >= 4.", latest_year),
-      sprintf("Count of %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", latest_year),
-      sprintf("Count of %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", latest_year),
-      sprintf("Sum of %s enrollment_headcount_total for institutions in the distress group.", latest_year),
-      sprintf("Count of %s institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", latest_year),
-      sprintf("Sum of %s enrollment_headcount_total for institutions with both enrollment declines and repeated losses.", latest_year),
-      sprintf("warning_score_core >= 4 in the %s primarily baccalaureate workbook universe.", comparison_year),
-      sprintf("Count of %s primarily baccalaureate institutions with enrollment_pct_change_5yr <= -10.", comparison_year),
-      sprintf("Count of %s primarily baccalaureate institutions with revenue_pct_change_5yr <= -10.", comparison_year),
-      sprintf("Count of %s institutions where enrollment_decline_last_3_of_5 == Yes and losses_last_3_of_5 == Yes.", comparison_year),
-      sprintf("%s lacks populated five-year trend fields in the canonical dataset, so it is not directly comparable to %s and %s on this framing.", baseline_year, comparison_year, latest_year),
-      "Same distress definition, limited to institutions with international_enrollment_increase_10yr == Yes.",
-      "Matched Grant Witness research-funding schools to the predefined flagship unitid list and kept positive still-disrupted totals only.",
-      "Subset of public flagships with positive still-disrupted totals of at least $1 million.",
-      sprintf("Counts institutions whose %s staff_headcount_total is below %s.", latest_year, prior_year)
+    make_answer_row(
+      sprintf("%s institutions with falling net tuition per FTE over the past 5 years", latest_year),
+      format_count_student_value(net_tuition_down_stats$count, net_tuition_down_stats$denominator, net_tuition_down_stats$students),
+      sprintf("Count %s rows in All_2024 where net_tuition_per_fte_change_5yr < 0; students = sum(enrollment_headcount_total) for matching rows.", latest_year),
+      "Systemwide squeeze measure using inflation-adjusted net tuition revenue per FTE."
     ),
+    make_answer_row(
+      sprintf("%s private nonprofits with falling net tuition per FTE over the past 5 years", latest_year),
+      format_count_student_value(private_nfp_net_tuition_down_stats$count, private_nfp_net_tuition_down_stats$denominator, private_nfp_net_tuition_down_stats$students),
+      sprintf("Within %s private not-for-profit rows in All_2024, count net_tuition_per_fte_change_5yr < 0; students = sum(enrollment_headcount_total).", latest_year),
+      "Private-nonprofit breakout of the broader net tuition per FTE decline measure."
+    ),
+    make_answer_row(
+      sprintf("%s private nonprofits with rising discount rates and falling net tuition per FTE", latest_year),
+      format_count_student_value(private_nfp_stress_stats$count, private_nfp_stress_stats$denominator, private_nfp_stress_stats$students),
+      sprintf("Within %s private not-for-profit rows in All_2024, count discount_pct_change_5yr > 0 AND net_tuition_per_fte_change_5yr < 0; students = sum(enrollment_headcount_total).", latest_year),
+      "Private-college pricing squeeze: more discounting but less net tuition per student."
+    ),
+    make_answer_row(
+      "How the workbook defines rising discount rates and falling net tuition per FTE",
+      "discount_pct_change_5yr > 0 AND net_tuition_per_fte_change_5yr < 0",
+      "Row qualifies when the five-year discount-rate change is positive and the five-year inflation-adjusted net tuition revenue per FTE change is negative.",
+      "In plain English: the institution is discounting more heavily while net tuition collected per student is falling."
+    ),
+    make_answer_row(
+      sprintf("Core distress trend from %s to %s", comparison_year, latest_year),
+      sprintf(
+        "%s of %s (%s) in %s vs %s of %s (%s) in %s",
+        format_value(distress_count_latest),
+        format_value(if (is.na(distress_universe_latest)) all_2024_stats$denominator else distress_universe_latest),
+        format_value(distress_pct_latest, digits = 1, suffix = "%"),
+        latest_year,
+        format_value(distress_count_comparison),
+        format_value(comparison_universe),
+        format_value(distress_pct_comparison, digits = 1, suffix = "%"),
+        comparison_year
+      ),
+      sprintf("Compare DistressCompare rows for %s and %s using warning_score_core >= 4.", latest_year, comparison_year),
+      "Uses the workbook's core six-signal distress definition."
+    ),
+    make_answer_row(
+      sprintf("%s distress share for private nonprofits versus publics", latest_year),
+      format_pct_comparison(private_nfp_distress_stats$pct, public_distress_stats$pct),
+      sprintf("Within %s All_2024 rows, compute the share with warning_score_core >= 4 separately for Private not-for-profit and Public control groups.", latest_year),
+      "Sector contrast within the same primarily baccalaureate workbook universe."
+    ),
+    make_answer_row(
+      "Active accreditation warning/notice overlap with workbook distress",
+      sprintf(
+        "%s with warning/notice vs %s without; %s with warning/notice also cut staff",
+        format_value(xtab_value("Active warning/notice", "With event", "distress_share_pct"), digits = 1, suffix = "%"),
+        format_value(xtab_value("Active warning/notice", "Without event", "distress_share_pct"), digits = 1, suffix = "%"),
+        format_value(xtab_value("Active warning/notice", "With event", "staff_total_decline_5yr_pct"), digits = 1, suffix = "%")
+      ),
+      "Read AccredFinanceXtab for event_type == 'Active warning/notice': use the With event and Without event rows to compare distress share and staff_total_decline_5yr_pct.",
+      "External-validation cut: schools with active warnings/notices are much more likely to be distressed."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with all three severe signals at once", latest_year),
+      format_count_student_value(all3signals_stats$count, all3signals_stats$denominator, all3signals_stats$students),
+      sprintf("Count %s rows in All3Signals where enrollment_decline_last_3_of_5 == Yes AND revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Concentrated-trouble subset with repeated enrollment declines, repeated deep revenue drops, and repeated losses."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with enrollment declines in at least 3 of the last 5 year-to-year comparisons", latest_year),
+      format_count_student_value(enroll_decline_stats$count, enroll_decline_stats$denominator, enroll_decline_stats$students),
+      sprintf("Count %s rows in EnrollDecl3of5 where enrollment_decline_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "This is the repeated year-over-year decline flag, not the one-time five-year drop threshold."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with a five-year enrollment drop of at least 10%%", latest_year),
+      format_count_student_value(enroll_10pct_5yr_stats$count, enroll_10pct_5yr_stats$denominator, enroll_10pct_5yr_stats$students),
+      sprintf("Count %s All_2024 rows where enrollment_pct_change_5yr <= -10; students = sum(enrollment_headcount_total).", latest_year),
+      "This is the one-time five-year enrollment-drop threshold version."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with a revenue drop of at least 10%% in 3 of the last 5 years", latest_year),
+      format_count_student_value(rev_10pct_3of5_stats$count, rev_10pct_3of5_stats$denominator, rev_10pct_3of5_stats$students),
+      sprintf("Count %s RevDecl3of5 rows where revenue_10pct_drop_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Revenue measure uses the existing repeated 10% year-over-year decline flag."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with both a five-year enrollment drop of at least 10%% and a revenue drop of at least 10%% in 3 of the last 5 years", latest_year),
+      format_count_student_value(enroll10_rev10_stats$count, enroll10_rev10_stats$denominator, enroll10_rev10_stats$students),
+      sprintf("Count %s All_2024 rows where enrollment_pct_change_5yr <= -10 AND revenue_10pct_drop_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Combines the five-year enrollment-drop threshold with the repeated revenue-drop flag."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with a five-year enrollment drop of at least 10%% and losses in 3 of the last 5 years", latest_year),
+      format_count_student_value(enroll10_loss_stats$count, enroll10_loss_stats$denominator, enroll10_loss_stats$students),
+      sprintf("Count %s All_2024 rows where enrollment_pct_change_5yr <= -10 AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Enrollment side uses the five-year 10% threshold; loss side uses the repeated-loss flag."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with a revenue drop of at least 10%% in 3 of the last 5 years and losses in 3 of the last 5 years", latest_year),
+      format_count_student_value(rev10_loss_stats$count, rev10_loss_stats$denominator, rev10_loss_stats$students),
+      sprintf("Count %s All_2024 rows where revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Combines the repeated 10% revenue-drop flag with the repeated-loss flag."
+    ),
+    make_answer_row(
+      sprintf("%s institutions with a five-year enrollment drop of at least 10%%, a revenue drop of at least 10%% in 3 of the last 5 years, and losses in 3 of the last 5 years", latest_year),
+      format_count_student_value(enroll10_rev10_loss_stats$count, enroll10_rev10_loss_stats$denominator, enroll10_rev10_loss_stats$students),
+      sprintf("Count %s All_2024 rows where enrollment_pct_change_5yr <= -10 AND revenue_10pct_drop_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Most severe 10%-threshold combination in the answer sheet."
+    ),
+    make_answer_row(
+      sprintf("%s institutions that cut total staff over the past 5 years", latest_year),
+      format_count_student_value(staff_cut_5yr_stats$count, staff_cut_5yr_stats$denominator, staff_cut_5yr_stats$students),
+      sprintf("Count %s rows in StaffDown5yr where staff_total_headcount_pct_change_5yr < 0; students = sum(enrollment_headcount_total).", latest_year),
+      sprintf("Means %s staff_headcount_total is below %s, using total staff headcount rather than FTE.", latest_year, latest_year - 5L)
+    ),
+    make_answer_row(
+      sprintf("%s institutions with losses in 3 of the last 5 years", latest_year),
+      format_count_student_value(losses_3of5_stats$count, losses_3of5_stats$denominator, losses_3of5_stats$students),
+      sprintf("Count %s rows in Red3of5 where losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Repeated-loss flag based on at least three negative operating-margin years in the five-year window."
+    ),
+    make_answer_row(
+      sprintf("%s private nonprofits with both enrollment declines and losses in 3 of the last 5 years", latest_year),
+      format_count_student_value(private_nfp_enroll_loss_stats$count, private_nfp_enroll_loss_stats$denominator, private_nfp_enroll_loss_stats$students),
+      sprintf("Within %s private not-for-profit rows in All_2024, count enrollment_decline_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Private-nonprofit subset of the repeated enrollment-losses group."
+    ),
+    make_answer_row(
+      sprintf("%s private nonprofits with both repeated losses and a five-year enrollment drop of at least 10%%", latest_year),
+      format_count_student_value(private_nfp_enroll10_loss_stats$count, private_nfp_enroll10_loss_stats$denominator, private_nfp_enroll10_loss_stats$students),
+      sprintf("Within %s private not-for-profit rows in All_2024, count enrollment_pct_change_5yr <= -10 AND losses_last_3_of_5 == Yes; students = sum(enrollment_headcount_total).", latest_year),
+      "Private-nonprofit 10%-threshold version of the enrollment-plus-losses framing."
+    )
+  )
+
+  sector_rows <- lapply(names(scope_dfs), function(scope_name) {
+    build_sector_breakdown_rows(scope_name, scope_dfs[[scope_name]], sector_metric_specs)
+  })
+
+  do.call(rbind, c(rows, sector_rows))
+}
+
+# Builds a single row for the grouped ReportAnswers tab.
+make_report_answer_row <- function(group, year, scope, question,
+                                   count_yes = NA_real_,
+                                   count_scope_total = NA_real_,
+                                   pct_of_scope_institutions = NA_real_,
+                                   pct_of_all_institutions = NA_real_,
+                                   pct_of_yes_institutions = NA_real_,
+                                   students_at_yes_institutions = NA_real_,
+                                   scope_total_students = NA_real_,
+                                   pct_of_scope_students = NA_real_,
+                                   pct_of_all_students = NA_real_,
+                                   pct_of_yes_students = NA_real_,
+                                   calculation = NA_character_,
+                                   note = NA_character_) {
+  data.frame(
+    group = group,
+    year = year,
+    scope = scope,
+    question = question,
+    count_yes = count_yes,
+    count_scope_total = count_scope_total,
+    pct_of_scope_institutions = pct_of_scope_institutions,
+    pct_of_all_institutions = pct_of_all_institutions,
+    pct_of_yes_institutions = pct_of_yes_institutions,
+    students_at_yes_institutions = students_at_yes_institutions,
+    scope_total_students = scope_total_students,
+    pct_of_scope_students = pct_of_scope_students,
+    pct_of_all_students = pct_of_all_students,
+    pct_of_yes_students = pct_of_yes_students,
+    calculation = calculation,
+    note = note,
     stringsAsFactors = FALSE
+  )
+}
+
+# Counts how many year-over-year comparisons in a window meet a decline threshold.
+count_window_declines <- function(years, values, start_year, end_year, threshold_pct = 0) {
+  lookup <- stats::setNames(values, years)
+  decline_count <- 0L
+  for (yr in seq.int(start_year, end_year)) {
+    current_value <- unname(lookup[as.character(yr + 1L)])
+    prior_value <- unname(lookup[as.character(yr)])
+    if (is.na(current_value) || is.na(prior_value) || prior_value == 0) {
+      next
+    }
+    pct_change <- ((current_value - prior_value) / prior_value) * 100
+    if (!is.na(pct_change) && pct_change <= threshold_pct) {
+      decline_count <- decline_count + 1L
+    }
+  }
+  decline_count
+}
+
+# Adds standardized repeated-decline and threshold flags used by ReportAnswers.
+prepare_report_answer_year_df <- function(read_df, target_year, bacc_category_label) {
+  year_df <- read_df[
+    as.integer(read_df$year) == as.integer(target_year) &
+      read_df$category == bacc_category_label,
+    ,
+    drop = FALSE
+  ]
+  if (nrow(year_df) == 0) {
+    return(year_df)
+  }
+
+  revenue_history_field <- if ("revenue_total_adjusted" %in% names(read_df)) {
+    "revenue_total_adjusted"
+  } else {
+    "revenue_total"
+  }
+
+  history_mask <- read_df$category == bacc_category_label &
+    as.integer(read_df$year) >= (as.integer(target_year) - 5L) &
+    as.integer(read_df$year) <= as.integer(target_year)
+  history_df <- read_df[history_mask, c("unitid", "year", "enrollment_headcount_total", revenue_history_field), drop = FALSE]
+  unit_histories <- split(history_df, history_df$unitid)
+
+  derive_unit_flag <- function(unitid_value, value_field, threshold_pct) {
+    history_df <- unit_histories[[as.character(unitid_value)]]
+    if (is.null(history_df) || nrow(history_df) == 0) {
+      return(FALSE)
+    }
+    history_df <- history_df[order(as.integer(history_df$year)), , drop = FALSE]
+    count_window_declines(
+      years = as.integer(history_df$year),
+      values = to_num(history_df[[value_field]]),
+      start_year = as.integer(target_year) - 5L,
+      end_year = as.integer(target_year) - 1L,
+      threshold_pct = threshold_pct
+    ) >= 3L
+  }
+
+  year_df$repeated_enrollment_decline <- yes_flag(year_df$enrollment_decline_last_3_of_5)
+  year_df$repeated_revenue_decline <- vapply(year_df$unitid, derive_unit_flag, logical(1), value_field = revenue_history_field, threshold_pct = 0)
+  year_df$repeated_losses <- yes_flag(year_df$losses_last_3_of_5)
+  year_df$repeated_enrollment_decline_10pct <- vapply(year_df$unitid, derive_unit_flag, logical(1), value_field = "enrollment_headcount_total", threshold_pct = -10)
+  year_df$repeated_revenue_decline_10pct <- if ("revenue_10pct_drop_last_3_of_5" %in% names(year_df)) {
+    yes_flag(year_df$revenue_10pct_drop_last_3_of_5)
+  } else {
+    vapply(year_df$unitid, derive_unit_flag, logical(1), value_field = revenue_history_field, threshold_pct = -10)
+  }
+  year_df$five_year_enrollment_decline_10pct <- !is.na(year_df$enrollment_pct_change_5yr) & to_num(year_df$enrollment_pct_change_5yr) <= -10
+  year_df$five_year_revenue_decline_10pct <- !is.na(year_df$revenue_pct_change_5yr) & to_num(year_df$revenue_pct_change_5yr) <= -10
+  year_df$staff_cut_5yr <- !is.na(year_df$staff_total_headcount_pct_change_5yr) & to_num(year_df$staff_total_headcount_pct_change_5yr) < 0
+  year_df$staff_cut_10pct_5yr <- !is.na(year_df$staff_total_headcount_pct_change_5yr) & to_num(year_df$staff_total_headcount_pct_change_5yr) <= -10
+  year_df$net_tuition_down_5yr <- !is.na(year_df$net_tuition_per_fte_change_5yr) & to_num(year_df$net_tuition_per_fte_change_5yr) < 0
+  year_df$net_tuition_down_10pct_5yr <- !is.na(year_df$net_tuition_per_fte_change_5yr) & to_num(year_df$net_tuition_per_fte_change_5yr) <= -10
+  year_df$discount_rate_up_5yr <- !is.na(year_df$discount_pct_change_5yr) & to_num(year_df$discount_pct_change_5yr) > 0
+  year_df$discount_rate_up_10pct_5yr <- !is.na(year_df$discount_pct_change_5yr) & to_num(year_df$discount_pct_change_5yr) >= 10
+
+  year_df
+}
+
+# Returns the grouped metric specification list for the ReportAnswers tab.
+build_report_metric_specs <- function(year_value) {
+  start_year <- as.integer(year_value) - 5L
+  repeated_group <- sprintf("%s Repeated-decline flags", year_value)
+  repeated_10_group <- sprintf("%s Repeated >=10%% decline flags", year_value)
+  threshold_group <- sprintf("%s Five-year threshold flags", year_value)
+  staffing_group <- sprintf("%s Staffing / Tuition / Discount", year_value)
+
+  c(
+    list(
+      list(group = repeated_group, question_suffix = "with enrollment declines in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_enrollment_decline == TRUE", note = "Repeated year-over-year enrollment-decline flag.", predicate = function(df) df$repeated_enrollment_decline),
+      list(group = repeated_group, question_suffix = "with revenue declines in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_revenue_decline == TRUE", note = "Repeated year-over-year revenue-decline flag.", predicate = function(df) df$repeated_revenue_decline),
+      list(group = repeated_group, question_suffix = "with losses in 3 of the last 5 years", calculation = "repeated_losses == TRUE", note = "Repeated-loss flag.", predicate = function(df) df$repeated_losses),
+      list(group = repeated_group, question_suffix = "with both enrollment declines in at least 3 of the last 5 year-to-year comparisons and losses in 3 of the last 5 years", calculation = "repeated_enrollment_decline == TRUE AND repeated_losses == TRUE", note = "Repeated enrollment-decline flag plus repeated-loss flag.", predicate = function(df) df$repeated_enrollment_decline & df$repeated_losses),
+      list(group = repeated_group, question_suffix = "with both enrollment declines in at least 3 of the last 5 year-to-year comparisons and revenue declines in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_enrollment_decline == TRUE AND repeated_revenue_decline == TRUE", note = "Repeated enrollment-decline flag plus repeated revenue-decline flag.", predicate = function(df) df$repeated_enrollment_decline & df$repeated_revenue_decline),
+      list(group = repeated_group, question_suffix = "with both revenue declines in at least 3 of the last 5 year-to-year comparisons and losses in 3 of the last 5 years", calculation = "repeated_revenue_decline == TRUE AND repeated_losses == TRUE", note = "Repeated revenue-decline flag plus repeated-loss flag.", predicate = function(df) df$repeated_revenue_decline & df$repeated_losses),
+      list(group = repeated_group, question_suffix = "with enrollment declines in at least 3 of the last 5 year-to-year comparisons, revenue declines in at least 3 of the last 5 year-to-year comparisons, and losses in 3 of the last 5 years", calculation = "repeated_enrollment_decline == TRUE AND repeated_revenue_decline == TRUE AND repeated_losses == TRUE", note = "Three repeated-decline flags together.", predicate = function(df) df$repeated_enrollment_decline & df$repeated_revenue_decline & df$repeated_losses),
+      list(group = repeated_group, question_suffix = "with enrollment declines in at least 3 of the last 5 year-to-year comparisons, a revenue decline of at least 10% in at least 3 of the last 5 year-to-year comparisons, and losses in 3 of the last 5 years", calculation = "repeated_enrollment_decline == TRUE AND repeated_revenue_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Repeated enrollment-decline flag, repeated >=10% revenue-decline flag, and repeated losses.", predicate = function(df) df$repeated_enrollment_decline & df$repeated_revenue_decline_10pct & df$repeated_losses)
+    ),
+    list(
+      list(group = repeated_10_group, question_suffix = "with enrollment declines of at least 10% in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_enrollment_decline_10pct == TRUE", note = "Repeated >=10% year-over-year enrollment-decline flag.", predicate = function(df) df$repeated_enrollment_decline_10pct),
+      list(group = repeated_10_group, question_suffix = "with revenue declines of at least 10% in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_revenue_decline_10pct == TRUE", note = "Repeated >=10% year-over-year revenue-decline flag.", predicate = function(df) df$repeated_revenue_decline_10pct),
+      list(group = repeated_10_group, question_suffix = "with both enrollment declines of at least 10% in at least 3 of the last 5 year-to-year comparisons and revenue declines of at least 10% in at least 3 of the last 5 year-to-year comparisons", calculation = "repeated_enrollment_decline_10pct == TRUE AND repeated_revenue_decline_10pct == TRUE", note = "Repeated >=10% enrollment- and revenue-decline flags together.", predicate = function(df) df$repeated_enrollment_decline_10pct & df$repeated_revenue_decline_10pct),
+      list(group = repeated_10_group, question_suffix = "with both enrollment declines of at least 10% in at least 3 of the last 5 year-to-year comparisons and losses in 3 of the last 5 years", calculation = "repeated_enrollment_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Repeated >=10% enrollment-decline flag plus repeated losses.", predicate = function(df) df$repeated_enrollment_decline_10pct & df$repeated_losses),
+      list(group = repeated_10_group, question_suffix = "with both revenue declines of at least 10% in at least 3 of the last 5 year-to-year comparisons and losses in 3 of the last 5 years", calculation = "repeated_revenue_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Repeated >=10% revenue-decline flag plus repeated losses.", predicate = function(df) df$repeated_revenue_decline_10pct & df$repeated_losses),
+      list(group = repeated_10_group, question_suffix = "with enrollment declines of at least 10% in at least 3 of the last 5 year-to-year comparisons, revenue declines of at least 10% in at least 3 of the last 5 year-to-year comparisons, and losses in 3 of the last 5 years", calculation = "repeated_enrollment_decline_10pct == TRUE AND repeated_revenue_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Repeated >=10% enrollment and revenue declines plus repeated losses.", predicate = function(df) df$repeated_enrollment_decline_10pct & df$repeated_revenue_decline_10pct & df$repeated_losses)
+    ),
+    list(
+      list(group = threshold_group, question_suffix = sprintf("with an enrollment decline of at least 10%% from %s to %s", start_year, year_value), calculation = "five_year_enrollment_decline_10pct == TRUE", note = "Five-year enrollment-threshold flag.", predicate = function(df) df$five_year_enrollment_decline_10pct),
+      list(group = threshold_group, question_suffix = sprintf("with a revenue decline of at least 10%% from %s to %s", start_year, year_value), calculation = "five_year_revenue_decline_10pct == TRUE", note = "Five-year revenue-threshold flag.", predicate = function(df) df$five_year_revenue_decline_10pct),
+      list(group = threshold_group, question_suffix = sprintf("with both enrollment and revenue declines of at least 10%% from %s to %s", start_year, year_value), calculation = "five_year_enrollment_decline_10pct == TRUE AND five_year_revenue_decline_10pct == TRUE", note = "Five-year enrollment and revenue thresholds together.", predicate = function(df) df$five_year_enrollment_decline_10pct & df$five_year_revenue_decline_10pct),
+      list(group = threshold_group, question_suffix = sprintf("with both an enrollment decline of at least 10%% from %s to %s and losses in 3 of the last 5 years", start_year, year_value), calculation = "five_year_enrollment_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Five-year enrollment-threshold flag plus repeated losses.", predicate = function(df) df$five_year_enrollment_decline_10pct & df$repeated_losses),
+      list(group = threshold_group, question_suffix = sprintf("with both a revenue decline of at least 10%% from %s to %s and losses in 3 of the last 5 years", start_year, year_value), calculation = "five_year_revenue_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Five-year revenue-threshold flag plus repeated losses.", predicate = function(df) df$five_year_revenue_decline_10pct & df$repeated_losses),
+      list(group = threshold_group, question_suffix = sprintf("with a five-year enrollment decline of at least 10%%, a five-year revenue decline of at least 10%%, and losses in 3 of the last 5 years using the %s to %s window", start_year, year_value), calculation = "five_year_enrollment_decline_10pct == TRUE AND five_year_revenue_decline_10pct == TRUE AND repeated_losses == TRUE", note = "Five-year enrollment and revenue thresholds plus repeated losses.", predicate = function(df) df$five_year_enrollment_decline_10pct & df$five_year_revenue_decline_10pct & df$repeated_losses)
+    ),
+    list(
+      list(group = staffing_group, question_suffix = "that cut total staff over the past 5 years", calculation = "staff_cut_5yr == TRUE", note = "Total staff headcount fell over the five-year window.", predicate = function(df) df$staff_cut_5yr),
+      list(group = staffing_group, question_suffix = "that cut total staff by at least 10% over the past 5 years", calculation = "staff_cut_10pct_5yr == TRUE", note = "Total staff headcount fell by at least 10% over the five-year window.", predicate = function(df) df$staff_cut_10pct_5yr),
+      list(group = staffing_group, question_suffix = "with falling net tuition per FTE over the past 5 years", calculation = "net_tuition_down_5yr == TRUE", note = "Net tuition revenue per FTE fell over five years.", predicate = function(df) df$net_tuition_down_5yr),
+      list(group = staffing_group, question_suffix = "where net tuition per FTE has fallen by at least 10% over the past 5 years", calculation = "net_tuition_down_10pct_5yr == TRUE", note = "Net tuition revenue per FTE fell by at least 10% over five years.", predicate = function(df) df$net_tuition_down_10pct_5yr),
+      list(group = staffing_group, question_suffix = "with rising discount rates over the past 5 years", calculation = "discount_rate_up_5yr == TRUE", note = "Discount rate increased over five years.", predicate = function(df) df$discount_rate_up_5yr),
+      list(group = staffing_group, question_suffix = "where discount rates have risen by at least 10% over the past 5 years", calculation = "discount_rate_up_10pct_5yr == TRUE", note = "Discount rate increased by at least 10% over five years.", predicate = function(df) df$discount_rate_up_10pct_5yr),
+      list(group = staffing_group, question_suffix = "with rising discount rates and falling net tuition per FTE", calculation = "discount_rate_up_5yr == TRUE AND net_tuition_down_5yr == TRUE", note = "Discount rates rose while net tuition per FTE fell.", predicate = function(df) df$discount_rate_up_5yr & df$net_tuition_down_5yr),
+      list(group = staffing_group, question_suffix = "where discount rates have risen by at least 10% over the past 5 years and net tuition per FTE has fallen by at least 10% over the past 5 years", calculation = "discount_rate_up_10pct_5yr == TRUE AND net_tuition_down_10pct_5yr == TRUE", note = "Discount rates rose by at least 10% while net tuition per FTE fell by at least 10%.", predicate = function(df) df$discount_rate_up_10pct_5yr & df$net_tuition_down_10pct_5yr)
+    )
+  )
+}
+
+# Builds grouped rows for one year of ReportAnswers metrics.
+build_report_rows_for_year <- function(read_df, target_year, bacc_category_label) {
+  year_df <- prepare_report_answer_year_df(read_df, target_year, bacc_category_label)
+  if (nrow(year_df) == 0) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  scope_specs <- list(
+    list(label = "All institutions", question_prefix = "institutions", filter = function(df) rep(TRUE, nrow(df))),
+    list(label = "Public institutions", question_prefix = "Public institutions", filter = function(df) df$control_label == "Public"),
+    list(label = "Private not-for-profit institutions", question_prefix = "Private not-for-profit institutions", filter = function(df) df$control_label == "Private not-for-profit"),
+    list(label = "Private for-profit institutions", question_prefix = "Private for-profit institutions", filter = function(df) df$control_label == "Private for-profit")
+  )
+
+  total_all_institutions <- nrow(year_df)
+  total_all_students <- sum(to_num(year_df$enrollment_headcount_total), na.rm = TRUE)
+  metrics <- build_report_metric_specs(target_year)
+
+  rows <- lapply(metrics, function(metric_spec) {
+    all_matches <- metric_spec$predicate(year_df)
+    all_matches[is.na(all_matches)] <- FALSE
+    all_yes_count <- sum(all_matches)
+    all_yes_students <- sum(to_num(year_df$enrollment_headcount_total[all_matches]), na.rm = TRUE)
+
+    do.call(rbind, lapply(scope_specs, function(scope_spec) {
+      scope_df <- year_df[scope_spec$filter(year_df), , drop = FALSE]
+      scope_matches <- metric_spec$predicate(scope_df)
+      scope_matches[is.na(scope_matches)] <- FALSE
+      count_yes <- sum(scope_matches)
+      count_scope_total <- nrow(scope_df)
+      students_yes <- sum(to_num(scope_df$enrollment_headcount_total[scope_matches]), na.rm = TRUE)
+      scope_total_students <- sum(to_num(scope_df$enrollment_headcount_total), na.rm = TRUE)
+      question <- if (scope_spec$label == "All institutions") {
+        sprintf("%s institutions %s", target_year, metric_spec$question_suffix)
+      } else {
+        sprintf("%s %s %s", target_year, scope_spec$question_prefix, metric_spec$question_suffix)
+      }
+
+      make_report_answer_row(
+        group = metric_spec$group,
+        year = as.integer(target_year),
+        scope = scope_spec$label,
+        question = question,
+        count_yes = count_yes,
+        count_scope_total = count_scope_total,
+        pct_of_scope_institutions = safe_pct(count_yes, count_scope_total),
+        pct_of_all_institutions = safe_pct(count_yes, total_all_institutions),
+        pct_of_yes_institutions = safe_pct(count_yes, all_yes_count),
+        students_at_yes_institutions = students_yes,
+        scope_total_students = scope_total_students,
+        pct_of_scope_students = safe_pct(students_yes, scope_total_students),
+        pct_of_all_students = safe_pct(students_yes, total_all_students),
+        pct_of_yes_students = safe_pct(students_yes, all_yes_students),
+        calculation = metric_spec$calculation,
+        note = metric_spec$note
+      )
+    }))
+  })
+
+  do.call(rbind, rows)
+}
+
+# Builds the grouped ReportAnswers tab with denominator and student-breakout columns.
+build_report_answers <- function(read_df, distress_compare,
+                                 bacc_category_label = "Degree-granting, primarily baccalaureate or above",
+                                 latest_year = 2024L, comparison_year = latest_year - 5L,
+                                 baseline_year = latest_year - 10L) {
+  comparison_note <- NA_character_
+  if (nrow(distress_compare) > 0 && "comparison_note" %in% names(distress_compare)) {
+    comparison_note_value <- distress_compare$comparison_note[distress_compare$year == baseline_year]
+    if (length(comparison_note_value) > 0) {
+      comparison_note <- comparison_note_value[[1]]
+    }
+  }
+
+  setup_rows <- append_rows(
+    make_report_answer_row(
+      group = "Setup",
+      year = as.integer(baseline_year),
+      scope = "All institutions",
+      question = sprintf("%s comparison note", baseline_year),
+      calculation = "Pulled from DistressCompare$comparison_note for the baseline year.",
+      note = comparison_note
+    ),
+    make_report_answer_row(
+      group = "Setup",
+      year = as.integer(latest_year),
+      scope = "All institutions",
+      question = "How the workbook defines rising discount rates and falling net tuition per FTE",
+      calculation = "discount_pct_change_5yr > 0 AND net_tuition_per_fte_change_5yr < 0",
+      note = "Discount rates rose over the five-year window while net tuition revenue per FTE fell over the same five-year window."
+    )
+  )
+
+  append_rows(
+    setup_rows,
+    build_report_rows_for_year(read_df, latest_year, bacc_category_label),
+    build_report_rows_for_year(read_df, comparison_year, bacc_category_label)
+  )
+}
+
+# Builds the DistressAnswers tab with workbook-distress definitions and toplines.
+build_distress_answers <- function(read_df, distress_compare, distress_intl10, accredit_finance_xtab,
+                                   bacc_category_label = "Degree-granting, primarily baccalaureate or above",
+                                   latest_year = 2024L, comparison_year = latest_year - 5L,
+                                   baseline_year = latest_year - 10L) {
+  value_for_year <- function(field, year_value) {
+    value <- distress_compare[[field]][distress_compare$year == year_value]
+    if (length(value) == 0) NA else value[[1]]
+  }
+  format_value <- function(x, digits = NULL, suffix = "") {
+    if (length(x) == 0 || is.null(x) || all(is.na(x))) return(NA_character_)
+    val <- x[[1]]
+    if (is.numeric(val)) {
+      if (!is.null(digits)) {
+        val <- formatC(val, format = "f", digits = digits, big.mark = ",")
+      } else {
+        val <- format(round(val), big.mark = ",", scientific = FALSE, trim = TRUE)
+      }
+    }
+    paste0(as.character(val), suffix)
+  }
+  make_answer_row <- function(question, value, calculation, note) {
+    data.frame(
+      question = question,
+      value = if (length(value) == 0 || is.null(value) || all(is.na(value))) NA_character_ else as.character(value[[1]]),
+      calculation = calculation,
+      note = note,
+      stringsAsFactors = FALSE
+    )
+  }
+  distress_share_for_control <- function(year_value, control_value) {
+    year_df <- read_df[
+      as.integer(read_df$year) == as.integer(year_value) &
+        read_df$category == bacc_category_label &
+        read_df$control_label == control_value,
+      ,
+      drop = FALSE
+    ]
+    if (nrow(year_df) == 0) {
+      return(NA_real_)
+    }
+    score <- compute_warning_score_core(year_df)
+    safe_pct(sum(score >= 4, na.rm = TRUE), nrow(year_df))
+  }
+  xtab_value <- function(event_type, cohort, field) {
+    if (nrow(accredit_finance_xtab) == 0 || !(field %in% names(accredit_finance_xtab))) return(NA)
+    value <- accredit_finance_xtab[[field]][
+      accredit_finance_xtab$event_type == event_type &
+        accredit_finance_xtab$control_scope == "All" &
+        accredit_finance_xtab$cohort == cohort
+    ]
+    if (length(value) == 0) NA else value[[1]]
+  }
+
+  append_rows(
+    make_answer_row(
+      "How the workbook defines distressed institutions",
+      "warning_score_core >= 4",
+      "warning_score_core counts six core warning signals and flags institutions at 4 or more.",
+      "Signals are repeated enrollment decline, repeated 10% revenue decline, repeated losses, ending the latest year in the red, staff cuts over five years, and falling net tuition per FTE over five years."
+    ),
+    make_answer_row(
+      sprintf("Core distress trend from %s to %s", comparison_year, latest_year),
+      sprintf("%s (%s) vs %s (%s)", format_value(value_for_year("distress_count", latest_year)), format_value(value_for_year("distress_pct", latest_year), digits = 1, suffix = "%"), format_value(value_for_year("distress_count", comparison_year)), format_value(value_for_year("distress_pct", comparison_year), digits = 1, suffix = "%")),
+      sprintf("Compare DistressCompare distress_count and distress_pct for %s and %s.", latest_year, comparison_year),
+      "Uses the same primarily baccalaureate workbook universe and warning-score definition in both years."
+    ),
+    make_answer_row(
+      sprintf("%s distress share for private nonprofits versus publics", latest_year),
+      sprintf("%s vs %s", format_value(distress_share_for_control(latest_year, "Private not-for-profit"), digits = 1, suffix = "%"), format_value(distress_share_for_control(latest_year, "Public"), digits = 1, suffix = "%")),
+      sprintf("Within %s primarily baccalaureate rows, compare the share with warning_score_core >= 4 for Private not-for-profit versus Public institutions.", latest_year),
+      "Shows sector contrast within the same year."
+    ),
+    make_answer_row(
+      sprintf("%s distressed institutions in the primarily baccalaureate universe", latest_year),
+      format_value(value_for_year("distress_count", latest_year)),
+      sprintf("Count %s primarily baccalaureate institutions where warning_score_core >= 4.", latest_year),
+      "Topline distressed-institution count."
+    ),
+    make_answer_row(
+      sprintf("%s distressed institutions as a share of the primarily baccalaureate universe", latest_year),
+      format_value(value_for_year("distress_pct", latest_year), digits = 1, suffix = "%"),
+      sprintf("distress_count / institutions_total for %s in DistressCompare.", latest_year),
+      "Topline distressed-institution share."
+    ),
+    make_answer_row(
+      sprintf("%s students enrolled at distressed institutions", latest_year),
+      format_value(value_for_year("distress_students", latest_year)),
+      sprintf("Sum enrollment_headcount_total for %s primarily baccalaureate institutions where warning_score_core >= 4.", latest_year),
+      "Student exposure to the distressed-institution universe."
+    ),
+    make_answer_row(
+      sprintf("%s colleges in distress with rising international enrollment over 10 years", latest_year),
+      format_value(nrow(distress_intl10)),
+      sprintf("Count rows in DistressIntl10 for %s.", latest_year),
+      "Subset of distressed institutions that also posted 10-year international-enrollment growth."
+    ),
+    make_answer_row(
+      "Active accreditation warning/notice overlap with workbook distress",
+      sprintf("%s with warning/notice vs %s without; %s with warning/notice also cut staff", format_value(xtab_value("Active warning/notice", "With event", "distress_share_pct"), digits = 1, suffix = "%"), format_value(xtab_value("Active warning/notice", "Without event", "distress_share_pct"), digits = 1, suffix = "%"), format_value(xtab_value("Active warning/notice", "With event", "staff_total_decline_5yr_pct"), digits = 1, suffix = "%")),
+      "Uses AccredFinanceXtab percentages for the Active warning/notice event cohort.",
+      "External-warning overlap with the workbook distress definition."
+    ),
+    make_answer_row(
+      sprintf("Core distress trend from %s to %s", baseline_year, comparison_year),
+      sprintf("%s (%s) vs %s (%s)", format_value(value_for_year("distress_count", comparison_year)), format_value(value_for_year("distress_pct", comparison_year), digits = 1, suffix = "%"), format_value(value_for_year("distress_count", baseline_year)), format_value(value_for_year("distress_pct", baseline_year), digits = 1, suffix = "%")),
+      sprintf("Compare DistressCompare distress_count and distress_pct for %s and %s.", comparison_year, baseline_year),
+      "Use with the baseline-year comparison note if the five-year trend fields are not directly comparable."
+    ),
+    make_answer_row(
+      sprintf("%s distress share for private nonprofits versus publics", comparison_year),
+      sprintf("%s vs %s", format_value(distress_share_for_control(comparison_year, "Private not-for-profit"), digits = 1, suffix = "%"), format_value(distress_share_for_control(comparison_year, "Public"), digits = 1, suffix = "%")),
+      sprintf("Within %s primarily baccalaureate rows, compare the share with warning_score_core >= 4 for Private not-for-profit versus Public institutions.", comparison_year),
+      "Same sector contrast for the earlier comparison year."
+    ),
+    make_answer_row(
+      sprintf("%s distressed institutions in the primarily baccalaureate universe", comparison_year),
+      format_value(value_for_year("distress_count", comparison_year)),
+      sprintf("Count %s primarily baccalaureate institutions where warning_score_core >= 4.", comparison_year),
+      "Earlier-year distressed-institution count."
+    ),
+    make_answer_row(
+      sprintf("%s distressed institutions as a share of the primarily baccalaureate universe", comparison_year),
+      format_value(value_for_year("distress_pct", comparison_year), digits = 1, suffix = "%"),
+      sprintf("distress_count / institutions_total for %s in DistressCompare.", comparison_year),
+      "Earlier-year distressed-institution share."
+    ),
+    make_answer_row(
+      "How the workbook defines long-running challenge institutions",
+      "enrollment_decline_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes",
+      "Counts institutions with both repeated enrollment declines and repeated losses in the rolling five-year window.",
+      "This is a narrower definition than the broader distressed-institution warning-score screen."
+    ),
+    make_answer_row(
+      sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", latest_year),
+      format_value(value_for_year("longrun_count", latest_year)),
+      sprintf("Count %s primarily baccalaureate institutions where enrollment_decline_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes.", latest_year),
+      "Latest-year long-running challenge count."
+    ),
+    make_answer_row(
+      sprintf("%s long-running challenge institutions with enrollment dips and losses in 3 of the last 5 years", comparison_year),
+      format_value(value_for_year("longrun_count", comparison_year)),
+      sprintf("Count %s primarily baccalaureate institutions where enrollment_decline_last_3_of_5 == Yes AND losses_last_3_of_5 == Yes.", comparison_year),
+      "Earlier-year long-running challenge count."
+    )
+  )
+}
+
+# Builds the ResearchCutsAnswers tab with toplines for the flagship cuts match.
+build_research_cuts_answers <- function(flagship_cuts) {
+  make_answer_row <- function(question, value, calculation, note) {
+    data.frame(
+      question = question,
+      value = as.character(value),
+      calculation = calculation,
+      note = note,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  append_rows(
+    make_answer_row(
+      "Public flagships with still-disrupted federal research cuts",
+      nrow(flagship_cuts),
+      "Count rows in FlagshipCuts.",
+      "Flagships matched to Grant Witness cuts that still show unreleased or disrupted awards."
+    ),
+    make_answer_row(
+      "Public flagships with at least $1M still disrupted in federal research cuts",
+      sum(!is.na(flagship_cuts$total_disrupted_award_remaining) & flagship_cuts$total_disrupted_award_remaining >= 1000000, na.rm = TRUE),
+      "Count FlagshipCuts rows where total_disrupted_award_remaining >= 1000000.",
+      "Large remaining-disruption subset."
+    )
   )
 }
 
@@ -561,6 +1384,7 @@ summarize_event_subset <- function(df, cohort_label, event_type, control_scope =
     institutions    = nrow(df),
     median_finance_page_bad_count              = median_or_na(df$finance_page_bad_count),
     median_warning_score_core                  = median_or_na(df$warning_score_core),
+    distress_share_pct                         = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(to_num(df$warning_score_core)) & to_num(df$warning_score_core) >= 4, na.rm = TRUE), nrow(df)),
     median_enrollment_pct_change_5yr           = median_or_na(df$enrollment_pct_change_5yr),
     enrollment_decline_last_3_of_5_pct         = if (nrow(df) == 0) NA_real_ else safe_pct(sum(yes_flag(df$enrollment_decline_last_3_of_5), na.rm = TRUE), nrow(df)),
     median_revenue_pct_change_5yr              = median_or_na(df$revenue_pct_change_5yr),

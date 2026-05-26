@@ -26,6 +26,8 @@ build_worksheet_index_rows <- function(sheet_specs) {
 build_article_workbook_registry <- function(
   summary_rows,
   report_answers,
+  distress_answers,
+  research_cuts_answers,
   bacc_benchmarks,
   all_sheet_bacc,
   base_sheets,
@@ -60,6 +62,8 @@ build_article_workbook_registry <- function(
   list(
     Summary = summary_rows,
     ReportAnswers = report_answers,
+    DistressAnswers = distress_answers,
+    ResearchCutsAnswers = research_cuts_answers,
     BaccBenchmarks = bacc_benchmarks,
     All_2024 = all_sheet_bacc,
     EnrollDecl3of5 = base_sheets$EnrollDecl3of5,

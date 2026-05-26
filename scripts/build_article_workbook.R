@@ -387,7 +387,9 @@ summary_rows <- append_rows(
 
 sheet_index_specs <- list(
   list(name = "Summary", description = "Top-level counts and sector shares. Includes all filtered institutions plus baccalaureate-only breakouts."),
-  list(name = "ReportAnswers", description = "Topline reporting answers, counts, and notes explaining how each figure was calculated."),
+  list(name = "ReportAnswers", description = "Grouped answer rows with institution counts, student counts, sector denominators, and calculation notes for the main repeated-decline, threshold, staffing, tuition, and discount-rate metrics."),
+  list(name = "DistressAnswers", description = "Definitions and toplines for the workbook distress and long-running challenge framing."),
+  list(name = "ResearchCutsAnswers", description = "Topline counts for the public-flagship research-cuts match."),
   list(name = "All_2024", description = sprintf("All %s predominantly baccalaureate institutions included in the workbook universe.", latest_year)),
   list(name = "EnrollDecl3of5", description = "Predominantly baccalaureate colleges with enrollment declines in 3 of the last 5 years."),
   list(name = "RevDecl3of5", description = "Predominantly baccalaureate colleges with revenue declines in 3 of the last 5 years."),
@@ -910,14 +912,27 @@ if (nrow(intl_vulnerable) > 0) {
 intl_vulnerable_large <- intl_vulnerable[!is.na(intl_vulnerable$enrollment_headcount_total) & intl_vulnerable$enrollment_headcount_total >= 5000, , drop = FALSE]
 
 report_answers <- build_report_answers(
+  read_df = read_df,
   distress_compare = distress_compare,
-  distress_intl10 = distress_intl10,
-  flagship_cuts = flagship_cuts,
-  staff_cut_yoy = staff_cut_yoy,
+  bacc_category_label = bacc_category_label,
   latest_year = latest_year,
   comparison_year = latest_year - 5L,
-  baseline_year = latest_year - 10L,
-  prior_year = prev_year_num
+  baseline_year = latest_year - 10L
+)
+
+distress_answers <- build_distress_answers(
+  read_df = read_df,
+  distress_compare = distress_compare,
+  distress_intl10 = distress_intl10,
+  accredit_finance_xtab = accredit_finance_xtab,
+  bacc_category_label = bacc_category_label,
+  latest_year = latest_year,
+  comparison_year = latest_year - 5L,
+  baseline_year = latest_year - 10L
+)
+
+research_cuts_answers <- build_research_cuts_answers(
+  flagship_cuts = flagship_cuts
 )
 
 state_breakdown <- build_state_breakdown(all_sheet_bacc)
@@ -938,6 +953,8 @@ bacc_benchmarks <- build_benchmark_tab(list(
 worksheets <- build_article_workbook_registry(
   summary_rows = summary_rows,
   report_answers = report_answers,
+  distress_answers = distress_answers,
+  research_cuts_answers = research_cuts_answers,
   bacc_benchmarks = bacc_benchmarks,
   all_sheet_bacc = all_sheet_bacc,
   base_sheets = base_sheets,

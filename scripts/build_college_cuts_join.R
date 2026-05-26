@@ -194,6 +194,46 @@ main <- function(cli_args = NULL) {
                    match_method_candidate = character())
   }
 
+  # H14: SUPABASE-INTERNAL NORMALIZED-KEY DEDUP
+  # Multiple Supabase API names can normalize to the same (norm_name, state_full)
+  # key — e.g. a hyphen vs em-dash variant of the same school name, or a short
+  # name vs full name that normalization collapses.  When unitids agree these are
+  # benign, but distinct() on the full row will keep both if any other column
+  # differs (notably match_method_candidate: "supabase" vs "ipeds_name_match").
+  # We resolve this here, before the anti_join operations, so the key-uniqueness
+  # contract holds throughout.
+  if (nrow(supabase_lookup) > 0) {
+    sup_conflicts <- supabase_lookup |>
+      dplyr::group_by(norm_name, state_full) |>
+      dplyr::summarise(n_unitids = dplyr::n_distinct(unitid_candidate), .groups = "drop") |>
+      dplyr::filter(n_unitids > 1)
+    if (nrow(sup_conflicts) > 0) {
+      conflict_detail <- supabase_lookup |>
+        dplyr::semi_join(sup_conflicts, by = c("norm_name", "state_full")) |>
+        dplyr::arrange(norm_name, state_full, unitid_candidate) |>
+        dplyr::mutate(msg = sprintf(
+          "  (%s / %s): unitid %d [%s]",
+          norm_name, state_full, unitid_candidate, match_method_candidate
+        )) |>
+        dplyr::pull(msg)
+      stop(
+        "supabase_lookup has conflicting unitids for the same normalized key.\n",
+        "Fix the upstream Supabase records or supabase_institution_unitid_mapping.csv:\n",
+        paste(unique(conflict_detail), collapse = "\n")
+      )
+    }
+    # All duplicates have the same unitid — safe to collapse to one row per key.
+    # Prefer the highest-confidence source so the match_method_candidate is meaningful.
+    source_rank <- c(supabase = 1L, ipeds_name_match = 2L, manual_alias = 3L, supabase_mapping = 4L)
+    supabase_lookup <- supabase_lookup |>
+      dplyr::mutate(
+        .src_rank = dplyr::coalesce(source_rank[match_method_candidate], 99L)
+      ) |>
+      dplyr::arrange(.src_rank) |>
+      dplyr::distinct(norm_name, state_full, .keep_all = TRUE) |>
+      dplyr::select(-.src_rank)
+  }
+
   # Warn if mapping file is stale (>10 days old) — stop in CI unless --allow-stale flag
   allow_stale <- arg_has(args, "--allow-stale")
   in_ci <- identical(Sys.getenv("CI"), "true") || identical(Sys.getenv("GITHUB_ACTIONS"), "true")
@@ -246,8 +286,18 @@ main <- function(cli_args = NULL) {
     dplyr::filter(n > 1)
   
   if (nrow(duplicate_fallback_keys) > 0) {
+    dup_detail <- fallback_lookup |>
+      dplyr::semi_join(duplicate_fallback_keys, by = c("norm_name", "state_full")) |>
+      dplyr::arrange(norm_name, state_full) |>
+      dplyr::mutate(msg = sprintf(
+        "  (%s / %s): unitid %d via %s",
+        norm_name, state_full, unitid_candidate, match_method_candidate
+      )) |>
+      dplyr::pull(msg)
     stop(
-      "fallback_lookup still has duplicate (norm_name, state_full) keys after deduping; inspect supabase/manual alias overlays."
+      "fallback_lookup still has duplicate (norm_name, state_full) keys after deduping.\n",
+      "Inspect supabase/manual alias overlays for these keys:\n",
+      paste(dup_detail, collapse = "\n")
     )
   }
   

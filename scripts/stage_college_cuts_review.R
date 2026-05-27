@@ -69,7 +69,7 @@ main <- function(cli_args = NULL) {
       verbose = verbose
     )
     assert_college_cuts_review_sheet_header(sheet_rows)
-    sheet_rows <- coerce_college_cuts_editorial_overrides(sheet_rows)
+    sheet_rows <- coerce_college_cuts_review_sheet_rows(sheet_rows)
     sheet_append_rows <- build_college_cuts_review_sheet_append_rows(staged, sheet_rows)
     sheet_append_count <- nrow(sheet_append_rows)
 
@@ -79,7 +79,7 @@ main <- function(cli_args = NULL) {
       }
       googlesheets4::sheet_write(
         data = format_college_cuts_sheet_headers(
-          staged[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+          build_college_cuts_review_sheet_rows(staged)
         ),
         ss = sheet_target,
         sheet = sheet_tab
@@ -91,7 +91,7 @@ main <- function(cli_args = NULL) {
       }
       googlesheets4::sheet_write(
         data = format_college_cuts_sheet_headers(
-          staged[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+          build_college_cuts_review_sheet_rows(staged)
         ),
         ss = sheet_target,
         sheet = sheet_tab
@@ -103,7 +103,7 @@ main <- function(cli_args = NULL) {
       googlesheets4::sheet_append(
         ss = sheet_target,
         data = format_college_cuts_sheet_headers(
-          sheet_append_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+          sheet_append_rows[, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, drop = FALSE]
         ),
         sheet = sheet_tab
       )

@@ -360,6 +360,35 @@ build_cuts_export <- function() {
     drop_unlisted = isTRUE(apply_only_review_gate)
   )
 
+  if (nrow(cuts) > 0L) {
+    cuts <- cuts %>%
+      mutate(
+        export_unitid = vapply(
+          seq_len(n()),
+          function(i) make_export_id(
+            "cut",
+            matched_unitid[[i]],
+            institution_name_display[[i]],
+            state_display[[i]]
+          ),
+          character(1)
+        ),
+        has_financial_profile = !is.na(matched_unitid) & matched_unitid != "",
+        is_primary_tracker = has_financial_profile & is_primary_bachelors_category(category_display),
+        positions_affected = vapply(
+          seq_len(n()),
+          function(i) derive_positions_affected(
+            faculty_affected[[i]],
+            notes[[i]],
+            source_title[[i]],
+            program_name[[i]],
+            cut_type[[i]]
+          ),
+          integer(1)
+        )
+      )
+  }
+
   if (nrow(cuts) == 0) return(NULL)
 
   recent <- cuts %>%
@@ -2192,6 +2221,8 @@ build_accreditation_export <- function() {
     allowed_action_ids = committed_review_candidates$action_id %||% NULL,
     drop_unlisted = isTRUE(apply_only_review_gate)
   )
+
+  actions_df <- reconcile_accreditation_tracker_metadata(actions_df, accreditor_col = "accreditor")
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying

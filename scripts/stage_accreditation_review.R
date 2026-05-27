@@ -69,7 +69,7 @@ main <- function(cli_args = NULL) {
       verbose = verbose
     )
     assert_accreditation_review_sheet_header(sheet_rows)
-    sheet_rows <- coerce_accreditation_editorial_overrides(sheet_rows)
+    sheet_rows <- coerce_accreditation_review_sheet_rows(sheet_rows)
     sheet_append_rows <- build_accreditation_review_sheet_append_rows(staged, sheet_rows)
     sheet_append_count <- nrow(sheet_append_rows)
 
@@ -78,7 +78,9 @@ main <- function(cli_args = NULL) {
         message("Rewriting accreditation review sheet tab: ", sheet_tab)
       }
       googlesheets4::sheet_write(
-        data = staged[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE],
+        data = format_accreditation_review_sheet_headers(
+          build_accreditation_review_sheet_rows(staged)
+        ),
         ss = sheet_target,
         sheet = sheet_tab
       )
@@ -88,7 +90,9 @@ main <- function(cli_args = NULL) {
         message("Writing initial accreditation review sheet tab: ", sheet_tab)
       }
       googlesheets4::sheet_write(
-        data = staged[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE],
+        data = format_accreditation_review_sheet_headers(
+          build_accreditation_review_sheet_rows(staged)
+        ),
         ss = sheet_target,
         sheet = sheet_tab
       )
@@ -98,7 +102,9 @@ main <- function(cli_args = NULL) {
       }
       googlesheets4::sheet_append(
         ss = sheet_target,
-        data = sheet_append_rows[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE],
+        data = format_accreditation_review_sheet_headers(
+          sheet_append_rows[, ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]
+        ),
         sheet = sheet_tab
       )
     } else if (verbose) {

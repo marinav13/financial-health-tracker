@@ -75,7 +75,7 @@ main <- function(cli_args = NULL) {
     message("Local editorial overrides rows: ", nrow(local_overrides))
     message("Google Sheet review rows: ", nrow(sheet_rows))
   }
-  message("Pulled editor columns from Google Sheet into: ", output_path)
+  message("Pulled accreditation review sheet values into: ", output_path)
   invisible(list(
     local_rows = nrow(local_overrides),
     sheet_rows = nrow(sheet_rows),

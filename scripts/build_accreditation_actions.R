@@ -612,10 +612,27 @@ main <- function(cli_args = NULL) {
 
   # -----------------------------------------------------------------------
   # WRITE EXCEL WORKBOOK
+
+  # action_labels is a semicolon-collapsed string that can exceed Excel's cell
+  # limit for institutions with long action histories. Pre-truncate it in the
+  # workbook copies so the sanitizer never fires a warning. The CSV outputs
+  # written above retain the full untruncated text.
+  clip_workbook_action_labels <- function(df) {
+    if ("action_labels" %in% names(df)) {
+      df$action_labels <- vapply(
+        df$action_labels,
+        truncate_excel_cell_text,
+        character(1),
+        USE.NAMES = FALSE
+      )
+    }
+    df
+  }
+
   workbook_frames <- list(
     actions = actions_joined,
-    summary = institution_summary,
-    current = current_status,
+    summary = clip_workbook_action_labels(institution_summary),
+    current = clip_workbook_action_labels(current_status),
     unmatched = unmatched_for_review,
     coverage = source_coverage,
     notes = data.frame(

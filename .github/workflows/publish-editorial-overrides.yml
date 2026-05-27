@@ -2,9 +2,6 @@
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types:
-      - accreditation_review_publish
 
 permissions:
   contents: write
@@ -153,6 +150,7 @@ jobs:
           Rscript ./scripts/build_web_exports.R
           --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
           --only cuts,accreditation
+          --apply-only-review-gate
           --enforce-review-gate
           --enforce-cuts-review-gate
 

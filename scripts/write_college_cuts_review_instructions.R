@@ -46,7 +46,7 @@ main <- function(cli_args = NULL) {
       "Statuses",
       "Current rows",
       "Urgent fixes",
-      "Automatic publishing",
+      "Publishing",
       "Duplicates",
       "If something looks wrong"
     ),
@@ -79,8 +79,8 @@ main <- function(cli_args = NULL) {
       "Ready for the site. Approved rows are the rows that should publish once the gate is enabled.",
       "Use needs_revision if more work is needed. Use reject if the row should never publish.",
       "Yes. grandfathered = TRUE only means the row was pre-approved during rollout. It does not lock the row.",
-      "Edit the editor_* fields, leave review_status = approved, and the auto-publish system should pick it up on the next cycle. Manual GitHub publish is still available as a backup.",
-      "Usually no. The normal path is automatic once the Apps Script automation is turned on.",
+      "Edit the editor_* fields, leave review_status = approved, and then run the manual GitHub publish workflow when you want the changes to go live.",
+      "Yes. There is no live sheet-to-GitHub auto-publish path anymore.",
       "Compare them carefully. If they are the same cut, keep the cleaner or more canonical row as the long-term record and reject the duplicate after the replacement is approved.",
       "Use editor_cut_description for the corrected public wording, add a note in editor_notes if helpful, and keep review_status off approved until the row is truly ready."
     ),

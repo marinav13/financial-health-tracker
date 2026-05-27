@@ -41,6 +41,7 @@ input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 enforce_review_gate <- has_flag("--enforce-review-gate")
 enforce_cuts_review_gate <- has_flag("--enforce-cuts-review-gate")
+apply_only_review_gate <- has_flag("--apply-only-review-gate")
 selected_exports <- local({
   available_exports <- c("cuts", "accreditation", "research")
   raw_value <- get_arg_value("--only", NULL)
@@ -280,6 +281,21 @@ build_cuts_export <- function() {
   )
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE)
+  committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
+    if (!file.exists(cuts_review_candidates_path)) {
+      stop(
+        paste(
+          "Apply-only college cuts review gate requires the committed review candidate snapshot:",
+          cuts_review_candidates_path,
+          "Run the refresh workflow first so publish can apply decisions to a stable reviewed snapshot."
+        ),
+        call. = FALSE
+      )
+    }
+    read_college_cuts_review_candidates(cuts_review_candidates_path)
+  } else {
+    NULL
+  }
   if (!"cut_id" %in% names(cuts)) {
     cuts$cut_id <- NA_character_
   }
@@ -325,10 +341,12 @@ build_cuts_export <- function() {
       )
     )
 
-  write_csv_atomic(
-    build_college_cuts_review_candidates(cuts),
-    cuts_review_candidates_path
-  )
+  if (!isTRUE(apply_only_review_gate)) {
+    write_csv_atomic(
+      build_college_cuts_review_candidates(cuts),
+      cuts_review_candidates_path
+    )
+  }
   cuts_editorial_overrides <- if (file.exists(cuts_editorial_overrides_path)) {
     read_college_cuts_editorial_overrides(cuts_editorial_overrides_path)
   } else {
@@ -337,7 +355,9 @@ build_cuts_export <- function() {
   cuts <- apply_college_cuts_editorial_overrides(
     cuts,
     overrides = cuts_editorial_overrides,
-    enforce_review_gate = enforce_cuts_review_gate
+    enforce_review_gate = enforce_cuts_review_gate,
+    allowed_cut_ids = committed_review_candidates$cut_id %||% NULL,
+    drop_unlisted = isTRUE(apply_only_review_gate)
   )
 
   if (nrow(cuts) == 0) return(NULL)
@@ -2139,10 +2159,27 @@ build_accreditation_export <- function() {
     select(-hlc_sanction_cycle_family, -hlc_latest_removal_date)
 
   actions_df <- compact_neche_public_actions(actions_df)
-  write_csv_atomic(
-    build_accreditation_review_candidates(actions_df),
-    accreditation_review_candidates_path
-  )
+  committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
+    if (!file.exists(accreditation_review_candidates_path)) {
+      stop(
+        paste(
+          "Apply-only accreditation review gate requires the committed review candidate snapshot:",
+          accreditation_review_candidates_path,
+          "Run the refresh workflow first so publish can apply decisions to a stable reviewed snapshot."
+        ),
+        call. = FALSE
+      )
+    }
+    read_accreditation_review_candidates(accreditation_review_candidates_path)
+  } else {
+    NULL
+  }
+  if (!isTRUE(apply_only_review_gate)) {
+    write_csv_atomic(
+      build_accreditation_review_candidates(actions_df),
+      accreditation_review_candidates_path
+    )
+  }
   editorial_overrides <- if (file.exists(accreditation_editorial_overrides_path)) {
     read_accreditation_editorial_overrides(accreditation_editorial_overrides_path)
   } else {
@@ -2151,7 +2188,9 @@ build_accreditation_export <- function() {
   actions_df <- apply_accreditation_editorial_overrides(
     actions_df,
     overrides = editorial_overrides,
-    enforce_review_gate = enforce_review_gate
+    enforce_review_gate = enforce_review_gate,
+    allowed_action_ids = committed_review_candidates$action_id %||% NULL,
+    drop_unlisted = isTRUE(apply_only_review_gate)
   )
 
   # Always include all accreditors the project actively tracks, even if the

@@ -446,6 +446,115 @@ run_test("Editorial overrides helper applies approved edits and gate filtering",
   assert_identical(gated$review_status[[1]], "approved")
 })
 
+run_test("Accreditation apply-only gate ignores recomputed rows outside committed snapshot", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101", "102"),
+    unitid = c("100", "101", "102"),
+    export_institution_name = c("Example University", "Example College", "Unexpected Institute"),
+    accreditor = c("MSCHE", "HLC", "NECHE"),
+    action_date = c("2026-04-24", "2025-06-26", "2026-01-15"),
+    action_type = c("adverse_action", "warning", "notice"),
+    action_label_raw = c("Voluntary Withdrawal Received", "Warning", "Special Visit"),
+    action_label_short = c("Voluntarily surrendered accreditation", "Placed on warning", "Received notice"),
+    source_url = c("https://example.org/one", "https://example.org/two", "https://example.org/three"),
+    source_title = c("Source One", "Source Two", "Source Three"),
+    stringsAsFactors = FALSE
+  )
+
+  allowed_ids <- c(
+    compute_accreditation_action_id("100", "MSCHE", "2026-04-24", "Voluntary Withdrawal Received"),
+    compute_accreditation_action_id("101", "HLC", "2025-06-26", "Warning")
+  )
+
+  overrides <- coerce_accreditation_editorial_overrides(data.frame(
+    action_id = allowed_ids,
+    unitid = c("100", "101"),
+    institution_name = c("Example University", "Example College"),
+    accreditor = c("MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2025-06-26"),
+    action_type = c("adverse_action", "warning"),
+    action_label_raw = c("Voluntary Withdrawal Received", "Warning"),
+    generated_statement = c("Voluntarily surrendered accreditation", "Placed on warning"),
+    source_url = c("https://example.org/one", "https://example.org/two"),
+    source_title = c("Source One", "Source Two"),
+    row_origin = c("scraper", "scraper"),
+    first_seen = c("2026-05-01", "2026-05-01"),
+    review_status = c("approved", "unreviewed"),
+    grandfathered = c(FALSE, FALSE),
+    stringsAsFactors = FALSE
+  ))
+
+  gated <- apply_accreditation_editorial_overrides(
+    actions_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = allowed_ids,
+    drop_unlisted = TRUE
+  )
+
+  assert_identical(nrow(gated), 1L)
+  assert_identical(gated$unitid[[1]], "100")
+  assert_true(!"102" %in% gated$unitid)
+})
+
+run_test("Accreditation apply-only gate still fails when committed snapshot lacks overrides", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101"),
+    unitid = c("100", "101"),
+    export_institution_name = c("Example University", "Example College"),
+    accreditor = c("MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2025-06-26"),
+    action_type = c("adverse_action", "warning"),
+    action_label_raw = c("Voluntary Withdrawal Received", "Warning"),
+    action_label_short = c("Voluntarily surrendered accreditation", "Placed on warning"),
+    source_url = c("https://example.org/one", "https://example.org/two"),
+    source_title = c("Source One", "Source Two"),
+    stringsAsFactors = FALSE
+  )
+
+  allowed_ids <- c(
+    compute_accreditation_action_id("100", "MSCHE", "2026-04-24", "Voluntary Withdrawal Received"),
+    compute_accreditation_action_id("101", "HLC", "2025-06-26", "Warning")
+  )
+
+  overrides <- coerce_accreditation_editorial_overrides(data.frame(
+    action_id = allowed_ids[[1]],
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_date = "2026-04-24",
+    action_type = "adverse_action",
+    action_label_raw = "Voluntary Withdrawal Received",
+    generated_statement = "Voluntarily surrendered accreditation",
+    source_url = "https://example.org/one",
+    source_title = "Source One",
+    row_origin = "scraper",
+    first_seen = "2026-05-01",
+    review_status = "approved",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  ))
+
+  err <- tryCatch(
+    {
+      apply_accreditation_editorial_overrides(
+        actions_df,
+        overrides,
+        enforce_review_gate = TRUE,
+        allowed_action_ids = allowed_ids,
+        drop_unlisted = TRUE
+      )
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+
+  assert_true(
+    !is.null(err) && grepl("committed accreditation review candidate", err, fixed = TRUE),
+    "Apply-only accreditation gate should fail clearly when a committed review candidate lacks an override."
+  )
+})
+
 run_test("College cuts review candidates derive from joined export rows", function() {
   cuts_df <- data.frame(
     cut_id = c("cut-1", "cut-2"),
@@ -734,4 +843,111 @@ run_test("College cuts overrides apply approved edits and gate filtering", funct
   assert_identical(nrow(gated), 1L)
   assert_identical(gated$cut_id[[1]], "cut-1")
   assert_identical(gated$review_status[[1]], "approved")
+})
+
+run_test("College cuts apply-only gate ignores recomputed rows outside committed snapshot", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2", "cut-3"),
+    matched_unitid = c("100", "101", "102"),
+    export_unitid = c("100", "101", "102"),
+    institution_name_display = c("Example University", "Example College", "Unexpected Institute"),
+    state_display = c("Alabama", "Georgia", "Maine"),
+    announcement_date = c("2026-04-24", "2026-05-01", "2026-06-10"),
+    announcement_year = c("2026", "2026", "2026"),
+    cut_type = c("program_closure", "layoff", "campus_closure"),
+    program_name = c("History BA", "Faculty layoffs", "Unexpected campus"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2", "https://example.org/cut-3"),
+    source_title = c("Cut One", "Cut Two", "Cut Three"),
+    source_publication = c("Local Paper", "Campus News", "Regional News"),
+    stringsAsFactors = FALSE
+  )
+
+  allowed_ids <- c("cut-1", "cut-2")
+
+  overrides <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = allowed_ids,
+    unitid = c("100", "101"),
+    institution_name = c("Example University", "Example College"),
+    state = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    row_origin = c("scraper", "scraper"),
+    first_seen = c("2026-05-01", "2026-05-01"),
+    review_status = c("approved", "unreviewed"),
+    grandfathered = c(FALSE, FALSE),
+    stringsAsFactors = FALSE
+  ))
+
+  gated <- apply_college_cuts_editorial_overrides(
+    cuts_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_cut_ids = allowed_ids,
+    drop_unlisted = TRUE
+  )
+
+  assert_identical(nrow(gated), 1L)
+  assert_identical(gated$cut_id[[1]], "cut-1")
+  assert_true(!"cut-3" %in% gated$cut_id)
+})
+
+run_test("College cuts apply-only gate still fails when committed snapshot lacks overrides", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Faculty layoffs"),
+    source_url = c("https://example.org/cut-1", "https://example.org/cut-2"),
+    source_title = c("Cut One", "Cut Two"),
+    source_publication = c("Local Paper", "Campus News"),
+    stringsAsFactors = FALSE
+  )
+
+  overrides <- coerce_college_cuts_editorial_overrides(data.frame(
+    cut_id = "cut-1",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = "2026",
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/cut-1",
+    source_title = "Cut One",
+    source_publication = "Local Paper",
+    row_origin = "scraper",
+    first_seen = "2026-05-01",
+    review_status = "approved",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  ))
+
+  err <- tryCatch(
+    {
+      apply_college_cuts_editorial_overrides(
+        cuts_df,
+        overrides,
+        enforce_review_gate = TRUE,
+        allowed_cut_ids = c("cut-1", "cut-2"),
+        drop_unlisted = TRUE
+      )
+      NULL
+    },
+    error = function(e) conditionMessage(e)
+  )
+
+  assert_true(
+    !is.null(err) && grepl("committed college cuts review candidate", err, fixed = TRUE),
+    "Apply-only college cuts gate should fail clearly when a committed review candidate lacks an override."
+  )
 })

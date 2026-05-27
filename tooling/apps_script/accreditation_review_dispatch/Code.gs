@@ -1,3 +1,14 @@
+/**
+ * ARCHIVED REFERENCE ONLY
+ *
+ * This Apps Script automation is retired and is not part of the supported
+ * production workflow. The active publish path is the manual GitHub Actions
+ * workflow "Publish Editorial Overrides".
+ *
+ * This source remains in-repo only so the old dispatch implementation can be
+ * audited or reconstructed later if policy changes.
+ */
+
 const REVIEW_APPROVED_STATUS = 'approved';
 const DIRTY_FLAG_PROPERTY = 'ACCREDITATION_REVIEW_DIRTY';
 const DIRTY_REASON_PROPERTY = 'ACCREDITATION_REVIEW_DIRTY_REASON';

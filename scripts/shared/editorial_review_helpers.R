@@ -494,7 +494,9 @@ grandfather_accreditation_editorial_overrides <- function(overrides,
 
 apply_accreditation_editorial_overrides <- function(actions_df,
                                                     overrides = NULL,
-                                                    enforce_review_gate = FALSE) {
+                                                    enforce_review_gate = FALSE,
+                                                    allowed_action_ids = NULL,
+                                                    drop_unlisted = FALSE) {
   if (is.null(actions_df) || !nrow(actions_df)) {
     return(actions_df)
   }
@@ -534,6 +536,24 @@ apply_accreditation_editorial_overrides <- function(actions_df,
     character(1)
   )
 
+  allowed_ids <- trimws(as.character(allowed_action_ids %||% ""))
+  allowed_ids <- unique(allowed_ids[nzchar(allowed_ids)])
+  if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
+    unexpected_rows <- !(review_actions$action_id %in% allowed_ids)
+    if (any(unexpected_rows)) {
+      message(
+        sprintf(
+          paste(
+            "Apply-only accreditation review gate: ignoring %d recomputed action(s)",
+            "that are not present in the committed review candidate snapshot."
+          ),
+          sum(unexpected_rows)
+        )
+      )
+      review_actions <- review_actions[!unexpected_rows, , drop = FALSE]
+    }
+  }
+
   override_rows <- coerce_accreditation_editorial_overrides(overrides)
   if (!nrow(override_rows)) {
     if (isTRUE(enforce_review_gate)) {
@@ -553,20 +573,38 @@ apply_accreditation_editorial_overrides <- function(actions_df,
     )
 
   if (isTRUE(enforce_review_gate)) {
-    missing_override <- is.na(joined$review_status)
-    if (any(missing_override)) {
-      sample_ids <- paste(utils::head(joined$action_id[missing_override], 5L), collapse = ", ")
-      stop(
-        sprintf(
-          paste(
-            "Review gate is enabled but %d accreditation action(s) are missing editorial overrides.",
-            "Sample action_id values: %s"
+    if (length(allowed_ids) > 0L) {
+      missing_snapshot_override_ids <- allowed_ids[!(allowed_ids %in% override_rows$action_id)]
+      if (length(missing_snapshot_override_ids) > 0L) {
+        sample_ids <- paste(utils::head(missing_snapshot_override_ids, 5L), collapse = ", ")
+        stop(
+          sprintf(
+            paste(
+              "Review gate is enabled but %d committed accreditation review candidate(s) are missing editorial overrides.",
+              "Sample action_id values: %s"
+            ),
+            length(missing_snapshot_override_ids),
+            sample_ids
           ),
-          sum(missing_override),
-          sample_ids
-        ),
-        call. = FALSE
-      )
+          call. = FALSE
+        )
+      }
+    } else {
+      missing_override <- is.na(joined$review_status)
+      if (any(missing_override)) {
+        sample_ids <- paste(utils::head(joined$action_id[missing_override], 5L), collapse = ", ")
+        stop(
+          sprintf(
+            paste(
+              "Review gate is enabled but %d accreditation action(s) are missing editorial overrides.",
+              "Sample action_id values: %s"
+            ),
+            sum(missing_override),
+            sample_ids
+          ),
+          call. = FALSE
+        )
+      }
     }
   }
 
@@ -1096,7 +1134,9 @@ grandfather_college_cuts_editorial_overrides <- function(overrides,
 
 apply_college_cuts_editorial_overrides <- function(cuts_df,
                                                    overrides = NULL,
-                                                   enforce_review_gate = FALSE) {
+                                                   enforce_review_gate = FALSE,
+                                                   allowed_cut_ids = NULL,
+                                                   drop_unlisted = FALSE) {
   if (is.null(cuts_df) || !nrow(cuts_df)) {
     return(cuts_df)
   }
@@ -1138,6 +1178,24 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
     character(1)
   )
 
+  allowed_ids <- trimws(as.character(allowed_cut_ids %||% ""))
+  allowed_ids <- unique(allowed_ids[nzchar(allowed_ids)])
+  if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
+    unexpected_rows <- !(review_cuts$cut_id %in% allowed_ids)
+    if (any(unexpected_rows)) {
+      message(
+        sprintf(
+          paste(
+            "Apply-only college cuts review gate: ignoring %d recomputed cut row(s)",
+            "that are not present in the committed review candidate snapshot."
+          ),
+          sum(unexpected_rows)
+        )
+      )
+      review_cuts <- review_cuts[!unexpected_rows, , drop = FALSE]
+    }
+  }
+
   override_rows <- coerce_college_cuts_editorial_overrides(overrides)
   if (!nrow(override_rows)) {
     if (isTRUE(enforce_review_gate)) {
@@ -1157,20 +1215,38 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
     )
 
   if (isTRUE(enforce_review_gate)) {
-    missing_override <- is.na(joined$review_status)
-    if (any(missing_override)) {
-      sample_ids <- paste(utils::head(joined$cut_id[missing_override], 5L), collapse = ", ")
-      stop(
-        sprintf(
-          paste(
-            "College cuts review gate is enabled but %d cut row(s) are missing editorial overrides.",
-            "Sample cut_id values: %s"
+    if (length(allowed_ids) > 0L) {
+      missing_snapshot_override_ids <- allowed_ids[!(allowed_ids %in% override_rows$cut_id)]
+      if (length(missing_snapshot_override_ids) > 0L) {
+        sample_ids <- paste(utils::head(missing_snapshot_override_ids, 5L), collapse = ", ")
+        stop(
+          sprintf(
+            paste(
+              "College cuts review gate is enabled but %d committed college cuts review candidate(s) are missing editorial overrides.",
+              "Sample cut_id values: %s"
+            ),
+            length(missing_snapshot_override_ids),
+            sample_ids
           ),
-          sum(missing_override),
-          sample_ids
-        ),
-        call. = FALSE
-      )
+          call. = FALSE
+        )
+      }
+    } else {
+      missing_override <- is.na(joined$review_status)
+      if (any(missing_override)) {
+        sample_ids <- paste(utils::head(joined$cut_id[missing_override], 5L), collapse = ", ")
+        stop(
+          sprintf(
+            paste(
+              "College cuts review gate is enabled but %d cut row(s) are missing editorial overrides.",
+              "Sample cut_id values: %s"
+            ),
+            sum(missing_override),
+            sample_ids
+          ),
+          call. = FALSE
+        )
+      }
     }
   }
 

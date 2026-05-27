@@ -1,7 +1,8 @@
 ﻿# Editorial Review Workflow â€” Plan
 
-Status: proposal / not yet implemented. Pilot dataset: **accreditation actions**.
-Cuts and research funding cuts follow the same machinery once the pilot is proven.
+Status: implemented with a manual publish step. The old sheet-driven
+auto-dispatch path is retired and any references to it below are historical
+unless explicitly marked as archival.
 
 ---
 
@@ -9,14 +10,13 @@ Cuts and research funding cuts follow the same machinery once the pilot is prove
 
 Today the weekly Action (`.github/workflows/refresh-ipeds-site-data.yml`,
 Mondays at noon) runs scrape â†’ join â†’ `build_web_exports.R` â†’ commits
-`data/*.json` â†’ the site updates. There is **no human in the loop**. Whatever
-the scrapers produce â€” including `derive_action_label_short()` statement text
-that may be wrong â€” publishes automatically.
+`data/*.json` â†’ the site updates. The review gate now keeps new accreditation
+and cuts rows out of the public exports until a human approves them.
 
 We want: new rows land in a Google Sheet for human review first; the site only
-shows rows a human has approved; **approved rows publish the same day**; editors
-can copy-edit anytime; we can add our own rows; and a wrong field already on the
-site can be corrected within minutes.
+shows rows a human has approved; approved rows can be published the same day by
+running a manual workflow; editors can copy-edit anytime; we can add our own
+rows; and a wrong field already on the site can be corrected within minutes.
 
 ## 2. Design principles
 
@@ -41,10 +41,10 @@ reviewed and approved through Monday, each approval live the same day.
 
 ```
 Sunday evening   weekly Action runs: scrape -> full refresh -> stage new rows
-                 to the Sheet + CSV -> Slack alert -> build WITH gate
+                 to the Sheet + CSV -> build WITH gate
                  (new unreviewed rows withheld) -> commit + push
 Sunday night /   editors review in the Sheet. Each row flipped to `approved`
-Monday           triggers an auto-publish (Section 8) -> live the same day
+Monday           can be published with a manual workflow run -> live the same day
 ongoing          editors copy-edit anytime; edits re-publish the same way
 ```
 
@@ -63,29 +63,28 @@ One new git-tracked file per dataset is the spine. For the accreditation pilot:
 This file is **both** the system of record the build trusts **and** the memory
 of "every action we have ever seen." The Google Sheet is a view onto it.
 
-Two new scripts, an Apps Script on the Sheet, and three modified/new workflow pieces:
+Two new scripts and two modified/new workflow pieces:
 
 | Piece | Type | Role |
 |---|---|---|
-| `scripts/stage_accreditation_review.R` | new | Compute `action_id` for every scraped action; find ids not yet in `editorial_overrides.csv`; append them (status `unreviewed`) to both the CSV and the Sheet; post a Slack alert. |
+| `scripts/stage_accreditation_review.R` | new | Compute `action_id` for every scraped action; find ids not yet in `editorial_overrides.csv`; append them (status `unreviewed`) to both the CSV and the Sheet. |
 | `scripts/pull_accreditation_overrides.R` | new | Read the Sheet's editor columns back down; update `editorial_overrides.csv` (Sheet wins for editor-owned columns). |
-| Sheet-bound Apps Script | new | Watches `review_status`; when rows reach `approved`, fires a debounced `repository_dispatch` so approvals publish the same day with no button to click. |
 | `build_web_exports.R` | modified | Join actions to `editorial_overrides.csv` on `action_id`; apply the publish gate; use explicit `editor_*` field overrides when present. |
 | `refresh-ipeds-site-data.yml` | modified | Move cron to Sunday evening; insert the stage + pull steps; build runs gated. |
-| `publish-editorial-overrides.yml` | new | The same-day publish path: pull Sheet â†’ rebuild â†’ publish, no scraping, ~minutes. Triggered by the Apps Script dispatch and available as a manual `workflow_dispatch` button. |
+| `publish-editorial-overrides.yml` | new | The same-day publish path: pull Sheet â†’ rebuild â†’ publish, no scraping, ~minutes. Triggered manually with `workflow_dispatch`. |
 
 ### Weekly flow (across time)
 
 ```
 Sunday evening Action run:
-  scrape  ->  full refresh  ->  stage new ids to Sheet + CSV  ->  Slack alert
+  scrape  ->  full refresh  ->  stage new ids to Sheet + CSV
           ->  pull any already-approved decisions
           ->  build_web_exports.R WITH gate (new unreviewed rows withheld)
           ->  commit data/ + editorial_overrides.csv  ->  push
 
 Sunday night / Monday (editors review in the Sheet):
-  each row set to `approved` -> Apps Script repository_dispatch
-    -> publish-editorial-overrides.yml -> row live the same day (~15 min)
+  each row set to `approved` -> maintainer runs Publish Editorial Overrides
+    -> row live the same day
 ```
 
 ## 5. `action_id` â€” the stable key
@@ -214,46 +213,12 @@ checkout -> pull_accreditation_overrides.R (Sheet -> editorial_overrides.csv)
          -> commit + push
 ```
 
-Runs in a few minutes. It is triggered two ways:
+Runs in a few minutes. It is triggered manually from the Actions tab with
+`workflow_dispatch`.
 
-- **Auto (the normal case).** A Sheet-bound Apps Script watches the
-  `review_status` column. When a row reaches `approved`, an `onEdit` trigger
-  sets a "dirty" flag; a time-driven trigger (every ~15 min) checks the flag and,
-  if set, fires `repository_dispatch` to run this workflow. The debounce means a
-  Monday batch-approval session triggers a handful of publishes, not one per
-  cell edit â€” and an editor never has to click anything.
-- **Manual.** The same workflow is also a `workflow_dispatch` button in the
-  Actions tab, for an immediate push or when you want to force a rebuild.
-
-The Apps Script source is mirrored in
-`tooling/apps_script/accreditation_review_dispatch/`. The live Google project
-should use that code verbatim and keep repo-specific secrets and settings in
-Script Properties, not hard-coded in the script body.
-
-### Turning on the no-button version
-
-1. Push `publish-editorial-overrides.yml` to the repo default branch so GitHub
-   can see the workflow.
-2. In the Google Sheet, open **Extensions -> Apps Script**.
-3. Replace the bound script contents with
-   `tooling/apps_script/accreditation_review_dispatch/Code.gs`.
-4. Replace the manifest with
-   `tooling/apps_script/accreditation_review_dispatch/appsscript.json`.
-5. Add Script Properties:
-   - `GITHUB_OWNER`
-   - `GITHUB_REPO`
-   - `GITHUB_TOKEN`
-   - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
-   - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
-   - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
-6. Add `CUTS_REVIEW_SHEET_TAB` (optional; default `college_cuts_review`) if the
-   same Apps Script project should watch the cuts tab too.
-7. Run `installTriggers()` once and approve permissions.
-
-After that, approved edits should publish automatically on the next debounce
-cycle, usually within about 15 minutes.
-Either way, an approved row â€” or a corrected field on an
-already-published row â€” is live the same day, usually within ~15 minutes.
+Approved rows do not auto-publish from Google Sheets anymore. After editors
+finish a review batch or make an urgent correction to an approved row, a
+maintainer should run `Publish Editorial Overrides`.
 
 Editor-added rows: an editor adds a row at the bottom of the Sheet, leaves
 `action_id` blank, fills in `institution_name` / `accreditor` / `action_date` /
@@ -285,25 +250,15 @@ Functional, but hand-editing CSV is error-prone, so the Sheet path is preferred.
 - `ACCREDITATION_REVIEW_SHEET_ID` â€” the Sheet id (repo secret or workflow env).
 - GitHub workflow file that must exist on the repo default branch:
   `publish-editorial-overrides.yml`
-- Recommended Script Properties for the bound Apps Script project:
-  - `GITHUB_OWNER`
-  - `GITHUB_REPO`
-  - `GITHUB_TOKEN`
-  - `REVIEW_SHEET_TAB` (optional; default `accreditation_review`)
-  - `CUTS_REVIEW_SHEET_TAB` (optional; default `college_cuts_review`)
-  - `DISPATCH_EVENT_TYPE` (optional; default `accreditation_review_publish`)
-  - `DISPATCH_INTERVAL_MINUTES` (optional; recommended `15`)
-- `SLACK_WEBHOOK_URL` â€” incoming webhook for the alert.
-- A **fine-scoped GitHub token** stored as a Script Property in the Apps Script
-  project, used only to call the `repository_dispatch` API. Scoped to this one
-  repo, nothing else.
 
-## 10. Slack alert
+## 10. Manual publish
 
-A workflow step (or a small `notify_slack.py`) posts after Sunday-evening
-staging: count of new rows this week, count still `unreviewed` / `needs_revision`
-from prior weeks, a link to the Sheet, and a link to the Action run. Make it
-`if: always()` / non-fatal so a Slack outage never fails the data refresh.
+The supported same-day publish path is manual:
+
+1. Editors mark rows `approved` in the Google Sheet.
+2. A maintainer runs `Publish Editorial Overrides`.
+3. The workflow pulls editor-owned columns from the Sheet, rebuilds exports
+   against the committed review snapshots, and publishes only approved rows.
 
 ## 11. Rollout phases
 
@@ -313,7 +268,7 @@ from prior weeks, a link to the Sheet, and a link to the Action run. Make it
 | 1 | `stage_accreditation_review.R` computes `action_id` and writes/maintains `editorial_overrides.csv` only. Verify ids are stable across two consecutive runs; measure real weekly new-row volume. | none |
 | 2 | Stage script pushes new rows into the Sheet; move the cron to Sunday evening. Editors start reviewing. | none |
 | 3 | `pull_accreditation_overrides.R` + the gate in `build_web_exports.R` behind `--enforce-review-gate`. Grandfather all current live rows as approved. Flip the gate on. | gate live |
-| 4 | `publish-editorial-overrides.yml` + the Sheet Apps Script auto-dispatch + Slack alert. Same-day publish on approval is now the normal case. | same-day publish live |
+| 4 | `publish-editorial-overrides.yml` as a manual same-day publish workflow. | same-day publish live |
 | 5 | Editor-added rows (blank-id minting). | editors can add rows |
 | 6 | Extend the pattern to **cuts** (`build_college_cuts_join.R`) on its own Sheet tab and keep **research** trusted for now. | cuts review live; research unchanged |
 
@@ -325,15 +280,10 @@ from prior weeks, a link to the Sheet, and a link to the Action run. Make it
   or the header is broken, it must **fail loudly and fall back to the last
   committed `editorial_overrides.csv`** â€” never "publish everything ungated."
   This is the single most important failure-mode rule.
-- **Apps Script is a moving part outside the repo.** The trigger token, the
-  debounce logic, and the dispatch payload live in Google's environment, not in
-  version control. Keep the Apps Script source mirrored in the repo
-  (`tooling/apps_script/`) so it is reviewable and restorable, and treat a
-  silent trigger failure as a real incident â€” if it stops firing, approvals
-  stop publishing with no error anywhere.
-- **Debounce tuning.** Too tight and a batch-approval session spams the workflow;
-  too loose and "same-day" drifts toward "same-evening." ~15 min is a starting
-  point, not a fixed answer.
+- **The manual publish step is operational, not automatic.** Approved rows stay
+  out of the site until someone runs `Publish Editorial Overrides`.
+- **Archived Apps Script references are historical only.** The old dispatch
+  automation is not part of the supported production path anymore.
 - **Grandfathering.** Get the baseline right in Phase 3 or the accreditation table
   empties out on cutover.
 - **Two-way sync.** The pipeline must never overwrite editor columns. Append-only

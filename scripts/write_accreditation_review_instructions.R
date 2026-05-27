@@ -48,8 +48,8 @@ main <- function(cli_args = NULL) {
       "Statuses",
       "Current rows",
       "Urgent fixes",
-      "Automatic publishing",
-      "Automatic publishing",
+      "Publishing",
+      "Publishing",
       "Duplicates",
       "Manual rows",
       "If something looks wrong"
@@ -70,7 +70,7 @@ main <- function(cli_args = NULL) {
       "Can I still edit old approved rows?",
       "How do I make a quick copy edit live?",
       "Do I need to click a publish button every time?",
-      "What triggers auto-publish?",
+      "What publishes approved changes now?",
       "What if a new scraper row duplicates a manual row?",
       "Can I add rows myself?",
       "What if the generated statement is blank or obviously wrong?"
@@ -89,9 +89,9 @@ main <- function(cli_args = NULL) {
       "Ready for the site. Approved rows are eligible to publish.",
       "Use needs_revision if more work is needed. Use reject if the row should never publish.",
       "Yes. grandfathered = TRUE only means the row was pre-approved during rollout. It does not lock the row.",
-      "Edit the editor_* fields, leave review_status = approved, and the auto-publish system should pick it up on the next cycle. Manual GitHub publish is still available as a backup.",
-      "Usually no. The normal path is automatic.",
-      "The sheet marks itself dirty when an approved row's publish-relevant fields change, or when review_status changes. A background trigger checks every ~15 minutes and starts the GitHub publish workflow if needed.",
+      "Edit the editor_* fields, leave review_status = approved, and then run the manual GitHub publish workflow when you want the changes to go live.",
+      "Yes. There is no live sheet-to-GitHub auto-publish path anymore.",
+      "Approved changes publish when someone manually runs the GitHub Actions workflow Publish Editorial Overrides. The weekly refresh also stages and pulls review decisions, but same-day publishing is manual now.",
       "Compare the rows carefully. If they are the same action, keep the scraper-backed row as the long-term record and mark the older manual row reject after the replacement is approved.",
       "Only with the manual-row workflow. If you are not sure, ask the maintainer before adding rows directly.",
       "Flag it in editor_notes, fix the editor fields you can confirm, and keep review_status off approved until the row is truly ready."

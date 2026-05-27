@@ -441,6 +441,7 @@ jobs:
           # If a new pipeline output becomes tracked, add it here.
           git add -f \
             data/ \
+            data_pipelines/accreditation/accreditation_review_candidates.csv \
             data_pipelines/accreditation/accreditation_tracker_actions_joined.csv \
             data_pipelines/accreditation/accreditation_tracker_institution_summary.csv \
             data_pipelines/accreditation/editorial_overrides.csv \
@@ -449,6 +450,8 @@ jobs:
             data_pipelines/accreditation/dapip_public_table_policy_counts.csv \
             data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
             data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
+            data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+            data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
             data_pipelines/college_cuts/editorial_overrides.csv \
             data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             data_pipelines/scorecard/tracker_outcomes_joined.csv \
@@ -493,6 +496,7 @@ jobs:
                 echo "Conflicts on: $conflicted"
                 # Take the runner's regen for data/ and the pipeline outputs
                 git checkout --theirs -- data/ 2>/dev/null || true
+                git checkout --theirs -- data_pipelines/accreditation/accreditation_review_candidates.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/accreditation/accreditation_tracker_actions_joined.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/accreditation/accreditation_tracker_institution_summary.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/accreditation/dapip_action_rows_filtered.csv 2>/dev/null || true
@@ -500,16 +504,19 @@ jobs:
                 git checkout --theirs -- data_pipelines/accreditation/dapip_public_table_policy_counts.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/accreditation/dapip_vs_scraper_audit.csv 2>/dev/null || true
+                git checkout --theirs -- data_pipelines/college_cuts/college_cuts_review_candidates.csv 2>/dev/null || true
+                git checkout --theirs -- data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv 2>/dev/null || true
                 git checkout --theirs -- data_pipelines/scorecard/tracker_outcomes_joined.csv 2>/dev/null || true
                 # Anything else conflicted is non-data — abort and surface
-                still_conflicted=$(git diff --name-only --diff-filter=U | grep -vE '^(data/|data_pipelines/accreditation/accreditation_tracker_(actions_joined|institution_summary)\.csv$|data_pipelines/accreditation/dapip_|data_pipelines/college_cuts/supabase_institution_unitid_mapping\.csv$|data_pipelines/scorecard/tracker_outcomes_joined\.csv$)' || true)
+                still_conflicted=$(git diff --name-only --diff-filter=U | grep -vE '^(data/|data_pipelines/accreditation/accreditation_review_candidates\.csv$|data_pipelines/accreditation/accreditation_tracker_(actions_joined|institution_summary)\.csv$|data_pipelines/accreditation/dapip_|data_pipelines/college_cuts/college_cuts_(review_candidates|financial_tracker_cut_level_joined)\.csv$|data_pipelines/college_cuts/supabase_institution_unitid_mapping\.csv$|data_pipelines/scorecard/tracker_outcomes_joined\.csv$)' || true)
                 if [ -n "$still_conflicted" ]; then
                   echo "Non-data conflicts remain; aborting rebase: $still_conflicted"
                   git rebase --abort
                   exit 1
                 fi
                 git add data/ \
+                  data_pipelines/accreditation/accreditation_review_candidates.csv \
                   data_pipelines/accreditation/accreditation_tracker_actions_joined.csv \
                   data_pipelines/accreditation/accreditation_tracker_institution_summary.csv \
                   data_pipelines/accreditation/dapip_action_rows_filtered.csv \
@@ -517,6 +524,8 @@ jobs:
                   data_pipelines/accreditation/dapip_public_table_policy_counts.csv \
                   data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
                   data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
+                  data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+                  data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
                   data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
                   data_pipelines/scorecard/tracker_outcomes_joined.csv \
                   2>/dev/null || true

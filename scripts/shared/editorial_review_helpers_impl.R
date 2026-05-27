@@ -554,12 +554,13 @@ coerce_accreditation_editorial_overrides <- function(df) {
   legacy_override_map <- c(generated_statement = "editor_action_label_short", action_date = "editor_action_date", action_type = "editor_action_type", source_url = "editor_source_url", source_title = "editor_source_title")
   for (field_name in names(ACCREDITATION_OVERRIDE_FIELD_MAP)) {
     override_column <- ACCREDITATION_OVERRIDE_FIELD_MAP[[field_name]]
+    legacy_override_column <- if (field_name %in% names(legacy_override_map)) legacy_override_map[[field_name]] else NA_character_
     overrides[[override_column]] <- if (override_column %in% names(normalized)) {
       trim_optional_text(normalized[[override_column]])
     } else if (field_name == "generated_statement" && "editor_rewrite" %in% names(normalized)) {
       trim_optional_text(normalized$editor_rewrite)
-    } else if (!is.null(legacy_override_map[[field_name]]) && legacy_override_map[[field_name]] %in% names(normalized)) {
-      trim_optional_text(normalized[[legacy_override_map[[field_name]]]])
+    } else if (!is.na(legacy_override_column) && legacy_override_column %in% names(normalized)) {
+      trim_optional_text(normalized[[legacy_override_column]])
     } else {
       NA_character_
     }
@@ -1123,7 +1124,8 @@ coerce_college_cuts_editorial_overrides <- function(df) {
   legacy_override_map <- c(cut_description = "editor_cut_description", announcement_date = "editor_announcement_date", cut_type = "editor_cut_type", source_url = "editor_source_url", source_title = "editor_source_title", source_publication = "editor_source_publication")
   for (field_name in names(new_override_map)) {
     override_column <- new_override_map[[field_name]]
-    overrides[[override_column]] <- if (override_column %in% names(normalized)) trim_optional_text(normalized[[override_column]]) else if (!is.null(legacy_override_map[[field_name]]) && legacy_override_map[[field_name]] %in% names(normalized)) trim_optional_text(normalized[[legacy_override_map[[field_name]]]]) else NA_character_
+    legacy_override_column <- if (field_name %in% names(legacy_override_map)) legacy_override_map[[field_name]] else NA_character_
+    overrides[[override_column]] <- if (override_column %in% names(normalized)) trim_optional_text(normalized[[override_column]]) else if (!is.na(legacy_override_column) && legacy_override_column %in% names(normalized)) trim_optional_text(normalized[[legacy_override_column]]) else NA_character_
   }
 
   overrides$first_seen <- if ("first_seen" %in% names(normalized)) trim_optional_text(normalized$first_seen) else NA_character_

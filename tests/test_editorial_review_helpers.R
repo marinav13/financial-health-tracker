@@ -73,6 +73,26 @@ run_test("College cuts legacy sheet rows normalize into the new visible schema",
   assert_identical(normalized$review_status[[2]], "unreviewed")
 })
 
+run_test("Committed accreditation overrides in legacy CSV shape still coerce", function() {
+  legacy_overrides_path <- file.path(root, "data_pipelines", "accreditation", "editorial_overrides.csv")
+  legacy_overrides <- read.csv(legacy_overrides_path, stringsAsFactors = FALSE, check.names = FALSE)
+
+  normalized <- coerce_accreditation_editorial_overrides(legacy_overrides)
+  assert_true(nrow(normalized) >= 1L)
+  assert_true("override_unitid" %in% names(normalized))
+  assert_identical(normalized$source_row_origin[[1]], "scraper")
+})
+
+run_test("Committed college cuts overrides in legacy CSV shape still coerce", function() {
+  legacy_overrides_path <- file.path(root, "data_pipelines", "college_cuts", "editorial_overrides.csv")
+  legacy_overrides <- read.csv(legacy_overrides_path, stringsAsFactors = FALSE, check.names = FALSE)
+
+  normalized <- coerce_college_cuts_editorial_overrides(legacy_overrides)
+  assert_true(nrow(normalized) >= 1L)
+  assert_true("override_unitid" %in% names(normalized))
+  assert_identical(normalized$source_row_origin[[1]], "scraper")
+})
+
 run_test("Manual accreditation rows with blank ids get stable generated ids", function() {
   manual_rows <- data.frame(
     action_id = "",

@@ -2,6 +2,13 @@ if (!exists("run_test", mode = "function")) {
   source(file.path(getwd(), "tests", "test_support.R"))
 }
 
+run_test("Text trim helpers preserve zero-length vectors and normalize scalar NA values", function() {
+  assert_identical(trim_text(character(0)), character(0))
+  assert_identical(trim_optional_text(character(0)), character(0))
+  assert_identical(trim_text(NA_character_), "")
+  assert_true(is.na(trim_optional_text(NA_character_)))
+})
+
 run_test("Accreditation legacy sheet rows normalize into the new visible schema", function() {
   legacy_rows <- data.frame(
     action_id = c("act-1", "act-2"),
@@ -442,6 +449,67 @@ run_test("Unreviewed manual accreditation rows stay excluded from exports", func
   assert_identical(nrow(applied), 1L)
 })
 
+run_test("Accreditation review gate accepts reject as a terminal decision but excludes it from output", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101"),
+    unitid = c("100", "101"),
+    export_institution_name = c("Example University", "Example College"),
+    accreditor = c("MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2026-05-01"),
+    action_type = c("warning", "probation"),
+    action_label_raw = c("Warning", "Probation"),
+    action_label_short = c("Generated warning", "Generated probation"),
+    source_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    source_title = c("Source one", "Source two"),
+    source_page_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    stringsAsFactors = FALSE
+  )
+  candidates <- build_accreditation_review_candidates(actions_df)
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_accreditation_review_sheet_rows(staged)
+  sheet_rows$review_status <- c("approved", "reject")
+  overrides <- merge_accreditation_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  applied <- apply_accreditation_editorial_overrides(actions_df, overrides, enforce_review_gate = TRUE)
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$action_id[[1]]), trim_text(candidates$action_id[[1]]))
+  assert_true(!(trim_text(candidates$action_id[[2]]) %in% trim_text(applied$action_id)))
+})
+
+run_test("Accreditation review gate still fails blank review decisions", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101"),
+    unitid = c("100", "101"),
+    export_institution_name = c("Example University", "Example College"),
+    accreditor = c("MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2026-05-01"),
+    action_type = c("warning", "probation"),
+    action_label_raw = c("Warning", "Probation"),
+    action_label_short = c("Generated warning", "Generated probation"),
+    source_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    source_title = c("Source one", "Source two"),
+    source_page_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    stringsAsFactors = FALSE
+  )
+  candidates <- build_accreditation_review_candidates(actions_df)
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_accreditation_review_sheet_rows(staged)
+  sheet_rows$review_status <- c("approved", "")
+  overrides <- merge_accreditation_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  err <- tryCatch(
+    {
+      apply_accreditation_editorial_overrides(actions_df, overrides, enforce_review_gate = TRUE)
+      NULL
+    },
+    error = identity
+  )
+
+  assert_true(!is.null(err), "Blank accreditation decisions should still fail the review gate.")
+  assert_true(grepl("missing an editorial decision", conditionMessage(err), fixed = TRUE))
+})
+
 run_test("College cuts visible-field edits publish and approved manual rows append", function() {
   cuts_df <- data.frame(
     cut_id = "cut-1",
@@ -558,4 +626,67 @@ run_test("Unreviewed manual college cuts rows stay excluded from exports", funct
   )
   applied <- apply_college_cuts_editorial_overrides(cuts_df, merged, enforce_review_gate = FALSE)
   assert_identical(nrow(applied), 1L)
+})
+
+run_test("College cuts review gate accepts reject as a terminal decision but excludes it from output", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c(2026L, 2026L),
+    cut_type = c("program_closure", "staff_layoff"),
+    program_name = c("History BA", "Staff layoffs"),
+    source_url = c("https://example.org/cut-one", "https://example.org/cut-two"),
+    source_title = c("Source one", "Source two"),
+    source_publication = c("Paper one", "Paper two"),
+    stringsAsFactors = FALSE
+  )
+  candidates <- build_college_cuts_review_candidates(cuts_df)
+  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
+  sheet_rows$review_status <- c("approved", "reject")
+  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  applied <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = TRUE)
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$cut_id[[1]]), trim_text(candidates$cut_id[[1]]))
+  assert_true(!(trim_text(candidates$cut_id[[2]]) %in% trim_text(applied$cut_id)))
+})
+
+run_test("College cuts review gate still fails blank review decisions", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c(2026L, 2026L),
+    cut_type = c("program_closure", "staff_layoff"),
+    program_name = c("History BA", "Staff layoffs"),
+    source_url = c("https://example.org/cut-one", "https://example.org/cut-two"),
+    source_title = c("Source one", "Source two"),
+    source_publication = c("Paper one", "Paper two"),
+    stringsAsFactors = FALSE
+  )
+  candidates <- build_college_cuts_review_candidates(cuts_df)
+  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
+  sheet_rows$review_status <- c("approved", "")
+  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  err <- tryCatch(
+    {
+      apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = TRUE)
+      NULL
+    },
+    error = identity
+  )
+
+  assert_true(!is.null(err), "Blank college cuts decisions should still fail the review gate.")
+  assert_true(grepl("missing an editorial decision", conditionMessage(err), fixed = TRUE))
 })

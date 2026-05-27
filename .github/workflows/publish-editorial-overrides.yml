@@ -120,6 +120,36 @@ jobs:
             exit 1
           fi
 
+      - name: Stage accreditation review queue
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          Rscript ./scripts/stage_accreditation_review.R \
+            --input data_pipelines/accreditation/accreditation_review_candidates.csv \
+            --output data_pipelines/accreditation/editorial_overrides.csv \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --verbose
+
+      - name: Stage college cuts review queue
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -f data_pipelines/college_cuts/college_cuts_review_candidates.csv ]; then
+            Rscript ./scripts/stage_college_cuts_review.R \
+              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+              --output data_pipelines/college_cuts/editorial_overrides.csv \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+              --verbose
+          else
+            echo "Skipping college cuts staging; review candidates CSV is not initialized yet."
+          fi
+
       - name: Pull accreditation review decisions
         shell: bash
         timeout-minutes: 15

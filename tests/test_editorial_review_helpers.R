@@ -324,6 +324,87 @@ run_test("Accreditation visible-field edits publish and approved manual rows app
   assert_true(any(applied$action_label_short == "Manual accreditation action"))
 })
 
+run_test("Manual accreditation rows append cleanly against production-shaped datetime columns", function() {
+  actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
+  actions_df <- readr::read_csv(
+    actions_path,
+    show_col_types = FALSE,
+    col_types = readr::cols(
+      last_seen_at = readr::col_datetime(),
+      .default = readr::col_character()
+    )
+  )[1, , drop = FALSE]
+  export_institution_name <- dplyr::coalesce(
+    trim_optional_text(actions_df$institution_name),
+    trim_optional_text(actions_df$tracker_name),
+    trim_optional_text(actions_df$institution_name_raw)
+  )
+  export_state <- dplyr::coalesce(
+    trim_optional_text(actions_df$state),
+    trim_optional_text(actions_df$tracker_state),
+    trim_optional_text(actions_df$institution_state_raw)
+  )
+  export_unitid <- trim_optional_text(actions_df$unitid)
+  if (is.na(export_unitid[[1]]) || !nzchar(export_unitid[[1]])) {
+    name_slug <- tolower(trimws(export_institution_name[[1]] %||% ""))
+    name_slug <- sub("^the +", "", name_slug)
+    name_slug <- gsub("\\bst\\.?\\b", "saint", name_slug)
+    name_slug <- gsub("&", "and", name_slug, fixed = TRUE)
+    name_slug <- gsub("[^a-z0-9]+", "-", name_slug)
+    name_slug <- gsub("^-+|-+$", "", name_slug)
+
+    state_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(export_state[[1]] %||% "")))
+    state_slug <- gsub("^-+|-+$", "", state_slug)
+
+    accred_slug <- gsub("[^a-z0-9]+", "-", tolower(trimws(actions_df$accreditor[[1]] %||% "")))
+    accred_slug <- gsub("^-+|-+$", "", accred_slug)
+
+    export_unitid[[1]] <- paste0("accred-", paste(Filter(nzchar, c(name_slug, state_slug, accred_slug)), collapse = "--"))
+  }
+  actions_df$export_institution_name <- export_institution_name
+  actions_df$export_unitid <- export_unitid
+  actions_df$action_date <- trim_optional_text(actions_df$action_date)
+  actions_df$action_year <- trim_optional_text(actions_df$action_year)
+  actions_df$action_label_short <- if ("action_label_short" %in% names(actions_df)) {
+    dplyr::coalesce(
+      trim_optional_text(actions_df$action_label_short),
+      trim_optional_text(actions_df$action_label_raw)
+    )
+  } else {
+    trim_optional_text(actions_df$action_label_raw)
+  }
+
+  assert_true("last_seen_at" %in% names(actions_df))
+  assert_true(inherits(actions_df$last_seen_at, "POSIXct"))
+
+  merged <- merge_accreditation_review_sheet_editor_columns(
+    empty_accreditation_editorial_overrides(),
+    data.frame(
+      action_id = "",
+      unitid = "",
+      institution_name = "Manual University",
+      accreditor = "NECHE",
+      action_date = "2026-06-01",
+      action_type = "warning",
+      action_label_raw = "Issued warning",
+      generated_statement = "Manual accreditation action",
+      source_url = "https://example.org/manual-accreditation",
+      source_title = "Manual source",
+      row_origin = "manual",
+      review_status = "approved",
+      stringsAsFactors = FALSE
+    ),
+    first_seen = "2026-05-27"
+  )
+
+  applied <- apply_accreditation_editorial_overrides(actions_df, merged, enforce_review_gate = FALSE)
+
+  assert_identical(nrow(applied), 2L)
+  assert_true(inherits(applied$last_seen_at, "POSIXct"))
+  assert_true(is.na(applied$last_seen_at[[2]]))
+  assert_identical(applied$row_origin[[2]], "manual")
+})
+
 run_test("Unreviewed manual accreditation rows stay excluded from exports", function() {
   actions_df <- data.frame(
     export_unitid = "100",

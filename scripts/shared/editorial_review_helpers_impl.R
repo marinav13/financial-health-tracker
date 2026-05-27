@@ -56,22 +56,7 @@ rep_like_template_rows <- function(template_df, n) {
     return(template_df[0, , drop = FALSE])
   }
 
-  values <- lapply(
-    template_df,
-    function(column) {
-      if (is.logical(column)) {
-        rep(NA, n)
-      } else if (is.integer(column)) {
-        rep(NA_integer_, n)
-      } else if (is.numeric(column)) {
-        rep(NA_real_, n)
-      } else {
-        rep(NA_character_, n)
-      }
-    }
-  )
-
-  data.frame(values, stringsAsFactors = FALSE, check.names = FALSE)
+  template_df[rep(NA_integer_, n), , drop = FALSE]
 }
 
 assert_valid_review_row_origins <- function(df,

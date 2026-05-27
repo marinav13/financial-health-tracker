@@ -478,8 +478,8 @@
       "fetch_fresh_count": 0,
       "fetch_cache_read_count": 39,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.365,
-      "fetch_cache_age_max_days": 0.3653,
+      "fetch_cache_age_min_days": 0.6465,
+      "fetch_cache_age_max_days": 0.6468,
       "scrape_row_count": 2447
     },
     {
@@ -493,8 +493,8 @@
       "fetch_fresh_count": 1,
       "fetch_cache_read_count": 1583,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.3653,
-      "fetch_cache_age_max_days": 0.3703,
+      "fetch_cache_age_min_days": 0.6468,
+      "fetch_cache_age_max_days": 0.6519,
       "scrape_row_count": 4552
     },
     {
@@ -523,8 +523,8 @@
       "fetch_fresh_count": 0,
       "fetch_cache_read_count": 25,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.3648,
-      "fetch_cache_age_max_days": 0.3648,
+      "fetch_cache_age_min_days": 0.6464,
+      "fetch_cache_age_max_days": 0.6464,
       "scrape_row_count": 40
     },
     {
@@ -538,8 +538,8 @@
       "fetch_fresh_count": 0,
       "fetch_cache_read_count": 135,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.3647,
-      "fetch_cache_age_max_days": 0.3648,
+      "fetch_cache_age_min_days": 0.6463,
+      "fetch_cache_age_max_days": 0.6464,
       "scrape_row_count": 1
     },
     {
@@ -568,8 +568,8 @@
       "fetch_fresh_count": 0,
       "fetch_cache_read_count": 13,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.3648,
-      "fetch_cache_age_max_days": 0.365,
+      "fetch_cache_age_min_days": 0.6464,
+      "fetch_cache_age_max_days": 0.6465,
       "scrape_row_count": 99
     },
     {
@@ -583,8 +583,8 @@
       "fetch_fresh_count": 0,
       "fetch_cache_read_count": 26,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 0.3648,
-      "fetch_cache_age_max_days": 0.3648,
+      "fetch_cache_age_min_days": 0.6464,
+      "fetch_cache_age_max_days": 0.6464,
       "scrape_row_count": 31
     }
   ],
@@ -4137,16 +4137,58 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved provisional plan and teach-out agreements with Calvin University, Carroll University, Dominican University, and others",
-        "active_actions": "adverse_action",
+        "action_labels": "Approved provisional plan and teach-out agreements with Calvin University, Carroll University, Dominican University, and others; Approved the institution’s Teach-Out Agreement with Governors State University in University Park, IL, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved February 5, 2026); Approved the institution’s Teach-Out Agreement with Kuyper College in Grand Rapids, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved January 20, 2026)",
+        "active_actions": "adverse_action; https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/; https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
-        "latest_action_date": "2026-01-01",
+        "latest_action_date": "Approved the institution's teach-out agreement with Kuyper College in Grand Rapids, MI",
         "latest_action_year": "2026",
-        "action_count": 1
+        "action_count": 3
       },
       "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+          "action_label": "Approved the institution’s Teach-Out Agreement with Kuyper College in Grand Rapids, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved January 20, 2026)",
+          "action_label_short": "Approved the institution’s Teach-Out Agreement with Kuyper College in Grand Rapids, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved January 20, 2026)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "Approved the institution's teach-out agreement with Kuyper College in Grand Rapids, MI",
+          "action_year": "2026",
+          "notes": "Approved the institution’s Teach-Out Agreement with Kuyper College in Grand Rapids, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved January 20, 2026)",
+          "source_url": "January 2026 Actions | The Higher Learning Commission",
+          "source_title": "January 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+          "source_page_modified": "2026-05-22",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
+        {
+          "accreditor": "HLC",
+          "action_type": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/",
+          "action_label": "Approved the institution’s Teach-Out Agreement with Governors State University in University Park, IL, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved February 5, 2026)",
+          "action_label_short": "Approved the institution’s Teach-Out Agreement with Governors State University in University Park, IL, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved February 5, 2026)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "Approved the institution's teach-out agreement with Governors State University in University Park, IL",
+          "action_year": "2026",
+          "notes": "Approved the institution’s Teach-Out Agreement with Governors State University in University Park, IL, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in January 2026. (Approved February 5, 2026)",
+          "source_url": "February 2026 Actions | The Higher Learning Commission",
+          "source_title": "February 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/",
+          "source_page_modified": "2026-05-22",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "HLC",
           "action_type": "adverse_action",
@@ -4170,6 +4212,18 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "January 2026 Actions | The Higher Learning Commission",
+          "source_url": "January 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
+        },
+        {
+          "accreditor": "HLC",
+          "source_title": "February 2026 Actions | The Higher Learning Commission",
+          "source_url": "February 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/"
+        },
         {
           "accreditor": "HLC",
           "source_title": "January 2026 Actions | The Higher Learning Commission",
@@ -5967,27 +6021,27 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
-        "active_actions": "other",
+        "action_labels": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
+        "active_actions": "https://www.msche.org/institution/0180/",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2019-01-04",
+        "latest_action_date": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
         "latest_action_year": "2019",
         "action_count": 1
       },
       "actions": [
         {
           "accreditor": "MSCHE",
-          "action_type": "other",
+          "action_type": "https://www.msche.org/institution/0180/",
           "action_label": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
-          "action_label_short": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
+          "action_label_short": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
           "action_scope": null,
           "action_status": "active",
-          "action_date": "2019-01-04",
+          "action_date": "Approved Teach-Out Plan (Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama)",
           "action_year": "2019",
           "notes": "To approve the teachout plan for Quality Leadership University, Calle 45, Bella Vista, Panama City, Panama. The Commission requires notification within thirty days of the closure of this additional location.",
-          "source_url": "https://www.msche.org/institution/0180/",
+          "source_url": "MSCHE Statement of Accreditation Status - Towson University",
           "source_title": "MSCHE Statement of Accreditation Status - Towson University",
           "source_page_url": "https://www.msche.org/institution/0180/",
           "source_page_modified": "2026-05-21",
@@ -6003,7 +6057,7 @@
         {
           "accreditor": "MSCHE",
           "source_title": "MSCHE Statement of Accreditation Status - Towson University",
-          "source_url": "https://www.msche.org/institution/0180/",
+          "source_url": "MSCHE Statement of Accreditation Status - Towson University",
           "source_page_url": "https://www.msche.org/institution/0180/"
         }
       ]
@@ -6387,16 +6441,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "NECHE",
-        "action_labels": "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns; Received heightened monitoring or focused review because the institution is in danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources.; Voluntarily Surrendered Accreditation",
-        "active_actions": "adverse_action; notice; show_cause",
+        "action_labels": "Accepted Teach-Out Plans; Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns; Received heightened monitoring or focused review because the institution is in danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources.; Voluntarily Surrendered Accreditation",
+        "active_actions": "adverse_action; https://www.neche.org/recent-commission-actions/; notice; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": true,
-        "latest_action_date": "2026-04-15",
+        "latest_action_date": "Accepted Teach-Out Plans",
         "latest_action_year": "2026",
-        "action_count": 3
+        "action_count": 4
       },
       "actions": [
+        {
+          "accreditor": "NECHE",
+          "action_type": "https://www.neche.org/recent-commission-actions/",
+          "action_label": "Accepted Teach-Out Plans",
+          "action_label_short": "Accepted Teach-Out Plans",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "Accepted Teach-Out Plans",
+          "action_year": "2026",
+          "notes": "Hampshire College, Amherst, MA",
+          "source_url": "Recent Commission Actions - New England Commission Higher Education",
+          "source_title": "Recent Commission Actions - New England Commission Higher Education",
+          "source_page_url": "https://www.neche.org/recent-commission-actions/",
+          "source_page_modified": "2026-05-22",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "NECHE",
           "action_type": "adverse_action",
@@ -6462,6 +6537,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "NECHE",
+          "source_title": "Recent Commission Actions - New England Commission Higher Education",
+          "source_url": "Recent Commission Actions - New England Commission Higher Education",
+          "source_page_url": "https://www.neche.org/recent-commission-actions/"
+        },
         {
           "accreditor": "NECHE",
           "source_title": "DAPIP Institutional Accreditation Action",
@@ -6763,16 +6844,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University",
-        "active_actions": "adverse_action",
+        "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University; Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+        "active_actions": "adverse_action; https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
-        "latest_action_date": "2025-10-01",
-        "latest_action_year": "2025",
-        "action_count": 2
+        "latest_action_date": "Approved the institution's teach-out agreement with Lawrence Technological University in Southfield, MI",
+        "latest_action_year": "2026",
+        "action_count": 3
       },
       "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+          "action_label": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+          "action_label_short": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "Approved the institution's teach-out agreement with Lawrence Technological University in Southfield, MI",
+          "action_year": "2026",
+          "notes": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+          "source_url": "January 2026 Actions | The Higher Learning Commission",
+          "source_title": "January 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+          "source_page_modified": "2026-05-22",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "HLC",
           "action_type": "adverse_action",
@@ -6817,6 +6919,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "January 2026 Actions | The Higher Learning Commission",
+          "source_url": "January 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
+        },
         {
           "accreditor": "HLC",
           "source_title": "October 2025 Actions | The Higher Learning Commission",
@@ -10777,16 +10885,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Accreditation on probation was reinstated pending litigation after a temporary restraining order and preliminary injunction.; Affirm Denial Following Appeal; Continued on warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Loss of Accreditation; Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Placed on warning; Removed from membership; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds",
+        "action_labels": "Accreditation on probation was reinstated pending litigation after a temporary restraining order and preliminary injunction.; Accreditation Reinstated: Termination Overturned on Appeal; Affirm Denial Following Appeal; Continued on warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Loss of Accreditation; Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Placed on warning; Removed from membership; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds",
         "active_actions": "adverse_action; show_cause; warning",
         "has_active_warning": true,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": true,
-        "latest_action_date": "2025-12-01",
+        "latest_action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
         "latest_action_year": "2025",
-        "action_count": 10
+        "action_count": 11
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+          "action_label": "Accreditation Reinstated: Termination Overturned on Appeal",
+          "action_label_short": "Accreditation Reinstated: Termination Overturned on Appeal",
+          "action_scope": null,
+          "action_status": "resolved",
+          "action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
+          "action_year": "2024",
+          "notes": "Accreditation Reinstated: Termination Overturned on Appeal | Arbitration Panel returned case to Board of Trustees.",
+          "source_url": "DAPIP Institutional Accreditation Action",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "adverse_action",
@@ -10999,6 +11128,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "SACSCOC",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_url": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/134130"
+        },
         {
           "accreditor": "SACSCOC",
           "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",
@@ -14089,6 +14224,59 @@
         }
       ]
     },
+    "230959": {
+      "unitid": "230959",
+      "financial_unitid": "230959",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Middlebury College",
+      "city": "Middlebury",
+      "state": "Vermont",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "NECHE",
+        "action_labels": "Accepted Teach-Out Plans",
+        "active_actions": "https://www.neche.org/recent-commission-actions/",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "Accepted Teach-Out Plans (online programs at the Monterey Institute of International Studies)",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "NECHE",
+          "action_type": "https://www.neche.org/recent-commission-actions/",
+          "action_label": "Accepted Teach-Out Plans",
+          "action_label_short": "Accepted Teach-Out Plans",
+          "action_scope": "online programs at the Monterey Institute of International Studies",
+          "action_status": "active",
+          "action_date": "Accepted Teach-Out Plans (online programs at the Monterey Institute of International Studies)",
+          "action_year": "2026",
+          "notes": "Middlebury College, Middlebury, VT (online programs at the Monterey Institute of International Studies)",
+          "source_url": "Recent Commission Actions - New England Commission Higher Education",
+          "source_title": "Recent Commission Actions - New England Commission Higher Education",
+          "source_page_url": "https://www.neche.org/recent-commission-actions/",
+          "source_page_modified": "2026-05-22",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "NECHE",
+          "source_title": "Recent Commission Actions - New England Commission Higher Education",
+          "source_url": "Recent Commission Actions - New England Commission Higher Education",
+          "source_page_url": "https://www.neche.org/recent-commission-actions/"
+        }
+      ]
+    },
     "231095": {
       "unitid": "231095",
       "financial_unitid": "231095",
@@ -15826,27 +16014,27 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "WSCUC",
-        "action_labels": "Monitoring status removed",
+        "action_labels": "Removal of Monitoring Status",
         "active_actions": null,
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2019-02-22",
+        "latest_action_date": "Monitoring status removed",
         "latest_action_year": "2019",
         "action_count": 1
       },
       "actions": [
         {
           "accreditor": "WSCUC",
-          "action_type": "removed",
+          "action_type": "https://ope.ed.gov/dapip/#/institution-profile/190132",
           "action_label": "Removal of Monitoring Status",
-          "action_label_short": "Monitoring status removed",
+          "action_label_short": "Removal of Monitoring Status",
           "action_scope": null,
           "action_status": "resolved",
-          "action_date": "2019-02-22",
+          "action_date": "Monitoring status removed",
           "action_year": "2019",
           "notes": "Removal of Monitoring Status",
-          "source_url": null,
+          "source_url": "DAPIP Institutional Accreditation Action",
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/190132",
           "source_page_modified": null,
@@ -15862,7 +16050,7 @@
         {
           "accreditor": "WSCUC",
           "source_title": "DAPIP Institutional Accreditation Action",
-          "source_url": null,
+          "source_url": "DAPIP Institutional Accreditation Action",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/190132"
         }
       ]
@@ -21752,6 +21940,59 @@
           "source_title": "March 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2024/"
+        }
+      ]
+    },
+    "accred-nwccu": {
+      "unitid": "accred-nwccu",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": null,
+      "city": null,
+      "state": null,
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "NWCCU",
+        "action_labels": "Accredited – \n                                                Spring 2026 Financial Resources Review",
+        "active_actions": "https://nwccu.box.com/s/945ibeadmvz2k6fbbjgenjdsf5eu7db7",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "Continue Sanction of Warning",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "NWCCU",
+          "action_type": "https://nwccu.box.com/s/945ibeadmvz2k6fbbjgenjdsf5eu7db7",
+          "action_label": "Accredited – \n\t\t\t\t\t\tSpring 2026 Financial Resources Review",
+          "action_label_short": "Accredited – \n                                                Spring 2026 Financial Resources Review",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "Continue Sanction of Warning",
+          "action_year": "2026",
+          "notes": "Status: Accredited | Evaluation: \n\t\t\t\t\t\tSpring 2026 Financial Resources Review\t\t\t\t\t | Reason: \n\t\t\t\t\t\tAs of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.",
+          "source_url": "NWCCU Institution Notification Letter – NA",
+          "source_title": "NWCCU Institution Notification Letter – NA",
+          "source_page_url": "https://nwccu.org/institutional-directory/warner-pacific-university/",
+          "source_page_modified": "2026-05-19",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "NWCCU",
+          "source_title": "NWCCU Institution Notification Letter – NA",
+          "source_url": "NWCCU Institution Notification Letter – NA",
+          "source_page_url": "https://nwccu.org/institutional-directory/warner-pacific-university/"
         }
       ]
     },

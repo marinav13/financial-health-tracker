@@ -825,16 +825,37 @@
   },
   "latest_status": {
     "accreditors": "HLC",
-    "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University",
-    "active_actions": "adverse_action",
+    "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University; Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+    "active_actions": "adverse_action; https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": true,
-    "latest_action_date": "2025-10-01",
-    "latest_action_year": "2025",
-    "action_count": 2
+    "latest_action_date": "Approved the institution's teach-out agreement with Lawrence Technological University in Southfield, MI",
+    "latest_action_year": "2026",
+    "action_count": 3
   },
   "actions": [
+    {
+      "accreditor": "HLC",
+      "action_type": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "action_label": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+      "action_label_short": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "Approved the institution's teach-out agreement with Lawrence Technological University in Southfield, MI",
+      "action_year": "2026",
+      "notes": "Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+      "source_url": "January 2026 Actions | The Higher Learning Commission",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_page_modified": "2026-05-22",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "HLC",
       "action_type": "adverse_action",
@@ -879,6 +900,12 @@
     }
   ],
   "sources": [
+    {
+      "accreditor": "HLC",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_url": "January 2026 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
+    },
     {
       "accreditor": "HLC",
       "source_title": "October 2025 Actions | The Higher Learning Commission",

@@ -761,16 +761,37 @@
   },
   "latest_status": {
     "accreditors": "SACSCOC",
-    "action_labels": "Accreditation on probation was reinstated pending litigation after a temporary restraining order and preliminary injunction.; Affirm Denial Following Appeal; Continued on warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Loss of Accreditation; Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Placed on warning; Removed from membership; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds",
+    "action_labels": "Accreditation on probation was reinstated pending litigation after a temporary restraining order and preliminary injunction.; Accreditation Reinstated: Termination Overturned on Appeal; Affirm Denial Following Appeal; Continued on warning for six months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Loss of Accreditation; Placed on probation for good cause for twelve months for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Placed on warning; Removed from membership; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and federal/state responsibilities; Removed from membership for failure to comply with standards concerning governance, financial resources, financial documents, financial responsibility, control of finances, and sponsored research/external funds",
     "active_actions": "adverse_action; show_cause; warning",
     "has_active_warning": true,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": true,
-    "latest_action_date": "2025-12-01",
+    "latest_action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
     "latest_action_year": "2025",
-    "action_count": 10
+    "action_count": 11
   },
   "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+      "action_label": "Accreditation Reinstated: Termination Overturned on Appeal",
+      "action_label_short": "Accreditation Reinstated: Termination Overturned on Appeal",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
+      "action_year": "2024",
+      "notes": "Accreditation Reinstated: Termination Overturned on Appeal | Arbitration Panel returned case to Board of Trustees.",
+      "source_url": "DAPIP Institutional Accreditation Action",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "SACSCOC",
       "action_type": "adverse_action",
@@ -983,6 +1004,12 @@
     }
   ],
   "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/134130"
+    },
     {
       "accreditor": "SACSCOC",
       "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",

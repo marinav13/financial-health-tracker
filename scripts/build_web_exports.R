@@ -41,6 +41,37 @@ input_csv  <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
 output_dir <- get_arg_value("--output-dir", ".")
 enforce_review_gate <- has_flag("--enforce-review-gate")
 enforce_cuts_review_gate <- has_flag("--enforce-cuts-review-gate")
+selected_exports <- local({
+  available_exports <- c("cuts", "accreditation", "research")
+  raw_value <- get_arg_value("--only", NULL)
+  if (is.null(raw_value)) {
+    return(available_exports)
+  }
+
+  parsed_exports <- unique(tolower(trimws(unlist(strsplit(as.character(raw_value), ",", fixed = TRUE)))))
+  parsed_exports <- parsed_exports[nzchar(parsed_exports)]
+  if (!length(parsed_exports)) {
+    stop(
+      "The `--only` flag requires at least one export name: cuts, accreditation, research.",
+      call. = FALSE
+    )
+  }
+
+  unknown_exports <- setdiff(parsed_exports, available_exports)
+  if (length(unknown_exports)) {
+    stop(
+      sprintf(
+        "Unknown export name(s) passed to `--only`: %s. Supported values: %s.",
+        paste(unknown_exports, collapse = ", "),
+        paste(available_exports, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  parsed_exports
+})
+rebuild_school_files <- "accreditation" %in% selected_exports
 
 root <- normalizePath(output_dir, winslash = "/", mustWork = TRUE)
 input_path <- normalizePath(input_csv, winslash = "/", mustWork = TRUE)
@@ -2696,8 +2727,9 @@ write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
 write_json_file(metadata, file.path(data_dir, "metadata.json"))
 readr::write_csv(latest_financial, file.path(downloads_dir, "full_dataset.csv"), na = "")
 
-export_bundle_specs <- list(
-  cuts = list(
+export_bundle_specs <- list()
+if ("cuts" %in% selected_exports) {
+  export_bundle_specs$cuts <- list(
     builder = build_cuts_export,
     export_filename = "college_cuts.json",
     index_filename = "college_cuts_index.json",
@@ -2714,8 +2746,10 @@ export_bundle_specs <- list(
         source_url = cut$source_url
       ))
     )
-  ),
-  accreditation = list(
+  )
+}
+if ("accreditation" %in% selected_exports) {
+  export_bundle_specs$accreditation <- list(
     builder = build_accreditation_export,
     export_filename = "accreditation.json",
     index_filename = "accreditation_index.json",
@@ -2748,8 +2782,10 @@ export_bundle_specs <- list(
         ))
       )
     }
-  ),
-  research = list(
+  )
+}
+if ("research" %in% selected_exports) {
+  export_bundle_specs$research <- list(
     builder = build_research_export,
     export_filename = "research_funding.json",
     index_filename = "research_funding_index.json",
@@ -2760,7 +2796,7 @@ export_bundle_specs <- list(
       total_disrupted_award_remaining = school$total_disrupted_award_remaining
     )
   )
-)
+}
 export_paths <- write_export_bundles(export_bundle_specs, data_dir)
 cuts_paths <- export_paths$cuts
 accreditation_paths <- export_paths$accreditation
@@ -2820,19 +2856,21 @@ find_related_export_school <- function(export_bundle, unitid) {
 by_school <- df %>%
   dplyr::group_by(unitid) %>%
   dplyr::group_split(.keep = TRUE)
-for (school_df in by_school) {
-  unitid <- as.character(school_df$unitid[[1]])
-  accreditation_school <- find_related_export_school(accreditation_paths, unitid)
-  school_json <- build_school_file(
-    school_df,
-    accreditation_school = accreditation_school
-  )
-  write_json_file(school_json, file.path(schools_dir, paste0(unitid, ".json")))
+if (isTRUE(rebuild_school_files)) {
+  for (school_df in by_school) {
+    unitid <- as.character(school_df$unitid[[1]])
+    accreditation_school <- find_related_export_school(accreditation_paths, unitid)
+    school_json <- build_school_file(
+      school_df,
+      accreditation_school = accreditation_school
+    )
+    write_json_file(school_json, file.path(schools_dir, paste0(unitid, ".json")))
+  }
 }
 
 cat(sprintf("Saved schools index to %s\n", file.path(data_dir, "schools_index.json")))
 cat(sprintf("Saved metadata to %s\n", file.path(data_dir, "metadata.json")))
-cat(sprintf("Saved school files to %s\n", schools_dir))
+if (isTRUE(rebuild_school_files)) cat(sprintf("Saved school files to %s\n", schools_dir))
 cat(sprintf("Saved download CSV to %s\n", file.path(downloads_dir, "full_dataset.csv")))
 if (!is.null(cuts_paths)) cat(sprintf("Saved college cuts export to %s\n", cuts_paths$export_path))
 if (!is.null(accreditation_paths)) cat(sprintf("Saved accreditation export to %s\n", accreditation_paths$export_path))
@@ -2914,14 +2952,18 @@ if (!is.null(research_paths)) {
   validate_json_output(research_paths$index_path, min_length = 1L)
 }
 
-n_school_files <- length(list.files(schools_dir, pattern = "\\.json$"))
-if (n_school_files == 0L) {
-  stop("No school JSON files were written to ", schools_dir, call. = FALSE)
+if (isTRUE(rebuild_school_files)) {
+  n_school_files <- length(list.files(schools_dir, pattern = "\\.json$"))
+  if (n_school_files == 0L) {
+    stop("No school JSON files were written to ", schools_dir, call. = FALSE)
+  }
+  cat(sprintf(
+    "Validation passed: %d school files written, all aggregate exports are valid JSON.\n",
+    n_school_files
+  ))
+} else {
+  cat("Validation passed: aggregate exports are valid JSON.\n")
 }
-cat(sprintf(
-  "Validation passed: %d school files written, all aggregate exports are valid JSON.\n",
-  n_school_files
-))
 
 # H8: deep schema validation — catches field renames and structural regressions
 validate_all_export_schemas(data_dir)

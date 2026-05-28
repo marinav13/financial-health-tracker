@@ -1,6 +1,6 @@
 {
   "unitid": "202514",
-  "generated_at": "2026-05-27",
+  "generated_at": "2026-05-28",
   "profile": {
     "institution_name": "Defiance College",
     "institution_unique_name": "Defiance College | Defiance | Ohio",
@@ -826,9 +826,9 @@
   "latest_status": {
     "accreditors": "HLC",
     "action_labels": "Placed on Probation because it is out of compliance with Core Components 3.A, 4.A, 4.B, 5.C, and 5.B.; Probation removed",
-    "active_actions": "notice; probation",
+    "active_actions": "probation; removed",
     "has_active_warning": false,
-    "has_active_warning_or_notice": true,
+    "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
     "latest_action_date": "2025-06-26",
     "latest_action_year": "2025",
@@ -837,7 +837,7 @@
   "actions": [
     {
       "accreditor": "HLC",
-      "action_type": "notice",
+      "action_type": "removed",
       "action_label": "Summary of the Action: The Board determined that the Institution is no longer out of compliance with the Criteria for Accreditation and removed the Institution from Probation and assigned interim monitoring.",
       "action_label_short": "Probation removed",
       "action_scope": null,

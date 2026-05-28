@@ -661,6 +661,13 @@ h1.serif {
   margin: 0;
 }
 
+.banner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
 .banner.short {
   height: 280px;
 }
@@ -896,6 +903,10 @@ h1.serif {
   height: 100%;
   display: block;
   object-fit: cover;
+}
+
+.school-quad-banner img {
+  object-position: center 42%;
 }
 
 /* .school-mast is the centered title block under the quad-banner:

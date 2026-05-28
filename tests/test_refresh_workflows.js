@@ -231,6 +231,7 @@ run("Playwright e2e tests run as a dedicated CI job separate from smoke", () => 
 run("Playwright e2e workflow caches browsers and bounds install time", () => {
   const e2eJobMatch = TESTS.match(/  e2e-tests:\s*[\s\S]*?timeout-minutes:\s*30/);
   assert(Boolean(e2eJobMatch), "Expected a bounded timeout on the Playwright job");
+  assert(TESTS.includes("  e2e-tests:\n    name: E2E tests (Playwright)\n    runs-on: ubuntu-22.04"), "Expected Playwright e2e job to run on ubuntu-22.04");
 
   const cacheBlock = stepBlock(TESTS, "Cache Playwright browsers");
   assert(cacheBlock.includes("~/.cache/ms-playwright"), "Expected Playwright browser cache path");

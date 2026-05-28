@@ -314,7 +314,8 @@ target_table_regex <- c(
   "^HD\\d{4}$", "^IC\\d{4}$", "^EFFY\\d{4}$", "^EFIA\\d{4}$", "^FLAGS\\d{4}$", "^COST1_\\d{4}$",
   "^SAL\\d{4}_IS$", "^SAL\\d{4}_NIS$", "^EAP\\d{4}$", "^F\\d{4}_F1A$", "^F\\d{4}_F2$", "^F\\d{4}_F3$",
   "^DRVCOST\\d{4}$", "^DRVEF\\d{4}$", "^DRVEF12\\d{4}$", "^DRVF\\d{4}$", "^DRVHR\\d{4}$",
-  "^DRVADM\\d{4}$", "^DRVOM\\d{4}$", "^DRVGR\\d{4}$", "^ADM\\d{4}$", "^SFA\\d{4}$"
+  "^DRVADM\\d{4}$", "^DRVOM\\d{4}$", "^DRVGR\\d{4}$", "^ADM\\d{4}$", "^SFA\\d{4}$",
+  "^EF\\d{4}D$"
 )
 
 catalog <- get_catalog_rows(catalog_html) %>%
@@ -397,6 +398,7 @@ field_specs <- list(
   list(output = "pell_accounting_method_fasb", table = "FLAGS", patterns = c("^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \\(FASB\\s+institutions\\)\\?$", "^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \\(FASB institutions\\)\\?$")),
   list(output = "pell_accounting_method_pfp", table = "FLAGS", patterns = c("^Account for Pell grants as pass through transactions or as federal grant revenues to the institution \\(private-for-profit institutions\\)\\?$")),
   list(output = "admissions_yield", table = "DRVADM", patterns = c("^Admissions yield")),
+  list(output = "student_faculty_ratio_fall", table = "EFD", patterns = c("^Student-to-faculty ratio$")),
   list(output = "fte_12_months", table = "DRVEF12", patterns = c("^12-month full-time equivalent enrollment$", "^12-month full-time equivalent enrollment \\(FTE\\)$")),
   list(output = "fte_undergrad", table = "EFIA", patterns = c("^Reported full-time equivalent \\(FTE\\) undergraduate enrollment", "^Reported FTE undergraduate enrollment$")),
   list(output = "fte_graduate", table = "EFIA", patterns = c("^Reported full-time equivalent \\(FTE\\) graduate enrollment", "^Reported FTE graduate enrollment$")),
@@ -522,7 +524,8 @@ required_year_cache_cols <- c(
   "enrollment_nonresident_undergrad",
   "enrollment_nonresident_graduate",
   "staff_headcount_total",
-  "staff_headcount_instructional"
+  "staff_headcount_instructional",
+  "student_faculty_ratio_fall"
 )
 year_table_alias_patterns <- c(
   HD = "^HD\\d{4}$",
@@ -530,6 +533,7 @@ year_table_alias_patterns <- c(
   FLAGS = "^FLAGS\\d{4}$",
   EFFY = "^EFFY\\d{4}$",
   EFIA = "^EFIA\\d{4}$",
+  EFD = "^EF\\d{4}D$",
   EAP = "^EAP\\d{4}$",
   DRVEF12 = "^DRVEF12\\d{4}$",
   DRVADM = "^DRVADM\\d{4}$",
@@ -626,7 +630,7 @@ for (year in start_year:end_year) {
     }
 
     hd     <- get_row("HD");   ic      <- get_row("IC");    flags  <- get_row("FLAGS")
-    efia   <- get_row("EFIA"); drvef12 <- get_row("DRVEF12"); drvadm <- get_row("DRVADM")
+    efia   <- get_row("EFIA"); efd     <- get_row("EFD");   drvef12 <- get_row("DRVEF12"); drvadm <- get_row("DRVADM")
     drvhr  <- get_row("DRVHR"); drvgr  <- get_row("DRVGR"); drvf   <- get_row("DRVF")
     f1     <- get_row("F1A");  f2      <- get_row("F2");    f3     <- get_row("F3")
     effy   <- effy_index[[unitid]]
@@ -754,6 +758,7 @@ for (year in start_year:end_year) {
       has_full_time_first_time_undergrad = get_string(ic, resolved_fields[["has_full_time_first_time_undergrad"]]),
       all_programs_distance_education = get_string(ic, resolved_fields[["all_programs_distance_education"]]),
       reporting_model = get_string(flags, resolved_fields[["reporting_model"]]),
+      student_faculty_ratio_fall = get_number(efd, resolved_fields[["student_faculty_ratio_fall"]]),
       fte_12_months = fte_12_months,
       fte_undergrad = fte_undergrad,
       fte_graduate = fte_graduate,

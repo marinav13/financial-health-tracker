@@ -728,7 +728,7 @@ function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) 
   const sectorLabel = String(profile.control_label || "").toLowerCase();
   if (ratio === null || benchmark === null || !sectorLabel) return null;
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}` : "In the latest year";
-  return `${prefix}, this institution had about ${fmtNumber(ratio)} students per 1 instructional staff member, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`;
+  return `${prefix}, this institution had an IPEDS student-to-faculty ratio of about ${fmtNumber(ratio)} to 1, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`;
 }
 
 function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear) {
@@ -739,16 +739,15 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}, this institution had ` : "In the latest year, this institution had ";
   return [
     prefix,
-    strongSegment(`${fmtNumber(ratio)} students per 1 instructional staff member`),
-    `, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This ratio uses full-time-equivalent students and staff so colleges with different mixes of full-time and part-time students can be compared more fairly.`
+    strongSegment(`an IPEDS student-to-faculty ratio of about ${fmtNumber(ratio)} to 1`),
+    `, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`
   ];
 }
 
 function federalCompositeState(score) {
   const n = asNumber(score);
   if (n === null) return "neutral";
-  if (n > 1.5) return "positive";
-  if (n === 1.5) return "neutral";
+  if (n >= 1.5) return "positive";
   return "negative";
 }
 

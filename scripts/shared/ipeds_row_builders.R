@@ -366,6 +366,7 @@ build_enrollment_fields <- function(row, context) {
   enrollment_nonresident_undergrad <- to_num(row_value(row, "enrollment_nonresident_undergrad"))
   enrollment_nonresident_graduate <- to_num(row_value(row, "enrollment_nonresident_graduate"))
   staff_fte_instructional <- to_num(row_value(row, "fte_instructional"))
+  student_faculty_ratio_fall <- to_num(row_value(row, "student_faculty_ratio_fall"))
 
   list(
     fte_12_months = context$fte12,
@@ -379,7 +380,10 @@ build_enrollment_fields <- function(row, context) {
     enrollment_nonresident_graduate = enrollment_nonresident_graduate,
     staff_fte_total = to_num(row_value(row, "fte_total_staff")),
     staff_fte_instructional = staff_fte_instructional,
-    students_per_instructional_staff_fte = safe_divide(context$fte12, staff_fte_instructional),
+    students_per_instructional_staff_fte = dplyr::coalesce(
+      student_faculty_ratio_fall,
+      safe_divide(context$fte12, staff_fte_instructional)
+    ),
     transfer_out_rate_bachelor = to_num(row_value(row, "transfer_out_rate_bachelor")),
     staff_headcount_total = to_num(row_value(row, "staff_headcount_total")),
     staff_headcount_instructional = to_num(row_value(row, "staff_headcount_instructional")),

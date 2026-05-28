@@ -217,10 +217,8 @@ run("Playwright e2e tests run as a dedicated CI job separate from smoke", () => 
 
   const e2eBlock = stepBlockContaining(TESTS, "Run Playwright e2e tests");
   assert(e2eBlock.includes("npm run test:e2e"), "Expected CI to run npm run test:e2e");
-  const chromiumInstallBlock = stepBlock(TESTS, "Install Playwright Chromium browser");
-  const firefoxInstallBlock = stepBlock(TESTS, "Install Playwright Firefox browser");
-  assert(chromiumInstallBlock.includes("npx playwright install chromium"), "Expected CI to install Chromium before the e2e step");
-  assert(firefoxInstallBlock.includes("npx playwright install firefox"), "Expected CI to install Firefox before the e2e step");
+  assert(TESTS.includes("    container:"), "Expected Playwright e2e job to run in a dedicated container");
+  assert(TESTS.includes("      image: mcr.microsoft.com/playwright:v1.59.1-noble"), "Expected official Playwright container image");
   // The e2e job must be a top-level job, not a step inside js-tests. Match
   // the header at the same 2-space indent as other jobs; multiline mode is
   // needed because the workflow file may use CRLF line endings.
@@ -228,29 +226,18 @@ run("Playwright e2e tests run as a dedicated CI job separate from smoke", () => 
   assert(/^  js-tests:\s*$/m.test(TESTS), "Expected js-tests to remain as its own job (sanity check for the split)");
 });
 
-run("Playwright e2e workflow caches browsers and bounds install time", () => {
+run("Playwright e2e workflow uses official container and avoids browser provisioning", () => {
   const e2eJobMatch = TESTS.match(/  e2e-tests:\s*[\s\S]*?timeout-minutes:\s*30/);
   assert(Boolean(e2eJobMatch), "Expected a bounded timeout on the Playwright job");
-  assert(TESTS.includes("  e2e-tests:\n    name: E2E tests (Playwright)\n    runs-on: ubuntu-22.04"), "Expected Playwright e2e job to run on ubuntu-22.04");
+  assert(/container:\s*\n\s*image:\s*mcr\.microsoft\.com\/playwright:v1\.59\.1-noble/m.test(TESTS), "Expected official Playwright container image");
+  assert(/options:\s*--ipc=host/m.test(TESTS), "Expected Playwright container to enable shared IPC");
 
-  const cacheBlock = stepBlock(TESTS, "Cache Playwright browsers");
-  assert(cacheBlock.includes("~/.cache/ms-playwright"), "Expected Playwright browser cache path");
-  assert(cacheBlock.includes("id: playwright-cache"), "Expected Playwright browser cache step to expose cache-hit status");
-  assert(cacheBlock.includes("actions/cache@v4"), "Expected Playwright browsers to be cached");
-
-  const depsBlock = stepBlock(TESTS, "Install Playwright system dependencies");
-  assert(depsBlock.includes("playwright install-deps chromium firefox"), "Expected system deps to be installed separately from browser download");
-  assert(depsBlock.includes("timeout-minutes: 10"), "Expected a bounded timeout on Playwright system dependency install");
-
-  const chromiumInstallBlock = stepBlock(TESTS, "Install Playwright Chromium browser");
-  assert(chromiumInstallBlock.includes("timeout-minutes: 8"), "Expected a bounded timeout on Chromium browser install");
-  assert(chromiumInstallBlock.includes("if: steps.playwright-cache.outputs.cache-hit != 'true'"), "Expected Chromium install to be skipped on cache hit");
-  assert(chromiumInstallBlock.includes("DEBUG: pw:install"), "Expected Chromium install debug logging");
-
-  const firefoxInstallBlock = stepBlock(TESTS, "Install Playwright Firefox browser");
-  assert(firefoxInstallBlock.includes("timeout-minutes: 8"), "Expected a bounded timeout on Firefox browser install");
-  assert(firefoxInstallBlock.includes("if: steps.playwright-cache.outputs.cache-hit != 'true'"), "Expected Firefox install to be skipped on cache hit");
-  assert(firefoxInstallBlock.includes("DEBUG: pw:install"), "Expected Firefox install debug logging");
+  assert(!TESTS.includes("Cache Playwright browsers"), "Expected browser cache step to be absent when using the official Playwright container");
+  assert(!TESTS.includes("Install Playwright system dependencies"), "Expected install-deps step to be absent when using the official Playwright container");
+  assert(!TESTS.includes("Install Playwright Chromium browser"), "Expected Chromium browser install step to be absent when using the official Playwright container");
+  assert(!TESTS.includes("Install Playwright Firefox browser"), "Expected Firefox browser install step to be absent when using the official Playwright container");
+  assert(!TESTS.includes("playwright install chromium"), "Expected no explicit Chromium browser install in the e2e workflow");
+  assert(!TESTS.includes("playwright install firefox"), "Expected no explicit Firefox browser install in the e2e workflow");
 });
 
 run("deployed Pages parity workflow compares live site to committed artifacts", () => {

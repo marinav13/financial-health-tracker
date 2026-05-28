@@ -875,16 +875,32 @@ apply_accreditation_editorial_overrides <- function(actions_df,
     approved_values[!joined_approved_mask] <- NA_character_
     approved_values
   }
+  approved_reviewed_values <- function(source_values, override_values) {
+    reviewed_values <- effective_override_values(source_values, override_values)
+    reviewed_values[!joined_approved_mask] <- NA_character_
+    reviewed_values
+  }
+  use_reviewed_snapshot_values <- length(allowed_ids) > 0L && isTRUE(drop_unlisted)
+  published_field_values <- function(source_values, override_values) {
+    if (isTRUE(use_reviewed_snapshot_values)) {
+      return(approved_reviewed_values(source_values, override_values))
+    }
+    approved_override_values(override_values)
+  }
 
-  joined$unitid <- effective_override_values(joined$unitid, approved_override_values(joined$override_unitid))
-  if ("export_institution_name" %in% names(joined)) joined$export_institution_name <- effective_override_values(joined$export_institution_name, approved_override_values(joined$override_institution_name))
-  joined$accreditor <- effective_override_values(joined$accreditor, approved_override_values(joined$override_accreditor))
-  joined$action_date <- effective_override_values(joined$action_date, approved_override_values(joined$override_action_date))
-  joined$action_type <- effective_override_values(joined$action_type, approved_override_values(joined$override_action_type))
-  joined$action_label_raw <- effective_override_values(joined$action_label_raw, approved_override_values(joined$override_action_label_raw))
-  joined$action_label_short <- effective_override_values(dplyr::coalesce(joined$action_label_short, joined$action_label_raw), approved_override_values(joined$override_generated_statement))
-  joined$source_url <- effective_override_values(joined$source_url, approved_override_values(joined$override_source_url))
-  joined$source_title <- effective_override_values(joined$source_title, approved_override_values(joined$override_source_title))
+  # Apply-only publish rebuilds reuse a committed tracker snapshot that can be
+  # less detailed than the approved review-sheet row. In that mode, treat the
+  # approved reviewed row (sheet-visible source fields plus any editor deltas)
+  # as the authoritative public values for listed actions.
+  joined$unitid <- effective_override_values(joined$unitid, published_field_values(joined$source_unitid, joined$override_unitid))
+  if ("export_institution_name" %in% names(joined)) joined$export_institution_name <- effective_override_values(joined$export_institution_name, published_field_values(joined$source_institution_name, joined$override_institution_name))
+  joined$accreditor <- effective_override_values(joined$accreditor, published_field_values(joined$source_accreditor, joined$override_accreditor))
+  joined$action_date <- effective_override_values(joined$action_date, published_field_values(joined$source_action_date, joined$override_action_date))
+  joined$action_type <- effective_override_values(joined$action_type, published_field_values(joined$source_action_type, joined$override_action_type))
+  joined$action_label_raw <- effective_override_values(joined$action_label_raw, published_field_values(joined$source_action_label_raw, joined$override_action_label_raw))
+  joined$action_label_short <- effective_override_values(dplyr::coalesce(joined$action_label_short, joined$action_label_raw), published_field_values(joined$source_generated_statement, joined$override_generated_statement))
+  joined$source_url <- effective_override_values(joined$source_url, published_field_values(joined$source_source_url, joined$override_source_url))
+  joined$source_title <- effective_override_values(joined$source_title, published_field_values(joined$source_source_title, joined$override_source_title))
   if ("source_page_url" %in% names(joined)) joined$source_page_url <- dplyr::coalesce(joined$source_url, joined$source_page_url)
   if ("action_year" %in% names(joined)) joined$action_year <- dplyr::coalesce(derive_year_from_date_string(joined$action_date), trim_optional_text(joined$action_year))
   if ("row_origin" %in% names(joined)) {

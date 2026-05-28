@@ -331,6 +331,53 @@ run_test("Accreditation visible-field edits publish and approved manual rows app
   assert_true(any(applied$action_label_short == "Manual accreditation action"))
 })
 
+run_test("Apply-only accreditation publish reuses the approved reviewed statement when the committed tracker row is poorer", function() {
+  reviewed_actions_df <- data.frame(
+    export_unitid = "198695",
+    unitid = "198695",
+    export_institution_name = "High Point University",
+    accreditor = "SACSCOC",
+    action_date = "2023-06-15",
+    action_type = "notice",
+    action_label_raw = paste(
+      "Qubein: The following action regarding your institution was taken by the Board of Trustees",
+      "of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC)",
+      "during its meeting held on June 15, 2023: The SACSCOC Board of Trustees",
+      "reviewed the institution's Referral Report from the submission of a Fifth-Year Interim",
+      "Report in June 2022 and recommended that the institution be placed on Warning for",
+      "twelve months for failure to comply with Core Requirement 12."
+    ),
+    action_label_short = "Recommended warning for twelve months for failure to comply with Core Requirement 12.1 (Student support services), Standard 8.2.a (Student outcomes: educational programs), and Standard 14.1 (Publication of accreditation status)",
+    source_url = "https://ope.ed.gov/dapip/#/institution-profile/133562",
+    source_title = "DAPIP Institutional Accreditation Action",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/133562",
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_accreditation_review_candidates(reviewed_actions_df)
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_accreditation_review_sheet_rows(staged)
+  sheet_rows$review_status <- "approved"
+  merged <- merge_accreditation_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  poorer_actions_df <- reviewed_actions_df
+  poorer_actions_df$action_label_short[[1]] <- "Recommended warning for twelve months for failure to comply with Core Requirement 12."
+
+  applied <- apply_accreditation_editorial_overrides(
+    poorer_actions_df,
+    merged,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = candidates$action_id,
+    drop_unlisted = TRUE
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(
+    applied$action_label_short[[1]],
+    reviewed_actions_df$action_label_short[[1]]
+  )
+})
+
 run_test("Manual accreditation rows append cleanly against production-shaped datetime columns", function() {
   actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
   actions_df <- readr::read_csv(

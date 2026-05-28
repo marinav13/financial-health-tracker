@@ -390,6 +390,7 @@ main <- function(cli_args = NULL) {
         detail_url = null_if_empty(detail_url),
         status_bucket = classify_status_bucket(agency, status),
         currently_disrupted = is_currently_disrupted(agency, status),
+        public_tracker_included = is_public_tracker_included(agency, status),
         organization_name_display = prettify_institution_name(organization_name),
         norm_name = normalize_name(organization_name),
         simplified_norm_name = simplify_institution_name(organization_name),
@@ -598,6 +599,7 @@ main <- function(cli_args = NULL) {
       status,
       status_bucket,
       currently_disrupted,
+      public_tracker_included,
       organization_name,
       organization_name_display,
       organization_state,
@@ -674,24 +676,24 @@ main <- function(cli_args = NULL) {
     dplyr::slice(1) |>
     dplyr::ungroup() |>
     dplyr::select(-match_priority, -grant_match_key) |>
-    # Remove grants with negative remaining amount (fully spent)
-    dplyr::filter(!(currently_disrupted & !is.na(award_remaining) & award_remaining <= 0))
+    # Remove grants with zero/negative remaining amount from the public tracker.
+    dplyr::filter(!(public_tracker_included & !is.na(award_remaining) & award_remaining <= 0))
 
   # -----------------------------------------------------------------------
   # FILTER: Remove pass-through/grantmaker awards.
   # Pass-through awards aren't direct university research grants and would
   # double-count if left in (the subgrantees show up under their own rows).
   excluded_pass_through_grants <- grants_joined |>
-    dplyr::filter(currently_disrupted, is_pass_through_or_grantmaker) |>
+    dplyr::filter(public_tracker_included, is_pass_through_or_grantmaker) |>
     dplyr::arrange(dplyr::desc(award_remaining), organization_name_display, project_title, grant_id)
 
   grants_joined <- grants_joined |>
-    dplyr::filter(!(currently_disrupted & is_pass_through_or_grantmaker))
+    dplyr::filter(!(public_tracker_included & is_pass_through_or_grantmaker))
 
   # -----------------------------------------------------------------------
   # BUILD INSTITUTION SUMMARY TABLES
   institution_summary_long <- grants_joined |>
-    dplyr::filter(currently_disrupted, !is.na(organization_name), !is.na(organization_state)) |>
+    dplyr::filter(public_tracker_included, !is.na(organization_name), !is.na(organization_state)) |>
     dplyr::mutate(
       institution_key = dplyr::coalesce(
         paste0("unitid:", matched_unitid),
@@ -764,7 +766,7 @@ main <- function(cli_args = NULL) {
   # -----------------------------------------------------------------------
   # IDENTIFY UNMATCHED GRANTS FOR MANUAL REVIEW
   unmatched_for_review <- grants_joined |>
-    dplyr::filter(currently_disrupted, !in_financial_tracker) |>
+    dplyr::filter(public_tracker_included, !in_financial_tracker) |>
     dplyr::count(agency, organization_name = organization_name_display, organization_state, organization_city, organization_type, likely_higher_ed, match_method, wt = award_remaining, name = "disrupted_award_remaining") |>
     dplyr::arrange(dplyr::desc(disrupted_award_remaining), organization_name)
 

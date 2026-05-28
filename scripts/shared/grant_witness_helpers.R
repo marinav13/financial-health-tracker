@@ -403,9 +403,16 @@ GRANT_WITNESS_STATUS_RULES <- list(
     samhsa = c("terminated"),
     cdc = c("terminated")
   ),
+  possibly_restored = list(
+    # Keep grants with provisional reinstatement/unfreeze labels in the
+    # public tracker until Grant Witness upgrades them to a confirmed
+    # reinstated/unfrozen status.
+    nih = c("possibly reinstated", "possibly unfrozen funding"),
+    .default = c("possibly reinstated")
+  ),
   not_currently_disrupted = list(
-    nih = c("possibly reinstated", "possibly unfrozen funding", "unfrozen funding"),
-    .default = c("possibly reinstated", "reinstated")
+    nih = c("unfrozen funding"),
+    .default = c("reinstated")
   )
 )
 
@@ -443,9 +450,18 @@ is_currently_disrupted <- function(agency, status) {
   status_matches_rule(agency, status, "currently_disrupted")
 }
 
+is_possibly_restored <- function(agency, status) {
+  status_matches_rule(agency, status, "possibly_restored")
+}
+
+is_public_tracker_included <- function(agency, status) {
+  is_currently_disrupted(agency, status) | is_possibly_restored(agency, status)
+}
+
 classify_status_bucket <- function(agency, status) {
   dplyr::case_when(
     is_currently_disrupted(agency, status) ~ "currently_disrupted",
+    is_possibly_restored(agency, status) ~ "possibly_restored",
     status_matches_rule(agency, status, "not_currently_disrupted") ~ "not_currently_disrupted",
     TRUE ~ "other"
   )

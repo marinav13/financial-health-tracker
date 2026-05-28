@@ -471,6 +471,7 @@ run_test("Web export pipeline fixture", function() {
       tracker_institution_name = "Example University",
       tracker_state = "Massachusetts",
       currently_disrupted = "TRUE",
+      public_tracker_included = "TRUE",
       likely_higher_ed = TRUE,
       agency = "nih",
       grant_id = "R01-1",
@@ -1079,7 +1080,7 @@ run_test("Web export pipeline resolves HLC sanctions after warning removal", fun
     organization_type = character(), project_title = character(), project_abstract = character(),
     start_date = character(), original_end_date = character(), termination_date = character(),
     award_value = character(), award_outlaid = character(), award_remaining = character(),
-    remaining_field = character(), currently_disrupted = logical(), likely_higher_ed = logical(),
+    remaining_field = character(), currently_disrupted = logical(), public_tracker_included = logical(), likely_higher_ed = logical(),
     source_url = character(), detail_url = character(), stringsAsFactors = FALSE
   )
   readr::write_csv(
@@ -1524,6 +1525,7 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
       award_remaining = "50000",
       remaining_field = "award_remaining",
       currently_disrupted = TRUE,
+      public_tracker_included = TRUE,
       likely_higher_ed = TRUE,
       source_url = "https://example.org/grant",
       detail_url = "https://example.org/grant-detail",
@@ -1952,7 +1954,7 @@ run_test("Web export pipeline compacts duplicate NECHE concern-cycle rows before
     organization_type = character(), project_title = character(), project_abstract = character(),
     start_date = character(), original_end_date = character(), termination_date = character(),
     award_value = character(), award_outlaid = character(), award_remaining = character(),
-    remaining_field = character(), currently_disrupted = logical(), likely_higher_ed = logical(),
+    remaining_field = character(), currently_disrupted = logical(), public_tracker_included = logical(), likely_higher_ed = logical(),
     source_url = character(), detail_url = character(), stringsAsFactors = FALSE
   )
   readr::write_csv(

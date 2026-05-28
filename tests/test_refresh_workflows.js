@@ -231,6 +231,7 @@ run("Playwright e2e workflow uses official container and avoids browser provisio
   assert(Boolean(e2eJobMatch), "Expected a bounded timeout on the Playwright job");
   assert(/container:\s*\n\s*image:\s*mcr\.microsoft\.com\/playwright:v1\.59\.1-noble/m.test(TESTS), "Expected official Playwright container image");
   assert(/options:\s*--ipc=host/m.test(TESTS), "Expected Playwright container to enable shared IPC");
+  assert(/env:\s*\n\s*HOME:\s*\/root/m.test(TESTS), "Expected Playwright container job to set HOME=/root for Firefox");
 
   assert(!TESTS.includes("Cache Playwright browsers"), "Expected browser cache step to be absent when using the official Playwright container");
   assert(!TESTS.includes("Install Playwright system dependencies"), "Expected install-deps step to be absent when using the official Playwright container");

@@ -38,16 +38,20 @@ run_test("Grant Witness name helpers", function() {
   assert_true(!is_likely_higher_ed_name("Oklahoma Medical Research Foundation"))
   assert_true(is_currently_disrupted("nih", "Frozen Funding"))
   assert_true(!is_currently_disrupted("nsf", "Reinstated"))
+  assert_true(!is_currently_disrupted("nih", "Possibly Unfrozen Funding"))
+  assert_true(is_public_tracker_included("nih", "Possibly Unfrozen Funding"))
+  assert_true(is_public_tracker_included("epa", "Possibly Reinstated"))
+  assert_true(!is_public_tracker_included("epa", "Reinstated"))
   # CDC "At Risk" used to classify as currently_disrupted, but Grant Witness
   # treats that status as "on a termination target list with no formal notice
   # yet" — i.e. not yet a confirmed loss. We deliberately exclude those so
   # tracker totals only count formal terminations. Hence "other" below.
   assert_equal(
     classify_status_bucket(
-      c("nih", "cdc", "epa"),
-      c("Unfrozen Funding", "At Risk", "Reinstated")
+      c("nih", "cdc", "epa", "nih"),
+      c("Possibly Unfrozen Funding", "At Risk", "Reinstated", "Unfrozen Funding")
     ),
-    c("not_currently_disrupted", "other", "not_currently_disrupted")
+    c("possibly_restored", "other", "not_currently_disrupted", "not_currently_disrupted")
   )
   # Confirm CDC terminations still classify as disrupted after the at-risk
   # exclusion so the rule change didn't accidentally drop everything CDC-related.

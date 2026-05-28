@@ -2380,6 +2380,9 @@ build_research_export <- function() {
   if (!"display_name_override" %in% names(grants_df)) {
     grants_df$display_name_override <- NA_character_
   }
+  if (!"public_tracker_included" %in% names(grants_df)) {
+    grants_df$public_tracker_included <- grants_df$currently_disrupted
+  }
   grants_df <- grants_df %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
@@ -2398,11 +2401,12 @@ build_research_export <- function() {
         ),
         character(1)
       ),
+      public_tracker_included = as.logical(public_tracker_included),
       currently_disrupted = as.logical(currently_disrupted),  # normalise; CSV may be read as char or logical
       likely_higher_ed = as.logical(likely_higher_ed)
   ) %>%
     filter(
-      currently_disrupted == TRUE,
+      public_tracker_included == TRUE,
       !is.na(award_remaining),
       award_remaining > research_min_public_award_remaining
     )

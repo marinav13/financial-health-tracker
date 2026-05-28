@@ -226,6 +226,24 @@ run("Playwright e2e tests run as a dedicated CI job separate from smoke", () => 
   assert(/^  js-tests:\s*$/m.test(TESTS), "Expected js-tests to remain as its own job (sanity check for the split)");
 });
 
+run("Playwright e2e workflow caches browsers and bounds install time", () => {
+  const e2eJobMatch = TESTS.match(/  e2e-tests:\s*[\s\S]*?timeout-minutes:\s*30/);
+  assert(Boolean(e2eJobMatch), "Expected a bounded timeout on the Playwright job");
+
+  const cacheBlock = stepBlock(TESTS, "Cache Playwright browsers");
+  assert(cacheBlock.includes("~/.cache/ms-playwright"), "Expected Playwright browser cache path");
+  assert(cacheBlock.includes("actions/cache@v4"), "Expected Playwright browsers to be cached");
+
+  const depsBlock = stepBlock(TESTS, "Install Playwright system dependencies");
+  assert(depsBlock.includes("playwright install-deps chromium firefox"), "Expected system deps to be installed separately from browser download");
+  assert(depsBlock.includes("timeout-minutes: 10"), "Expected a bounded timeout on Playwright system dependency install");
+
+  const installBlock = stepBlock(TESTS, "Install Playwright browsers");
+  assert(installBlock.includes("timeout-minutes: 15"), "Expected a bounded timeout on Playwright browser install");
+  assert(installBlock.includes("timeout 10m npx playwright install chromium firefox"), "Expected browser install attempts to fail fast when they hang");
+  assert(installBlock.includes("for attempt in 1 2 3"), "Expected browser install retries for transient CDN failures");
+});
+
 run("deployed Pages parity workflow compares live site to committed artifacts", () => {
   assert(PAGES_PARITY.includes('workflows: ["pages build and deployment"]'), "Expected workflow_run trigger after Pages deployment");
   assert(PAGES_PARITY.includes("workflow_dispatch:"), "Expected manual parity trigger");

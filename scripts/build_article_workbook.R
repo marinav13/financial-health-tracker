@@ -1,7 +1,7 @@
 ################################################################################
 # build_article_workbook.R
 #
-# Generates a 49-sheet Excel workbook for journalist research on college financial
+# Generates a 51-sheet Excel workbook for journalist research on college financial
 # health. Combines IPEDS financial data with risk scores, closure indicators, and
 # accreditation/college cuts tracking to support investigative reporting.
 #
@@ -14,13 +14,15 @@ main <- function(cli_args = NULL) {
   ipeds         <- load_ipeds_paths()
   ipeds_layout  <- ipeds$ipeds_layout
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
+  ipeds_paths <- ipeds_layout(root = ".")
 
-  input_csv <- get_arg_value("--input", ipeds_layout(root = ".")$dataset_csv)
+  input_csv <- get_arg_value("--input", ipeds_paths$dataset_csv)
   # SpreadsheetML with .xls extension opens directly in Excel without rename
   output_workbook <- get_arg_value("--output", "./workbooks/ipeds_financial_health_article_workbook.xls")
 
   source(file.path(getwd(), "scripts", "shared", "workbook_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "contracts.R"))
+  source(file.path(getwd(), "scripts", "shared", "ipeds_row_builders.R"))
 
   # Pipeline: Load data -> Compute risk scores -> Build summary stats ->
   #           Define sheet specs -> Assemble worksheets -> Write SpreadsheetML
@@ -390,6 +392,8 @@ sheet_index_specs <- list(
   list(name = "ReportAnswers", description = "Grouped answer rows with institution counts, student counts, sector denominators, and calculation notes for the main repeated-decline, threshold, staffing, tuition, and discount-rate metrics."),
   list(name = "DistressAnswers", description = "Definitions and toplines for the workbook distress and long-running challenge framing."),
   list(name = "ResearchCutsAnswers", description = "Topline counts for the public-flagship research-cuts match."),
+  list(name = "ArticlePoints", description = "Rewrite-ready article answer rows that pair the current workbook universe with a year-specific retrospective cohort that keeps later-closed schools in earlier trend windows."),
+  list(name = "ArticleGraphics", description = "Sector and window tables for article graphics, including closure-sensitive instructional-staff cohort cuts."),
   list(name = "All_2024", description = sprintf("All %s predominantly baccalaureate institutions included in the workbook universe.", latest_year)),
   list(name = "EnrollDecl3of5", description = "Predominantly baccalaureate colleges with enrollment declines in 3 of the last 5 years."),
   list(name = "RevDecl3of5", description = "Predominantly baccalaureate colleges with revenue declines in 3 of the last 5 years."),
@@ -872,6 +876,25 @@ if (nrow(flagship_cuts) > 0) {
 }
 
 distress_compare <- build_distress_compare(read_df, bacc_category_label, years = c(latest_year, latest_year - 5L, latest_year - 10L))
+article_trend_df <- build_article_trend_dataset(
+  year_cache_dir = ipeds_paths$cache_year_dir,
+  years = seq.int(latest_year - 10L, latest_year)
+)
+article_points <- build_article_point_answers(
+  read_df = read_df,
+  article_trend_df = article_trend_df,
+  distress_compare = distress_compare,
+  bacc_category_label = bacc_category_label,
+  latest_year = latest_year,
+  comparison_year = latest_year - 5L,
+  baseline_year = latest_year - 10L
+)
+article_graphics <- build_article_graphics_table(
+  article_trend_df = article_trend_df,
+  latest_year = latest_year,
+  comparison_year = latest_year - 5L,
+  baseline_year = latest_year - 10L
+)
 
 intl_base_10yr <- read_df[as.integer(read_df$year) == latest_year - 10L, c("unitid","enrollment_headcount_total"), drop = FALSE]
 names(intl_base_10yr)[2] <- "enrollment_headcount_total_baseline"
@@ -955,6 +978,8 @@ worksheets <- build_article_workbook_registry(
   report_answers = report_answers,
   distress_answers = distress_answers,
   research_cuts_answers = research_cuts_answers,
+  article_points = article_points,
+  article_graphics = article_graphics,
   bacc_benchmarks = bacc_benchmarks,
   all_sheet_bacc = all_sheet_bacc,
   base_sheets = base_sheets,

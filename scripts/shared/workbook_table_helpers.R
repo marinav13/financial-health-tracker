@@ -1324,6 +1324,685 @@ build_distress_compare <- function(read_df, bacc_category_label, years = c(2024L
   }))
 }
 
+# Builds a minimal historical IPEDS dataset from the per-year cache files so
+# article trend tables can use year-specific target cohorts rather than the
+# current 2024 survivor-only universe.
+build_article_trend_dataset <- function(year_cache_dir, years = 2014:2024) {
+  cache_paths <- file.path(year_cache_dir, sprintf("ipeds_financial_health_year_%s.csv", years))
+  cache_paths <- cache_paths[file.exists(cache_paths)]
+  if (!length(cache_paths)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  raw_rows <- do.call(rbind, lapply(cache_paths, read_csv_if_exists))
+  if (is.null(raw_rows) || !nrow(raw_rows)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  state_codes <- toupper(trimws(as.character(raw_rows$state)))
+  control_codes <- trimws(as.character(raw_rows$control))
+  level_codes <- trimws(as.character(raw_rows$level))
+  sector_codes <- trimws(as.character(raw_rows$sector))
+  status_codes <- trimws(as.character(raw_rows$status))
+  active_codes <- trimws(as.character(raw_rows$is_active))
+
+  keep <- !(state_codes %in% excluded_state_codes) &
+    control_codes %in% c("1", "2", "3") &
+    level_codes == "1" &
+    sector_codes %in% c("1", "2", "3") &
+    status_codes %in% c("A", "N", "R") &
+    active_codes == "1"
+  keep[is.na(keep)] <- FALSE
+  raw_rows <- raw_rows[keep, , drop = FALSE]
+  if (!nrow(raw_rows)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  prepared_rows <- lapply(seq_len(nrow(raw_rows)), function(i) {
+    row <- raw_rows[i, , drop = FALSE]
+    control_label <- get_control_label(row_value(row, "control"))
+    reporting_model_code <- trimws(as.character(row_value(row, "reporting_model") %||% ""))
+    uses_fasb_finance <- identical(control_label, "Private not-for-profit") || identical(reporting_model_code, "2")
+    uses_gasb_finance <- identical(control_label, "Public") && !uses_fasb_finance
+    context <- list(
+      control_label = control_label,
+      uses_fasb_finance = uses_fasb_finance,
+      uses_gasb_finance = uses_gasb_finance,
+      year = as.integer(row_value(row, "year")),
+      fte12 = to_num(row_value(row, "fte_12_months"))
+    )
+
+    finance <- calculate_ipeds_finance_components(row, context)
+    enrollment_fields <- build_enrollment_fields(row, context)
+    finance_fields <- build_finance_fields(row, context, finance)
+    risk_fields <- build_risk_fields(context, finance)
+
+    data.frame(
+      unitid = as.character(row_value(row, "unitid")),
+      institution_name = as.character(row_value(row, "institution_name")),
+      year = context$year,
+      control_label = control_label,
+      category_raw = as.character(row_value(row, "category")),
+      all_programs_distance_education_raw = as.character(row_value(row, "all_programs_distance_education")),
+      enrollment_headcount_total = enrollment_fields$enrollment_headcount_total,
+      enrollment_nonresident_total = enrollment_fields$enrollment_nonresident_total,
+      staff_headcount_total = enrollment_fields$staff_headcount_total,
+      staff_headcount_instructional = enrollment_fields$staff_headcount_instructional,
+      revenue_total = finance_fields$revenue_total,
+      revenue_total_adjusted = finance_fields$revenue_total_adjusted,
+      net_tuition_total = finance_fields$net_tuition_total,
+      net_tuition_total_adjusted = finance_fields$net_tuition_total_adjusted,
+      net_tuition_per_fte = finance_fields$net_tuition_per_fte,
+      net_tuition_per_fte_adjusted = finance_fields$net_tuition_per_fte_adjusted,
+      operating_margin = risk_fields$operating_margin,
+      ended_year_at_loss = risk_fields$ended_year_at_loss,
+      stringsAsFactors = FALSE
+    )
+  })
+
+  trend_df <- do.call(rbind, prepared_rows)
+  if (is.null(trend_df) || !nrow(trend_df)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  enrich_article_trend_group <- function(df) {
+    if (!nrow(df)) {
+      return(df)
+    }
+
+    df <- df[order(as.integer(df$year)), , drop = FALSE]
+    years_vec <- as.integer(df$year)
+    lookup_year_value <- function(values, target_year) {
+      match_idx <- which(years_vec == as.integer(target_year))
+      if (!length(match_idx)) {
+        return(NA_real_)
+      }
+      to_num(values[[match_idx[[1]]]])
+    }
+
+    df$enrollment_pct_change_5yr <- vapply(seq_len(nrow(df)), function(i) {
+      safe_pct_change(
+        to_num(df$enrollment_headcount_total[[i]]),
+        lookup_year_value(df$enrollment_headcount_total, years_vec[[i]] - 5L)
+      )
+    }, numeric(1))
+    df$enrollment_decline_last_3_of_5 <- ifelse(
+      vapply(years_vec, function(y) {
+        count_decline_years(years_vec, df$enrollment_headcount_total, y - 5L, y - 1L, threshold_pct = 0) >= 3L
+      }, logical(1)),
+      "Yes",
+      "No"
+    )
+    df$staff_total_headcount_pct_change_5yr <- vapply(seq_len(nrow(df)), function(i) {
+      safe_pct_change(
+        to_num(df$staff_headcount_total[[i]]),
+        lookup_year_value(df$staff_headcount_total, years_vec[[i]] - 5L)
+      )
+    }, numeric(1))
+    df$staff_instructional_headcount_pct_change_5yr <- vapply(seq_len(nrow(df)), function(i) {
+      safe_pct_change(
+        to_num(df$staff_headcount_instructional[[i]]),
+        lookup_year_value(df$staff_headcount_instructional, years_vec[[i]] - 5L)
+      )
+    }, numeric(1))
+    df$revenue_10pct_drop_last_3_of_5 <- ifelse(
+      vapply(years_vec, function(y) {
+        count_decline_years(years_vec, df$revenue_total_adjusted, y - 5L, y - 1L, threshold_pct = -10) >= 3L
+      }, logical(1)),
+      "Yes",
+      "No"
+    )
+    df$losses_last_3_of_5 <- ifelse(
+      vapply(years_vec, function(y) {
+        count_negative_years(years_vec, df$operating_margin, (y - 4L):y, threshold = 0) >= 3L
+      }, logical(1)),
+      "Yes",
+      "No"
+    )
+    df$net_tuition_per_fte_change_5yr <- vapply(seq_len(nrow(df)), function(i) {
+      safe_pct_change(
+        to_num(df$net_tuition_per_fte_adjusted[[i]]),
+        lookup_year_value(df$net_tuition_per_fte_adjusted, years_vec[[i]] - 5L)
+      )
+    }, numeric(1))
+    df$international_enrollment_pct_change_10yr <- vapply(seq_len(nrow(df)), function(i) {
+      safe_pct_change(
+        to_num(df$enrollment_nonresident_total[[i]]),
+        lookup_year_value(df$enrollment_nonresident_total, years_vec[[i]] - 10L)
+      )
+    }, numeric(1))
+    df$warning_score_core <- compute_warning_score_core(df)
+
+    df
+  }
+
+  do.call(rbind, lapply(split(trend_df, trend_df$unitid), enrich_article_trend_group))
+}
+
+# Returns target-year rows using a year-specific primarily baccalaureate cohort
+# so earlier-year comparisons can include schools that later closed or changed
+# category.
+article_target_year_cohort_df <- function(article_trend_df, target_year) {
+  if (is.null(article_trend_df) || !nrow(article_trend_df)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+
+  year_mask <- as.integer(article_trend_df$year) == as.integer(target_year)
+  category_codes <- trimws(as.character(article_trend_df$category_raw))
+  distance_codes <- trimws(as.character(article_trend_df$all_programs_distance_education_raw))
+  eligible_unitids <- unique(article_trend_df$unitid[
+    year_mask &
+      category_codes == "2" &
+      (is.na(distance_codes) | distance_codes != "1")
+  ])
+
+  article_trend_df[
+    year_mask & article_trend_df$unitid %in% eligible_unitids,
+    ,
+    drop = FALSE
+  ]
+}
+
+# Builds article-focused answer rows that mix current-workbook 2024 counts with
+# year-specific cohort comparisons for earlier trend windows.
+build_article_point_answers <- function(read_df, article_trend_df, distress_compare,
+                                        bacc_category_label = "Degree-granting, primarily baccalaureate or above",
+                                        latest_year = 2024L, comparison_year = latest_year - 5L,
+                                        baseline_year = latest_year - 10L) {
+  make_stats <- function(df, predicate) {
+    if (is.null(df) || !nrow(df)) {
+      return(list(count = 0L, total = 0L, students = NA_real_))
+    }
+    matches <- predicate(df)
+    matches[is.na(matches)] <- FALSE
+    list(
+      count = sum(matches),
+      total = nrow(df),
+      students = sum(to_num(df$enrollment_headcount_total[matches]), na.rm = TRUE)
+    )
+  }
+
+  scope_df <- function(df, scope_label) {
+    if (scope_label == "Public institutions") {
+      return(df[df$control_label == "Public", , drop = FALSE])
+    }
+    if (scope_label == "Private not-for-profit institutions") {
+      return(df[df$control_label == "Private not-for-profit", , drop = FALSE])
+    }
+    if (scope_label == "Private for-profit institutions") {
+      return(df[df$control_label == "Private for-profit", , drop = FALSE])
+    }
+    df
+  }
+
+  add_stat_row <- function(group, year_value, scope_label, question, df, predicate, calculation, note) {
+    stats <- make_stats(scope_df(df, scope_label), predicate)
+    make_report_answer_row(
+      group = group,
+      year = as.integer(year_value),
+      scope = scope_label,
+      question = question,
+      count_yes = stats$count,
+      count_scope_total = stats$total,
+      pct_of_scope_institutions = safe_pct(stats$count, stats$total),
+      students_at_yes_institutions = stats$students,
+      calculation = calculation,
+      note = note
+    )
+  }
+
+  latest_df <- read_df[
+    as.integer(read_df$year) == as.integer(latest_year) &
+      read_df$category == bacc_category_label,
+    ,
+    drop = FALSE
+  ]
+  comparison_df <- read_df[
+    as.integer(read_df$year) == as.integer(comparison_year) &
+      read_df$category == bacc_category_label,
+    ,
+    drop = FALSE
+  ]
+  latest_article_df <- article_target_year_cohort_df(article_trend_df, latest_year)
+  comparison_article_df <- article_target_year_cohort_df(article_trend_df, comparison_year)
+
+  matched_staff_cut_rows <- function(start_year, end_year, treat_missing_end_as_zero = FALSE) {
+    start_df <- article_target_year_cohort_df(article_trend_df, start_year)[, c("unitid", "control_label", "staff_headcount_instructional"), drop = FALSE]
+    if (!nrow(start_df)) {
+      return(data.frame(stringsAsFactors = FALSE))
+    }
+    names(start_df)[3] <- "staff_start"
+    end_df <- article_trend_df[as.integer(article_trend_df$year) == as.integer(end_year), c("unitid", "staff_headcount_instructional"), drop = FALSE]
+    if (nrow(end_df)) {
+      names(end_df)[2] <- "staff_end"
+      end_df$has_end_row <- TRUE
+    } else {
+      end_df <- data.frame(unitid = character(), staff_end = numeric(), has_end_row = logical(), stringsAsFactors = FALSE)
+    }
+    joined <- merge(start_df, end_df, by = "unitid", all.x = TRUE)
+    if (treat_missing_end_as_zero) {
+      joined$staff_end[is.na(joined$has_end_row)] <- 0
+    }
+    joined <- joined[!is.na(joined$staff_start) & !is.na(joined$staff_end), , drop = FALSE]
+    if (!nrow(joined)) {
+      return(joined)
+    }
+    joined$cut <- joined$staff_end < joined$staff_start
+    joined$positions_cut <- pmax(joined$staff_start - joined$staff_end, 0)
+    joined
+  }
+  add_staff_scope_rows <- function(group, start_year, end_year, joined_df, method_label, calculation, note_prefix) {
+    if (is.null(joined_df) || !nrow(joined_df)) {
+      return(data.frame(stringsAsFactors = FALSE))
+    }
+
+    scope_labels <- c(
+      "All institutions",
+      "Public institutions",
+      "Private not-for-profit institutions",
+      "Private for-profit institutions"
+    )
+    scope_phrases <- c(
+      "cohort institutions",
+      "public institutions",
+      "private not-for-profit institutions",
+      "private for-profit institutions"
+    )
+
+    do.call(rbind, lapply(seq_along(scope_labels), function(i) {
+      scope_label <- scope_labels[[i]]
+      scoped_df <- scope_df(joined_df, scope_label)
+      make_report_answer_row(
+        group = group,
+        year = as.integer(end_year),
+        scope = scope_label,
+        question = sprintf(
+          "%s to %s %s with instructional staff cuts (%s)",
+          start_year,
+          end_year,
+          scope_phrases[[i]],
+          method_label
+        ),
+        count_yes = sum(scoped_df$cut, na.rm = TRUE),
+        count_scope_total = nrow(scoped_df),
+        pct_of_scope_institutions = safe_pct(sum(scoped_df$cut, na.rm = TRUE), nrow(scoped_df)),
+        calculation = calculation,
+        note = sprintf(
+          "%s Total instructional positions cut in this scope = %s.",
+          note_prefix,
+          format(round(sum(scoped_df$positions_cut, na.rm = TRUE)), big.mark = ",")
+        )
+      )
+    }))
+  }
+
+  current_distress_row <- distress_compare[distress_compare$year == latest_year, , drop = FALSE]
+
+  setup_rows <- append_rows(
+    make_report_answer_row(
+      group = "Setup",
+      year = as.integer(comparison_year),
+      scope = "All institutions",
+      question = "Year-specific target cohort definition for article trend rows",
+      calculation = "Use the target year's domestic, active, four-year cohort; then keep the full historical rows for those eligible unitids when calculating five-year and 10-year trend metrics.",
+      note = "This restores schools that later closed or dropped out of the 2024 cohort to the earlier-year comparison window."
+    ),
+    make_report_answer_row(
+      group = "Setup",
+      year = as.integer(latest_year),
+      scope = "All institutions",
+      question = "Closure-sensitive instructional staff cohort definition",
+      calculation = "For start-year cohort rows marked as closure-sensitive, schools missing in the end year are treated as zero staff at the end of the window.",
+      note = "Use these rows when the story wants later closures to count as staffing cuts rather than dropping out of the denominator."
+    )
+  )
+
+  current_rows <- append_rows(
+    make_report_answer_row(
+      group = "2024 Current workbook universe",
+      year = as.integer(latest_year),
+      scope = "All institutions",
+      question = sprintf("%s distressed institutions using the workbook warning-score definition", latest_year),
+      count_yes = if (nrow(current_distress_row)) current_distress_row$distress_count[[1]] else NA_real_,
+      count_scope_total = if (nrow(current_distress_row)) current_distress_row$institutions_total[[1]] else NA_real_,
+      pct_of_scope_institutions = if (nrow(current_distress_row)) current_distress_row$distress_pct[[1]] else NA_real_,
+      students_at_yes_institutions = if (nrow(current_distress_row)) current_distress_row$distress_students[[1]] else NA_real_,
+      calculation = "warning_score_core >= 4",
+      note = "Lead framing for the broad financial-stress paragraph."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "All institutions",
+      sprintf("%s institutions with enrollment declines in 3 of the last 5 years", latest_year),
+      latest_df,
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "enrollment_decline_last_3_of_5 == Yes",
+      "Current workbook topline used in the draft."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "All institutions",
+      sprintf("%s institutions with falling net tuition per FTE over the past 5 years", latest_year),
+      latest_df,
+      function(df) !is.na(df$net_tuition_per_fte_change_5yr) & to_num(df$net_tuition_per_fte_change_5yr) < 0,
+      "net_tuition_per_fte_change_5yr < 0",
+      "Use this for the tuition-revenue line."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "All institutions",
+      sprintf("%s institutions with declining instructional staff headcount over the past 5 years", latest_year),
+      latest_df,
+      function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & to_num(df$staff_instructional_headcount_pct_change_5yr) < 0,
+      "staff_instructional_headcount_pct_change_5yr < 0",
+      "Use this for the instructional-staff line."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "All institutions",
+      sprintf("%s institutions with losses in 3 of the last 5 years", latest_year),
+      latest_df,
+      function(df) yes_flag(df$losses_last_3_of_5),
+      "losses_last_3_of_5 == Yes",
+      "Use this for the repeated-loss line."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "Private not-for-profit institutions",
+      sprintf("%s private not-for-profit institutions with both repeated losses and repeated enrollment declines", latest_year),
+      latest_df,
+      function(df) yes_flag(df$losses_last_3_of_5) & yes_flag(df$enrollment_decline_last_3_of_5),
+      "losses_last_3_of_5 == Yes AND enrollment_decline_last_3_of_5 == Yes",
+      "Use this for the nearly-one-in-five private-nonprofit line."
+    ),
+    add_stat_row(
+      "2024 Current workbook universe",
+      latest_year,
+      "All institutions",
+      sprintf("%s public and private not-for-profit institutions with at least a 10%% increase in international enrollment over the past 10 years", latest_year),
+      latest_df[latest_df$control_label %in% c("Public", "Private not-for-profit"), , drop = FALSE],
+      function(df) !is.na(df$international_enrollment_pct_change_10yr) & to_num(df$international_enrollment_pct_change_10yr) >= 10,
+      "international_enrollment_pct_change_10yr >= 10",
+      "Stricter international-growth cutoff for the foreign-student subsidy framing."
+    )
+  )
+
+  trend_rows <- append_rows(
+    add_stat_row(
+      "Year-specific trend cohort",
+      comparison_year,
+      "All institutions",
+      sprintf("%s target-year cohort institutions with enrollment declines in 3 of the last 5 years", comparison_year),
+      comparison_article_df,
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "enrollment_decline_last_3_of_5 == Yes",
+      "Use this instead of the survivor-only 2019 count when later closures should stay in the earlier-year comparison."
+    ),
+    add_stat_row(
+      "Year-specific trend cohort",
+      latest_year,
+      "All institutions",
+      sprintf("%s target-year cohort institutions with enrollment declines in 3 of the last 5 years", latest_year),
+      latest_article_df,
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "enrollment_decline_last_3_of_5 == Yes",
+      "Same metric as above using the 2024 target-year cohort."
+    ),
+    add_stat_row(
+      "Year-specific trend cohort",
+      comparison_year,
+      "All institutions",
+      sprintf("%s target-year cohort institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      comparison_article_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", baseline_year, comparison_year),
+      "This is the cleanest metric for showing the restored for-profit distress signal in 2019."
+    ),
+    add_stat_row(
+      "Year-specific trend cohort",
+      latest_year,
+      "All institutions",
+      sprintf("%s target-year cohort institutions with at least a 10%% five-year enrollment drop", latest_year),
+      latest_article_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", comparison_year, latest_year),
+      "Current five-year comparison window."
+    ),
+    add_stat_row(
+      "Year-specific trend cohort",
+      comparison_year,
+      "Public institutions",
+      sprintf("%s public institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      comparison_article_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", baseline_year, comparison_year),
+      "Use this for the one-in-four public comparison."
+    ),
+    add_stat_row(
+      "Year-specific trend cohort",
+      latest_year,
+      "Public institutions",
+      sprintf("%s public institutions with at least a 10%% five-year enrollment drop", latest_year),
+      latest_article_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", comparison_year, latest_year),
+      "Use this for the one-in-three public comparison."
+    )
+  )
+
+  survivor_bias_rows <- append_rows(
+    add_stat_row(
+      "Survivor-bias comparison",
+      comparison_year,
+      "All institutions",
+      sprintf("%s survivor-only workbook institutions with enrollment declines in 3 of the last 5 years", comparison_year),
+      comparison_df,
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "enrollment_decline_last_3_of_5 == Yes using the current workbook survivor scope",
+      "Shows the older 927-of-1803 framing for comparison against the year-specific target cohort."
+    ),
+    add_stat_row(
+      "Survivor-bias comparison",
+      comparison_year,
+      "Private for-profit institutions",
+      sprintf("%s survivor-only workbook private for-profit institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      comparison_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window and the current workbook survivor scope", baseline_year, comparison_year),
+      "This is the compressed for-profit signal in the current workbook."
+    ),
+    add_stat_row(
+      "Survivor-bias comparison",
+      comparison_year,
+      "Private for-profit institutions",
+      sprintf("%s target-year cohort private for-profit institutions with at least a 10%% five-year enrollment drop", comparison_year),
+      comparison_article_df,
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window and the %s target-year cohort", baseline_year, comparison_year, comparison_year),
+      "This restores later-closed schools to the earlier-year denominator."
+    )
+  )
+
+  matched_staff_2019_2024 <- matched_staff_cut_rows(comparison_year, latest_year, treat_missing_end_as_zero = FALSE)
+  closure_staff_2019_2024 <- matched_staff_cut_rows(comparison_year, latest_year, treat_missing_end_as_zero = TRUE)
+
+  staff_rows <- append_rows(
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = comparison_year,
+      end_year = latest_year,
+      joined_df = matched_staff_2019_2024,
+      method_label = "matched endpoints only",
+      calculation = "Compare start-year cohort institutions with instructional staff reported at both endpoints.",
+      note_prefix = "Matched-endpoint method."
+    ),
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = comparison_year,
+      end_year = latest_year,
+      joined_df = closure_staff_2019_2024,
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero staff.",
+      note_prefix = "Closure-sensitive method."
+    )
+  )
+
+  append_rows(setup_rows, current_rows, trend_rows, survivor_bias_rows, staff_rows)
+}
+
+# Builds sector/window tables for article graphics, including a closure-
+# sensitive instructional-staff cohort cut view.
+build_article_graphics_table <- function(article_trend_df,
+                                         latest_year = 2024L,
+                                         comparison_year = latest_year - 5L,
+                                         baseline_year = latest_year - 10L) {
+  make_graphic_row <- function(graphic, method, window_start, window_end, scope,
+                               count_yes, count_scope_total, students_at_yes_institutions = NA_real_,
+                               total_positions_cut = NA_real_, calculation, note) {
+    data.frame(
+      graphic = graphic,
+      method = method,
+      window_start = as.integer(window_start),
+      window_end = as.integer(window_end),
+      window_label = sprintf("%s to %s", window_start, window_end),
+      scope = scope,
+      count_yes = count_yes,
+      count_scope_total = count_scope_total,
+      pct_of_scope_institutions = safe_pct(count_yes, count_scope_total),
+      students_at_yes_institutions = students_at_yes_institutions,
+      total_positions_cut = total_positions_cut,
+      calculation = calculation,
+      note = note,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  scope_specs <- list(
+    list(label = "All institutions", filter = function(df) rep(TRUE, nrow(df))),
+    list(label = "Public institutions", filter = function(df) df$control_label == "Public"),
+    list(label = "Private not-for-profit institutions", filter = function(df) df$control_label == "Private not-for-profit"),
+    list(label = "Private for-profit institutions", filter = function(df) df$control_label == "Private for-profit")
+  )
+
+  build_target_year_rows <- function(target_year, graphic, metric_label, predicate, note) {
+    cohort_df <- article_target_year_cohort_df(article_trend_df, target_year)
+    if (!nrow(cohort_df)) {
+      return(data.frame(stringsAsFactors = FALSE))
+    }
+    do.call(rbind, lapply(scope_specs, function(scope_spec) {
+      scope_df <- cohort_df[scope_spec$filter(cohort_df), , drop = FALSE]
+      matches <- predicate(scope_df)
+      matches[is.na(matches)] <- FALSE
+      make_graphic_row(
+        graphic = graphic,
+        method = "Target-year cohort",
+        window_start = as.integer(target_year) - 5L,
+        window_end = as.integer(target_year),
+        scope = scope_spec$label,
+        count_yes = sum(matches),
+        count_scope_total = nrow(scope_df),
+        students_at_yes_institutions = sum(to_num(scope_df$enrollment_headcount_total[matches]), na.rm = TRUE),
+        calculation = metric_label,
+        note = note
+      )
+    }))
+  }
+
+  build_staff_cohort_rows <- function(start_year, end_year, treat_missing_end_as_zero = FALSE) {
+    start_df <- article_target_year_cohort_df(article_trend_df, start_year)[, c("unitid", "control_label", "staff_headcount_instructional"), drop = FALSE]
+    if (!nrow(start_df)) {
+      return(data.frame(stringsAsFactors = FALSE))
+    }
+    names(start_df)[3] <- "staff_start"
+    end_df <- article_trend_df[as.integer(article_trend_df$year) == as.integer(end_year), c("unitid", "staff_headcount_instructional"), drop = FALSE]
+    if (nrow(end_df)) {
+      names(end_df)[2] <- "staff_end"
+      end_df$has_end_row <- TRUE
+    } else {
+      end_df <- data.frame(unitid = character(), staff_end = numeric(), has_end_row = logical(), stringsAsFactors = FALSE)
+    }
+
+    joined <- merge(start_df, end_df, by = "unitid", all.x = TRUE)
+    if (treat_missing_end_as_zero) {
+      joined$staff_end[is.na(joined$has_end_row)] <- 0
+    }
+    joined <- joined[!is.na(joined$staff_start) & !is.na(joined$staff_end), , drop = FALSE]
+    if (!nrow(joined)) {
+      return(joined)
+    }
+    joined$cut <- joined$staff_end < joined$staff_start
+    joined$positions_cut <- pmax(joined$staff_start - joined$staff_end, 0)
+
+    do.call(rbind, lapply(scope_specs, function(scope_spec) {
+      scope_df <- joined[scope_spec$filter(joined), , drop = FALSE]
+      make_graphic_row(
+        graphic = "Instructional staff cuts by sector",
+        method = if (treat_missing_end_as_zero) "Start-year cohort with closures counted as zero" else "Start-year cohort, matched endpoints only",
+        window_start = as.integer(start_year),
+        window_end = as.integer(end_year),
+        scope = scope_spec$label,
+        count_yes = sum(scope_df$cut, na.rm = TRUE),
+        count_scope_total = nrow(scope_df),
+        total_positions_cut = sum(scope_df$positions_cut, na.rm = TRUE),
+        calculation = if (treat_missing_end_as_zero) "Compare the start-year cohort to the end year and treat schools missing in the end year as zero staff." else "Compare only schools with instructional staff reported at both endpoints.",
+        note = "Use this to test whether closure-sensitive cohort logic changes the staff-cut story."
+      )
+    }))
+  }
+
+  append_rows(
+    build_target_year_rows(
+      comparison_year,
+      "Enrollment declines in 3 of the last 5 years",
+      "enrollment_decline_last_3_of_5 == Yes",
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "Year-specific target-year cohort. Use this to compare 2019 versus 2024 without survivorship bias."
+    ),
+    build_target_year_rows(
+      latest_year,
+      "Enrollment declines in 3 of the last 5 years",
+      "enrollment_decline_last_3_of_5 == Yes",
+      function(df) yes_flag(df$enrollment_decline_last_3_of_5),
+      "Year-specific target-year cohort. Use this to compare 2019 versus 2024 without survivorship bias."
+    ),
+    build_target_year_rows(
+      comparison_year,
+      "Enrollment decline of at least 10% over five years",
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", baseline_year, comparison_year),
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      "Year-specific target-year cohort. This is the strongest restored for-profit distress signal in 2019."
+    ),
+    build_target_year_rows(
+      latest_year,
+      "Enrollment decline of at least 10% over five years",
+      sprintf("enrollment_pct_change_5yr <= -10 using the %s to %s window", comparison_year, latest_year),
+      function(df) !is.na(df$enrollment_pct_change_5yr) & to_num(df$enrollment_pct_change_5yr) <= -10,
+      "Year-specific target-year cohort. This is the comparable 2024 window."
+    ),
+    build_target_year_rows(
+      comparison_year,
+      "Instructional staff headcount down over five years",
+      sprintf("staff_instructional_headcount_pct_change_5yr < 0 using the %s to %s window", baseline_year, comparison_year),
+      function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & to_num(df$staff_instructional_headcount_pct_change_5yr) < 0,
+      "Year-specific target-year cohort. This is the clean five-year IPEDS staffing metric."
+    ),
+    build_target_year_rows(
+      latest_year,
+      "Instructional staff headcount down over five years",
+      sprintf("staff_instructional_headcount_pct_change_5yr < 0 using the %s to %s window", comparison_year, latest_year),
+      function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & to_num(df$staff_instructional_headcount_pct_change_5yr) < 0,
+      "Year-specific target-year cohort. This is the clean five-year IPEDS staffing metric."
+    ),
+    build_staff_cohort_rows(baseline_year, comparison_year, treat_missing_end_as_zero = TRUE),
+    build_staff_cohort_rows(comparison_year, latest_year, treat_missing_end_as_zero = TRUE)
+  )
+}
+
 # Applies a predicate function to each group data frame and returns match counts.
 count_by_group_from <- function(group_list, pred) {
   sapply(group_list, function(df) sum(pred(df), na.rm = TRUE))

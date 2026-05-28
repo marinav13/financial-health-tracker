@@ -29,6 +29,24 @@ compute_sector_tuition_benchmarks <- function(df) {
     )
 }
 
+round_percent_for_display <- function(x) {
+  out <- suppressWarnings(as.numeric(x))
+  out[is.na(out)] <- NA_real_
+  small <- !is.na(out) & abs(out) < 1
+  out[small] <- round(out[small], 1)
+  out[!small & !is.na(out)] <- round(out[!small & !is.na(out)])
+  out
+}
+
+display_percent_key <- function(x) {
+  displayed <- round_percent_for_display(x)
+  ifelse(
+    is.na(displayed),
+    NA_character_,
+    format(displayed, trim = TRUE, scientific = FALSE, nsmall = 0)
+  )
+}
+
 # ---------------------------------------------------------------------------
 # Sector Enrollment Benchmarks
 # ---------------------------------------------------------------------------
@@ -149,12 +167,14 @@ apply_sector_benchmarks <- function(df) {
     left_join(sector_staffing_benchmarks, by = c("control_label", "year")) %>%
     mutate(
       tuition_dependence_vs_sector_median_pct_points = tuition_dependence_pct - sector_median_tuition_dependence_pct,
+      tuition_dependence_display_pct = display_percent_key(tuition_dependence_pct),
+      sector_median_tuition_dependence_display_pct = display_percent_key(sector_median_tuition_dependence_pct),
 
       tuition_dependence_relative_to_sector_median = case_when(
         is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
-        abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "About the same as sector median",
-        tuition_dependence_pct > sector_median_tuition_dependence_pct ~ "Above sector median",
-        tuition_dependence_pct < sector_median_tuition_dependence_pct ~ "Below sector median",
+        tuition_dependence_display_pct == sector_median_tuition_dependence_display_pct ~ "About the same as sector median",
+        suppressWarnings(as.numeric(tuition_dependence_display_pct)) > suppressWarnings(as.numeric(sector_median_tuition_dependence_display_pct)) ~ "Above sector median",
+        suppressWarnings(as.numeric(tuition_dependence_display_pct)) < suppressWarnings(as.numeric(sector_median_tuition_dependence_display_pct)) ~ "Below sector median",
         TRUE ~ NA_character_
       ),
 
@@ -162,23 +182,29 @@ apply_sector_benchmarks <- function(df) {
         is.na(tuition_dependence_pct) | is.na(sector_median_tuition_dependence_pct) ~ NA_character_,
         TRUE ~ paste0(
           "This college got ",
-          round(tuition_dependence_pct),
+          tuition_dependence_display_pct,
           "% of its revenue from net tuition in ",
           year,
           ", ",
           tolower(case_when(
-            abs(tuition_dependence_pct - sector_median_tuition_dependence_pct) < 0.05 ~ "about the same as",
-            tuition_dependence_pct > sector_median_tuition_dependence_pct ~ "above",
-            tuition_dependence_pct < sector_median_tuition_dependence_pct ~ "below",
+            tuition_dependence_display_pct == sector_median_tuition_dependence_display_pct ~ "about the same as",
+            suppressWarnings(as.numeric(tuition_dependence_display_pct)) > suppressWarnings(as.numeric(sector_median_tuition_dependence_display_pct)) ~ "above",
+            suppressWarnings(as.numeric(tuition_dependence_display_pct)) < suppressWarnings(as.numeric(sector_median_tuition_dependence_display_pct)) ~ "below",
             TRUE ~ "compared with"
           )),
           " the median of ",
-          round(sector_median_tuition_dependence_pct),
+          sector_median_tuition_dependence_display_pct,
           "% for ",
           tolower(control_label),
           " colleges."
         )
-      ),
+      )
+    ) %>%
+    select(-any_of(c(
+      "tuition_dependence_display_pct",
+      "sector_median_tuition_dependence_display_pct"
+    ))) %>%
+    mutate(
 
       sector_enrollment_change_sentence = ifelse(
         is.na(enrollment_pct_change_5yr) | is.na(sector_enrollment_pct_change_5yr_national),

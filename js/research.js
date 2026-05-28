@@ -598,6 +598,7 @@
       container.innerHTML = renderGrantTable(school.grants || [], grantSortState) + renderRelatedInstitutionLinks({
         unitid: school.unitid,
         financialUnitid: school.financial_unitid,
+        hasFinancialProfile: indexedSchool?.is_primary_tracker === true || school.is_primary_tracker === true,
         current: "research",
         relatedIndexes
       });

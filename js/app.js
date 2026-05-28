@@ -120,16 +120,17 @@ function renderRelatedInstitutionLinks(options = {}) {
   const {
     unitid = "",
     financialUnitid = "",
+    hasFinancialProfile = false,
     current = "",
     include = ["finances", "cuts", "accreditation", "research"],
     relatedIndexes = {}
   } = options;
   // Only render the Finances link when the caller passes a numeric
-  // financialUnitid. The cuts/accreditation/research indexes set
-  // financial_unitid to null for institutions with no financial profile
-  // (closed schools, 2-year colleges outside the tracker, specialty
-  // institutions); falling back to the section unitid here would link to
-  // a school detail page that has no underlying data/schools/<id>.json.
+  // financialUnitid *and* the current side-dataset record is part of the
+  // primary tracker universe. Numeric IDs alone are not sufficient:
+  // closed or otherwise excluded schools can still carry a financial_unitid
+  // in cuts/accreditation/research, but there is no underlying
+  // data/schools/<id>.json profile to open from the Finances page.
   const financeUnitid = isNumericUnitid(financialUnitid) ? String(financialUnitid) : "";
   const links = [];
   const cutsRecord = findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
@@ -139,7 +140,7 @@ function renderRelatedInstitutionLinks(options = {}) {
   const researchRecord = findRelatedIndexRecord(relatedIndexes.research, unitid, "total_disrupted_grants")
     || findRelatedIndexRecord(relatedIndexes.research, financialUnitid, "total_disrupted_grants");
 
-  if (include.includes("finances") && current !== "finances" && financeUnitid) {
+  if (include.includes("finances") && current !== "finances" && financeUnitid && hasFinancialProfile) {
     links.push(window.TrackerApp.renderSchoolLink(financeUnitid, "Finances", "school.html"));
   }
   if (include.includes("cuts") && current !== "cuts" && cutsRecord?.unitid) {

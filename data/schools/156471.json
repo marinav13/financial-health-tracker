@@ -18,17 +18,17 @@
     "enrollment_pct_change_5yr": 114.4681,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 104.7321,
-    "net_tuition_per_fte_change_5yr": -0.0699,
+    "net_tuition_per_fte_change_5yr": 0.4257,
     "staff_total_headcount_pct_change_5yr": 26.9388,
     "staff_instructional_headcount_pct_change_5yr": 33.8889,
-    "students_per_instructional_staff_fte": 35.4233,
-    "sector_median_students_per_instructional_staff_fte": 17.9812,
+    "students_per_instructional_staff_fte": 12,
+    "sector_median_students_per_instructional_staff_fte": 15,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 99.0705,
-    "sector_median_tuition_dependence_pct": 98.8099,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 99% of its revenue from net tuition in 2024, above the median of 99% for private for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 98.0964,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 99% of its revenue from net tuition in 2024, above the median of 98% for private for-profit colleges.",
     "unfunded_discount_rate": null,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 12.8118,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 122,
     "sector_research_spending_positive_n": 8,
     "sector_research_spending_reporting_share_pct": 6.6,
-    "sector_median_research_expense_per_fte_positive": 91.9607,
+    "sector_median_research_expense_per_fte_positive": 89.3319,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -55,7 +55,7 @@
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
     "state_funding_pct_core_revenue": null,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
-    "state_funding_pct_change_5yr": 823.9329,
+    "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": null,
     "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": 23,
@@ -67,10 +67,6 @@
   },
   "series": {
     "revenue_total_adjusted": [
-      {
-        "year": 2014,
-        "value": 60691356.1216
-      },
       {
         "year": 2015,
         "value": 63674979.9177
@@ -114,10 +110,6 @@
     ],
     "expenses_total_adjusted": [
       {
-        "year": 2014,
-        "value": 54404544.1733
-      },
-      {
         "year": 2015,
         "value": 60822745.5758
       },
@@ -160,32 +152,28 @@
     ],
     "net_tuition_per_fte_adjusted": [
       {
-        "year": 2014,
-        "value": 57439.3634
-      },
-      {
         "year": 2015,
-        "value": 50964.466
+        "value": 53355.9652
       },
       {
         "year": 2016,
-        "value": 51520.4953
+        "value": 45037.3983
       },
       {
         "year": 2017,
-        "value": 41648.5078
+        "value": 41540.0648
       },
       {
         "year": 2018,
-        "value": 39036.5743
+        "value": 38967.0453
       },
       {
         "year": 2019,
-        "value": 41933.4924
+        "value": 41726.5589
       },
       {
         "year": 2020,
-        "value": 44988.1294
+        "value": 44804.4646
       },
       {
         "year": 2021,
@@ -206,10 +194,6 @@
     ],
     "unfunded_discount_rate": [],
     "enrollment_headcount_total": [
-      {
-        "year": 2014,
-        "value": 1505
-      },
       {
         "year": 2015,
         "value": 1618
@@ -252,10 +236,6 @@
       }
     ],
     "enrollment_headcount_undergrad": [
-      {
-        "year": 2014,
-        "value": 1505
-      },
       {
         "year": 2015,
         "value": 1618
@@ -321,10 +301,6 @@
     ],
     "enrollment_nonresident_total": [
       {
-        "year": 2014,
-        "value": 1
-      },
-      {
         "year": 2015,
         "value": 1
       },
@@ -366,10 +342,6 @@
       }
     ],
     "enrollment_nonresident_undergrad": [
-      {
-        "year": 2014,
-        "value": 1
-      },
       {
         "year": 2015,
         "value": 1
@@ -435,10 +407,6 @@
     ],
     "staff_headcount_total": [
       {
-        "year": 2014,
-        "value": 255
-      },
-      {
         "year": 2015,
         "value": 282
       },
@@ -480,10 +448,6 @@
       }
     ],
     "staff_headcount_instructional": [
-      {
-        "year": 2014,
-        "value": 129
-      },
       {
         "year": 2015,
         "value": 150
@@ -531,10 +495,6 @@
     "endowment_spending_current_use_pct_core_revenue": [],
     "federal_grants_contracts_pell_adjusted_adjusted": [
       {
-        "year": 2014,
-        "value": 0
-      },
-      {
         "year": 2015,
         "value": 0
       },
@@ -577,48 +537,44 @@
     ],
     "state_funding_adjusted": [
       {
-        "year": 2014,
-        "value": 35388.3318
-      },
-      {
         "year": 2015,
-        "value": 20361.8528
+        "value": 0
       },
       {
         "year": 2016,
-        "value": 17407.9247
+        "value": 0
       },
       {
         "year": 2017,
-        "value": 54320.9733
+        "value": 0
       },
       {
         "year": 2018,
-        "value": 111143.4979
+        "value": 0
       },
       {
         "year": 2019,
-        "value": 219577.5147
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 239363.1385
+        "value": 0
       },
       {
         "year": 2021,
-        "value": 74721.8149
+        "value": 0
       },
       {
         "year": 2022,
-        "value": 29636.2173
+        "value": 0
       },
       {
         "year": 2023,
-        "value": 513319.2869
+        "value": 0
       },
       {
         "year": 2024,
-        "value": 2028749
+        "value": 0
       }
     ]
   },
@@ -644,7 +600,7 @@
       "action_date": "2025-12-07",
       "action_year": "2025",
       "notes": "Removal of Monitoring Status",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117496",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117496",
       "source_page_modified": null,
@@ -665,7 +621,7 @@
       "action_date": "2025-06-12",
       "action_year": "2025",
       "notes": "Probation or Equivalent or a More Severe Status: Warning",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117496",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117496",
       "source_page_modified": null,
@@ -681,7 +637,7 @@
     {
       "accreditor": "SACSCOC",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117496",
+      "source_url": null,
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117496"
     }
   ]

@@ -18,17 +18,17 @@
     "enrollment_pct_change_5yr": -29.4278,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -39.243,
-    "net_tuition_per_fte_change_5yr": -28.7677,
+    "net_tuition_per_fte_change_5yr": -28.9291,
     "staff_total_headcount_pct_change_5yr": -47.4625,
     "staff_instructional_headcount_pct_change_5yr": -63.1057,
-    "students_per_instructional_staff_fte": 12.5837,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 10,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 61.0226,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 61% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 44.3047,
     "unfunded_discount_pct_change_5yr": 25.982,
     "share_grad_students": 27.1236,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 3.2497,
     "pct_international_undergraduate": 2.8698,
     "pct_international_graduate": 4.2705,
@@ -52,9 +52,9 @@
     "grad_plus_disbursements_amt": 911135,
     "grad_plus_disbursements_per_recipient": 11389.1875,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 6.1397,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 2.3818,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": 121.7562,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -13.9741,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": -19.5942,
     "endowment_spending_current_use_pct_core_revenue": 0.1044,
@@ -161,23 +161,23 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 29650.127
+        "value": 31275.8901
       },
       {
         "year": 2015,
-        "value": 29574.98
+        "value": 36561.6706
       },
       {
         "year": 2016,
-        "value": 30083.6069
+        "value": 31204.8773
       },
       {
         "year": 2017,
-        "value": 29802.8772
+        "value": 31275.4146
       },
       {
         "year": 2018,
-        "value": 27090.6811
+        "value": 28342.7136
       },
       {
         "year": 2019,
@@ -201,7 +201,7 @@
       },
       {
         "year": 2024,
-        "value": 20495.5326
+        "value": 20449.1026
       }
     ],
     "unfunded_discount_rate": [
@@ -765,15 +765,15 @@
       },
       {
         "year": 2022,
-        "value": 8281290.9877
+        "value": 5662098.5086
       },
       {
         "year": 2023,
-        "value": 9615477.6142
+        "value": 6925655.8485
       },
       {
         "year": 2024,
-        "value": 4985433
+        "value": 1934000
       }
     ],
     "state_funding_adjusted": [
@@ -845,7 +845,7 @@
       "action_date": "2024-02-16",
       "action_year": "2024",
       "notes": "Heightened Monitoring or Focused Review",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/106652",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/106652",
       "source_page_modified": null,
@@ -861,7 +861,7 @@
     {
       "accreditor": "WSCUC",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/106652",
+      "source_url": null,
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/106652"
     }
   ]

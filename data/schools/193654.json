@@ -21,14 +21,14 @@
     "net_tuition_per_fte_change_5yr": -7.137,
     "staff_total_headcount_pct_change_5yr": -11.3443,
     "staff_instructional_headcount_pct_change_5yr": -15.9185,
-    "students_per_instructional_staff_fte": 9.5085,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 9,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 67.972,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 68% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 31.8884,
     "unfunded_discount_pct_change_5yr": 10.4543,
     "share_grad_students": 25.9225,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 37.8341,
     "pct_international_undergraduate": 33.5705,
     "pct_international_graduate": 50.0178,
@@ -53,9 +53,9 @@
     "grad_plus_disbursements_per_recipient": 17895.6654,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.3295,
-    "state_funding_pct_core_revenue": 0,
+    "state_funding_pct_core_revenue": 0.1643,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 28.1834,
-    "state_funding_pct_change_5yr": null,
+    "state_funding_pct_change_5yr": -8.8748,
     "endowment_pct_change_5yr": -0.5936,
     "endowment_spending_current_use_pct_core_revenue": 0.039,
     "graduation_rate_6yr": 69,
@@ -93,15 +93,15 @@
       },
       {
         "year": 2020,
-        "value": 504802081.8667
+        "value": 505166905.5759
       },
       {
         "year": 2021,
-        "value": 479608335.1146
+        "value": 481570555.4895
       },
       {
         "year": 2022,
-        "value": 450308863.8363
+        "value": 449583205.7986
       },
       {
         "year": 2023,
@@ -139,7 +139,7 @@
       },
       {
         "year": 2020,
-        "value": 518690835.633
+        "value": 518542966.887
       },
       {
         "year": 2021,
@@ -147,7 +147,7 @@
       },
       {
         "year": 2022,
-        "value": 496051045.159
+        "value": 495318955.8832
       },
       {
         "year": 2023,
@@ -621,7 +621,7 @@
     "endowment_value_adjusted": [
       {
         "year": 2014,
-        "value": 397371731.4223
+        "value": 397594341.2155
       },
       {
         "year": 2015,
@@ -653,7 +653,7 @@
       },
       {
         "year": 2022,
-        "value": 452065663.7235
+        "value": 451461127.3377
       },
       {
         "year": 2023,
@@ -711,7 +711,7 @@
     "endowment_spending_current_use_pct_core_revenue": [
       {
         "year": 2020,
-        "value": 0.0421
+        "value": 0.0389
       },
       {
         "year": 2021,
@@ -765,7 +765,7 @@
       },
       {
         "year": 2022,
-        "value": 22291743.2916
+        "value": 22289599.5455
       },
       {
         "year": 2023,
@@ -779,39 +779,39 @@
     "state_funding_adjusted": [
       {
         "year": 2014,
-        "value": 0
+        "value": 895739.4059
       },
       {
         "year": 2015,
-        "value": 0
+        "value": 929088.116
       },
       {
         "year": 2016,
-        "value": 0
+        "value": 901829.5716
       },
       {
         "year": 2017,
-        "value": 0
+        "value": 863822.1075
       },
       {
         "year": 2018,
-        "value": 0
+        "value": 843226.4931
       },
       {
         "year": 2019,
-        "value": 0
+        "value": 799998.5449
       },
       {
         "year": 2020,
-        "value": 0
+        "value": 755100.2353
       },
       {
         "year": 2021,
-        "value": 0
+        "value": 813829.4534
       },
       {
         "year": 2022,
-        "value": 0
+        "value": 661345.6561
       },
       {
         "year": 2023,
@@ -819,7 +819,7 @@
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 729000
       }
     ]
   },
@@ -845,7 +845,7 @@
       "action_date": "2025-11-20",
       "action_year": "2025",
       "notes": "Accreditation Reaffirmed: Warning Removed",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/131335",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131335",
       "source_page_modified": null,
@@ -866,7 +866,7 @@
       "action_date": "2024-11-21",
       "action_year": "2024",
       "notes": "Probation or Equivalent or a More Severe Status: Warning",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/131335",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131335",
       "source_page_modified": null,
@@ -882,7 +882,7 @@
     {
       "accreditor": "MSCHE",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/131335",
+      "source_url": null,
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131335"
     }
   ]

@@ -18,28 +18,28 @@
     "enrollment_pct_change_5yr": -35.536,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -42.6339,
-    "net_tuition_per_fte_change_5yr": -38.3617,
+    "net_tuition_per_fte_change_5yr": -47.9779,
     "staff_total_headcount_pct_change_5yr": -34.6863,
     "staff_instructional_headcount_pct_change_5yr": -27.9412,
-    "students_per_instructional_staff_fte": 12.0732,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 15,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 6,
+    "loss_years_last_10": 5,
     "tuition_dependence_pct": 41.9201,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 42% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 57.5423,
     "unfunded_discount_pct_change_5yr": 18.2646,
     "share_grad_students": 26.1959,
     "sector_avg_share_grad_students": 29.2139,
     "research_expense": 791576,
-    "research_expense_per_fte": 1199.3576,
+    "research_expense_per_fte": 1012.2455,
     "research_expense_pct_core_expenses": 4.1069,
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 8.656,
     "pct_international_undergraduate": 10.8025,
     "pct_international_graduate": 2.6087,
@@ -101,7 +101,7 @@
       },
       {
         "year": 2022,
-        "value": 21123858.3127
+        "value": 25313420.8758
       },
       {
         "year": 2023,
@@ -147,7 +147,7 @@
       },
       {
         "year": 2022,
-        "value": 24047358.7591
+        "value": 23264993.2792
       },
       {
         "year": 2023,
@@ -161,7 +161,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 23310.1738
+        "value": 20396.4021
       },
       {
         "year": 2015,
@@ -185,23 +185,23 @@
       },
       {
         "year": 2020,
-        "value": 20511.5066
+        "value": 25853.0448
       },
       {
         "year": 2021,
-        "value": 17356.2233
+        "value": 14909.7344
       },
       {
         "year": 2022,
-        "value": 14822.0093
+        "value": 13157.5769
       },
       {
         "year": 2023,
-        "value": 15377.1717
+        "value": 13047.2972
       },
       {
         "year": 2024,
-        "value": 12029.7
+        "value": 10152.9437
       }
     ],
     "unfunded_discount_rate": [
@@ -239,7 +239,7 @@
       },
       {
         "year": 2022,
-        "value": 48.0615
+        "value": 47.6882
       },
       {
         "year": 2023,
@@ -653,7 +653,7 @@
       },
       {
         "year": 2022,
-        "value": 10641464.2785
+        "value": 12763596.0081
       },
       {
         "year": 2023,
@@ -675,7 +675,7 @@
       },
       {
         "year": 2022,
-        "value": 116010
+        "value": 126326
       },
       {
         "year": 2023,
@@ -697,7 +697,7 @@
       },
       {
         "year": 2022,
-        "value": 124347.9896
+        "value": 135405.4317
       },
       {
         "year": 2023,
@@ -719,7 +719,7 @@
       },
       {
         "year": 2022,
-        "value": 0.0061
+        "value": 0.0066
       },
       {
         "year": 2023,
@@ -761,11 +761,11 @@
       },
       {
         "year": 2021,
-        "value": 2224437.8456
+        "value": 917076.9747
       },
       {
         "year": 2022,
-        "value": 490883.5453
+        "value": 2059604.0167
       },
       {
         "year": 2023,
@@ -845,7 +845,7 @@
       "action_date": "2023-02-23",
       "action_year": "2023",
       "notes": "Accreditation Reaffirmed: Probation Removed",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
       "source_page_modified": null,
@@ -866,7 +866,7 @@
       "action_date": "2021-02-25",
       "action_year": "2021",
       "notes": "Probation or Equivalent or a More Severe Status: Probation | HLC took this action because it determined that the institution is out of compliance with HLC's Criteria for Accreditation.",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
+      "source_url": null,
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
       "source_page_modified": null,
@@ -882,7 +882,7 @@
     {
       "accreditor": "HLC",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
+      "source_url": null,
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/149763"
     }
   ]

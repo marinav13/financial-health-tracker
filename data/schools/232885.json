@@ -21,14 +21,14 @@
     "net_tuition_per_fte_change_5yr": 0.1703,
     "staff_total_headcount_pct_change_5yr": -7.1429,
     "staff_instructional_headcount_pct_change_5yr": -18.6667,
-    "students_per_instructional_staff_fte": 7.5109,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 7,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 10,
     "tuition_dependence_pct": 85.2565,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 85% of its revenue from net tuition in 2024, above the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 85% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 0,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 18.8235,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -610,6 +610,10 @@
       {
         "year": 2021,
         "value": 1775176.2036
+      },
+      {
+        "year": 2022,
+        "value": 1601436.1798
       }
     ],
     "endowment_spending_current_use": [
@@ -620,6 +624,10 @@
       {
         "year": 2021,
         "value": 39665
+      },
+      {
+        "year": 2022,
+        "value": 35066
       }
     ],
     "endowment_spending_current_use_adjusted": [
@@ -630,6 +638,10 @@
       {
         "year": 2021,
         "value": 45918.2721
+      },
+      {
+        "year": 2022,
+        "value": 37586.2995
       }
     ],
     "endowment_spending_current_use_pct_core_revenue": [
@@ -640,6 +652,10 @@
       {
         "year": 2021,
         "value": 0.0076
+      },
+      {
+        "year": 2022,
+        "value": 0.0065
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [

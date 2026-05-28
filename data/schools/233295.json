@@ -18,17 +18,17 @@
     "enrollment_pct_change_5yr": 4.0105,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -4.3516,
-    "net_tuition_per_fte_change_5yr": -23.7388,
+    "net_tuition_per_fte_change_5yr": -21.214,
     "staff_total_headcount_pct_change_5yr": 10.5263,
     "staff_instructional_headcount_pct_change_5yr": 9.7143,
-    "students_per_instructional_staff_fte": 10.3778,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 11,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": 39.9524,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 40% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 54.1537,
     "unfunded_discount_pct_change_5yr": 10.3111,
     "share_grad_students": 3.0341,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 1.3906,
     "pct_international_undergraduate": 1.4342,
     "pct_international_graduate": 0,
@@ -185,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 24191.977
+        "value": 24176.0087
       },
       {
         "year": 2021,
@@ -197,11 +197,11 @@
       },
       {
         "year": 2023,
-        "value": 19445.7713
+        "value": 19377.7791
       },
       {
         "year": 2024,
-        "value": 19000.8313
+        "value": 19629.9128
       }
     ],
     "unfunded_discount_rate": [
@@ -550,10 +550,6 @@
       {
         "year": 2014,
         "value": 201591770.2245
-      },
-      {
-        "year": 2015,
-        "value": 203532015.5986
       },
       {
         "year": 2016,

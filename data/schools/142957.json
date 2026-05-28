@@ -18,17 +18,17 @@
     "enrollment_pct_change_5yr": -5.2632,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 351.9434,
-    "net_tuition_per_fte_change_5yr": 466.742,
+    "net_tuition_per_fte_change_5yr": 592.6846,
     "staff_total_headcount_pct_change_5yr": 38.4615,
     "staff_instructional_headcount_pct_change_5yr": 25,
-    "students_per_instructional_staff_fte": 1.8462,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
+    "students_per_instructional_staff_fte": 3,
+    "sector_median_students_per_instructional_staff_fte": 12,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 0.8466,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 1% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 53.9103,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 50,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -153,27 +153,27 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2015,
-        "value": 385.9681
+        "value": 325.6606
       },
       {
         "year": 2016,
-        "value": 405.073
+        "value": 312.4849
       },
       {
         "year": 2017,
-        "value": 538.9519
+        "value": 419.1848
       },
       {
         "year": 2018,
-        "value": 109.3071
+        "value": 85.0167
       },
       {
         "year": 2019,
-        "value": 938.1033
+        "value": 767.539
       },
       {
         "year": 2020,
-        "value": 2954.7777
+        "value": 2298.1604
       },
       {
         "year": 2021,
@@ -570,7 +570,12 @@
         "value": 5
       }
     ],
-    "endowment_value_adjusted": [],
+    "endowment_value_adjusted": [
+      {
+        "year": 2015,
+        "value": 64898.5254
+      }
+    ],
     "endowment_spending_current_use": [],
     "endowment_spending_current_use_adjusted": [],
     "endowment_spending_current_use_pct_core_revenue": [],

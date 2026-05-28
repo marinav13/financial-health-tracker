@@ -21,13 +21,13 @@
     "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": null,
     "staff_instructional_headcount_pct_change_5yr": null,
-    "students_per_instructional_staff_fte": null,
-    "sector_median_students_per_instructional_staff_fte": 17.9812,
+    "students_per_instructional_staff_fte": 47,
+    "sector_median_students_per_instructional_staff_fte": 15,
     "ended_year_at_loss": null,
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 2,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 98.8099,
+    "sector_median_tuition_dependence_pct": 98.0964,
     "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": null,
     "unfunded_discount_pct_change_5yr": null,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 122,
     "sector_research_spending_positive_n": 8,
     "sector_research_spending_reporting_share_pct": 6.6,
-    "sector_median_research_expense_per_fte_positive": 91.9607,
+    "sector_median_research_expense_per_fte_positive": 89.3319,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": 0,
@@ -129,7 +129,7 @@
     "net_tuition_per_fte_adjusted": [
       {
         "year": 2014,
-        "value": 21495.1216
+        "value": 21557.1587
       },
       {
         "year": 2015,
@@ -542,11 +542,11 @@
       },
       {
         "year": 2019,
-        "value": 36191.3452
+        "value": 0
       },
       {
         "year": 2020,
-        "value": 38068.9298
+        "value": 0
       }
     ]
   }

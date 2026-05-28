@@ -17,18 +17,18 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -41.8033,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": null,
-    "net_tuition_per_fte_change_5yr": -4.7325,
+    "revenue_pct_change_5yr": -47.7816,
+    "net_tuition_per_fte_change_5yr": -7.1085,
     "staff_total_headcount_pct_change_5yr": 48.1481,
     "staff_instructional_headcount_pct_change_5yr": 73.3333,
-    "students_per_instructional_staff_fte": 12.8,
-    "sector_median_students_per_instructional_staff_fte": 12.4555,
-    "ended_year_at_loss": null,
+    "students_per_instructional_staff_fte": 9,
+    "sector_median_students_per_instructional_staff_fte": 12,
+    "ended_year_at_loss": "Yes",
     "losses_last_3_of_5": "No",
-    "loss_years_last_10": 0,
-    "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 44.2972,
-    "tuition_dependence_vs_sector_median_sentence": null,
+    "loss_years_last_10": 2,
+    "tuition_dependence_pct": 99.7362,
+    "sector_median_tuition_dependence_pct": 44.9472,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 100% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 0.7134,
     "unfunded_discount_pct_change_5yr": 98.5629,
     "share_grad_students": null,
@@ -39,7 +39,7 @@
     "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 672.3376,
+    "sector_median_research_expense_per_fte_positive": 585.5059,
     "pct_international_all": 0,
     "pct_international_undergraduate": 0,
     "pct_international_graduate": null,
@@ -66,7 +66,52 @@
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
   },
   "series": {
-    "revenue_total_adjusted": [],
+    "revenue_total_adjusted": [
+      {
+        "year": 2014,
+        "value": 4397508.0579
+      },
+      {
+        "year": 2015,
+        "value": 4824170.9287
+      },
+      {
+        "year": 2016,
+        "value": 4933373.7167
+      },
+      {
+        "year": 2017,
+        "value": 5028144.6817
+      },
+      {
+        "year": 2018,
+        "value": 5030069.6424
+      },
+      {
+        "year": 2019,
+        "value": 4980475.6039
+      },
+      {
+        "year": 2020,
+        "value": 4743986.9206
+      },
+      {
+        "year": 2021,
+        "value": 4669444.3107
+      },
+      {
+        "year": 2022,
+        "value": 3689574.5283
+      },
+      {
+        "year": 2023,
+        "value": 2683676.7136
+      },
+      {
+        "year": 2024,
+        "value": 2600726
+      }
+    ],
     "expenses_total_adjusted": [
       {
         "year": 2014,
@@ -136,7 +181,7 @@
       },
       {
         "year": 2019,
-        "value": 21271.2433
+        "value": 17562.0229
       },
       {
         "year": 2020,
@@ -152,11 +197,11 @@
       },
       {
         "year": 2023,
-        "value": 18587.1352
+        "value": 15652.3244
       },
       {
         "year": 2024,
-        "value": 20264.5781
+        "value": 16313.6226
       }
     ],
     "unfunded_discount_rate": [

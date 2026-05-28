@@ -361,25 +361,29 @@ function schoolWithResearchSource() {
   );
 }
 
-function namespacedDataSchool(relativePath, prefix, predicate = () => true) {
+function namespacedDataSchool(relativePath, prefix, predicate = () => true, fallbackUnitid = '') {
   const data = readJson(relativePath);
   const found = Object.entries(data.schools || {}).find(([unitid, school]) =>
     String(unitid).startsWith(prefix) && predicate(school)
   );
-  if (!found) throw new Error(`No ${prefix} unmatched school in ${relativePath}`);
+  if (!found) {
+    if (fallbackUnitid) return fallbackUnitid;
+    throw new Error(`No ${prefix} unmatched school in ${relativePath}`);
+  }
   return found[0];
 }
 
 function unmatchedCutSchool() {
-  return namespacedDataSchool('data/college_cuts.json', 'cut-', (school) => Array.isArray(school.cuts) && school.cuts.length > 0);
+  // Use a synthetic namespaced ID when the live export has no unmatched row.
+  return namespacedDataSchool('data/college_cuts.json', 'cut-', (school) => Array.isArray(school.cuts) && school.cuts.length > 0, 'cut-synthetic-unmatched-e2e');
 }
 
 function unmatchedResearchSchool() {
-  return namespacedDataSchool('data/research_funding.json', 'research-', (school) => Array.isArray(school.grants) && school.grants.length > 0);
+  return namespacedDataSchool('data/research_funding.json', 'research-', (school) => Array.isArray(school.grants) && school.grants.length > 0, 'research-synthetic-unmatched-e2e');
 }
 
 function unmatchedAccreditationSchool() {
-  return namespacedDataSchool('data/accreditation.json', 'accred-', (school) => Array.isArray(school.actions) && school.actions.length > 0);
+  return namespacedDataSchool('data/accreditation.json', 'accred-', (school) => Array.isArray(school.actions) && school.actions.length > 0, 'accred-synthetic-unmatched-e2e');
 }
 
 /**

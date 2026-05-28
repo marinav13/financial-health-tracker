@@ -494,14 +494,14 @@ function buildResearchSpendingSentence(profile, summary, latestDataYear) {
 
   if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
     const sectorPhrase = sectorLabel ? `${sectorLabel} colleges` : "colleges in the same sector";
-    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`;
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time equivalent student on research ${latestYearPhrase}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`;
   }
 
   if (shareOfCoreExpenses !== null) {
-    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}.`;
+    return `Research expenses accounted for ${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses at this institution, which spent about ${fmtCurrency(perFte)} per full-time equivalent student on research ${latestYearPhrase}.`;
   }
 
-  return `This institution spent about ${fmtCurrency(perFte)} per full-time student on research ${latestYearPhrase}.`;
+  return `This institution spent about ${fmtCurrency(perFte)} per full-time equivalent student on research ${latestYearPhrase}.`;
 }
 
 function buildResearchSpendingParagraph(profile, summary, latestDataYear) {
@@ -532,7 +532,7 @@ function buildResearchSpendingParagraph(profile, summary, latestDataYear) {
       "Research expenses accounted for ",
       strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
       " at this institution, which spent ",
-      strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+      strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
       ` on research in ${yearLabel}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`
     ];
   }
@@ -542,14 +542,14 @@ function buildResearchSpendingParagraph(profile, summary, latestDataYear) {
       "Research expenses accounted for ",
       strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
       " at this institution, which spent ",
-      strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+      strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
       ` on research in ${yearLabel}.`
     ];
   }
 
   return [
     "This institution spent ",
-    strongSegment(`${fmtCurrency(perFte)} per full-time student`),
+    strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
     ` on research in ${yearLabel}.`
   ];
 }
@@ -728,7 +728,7 @@ function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) 
   const sectorLabel = String(profile.control_label || "").toLowerCase();
   if (ratio === null || benchmark === null || !sectorLabel) return null;
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}` : "In the latest year";
-  return `${prefix}, this institution had an IPEDS student-to-faculty ratio of about ${fmtNumber(ratio)} to 1, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`;
+  return `${prefix}, this institution had a student-to-faculty ratio of about ${fmtNumber(ratio)} to 1, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`;
 }
 
 function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear) {
@@ -739,7 +739,7 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}, this institution had ` : "In the latest year, this institution had ";
   return [
     prefix,
-    strongSegment(`an IPEDS student-to-faculty ratio of about ${fmtNumber(ratio)} to 1`),
+    strongSegment(`a student-to-faculty ratio of about ${fmtNumber(ratio)} to 1`),
     `, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`
   ];
 }
@@ -1084,8 +1084,8 @@ async function init() {
   applyStrip(
     "net-tuition-change-card",
     asNumber(s.net_tuition_per_fte_change_5yr) === null
-      ? "Net tuition revenue per student data are not available."
-      : `Net tuition revenue per student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
+      ? "Net tuition revenue per full-time equivalent student data are not available."
+      : `Net tuition revenue per full-time equivalent student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
     sentimentClass(s.net_tuition_per_fte_change_5yr)
   );
   const hasNetTuitionCard = asNumber(s.net_tuition_per_fte_change_5yr) !== null;

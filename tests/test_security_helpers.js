@@ -333,6 +333,7 @@ run("renderRelatedInstitutionLinks only includes indexed related pages", () => {
   const matched = app.renderRelatedInstitutionLinks({
     unitid: "100654",
     financialUnitid: "100654",
+    hasFinancialProfile: true,
     current: "research",
     relatedIndexes: {
       cuts: {
@@ -363,9 +364,24 @@ run("renderRelatedInstitutionLinks only includes indexed related pages", () => {
       }
     }
   });
-  assert(missingSidePage.includes("school.html?unitid=185262"), "Expected finances link for numeric school");
+  assert(!missingSidePage.includes("school.html?unitid=185262"), "Expected no finances link without a matched primary tracker profile");
   assert(!missingSidePage.includes("cuts.html?unitid=185262"), "Expected no cuts link when cuts index has no record");
   assert(missingSidePage.includes("research.html?unitid=185262"), "Expected research link when research index has a record");
+
+  const matchedFinanceProfile = app.renderRelatedInstitutionLinks({
+    unitid: "185262",
+    financialUnitid: "185262",
+    hasFinancialProfile: true,
+    current: "accreditation",
+    relatedIndexes: {
+      cuts: {},
+      accreditation: {
+        "185262": { unitid: "185262", action_count: 1 }
+      },
+      research: {}
+    }
+  });
+  assert(matchedFinanceProfile.includes("school.html?unitid=185262"), "Expected finances link when a primary tracker profile exists");
 });
 
 run("renderSchoolLink escapes labels at the helper boundary", () => {

@@ -67,6 +67,11 @@ run_test("End-to-end canonical to web export fixture", function() {
     overwrite = TRUE
   )
   file.copy(
+    file.path(root, "scripts", "shared", "editorial_review_helpers_impl.R"),
+    file.path(fixture_root, "scripts", "shared", "editorial_review_helpers_impl.R"),
+    overwrite = TRUE
+  )
+  file.copy(
     file.path(root, "scripts", "shared", "contracts.R"),
     file.path(fixture_root, "scripts", "shared", "contracts.R"),
     overwrite = TRUE

@@ -476,21 +476,31 @@ jobs:
           # intermediate pipeline files). They are discarded after push since
           # the runner has no further use for them.
           git stash 2>/dev/null || true
+          target_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
+          if [ -z "$target_branch" ] || [ "$target_branch" = "HEAD" ]; then
+            target_branch=$(git rev-parse --abbrev-ref HEAD)
+          fi
+          if [ -z "$target_branch" ] || [ "$target_branch" = "HEAD" ]; then
+            echo "Could not determine target branch for refresh publish."
+            exit 1
+          fi
+          remote_ref="origin/$target_branch"
+          echo "Publishing refresh commit to $remote_ref"
           for attempt in 1 2 3; do
             echo "Push attempt $attempt/3"
-            git fetch origin main
+            git fetch origin "$target_branch"
             # Rebase strategy:
             #   -X ours during rebase keeps remote's version on conflicts in
-            #   the rebase base (origin/main). For regenerated data files we
-            #   want the runner's fresh build, which is "theirs" in rebase
-            #   semantics. Use -X theirs for the data paths specifically by
+            #   the tracked remote branch. For regenerated data files we want
+            #   the runner's fresh build, which is "theirs" in rebase
+            #   semantics. Use path-scoped checkout for those data paths by
             #   first letting auto-merge try (no strategy), and only fall
             #   back to a path-scoped checkout if conflicts remain.
-            if git rebase origin/main; then
+            if git rebase "$remote_ref"; then
               :
             else
               # Conflict — resolve regenerated data paths to ours (the
-              # workflow commit being replayed onto origin/main).
+              # workflow commit being replayed onto the tracked branch).
               conflicted=$(git diff --name-only --diff-filter=U || true)
               if [ -n "$conflicted" ]; then
                 echo "Conflicts on: $conflicted"
@@ -536,7 +546,7 @@ jobs:
                 exit 1
               fi
             fi
-            if git push; then
+            if git push origin "HEAD:$target_branch"; then
               echo "Push succeeded on attempt $attempt"
               exit 0
             fi

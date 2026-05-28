@@ -1,6 +1,6 @@
 {
   "unitid": "226231",
-  "generated_at": "2026-05-27",
+  "generated_at": "2026-05-28",
   "profile": {
     "institution_name": "LeTourneau University",
     "institution_unique_name": "LeTourneau University | Longview | Texas",
@@ -22,24 +22,24 @@
     "staff_total_headcount_pct_change_5yr": -3.8674,
     "staff_instructional_headcount_pct_change_5yr": 3.2028,
     "students_per_instructional_staff_fte": 11.9138,
-    "sector_median_students_per_instructional_staff_fte": 13.0124,
+    "sector_median_students_per_instructional_staff_fte": 12.4555,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 36.4301,
-    "sector_median_tuition_dependence_pct": 44.8638,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "sector_median_tuition_dependence_pct": 44.2972,
+    "tuition_dependence_vs_sector_median_sentence": "This college got 36% of its revenue from net tuition in 2024, below the median of 44% for private not-for-profit colleges.",
     "unfunded_discount_rate": 34.2526,
     "unfunded_discount_pct_change_5yr": 9.247,
     "share_grad_students": 4.8804,
-    "sector_avg_share_grad_students": 29.1503,
+    "sector_avg_share_grad_students": 29.2139,
     "research_expense": 485983,
     "research_expense_per_fte": 234.4346,
     "research_expense_pct_core_expenses": 1.0303,
-    "sector_research_spending_n": 1148,
+    "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
-    "sector_median_research_expense_per_fte_positive": 585.5059,
+    "sector_median_research_expense_per_fte_positive": 672.3376,
     "pct_international_all": 3.1579,
     "pct_international_undergraduate": 3.2948,
     "pct_international_graduate": 0.4902,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": 14.7826,
     "international_students_sentence": "In 2024, 3.2% of students were international. That includes 3.3% of undergraduates and 0.5% of graduate students.",
     "federal_loan_pct_most_recent": 24,
-    "sector_avg_federal_loan_pct_most_recent": 46.041,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": null,
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
@@ -261,7 +261,7 @@
       },
       {
         "year": 2016,
-        "value": 3923
+        "value": 3947
       },
       {
         "year": 2017,
@@ -307,7 +307,7 @@
       },
       {
         "year": 2016,
-        "value": 3108
+        "value": 3132
       },
       {
         "year": 2017,
@@ -825,14 +825,14 @@
   },
   "latest_status": {
     "accreditors": "SACSCOC",
-    "action_labels": "Removed from warning",
-    "active_actions": null,
-    "has_active_warning": false,
-    "has_active_warning_or_notice": false,
+    "action_labels": "Placed on warning for failure to comply with Core Requirement 6.1 (Full-time faculty) and Standard 6.2.b (Program faculty); Removed from warning",
+    "active_actions": "warning",
+    "has_active_warning": true,
+    "has_active_warning_or_notice": true,
     "has_active_adverse_action": false,
     "latest_action_date": "2024-06-01",
     "latest_action_year": "2024",
-    "action_count": 1
+    "action_count": 2
   },
   "actions": [
     {
@@ -855,6 +855,27 @@
       "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
       "has_financial_profile": true,
       "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
+      "action_label": "Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) http://www.sacscoc.org Disclosure Statement Regarding the Status of LETOURNEAU UNIVERSITY Longview, Texas Issued June 23, 2023, by SACSCOC The following publicly available information is provided by the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) concerning the accreditation of LeTourneau University.",
+      "action_label_short": "Placed on warning for failure to comply with Core Requirement 6.1 (Full-time faculty) and Standard 6.2.b (Program faculty)",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2023-06-15",
+      "action_year": "2023",
+      "notes": "Probation or Equivalent or a More Severe Status: Warning",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/145372",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/145372",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
     }
   ],
   "sources": [
@@ -863,6 +884,12 @@
       "source_title": "June 2024 Accreditation Actions and Public Disclosure Statements - SACSCOC",
       "source_url": "https://web.archive.org/web/20240626193756id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2024-accreditation-actions-and-public-disclosure-statements/",
       "source_page_url": "https://web.archive.org/web/20240626193756id_/https://sacscoc.org/institutions/accreditation-actions-and-disclosures/june-2024-accreditation-actions-and-public-disclosure-statements/"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/145372",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/145372"
     }
   ]
 }

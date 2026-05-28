@@ -80,6 +80,7 @@ jobs:
         run: npm ci
 
       - name: Cache Playwright browsers
+        id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
@@ -91,29 +92,23 @@ jobs:
         timeout-minutes: 10
         run: npx playwright install-deps chromium firefox
 
-      - name: Install Playwright browsers
+      - name: Install Playwright Chromium browser
         # playwright.config.js declares three projects: chromium (full suite),
         # firefox (navigation.spec.js canary), and mobile-chrome (navigation
         # canary on Pixel 7 emulation). mobile-chrome uses the Chromium engine
-        # so no separate install is needed; firefox is a distinct browser and
-        # must be installed explicitly or its project will fail at runtime.
-        timeout-minutes: 15
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3; do
-            echo "Playwright browser install attempt ${attempt}"
-            if timeout 10m npx playwright install chromium firefox; then
-              exit 0
-            fi
-            if [ "$attempt" -lt 3 ]; then
-              echo "Browser install attempt ${attempt} failed or hung; clearing partial browser cache and retrying."
-              rm -rf "$HOME/.cache/ms-playwright"
-              sleep 5
-            fi
-          done
-          echo "Playwright browser install failed after 3 attempts." >&2
-          exit 1
+        # so no separate mobile-chrome install is needed.
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 8
+        env:
+          DEBUG: pw:install
+        run: npx playwright install chromium
+
+      - name: Install Playwright Firefox browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 8
+        env:
+          DEBUG: pw:install
+        run: npx playwright install firefox
 
       - name: Run Playwright e2e tests
         run: npm run test:e2e

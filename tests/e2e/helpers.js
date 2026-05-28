@@ -83,6 +83,29 @@ function schoolWithoutEndowment() {
   throw new Error('No school without endowment series available for e2e tests');
 }
 
+function roundDisplayPercent(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return null;
+  return Math.abs(numeric) < 1 ? Math.round(numeric * 10) / 10 : Math.round(numeric);
+}
+
+function schoolWithTuitionDependenceAtDisplayedMedian() {
+  const schoolsDir = path.join(ROOT, 'data', 'schools');
+  const files = fs.readdirSync(schoolsDir).filter((file) => file.endsWith('.json')).sort();
+  for (const file of files) {
+    const school = JSON.parse(fs.readFileSync(path.join(schoolsDir, file), 'utf8'));
+    const summary = school.summary || {};
+    const tuition = roundDisplayPercent(summary.tuition_dependence_pct);
+    const median = roundDisplayPercent(summary.sector_median_tuition_dependence_pct);
+    const controlLabel = String(school.profile?.control_label || '').trim();
+    if (tuition === null || median === null || !controlLabel) continue;
+    if (tuition === median) {
+      return school.unitid || path.basename(file, '.json');
+    }
+  }
+  throw new Error('No school with displayed tuition dependence equal to displayed sector median available for e2e tests');
+}
+
 function latestEnrollmentText(unitid) {
   const school = readJson(path.join('data', 'schools', `${unitid}.json`));
   const points = (school.series?.enrollment_headcount_total || [])
@@ -433,6 +456,7 @@ module.exports = {
   privateNonprofitSchoolWithDiscountChart,
   publicSchoolForDiscountHidden,
   schoolWithoutEndowment,
+  schoolWithTuitionDependenceAtDisplayedMedian,
   latestEnrollmentText,
   schoolWithClosureStatus,
   schoolWithRelatedPages,

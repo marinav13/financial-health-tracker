@@ -37,6 +37,20 @@ function fmtRoundedPct(value, includePlus = false) {
   return `${sign}${rounded.toFixed(decimals)}%`;
 }
 
+function roundedPercentDisplayValue(value) {
+  const n = asNumber(value);
+  if (n === null) return null;
+  return Math.abs(n) < 1 ? Math.round(n * 10) / 10 : Math.round(n);
+}
+
+function compareDisplayedPercentages(value, benchmark) {
+  const displayedValue = roundedPercentDisplayValue(value);
+  const displayedBenchmark = roundedPercentDisplayValue(benchmark);
+  if (displayedValue === null || displayedBenchmark === null) return null;
+  if (displayedValue === displayedBenchmark) return "about the same as";
+  return displayedValue > displayedBenchmark ? "above" : "below";
+}
+
 function fmtCurrency(value) {
   const n = asNumber(value);
   if (n === null) return "No data";
@@ -565,7 +579,7 @@ function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   }
 
   if (sectorMedian !== null && sectorLabel) {
-    const relation = tuitionDependence >= sectorMedian ? "above" : "below";
+    const relation = compareDisplayedPercentages(tuitionDependence, sectorMedian) || "about the same as";
     return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`;
   }
 
@@ -581,7 +595,7 @@ function buildTuitionDependenceParagraph(profile, summary, latestDataYear) {
   if (tuitionDependence === null) return null;
 
   if (sectorMedian !== null && sectorLabel) {
-    const relation = tuitionDependence >= sectorMedian ? "above" : "below";
+    const relation = compareDisplayedPercentages(tuitionDependence, sectorMedian) || "about the same as";
     return [
       "This college got ",
       strongSegment(`${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition`),

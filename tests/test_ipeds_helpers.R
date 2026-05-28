@@ -23,6 +23,26 @@ run_test("IPEDS sector benchmarks", function() {
   assert_true(grepl("net tuition", enriched$tuition_dependence_vs_sector_median_sentence[[1]], fixed = TRUE))
 })
 
+run_test("IPEDS tuition dependence treats equal displayed percentages as sector-median parity", function() {
+  df <- data.frame(
+    unitid = c("100", "200"),
+    year = c(2024L, 2024L),
+    control_label = c("Private not-for-profit", "Private not-for-profit"),
+    tuition_dependence_pct = c(45.2121, 44.9472),
+    enrollment_headcount_total = c(1000, 2000),
+    enrollment_pct_change_5yr = c(-5, -10),
+    research_expense_per_fte = c(0, 50),
+    students_per_instructional_staff_fte = c(12, 18),
+    stringsAsFactors = FALSE
+  )
+
+  enriched <- apply_sector_benchmarks(df)
+  row <- enriched[enriched$unitid == "100", , drop = FALSE]
+
+  assert_identical(row$tuition_dependence_relative_to_sector_median[[1]], "About the same as sector median")
+  assert_true(grepl("about the same as the median of 45%", row$tuition_dependence_vs_sector_median_sentence[[1]], fixed = TRUE))
+})
+
 run_test("IPEDS layout honors configurable default year range", function() {
   old_start <- Sys.getenv("IPEDS_START_YEAR", unset = NA_character_)
   old_end <- Sys.getenv("IPEDS_END_YEAR", unset = NA_character_)

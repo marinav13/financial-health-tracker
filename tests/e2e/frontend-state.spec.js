@@ -12,6 +12,7 @@ const {
   schoolWithVisibleAccreditation,
   schoolWithResearchSource,
   schoolWithoutEndowment,
+  schoolWithTuitionDependenceAtDisplayedMedian,
   schoolWithClosureStatus,
   relatedPagesForSchool,
   unmatchedCutSchool,
@@ -23,6 +24,7 @@ const cutsUnitid = schoolWithCuts();
 const accreditationUnitid = schoolWithVisibleAccreditation();
 const researchUnitid = schoolWithResearchSource();
 const noEndowmentUnitid = schoolWithoutEndowment();
+const tuitionMedianUnitid = schoolWithTuitionDependenceAtDisplayedMedian();
 const closureStatusUnitid = schoolWithClosureStatus();
 const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
@@ -110,6 +112,16 @@ test.describe('Frontend state synchronization', () => {
     await expect(list.locator('table.history-table')).toBeVisible();
     await expect(list.locator('thead th')).toContainText(['Agency', 'Grant', 'Description', 'Funding still disrupted', 'Termination date', 'Source']);
     await expect(list.locator('thead th')).not.toContainText(['Grant ID']);
+  });
+
+  test('school tuition dependence copy treats equal displayed percentages as at the median', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${tuitionMedianUnitid}`);
+
+    const tuitionCopy = page.locator('#tuition-sentence-copy');
+    await expect(tuitionCopy).toBeVisible();
+    await expect(tuitionCopy).toContainText('about the same as the median');
+    await expect(tuitionCopy).not.toContainText('above the median');
+    await expect(tuitionCopy).not.toContainText('below the median');
   });
 
   test('sortable headers move aria-sort with the active sort state', async ({ page }) => {

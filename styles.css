@@ -1433,19 +1433,40 @@ h1.serif {
     grid-template-columns: 1fr;
   }
 
+  .guide-example {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .guide-example .guide-sample-grid,
+  .guide-example .guide-example-callouts {
+    display: contents;
+  }
+
+  .guide-example .guide-example-mast { order: 1; }
+  .guide-example .guide-sample-grid > article:nth-child(1) { order: 2; }
+  .guide-example .guide-callout-left.guide-callout-row-1 { order: 3; }
+  .guide-example .guide-sample-grid > article:nth-child(2) { order: 4; }
+  .guide-example .guide-callout-right.guide-callout-row-1 { order: 5; }
+  .guide-example .guide-sample-grid > article:nth-child(3) { order: 6; }
+  .guide-example .guide-callout-left.guide-callout-row-2 { order: 7; }
+  .guide-example .guide-sample-grid > article:nth-child(4) { order: 8; }
+  .guide-example .guide-callout-right.guide-callout-row-2 { order: 9; }
+  .guide-example .guide-sample-grid > article:nth-child(5) { order: 10; }
+  .guide-example .guide-callout-left.guide-callout-row-3 { order: 11; }
+  .guide-example .guide-sample-grid > article:nth-child(6) { order: 12; }
+  .guide-example .guide-callout-right.guide-callout-row-3 { order: 13; }
+  .guide-example .guide-example-summary { order: 14; }
+
   .guide-example-callouts {
-    position: static;
-    inset: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 20px;
     pointer-events: auto;
   }
 
   .guide-callout {
     position: static;
     width: auto;
+    opacity: 1;
+    transform: none;
     text-align: left;
   }
 
@@ -2927,10 +2948,15 @@ h1.serif {
   }
   .home-layout .hero-split h1 { order: 1; }
   .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 2; }
-  .home-layout > .search-panel { order: 3; margin-top: 4px; margin-bottom: 20px; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 4; }
-  .home-layout .hero-split .banner { order: 5; margin-top: 8px; }
-  .home-layout > .pg-foot { order: 6; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 3; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 4; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 5; }
+  .home-layout > .search-panel { order: 6; margin-top: 4px; margin-bottom: 20px; }
+  .home-layout .hero-split .banner { order: 7; margin-top: 8px; }
+  .home-layout > .pg-foot { order: 8; }
+  .home-layout .pg-foot { text-align: center; }
+  .home-layout .pg-foot > * { display: block; }
+  .home-layout .pg-foot > * + * { margin-top: 8px; margin-left: 0; }
 
   /* The previous mobile behavior (collapsed search behind a summary
      toggle) was replaced above — search is now always visible on the

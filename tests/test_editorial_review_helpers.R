@@ -5,8 +5,10 @@ if (!exists("run_test", mode = "function")) {
 run_test("Text trim helpers preserve zero-length vectors and normalize scalar NA values", function() {
   assert_identical(trim_text(character(0)), character(0))
   assert_identical(trim_optional_text(character(0)), character(0))
+  assert_identical(derive_year_from_date_string(character(0)), character(0))
   assert_identical(trim_text(NA_character_), "")
   assert_true(is.na(trim_optional_text(NA_character_)))
+  assert_true(is.na(derive_year_from_date_string(NA_character_)))
 })
 
 run_test("Accreditation legacy sheet rows normalize into the new visible schema", function() {
@@ -378,6 +380,50 @@ run_test("Apply-only accreditation publish reuses the approved reviewed statemen
   )
 })
 
+run_test("Apply-only accreditation publish keeps approved scraper rows when recompute drops them", function() {
+  reviewed_actions_df <- data.frame(
+    export_unitid = "100",
+    unitid = "100",
+    export_institution_name = "Example University",
+    accreditor = "MSCHE",
+    action_date = "2026-04-24",
+    action_type = "warning",
+    action_label_raw = "Issued warning",
+    action_label_short = "Reviewed warning statement",
+    source_url = "https://example.org/reviewed-action",
+    source_title = "Reviewed source",
+    source_page_url = "https://example.org/reviewed-action",
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_accreditation_review_candidates(reviewed_actions_df)
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_accreditation_review_sheet_rows(staged)
+  sheet_rows$review_status <- "approved"
+  overrides <- merge_accreditation_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  recomputed_actions_df <- reviewed_actions_df
+  recomputed_actions_df$action_date[[1]] <- "2026-05-01"
+  recomputed_actions_df$action_label_raw[[1]] <- "Different warning"
+  recomputed_actions_df$action_label_short[[1]] <- "Different warning"
+  recomputed_actions_df$source_url[[1]] <- "https://example.org/different-action"
+  recomputed_actions_df$source_page_url[[1]] <- "https://example.org/different-action"
+
+  applied <- apply_accreditation_editorial_overrides(
+    recomputed_actions_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = candidates$action_id,
+    drop_unlisted = TRUE
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$action_id[[1]]), trim_text(candidates$action_id[[1]]))
+  assert_identical(applied$action_label_short[[1]], "Reviewed warning statement")
+  assert_identical(applied$row_origin[[1]], "scraper")
+  assert_identical(applied$source_url[[1]], "https://example.org/reviewed-action")
+})
+
 run_test("Manual accreditation rows append cleanly against production-shaped datetime columns", function() {
   actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
   actions_df <- readr::read_csv(
@@ -634,6 +680,51 @@ run_test("College cuts visible-field edits publish and approved manual rows appe
   assert_identical(applied$source_publication[[1]], "Corrected paper")
   assert_true(any(applied$row_origin == "manual"))
   assert_true(any(applied$program_name == "Ten staff layoffs"))
+})
+
+run_test("Apply-only college cuts publish keeps approved scraper rows when recompute drops them", function() {
+  reviewed_cuts_df <- data.frame(
+    cut_id = "cut-1",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/reviewed-cut",
+    source_title = "Reviewed source",
+    source_publication = "Reviewed paper",
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(reviewed_cuts_df)
+  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
+  sheet_rows$review_status <- "approved"
+  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  recomputed_cuts_df <- reviewed_cuts_df
+  recomputed_cuts_df$cut_id[[1]] <- "cut-2"
+  recomputed_cuts_df$announcement_date[[1]] <- "2026-05-01"
+  recomputed_cuts_df$announcement_year[[1]] <- 2026L
+  recomputed_cuts_df$program_name[[1]] <- "Different cut"
+  recomputed_cuts_df$source_url[[1]] <- "https://example.org/different-cut"
+
+  applied <- apply_college_cuts_editorial_overrides(
+    recomputed_cuts_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_cut_ids = candidates$cut_id,
+    drop_unlisted = TRUE
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$cut_id[[1]]), trim_text(candidates$cut_id[[1]]))
+  assert_identical(applied$program_name[[1]], "History BA")
+  assert_identical(applied$row_origin[[1]], "scraper")
+  assert_identical(applied$source_url[[1]], "https://example.org/reviewed-cut")
 })
 
 run_test("Unreviewed manual college cuts rows stay excluded from exports", function() {

@@ -2,13 +2,15 @@
 
 The weekly refresh workflow
 (`.github/workflows/refresh-ipeds-site-data.yml`) tees every scraper step's
-stdout and stderr into `refresh-logs/combined.log`. A final **Check for
+stdout and stderr into `refresh-logs/combined.log`. A final **Report
 scraper drift warnings** step greps that log for the warning patterns below.
-If any appear, the job fails so the repo never silently publishes partial
-or stale scraped data.
+If any appear, the workflow surfaces them as warnings for human triage while
+continuing the weekly refresh.
 
-When the job fails at that step, the CI logs will show the offending lines
-directly. Use this document to decide what to do about each one.
+The weekly workflow now rebuilds public JSON from the last committed reviewed
+snapshot, so fresh scraper anomalies no longer block the run just because a
+source changed shape. Use this document to decide what to do about each
+warning pattern.
 
 The full log is attached as the `refresh-logs` CI artifact (retention: 30
 days).
@@ -102,20 +104,18 @@ per-accreditor parsers (HLC, SACSCOC, NECHE, WSCUC, MSCHE) and got an empty
 result frame. NWCCU is allow-listed because zero rows there is the normal
 case (no qualifying institutions under action).
 
-**Normally this is not seen in CI.** In CI mode the script `stop()`s on
-this condition and fails the step directly. You only see this warning
-surface in the drift gate when someone has invoked the script with
-`--allow-partial-accreditation` to push a partial refresh through.
+**In the weekly refresh, this now surfaces as a warning.** The workflow runs
+`build_accreditation_actions.R` with `--allow-partial-accreditation` so the
+run can keep staging review rows and preserve the last approved public
+snapshot while a human fixes the scraper.
 
 **Triage steps.**
-1. Do not re-run with `--allow-partial-accreditation` unless you have
-   already verified the empty scraper is legitimately empty upstream.
-2. Follow the same fix path as `warn_on_empty_parse` above: open the
+1. Follow the same fix path as `warn_on_empty_parse` above: open the
    accreditor URL, confirm the page has actions listed, inspect the
    HTML, and compare against the parser function in
    `scripts/shared/accreditation_scrapers.R`.
-3. Patch the parser, re-run the refresh workflow **without** the
-   `--allow-partial-accreditation` flag, and verify the gate passes.
+2. Patch the parser and re-run the refresh workflow to confirm the warning
+   clears.
 
 ---
 

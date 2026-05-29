@@ -40,6 +40,9 @@ normalize_review_row_origin <- function(x) {
 
 derive_year_from_date_string <- function(x) {
   value <- trim_optional_text(x)
+  if (length(value) == 0L) {
+    return(character(0))
+  }
   ifelse(
     is.na(value) | nchar(value) < 4L,
     NA_character_,
@@ -775,32 +778,42 @@ grandfather_accreditation_editorial_overrides <- function(overrides,
   local_rows[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
-build_manual_accreditation_export_row <- function(override_row, template_df) {
+build_review_backed_accreditation_export_row <- function(override_row, template_df) {
   internal_row <- coerce_accreditation_editorial_overrides(override_row)
   if (!nrow(internal_row)) return(template_df[0, , drop = FALSE])
   effective_row <- build_accreditation_review_sheet_rows(internal_row)[1, , drop = FALSE]
-  manual_row <- blank_like_row(template_df)
-  if (!("row_origin" %in% names(manual_row))) manual_row$row_origin <- NA_character_
-  export_unitid <- if (is.na(effective_row$unitid[[1]]) || !nzchar(effective_row$unitid[[1]])) paste0("manual-accred-", effective_row$action_id[[1]]) else effective_row$unitid[[1]]
+  export_row <- blank_like_row(template_df)
+  if (!("row_origin" %in% names(export_row))) export_row$row_origin <- NA_character_
+  row_origin_value <- trim_optional_text(internal_row$source_row_origin[[1]])
+  if (is.na(row_origin_value) || !nzchar(row_origin_value)) {
+    row_origin_value <- trim_optional_text(effective_row$row_origin[[1]])
+  }
+  if (is.na(row_origin_value) || !nzchar(row_origin_value)) row_origin_value <- "manual"
+  export_id_prefix <- if (identical(row_origin_value, "manual")) "manual-accred-" else "review-accred-"
+  export_unitid <- if (is.na(effective_row$unitid[[1]]) || !nzchar(effective_row$unitid[[1]])) paste0(export_id_prefix, effective_row$action_id[[1]]) else effective_row$unitid[[1]]
 
-  if ("action_id" %in% names(manual_row)) manual_row$action_id[[1]] <- effective_row$action_id[[1]]
-  if ("unitid" %in% names(manual_row)) manual_row$unitid[[1]] <- effective_row$unitid[[1]]
-  if ("export_unitid" %in% names(manual_row)) manual_row$export_unitid[[1]] <- export_unitid
-  if ("export_institution_name" %in% names(manual_row)) manual_row$export_institution_name[[1]] <- effective_row$institution_name[[1]]
-  if ("institution_name" %in% names(manual_row)) manual_row$institution_name[[1]] <- effective_row$institution_name[[1]]
-  if ("accreditor" %in% names(manual_row)) manual_row$accreditor[[1]] <- effective_row$accreditor[[1]]
-  if ("action_date" %in% names(manual_row)) manual_row$action_date[[1]] <- effective_row$action_date[[1]]
-  if ("action_year" %in% names(manual_row)) manual_row$action_year[[1]] <- derive_year_from_date_string(effective_row$action_date[[1]])
-  if ("action_type" %in% names(manual_row)) manual_row$action_type[[1]] <- effective_row$action_type[[1]]
-  if ("action_label_raw" %in% names(manual_row)) manual_row$action_label_raw[[1]] <- effective_row$action_label_raw[[1]]
-  if ("action_label_short" %in% names(manual_row)) manual_row$action_label_short[[1]] <- effective_row$generated_statement[[1]]
-  if ("source_url" %in% names(manual_row)) manual_row$source_url[[1]] <- effective_row$source_url[[1]]
-  if ("source_title" %in% names(manual_row)) manual_row$source_title[[1]] <- effective_row$source_title[[1]]
-  if ("source_page_url" %in% names(manual_row)) manual_row$source_page_url[[1]] <- effective_row$source_url[[1]]
-  manual_row$row_origin[[1]] <- "manual"
-  if ("has_financial_profile" %in% names(manual_row)) manual_row$has_financial_profile[[1]] <- !is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])
-  if ("is_primary_tracker" %in% names(manual_row)) manual_row$is_primary_tracker[[1]] <- FALSE
-  manual_row
+  if ("action_id" %in% names(export_row)) export_row$action_id[[1]] <- effective_row$action_id[[1]]
+  if ("unitid" %in% names(export_row)) export_row$unitid[[1]] <- effective_row$unitid[[1]]
+  if ("export_unitid" %in% names(export_row)) export_row$export_unitid[[1]] <- export_unitid
+  if ("export_institution_name" %in% names(export_row)) export_row$export_institution_name[[1]] <- effective_row$institution_name[[1]]
+  if ("institution_name" %in% names(export_row)) export_row$institution_name[[1]] <- effective_row$institution_name[[1]]
+  if ("accreditor" %in% names(export_row)) export_row$accreditor[[1]] <- effective_row$accreditor[[1]]
+  if ("action_date" %in% names(export_row)) export_row$action_date[[1]] <- effective_row$action_date[[1]]
+  if ("action_year" %in% names(export_row)) export_row$action_year[[1]] <- derive_year_from_date_string(effective_row$action_date[[1]])
+  if ("action_type" %in% names(export_row)) export_row$action_type[[1]] <- effective_row$action_type[[1]]
+  if ("action_label_raw" %in% names(export_row)) export_row$action_label_raw[[1]] <- effective_row$action_label_raw[[1]]
+  if ("action_label_short" %in% names(export_row)) export_row$action_label_short[[1]] <- effective_row$generated_statement[[1]]
+  if ("source_url" %in% names(export_row)) export_row$source_url[[1]] <- effective_row$source_url[[1]]
+  if ("source_title" %in% names(export_row)) export_row$source_title[[1]] <- effective_row$source_title[[1]]
+  if ("source_page_url" %in% names(export_row)) export_row$source_page_url[[1]] <- effective_row$source_url[[1]]
+  export_row$row_origin[[1]] <- row_origin_value
+  if ("has_financial_profile" %in% names(export_row)) export_row$has_financial_profile[[1]] <- !is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])
+  if ("is_primary_tracker" %in% names(export_row)) export_row$is_primary_tracker[[1]] <- FALSE
+  export_row
+}
+
+build_manual_accreditation_export_row <- function(override_row, template_df) {
+  build_review_backed_accreditation_export_row(override_row, template_df)
 }
 
 apply_accreditation_editorial_overrides <- function(actions_df,
@@ -809,15 +822,12 @@ apply_accreditation_editorial_overrides <- function(actions_df,
                                                     allowed_action_ids = NULL,
                                                     drop_unlisted = FALSE) {
   override_rows <- coerce_accreditation_editorial_overrides(overrides)
-  manual_origin_mask <- trim_text(override_rows$source_row_origin) == "manual"
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
-  manual_origin_mask[is.na(manual_origin_mask)] <- FALSE
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
   published_override_rows <- override_rows[approved_review_mask, , drop = FALSE]
-  approved_manual_rows <- published_override_rows[trim_text(published_override_rows$source_row_origin) == "manual", , drop = FALSE]
   if (is.null(actions_df)) {
-    if (!nrow(approved_manual_rows)) return(actions_df)
-    stop("Approved manual accreditation rows need an actions data frame template during export.", call. = FALSE)
+    if (!nrow(published_override_rows)) return(actions_df)
+    stop("Approved accreditation review rows need an actions data frame template during export.", call. = FALSE)
   }
 
   required_columns <- c("unitid", "export_unitid", "export_institution_name", "accreditor", "action_date", "action_type", "action_label_raw", "action_label_short", "source_url", "source_title")
@@ -825,8 +835,8 @@ apply_accreditation_editorial_overrides <- function(actions_df,
   if (length(missing_columns) > 0L) stop(sprintf("apply_accreditation_editorial_overrides requires these columns: %s", paste(missing_columns, collapse = ", ")), call. = FALSE)
 
   if (!nrow(actions_df)) {
-    if (!nrow(approved_manual_rows)) return(actions_df)
-    return(dplyr::bind_rows(actions_df, dplyr::bind_rows(lapply(seq_len(nrow(approved_manual_rows)), function(i) build_manual_accreditation_export_row(approved_manual_rows[i, , drop = FALSE], actions_df)))))
+    if (!nrow(published_override_rows)) return(actions_df)
+    return(dplyr::bind_rows(actions_df, dplyr::bind_rows(lapply(seq_len(nrow(published_override_rows)), function(i) build_review_backed_accreditation_export_row(published_override_rows[i, , drop = FALSE], actions_df)))))
   }
 
   review_actions <- actions_df
@@ -910,8 +920,8 @@ apply_accreditation_editorial_overrides <- function(actions_df,
   }
   if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask, , drop = FALSE]
 
-  manual_rows <- approved_manual_rows[!(trim_text(approved_manual_rows$action_id) %in% trim_text(review_actions$action_id)), , drop = FALSE]
-  if (nrow(manual_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(manual_rows)), function(i) build_manual_accreditation_export_row(manual_rows[i, , drop = FALSE], review_actions))))
+  missing_review_rows <- published_override_rows[!(trim_text(published_override_rows$action_id) %in% trim_text(review_actions$action_id)), , drop = FALSE]
+  if (nrow(missing_review_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(missing_review_rows)), function(i) build_review_backed_accreditation_export_row(missing_review_rows[i, , drop = FALSE], review_actions))))
   joined
 }
 
@@ -1334,32 +1344,42 @@ grandfather_college_cuts_editorial_overrides <- function(overrides,
   local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
-build_manual_college_cuts_export_row <- function(override_row, template_df) {
+build_review_backed_college_cuts_export_row <- function(override_row, template_df) {
   internal_row <- coerce_college_cuts_editorial_overrides(override_row)
   if (!nrow(internal_row)) return(template_df[0, , drop = FALSE])
   effective_row <- build_college_cuts_review_sheet_rows(internal_row)[1, , drop = FALSE]
-  manual_row <- blank_like_row(template_df)
-  if (!("row_origin" %in% names(manual_row))) manual_row$row_origin <- NA_character_
-  export_unitid <- if (is.na(effective_row$unitid[[1]]) || !nzchar(effective_row$unitid[[1]])) paste0("manual-cut-", effective_row$cut_id[[1]]) else effective_row$unitid[[1]]
+  export_row <- blank_like_row(template_df)
+  if (!("row_origin" %in% names(export_row))) export_row$row_origin <- NA_character_
+  row_origin_value <- trim_optional_text(internal_row$source_row_origin[[1]])
+  if (is.na(row_origin_value) || !nzchar(row_origin_value)) {
+    row_origin_value <- trim_optional_text(effective_row$row_origin[[1]])
+  }
+  if (is.na(row_origin_value) || !nzchar(row_origin_value)) row_origin_value <- "manual"
+  export_id_prefix <- if (identical(row_origin_value, "manual")) "manual-cut-" else "review-cut-"
+  export_unitid <- if (is.na(effective_row$unitid[[1]]) || !nzchar(effective_row$unitid[[1]])) paste0(export_id_prefix, effective_row$cut_id[[1]]) else effective_row$unitid[[1]]
   source_title_value <- dplyr::coalesce(internal_row$override_source_title[[1]], internal_row$source_source_title[[1]], effective_row$source_publication[[1]])
 
-  if ("cut_id" %in% names(manual_row)) manual_row$cut_id[[1]] <- effective_row$cut_id[[1]]
-  if ("matched_unitid" %in% names(manual_row)) manual_row$matched_unitid[[1]] <- effective_row$unitid[[1]]
-  if ("export_unitid" %in% names(manual_row)) manual_row$export_unitid[[1]] <- export_unitid
-  if ("institution_name_display" %in% names(manual_row)) manual_row$institution_name_display[[1]] <- effective_row$institution_name[[1]]
-  if ("state_display" %in% names(manual_row)) manual_row$state_display[[1]] <- effective_row$state[[1]]
-  if ("announcement_date" %in% names(manual_row)) manual_row$announcement_date[[1]] <- effective_row$announcement_date[[1]]
-  if ("announcement_year" %in% names(manual_row)) manual_row$announcement_year[[1]] <- suppressWarnings(as.integer(dplyr::coalesce(effective_row$announcement_year[[1]], derive_year_from_date_string(effective_row$announcement_date[[1]]))))
-  if ("cut_type" %in% names(manual_row)) manual_row$cut_type[[1]] <- effective_row$cut_type[[1]]
-  if ("program_name" %in% names(manual_row)) manual_row$program_name[[1]] <- effective_row$cut_description[[1]]
-  if ("source_url" %in% names(manual_row)) manual_row$source_url[[1]] <- effective_row$source_url[[1]]
-  if ("source_title" %in% names(manual_row)) manual_row$source_title[[1]] <- source_title_value
-  if ("source_publication" %in% names(manual_row)) manual_row$source_publication[[1]] <- effective_row$source_publication[[1]]
-  manual_row$row_origin[[1]] <- "manual"
-  if ("has_financial_profile" %in% names(manual_row)) manual_row$has_financial_profile[[1]] <- !is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])
-  if ("is_primary_tracker" %in% names(manual_row)) manual_row$is_primary_tracker[[1]] <- FALSE
-  if ("in_financial_tracker" %in% names(manual_row)) manual_row$in_financial_tracker[[1]] <- "FALSE"
-  manual_row
+  if ("cut_id" %in% names(export_row)) export_row$cut_id[[1]] <- effective_row$cut_id[[1]]
+  if ("matched_unitid" %in% names(export_row)) export_row$matched_unitid[[1]] <- effective_row$unitid[[1]]
+  if ("export_unitid" %in% names(export_row)) export_row$export_unitid[[1]] <- export_unitid
+  if ("institution_name_display" %in% names(export_row)) export_row$institution_name_display[[1]] <- effective_row$institution_name[[1]]
+  if ("state_display" %in% names(export_row)) export_row$state_display[[1]] <- effective_row$state[[1]]
+  if ("announcement_date" %in% names(export_row)) export_row$announcement_date[[1]] <- effective_row$announcement_date[[1]]
+  if ("announcement_year" %in% names(export_row)) export_row$announcement_year[[1]] <- suppressWarnings(as.integer(dplyr::coalesce(effective_row$announcement_year[[1]], derive_year_from_date_string(effective_row$announcement_date[[1]]))))
+  if ("cut_type" %in% names(export_row)) export_row$cut_type[[1]] <- effective_row$cut_type[[1]]
+  if ("program_name" %in% names(export_row)) export_row$program_name[[1]] <- effective_row$cut_description[[1]]
+  if ("source_url" %in% names(export_row)) export_row$source_url[[1]] <- effective_row$source_url[[1]]
+  if ("source_title" %in% names(export_row)) export_row$source_title[[1]] <- source_title_value
+  if ("source_publication" %in% names(export_row)) export_row$source_publication[[1]] <- effective_row$source_publication[[1]]
+  export_row$row_origin[[1]] <- row_origin_value
+  if ("has_financial_profile" %in% names(export_row)) export_row$has_financial_profile[[1]] <- !is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])
+  if ("is_primary_tracker" %in% names(export_row)) export_row$is_primary_tracker[[1]] <- FALSE
+  if ("in_financial_tracker" %in% names(export_row)) export_row$in_financial_tracker[[1]] <- if (!is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])) "TRUE" else "FALSE"
+  export_row
+}
+
+build_manual_college_cuts_export_row <- function(override_row, template_df) {
+  build_review_backed_college_cuts_export_row(override_row, template_df)
 }
 
 apply_college_cuts_editorial_overrides <- function(cuts_df,
@@ -1368,15 +1388,12 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
                                                    allowed_cut_ids = NULL,
                                                    drop_unlisted = FALSE) {
   override_rows <- coerce_college_cuts_editorial_overrides(overrides)
-  manual_origin_mask <- trim_text(override_rows$source_row_origin) == "manual"
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
-  manual_origin_mask[is.na(manual_origin_mask)] <- FALSE
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
   published_override_rows <- override_rows[approved_review_mask, , drop = FALSE]
-  approved_manual_rows <- published_override_rows[trim_text(published_override_rows$source_row_origin) == "manual", , drop = FALSE]
   if (is.null(cuts_df)) {
-    if (!nrow(approved_manual_rows)) return(cuts_df)
-    stop("Approved manual college cuts rows need a cuts data frame template during export.", call. = FALSE)
+    if (!nrow(published_override_rows)) return(cuts_df)
+    stop("Approved college cuts review rows need a cuts data frame template during export.", call. = FALSE)
   }
 
   required_columns <- c("cut_id", "matched_unitid", "export_unitid", "institution_name_display", "state_display", "announcement_date", "announcement_year", "cut_type", "program_name", "source_url", "source_title", "source_publication")
@@ -1384,8 +1401,8 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   if (length(missing_columns) > 0L) stop(sprintf("apply_college_cuts_editorial_overrides requires these columns: %s", paste(missing_columns, collapse = ", ")), call. = FALSE)
 
   if (!nrow(cuts_df)) {
-    if (!nrow(approved_manual_rows)) return(cuts_df)
-    return(dplyr::bind_rows(cuts_df, dplyr::bind_rows(lapply(seq_len(nrow(approved_manual_rows)), function(i) build_manual_college_cuts_export_row(approved_manual_rows[i, , drop = FALSE], cuts_df)))))
+    if (!nrow(published_override_rows)) return(cuts_df)
+    return(dplyr::bind_rows(cuts_df, dplyr::bind_rows(lapply(seq_len(nrow(published_override_rows)), function(i) build_review_backed_college_cuts_export_row(published_override_rows[i, , drop = FALSE], cuts_df)))))
   }
 
   review_cuts <- cuts_df
@@ -1453,7 +1470,7 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   }
   if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask, , drop = FALSE]
 
-  manual_rows <- approved_manual_rows[!(trim_text(approved_manual_rows$cut_id) %in% trim_text(review_cuts$cut_id)), , drop = FALSE]
-  if (nrow(manual_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(manual_rows)), function(i) build_manual_college_cuts_export_row(manual_rows[i, , drop = FALSE], review_cuts))))
+  missing_review_rows <- published_override_rows[!(trim_text(published_override_rows$cut_id) %in% trim_text(review_cuts$cut_id)), , drop = FALSE]
+  if (nrow(missing_review_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(missing_review_rows)), function(i) build_review_backed_college_cuts_export_row(missing_review_rows[i, , drop = FALSE], review_cuts))))
   joined
 }

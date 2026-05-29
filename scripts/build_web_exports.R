@@ -91,6 +91,8 @@ accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation",
 accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
 accreditation_review_candidates_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
 accreditation_editorial_overrides_path <- file.path(root, "data_pipelines", "accreditation", "editorial_overrides.csv")
+cuts_review_candidates_input_path <- get_arg_value("--cuts-review-candidates-input", cuts_review_candidates_path)
+accreditation_review_candidates_input_path <- get_arg_value("--accreditation-review-candidates-input", accreditation_review_candidates_path)
 dapip_filtered_actions_path <- file.path(root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv")
 dapip_public_audit_path <- file.path(root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv")
 research_summary_path <- file.path(root, "data_pipelines", "grant_witness", "grant_witness_higher_ed_institution_summary.csv")
@@ -282,17 +284,17 @@ build_cuts_export <- function() {
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE)
   committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
-    if (!file.exists(cuts_review_candidates_path)) {
+    if (!file.exists(cuts_review_candidates_input_path)) {
       stop(
         paste(
           "Apply-only college cuts review gate requires the committed review candidate snapshot:",
-          cuts_review_candidates_path,
+          cuts_review_candidates_input_path,
           "Run the refresh workflow first so publish can apply decisions to a stable reviewed snapshot."
         ),
         call. = FALSE
       )
     }
-    read_college_cuts_review_candidates(cuts_review_candidates_path)
+    read_college_cuts_review_candidates(cuts_review_candidates_input_path)
   } else {
     NULL
   }
@@ -820,6 +822,10 @@ build_accreditation_export <- function() {
       tracker_city = NA_character_,
       tracker_control = NA_character_,
       tracker_category = NA_character_,
+      notes = NA_character_,
+      source_url = NA_character_,
+      source_title = NA_character_,
+      source_page_url = NA_character_,
       source_page_modified = NA_character_,
       display_action = TRUE,
       accreditors = NA_character_,
@@ -1018,7 +1024,6 @@ build_accreditation_export <- function() {
   }
 
   reconcile_accreditation_tracker_metadata <- function(df, accreditor_col = "accreditor") {
-    if (nrow(df) == 0L) return(df)
     accreditor_values <- as.character(df[[accreditor_col]] %||% rep(NA_character_, nrow(df)))
 
     df <- df %>%
@@ -2189,24 +2194,102 @@ build_accreditation_export <- function() {
     select(-hlc_sanction_cycle_family, -hlc_latest_removal_date)
 
   actions_df <- compact_neche_public_actions(actions_df)
+  # Queue a broader recent scraper snapshot for editorial review than we
+  # currently publish, so newly scraped odd-shape rows still reach the sheet
+  # even when today's public export logic drops them.
+  if (!isTRUE(apply_only_review_gate)) {
+    final_review_action_ids <- vapply(
+      seq_len(nrow(actions_df)),
+      function(i) compute_accreditation_action_id(
+        actions_df$unitid[[i]],
+        actions_df$accreditor[[i]],
+        actions_df$action_date[[i]],
+        actions_df$action_label_raw[[i]],
+        actions_df$export_unitid[[i]],
+        actions_df$export_institution_name[[i]]
+      ),
+      character(1)
+    )
+    supplemental_review_candidates <- scraper_actions_df %>%
+      mutate(
+        action_date = normalize_accreditation_date(action_date),
+        action_year = dplyr::coalesce(trim_optional_text(action_year), derive_year_from_date_string(action_date)),
+        action_label_short = vapply(
+          seq_len(n()),
+          function(i) derive_action_label_short(
+            action_type[[i]],
+            action_label_raw[[i]],
+            accreditor[[i]],
+            notes[[i]]
+          ),
+          character(1)
+        ),
+        review_candidate_action_id = vapply(
+          seq_len(n()),
+          function(i) compute_accreditation_action_id(
+            unitid[[i]],
+            accreditor[[i]],
+            action_date[[i]],
+            action_label_raw[[i]],
+            export_unitid[[i]],
+            export_institution_name[[i]]
+          ),
+          character(1)
+        ),
+        queue_for_editorial_review = vapply(
+          seq_len(n()),
+          function(i) is_recent_public_action(
+            action_type[[i]],
+            accreditor[[i]],
+            action_label_raw[[i]],
+            notes[[i]],
+            action_year[[i]],
+            action_date[[i]],
+            TRUE
+          ),
+          logical(1)
+        )
+      ) %>%
+      filter(
+        queue_for_editorial_review,
+        !(review_candidate_action_id %in% final_review_action_ids)
+      ) %>%
+      transmute(
+        export_unitid = export_unitid,
+        unitid = unitid,
+        export_institution_name = export_institution_name,
+        accreditor = accreditor,
+        action_date = action_date,
+        action_type = action_type,
+        action_label_raw = action_label_raw,
+        action_label_short = action_label_short,
+        source_url = source_url,
+        source_title = source_title,
+        source_page_url = source_page_url
+      )
+    review_candidate_actions_df <- dplyr::bind_rows(
+      actions_df,
+      supplemental_review_candidates
+    )
+  }
   committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
-    if (!file.exists(accreditation_review_candidates_path)) {
+    if (!file.exists(accreditation_review_candidates_input_path)) {
       stop(
         paste(
           "Apply-only accreditation review gate requires the committed review candidate snapshot:",
-          accreditation_review_candidates_path,
+          accreditation_review_candidates_input_path,
           "Run the refresh workflow first so publish can apply decisions to a stable reviewed snapshot."
         ),
         call. = FALSE
       )
     }
-    read_accreditation_review_candidates(accreditation_review_candidates_path)
+    read_accreditation_review_candidates(accreditation_review_candidates_input_path)
   } else {
     NULL
   }
   if (!isTRUE(apply_only_review_gate)) {
     write_csv_atomic(
-      build_accreditation_review_candidates(actions_df),
+      build_accreditation_review_candidates(review_candidate_actions_df),
       accreditation_review_candidates_path
     )
   }

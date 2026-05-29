@@ -1147,6 +1147,9 @@ run_test("Web export pipeline resolves HLC sanctions after warning removal", fun
 
   accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = TRUE)
   accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
+  review_candidates <- read_accreditation_review_candidates(
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
+  )
 
   school <- accreditation_export$schools[[1]]
   assert_identical(nrow(school$actions), 2L)
@@ -1155,6 +1158,8 @@ run_test("Web export pipeline resolves HLC sanctions after warning removal", fun
   assert_identical(warning_row$action_status[[1]], "resolved")
   assert_true(is.null(school$latest_status$active_actions) || identical(school$latest_status$active_actions, NA))
   assert_identical(school$latest_status$latest_action_date, "2021-11-04")
+  assert_identical(nrow(review_candidates), 2L)
+  assert_true(all(c("action_id", "unitid", "institution_name", "accreditor", "action_date", "action_type", "action_label_raw", "generated_statement", "source_url", "source_title", "row_origin") %in% names(review_candidates)))
 
   if (is.data.frame(accred_index)) {
     row <- accred_index[accred_index$institution_name == "Example Bethel College", , drop = FALSE]

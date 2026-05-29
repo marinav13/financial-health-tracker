@@ -350,6 +350,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  max-width: 100%;
   text-decoration: none;
   color: var(--ink);
 }
@@ -363,36 +364,27 @@ body {
 .site-masthead .logo {
   width: 46px;
   height: 46px;
-  background: var(--hechinger-yellow);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 24px;
-  color: var(--ink);
-  letter-spacing: -0.02em;
-  line-height: 1;
+  flex: 0 0 46px;
+  display: block;
+  background: center / contain no-repeat url("assets/HRect Hechinger Logo Square.png");
 }
 
-/* The "H" glyph is rendered via ::after pseudo-content rather than
-   a real text node so the <span class="logo"> stays empty in the DOM.
-   That keeps the Playwright aria-hidden-sync helper happy (it
-   considers an aria-hidden element with visible text a violation),
-   and screen readers ignore CSS pseudo-content so the parent
-   wordmark anchor's aria-label remains the only announced label. */
+/* Keep the logo span empty in the DOM so the parent wordmark anchor's
+   aria-label remains the only announced label; the visible mark now
+   comes from the square logo asset. */
 .site-masthead .logo::after {
-  content: 'H';
+  content: none;
 }
 
 .site-masthead .wm-text {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink);
+  width: clamp(156px, 24vw, 198px);
+  aspect-ratio: 404 / 57;
+  flex: 0 1 clamp(156px, 24vw, 198px);
+  display: block;
+  background: left center / contain no-repeat url("assets/Full Logo Hechinger Transparent-Text-Only.PNG");
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 101%;
 }
 
 /* ---------- Top tabs (editorial-calm underlined links) ----------
@@ -2095,12 +2087,13 @@ h1.serif {
     gap: 10px;
   }
   .site-masthead .wm-text {
-    font-size: 14px;
+    width: 142px;
+    flex-basis: 142px;
   }
   .site-masthead .logo {
     width: 38px;
     height: 38px;
-    font-size: 20px;
+    flex-basis: 38px;
   }
 
   /* Tabs: scroll horizontally so all six fit without truncating labels. */

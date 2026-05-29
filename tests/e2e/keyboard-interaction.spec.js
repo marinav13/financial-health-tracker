@@ -13,10 +13,11 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { firstSchoolIndexEntry, searchTermFor } = require('./helpers');
+const { firstSchoolIndexEntry, searchTermFor, stateWithMultipleSchools } = require('./helpers');
 
 const searchTarget = firstSchoolIndexEntry();
 const searchTerm = searchTermFor(searchTarget);
+const stateSearch = stateWithMultipleSchools();
 
 test.describe('Keyboard interaction — search combobox', () => {
   test('Escape closes the search results and leaves focus on the input', async ({ page }) => {
@@ -96,6 +97,26 @@ test.describe('Keyboard interaction — search combobox', () => {
     await searchInput.press('Escape');
     await expect(searchInput).toHaveAttribute('aria-expanded', 'false');
     await expect(searchInput).toBeFocused();
+  });
+
+  test('ArrowDown scrolls long state result lists to keep the active option visible', async ({ page }) => {
+    await page.goto('/index.html');
+
+    const searchInput = page.locator('#school-search');
+    const results = page.locator('#search-results');
+    await searchInput.fill(stateSearch.state);
+    await expect(results.locator('.result-item[role="option"]').first()).toBeVisible();
+
+    for (let i = 0; i < 12; i += 1) {
+      await searchInput.press('ArrowDown');
+    }
+
+    const activeId = await searchInput.getAttribute('aria-activedescendant');
+    expect(activeId).toMatch(/^search-results-option-/);
+    await expect(page.locator(`#${activeId}`)).toHaveAttribute('aria-selected', 'true');
+
+    const scrollTop = await results.evaluate((node) => node.scrollTop);
+    expect(scrollTop).toBeGreaterThan(0);
   });
 });
 

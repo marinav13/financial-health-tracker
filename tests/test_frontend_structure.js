@@ -27,7 +27,8 @@ const PAGES = [
       // <span class="logo"> that lives inside .wordmark and renders the
       // glyph via CSS ::after pseudo-content.
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Home<\/a>/, message: "Home nav tab with aria-current" },
+      { pattern: /<a[^>]+href="school\.html"[^>]*>Finances<\/a>/, message: "Finances nav tab" },
       { pattern: /<a[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "College Cuts nav tab" },
       { pattern: /<a[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Accreditation nav tab" },
       { pattern: /<a[^>]+href="research\.html"[^>]*>Research Funding Cuts<\/a>/, message: "Research nav tab" },
@@ -50,6 +51,7 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
       { pattern: /id="cuts-other-list"[^>]*aria-live="polite"/, message: 'cuts-other-list with aria-live="polite"' },
@@ -69,6 +71,7 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="research\.html"[^>]+aria-current="page"[^>]*>Research Funding Cuts<\/a>/, message: "Active Research nav tab with aria-current" },
       { pattern: /id="research-list"[^>]*aria-live="polite"/, message: 'research-list with aria-live="polite"' },
       { pattern: /id="research-other-list"[^>]*aria-live="polite"/, message: 'research-other-list with aria-live="polite"' },
@@ -87,6 +90,7 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]+aria-current="page"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab with aria-current" },
       { pattern: /id="accreditation-status"[^>]*aria-live="polite"/, message: 'accreditation-status with aria-live="polite"' },
       { pattern: /id="accreditation-other-status"[^>]*aria-live="polite"/, message: 'accreditation-other-status with aria-live="polite"' },
@@ -106,6 +110,7 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
       // school.html no longer uses .masthead-title — the institution

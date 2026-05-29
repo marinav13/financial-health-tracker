@@ -54,6 +54,7 @@ function makeTab(id) {
 
 function loadAppInContext() {
   const tabs = {
+    "tab-home": makeTab("tab-home"),
     "tab-finances": makeTab("tab-finances"),
     "tab-cuts": makeTab("tab-cuts"),
     "tab-accreditation": makeTab("tab-accreditation"),
@@ -121,7 +122,8 @@ console.log("\n=== syncTabs Integration Tests ===\n");
 run("with no unitid, tabs point to landing pages", () => {
   const { tabs, trackerApp } = loadAppInContext();
   trackerApp.syncTabs("", { active: "finances" });
-  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
+  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
   assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
@@ -130,7 +132,8 @@ run("with no unitid, tabs point to landing pages", () => {
 run("with numeric unitid, tabs still point to landing pages (no deep-link)", () => {
   const { tabs, trackerApp } = loadAppInContext();
   trackerApp.syncTabs("100654", { active: "cuts" });
-  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
+  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
   assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
@@ -143,7 +146,8 @@ run("financialUnitid option does not change top-nav hrefs", () => {
   // unitid). Top nav is site-level only — financialUnitid does not influence
   // hrefs. Per-school routing happens in the in-body related-pages block.
   trackerApp.syncTabs("100654", { active: "cuts", financialUnitid: "100663" });
-  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
+  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
   assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
@@ -152,7 +156,8 @@ run("financialUnitid option does not change top-nav hrefs", () => {
 run("with non-numeric namespaced unitid, tabs still point to landing pages", () => {
   const { tabs, trackerApp } = loadAppInContext();
   trackerApp.syncTabs("cut-abc123", { active: "cuts" });
-  assert(tabs["tab-finances"].href === "index.html", `finances href=${tabs["tab-finances"].href}`);
+  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
+  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
   assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);

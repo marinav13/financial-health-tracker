@@ -33,6 +33,7 @@
       </a>
     </header>
     <nav class="top-tabs" aria-label="Sections">
+      <a class="top-tab" id="tab-home" href="index.html">Home</a>
       <a class="top-tab is-active" id="tab-finances" href="school.html" aria-current="page">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
@@ -52,14 +53,14 @@
 
     <details id="school-search-wrap" class="school-search-wrap" open>
       <summary class="school-search-summary" aria-label="Toggle search"></summary>
-      <section class="search-panel">
-        <label class="search-label" for="school-search">Search by institution</label>
+      <section class="search-panel" data-school-search-instance>
+        <label class="search-label" for="school-search">Search by institution:</label>
         <div class="search-input-wrap">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state or IPEDS ID" autocomplete="off">
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
         </div>
         <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
@@ -224,6 +225,20 @@
       <p><strong>Explore this institution further by looking at its:</strong></p>
       <ul class="link-list" id="school-related-pages"></ul>
     </aside>
+<br>
+    <section id="school-bottom-search-section" class="section-block is-hidden" aria-hidden="true">
+      <section class="search-panel" data-school-search-instance>
+        <label class="search-label" for="school-search-secondary">Now, search for another institution:</label>
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="school-search-secondary" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
+        </div>
+        <div id="search-results-secondary" class="results" role="listbox" aria-label="Search results"></div>
+      </section>
+    </section>
 
     <footer class="pg-foot">
       <span class="sig"><span class="sq"></span> The Hechinger Report</span>

@@ -986,6 +986,7 @@ async function init() {
   window.TrackerApp.syncTabs(unitid, { active: "finances" });
   setHidden("school-intro-callout", Boolean(unitid));
   setHidden("school-meta-wrap", false);
+  setHidden("school-bottom-search-section", !unitid);
   if (!unitid) {
     showSchoolLoadError("No school selected");
     return;

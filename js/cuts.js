@@ -66,6 +66,13 @@
         if (primary !== 0) return primary;
         return compareText(a.institution_name, b.institution_name);
       }
+      if (sortState?.key === "control_label") {
+        const primary = compareText(a.control_label, b.control_label) * direction;
+        if (primary !== 0) return primary;
+        const secondary = compareText(a.institution_name, b.institution_name);
+        if (secondary !== 0) return secondary;
+        return compareDateDesc(a.announcement_date || a.announcement_year, b.announcement_date || b.announcement_year);
+      }
       if (sortState?.key === "announcement_date") {
         const primary = sortState.direction === "asc"
           ? compareDateDesc(b.announcement_date || b.announcement_year, a.announcement_date || a.announcement_year)
@@ -93,7 +100,7 @@
         renderSortableHeader("institution_name", sortState, "Institution"),
         "<th>College program or staffing cut</th>",
         renderSortableHeader("state", sortState, "State"),
-        "<th>Sector</th>",
+        renderSortableHeader("control_label", sortState, "Sector"),
         renderSortableHeader("announcement_date", sortState, "Date")
       ],
       rows

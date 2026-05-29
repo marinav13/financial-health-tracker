@@ -47,7 +47,8 @@
       </a>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab is-active" id="tab-finances" href="index.html" aria-current="page">Finances</a>
+      <a class="top-tab is-active" id="tab-home" href="index.html" aria-current="page">Home</a>
+      <a class="top-tab" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
@@ -58,22 +59,24 @@
       <section class="hero-split">
         <div class="hero-text">
           <h1 class="serif">College Financial Health Explorer</h1>
-          <p class="lede">As U.S. colleges face federal funding cuts, shifting immigration policy, and new limits on graduate student loan borrowing — which institutions are most vulnerable to financial pressure and dips in international enrollment?</p>
-          <p class="lede" style="font-size: 17px; color: var(--ink-3);">Look up an institution for a snapshot of key financial and enrollment trends over the past decade. Data is available for four-year, primarily bachelor's-degree-granting institutions.</p>
+          <p class="lede">It can be hard for students and families to see how a college is doing financially.</p>
+          <p class="lede">Small colleges tend to publicize limited financial information. Private nonprofits are exempt from public records laws. </p>
+          <p class="lede">And as financial pressures mount, colleges also face threats from the Trump administration to international student enrollment, graduate student borrowing and research funding. </p>
+          <p class="lede" style="font-size: 17px; color: var(--ink-3);">The Hechinger Report created this free tool to help fill that gap. Below, look up a four-year college or university for a snapshot of key financial and enrollment trends over the past decade.</p>
         </div>
         <figure class="banner" aria-hidden="true">
           <img src="assets/college-financial-health-home.png" alt="">
         </figure>
       </section>
 
-    <section class="search-panel">
-      <label class="search-label" for="school-search">Search by institution</label>
+    <section class="search-panel" data-school-search-instance>
+      <label class="search-label" for="school-search">Search by institution:</label>
       <div class="search-input-wrap">
         <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
           <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
-        <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state or IPEDS ID" autocomplete="off">
+        <input id="school-search" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
       </div>
       <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
     </section>

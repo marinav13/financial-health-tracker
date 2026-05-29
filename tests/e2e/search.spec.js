@@ -9,10 +9,12 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { firstSchoolIndexEntry, searchTermFor } = require('./helpers');
+const { firstSchoolIndexEntry, schoolIndexEntryByUnitid, searchTermFor, stateWithMultipleSchools } = require('./helpers');
 
 const searchTarget = firstSchoolIndexEntry();
 const searchTerm = searchTermFor(searchTarget);
+const stateSearch = stateWithMultipleSchools();
+const caltech = schoolIndexEntryByUnitid('110404');
 
 test.describe('Search functionality', () => {
   test('shows search input on index page', async ({ page }) => {
@@ -66,6 +68,39 @@ test.describe('Search functionality', () => {
     await searchInput.fill('XYZNONEXISTENTSCHOOL12345');
     
     await expect(page.locator('#search-results .result-item.is-empty')).toContainText('No matching institutions found');
+  });
+
+  test('shows a tracked-school count for state results in a scrollable dropdown', async ({ page }) => {
+    await page.goto('/index.html');
+
+    const searchInput = page.locator('#school-search');
+    await searchInput.fill(stateSearch.state);
+
+    const results = page.locator('#search-results');
+    await expect(results).toBeVisible();
+    await expect(results.locator('.result-section-title')).toHaveCount(1);
+    await expect(results.locator('.result-section-title').first()).toContainText(`Schools (${stateSearch.count} tracked institutions)`);
+
+    const optionCount = await results.locator('.result-item[role="option"]').count();
+    expect(optionCount).toBe(stateSearch.count);
+
+    const scrollMetrics = await results.evaluate((node) => ({
+      overflowY: window.getComputedStyle(node).overflowY,
+      scrollHeight: node.scrollHeight,
+      clientHeight: node.clientHeight
+    }));
+    expect(['auto', 'scroll']).toContain(scrollMetrics.overflowY);
+    expect(scrollMetrics.scrollHeight).toBeGreaterThan(scrollMetrics.clientHeight);
+  });
+
+  test('alias search returns California Institute of Technology for Caltech', async ({ page }) => {
+    await page.goto('/index.html');
+
+    const searchInput = page.locator('#school-search');
+    await searchInput.fill('Caltech');
+
+    const firstLabel = page.locator('#search-results .result-item[role="option"] .result-item-label').first();
+    await expect(firstLabel).toContainText(caltech.institution_name);
   });
 
   test('search works on school page', async ({ page }) => {

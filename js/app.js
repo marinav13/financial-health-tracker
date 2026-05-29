@@ -80,6 +80,7 @@ function syncTabs(unitid = "", options = {}) {
     document.body.dataset.searchSource || "finances"
   );
   const tabs = {
+    home: document.getElementById("tab-home"),
     finances: document.getElementById("tab-finances"),
     cuts: document.getElementById("tab-cuts"),
     accreditation: document.getElementById("tab-accreditation"),
@@ -99,7 +100,8 @@ function syncTabs(unitid = "", options = {}) {
   //
   // The `unitid` / `financialUnitid` args are retained for call-site
   // backward compatibility and future use, but no longer influence hrefs.
-  if (tabs.finances) tabs.finances.href = "index.html";
+  if (tabs.home) tabs.home.href = "index.html";
+  if (tabs.finances) tabs.finances.href = "school.html";
   if (tabs.cuts) tabs.cuts.href = "cuts.html";
   if (tabs.accreditation) tabs.accreditation.href = "accreditation.html";
   if (tabs.research) tabs.research.href = "research.html";
@@ -187,7 +189,7 @@ function upgradeSiteFooter() {
   list.className = "ftr-nav-items";
 
   [
-    ["Our work", "https://hechingerreport.org/"],
+    ["Our Work", "https://hechingerreport.org/"],
     ["Our Mission", "https://hechingerreport.org/our-mission/"],
     ["Contact Us", "https://hechingerreport.org/contact/"]
   ].forEach(([label, href]) => {
@@ -225,6 +227,66 @@ function cleanCutLabel(value) {
   return String(value || "").replace(AFFECTED_PARENS_RE, "").trim();
 }
 
+const US_STATE_ABBREVIATIONS = Object.freeze({
+  "alabama": "AL",
+  "alaska": "AK",
+  "arizona": "AZ",
+  "arkansas": "AR",
+  "california": "CA",
+  "colorado": "CO",
+  "connecticut": "CT",
+  "delaware": "DE",
+  "district of columbia": "DC",
+  "florida": "FL",
+  "georgia": "GA",
+  "hawaii": "HI",
+  "idaho": "ID",
+  "illinois": "IL",
+  "indiana": "IN",
+  "iowa": "IA",
+  "kansas": "KS",
+  "kentucky": "KY",
+  "louisiana": "LA",
+  "maine": "ME",
+  "maryland": "MD",
+  "massachusetts": "MA",
+  "michigan": "MI",
+  "minnesota": "MN",
+  "mississippi": "MS",
+  "missouri": "MO",
+  "montana": "MT",
+  "nebraska": "NE",
+  "nevada": "NV",
+  "new hampshire": "NH",
+  "new jersey": "NJ",
+  "new mexico": "NM",
+  "new york": "NY",
+  "north carolina": "NC",
+  "north dakota": "ND",
+  "ohio": "OH",
+  "oklahoma": "OK",
+  "oregon": "OR",
+  "pennsylvania": "PA",
+  "rhode island": "RI",
+  "south carolina": "SC",
+  "south dakota": "SD",
+  "tennessee": "TN",
+  "texas": "TX",
+  "utah": "UT",
+  "vermont": "VT",
+  "virginia": "VA",
+  "washington": "WA",
+  "west virginia": "WV",
+  "wisconsin": "WI",
+  "wyoming": "WY"
+});
+
+// Frontend fallback aliases for common nicknames until the export pipeline
+// carries the IPEDS alias field into the web JSON payloads.
+const MANUAL_SEARCH_ALIASES_BY_UNITID = Object.freeze({
+  "110404": ["Caltech"]
+});
+
 // Splits query into searchable tokens (alphanumeric only, lowercase)
 function tokenizeSearch(value) {
   return normalizeSearchText(value)
@@ -232,13 +294,41 @@ function tokenizeSearch(value) {
     .filter(Boolean);
 }
 
+function stateAbbreviationForName(stateName) {
+  return US_STATE_ABBREVIATIONS[normalizeSearchText(stateName).trim()] || "";
+}
+
+function collectSearchAliases(row) {
+  const rawValues = [];
+  ["institution_alias", "institution_aliases", "alias", "aliases"].forEach((key) => {
+    const value = row?.[key];
+    if (Array.isArray(value)) {
+      rawValues.push(...value);
+    } else {
+      rawValues.push(value);
+    }
+  });
+  rawValues.push(...(MANUAL_SEARCH_ALIASES_BY_UNITID[String(row?.unitid || "")] || []));
+  const seen = new Set();
+  return rawValues.reduce((aliases, value) => {
+    const text = String(value ?? "").trim();
+    if (!text || seen.has(text)) return aliases;
+    seen.add(text);
+    aliases.push(text);
+    return aliases;
+  }, []);
+}
+
 // Pre-computes combined searchable string for performance
-function buildSearchHaystack(row) {
+function buildSearchHaystack(row, aliases = []) {
   return [
     row.institution_name,
     row.institution_unique_name,
     row.city,
-    row.state
+    row.state,
+    stateAbbreviationForName(row.state),
+    row.unitid,
+    ...aliases
   ]
     .filter(Boolean)
     .join(" ")
@@ -247,40 +337,83 @@ function buildSearchHaystack(row) {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
+function buildStateCatalog(rows) {
+  const states = new Map();
+  rows.forEach((row) => {
+    const display = String(row?.state || "").trim();
+    if (!display) return;
+    const norm = normalizeSearchText(display).trim();
+    if (!norm) return;
+    const existing = states.get(norm);
+    if (existing) {
+      existing.count += 1;
+      return;
+    }
+    const abbr = stateAbbreviationForName(display);
+    states.set(norm, {
+      display,
+      norm,
+      abbr,
+      abbrNorm: normalizeSearchText(abbr).trim(),
+      count: 1
+    });
+  });
+  return Array.from(states.values()).sort((a, b) => a.display.localeCompare(b.display));
+}
+
+function getExactStateMatch(stateCatalog, queryNorm) {
+  if (!queryNorm) return null;
+  return stateCatalog.find((state) =>
+    state.norm === queryNorm ||
+    (state.abbrNorm && state.abbrNorm === queryNorm)
+  ) || null;
+}
+
+function getSearchInstances() {
+  const explicitInstances = Array.from(document.querySelectorAll("[data-school-search-instance]"))
+    .map((container, index) => {
+      const input = container.querySelector(".search");
+      const results = container.querySelector(".results");
+      if (!input || !results) return null;
+      return { container, input, results, index };
+    })
+    .filter(Boolean);
+
+  if (explicitInstances.length) return explicitInstances;
+
+  const input = document.getElementById("school-search");
+  const results = document.getElementById("search-results");
+  if (!input || !results) return [];
+  return [{ container: input.closest(".search-panel") || document.body, input, results, index: 0 }];
+}
+
 // ------ Search Initialization & Rendering ------
 
 async function initSearch() {
   const raw = await loadJson(getSearchSourcePath());
 
-  const schools = (Array.isArray(raw) ? raw : Object.values(raw || {})).slice().map((row) => ({
-    ...row,
-    _searchHaystack: buildSearchHaystack(row)
-  })).sort((a, b) =>
+  const schools = (Array.isArray(raw) ? raw : Object.values(raw || {})).slice().map((row) => {
+    const searchAliases = collectSearchAliases(row);
+    return {
+      ...row,
+      _searchAliases: searchAliases,
+      _stateNorm: normalizeSearchText(row.state || "").trim(),
+      _searchHaystack: buildSearchHaystack(row, searchAliases)
+    };
+  }).sort((a, b) =>
     String(a.institution_unique_name || a.institution_name || "").localeCompare(
       String(b.institution_unique_name || b.institution_name || "")
     )
   );
-
-  const input = document.getElementById("school-search");
-  const results = document.getElementById("search-results");
-  const datalist = document.getElementById("school-options");
-  if (!input || !results) return;
-
-  // Mark the results container as a listbox so screen readers announce
-  // individual items (role="option") as selectable choices.
-  results.setAttribute("role", "listbox");
-  if (!results.id) results.id = "search-results";
-  input.setAttribute("role", "combobox");
-  input.setAttribute("aria-autocomplete", "list");
-  input.setAttribute("aria-controls", results.id);
-  input.setAttribute("aria-expanded", "false");
+  const stateCatalog = buildStateCatalog(schools);
 
   const page = getSearchTargetPage();
   const sourceKind = getSearchSourceKind();
-
-  let activeIndex = -1;
+  const instances = getSearchInstances();
+  if (!instances.length) return;
 
   // Populate datalist for browser autocomplete
+  const datalist = document.getElementById("school-options");
   if (datalist) {
     datalist.innerHTML = "";
     schools.forEach((item) => {
@@ -290,15 +423,12 @@ async function initSearch() {
     });
   }
 
-  function clearResults() {
-    results.innerHTML = "";
-    activeIndex = -1;
-    input.setAttribute("aria-expanded", "false");
-    input.removeAttribute("aria-activedescendant");
+  function getMatchText(row) {
+    return row.institution_name || row.institution_unique_name || "";
   }
 
-  function getMatchText(row) {
-    return row.institution_unique_name || row.institution_name || "";
+  function getResultMeta(row) {
+    return [row.city, row.state].filter(Boolean).join(" | ");
   }
 
   // Shows context-specific badge (accreditation action, college cut, etc.)
@@ -318,116 +448,185 @@ async function initSearch() {
     return "";
   }
 
-  function getAllResultButtons() {
-    return Array.from(results.querySelectorAll(".result-item[data-unitid]"));
-  }
+  instances.forEach(({ input, results, index }) => {
+    let activeIndex = -1;
 
-  function setActiveOption(newIndex) {
-    const buttons = getAllResultButtons();
-    if (!buttons.length) return;
-    activeIndex = Math.max(0, Math.min(newIndex, buttons.length - 1));
-    buttons.forEach((btn, i) => {
-      btn.setAttribute("tabindex", "-1");
-      btn.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
-    });
-    input.setAttribute("aria-activedescendant", buttons[activeIndex].id);
-  }
+    // Mark the results container as a listbox so screen readers announce
+    // individual items (role="option") as selectable choices.
+    results.setAttribute("role", "listbox");
+    if (!results.id) results.id = index === 0 ? "search-results" : `search-results-${index + 1}`;
+    input.setAttribute("role", "combobox");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-controls", results.id);
+    input.setAttribute("aria-expanded", "false");
 
-  function navigateToActive() {
-    const buttons = getAllResultButtons();
-    if (buttons[activeIndex]) {
-      window.location.href = schoolUrl(buttons[activeIndex].dataset.unitid, page);
-    }
-  }
-
-  // Multi-token matching: all tokens must appear in haystack
-  // Results sorted by relevance (name starts with query = higher priority)
-  function renderMatches(query) {
-    const q = normalizeSearchText(query).trim();
-    const tokens = tokenizeSearch(query);
-    if (!q || !tokens.length) {
-      clearResults();
-      return;
+    function clearResults() {
+      results.innerHTML = "";
+      results.classList.remove("has-results");
+      results.removeAttribute("aria-label");
+      activeIndex = -1;
+      input.setAttribute("aria-expanded", "false");
+      input.removeAttribute("aria-activedescendant");
     }
 
-    const matches = schools
-      .filter((row) => tokens.every((token) => row._searchHaystack.includes(token)))
-      .sort((a, b) => {
-        const aName = normalizeSearchText(a.institution_name || "");
-        const bName = normalizeSearchText(b.institution_name || "");
-        const aStarts = aName.startsWith(q) ? 1 : 0;
-        const bStarts = bName.startsWith(q) ? 1 : 0;
-        if (aStarts !== bStarts) return bStarts - aStarts;
-
-        const aUniqueStarts = normalizeSearchText(a.institution_unique_name || "").startsWith(q) ? 1 : 0;
-        const bUniqueStarts = normalizeSearchText(b.institution_unique_name || "").startsWith(q) ? 1 : 0;
-        if (aUniqueStarts !== bUniqueStarts) return bUniqueStarts - aUniqueStarts;
-
-        return String(a.institution_unique_name || a.institution_name || "").localeCompare(
-          String(b.institution_unique_name || b.institution_name || "")
-        );
-      })
-      .slice(0, 8);
-
-    if (!matches.length) {
-      clearResults();
-      input.setAttribute("aria-expanded", "true");
-      results.innerHTML = `<div id="${results.id}-empty" class="result-item is-empty" role="option" tabindex="-1">No matching institutions found.</div>`;
-      return;
+    function getAllResultButtons() {
+      return Array.from(results.querySelectorAll('.result-item[role="option"]'));
     }
 
-    activeIndex = -1;
-    input.setAttribute("aria-expanded", "true");
-    input.removeAttribute("aria-activedescendant");
-    results.setAttribute("aria-label", `${matches.length} search result${matches.length !== 1 ? "s" : ""}`);
-    results.innerHTML = matches.map((row, idx) => `
-      <button type="button" id="${results.id}-option-${idx}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1" aria-selected="false">
-        <span>${escapeHtml(getMatchText(row))}</span>
-        ${getResultBadge(row) ? `<small class="small-meta">${escapeHtml(getResultBadge(row))}</small>` : ""}
-      </button>
-    `).join("");
-
-    results.querySelectorAll("[data-unitid]").forEach((button, i) => {
-      button.addEventListener("click", () => {
-        window.location.href = schoolUrl(button.dataset.unitid, page);
+    function setActiveOption(newIndex) {
+      const buttons = getAllResultButtons();
+      if (!buttons.length) return;
+      activeIndex = Math.max(0, Math.min(newIndex, buttons.length - 1));
+      buttons.forEach((btn, buttonIndex) => {
+        btn.setAttribute("tabindex", "-1");
+        btn.setAttribute("aria-selected", buttonIndex === activeIndex ? "true" : "false");
       });
+      const activeButton = buttons[activeIndex];
+      input.setAttribute("aria-activedescendant", activeButton.id);
+      activeButton.scrollIntoView({ block: "nearest" });
+    }
 
-      button.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowDown") {
-          e.preventDefault();
-          setActiveOption(i + 1);
-          input.focus();
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          setActiveOption(i - 1);
-          input.focus();
-        } else if (e.key === "Enter" || e.key === " ") {
-          window.location.href = schoolUrl(button.dataset.unitid, page);
-        }
-      });
-    });
-  }
-
-  input.addEventListener("input", (e) => {
-    renderMatches(e.target.value);
-  });
-
-  // Arrow keys begin from the input; result buttons continue the same pattern.
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (!getAllResultButtons().length) renderMatches(input.value);
-      setActiveOption(activeIndex + 1);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (!getAllResultButtons().length) renderMatches(input.value);
-      setActiveOption(activeIndex <= 0 ? getAllResultButtons().length - 1 : activeIndex - 1);
-    } else if (e.key === "Enter") {
-      navigateToActive();
-    } else if (e.key === "Escape") {
-      clearResults();
+    function commitOption(button) {
+      if (!button) return;
+      const unitid = String(button.dataset.unitid || "").trim();
+      if (unitid) {
+        window.location.href = schoolUrl(unitid, page);
+        return;
+      }
+      const state = String(button.dataset.state || "").trim();
+      if (!state) return;
+      input.value = state;
+      renderMatches(state);
       input.focus();
+      if (typeof input.setSelectionRange === "function") {
+        const end = input.value.length;
+        input.setSelectionRange(end, end);
+      }
     }
+
+    function navigateToActive() {
+      const buttons = getAllResultButtons();
+      if (buttons[activeIndex]) {
+        commitOption(buttons[activeIndex]);
+        return;
+      }
+      if (buttons.length === 1) {
+        commitOption(buttons[0]);
+      }
+    }
+
+    function renderMatches(query) {
+      const q = normalizeSearchText(query).trim();
+      const tokens = tokenizeSearch(query);
+      if (!q || !tokens.length) {
+        clearResults();
+        return;
+      }
+
+      const exactState = getExactStateMatch(stateCatalog, q);
+      const matches = (exactState
+        ? schools.filter((row) => row._stateNorm === exactState.norm)
+        : schools.filter((row) => tokens.every((token) => row._searchHaystack.includes(token)))
+      ).sort((a, b) => {
+          if (exactState) {
+            return String(a.institution_unique_name || a.institution_name || "").localeCompare(
+              String(b.institution_unique_name || b.institution_name || "")
+            );
+          }
+          const aName = normalizeSearchText(a.institution_name || "");
+          const bName = normalizeSearchText(b.institution_name || "");
+          const aStarts = aName.startsWith(q) ? 1 : 0;
+          const bStarts = bName.startsWith(q) ? 1 : 0;
+          if (aStarts !== bStarts) return bStarts - aStarts;
+
+          const aUniqueStarts = normalizeSearchText(a.institution_unique_name || "").startsWith(q) ? 1 : 0;
+          const bUniqueStarts = normalizeSearchText(b.institution_unique_name || "").startsWith(q) ? 1 : 0;
+          if (aUniqueStarts !== bUniqueStarts) return bUniqueStarts - aUniqueStarts;
+
+          const aAliasStarts = (a._searchAliases || []).some((alias) => normalizeSearchText(alias).startsWith(q)) ? 1 : 0;
+          const bAliasStarts = (b._searchAliases || []).some((alias) => normalizeSearchText(alias).startsWith(q)) ? 1 : 0;
+          if (aAliasStarts !== bAliasStarts) return bAliasStarts - aAliasStarts;
+
+          const aStateStarts = normalizeSearchText(a.state || "").startsWith(q) ? 1 : 0;
+          const bStateStarts = normalizeSearchText(b.state || "").startsWith(q) ? 1 : 0;
+          if (aStateStarts !== bStateStarts) return bStateStarts - aStateStarts;
+
+          return String(a.institution_unique_name || a.institution_name || "").localeCompare(
+            String(b.institution_unique_name || b.institution_name || "")
+          );
+        });
+
+      if (!matches.length) {
+        results.classList.add("has-results");
+        results.setAttribute("aria-label", "No search results");
+        input.setAttribute("aria-expanded", "true");
+        input.removeAttribute("aria-activedescendant");
+        activeIndex = -1;
+        results.innerHTML = `<div id="${results.id}-empty" class="result-item is-empty">No matching institutions found.</div>`;
+        return;
+      }
+
+      activeIndex = -1;
+      results.classList.add("has-results");
+      results.scrollTop = 0;
+      input.setAttribute("aria-expanded", "true");
+      input.removeAttribute("aria-activedescendant");
+      results.setAttribute(
+        "aria-label",
+        `${matches.length} search result${matches.length !== 1 ? "s" : ""}`
+      );
+      let optionIndex = 0;
+      const renderSchoolOption = (row) => {
+        const id = `${results.id}-option-${optionIndex++}`;
+        const metaParts = [getResultMeta(row), getResultBadge(row)].filter(Boolean);
+        return `
+          <button type="button" id="${id}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1" aria-selected="false">
+            <span class="result-item-label">${escapeHtml(getMatchText(row))}</span>
+            ${metaParts.length ? `<span class="result-item-meta">${escapeHtml(metaParts.join(" | "))}</span>` : ""}
+          </button>
+        `;
+      };
+      const schoolCountLabel = `${matches.length} tracked institution${matches.length !== 1 ? "s" : ""}`;
+      results.innerHTML = `
+        <div class="result-section" role="group" aria-label="Schools">
+          <div class="result-section-title">Schools (${escapeHtml(schoolCountLabel)})</div>
+          ${matches.map(renderSchoolOption).join("")}
+        </div>
+      `;
+    }
+
+    results.addEventListener("click", (e) => {
+      const option = e.target.closest('.result-item[role="option"]');
+      if (!option) return;
+      commitOption(option);
+    });
+
+    results.addEventListener("mousedown", (e) => {
+      const option = e.target.closest('.result-item[role="option"]');
+      if (!option) return;
+      e.preventDefault();
+    });
+
+    input.addEventListener("input", (e) => {
+      renderMatches(e.target.value);
+    });
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        if (!getAllResultButtons().length) renderMatches(input.value);
+        setActiveOption(activeIndex + 1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        if (!getAllResultButtons().length) renderMatches(input.value);
+        setActiveOption(activeIndex <= 0 ? getAllResultButtons().length - 1 : activeIndex - 1);
+      } else if (e.key === "Enter") {
+        navigateToActive();
+      } else if (e.key === "Escape") {
+        clearResults();
+        input.focus();
+      }
+    });
   });
 }
 
@@ -435,17 +634,17 @@ upgradeSiteFooter();
 
 initSearch().catch((error) => {
   console.error("Search initialization failed:", error);
-  const input = document.getElementById("school-search");
-  const results = document.getElementById("search-results");
-  if (input) {
-    input.disabled = true;
-    input.setAttribute("aria-disabled", "true");
-  }
-  if (results) {
-    results.setAttribute("role", "status");
-    results.setAttribute("aria-live", "polite");
-    results.innerHTML = '<div class="result-item is-empty">Search is temporarily unavailable.</div>';
-  }
+  getSearchInstances().forEach(({ input, results }) => {
+    if (input) {
+      input.disabled = true;
+      input.setAttribute("aria-disabled", "true");
+    }
+    if (results) {
+      results.setAttribute("role", "status");
+      results.setAttribute("aria-live", "polite");
+      results.innerHTML = '<div class="result-item is-empty">Search is temporarily unavailable.</div>';
+    }
+  });
 });
 
 // Renders a "Data as of <date>" line into a placeholder element.

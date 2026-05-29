@@ -14,10 +14,35 @@ function firstSchoolIndexEntry() {
   return entry;
 }
 
+function schoolIndexEntryByUnitid(unitid) {
+  const schools = readJson('data/schools_index.json');
+  const entry = schools.find((school) => String(school.unitid || '') === String(unitid || ''));
+  if (!entry) throw new Error(`No school index entry found for unitid ${unitid}`);
+  return entry;
+}
+
 function searchTermFor(entry) {
   return String(entry.institution_name || entry.institution_unique_name || '')
     .split(/\s+/)
     .filter((word) => /^[A-Za-z]{4,}$/.test(word))[0] || String(entry.institution_name || entry.institution_unique_name);
+}
+
+function stateWithMultipleSchools(minCount = 12) {
+  const schools = readJson('data/schools_index.json');
+  const counts = schools.reduce((map, school) => {
+    const state = String(school.state || '').trim();
+    if (!state) return map;
+    map.set(state, (map.get(state) || 0) + 1);
+    return map;
+  }, new Map());
+  const candidates = Array.from(counts.entries())
+    .filter(([, count]) => count >= minCount)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+  if (!candidates.length) {
+    throw new Error(`No state with at least ${minCount} schools available for e2e tests`);
+  }
+  const [state, count] = candidates[0];
+  return { state, count };
 }
 
 function schoolWithCharts() {
@@ -451,7 +476,9 @@ async function expectAriaHiddenInSync(page, expect, label = '') {
 
 module.exports = {
   firstSchoolIndexEntry,
+  schoolIndexEntryByUnitid,
   searchTermFor,
+  stateWithMultipleSchools,
   schoolWithCharts,
   privateNonprofitSchoolWithDiscountChart,
   publicSchoolForDiscountHidden,

@@ -928,6 +928,594 @@ h1.serif {
   background: transparent;
 }
 
+/* ---------- School Guide Landing State ----------
+   Used only on school.html when no unitid is selected. */
+.guide-only {
+  display: block;
+}
+
+.guide-hero {
+  max-width: 860px;
+  margin: 28px auto 22px;
+  padding: 0 0 8px;
+}
+
+.guide-top-banner {
+  margin-top: 0;
+  margin-bottom: 28px;
+}
+
+.guide-hero-copy {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.guide-hero .serif {
+  max-width: none;
+  width: 100%;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.guide-deck {
+  margin: 0 auto 14px;
+  max-width: 760px;
+  font-family: var(--font-body);
+  font-size: 32px;
+  line-height: 1.35;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.guide-support {
+  margin: 0 auto 16px;
+  max-width: 760px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.guide-body {
+  margin: 0 auto 12px;
+  max-width: 760px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.62;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.guide-inline-red {
+  display: inline-block;
+  padding: 1px 8px 3px;
+  border-radius: 4px;
+  background: var(--neg);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.guide-learn-more {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.guide-intro {
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+
+.guide-subhead {
+  margin: 18px 0 18px;
+  font-family: var(--font-display);
+  font-size: 46px;
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-align: center;
+}
+
+.guide-subhead::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--hechinger-gold);
+  margin: 10px auto 0;
+}
+
+.guide-bullet-list {
+  display: inline-block;
+  max-width: 560px;
+  margin: 10px auto 0;
+  padding-left: 22px;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+.guide-bullet-list a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+}
+
+.guide-bullet-list a:hover {
+  color: var(--hechinger-gold-deep);
+}
+
+.guide-search-helper {
+  margin: 12px 2px 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+#school-search-wrap .search-label {
+  text-align: center;
+}
+
+#school-search-wrap .search-panel {
+  max-width: 860px;
+}
+
+.guide-jump-links {
+  max-width: 860px;
+  margin: 10px auto 26px;
+  padding: 14px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 26px;
+  border-top: 1px solid var(--line);
+}
+
+.guide-jump-links a {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+  padding-bottom: 2px;
+}
+
+.guide-jump-links a:hover {
+  color: var(--hechinger-gold-deep);
+}
+
+.guide-section {
+  max-width: 860px;
+  margin: 0 auto 46px;
+}
+
+.guide-legend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.guide-legend-item {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+
+.guide-legend-item p {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.guide-chip {
+  display: inline-block;
+  width: 42px;
+  height: 18px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.guide-chip-blue {
+  background: var(--pos);
+  border-color: var(--pos-deep);
+}
+
+.guide-chip-red {
+  background: var(--neg);
+  border-color: var(--neg-deep);
+}
+
+.guide-chip-yellow {
+  background: var(--hechinger-yellow-pale);
+  border-color: var(--hechinger-yellow-soft);
+}
+
+.guide-note {
+  margin: 14px 0 0;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.62;
+  color: var(--ink-3);
+  text-align: center;
+}
+
+.guide-note a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+}
+
+.guide-note a:hover {
+  color: var(--hechinger-gold-deep);
+}
+
+.guide-search-copy {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.guide-search-copy p {
+  margin: 0 0 14px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.62;
+  color: var(--ink-2);
+}
+
+.guide-search-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.guide-search-example {
+  margin: 28px auto 0;
+  max-width: 860px;
+}
+
+.guide-search-example img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(25, 31, 56, 0.08);
+}
+
+.guide-emphasis {
+  margin: 22px auto 0;
+  max-width: 760px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.55;
+  color: var(--ink);
+  text-align: center;
+}
+
+.guide-example {
+  padding: 28px 30px 32px;
+  background: linear-gradient(180deg, #fcfaf4 0%, #ffffff 100%);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  position: relative;
+  overflow: visible;
+}
+
+.guide-example + .guide-example {
+  margin-top: 28px;
+}
+
+.guide-example-mast {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.guide-example-school-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 50px;
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.guide-example-meta {
+  margin: 10px 0 8px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.guide-example-note {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.guide-sample-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.guide-sample-card {
+  margin: 0;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.guide-sample-card .metric-statement {
+  font-size: 24px;
+}
+
+.guide-sample-card .metric-question {
+  font-size: 22px;
+}
+
+.guide-sample-card .metric-answer {
+  font-size: 30px;
+}
+
+.guide-sample-card.guide-arrow-right[data-arrow]::before {
+  left: auto;
+  right: -48px;
+}
+
+.guide-example-callouts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.guide-callout {
+  position: absolute;
+  width: 188px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 252, 245, 0.96);
+  box-shadow: 0 10px 22px rgba(41, 31, 19, 0.08);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 520ms ease, transform 520ms ease;
+  transition-delay: var(--callout-delay, 0ms);
+}
+
+.guide-callout.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.guide-callout::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  border: 9px solid transparent;
+}
+
+.guide-callout-left {
+  right: calc(100% + 26px);
+  text-align: right;
+}
+
+.guide-callout-left::after {
+  left: 100%;
+  border-left-color: rgba(255, 252, 245, 0.96);
+}
+
+.guide-callout-right {
+  left: calc(100% + 26px);
+  text-align: left;
+}
+
+.guide-callout-right::after {
+  right: 100%;
+  border-right-color: rgba(255, 252, 245, 0.96);
+}
+
+.guide-callout-row-1 {
+  top: 208px;
+}
+
+.guide-callout-row-2 {
+  top: 392px;
+}
+
+.guide-callout-row-3 {
+  top: 578px;
+}
+
+.guide-example-summary {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: var(--paper);
+  border-left: 4px solid var(--hechinger-gold);
+}
+
+.guide-example-summary p {
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+  font-size: 21px;
+  line-height: 1.62;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.guide-example-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.guide-next-links {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.guide-next-links li + li {
+  margin-top: 12px;
+}
+
+.guide-next-links a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+}
+
+.guide-next-links a:hover {
+  color: var(--hechinger-gold-deep);
+}
+
+.guide-bottom-search {
+  margin-top: 28px;
+}
+
+.guide-bottom-search .search-panel {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.guide-bottom-search .search-label {
+  text-align: center;
+}
+
+.search-helper-link {
+  margin: 6px 0 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.search-helper-link a {
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hechinger-gold);
+}
+
+.search-helper-link a:hover {
+  color: var(--hechinger-gold-deep);
+}
+
+@media (max-width: 980px) {
+  .guide-deck {
+    font-size: 28px;
+  }
+
+  .guide-legend-grid,
+  .guide-sample-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-example-callouts {
+    position: static;
+    inset: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+    pointer-events: auto;
+  }
+
+  .guide-callout {
+    position: static;
+    width: auto;
+    text-align: left;
+  }
+
+  .guide-callout::after {
+    display: none;
+  }
+
+  .guide-sample-card.guide-arrow-right[data-arrow]::before {
+    left: -48px;
+    right: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .guide-hero {
+    margin-top: 20px;
+  }
+
+  .guide-deck {
+    font-size: 24px;
+  }
+
+  .guide-subhead {
+    font-size: 38px;
+  }
+
+  .guide-body,
+  .guide-bullet-list,
+  .guide-next-links {
+    font-size: 18px;
+  }
+
+  .guide-jump-links {
+    gap: 12px 18px;
+  }
+
+  .guide-example {
+    padding: 22px 18px 24px;
+  }
+
+  .guide-sample-card .metric-statement {
+    font-size: 21px;
+  }
+
+  .guide-sample-card .metric-question {
+    font-size: 20px;
+  }
+
+  .guide-sample-card .metric-answer {
+    font-size: 26px;
+  }
+
+  .guide-example-callouts {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-sample-card.guide-arrow-right[data-arrow]::before {
+    left: -32px;
+    right: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guide-callout {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ---------- Institution masthead ---------------------------------- */
 /* .quad-banner is the full-bleed Hechinger Yellow color band that sits
    above the institution H1. Negative margin matches the .main-wrap
@@ -1225,6 +1813,8 @@ h1.serif {
   margin: 10px 0;
   padding: 20px 28px;
   width: 100%;
+  position: relative;
+  overflow: visible;
   border-radius: 4px;
   border: 1px solid transparent;
   font-family: var(--font-body);
@@ -1232,6 +1822,40 @@ h1.serif {
   line-height: 1.55;
   text-align: center;
   color: var(--ink-2);
+}
+
+.metric-strip[data-arrow]::before {
+  position: absolute;
+  top: 50%;
+  left: -48px;
+  transform: translateY(-50%);
+  font-family: var(--font-body);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.metric-strip[data-arrow="up"]::before {
+  content: "\2191";
+}
+
+.metric-strip[data-arrow="down"]::before {
+  content: "\2193";
+}
+
+.metric-strip.positive[data-arrow]::before {
+  color: var(--pos);
+}
+
+.metric-strip.negative[data-arrow]::before {
+  color: var(--neg);
+}
+
+@media (max-width: 720px) {
+  .metric-strip[data-arrow]::before {
+    left: -32px;
+    font-size: 30px;
+  }
 }
 
 .metric-strip.neutral {

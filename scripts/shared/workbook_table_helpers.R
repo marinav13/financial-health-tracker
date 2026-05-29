@@ -1503,6 +1503,75 @@ article_target_year_cohort_df <- function(article_trend_df, target_year) {
   ]
 }
 
+# Returns a closure-sensitive start-year staff cohort with total,
+# instructional, and non-instructional staff cut fields on a shared
+# denominator. When `treat_missing_end_as_zero` is TRUE, schools that later
+# disappear are counted as having zero staff in the end year.
+article_staff_cohort_df <- function(article_trend_df, start_year, end_year,
+                                    treat_missing_end_as_zero = FALSE) {
+  start_df <- article_target_year_cohort_df(article_trend_df, start_year)[
+    ,
+    c("unitid", "control_label", "staff_headcount_total", "staff_headcount_instructional"),
+    drop = FALSE
+  ]
+  if (!nrow(start_df)) {
+    return(data.frame(stringsAsFactors = FALSE))
+  }
+  names(start_df)[3:4] <- c("staff_total_start", "staff_instructional_start")
+
+  end_df <- article_trend_df[
+    as.integer(article_trend_df$year) == as.integer(end_year),
+    c("unitid", "staff_headcount_total", "staff_headcount_instructional"),
+    drop = FALSE
+  ]
+  if (nrow(end_df)) {
+    names(end_df)[2:3] <- c("staff_total_end", "staff_instructional_end")
+    end_df$has_end_row <- TRUE
+  } else {
+    end_df <- data.frame(
+      unitid = character(),
+      staff_total_end = numeric(),
+      staff_instructional_end = numeric(),
+      has_end_row = logical(),
+      stringsAsFactors = FALSE
+    )
+  }
+
+  joined <- merge(start_df, end_df, by = "unitid", all.x = TRUE)
+  if (treat_missing_end_as_zero) {
+    joined$staff_total_end[is.na(joined$has_end_row)] <- 0
+    joined$staff_instructional_end[is.na(joined$has_end_row)] <- 0
+  }
+  joined <- joined[
+    !is.na(joined$staff_total_start) &
+      !is.na(joined$staff_instructional_start) &
+      !is.na(joined$staff_total_end) &
+      !is.na(joined$staff_instructional_end),
+    ,
+    drop = FALSE
+  ]
+  if (!nrow(joined)) {
+    return(joined)
+  }
+
+  joined$staff_noninstructional_start <- joined$staff_total_start - joined$staff_instructional_start
+  joined$staff_noninstructional_end <- joined$staff_total_end - joined$staff_instructional_end
+
+  joined$total_staff_cut <- joined$staff_total_end < joined$staff_total_start
+  joined$instructional_staff_cut <- joined$staff_instructional_end < joined$staff_instructional_start
+  joined$noninstructional_staff_cut <- joined$staff_noninstructional_end < joined$staff_noninstructional_start
+
+  joined$total_staff_positions_cut <- pmax(joined$staff_total_start - joined$staff_total_end, 0)
+  joined$instructional_staff_positions_cut <- pmax(joined$staff_instructional_start - joined$staff_instructional_end, 0)
+  joined$noninstructional_staff_positions_cut <- pmax(joined$staff_noninstructional_start - joined$staff_noninstructional_end, 0)
+
+  joined$total_staff_change <- joined$staff_total_end - joined$staff_total_start
+  joined$instructional_staff_change <- joined$staff_instructional_end - joined$staff_instructional_start
+  joined$noninstructional_staff_change <- joined$staff_noninstructional_end - joined$staff_noninstructional_start
+
+  joined
+}
+
 # Builds article-focused answer rows that mix current-workbook 2024 counts with
 # year-specific cohort comparisons for earlier trend windows.
 build_article_point_answers <- function(read_df, article_trend_df, distress_compare,
@@ -1565,33 +1634,9 @@ build_article_point_answers <- function(read_df, article_trend_df, distress_comp
   ]
   latest_article_df <- article_target_year_cohort_df(article_trend_df, latest_year)
   comparison_article_df <- article_target_year_cohort_df(article_trend_df, comparison_year)
-
-  matched_staff_cut_rows <- function(start_year, end_year, treat_missing_end_as_zero = FALSE) {
-    start_df <- article_target_year_cohort_df(article_trend_df, start_year)[, c("unitid", "control_label", "staff_headcount_instructional"), drop = FALSE]
-    if (!nrow(start_df)) {
-      return(data.frame(stringsAsFactors = FALSE))
-    }
-    names(start_df)[3] <- "staff_start"
-    end_df <- article_trend_df[as.integer(article_trend_df$year) == as.integer(end_year), c("unitid", "staff_headcount_instructional"), drop = FALSE]
-    if (nrow(end_df)) {
-      names(end_df)[2] <- "staff_end"
-      end_df$has_end_row <- TRUE
-    } else {
-      end_df <- data.frame(unitid = character(), staff_end = numeric(), has_end_row = logical(), stringsAsFactors = FALSE)
-    }
-    joined <- merge(start_df, end_df, by = "unitid", all.x = TRUE)
-    if (treat_missing_end_as_zero) {
-      joined$staff_end[is.na(joined$has_end_row)] <- 0
-    }
-    joined <- joined[!is.na(joined$staff_start) & !is.na(joined$staff_end), , drop = FALSE]
-    if (!nrow(joined)) {
-      return(joined)
-    }
-    joined$cut <- joined$staff_end < joined$staff_start
-    joined$positions_cut <- pmax(joined$staff_start - joined$staff_end, 0)
-    joined
-  }
-  add_staff_scope_rows <- function(group, start_year, end_year, joined_df, method_label, calculation, note_prefix) {
+  add_staff_scope_rows <- function(group, start_year, end_year, joined_df,
+                                   metric_label, cut_field, positions_cut_field,
+                                   method_label, calculation, note_prefix) {
     if (is.null(joined_df) || !nrow(joined_df)) {
       return(data.frame(stringsAsFactors = FALSE))
     }
@@ -1617,21 +1662,34 @@ build_article_point_answers <- function(read_df, article_trend_df, distress_comp
         year = as.integer(end_year),
         scope = scope_label,
         question = sprintf(
-          "%s to %s %s with instructional staff cuts (%s)",
+          "%s to %s %s with %s cuts (%s)",
           start_year,
           end_year,
           scope_phrases[[i]],
+          metric_label,
           method_label
         ),
-        count_yes = sum(scoped_df$cut, na.rm = TRUE),
+        count_yes = sum(scoped_df[[cut_field]], na.rm = TRUE),
         count_scope_total = nrow(scoped_df),
-        pct_of_scope_institutions = safe_pct(sum(scoped_df$cut, na.rm = TRUE), nrow(scoped_df)),
+        pct_of_scope_institutions = safe_pct(sum(scoped_df[[cut_field]], na.rm = TRUE), nrow(scoped_df)),
         calculation = calculation,
-        note = sprintf(
-          "%s Total instructional positions cut in this scope = %s.",
-          note_prefix,
-          format(round(sum(scoped_df$positions_cut, na.rm = TRUE)), big.mark = ",")
-        )
+        note = if (identical(metric_label, "total staff")) {
+          total_cut_df <- scoped_df[scoped_df$total_staff_cut, , drop = FALSE]
+          sprintf(
+            "%s Total staff positions cut in this scope = %s. Within total-staff-cut schools, instructional change = %s and non-instructional change = %s.",
+            note_prefix,
+            format(round(sum(scoped_df[[positions_cut_field]], na.rm = TRUE)), big.mark = ","),
+            format(round(-sum(total_cut_df$instructional_staff_change, na.rm = TRUE)), big.mark = ","),
+            format(round(-sum(total_cut_df$noninstructional_staff_change, na.rm = TRUE)), big.mark = ",")
+          )
+        } else {
+          sprintf(
+            "%s Total %s positions cut in this scope = %s.",
+            note_prefix,
+            metric_label,
+            format(round(sum(scoped_df[[positions_cut_field]], na.rm = TRUE)), big.mark = ",")
+          )
+        }
       )
     }))
   }
@@ -1651,9 +1709,9 @@ build_article_point_answers <- function(read_df, article_trend_df, distress_comp
       group = "Setup",
       year = as.integer(latest_year),
       scope = "All institutions",
-      question = "Closure-sensitive instructional staff cohort definition",
-      calculation = "For start-year cohort rows marked as closure-sensitive, schools missing in the end year are treated as zero staff at the end of the window.",
-      note = "Use these rows when the story wants later closures to count as staffing cuts rather than dropping out of the denominator."
+      question = "Closure-sensitive staffing cohort definition",
+      calculation = "For closure-sensitive staffing rows, use the start-year cohort and treat schools missing in the end year as zero total and instructional staff at the end of the window.",
+      note = "These rows let staffing comparisons keep later-closed schools in both the denominator and the cut totals."
     )
   )
 
@@ -1828,26 +1886,80 @@ build_article_point_answers <- function(read_df, article_trend_df, distress_comp
     )
   )
 
-  matched_staff_2019_2024 <- matched_staff_cut_rows(comparison_year, latest_year, treat_missing_end_as_zero = FALSE)
-  closure_staff_2019_2024 <- matched_staff_cut_rows(comparison_year, latest_year, treat_missing_end_as_zero = TRUE)
+  closure_staff_2014_2019 <- article_staff_cohort_df(article_trend_df, baseline_year, comparison_year, treat_missing_end_as_zero = TRUE)
+  closure_staff_2019_2024 <- article_staff_cohort_df(article_trend_df, comparison_year, latest_year, treat_missing_end_as_zero = TRUE)
 
   staff_rows <- append_rows(
     add_staff_scope_rows(
       group = "Closure-sensitive staff cohort",
-      start_year = comparison_year,
-      end_year = latest_year,
-      joined_df = matched_staff_2019_2024,
-      method_label = "matched endpoints only",
-      calculation = "Compare start-year cohort institutions with instructional staff reported at both endpoints.",
-      note_prefix = "Matched-endpoint method."
+      start_year = baseline_year,
+      end_year = comparison_year,
+      joined_df = closure_staff_2014_2019,
+      metric_label = "total staff",
+      cut_field = "total_staff_cut",
+      positions_cut_field = "total_staff_positions_cut",
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
+      note_prefix = "Closure-sensitive method."
+    ),
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = baseline_year,
+      end_year = comparison_year,
+      joined_df = closure_staff_2014_2019,
+      metric_label = "instructional staff",
+      cut_field = "instructional_staff_cut",
+      positions_cut_field = "instructional_staff_positions_cut",
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
+      note_prefix = "Closure-sensitive method."
+    ),
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = baseline_year,
+      end_year = comparison_year,
+      joined_df = closure_staff_2014_2019,
+      metric_label = "non-instructional staff",
+      cut_field = "noninstructional_staff_cut",
+      positions_cut_field = "noninstructional_staff_positions_cut",
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
+      note_prefix = "Closure-sensitive method."
     ),
     add_staff_scope_rows(
       group = "Closure-sensitive staff cohort",
       start_year = comparison_year,
       end_year = latest_year,
       joined_df = closure_staff_2019_2024,
+      metric_label = "total staff",
+      cut_field = "total_staff_cut",
+      positions_cut_field = "total_staff_positions_cut",
       method_label = "closures counted as zero",
-      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero staff.",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
+      note_prefix = "Closure-sensitive method."
+    ),
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = comparison_year,
+      end_year = latest_year,
+      joined_df = closure_staff_2019_2024,
+      metric_label = "instructional staff",
+      cut_field = "instructional_staff_cut",
+      positions_cut_field = "instructional_staff_positions_cut",
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
+      note_prefix = "Closure-sensitive method."
+    ),
+    add_staff_scope_rows(
+      group = "Closure-sensitive staff cohort",
+      start_year = comparison_year,
+      end_year = latest_year,
+      joined_df = closure_staff_2019_2024,
+      metric_label = "non-instructional staff",
+      cut_field = "noninstructional_staff_cut",
+      positions_cut_field = "noninstructional_staff_positions_cut",
+      method_label = "closures counted as zero",
+      calculation = "Compare the start-year cohort to the end year and treat schools that disappeared from the end year as zero total and instructional staff.",
       note_prefix = "Closure-sensitive method."
     )
   )
@@ -1913,44 +2025,30 @@ build_article_graphics_table <- function(article_trend_df,
     }))
   }
 
-  build_staff_cohort_rows <- function(start_year, end_year, treat_missing_end_as_zero = FALSE) {
-    start_df <- article_target_year_cohort_df(article_trend_df, start_year)[, c("unitid", "control_label", "staff_headcount_instructional"), drop = FALSE]
-    if (!nrow(start_df)) {
-      return(data.frame(stringsAsFactors = FALSE))
-    }
-    names(start_df)[3] <- "staff_start"
-    end_df <- article_trend_df[as.integer(article_trend_df$year) == as.integer(end_year), c("unitid", "staff_headcount_instructional"), drop = FALSE]
-    if (nrow(end_df)) {
-      names(end_df)[2] <- "staff_end"
-      end_df$has_end_row <- TRUE
-    } else {
-      end_df <- data.frame(unitid = character(), staff_end = numeric(), has_end_row = logical(), stringsAsFactors = FALSE)
-    }
-
-    joined <- merge(start_df, end_df, by = "unitid", all.x = TRUE)
-    if (treat_missing_end_as_zero) {
-      joined$staff_end[is.na(joined$has_end_row)] <- 0
-    }
-    joined <- joined[!is.na(joined$staff_start) & !is.na(joined$staff_end), , drop = FALSE]
+  build_staff_cohort_rows <- function(start_year, end_year, graphic, cut_field,
+                                      positions_cut_field, treat_missing_end_as_zero = FALSE) {
+    joined <- article_staff_cohort_df(
+      article_trend_df = article_trend_df,
+      start_year = start_year,
+      end_year = end_year,
+      treat_missing_end_as_zero = treat_missing_end_as_zero
+    )
     if (!nrow(joined)) {
       return(joined)
     }
-    joined$cut <- joined$staff_end < joined$staff_start
-    joined$positions_cut <- pmax(joined$staff_start - joined$staff_end, 0)
-
     do.call(rbind, lapply(scope_specs, function(scope_spec) {
       scope_df <- joined[scope_spec$filter(joined), , drop = FALSE]
       make_graphic_row(
-        graphic = "Instructional staff cuts by sector",
+        graphic = graphic,
         method = if (treat_missing_end_as_zero) "Start-year cohort with closures counted as zero" else "Start-year cohort, matched endpoints only",
         window_start = as.integer(start_year),
         window_end = as.integer(end_year),
         scope = scope_spec$label,
-        count_yes = sum(scope_df$cut, na.rm = TRUE),
+        count_yes = sum(scope_df[[cut_field]], na.rm = TRUE),
         count_scope_total = nrow(scope_df),
-        total_positions_cut = sum(scope_df$positions_cut, na.rm = TRUE),
-        calculation = if (treat_missing_end_as_zero) "Compare the start-year cohort to the end year and treat schools missing in the end year as zero staff." else "Compare only schools with instructional staff reported at both endpoints.",
-        note = "Use this to test whether closure-sensitive cohort logic changes the staff-cut story."
+        total_positions_cut = sum(scope_df[[positions_cut_field]], na.rm = TRUE),
+        calculation = if (treat_missing_end_as_zero) "Compare the start-year cohort to the end year and treat schools missing in the end year as zero total and instructional staff." else "Compare only schools with total and instructional staff reported at both endpoints.",
+        note = "Closure-inclusive staff-cut graphic rows use a shared denominator for total, instructional, and non-instructional staff."
       )
     }))
   }
@@ -1998,8 +2096,54 @@ build_article_graphics_table <- function(article_trend_df,
       function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & to_num(df$staff_instructional_headcount_pct_change_5yr) < 0,
       "Year-specific target-year cohort. This is the clean five-year IPEDS staffing metric."
     ),
-    build_staff_cohort_rows(baseline_year, comparison_year, treat_missing_end_as_zero = TRUE),
-    build_staff_cohort_rows(comparison_year, latest_year, treat_missing_end_as_zero = TRUE)
+    build_staff_cohort_rows(
+      baseline_year,
+      comparison_year,
+      graphic = "Total staff cuts by sector",
+      cut_field = "total_staff_cut",
+      positions_cut_field = "total_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    ),
+    build_staff_cohort_rows(
+      comparison_year,
+      latest_year,
+      graphic = "Total staff cuts by sector",
+      cut_field = "total_staff_cut",
+      positions_cut_field = "total_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    ),
+    build_staff_cohort_rows(
+      baseline_year,
+      comparison_year,
+      graphic = "Instructional staff cuts by sector",
+      cut_field = "instructional_staff_cut",
+      positions_cut_field = "instructional_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    ),
+    build_staff_cohort_rows(
+      comparison_year,
+      latest_year,
+      graphic = "Instructional staff cuts by sector",
+      cut_field = "instructional_staff_cut",
+      positions_cut_field = "instructional_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    ),
+    build_staff_cohort_rows(
+      baseline_year,
+      comparison_year,
+      graphic = "Non-instructional staff cuts by sector",
+      cut_field = "noninstructional_staff_cut",
+      positions_cut_field = "noninstructional_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    ),
+    build_staff_cohort_rows(
+      comparison_year,
+      latest_year,
+      graphic = "Non-instructional staff cuts by sector",
+      cut_field = "noninstructional_staff_cut",
+      positions_cut_field = "noninstructional_staff_positions_cut",
+      treat_missing_end_as_zero = TRUE
+    )
   )
 }
 

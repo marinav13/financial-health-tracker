@@ -43,11 +43,14 @@
     </nav>
     <main id="main" class="main-wrap">
 
-    <section id="school-intro-callout" class="intro-callout">
-      <div class="intro-bar"></div>
-      <div class="intro-box">
-        <p>As colleges and universities face federal funding cuts and immigration policy changes, which 4-year, primarily bachelor's-degree-granting institutions are most vulnerable to financial pressures and dips in international enrollment?</p>
-        <p>Look up a 4-year institution in the tracker for a snapshot of key financial and enrollment trends.</p>
+    <figure class="quad-banner school-quad-banner guide-top-banner guide-only" aria-hidden="true">
+      <img src="assets/college-financial-health-school.png" alt="">
+    </figure>
+
+    <section id="school-guide-hero" class="guide-hero guide-only" aria-labelledby="guide-hero-title">
+      <div class="guide-hero-copy">
+      <h1 id="guide-hero-title" class="serif">College Financial Heatlh Explorer</h1>
+        <p class="guide-deck">Search for a college or university below to see how its finances and enrollment have changed over time.</p>
       </div>
     </section>
 
@@ -66,11 +69,197 @@
       </section>
     </details>
 
-    <figure class="quad-banner school-quad-banner" aria-hidden="true">
+    <section id="guide-intro" class="guide-section guide-intro guide-only" aria-labelledby="guide-intro-title">
+      <h2 id="guide-intro-title" class="guide-subhead">How to start using this Tool</h2>
+      <p class="guide-body"><strong>Use this explorer to look at the big picture.</strong></p>
+      <p class="guide-body">Once you search for a university and click on it, you'll see its financial profile.</p>
+      <p class="guide-body">Scroll down to learn about different financial and enrollment indicators.</p>
+      <p class="guide-body">The colored boxes can help you spot patterns.</p>
+      <p class="guide-body"><span class="guide-inline-red">Red</span> means a trend is growing in a concerning direction.</p>
+      <p class="guide-body">One or two <span class="guide-inline-red">red</span> boxes do not automatically mean a school is in crisis.</p>
+      <p class="guide-body">But if a college shows several <span class="guide-inline-red">red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</p>
+      <div class="guide-learn-more">
+        <p class="guide-body">Click on the tabs at the top of the page to learn whether a college has:</p>
+        <ul class="guide-bullet-list">
+          <li>announced <a href="cuts.html">cuts to programs or staff</a>,</li>
+          <li>faced sanction from <a href="accreditation.html">accreditors</a>,</li>
+          <li>or had <a href="research.html">federal research dollars</a> terminated since 2025.</li>
+        </ul>
+      </div>
+      <p class="guide-emphasis"><strong>More questions about using this tool? Check our guide below.</strong></p>
+    </section>
+
+    <nav id="guide-jump-links" class="guide-jump-links guide-only" aria-label="How to use this tracker sections">
+      <a href="#guide-search-tips">How to search</a>
+      <a href="#guide-legend">What the colors mean</a>
+      <a href="#guide-example">Example profile</a>
+      <a href="#guide-next">Where to look next</a>
+    </nav>
+
+    <section id="guide-search-tips" class="guide-section guide-search-tips guide-only" aria-labelledby="guide-search-tips-title">
+      <h2 id="guide-search-tips-title" class="section-title">How to search</h2>
+      <div class="guide-search-copy">
+        <p>Search by college name, nickname, state or its unique Integrated Postsecondary Education Data System ID.</p>
+        <p>For example: If you type in Massachusetts, you'll see all the colleges included in our explorer in that state.</p>
+        <p>You can also search by nicknames like CalTech, MIT or Georgia Tech.</p>
+      </div>
+      <figure class="guide-search-example">
+        <img src="assets/Massachusetts_Search_Example.png" alt="Search example showing Massachusetts entered in the search box and a list of Massachusetts colleges in the results.">
+      </figure>
+    </section>
+
+    <section id="guide-legend" class="guide-section guide-legend guide-only" aria-labelledby="guide-legend-title">
+      <h2 id="guide-legend-title" class="section-title">What the colors mean</h2>
+      <div class="guide-legend-grid">
+        <article class="guide-legend-item">
+          <span class="guide-chip guide-chip-blue" aria-hidden="true"></span>
+          <p>Blue means a trend is moving in a positive direction.</p>
+        </article>
+        <article class="guide-legend-item">
+          <span class="guide-chip guide-chip-red" aria-hidden="true"></span>
+          <p>Red means a trend moved in a more concerning direction.</p>
+        </article>
+        <article class="guide-legend-item">
+          <span class="guide-chip guide-chip-yellow" aria-hidden="true"></span>
+          <p>Yellow means the change was flat or minor.</p>
+        </article>
+      </div>
+      <p class="guide-note"><em>For detail on how we define a concerning or positive change, head to our <a href="methodology.html">methodology</a>.</em></p>
+    </section>
+
+    <section id="guide-example" class="guide-section guide-example-section guide-only" aria-labelledby="guide-example-section-title">
+      <h2 id="guide-example-section-title" class="section-title">Here are example financial profiles:</h2>
+      <div class="guide-example">
+        <div class="guide-example-mast">
+          <p id="guide-example-title" class="serif guide-example-school-name">Example University</p>
+          <p class="guide-example-meta">Sampleville, State &middot; Private nonprofit &middot; Suburb: Small</p>
+          <p class="guide-example-note">This is a fake school built only to show how the explorer works.</p>
+        </div>
+
+        <div id="guide-sample-cards" class="guide-sample-grid">
+          <article class="metric-strip negative guide-sample-card" data-arrow="down">
+            <div class="metric-statement">Revenue decreased 19% from 2019 to 2024, after adjusting for inflation.</div>
+          </article>
+
+          <article class="metric-strip negative guide-sample-card guide-arrow-right" data-arrow="down">
+            <div class="metric-statement">Enrollment decreased 17% from 2019 to 2024.</div>
+          </article>
+
+          <article class="metric-strip negative guide-sample-card" data-arrow="down">
+            <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 23% from 2019 to 2024, after adjusting for inflation.</div>
+          </article>
+
+          <article class="metric-strip positive guide-sample-card guide-arrow-right" data-arrow="up">
+            <div class="metric-statement">The institution's endowment increased 7% from 2019 to 2024, after adjusting for inflation.</div>
+          </article>
+
+          <article class="metric-strip negative guide-sample-card">
+            <div class="metric-question">How many times has this institution ended the year with a loss in the past decade?</div>
+            <div class="metric-answer">8</div>
+          </article>
+
+          <article class="metric-strip negative guide-sample-card">
+            <div class="metric-question">Did this institution see a decline in enrollment in 3 of the previous 5 years?</div>
+            <div class="metric-answer">Yes</div>
+          </article>
+        </div>
+
+        <div class="guide-example-callouts" aria-label="Example University callouts">
+          <article class="guide-callout guide-callout-left guide-callout-row-1">This box is red because revenue is down by more than 5 percent.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-1">This box is red because enrollment fell by more than 5 percent.</article>
+          <article class="guide-callout guide-callout-left guide-callout-row-2">This box is red because net tuition revenue per student fell sharply.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-2">This box is blue because the endowment grew by more than 5 percent.</article>
+          <article class="guide-callout guide-callout-left guide-callout-row-3">This box is red because the college ended 8 years with a loss.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-3">This box is red because the college is seeing repeated enrollment drops.</article>
+        </div>
+
+        <div class="guide-example-summary">
+          <p>This example school profile has a mix of red and blue boxes at the same time.</p>
+          <p>Revenue and enrollment are dropping significantly, and it has ended 8 of the past 10 years at a loss.</p>
+          <p>This suggests deeper financial pressure.</p>
+        </div>
+      </div>
+
+      <div class="guide-example">
+        <div class="guide-example-mast">
+          <p class="serif guide-example-school-name">Example State College</p>
+          <p class="guide-example-meta">Samplecity, State &middot; Public &middot; Suburb: Large </p>
+          <p class="guide-example-note">This is another fake school built only to show how the explorer works.</p>
+        </div>
+
+        <div class="guide-sample-grid">
+          <article class="metric-strip positive guide-sample-card" data-arrow="up">
+            <div class="metric-statement">Revenue increased 8% from 2019 to 2024, after adjusting for inflation.</div>
+          </article>
+
+          <article class="metric-strip neutral guide-sample-card">
+            <div class="metric-statement">Enrollment increased 1% from 2019 to 2024.</div>
+          </article>
+
+          <article class="metric-strip negative guide-sample-card" data-arrow="down">
+            <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 12% from 2019 to 2024, after adjusting for inflation.</div>
+          </article>
+
+          <article class="metric-strip neutral guide-sample-card">
+            <div class="metric-statement">Total staff headcount increased 3% from 2019 to 2024.</div>
+          </article>
+
+          <article class="metric-strip positive guide-sample-card">
+            <div class="metric-question">Did this college end the latest year at a loss?</div>
+            <div class="metric-answer">No</div>
+          </article>
+
+          <article class="metric-strip positive guide-sample-card guide-arrow-right" data-arrow="up">
+            <div class="metric-question">How much has state aid changed over the past 5 years?</div>
+            <div class="metric-answer">+25%</div>
+          </article>
+        </div>
+
+        <div class="guide-example-callouts" aria-label="Example State College callouts">
+          <article class="guide-callout guide-callout-left guide-callout-row-1">This box is blue because revenue is up by more than 5 percent.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-1">This box is yellow because enrollment stayed about the same.</article>
+          <article class="guide-callout guide-callout-left guide-callout-row-2">This box is red because net tuition revenue per student fell by more than 5 percent.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-2">This box is yellow because staff headcount stayed about the same.</article>
+          <article class="guide-callout guide-callout-left guide-callout-row-3">This box is blue because the college did not end 2024 with a loss.</article>
+          <article class="guide-callout guide-callout-right guide-callout-row-3">This box is blue because state aid has gone up by more than 5 percent.</article>
+        </div>
+
+        <div class="guide-example-summary">
+          <p>This second example has one red box but mostly blue and yellow ones.</p>
+          <p>That suggests the college does not have glaring financial issues.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="guide-next" class="guide-section guide-next guide-only" aria-labelledby="guide-next-title">
+      <h2 id="guide-next-title" class="section-title">Where to look next</h2>
+      <ul class="guide-next-links">
+        <li><a href="cuts.html">College Cuts</a>: See layoffs, program closures or campus shutdowns.</li>
+        <li><a href="accreditation.html">Accreditation</a>: See warnings, probation or other actions.</li>
+        <li><a href="research.html">Research Funding Cuts</a>: See whether federal grants were disrupted.</li>
+        <li><a href="methodology.html">Methodology</a>: See where the numbers come from.</li>
+      </ul>
+    </section>
+
+    <section id="guide-bottom-search" class="guide-section guide-bottom-search guide-only" aria-labelledby="guide-bottom-search-label">
+      <section class="search-panel" data-school-search-instance aria-labelledby="guide-bottom-search-label">
+        <label id="guide-bottom-search-label" class="search-label" for="school-search-bottom">Search by institution:</label>
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
+            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+          <input id="school-search-bottom" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
+        </div>
+        <div id="search-results-bottom" class="results" role="listbox" aria-label="Search results"></div>
+      </section>
+    </section>
+
+    <figure id="school-profile-banner" class="quad-banner school-quad-banner" aria-hidden="true">
       <img src="assets/college-financial-health-school.png" alt="">
     </figure>
-    <section class="school-mast">
-      <div class="eyebrow">Institution Profile</div>
+    <section id="school-profile-mast" class="school-mast">
+      <div class="eyebrow">Financial Profile</div>
       <h1 id="school-name">Loading...</h1>
       <section id="school-meta-wrap" class="school-meta-wrap">
         <div class="meta">

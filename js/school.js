@@ -258,7 +258,22 @@ function yesNoClass(value) {
   return "neutral";
 }
 
-function applyStrip(id, text, state = "neutral") {
+function trendDirection(value) {
+  const numeric = asNumber(value);
+  if (numeric === null || numeric === 0) return "";
+  return numeric > 0 ? "up" : "down";
+}
+
+function setStripArrow(node, state, direction) {
+  if (!node) return;
+  if ((state === "positive" || state === "negative") && direction) {
+    node.dataset.arrow = direction;
+    return;
+  }
+  delete node.dataset.arrow;
+}
+
+function applyStrip(id, text, state = "neutral", direction = "") {
   const node = document.getElementById(id);
   if (!node) return;
   node.className = `metric-strip ${state}`;
@@ -267,9 +282,10 @@ function applyStrip(id, text, state = "neutral") {
   statement.className = "metric-statement";
   statement.textContent = text ?? "";
   node.appendChild(statement);
+  setStripArrow(node, state, direction);
 }
 
-function applyQuestionValueStrip(id, question, value, state = "neutral") {
+function applyQuestionValueStrip(id, question, value, state = "neutral", direction = "") {
   const node = document.getElementById(id);
   if (!node) return;
   node.className = `metric-strip ${state}`;
@@ -282,6 +298,7 @@ function applyQuestionValueStrip(id, question, value, state = "neutral") {
   strong.textContent = value ?? "";
   statement.append(strong);
   node.appendChild(statement);
+  setStripArrow(node, state, direction);
 }
 
 function strongSegment(text) {
@@ -868,25 +885,108 @@ function setSectionVisibility(id, show) {
   }
 }
 
+const PROFILE_SHELL_SECTION_IDS = [
+  "school-profile-mast"
+];
+
+const PROFILE_DATA_SECTION_IDS = [
+  "school-outcomes-section",
+  "financial-section",
+  "net-tuition-section",
+  "tuition-dependence-section",
+  "enrollment-section",
+  "graduate-section",
+  "intl-section",
+  "staffing-section",
+  "endowment-section",
+  "aid-section",
+  "federal-composite-section",
+  "hcm2-section",
+  "school-related-section",
+  "school-bottom-search-section"
+];
+
+function setElementVisible(id, show) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.classList.toggle("is-hidden", !show);
+}
+
+function setGuideOnlyVisible(show) {
+  document.querySelectorAll(".guide-only").forEach((node) => {
+    node.classList.toggle("is-hidden", !show);
+    if (show) {
+      node.removeAttribute("aria-hidden");
+    } else {
+      node.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
+function setElementsVisible(ids, show) {
+  ids.forEach((id) => setElementVisible(id, show));
+}
+
+function setSectionsVisible(ids, show) {
+  ids.forEach((id) => setSectionVisibility(id, show));
+}
+
+function initGuideCalloutReveal() {
+  const callouts = Array.from(document.querySelectorAll(".guide-callout"));
+  if (!callouts.length) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    callouts.forEach((callout) => callout.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: "0px 0px -10% 0px"
+  });
+  callouts.forEach((callout, index) => {
+    callout.style.setProperty("--callout-delay", `${(index % 3) * 90}ms`);
+    observer.observe(callout);
+  });
+}
+
+function showSchoolGuideLanding() {
+  setGuideOnlyVisible(true);
+  setElementVisible("school-profile-banner", false);
+  setSectionsVisible(PROFILE_SHELL_SECTION_IDS, false);
+  setSectionsVisible(PROFILE_DATA_SECTION_IDS, false);
+  setHidden("school-meta-wrap", true);
+  setHidden("download-school-data", true);
+  setHidden("share-school-profile", true);
+}
+
+function showSchoolProfileShell() {
+  setGuideOnlyVisible(false);
+  setElementVisible("school-profile-banner", true);
+  setSectionsVisible(PROFILE_SHELL_SECTION_IDS, true);
+  setSectionsVisible(PROFILE_DATA_SECTION_IDS, false);
+  setSectionVisibility("school-bottom-search-section", true);
+  setHidden("school-meta-wrap", false);
+  setHidden("download-school-data", false);
+  setHidden("share-school-profile", false);
+}
+
 function showSchoolLoadError(message) {
+  setGuideOnlyVisible(false);
+  setElementVisible("school-profile-banner", false);
+  setSectionsVisible(PROFILE_SHELL_SECTION_IDS, true);
+  setSectionsVisible(PROFILE_DATA_SECTION_IDS, false);
   setText("school-name", message);
   setText("school-location", "");
   setText("school-urbanization", "");
   setText("school-control", "");
   setText("school-closure-flag", "");
   setHidden("school-closure-flag", true);
-  setHidden("school-intro-callout", false);
   setHidden("school-meta-wrap", true);
-  setSectionVisibility("school-outcomes-section", false);
-  setSectionVisibility("financial-section", false);
-  setSectionVisibility("enrollment-section", false);
-  setSectionVisibility("graduate-section", false);
-  setSectionVisibility("staffing-section", false);
-  setSectionVisibility("endowment-section", false);
-  setSectionVisibility("aid-section", false);
-  setSectionVisibility("federal-composite-section", false);
-  setSectionVisibility("hcm2-section", false);
-  setSectionVisibility("school-related-section", false);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);
 }
@@ -984,13 +1084,13 @@ async function init() {
 
   const unitid = getParam("unitid");
   window.TrackerApp.syncTabs(unitid, { active: "finances" });
-  setHidden("school-intro-callout", Boolean(unitid));
-  setHidden("school-meta-wrap", false);
-  setHidden("school-bottom-search-section", !unitid);
   if (!unitid) {
-    showSchoolLoadError("No school selected");
+    showSchoolGuideLanding();
+    initGuideCalloutReveal();
     return;
   }
+
+  showSchoolProfileShell();
 
   const [school, compositeLookup, hcmLookup, closureLookup, cutsIndex, accreditationIndex, researchIndex] = await Promise.all([
     loadJson(`data/schools/${unitid}.json`),
@@ -1073,7 +1173,8 @@ async function init() {
     asNumber(s.revenue_pct_change_5yr) === null
       ? "Revenue data are not available."
       : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.revenue_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.revenue_pct_change_5yr)
+    sentimentClass(s.revenue_pct_change_5yr),
+    trendDirection(s.revenue_pct_change_5yr)
   );
   const hasRevenueCard = asNumber(s.revenue_pct_change_5yr) !== null;
   setHidden("revenue-change-card", !hasRevenueCard);
@@ -1101,7 +1202,8 @@ async function init() {
     asNumber(s.net_tuition_per_fte_change_5yr) === null
       ? "Net tuition revenue per full-time equivalent student data are not available."
       : `Net tuition revenue per full-time equivalent student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.net_tuition_per_fte_change_5yr)
+    sentimentClass(s.net_tuition_per_fte_change_5yr),
+    trendDirection(s.net_tuition_per_fte_change_5yr)
   );
   const hasNetTuitionCard = asNumber(s.net_tuition_per_fte_change_5yr) !== null;
   setHidden("net-tuition-change-card", !hasNetTuitionCard);
@@ -1119,7 +1221,8 @@ async function init() {
     applyStrip(
       "discount-rate-card",
       discountRateSentence || "Discount-rate data are not available.",
-      discountRateTrendState(discountRateChange)
+      discountRateTrendState(discountRateChange),
+      trendDirection(discountRateChange)
     );
   }
   setHidden("discount-rate-card", !discountRateSentence);
@@ -1131,7 +1234,8 @@ async function init() {
     asNumber(s.enrollment_pct_change_5yr) === null
       ? "Enrollment data are not available."
       : `Enrollment ${asNumber(s.enrollment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    sentimentClass(s.enrollment_pct_change_5yr)
+    sentimentClass(s.enrollment_pct_change_5yr),
+    trendDirection(s.enrollment_pct_change_5yr)
   );
   const hasEnrollmentCard = asNumber(s.enrollment_pct_change_5yr) !== null;
   setHidden("enrollment-change-card", !hasEnrollmentCard);
@@ -1181,7 +1285,8 @@ async function init() {
     asNumber(s.staff_total_headcount_pct_change_5yr) === null
       ? "Staffing data are not available."
       : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    sentimentClass(s.staff_total_headcount_pct_change_5yr)
+    sentimentClass(s.staff_total_headcount_pct_change_5yr),
+    trendDirection(s.staff_total_headcount_pct_change_5yr)
   );
   const hasStaffCard = asNumber(s.staff_total_headcount_pct_change_5yr) !== null;
   setHidden("staff-change-card", !hasStaffCard);
@@ -1194,7 +1299,8 @@ async function init() {
     asNumber(s.endowment_pct_change_5yr) === null
       ? "Endowment data are not available."
       : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.endowment_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.endowment_pct_change_5yr)
+    sentimentClass(s.endowment_pct_change_5yr),
+    trendDirection(s.endowment_pct_change_5yr)
   );
   const hasEndowmentCard = asNumber(s.endowment_pct_change_5yr) !== null;
   setHidden("endowment-change-card", !hasEndowmentCard);
@@ -1221,13 +1327,19 @@ async function init() {
   const hasStaffingChart = staffTotalSeries.length > 0 || staffInstructionalSeries.length > 0;
   const hasLossBlock = !!s.ended_year_at_loss || !!s.losses_last_3_of_5 || !(s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
   const showFinancialSection = hasRevenueCard || hasRevenueChart || hasLossBlock || hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence || hasDiscountRateSection;
+  const showNetTuitionSection = hasNetTuitionCard || hasNetTuitionChart;
+  const showTuitionDependenceSection = hasTuitionSentence || hasDiscountRateSection;
   const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasIntlSentence || hasAnyInternationalEnrollment;
   const showGraduateSection = hasGradLoanCopy;
+  const showIntlSection = hasIntlSentence || hasAnyInternationalEnrollment;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
 
   setSectionVisibility("financial-section", showFinancialSection);
+  setSectionVisibility("net-tuition-section", showNetTuitionSection);
+  setSectionVisibility("tuition-dependence-section", showTuitionDependenceSection);
   setSectionVisibility("enrollment-section", showEnrollmentSection);
   setSectionVisibility("graduate-section", showGraduateSection);
+  setSectionVisibility("intl-section", showIntlSection);
   setSectionVisibility("staffing-section", showStaffingSection);
   setSectionVisibility("endowment-section", showEndowmentSection);
   setSectionVisibility("federal-group", hasFederal);
@@ -1257,7 +1369,8 @@ async function init() {
       federalChange5yr === null
         ? "No data"
         : fmtRoundedPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, true),
-      federalChange5yr === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
+      federalChange5yr === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr),
+      trendDirection(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
     );
     setHidden("federal-change-card", federalChange5yr === null);
   } else {
@@ -1279,7 +1392,8 @@ async function init() {
       stateChange5yr === null
         ? "No data"
         : fmtRoundedPct(s.state_funding_pct_change_5yr, true),
-      stateChange5yr === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr)
+      stateChange5yr === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr),
+      trendDirection(s.state_funding_pct_change_5yr)
     );
     setHidden("state-change-card", stateChange5yr === null);
   } else {

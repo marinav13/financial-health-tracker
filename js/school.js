@@ -959,6 +959,12 @@ function showSchoolGuideLanding() {
   setElementVisible("school-profile-banner", false);
   setSectionsVisible(PROFILE_SHELL_SECTION_IDS, false);
   setSectionsVisible(PROFILE_DATA_SECTION_IDS, false);
+  setText("school-name", "No school selected");
+  setText("school-location", "");
+  setText("school-control", "");
+  setText("school-urbanization", "");
+  setText("school-closure-flag", "");
+  setHidden("school-closure-flag", true);
   setHidden("school-meta-wrap", true);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);

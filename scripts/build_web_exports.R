@@ -426,6 +426,7 @@ build_cuts_export <- function() {
       has_financial_profile = isTRUE(latest$has_financial_profile[[1]]),
       is_primary_tracker = isTRUE(latest$is_primary_tracker[[1]]),
       institution_name = latest$institution_name_display[[1]],
+      institution_alias = lookup_financial_institution_alias(latest$matched_unitid[[1]]),
       city = latest$city_display[[1]],
       state = latest$state_display[[1]],
       control_label = latest$control_label_display[[1]],
@@ -2251,6 +2252,7 @@ build_accreditation_export <- function() {
       has_financial_profile = isTRUE(df$has_financial_profile[[1]]),
       is_primary_tracker = isTRUE(df$is_primary_tracker[[1]]),
       institution_name = or_null(latest$export_institution_name),
+      institution_alias = lookup_financial_institution_alias(df$unitid[[1]]),
       city = or_null(latest$export_city),
       state = or_null(latest$export_state),
       control_label = or_null(latest$export_control_label),
@@ -2454,6 +2456,7 @@ build_research_export <- function() {
       is_primary_tracker = isTRUE(latest$is_primary_tracker[[1]]),
       likely_higher_ed = isTRUE(latest$likely_higher_ed[[1]]),
       institution_name = latest$display_name[[1]],
+      institution_alias = lookup_financial_institution_alias(latest$matched_unitid[[1]]),
       city = or_null(latest$display_city),
       state = latest$display_state[[1]],
       control_label = or_null(latest$tracker_control_label),
@@ -2729,6 +2732,22 @@ latest_financial <- latest_financial %>%
     outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
+if (!"institution_alias" %in% names(latest_financial)) {
+  latest_financial$institution_alias <- NA_character_
+}
+lookup_financial_institution_alias <- local({
+  alias_rows <- latest_financial %>%
+    transmute(
+      unitid = as.character(unitid),
+      institution_alias = as.character(institution_alias)
+    )
+  alias_map <- stats::setNames(as.list(alias_rows$institution_alias), alias_rows$unitid)
+  function(unitid) {
+    key <- trimws(as.character(unitid %||% ""))
+    if (!nzchar(key) || is.null(alias_map[[key]])) return(NA_character_)
+    or_null(alias_map[[key]])
+  }
+})
 benchmark_specs <- list(
   sector_loan_benchmarks = list(
     value_col = "federal_loan_pct_most_recent",
@@ -2759,6 +2778,7 @@ schools_index <- latest_financial %>%
   transmute(
     unitid = as.character(unitid),
     institution_name = vapply(institution_name, normalize_display_institution_name, character(1)),
+    institution_alias = institution_alias,
     institution_unique_name = vapply(
       seq_len(n()),
       function(i) build_institution_unique_name(institution_name[[i]], city[[i]], state[[i]]),

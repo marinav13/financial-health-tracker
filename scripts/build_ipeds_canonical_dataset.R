@@ -560,7 +560,7 @@ main <- function(cli_args = NULL) {
 
   # Carry latest institution attributes across the full time series
   metadata_fill_cols <- c(
-    "institution_name", "city", "state", "zip", "county", "longitude", "latitude",
+    "institution_name", "institution_alias", "city", "state", "zip", "county", "longitude", "latitude",
     "status", "date_closed", "is_active", "multi_institution_campus_org",
     "id_number_multi", "name_multi", "opeid", "region", "hbcu", "tribal_college",
     "sector", "level", "control", "degree_granting_status", "highest_degree",
@@ -817,7 +817,7 @@ main <- function(cli_args = NULL) {
   sorted_rows <- apply_sector_benchmarks(sorted_rows)
 
   canonical_columns <- c(
-    "unitid","institution_name","institution_unique_name","year","control_label","state","city","sector","level",
+    "unitid","institution_name","institution_alias","institution_unique_name","year","control_label","state","city","sector","level",
     "urbanization","category","institution_status","is_active","hbcu","tribal_college","grad_offering",
     "reporting_model","access_earnings","size","grad_program_mix","undergrad_program_mix","religious_affiliation","fte_12_months",
     "all_programs_distance_education",

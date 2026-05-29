@@ -357,6 +357,7 @@ build_school_index_entry <- function(school, ...) {
       has_financial_profile   = school$has_financial_profile,
       is_primary_tracker      = school$is_primary_tracker,
       institution_name        = school$institution_name,
+      institution_alias       = school$institution_alias,
       institution_unique_name = build_institution_unique_name(
         school$institution_name,
         school$city,
@@ -1097,6 +1098,27 @@ get_accreditation_sanction_strength <- function(x) {
   }
 
   value
+}
+
+# Splits the free-form IPEDS institution alias text into individual aliases.
+# The raw HD field is a single string and commonly uses pipes or semicolons to
+# separate nicknames (for example "UArizona | U of A"). Keep the parsing
+# conservative: split on the separators IPEDS commonly uses, but avoid
+# splitting every comma because some aliases are legitimate comma-bearing names.
+split_institution_aliases <- function(x) {
+  text <- trimws(as.character(x %||% ""))
+  if (!nzchar(text) || identical(text, "-2")) return(character())
+
+  parts <- strsplit(
+    gsub("\\|{2,}", "|", text),
+    "\\||;|\\s+/\\s+",
+    perl = TRUE
+  )[[1]]
+  parts <- trimws(gsub("\\s+", " ", parts))
+  parts <- parts[nzchar(parts)]
+  if (!length(parts)) return(character())
+
+  unique(parts)
 }
 
 .format_msche_probation_detail <- function(text) {

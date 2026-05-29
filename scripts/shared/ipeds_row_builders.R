@@ -104,6 +104,7 @@ build_identity_fields <- function(row, context, decode_lookups) {
   list(
     unitid = context$unitid,
     institution_name = dplyr::coalesce(row_value(row, "institution_name_latest"), row_value(row, "institution_name")),
+    institution_alias = row_value(row, "institution_alias"),
     institution_unique_name = dplyr::coalesce(
       row_value(row, "institution_unique_name_latest"),
       paste(na.omit(c(row_value(row, "institution_name"), row_value(row, "city"), context$state_full)), collapse = " | ")

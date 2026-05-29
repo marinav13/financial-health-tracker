@@ -362,6 +362,7 @@ catalog_by_year <- split(catalog, catalog$year)
 # patterns used to resolve each variable name year by year.
 field_specs <- list(
   list(output = "institution_name", table = "HD", patterns = c("^Institution \\(entity\\) name$", "^Institution name$")),
+  list(output = "institution_alias", table = "HD", patterns = c("^Institution name alias$")),
   list(output = "city", table = "HD", patterns = c("^City location of institution$")),
   list(output = "state", table = "HD", patterns = c("^State abbreviation$")),
   list(output = "zip", table = "HD", patterns = c("^ZIP code$", "^Zip code$")),
@@ -470,6 +471,7 @@ field_specs <- list(
 # A few finance variables are more reliable to resolve by exact IPEDS code than
 # by dictionary title text, especially the research and core-expense fields.
   exact_field_overrides <- list(
+    institution_alias = "IALIAS",
     tuition_fees_after_discounts_allowances_gasb = "F1B01",
     federal_operating_grants_contracts_gasb = "F1B04",
     state_appropriations_gasb = "F1B17",
@@ -517,6 +519,7 @@ field_specs <- list(
 all_rows             <- list()
 resolution_audit_rows <- list()
 required_year_cache_cols <- c(
+  "institution_alias",
   "enrollment_headcount_total",
   "enrollment_headcount_undergrad",
   "enrollment_headcount_graduate",
@@ -636,6 +639,11 @@ for (year in start_year:end_year) {
     effy   <- effy_index[[unitid]]
 
     institution_name <- get_string(hd, resolved_fields[["institution_name"]])
+    institution_alias <- if (identical(as.integer(year), 2024L)) {
+      get_string(hd, resolved_fields[["institution_alias"]])
+    } else {
+      NA_character_
+    }
     city             <- get_string(hd, resolved_fields[["city"]])
     state            <- get_string(hd, resolved_fields[["state"]])
 
@@ -722,6 +730,7 @@ for (year in start_year:end_year) {
     row <- tibble::tibble(
       unitid = unitid,
       institution_name = institution_name,
+      institution_alias = institution_alias,
       institution_unique_name = paste(na.omit(c(institution_name, city, state)), collapse = " | "),
       year = year,
       access_earnings = get_string(hd, resolved_fields[["access_earnings"]]),

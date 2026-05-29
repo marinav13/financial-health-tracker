@@ -281,12 +281,6 @@ const US_STATE_ABBREVIATIONS = Object.freeze({
   "wyoming": "WY"
 });
 
-// Frontend fallback aliases for common nicknames until the export pipeline
-// carries the IPEDS alias field into the web JSON payloads.
-const MANUAL_SEARCH_ALIASES_BY_UNITID = Object.freeze({
-  "110404": ["Caltech"]
-});
-
 // Splits query into searchable tokens (alphanumeric only, lowercase)
 function tokenizeSearch(value) {
   return normalizeSearchText(value)
@@ -298,6 +292,15 @@ function stateAbbreviationForName(stateName) {
   return US_STATE_ABBREVIATIONS[normalizeSearchText(stateName).trim()] || "";
 }
 
+function splitSearchAliasValue(value) {
+  const text = String(value ?? "").trim();
+  if (!text) return [];
+  return text
+    .replace(/\|{2,}/g, "|")
+    .split(/\||;|\s+\/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 function collectSearchAliases(row) {
   const rawValues = [];
   ["institution_alias", "institution_aliases", "alias", "aliases"].forEach((key) => {
@@ -308,13 +311,13 @@ function collectSearchAliases(row) {
       rawValues.push(value);
     }
   });
-  rawValues.push(...(MANUAL_SEARCH_ALIASES_BY_UNITID[String(row?.unitid || "")] || []));
   const seen = new Set();
   return rawValues.reduce((aliases, value) => {
-    const text = String(value ?? "").trim();
-    if (!text || seen.has(text)) return aliases;
-    seen.add(text);
-    aliases.push(text);
+    splitSearchAliasValue(value).forEach((text) => {
+      if (seen.has(text)) return;
+      seen.add(text);
+      aliases.push(text);
+    });
     return aliases;
   }, []);
 }
@@ -370,21 +373,29 @@ function getExactStateMatch(stateCatalog, queryNorm) {
 }
 
 function getSearchInstances() {
-  const explicitInstances = Array.from(document.querySelectorAll("[data-school-search-instance]"))
-    .map((container, index) => {
-      const input = container.querySelector(".search");
-      const results = container.querySelector(".results");
-      if (!input || !results) return null;
-      return { container, input, results, index };
-    })
-    .filter(Boolean);
+  if (typeof document === "undefined") return [];
+  const canQueryAll = typeof document.querySelectorAll === "function";
+  const canGetById = typeof document.getElementById === "function";
+  const explicitInstances = (canQueryAll
+    ? Array.from(document.querySelectorAll("[data-school-search-instance]"))
+    : []
+  ).map((container, index) => {
+    const input = container.querySelector(".search");
+    const results = container.querySelector(".results");
+    if (!input || !results) return null;
+    return { container, input, results, index };
+  }).filter(Boolean);
 
   if (explicitInstances.length) return explicitInstances;
 
+  if (!canGetById) return [];
   const input = document.getElementById("school-search");
   const results = document.getElementById("search-results");
   if (!input || !results) return [];
-  return [{ container: input.closest(".search-panel") || document.body, input, results, index: 0 }];
+  const container = typeof input.closest === "function"
+    ? (input.closest(".search-panel") || document.body)
+    : document.body;
+  return [{ container, input, results, index: 0 }];
 }
 
 // ------ Search Initialization & Rendering ------

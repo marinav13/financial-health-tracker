@@ -12,6 +12,7 @@ const ROOT = path.resolve(__dirname, "..");
 const SCHOOLS_DIR = path.join(ROOT, "data", "schools");
 const SCHOOL_CONTRACT = JSON.parse(fs.readFileSync(path.join(ROOT, "tests", "fixtures", "school_contract.json"), "utf8"));
 const METADATA = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "metadata.json"), "utf8"));
+const SCHOOLS_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "schools_index.json"), "utf8"));
 const ACCREDITATION = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "accreditation.json"), "utf8"));
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
 const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding_index.json"), "utf8"));
@@ -44,6 +45,21 @@ function numericSeries(school, key) {
 }
 
 console.log("\n=== Static Data Export Smoke Tests ===\n");
+
+run("school index exports IPEDS aliases for known nickname-heavy institutions", () => {
+  const aliasExpectations = [
+    ["110404", /caltech/i],
+    ["228796", /\bUTEP\b/],
+    ["100663", /\bUAB\b/]
+  ];
+
+  for (const [unitid, pattern] of aliasExpectations) {
+    const school = SCHOOLS_INDEX.find((entry) => String(entry.unitid) === unitid);
+    assert(school, `School index is missing unitid ${unitid}`);
+    const aliasText = String(school.institution_alias || "");
+    assert(pattern.test(aliasText), `School index alias for ${unitid} does not match ${pattern}: ${aliasText}`);
+  }
+});
 
 run("school JSON files match the frozen shape contract", () => {
   // This is the pipeline-to-frontend contract: the R export pipeline writes

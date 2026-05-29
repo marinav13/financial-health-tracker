@@ -84,7 +84,8 @@ test.describe('School navigation', () => {
     const financesTab = page.locator('#tab-finances');
     await expect(financesTab).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');

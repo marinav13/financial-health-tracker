@@ -10,7 +10,7 @@
  * Requirement: the top nav is site-level navigation only. Regardless of
  * the URL unitid (numeric or namespaced/unmatched) or whether the page's
  * second syncTabs call supplies a financialUnitid, every top tab must
- * point at the section's landing page. Per-school navigation lives in the
+ * point at its section home page. Per-school navigation lives in the
  * in-body "Explore this institution" block (renderRelatedInstitutionLinks),
  * not the top nav.
  */
@@ -40,7 +40,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     // during that call, so this is a reliable barrier.
     await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
@@ -50,7 +51,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     await page.goto(`/accreditation.html?unitid=${accredUnitid}`);
     await expect(page.locator('#tab-accreditation')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
@@ -60,7 +62,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     await page.goto(`/research.html?unitid=${researchUnitid}`);
     await expect(page.locator('#tab-research')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
@@ -70,7 +73,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     await page.goto(`/cuts.html?unitid=${encodeURIComponent(unmatchedCuts)}`);
     await expect(page.locator('#tab-cuts')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
@@ -80,7 +84,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     await page.goto(`/accreditation.html?unitid=${encodeURIComponent(unmatchedAccred)}`);
     await expect(page.locator('#tab-accreditation')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');
@@ -90,7 +95,8 @@ test.describe('Top-nav is site-level navigation across section pages', () => {
     await page.goto(`/research.html?unitid=${encodeURIComponent(unmatchedResearch)}`);
     await expect(page.locator('#tab-research')).toHaveClass(/is-active/);
 
-    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-home')).toHaveAttribute('href', 'index.html');
+    await expect(page.locator('#tab-finances')).toHaveAttribute('href', 'school.html');
     await expect(page.locator('#tab-cuts')).toHaveAttribute('href', 'cuts.html');
     await expect(page.locator('#tab-accreditation')).toHaveAttribute('href', 'accreditation.html');
     await expect(page.locator('#tab-research')).toHaveAttribute('href', 'research.html');

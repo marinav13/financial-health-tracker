@@ -2947,11 +2947,11 @@ h1.serif {
     display: contents;
   }
   .home-layout .hero-split h1 { order: 1; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 2; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 3; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 4; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 5; }
-  .home-layout > .search-panel { order: 6; margin-top: 4px; margin-bottom: 20px; }
+  .home-layout > .search-panel { order: 2; margin-top: 4px; margin-bottom: 20px; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 3; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 4; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 5; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 6; }
   .home-layout .hero-split .banner { order: 7; margin-top: 8px; }
   .home-layout > .pg-foot { order: 8; }
   .home-layout .pg-foot { text-align: center; }

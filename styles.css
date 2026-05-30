@@ -660,6 +660,14 @@ h1.serif {
   object-fit: cover;
 }
 
+.img-credit {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: 6px;
+}
+
 .banner.short {
   height: 280px;
 }
@@ -1058,6 +1066,11 @@ h1.serif {
 }
 
 #school-search-wrap .search-label {
+  text-align: center;
+}
+
+.home-layout .search-label,
+.home-layout .search-helper-link {
   text-align: center;
 }
 
@@ -1849,11 +1862,19 @@ h1.serif {
   position: absolute;
   top: 50%;
   left: -48px;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + 10px));
+  opacity: 0;
   font-family: var(--font-body);
   font-size: 40px;
   font-weight: 700;
   line-height: 1;
+  transition: opacity 400ms ease, transform 400ms ease;
+  transition-delay: var(--arrow-delay, 0ms);
+}
+
+.metric-strip.is-visible[data-arrow]::before {
+  opacity: 1;
+  transform: translateY(-50%);
 }
 
 .metric-strip[data-arrow="up"]::before {
@@ -2946,13 +2967,13 @@ h1.serif {
   .home-layout .hero-split .hero-text {
     display: contents;
   }
-  .home-layout .hero-split h1 { order: 1; }
-  .home-layout > .search-panel { order: 2; margin-top: 4px; margin-bottom: 20px; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 3; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 4; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 5; }
-  .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 6; }
-  .home-layout .hero-split .banner { order: 7; margin-top: 8px; }
+  .home-layout .hero-split h1 { order: 1; text-align: center; max-width: none; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(1) { order: 2; text-align: center; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 3; text-align: center; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 4; text-align: center; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 5; text-align: center; }
+  .home-layout > .search-panel { order: 6; margin-top: 4px; margin-bottom: 20px; }
+  .home-layout .hero-split .banner-col { order: 7; margin-top: 8px; }
   .home-layout > .pg-foot { order: 8; }
   .home-layout .pg-foot { text-align: center; }
   .home-layout .pg-foot > * { display: block; }

@@ -954,6 +954,29 @@ function initGuideCalloutReveal() {
   });
 }
 
+function initMetricArrowReveal() {
+  const strips = Array.from(document.querySelectorAll(".metric-strip[data-arrow]"));
+  if (!strips.length) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    strips.forEach((strip) => strip.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: "0px 0px -10% 0px"
+  });
+  strips.forEach((strip, index) => {
+    strip.style.setProperty("--arrow-delay", `${(index % 6) * 60}ms`);
+    observer.observe(strip);
+  });
+}
+
 function showSchoolGuideLanding() {
   setGuideOnlyVisible(true);
   setElementVisible("school-profile-banner", false);
@@ -1607,6 +1630,7 @@ async function init() {
     }
     applyStrip("hcm2-card", hcmSentence, hcm2State(hcmRecord));
   }
+  initMetricArrowReveal();
 }
 
 init().catch((error) => {

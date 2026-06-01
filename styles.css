@@ -362,9 +362,9 @@ body {
 }
 
 .site-masthead .logo {
-  width: 46px;
-  height: 46px;
-  flex: 0 0 46px;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
   display: block;
   background: center / contain no-repeat url("assets/HRect Hechinger Logo Square.png");
 }
@@ -377,9 +377,9 @@ body {
 }
 
 .site-masthead .wm-text {
-  width: clamp(156px, 24vw, 198px);
+  width: clamp(176px, 27vw, 224px);
   aspect-ratio: 404 / 57;
-  flex: 0 1 clamp(156px, 24vw, 198px);
+  flex: 0 1 clamp(176px, 27vw, 224px);
   display: block;
   background: left center / contain no-repeat url("assets/Full Logo Hechinger Transparent-Text-Only.PNG");
   overflow: hidden;
@@ -410,12 +410,12 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--ink);
   color: #fff;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1;
   border: none;
@@ -1174,6 +1174,11 @@ h1.serif {
 .home-layout .search-label,
 .home-layout .search-helper-link {
   text-align: center;
+}
+
+.home-layout .tool-guide-link {
+  font-size: 20px;
+  padding: 3px 14px 5px;
 }
 
 #school-search-wrap .search-panel {

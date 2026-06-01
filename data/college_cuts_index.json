@@ -153,6 +153,32 @@
       }
     ]
   },
+  "106397": {
+    "unitid": "106397",
+    "financial_unitid": "106397",
+    "has_financial_profile": true,
+    "is_primary_tracker": false,
+    "institution_name": "University of Arkansas",
+    "institution_alias": "University of Arkansas | Arkansas",
+    "institution_unique_name": "University of Arkansas | Arkansas",
+    "state": "Arkansas",
+    "city": null,
+    "control_label": null,
+    "category": null,
+    "latest_cut_date": "2026-04-24",
+    "latest_cut_label": "Men's and women's tennis programs",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-04-24",
+        "announcement_year": 2026,
+        "program_name": "Men's and women's tennis programs",
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.tennisrecruiting.net/article.asp?id=11969"
+      }
+    ]
+  },
   "110370": {
     "unitid": "110370",
     "financial_unitid": "110370",
@@ -4445,7 +4471,7 @@
     "has_financial_profile": true,
     "is_primary_tracker": true,
     "institution_name": "Pennsylvania State University-Main Campus",
-    "institution_alias": null,
+    "institution_alias": "Penn State",
     "institution_unique_name": "Pennsylvania State University-Main Campus | Pennsylvania",
     "state": "Pennsylvania",
     "city": null,
@@ -5211,18 +5237,10 @@
     "city": null,
     "control_label": "Private not-for-profit",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2026-05-22",
-    "latest_cut_label": "Men's and women's tennis programs discontinued following coach departure",
-    "cut_count": 2,
+    "latest_cut_date": "2025-07-02",
+    "latest_cut_label": "Liberal Arts programs (Political Science, Communications majors; Art, Music minors; Environmental Science concentration)",
+    "cut_count": 1,
     "landing_cuts": [
-      {
-        "announcement_date": "2026-05-22",
-        "announcement_year": 2026,
-        "program_name": "Men's and women's tennis programs discontinued following coach departure",
-        "positions_affected": 1,
-        "faculty_affected": 1,
-        "source_url": "https://godanriver.com/sports/college/other/article_f27f6da8-4d06-43fe-a16f-409246bfacda.html"
-      },
       {
         "announcement_date": "2025-07-02",
         "announcement_year": 2025,
@@ -5369,7 +5387,7 @@
     "has_financial_profile": true,
     "is_primary_tracker": true,
     "institution_name": "Western Washington University",
-    "institution_alias": null,
+    "institution_alias": "Western Washington State College|Western Washington College of Education",
     "institution_unique_name": "Western Washington University | Washington",
     "state": "Washington",
     "city": null,
@@ -5421,7 +5439,7 @@
     "has_financial_profile": true,
     "is_primary_tracker": true,
     "institution_name": "West Virginia University",
-    "institution_alias": null,
+    "institution_alias": "WVU",
     "institution_unique_name": "West Virginia University | West Virginia",
     "state": "West Virginia",
     "city": null,
@@ -6315,8 +6333,8 @@
   },
   "cut-santa-monica-college--california": {
     "unitid": "cut-santa-monica-college--california",
-    "financial_unitid": null,
-    "has_financial_profile": false,
+    "financial_unitid": "cut-santa-monica-college--california",
+    "has_financial_profile": true,
     "is_primary_tracker": false,
     "institution_name": "Santa Monica College",
     "institution_alias": null,

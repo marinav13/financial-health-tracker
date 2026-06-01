@@ -1,6 +1,6 @@
 {
   "unitid": "172264",
-  "generated_at": "2026-05-29",
+  "generated_at": "2026-06-01",
   "profile": {
     "institution_name": "Siena Heights University",
     "institution_unique_name": "Siena Heights University | Adrian | Michigan",
@@ -27,16 +27,16 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 52.7475,
-    "sector_median_tuition_dependence_pct": 44.9472,
+    "sector_median_tuition_dependence_pct": 44.8638,
     "tuition_dependence_vs_sector_median_sentence": "This college got 53.0% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 50.1091,
     "unfunded_discount_pct_change_5yr": 31.2614,
     "share_grad_students": 8.6679,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
     "sector_median_research_expense_per_fte_positive": 585.5059,
@@ -47,7 +47,7 @@
     "international_enrollment_pct_change_5yr": 61.3636,
     "international_students_sentence": "In 2024, 3.2% of students were international. That includes 3.3% of undergraduates and 2.6% of graduate students.",
     "federal_loan_pct_most_recent": 68,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": 19,
     "grad_plus_disbursements_amt": 161002,
     "grad_plus_disbursements_per_recipient": 8473.7895,
@@ -185,7 +185,7 @@
       },
       {
         "year": 2020,
-        "value": 17073.7462
+        "value": 17082.9109
       },
       {
         "year": 2021,
@@ -277,7 +277,7 @@
       },
       {
         "year": 2020,
-        "value": 3152
+        "value": 2853
       },
       {
         "year": 2021,
@@ -323,7 +323,7 @@
       },
       {
         "year": 2020,
-        "value": 2819
+        "value": 2560
       },
       {
         "year": 2021,
@@ -369,7 +369,7 @@
       },
       {
         "year": 2020,
-        "value": 333
+        "value": 293
       },
       {
         "year": 2021,
@@ -415,7 +415,7 @@
       },
       {
         "year": 2020,
-        "value": 80
+        "value": 60
       },
       {
         "year": 2021,
@@ -461,7 +461,7 @@
       },
       {
         "year": 2020,
-        "value": 67
+        "value": 60
       },
       {
         "year": 2021,
@@ -507,7 +507,7 @@
       },
       {
         "year": 2020,
-        "value": 13
+        "value": 0
       },
       {
         "year": 2021,
@@ -825,14 +825,14 @@
   },
   "latest_status": {
     "accreditors": "HLC",
-    "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University; Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
+    "action_labels": "Approved provisional plan and teach-out agreement with The University of Olivet; Approved teach-out agreements with Albertus Magnus College, Benedictine University, and Cleary University; Approved the institution's teach-out agreement with Lawrence Technological University; Approved the institution’s Teach-Out Agreement with Lawrence Technological University in Southfield, MI, as an addition to the Provisional Plan approved by HLC’s Institutional Actions Council in September 2025. (Approved January 26, 2026)",
     "active_actions": "adverse_action; https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": true,
     "latest_action_date": "Approved the institution's teach-out agreement with Lawrence Technological University in Southfield, MI",
-    "latest_action_year": "2025",
-    "action_count": 3
+    "latest_action_year": "2026",
+    "action_count": 4
   },
   "actions": [
     {
@@ -851,6 +851,27 @@
       "source_page_modified": "2026-05-22",
       "display_action": true,
       "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "HLC",
+      "action_type": "adverse_action",
+      "action_label": "Approved the institution’s teach-out agreement with the following institution: Lawrence Technological University, Southfield, MI",
+      "action_label_short": "Approved the institution's teach-out agreement with Lawrence Technological University",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2026-01-01",
+      "action_year": "2026",
+      "notes": null,
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
       "hybrid_candidate": false,
       "hybrid_reason": null,
       "has_financial_profile": true,
@@ -905,6 +926,12 @@
       "source_title": "January 2026 Actions | The Higher Learning Commission",
       "source_url": "January 2026 Actions | The Higher Learning Commission",
       "source_page_url": "January 2026 Actions | The Higher Learning Commission"
+    },
+    {
+      "accreditor": "HLC",
+      "source_title": "January 2026 Actions | The Higher Learning Commission",
+      "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
+      "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
     },
     {
       "accreditor": "HLC",

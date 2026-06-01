@@ -1,6 +1,6 @@
 {
   "unitid": "213303",
-  "generated_at": "2026-05-29",
+  "generated_at": "2026-06-01",
   "profile": {
     "institution_name": "Keystone College",
     "institution_unique_name": "Keystone College | La Plume | Pennsylvania",
@@ -27,16 +27,16 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 7,
     "tuition_dependence_pct": 53.8012,
-    "sector_median_tuition_dependence_pct": 44.9472,
+    "sector_median_tuition_dependence_pct": 44.8638,
     "tuition_dependence_vs_sector_median_sentence": "This college got 54.0% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 28.6102,
     "unfunded_discount_pct_change_5yr": -31.8395,
     "share_grad_students": 5.6107,
-    "sector_avg_share_grad_students": 29.2139,
+    "sector_avg_share_grad_students": 29.1503,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1150,
+    "sector_research_spending_n": 1148,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
     "sector_median_research_expense_per_fte_positive": 585.5059,
@@ -47,14 +47,14 @@
     "international_enrollment_pct_change_5yr": 500,
     "international_students_sentence": "In 2024, 0.6% of students were international. That includes 0.6% of undergraduates and 0.9% of graduate students.",
     "federal_loan_pct_most_recent": 85,
-    "sector_avg_federal_loan_pct_most_recent": 45.9233,
+    "sector_avg_federal_loan_pct_most_recent": 46.041,
     "grad_plus_recipients": 1,
     "grad_plus_disbursements_amt": 4188,
     "grad_plus_disbursements_per_recipient": 4188,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 1.9093,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
     "state_funding_pct_core_revenue": 0,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -9.0858,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -100,
     "state_funding_pct_change_5yr": null,
     "endowment_pct_change_5yr": -24.6956,
     "endowment_spending_current_use_pct_core_revenue": 0.0007,
@@ -769,7 +769,7 @@
       },
       {
         "year": 2024,
-        "value": 299086
+        "value": 0
       }
     ],
     "state_funding_adjusted": [
@@ -821,11 +821,11 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Adverse action to withdraw accreditation reconsidered with new financial information. Institution placed on show cause status.; Approved Teach-Out Plan and Agreements; Asked to Show Cause",
-    "active_actions": "adverse_action; show_cause",
+    "action_labels": "Adverse action to withdraw accreditation reconsidered with new financial information. Institution placed on show cause status.; Adverse Action to withdraw accreditation subject to appeal. Institution remains accredited pending the appeal. The accreditation cease date will be set as appropriate based on final disposition of the appeal.; Asked to Show Cause",
+    "active_actions": "show_cause",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
-    "has_active_adverse_action": true,
+    "has_active_adverse_action": false,
     "latest_action_date": "2025-02-27",
     "latest_action_year": "2025",
     "action_count": 3
@@ -841,7 +841,7 @@
       "action_date": "2025-02-27",
       "action_year": "2025",
       "notes": "Probation or Equivalent or a More Severe Status: Show Cause | Adverse action to withdraw accreditation reconsidered with new financial information. Institution placed on show cause status.",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
       "source_page_modified": null,
@@ -855,19 +855,19 @@
     {
       "accreditor": "MSCHE",
       "action_type": "adverse_action",
-      "action_label": "Pullo: On behalf of the Middle States Commission on Higher Education, I am writing to inform you that on November 21, 2024, the Commission acted as follows: To acknowledge receipt of the show cause report, submitted on August 1, 2024.",
-      "action_label_short": "Approved Teach-Out Plan and Agreements",
+      "action_label": "To approve the teach-out plan and teach-out agreements, requested by the Commission action of April 4, 2024, and to direct its implementation. To require an updated teach-out plan and teach-out agreements, due December 6, 2024, based on the adverse action to withdraw accreditation.",
+      "action_label_short": "Adverse Action to withdraw accreditation subject to appeal. Institution remains accredited pending the appeal. The accreditation cease date will be set as appropriate based on final disposition of the appeal.",
       "action_scope": null,
-      "action_status": "active",
+      "action_status": null,
       "action_date": "2024-11-21",
       "action_year": "2024",
-      "notes": "Adverse Action Initiated | Adverse Action to withdraw accreditation subject to appeal. Institution remains accredited pending the appeal. The accreditation cease date will be set as appropriate based on final disposition of the appeal.",
-      "source_url": null,
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
+      "notes": null,
+      "source_url": "https://www.msche.org/institution/0513/",
+      "source_title": "MSCHE Statement of Accreditation Status - Keystone College",
+      "source_page_url": "https://www.msche.org/institution/0513/",
       "source_page_modified": null,
-      "display_action": true,
-      "public_table_strategy": "dapip_backed_keep",
+      "display_action": false,
+      "public_table_strategy": null,
       "hybrid_candidate": false,
       "hybrid_reason": null,
       "has_financial_profile": true,
@@ -883,7 +883,7 @@
       "action_date": "2024-04-25",
       "action_year": "2024",
       "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
       "source_page_modified": null,
@@ -899,8 +899,14 @@
     {
       "accreditor": "MSCHE",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Keystone College",
+      "source_url": "https://www.msche.org/institution/0513/",
+      "source_page_url": "https://www.msche.org/institution/0513/"
     }
   ]
 }

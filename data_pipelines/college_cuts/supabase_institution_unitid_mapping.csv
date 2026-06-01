@@ -1,5 +1,6 @@
 institution_name_api,unitid,state_full,tracker_institution_name,match_source
 University of Montevallo,101709,Alabama,University of Montevallo,supabase
+University of North Alabama,101879,Alabama,University of North Alabama,supabase
 Tuskegee University,102377,Alabama,Tuskegee University,supabase
 University of Arizona,104179,Arizona,University of Arizona,supabase
 University of Arkansas,106397,Arkansas,University of Arkansas,supabase
@@ -13,6 +14,7 @@ California Polytechnic State University,110422,California,California Polytechnic
 "University of California, Santa Cruz",110714,California,"University of California, Santa Cruz",supabase
 City College of San Francisco,112190,California,City College of San Francisco,supabase
 Contra Costa College,112826,California,Contra Costa College,supabase
+Santa Monica College,122977,California,Santa Monica College,supabase
 Santa Rosa Junior College,123013,California,Santa Rosa Junior College,supabase
 Sonoma State University,123572,California,Sonoma State University,supabase
 University of Southern California,123961,California,University of Southern California,supabase
@@ -36,6 +38,7 @@ University of St. Francis,148584,Illinois,University of St. Francis,supabase
 Western Illinois University,149772,Illinois,Western Illinois University,supabase
 Ball State University,150136,Indiana,Ball State University,supabase
 Earlham College,150455,Indiana,Earlham College,supabase
+Huntington University,150941,Indiana,Huntington University,supabase
 Ivy Tech Community College,150987,Indiana,Ivy Tech Community College,supabase
 Indiana State University,151324,Indiana,Indiana State University,supabase
 Indiana University Bloomington,151351,Indiana,Indiana University Bloomington,supabase
@@ -56,7 +59,9 @@ Xavier University of Louisiana,160904,Louisiana,Xavier University of Louisiana,s
 University of New England,161457,Maine,University of New England,supabase
 Bowie State University,162007,Maryland,Bowie State University,supabase
 Johns Hopkins University,162928,Maryland,Johns Hopkins University,supabase
+Loyola University Maryland,163046,Maryland,Loyola University Maryland,supabase
 "University of Maryland, Baltimore",163259,Maryland,"University of Maryland, Baltimore",supabase
+University of Maryland,163286,Maryland,University of Maryland,supabase
 Anna Maria College,164492,Massachusetts,Anna Maria College,supabase
 Boston University,164988,Massachusetts,Boston University,supabase
 Brandeis University,165015,Massachusetts,Brandeis University,supabase
@@ -101,6 +106,7 @@ Union College,196866,New York,Union College,supabase
 School of Visual Arts,197151,New York,School of Visual Arts,supabase
 Wagner College,197197,New York,Wagner College,supabase
 East Carolina University,198464,North Carolina,East Carolina University,supabase
+Meredith College,198950,North Carolina,Meredith College,supabase
 University of North Carolina at Greensboro,199148,North Carolina,University of North Carolina at Greensboro,supabase
 Saint Augustine's University,199582,North Carolina,Saint Augustine's University,supabase
 St. Andrews University,199698,North Carolina,St. Andrews University,supabase
@@ -149,9 +155,11 @@ University of North Texas,227216,Texas,University of North Texas,supabase
 Our Lady of the Lake University,227331,Texas,Our Lady of the Lake University,supabase
 Tarrant County College,228547,Texas,Tarrant County College,supabase
 University of Texas at Arlington,228769,Texas,University of Texas at Arlington,supabase
+University of Texas at Austin,228778,Texas,University of Texas at Austin,supabase
 University of Texas at Dallas,228787,Texas,University of Texas at Dallas,supabase
 Utah State University,230728,Utah,Utah State University,supabase
 Utah Valley University,230737,Utah,Utah Valley University,supabase
+University of Utah,230764,Utah,University of Utah,supabase
 Weber State University,230782,Utah,Weber State University,supabase
 Middlebury College,230959,Vermont,Middlebury College,supabase
 Averett University,231420,Virginia,Averett University,supabase
@@ -181,15 +189,11 @@ Wake Forest University,199847,North Carolina,Wake Forest University,ipeds_name_m
 Texas A&M University–Kingsville,228705,Texas,Texas A&M University-Kingsville,ipeds_name_match
 Duke University,198419,North Carolina,Duke University,ipeds_name_match
 Moody Bible Institute,147369,Illinois,Moody Bible Institute,ipeds_name_match
-Meredith College,198950,North Carolina,Meredith College,ipeds_name_match
 Bennington College,230816,Vermont,Bennington College,ipeds_name_match
-University of Texas at Austin,228778,Texas,The University of Texas at Austin,ipeds_name_match
 University of Maine,161253,Maine,University of Maine,ipeds_name_match
 West Virginia University,238032,West Virginia,West Virginia University,ipeds_name_match
-University of North Alabama,101879,Alabama,University of North Alabama,ipeds_name_match
 "University of Tennessee, Knoxville",221759,Tennessee,The University of Tennessee-Knoxville,ipeds_name_match
 Prairie View A&M University,227526,Texas,Prairie View A & M University,ipeds_name_match
-University of Utah,230764,Utah,University of Utah,ipeds_name_match
 University of Illinois Urbana-Champaign,145637,Illinois,University of Illinois Urbana-Champaign,ipeds_name_match
 Kalamazoo College,170532,Michigan,Kalamazoo College,ipeds_name_match
 Southern Illinois University Edwardsville,149231,Illinois,Southern Illinois University Edwardsville,ipeds_name_match
@@ -207,7 +211,6 @@ Brown University,217156,Rhode Island,Brown University,ipeds_name_match
 Berklee College of Music,164748,Massachusetts,Berklee College of Music,ipeds_name_match
 Cleveland State University,202134,Ohio,Cleveland State University,ipeds_name_match
 Nebraska Wesleyan University,181446,Nebraska,Nebraska Wesleyan University,ipeds_name_match
-Huntington University,150941,Indiana,Huntington University,ipeds_name_match
 Trinity Christian College,149505,Illinois,Trinity Christian College,ipeds_name_match
 Sterling College,231095,Vermont,Sterling College,ipeds_name_match
 University of Southern Indiana,151306,Indiana,University of Southern Indiana,ipeds_name_match

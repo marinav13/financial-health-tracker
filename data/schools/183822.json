@@ -1,6 +1,6 @@
 {
   "unitid": "183822",
-  "generated_at": "2026-05-29",
+  "generated_at": "2026-06-01",
   "profile": {
     "institution_name": "Bloomfield College of Montclair State University",
     "institution_unique_name": "Bloomfield College of Montclair State University | Bloomfield | New Jersey",
@@ -17,20 +17,20 @@
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -46.7218,
     "enrollment_decline_last_3_of_5": "Yes",
-    "revenue_pct_change_5yr": -53.4204,
-    "net_tuition_per_fte_change_5yr": -72.8854,
+    "revenue_pct_change_5yr": null,
+    "net_tuition_per_fte_change_5yr": null,
     "staff_total_headcount_pct_change_5yr": -42.7553,
     "staff_instructional_headcount_pct_change_5yr": -43.4783,
     "students_per_instructional_staff_fte": 12,
     "sector_median_students_per_instructional_staff_fte": 16,
-    "ended_year_at_loss": "Yes",
-    "losses_last_3_of_5": "Yes",
-    "loss_years_last_10": 4,
-    "tuition_dependence_pct": 20.1845,
-    "sector_median_tuition_dependence_pct": 21.229,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 20.0% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
-    "unfunded_discount_rate": 64.9384,
-    "unfunded_discount_pct_change_5yr": 71.9916,
+    "ended_year_at_loss": null,
+    "losses_last_3_of_5": "No",
+    "loss_years_last_10": 3,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 21.2464,
+    "tuition_dependence_vs_sector_median_sentence": null,
+    "unfunded_discount_rate": null,
+    "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 0.6205,
     "sector_avg_share_grad_students": 20.9865,
     "research_expense": 69000,
@@ -52,12 +52,12 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 4.1054,
-    "state_funding_pct_core_revenue": 16.8214,
-    "federal_grants_contracts_pell_adjusted_pct_change_5yr": -37.0386,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": null,
+    "state_funding_pct_core_revenue": null,
+    "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
-    "endowment_pct_change_5yr": 0.1589,
-    "endowment_spending_current_use_pct_core_revenue": 0,
+    "endowment_pct_change_5yr": null,
+    "endowment_spending_current_use_pct_core_revenue": null,
     "graduation_rate_6yr": 38,
     "median_earnings_10yr": 61415,
     "median_debt_completers": 22000,
@@ -106,10 +106,6 @@
       {
         "year": 2023,
         "value": 43905296.1628
-      },
-      {
-        "year": 2024,
-        "value": 23954000
       }
     ],
     "expenses_total_adjusted": [
@@ -152,10 +148,6 @@
       {
         "year": 2023,
         "value": 42518741.2024
-      },
-      {
-        "year": 2024,
-        "value": 32888000
       }
     ],
     "net_tuition_per_fte_adjusted": [
@@ -198,10 +190,6 @@
       {
         "year": 2023,
         "value": 16537.5201
-      },
-      {
-        "year": 2024,
-        "value": 5668.2298
       }
     ],
     "unfunded_discount_rate": [
@@ -244,10 +232,6 @@
       {
         "year": 2023,
         "value": 41.7616
-      },
-      {
-        "year": 2024,
-        "value": 64.9384
       }
     ],
     "enrollment_headcount_total": [
@@ -650,10 +634,6 @@
       {
         "year": 2023,
         "value": 15945601.8422
-      },
-      {
-        "year": 2024,
-        "value": 17519000
       }
     ],
     "endowment_spending_current_use": [
@@ -672,10 +652,6 @@
       {
         "year": 2023,
         "value": 637652
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ],
     "endowment_spending_current_use_adjusted": [
@@ -694,10 +670,6 @@
       {
         "year": 2023,
         "value": 656459.1576
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ],
     "endowment_spending_current_use_pct_core_revenue": [
@@ -716,10 +688,6 @@
       {
         "year": 2023,
         "value": 0.0174
-      },
-      {
-        "year": 2024,
-        "value": 0
       }
     ],
     "federal_grants_contracts_pell_adjusted_adjusted": [
@@ -762,10 +730,6 @@
       {
         "year": 2023,
         "value": 1801759.3139
-      },
-      {
-        "year": 2024,
-        "value": 924000
       }
     ],
     "state_funding_adjusted": [
@@ -808,10 +772,6 @@
       {
         "year": 2023,
         "value": 13375191.131
-      },
-      {
-        "year": 2024,
-        "value": 3786000
       }
     ]
   },
@@ -837,7 +797,7 @@
       "action_date": "2024-08-22",
       "action_year": "2024",
       "notes": "Loss of Accreditation or Preaccreditation: Other | Accreditation ceased effective June 30, 2024. As of July 1, 2024, the institution is no longer accredited by the Middle States Commission on Higher Education.",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/127839",
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/127839",
       "source_page_modified": null,
@@ -858,7 +818,7 @@
       "action_date": "2022-06-23",
       "action_year": "2022",
       "notes": "Probation or Equivalent or a More Severe Status: Probation",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/127839",
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/127839",
       "source_page_modified": null,
@@ -874,7 +834,7 @@
     {
       "accreditor": "MSCHE",
       "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": null,
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/127839",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/127839"
     }
   ]

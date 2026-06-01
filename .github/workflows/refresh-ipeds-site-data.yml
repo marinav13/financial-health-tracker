@@ -145,12 +145,12 @@ jobs:
         env:
           CANONICAL_CSV: ipeds/derived/ipeds_financial_health_canonical_${{ env.IPEDS_START_YEAR }}_${{ env.IPEDS_END_YEAR }}.csv
         run: |
-          if [ -s "$CANONICAL_CSV" ]; then
-            echo "Canonical IPEDS dataset cache hit at $CANONICAL_CSV — skipping rebuild."
+          if [ "${{ steps.cache-ipeds-canonical.outputs.cache-hit }}" = "true" ] && [ -s "$CANONICAL_CSV" ]; then
+            echo "Exact canonical IPEDS cache hit at $CANONICAL_CSV — skipping rebuild."
             ls -lh "$CANONICAL_CSV"
             exit 0
           fi
-          echo "Canonical IPEDS dataset not found — rebuilding."
+          echo "Canonical IPEDS dataset missing or restored from stale prefix key — rebuilding."
           Rscript ./scripts/build_ipeds_dataset.R \
             --start-year "${IPEDS_START_YEAR}" \
             --end-year "${IPEDS_END_YEAR}"

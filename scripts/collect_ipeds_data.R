@@ -639,7 +639,7 @@ for (year in start_year:end_year) {
     effy   <- effy_index[[unitid]]
 
     institution_name <- get_string(hd, resolved_fields[["institution_name"]])
-    institution_alias <- if (identical(as.integer(year), 2024L)) {
+    institution_alias <- if (!is.null(resolved_fields[["institution_alias"]])) {
       get_string(hd, resolved_fields[["institution_alias"]])
     } else {
       NA_character_

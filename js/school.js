@@ -903,7 +903,8 @@ const PROFILE_DATA_SECTION_IDS = [
   "federal-composite-section",
   "hcm2-section",
   "school-related-section",
-  "school-bottom-search-section"
+  "school-bottom-search-section",
+  "school-guide-link-section"
 ];
 
 function setElementVisible(id, show) {
@@ -999,6 +1000,7 @@ function showSchoolProfileShell() {
   setSectionsVisible(PROFILE_SHELL_SECTION_IDS, true);
   setSectionsVisible(PROFILE_DATA_SECTION_IDS, false);
   setSectionVisibility("school-bottom-search-section", true);
+  setSectionVisibility("school-guide-link-section", true);
   setHidden("school-meta-wrap", false);
   setHidden("download-school-data", false);
   setHidden("share-school-profile", false);

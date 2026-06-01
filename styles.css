@@ -387,6 +387,100 @@ body {
   text-indent: 101%;
 }
 
+/* ---------- Help button (? circle, top-right of masthead) ---------- */
+.help-btn-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Transparent bridge fills the 8px gap between button and tooltip so
+   :hover stays active as the cursor moves from button to tooltip link. */
+.help-btn-wrap::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+.help-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.help-btn:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.help-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 6px;
+  white-space: normal;
+  max-width: 260px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 100;
+}
+
+.help-tooltip a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.help-btn-wrap:hover .help-tooltip,
+.help-btn-wrap:focus-within .help-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- Tool guide link (red pill, "New to this tool?") ---------- */
+.tool-guide-link {
+  display: inline-block;
+  padding: 1px 8px 3px;
+  border-radius: 4px;
+  background: var(--neg);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tool-guide-link:hover,
+.tool-guide-link:focus-visible {
+  opacity: 0.88;
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ---------- School guide link section (bottom of school profile) ---------- */
+.school-guide-link-wrap {
+  padding: 16px clamp(20px, 3vw, 32px);
+  text-align: center;
+}
+
 /* ---------- Top tabs (editorial-calm underlined links) ----------
    Replaces the previous yellow-pill button row. Active tab is marked
    with a gold underline and bold weight; aria-current="page" is the
@@ -666,6 +760,14 @@ h1.serif {
   color: var(--ink-3);
   text-align: center;
   margin-top: 6px;
+}
+
+.illustration-credit {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: center;
+  padding: 0 clamp(20px, 3vw, 32px) 8px;
 }
 
 .banner.short {
@@ -1434,6 +1536,12 @@ h1.serif {
 
 .search-helper-link a:hover {
   color: var(--hechinger-gold-deep);
+}
+
+.search-helper-link .tool-guide-link,
+.search-helper-link .tool-guide-link:hover {
+  color: #fff;
+  border-bottom: none;
 }
 
 @media (max-width: 980px) {
@@ -2973,8 +3081,9 @@ h1.serif {
   .home-layout .hero-split .hero-text > .lede:nth-of-type(2) { order: 4; text-align: center; }
   .home-layout .hero-split .hero-text > .lede:nth-of-type(3) { order: 5; text-align: center; }
   .home-layout .hero-split .hero-text > .lede:nth-of-type(4) { order: 6; text-align: center; }
-  .home-layout .hero-split .banner-col { order: 7; margin-top: 8px; }
-  .home-layout > .pg-foot { order: 8; }
+  .home-layout .hero-split .hero-text > .lede:nth-of-type(5) { order: 7; text-align: center; }
+  .home-layout .hero-split .banner-col { order: 8; margin-top: 8px; }
+  .home-layout > .pg-foot { order: 9; }
   .home-layout .pg-foot { text-align: center; }
   .home-layout .pg-foot > * { display: block; }
   .home-layout .pg-foot > * + * { margin-top: 8px; margin-left: 0; }

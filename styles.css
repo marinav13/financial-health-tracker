@@ -481,6 +481,49 @@ body {
   text-align: center;
 }
 
+/* ---------- EMMA bond-rating search link ---------- */
+.emma-search-link {
+  display: inline-block;
+  margin: 4px auto 16px;
+  padding: 8px 20px 10px;
+  border-radius: 4px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.emma-search-link:hover,
+.emma-search-link:focus-visible {
+  opacity: 0.82;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Flex row holding the Search EMMA button + its ? help button */
+.emma-link-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px auto 16px;
+}
+
+.emma-link-row .emma-search-link {
+  margin: 0;
+}
+
+/* Center the tooltip below the ? button (masthead uses right: 0;
+   here the button sits mid-page so center it instead) */
+.emma-help-wrap .help-tooltip {
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+}
+
 /* ---------- Top tabs (editorial-calm underlined links) ----------
    Replaces the previous yellow-pill button row. Active tab is marked
    with a gold underline and bold weight; aria-current="page" is the

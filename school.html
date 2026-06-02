@@ -57,6 +57,10 @@
       </div>
     </section>
 
+    <section id="school-guide-link-section" class="school-guide-link-wrap is-hidden" aria-hidden="true">
+      <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here’s a guide.</a>
+    </section>
+
     <details id="school-search-wrap" class="school-search-wrap" open>
       <summary class="school-search-summary" aria-label="Toggle search"></summary>
       <section class="search-panel" data-school-search-instance>
@@ -66,7 +70,7 @@
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
         </div>
         <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
@@ -250,7 +254,7 @@
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
           </svg>
-          <input id="school-search-bottom" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
+          <input id="school-search-bottom" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
         </div>
         <div id="search-results-bottom" class="results" role="listbox" aria-label="Search results"></div>
       </section>
@@ -274,6 +278,7 @@
           <button id="share-school-profile" class="btn-pill outline" type="button">Share this profile</button>
         </div>
         <p id="share-school-status" class="sr-only" aria-live="polite"></p>
+
       </section>
     </section>
 
@@ -395,7 +400,7 @@
       <h2 class="section-title">Federal Composite Financial Score</h2>
       <p class="section-copy">The federal government looks at college finances and gives them a score for overall financial health. The scale goes from -1.0 to 3.0, with a score of at least 1.5 indicating the institution is considered financially responsible.</p>
       <p class="section-copy">Schools with scores from 1 to less than 1.5 are considered financially responsible, but require additional oversight to keep receiving federal student aid. A school with a score less than 1.0 is considered not financially responsible and must take steps like posting a letter of credit to keep receiving federal aid.</p>
-      <p class="small-meta">These are the most recent public scores available from Federal Student Aid and cover fiscal years ending between July 1, 2022 and June 30, 2023.</p>
+      <p class="small-meta">Below is the most recent score available from The Department of Education's office of Federal Student Aid.</p>
       <div id="federal-composite-card" class="metric-strip neutral"></div>
     </section>
 
@@ -404,6 +409,20 @@
       <p class="section-copy">The federal government can delay federal financial aid to colleges with serious accreditation, financial or administrative concerns. It can do so by placing them on what's known as heightened cash monitoring level 2. Historically, most schools on the list are for-profit.</p>
       <p id="hcm2-trend-copy" class="section-copy"></p>
       <div id="hcm2-card" class="metric-strip neutral"></div>
+    </section>
+
+    <section id="emma-section" class="section-block is-hidden" aria-hidden="true">
+      <h2 class="section-title">Looking for this college&rsquo;s bond rating?</h2>
+      <p class="section-copy">Colleges can issue bonds to finance buildings, equipment, and operations. Rating agencies like Moody&rsquo;s, S&amp;P, and Fitch evaluate college finances and assign long-term ratings to those bonds. Lower ratings can mean weaker financial health. </p>
+      <p class="section-copy">To find the latest rating, go to EMMA, a free database of municipal bond filings. </p>
+      <div class="emma-link-row">
+        <a id="emma-search-link" class="emma-search-link" target="_blank" rel="noopener noreferrer" href="https://emma.msrb.org/Search/Search.aspx">Search EMMA &#x2192;</a>
+        <div class="help-btn-wrap emma-help-wrap">
+          <button class="help-btn" type="button" aria-label="Having trouble finding a bond rating? Type the name in the Issue Description or the Issuer Name field.">?</button>
+          <span class="help-tooltip" role="tooltip">Having trouble finding a bond rating? Type the name in the <strong>Issue Description</strong> or the <strong>Issuer Name</strong> field.</span>
+        </div>
+      </div>
+      <p class="section-copy"> NOTE: For-profit colleges and small institutions without publicly traded debt do not have bond ratings.</p>
     </section>
 
     <aside class="related-links is-hidden" id="school-related-section" aria-hidden="true">
@@ -419,15 +438,12 @@
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="school-search-secondary" class="search" type="search" placeholder="Start typing a college name, alias, city, state or IPEDS ID" autocomplete="off">
+          <input id="school-search-secondary" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
         </div>
         <div id="search-results-secondary" class="results" role="listbox" aria-label="Search results"></div>
       </section>
     </section>
 
-    <section id="school-guide-link-section" class="school-guide-link-wrap is-hidden" aria-hidden="true">
-      <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here’s a guide.</a>
-    </section>
     <p class="illustration-credit">Illustrations by Elena Lacey for The Hechinger Report</p>
 
     <footer class="pg-foot">

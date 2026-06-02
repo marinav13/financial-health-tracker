@@ -380,6 +380,25 @@ function findRelatedIndexRecord(index, unitid, countField) {
   ) || null;
 }
 
+// EMMA search URL.
+// EMMA's Muni Search page does not prefill via URL query parameter;
+// link directly to the search form and tell users the institution name
+// to enter in the Issuer Name field.
+const EMMA_SEARCH_URL = "https://emma.msrb.org/Search/Search.aspx";
+
+function renderEmmaSearchCard(institutionName) {
+  const section = document.getElementById("emma-section");
+  const link = document.getElementById("emma-search-link");
+  if (!section || !link) return;
+
+  const name = String(institutionName || "").trim();
+  const displayName = name || "this institution";
+  link.textContent = `Search EMMA for ${displayName}`;
+  link.setAttribute("href", EMMA_SEARCH_URL);
+  link.setAttribute("aria-label", `Search EMMA for ${displayName} (opens in new tab)`);
+  setSectionVisibility("emma-section", true);
+}
+
 function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
   const section = document.getElementById("school-related-section");
   const container = document.getElementById("school-related-pages");
@@ -845,7 +864,8 @@ const PROFILE_DATA_SECTION_IDS = [
   "hcm2-section",
   "school-related-section",
   "school-bottom-search-section",
-  "school-guide-link-section"
+  "school-guide-link-section",
+  "emma-section"
 ];
 
 function setElementVisible(id, show) {
@@ -1110,6 +1130,7 @@ async function init() {
     accreditation: accreditationIndex,
     research: researchIndex
   });
+  renderEmmaSearchCard(p.institution_name);
 
   setText("school-name", p.institution_name);
   const closureSentence = buildClosureSentence(closureRecord);

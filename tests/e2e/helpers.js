@@ -62,6 +62,13 @@ function schoolWithCharts() {
   throw new Error('No school with chart series available for e2e tests');
 }
 
+function hasMeaningfulSeries(series, field) {
+  return (series[field] || []).some((point) => {
+    const value = Number(point && point.value);
+    return Number.isFinite(value) && value !== 0;
+  });
+}
+
 function schoolWithoutEndowment() {
   const schoolsDir = path.join(ROOT, 'data', 'schools');
   const files = fs.readdirSync(schoolsDir).filter((file) => file.endsWith('.json')).sort();

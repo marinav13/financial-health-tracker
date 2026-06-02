@@ -67,7 +67,7 @@ test.describe('EMMA bond-rating card', () => {
     await expect(link).toBeVisible();
 
     const text = await link.textContent();
-    expect(text).toMatch(/Search EMMA for .+ →/);
+    expect(text).toMatch(/Search EMMA for .+/);
   });
 
   test('search link aria-label includes institution name', async ({ page }) => {

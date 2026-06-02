@@ -688,6 +688,7 @@ body {
 
 .home-story-copy {
   min-width: 0;
+  padding-left: 66px;
 }
 
 .home-story-copy p {
@@ -795,6 +796,10 @@ body {
     white-space: normal;
   }
 
+  .home-page .home-hero h1 {
+    white-space: normal;
+  }
+
   .home-story-grid {
     grid-template-columns: 1fr;
     gap: 36px;
@@ -802,6 +807,10 @@ body {
 
   .home-illustration {
     max-width: 420px;
+  }
+
+  .home-story-copy {
+    padding-left: 0;
   }
 }
 
@@ -1499,6 +1508,10 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   color: var(--hechinger-gold-deep);
 }
 
+.guide-bullet-list li + li {
+  margin-top: 14px;
+}
+
 .guide-search-helper {
   margin: 12px 2px 0;
   font-family: var(--font-body);
@@ -1856,6 +1869,12 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 
 .guide-bottom-search {
   margin-top: 28px;
+  text-align: center;
+}
+
+.guide-bottom-search .search-again-row {
+  display: flex;
+  justify-content: center;
 }
 
 .guide-bottom-search .search-panel {
@@ -2281,6 +2300,10 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 .section-copy strong {
   font-weight: 700;
   color: var(--ink);
+}
+
+.section-copy em {
+  font-style: italic;
 }
 
 .section-copy-block {

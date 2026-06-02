@@ -43,7 +43,6 @@
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
       <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
-      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
     </nav>
     <main id="main" class="main-wrap">
 
@@ -79,12 +78,14 @@
     <section id="guide-intro" class="guide-section guide-intro guide-only" aria-labelledby="guide-intro-title">
       <h2 id="guide-intro-title" class="guide-subhead">A guide to using this tool</h2>
       <p class="guide-body"><strong>Use this explorer to look at the big picture.</strong></p>
-      <p class="guide-body">Once you search for a university and click on it, you'll see its financial profile.</p>
-      <p class="guide-body">Scroll down to learn about different financial and enrollment indicators.</p>
-      <p class="guide-body">The colored boxes can help you spot patterns.</p>
-      <p class="guide-body"><span class="guide-inline-red">Red</span> means a trend is growing in a concerning direction.</p>
-      <p class="guide-body">One or two <span class="guide-inline-red">red</span> boxes do not automatically mean a school is in crisis.</p>
-      <p class="guide-body">But if a college shows several <span class="guide-inline-red">red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</p>
+      <ul class="guide-point-list">
+        <li class="guide-body">Once you search for a university and click on it, you'll see its financial profile.</li>
+        <li class="guide-body">Scroll down to learn about different financial and enrollment indicators.</li>
+        <li class="guide-body">The colored boxes can help you spot patterns.</li>
+        <li class="guide-body"><span class="guide-inline-red">Red</span> means a trend is growing in a concerning direction.</li>
+        <li class="guide-body">One or two <span class="guide-inline-red">red</span> boxes do not automatically mean a school is in crisis.</li>
+        <li class="guide-body">But if a college shows several <span class="guide-inline-red">red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
+      </ul>
       <div class="guide-learn-more">
         <p class="guide-body">Click on the tabs at the top of the page to learn whether a college has:</p>
         <ul class="guide-bullet-list">
@@ -135,7 +136,7 @@
     </section>
 
     <section id="guide-example" class="guide-section guide-example-section guide-only" aria-labelledby="guide-example-section-title">
-      <h2 id="guide-example-section-title" class="section-title">Here are example financial profiles:</h2>
+      <h2 id="guide-example-section-title" class="section-title">Here are some example financial profiles:</h2>
       <div class="guide-example">
         <div class="guide-example-mast">
           <p id="guide-example-title" class="serif guide-example-school-name">Example University</p>
@@ -246,18 +247,8 @@
       </ul>
     </section>
 
-    <section id="guide-bottom-search" class="guide-section guide-bottom-search guide-only" aria-labelledby="guide-bottom-search-label">
-      <section class="search-panel" data-school-search-instance aria-labelledby="guide-bottom-search-label">
-        <label id="guide-bottom-search-label" class="search-label" for="school-search-bottom">Search by institution:</label>
-        <div class="search-input-wrap">
-          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"></circle>
-            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-          </svg>
-          <input id="school-search-bottom" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
-        </div>
-        <div id="search-results-bottom" class="results" role="listbox" aria-label="Search results"></div>
-      </section>
+    <section id="guide-bottom-search" class="guide-section guide-bottom-search guide-only">
+      <p class="section-copy search-again-row"><a href="#school-search-wrap" class="return-search-tool">Ready to search for an institution's financial profile?</a></p>
     </section>
 
     <figure id="school-profile-banner" class="quad-banner school-quad-banner is-hidden" aria-hidden="true">
@@ -275,7 +266,16 @@
         <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
         <div class="school-actions">
           <button id="download-school-data" class="btn-pill filled" type="button">Download this college's data</button>
-          <button id="share-school-profile" class="btn-pill outline" type="button">Share this profile</button>
+          <button id="share-school-profile" class="btn-pill outline" type="button">
+            <svg class="btn-pill-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M7 8H5.75A1.75 1.75 0 0 0 4 9.75v8.5C4 19.216 4.784 20 5.75 20h8.5A1.75 1.75 0 0 0 16 18.25V17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M10 15.5c.55-3.95 3.45-7.15 7.5-8.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12.8 6.1H20v7.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m13.3 13.1 6.7-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="m16.9 4 3.1 2.4-3.8 1" fill="currentColor"/>
+            </svg>
+            <span>Share this profile</span>
+          </button>
         </div>
         <p id="share-school-status" class="sr-only" aria-live="polite"></p>
 
@@ -400,7 +400,7 @@
       <h2 class="section-title">Federal Composite Financial Score</h2>
       <p class="section-copy">The federal government looks at college finances and gives them a score for overall financial health. The scale goes from -1.0 to 3.0, with a score of at least 1.5 indicating the institution is considered financially responsible.</p>
       <p class="section-copy">Schools with scores from 1 to less than 1.5 are considered financially responsible, but require additional oversight to keep receiving federal student aid. A school with a score less than 1.0 is considered not financially responsible and must take steps like posting a letter of credit to keep receiving federal aid.</p>
-      <p class="small-meta">Below is the most recent score available from The Department of Education's office of Federal Student Aid.</p>
+      <p class="small-meta">Below is the most recent score available from The U.S. Department of Education's office of Federal Student Aid.</p>
       <div id="federal-composite-card" class="metric-strip neutral"></div>
     </section>
 
@@ -414,7 +414,8 @@
     <section id="emma-section" class="section-block is-hidden" aria-hidden="true">
       <h2 class="section-title">Looking for this college&rsquo;s bond rating?</h2>
       <p class="section-copy">Colleges can issue bonds to finance buildings, equipment, and operations. Rating agencies like Moody&rsquo;s, S&amp;P, and Fitch evaluate college finances and assign long-term ratings to those bonds. Lower ratings can mean weaker financial health. </p>
-      <p class="section-copy">To find the latest rating, go to EMMA, a free database of municipal bond filings. </p>
+      <p class="section-copy">To find the latest rating, head to EMMA, a free database of municipal bond filings. </p>
+      <p class="section-copy"> NOTE: For-profit colleges and small institutions without publicly traded debt do not typically have bond ratings.</p>
       <div class="emma-link-row">
         <a id="emma-search-link" class="emma-search-link" target="_blank" rel="noopener noreferrer" href="https://emma.msrb.org/Search/Search.aspx">Search EMMA &#x2192;</a>
         <div class="help-btn-wrap emma-help-wrap">
@@ -422,7 +423,6 @@
           <span class="help-tooltip" role="tooltip">Having trouble finding a bond rating? Type the name in the <strong>Issue Description</strong> or the <strong>Issuer Name</strong> field.</span>
         </div>
       </div>
-      <p class="section-copy"> NOTE: For-profit colleges and small institutions without publicly traded debt do not have bond ratings.</p>
     </section>
 
     <aside class="related-links is-hidden" id="school-related-section" aria-hidden="true">
@@ -431,20 +431,8 @@
     </aside>
 <br>
     <section id="school-bottom-search-section" class="section-block is-hidden" aria-hidden="true">
-      <section class="search-panel" data-school-search-instance>
-        <label class="search-label" for="school-search-secondary">Now, search for another institution:</label>
-        <div class="search-input-wrap">
-          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <input id="school-search-secondary" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
-        </div>
-        <div id="search-results-secondary" class="results" role="listbox" aria-label="Search results"></div>
-      </section>
+      <p class="section-copy search-again-row"><a href="#school-search-wrap" class="return-search-tool">Want to search for another institution?</a></p>
     </section>
-
-    <p class="illustration-credit">Illustrations by Elena Lacey for The Hechinger Report</p>
 
     <footer class="pg-foot">
       <span class="sig"><span class="sq"></span> The Hechinger Report</span>

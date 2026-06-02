@@ -37,7 +37,7 @@
     }
   </script>
 </head>
-<body data-search-page="school.html">
+<body class="home-page" data-search-page="school.html">
   <a href="#main" class="skip-link">Skip to main content</a>
   <div class="page">
     <header class="site-masthead">
@@ -45,10 +45,7 @@
         <span class="logo"></span>
         <span class="wm-text">The Hechinger Report</span>
       </a>
-      <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
-      </div>
+      <a class="help-btn home-guide-btn" href="school.html#guide-intro" aria-label="Open the guide for this tool">?</a>
     </header>
     <nav class="top-tabs" aria-label="Sections">
       <a class="top-tab is-active" id="tab-home" href="index.html" aria-current="page">Home</a>
@@ -57,44 +54,46 @@
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
       <a class="top-tab" id="tab-research" href="research.html">Research Funding Cuts</a>
       <a class="top-tab" id="tab-methodology" href="methodology.html">Methodology</a>
-      <a class="top-tab" href="https://www.tuitiontracker.org/" target="_blank" rel="noopener noreferrer" aria-label="Tuition Tracker (opens in new tab)">Tuition Tracker</a>
     </nav>
-    <main id="main" class="main-wrap home-layout">
-      <section class="hero-split">
-        <div class="hero-text">
-          <h1 class="serif">College Financial Health Explorer</h1>
-          <p class="lede">How can you figure out how a college is doing financially?</p>
-          <p class="lede" style="font-size: 17px; color: var(--ink-3);">It can be tough for students and families to find answers. The Hechinger Report created this free tool to help at a critical moment.
-          <p class="lede">As financial pressures mount, colleges are also facing threats from the Trump administration to international student enrollment, graduate student borrowing and research funding. </p>
-          <p class="lede">Meanwhile, small colleges tend to publicize limited financial information. Private nonprofits are exempt from public records laws. </p>
-	  <p class ="lede">Look up a four-year college or university for a snapshot of key financial and enrollment trends over the past decade.</p>
-        </div>
-        <div class="banner-col">
-          <figure class="banner" aria-hidden="true">
-            <img src="assets/college-financial-health-home.png" alt="">
-          </figure>
-          <p class="img-credit">Illustration by Elena Lacey for The Hechinger Report</p>
-        </div>
+    <main id="main" class="main-wrap home-page-main">
+      <section class="home-hero" aria-labelledby="home-title">
+        <h1 id="home-title" class="serif">College Financial Health Explorer</h1>
       </section>
 
-    <section class="search-panel" data-school-search-instance>
-      <label class="search-label" for="school-search">Search by institution:</label>
-      <p class="search-helper-link">
-        <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here’s a guide.</a>
-      </p>
-      <div class="search-input-wrap">
-        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
-      </div>
-      <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
-    </section>
+      <section class="search-panel home-search-panel" data-school-search-instance>
+        <label class="search-label sr-only" for="school-search">Search by institution</label>
+        <p class="search-helper-link">
+          <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here's a guide.</a>
+        </p>
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off" aria-label="Search by institution">
+        </div>
+        <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
+      </section>
 
-    <footer class="pg-foot">
-      <span class="sig"><span class="sq"></span> The Hechinger Report</span>
-    </footer>
+      <hr class="home-rule">
+
+      <section class="home-story-grid" aria-labelledby="home-story-title">
+        <div class="home-story-copy">
+          <p id="home-story-title" class="home-story-intro">How can you figure out how a college is doing financially?</p>
+          <p>It can be tough for students and families to find answers. The Hechinger Report created this free tool to help at a critical moment.</p>
+          <p>As financial pressures mount, colleges are also facing threats to international student enrollment, graduate student borrowing and research funding.</p>
+          <p>Meanwhile, small colleges tend to publicize limited financial information. Private nonprofits are exempt from public records laws.</p>
+          <p>In the search bar, look up a four-year college or university for a snapshot of key financial and enrollment trends over the past decade.</p>
+        </div>
+        <figure class="home-illustration">
+          <div class="home-illustration-frame">
+            <img src="assets/college-financial-health-home.png" alt="">
+          </div>
+          <figcaption class="home-illustration-credit">Illustration by Elena Lacey for The Hechinger Report</figcaption>
+        </figure>
+      </section>
+
+      <footer class="pg-foot"></footer>
     </main>
   </div>
 

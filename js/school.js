@@ -399,7 +399,7 @@ function renderEmmaSearchCard(institutionName) {
   setSectionVisibility("emma-section", true);
 }
 
-function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
+function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
   const section = document.getElementById("school-related-section");
   const container = document.getElementById("school-related-pages");
   if (!section || !container) return;
@@ -422,7 +422,25 @@ function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
     }
   ].filter((relatedPage) => relatedPage.record);
 
-  if (!relatedPages.length) {
+  const links = [];
+  if (isNumericUnitid(unitid) && schoolName) {
+    links.push({
+      href: tuitionTrackerSchoolUrl(schoolName, unitid),
+      label: "Tuition trends",
+      external: true
+    });
+  }
+
+  relatedPages.forEach((relatedPage) => {
+    const relatedUnitid = relatedPage.record.unitid || unitid;
+    links.push({
+      href: `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`,
+      label: relatedPage.label,
+      external: false
+    });
+  });
+
+  if (!links.length) {
     container.replaceChildren();
     setSectionVisibility("school-related-section", false);
     return;
@@ -436,12 +454,15 @@ function renderSchoolRelatedPages(unitid, relatedIndexes = {}) {
   // matching the pattern emitted by app.js's renderRelatedInstitution-
   // Links so all four institution-mode pages share visual treatment.
   container.replaceChildren();
-  relatedPages.forEach((relatedPage) => {
-    const relatedUnitid = relatedPage.record.unitid || unitid;
+  links.forEach((relatedLink) => {
     const item = document.createElement("li");
     const link = document.createElement("a");
-    link.href = `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`;
-    link.textContent = relatedPage.label;
+    link.href = relatedLink.href;
+    link.textContent = relatedLink.label;
+    if (relatedLink.external) {
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
     item.appendChild(link);
     container.appendChild(item);
   });
@@ -990,6 +1011,11 @@ function slugify(value) {
     .replace(/^-+|-+$/g, "");
 }
 
+function tuitionTrackerSchoolUrl(name, unitid) {
+  if (!isNumericUnitid(unitid)) return "https://www.tuitiontracker.org/";
+  return `https://www.tuitiontracker.org/schools/${slugify(name)}-${encodeURIComponent(unitid)}`;
+}
+
 function downloadSchoolCsv(school) {
   const rows = [["section", "field", "year", "value"]];
 
@@ -1125,7 +1151,7 @@ async function init() {
     shareButton.onclick = () => shareSchoolProfile(school, unitid);
   }
 
-  renderSchoolRelatedPages(unitid, {
+  renderSchoolRelatedPages(unitid, p.institution_name, {
     cuts: cutsIndex,
     accreditation: accreditationIndex,
     research: researchIndex

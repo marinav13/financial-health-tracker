@@ -1,191 +1,114 @@
-/* ---------- National (sans, UI/eyebrow/labels) ---------- */
-@font-face {
-  font-family: "National";
-  src:
-    local("National Light"), local("National-Light"),
-    url("assets/fonts/National-Light.otf") format("opentype");
-  font-style: normal;
-  font-weight: 300;
-}
-@font-face {
-  font-family: "National";
-  src:
-    local("National Light Italic"), local("National-LightItalic"),
-    url("assets/fonts/National-LightItalic.otf") format("opentype");
-  font-style: italic;
-  font-weight: 300;
-}
+/* ---------- Official brand fonts ---------- */
 @font-face {
   font-family: "National";
   src:
     local("National Book"), local("National-Book"), local("National 2 Book"),
     local("National Regular"), local("National-Regular"),
-    url("assets/fonts/National-Book.otf") format("opentype");
+    url("assets/Official_Fonts/NATIONAL/National-Book.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
 }
 @font-face {
   font-family: "National";
   src:
     local("National Book Italic"), local("National-BookItalic"), local("National 2 Book Italic"),
     local("National Regular Italic"), local("National-RegularItalic"),
-    url("assets/fonts/National-BookItalic.otf") format("opentype");
+    url("assets/Official_Fonts/NATIONAL/National-BookItalic.otf") format("opentype");
   font-style: italic;
   font-weight: 400;
-}
-@font-face {
-  font-family: "National";
-  src:
-    local("National Medium"), local("National-Medium"),
-    url("assets/fonts/National-Medium.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: "National";
-  src:
-    local("National Medium Italic"), local("National-MediumItalic"),
-    url("assets/fonts/National-MediumItalic.otf") format("opentype");
-  font-style: italic;
-  font-weight: 500;
+  font-display: swap;
 }
 @font-face {
   font-family: "National";
   src:
     local("National Semibold"), local("National-Semibold"),
-    url("assets/fonts/National-Semibold.otf") format("opentype");
+    url("assets/Official_Fonts/NATIONAL/National-Semibold.otf") format("opentype");
   font-style: normal;
   font-weight: 600;
-}
-@font-face {
-  font-family: "National";
-  src:
-    local("National Semibold Italic"), local("National-SemiboldItalic"),
-    url("assets/fonts/National-SemiboldItalic.otf") format("opentype");
-  font-style: italic;
-  font-weight: 600;
+  font-display: swap;
 }
 @font-face {
   font-family: "National";
   src:
     local("National Bold"), local("National-Bold"), local("National 2 Bold"),
-    url("assets/fonts/National-Bold.otf") format("opentype");
+    url("assets/Official_Fonts/NATIONAL/National-Bold.otf") format("opentype");
   font-style: normal;
   font-weight: 700;
-}
-@font-face {
-  font-family: "National";
-  src:
-    local("National Bold Italic"), local("National-BoldItalic"),
-    url("assets/fonts/National-BoldItalic.otf") format("opentype");
-  font-style: italic;
-  font-weight: 700;
+  font-display: swap;
 }
 @font-face {
   font-family: "National";
   src:
     local("National Black"), local("National-Black"), local("National 2 Black"),
-    url("assets/fonts/National-Black.otf") format("opentype");
+    url("assets/Official_Fonts/NATIONAL/National-Black.otf") format("opentype");
   font-style: normal;
   font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "National";
+  src:
+    local("National Black Italic"), local("National-BlackItalic"),
+    url("assets/Official_Fonts/NATIONAL/National-BlackItalic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
 }
 
-/* ---------- Tiempos Text (serif, body) ---------- */
+/* Tiempos stays sparing: superheads, blockquotes, and the home-page title. */
 @font-face {
   font-family: "Tiempos Text";
   src:
     local("Tiempos Text Regular"),
     local("TiemposText-Regular"),
-    url("assets/fonts/TiemposTextWeb-Regular.woff") format("woff"),
-    url("assets/fonts/tiempos-text-regular.otf") format("opentype");
+    url("assets/Official_Fonts/TiemposTextWeb-Regular.woff") format("woff");
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
 }
 @font-face {
   font-family: "Tiempos Text";
   src:
     local("Tiempos Text Regular Italic"),
     local("TiemposText-RegularItalic"),
-    url("assets/fonts/TiemposTextWeb-RegularItalic.woff") format("woff"),
-    url("assets/fonts/tiempos-text-regular-italic.otf") format("opentype");
+    url("assets/Official_Fonts/TiemposTextWeb-RegularItalic.woff") format("woff");
   font-style: italic;
   font-weight: 400;
-}
-@font-face {
-  font-family: "Tiempos Text";
-  src:
-    local("Tiempos Text Semibold"),
-    local("TiemposText-Semibold"),
-    url("assets/fonts/TiemposTextWeb-Semibold.woff") format("woff");
-  font-style: normal;
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Tiempos Text";
-  src:
-    local("Tiempos Text Semibold Italic"),
-    local("TiemposText-SemiboldItalic"),
-    url("assets/fonts/TiemposTextWeb-SemiboldItalic.woff") format("woff");
-  font-style: italic;
-  font-weight: 600;
-}
-@font-face {
-  font-family: "Tiempos Text";
-  src:
-    local("Tiempos Text Bold"),
-    local("TiemposText-Bold"),
-    url("assets/fonts/tiempos-text-bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
+  font-display: swap;
 }
 
-/* ---------- Tiempos Headline (serif, display) ---------- */
-@font-face {
-  font-family: "Tiempos Headline";
-  src:
-    local("Tiempos Headline Regular"),
-    local("TiemposHeadline-Regular"),
-    url("assets/fonts/tiempos-headline-regular.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: "Tiempos Headline";
-  src:
-    local("Tiempos Headline Bold"),
-    local("TiemposHeadline-Bold"),
-    url("assets/fonts/tiempos-headline-bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
-}
 @font-face {
   font-family: "Tiempos Headline";
   src:
     local("Tiempos Headline Black"),
     local("TiemposHeadline-Black"),
-    url("assets/fonts/TiemposHeadlineWeb-Black.woff") format("woff"),
-    url("assets/fonts/TiemposHeadline-Black.ttf") format("truetype");
+    url("assets/Official_Fonts/TiemposHeadlineWeb-Black.woff") format("woff"),
+    url("assets/Official_Fonts/TiemposHeadline-Black.ttf") format("truetype");
   font-style: normal;
   font-weight: 900;
+  font-display: swap;
 }
 @font-face {
   font-family: "Tiempos Headline";
   src:
     local("Tiempos Headline Black Italic"),
     local("TiemposHeadline-BlackItalic"),
-    url("assets/fonts/TiemposHeadlineWeb-BlackItalic.woff") format("woff"),
-    url("assets/fonts/TiemposHeadline-BlackItalic.ttf") format("truetype");
+    url("assets/Official_Fonts/TiemposHeadlineWeb-BlackItalic.woff") format("woff"),
+    url("assets/Official_Fonts/TiemposHeadline-BlackItalic.ttf") format("truetype");
   font-style: italic;
   font-weight: 900;
+  font-display: swap;
 }
 
 :root {
-  /* Type stacks. Body uses Tiempos Text (serif); display uses Tiempos Headline.
-     UI labels, eyebrows, tabs and buttons use National (sans). */
-  --font-body: "Tiempos Text", Georgia, "Times New Roman", serif;
-  --font-display: "Tiempos Headline", "Tiempos Text", Georgia, "Times New Roman", serif;
-  --font-ui: "National", Inter, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* National carries the interface; Tiempos is reserved for select accents. */
+  --font-body: "National", sans-serif;
+  --font-display: "National", sans-serif;
+  --font-ui: "National", sans-serif;
+  --font-accent-text: "Tiempos Text", serif;
+  --font-accent-display: "Tiempos Headline", serif;
+  --font-mono: "National", sans-serif;
 
   /* Editorial palette. Outer paper is the warm tan around the page;
      paper-page is the cream the layout sits on; cards stay white. */
@@ -208,13 +131,13 @@
 
   /* Hechinger yellow + gold scale. --yellow / --gold preserved for
      existing rules; the -soft / -pale / -gold tokens are new. */
-  --yellow: #f7d564;
-  --yellow-soft: #fae9a8;
-  --gold: #d9a441;
-  --hechinger-yellow: #f7d564;
-  --hechinger-yellow-soft: #fbecae;
-  --hechinger-yellow-pale: #fdf6dd;
-  --hechinger-gold: #b88a2e;
+  --yellow: #ffcc33;
+  --yellow-soft: #ffe28a;
+  --gold: #ffcc33;
+  --hechinger-yellow: #ffcc33;
+  --hechinger-yellow-soft: #ffe7a3;
+  --hechinger-yellow-pale: #fff5d6;
+  --hechinger-gold: #ffcc33;
   /* --hechinger-gold-deep is for any GOLD TEXT (eyebrow labels, the
      related-card heading) — the lighter --hechinger-gold doesn't meet
      WCAG AA against --paper-page. Decorative borders / underlines /
@@ -481,6 +404,28 @@ body {
   text-align: center;
 }
 
+.school-guide-link-wrap .tool-guide-link {
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
+  font-family: var(--font-body);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.school-guide-link-wrap .tool-guide-link:hover,
+.school-guide-link-wrap .tool-guide-link:focus-visible,
+.school-guide-link-wrap .tool-guide-link:visited {
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
+  text-decoration: none;
+  opacity: 0.92;
+}
+
 /* ---------- EMMA bond-rating search link ---------- */
 .emma-search-link {
   display: inline-block;
@@ -551,8 +496,8 @@ body {
   padding: 18px 16px;
   min-height: 52px;
   margin-bottom: -1px;
-  font-family: var(--font-ui);
-  font-weight: 500;
+  font-family: var(--font-accent-display);
+  font-weight: 900;
   font-size: 20px;
   letter-spacing: 0;
   color: var(--ink-2);
@@ -599,6 +544,330 @@ body {
    uses most of the page width. */
 .main-wrap {
   padding: 40px clamp(20px, 3vw, 32px) 0;
+}
+
+/* ---------- Homepage A2 layout ----------
+   Scopes the A2 redesign to index.html only so the other pages keep
+   the existing masthead, tab row, and landing-page treatments. */
+.home-page {
+  background: var(--paper-page);
+}
+
+.home-page .page {
+  padding-bottom: 32px;
+}
+
+.home-guide-btn {
+  text-decoration: none;
+}
+
+.home-page .top-tabs {
+  justify-content: space-between;
+}
+
+.home-page .top-tab {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.home-page .top-tab[aria-current="page"],
+.home-page .top-tab.is-active {
+  border-bottom-color: var(--hechinger-gold);
+  font-weight: 600;
+}
+
+.home-page .main-wrap {
+  max-width: none;
+}
+
+.home-page-main {
+  display: block;
+}
+
+.home-hero {
+  text-align: center;
+  max-width: 100%;
+}
+
+.home-page .home-hero h1 {
+  max-width: none;
+  width: 100%;
+  margin: 0 auto 24px;
+  display: block;
+  font-size: 60px;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.home-search-panel {
+  max-width: 860px;
+  margin: 36px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.home-page .search-helper-link {
+  margin: 0;
+  text-align: center;
+}
+
+.home-page .tool-guide-link {
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000;
+  font-family: var(--font-body);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-decoration: none;
+}
+
+.home-page .tool-guide-link:hover,
+.home-page .tool-guide-link:focus-visible {
+  color: #000000 !important;
+  -webkit-text-fill-color: #000000;
+  text-decoration: none;
+  opacity: 0.92;
+}
+
+.home-page .search-input-wrap {
+  width: 100%;
+  padding: 0 22px;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+}
+
+.home-page .search-input-wrap:focus-within {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--yellow-soft);
+}
+
+.home-page .search-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 14px;
+  color: var(--ink);
+}
+
+.home-page .search {
+  padding: 18px 0;
+  font-size: 21px;
+  color: var(--ink);
+}
+
+.home-page .search::placeholder {
+  color: #8c887a;
+  opacity: 1;
+}
+
+.home-page .results {
+  width: 100%;
+  margin-top: 0;
+}
+
+.home-rule {
+  height: 1px;
+  margin: 52px 0 48px;
+  border: 0;
+  background: var(--line);
+}
+
+.home-story-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.home-story-copy {
+  min-width: 0;
+}
+
+.home-story-copy p {
+  margin: 0 0 20px;
+  font-family: var(--font-body);
+  font-size: 27px;
+  line-height: 1.48;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.home-story-intro {
+  font-family: var(--font-accent-text);
+  font-size: 32px !important;
+  line-height: 1.35;
+  color: var(--ink) !important;
+}
+
+.home-illustration {
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto auto;
+  align-self: start;
+}
+
+.home-illustration-frame {
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  overflow: hidden;
+}
+
+.home-illustration-frame img {
+  display: block;
+  width: 108%;
+  height: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  margin: -4px auto;
+}
+
+.home-illustration-credit {
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+
+.home-page .pg-foot {
+  margin-top: 60px;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.home-page .pg-foot > * {
+  display: block;
+}
+
+.home-page .pg-foot > * + * {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.home-page .pg-foot .site-nav-copyright {
+  gap: 28px;
+}
+
+.home-page .pg-foot .ftr-info-msg {
+  max-width: 760px;
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.home-page .pg-foot .ftr-nav-items {
+  gap: 10px 34px;
+}
+
+.home-page .pg-foot .ftr-nav-link {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+@media (max-width: 1100px) {
+  .home-page .top-tabs {
+    justify-content: space-between;
+  }
+
+  .home-page .main-wrap {
+    max-width: none;
+  }
+
+  .home-hero h1 {
+    font-size: 56px;
+    white-space: normal;
+  }
+
+  .home-story-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .home-illustration {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-page .top-tabs {
+    justify-content: flex-start;
+  }
+
+  .home-page .top-tab {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .home-page .main-wrap {
+    max-width: none;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(40px, 11vw, 52px);
+    line-height: 1.02;
+  }
+
+  .home-search-panel {
+    margin-top: 28px;
+    gap: 14px;
+  }
+
+  .home-page .tool-guide-link {
+    font-size: 18px;
+    padding: 10px 22px;
+  }
+
+  .home-page .search-input-wrap {
+    padding: 0 16px;
+  }
+
+  .home-page .search {
+    padding: 16px 0;
+    font-size: 18px;
+  }
+
+  .home-rule {
+    margin: 36px 0 32px;
+  }
+
+  .home-illustration-frame {
+    padding: 12px;
+  }
+
+  .home-story-copy p {
+    font-size: 23px;
+  }
+
+  .home-story-intro {
+    font-size: 28px !important;
+  }
+
+  .home-page .pg-foot {
+    margin-top: 48px;
+    padding-top: 28px;
+  }
+
+  .home-page .pg-foot .ftr-info-msg,
+  .home-page .pg-foot .ftr-nav-link {
+    font-size: 18px;
+  }
 }
 
 /* ---------- Page footer ----------
@@ -676,7 +945,7 @@ body {
   text-decoration: underline;
   text-underline-offset: 3px;
   font-family: var(--font-ui);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 18px;
   line-height: 1.4;
 }
@@ -711,10 +980,7 @@ body {
   min-width: 0;
 }
 
-/* Editorial display H1: large Tiempos Headline serif, tight leading.
-   Bumped to 56px to match the larger default body sizing (18px) so
-   the headline still feels like a display element rather than a
-   slightly-bigger paragraph. */
+/* Display H1s use National Black Italic per brand guidance. */
 .hero-split h1,
 .hero-solo h1,
 .hero-solo-center h1,
@@ -722,11 +988,19 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 56px;
   line-height: 1.05;
-  font-weight: 600;
+  font-style: italic;
+  font-weight: 900;
   letter-spacing: -0.02em;
   margin: 0 0 24px;
   color: var(--ink);
   max-width: 14ch;
+}
+
+#home-title {
+  font-family: var(--font-accent-display);
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: -0.025em;
 }
 
 .hero-solo h1 {
@@ -752,17 +1026,28 @@ h1.serif {
   margin-bottom: 0;
 }
 
-/* Lede: Tiempos Text serif, larger than body copy, used for the centered
-   intro paragraphs on every landing page. 22px to stay one comfortable
-   step above the 18px body. */
+/* Short explanatory intro copy uses National Book Italic. */
 .lede {
   font-family: var(--font-body);
   font-size: 22px;
   line-height: 1.55;
   font-weight: 400;
+  font-style: italic;
   color: var(--ink-2);
   max-width: 52ch;
   margin: 0 0 18px;
+}
+
+body[data-search-source="cuts"] .hero-solo-center .lede,
+body[data-search-source="accreditation"] .hero-solo-center .lede,
+body[data-search-source="research"] .hero-solo-center .lede {
+  font-style: normal;
+}
+
+body[data-search-source="cuts"] .hero-solo-center .lede.lede-intro,
+body[data-search-source="accreditation"] .hero-solo-center .lede.lede-intro,
+body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
+  font-style: italic;
 }
 
 .lede strong {
@@ -1140,6 +1425,19 @@ h1.serif {
   text-align: center;
 }
 
+.guide-point-list {
+  display: inline-block;
+  max-width: 760px;
+  margin: 0 auto 12px;
+  padding-left: 28px;
+  text-align: left;
+}
+
+.guide-point-list .guide-body {
+  margin: 0 0 14px;
+  text-align: left;
+}
+
 .guide-inline-red {
   display: inline-block;
   padding: 1px 8px 3px;
@@ -1164,7 +1462,7 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 46px;
   line-height: 1.12;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
   text-align: center;
@@ -1389,7 +1687,7 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 50px;
   line-height: 1.08;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink);
 }
@@ -1533,11 +1831,11 @@ h1.serif {
 .guide-next-links {
   max-width: 760px;
   margin: 0 auto;
-  padding: 0;
-  list-style: none;
+  padding-left: 1.2em;
+  list-style: disc;
   font-family: var(--font-body);
-  font-size: 18px;
-  line-height: 1.7;
+  font-size: 21px;
+  line-height: 1.62;
   color: var(--ink-2);
   text-align: center;
 }
@@ -1590,6 +1888,14 @@ h1.serif {
 .search-helper-link .tool-guide-link:hover {
   color: #fff;
   border-bottom: none;
+}
+
+.home-page .search-helper-link .tool-guide-link,
+.home-page .search-helper-link .tool-guide-link:hover,
+.home-page .search-helper-link .tool-guide-link:focus-visible,
+.home-page .search-helper-link .tool-guide-link:visited {
+  color: #000 !important;
+  -webkit-text-fill-color: #000;
 }
 
 @media (max-width: 980px) {
@@ -1781,7 +2087,8 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 50px;
   line-height: 1.08;
-  font-weight: 600;
+  font-style: italic;
+  font-weight: 900;
   letter-spacing: -0.016em;
   color: var(--ink);
   background: transparent;
@@ -1801,6 +2108,7 @@ h1.serif {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   padding: 14px 26px;
   border-radius: 999px;
   border: 1px solid var(--ink);
@@ -1812,6 +2120,13 @@ h1.serif {
   letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
+}
+
+.btn-pill-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  display: block;
 }
 .btn-pill.filled {
   background: var(--ink);
@@ -1937,7 +2252,7 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 34px;
   line-height: 1.1;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.012em;
   text-transform: none;
   border-radius: 0;
@@ -1979,6 +2294,40 @@ h1.serif {
 
 .section-copy-block .section-copy:last-child {
   margin-bottom: 0;
+}
+
+.search-again-row {
+  margin-top: 28px;
+}
+
+.return-search-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.return-search-tool::before {
+  content: "\2191";
+  font-size: 20px;
+  line-height: 1;
+}
+
+.return-search-tool:hover,
+.return-search-tool:focus-visible {
+  background: var(--hechinger-yellow-pale);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--hechinger-yellow-soft);
 }
 
 .chart-note {
@@ -2186,7 +2535,7 @@ h1.serif {
   text-align: center;
   font-family: var(--font-display);
   font-size: 25px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
 }
@@ -2465,14 +2814,15 @@ h1.serif {
 }
 
 .sort-header-label {
-  display: inline-block;
-  margin-right: 6px;
+  display: block;
+  margin: 0 0 10px;
 }
 
 .sort-controls {
-  display: inline-flex;
-  gap: 2px;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
 }
 
 .sort-button {
@@ -2603,7 +2953,7 @@ h1.serif {
   font-family: var(--font-display);
   font-size: 34px;
   line-height: 1.1;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.012em;
   color: var(--ink);
 }
@@ -2616,6 +2966,116 @@ h1.serif {
   font-size: 22px;
   color: var(--ink-3);
   letter-spacing: 0;
+}
+
+/* Tiempos is reserved for major editorial headlines on the Finances,
+   College Cuts, Accreditation, and Research Funding sections. */
+body[data-search-page="school.html"] h1.serif,
+body[data-search-page="school.html"] .guide-subhead,
+body[data-search-page="school.html"] .guide-example-school-name,
+body[data-search-page="school.html"] .section-title,
+body[data-search-page="school.html"] .chart-title,
+body[data-search-page="school.html"] .data-card h2,
+body[data-search-page="school.html"] .data-card h3,
+body[data-search-page="school.html"] .school-mast h1,
+body[data-search-source="cuts"] .hero-solo-center h1,
+body[data-search-source="cuts"] .school-mast h1,
+body[data-search-source="cuts"] .data-card h2,
+body[data-search-source="cuts"] .chart-title,
+body[data-search-source="accreditation"] .hero-solo-center h1,
+body[data-search-source="accreditation"] .school-mast h1,
+body[data-search-source="accreditation"] .data-card h2,
+body[data-search-source="accreditation"] .chart-title,
+body[data-search-source="research"] .hero-solo-center h1,
+body[data-search-source="research"] .school-mast h1,
+body[data-search-source="research"] .data-card h2,
+body[data-search-source="research"] .chart-title {
+  font-family: var(--font-accent-display);
+  font-style: normal;
+  font-weight: 900;
+}
+
+/* Keep landing-page headings centered, but left-align the explanatory copy
+   so the wide-column layout reads more naturally. */
+body[data-search-page="school.html"] .guide-body,
+body[data-search-page="school.html"] .guide-learn-more,
+body[data-search-page="school.html"] .guide-emphasis,
+body[data-search-page="school.html"] .guide-note,
+body[data-search-page="school.html"] .guide-search-copy,
+body[data-search-page="school.html"] .guide-example-summary,
+body[data-search-page="school.html"] .guide-next-links {
+  text-align: left;
+}
+
+body[data-search-page="school.html"] .guide-point-list,
+body[data-search-page="school.html"] .guide-bullet-list,
+body[data-search-page="school.html"] .guide-next-links {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body[data-search-page="school.html"] .guide-learn-more {
+  max-width: 760px;
+  margin: 18px auto 0;
+}
+
+body[data-search-page="school.html"] .guide-note {
+  max-width: 760px;
+  margin: 14px auto 0;
+}
+
+body[data-search-page="school.html"] .guide-bullet-list {
+  max-width: 760px;
+  margin: 10px 0 0;
+  padding-left: 28px;
+}
+
+body[data-search-page="school.html"] .guide-search-copy p,
+body[data-search-page="school.html"] .guide-example-summary p {
+  text-align: left;
+}
+
+body[data-search-source="cuts"] .hero-solo-center .lede,
+body[data-search-source="accreditation"] .hero-solo-center .lede,
+body[data-search-source="research"] .hero-solo-center .lede {
+  text-align: left;
+}
+
+body[data-search-source="cuts"] .hero-solo-center .lede.lede-intro,
+body[data-search-source="accreditation"] .hero-solo-center .lede.lede-intro,
+body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
+  text-align: center;
+}
+
+body[data-search-source="cuts"] .hero-solo-center .data-as-of,
+body[data-search-source="accreditation"] .hero-solo-center .data-as-of,
+body[data-search-source="research"] .hero-solo-center .data-as-of {
+  margin: 6px auto 0;
+  text-align: center;
+}
+
+body[data-search-page="school.html"] .section-copy,
+body[data-search-page="school.html"] .section-copy-block,
+body[data-search-page="school.html"] .section-copy-block .section-copy,
+body[data-search-page="school.html"] .small-meta,
+body[data-search-page="school.html"] .chart-note {
+  text-align: left;
+}
+
+body[data-search-page="school.html"] .small-meta {
+  max-width: 62ch;
+  margin: 18px auto 22px;
+}
+
+body[data-search-page="school.html"] #school-bottom-search-section .section-copy,
+body[data-search-page="school.html"] #school-bottom-search-section .search-again-row {
+  text-align: center;
+}
+
+blockquote {
+  font-family: var(--font-accent-text);
+  font-style: italic;
 }
 
 .chart-svg {
@@ -2781,7 +3241,7 @@ h1.serif {
   justify-content: center;
   gap: 28px;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 19px;
 }
 
@@ -2921,15 +3381,17 @@ h1.serif {
    to the data-card / page edge; this gives the block a proper inset
    that matches the rest of the institution-mode body content. */
 .related-links {
-  padding: 18px 32px 6px;
-  margin: 0;
-  text-align: center;
+  max-width: 62ch;
+  padding: 18px 0 6px;
+  margin: 0 auto 18px;
+  text-align: left;
 }
 
 .related-links p {
   margin: 0 0 12px;
   font-family: var(--font-body);
-  font-size: 19px;
+  font-size: 22px;
+  line-height: 1.65;
   color: var(--ink-2);
 }
 
@@ -2939,17 +3401,18 @@ h1.serif {
 
 .related-links .link-list {
   margin: 0;
-  padding: 0;
-  list-style: none;
+  padding-left: 28px;
+  list-style: disc;
   font-family: var(--font-body);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 18px;
+  font-size: 22px;
+  line-height: 1.62;
+  display: block;
+  text-align: left;
 }
 
 .related-links .link-list li {
-  line-height: 1.5;
+  line-height: 1.62;
+  margin-bottom: 12px;
 }
 
 .related-links .link-list li::after {
@@ -2967,6 +3430,12 @@ h1.serif {
   color: var(--pos-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.related-links .link-list li::after,
+.related-links .link-list li:last-child::after {
+  content: none !important;
+  margin: 0 !important;
 }
 
 .is-hidden {

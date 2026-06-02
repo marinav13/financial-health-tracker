@@ -699,7 +699,7 @@
 
     return `
       ${renderHistoryTable({
-        ariaLabel: linkNames ? "Recent accreditation actions at other institutions" : "Recent accreditation actions",
+        ariaLabel: linkNames ? "Accreditation actions by institution" : "Recent accreditation actions",
         headers: [
           renderSortableHeader("institution_name", sortState, "Institution"),
           renderSortableHeader("action_label", sortState, "Action"),

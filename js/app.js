@@ -643,6 +643,23 @@ async function initSearch() {
 
 upgradeSiteFooter();
 
+async function initMethodologyInstitutionCount() {
+  if (typeof document === "undefined" || typeof document.querySelectorAll !== "function") return;
+  const targets = Array.from(document.querySelectorAll("#methodology-institution-count, #methodology-institution-count-lower"));
+  if (!targets.length) return;
+  const schools = await loadJson("data/schools_index.json");
+  const count = Array.isArray(schools) ? schools.length : 0;
+  if (!Number.isFinite(count) || count <= 0) return;
+  const formatted = new Intl.NumberFormat("en-US").format(count);
+  targets.forEach((target) => {
+    target.textContent = formatted;
+  });
+}
+
+initMethodologyInstitutionCount().catch((error) => {
+  console.error("Methodology institution count failed:", error);
+});
+
 initSearch().catch((error) => {
   console.error("Search initialization failed:", error);
   getSearchInstances().forEach(({ input, results }) => {

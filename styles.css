@@ -1761,6 +1761,19 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   justify-content: center;
 }
 
+body[data-search-page="school.html"] .guide-sample-card.metric-strip[data-arrow]::before,
+body[data-search-page="school.html"] .guide-sample-card.metric-strip.negative::before,
+body[data-search-page="school.html"] .guide-sample-card.metric-strip.neg::before {
+  top: auto;
+  bottom: 14px;
+  left: 16px;
+  transform: none;
+}
+
+body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[data-arrow]::before {
+  transform: none;
+}
+
 .guide-sample-card .metric-statement {
   font-size: 24px;
 }

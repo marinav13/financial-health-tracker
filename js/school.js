@@ -475,9 +475,18 @@ function firstNumericValue(...values) {
 function buildSectorComparisonLine(benchmarkValue, profile) {
   const benchmark = asNumber(benchmarkValue);
   if (benchmark === null) return null;
+  const displayedBenchmark = roundedPercentDisplayValue(benchmark);
+  let comparisonPhrase;
+  if (displayedBenchmark === 0) {
+    comparisonPhrase = strongSegment("about no change");
+  } else if (benchmark < 0) {
+    comparisonPhrase = strongSegment(`a ${fmtRoundedPct(Math.abs(benchmark))} decline`);
+  } else {
+    comparisonPhrase = strongSegment(`a ${fmtRoundedPct(Math.abs(benchmark))} increase`);
+  }
   return [
     "That compares to ",
-    strongSegment(fmtRoundedPct(benchmark, true)),
+    comparisonPhrase,
     ` for all ${trackerSectorCollegeLabel(profile)} we track.`
   ];
 }

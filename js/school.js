@@ -258,6 +258,72 @@ function yesNoClass(value) {
   return "neutral";
 }
 
+function hasNonEmptyValue(value) {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "string") return value.trim() !== "";
+  return true;
+}
+
+function stateIsNegative(state) {
+  return state === "negative" || state === "neg";
+}
+
+function revenueChangeState(summary) {
+  return sentimentClass(summary?.revenue_pct_change_5yr);
+}
+
+function lossPatternState(summary) {
+  return yesNoClass(summary?.losses_last_3_of_5);
+}
+
+function netTuitionChangeState(summary) {
+  return sentimentClass(summary?.net_tuition_per_fte_change_5yr);
+}
+
+function enrollmentChangeState(summary) {
+  return sentimentClass(summary?.enrollment_pct_change_5yr);
+}
+
+function enrollmentDeclineState(value) {
+  return yesNoClass(value);
+}
+
+function staffChangeState(summary) {
+  return sentimentClass(summary?.staff_total_headcount_pct_change_5yr);
+}
+
+function endowmentChangeState(summary) {
+  return sentimentClass(summary?.endowment_pct_change_5yr);
+}
+
+function isRevenueRed(summary) {
+  return stateIsNegative(revenueChangeState(summary));
+}
+
+function isLossPatternRed(summary) {
+  return stateIsNegative(lossPatternState(summary));
+}
+
+function isNetTuitionRed(summary) {
+  return stateIsNegative(netTuitionChangeState(summary));
+}
+
+function isEnrollmentRed(summary) {
+  return stateIsNegative(enrollmentChangeState(summary));
+}
+
+function isEnrollmentDeclineRed(value) {
+  return stateIsNegative(enrollmentDeclineState(value));
+}
+
+function isStaffRed(summary) {
+  return stateIsNegative(staffChangeState(summary));
+}
+
+function isEndowmentRed(summary) {
+  return stateIsNegative(endowmentChangeState(summary));
+}
+
 function trendDirection(value) {
   const numeric = asNumber(value);
   if (numeric === null || numeric === 0) return "";
@@ -273,16 +339,53 @@ function setStripArrow(node, state, direction) {
   delete node.dataset.arrow;
 }
 
+function createWarningTooltipNode({ leadingText = "", emphasizedOne = "", middleText = "", emphasizedTwo = "", trailingText = "" } = {}) {
+  const tooltip = document.createElement("span");
+  tooltip.className = "warning-sign-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+
+  if (leadingText) tooltip.append(document.createTextNode(leadingText));
+  if (emphasizedOne) {
+    const strong = document.createElement("strong");
+    strong.textContent = emphasizedOne;
+    tooltip.append(strong);
+  }
+  if (middleText) tooltip.append(document.createTextNode(middleText));
+  if (emphasizedTwo) {
+    const strong = document.createElement("strong");
+    strong.textContent = emphasizedTwo;
+    tooltip.append(strong);
+  }
+  if (trailingText) tooltip.append(document.createTextNode(trailingText));
+
+  return tooltip;
+}
+
+function defaultWarningTooltipNode() {
+  return createWarningTooltipNode({
+    leadingText: "Red with a warning sign means a trend is growing in a concerning direction. ",
+    emphasizedOne: "One or two red boxes",
+    middleText: " don't automatically signal crisis. ",
+    emphasizedTwo: "Multiple red indicators",
+    trailingText: " may signal deeper financial pressure."
+  });
+}
+
 function syncWarningTooltip(node, state) {
   if (!node) return;
   const showWarning = state === "negative" || state === "neg";
+  const existingTooltip = node.querySelector(".warning-sign-tooltip");
   if (showWarning) {
     node.dataset.warningTooltip = "true";
     node.setAttribute("tabindex", "0");
+    if (!existingTooltip) {
+      node.appendChild(defaultWarningTooltipNode());
+    }
     return;
   }
   delete node.dataset.warningTooltip;
   node.removeAttribute("tabindex");
+  existingTooltip?.remove();
 }
 
 function applyStrip(id, text, state = "neutral", direction = "") {
@@ -313,6 +416,66 @@ function applyQuestionValueStrip(id, question, value, state = "neutral", directi
   node.appendChild(statement);
   setStripArrow(node, state, direction);
   syncWarningTooltip(node, state);
+}
+
+function schoolWarningTypeLabel(profile) {
+  const control = String(profile?.control_label || profile?.sector || "").trim().toLowerCase();
+  if (control === "public") return "public school";
+  if (control === "private not-for-profit") return "private nonprofit school";
+  if (control === "private for-profit") return "for-profit school";
+  return "school";
+}
+
+function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
+  const node = document.getElementById("school-warning-summary");
+  if (!node) return;
+
+  if (!warningSummary?.showBadge) {
+    node.replaceChildren();
+    node.classList.add("is-hidden");
+    node.setAttribute("aria-hidden", "true");
+    node.removeAttribute("tabindex");
+    node.removeAttribute("aria-label");
+    delete node.dataset.tooltip;
+    return;
+  }
+
+  const count = warningSummary.count;
+  const totalVisible = warningSummary.totalVisible;
+  const badgeLabel = "Pattern of warning signs";
+  const typeLabel = schoolWarningTypeLabel(profile);
+  const tooltip = document.createElement("span");
+  tooltip.className = "warning-sign-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.append(document.createTextNode("This school "));
+  const patternStrong = document.createElement("strong");
+  patternStrong.textContent = "shows a pattern";
+  tooltip.append(patternStrong);
+  tooltip.append(document.createTextNode(" of declining enrollment, falling net tuition revenue per student and losses in 3 of the last 5 years. Across all "));
+  const countStrong = document.createElement("strong");
+  countStrong.textContent = `${count} ${count === 1 ? "is" : "are"} flagged as concerning`;
+  tooltip.append(document.createTextNode(`${totalVisible} potential indicators for a ${typeLabel}, `));
+  tooltip.append(countStrong);
+  tooltip.append(document.createTextNode(". This is a signal of sustained financial stress. Check out this institution's "));
+  const auditsLink = document.createElement("a");
+  auditsLink.href = "https://www.fac.gov/";
+  auditsLink.target = "_blank";
+  auditsLink.rel = "noopener noreferrer";
+  auditsLink.textContent = "audits";
+  tooltip.append(auditsLink);
+  tooltip.append(document.createTextNode(" for more context."));
+  const tooltipLabel = `This school shows a pattern of declining enrollment, falling net tuition revenue per student and losses in 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
+  const icon = document.createElement("span");
+  icon.className = "guide-warning-icon";
+  icon.setAttribute("aria-hidden", "true");
+  const text = document.createElement("span");
+  text.textContent = badgeLabel;
+
+  node.replaceChildren(icon, text, tooltip);
+  node.classList.remove("is-hidden");
+  node.setAttribute("aria-hidden", "false");
+  node.setAttribute("tabindex", "0");
+  node.setAttribute("aria-label", tooltipLabel);
 }
 
 function strongSegment(text) {
@@ -347,6 +510,20 @@ function setBodyCopy(id, paragraphs) {
     node.appendChild(p);
   });
 
+  node.classList.remove("is-hidden");
+  node.setAttribute("aria-hidden", "false");
+}
+
+function setHtmlCopy(id, html, hidden = false) {
+  const node = document.getElementById(id);
+  if (!node) return;
+  if (hidden || !html) {
+    node.textContent = "";
+    node.classList.add("is-hidden");
+    node.setAttribute("aria-hidden", "true");
+    return;
+  }
+  node.innerHTML = html;
   node.classList.remove("is-hidden");
   node.setAttribute("aria-hidden", "false");
 }
@@ -886,6 +1063,38 @@ function setSectionVisibility(id, show) {
   }
 }
 
+function computeSchoolWarningSummary(summary, composite, hcmRecord, enrollmentFlag, visibility) {
+  const visibleMetrics = [];
+  const pushMetric = (key, label, visible, isRed) => {
+    if (!visible) return;
+    visibleMetrics.push({ key, label, isRed: Boolean(isRed) });
+  };
+
+  pushMetric("revenue", "Revenue", visibility.hasRevenueCard, isRevenueRed(summary));
+  pushMetric("loss_pattern", "In the red in 3 of the last 5 years", visibility.hasLossRepeatCard, isLossPatternRed(summary));
+  pushMetric("loss_years", "Loss years in the last 10", visibility.hasLossYearsCard, stateIsNegative(lossYearsState(summary?.loss_years_last_10)));
+  pushMetric("net_tuition", "Net tuition revenue per FTE", visibility.hasNetTuitionCard, isNetTuitionRed(summary));
+  pushMetric("enrollment", "Enrollment", visibility.hasEnrollmentCard, isEnrollmentRed(summary));
+  pushMetric("enrollment_decline", "Enrollment declined in 3 of the previous 5 years", visibility.hasEnrollmentFlagCard, isEnrollmentDeclineRed(enrollmentFlag));
+  pushMetric("staff", "Staff headcount", visibility.hasStaffCard, isStaffRed(summary));
+  pushMetric("endowment", "Endowment", visibility.hasEndowmentCard, isEndowmentRed(summary));
+  pushMetric("federal_composite", "Federal composite score", visibility.hasFederalCompositeCard, stateIsNegative(federalCompositeState(composite?.federal_composite_score_2022_2023)));
+  pushMetric("hcm2", "HCM2 status", visibility.hasHcm2Card, stateIsNegative(hcm2State(hcmRecord)));
+
+  const coreIndicatorsMissing = !visibility.hasEnrollmentCard || !visibility.hasNetTuitionCard || !visibility.hasLossRepeatCard;
+  const showBadge = !coreIndicatorsMissing &&
+    isEnrollmentRed(summary) &&
+    isNetTuitionRed(summary) &&
+    isLossPatternRed(summary);
+
+  return {
+    count: visibleMetrics.filter((metric) => metric.isRed).length,
+    totalVisible: visibleMetrics.length,
+    contributingVisibleMetrics: visibleMetrics.filter((metric) => metric.isRed),
+    showBadge
+  };
+}
+
 const PROFILE_SHELL_SECTION_IDS = [
   "school-profile-mast"
 ];
@@ -904,6 +1113,7 @@ const PROFILE_DATA_SECTION_IDS = [
   "federal-composite-section",
   "hcm2-section",
   "school-related-section",
+  "school-financial-documents-section",
   "school-bottom-search-section",
   "school-guide-link-section",
   "emma-section"
@@ -994,6 +1204,7 @@ function showSchoolGuideLanding() {
   setHidden("school-meta-wrap", true);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);
+  syncSchoolWarningSummaryBadge(null);
 }
 
 function showSchoolProfileShell() {
@@ -1006,6 +1217,7 @@ function showSchoolProfileShell() {
   setHidden("school-meta-wrap", false);
   setHidden("download-school-data", false);
   setHidden("share-school-profile", false);
+  syncSchoolWarningSummaryBadge(null);
 }
 
 function showSchoolLoadError(message) {
@@ -1022,6 +1234,7 @@ function showSchoolLoadError(message) {
   setHidden("school-meta-wrap", true);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);
+  syncSchoolWarningSummaryBadge(null);
 }
 
 function slugify(value) {
@@ -1106,12 +1319,12 @@ function syncSearchToggle() {
   wrap.setAttribute("open", "");
 }
 
-function styleAnswerCard(answerId, value) {
+function styleAnswerCard(answerId, value, resolveState = yesNoClass) {
   const answer = document.getElementById(answerId);
   if (!answer) return;
   const card = answer.closest(".metric-strip");
   if (!card) return;
-  const state = yesNoClass(value);
+  const state = resolveState(value);
   card.className = `metric-strip ${state}`;
   answer.className = `metric-answer ${state}`;
   syncWarningTooltip(card, state);
@@ -1162,6 +1375,8 @@ async function init() {
   const staffInstructionalSeries = toSeries(series.staff_headcount_instructional);
   const endowmentValueSeries = toSeries(series.endowment_value_adjusted);
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
+  const compositeSentence = buildFederalCompositeSentence(composite);
+  const hcmSentence = buildHcm2Sentence(p, hcmRecord, hcmLookup);
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -1212,7 +1427,7 @@ async function init() {
     asNumber(s.revenue_pct_change_5yr) === null
       ? "Revenue data are not available."
       : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.revenue_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.revenue_pct_change_5yr),
+    revenueChangeState(s),
     trendDirection(s.revenue_pct_change_5yr)
   );
   const hasRevenueCard = asNumber(s.revenue_pct_change_5yr) !== null;
@@ -1221,9 +1436,11 @@ async function init() {
   setText("loss-latest", s.ended_year_at_loss || "No data");
   styleAnswerCard("loss-latest", s.ended_year_at_loss);
   setClosestMetricHidden("loss-latest", !s.ended_year_at_loss);
+  const hasLossRepeatCard = hasNonEmptyValue(s.losses_last_3_of_5);
   setText("loss-repeat", s.losses_last_3_of_5 || "No data");
-  styleAnswerCard("loss-repeat", s.losses_last_3_of_5);
-  setClosestMetricHidden("loss-repeat", !s.losses_last_3_of_5);
+  styleAnswerCard("loss-repeat", s.losses_last_3_of_5, () => lossPatternState(s));
+  setClosestMetricHidden("loss-repeat", !hasLossRepeatCard);
+  const hasLossYearsCard = hasNonEmptyValue(s.loss_years_last_10);
   setText("loss-years", s.loss_years_last_10 ?? "No data");
   const lossYearsStateValue = lossYearsState(s.loss_years_last_10);
   const lossYearsAnswer = document.getElementById("loss-years");
@@ -1235,14 +1452,14 @@ async function init() {
     lossYearsCard.className = `metric-strip ${lossYearsStateValue}`;
     syncWarningTooltip(lossYearsCard, lossYearsStateValue);
   }
-  setClosestMetricHidden("loss-years", s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
+  setClosestMetricHidden("loss-years", !hasLossYearsCard);
 
   applyStrip(
     "net-tuition-change-card",
     asNumber(s.net_tuition_per_fte_change_5yr) === null
       ? "Net tuition revenue per full-time equivalent student data are not available."
       : `Net tuition revenue per full-time equivalent student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.net_tuition_per_fte_change_5yr),
+    netTuitionChangeState(s),
     trendDirection(s.net_tuition_per_fte_change_5yr)
   );
   const hasNetTuitionCard = asNumber(s.net_tuition_per_fte_change_5yr) !== null;
@@ -1259,18 +1476,19 @@ async function init() {
     asNumber(s.enrollment_pct_change_5yr) === null
       ? "Enrollment data are not available."
       : `Enrollment ${asNumber(s.enrollment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    sentimentClass(s.enrollment_pct_change_5yr),
+    enrollmentChangeState(s),
     trendDirection(s.enrollment_pct_change_5yr)
   );
   const hasEnrollmentCard = asNumber(s.enrollment_pct_change_5yr) !== null;
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
   const enrollmentFlag = deriveEnrollmentFlag(s, series);
+  const hasEnrollmentFlagCard = enrollmentFlag !== "No data";
   setEnrollmentTotal("enrollment-total", latestEnrollment);
   setHidden("enrollment-total", !latestEnrollment);
   setText("enrollment-flag", enrollmentFlag);
-  styleAnswerCard("enrollment-flag", enrollmentFlag);
-  setClosestMetricHidden("enrollment-flag", enrollmentFlag === "No data");
+  styleAnswerCard("enrollment-flag", enrollmentFlag, enrollmentDeclineState);
+  setClosestMetricHidden("enrollment-flag", !hasEnrollmentFlagCard);
 
   const intlTotalSeries = toSeries(series.enrollment_nonresident_total);
   const intlGradSeries = toSeries(series.enrollment_nonresident_graduate);
@@ -1310,7 +1528,7 @@ async function init() {
     asNumber(s.staff_total_headcount_pct_change_5yr) === null
       ? "Staffing data are not available."
       : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    sentimentClass(s.staff_total_headcount_pct_change_5yr),
+    staffChangeState(s),
     trendDirection(s.staff_total_headcount_pct_change_5yr)
   );
   const hasStaffCard = asNumber(s.staff_total_headcount_pct_change_5yr) !== null;
@@ -1324,7 +1542,7 @@ async function init() {
     asNumber(s.endowment_pct_change_5yr) === null
       ? "Endowment data are not available."
       : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.endowment_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    sentimentClass(s.endowment_pct_change_5yr),
+    endowmentChangeState(s),
     trendDirection(s.endowment_pct_change_5yr)
   );
   const hasEndowmentCard = asNumber(s.endowment_pct_change_5yr) !== null;
@@ -1361,6 +1579,21 @@ async function init() {
   const showIntlSection = hasIntlSentence || hasAnyInternationalEnrollment;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
   const showAidSection = hasFederal || showAidDropdownState || hasResearchSpending;
+  const hasFederalCompositeCard = Boolean(compositeSentence);
+  const hasHcm2Card = Boolean(hcmSentence);
+  const warningSummary = computeSchoolWarningSummary(s, composite, hcmRecord, enrollmentFlag, {
+    hasRevenueCard,
+    hasLossRepeatCard,
+    hasLossYearsCard,
+    hasNetTuitionCard,
+    hasEnrollmentCard,
+    hasEnrollmentFlagCard,
+    hasStaffCard,
+    hasEndowmentCard,
+    hasFederalCompositeCard,
+    hasHcm2Card
+  });
+  syncSchoolWarningSummaryBadge(warningSummary, p);
 
   setSectionVisibility("financial-section", showFinancialSection);
   setSectionVisibility("net-tuition-section", showNetTuitionSection);
@@ -1373,6 +1606,13 @@ async function init() {
   setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
   setSectionVisibility("aid-section", showAidSection);
+  setSectionVisibility("school-financial-documents-section", true);
+  setHtmlCopy(
+    "school-financial-documents-copy",
+    isPrivateNotForProfitProfile(p)
+      ? 'Looking for official financial statements? Search for an institution and download its latest audit on the <a href="https://www.fac.gov/" target="_blank" rel="noopener noreferrer">Federal Audit Clearinghouse</a>. Private nonprofit colleges also file tax disclosures with the <a href="https://apps.irs.gov/app/eos/" target="_blank" rel="noopener noreferrer">IRS</a>.'
+      : 'Looking for official financial statements? Search for an institution and download its latest audit on the <a href="https://www.fac.gov/" target="_blank" rel="noopener noreferrer">Federal Audit Clearinghouse</a>.'
+  );
   const stateGroup = document.getElementById("state-group");
   const stateAidAnchor = document.getElementById("state-aid-anchor");
   const aidStateAnchor = document.getElementById("aid-state-anchor");
@@ -1632,12 +1872,10 @@ async function init() {
   ] : []);
   moveChartNoteBelowSource("state-negative-note", "chart-state", hasState && hasNegativePoint(series.state_funding_adjusted));
 
-  const compositeSentence = buildFederalCompositeSentence(composite);
   setHidden("federal-composite-section", !compositeSentence);
   if (compositeSentence) {
     applyStrip("federal-composite-card", compositeSentence, federalCompositeState(composite.federal_composite_score_2022_2023));
   }
-  const hcmSentence = buildHcm2Sentence(p, hcmRecord, hcmLookup);
   setHidden("hcm2-section", !hcmSentence);
   if (hcmSentence) {
     const trendCopy = document.getElementById("hcm2-trend-copy");

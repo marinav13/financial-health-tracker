@@ -2153,6 +2153,104 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
   padding: 0;
 }
 
+.school-name-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.school-warning-summary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(100%, 36rem);
+  padding: 8px 14px;
+  border: 1px solid var(--neg);
+  border-radius: 999px;
+  background: var(--neg);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.school-warning-summary:focus-visible {
+  outline: 2px solid var(--status-blue-dark);
+  outline-offset: 3px;
+}
+
+.warning-sign-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: min(440px, calc(100vw - 40px));
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.18);
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 25;
+}
+
+.warning-sign-tooltip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 14px;
+  background: transparent;
+}
+
+.warning-sign-tooltip strong {
+  font-weight: 700;
+}
+
+.warning-sign-tooltip a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.school-warning-summary .warning-sign-tooltip {
+  max-width: min(440px, calc(100vw - 40px));
+}
+
+.school-warning-summary:hover .warning-sign-tooltip,
+.school-warning-summary:focus-within .warning-sign-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] {
+  outline: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] .warning-sign-tooltip {
+  left: 18px;
+  transform: none;
+  width: min(340px, calc(100% - 36px));
+  pointer-events: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:hover .warning-sign-tooltip,
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:focus-within .warning-sign-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 /* The .school-mast .meta and .school-mast .meta .sep rules previously
    sat here; both are defined in full (with the inline-collapse logic
    for school.html's three-paragraph structure) lower in the file. The
@@ -2574,37 +2672,6 @@ body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
   color: inherit;
   opacity: 1;
   font-style: normal;
-}
-
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] {
-  outline: none;
-}
-
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]::after {
-  content: "Red with a warning sign means a trend is growing in a concerning direction.\A One or two red boxes don't automatically signal crisis.\A But multiple red indicators may signal deeper financial pressure.";
-  position: absolute;
-  left: 18px;
-  top: calc(100% + 10px);
-  width: min(340px, calc(100% - 36px));
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.45;
-  white-space: pre-line;
-  text-align: left;
-  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.18);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-  z-index: 20;
-}
-
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:hover::after,
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:focus-visible::after {
-  opacity: 1;
 }
 
 @media (max-width: 720px) {
@@ -3329,6 +3396,10 @@ body[data-search-page="school.html"] #school-bottom-search-section .search-again
   text-align: center;
 }
 
+body[data-search-page="school.html"] #school-financial-documents-section .section-copy {
+  text-align: left;
+}
+
 blockquote {
   font-family: var(--font-accent-text);
   font-style: italic;
@@ -3881,6 +3952,10 @@ blockquote {
   }
   .school-mast h1 {
     font-size: 32px;
+  }
+  .school-warning-summary {
+    font-size: 14px;
+    padding: 8px 12px;
   }
 
   .section-block {

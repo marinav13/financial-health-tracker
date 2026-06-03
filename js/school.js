@@ -273,6 +273,18 @@ function setStripArrow(node, state, direction) {
   delete node.dataset.arrow;
 }
 
+function syncWarningTooltip(node, state) {
+  if (!node) return;
+  const showWarning = state === "negative" || state === "neg";
+  if (showWarning) {
+    node.dataset.warningTooltip = "true";
+    node.setAttribute("tabindex", "0");
+    return;
+  }
+  delete node.dataset.warningTooltip;
+  node.removeAttribute("tabindex");
+}
+
 function applyStrip(id, text, state = "neutral", direction = "") {
   const node = document.getElementById(id);
   if (!node) return;
@@ -283,6 +295,7 @@ function applyStrip(id, text, state = "neutral", direction = "") {
   statement.textContent = text ?? "";
   node.appendChild(statement);
   setStripArrow(node, state, direction);
+  syncWarningTooltip(node, state);
 }
 
 function applyQuestionValueStrip(id, question, value, state = "neutral", direction = "") {
@@ -299,6 +312,7 @@ function applyQuestionValueStrip(id, question, value, state = "neutral", directi
   statement.append(strong);
   node.appendChild(statement);
   setStripArrow(node, state, direction);
+  syncWarningTooltip(node, state);
 }
 
 function strongSegment(text) {
@@ -671,6 +685,10 @@ function isPrivateNotForProfitProfile(profile) {
   return String(profile?.control_label || "").trim().toLowerCase() === "private not-for-profit";
 }
 
+function isPublicProfile(profile) {
+  return String(profile?.control_label || profile?.sector || "").trim().toLowerCase() === "public";
+}
+
 function lossYearsState(value) {
   const count = asNumber(value);
   if (count === null) return "neutral";
@@ -874,9 +892,9 @@ const PROFILE_DATA_SECTION_IDS = [
   "school-outcomes-section",
   "financial-section",
   "net-tuition-section",
+  "state-aid-section",
   "tuition-dependence-section",
   "enrollment-section",
-  "graduate-section",
   "intl-section",
   "staffing-section",
   "endowment-section",
@@ -1094,6 +1112,7 @@ function styleAnswerCard(answerId, value) {
   const state = yesNoClass(value);
   card.className = `metric-strip ${state}`;
   answer.className = `metric-answer ${state}`;
+  syncWarningTooltip(card, state);
 }
 
 async function init() {
@@ -1212,6 +1231,7 @@ async function init() {
   }
   if (lossYearsCard) {
     lossYearsCard.className = `metric-strip ${lossYearsStateValue}`;
+    syncWarningTooltip(lossYearsCard, lossYearsStateValue);
   }
   setClosestMetricHidden("loss-years", s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
 
@@ -1320,6 +1340,9 @@ async function init() {
     ((asNumber(s.state_funding_pct_change_5yr) ?? 0) !== 0) ||
     hasMeaningfulData(series.state_funding_adjusted);
   const hasResearchSpending = (asNumber(s.research_expense_per_fte) ?? 0) > 0;
+  const isPublic = isPublicProfile(p);
+  const showPublicStateAidSection = isPublic && hasState;
+  const showAidDropdownState = hasState && !isPublic;
 
   const endowmentSpendingSeries = toSeries(series.endowment_spending_current_use_adjusted);
   const hasEndowmentSpending = endowmentSpendingSeries.some((point) => Number(point.value) !== 0);
@@ -1330,32 +1353,66 @@ async function init() {
   const hasStaffingChart = staffTotalSeries.length > 0 || staffInstructionalSeries.length > 0;
   const hasLossBlock = !!s.ended_year_at_loss || !!s.losses_last_3_of_5 || !(s.loss_years_last_10 === null || s.loss_years_last_10 === undefined || s.loss_years_last_10 === "");
   const showFinancialSection = hasRevenueCard || hasRevenueChart || hasLossBlock || hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence;
-  const showNetTuitionSection = hasNetTuitionCard || hasNetTuitionChart;
+  const showNetTuitionSection = hasNetTuitionCard || hasNetTuitionChart || hasTuitionSentence;
   const showTuitionDependenceSection = hasTuitionSentence;
-  const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasIntlSentence || hasAnyInternationalEnrollment;
-  const showGraduateSection = hasGradLoanCopy;
+  const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasGradLoanCopy || hasIntlSentence || hasAnyInternationalEnrollment;
   const showIntlSection = hasIntlSentence || hasAnyInternationalEnrollment;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
+  const showAidSection = hasFederal || showAidDropdownState || hasResearchSpending;
 
   setSectionVisibility("financial-section", showFinancialSection);
   setSectionVisibility("net-tuition-section", showNetTuitionSection);
+  setSectionVisibility("state-aid-section", showPublicStateAidSection);
   setSectionVisibility("tuition-dependence-section", showTuitionDependenceSection);
   setSectionVisibility("enrollment-section", showEnrollmentSection);
-  setSectionVisibility("graduate-section", showGraduateSection);
   setSectionVisibility("intl-section", showIntlSection);
   setSectionVisibility("staffing-section", showStaffingSection);
   setSectionVisibility("endowment-section", showEndowmentSection);
   setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
-  setSectionVisibility("aid-section", hasFederal || hasState || hasResearchSpending);
+  setSectionVisibility("aid-section", showAidSection);
+  const stateGroup = document.getElementById("state-group");
+  const stateAidAnchor = document.getElementById("state-aid-anchor");
+  const aidStateAnchor = document.getElementById("aid-state-anchor");
+  if (stateGroup && stateAidAnchor && aidStateAnchor) {
+    if (showPublicStateAidSection) {
+      stateAidAnchor.appendChild(stateGroup);
+    } else {
+      aidStateAnchor.appendChild(stateGroup);
+    }
+  }
+  const aidSection = document.getElementById("aid-section");
+  if (aidSection && showAidSection) {
+    aidSection.open = false;
+  }
+  const aidIntro = document.getElementById("aid-section-intro");
+  if (aidIntro) {
+    if (hasFederal && showAidDropdownState) {
+      aidIntro.textContent = "Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.";
+      setHidden("aid-section-intro", false);
+    } else if (hasFederal) {
+      aidIntro.textContent = "Some universities are more dependent than others on federal grants and contracts. A higher share means the college is more exposed if that funding changes.";
+      setHidden("aid-section-intro", false);
+    } else if (showAidDropdownState) {
+      aidIntro.textContent = "Some universities are more dependent than others on state funding. A higher share means the college is more exposed if that funding changes.";
+      setHidden("aid-section-intro", false);
+    } else {
+      setHidden("aid-section-intro", true);
+    }
+  }
   setHidden("research-aid-intro", !hasResearchSpending);
   setBodyCopy("research-spending-copy", hasResearchSpending && researchSpendingParagraph ? [researchSpendingParagraph] : []);
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
-    if (hasFederal && hasState) aidTitle.textContent = "Federal And State Aid";
-    else if (hasFederal) aidTitle.textContent = "Federal Aid";
-    else if (hasState) aidTitle.textContent = "State Aid";
-    else aidTitle.textContent = "Aid";
+    if (hasFederal && showAidDropdownState) {
+      aidTitle.textContent = "Want details about federal and state aid?";
+    } else if (hasFederal) {
+      aidTitle.textContent = "Want details about federal aid?";
+    } else if (showAidDropdownState) {
+      aidTitle.textContent = "Want details about state aid?";
+    } else {
+      aidTitle.textContent = "Want details about federal and state aid?";
+    }
   }
 
   if (hasFederal) {
@@ -1510,7 +1567,7 @@ async function init() {
   setHidden("chart-endowment-spending", !hasEndowmentSpending);
   if (hasEndowmentSpending) {
     renderLineChart("chart-endowment-spending", {
-      title: "Withdrawals from endowments to fund the institution's expenses (adjusted for inflation)",
+      title: "Withdrawals from endowment to fund expenses (adjusted for inflation)",
       format: "currency",
       ...financeTooltip2024Config,
       showLegend: false,

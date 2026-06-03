@@ -380,6 +380,12 @@ body {
   pointer-events: auto;
 }
 
+.site-masthead .help-btn-wrap .help-tooltip {
+  width: max-content;
+  max-width: calc(100vw - 40px);
+  white-space: nowrap;
+}
+
 /* ---------- Tool guide link (red pill, "New to this tool?") ---------- */
 .tool-guide-link {
   display: inline-block;
@@ -1456,6 +1462,23 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   font-weight: 700;
 }
 
+.guide-inline-red-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guide-warning-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23f7d54a'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23111' stroke-width='2'/%3E%3Crect x='28.5' y='17' width='7' height='24' rx='3.5' fill='%23111'/%3E%3Ccircle cx='32' cy='47.5' r='3.5' fill='%23111'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
 .guide-learn-more {
   margin-top: 18px;
   text-align: center;
@@ -2286,6 +2309,59 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   margin: 10px auto 0;
 }
 
+.section-disclosure {
+  text-align: left;
+}
+
+.section-disclosure-summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+}
+
+.section-disclosure-summary::-webkit-details-marker {
+  display: none;
+}
+
+.section-disclosure-summary::marker {
+  display: none;
+}
+
+.section-disclosure-summary:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.section-disclosure-summary .section-title {
+  margin-bottom: 0;
+}
+
+.section-disclosure-hint {
+  margin: 6px auto 0;
+  font-family: var(--font-ui);
+  font-size: 17px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.section-disclosure-hint::after {
+  content: " \2193";
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.15s ease;
+}
+
+.section-disclosure[open] .section-disclosure-hint::after {
+  transform: rotate(180deg);
+}
+
+.section-disclosure-body {
+  padding-top: 18px;
+}
+
 .section-copy {
   margin: 18px auto 22px;
   max-width: 62ch;
@@ -2419,6 +2495,101 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 
 .metric-strip.negative[data-arrow]::before {
   color: var(--neg);
+}
+
+body[data-search-page="school.html"] .metric-strip[data-arrow]::before,
+body[data-search-page="school.html"] .metric-strip.negative::before,
+body[data-search-page="school.html"] .metric-strip.neg::before {
+  content: "";
+  width: 42px;
+  height: 42px;
+  font-size: 0;
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  transform: translateY(-50%);
+  opacity: 1;
+  background-color: currentColor;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+body[data-search-page="school.html"] .metric-strip.negative::before,
+body[data-search-page="school.html"] .metric-strip.neg::before {
+  content: "";
+  background-color: transparent;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23f7d54a'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23111' stroke-width='2'/%3E%3Crect x='28.5' y='17' width='7' height='24' rx='3.5' fill='%23111'/%3E%3Ccircle cx='32' cy='47.5' r='3.5' fill='%23111'/%3E%3C/svg%3E");
+  background-size: contain;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-arrow="down"]::before {
+  content: "";
+}
+
+body[data-search-page="school.html"] .metric-strip[data-arrow="up"]::before {
+  content: none;
+}
+
+body[data-search-page="school.html"] #aid-section .metric-strip::before {
+  content: none;
+}
+
+body[data-search-page="school.html"] #aid-section .metric-strip,
+body[data-search-page="school.html"] #aid-section .metric-strip.positive,
+body[data-search-page="school.html"] #aid-section .metric-strip.pos,
+body[data-search-page="school.html"] #aid-section .metric-strip.negative,
+body[data-search-page="school.html"] #aid-section .metric-strip.neg {
+  background: var(--hechinger-yellow-pale);
+  border-color: var(--hechinger-yellow-soft);
+  color: var(--ink-2);
+}
+
+body[data-search-page="school.html"] #aid-section .metric-strip .metric-question,
+body[data-search-page="school.html"] #aid-section .metric-strip .metric-statement,
+body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
+  color: inherit;
+  opacity: 1;
+  font-style: normal;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] {
+  outline: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]::after {
+  content: "Red with a warning sign means a trend is growing in a concerning direction.\A One or two red boxes don't automatically signal crisis.\A But multiple red indicators may signal deeper financial pressure.";
+  position: absolute;
+  left: 18px;
+  top: calc(100% + 10px);
+  width: min(340px, calc(100% - 36px));
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.45;
+  white-space: pre-line;
+  text-align: left;
+  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 20;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:hover::after,
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:focus-visible::after {
+  opacity: 1;
 }
 
 @media (max-width: 720px) {
@@ -2613,6 +2784,9 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   width: 100%;
   margin: 0;
   padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: transparent;
   border: 0;
   border-right: 1px solid var(--line);
@@ -2628,10 +2802,12 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
+  line-height: 1.55;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
   margin-bottom: 14px;
+  min-height: calc(3 * 1.55em);
   opacity: 1;
 }
 #school-outcomes-section .research-summary-grid .metric-answer {
@@ -2836,45 +3012,65 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   text-underline-offset: 3px;
 }
 
+.history-table th {
+  position: relative;
+  padding-right: 42px;
+}
+
 .sort-header-label {
   display: block;
-  margin: 0 0 10px;
+  margin: 0;
+  font-size: 0.88em;
 }
 
 .sort-controls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  width: fit-content;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0;
+  width: 18px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
 }
 
 .sort-button {
   appearance: none;
-  border: 1px solid #d9d9d9;
-  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 13px;
+  border: 0;
+  border-bottom: 1px solid #d9d9d9;
+  background: transparent;
   color: #6b6b6b;
-  border-radius: 999px;
-  font-size: 0.7rem;
+  border-radius: 0;
+  font-size: 0.56rem;
   line-height: 1;
-  padding: 3px 5px;
+  padding: 2px 0;
   cursor: pointer;
+}
+
+.sort-button:last-child {
+  border-bottom: 0;
 }
 
 .sort-button:hover {
   background: #fff8db;
-  border-color: rgba(217, 164, 65, 0.45);
 }
 
 .sort-button:focus-visible {
   outline: 2px solid var(--status-blue);
   outline-offset: 2px;
   background: #fff8db;
-  border-color: rgba(217, 164, 65, 0.45);
 }
 
 .sort-button.is-active {
   background: var(--yellow);
-  border-color: rgba(217, 164, 65, 0.75);
   color: var(--ink);
 }
 
@@ -3089,6 +3285,41 @@ body[data-search-page="school.html"] .chart-note {
 body[data-search-page="school.html"] .small-meta {
   max-width: 62ch;
   margin: 18px auto 22px;
+}
+
+body[data-search-page="school.html"] .school-mast .eyebrow {
+  font-size: 36px;
+}
+
+body[data-search-page="school.html"] .chart-panel .chart-legend,
+body[data-search-page="school.html"] .chart-panel .graphic-source {
+  max-width: 790px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body[data-search-page="school.html"] .chart-panel .chart-legend {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+body[data-search-page="school.html"] .chart-panel .graphic-source {
+  text-align: left;
+}
+
+body[data-search-page="school.html"] #chart-international .chart-legend {
+  font-size: 16px;
+  gap: 14px;
+}
+
+body[data-search-page="school.html"] #chart-international .chart-legend-button {
+  padding: 4px 6px;
+}
+
+body[data-search-page="school.html"] #net-tuition-change-card .metric-statement {
+  max-width: 62ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 body[data-search-page="school.html"] #school-bottom-search-section .section-copy,

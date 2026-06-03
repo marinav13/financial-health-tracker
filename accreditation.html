@@ -70,10 +70,14 @@
     <section class="data-card">
       <h2>Recent accreditation actions at four-year degree-granting institutions</h2>
       <div class="table-toolbar">
-        <div class="table-toolbar-actions">
-          <label class="table-filter-label" for="accreditation-filter">Institution:</label>
-          <input id="accreditation-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
-          <button id="accreditation-table-download" class="download-button" type="button">Download accreditation data</button>
+        <div class="table-toolbar-actions table-toolbar-actions--stack">
+          <div class="table-toolbar-row">
+            <button id="accreditation-table-download" class="download-button" type="button">Download accreditation data</button>
+          </div>
+          <div class="table-toolbar-row">
+            <label class="table-filter-label" for="accreditation-filter">Institution:</label>
+            <input id="accreditation-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+          </div>
         </div>
       </div>
       <div id="accreditation-status" aria-live="polite"></div>

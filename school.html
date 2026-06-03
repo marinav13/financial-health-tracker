@@ -82,9 +82,9 @@
         <li class="guide-body">Once you search for a university and click on it, you'll see its financial profile.</li>
         <li class="guide-body">Scroll down to learn about different financial and enrollment indicators.</li>
         <li class="guide-body">The colored boxes can help you spot patterns.</li>
-        <li class="guide-body"><span class="guide-inline-red">Red</span> means a trend is growing in a concerning direction.</li>
-        <li class="guide-body">One or two <span class="guide-inline-red">red</span> boxes do not automatically mean a school is in crisis.</li>
-        <li class="guide-body">But if a college shows several <span class="guide-inline-red">red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
+        <li class="guide-body"><span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Red</span> with a warning sign means a trend is growing in a concerning direction.</li>
+        <li class="guide-body">One or two <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> boxes do not automatically mean a school is in crisis.</li>
+        <li class="guide-body">But if a college shows several <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
       </ul>
       <div class="guide-learn-more">
         <p class="guide-body">Click on the tabs at the top of the page to learn whether a college has:</p>
@@ -308,10 +308,6 @@
       <p class="section-copy">A college that spends more than it brings in is operating at a loss. Repeated losses can be a warning sign.</p>
       <div class="stack-cards">
         <div class="metric-strip neutral">
-          <div class="metric-question">Did this college end the latest year at a loss?</div>
-          <div id="loss-latest" class="metric-answer"></div>
-        </div>
-        <div class="metric-strip neutral">
           <div class="metric-question">Has this college been in the red in 3 of the last 5 years?</div>
           <div id="loss-repeat" class="metric-answer"></div>
         </div>
@@ -326,13 +322,16 @@
       <h2 class="section-title">Net tuition revenue</h2>
       <p class="section-copy">Net tuition revenue shows how much money a college brings in per full-time equivalent student after institutional aid and other kinds of discounts.</p>
       <p class="section-copy">When net tuition revenue falls, it can put pressure on college finances. But it can also mean a college is giving students more aid and lowering what they pay.</p>
-      <div id="chart-net-tuition" class="chart-panel"></div>
       <div id="net-tuition-change-card" class="metric-strip"></div>
-    </section>
-
-    <section class="section-block" id="tuition-dependence-section">
+      <div id="chart-net-tuition" class="chart-panel"></div>
       <div id="tuition-sentence-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
       <p class="section-copy">Higher dependence on tuition can make a college more financially vulnerable when enrollment drops.</p>
+    </section>
+
+    <section class="section-block is-hidden" id="state-aid-section" aria-hidden="true">
+      <h2 class="section-title">State aid</h2>
+      <p class="section-copy">Some public colleges depend more than others on state funding. A higher share means the college is more exposed if that funding changes.</p>
+      <div id="state-aid-anchor"></div>
     </section>
 
     <section class="section-block" id="enrollment-section">
@@ -345,10 +344,6 @@
         <div class="metric-question">Did this institution see a decline in enrollment in 3 of the previous 5 years?</div>
         <div id="enrollment-flag" class="metric-answer"></div>
       </div>
-    </section>
-
-    <section class="section-block" id="graduate-section">
-      <h2 class="section-title">Graduate students</h2>
       <p id="grad-loan-intro" class="section-copy">Congress has capped federal loans for new graduate students starting July 1, 2026. This change could hit colleges with higher rates of graduate students who borrow.</p>
       <div id="loan-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
     </section>
@@ -357,8 +352,8 @@
       <h2 class="section-title">International students</h2>
       <p class="section-copy">Institutions with higher rates of international students may be more vulnerable to the federal push to make it harder to obtain student visas.</p>
       <div id="intl-sentence-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
-      <div id="chart-international" class="chart-panel"></div>
       <div id="intl-change-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
+      <div id="chart-international" class="chart-panel"></div>
     </section>
 
     <section class="section-block" id="staffing-section">
@@ -378,29 +373,10 @@
       <div id="chart-endowment-spending" class="chart-panel is-hidden"></div>
     </section>
 
-    <section class="section-block" id="aid-section">
-      <h2 id="aid-section-title" class="section-title">Federal And State Aid</h2>
-      <p class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
-      <div id="federal-group">
-        <p id="federal-share-copy" class="section-copy is-hidden"></p>
-        <div id="federal-change-card" class="metric-strip neutral"></div>
-        <div id="chart-federal" class="chart-panel"></div>
-      </div>
-      <div id="state-group">
-        <p id="state-share-copy" class="section-copy is-hidden"></p>
-        <div id="state-change-card" class="metric-strip neutral"></div>
-        <div id="chart-state" class="chart-panel"></div>
-        <p id="state-negative-note" class="chart-note is-hidden">*<em>IPEDS shows a negative state-appropriations value in at least one year for this institution. That may reflect a reporting adjustment or reclassification rather than negative aid in the everyday sense.</em></p>
-      </div>
-      <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
-      <div id="research-spending-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
-    </section>
-
     <section class="section-block is-hidden" id="federal-composite-section">
       <h2 class="section-title">Federal Composite Financial Score</h2>
       <p class="section-copy">The federal government looks at college finances and gives them a score for overall financial health. The scale goes from -1.0 to 3.0, with a score of at least 1.5 indicating the institution is considered financially responsible.</p>
       <p class="section-copy">Schools with scores from 1 to less than 1.5 are considered financially responsible, but require additional oversight to keep receiving federal student aid. A school with a score less than 1.0 is considered not financially responsible and must take steps like posting a letter of credit to keep receiving federal aid.</p>
-      <p class="small-meta">Below is the most recent score available from The U.S. Department of Education's office of Federal Student Aid.</p>
       <div id="federal-composite-card" class="metric-strip neutral"></div>
     </section>
 
@@ -424,6 +400,31 @@
         </div>
       </div>
     </section>
+
+    <details class="section-block section-disclosure is-hidden" id="aid-section" aria-hidden="true">
+      <summary class="section-disclosure-summary" aria-controls="aid-section-body">
+        <h2 id="aid-section-title" class="section-title">Want details about federal and state aid?</h2>
+        <p class="section-disclosure-hint">Expand for trends in governmental funding</p>
+      </summary>
+      <div id="aid-section-body" class="section-disclosure-body">
+        <p id="aid-section-intro" class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
+        <div id="federal-group">
+          <p id="federal-share-copy" class="section-copy is-hidden"></p>
+          <div id="federal-change-card" class="metric-strip neutral"></div>
+          <div id="chart-federal" class="chart-panel"></div>
+        </div>
+        <div id="aid-state-anchor">
+          <div id="state-group">
+            <p id="state-share-copy" class="section-copy is-hidden"></p>
+            <div id="state-change-card" class="metric-strip neutral"></div>
+            <div id="chart-state" class="chart-panel"></div>
+            <p id="state-negative-note" class="chart-note is-hidden">*<em>IPEDS shows a negative state-appropriations value in at least one year for this institution. That may reflect a reporting adjustment or reclassification rather than negative aid in the everyday sense.</em></p>
+          </div>
+        </div>
+        <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
+        <div id="research-spending-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
+      </div>
+    </details>
 
     <aside class="related-links is-hidden" id="school-related-section" aria-hidden="true">
       <p><strong>Explore this institution further by looking at its:</strong></p>

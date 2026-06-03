@@ -401,6 +401,36 @@ function applyStrip(id, text, state = "neutral", direction = "") {
   syncWarningTooltip(node, state);
 }
 
+function appendSegmentContent(node, segments) {
+  (Array.isArray(segments) ? segments : [segments]).forEach((segment) => {
+    if (segment && typeof segment === "object" && Object.prototype.hasOwnProperty.call(segment, "strong")) {
+      const strong = document.createElement("strong");
+      strong.textContent = segment.strong ?? "";
+      node.appendChild(strong);
+      return;
+    }
+    node.append(document.createTextNode(String(segment ?? "")));
+  });
+}
+
+function applyStripLines(id, lines, state = "neutral", direction = "") {
+  const node = document.getElementById(id);
+  if (!node) return;
+  node.className = `metric-strip ${state}`;
+  node.textContent = "";
+  const statement = document.createElement("div");
+  statement.className = "metric-statement";
+  (lines || []).forEach((line, index) => {
+    if (index > 0) {
+      statement.appendChild(document.createElement("br"));
+    }
+    appendSegmentContent(statement, line);
+  });
+  node.appendChild(statement);
+  setStripArrow(node, state, direction);
+  syncWarningTooltip(node, state);
+}
+
 function applyQuestionValueStrip(id, question, value, state = "neutral", direction = "") {
   const node = document.getElementById(id);
   if (!node) return;
@@ -424,6 +454,59 @@ function schoolWarningTypeLabel(profile) {
   if (control === "private not-for-profit") return "private nonprofit school";
   if (control === "private for-profit") return "for-profit school";
   return "school";
+}
+
+function trackerSectorCollegeLabel(profile) {
+  const control = String(profile?.control_label || profile?.sector || "").trim().toLowerCase();
+  if (control === "public") return "public colleges";
+  if (control === "private not-for-profit") return "private nonprofit colleges";
+  if (control === "private for-profit") return "for-profit colleges";
+  return "colleges in the same sector";
+}
+
+function firstNumericValue(...values) {
+  for (const value of values) {
+    const numeric = asNumber(value);
+    if (numeric !== null) return numeric;
+  }
+  return null;
+}
+
+function buildSectorComparisonLine(benchmarkValue, profile) {
+  const benchmark = asNumber(benchmarkValue);
+  if (benchmark === null) return null;
+  return [
+    "That compares to ",
+    strongSegment(fmtRoundedPct(benchmark, true)),
+    ` for all ${trackerSectorCollegeLabel(profile)} we track.`
+  ];
+}
+
+function buildTrendCardLines(subject, value, rangeText, profile, benchmarkValue, options = {}) {
+  const numeric = asNumber(value);
+  if (numeric === null) return null;
+  const mainLine = [
+    `${subject} ${numeric < 0 ? "decreased" : "increased"} `,
+    strongSegment(fmtRoundedPct(Math.abs(numeric))),
+    ` ${rangeText}${options.afterAdjustingForInflation ? ", after adjusting for inflation." : "."}`
+  ];
+  const comparisonLine = buildSectorComparisonLine(benchmarkValue, profile);
+  return comparisonLine ? [mainLine, comparisonLine] : [mainLine];
+}
+
+function renderProfileJumpLinks(visibility = {}) {
+  setSectionVisibility("profile-jump-links", Boolean(
+    visibility.showFinancialSection ||
+    visibility.showEnrollmentSection ||
+    visibility.showStaffingSection ||
+    visibility.showEndowmentSection ||
+    visibility.showFederalCompositeSection
+  ));
+  setElementVisible("profile-jump-link-revenue", Boolean(visibility.showFinancialSection));
+  setElementVisible("profile-jump-link-enrollment", Boolean(visibility.showEnrollmentSection));
+  setElementVisible("profile-jump-link-staffing", Boolean(visibility.showStaffingSection));
+  setElementVisible("profile-jump-link-endowment", Boolean(visibility.showEndowmentSection));
+  setElementVisible("profile-jump-link-composite", Boolean(visibility.showFederalCompositeSection));
 }
 
 function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
@@ -577,17 +660,48 @@ function findRelatedIndexRecord(index, unitid, countField) {
 // to enter in the Issuer Name field.
 const EMMA_SEARCH_URL = "https://emma.msrb.org/Search/Search.aspx";
 
-function renderEmmaSearchCard(institutionName) {
-  const section = document.getElementById("emma-section");
-  const link = document.getElementById("emma-search-link");
-  if (!section || !link) return;
-
+function renderMoreFinancialDetailSection(institutionName, profile) {
   const name = String(institutionName || "").trim();
   const displayName = name || "this institution";
-  link.textContent = `Search EMMA for ${displayName}`;
-  link.setAttribute("href", EMMA_SEARCH_URL);
-  link.setAttribute("aria-label", `Search EMMA for ${displayName} (opens in new tab)`);
-  setSectionVisibility("emma-section", true);
+
+  const link = document.getElementById("emma-search-link");
+  if (link) {
+    link.textContent = `Search EMMA for ${displayName}`;
+    link.setAttribute("href", EMMA_SEARCH_URL);
+    link.setAttribute("aria-label", `Search EMMA for ${displayName} (opens in new tab)`);
+  }
+
+  const auditSpan = document.getElementById("federal-audit-school-name");
+  if (auditSpan) auditSpan.textContent = displayName;
+
+  const isNonprofit = isPrivateNotForProfitProfile(profile);
+  setHidden("tax-filings-subsection", !isNonprofit);
+  if (isNonprofit) {
+    const taxSpan = document.getElementById("tax-filing-school-name");
+    if (taxSpan) taxSpan.textContent = displayName;
+  }
+
+  setSectionVisibility("more-financial-detail-section", true);
+}
+
+function buildEndowmentPerFteParagraph(profile, summary, latestDataYear, endowmentPerFteRecord) {
+  const institutionValue = firstNumericValue(
+    summary?.endowment_assets_per_fte_adjusted,
+    endowmentPerFteRecord?.endowment_assets_per_fte_adjusted
+  );
+  const sectorMedian = firstNumericValue(
+    summary?.sector_median_endowment_assets_per_fte_adjusted,
+    endowmentPerFteRecord?.sector_median_endowment_assets_per_fte_adjusted
+  );
+  if (institutionValue === null || sectorMedian === null) return null;
+  const yearLabel = Number.isFinite(latestDataYear) ? latestDataYear : "the latest year";
+  return [
+    `In ${yearLabel}, that worked out to about `,
+    strongSegment(fmtCurrency(institutionValue)),
+    " per full-time equivalent student, compared with a sector median of ",
+    strongSegment(fmtCurrency(sectorMedian)),
+    ` at ${trackerSectorCollegeLabel(profile)}.`
+  ];
 }
 
 function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
@@ -602,7 +716,7 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
       record: findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
     },
     {
-      label: "Accreditation",
+      label: "Accreditation history",
       page: "accreditation.html",
       record: findRelatedIndexRecord(relatedIndexes.accreditation, unitid, "action_count")
     },
@@ -1100,6 +1214,7 @@ const PROFILE_SHELL_SECTION_IDS = [
 ];
 
 const PROFILE_DATA_SECTION_IDS = [
+  "profile-jump-links",
   "school-outcomes-section",
   "financial-section",
   "net-tuition-section",
@@ -1112,11 +1227,11 @@ const PROFILE_DATA_SECTION_IDS = [
   "aid-section",
   "federal-composite-section",
   "hcm2-section",
+  "more-financial-detail-section",
+  "tax-filings-subsection",
   "school-related-section",
-  "school-financial-documents-section",
   "school-bottom-search-section",
-  "school-guide-link-section",
-  "emma-section"
+  "school-guide-link-section"
 ];
 
 function setElementVisible(id, show) {
@@ -1344,14 +1459,16 @@ async function init() {
 
   showSchoolProfileShell();
 
-  const [school, compositeLookup, hcmLookup, closureLookup, cutsIndex, accreditationIndex, researchIndex] = await Promise.all([
+  const [school, compositeLookup, hcmLookup, closureLookup, cutsIndex, accreditationIndex, researchIndex, headlineBenchmarks, endowmentPerFteLookup] = await Promise.all([
     loadJson(`data/schools/${unitid}.json`),
     loadJsonOrNull("data/federal_composite_scores_by_unitid.json"),
     loadJsonOrNull("data/hcm2_by_unitid.json"),
     SHOW_CLOSURE_FLAGS ? loadJsonOrNull("data/closure_status_by_unitid.json") : Promise.resolve(null),
     loadJsonOrNull("data/college_cuts_index.json"),
     loadJsonOrNull("data/accreditation_index.json"),
-    loadJsonOrNull("data/research_funding_index.json")
+    loadJsonOrNull("data/research_funding_index.json"),
+    loadJsonOrNull("data/sector_headline_benchmarks.json"),
+    loadJsonOrNull("data/endowment_per_fte_by_unitid.json")
   ]);
   const p = school.profile;
   const s = school.summary;
@@ -1377,6 +1494,13 @@ async function init() {
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
   const compositeSentence = buildFederalCompositeSentence(composite);
   const hcmSentence = buildHcm2Sentence(p, hcmRecord, hcmLookup);
+  const sectorHeadlineBenchmarks = headlineBenchmarks?.[p.control_label] || null;
+  const endowmentPerFteRecord = endowmentPerFteLookup?.schools?.[unitid] || null;
+  const revenueBenchmark = firstNumericValue(s.sector_median_revenue_pct_change_5yr, sectorHeadlineBenchmarks?.median_revenue_pct_change_5yr);
+  const netTuitionBenchmark = firstNumericValue(s.sector_median_net_tuition_per_fte_change_5yr, sectorHeadlineBenchmarks?.median_net_tuition_per_fte_change_5yr);
+  const enrollmentBenchmark = firstNumericValue(s.sector_median_enrollment_pct_change_5yr, sectorHeadlineBenchmarks?.median_enrollment_pct_change_5yr);
+  const staffBenchmark = firstNumericValue(s.sector_median_staff_total_headcount_pct_change_5yr, sectorHeadlineBenchmarks?.median_staff_total_headcount_pct_change_5yr);
+  const endowmentBenchmark = firstNumericValue(s.sector_median_endowment_pct_change_5yr, sectorHeadlineBenchmarks?.median_endowment_pct_change_5yr);
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -1392,7 +1516,7 @@ async function init() {
     accreditation: accreditationIndex,
     research: researchIndex
   });
-  renderEmmaSearchCard(p.institution_name);
+  renderMoreFinancialDetailSection(p.institution_name, p);
 
   setText("school-name", p.institution_name);
   const closureSentence = buildClosureSentence(closureRecord);
@@ -1422,14 +1546,23 @@ async function init() {
     setOutcomesGridLayout(visibleOutcomeCount);
   }
 
-  applyStrip(
-    "revenue-change-card",
-    asNumber(s.revenue_pct_change_5yr) === null
-      ? "Revenue data are not available."
-      : `Revenue ${asNumber(s.revenue_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.revenue_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    revenueChangeState(s),
-    trendDirection(s.revenue_pct_change_5yr)
-  );
+  if (asNumber(s.revenue_pct_change_5yr) === null) {
+    applyStrip("revenue-change-card", "Revenue data are not available.", revenueChangeState(s), trendDirection(s.revenue_pct_change_5yr));
+  } else {
+    applyStripLines(
+      "revenue-change-card",
+      buildTrendCardLines(
+        "Revenue",
+        s.revenue_pct_change_5yr,
+        fiveYearRangeText,
+        p,
+        revenueBenchmark,
+        { afterAdjustingForInflation: true }
+      ),
+      revenueChangeState(s),
+      trendDirection(s.revenue_pct_change_5yr)
+    );
+  }
   const hasRevenueCard = asNumber(s.revenue_pct_change_5yr) !== null;
   setHidden("revenue-change-card", !hasRevenueCard);
 
@@ -1454,14 +1587,23 @@ async function init() {
   }
   setClosestMetricHidden("loss-years", !hasLossYearsCard);
 
-  applyStrip(
-    "net-tuition-change-card",
-    asNumber(s.net_tuition_per_fte_change_5yr) === null
-      ? "Net tuition revenue per full-time equivalent student data are not available."
-      : `Net tuition revenue per full-time equivalent student ${asNumber(s.net_tuition_per_fte_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.net_tuition_per_fte_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    netTuitionChangeState(s),
-    trendDirection(s.net_tuition_per_fte_change_5yr)
-  );
+  if (asNumber(s.net_tuition_per_fte_change_5yr) === null) {
+    applyStrip("net-tuition-change-card", "Net tuition revenue per full-time equivalent student data are not available.", netTuitionChangeState(s), trendDirection(s.net_tuition_per_fte_change_5yr));
+  } else {
+    applyStripLines(
+      "net-tuition-change-card",
+      buildTrendCardLines(
+        "Net tuition revenue per full-time equivalent student",
+        s.net_tuition_per_fte_change_5yr,
+        fiveYearRangeText,
+        p,
+        netTuitionBenchmark,
+        { afterAdjustingForInflation: true }
+      ),
+      netTuitionChangeState(s),
+      trendDirection(s.net_tuition_per_fte_change_5yr)
+    );
+  }
   const hasNetTuitionCard = asNumber(s.net_tuition_per_fte_change_5yr) !== null;
   setHidden("net-tuition-change-card", !hasNetTuitionCard);
 
@@ -1471,14 +1613,22 @@ async function init() {
 
   const researchSpendingParagraph = buildResearchSpendingParagraph(p, s, latestDataYear);
 
-  applyStrip(
-    "enrollment-change-card",
-    asNumber(s.enrollment_pct_change_5yr) === null
-      ? "Enrollment data are not available."
-      : `Enrollment ${asNumber(s.enrollment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.enrollment_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    enrollmentChangeState(s),
-    trendDirection(s.enrollment_pct_change_5yr)
-  );
+  if (asNumber(s.enrollment_pct_change_5yr) === null) {
+    applyStrip("enrollment-change-card", "Enrollment data are not available.", enrollmentChangeState(s), trendDirection(s.enrollment_pct_change_5yr));
+  } else {
+    applyStripLines(
+      "enrollment-change-card",
+      buildTrendCardLines(
+        "Enrollment",
+        s.enrollment_pct_change_5yr,
+        fiveYearRangeText,
+        p,
+        enrollmentBenchmark
+      ),
+      enrollmentChangeState(s),
+      trendDirection(s.enrollment_pct_change_5yr)
+    );
+  }
   const hasEnrollmentCard = asNumber(s.enrollment_pct_change_5yr) !== null;
   setHidden("enrollment-change-card", !hasEnrollmentCard);
 
@@ -1523,28 +1673,45 @@ async function init() {
   setHidden("grad-loan-intro", !hasGradLoanCopy);
   setBodyCopy("loan-copy", gradLoanParagraphs);
 
-  applyStrip(
-    "staff-change-card",
-    asNumber(s.staff_total_headcount_pct_change_5yr) === null
-      ? "Staffing data are not available."
-      : `Total staff headcount ${asNumber(s.staff_total_headcount_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.staff_total_headcount_pct_change_5yr)))} ${fiveYearRangeText}.`,
-    staffChangeState(s),
-    trendDirection(s.staff_total_headcount_pct_change_5yr)
-  );
+  if (asNumber(s.staff_total_headcount_pct_change_5yr) === null) {
+    applyStrip("staff-change-card", "Staffing data are not available.", staffChangeState(s), trendDirection(s.staff_total_headcount_pct_change_5yr));
+  } else {
+    applyStripLines(
+      "staff-change-card",
+      buildTrendCardLines(
+        "Total staff headcount",
+        s.staff_total_headcount_pct_change_5yr,
+        fiveYearRangeText,
+        p,
+        staffBenchmark
+      ),
+      staffChangeState(s),
+      trendDirection(s.staff_total_headcount_pct_change_5yr)
+    );
+  }
   const hasStaffCard = asNumber(s.staff_total_headcount_pct_change_5yr) !== null;
   setHidden("staff-change-card", !hasStaffCard);
 
   const ratioParagraph = buildInstructionalStaffRatioParagraph(p, s, latestDataYear);
   setBodyCopy("staff-ratio-copy", ratioParagraph ? [ratioParagraph] : []);
 
-  applyStrip(
-    "endowment-change-card",
-    asNumber(s.endowment_pct_change_5yr) === null
-      ? "Endowment data are not available."
-      : `The institution's endowment ${asNumber(s.endowment_pct_change_5yr) < 0 ? "decreased" : "increased"} ${fmtRoundedPct(Math.abs(asNumber(s.endowment_pct_change_5yr)))} ${fiveYearRangeText}, after adjusting for inflation.`,
-    endowmentChangeState(s),
-    trendDirection(s.endowment_pct_change_5yr)
-  );
+  if (asNumber(s.endowment_pct_change_5yr) === null) {
+    applyStrip("endowment-change-card", "Endowment data are not available.", endowmentChangeState(s), trendDirection(s.endowment_pct_change_5yr));
+  } else {
+    applyStripLines(
+      "endowment-change-card",
+      buildTrendCardLines(
+        "The institution's endowment",
+        s.endowment_pct_change_5yr,
+        fiveYearRangeText,
+        p,
+        endowmentBenchmark,
+        { afterAdjustingForInflation: true }
+      ),
+      endowmentChangeState(s),
+      trendDirection(s.endowment_pct_change_5yr)
+    );
+  }
   const hasEndowmentCard = asNumber(s.endowment_pct_change_5yr) !== null;
   setHidden("endowment-change-card", !hasEndowmentCard);
 
@@ -1606,13 +1773,13 @@ async function init() {
   setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
   setSectionVisibility("aid-section", showAidSection);
-  setSectionVisibility("school-financial-documents-section", true);
-  setHtmlCopy(
-    "school-financial-documents-copy",
-    isPrivateNotForProfitProfile(p)
-      ? 'Looking for official financial statements? Search for an institution and download its latest audit on the <a href="https://www.fac.gov/" target="_blank" rel="noopener noreferrer">Federal Audit Clearinghouse</a>. Private nonprofit colleges also file tax disclosures with the <a href="https://apps.irs.gov/app/eos/" target="_blank" rel="noopener noreferrer">IRS</a>.'
-      : 'Looking for official financial statements? Search for an institution and download its latest audit on the <a href="https://www.fac.gov/" target="_blank" rel="noopener noreferrer">Federal Audit Clearinghouse</a>.'
-  );
+  renderProfileJumpLinks({
+    showFinancialSection,
+    showEnrollmentSection,
+    showStaffingSection,
+    showEndowmentSection,
+    showFederalCompositeSection: Boolean(compositeSentence)
+  });
   const stateGroup = document.getElementById("state-group");
   const stateAidAnchor = document.getElementById("state-aid-anchor");
   const aidStateAnchor = document.getElementById("aid-state-anchor");
@@ -1796,6 +1963,8 @@ async function init() {
     ]
   });
   setHidden("chart-endowment", !hasEndowmentValue);
+  const endowmentPerFteParagraph = buildEndowmentPerFteParagraph(p, s, latestDataYear, endowmentPerFteRecord);
+  setBodyCopy("endowment-per-fte-copy", endowmentPerFteParagraph ? [endowmentPerFteParagraph] : []);
   upsertSectionSourceNote("chart-endowment", hasEndowmentValue ? [
     createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
   ] : []);

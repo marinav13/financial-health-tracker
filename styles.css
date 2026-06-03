@@ -1575,6 +1575,10 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   border-top: 1px solid var(--line);
 }
 
+body[data-search-page="school.html"] #profile-jump-links {
+  margin-top: 0;
+}
+
 .guide-jump-links a {
   font-family: var(--font-ui);
   font-size: 16px;
@@ -3396,7 +3400,26 @@ body[data-search-page="school.html"] #school-bottom-search-section .search-again
   text-align: center;
 }
 
-body[data-search-page="school.html"] #school-financial-documents-section .section-copy {
+.more-detail-subsection {
+  max-width: 62ch;
+  margin: 0 auto 28px;
+  text-align: left;
+}
+
+.more-detail-subhead {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.more-detail-subhead::before {
+  content: "• ";
+}
+
+body[data-search-page="school.html"] #more-financial-detail-section .section-copy {
   text-align: left;
 }
 

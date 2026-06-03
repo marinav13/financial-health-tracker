@@ -302,6 +302,14 @@
       </div>
     </section>
 
+    <nav id="profile-jump-links" class="guide-jump-links is-hidden" aria-label="Jump to financial profile sections">
+      <a id="profile-jump-link-revenue" href="#financial-section">Revenue</a>
+      <a id="profile-jump-link-enrollment" href="#enrollment-section">Enrollment</a>
+      <a id="profile-jump-link-staffing" href="#staffing-section">Staffing</a>
+      <a id="profile-jump-link-endowment" href="#endowment-section">Endowment</a>
+      <a id="profile-jump-link-composite" href="#federal-composite-section">Financial responsibility score</a>
+    </nav>
+
     <section class="section-block" id="financial-section">
       <h2 class="section-title">Revenue Trends</h2>
       <p class="section-copy">Revenue trends are a key indicator of whether a college is bringing in enough money to cover expenses. Examples of revenue include tuition, room and board, government aid, donations and endowment returns.</p>
@@ -372,12 +380,13 @@
       <p class="section-copy">Some colleges may have an endowment they can draw on for difficult financial periods.</p>
       <div id="endowment-change-card" class="metric-strip"></div>
       <div id="chart-endowment" class="chart-panel"></div>
+      <div id="endowment-per-fte-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
       <p id="endowment-spending-copy" class="section-copy is-hidden">Some universities report how much of the endowment they spend each year to help cover expenses.</p>
       <div id="chart-endowment-spending" class="chart-panel is-hidden"></div>
     </section>
 
     <section class="section-block is-hidden" id="federal-composite-section">
-      <h2 class="section-title">Federal Composite Financial Score</h2>
+      <h2 class="section-title">Financial Responsibility Composite Score</h2>
       <p class="section-copy">The federal government scores private nonprofit and for-profit colleges on overall financial health. The formula weighs factors like cash reserves, debt, and whether the school is making or losing money.  The scale runs from -1.0 to 3.0. </p>
       <p class="section-copy">A score of 1.5 or higher means the school is considered financially responsible.  Schools with scores from 1.0 to less than 1.5 are still considered financially responsible but require additional oversight to keep receiving federal student aid. </p>
       <p class="section-copy">A school with a score below 1.0 is considered not financially responsible and must take steps like posting a letter of credit to continue receiving federal aid.</p>
@@ -391,19 +400,6 @@
       <div id="hcm2-card" class="metric-strip neutral"></div>
     </section>
 
-    <section id="emma-section" class="section-block is-hidden" aria-hidden="true">
-      <h2 class="section-title">Looking for this college&rsquo;s bond rating?</h2>
-      <p class="section-copy">Colleges can issue bonds to finance buildings and equipment. Rating agencies like Moody&rsquo;s, S&amp;P, and Fitch evaluate whether a college will likely repay its debt on time and assign long-term ratings to those bonds. Low ratings often signal weaker financial health. </p>
-      <p class="section-copy">To find the latest rating, head to EMMA, a free database of municipal bond filings. </p>
-      <p class="section-copy"><em>NOTE: For-profit colleges and small institutions without publicly traded debt do not typically have bond ratings.</em></p>
-      <div class="emma-link-row">
-        <a id="emma-search-link" class="emma-search-link" target="_blank" rel="noopener noreferrer" href="https://emma.msrb.org/Search/Search.aspx">Search EMMA &#x2192;</a>
-        <div class="help-btn-wrap emma-help-wrap">
-          <button class="help-btn" type="button" aria-label="Having trouble finding a bond rating? Type the name in the Issue Description or the Issuer Name field.">?</button>
-          <span class="help-tooltip" role="tooltip">Having trouble finding a bond rating? Type the name in the <strong>Issue Description</strong> or the <strong>Issuer Name</strong> field.</span>
-        </div>
-      </div>
-    </section>
 
     <details class="section-block section-disclosure is-hidden" id="aid-section" aria-hidden="true">
       <summary class="section-disclosure-summary" aria-controls="aid-section-body">
@@ -430,14 +426,34 @@
       </div>
     </details>
 
+    <section id="more-financial-detail-section" class="section-block is-hidden" aria-hidden="true">
+      <h2 class="section-title">Looking for more financial details?</h2>
+      <div class="more-detail-subsection">
+        <h3 class="more-detail-subhead">Bond ratings</h3>
+        <p class="section-copy">Colleges can issue bonds to finance buildings and equipment. Rating agencies like Moody&rsquo;s, S&amp;P, and Fitch evaluate whether a college will likely repay its debt on time and assign long-term ratings to those bonds. Low ratings often signal weaker financial health.</p>
+        <p class="section-copy"><em>NOTE: For-profit colleges and small institutions without publicly traded debt do not typically have bond ratings.</em></p>
+        <div class="emma-link-row">
+          <a id="emma-search-link" class="emma-search-link" target="_blank" rel="noopener noreferrer" href="https://emma.msrb.org/Search/Search.aspx">Search EMMA &#x2192;</a>
+          <div class="help-btn-wrap emma-help-wrap">
+            <button class="help-btn" type="button" aria-label="Having trouble finding a bond rating? Type the institution's name in the Issue Description or the Issuer Name field.">?</button>
+            <span class="help-tooltip" role="tooltip">Having trouble finding a bond rating? Type the institution's name in the <strong>Issue Description</strong> or the <strong>Issuer Name</strong> field.</span>
+          </div>
+        </div>
+      </div>
+      <div class="more-detail-subsection">
+        <h3 class="more-detail-subhead">Federal audits</h3>
+        <p class="section-copy">Most colleges receiving federal student aid file a federal single audit each year. Look up <span id="federal-audit-school-name"></span> on the <a href="https://www.fac.gov/" target="_blank" rel="noopener noreferrer">Federal Audit Clearinghouse</a>.</p>
+      </div>
+      <div id="tax-filings-subsection" class="more-detail-subsection is-hidden" aria-hidden="true">
+        <h3 class="more-detail-subhead">Tax filings (nonprofits)</h3>
+        <p class="section-copy">Private nonprofit colleges file Form 990 with the IRS. Look up <span id="tax-filing-school-name"></span> on the <a href="https://apps.irs.gov/app/eos/" target="_blank" rel="noopener noreferrer">IRS tax-exempt organization search</a>.</p>
+      </div>
+    </section>
+
     <aside class="related-links is-hidden" id="school-related-section" aria-hidden="true">
       <p><strong>Explore this institution further by looking at its:</strong></p>
       <ul class="link-list" id="school-related-pages"></ul>
     </aside>
-    <section id="school-financial-documents-section" class="section-block is-hidden" aria-hidden="true">
-      <p id="school-financial-documents-copy" class="section-copy search-again-row"></p>
-    </section>
-<br>
     <section id="school-bottom-search-section" class="section-block is-hidden" aria-hidden="true">
       <p class="section-copy search-again-row"><a href="#school-search-wrap" class="return-search-tool">Want to search for another institution?</a></p>
     </section>

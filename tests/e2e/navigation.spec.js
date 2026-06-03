@@ -15,7 +15,7 @@ const {
   schoolWithCharts,
   latestEnrollmentText,
   schoolWithRelatedPages,
-  schoolWithoutRelatedPages,
+  schoolWithOnlyTuitionTrendsLink,
   relatedPagesForSchool
 } = require('./helpers');
 
@@ -24,7 +24,7 @@ const searchTerm = searchTermFor(searchTarget);
 const chartSchoolUnitid = schoolWithCharts();
 const chartSchoolEnrollmentText = latestEnrollmentText(chartSchoolUnitid);
 const relatedSchoolUnitid = schoolWithRelatedPages();
-const noRelatedSchoolUnitid = schoolWithoutRelatedPages();
+const tuitionOnlySchoolUnitid = schoolWithOnlyTuitionTrendsLink();
 
 test.describe('School navigation', () => {
   test('navigates from search to school page', async ({ page }) => {
@@ -143,11 +143,20 @@ test.describe('School navigation', () => {
     }
   });
 
-  test('school related pages section is hidden when no side records exist', async ({ page }) => {
-    await page.goto(`/school.html?unitid=${noRelatedSchoolUnitid}`);
+  test('school related pages fall back to tuition trends when no side records exist', async ({ page }) => {
+    const expectedLinks = relatedPagesForSchool(tuitionOnlySchoolUnitid);
+    expect(expectedLinks).toEqual([
+      expect.objectContaining({ label: 'Tuition trends' })
+    ]);
+
+    await page.goto(`/school.html?unitid=${tuitionOnlySchoolUnitid}`);
     const section = page.locator('#school-related-section');
-    await expect(section).toBeHidden();
-    await expect(section).toHaveAttribute('aria-hidden', 'true');
-    await expect(section.locator('a')).toHaveCount(0);
+    await expect(section).toBeVisible();
+    await expect(section).not.toHaveAttribute('aria-hidden', 'true');
+
+    const links = section.locator('a');
+    await expect(links).toHaveCount(expectedLinks.length);
+    await expect(links.first()).toHaveText(expectedLinks[0].label);
+    await expect(links.first()).toHaveAttribute('href', expectedLinks[0].href);
   });
 });

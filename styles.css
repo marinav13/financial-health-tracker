@@ -1057,12 +1057,14 @@ body[data-search-source="cuts"] .hero-solo-center .lede,
 body[data-search-source="accreditation"] .hero-solo-center .lede,
 body[data-search-source="research"] .hero-solo-center .lede {
   font-style: normal;
+  text-align: left;
 }
 
 body[data-search-source="cuts"] .hero-solo-center .lede.lede-intro,
 body[data-search-source="accreditation"] .hero-solo-center .lede.lede-intro,
 body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   font-style: italic;
+  text-align: center;
 }
 
 .lede strong {
@@ -3002,6 +3004,8 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
+  position: relative;
+  padding-right: 42px;
 }
 
 .history-table tbody tr:hover {
@@ -3012,11 +3016,6 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
   color: var(--pos-deep);
   text-decoration: underline;
   text-underline-offset: 3px;
-}
-
-.history-table th {
-  position: relative;
-  padding-right: 42px;
 }
 
 .sort-header-label {
@@ -3255,18 +3254,6 @@ body[data-search-page="school.html"] .guide-bullet-list {
 body[data-search-page="school.html"] .guide-search-copy p,
 body[data-search-page="school.html"] .guide-example-summary p {
   text-align: left;
-}
-
-body[data-search-source="cuts"] .hero-solo-center .lede,
-body[data-search-source="accreditation"] .hero-solo-center .lede,
-body[data-search-source="research"] .hero-solo-center .lede {
-  text-align: left;
-}
-
-body[data-search-source="cuts"] .hero-solo-center .lede.lede-intro,
-body[data-search-source="accreditation"] .hero-solo-center .lede.lede-intro,
-body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
-  text-align: center;
 }
 
 body[data-search-source="cuts"] .hero-solo-center .data-as-of,

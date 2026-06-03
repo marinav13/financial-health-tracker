@@ -201,32 +201,27 @@ test.describe('Frontend state synchronization', () => {
     await expect(detailList.locator('th[aria-sort="ascending"]')).toContainText('State');
   });
 
-  test('hidden secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
+  test('cuts landing omits the removed secondary section', async ({ page }) => {
     await page.goto('/cuts.html');
 
-    const otherSection = page.locator('#cuts-other-list').locator('xpath=ancestor::section[1]');
-
-    await expect(otherSection).not.toHaveClass(/is-hidden/);
-    await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#cuts-other-list')).toHaveCount(0);
+    await expect(page.locator('#cuts-other-filter')).toHaveCount(0);
 
     await page.goto(`/cuts.html?unitid=${cutsUnitid}`);
 
-    await expect(otherSection).toHaveClass(/is-hidden/);
-    await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#cuts-other-list')).toHaveCount(0);
     await expect(page.locator('#cuts-overview')).toHaveCount(0);
   });
 
-  test('accreditation secondary sections keep aria-hidden synchronized with visibility', async ({ page }) => {
+  test('accreditation landing omits the removed secondary section', async ({ page }) => {
     await page.goto('/accreditation.html');
 
-    const otherSection = page.locator('#accreditation-other-status').locator('xpath=ancestor::section[1]');
-    await expect(otherSection).not.toHaveClass(/is-hidden/);
-    await expect(otherSection).not.toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#accreditation-other-status')).toHaveCount(0);
+    await expect(page.locator('#accreditation-other-filter')).toHaveCount(0);
 
     await page.goto(`/accreditation.html?unitid=${accreditationUnitid}`);
 
-    await expect(otherSection).toHaveClass(/is-hidden/);
-    await expect(otherSection).toHaveAttribute('aria-hidden', 'true');
+    await expect(page.locator('#accreditation-other-status')).toHaveCount(0);
     await expect(page.locator('#accreditation-overview')).toHaveClass(/is-hidden/);
     await expect(page.locator('#accreditation-overview')).not.toContainText('This institution appears');
   });

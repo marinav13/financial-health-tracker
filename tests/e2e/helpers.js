@@ -141,8 +141,22 @@ function indexedRelatedRecord(index, unitid, countField) {
   );
 }
 
+function slugify(value) {
+  return String(value || 'college')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function tuitionTrackerSchoolUrl(name, unitid) {
+  if (!/^[0-9]+$/.test(String(unitid || ''))) return 'https://www.tuitiontracker.org/';
+  return `https://www.tuitiontracker.org/schools/${slugify(name)}-${encodeURIComponent(unitid)}`;
+}
+
 function relatedPagesForSchool(unitid, options = {}) {
   const current = String(options.current || 'finances');
+  const schoolEntry = current === 'finances' ? schoolIndexEntryByUnitid(unitid) : null;
+  const schoolName = String(schoolEntry?.institution_name || schoolEntry?.institution_unique_name || '').trim();
   const specs = [
     {
       label: 'College Cuts',
@@ -169,7 +183,9 @@ function relatedPagesForSchool(unitid, options = {}) {
       if (!record) return null;
       return {
         label: spec.label,
-        href: `${spec.page}?unitid=${encodeURIComponent(record.unitid || unitid)}`,
+        href: current === 'finances' && spec.page === 'cuts.html'
+          ? 'cuts.html'
+          : `${spec.page}?unitid=${encodeURIComponent(record.unitid || unitid)}`,
         // Carry through the financial_unitid so the Finances spec
         // below can be derived from whichever cuts/accred/research
         // record matched the lookup, mirroring the JS path:
@@ -179,6 +195,13 @@ function relatedPagesForSchool(unitid, options = {}) {
       };
     })
     .filter(Boolean);
+
+  if (current === 'finances' && /^[0-9]+$/.test(String(unitid || '')) && schoolName) {
+    links.unshift({
+      label: 'Tuition trends',
+      href: tuitionTrackerSchoolUrl(schoolName, unitid)
+    });
+  }
 
   // Finances link parity with app.js renderRelatedInstitutionLinks:
   // the JS pushes a 'Finances' entry whenever the calling page has a
@@ -230,14 +253,15 @@ function schoolWithRelatedPages() {
   return found.unitid;
 }
 
-function schoolWithoutRelatedPages() {
+function schoolWithOnlyTuitionTrendsLink() {
   const schools = readJson('data/schools_index.json');
   const found = schools.find((school) =>
     school.unitid &&
     fs.existsSync(path.join(ROOT, 'data', 'schools', `${school.unitid}.json`)) &&
-    relatedPagesForSchool(school.unitid).length === 0
+    relatedPagesForSchool(school.unitid).length === 1 &&
+    relatedPagesForSchool(school.unitid)[0]?.label === 'Tuition trends'
   );
-  if (!found) throw new Error('No school without related side pages available for e2e tests');
+  if (!found) throw new Error('No school with only a Tuition trends related link available for e2e tests');
   return found.unitid;
 }
 
@@ -458,7 +482,7 @@ module.exports = {
   latestEnrollmentText,
   schoolWithClosureStatus,
   schoolWithRelatedPages,
-  schoolWithoutRelatedPages,
+  schoolWithOnlyTuitionTrendsLink,
   relatedPagesForSchool,
   schoolWithCuts,
   schoolWithVisibleAccreditation,

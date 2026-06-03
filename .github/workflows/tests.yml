@@ -72,7 +72,8 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
       options: --ipc=host
     env:
-      HOME: /root
+      HOME: /github/home
+      DOCKER_CONFIG: /github/home/.docker
 
     steps:
       - uses: actions/checkout@v4

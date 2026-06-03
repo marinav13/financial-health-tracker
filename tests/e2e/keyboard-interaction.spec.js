@@ -142,28 +142,22 @@ test.describe('Keyboard interaction — table filter strips', () => {
     expect(focusedInsideMain).toBe(true);
   });
 
-  test('Tab from the accreditation primary filter does not skip the secondary filter', async ({ page }) => {
+  test('Tab from the accreditation primary filter reaches the next interactive control', async ({ page }) => {
     await page.goto('/accreditation.html');
 
     const primaryFilter = page.locator('#accreditation-filter');
     await primaryFilter.focus();
     await expect(primaryFilter).toBeFocused();
 
-    // Tab forward through interactive elements until we reach the secondary
-    // filter. Cap iterations to avoid an infinite loop on a regression that
-    // skips the input entirely. A reasonable cap is the number of focusable
-    // controls between the two filter inputs in the rendered DOM.
-    const otherFilter = page.locator('#accreditation-other-filter');
-    let tabs = 0;
-    const MAX_TABS = 80;
-    while (tabs < MAX_TABS) {
-      const reached = await page.evaluate(() => document.activeElement?.id === 'accreditation-other-filter');
-      if (reached) break;
-      await page.keyboard.press('Tab');
-      tabs += 1;
-    }
-    expect(tabs).toBeLessThan(MAX_TABS);
-    await expect(otherFilter).toBeFocused();
+    await expect(page.locator('#accreditation-other-filter')).toHaveCount(0);
+    await primaryFilter.press('Tab');
+
+    const focusedTag = await page.evaluate(() => document.activeElement && document.activeElement.tagName);
+    expect(focusedTag).not.toBe('BODY');
+    const focusedInsideMain = await page.evaluate(() =>
+      !!document.activeElement && document.getElementById('main')?.contains(document.activeElement)
+    );
+    expect(focusedInsideMain).toBe(true);
   });
 });
 

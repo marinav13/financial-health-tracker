@@ -448,7 +448,9 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
   relatedPages.forEach((relatedPage) => {
     const relatedUnitid = relatedPage.record.unitid || unitid;
     links.push({
-      href: `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`,
+      href: relatedPage.page === "cuts.html"
+        ? "cuts.html"
+        : `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`,
       label: relatedPage.label,
       external: false
     });

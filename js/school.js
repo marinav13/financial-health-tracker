@@ -788,10 +788,10 @@ function buildFederalCompositeSentence(composite) {
   if (score === null) return null;
 
   if (score > 1.5) {
-    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That is above the 1.5 threshold the federal government uses to consider an institution financially responsible.`;
+    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That is above the 1.5 threshold the federal government uses to consider an institution financially responsible without the need for additional oversight.`;
   }
   if (score === 1.5) {
-    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That meets the 1.5 threshold the federal government uses to consider an institution financially responsible.`;
+    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That meets the 1.5 threshold the federal government uses to consider an institution financially responsible without the need for additional oversight.`;
   }
   if (score >= 1.0) {
     return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That falls in the federal oversight range from 1.0 to less than 1.5.`;

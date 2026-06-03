@@ -42,6 +42,10 @@ main <- function(cli_args = NULL) {
     existing = existing,
     first_seen = first_seen
   )
+  sheet_staged <- filter_accreditation_overrides_for_review_sheet(
+    staged,
+    candidate_action_ids = candidates$action_id
+  )
 
   dir.create(dirname(output_path), recursive = TRUE, showWarnings = FALSE)
   write_csv_atomic(staged, output_path)
@@ -70,7 +74,7 @@ main <- function(cli_args = NULL) {
     )
     assert_accreditation_review_sheet_header(sheet_rows)
     sheet_rows <- coerce_accreditation_review_sheet_rows(sheet_rows)
-    sheet_append_rows <- build_accreditation_review_sheet_append_rows(staged, sheet_rows)
+    sheet_append_rows <- build_accreditation_review_sheet_append_rows(sheet_staged, sheet_rows)
     sheet_append_count <- nrow(sheet_append_rows)
 
     if (isTRUE(rewrite_sheet)) {
@@ -79,19 +83,19 @@ main <- function(cli_args = NULL) {
       }
       googlesheets4::sheet_write(
         data = format_accreditation_review_sheet_headers(
-          build_accreditation_review_sheet_rows(staged)
+          build_accreditation_review_sheet_rows(sheet_staged)
         ),
         ss = sheet_target,
         sheet = sheet_tab
       )
-      sheet_append_count <- nrow(staged)
+      sheet_append_count <- nrow(sheet_staged)
     } else if (!nrow(sheet_rows)) {
       if (verbose) {
         message("Writing initial accreditation review sheet tab: ", sheet_tab)
       }
       googlesheets4::sheet_write(
         data = format_accreditation_review_sheet_headers(
-          build_accreditation_review_sheet_rows(staged)
+          build_accreditation_review_sheet_rows(sheet_staged)
         ),
         ss = sheet_target,
         sheet = sheet_tab
@@ -115,6 +119,7 @@ main <- function(cli_args = NULL) {
   if (verbose) {
     message("Accreditation review candidates: ", nrow(candidates))
     message("Editorial overrides before staging: ", nrow(existing))
+    message("Accreditation review rows synced to sheet: ", nrow(sheet_staged))
   }
   message("Editorial overrides after staging: ", nrow(staged))
   message("New rows appended: ", new_count)

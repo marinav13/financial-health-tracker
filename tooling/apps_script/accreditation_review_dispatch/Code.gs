@@ -19,7 +19,6 @@ const LAST_DISPATCH_RESPONSE_PROPERTY = 'ACCREDITATION_REVIEW_LAST_DISPATCH_RESP
 
 const DEFAULT_SETTINGS = {
   accreditationTabName: 'accreditation_review',
-  collegeCutsTabName: 'college_cuts_review',
   eventType: 'accreditation_review_publish',
   dispatchIntervalMinutes: 15
 };
@@ -34,18 +33,6 @@ const DATASET_CONFIG = {
       'editor_action_type',
       'editor_source_url',
       'editor_source_title'
-    ]
-  },
-  college_cuts_review: {
-    idHeader: 'cut_id',
-    publishHeaders: [
-      'review_status',
-      'editor_cut_description',
-      'editor_announcement_date',
-      'editor_cut_type',
-      'editor_source_url',
-      'editor_source_title',
-      'editor_source_publication'
     ]
   }
 };
@@ -260,10 +247,6 @@ function getSettings_() {
     cleanPropertyValue_(properties.getProperty('REVIEW_SHEET_TAB')) ||
     cleanPropertyValue_(properties.getProperty('ACCREDITATION_REVIEW_SHEET_TAB')) ||
     DEFAULT_SETTINGS.accreditationTabName;
-  const collegeCutsTabName =
-    cleanPropertyValue_(properties.getProperty('CUTS_REVIEW_SHEET_TAB')) ||
-    cleanPropertyValue_(properties.getProperty('COLLEGE_CUTS_REVIEW_SHEET_TAB')) ||
-    DEFAULT_SETTINGS.collegeCutsTabName;
   const eventType =
     cleanPropertyValue_(properties.getProperty('DISPATCH_EVENT_TYPE')) ||
     DEFAULT_SETTINGS.eventType;
@@ -283,7 +266,6 @@ function getSettings_() {
     githubRepo: githubRepo,
     githubToken: githubToken,
     accreditationTabName: accreditationTabName,
-    collegeCutsTabName: collegeCutsTabName,
     eventType: eventType,
     dispatchIntervalMinutes: dispatchIntervalMinutes
   };
@@ -292,9 +274,6 @@ function getSettings_() {
 function getDatasetKeyForSheet_(sheetName, settings) {
   if (sheetName === settings.accreditationTabName) {
     return 'accreditation_review';
-  }
-  if (sheetName === settings.collegeCutsTabName) {
-    return 'college_cuts_review';
   }
   return '';
 }

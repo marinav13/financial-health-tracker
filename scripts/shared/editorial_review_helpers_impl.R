@@ -633,6 +633,24 @@ build_accreditation_review_sheet_rows <- function(overrides) {
   sheet_rows[, ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
+filter_accreditation_overrides_for_review_sheet <- function(overrides,
+                                                            candidate_action_ids = NULL) {
+  local_rows <- coerce_accreditation_editorial_overrides(overrides)
+  if (!nrow(local_rows)) {
+    return(local_rows)
+  }
+
+  candidate_ids <- trim_text(candidate_action_ids)
+  candidate_ids <- unique(candidate_ids[nzchar(candidate_ids)])
+  row_origin <- normalize_review_row_origin(local_rows$source_row_origin)
+  keep_rows <- (!is.na(row_origin) & row_origin == "manual")
+  if (length(candidate_ids) > 0L) {
+    keep_rows <- keep_rows | (trim_text(local_rows$action_id) %in% candidate_ids)
+  }
+
+  local_rows[keep_rows, , drop = FALSE]
+}
+
 assert_accreditation_review_sheet_header <- function(df) {
   if (is.null(df) || !ncol(df)) return(invisible(df))
   header_names <- names(normalize_accreditation_review_sheet_headers(df))
@@ -820,7 +838,8 @@ apply_accreditation_editorial_overrides <- function(actions_df,
                                                     overrides = NULL,
                                                     enforce_review_gate = FALSE,
                                                     allowed_action_ids = NULL,
-                                                    drop_unlisted = FALSE) {
+                                                    drop_unlisted = FALSE,
+                                                    gate_mask = NULL) {
   override_rows <- coerce_accreditation_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
@@ -841,19 +860,29 @@ apply_accreditation_editorial_overrides <- function(actions_df,
 
   review_actions <- actions_df
   review_actions$action_id <- vapply(seq_len(nrow(review_actions)), function(i) compute_accreditation_action_id(review_actions$unitid[[i]], review_actions$accreditor[[i]], review_actions$action_date[[i]], review_actions$action_label_raw[[i]], review_actions$export_unitid[[i]], review_actions$export_institution_name[[i]]), character(1))
+  gate_rows <- if (is.null(gate_mask)) {
+    rep(TRUE, nrow(review_actions))
+  } else {
+    as.logical(gate_mask)
+  }
+  if (length(gate_rows) != nrow(review_actions)) {
+    stop("apply_accreditation_editorial_overrides gate_mask must have one value per action row.", call. = FALSE)
+  }
+  gate_rows[is.na(gate_rows)] <- FALSE
 
   allowed_ids <- trim_text(allowed_action_ids)
   allowed_ids <- unique(allowed_ids[nzchar(allowed_ids)])
   if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
-    unexpected_rows <- !(review_actions$action_id %in% allowed_ids)
+    unexpected_rows <- gate_rows & !(review_actions$action_id %in% allowed_ids)
     if (any(unexpected_rows)) {
       message(sprintf(paste("Apply-only accreditation review gate: ignoring %d recomputed action(s)", "that are not present in the committed review candidate snapshot."), sum(unexpected_rows)))
       review_actions <- review_actions[!unexpected_rows, , drop = FALSE]
+      gate_rows <- gate_rows[!unexpected_rows]
     }
   }
 
   if (!nrow(override_rows)) {
-    if (isTRUE(enforce_review_gate)) stop("Review gate is enabled but editorial_overrides.csv is empty or missing.", call. = FALSE)
+    if (isTRUE(enforce_review_gate) && any(gate_rows)) stop("Review gate is enabled but editorial_overrides.csv is empty or missing.", call. = FALSE)
     return(review_actions)
   }
   if (!nrow(published_override_rows) && !isTRUE(enforce_review_gate)) {
@@ -873,7 +902,7 @@ apply_accreditation_editorial_overrides <- function(actions_df,
     } else {
       decided_ids <- unique(trim_text(override_rows$action_id)[is_terminal_review_decision(override_rows$review_status)])
       decided_ids <- decided_ids[nzchar(decided_ids)]
-      missing_override <- !(trim_text(joined$action_id) %in% decided_ids)
+      missing_override <- gate_rows & !(trim_text(joined$action_id) %in% decided_ids)
       if (any(missing_override)) stop(sprintf(paste("Review gate is enabled but %d accreditation action(s) are missing an editorial decision (approved/reject).", "Sample action_id values: %s"), sum(missing_override), paste(utils::head(joined$action_id[missing_override], 5L), collapse = ", ")), call. = FALSE)
     }
   }
@@ -918,7 +947,7 @@ apply_accreditation_editorial_overrides <- function(actions_df,
   } else {
     joined$row_origin <- dplyr::coalesce(trim_optional_text(joined$source_row_origin), rep("scraper", nrow(joined)))
   }
-  if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask, , drop = FALSE]
+  if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask | !gate_rows, , drop = FALSE]
 
   missing_review_rows <- published_override_rows[!(trim_text(published_override_rows$action_id) %in% trim_text(review_actions$action_id)), , drop = FALSE]
   if (nrow(missing_review_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(missing_review_rows)), function(i) build_review_backed_accreditation_export_row(missing_review_rows[i, , drop = FALSE], review_actions))))

@@ -46,42 +46,6 @@ run_test("Accreditation legacy sheet rows normalize into the new visible schema"
   assert_identical(normalized$review_status[[2]], "unreviewed")
 })
 
-run_test("College cuts legacy sheet rows normalize into the new visible schema", function() {
-  legacy_rows <- data.frame(
-    cut_id = c("cut-1", "cut-2"),
-    unitid = c("100", "101"),
-    institution_name = c("Example U", "Example V"),
-    state = c("Alabama", "Georgia"),
-    announcement_date = c("2026-04-24", "2026-05-01"),
-    announcement_year = c("2026", "2026"),
-    cut_type = c("program_closure", "layoff"),
-    program_name = c("History BA", "Faculty layoffs"),
-    source_url = c("https://example.org/one", "https://example.org/two"),
-    source_title = c("Source one", "Source two"),
-    source_publication = c("Paper one", "Paper two"),
-    row_origin = c("scraper", "scraper"),
-    first_seen = c("2026-05-01", "2026-05-02"),
-    review_status = c("approved", "unreviewed"),
-    editor_cut_description = c("Edited History BA", NA_character_),
-    editor_cut_type = c("restructuring", NA_character_),
-    editor_source_publication = c("Edited paper", NA_character_),
-    editor_notes = c("checked", NA_character_),
-    reviewer = c("editor@example.org", NA_character_),
-    reviewed_at = c("2026-05-03", NA_character_),
-    grandfathered = c(TRUE, FALSE),
-    stringsAsFactors = FALSE
-  )
-
-  normalized <- coerce_college_cuts_review_sheet_rows(legacy_rows)
-  assert_identical(nrow(normalized), 2L)
-  assert_identical(normalized$cut_description[[1]], "Edited History BA")
-  assert_identical(normalized$cut_type[[1]], "restructuring")
-  assert_identical(normalized$source_publication[[1]], "Edited paper")
-  assert_identical(normalized$reviewer_notes[[1]], "checked")
-  assert_identical(normalized$review_status[[1]], "approved")
-  assert_identical(normalized$review_status[[2]], "unreviewed")
-})
-
 run_test("Committed accreditation overrides in legacy CSV shape still coerce", function() {
   legacy_overrides_path <- file.path(root, "data_pipelines", "accreditation", "editorial_overrides.csv")
   legacy_overrides <- read.csv(legacy_overrides_path, stringsAsFactors = FALSE, check.names = FALSE)
@@ -100,6 +64,68 @@ run_test("Committed college cuts overrides in legacy CSV shape still coerce", fu
   assert_true(nrow(normalized) >= 1L)
   assert_true("override_unitid" %in% names(normalized))
   assert_identical(normalized$source_row_origin[[1]], "scraper")
+})
+
+run_test("Approved college cuts local overrides publish without sheet helpers", function() {
+  cuts_df <- data.frame(
+    cut_id = "cut-1",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/pipeline-cut",
+    source_title = "Pipeline source",
+    source_publication = "Pipeline paper",
+    stringsAsFactors = FALSE
+  )
+
+  overrides <- data.frame(
+    cut_id = "cut-1",
+    source_unitid = "100",
+    source_institution_name = "Example University",
+    source_state = "Alabama",
+    source_announcement_date = "2026-04-24",
+    source_announcement_year = "2026",
+    source_cut_type = "program_closure",
+    source_cut_description = "History BA",
+    source_source_url = "https://example.org/pipeline-cut",
+    source_source_title = "Pipeline source",
+    source_source_publication = "Pipeline paper",
+    source_row_origin = "scraper",
+    override_unitid = "200",
+    override_institution_name = "Corrected University",
+    override_state = "Georgia",
+    override_announcement_date = "2026-04-30",
+    override_announcement_year = "2026",
+    override_cut_type = "restructuring",
+    override_cut_description = "Corrected History BA",
+    override_source_url = "https://example.org/corrected-cut",
+    override_source_title = "Corrected source",
+    override_source_publication = "Corrected paper",
+    first_seen = "2026-05-27",
+    review_status = "approved",
+    reviewer = "editor@example.org",
+    reviewer_notes = "checked",
+    reviewed_at = "2026-05-28",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  applied <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = FALSE)
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(applied$matched_unitid[[1]], "200")
+  assert_identical(applied$institution_name_display[[1]], "Corrected University")
+  assert_identical(applied$state_display[[1]], "Georgia")
+  assert_identical(applied$cut_type[[1]], "restructuring")
+  assert_identical(applied$program_name[[1]], "Corrected History BA")
+  assert_identical(applied$source_url[[1]], "https://example.org/corrected-cut")
+  assert_identical(applied$source_title[[1]], "Corrected source")
+  assert_identical(applied$source_publication[[1]], "Corrected paper")
 })
 
 run_test("Manual accreditation rows with blank ids get stable generated ids", function() {
@@ -125,31 +151,6 @@ run_test("Manual accreditation rows with blank ids get stable generated ids", fu
   assert_identical(first$action_id[[1]], second$action_id[[1]])
   assert_identical(nchar(first$action_id[[1]]), 12L)
   assert_identical(first$first_seen[[1]], "2026-05-27")
-})
-
-run_test("Manual college cuts rows with blank ids get stable generated ids", function() {
-  manual_rows <- data.frame(
-    cut_id = "",
-    unitid = "",
-    institution_name = "Manual College",
-    state = "Ohio",
-    announcement_date = "2026-06-02",
-    announcement_year = "",
-    cut_type = "layoff",
-    cut_description = "Ten staff layoffs",
-    source_url = "https://example.org/manual-cut",
-    source_publication = "Manual paper",
-    row_origin = "manual",
-    review_status = "approved",
-    stringsAsFactors = FALSE
-  )
-
-  first <- coerce_college_cuts_review_sheet_rows(manual_rows, default_first_seen = "2026-05-27")
-  second <- coerce_college_cuts_review_sheet_rows(manual_rows, default_first_seen = "2026-05-27")
-
-  assert_identical(first$cut_id[[1]], second$cut_id[[1]])
-  assert_true(startsWith(first$cut_id[[1]], "editor-"))
-  assert_identical(first$announcement_year[[1]], "2026")
 })
 
 run_test("Sheet-only manual accreditation rows merge without error", function() {
@@ -180,79 +181,6 @@ run_test("Sheet-only manual accreditation rows merge without error", function() 
   assert_identical(merged$source_row_origin[[1]], "manual")
   assert_identical(merged$review_status[[1]], "approved")
   assert_identical(merged$reviewer_notes[[1]], "manual")
-})
-
-run_test("Sheet-only manual college cuts rows merge without error", function() {
-  local_overrides <- empty_college_cuts_editorial_overrides()
-  sheet_rows <- data.frame(
-    cut_id = "",
-    unitid = "",
-    institution_name = "Manual College",
-    state = "Ohio",
-    announcement_date = "2026-06-02",
-    announcement_year = "",
-    cut_type = "layoff",
-    cut_description = "Ten staff layoffs",
-    source_url = "https://example.org/manual-cut",
-    source_publication = "Manual paper",
-    row_origin = "manual",
-    first_seen = "2026-05-27",
-    review_status = "approved",
-    reviewer = "editor@example.org",
-    reviewer_notes = "manual",
-    reviewed_at = "2026-05-27",
-    grandfathered = FALSE,
-    stringsAsFactors = FALSE
-  )
-
-  merged <- merge_college_cuts_review_sheet_editor_columns(local_overrides, sheet_rows)
-  assert_identical(nrow(merged), 1L)
-  assert_identical(merged$source_row_origin[[1]], "manual")
-  assert_identical(merged$review_status[[1]], "approved")
-  assert_identical(merged$source_cut_description[[1]], "Ten staff layoffs")
-})
-
-run_test("Staging preserves existing manual college cuts rows", function() {
-  candidates <- build_college_cuts_review_candidates(data.frame(
-    cut_id = "cut-1",
-    matched_unitid = "100",
-    export_unitid = "100",
-    institution_name_display = "Pipeline University",
-    state_display = "Alabama",
-    announcement_date = "2026-04-24",
-    announcement_year = "2026",
-    cut_type = "program_closure",
-    program_name = "History BA",
-    source_url = "https://example.org/pipeline-cut",
-    source_title = "Pipeline source",
-    source_publication = "Pipeline paper",
-    stringsAsFactors = FALSE
-  ))
-
-  existing <- merge_college_cuts_review_sheet_editor_columns(
-    empty_college_cuts_editorial_overrides(),
-    data.frame(
-      cut_id = "",
-      unitid = "",
-      institution_name = "Manual College",
-      state = "Ohio",
-      announcement_date = "2026-06-02",
-      announcement_year = "",
-      cut_type = "layoff",
-      cut_description = "Ten staff layoffs",
-      source_url = "https://example.org/manual-cut",
-      source_publication = "Manual paper",
-      row_origin = "manual",
-      review_status = "approved",
-      stringsAsFactors = FALSE
-    ),
-    first_seen = "2026-05-27"
-  )
-
-  staged <- stage_college_cuts_editorial_overrides(candidates, existing = existing, first_seen = "2026-05-28")
-  assert_identical(nrow(staged), 2L)
-  assert_true(any(staged$source_row_origin == "manual"))
-  assert_true(any(trim_text(staged$cut_id) == "cut-1"))
 })
 
 run_test("Accreditation visible-field edits publish and approved manual rows append", function() {
@@ -603,130 +531,6 @@ run_test("Accreditation review gate still fails blank review decisions", functio
   assert_true(grepl("missing an editorial decision", conditionMessage(err), fixed = TRUE))
 })
 
-run_test("College cuts visible-field edits publish and approved manual rows append", function() {
-  cuts_df <- data.frame(
-    cut_id = "cut-1",
-    matched_unitid = "100",
-    export_unitid = "100",
-    institution_name_display = "Example University",
-    state_display = "Alabama",
-    announcement_date = "2026-04-24",
-    announcement_year = 2026L,
-    cut_type = "program_closure",
-    program_name = "History BA",
-    source_url = "https://example.org/pipeline-cut",
-    source_title = "Pipeline source",
-    source_publication = "Pipeline paper",
-    stringsAsFactors = FALSE
-  )
-
-  staged <- stage_college_cuts_editorial_overrides(
-    build_college_cuts_review_candidates(cuts_df),
-    first_seen = "2026-05-27"
-  )
-  edited_sheet_rows <- data.frame(
-    cut_id = build_college_cuts_review_sheet_rows(staged)$cut_id[[1]],
-    unitid = "200",
-    institution_name = "Corrected University",
-    state = "Georgia",
-    announcement_date = "2026-04-30",
-    announcement_year = "2026",
-    cut_type = "restructuring",
-    cut_description = "Corrected History BA",
-    source_url = "https://example.org/corrected-cut",
-    source_publication = "Corrected paper",
-    row_origin = "scraper",
-    first_seen = "2026-05-27",
-    review_status = "approved",
-    reviewer = "editor@example.org",
-    reviewer_notes = "checked",
-    reviewed_at = "2026-05-28",
-    grandfathered = FALSE,
-    stringsAsFactors = FALSE
-  )
-  manual_sheet_row <- data.frame(
-    cut_id = "",
-    unitid = "",
-    institution_name = "Manual College",
-    state = "Ohio",
-    announcement_date = "2026-06-02",
-    announcement_year = "",
-    cut_type = "layoff",
-    cut_description = "Ten staff layoffs",
-    source_url = "https://example.org/manual-cut",
-    source_publication = "Manual paper",
-    row_origin = "manual",
-    first_seen = "2026-05-27",
-    review_status = "approved",
-    reviewer = "editor@example.org",
-    reviewer_notes = "manual",
-    reviewed_at = "2026-05-28",
-    grandfathered = FALSE,
-    stringsAsFactors = FALSE
-  )
-
-  merged <- merge_college_cuts_review_sheet_editor_columns(
-    staged,
-    dplyr::bind_rows(edited_sheet_rows, manual_sheet_row),
-    first_seen = "2026-05-27"
-  )
-  applied <- apply_college_cuts_editorial_overrides(cuts_df, merged, enforce_review_gate = FALSE)
-
-  assert_identical(nrow(applied), 2L)
-  assert_identical(applied$matched_unitid[[1]], "200")
-  assert_identical(applied$institution_name_display[[1]], "Corrected University")
-  assert_identical(applied$cut_type[[1]], "restructuring")
-  assert_identical(applied$program_name[[1]], "Corrected History BA")
-  assert_identical(applied$source_publication[[1]], "Corrected paper")
-  assert_true(any(applied$row_origin == "manual"))
-  assert_true(any(applied$program_name == "Ten staff layoffs"))
-})
-
-run_test("Apply-only college cuts publish keeps approved scraper rows when recompute drops them", function() {
-  reviewed_cuts_df <- data.frame(
-    cut_id = "cut-1",
-    matched_unitid = "100",
-    export_unitid = "100",
-    institution_name_display = "Example University",
-    state_display = "Alabama",
-    announcement_date = "2026-04-24",
-    announcement_year = 2026L,
-    cut_type = "program_closure",
-    program_name = "History BA",
-    source_url = "https://example.org/reviewed-cut",
-    source_title = "Reviewed source",
-    source_publication = "Reviewed paper",
-    stringsAsFactors = FALSE
-  )
-
-  candidates <- build_college_cuts_review_candidates(reviewed_cuts_df)
-  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
-  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
-  sheet_rows$review_status <- "approved"
-  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
-
-  recomputed_cuts_df <- reviewed_cuts_df
-  recomputed_cuts_df$cut_id[[1]] <- "cut-2"
-  recomputed_cuts_df$announcement_date[[1]] <- "2026-05-01"
-  recomputed_cuts_df$announcement_year[[1]] <- 2026L
-  recomputed_cuts_df$program_name[[1]] <- "Different cut"
-  recomputed_cuts_df$source_url[[1]] <- "https://example.org/different-cut"
-
-  applied <- apply_college_cuts_editorial_overrides(
-    recomputed_cuts_df,
-    overrides,
-    enforce_review_gate = TRUE,
-    allowed_cut_ids = candidates$cut_id,
-    drop_unlisted = TRUE
-  )
-
-  assert_identical(nrow(applied), 1L)
-  assert_identical(trim_text(applied$cut_id[[1]]), trim_text(candidates$cut_id[[1]]))
-  assert_identical(applied$program_name[[1]], "History BA")
-  assert_identical(applied$row_origin[[1]], "scraper")
-  assert_identical(applied$source_url[[1]], "https://example.org/reviewed-cut")
-})
-
 run_test("Unreviewed manual college cuts rows stay excluded from exports", function() {
   cuts_df <- data.frame(
     cut_id = "cut-1",
@@ -743,88 +547,37 @@ run_test("Unreviewed manual college cuts rows stay excluded from exports", funct
     source_publication = "Pipeline paper",
     stringsAsFactors = FALSE
   )
-  merged <- merge_college_cuts_review_sheet_editor_columns(
-    empty_college_cuts_editorial_overrides(),
-    data.frame(
-      cut_id = "",
-      unitid = "",
-      institution_name = "Manual College",
-      state = "Ohio",
-      announcement_date = "2026-06-02",
-      announcement_year = "",
-      cut_type = "layoff",
-      cut_description = "Ten staff layoffs",
-      source_url = "https://example.org/manual-cut",
-      source_publication = "Manual paper",
-      row_origin = "manual",
-      review_status = "unreviewed",
-      stringsAsFactors = FALSE
-    ),
-    first_seen = "2026-05-27"
-  )
-  applied <- apply_college_cuts_editorial_overrides(cuts_df, merged, enforce_review_gate = FALSE)
-  assert_identical(nrow(applied), 1L)
-})
-
-run_test("College cuts review gate accepts reject as a terminal decision but excludes it from output", function() {
-  cuts_df <- data.frame(
-    cut_id = c("cut-1", "cut-2"),
-    matched_unitid = c("100", "101"),
-    export_unitid = c("100", "101"),
-    institution_name_display = c("Example University", "Example College"),
-    state_display = c("Alabama", "Georgia"),
-    announcement_date = c("2026-04-24", "2026-05-01"),
-    announcement_year = c(2026L, 2026L),
-    cut_type = c("program_closure", "staff_layoff"),
-    program_name = c("History BA", "Staff layoffs"),
-    source_url = c("https://example.org/cut-one", "https://example.org/cut-two"),
-    source_title = c("Source one", "Source two"),
-    source_publication = c("Paper one", "Paper two"),
+  overrides <- data.frame(
+    cut_id = "editor-manual-cut",
+    source_unitid = "",
+    source_institution_name = "Manual College",
+    source_state = "Ohio",
+    source_announcement_date = "2026-06-02",
+    source_announcement_year = "2026",
+    source_cut_type = "layoff",
+    source_cut_description = "Ten staff layoffs",
+    source_source_url = "https://example.org/manual-cut",
+    source_source_title = "Manual source",
+    source_source_publication = "Manual paper",
+    source_row_origin = "manual",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_state = NA_character_,
+    override_announcement_date = NA_character_,
+    override_announcement_year = NA_character_,
+    override_cut_type = NA_character_,
+    override_cut_description = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    override_source_publication = NA_character_,
+    first_seen = "2026-05-27",
+    review_status = "unreviewed",
+    reviewer = NA_character_,
+    reviewer_notes = NA_character_,
+    reviewed_at = NA_character_,
+    grandfathered = FALSE,
     stringsAsFactors = FALSE
   )
-  candidates <- build_college_cuts_review_candidates(cuts_df)
-  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
-  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
-  sheet_rows$review_status <- c("approved", "reject")
-  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
-
-  applied <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = TRUE)
-
+  applied <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = FALSE)
   assert_identical(nrow(applied), 1L)
-  assert_identical(trim_text(applied$cut_id[[1]]), trim_text(candidates$cut_id[[1]]))
-  assert_true(!(trim_text(candidates$cut_id[[2]]) %in% trim_text(applied$cut_id)))
-})
-
-run_test("College cuts review gate still fails blank review decisions", function() {
-  cuts_df <- data.frame(
-    cut_id = c("cut-1", "cut-2"),
-    matched_unitid = c("100", "101"),
-    export_unitid = c("100", "101"),
-    institution_name_display = c("Example University", "Example College"),
-    state_display = c("Alabama", "Georgia"),
-    announcement_date = c("2026-04-24", "2026-05-01"),
-    announcement_year = c(2026L, 2026L),
-    cut_type = c("program_closure", "staff_layoff"),
-    program_name = c("History BA", "Staff layoffs"),
-    source_url = c("https://example.org/cut-one", "https://example.org/cut-two"),
-    source_title = c("Source one", "Source two"),
-    source_publication = c("Paper one", "Paper two"),
-    stringsAsFactors = FALSE
-  )
-  candidates <- build_college_cuts_review_candidates(cuts_df)
-  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-27")
-  sheet_rows <- build_college_cuts_review_sheet_rows(staged)
-  sheet_rows$review_status <- c("approved", "")
-  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
-
-  err <- tryCatch(
-    {
-      apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = TRUE)
-      NULL
-    },
-    error = identity
-  )
-
-  assert_true(!is.null(err), "Blank college cuts decisions should still fail the review gate.")
-  assert_true(grepl("missing an editorial decision", conditionMessage(err), fixed = TRUE))
 })

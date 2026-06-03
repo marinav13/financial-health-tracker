@@ -283,7 +283,8 @@ build_cuts_export <- function() {
   )
 
   cuts <- readr::read_csv(cuts_path, show_col_types = FALSE)
-  committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
+  apply_only_cuts_review_gate <- isTRUE(apply_only_review_gate) && isTRUE(enforce_cuts_review_gate)
+  committed_review_candidates <- if (isTRUE(apply_only_cuts_review_gate)) {
     if (!file.exists(cuts_review_candidates_input_path)) {
       stop(
         paste(
@@ -343,7 +344,7 @@ build_cuts_export <- function() {
       )
     )
 
-  if (!isTRUE(apply_only_review_gate)) {
+  if (!isTRUE(apply_only_cuts_review_gate)) {
     write_csv_atomic(
       build_college_cuts_review_candidates(cuts),
       cuts_review_candidates_path
@@ -359,7 +360,7 @@ build_cuts_export <- function() {
     overrides = cuts_editorial_overrides,
     enforce_review_gate = enforce_cuts_review_gate,
     allowed_cut_ids = committed_review_candidates$cut_id %||% NULL,
-    drop_unlisted = isTRUE(apply_only_review_gate)
+    drop_unlisted = isTRUE(apply_only_cuts_review_gate)
   )
 
   if (nrow(cuts) > 0L) {
@@ -2198,15 +2199,17 @@ build_accreditation_export <- function() {
   # currently publish, so newly scraped odd-shape rows still reach the sheet
   # even when today's public export logic drops them.
   if (!isTRUE(apply_only_review_gate)) {
+    primary_actions_for_review <- actions_df %>%
+      filter(is_primary_tracker %in% TRUE)
     final_review_action_ids <- vapply(
-      seq_len(nrow(actions_df)),
+      seq_len(nrow(primary_actions_for_review)),
       function(i) compute_accreditation_action_id(
-        actions_df$unitid[[i]],
-        actions_df$accreditor[[i]],
-        actions_df$action_date[[i]],
-        actions_df$action_label_raw[[i]],
-        actions_df$export_unitid[[i]],
-        actions_df$export_institution_name[[i]]
+        primary_actions_for_review$unitid[[i]],
+        primary_actions_for_review$accreditor[[i]],
+        primary_actions_for_review$action_date[[i]],
+        primary_actions_for_review$action_label_raw[[i]],
+        primary_actions_for_review$export_unitid[[i]],
+        primary_actions_for_review$export_institution_name[[i]]
       ),
       character(1)
     )
@@ -2251,6 +2254,7 @@ build_accreditation_export <- function() {
         )
       ) %>%
       filter(
+        is_primary_tracker %in% TRUE,
         queue_for_editorial_review,
         !(review_candidate_action_id %in% final_review_action_ids)
       ) %>%
@@ -2268,7 +2272,7 @@ build_accreditation_export <- function() {
         source_page_url = source_page_url
       )
     review_candidate_actions_df <- dplyr::bind_rows(
-      actions_df,
+      primary_actions_for_review,
       supplemental_review_candidates
     )
   }
@@ -2303,7 +2307,8 @@ build_accreditation_export <- function() {
     overrides = editorial_overrides,
     enforce_review_gate = enforce_review_gate,
     allowed_action_ids = committed_review_candidates$action_id %||% NULL,
-    drop_unlisted = isTRUE(apply_only_review_gate)
+    drop_unlisted = isTRUE(apply_only_review_gate),
+    gate_mask = actions_df$is_primary_tracker %in% TRUE
   )
 
   actions_df <- reconcile_accreditation_tracker_metadata(actions_df, accreditor_col = "accreditor")

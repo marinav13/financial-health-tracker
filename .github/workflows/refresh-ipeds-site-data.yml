@@ -10,7 +10,6 @@ env:
   IPEDS_START_YEAR: "2014"
   IPEDS_END_YEAR: "2024"
   ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
-  COLLEGE_CUTS_REVIEW_SHEET_TAB: "college_cuts_review"
   # Closure sheet import is temporarily disabled while the upstream
   # closure tracker is being rebuilt outside this repo. Re-enable by
   # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
@@ -163,15 +162,12 @@ jobs:
         shell: bash
         run: |
           mkdir -p review-snapshots
-          for path in \
-            data_pipelines/accreditation/accreditation_review_candidates.csv \
-            data_pipelines/college_cuts/college_cuts_review_candidates.csv; do
-            if ! git cat-file -e "HEAD:$path"; then
-              echo "Missing committed review candidate snapshot: $path"
-              exit 1
-            fi
-            git show "HEAD:$path" > "review-snapshots/$(basename "$path")"
-          done
+          path="data_pipelines/accreditation/accreditation_review_candidates.csv"
+          if ! git cat-file -e "HEAD:$path"; then
+            echo "Missing committed review candidate snapshot: $path"
+            exit 1
+          fi
+          git show "HEAD:$path" > "review-snapshots/$(basename "$path")"
 
       # All subsequent scraper / refresh steps `tee` their stdout+stderr
       # into a single log file that the drift-warning reporter (at the end of
@@ -296,6 +292,22 @@ jobs:
           echo "${GOOGLE_SERVICE_ACCOUNT_JSON_B64}" | base64 --decode > "$RUNNER_TEMP/google-service-account.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/google-service-account.json" >> "$GITHUB_ENV"
 
+      - name: Pull accreditation review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/accreditation/editorial_overrides.csv ]; then
+            Rscript ./scripts/pull_accreditation_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
+          fi
+
       - name: Stage accreditation review queue
         shell: bash
         timeout-minutes: 15
@@ -308,6 +320,7 @@ jobs:
               --output data_pipelines/accreditation/editorial_overrides.csv \
               --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
               --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+              --rewrite-sheet \
               --verbose \
               2>&1 | tee -a refresh-logs/combined.log
           else
@@ -318,60 +331,6 @@ jobs:
               2>&1 | tee -a refresh-logs/combined.log
           fi
 
-      - name: Stage college cuts review queue
-        shell: bash
-        timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
-        run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
-            Rscript ./scripts/stage_college_cuts_review.R \
-              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
-              --output data_pipelines/college_cuts/editorial_overrides.csv \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            Rscript ./scripts/stage_college_cuts_review.R \
-              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
-              --output data_pipelines/college_cuts/editorial_overrides.csv \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          fi
-
-      - name: Pull accreditation review decisions
-        shell: bash
-        timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
-        run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
-            Rscript ./scripts/pull_accreditation_overrides.R \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
-          fi
-
-      - name: Pull college cuts review decisions
-        shell: bash
-        timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
-        run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
-            Rscript ./scripts/pull_college_cuts_overrides.R \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            echo "Skipping Google Sheet pull for college cuts; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
-          fi
-
       - name: Rebuild static web exports (review gate)
         shell: bash
         timeout-minutes: 60
@@ -379,10 +338,8 @@ jobs:
           Rscript ./scripts/build_web_exports.R
           --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
           --apply-only-review-gate
-          --cuts-review-candidates-input review-snapshots/college_cuts_review_candidates.csv
           --accreditation-review-candidates-input review-snapshots/accreditation_review_candidates.csv
           --enforce-review-gate
-          --enforce-cuts-review-gate
 
       - name: Validate rebuilt artifacts
         shell: bash

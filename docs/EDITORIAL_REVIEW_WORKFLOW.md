@@ -112,13 +112,14 @@ collide with scraper ids and are never expected to appear in scraper output.
 
 ## 6. Google Sheet schema
 
-This worksheet now has separate review tabs:
+This worksheet now has one active review tab:
 
 - `accreditation_review`
-- `college_cuts_review`
 
-Research grants remain trusted and do **not** go through an editorial review
-queue right now.
+Only primary-tracker accreditation rows stay in the Sheet review queue. "Other
+institutions" accreditation rows and college cuts no longer route through the
+Google Sheet. Research grants also remain trusted and do **not** go through an
+editorial review queue right now.
 
 ### Accreditation tab
 
@@ -145,34 +146,11 @@ The pipeline **only ever** appends new rows and writes system columns. It never
 touches an existing row's editor columns. That one-directional rule is what
 makes the two-way sync safe.
 
-### College Cuts tab
+### College cuts
 
-Separate tab: `college_cuts_review`.
-
-**System columns** — written by the pipeline, protected so editors cannot edit
-them:
-
-`cut_id`, `first_seen`, `unitid`, `institution_name`, `state`,
-`announcement_date`, `announcement_year`, `cut_type`, `program_name`
-(shown to editors in the Sheet as `cut_description`),
-`source_url`, `source_title`, `source_publication`, `row_origin`,
-`grandfathered`.
-
-**Editor columns** — editors own these:
-
-`review_status` (dropdown: `unreviewed` / `in_review` / `approved` /
-`needs_revision` / `reject`), `editor_program_name` (shown in the Sheet as
-`editor_cut_description`),
-`editor_announcement_date`, `editor_cut_type`, `editor_source_url`,
-`editor_source_title`, `editor_source_publication`, `editor_notes`,
-`reviewer`, `reviewed_at`.
-
-The operational rules are the same as accreditation:
-
-- the pipeline refreshes system columns from the latest joined cuts data
-- it never overwrites editor columns
-- approved editor fields are overlaid onto the exported cuts JSON
-- the review gate for cuts can be turned on separately from accreditation
+College cuts no longer use the Google Sheet review queue. The export can still
+apply any already-committed local overrides, but new cuts rows are no longer
+staged to or pulled from a Sheet tab as part of the supported workflow.
 
 ## 7. The publish gate (in `build_web_exports.R`)
 
@@ -270,7 +248,7 @@ The supported same-day publish path is manual:
 | 3 | `pull_accreditation_overrides.R` + the gate in `build_web_exports.R` behind `--enforce-review-gate`. Grandfather all current live rows as approved. Flip the gate on. | gate live |
 | 4 | `publish-editorial-overrides.yml` as a manual same-day publish workflow. | same-day publish live |
 | 5 | Editor-added rows (blank-id minting). | editors can add rows |
-| 6 | Extend the pattern to **cuts** (`build_college_cuts_join.R`) on its own Sheet tab and keep **research** trusted for now. | cuts review live; research unchanged |
+| 6 | Retired: cuts no longer use a Google Sheet review tab; keep **research** trusted for now. | cuts publish directly; research unchanged |
 
 ## 12. Risks and honest caveats
 

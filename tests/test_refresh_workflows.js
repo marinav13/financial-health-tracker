@@ -232,6 +232,9 @@ run("Playwright e2e workflow uses official container and avoids browser provisio
   assert(/container:\s*\n\s*image:\s*mcr\.microsoft\.com\/playwright:v1\.59\.1-noble/m.test(TESTS), "Expected official Playwright container image");
   assert(/options:\s*--ipc=host/m.test(TESTS), "Expected Playwright container to enable shared IPC");
   assert(/env:\s*\n\s*HOME:\s*\/root/m.test(TESTS), "Expected Playwright container job to set HOME=/root for Firefox");
+  assert(/DOCKER_CONFIG:\s*\/tmp\/\.docker/m.test(TESTS), "Expected Playwright container job to route Docker config into writable /tmp/.docker");
+  assert(TESTS.includes("Prepare writable Docker config"), "Expected e2e workflow to create writable Docker config directory");
+  assert(TESTS.includes("mkdir -p /tmp/.docker"), "Expected e2e workflow to pre-create /tmp/.docker");
 
   assert(!TESTS.includes("Cache Playwright browsers"), "Expected browser cache step to be absent when using the official Playwright container");
   assert(!TESTS.includes("Install Playwright system dependencies"), "Expected install-deps step to be absent when using the official Playwright container");

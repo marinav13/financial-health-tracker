@@ -72,8 +72,8 @@ jobs:
       image: mcr.microsoft.com/playwright:v1.59.1-noble
       options: --ipc=host
     env:
-      HOME: /github/home
-      DOCKER_CONFIG: /github/home/.docker
+      HOME: /root
+      DOCKER_CONFIG: /tmp/.docker
 
     steps:
       - uses: actions/checkout@v4
@@ -84,6 +84,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Prepare writable Docker config
+        run: mkdir -p /tmp/.docker
 
       - name: Run Playwright e2e tests
         run: npm run test:e2e

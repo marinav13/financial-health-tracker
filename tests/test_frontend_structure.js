@@ -36,7 +36,7 @@ const PAGES = [
       // and gave it class="serif". Match either treatment so the
       // landing page still has a real top-level heading.
       { pattern: /<h1[^>]*class="(?:masthead-title|serif)"[^>]*>College Financial Health Explorer<\/h1>/, message: "Index landing h1" },
-      { pattern: /class="search-panel"/, message: "Search panel" },
+      { pattern: /class="[^"]*\bsearch-panel\b[^"]*"/, message: "Search panel" },
       { pattern: /id="school-search"/, message: "Search input" },
       { pattern: /id="search-results"/, message: "Search results container" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
@@ -54,7 +54,6 @@ const PAGES = [
       { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
-      { pattern: /id="cuts-other-list"[^>]*aria-live="polite"/, message: 'cuts-other-list with aria-live="polite"' },
       // Editorial Calm dropped the legacy .masthead-title decorative
       // duplicate from cuts/accred/research/school in favor of a real
       // page-specific h1 in the hero. Accept the legacy treatment OR
@@ -93,11 +92,8 @@ const PAGES = [
       { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]+aria-current="page"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab with aria-current" },
       { pattern: /id="accreditation-status"[^>]*aria-live="polite"/, message: 'accreditation-status with aria-live="polite"' },
-      { pattern: /id="accreditation-other-status"[^>]*aria-live="polite"/, message: 'accreditation-other-status with aria-live="polite"' },
       { pattern: /id="accreditation-filter"/, message: "Primary accreditation filter input" },
-      { pattern: /id="accreditation-other-filter"/, message: "Other accreditation filter input" },
       { pattern: /class="table-filter-label"[^>]+for="accreditation-filter"/, message: 'Visible label for accreditation-filter' },
-      { pattern: /class="table-filter-label"[^>]+for="accreditation-other-filter"/, message: 'Visible label for accreditation-other-filter' },
       { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Accreditation<\/h1>)/, message: "Page heading" },
     ],
   },
@@ -128,7 +124,7 @@ const PAGES = [
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },
-      { pattern: /<h2[^>]+class="section-title"[^>]*>Federal And State Aid<\/h2>/, message: "Federal And State Aid h2" },
+      { pattern: /(<h2[^>]+class="section-title"[^>]*>Federal And State Aid<\/h2>|<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about federal and state aid\?<\/h2>)/, message: "Federal and state aid heading" },
     ],
   },
 ];

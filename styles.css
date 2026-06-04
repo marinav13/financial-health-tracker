@@ -1109,7 +1109,7 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 
 .illustration-credit {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 14px;
   color: var(--ink-3);
   text-align: center;
   padding: 0 clamp(20px, 3vw, 32px) 8px;
@@ -1547,7 +1547,7 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 }
 
 #school-search-wrap .search-label {
-  text-align: center;
+  text-align: left;
 }
 
 .home-layout .search-label,
@@ -1561,7 +1561,45 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
 }
 
 #school-search-wrap .search-panel {
-  max-width: 860px;
+  max-width: none;
+  margin: 0 0 40px;
+}
+
+.school-search-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+#school-search-wrap .school-guide-link-wrap {
+  padding: 0;
+  text-align: right;
+}
+
+#school-search-wrap .school-guide-link-wrap .tool-guide-link {
+  display: inline-block;
+  padding: 0 0 6px;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  border-bottom: 3px solid var(--hechinger-gold);
+}
+
+#school-search-wrap .school-guide-link-wrap .tool-guide-link:hover,
+#school-search-wrap .school-guide-link-wrap .tool-guide-link:focus-visible,
+#school-search-wrap .school-guide-link-wrap .tool-guide-link:visited {
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink);
+  opacity: 0.9;
+  text-decoration: none;
 }
 
 .guide-jump-links {
@@ -1575,6 +1613,59 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   border-top: 1px solid var(--line);
 }
 
+body[data-search-page="school.html"] #profile-jump-links {
+  max-width: none;
+  margin: 34px 0 0;
+  padding: 12px 0 8px;
+  justify-content: flex-start;
+  gap: 18px 42px;
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--paper-page);
+}
+
+.profile-jump-links-label {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+body[data-search-page="school.html"] .section-block {
+  text-align: center;
+}
+
+body[data-search-page="school.html"] .section-title {
+  text-align: center;
+  margin: 48px auto 6px;
+}
+
+body[data-search-page="school.html"] .section-title::after {
+  margin: 10px auto 0;
+}
+
+body[data-search-page="school.html"] .section-disclosure-summary {
+  text-align: center;
+}
+
+body[data-search-page="school.html"] .section-disclosure-hint {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body[data-search-page="school.html"] .section-copy,
+body[data-search-page="school.html"] .section-copy-block,
+body[data-search-page="school.html"] .graphic-source {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .guide-jump-links a {
   font-family: var(--font-ui);
   font-size: 16px;
@@ -1583,12 +1674,24 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   text-transform: uppercase;
   color: var(--ink-2);
   text-decoration: none;
-  border-bottom: 1px solid var(--hechinger-gold);
-  padding-bottom: 2px;
+  border-bottom: 3px solid transparent;
+  padding-bottom: 3px;
+  transition: border-color 140ms ease, color 140ms ease;
+}
+
+.guide-jump-links a:hover,
+.guide-jump-links a.is-active {
+  border-bottom-color: var(--hechinger-gold);
 }
 
 .guide-jump-links a:hover {
   color: var(--hechinger-gold-deep);
+}
+
+body[data-search-page="school.html"] .section-block,
+body[data-search-page="school.html"] #school-related-section,
+body[data-search-page="school.html"] #school-bottom-search-section {
+  scroll-margin-top: 92px;
 }
 
 .guide-section {
@@ -2103,54 +2206,167 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
   object-position: center 42%;
 }
 
+body[data-search-page="school.html"] .school-quad-banner {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  height: clamp(190px, 19vw, 270px);
+  overflow: hidden;
+}
+
+body[data-search-page="school.html"] .school-quad-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+}
+
 /* .school-mast is the centered title block under the quad-banner:
    gold uppercase eyebrow rule + serif H1 + italic meta line + pill
    action buttons. */
 .school-mast {
-  padding: 44px 0 20px;
-  margin-top: 8px;
-  text-align: center;
-  /* No bottom border: the design's hairline below the action buttons
-     was visually awkward floating between the buttons and the outcomes
-     grid, so we drop it. */
+  padding: 34px 0 0;
+  margin-top: 0;
+  text-align: left;
+}
+
+.school-profile-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 48px;
+  padding-bottom: 26px;
 }
 
 .school-mast .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  display: block;
+  margin-bottom: 8px;
   font-family: var(--font-ui);
   font-weight: 600;
   font-size: 18px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  /* Use the deeper gold so the uppercase eyebrow text meets WCAG AA
-     contrast (4.5:1) on --paper-page. The decorative line segments
-     before/after still use --line-2. */
   color: var(--hechinger-gold-deep);
-}
-.school-mast .eyebrow::before,
-.school-mast .eyebrow::after {
-  content: '';
-  width: 22px;
-  height: 1px;
-  background: var(--line-2);
 }
 
 .school-mast h1 {
-  margin: 0 auto 10px;
-  max-width: 24ch;
+  margin: 0 0 6px;
+  max-width: 17ch;
   font-family: var(--font-display);
-  font-size: 50px;
-  line-height: 1.08;
-  font-style: italic;
-  font-weight: 900;
-  letter-spacing: -0.016em;
+  font-size: clamp(44px, 5.6vw, 74px);
+  line-height: 0.97;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.025em;
   color: var(--ink);
   background: transparent;
   border-radius: 0;
   padding: 0;
+}
+
+.school-name-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.school-warning-summary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(100%, 36rem);
+  margin-top: 4px;
+  margin-bottom: 2px;
+  padding: 10px 16px;
+  border: 1px solid var(--neg);
+  border-radius: 999px;
+  background: var(--neg);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.school-warning-summary .guide-warning-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.school-warning-summary:focus-visible {
+  outline: 2px solid var(--status-blue-dark);
+  outline-offset: 3px;
+}
+
+.warning-sign-tooltip {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  transform: translateX(-50%);
+  width: min(440px, calc(100vw - 40px));
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.18);
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+  z-index: 25;
+}
+
+.warning-sign-tooltip::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 14px;
+  background: transparent;
+}
+
+.warning-sign-tooltip strong {
+  font-weight: 700;
+}
+
+.warning-sign-tooltip a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.school-warning-summary .warning-sign-tooltip {
+  max-width: min(440px, calc(100vw - 40px));
+}
+
+.school-warning-summary:hover .warning-sign-tooltip,
+.school-warning-summary:focus-within .warning-sign-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] {
+  outline: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] .warning-sign-tooltip {
+  left: 18px;
+  transform: none;
+  width: min(340px, calc(100% - 36px));
+  pointer-events: none;
+}
+
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:hover .warning-sign-tooltip,
+body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:focus-within .warning-sign-tooltip {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* The .school-mast .meta and .school-mast .meta .sep rules previously
@@ -2165,23 +2381,23 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 14px 26px;
+  gap: 8px;
+  padding: 10px 20px;
   border-radius: 999px;
   border: 1px solid var(--ink);
   background: transparent;
   color: var(--ink);
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: 18px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
 }
 
 .btn-pill-icon {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   flex: 0 0 auto;
   display: block;
 }
@@ -2214,17 +2430,27 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
 
 .school-meta-wrap {
   background: transparent;
-  text-align: center;
+  text-align: left;
   padding: 0;
-  margin: 20px 0 6px;
+  margin: 0;
+  min-width: 0;
+}
+
+.school-actions-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 280px;
+  margin-top: 10px;
+  padding-top: 0;
 }
 
 .school-actions {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
   gap: 12px;
-  margin: 20px 0 6px;
+  margin: 0;
 }
 
 .download-button {
@@ -2576,37 +2802,6 @@ body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
   font-style: normal;
 }
 
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"] {
-  outline: none;
-}
-
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]::after {
-  content: "Red with a warning sign means a trend is growing in a concerning direction.\A One or two red boxes don't automatically signal crisis.\A But multiple red indicators may signal deeper financial pressure.";
-  position: absolute;
-  left: 18px;
-  top: calc(100% + 10px);
-  width: min(340px, calc(100% - 36px));
-  padding: 12px 14px;
-  border-radius: 8px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.45;
-  white-space: pre-line;
-  text-align: left;
-  box-shadow: 0 10px 22px rgba(17, 17, 17, 0.18);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
-  z-index: 20;
-}
-
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:hover::after,
-body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:focus-visible::after {
-  opacity: 1;
-}
-
 @media (max-width: 720px) {
   .metric-strip[data-arrow]::before {
     left: -32px;
@@ -2769,11 +2964,13 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
 }
 
 #school-outcomes-section.data-card {
-  background: transparent;
-  border: 0;
-  border-radius: 0;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Outcomes grid (school.html top stats): three centered columns
@@ -2784,7 +2981,7 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  margin: 28px 0 24px;
+  margin: 0;
 }
 #school-outcomes-section .research-summary-grid.outcomes-count-1 {
   grid-template-columns: minmax(280px, 420px);
@@ -2800,15 +2997,15 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
 #school-outcomes-section .research-summary-grid .metric-strip {
   width: 100%;
   margin: 0;
-  padding: 22px 24px;
+  padding: 34px 42px 38px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   background: transparent;
   border: 0;
   border-right: 1px solid var(--line);
   border-radius: 0;
-  text-align: center;
+  text-align: left;
   color: var(--ink-2);
 }
 #school-outcomes-section .research-summary-grid .metric-strip:last-child {
@@ -2819,18 +3016,18 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
   font-size: 18px;
   font-style: normal;
   font-weight: 600;
-  line-height: 1.55;
+  line-height: 1.45;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin-bottom: 14px;
-  min-height: calc(3 * 1.55em);
+  margin-bottom: 24px;
+  min-height: calc(2 * 1.45em);
   opacity: 1;
 }
 #school-outcomes-section .research-summary-grid .metric-answer {
   font-family: var(--font-display);
-  font-size: 38px;
-  font-weight: 600;
+  font-size: clamp(38px, 4.4vw, 64px);
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: var(--ink);
@@ -3290,7 +3487,7 @@ body[data-search-page="school.html"] .small-meta {
 }
 
 body[data-search-page="school.html"] .school-mast .eyebrow {
-  font-size: 36px;
+  font-size: 18px;
 }
 
 body[data-search-page="school.html"] .chart-panel .chart-legend,
@@ -3327,6 +3524,29 @@ body[data-search-page="school.html"] #net-tuition-change-card .metric-statement 
 body[data-search-page="school.html"] #school-bottom-search-section .section-copy,
 body[data-search-page="school.html"] #school-bottom-search-section .search-again-row {
   text-align: center;
+}
+
+.more-detail-subsection {
+  max-width: 62ch;
+  margin: 0 auto 28px;
+  text-align: left;
+}
+
+.more-detail-subhead {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+  padding: 0;
+}
+
+.more-detail-subhead::before {
+  content: "• ";
+}
+
+body[data-search-page="school.html"] #more-financial-detail-section .section-copy {
+  text-align: left;
 }
 
 blockquote {
@@ -3527,8 +3747,8 @@ blockquote {
    each id keeps working). They render as one comma-spaced italic line
    with hairline middle-dot separators between non-empty siblings. */
 .school-mast .meta {
-  margin: 0 auto 18px;
-  text-align: center;
+  margin: 18px 0 12px;
+  text-align: left;
   font-family: var(--font-body);
   font-style: italic;
   font-size: 22px;
@@ -3792,6 +4012,15 @@ blockquote {
     max-width: 100%;
   }
 
+  .school-search-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  #school-search-wrap .school-guide-link-wrap {
+    text-align: left;
+  }
+
   /* On narrow widths the placeholder ("Start typing a college name,
      city, state or IPEDS ID") was getting clipped after about 22
      characters. Shrink the input chrome (wrap padding, icon margin)
@@ -3876,11 +4105,44 @@ blockquote {
     height: 160px;
   }
 
+  body[data-search-page="school.html"] .school-quad-banner {
+    margin-left: 0;
+    margin-right: 0;
+    height: 165px;
+  }
+
   .school-mast {
-    padding: 32px 16px 16px;
+    padding: 32px 16px 0;
+  }
+  .school-profile-header {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-bottom: 26px;
   }
   .school-mast h1 {
-    font-size: 32px;
+    max-width: none;
+    font-size: 30px;
+  }
+  .school-actions-wrap {
+    min-width: 0;
+    align-items: flex-start;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .school-actions {
+    width: 100%;
+    margin-top: 0;
+  }
+  .school-actions .btn-pill {
+    width: 100%;
+  }
+  .school-warning-summary {
+    font-size: 16px;
+    padding: 10px 16px;
+  }
+  body[data-search-page="school.html"] #profile-jump-links {
+    margin-top: 24px;
+    gap: 14px 22px;
   }
 
   .section-block {
@@ -3902,6 +4164,7 @@ blockquote {
     justify-content: stretch;
   }
   #school-outcomes-section .research-summary-grid .metric-strip {
+    padding: 24px 22px 28px;
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }

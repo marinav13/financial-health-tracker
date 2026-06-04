@@ -2624,6 +2624,37 @@ build_school_file <- function(df, accreditation_school = NULL) {
   } else {
     NA_real_
   }
+  control_key <- latest$control_label[[1]]
+  sector_headline_revenue_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_headline_revenue_benchmarks)) {
+    unname(sector_headline_revenue_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
+  sector_headline_net_tuition_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_headline_net_tuition_benchmarks)) {
+    unname(sector_headline_net_tuition_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
+  sector_headline_enrollment_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_headline_enrollment_benchmarks)) {
+    unname(sector_headline_enrollment_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
+  sector_headline_staff_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_headline_staff_benchmarks)) {
+    unname(sector_headline_staff_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
+  sector_headline_endowment_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_headline_endowment_benchmarks)) {
+    unname(sector_headline_endowment_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
+  sector_endowment_per_fte_benchmark <- if (!is.null(control_key) && !is.na(control_key) && control_key %in% names(sector_endowment_per_fte_benchmarks)) {
+    unname(sector_endowment_per_fte_benchmarks[[control_key]])
+  } else {
+    NA_real_
+  }
 
   school <- list(
     unitid = as.character(latest$unitid[[1]]),
@@ -2647,10 +2678,14 @@ build_school_file <- function(df, accreditation_school = NULL) {
     summary = list(
       latest_year = latest$year[[1]],
       enrollment_pct_change_5yr = latest$enrollment_pct_change_5yr[[1]],
+      sector_median_enrollment_pct_change_5yr = sector_headline_enrollment_benchmark,
       enrollment_decline_last_3_of_5 = latest$enrollment_decline_last_3_of_5[[1]],
       revenue_pct_change_5yr = latest$revenue_pct_change_5yr[[1]],
+      sector_median_revenue_pct_change_5yr = sector_headline_revenue_benchmark,
       net_tuition_per_fte_change_5yr = latest$net_tuition_per_fte_change_5yr[[1]],
+      sector_median_net_tuition_per_fte_change_5yr = sector_headline_net_tuition_benchmark,
       staff_total_headcount_pct_change_5yr = latest$staff_total_headcount_pct_change_5yr[[1]],
+      sector_median_staff_total_headcount_pct_change_5yr = sector_headline_staff_benchmark,
       staff_instructional_headcount_pct_change_5yr = latest$staff_instructional_headcount_pct_change_5yr[[1]],
       students_per_instructional_staff_fte = or_null(latest$students_per_instructional_staff_fte),
       sector_median_students_per_instructional_staff_fte = or_null(latest$sector_median_students_per_instructional_staff_fte),
@@ -2687,7 +2722,10 @@ build_school_file <- function(df, accreditation_school = NULL) {
       state_funding_pct_core_revenue = scale_ratio_to_pct(latest$state_funding_pct_core_revenue[[1]]),
       federal_grants_contracts_pell_adjusted_pct_change_5yr = latest$federal_grants_contracts_pell_adjusted_pct_change_5yr[[1]],
       state_funding_pct_change_5yr = latest$state_funding_pct_change_5yr[[1]],
+      endowment_assets_per_fte_adjusted = latest$endowment_assets_per_fte_adjusted[[1]],
+      sector_median_endowment_assets_per_fte_adjusted = sector_endowment_per_fte_benchmark,
       endowment_pct_change_5yr = latest$endowment_pct_change_5yr[[1]],
+      sector_median_endowment_pct_change_5yr = sector_headline_endowment_benchmark,
       endowment_spending_current_use_pct_core_revenue = latest$endowment_spending_current_use_pct_core_revenue[[1]],
       graduation_rate_6yr = latest$graduation_rate_6yr[[1]],
       median_earnings_10yr = latest$median_earnings_10yr[[1]],
@@ -2755,6 +2793,7 @@ numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
   "students_per_instructional_staff_fte","sector_median_students_per_instructional_staff_fte",
+  "endowment_assets_per_fte_adjusted",
   "tuition_dependence_pct","sector_median_tuition_dependence_pct","discount_rate","discount_pct_change_5yr","share_grad_students","research_expense","research_expense_per_fte",
   "research_expense_pct_core_expenses",
   "sector_research_spending_n","sector_research_spending_positive_n","sector_research_spending_reporting_share_pct","sector_median_research_expense_per_fte_positive","pct_international_all",
@@ -2848,12 +2887,42 @@ benchmark_specs <- list(
   sector_grad_plus_benchmarks = list(
     value_col = "grad_plus_disbursements_per_recipient",
     summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE)
+  ),
+  sector_median_revenue_pct_change_5yr = list(
+    value_col = "revenue_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
+  ),
+  sector_median_net_tuition_per_fte_change_5yr = list(
+    value_col = "net_tuition_per_fte_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
+  ),
+  sector_median_enrollment_pct_change_5yr = list(
+    value_col = "enrollment_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
+  ),
+  sector_median_staff_total_headcount_pct_change_5yr = list(
+    value_col = "staff_total_headcount_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
+  ),
+  sector_median_endowment_pct_change_5yr = list(
+    value_col = "endowment_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
+  ),
+  sector_median_endowment_assets_per_fte_adjusted = list(
+    value_col = "endowment_assets_per_fte_adjusted",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
   )
 )
 benchmark_values <- lapply(benchmark_specs, function(spec) {
   build_group_value_lookup(
     latest_financial,
-    group_col = "sector",
+    group_col = spec$group_col %||% "sector",
     value_col = spec$value_col,
     summarizer = spec$summarizer
   )
@@ -2861,6 +2930,12 @@ benchmark_values <- lapply(benchmark_specs, function(spec) {
 sector_loan_benchmarks <- benchmark_values$sector_loan_benchmarks
 sector_grad_share_benchmarks <- benchmark_values$sector_grad_share_benchmarks
 sector_grad_plus_benchmarks <- benchmark_values$sector_grad_plus_benchmarks
+sector_headline_revenue_benchmarks <- benchmark_values$sector_median_revenue_pct_change_5yr
+sector_headline_net_tuition_benchmarks <- benchmark_values$sector_median_net_tuition_per_fte_change_5yr
+sector_headline_enrollment_benchmarks <- benchmark_values$sector_median_enrollment_pct_change_5yr
+sector_headline_staff_benchmarks <- benchmark_values$sector_median_staff_total_headcount_pct_change_5yr
+sector_headline_endowment_benchmarks <- benchmark_values$sector_median_endowment_pct_change_5yr
+sector_endowment_per_fte_benchmarks <- benchmark_values$sector_median_endowment_assets_per_fte_adjusted
 
 schools_index <- latest_financial %>%
   transmute(

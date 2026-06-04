@@ -503,19 +503,165 @@ function buildTrendCardLines(subject, value, rangeText, profile, benchmarkValue,
   return comparisonLine ? [mainLine, comparisonLine] : [mainLine];
 }
 
+let teardownProfileJumpLinkTracking = null;
+
 function renderProfileJumpLinks(visibility = {}) {
+  const showFinancialStatements = Boolean(visibility.showFinancialStatementsSection);
   setSectionVisibility("profile-jump-links", Boolean(
     visibility.showFinancialSection ||
     visibility.showEnrollmentSection ||
     visibility.showStaffingSection ||
     visibility.showEndowmentSection ||
-    visibility.showFederalCompositeSection
+    visibility.showFederalCompositeSection ||
+    showFinancialStatements
   ));
   setElementVisible("profile-jump-link-revenue", Boolean(visibility.showFinancialSection));
   setElementVisible("profile-jump-link-enrollment", Boolean(visibility.showEnrollmentSection));
   setElementVisible("profile-jump-link-staffing", Boolean(visibility.showStaffingSection));
   setElementVisible("profile-jump-link-endowment", Boolean(visibility.showEndowmentSection));
   setElementVisible("profile-jump-link-composite", Boolean(visibility.showFederalCompositeSection));
+  setElementVisible("profile-jump-link-financial-statements", showFinancialStatements);
+}
+
+// Maps each tracked section ID to its nav link ID. Sections mapping to the
+// same link ID are collapsed: whichever of them crossed the viewport anchor
+// last is used as the tiebreaker (the last one in DOM order wins).
+const PROFILE_NAV_SECTION_TO_LINK = {
+  "financial-section": "profile-jump-link-revenue",
+  "net-tuition-section": "profile-jump-link-revenue",
+  "state-aid-section": "profile-jump-link-revenue",
+  "aid-section": "profile-jump-link-revenue",
+  "enrollment-section": "profile-jump-link-enrollment",
+  "intl-section": "profile-jump-link-enrollment",
+  "staffing-section": "profile-jump-link-staffing",
+  "endowment-section": "profile-jump-link-endowment",
+  "federal-composite-section": "profile-jump-link-composite",
+  "hcm2-section": "profile-jump-link-composite",
+  "more-financial-detail-section": "profile-jump-link-financial-statements",
+  "school-related-section": "profile-jump-link-financial-statements",
+  "school-bottom-search-section": "profile-jump-link-financial-statements"
+};
+
+// Called once at the very end of init(), after every section has its final
+// visible/hidden state. Building visibleSections here (not in renderProfileJumpLinks)
+// ensures federal-composite-section and hcm2-section are included when present.
+function setupProfileJumpLinkTracking() {
+  if (typeof teardownProfileJumpLinkTracking === "function") {
+    teardownProfileJumpLinkTracking();
+    teardownProfileJumpLinkTracking = null;
+  }
+
+  const nav = document.getElementById("profile-jump-links");
+  if (!nav || nav.classList.contains("is-hidden")) return;
+
+  // Snapshot visible sections in DOM order. Called after all sections are
+  // shown/hidden so composite and HCM2 are captured when they exist.
+  const visibleSections = Object.keys(PROFILE_NAV_SECTION_TO_LINK)
+    .map((id) => document.getElementById(id))
+    .filter((el) => el && !el.classList.contains("is-hidden") &&
+                    el.getAttribute("aria-hidden") !== "true")
+    .sort((a, b) =>
+      a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+
+  const links = Array.from(nav.querySelectorAll("a"))
+    .filter((el) => !el.classList.contains("is-hidden"));
+
+  if (!links.length || !visibleSections.length) return;
+
+  let pinnedLinkId = null;
+  let pinUntil = 0;
+  let rafId = 0;
+
+  function clearActive() {
+    links.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    });
+  }
+
+  function setActive(linkId) {
+    links.forEach((link) => {
+      const active = link.id === linkId;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  }
+
+  // Trigger point for most sections: top of the section heading.
+  // Exception: for more-financial-detail-section, use the bottom of the last
+  // visible composite/HCM2 section so "Financial Statements" activates as soon
+  // as "Financial Responsibility Score" scrolls off screen — even when the page
+  // is too short to scroll the financial-detail heading up to the anchor.
+  function getSectionTriggerTop(section) {
+    if (section.id === "more-financial-detail-section") {
+      for (const id of ["hcm2-section", "federal-composite-section"]) {
+        const el = document.getElementById(id);
+        if (el && !el.classList.contains("is-hidden")) {
+          return el.getBoundingClientRect().bottom;
+        }
+      }
+    }
+    const heading = section.querySelector(
+      ".section-title, .section-disclosure-summary, .more-detail-subhead"
+    );
+    return (heading || section).getBoundingClientRect().top;
+  }
+
+  function update() {
+    rafId = 0;
+    const now = Date.now();
+    if (pinnedLinkId && now < pinUntil) {
+      setActive(pinnedLinkId);
+      return;
+    }
+    pinnedLinkId = null;
+
+    // Anchor = bottom of the sticky nav bar + small breathing room.
+    // Walk sections in DOM order; keep the last one whose trigger is at or
+    // above the anchor. That section "owns" the current viewport position.
+    const anchor = nav.getBoundingClientRect().bottom + 8;
+    let activeLinkId = links[0].id;
+    for (const section of visibleSections) {
+      if (getSectionTriggerTop(section) <= anchor) {
+        activeLinkId = PROFILE_NAV_SECTION_TO_LINK[section.id] || activeLinkId;
+      }
+    }
+    setActive(activeLinkId);
+  }
+
+  function requestUpdate() {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(update);
+  }
+
+  // Pin the clicked link for 700 ms, then let scroll take over.
+  const clickHandlers = links.map((link) => {
+    const handler = () => {
+      pinnedLinkId = link.id;
+      pinUntil = Date.now() + 700;
+      setActive(link.id);
+      requestUpdate();
+    };
+    link.addEventListener("click", handler);
+    return { link, handler };
+  });
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  requestUpdate();
+
+  teardownProfileJumpLinkTracking = () => {
+    window.removeEventListener("scroll", requestUpdate);
+    window.removeEventListener("resize", requestUpdate);
+    clickHandlers.forEach(({ link, handler }) =>
+      link.removeEventListener("click", handler));
+    if (rafId) {
+      window.cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+    clearActive();
+  };
 }
 
 function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
@@ -720,7 +866,7 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
 
   const relatedPages = [
     {
-      label: "College Cuts",
+      label: "College cuts",
       page: "cuts.html",
       record: findRelatedIndexRecord(relatedIndexes.cuts, unitid, "cut_count")
     },
@@ -1315,6 +1461,10 @@ function initMetricArrowReveal() {
 }
 
 function showSchoolGuideLanding() {
+  if (typeof teardownProfileJumpLinkTracking === "function") {
+    teardownProfileJumpLinkTracking();
+    teardownProfileJumpLinkTracking = null;
+  }
   setGuideOnlyVisible(true);
   setElementVisible("school-profile-banner", false);
   setSectionsVisible(PROFILE_SHELL_SECTION_IDS, false);
@@ -1332,6 +1482,10 @@ function showSchoolGuideLanding() {
 }
 
 function showSchoolProfileShell() {
+  if (typeof teardownProfileJumpLinkTracking === "function") {
+    teardownProfileJumpLinkTracking();
+    teardownProfileJumpLinkTracking = null;
+  }
   setGuideOnlyVisible(false);
   setElementVisible("school-profile-banner", true);
   setSectionsVisible(PROFILE_SHELL_SECTION_IDS, true);
@@ -1787,7 +1941,8 @@ async function init() {
     showEnrollmentSection,
     showStaffingSection,
     showEndowmentSection,
-    showFederalCompositeSection: Boolean(compositeSentence)
+    showFederalCompositeSection: Boolean(compositeSentence),
+    showFinancialStatementsSection: true
   });
   const stateGroup = document.getElementById("state-group");
   const stateAidAnchor = document.getElementById("state-aid-anchor");
@@ -2066,6 +2221,9 @@ async function init() {
     }
     applyStrip("hcm2-card", hcmSentence, hcm2State(hcmRecord));
   }
+  // Nav tracker built here so composite/HCM2/financial-detail sections
+  // are already in their final visible state before visibleSections is snapped.
+  setupProfileJumpLinkTracking();
   initMetricArrowReveal();
 }
 

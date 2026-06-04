@@ -56,14 +56,19 @@
       </div>
     </section>
 
-    <section id="school-guide-link-section" class="school-guide-link-wrap is-hidden" aria-hidden="true">
+    <section id="school-guide-link-section-legacy" class="school-guide-link-wrap is-hidden" aria-hidden="true" hidden>
       <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here’s a guide.</a>
     </section>
 
     <details id="school-search-wrap" class="school-search-wrap" open>
       <summary class="school-search-summary" aria-label="Toggle search"></summary>
       <section class="search-panel" data-school-search-instance>
-        <label class="search-label" for="school-search">Search by institution:</label>
+        <div class="school-search-head">
+          <label class="search-label" for="school-search">Search by institution:</label>
+          <section id="school-guide-link-section" class="school-guide-link-wrap is-hidden" aria-hidden="true">
+            <a href="school.html#guide-intro" class="tool-guide-link">New to this tool? Here&rsquo;s a guide &#8594;</a>
+          </section>
+        </div>
         <div class="search-input-wrap">
           <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -85,9 +90,10 @@
         <li class="guide-body"><span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Red</span> with a warning sign means a trend is growing in a concerning direction.</li>
         <li class="guide-body">One or two <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> boxes do not automatically mean a school is in crisis.</li>
         <li class="guide-body">But if a college shows several <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
+        <li class="guide-body">Look out for the <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Pattern of warning signs</span> indicator at the top of a profile. That signals the college has a pattern of falling net tuition revenue and enrollment over the previous 5 years as well as repeated losses.</li>
       </ul>
       <div class="guide-learn-more">
-        <p class="guide-body">Click on the tabs at the top of the page to learn whether a college has:</p>
+        <p class="guide-body">Click on the tabs at the top of the page to learn about colleges that have:</p>
         <ul class="guide-bullet-list">
           <li>announced <a href="cuts.html">cuts to programs or staff</a>,</li>
           <li>faced sanction from <a href="accreditation.html">accreditors</a>,</li>
@@ -139,6 +145,10 @@
       <h2 id="guide-example-section-title" class="section-title">Here are some example financial profiles:</h2>
       <div class="guide-example">
         <div class="guide-example-mast">
+          <span class="school-warning-summary" aria-label="Pattern of warning signs">
+            <span class="guide-warning-icon" aria-hidden="true"></span>
+            <span>Pattern of warning signs</span>
+          </span>
           <p id="guide-example-title" class="serif guide-example-school-name">Example University</p>
           <p class="guide-example-meta">Sampleville, State &middot; Private nonprofit &middot; Suburb: Small</p>
         </div>
@@ -255,34 +265,37 @@
       <img src="assets/college-financial-health-school.png" alt="">
     </figure>
     <section id="school-profile-mast" class="school-mast">
-      <div class="eyebrow">Financial Profile</div>
-      <div class="school-name-row">
-        <h1 id="school-name">Loading...</h1>
-        <span id="school-warning-summary" class="school-warning-summary is-hidden" role="img" aria-hidden="true"></span>
+      <div class="school-profile-header">
+        <section id="school-meta-wrap" class="school-meta-wrap">
+          <div class="eyebrow">- Financial Profile -</div>
+          <div class="school-name-row">
+            <span id="school-warning-summary" class="school-warning-summary is-hidden" role="img" aria-hidden="true"></span>
+            <h1 id="school-name">Loading...</h1>
+          </div>
+          <div class="meta">
+            <p id="school-location" class="school-meta"></p>
+            <p id="school-control" class="school-meta"></p>
+            <p id="school-urbanization" class="school-meta"></p>
+          </div>
+          <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
+        </section>
+        <div class="school-actions-wrap">
+          <div class="school-actions">
+            <button id="download-school-data" class="btn-pill filled" type="button">Download this college's data</button>
+            <button id="share-school-profile" class="btn-pill outline" type="button">
+              <svg class="btn-pill-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M7 8H5.75A1.75 1.75 0 0 0 4 9.75v8.5C4 19.216 4.784 20 5.75 20h8.5A1.75 1.75 0 0 0 16 18.25V17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10 15.5c.55-3.95 3.45-7.15 7.5-8.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M12.8 6.1H20v7.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="m13.3 13.1 6.7-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="m16.9 4 3.1 2.4-3.8 1" fill="currentColor"/>
+              </svg>
+              <span>Share this profile</span>
+            </button>
+          </div>
+          <p id="share-school-status" class="sr-only" aria-live="polite"></p>
+        </div>
       </div>
-      <section id="school-meta-wrap" class="school-meta-wrap">
-        <div class="meta">
-          <p id="school-location" class="school-meta"></p>
-          <p id="school-control" class="school-meta"></p>
-          <p id="school-urbanization" class="school-meta"></p>
-        </div>
-        <p id="school-closure-flag" class="school-meta school-closure-flag is-hidden"></p>
-        <div class="school-actions">
-          <button id="download-school-data" class="btn-pill filled" type="button">Download this college's data</button>
-          <button id="share-school-profile" class="btn-pill outline" type="button">
-            <svg class="btn-pill-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <path d="M7 8H5.75A1.75 1.75 0 0 0 4 9.75v8.5C4 19.216 4.784 20 5.75 20h8.5A1.75 1.75 0 0 0 16 18.25V17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M10 15.5c.55-3.95 3.45-7.15 7.5-8.25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M12.8 6.1H20v7.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="m13.3 13.1 6.7-6.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="m16.9 4 3.1 2.4-3.8 1" fill="currentColor"/>
-            </svg>
-            <span>Share this profile</span>
-          </button>
-        </div>
-        <p id="share-school-status" class="sr-only" aria-live="polite"></p>
-
-      </section>
     </section>
 
     <section id="school-outcomes-section" class="data-card">
@@ -303,11 +316,13 @@
     </section>
 
     <nav id="profile-jump-links" class="guide-jump-links is-hidden" aria-label="Jump to financial profile sections">
+      <span class="profile-jump-links-label" aria-hidden="true">Jump to:</span>
       <a id="profile-jump-link-revenue" href="#financial-section">Revenue</a>
       <a id="profile-jump-link-enrollment" href="#enrollment-section">Enrollment</a>
       <a id="profile-jump-link-staffing" href="#staffing-section">Staffing</a>
       <a id="profile-jump-link-endowment" href="#endowment-section">Endowment</a>
       <a id="profile-jump-link-composite" href="#federal-composite-section">Financial responsibility score</a>
+      <a id="profile-jump-link-financial-statements" href="#more-financial-detail-section">Financial statements</a>
     </nav>
 
     <section class="section-block" id="financial-section">
@@ -344,6 +359,31 @@
       <p class="section-copy">Some public colleges depend more than others on state funding. A higher share means the college is more exposed if that funding changes.</p>
       <div id="state-aid-anchor"></div>
     </section>
+
+    <details class="section-block section-disclosure is-hidden" id="aid-section" aria-hidden="true">
+      <summary class="section-disclosure-summary" aria-controls="aid-section-body">
+        <h2 id="aid-section-title" class="section-title">Want data about federal and state aid?</h2>
+        <p class="section-disclosure-hint">Expand for trends in governmental funding</p>
+      </summary>
+      <div id="aid-section-body" class="section-disclosure-body">
+        <p id="aid-section-intro" class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
+        <div id="federal-group">
+          <p id="federal-share-copy" class="section-copy is-hidden"></p>
+          <div id="federal-change-card" class="metric-strip neutral"></div>
+          <div id="chart-federal" class="chart-panel"></div>
+        </div>
+        <div id="aid-state-anchor">
+          <div id="state-group">
+            <p id="state-share-copy" class="section-copy is-hidden"></p>
+            <div id="state-change-card" class="metric-strip neutral"></div>
+            <div id="chart-state" class="chart-panel"></div>
+            <p id="state-negative-note" class="chart-note is-hidden">*<em>IPEDS shows a negative state-appropriations value in at least one year for this institution. That may reflect a reporting adjustment or reclassification rather than negative aid in the everyday sense.</em></p>
+          </div>
+        </div>
+        <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
+        <div id="research-spending-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
+      </div>
+    </details>
 
     <section class="section-block" id="enrollment-section">
       <h2 class="section-title">Enrollment</h2>
@@ -400,34 +440,9 @@
       <div id="hcm2-card" class="metric-strip neutral"></div>
     </section>
 
-
-    <details class="section-block section-disclosure is-hidden" id="aid-section" aria-hidden="true">
-      <summary class="section-disclosure-summary" aria-controls="aid-section-body">
-        <h2 id="aid-section-title" class="section-title">Want details about federal and state aid?</h2>
-        <p class="section-disclosure-hint">Expand for trends in governmental funding</p>
-      </summary>
-      <div id="aid-section-body" class="section-disclosure-body">
-        <p id="aid-section-intro" class="section-copy">Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.</p>
-        <div id="federal-group">
-          <p id="federal-share-copy" class="section-copy is-hidden"></p>
-          <div id="federal-change-card" class="metric-strip neutral"></div>
-          <div id="chart-federal" class="chart-panel"></div>
-        </div>
-        <div id="aid-state-anchor">
-          <div id="state-group">
-            <p id="state-share-copy" class="section-copy is-hidden"></p>
-            <div id="state-change-card" class="metric-strip neutral"></div>
-            <div id="chart-state" class="chart-panel"></div>
-            <p id="state-negative-note" class="chart-note is-hidden">*<em>IPEDS shows a negative state-appropriations value in at least one year for this institution. That may reflect a reporting adjustment or reclassification rather than negative aid in the everyday sense.</em></p>
-          </div>
-        </div>
-        <p id="research-aid-intro" class="section-copy">Universities that heavily focus on research may be more vulnerable to the threat of funding cuts.</p>
-        <div id="research-spending-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
-      </div>
-    </details>
-
     <section id="more-financial-detail-section" class="section-block is-hidden" aria-hidden="true">
       <h2 class="section-title">Looking for more financial details?</h2>
+      <br>
       <div class="more-detail-subsection">
         <h3 class="more-detail-subhead">Bond ratings</h3>
         <p class="section-copy">Colleges can issue bonds to finance buildings and equipment. Rating agencies like Moody&rsquo;s, S&amp;P, and Fitch evaluate whether a college will likely repay its debt on time and assign long-term ratings to those bonds. Low ratings often signal weaker financial health.</p>
@@ -457,6 +472,8 @@
     <section id="school-bottom-search-section" class="section-block is-hidden" aria-hidden="true">
       <p class="section-copy search-again-row"><a href="#school-search-wrap" class="return-search-tool">Want to search for another institution?</a></p>
     </section>
+
+    <p class="illustration-credit">Illustration by Elena Lacey for The Hechinger Report</p>
 
     <footer class="pg-foot">
       <span class="sig"><span class="sq"></span> The Hechinger Report</span>

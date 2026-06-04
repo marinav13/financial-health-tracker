@@ -124,7 +124,7 @@ const PAGES = [
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },
-      { pattern: /(<h2[^>]+class="section-title"[^>]*>Federal And State Aid<\/h2>|<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about federal and state aid\?<\/h2>)/, message: "Federal and state aid heading" },
+      { pattern: /(<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about state aid\?<\/h2>)/, message: "State aid heading" },
     ],
   },
 ];

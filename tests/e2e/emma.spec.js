@@ -2,9 +2,9 @@
  * End-to-end tests for the EMMA bond-rating search card on school profiles.
  *
  * Tests that:
- * - The emma-section is present and visible on any loaded school profile
+ * - The more-financial-detail section is present and visible on any loaded school profile
  * - The search link is populated with the institution name
- * - The link href points to emma.msrb.org with a ?q= query string
+ * - The link href points to emma.msrb.org
  * - The aria-label includes the institution name
  */
 
@@ -23,7 +23,7 @@ test.describe('EMMA bond-rating card', () => {
   test('card renders on a school with charts', async ({ page }) => {
     await page.goto(`/school.html?unitid=${publicSchoolUnitid}`);
 
-    const section = page.locator('#emma-section');
+    const section = page.locator('#more-financial-detail-section');
     await expect(section).toBeVisible();
 
     const link = page.locator('#emma-search-link');
@@ -33,7 +33,7 @@ test.describe('EMMA bond-rating card', () => {
   test('card renders on a school without endowment data', async ({ page }) => {
     await page.goto(`/school.html?unitid=${smallSchoolUnitid}`);
 
-    const section = page.locator('#emma-section');
+    const section = page.locator('#more-financial-detail-section');
     await expect(section).toBeVisible();
 
     const link = page.locator('#emma-search-link');
@@ -43,7 +43,7 @@ test.describe('EMMA bond-rating card', () => {
   test('card renders for first school in index', async ({ page }) => {
     await page.goto(`/school.html?unitid=${firstEntryUnitid}`);
 
-    const section = page.locator('#emma-section');
+    const section = page.locator('#more-financial-detail-section');
     await expect(section).toBeVisible();
 
     const link = page.locator('#emma-search-link');
@@ -83,7 +83,7 @@ test.describe('EMMA bond-rating card', () => {
   test('card is hidden on guide landing page (no unitid)', async ({ page }) => {
     await page.goto('/school.html');
 
-    const section = page.locator('#emma-section');
+    const section = page.locator('#more-financial-detail-section');
     await expect(section).toHaveClass(/is-hidden/);
   });
 

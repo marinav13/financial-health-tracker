@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Look Up a College's Financial Health | College Financial Health Tracker</title>
-  <meta name="description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, federal composite score, and any program cuts or accreditation actions.">
+  <meta name="description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
   <meta name="news-keywords" content="college financial health, college budget, college enrollment, university finances">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/school.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Hechinger Report">
   <meta property="og:title" content="Look Up a College's Financial Health">
-  <meta property="og:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, federal composite score, and any program cuts or accreditation actions.">
+  <meta property="og:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
   <meta property="og:url" content="https://hechingerreport.org/college-financial-health-tracker/school.html">
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
   <meta name="twitter:title" content="Look Up a College's Financial Health">
-  <meta name="twitter:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, federal composite score, and any program cuts or accreditation actions.">
+  <meta name="twitter:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
   <meta name="twitter:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -267,7 +267,6 @@
     <section id="school-profile-mast" class="school-mast">
       <div class="school-profile-header">
         <section id="school-meta-wrap" class="school-meta-wrap">
-          <div class="eyebrow">- Financial Profile -</div>
           <div class="school-name-row">
             <span id="school-warning-summary" class="school-warning-summary is-hidden" role="img" aria-hidden="true"></span>
             <h1 id="school-name">Loading...</h1>
@@ -321,7 +320,6 @@
       <a id="profile-jump-link-enrollment" href="#enrollment-section">Enrollment</a>
       <a id="profile-jump-link-staffing" href="#staffing-section">Staffing</a>
       <a id="profile-jump-link-endowment" href="#endowment-section">Endowment</a>
-      <a id="profile-jump-link-composite" href="#federal-composite-section">Financial responsibility score</a>
       <a id="profile-jump-link-financial-statements" href="#more-financial-detail-section">Financial statements</a>
     </nav>
 
@@ -416,21 +414,6 @@
       <div id="endowment-per-fte-copy" class="section-copy-block is-hidden" aria-hidden="true"></div>
       <p id="endowment-spending-copy" class="section-copy is-hidden">Some universities report how much of the endowment they spend each year to help cover expenses.</p>
       <div id="chart-endowment-spending" class="chart-panel is-hidden"></div>
-    </section>
-
-    <section class="section-block is-hidden" id="federal-composite-section">
-      <h2 class="section-title">Financial Responsibility Composite Score</h2>
-      <p class="section-copy">The federal government scores private nonprofit and for-profit colleges on overall financial health. The formula weighs factors like cash reserves, debt, and whether the school is making or losing money.  The scale runs from -1.0 to 3.0. </p>
-      <p class="section-copy">A score of 1.5 or higher means the school is considered financially responsible.  Schools with scores from 1.0 to less than 1.5 are still considered financially responsible but require additional oversight to keep receiving federal student aid. </p>
-      <p class="section-copy">A school with a score below 1.0 is considered not financially responsible and must take steps like posting a letter of credit to continue receiving federal aid.</p>
-      <div id="federal-composite-card" class="metric-strip neutral"></div>
-    </section>
-
-    <section class="section-block is-hidden" id="hcm2-section">
-      <h2 class="section-title">Cash Monitoring</h2>
-      <p class="section-copy">The federal government can delay federal financial aid to colleges with serious accreditation, financial or administrative concerns. It can do so by placing them on what's known as heightened cash monitoring level 2. Historically, most schools on the list are for-profit.</p>
-      <p id="hcm2-trend-copy" class="section-copy"></p>
-      <div id="hcm2-card" class="metric-strip neutral"></div>
     </section>
 
     <section id="more-financial-detail-section" class="section-block is-hidden" aria-hidden="true">

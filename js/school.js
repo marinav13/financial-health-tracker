@@ -512,14 +512,12 @@ function renderProfileJumpLinks(visibility = {}) {
     visibility.showEnrollmentSection ||
     visibility.showStaffingSection ||
     visibility.showEndowmentSection ||
-    visibility.showFederalCompositeSection ||
     showFinancialStatements
   ));
   setElementVisible("profile-jump-link-revenue", Boolean(visibility.showFinancialSection));
   setElementVisible("profile-jump-link-enrollment", Boolean(visibility.showEnrollmentSection));
   setElementVisible("profile-jump-link-staffing", Boolean(visibility.showStaffingSection));
   setElementVisible("profile-jump-link-endowment", Boolean(visibility.showEndowmentSection));
-  setElementVisible("profile-jump-link-composite", Boolean(visibility.showFederalCompositeSection));
   setElementVisible("profile-jump-link-financial-statements", showFinancialStatements);
 }
 
@@ -535,8 +533,6 @@ const PROFILE_NAV_SECTION_TO_LINK = {
   "intl-section": "profile-jump-link-enrollment",
   "staffing-section": "profile-jump-link-staffing",
   "endowment-section": "profile-jump-link-endowment",
-  "federal-composite-section": "profile-jump-link-composite",
-  "hcm2-section": "profile-jump-link-composite",
   "more-financial-detail-section": "profile-jump-link-financial-statements",
   "school-related-section": "profile-jump-link-financial-statements",
   "school-bottom-search-section": "profile-jump-link-financial-statements"
@@ -544,7 +540,7 @@ const PROFILE_NAV_SECTION_TO_LINK = {
 
 // Called once at the very end of init(), after every section has its final
 // visible/hidden state. Building visibleSections here (not in renderProfileJumpLinks)
-// ensures federal-composite-section and hcm2-section are included when present.
+// ensures the tracker reflects the page's settled layout.
 function setupProfileJumpLinkTracking() {
   if (typeof teardownProfileJumpLinkTracking === "function") {
     teardownProfileJumpLinkTracking();
@@ -554,8 +550,7 @@ function setupProfileJumpLinkTracking() {
   const nav = document.getElementById("profile-jump-links");
   if (!nav || nav.classList.contains("is-hidden")) return;
 
-  // Snapshot visible sections in DOM order. Called after all sections are
-  // shown/hidden so composite and HCM2 are captured when they exist.
+  // Snapshot visible sections in DOM order after all visibility updates land.
   const visibleSections = Object.keys(PROFILE_NAV_SECTION_TO_LINK)
     .map((id) => document.getElementById(id))
     .filter((el) => el && !el.classList.contains("is-hidden") &&
@@ -588,20 +583,8 @@ function setupProfileJumpLinkTracking() {
     });
   }
 
-  // Trigger point for most sections: top of the section heading.
-  // Exception: for more-financial-detail-section, use the bottom of the last
-  // visible composite/HCM2 section so "Financial Statements" activates as soon
-  // as "Financial Responsibility Score" scrolls off screen — even when the page
-  // is too short to scroll the financial-detail heading up to the anchor.
+  // Trigger point for each section: the top of its heading.
   function getSectionTriggerTop(section) {
-    if (section.id === "more-financial-detail-section") {
-      for (const id of ["hcm2-section", "federal-composite-section"]) {
-        const el = document.getElementById(id);
-        if (el && !el.classList.contains("is-hidden")) {
-          return el.getBoundingClientRect().bottom;
-        }
-      }
-    }
     const heading = section.querySelector(
       ".section-title, .section-disclosure-summary, .more-detail-subhead"
     );
@@ -748,20 +731,6 @@ function setBodyCopy(id, paragraphs) {
     node.appendChild(p);
   });
 
-  node.classList.remove("is-hidden");
-  node.setAttribute("aria-hidden", "false");
-}
-
-function setHtmlCopy(id, html, hidden = false) {
-  const node = document.getElementById(id);
-  if (!node) return;
-  if (hidden || !html) {
-    node.textContent = "";
-    node.classList.add("is-hidden");
-    node.setAttribute("aria-hidden", "true");
-    return;
-  }
-  node.innerHTML = html;
   node.classList.remove("is-hidden");
   node.setAttribute("aria-hidden", "false");
 }
@@ -1037,56 +1006,6 @@ function buildResearchSpendingSentence(profile, summary, latestDataYear) {
   return `This institution spent about ${fmtCurrency(perFte)} per full-time equivalent student on research ${latestYearPhrase}.`;
 }
 
-function buildResearchSpendingParagraph(profile, summary, latestDataYear) {
-  const perFte = asNumber(summary.research_expense_per_fte);
-  const sectorLabel = String(profile.control_label || profile.sector || "").toLowerCase();
-  const shareOfCoreExpenses = asNumber(summary.research_expense_pct_core_expenses);
-  const sectorMedian = asNumber(summary.sector_median_research_expense_per_fte_positive);
-  const reportingShare = asNumber(summary.sector_research_spending_reporting_share_pct);
-  const yearLabel = Number.isFinite(latestDataYear) ? latestDataYear : "the latest year";
-
-  if (perFte === null) return null;
-
-  let medianComparison = null;
-  if (sectorMedian !== null) {
-    if (sectorMedian === 0) {
-      medianComparison = "about";
-    } else {
-      const pctDiff = Math.abs(perFte - sectorMedian) / sectorMedian;
-      if (pctDiff <= 0.05) medianComparison = "about";
-      else if (perFte > sectorMedian) medianComparison = "above";
-      else medianComparison = "below";
-    }
-  }
-
-  if (shareOfCoreExpenses !== null && sectorMedian !== null && reportingShare !== null) {
-    const sectorPhrase = sectorLabel ? `${sectorLabel} colleges` : "colleges in the same sector";
-    return [
-      "Research expenses accounted for ",
-      strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
-      " at this institution, which spent ",
-      strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
-      ` on research in ${yearLabel}. That is ${medianComparison} the median of ${fmtCurrency(sectorMedian)} for the ${fmtRoundedPct(reportingShare)} of ${sectorPhrase} who reported research spending.`
-    ];
-  }
-
-  if (shareOfCoreExpenses !== null) {
-    return [
-      "Research expenses accounted for ",
-      strongSegment(`${fmtRoundedPct(shareOfCoreExpenses)} of total core expenses`),
-      " at this institution, which spent ",
-      strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
-      ` on research in ${yearLabel}.`
-    ];
-  }
-
-  return [
-    "This institution spent ",
-    strongSegment(`${fmtCurrency(perFte)} per full-time equivalent student`),
-    ` on research in ${yearLabel}.`
-  ];
-}
-
 function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
   const tuitionDependence = asNumber(summary.tuition_dependence_pct);
   const sectorMedian = asNumber(summary.sector_median_tuition_dependence_pct);
@@ -1222,64 +1141,6 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   ];
 }
 
-function federalCompositeState(score) {
-  const n = asNumber(score);
-  if (n === null) return "neutral";
-  if (n >= 1.5) return "positive";
-  return "negative";
-}
-
-function buildFederalCompositeSentence(composite) {
-  if (!composite) return null;
-  const score = asNumber(composite.federal_composite_score_2022_2023);
-  const yearLabel = composite.federal_composite_score_year_label || "2022-23";
-  if (score === null) return null;
-
-  if (score > 1.5) {
-    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That is above the 1.5 threshold the federal government uses to consider an institution financially responsible without the need for additional oversight.`;
-  }
-  if (score === 1.5) {
-    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That meets the 1.5 threshold the federal government uses to consider an institution financially responsible without the need for additional oversight.`;
-  }
-  if (score >= 1.0) {
-    return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. That falls in the federal oversight range from 1.0 to less than 1.5.`;
-  }
-  return `In ${yearLabel}, this institution received a federal composite financial score of ${fmtNumber(score, 1)}. A score below 1.0 means the federal government does not consider the institution financially responsible without additional safeguards.`;
-}
-
-function hcm2State(record) {
-  if (!record) return "neutral";
-  return record.on_latest_snapshot ? "negative" : "neutral";
-}
-
-function buildHcm2Sentence(profile, record, hcmLookup) {
-  if (!record) return null;
-
-  const latestLabel = hcmLookup?.summary?.latest_snapshot_label || "December 2025";
-  const institutionName = profile.institution_name || record.institution_name || "This institution";
-  const reason = String(record.latest_reason_on_description || "").trim();
-  const reasonSentence = reason
-    ? ` The most recent federal reason listed was: ${reason}.`
-    : "";
-
-  if (record.downgraded_to_hcm1_after_hcm2) {
-    return `In ${record.first_hcm2_snapshot_before_downgrade_label}, ${institutionName} was on heightened cash monitoring level 2.${reasonSentence} By ${record.first_hcm1_snapshot_after_hcm2_label}, this institution was moved to the lower level of oversight, called heightened cash monitoring level 1.`;
-  }
-
-  if (record.on_latest_snapshot) {
-    if (record.first_snapshot_label === latestLabel) {
-      return `${institutionName} was on heightened cash monitoring level 2 as of ${latestLabel}.${reasonSentence}`;
-    }
-    return `${institutionName} was on heightened cash monitoring level 2 as of ${record.first_snapshot_label}. This institution is still on the list as of ${latestLabel}.${reasonSentence}`;
-  }
-
-  if (record.first_snapshot_absent_after_last_presence) {
-    return `${institutionName} was on heightened cash monitoring level 2 as of ${record.first_snapshot_label}. This institution is no longer on the list as of ${record.first_snapshot_absent_after_last_presence}.${reasonSentence}`;
-  }
-
-  return `${institutionName} was on heightened cash monitoring level 2 as of ${record.latest_snapshot_label_present}.${reasonSentence}`;
-}
-
 function buildClosureSentence(closureRecord) {
   if (!closureRecord) return null;
   const closeDate = String(closureRecord.close_date || "").trim();
@@ -1332,7 +1193,7 @@ function setSectionVisibility(id, show) {
   }
 }
 
-function computeSchoolWarningSummary(summary, composite, hcmRecord, enrollmentFlag, visibility) {
+function computeSchoolWarningSummary(summary, enrollmentFlag, visibility) {
   const visibleMetrics = [];
   const pushMetric = (key, label, visible, isRed) => {
     if (!visible) return;
@@ -1347,8 +1208,6 @@ function computeSchoolWarningSummary(summary, composite, hcmRecord, enrollmentFl
   pushMetric("enrollment_decline", "Enrollment declined in 3 of the previous 5 years", visibility.hasEnrollmentFlagCard, isEnrollmentDeclineRed(enrollmentFlag));
   pushMetric("staff", "Staff headcount", visibility.hasStaffCard, isStaffRed(summary));
   pushMetric("endowment", "Endowment", visibility.hasEndowmentCard, isEndowmentRed(summary));
-  pushMetric("federal_composite", "Federal composite score", visibility.hasFederalCompositeCard, stateIsNegative(federalCompositeState(composite?.federal_composite_score_2022_2023)));
-  pushMetric("hcm2", "HCM2 status", visibility.hasHcm2Card, stateIsNegative(hcm2State(hcmRecord)));
 
   const coreIndicatorsMissing = !visibility.hasEnrollmentCard || !visibility.hasNetTuitionCard || !visibility.hasLossRepeatCard;
   const showBadge = !coreIndicatorsMissing &&
@@ -1380,8 +1239,6 @@ const PROFILE_DATA_SECTION_IDS = [
   "staffing-section",
   "endowment-section",
   "aid-section",
-  "federal-composite-section",
-  "hcm2-section",
   "more-financial-detail-section",
   "tax-filings-subsection",
   "school-related-section",
@@ -1622,10 +1479,8 @@ async function init() {
 
   showSchoolProfileShell();
 
-  const [school, compositeLookup, hcmLookup, closureLookup, cutsIndex, accreditationIndex, researchIndex, headlineBenchmarks, endowmentPerFteLookup] = await Promise.all([
+  const [school, closureLookup, cutsIndex, accreditationIndex, researchIndex, headlineBenchmarks, endowmentPerFteLookup] = await Promise.all([
     loadJson(`data/schools/${unitid}.json`),
-    loadJsonOrNull("data/federal_composite_scores_by_unitid.json"),
-    loadJsonOrNull("data/hcm2_by_unitid.json"),
     SHOW_CLOSURE_FLAGS ? loadJsonOrNull("data/closure_status_by_unitid.json") : Promise.resolve(null),
     loadJsonOrNull("data/college_cuts_index.json"),
     loadJsonOrNull("data/accreditation_index.json"),
@@ -1637,8 +1492,6 @@ async function init() {
   const s = school.summary;
   const series = school.series;
   const latestDataYear = asNumber(s.latest_year) || latestYearFromSeries(series);
-  const composite = compositeLookup?.schools?.[unitid] || null;
-  const hcmRecord = hcmLookup?.schools?.[unitid] || null;
   const closureRecord = SHOW_CLOSURE_FLAGS ? closureLookup?.schools?.[unitid] || null : null;
   const schoolRetrievedAt = school.generated_at || null;
   const graduationRate = asNumber(s.graduation_rate_6yr);
@@ -1655,8 +1508,6 @@ async function init() {
   const staffInstructionalSeries = toSeries(series.staff_headcount_instructional);
   const endowmentValueSeries = toSeries(series.endowment_value_adjusted);
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
-  const compositeSentence = buildFederalCompositeSentence(composite);
-  const hcmSentence = buildHcm2Sentence(p, hcmRecord, hcmLookup);
   const sectorHeadlineBenchmarks = headlineBenchmarks?.[p.control_label] || null;
   const endowmentPerFteRecord = endowmentPerFteLookup?.schools?.[unitid] || null;
   const revenueBenchmark = firstNumericValue(s.sector_median_revenue_pct_change_5yr, sectorHeadlineBenchmarks?.median_revenue_pct_change_5yr);
@@ -1879,11 +1730,6 @@ async function init() {
 
   const hasEndowmentValue = hasMeaningfulData(series.endowment_value_adjusted);
 
-  const hasFederal =
-    (asNumber(s.federal_grants_contracts_pell_adjusted_pct_core_revenue) ?? 0) !== 0 ||
-    asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr) !== null ||
-    hasMeaningfulData(series.federal_grants_contracts_pell_adjusted) ||
-    hasMeaningfulData(series.federal_grants_contracts_pell_adjusted_adjusted);
   const hasState =
     (asNumber(s.state_funding_pct_core_revenue) ?? 0) !== 0 ||
     ((asNumber(s.state_funding_pct_change_5yr) ?? 0) !== 0) ||
@@ -1907,9 +1753,7 @@ async function init() {
   const showIntlSection = hasIntlSentence || hasAnyInternationalEnrollment;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
   const showAidSection = showAidDropdownState;
-  const hasFederalCompositeCard = Boolean(compositeSentence);
-  const hasHcm2Card = Boolean(hcmSentence);
-  const warningSummary = computeSchoolWarningSummary(s, composite, hcmRecord, enrollmentFlag, {
+  const warningSummary = computeSchoolWarningSummary(s, enrollmentFlag, {
     hasRevenueCard,
     hasLossRepeatCard,
     hasLossYearsCard,
@@ -1917,9 +1761,7 @@ async function init() {
     hasEnrollmentCard,
     hasEnrollmentFlagCard,
     hasStaffCard,
-    hasEndowmentCard,
-    hasFederalCompositeCard,
-    hasHcm2Card
+    hasEndowmentCard
   });
   syncSchoolWarningSummaryBadge(warningSummary, p);
 
@@ -1931,7 +1773,6 @@ async function init() {
   setSectionVisibility("intl-section", showIntlSection);
   setSectionVisibility("staffing-section", showStaffingSection);
   setSectionVisibility("endowment-section", showEndowmentSection);
-  setSectionVisibility("federal-group", hasFederal);
   setSectionVisibility("state-group", hasState);
   setSectionVisibility("aid-section", showAidSection);
   renderProfileJumpLinks({
@@ -1939,7 +1780,6 @@ async function init() {
     showEnrollmentSection,
     showStaffingSection,
     showEndowmentSection,
-    showFederalCompositeSection: Boolean(compositeSentence),
     showFinancialStatementsSection: true
   });
   const stateGroup = document.getElementById("state-group");
@@ -1968,29 +1808,6 @@ async function init() {
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
     aidTitle.textContent = "Want details about state aid?";
-  }
-
-  if (hasFederal) {
-    const federalChange5yr = asNumber(s.federal_grants_contracts_pell_adjusted_pct_change_5yr);
-    setText(
-      "federal-share-copy",
-      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.federal_grants_contracts_pell_adjusted_pct_core_revenue || 0)} of core revenue came from federal grants and contracts, excluding Pell grants.${asNumber(s.federal_grants_contracts_pell_adjusted_pct_core_revenue) === 0 ? " Many colleges saw a big increase in federal aid amid the COVID-19 pandemic." : ""}`
-    );
-    setHidden("federal-share-copy", false);
-
-    applyQuestionValueStrip(
-      "federal-change-card",
-      "How much have federal grants and contracts changed over the past 5 years?",
-      federalChange5yr === null
-        ? "No data"
-        : fmtRoundedPct(s.federal_grants_contracts_pell_adjusted_pct_change_5yr, true),
-      federalChange5yr === null ? "neutral" : sentimentClass(s.federal_grants_contracts_pell_adjusted_pct_change_5yr),
-      trendDirection(s.federal_grants_contracts_pell_adjusted_pct_change_5yr)
-    );
-    setHidden("federal-change-card", federalChange5yr === null);
-  } else {
-    setHidden("federal-share-copy", true);
-    setHidden("federal-change-card", true);
   }
 
   if (hasState) {
@@ -2145,28 +1962,6 @@ async function init() {
     createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
   ] : []);
 
-  if (hasFederal) {
-    renderLineChart("chart-federal", {
-      title: "Revenue from federal grants and contracts (excluding Pell grants, adjusted for inflation)",
-      format: "currency",
-      ...financeTooltip2024Config,
-      showLegend: false,
-      series: [
-        {
-          label: "Federal Grants",
-          color: CHART_COLOR_PRIMARY,
-          values: toSeries(
-            series.federal_grants_contracts_pell_adjusted ||
-            series.federal_grants_contracts_pell_adjusted_adjusted
-          )
-        }
-      ]
-    });
-  }
-  upsertSectionSourceNote("chart-federal", hasFederal ? [
-    createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
-  ] : []);
-
   if (hasState) {
     renderLineChart("chart-state", {
       title: "State government appropriations over time (adjusted for inflation)",
@@ -2183,24 +1978,7 @@ async function init() {
   ] : []);
   moveChartNoteBelowSource("state-negative-note", "chart-state", hasState && hasNegativePoint(series.state_funding_adjusted));
 
-  setHidden("federal-composite-section", !compositeSentence);
-  if (compositeSentence) {
-    applyStrip("federal-composite-card", compositeSentence, federalCompositeState(composite.federal_composite_score_2022_2023));
-  }
-  setHidden("hcm2-section", !hcmSentence);
-  if (hcmSentence) {
-    const trendCopy = document.getElementById("hcm2-trend-copy");
-    if (trendCopy) {
-      const fromCount = hcmLookup?.summary?.trump_administration_drop_from;
-      const toCount = hcmLookup?.summary?.trump_administration_drop_to;
-      trendCopy.textContent = Number.isFinite(fromCount) && Number.isFinite(toCount)
-        ? `Under the Trump administration, the number of colleges in that category dropped from ${fromCount} in December 2024 to ${toCount} as of December 2025.`
-        : "";
-    }
-    applyStrip("hcm2-card", hcmSentence, hcm2State(hcmRecord));
-  }
-  // Nav tracker built here so composite/HCM2/financial-detail sections
-  // are already in their final visible state before visibleSections is snapped.
+  // Nav tracker is built here after all section visibility updates land.
   setupProfileJumpLinkTracking();
   initMetricArrowReveal();
 }

@@ -1774,7 +1774,6 @@ async function init() {
   const hasTuitionSentence = Array.isArray(tuitionDependenceParagraph) && tuitionDependenceParagraph.length > 0;
   setBodyCopy("tuition-sentence-copy", hasTuitionSentence ? [tuitionDependenceParagraph] : []);
 
-  const researchSpendingParagraph = buildResearchSpendingParagraph(p, s, latestDataYear);
 
   if (asNumber(s.enrollment_pct_change_5yr) === null) {
     applyStrip("enrollment-change-card", "Enrollment data are not available.", enrollmentChangeState(s), trendDirection(s.enrollment_pct_change_5yr));
@@ -1889,7 +1888,6 @@ async function init() {
     (asNumber(s.state_funding_pct_core_revenue) ?? 0) !== 0 ||
     ((asNumber(s.state_funding_pct_change_5yr) ?? 0) !== 0) ||
     hasMeaningfulData(series.state_funding_adjusted);
-  const hasResearchSpending = (asNumber(s.research_expense_per_fte) ?? 0) > 0;
   const isPublic = isPublicProfile(p);
   const showPublicStateAidSection = isPublic && hasState;
   const showAidDropdownState = hasState && !isPublic;
@@ -1908,7 +1906,7 @@ async function init() {
   const showEnrollmentSection = hasEnrollmentCard || hasEnrollmentChart || enrollmentFlag !== "No data" || hasGradLoanCopy || hasIntlSentence || hasAnyInternationalEnrollment;
   const showIntlSection = hasIntlSentence || hasAnyInternationalEnrollment;
   const showStaffingSection = hasStaffCard || hasStaffingChart || !!ratioParagraph;
-  const showAidSection = hasFederal || showAidDropdownState || hasResearchSpending;
+  const showAidSection = showAidDropdownState;
   const hasFederalCompositeCard = Boolean(compositeSentence);
   const hasHcm2Card = Boolean(hcmSentence);
   const warningSummary = computeSchoolWarningSummary(s, composite, hcmRecord, enrollmentFlag, {
@@ -1960,32 +1958,16 @@ async function init() {
   }
   const aidIntro = document.getElementById("aid-section-intro");
   if (aidIntro) {
-    if (hasFederal && showAidDropdownState) {
-      aidIntro.textContent = "Some universities are more dependent than others on state funding and federal grants and contracts. A higher share means the college is more exposed if that funding changes.";
-      setHidden("aid-section-intro", false);
-    } else if (hasFederal) {
-      aidIntro.textContent = "Some universities are more dependent than others on federal grants and contracts. A higher share means the college is more exposed if that funding changes.";
-      setHidden("aid-section-intro", false);
-    } else if (showAidDropdownState) {
+    if (showAidDropdownState) {
       aidIntro.textContent = "Some universities are more dependent than others on state funding. A higher share means the college is more exposed if that funding changes.";
       setHidden("aid-section-intro", false);
     } else {
       setHidden("aid-section-intro", true);
     }
   }
-  setHidden("research-aid-intro", !hasResearchSpending);
-  setBodyCopy("research-spending-copy", hasResearchSpending && researchSpendingParagraph ? [researchSpendingParagraph] : []);
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
-    if (hasFederal && showAidDropdownState) {
-      aidTitle.textContent = "Want details about federal and state aid?";
-    } else if (hasFederal) {
-      aidTitle.textContent = "Want details about federal aid?";
-    } else if (showAidDropdownState) {
-      aidTitle.textContent = "Want details about state aid?";
-    } else {
-      aidTitle.textContent = "Want details about federal and state aid?";
-    }
+    aidTitle.textContent = "Want details about state aid?";
   }
 
   if (hasFederal) {
@@ -2032,10 +2014,6 @@ async function init() {
   } else {
     setHidden("state-share-copy", true);
     setHidden("state-change-card", true);
-  }
-
-  if (hasResearchSpending) {
-    setBodyCopy("research-spending-copy", researchSpendingParagraph ? [researchSpendingParagraph] : []);
   }
 
   const financeTooltip2024Config = {

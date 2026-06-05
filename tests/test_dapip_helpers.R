@@ -186,3 +186,27 @@ run_test("DAPIP crosswalk resolver rejects low-confidence candidates", function(
   assert_equal(resolved$match_confidence, "none")
   assert_true(grepl("Rejected low-confidence DAPIP candidate", resolved$match_notes %||% ""))
 })
+
+run_test("DAPIP text extraction can surface ownership and merger action sentences", function() {
+  text <- paste0(
+    "During its February 11-13, 2026 meeting, the WASC Senior College and University Commission (WSCUC) considered a request submitted by Design Institute of San Diego (DISD) for a Change of Ownership to Torreyana College, LLC, an entity managed by Palm Ventures. ",
+    "After deliberation, the Commission acted to: 1. Approve the Change of Ownership to Torreyana College, LLC, an entity managed by Palm Ventures. 2. Require a post-implementation visit within six months of the close of the transaction."
+  )
+  extracted <- dapip_extract_action_label_from_text(text, "Grant Substantive Change: Ownership")
+  assert_equal(extracted$label_source, "dapip_file_text")
+  assert_true(grepl("Change of Ownership to Torreyana College, LLC", extracted$label, fixed = TRUE))
+})
+
+run_test("DAPIP ownership substantive change codes are classified as substantive transaction sources", function() {
+  granted <- dapip_classify_action_code("GO", "Grant Substantive Change: Ownership")
+  assert_equal(granted$action_type, "other")
+  assert_true(isTRUE(granted$keep))
+  assert_equal(granted$mapped_action_family, "ownership_change")
+  assert_equal(granted$keep_reason, "public_action_code")
+
+  denied <- dapip_classify_action_code("DO", "Deny Substantive Change: Ownership")
+  assert_equal(denied$action_type, "adverse_action")
+  assert_true(isTRUE(denied$review_required))
+  assert_equal(denied$mapped_action_family, "ownership_change_denial")
+  assert_equal(denied$keep_reason, "review_code")
+})

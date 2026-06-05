@@ -615,7 +615,7 @@ dapip_extract_action_label_from_text <- function(text, fallback_label) {
   keyword_idx <- which(stringr::str_detect(
     sentences,
     stringr::regex(
-      "warning|probation|show cause|withdraw|withdrawal|denied|reaffirmation|monitoring|continued|placed on|surrender|loss of accreditation|closure|cease",
+      "warning|probation|show cause|withdraw|withdrawal|denied|reaffirmation|monitoring|continued|placed on|surrender|loss of accreditation|closure|cease|teach-?out|merger|change of ownership|sale of|acquisition|sole member",
       ignore_case = TRUE
     )
   ))[1]
@@ -641,8 +641,8 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
 
   keep_codes <- c("P", "PW", "SC", "HM", "PN", "WE", "PO", "DR", "R", "VR",
                   "LD", "LA", "LO", "AD", "AA", "SD", "PR", "WR", "RM", "RS",
-                  "TO", "WA", "RU", "DF", "RP", "RF")
-  review_codes <- c("DP", "DA")
+                  "TO", "WA", "RU", "DF", "RP", "RF", "GO")
+  review_codes <- c("DP", "DA", "DO")
 
   action_type <- dplyr::case_when(
     code == "P" ~ "probation",
@@ -650,8 +650,9 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
     code == "SC" ~ "show_cause",
     code %in% c("HM", "PN", "WE", "PO", "DR") ~ "notice",
     code %in% c("PR", "WR", "RM", "RS", "TO") ~ "removed",
+    code == "GO" ~ "other",
     code %in% c("R", "VR", "LD", "LA", "LO", "AD", "AA", "SD", "DA", "DP",
-                "WA", "RU", "DF", "RP", "RF") ~ "adverse_action",
+                "WA", "RU", "DF", "RP", "RF", "DO") ~ "adverse_action",
     TRUE ~ "other"
   )
 
@@ -671,6 +672,8 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
       code == "SC" ~ "show_cause",
       code %in% c("HM", "PN", "WE", "PO", "DR") ~ "monitoring_or_notice",
       code %in% c("PR", "WR", "RM", "RS", "TO") ~ "removed",
+      code == "GO" ~ "ownership_change",
+      code == "DO" ~ "ownership_change_denial",
       code %in% c("R", "VR", "LD", "LA", "LO", "AD", "AA", "SD", "DA", "DP",
                   "WA", "RU", "DF", "RP", "RF") ~ "withdrawal_or_loss",
       TRUE ~ "other"

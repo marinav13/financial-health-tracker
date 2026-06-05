@@ -24,6 +24,16 @@ main <- function(cli_args = NULL) {
   rewrite_sheet <- has_flag("--rewrite-sheet")
   verbose <- has_flag("--verbose")
 
+  if (isTRUE(rewrite_sheet)) {
+    stop(
+      paste(
+        "Accreditation review sheet rewrites are disabled.",
+        "This workflow is append-only so existing human-reviewed rows are never replaced or deleted."
+      ),
+      call. = FALSE
+    )
+  }
+
   require_existing_local_file(
     input_path,
     "accreditation review candidates",
@@ -77,19 +87,7 @@ main <- function(cli_args = NULL) {
     sheet_append_rows <- build_accreditation_review_sheet_append_rows(sheet_staged, sheet_rows)
     sheet_append_count <- nrow(sheet_append_rows)
 
-    if (isTRUE(rewrite_sheet)) {
-      if (verbose) {
-        message("Rewriting accreditation review sheet tab: ", sheet_tab)
-      }
-      googlesheets4::sheet_write(
-        data = format_accreditation_review_sheet_headers(
-          build_accreditation_review_sheet_rows(sheet_staged)
-        ),
-        ss = sheet_target,
-        sheet = sheet_tab
-      )
-      sheet_append_count <- nrow(sheet_staged)
-    } else if (!nrow(sheet_rows)) {
+    if (!nrow(sheet_rows)) {
       if (verbose) {
         message("Writing initial accreditation review sheet tab: ", sheet_tab)
       }

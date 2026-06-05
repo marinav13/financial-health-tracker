@@ -320,7 +320,6 @@ jobs:
               --output data_pipelines/accreditation/editorial_overrides.csv \
               --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
               --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
-              --rewrite-sheet \
               --verbose \
               2>&1 | tee -a refresh-logs/combined.log
           else

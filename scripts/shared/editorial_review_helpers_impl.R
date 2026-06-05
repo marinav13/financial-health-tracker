@@ -680,6 +680,35 @@ stage_accreditation_editorial_overrides <- function(candidates,
   }
 
   new_rows <- review_candidates[!(review_candidates$action_id %in% trim_text(overrides$action_id)), , drop = FALSE]
+
+  if (nrow(new_rows)) {
+    hlc_status_page_mask <- (
+      trim_text(new_rows$accreditor) == "HLC" &
+      stringr::str_detect(
+        dplyr::coalesce(new_rows$source_url, ""),
+        "hlcommission\\.org/institution/"
+      ) &
+      stringr::str_detect(
+        dplyr::coalesce(new_rows$action_label_raw, ""),
+        stringr::regex("^\\s*On\\s+(Probation|Warning|Notice|Show\\s+Cause)\\s*$", ignore_case = TRUE)
+      )
+    )
+    hlc_status_page_mask[is.na(hlc_status_page_mask)] <- FALSE
+    if (any(hlc_status_page_mask)) {
+      suppressed <- new_rows[hlc_status_page_mask, , drop = FALSE]
+      for (i in seq_len(nrow(suppressed))) {
+        message(sprintf(
+          "Suppressing HLC institution-page status row: %s (%s / %s / %s)",
+          suppressed$action_id[[i]],
+          dplyr::coalesce(suppressed$institution_name[[i]], ""),
+          dplyr::coalesce(suppressed$action_label_raw[[i]], ""),
+          dplyr::coalesce(suppressed$source_url[[i]], "")
+        ))
+      }
+      new_rows <- new_rows[!hlc_status_page_mask, , drop = FALSE]
+    }
+  }
+
   if (!nrow(new_rows)) return(coerce_accreditation_editorial_overrides(overrides))
 
   new_internal_rows <- rep_like_template_rows(empty_accreditation_editorial_overrides(), nrow(new_rows))
@@ -1112,25 +1141,48 @@ coerce_college_cuts_review_candidates <- function(df) {
   candidates
 }
 
-build_college_cuts_review_candidates <- function(cuts_df) {
+build_college_cuts_review_candidates <- function(cuts_df,
+                                                 tracker_unitids = NULL) {
   if (is.null(cuts_df) || !nrow(cuts_df)) return(empty_college_cuts_review_candidates())
   required_columns <- c("cut_id", "matched_unitid", "export_unitid", "institution_name_display", "state_display", "announcement_date", "announcement_year", "cut_type", "program_name", "source_url", "source_title", "source_publication")
   missing_columns <- setdiff(required_columns, names(cuts_df))
   if (length(missing_columns) > 0L) stop(sprintf("build_college_cuts_review_candidates requires these columns: %s", paste(missing_columns, collapse = ", ")), call. = FALSE)
 
+  tracker_unitids <- trim_text(tracker_unitids)
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
+  filtered_cuts <- cuts_df
+  if ("is_primary_tracker" %in% names(filtered_cuts)) {
+    filtered_cuts <- filtered_cuts[filtered_cuts$is_primary_tracker %in% TRUE, , drop = FALSE]
+  } else if (!length(tracker_unitids)) {
+    stop(
+      paste(
+        "build_college_cuts_review_candidates requires tracker_unitids",
+        "or an is_primary_tracker column to enforce tracker-only review scope."
+      ),
+      call. = FALSE
+    )
+  }
+
+  if (length(tracker_unitids)) {
+    filtered_unitids <- trim_text(filtered_cuts$matched_unitid)
+    filtered_cuts <- filtered_cuts[filtered_unitids %in% tracker_unitids, , drop = FALSE]
+  }
+
+  if (!nrow(filtered_cuts)) return(empty_college_cuts_review_candidates())
+
   candidates <- data.frame(
-    cut_id = vapply(seq_len(nrow(cuts_df)), function(i) compute_college_cuts_review_id(cuts_df$cut_id[[i]], dplyr::coalesce(cuts_df$matched_unitid[[i]], cuts_df$export_unitid[[i]]), cuts_df$announcement_date[[i]], cuts_df$program_name[[i]], cuts_df$institution_name_display[[i]], cuts_df$state_display[[i]]), character(1)),
-    unitid = trim_optional_text(dplyr::coalesce(cuts_df$matched_unitid, cuts_df$export_unitid)),
-    institution_name = trim_optional_text(cuts_df$institution_name_display),
-    state = trim_optional_text(cuts_df$state_display),
-    announcement_date = trim_optional_text(cuts_df$announcement_date),
-    announcement_year = trim_optional_text(cuts_df$announcement_year),
-    cut_type = trim_optional_text(cuts_df$cut_type),
-    program_name = trim_optional_text(cuts_df$program_name),
-    source_url = trim_optional_text(cuts_df$source_url),
-    source_title = trim_optional_text(cuts_df$source_title),
-    source_publication = trim_optional_text(cuts_df$source_publication),
-    row_origin = rep("scraper", nrow(cuts_df)),
+    cut_id = vapply(seq_len(nrow(filtered_cuts)), function(i) compute_college_cuts_review_id(filtered_cuts$cut_id[[i]], dplyr::coalesce(filtered_cuts$matched_unitid[[i]], filtered_cuts$export_unitid[[i]]), filtered_cuts$announcement_date[[i]], filtered_cuts$program_name[[i]], filtered_cuts$institution_name_display[[i]], filtered_cuts$state_display[[i]]), character(1)),
+    unitid = trim_optional_text(dplyr::coalesce(filtered_cuts$matched_unitid, filtered_cuts$export_unitid)),
+    institution_name = trim_optional_text(filtered_cuts$institution_name_display),
+    state = trim_optional_text(filtered_cuts$state_display),
+    announcement_date = trim_optional_text(filtered_cuts$announcement_date),
+    announcement_year = trim_optional_text(filtered_cuts$announcement_year),
+    cut_type = trim_optional_text(filtered_cuts$cut_type),
+    program_name = trim_optional_text(filtered_cuts$program_name),
+    source_url = trim_optional_text(filtered_cuts$source_url),
+    source_title = trim_optional_text(filtered_cuts$source_title),
+    source_publication = trim_optional_text(filtered_cuts$source_publication),
+    row_origin = rep("scraper", nrow(filtered_cuts)),
     stringsAsFactors = FALSE
   )
   candidates <- candidates[!duplicated(candidates$cut_id), COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS, drop = FALSE]
@@ -1225,8 +1277,51 @@ coerce_college_cuts_editorial_overrides <- function(df) {
   overrides[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
-build_college_cuts_review_sheet_rows <- function(overrides) {
+filter_college_cuts_overrides_for_tracker_scope <- function(overrides,
+                                                            tracker_unitids = NULL,
+                                                            context = "College cuts editorial overrides") {
   local_rows <- coerce_college_cuts_editorial_overrides(overrides)
+  tracker_unitids <- trim_text(tracker_unitids)
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
+  if (!nrow(local_rows) || !length(tracker_unitids)) {
+    return(local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE])
+  }
+
+  row_origin <- normalize_review_row_origin(local_rows$source_row_origin)
+  source_unitid <- trim_optional_text(local_rows$source_unitid)
+  override_unitid <- trim_optional_text(local_rows$override_unitid)
+  effective_unitid <- dplyr::coalesce(override_unitid, source_unitid)
+  manual_mask <- !is.na(row_origin) & row_origin == "manual"
+  invalid_manual <- manual_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
+  if (any(invalid_manual)) {
+    sample_rows <- local_rows[invalid_manual, , drop = FALSE]
+    sample_labels <- paste(
+      utils::head(trim_text(sample_rows$cut_id), 5L),
+      utils::head(trim_text(sample_rows$source_institution_name), 5L),
+      sep = " / "
+    )
+    stop(
+      sprintf(
+        paste(
+          "%s contains %d manual row(s) outside the tracker roster.",
+          "Manual college cuts review rows must carry a tracker unitid.",
+          "Sample rows: %s"
+        ),
+        context,
+        sum(invalid_manual),
+        paste(sample_labels, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  keep_rows <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
+  local_rows[keep_rows, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+}
+
+build_college_cuts_review_sheet_rows <- function(overrides,
+                                                 tracker_unitids = NULL) {
+  local_rows <- filter_college_cuts_overrides_for_tracker_scope(overrides, tracker_unitids = tracker_unitids, context = "College cuts review sheet rows")
   if (!nrow(local_rows)) return(empty_college_cuts_review_sheet_rows())
   sheet_rows <- rep_like_template_rows(empty_college_cuts_review_sheet_rows(), nrow(local_rows))
   sheet_rows$cut_id <- trim_text(local_rows$cut_id)
@@ -1244,6 +1339,25 @@ build_college_cuts_review_sheet_rows <- function(overrides) {
   sheet_rows[, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
+filter_college_cuts_overrides_for_review_sheet <- function(overrides,
+                                                           candidate_cut_ids = NULL,
+                                                           tracker_unitids = NULL) {
+  local_rows <- filter_college_cuts_overrides_for_tracker_scope(overrides, tracker_unitids = tracker_unitids, context = "College cuts review sheet rows")
+  if (!nrow(local_rows)) {
+    return(local_rows)
+  }
+
+  candidate_ids <- trim_text(candidate_cut_ids)
+  candidate_ids <- unique(candidate_ids[nzchar(candidate_ids)])
+  row_origin <- normalize_review_row_origin(local_rows$source_row_origin)
+  keep_rows <- (!is.na(row_origin) & row_origin == "manual")
+  if (length(candidate_ids) > 0L) {
+    keep_rows <- keep_rows | (trim_text(local_rows$cut_id) %in% candidate_ids)
+  }
+
+  local_rows[keep_rows, , drop = FALSE]
+}
+
 assert_college_cuts_review_sheet_header <- function(df) {
   if (is.null(df) || !ncol(df)) return(invisible(df))
   header_names <- names(normalize_college_cuts_sheet_headers(df))
@@ -1254,9 +1368,12 @@ assert_college_cuts_review_sheet_header <- function(df) {
 
 stage_college_cuts_editorial_overrides <- function(candidates,
                                                    existing = NULL,
-                                                   first_seen = as.character(Sys.Date())) {
+                                                   first_seen = as.character(Sys.Date()),
+                                                   tracker_unitids = NULL) {
   review_candidates <- coerce_college_cuts_review_candidates(candidates)
-  overrides <- coerce_college_cuts_editorial_overrides(existing)
+  tracker_unitids <- c(trim_text(tracker_unitids), trim_text(review_candidates$unitid))
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
+  overrides <- filter_college_cuts_overrides_for_tracker_scope(existing, tracker_unitids = tracker_unitids)
   if (!nrow(review_candidates)) return(overrides[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE])
   if (nrow(overrides)) {
     candidate_index <- match(trim_text(overrides$cut_id), review_candidates$cut_id)
@@ -1275,11 +1392,17 @@ stage_college_cuts_editorial_overrides <- function(candidates,
   new_internal_rows$first_seen <- first_seen
   new_internal_rows$review_status <- "unreviewed"
   new_internal_rows$grandfathered <- FALSE
-  coerce_college_cuts_editorial_overrides(dplyr::bind_rows(overrides, new_internal_rows))
+  filter_college_cuts_overrides_for_tracker_scope(
+    dplyr::bind_rows(overrides, new_internal_rows),
+    tracker_unitids = tracker_unitids,
+    context = "Staged college cuts editorial overrides"
+  )
 }
 
-build_college_cuts_review_sheet_append_rows <- function(overrides, existing_sheet = NULL) {
-  local_sheet_rows <- build_college_cuts_review_sheet_rows(overrides)
+build_college_cuts_review_sheet_append_rows <- function(overrides,
+                                                        existing_sheet = NULL,
+                                                        tracker_unitids = NULL) {
+  local_sheet_rows <- build_college_cuts_review_sheet_rows(overrides, tracker_unitids = tracker_unitids)
   sheet_rows <- coerce_college_cuts_review_sheet_rows(existing_sheet)
   if (!nrow(local_sheet_rows)) return(local_sheet_rows)
   if (!nrow(sheet_rows)) return(local_sheet_rows)
@@ -1415,7 +1538,8 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
                                                    overrides = NULL,
                                                    enforce_review_gate = FALSE,
                                                    allowed_cut_ids = NULL,
-                                                   drop_unlisted = FALSE) {
+                                                   drop_unlisted = FALSE,
+                                                   gate_mask = NULL) {
   override_rows <- coerce_college_cuts_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
@@ -1436,18 +1560,28 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
 
   review_cuts <- cuts_df
   review_cuts$cut_id <- vapply(seq_len(nrow(review_cuts)), function(i) compute_college_cuts_review_id(review_cuts$cut_id[[i]], dplyr::coalesce(review_cuts$matched_unitid[[i]], review_cuts$export_unitid[[i]]), review_cuts$announcement_date[[i]], review_cuts$program_name[[i]], review_cuts$institution_name_display[[i]], review_cuts$state_display[[i]]), character(1))
+  gate_rows <- if (is.null(gate_mask)) {
+    rep(TRUE, nrow(review_cuts))
+  } else {
+    as.logical(gate_mask)
+  }
+  if (length(gate_rows) != nrow(review_cuts)) {
+    stop("apply_college_cuts_editorial_overrides gate_mask must have one value per cut row.", call. = FALSE)
+  }
+  gate_rows[is.na(gate_rows)] <- FALSE
   allowed_ids <- trim_text(allowed_cut_ids)
   allowed_ids <- unique(allowed_ids[nzchar(allowed_ids)])
   if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
-    unexpected_rows <- !(review_cuts$cut_id %in% allowed_ids)
+    unexpected_rows <- gate_rows & !(review_cuts$cut_id %in% allowed_ids)
     if (any(unexpected_rows)) {
       message(sprintf(paste("Apply-only college cuts review gate: ignoring %d recomputed cut row(s)", "that are not present in the committed review candidate snapshot."), sum(unexpected_rows)))
       review_cuts <- review_cuts[!unexpected_rows, , drop = FALSE]
+      gate_rows <- gate_rows[!unexpected_rows]
     }
   }
 
   if (!nrow(override_rows)) {
-    if (isTRUE(enforce_review_gate)) stop("College cuts review gate is enabled but editorial_overrides.csv is empty or missing.", call. = FALSE)
+    if (isTRUE(enforce_review_gate) && any(gate_rows)) stop("College cuts review gate is enabled but editorial_overrides.csv is empty or missing.", call. = FALSE)
     return(review_cuts)
   }
   if (!nrow(published_override_rows) && !isTRUE(enforce_review_gate)) {
@@ -1467,7 +1601,7 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
     } else {
       decided_ids <- unique(trim_text(override_rows$cut_id)[is_terminal_review_decision(override_rows$review_status)])
       decided_ids <- decided_ids[nzchar(decided_ids)]
-      missing_override <- !(trim_text(joined$cut_id) %in% decided_ids)
+      missing_override <- gate_rows & !(trim_text(joined$cut_id) %in% decided_ids)
       if (any(missing_override)) stop(sprintf(paste("College cuts review gate is enabled but %d cut row(s) are missing an editorial decision (approved/reject).", "Sample cut_id values: %s"), sum(missing_override), paste(utils::head(joined$cut_id[missing_override], 5L), collapse = ", ")), call. = FALSE)
     }
   }
@@ -1497,7 +1631,7 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   } else {
     joined$row_origin <- dplyr::coalesce(trim_optional_text(joined$source_row_origin), rep("scraper", nrow(joined)))
   }
-  if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask, , drop = FALSE]
+  if (isTRUE(enforce_review_gate)) joined <- joined[joined_approved_mask | !gate_rows, , drop = FALSE]
 
   missing_review_rows <- published_override_rows[!(trim_text(published_override_rows$cut_id) %in% trim_text(review_cuts$cut_id)), , drop = FALSE]
   if (nrow(missing_review_rows)) joined <- dplyr::bind_rows(joined, dplyr::bind_rows(lapply(seq_len(nrow(missing_review_rows)), function(i) build_review_backed_college_cuts_export_row(missing_review_rows[i, , drop = FALSE], review_cuts))))

@@ -581,3 +581,71 @@ run_test("Unreviewed manual college cuts rows stay excluded from exports", funct
   applied <- apply_college_cuts_editorial_overrides(cuts_df, overrides, enforce_review_gate = FALSE)
   assert_identical(nrow(applied), 1L)
 })
+
+run_test("HLC institution-page bare status rows are suppressed before staging", function() {
+  hlc_candidates <- data.frame(
+    action_id = c("hlc-on-prob", "hlc-real-action", "hlc-wrong-url"),
+    unitid = c("100", "101", "102"),
+    institution_name = c("Wittenberg University", "Some College", "Other College"),
+    accreditor = c("HLC", "HLC", "HLC"),
+    action_date = c("2025-11-01", "2025-11-01", "2025-11-01"),
+    action_type = c("probation", "probation", "probation"),
+    action_label_raw = c(
+      "On Probation",
+      "Placed on Probation for failure to comply",
+      "On Probation"
+    ),
+    generated_statement = c("On Probation", "Placed on Probation", "On Probation"),
+    source_url = c(
+      "https://www.hlcommission.org/institution/12345/",
+      "https://www.hlcommission.org/institution/12345/",
+      "https://ope.ed.gov/dapip/"
+    ),
+    source_title = c("HLC Status", "HLC Action", "DAPIP"),
+    row_origin = c("scraper", "scraper", "scraper"),
+    stringsAsFactors = FALSE
+  )
+
+  staged <- stage_accreditation_editorial_overrides(hlc_candidates, first_seen = "2026-06-05")
+
+  # "On Probation" from hlcommission.org/institution/ must be suppressed
+  assert_true(!("hlc-on-prob" %in% staged$action_id))
+  # Real probation action text from same URL should pass through
+  assert_true("hlc-real-action" %in% staged$action_id)
+  # "On Probation" from a different URL should pass through
+  assert_true("hlc-wrong-url" %in% staged$action_id)
+})
+
+run_test("Accreditation review sheet append rows only include unseen action_ids", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101"),
+    unitid = c("100", "101"),
+    export_institution_name = c("Example University", "Example College"),
+    accreditor = c("MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2026-05-01"),
+    action_type = c("warning", "other"),
+    action_label_raw = c("Warning", "Approved the institution's teach-out agreement with Sample University."),
+    action_label_short = c("Generated warning", "Approved the institution's teach-out agreement with Sample University."),
+    source_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    source_title = c("Source one", "Source two"),
+    source_page_url = c("https://example.org/action-one", "https://example.org/action-two"),
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_accreditation_review_candidates(actions_df)
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-05-27")
+  local_sheet_rows <- build_accreditation_review_sheet_rows(staged)
+  existing_sheet <- local_sheet_rows[1, , drop = FALSE]
+  existing_sheet$review_status <- "approved"
+  existing_sheet$reviewer <- "editor@example.org"
+  existing_sheet$reviewed_at <- "2026-05-28"
+  existing_sheet$generated_statement <- "Human-reviewed warning statement"
+
+  append_rows <- build_accreditation_review_sheet_append_rows(staged, existing_sheet)
+
+  assert_identical(nrow(append_rows), 1L)
+  assert_identical(
+    trim_text(append_rows$action_id[[1]]),
+    trim_text(local_sheet_rows$action_id[[2]])
+  )
+})

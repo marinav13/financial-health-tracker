@@ -582,6 +582,89 @@ run_test("Unreviewed manual college cuts rows stay excluded from exports", funct
   assert_identical(nrow(applied), 1L)
 })
 
+run_test("Cross-source duplicate suppression in stage_accreditation_editorial_overrides", function() {
+  make_override <- function(action_id, unitid, accreditor, action_date, action_type,
+                            action_label_raw = "Warning", review_status = "approved") {
+    data.frame(
+      action_id = action_id,
+      source_unitid = unitid,
+      source_institution_name = "Example University",
+      source_accreditor = accreditor,
+      source_action_date = action_date,
+      source_action_type = action_type,
+      source_action_label_raw = action_label_raw,
+      source_generated_statement = action_label_raw,
+      source_source_url = "https://example.org/existing",
+      source_source_title = "Existing source",
+      source_row_origin = "scraper",
+      override_unitid = NA_character_,
+      override_institution_name = NA_character_,
+      override_accreditor = NA_character_,
+      override_action_date = NA_character_,
+      override_action_type = NA_character_,
+      override_action_label_raw = NA_character_,
+      override_generated_statement = NA_character_,
+      override_source_url = NA_character_,
+      override_source_title = NA_character_,
+      first_seen = "2025-12-01",
+      review_status = review_status,
+      reviewer = "MV",
+      reviewer_notes = NA_character_,
+      reviewed_at = "2025-12-01",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  make_candidate <- function(action_id, unitid, accreditor, action_date, action_type,
+                             action_label_raw = "Warning") {
+    data.frame(
+      action_id = action_id,
+      unitid = unitid,
+      institution_name = "Example University",
+      accreditor = accreditor,
+      action_date = action_date,
+      action_type = action_type,
+      action_label_raw = action_label_raw,
+      generated_statement = action_label_raw,
+      source_url = "https://example.org/new",
+      source_title = "New source",
+      row_origin = "scraper",
+      stringsAsFactors = FALSE
+    )
+  }
+
+  # 1. Same unitid/accreditor/type within 7 days: suppressed
+  existing <- make_override("existing-1", "100", "SACSCOC", "2025-12-07", "warning")
+  candidate <- make_candidate("new-dup-1", "100", "SACSCOC", "2025-12-01", "warning")
+  staged <- stage_accreditation_editorial_overrides(candidate, existing, first_seen = "2026-06-05")
+  assert_true(!("new-dup-1" %in% staged$action_id), "7-day gap same event should be suppressed")
+
+  # 2. 26-day gap within 30-day tolerance: suppressed
+  existing2 <- make_override("existing-2", "200", "WSCUC", "2025-06-27", "monitoring")
+  candidate2 <- make_candidate("new-dup-2", "200", "WSCUC", "2025-06-01", "notice")
+  staged2 <- stage_accreditation_editorial_overrides(candidate2, existing2, first_seen = "2026-06-05")
+  assert_true(!("new-dup-2" %in% staged2$action_id), "26-day gap notice/monitoring should be suppressed")
+
+  # 3. Different institution at same date: NOT suppressed
+  existing3 <- make_override("existing-3", "300", "SACSCOC", "2025-12-01", "warning")
+  candidate3 <- make_candidate("new-diff-inst", "999", "SACSCOC", "2025-12-01", "warning")
+  staged3 <- stage_accreditation_editorial_overrides(candidate3, existing3, first_seen = "2026-06-05")
+  assert_true("new-diff-inst" %in% staged3$action_id, "Different unitid should not be suppressed")
+
+  # 4. Same institution/accreditor, 45-day gap: NOT suppressed
+  existing4 <- make_override("existing-4", "400", "HLC", "2025-12-01", "warning")
+  candidate4 <- make_candidate("new-too-far", "400", "HLC", "2026-01-15", "warning")
+  staged4 <- stage_accreditation_editorial_overrides(candidate4, existing4, first_seen = "2026-06-05")
+  assert_true("new-too-far" %in% staged4$action_id, "45-day gap should not be suppressed")
+
+  # 5. Same institution/accreditor/date but incompatible types (warning vs removed): NOT suppressed
+  existing5 <- make_override("existing-5", "500", "SACSCOC", "2025-12-01", "removed")
+  candidate5 <- make_candidate("new-diff-type", "500", "SACSCOC", "2025-12-01", "warning")
+  staged5 <- stage_accreditation_editorial_overrides(candidate5, existing5, first_seen = "2026-06-05")
+  assert_true("new-diff-type" %in% staged5$action_id, "Incompatible action types should not be suppressed")
+})
+
 run_test("HLC institution-page bare status rows are suppressed before staging", function() {
   hlc_candidates <- data.frame(
     action_id = c("hlc-on-prob", "hlc-real-action", "hlc-wrong-url"),

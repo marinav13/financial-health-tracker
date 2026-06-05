@@ -661,6 +661,47 @@ assert_accreditation_review_sheet_header <- function(df) {
   invisible(df)
 }
 
+# Returns the action_id of an existing override row that describes the same
+# real-world event as the candidate, or NA if no match.
+# Matches on: same unitid + accreditor + date within 30 days + compatible action_type.
+# All existing rows (approved, reject, unreviewed) suppress the new candidate.
+find_cross_source_duplicate_id <- function(candidate_row, overrides) {
+  if (!nrow(overrides)) return(NA_character_)
+
+  c_unitid   <- trim_text(candidate_row$unitid[[1]])
+  c_accred   <- trim_text(candidate_row$accreditor[[1]])
+  c_type     <- trim_text(candidate_row$action_type[[1]])
+  c_date     <- suppressWarnings(as.Date(trim_text(candidate_row$action_date[[1]])))
+
+  if (!nzchar(c_unitid) || !nzchar(c_accred) || is.na(c_date)) return(NA_character_)
+
+  for (i in seq_len(nrow(overrides))) {
+    o_unitid <- trim_text(overrides$source_unitid[[i]])
+    o_accred <- trim_text(overrides$source_accreditor[[i]])
+    o_type   <- trim_text(overrides$source_action_type[[i]])
+    o_date   <- suppressWarnings(as.Date(trim_text(overrides$source_action_date[[i]])))
+
+    if (o_unitid != c_unitid || o_accred != c_accred) next
+    if (is.na(o_date) || abs(as.integer(c_date - o_date)) > 30L) next
+
+    type_match <- identical(c_type, o_type) || (
+      c_type == "warning" && o_type == "adverse_action" &&
+      stringr::str_detect(
+        tolower(dplyr::coalesce(overrides$source_action_label_raw[[i]], "")),
+        "placed.{0,60}warning"
+      )
+    ) || (
+      c_type == "notice" && o_type %in% c("notice", "monitoring")
+    ) || (
+      o_type == "notice" && c_type %in% c("notice", "monitoring")
+    )
+    if (!type_match) next
+
+    return(trim_text(overrides$action_id[[i]]))
+  }
+  NA_character_
+}
+
 stage_accreditation_editorial_overrides <- function(candidates,
                                                     existing = NULL,
                                                     first_seen = as.character(Sys.Date())) {
@@ -706,6 +747,32 @@ stage_accreditation_editorial_overrides <- function(candidates,
         ))
       }
       new_rows <- new_rows[!hlc_status_page_mask, , drop = FALSE]
+    }
+  }
+
+  if (!nrow(new_rows)) return(coerce_accreditation_editorial_overrides(overrides))
+
+  if (nrow(overrides)) {
+    cross_dup_ids <- vapply(
+      seq_len(nrow(new_rows)),
+      function(i) find_cross_source_duplicate_id(new_rows[i, , drop = FALSE], overrides),
+      character(1)
+    )
+    is_cross_dup <- !is.na(cross_dup_ids)
+    if (any(is_cross_dup)) {
+      dup_rows <- new_rows[is_cross_dup, , drop = FALSE]
+      dup_matched <- cross_dup_ids[is_cross_dup]
+      for (i in seq_len(nrow(dup_rows))) {
+        message(sprintf(
+          "Suppressing cross-source duplicate: %s (%s / %s / %s) matches existing %s",
+          dup_rows$action_id[[i]],
+          dplyr::coalesce(dup_rows$institution_name[[i]], ""),
+          dplyr::coalesce(dup_rows$accreditor[[i]], ""),
+          dplyr::coalesce(dup_rows$action_date[[i]], ""),
+          dup_matched[[i]]
+        ))
+      }
+      new_rows <- new_rows[!is_cross_dup, , drop = FALSE]
     }
   }
 

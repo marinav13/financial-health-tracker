@@ -24,6 +24,64 @@ run_test("Accreditation text and classification", function() {
   assert_identical(classify_action("Issue a Notice of Concern"), "notice")
   assert_identical(classify_action("Accepted Teach-Out Plan"), "adverse_action")
   assert_identical(classify_action("Denied Reaffirmation"), "adverse_action")
+  # SACSCOC denied-reaffirmation + placed on Warning must classify as "warning", not "adverse_action"
+  assert_identical(
+    classify_action("denied reaffirmation, continued accreditation, and placed the institution on Warning for twelve months for failure to comply with Core Requirement 13.1", "SACSCOC"),
+    "warning"
+  )
+  assert_identical(
+    classify_action("denied reaffirmation, continued accreditation, and placed Blue Mountain Christian University on Warning for twelve months", "SACSCOC"),
+    "warning"
+  )
+  # Plain denied reaffirmation with no warning clause stays adverse_action
+  assert_identical(
+    classify_action("Denied Reaffirmation", "SACSCOC"),
+    "adverse_action"
+  )
+  assert_identical(
+    classify_action("Approved the institution's Teach-Out Agreement with Goddard College, wherein Prescott College will serve as a teach-out receiving institution for certain Goddard College programs.", "HLC"),
+    "other"
+  )
+  assert_identical(
+    classify_action("Following a Special Visit - Remove Notice of Concern/Issue a Warning", "WSCUC"),
+    "warning"
+  )
+  assert_identical(
+    classify_action("Following a Special Visit - Remove the Warning, Issue a Formal Notice of Concern, Reaffirm Accreditation for 6 Years", "WSCUC"),
+    "notice"
+  )
+  assert_identical(
+    classify_action("Following a Special Visit - Remove the Warning, Reaffirm Accreditation for 6 Years", "WSCUC"),
+    "removed"
+  )
+  assert_identical(
+    classify_action("The SACSCOC Board of Trustees placed the institution on Probation for Good Cause for twelve months for failure to comply with Standard 13.6 (Federal and state responsibilities).", "SACSCOC"),
+    "probation"
+  )
+  assert_identical(
+    classify_action("At its meeting on March 5, 2021, the New England Commission of Higher Education (NECHE) voted to issue a Notation to Eastern Nazarene College because the Commission found that the College is in danger of not meeting the Commission's standard on Institutional Resources.", "NECHE"),
+    "notice"
+  )
+  assert_identical(
+    classify_action("Denied staff action recommendation to require monitoring.", "HLC"),
+    "other"
+  )
+  assert_identical(
+    classify_action("Accepted the staff recommendation to require the institution to provide an interim report.", "HLC"),
+    "monitoring"
+  )
+  assert_identical(
+    classify_action("Approved the institution’s request to offer the following certificate program: Graduate Certificate in Intraoperative Neuromonitoring, 35 credit hours, Post-Baccalaureate Certificate, CIP 51.0922", "HLC"),
+    "other"
+  )
+  assert_identical(
+    classify_action("At its meeting on March 5, 2021, the New England Commission of Higher Education (NECHE) voted to remove Hellenic College, Inc. from probation for failure to meet the standards on Institutional Resources and Planning and Evaluation, and to remove the Notations with respect to the standards on Organization and Governance and The Academic Program.", "NECHE"),
+    "removed"
+  )
+  assert_identical(
+    classify_action("To note the supplemental information report, requested by the Commission action of June 6, 2025, is no longer required.", "MSCHE"),
+    "other"
+  )
   assert_identical(classify_status("Removed from probation"), "resolved")
   assert_true(has_public_action_keywords("Public Notice of Concern"))
   assert_true(has_public_action_keywords("Accepted teach-out plan"))
@@ -86,6 +144,28 @@ run_test("Accreditation text and classification", function() {
   assert_identical(
     classify_action(c(preapp_candidate, "Placed on probation"), "MSCHE"),
     c("other", "probation")
+  )
+  assert_identical(
+    classify_action(
+      paste(
+        "To acknowledge receipt of the teach-out plan. To approve the teach-out plan.",
+        "To note that the institution will conduct and complete its own teach-out by August 30, 2020",
+        "and that teach-out agreements are not required."
+      ),
+      "MSCHE"
+    ),
+    "other"
+  )
+  assert_identical(
+    classify_action(
+      paste(
+        "To acknowledge receipt of the complex substantive change request.",
+        "To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective June 30, 2025.",
+        "To note the complex substantive change request includes the merger of Lackawanna College with Peirce College, effective June 30, 2025."
+      ),
+      "MSCHE"
+    ),
+    "other"
   )
 })
 

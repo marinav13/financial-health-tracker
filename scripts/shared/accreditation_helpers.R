@@ -468,6 +468,94 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     acc_norm <- rep(acc_norm, length(txt))
   }
 
+  is_warning_transition <- stringr::str_detect(
+    txt,
+    paste(
+      "remove (?:a |the )?show cause(?: order)?[^.]{0,80}?(?:impose|issue)[^.]{0,40}?\\bwarning\\b",
+      "remove notice of concern[^.]{0,80}?(?:impose|issue|continue)[^.]{0,40}?\\bwarning\\b",
+      sep = "|"
+    )
+  )
+  is_notice_transition <- stringr::str_detect(
+    txt,
+    paste(
+      "remove (?:a |the )?warning[^.]{0,80}?(?:issue|continue)[^.]{0,60}?(?:formal )?notice of concern",
+      sep = "|"
+    )
+  )
+  is_removed_transition <- stringr::str_detect(
+    txt,
+    "remove (?:a |the )?warning[^.]{0,80}?reaffirm accreditation"
+  )
+  is_monitoring_denial <- stringr::str_detect(
+    txt,
+    "den(?:y|ied) staff action recommendation to require monitoring"
+  )
+  is_monitoring_requirement <- stringr::str_detect(
+    txt,
+    paste(
+      "(?:require|required|request(?:ed)?)(?: the institution to provide)? an? (?:interim|monitoring|progress|follow-?up) report",
+      "requested to submit an? (?:interim|monitoring|progress|follow-?up) report",
+      sep = "|"
+    )
+  )
+  is_requirement_no_longer_required <- stringr::str_detect(
+    txt,
+    paste(
+      "show cause report[^.]{0,120}?no longer required",
+      "supplemental information report[^.]{0,120}?no longer required",
+      "teach-?out plan[^.]{0,120}?no longer required",
+      sep = "|"
+    )
+  )
+  is_notice_notation <- (acc_norm == "NECHE") & stringr::str_detect(
+    txt,
+    "\\bnotation\\b"
+  )
+  is_hlc_change_control_approval <- (acc_norm == "HLC") & stringr::str_detect(
+    txt,
+    paste(
+      "change of control, structure(?:,| or) organization",
+      "affirmed that the institution (?:is addressing|has addressed|has demonstrated sufficient evidence that it has addressed) the concerns related to",
+      sep = "|"
+    )
+  )
+  is_msche_merger_or_legal_status <- (acc_norm == "MSCHE") & stringr::str_detect(
+    txt,
+    paste(
+      "complex substantive change request includes the merger of",
+      "include the change in legal status, form of control, and ownership within the institution's scope of accreditation",
+      "sale of the school of visual arts",
+      "sale of the institution to ",
+      sep = "|"
+    )
+  )
+  is_teachout_receiving_approval <- stringr::str_detect(
+    txt,
+    "serve as a teach-out receiving institution"
+  )
+  is_msche_simple_teachout_plan_approval <- (acc_norm == "MSCHE") & stringr::str_detect(
+    txt,
+    "to approve the teach-out plan"
+  ) & !stringr::str_detect(
+    txt,
+    paste(
+      "teach-out agreements?, requested by the commission action",
+      "updated teach-out plan",
+      "require an updated teach-out plan",
+      "adverse action to withdraw accreditation",
+      "approve the teach-out agreements with",
+      sep = "|"
+    )
+  )
+  is_msche_simple_teachout_agreement_approval <- (acc_norm == "MSCHE") & stringr::str_detect(
+    txt,
+    "to approve (?:a |the )teach-out agreement with"
+  ) & !stringr::str_detect(
+    txt,
+    "teach-out plan and teach-out agreement"
+  )
+
   # Sub-institutional / regulatory-paperwork context: the action concerns
   # something other than the institution itself ceasing operations.
   # Covers (a) additional locations, branch campuses, instructional
@@ -486,6 +574,11 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
       "as required of candidate institutions",
       sep = "|"
     )
+  )
+
+  is_denied_reaffirmation_warning <- stringr::str_detect(
+    txt,
+    "denied reaffirmation[^.]{0,200}?placed[^.]{0,80}?\\bwarning\\b"
   )
 
   # True institution-level closure / withdrawal signals. These phrasings
@@ -540,9 +633,28 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
   )
 
   dplyr::case_when(
+    # Mixed sanction-transition labels should classify to the active
+    # status that remains after the prior sanction is lifted.
+    is_warning_transition ~ "warning",
+    is_notice_transition ~ "notice",
+    is_removed_transition ~ "removed",
+    # Administrative approvals and procedural monitoring decisions.
+    is_monitoring_denial ~ "other",
+    is_requirement_no_longer_required ~ "other",
+    is_hlc_change_control_approval ~ "other",
+    is_msche_merger_or_legal_status ~ "other",
+    is_teachout_receiving_approval ~ "other",
+    is_msche_simple_teachout_plan_approval ~ "other",
+    is_msche_simple_teachout_agreement_approval ~ "other",
+    # Explicit "Notice" / notation language should win before any
+    # incidental warning text elsewhere in the row.
+    is_notice_notation ~ "notice",
+    stringr::str_detect(txt, "placed on notice|\\bon notice\\b") ~ "notice",
     # "Removed" actions: a previous action has been lifted or resolved
-    stringr::str_detect(txt, "removed from warning|remove the institution from warning|remove notice of concern|removal of sanction") ~ "removed",
-    stringr::str_detect(txt, "removed from probation|remove the institution from probation") ~ "removed",
+    stringr::str_detect(txt, "removed from warning|remove [^.]{0,80}? from warning|remove notice of concern|removal of sanction") ~ "removed",
+    stringr::str_detect(txt, "removed from probation|remove .{0,80}? from probation") ~ "removed",
+    # "Probation for Good Cause" is a probation action, not show cause.
+    stringr::str_detect(txt, "probation for good cause") ~ "probation",
     # "Show Cause": most serious short of actual withdrawal
     stringr::str_detect(txt, "show cause") ~ "show_cause",
     # "Adverse Action": accreditation withdrawn, membership removed, or institution closed.
@@ -550,6 +662,7 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     # closure language demotes to "other" when the text is clearly about
     # a branch campus or additional location.
     is_msche_preapp_approval ~ "other",
+    is_denied_reaffirmation_warning ~ "warning",
     is_institutional_adverse ~ "adverse_action",
     is_generic_teachout_or_closure & !is_branch_or_location ~ "adverse_action",
     # "Probation": accreditation status is probationary (must cure deficiencies)
@@ -560,7 +673,8 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     stringr::str_detect(txt, "notice of concern") ~ "notice",
     stringr::str_detect(txt, "notice") ~ "notice",
     # "Monitoring": institution under heightened scrutiny or monitoring
-    stringr::str_detect(txt, "monitor") ~ "monitoring",
+    is_monitoring_requirement ~ "monitoring",
+    stringr::str_detect(txt, "\\bmonitor(?:ing)?\\b") ~ "monitoring",
     # Catch-all for other adverse terminology
     stringr::str_detect(txt, "adverse") ~ "adverse_action",
     # Fallback for unrecognized text (includes branch/location substantive

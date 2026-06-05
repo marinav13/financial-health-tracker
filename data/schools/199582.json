@@ -1,6 +1,6 @@
 {
   "unitid": "199582",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Saint Augustine's University",
     "institution_unique_name": "Saint Augustine's University | Raleigh | North Carolina",
@@ -773,32 +773,11 @@
     "has_active_warning": true,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": true,
-    "latest_action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
+    "latest_action_date": "2025-12-01",
     "latest_action_year": "2025",
     "action_count": 11
   },
   "actions": [
-    {
-      "accreditor": "SACSCOC",
-      "action_type": "https://ope.ed.gov/dapip/#/institution-profile/134130",
-      "action_label": "Accreditation Reinstated: Termination Overturned on Appeal",
-      "action_label_short": "Accreditation Reinstated: Termination Overturned on Appeal",
-      "action_scope": null,
-      "action_status": "resolved",
-      "action_date": "Accreditation Reinstated: Termination Overturned on Appeal",
-      "action_year": "Accr",
-      "notes": "Accreditation Reinstated: Termination Overturned on Appeal | Arbitration Panel returned case to Board of Trustees.",
-      "source_url": "DAPIP Institutional Accreditation Action",
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_page_url": "DAPIP Institutional Accreditation Action",
-      "source_page_modified": null,
-      "display_action": true,
-      "public_table_strategy": "dapip_backed_keep",
-      "hybrid_candidate": false,
-      "hybrid_reason": null,
-      "has_financial_profile": true,
-      "is_primary_tracker": true
-    },
     {
       "accreditor": "SACSCOC",
       "action_type": "adverse_action",
@@ -878,6 +857,27 @@
       "source_page_modified": "2024-12-19",
       "display_action": true,
       "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "removed",
+      "action_label": "Accreditation Reinstated: Termination Overturned on Appeal",
+      "action_label_short": "Accreditation Reinstated: Termination Overturned on Appeal",
+      "action_scope": null,
+      "action_status": "resolved",
+      "action_date": "2024-06-27",
+      "action_year": "2024",
+      "notes": "Accreditation Reinstated: Termination Overturned on Appeal | Arbitration Panel returned case to Board of Trustees.",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/134130",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
       "hybrid_candidate": false,
       "hybrid_reason": null,
       "has_financial_profile": true,
@@ -1011,12 +1011,6 @@
     }
   ],
   "sources": [
-    {
-      "accreditor": "SACSCOC",
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "DAPIP Institutional Accreditation Action",
-      "source_page_url": "DAPIP Institutional Accreditation Action"
-    },
     {
       "accreditor": "SACSCOC",
       "source_title": "December 2025 Accreditation Actions and Public Disclosure Statements - SACSCOC",

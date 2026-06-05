@@ -1,6 +1,6 @@
 {
   "unitid": "230959",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Middlebury College",
     "institution_unique_name": "Middlebury College | Middlebury | Vermont",
@@ -833,28 +833,28 @@
   "latest_status": {
     "accreditors": "NECHE",
     "action_labels": "Accepted Teach-Out Plans",
-    "active_actions": "https://www.neche.org/recent-commission-actions/",
+    "active_actions": "adverse_action",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
-    "has_active_adverse_action": false,
-    "latest_action_date": "Accepted Teach-Out Plans (online programs at the Monterey Institute of International Studies)",
-    "latest_action_year": null,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2026-04-23",
+    "latest_action_year": "2026",
     "action_count": 1
   },
   "actions": [
     {
       "accreditor": "NECHE",
-      "action_type": "https://www.neche.org/recent-commission-actions/",
+      "action_type": "adverse_action",
       "action_label": "Accepted Teach-Out Plans",
       "action_label_short": "Accepted Teach-Out Plans",
       "action_scope": "online programs at the Monterey Institute of International Studies",
       "action_status": "active",
-      "action_date": "Accepted Teach-Out Plans (online programs at the Monterey Institute of International Studies)",
-      "action_year": "Acce",
+      "action_date": "2026-04-23",
+      "action_year": "2026",
       "notes": "Middlebury College, Middlebury, VT (online programs at the Monterey Institute of International Studies)",
-      "source_url": "Recent Commission Actions - New England Commission Higher Education",
+      "source_url": "https://www.neche.org/recent-commission-actions/",
       "source_title": "Recent Commission Actions - New England Commission Higher Education",
-      "source_page_url": "Recent Commission Actions - New England Commission Higher Education",
+      "source_page_url": "https://www.neche.org/recent-commission-actions/",
       "source_page_modified": "2026-05-22",
       "display_action": true,
       "public_table_strategy": "scraper_backed_keep",
@@ -868,8 +868,8 @@
     {
       "accreditor": "NECHE",
       "source_title": "Recent Commission Actions - New England Commission Higher Education",
-      "source_url": "Recent Commission Actions - New England Commission Higher Education",
-      "source_page_url": "Recent Commission Actions - New England Commission Higher Education"
+      "source_url": "https://www.neche.org/recent-commission-actions/",
+      "source_page_url": "https://www.neche.org/recent-commission-actions/"
     }
   ]
 }

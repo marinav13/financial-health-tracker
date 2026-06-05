@@ -1,6 +1,6 @@
 {
   "unitid": "186283",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Rider University",
     "institution_unique_name": "Rider University | Lawrenceville | New Jersey",
@@ -832,16 +832,37 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Continued on Probation because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Placed on Probation for insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+    "action_labels": "Approved Teach-Out Plan (closure of the branch campus at Westminster Choir College, 10 Walnut Lane, Princeton, New Jersey 08540); Continued Non-Compliance Probation; Continued on Probation because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Placed on Probation for insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
     "active_actions": "probation",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
-    "latest_action_date": "2026-03-12",
+    "latest_action_date": "2026-03-23",
     "latest_action_year": "2026",
-    "action_count": 2
+    "action_count": 4
   },
   "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "probation",
+      "action_label": "Non-Compliance Probation",
+      "action_label_short": "Continued Non-Compliance Probation",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2026-03-23",
+      "action_year": "2026",
+      "notes": null,
+      "source_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf",
+      "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+      "source_page_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "MSCHE",
       "action_type": "probation",
@@ -883,14 +904,47 @@
       "hybrid_reason": null,
       "has_financial_profile": true,
       "is_primary_tracker": true
+    },
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "To acknowledge receipt of the teach-out plan. To approve the teach-out plan for the closure of the branch campus at Westminster Choir College, 10 Walnut Lane, Princeton, New Jersey 08540. To note that the institution will conduct and complete its own teach-out by August 30, 2020 at the branch campus and teach-out agreements are not required. To note that students may obtain academic records at Rider University, 2083 Lawrenceville Road, Lawrenceville, New Jersey 08648-3099. The next evaluation visit is scheduled for 2026-2027.",
+      "action_label_short": "Approved Teach-Out Plan (closure of the branch campus at Westminster Choir College, 10 Walnut Lane, Princeton, New Jersey 08540)",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2019-10-29",
+      "action_year": "2019",
+      "notes": null,
+      "source_url": "https://www.msche.org/institution/0230/",
+      "source_title": "MSCHE Statement of Accreditation Status - Rider University",
+      "source_page_url": "https://www.msche.org/institution/0230/",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
     }
   ],
   "sources": [
     {
       "accreditor": "MSCHE",
+      "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+      "source_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf",
+      "source_page_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf"
+    },
+    {
+      "accreditor": "MSCHE",
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_url": "https://ope.ed.gov/dapip/#/institution-profile/128586",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/128586"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Rider University",
+      "source_url": "https://www.msche.org/institution/0230/",
+      "source_page_url": "https://www.msche.org/institution/0230/"
     }
   ]
 }

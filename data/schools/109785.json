@@ -1,6 +1,6 @@
 {
   "unitid": "109785",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Azusa Pacific University",
     "institution_unique_name": "Azusa Pacific University | Azusa | California",
@@ -832,9 +832,9 @@
   },
   "latest_status": {
     "accreditors": "WSCUC",
-    "action_labels": "Remove the warning, issue a formal notice of concern, reaffirm accreditation for 6 years",
-    "active_actions": "warning",
-    "has_active_warning": true,
+    "action_labels": "Removed the warning, issued a formal notice of concern, and reaffirmed accreditation for 6 years",
+    "active_actions": "notice",
+    "has_active_warning": false,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": false,
     "latest_action_date": "2024-06-01",
@@ -844,9 +844,9 @@
   "actions": [
     {
       "accreditor": "WSCUC",
-      "action_type": "warning",
+      "action_type": "notice",
       "action_label": "Following a Special Visit – Remove the Warning, Issue a Formal Notice of Concern, Reaffirm Accreditation for 6 Years",
-      "action_label_short": "Remove the warning, issue a formal notice of concern, reaffirm accreditation for 6 years",
+      "action_label_short": "Removed the warning, issued a formal notice of concern, and reaffirmed accreditation for 6 years",
       "action_scope": null,
       "action_status": "active",
       "action_date": "2024-06-01",

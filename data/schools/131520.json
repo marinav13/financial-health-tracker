@@ -1,6 +1,6 @@
 {
   "unitid": "131520",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Howard University",
     "institution_unique_name": "Howard University | Washington | District of Columbia",
@@ -829,5 +829,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Approved Teach-Out Plan (closure of the Orthopaedic surgery residents program)",
+    "active_actions": null,
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-02-28",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "To acknowledge receipt of the teach-out plan. To approve the teach-out plan for the closure of the Orthopaedic surgery residents program. To note that students may obtain academic records at 2400 Sixth Street, N. W., Washington, DC 20059. The next evaluation date is scheduled for 2027-2028.",
+      "action_label_short": "Approved Teach-Out Plan (closure of the Orthopaedic surgery residents program)",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2025-02-28",
+      "action_year": "2025",
+      "notes": null,
+      "source_url": "https://www.msche.org/institution/0127/",
+      "source_title": "MSCHE Statement of Accreditation Status - Howard University",
+      "source_page_url": "https://www.msche.org/institution/0127/",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Howard University",
+      "source_url": "https://www.msche.org/institution/0127/",
+      "source_page_url": "https://www.msche.org/institution/0127/"
+    }
+  ]
 }

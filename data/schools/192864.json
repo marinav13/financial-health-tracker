@@ -1,6 +1,6 @@
 {
   "unitid": "192864",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Marymount Manhattan College",
     "institution_unique_name": "Marymount Manhattan College | New York | New York",
@@ -742,16 +742,37 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Placed on Warning because of insufficient evidence of compliance with Standard V (Educational Effectiveness Assessment); Warning removed",
+    "action_labels": "Approved Teach-Out Agreement with Northeastern University; Placed on Warning because of insufficient evidence of compliance with Standard V (Educational Effectiveness Assessment); Warning removed",
     "active_actions": "warning",
     "has_active_warning": true,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": false,
-    "latest_action_date": "2023-06-22",
-    "latest_action_year": "2023",
-    "action_count": 2
+    "latest_action_date": "2025-04-24",
+    "latest_action_year": "2025",
+    "action_count": 3
   },
   "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "adverse_action",
+      "action_label": "To acknowledge receipt of the teach-out plan. To approve the teach-out plan. To approve the teach-out agreement with Northeastern University, Boston, MA. To note that Marymount Manhattan College's (MMC) accreditation will cease on March 31, 2026. To note that student records, programs, and services will transfer from MMC to Northeastern University. To note that Northeastern University, Boston, MA has been designated as the repository of all MMC student records. To require notification when student records have been transferred to Northeastern University by email [email protected].",
+      "action_label_short": "Approved Teach-Out Agreement with Northeastern University",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2025-04-24",
+      "action_year": "2025",
+      "notes": null,
+      "source_url": "https://www.msche.org/institution/0347/",
+      "source_title": "MSCHE Statement of Accreditation Status - Marymount Manhattan College",
+      "source_page_url": "https://www.msche.org/institution/0347/",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "MSCHE",
       "action_type": "removed",
@@ -796,6 +817,12 @@
     }
   ],
   "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "MSCHE Statement of Accreditation Status - Marymount Manhattan College",
+      "source_url": "https://www.msche.org/institution/0347/",
+      "source_page_url": "https://www.msche.org/institution/0347/"
+    },
     {
       "accreditor": "MSCHE",
       "source_title": "DAPIP Institutional Accreditation Action",

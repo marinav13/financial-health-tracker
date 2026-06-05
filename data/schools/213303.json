@@ -1,6 +1,6 @@
 {
   "unitid": "213303",
-  "generated_at": "2026-06-04",
+  "generated_at": "2026-06-05",
   "profile": {
     "institution_name": "Keystone College",
     "institution_unique_name": "Keystone College | La Plume | Pennsylvania",
@@ -828,16 +828,37 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Adverse action to withdraw accreditation reconsidered with new financial information. Institution placed on show cause status.; Adverse Action to withdraw accreditation subject to appeal. Institution remains accredited pending the appeal. The accreditation cease date will be set as appropriate based on final disposition of the appeal.; Asked to Show Cause",
+    "action_labels": "Adverse action to withdraw accreditation reconsidered with new financial information. Institution placed on show cause status.; Adverse Action to withdraw accreditation subject to appeal. Institution remains accredited pending the appeal. The accreditation cease date will be set as appropriate based on final disposition of the appeal.; Merger of Keystone College into Keystone College, LLC, with Washington Institute for Education and Research (WIER) as the sole member, effective May 30, 2025, (effective May 30, 2025); Placed on Show Cause status because institutions fails to meet agency standards for initial or renewed accreditation",
     "active_actions": "show_cause",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
-    "latest_action_date": "2025-02-27",
+    "latest_action_date": "2025-05-29",
     "latest_action_year": "2025",
-    "action_count": 3
+    "action_count": 4
   },
   "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "show_cause",
+      "action_label": "To acknowledge receipt of the complex substantive change request. To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective May 30, 2025. To note the complex substantive change request includes the merger of Keystone College into Keystone College, LLC, with Washington Institute for Education and Research (WIER) as the sole member, effective May 30, 2025, the anticipated date of the transaction. To require notification of the date of the closing of the transaction within five calendar days of the transaction by email to [email protected], or, if there is a subsequent delay in the anticipated date of the closing of the transaction, to require immediate notification to the Commission of the revised anticipated transaction date. To note the institution will maintain its accreditation following the transaction. To note that written evidence of required approvals has been provided by the Pennsylvania Department of Education. To request a complex substantive change supplemental information report, due September 2, 2025, providing (1) the updated status of the complex substantive change; (2) written evidence of review, including but not limited to, approval of the transaction from all outstanding required licensing, regulatory, or other legal entities as necessary, including but not limited to the Pennsylvania Office of Attorney General and the United States Department of Education(Standard II); (3) evidence of a comprehensive financial planning process, multi-year budget, annual independent audit verifying financial viability and internal controls, and documented funding base adequate to support the educational purposes and ensure financial stability that includes a financial development plan and resources from any related entities (Standard VI); (4) planning that integrates goals for institutional effectiveness and improvement, including overall institutional improvement and the results of institutional assessments as related to the complex substantive change transaction and efforts to expand international recruitment (Standard VI); (5) an update on the status of recruiting and hiring a qualified Chief Financial Officer (Standard VI); (6) evidence of the status of the institution's membership in the National Council for State Authorization Reciprocity Agreements and compliance with all membership requirements (Standard VI); (7) evidence of the implementation of a written conflict of interest policy designed to ensure the impartiality of the governing body (Standard VII); and (8) a clearly articulated and transparent governance structure that outlines roles, responsibilities, and accountability for inclusive decision making by each constituency, including the institution's legally constituted governing body and any related entities, including any updates to Keystone College Guide to Governance and Policy (Standard VII) (Fourteenth Edition and Evidence Expectations by Standard Guidelines). To direct a complex substantive change site visit as soon as practicable but no later than six months after May 30, 2025, the anticipated date of the transaction. To note the complex substantive change site visit will occur at the same time as the show cause visit. To direct a prompt Commission liaison guidance visit to discuss the Commission's expectations including post-transaction requirements. To note the Commission reserves the right to rescind this action if any developments reveal additional information that might have affected the Commission's decision and/or the complex substantive change is not implemented within one calendar year from the anticipated date of the transaction. To remind the institution and the related entity of their responsibility for disclosing, documenting, and explaining all significant matters and relationships involving related entities that may impact its compliance including but not limited to governance, independence and autonomy, management and administration, and financial viability and stability (Related Entities Policy and Procedures). To note the Commission's action of February 27, 2025, requiring the institution to show cause why its accreditation should not be withdrawn. The date of the next evaluation will be determined upon reaffirmation of accreditation.",
+      "action_label_short": "Merger of Keystone College into Keystone College, LLC, with Washington Institute for Education and Research (WIER) as the sole member, effective May 30, 2025, (effective May 30, 2025)",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2025-05-29",
+      "action_year": "2025",
+      "notes": null,
+      "source_url": "https://www.msche.org/institution/0513/",
+      "source_title": "MSCHE Statement of Accreditation Status - Keystone College",
+      "source_page_url": "https://www.msche.org/institution/0513/",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "MSCHE",
       "action_type": "show_cause",
@@ -884,7 +905,7 @@
       "accreditor": "MSCHE",
       "action_type": "show_cause",
       "action_label": "Probation or Equivalent or a More Severe Status: Show Cause",
-      "action_label_short": "Asked to Show Cause",
+      "action_label_short": "Placed on Show Cause status because institutions fails to meet agency standards for initial or renewed accreditation",
       "action_scope": null,
       "action_status": "active",
       "action_date": "2024-04-25",
@@ -905,15 +926,15 @@
   "sources": [
     {
       "accreditor": "MSCHE",
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922"
-    },
-    {
-      "accreditor": "MSCHE",
       "source_title": "MSCHE Statement of Accreditation Status - Keystone College",
       "source_url": "https://www.msche.org/institution/0513/",
       "source_page_url": "https://www.msche.org/institution/0513/"
+    },
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/139922",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/139922"
     }
   ]
 }

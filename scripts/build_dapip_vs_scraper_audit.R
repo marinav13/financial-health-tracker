@@ -115,7 +115,7 @@ main <- function(cli_args = NULL) {
     at <- trimws(tolower(as.character(action_type %||% "")))
     lbl <- trimws(tolower(as.character(label %||% "")))
     dplyr::case_when(
-      stringr::str_detect(lbl, "merge|merger|surviving institution|change of control|change in control|change of legal status|accreditation will cease|accreditation cease date|cease operations|institutional closure|closing") ~ "institutional_change_or_closure",
+      stringr::str_detect(lbl, "merge|merger|surviving institution|change of control|change in control|change of legal status|change of ownership|sale of|sale to|acquisition|sole member|member substitution|accreditation will cease|accreditation cease date|cease operations|institutional closure|closing") ~ "institutional_change_or_closure",
       at == "probation" ~ "probation",
       at == "warning" ~ "warning",
       at == "show_cause" ~ "show_cause",
@@ -158,7 +158,7 @@ main <- function(cli_args = NULL) {
     "^\\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor"
   )
 
-  MSCHE_SUBSTANTIVE_KEEP_PATTERN <- "^\\s*(?:merger of|accepted teach-?out plan|to approve the (?:updated )?teach-?out plan(?! as required of candidate)|to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?|voluntarily surrendered accreditation|to accept [^.]{0,160}?voluntar(?:ily|y)\\s+surrender)"
+  MSCHE_SUBSTANTIVE_KEEP_PATTERN <- "^\\s*(?:merger of|sale of|sale to|acquisition of|change of ownership to|sole-member change involving|accepted teach-?out plan|to approve the (?:updated )?teach-?out plan(?! as required of candidate)|to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?|voluntarily surrendered accreditation|to accept [^.]{0,160}?voluntar(?:ily|y)\\s+surrender)"
   MSCHE_PROCEDURAL_CONTENT_PATTERNS <- c(
     "addition or change of primary accreditor to msche procedures",
     "candidate assessment report",
@@ -362,7 +362,7 @@ main <- function(cli_args = NULL) {
     }
 
     if (stringr::str_detect(content, "joint review committee on education in radiologic technology|jrcert|programmatic accreditor|specialized accreditor") &&
-        !stringr::str_detect(content, "institutional closure|teach-?out|merger|surviving institution|accreditation will cease|withdraw accreditation|withdrawal of accreditation")) {
+        !stringr::str_detect(content, "institutional closure|teach-?out|merger|surviving institution|change of ownership|sale of|sale to|acquisition|sole member|member substitution|accreditation will cease|withdraw accreditation|withdrawal of accreditation")) {
       return(list(keep = FALSE, reason = "programmatic_accreditor_spillover"))
     }
 
@@ -396,12 +396,12 @@ main <- function(cli_args = NULL) {
     }
 
     if (type == "other" && stringr::str_detect(content, "substantive change|program addition|additional location|notification program|distance education|correspondence education")) {
-      if (!stringr::str_detect(content, "teach-?out|closure|withdraw|merge|consolidat|removed from|warning|probation|show cause|notice of concern")) {
+      if (!stringr::str_detect(content, "teach-?out|closure|withdraw|merge|consolidat|sale of|sale to|acquisition|change of ownership|sole member|member substitution|removed from|warning|probation|show cause|notice of concern")) {
         return(list(keep = FALSE, reason = "routine_program_or_substantive_change"))
       }
     }
 
-    if (stringr::str_detect(content, "teach-?out|institutional closure|accepted notification of institutional closure|cease academic operations|cease operations|closing|removed from membership|voluntar(?:ily|y) surrender|voluntary withdrawal|withdrawal of accreditation|loss of accreditation|merge|merger|consolidat|surviving institution|change of control")) {
+    if (stringr::str_detect(content, "teach-?out|institutional closure|accepted notification of institutional closure|cease academic operations|cease operations|closing|removed from membership|voluntar(?:ily|y) surrender|voluntary withdrawal|withdrawal of accreditation|loss of accreditation|merge|merger|consolidat|surviving institution|change of control|change of ownership|sale of|sale to|acquisition|sole member|member substitution")) {
       return(list(keep = TRUE, reason = "closure_teachout_or_exit_signal"))
     }
 

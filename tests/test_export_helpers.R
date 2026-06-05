@@ -881,17 +881,17 @@ run_test("derive_action_label_short Phase 4: Pattern 0a — Merger with named pa
   )
 })
 
-run_test("derive_action_label_short Phase 4: Pattern 0a fallback — Change of Legal Status when merger partner not named", function() {
-  # Drexel-style row (MSCHE): change in legal status without a named
-  # merging counterparty. Falls through to the broader change-of-status
-  # bucket so the effective date still surfaces.
-  drexel_text <- paste0(
-    "To include the change in legal status, form of control, and ownership ",
-    "within the institution's scope of accreditation, effective June 30, 2024."
+run_test("derive_action_label_short Phase 4: Pattern 0a surfaces sale transactions instead of generic legal-status boilerplate", function() {
+  delaware_text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, or ownership ",
+    "within the institution's scope of accreditation effective July 1, 2021. ",
+    "To note the complex substantive change request includes the sale of the assets of Wesley College to Delaware State University. ",
+    "To require notification of the date of the closing of the transaction within five calendar days of the transaction."
   )
   assert_identical(
-    derive_action_label_short("adverse_action", drexel_text, "MSCHE"),
-    "Change of Legal Status (effective June 30, 2024)"
+    derive_action_label_short("other", delaware_text, "MSCHE"),
+    "Sale of Wesley College to Delaware State University (effective July 1, 2021)"
   )
 })
 
@@ -2797,6 +2797,70 @@ run_test("derive_action_label_short: NECHE notation joint statements collapse to
   assert_identical(
     derive_action_label_short("notice", text, "NECHE"),
     "Received a notation because the Commission found that the College is in danger of not meeting the Commission's Standard on Educational Effectiveness"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE merger rows without a comma before 'effective' still surface both institutions", function() {
+  text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership within the institution's scope of accreditation effective December 31, 2024. ",
+    "To note the complex substantive change request includes the merger of Touro University with New York College of Podiatric Medicine effective December 31, 2024, the anticipated date of the transaction. ",
+    "To note that Touro University is the surviving institution."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "MSCHE"),
+    "Merger of Touro University with New York College of Podiatric Medicine (effective December 31, 2024)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE merger rows can reuse the legal-status effective date when the merger sentence omits it", function() {
+  text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective June 30, 2025. ",
+    "To note the complex substantive change request includes the member substitution of Ursuline College and the merger of Ursuline College with Gannon University. ",
+    "To require notification of the date of the closing of the transaction within five calendar days of the transaction."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "MSCHE"),
+    "Merger of Ursuline College with Gannon University (effective June 30, 2025)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE sale-of-institution rows surface the buyer instead of legal-status boilerplate", function() {
+  text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective December 1, 2025. ",
+    "To note the complex substantive change includes the sale of the institution to JEF New York, Inc. (JEFNY), a subsidiary of Japan Educational Foundation (JEF), effective December 1, 2025, the anticipated date of the transaction. ",
+    "To require notification of the date of the closing of the transaction within five calendar days of the transaction."
+  )
+  assert_identical(
+    derive_action_label_short("adverse_action", text, "MSCHE"),
+    "Sale to JEF New York, Inc. (JEFNY) (effective December 1, 2025)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE acquisition rows surface the acquired institution instead of legal-status boilerplate", function() {
+  text <- paste0(
+    "To acknowledge receipt of the complex substantive change request. ",
+    "To include the change in legal status, form of control, and ownership within the institution's scope of accreditation effective December 5, 2024. ",
+    "To note the complex substantive change request includes an acquisition of Post University effective December 5, 2024, the anticipated date of the transaction. ",
+    "To direct a complex substantive change site visit to the main campus as soon as practicable."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "MSCHE"),
+    "Acquisition of Post University (effective December 5, 2024)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE completed merger notifications use the closing date", function() {
+  text <- paste0(
+    "To acknowledge receipt on August 15, 2024, of notification that the closing of the merger of Salus University with Drexel University occurred on June 30, 2024. ",
+    "To note that Drexel University is the surviving institution. ",
+    "To remind the institution of its obligation to inform the Commission about any and all developments relevant to this action."
+  )
+  assert_identical(
+    derive_action_label_short("other", text, "MSCHE"),
+    "Merger of Salus University with Drexel University (effective June 30, 2024)"
   )
 })
 

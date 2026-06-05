@@ -346,7 +346,10 @@ build_cuts_export <- function() {
 
   if (!isTRUE(apply_only_cuts_review_gate)) {
     write_csv_atomic(
-      build_college_cuts_review_candidates(cuts),
+      build_college_cuts_review_candidates(
+        dplyr::filter(cuts, is_primary_tracker %in% TRUE),
+        tracker_unitids = schools_index$unitid
+      ),
       cuts_review_candidates_path
     )
   }
@@ -360,7 +363,8 @@ build_cuts_export <- function() {
     overrides = cuts_editorial_overrides,
     enforce_review_gate = enforce_cuts_review_gate,
     allowed_cut_ids = committed_review_candidates$cut_id %||% NULL,
-    drop_unlisted = isTRUE(apply_only_cuts_review_gate)
+    drop_unlisted = isTRUE(apply_only_cuts_review_gate),
+    gate_mask = cuts$is_primary_tracker %in% TRUE
   )
 
   if (nrow(cuts) > 0L) {
@@ -572,7 +576,8 @@ build_accreditation_export <- function() {
     "^\\s*to grant accreditation because the institution has met the requirements of the addition or change of primary accreditor"
   )
   MSCHE_SUBSTANTIVE_KEEP_PATTERN <- paste0(
-    "^\\s*(?:merger of|accepted teach-?out plan|",
+    "^\\s*(?:merger of|sale of|sale to|acquisition of|change of ownership to|sole-member change involving|",
+    "accepted teach-?out plan|",
     "to approve the (?:updated )?teach-?out plan(?! as required of candidate)|",
     "to approve the teach-?out agreements?|approved teach-?out plan|approved teach-?out agreements?|",
     "voluntar(?:ily|y) surrender(?:ed)? accreditation|",
@@ -658,6 +663,12 @@ build_accreditation_export <- function() {
     notes_text <- normalize_accreditation_text(notes)
     haystack <- trimws(paste(type, label, notes_text))
     content_only <- trimws(paste(label, notes_text))
+    has_transaction_change <- grepl(
+      "merger|sale of|sale to|acquisition|change of ownership|sole-member change|sole member|member substitution",
+      haystack,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
 
     if (accreditor_code == "MSCHE" && identical(type, "monitoring")) return(FALSE)
 
@@ -710,7 +721,8 @@ build_accreditation_export <- function() {
 
     if (
       grepl("substantive change|program addition", haystack, ignore.case = TRUE, perl = TRUE) &&
-      !type %in% TRUSTED_ACTION_TYPES
+      !type %in% TRUSTED_ACTION_TYPES &&
+      !has_transaction_change
     ) {
       return(FALSE)
     }
@@ -752,6 +764,8 @@ build_accreditation_export <- function() {
     ) {
       return(TRUE)
     }
+
+    if (has_transaction_change) return(TRUE)
 
     if (grepl(standalone_low_signal_pattern, label, ignore.case = TRUE, perl = TRUE)) return(FALSE)
 

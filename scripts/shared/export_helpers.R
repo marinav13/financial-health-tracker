@@ -4696,39 +4696,124 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
     return("Approved to Apply for Candidate for Accreditation Status")
   }
 
-  # ----- Pattern 0a: Merger / change of control with effective date -----
-  # MSCHE complex-substantive-change rows describe institutional mergers
-  # in two shapes: an explicit "merger of <X> with <Y>, effective <date>"
-  # sentence (when present), or a "to include the change in legal status,
-  # form of control, and ownership ... effective <date>" sentence as a
-  # fallback. Surfacing the merging partner is more informative than
-  # falling through to the generic "change of legal status" boilerplate.
+  # ----- Pattern 0a: Merger / sale / ownership transaction with effective date -----
+  # MSCHE complex-substantive-change rows often begin with the procedural
+  # "change in legal status, form of control, and ownership" sentence, but the
+  # user-facing substance is in the follow-on transaction clause: merger, sale,
+  # acquisition, change of ownership, or sole-member substitution. Never emit
+  # the legal-status boilerplate itself when we can surface the actual deal.
+  legal_status_match <- stringr::str_match(raw, stringr::regex(
+    "to include the change in legal status[^.]*?effective,?\\s*([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    ignore_case = TRUE
+  ))
+  legal_status_effective_date <- if (!is.na(legal_status_match[1, 1])) {
+    stringr::str_squish(legal_status_match[1, 2])
+  } else {
+    NA_character_
+  }
+  .transaction_summary <- function(label_text, eff_date = NA_character_) {
+    date_value <- eff_date
+    if (is.na(date_value) || !nzchar(trimws(date_value))) {
+      date_value <- legal_status_effective_date
+    }
+    if (is.na(date_value) || !nzchar(trimws(date_value))) {
+      return(.capitalize_summary_head(label_text))
+    }
+    .capitalize_summary_head(paste0(label_text, " (effective ", stringr::str_squish(date_value), ")"))
+  }
+
   m_merger <- stringr::str_match(raw, stringr::regex(
-    "merger of ([^,.]+?) (with|into) ([^,.]+?),\\s*effective,?\\s*([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+    "merger of (.+?) (with|into) (.+?)\\s*,?\\s*effective,?\\s*([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
     ignore_case = TRUE
   ))
   if (!is.na(m_merger[1, 1])) {
-    # Surface BOTH institution names so the label is unambiguous on
-    # either party's accreditation page. The earlier shape captured
-    # only the partner name and emitted "Merger with <Y>", which read
-    # as a self-reference on <Y>'s own row (e.g. Russell Sage's page
-    # showed "Merger with Russell Sage College").
-    inst_a   <- stringr::str_squish(m_merger[1, 2])
+    inst_a <- stringr::str_squish(m_merger[1, 2])
     connector <- tolower(stringr::str_squish(m_merger[1, 3]))
-    inst_b   <- stringr::str_squish(m_merger[1, 4])
+    inst_b <- stringr::str_squish(m_merger[1, 4])
     eff_date <- stringr::str_squish(m_merger[1, 5])
-    return(.capitalize_summary_head(paste0(
-      "Merger of ", inst_a, " ", connector, " ", inst_b,
-      " (effective ", eff_date, ")"
-    )))
+    return(.transaction_summary(
+      paste0("Merger of ", inst_a, " ", connector, " ", inst_b),
+      eff_date
+    ))
   }
-  m_legal_status <- stringr::str_match(raw, stringr::regex(
-    "to include the change in legal status[^.]*?effective ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
+
+  m_merger_occurred <- stringr::str_match(raw, stringr::regex(
+    "(?:closing of the )?merger of (.+?) (with|into) (.+?) occurred on ([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})",
     ignore_case = TRUE
   ))
-  if (!is.na(m_legal_status[1, 1])) {
-    eff_date <- stringr::str_squish(m_legal_status[1, 2])
-    return(.capitalize_summary_head(paste0("Change of Legal Status (effective ", eff_date, ")")))
+  if (!is.na(m_merger_occurred[1, 1])) {
+    inst_a <- stringr::str_squish(m_merger_occurred[1, 2])
+    connector <- tolower(stringr::str_squish(m_merger_occurred[1, 3]))
+    inst_b <- stringr::str_squish(m_merger_occurred[1, 4])
+    eff_date <- stringr::str_squish(m_merger_occurred[1, 5])
+    return(.transaction_summary(
+      paste0("Merger of ", inst_a, " ", connector, " ", inst_b),
+      eff_date
+    ))
+  }
+
+  m_merger_fallback_date <- stringr::str_match(raw, stringr::regex(
+    "merger of (.+?) (with|into) (.+?)(?=,\\s+with\\s+[^.]+?\\s+as\\s+the\\s+sole\\s+member|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_merger_fallback_date[1, 1]) && !is.na(legal_status_effective_date) && nzchar(legal_status_effective_date)) {
+    inst_a <- stringr::str_squish(m_merger_fallback_date[1, 2])
+    connector <- tolower(stringr::str_squish(m_merger_fallback_date[1, 3]))
+    inst_b <- stringr::str_squish(m_merger_fallback_date[1, 4])
+    return(.transaction_summary(
+      paste0("Merger of ", inst_a, " ", connector, " ", inst_b)
+    ))
+  }
+
+  m_sale_named <- stringr::str_match(raw, stringr::regex(
+    "sale of (?:the assets of )?(.+?) to (.+?)(?=,\\s*effective|,\\s+the anticipated date of the transaction|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_sale_named[1, 1])) {
+    seller <- stringr::str_squish(m_sale_named[1, 2])
+    buyer <- stringr::str_squish(m_sale_named[1, 3])
+    if (!tolower(seller) %in% c("the institution", "institution")) {
+      return(.transaction_summary(paste0("Sale of ", seller, " to ", buyer)))
+    }
+  }
+
+  m_sale_institution <- stringr::str_match(raw, stringr::regex(
+    "sale of the institution to (.+?)(?=,\\s*effective|,\\s+the anticipated date of the transaction|,\\s+a subsidiary|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_sale_institution[1, 1])) {
+    buyer <- stringr::str_squish(m_sale_institution[1, 2])
+    return(.transaction_summary(paste0("Sale to ", buyer)))
+  }
+
+  m_acquisition <- stringr::str_match(raw, stringr::regex(
+    "acquisition of (.+?)(?=,\\s*effective|\\s+effective|,\\s+the anticipated date of the transaction|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_acquisition[1, 1])) {
+    acquired_entity <- stringr::str_squish(m_acquisition[1, 2])
+    return(.transaction_summary(paste0("Acquisition of ", acquired_entity)))
+  }
+
+  m_ownership_to <- stringr::str_match(raw, stringr::regex(
+    "change of ownership to (.+?)(?=,\\s+an entity|,\\s*effective|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_ownership_to[1, 1])) {
+    buyer <- stringr::str_squish(m_ownership_to[1, 2])
+    return(.transaction_summary(paste0("Change of Ownership to ", buyer)))
+  }
+
+  m_sole_member <- stringr::str_match(raw, stringr::regex(
+    "inclusion of (.+?) as sole member of (.+?)(?=,\\s*effective|,\\s+the anticipated date of the transaction|\\.\\s+To |\\.$)",
+    ignore_case = TRUE
+  ))
+  if (!is.na(m_sole_member[1, 1])) {
+    new_member <- stringr::str_squish(m_sole_member[1, 2])
+    target_entity <- stringr::str_squish(m_sole_member[1, 3])
+    return(.transaction_summary(paste0(
+      "Sole-member change involving ", new_member, " and ", target_entity
+    )))
   }
 
   # ----- Pattern 0a-2: Institutional Closure with effective date -----

@@ -133,6 +133,7 @@ jobs:
           fi
 
       - name: Pull accreditation review decisions
+        if: ${{ inputs.mode == 'publish' }}
         shell: bash
         timeout-minutes: 15
         env:
@@ -194,6 +195,18 @@ jobs:
           ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
         run: |
           Rscript ./scripts/cleanup_accreditation_teachout_rows.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --verbose
+
+      - name: Pull remaining accreditation review decisions after teach-out cleanup
+        if: ${{ inputs.mode == 'teachout-cleanup' }}
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          Rscript ./scripts/pull_accreditation_overrides.R \
             --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
             --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
             --verbose

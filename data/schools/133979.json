@@ -832,14 +832,14 @@
   },
   "latest_status": {
     "accreditors": "SACSCOC",
-    "action_labels": "Placed on probation; Placed on probation for good cause for twelve months for failure to comply with Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities); Removed from probation",
+    "action_labels": "Placed on probation; Placed on probation for good cause for twelve months for failure to comply with Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), and Standard 13.6 (Federal and state responsibilities); Removed from probation; Requested to Submit a Monitoring Report within twelve months.",
     "active_actions": "probation",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
     "latest_action_date": "2025-12-07",
     "latest_action_year": "2025",
-    "action_count": 3
+    "action_count": 4
   },
   "actions": [
     {
@@ -858,6 +858,27 @@
       "source_page_modified": null,
       "display_action": true,
       "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "monitoring",
+      "action_label": "Reaffirmed accreditation and requested a Monitoring Report within twelve months.",
+      "action_label_short": "Requested to Submit a Monitoring Report within twelve months.",
+      "action_scope": null,
+      "action_status": null,
+      "action_date": "2023-12-03",
+      "action_year": "2023",
+      "notes": null,
+      "source_url": "https://sacscoc.org/app/uploads/2023/12/Combined-BOT-Report-12_3_2023-FINAL.pdf",
+      "source_title": "Combined-BOT-Report-12_3_2023-FINAL.pdf",
+      "source_page_url": "https://sacscoc.org/app/uploads/2023/12/Combined-BOT-Report-12_3_2023-FINAL.pdf",
+      "source_page_modified": null,
+      "display_action": false,
+      "public_table_strategy": null,
       "hybrid_candidate": false,
       "hybrid_reason": null,
       "has_financial_profile": true,
@@ -912,6 +933,12 @@
       "source_title": "DAPIP Institutional Accreditation Action",
       "source_url": "https://ope.ed.gov/dapip/#/institution-profile/109448",
       "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/109448"
+    },
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "Combined-BOT-Report-12_3_2023-FINAL.pdf",
+      "source_url": "https://sacscoc.org/app/uploads/2023/12/Combined-BOT-Report-12_3_2023-FINAL.pdf",
+      "source_page_url": "https://sacscoc.org/app/uploads/2023/12/Combined-BOT-Report-12_3_2023-FINAL.pdf"
     },
     {
       "accreditor": "SACSCOC",

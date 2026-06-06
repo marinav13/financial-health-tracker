@@ -971,3 +971,46 @@ run_test("Accreditation review sheet selection excludes legacy teach-out process
   assert_identical(nrow(filtered), 1L)
   assert_identical(trim_text(filtered$action_id[[1]]), "keep-1")
 })
+
+run_test("Accreditation teach-out classifier handles real production phrasings", function() {
+  rows <- data.frame(
+    action_type = c(
+      "other",
+      "adverse_action",
+      "other",
+      "adverse_action",
+      "adverse_action",
+      "adverse_action",
+      "show_cause"
+    ),
+    action_label_raw = c(
+      "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
+      "Accepted Teach-Out Plans",
+      "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
+      "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+      "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
+      "To require that the institution complete and submit for approval, by March 3, 2025, a teach-out plan and teach-out agreements as required by the Commission's Teach-Out Plans and Agreements Policy and Procedures and federal regulation 34 CFR 602.24(c)(2)(i) because the Secretary of Education has placed the institution on Heightened Cash Monitoring (HCM2).",
+      "To request that the institution complete and submit for approval, by September 1, 2022, a comprehensive, implementable teach-out plan (Teach-Out Plans and Agreements Policy and Procedures)."
+    ),
+    generated_statement = c(
+      "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
+      "Accepted Teach-Out Plans",
+      "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
+      "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
+      "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
+      "Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2)",
+      "Show cause with required comprehensive teach-out plan"
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  actual <- compute_accreditation_teachout_process_mask(
+    rows,
+    action_type_col = "action_type",
+    action_label_raw_col = "action_label_raw",
+    action_label_short_col = "generated_statement"
+  )
+
+  expected <- c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE)
+  assert_identical(actual, expected)
+})

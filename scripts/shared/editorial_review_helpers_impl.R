@@ -430,6 +430,8 @@ compute_accreditation_action_id <- function(unitid,
 normalize_accreditation_review_text <- function(x) {
   value <- as.character(x %||% "")
   value[is.na(value)] <- ""
+  value <- gsub("[\u2018\u2019\u201b\u2032\u00b4`]", "'", value, perl = TRUE)
+  value <- gsub("[\u2010\u2011\u2012\u2013\u2014\u2212]", "-", value, perl = TRUE)
   value <- tolower(trimws(value))
   gsub("\\s+", " ", value)
 }
@@ -467,16 +469,29 @@ is_accreditation_teachout_process_action <- function(action_type,
     return(FALSE)
   }
 
-  grepl(
+  starts_as_process_approval <- grepl(
     paste(
-      "^accepted teach-?out plan\\b",
-      "^approve(?:d)? (?:the institution'?s )?(?:updated )?teach-?out (?:plan|agreement|agreements|arrangement|arrangements)\\b",
-      "^approve(?:d)? (?:the institution'?s )?provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
-      "^approve(?:d)? provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
-      "^approve(?:d)? provisional teach-?out plan\\b",
-      "^approve(?:d)? modified provisional plan with teach-?out agreement\\b",
-      "^to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
-      "^to acknowledge receipt of the teach-?out plan\\.? to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
+      "^accepted teach-?out plans?\\b",
+      "^accepted teach out plans?\\b",
+      "^deferred teach-?out plans?\\b",
+      "^approve(?:d)?\\b",
+      "^to approve\\b",
+      "^to acknowledge receipt of .*? to approve\\b",
+      sep = "|"
+    ),
+    content,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+
+  mentions_teachout_process <- grepl(
+    paste(
+      "teach-?out (?:plan|plans|agreement|agreements|arrangement|arrangements|date)\\b",
+      "teach-?out of\\b",
+      "provisional plan (?:for|to) teach-?out\\b",
+      "provisional plan to teach out\\b",
+      "provisional teach-?out plan\\b",
+      "teach out students\\b",
       "teach-?out receiving institution",
       "conduct(?:ed)?(?: and complete(?:d)?)? (?:its|their|the institution'?s) own teach-?out(?: plan)?",
       "teach-?out agreements? (?:are|were) not required",
@@ -486,6 +501,8 @@ is_accreditation_teachout_process_action <- function(action_type,
     ignore.case = TRUE,
     perl = TRUE
   )
+
+  starts_as_process_approval && mentions_teachout_process
 }
 
 compute_accreditation_teachout_process_mask <- function(df,

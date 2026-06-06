@@ -1562,6 +1562,22 @@ run_test("classify_action handles MSCHE phrasings", function() {
     "adverse_action"
   )
   assert_identical(
+    classify_action("To approve the teach-out plan with another university.", "MSCHE"),
+    "adverse_action"
+  )
+  assert_identical(
+    classify_action(
+      paste(
+        "To acknowledge receipt of the teach-out plan.",
+        "To approve the teach-out plan for the closure of the RN to BSN Nursing program.",
+        "To note that the institution conducted and completed its own teach-out by December 12, 2024,",
+        "and that teach-out agreements were not required."
+      ),
+      "MSCHE"
+    ),
+    "other"
+  )
+  assert_identical(
     classify_action("To note that the institution will close effective June 30, 2024."),
     "adverse_action"
   )

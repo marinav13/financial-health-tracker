@@ -534,18 +534,12 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     txt,
     "serve as a teach-out receiving institution"
   )
-  is_msche_simple_teachout_plan_approval <- (acc_norm == "MSCHE") & stringr::str_detect(
-    txt,
-    "to approve the teach-out plan"
-  ) & !stringr::str_detect(
+  is_msche_self_managed_teachout <- (acc_norm == "MSCHE") & stringr::str_detect(
     txt,
     paste(
-      "teach-out agreements?, requested by the commission action",
-      "updated teach-out plan",
-      "require an updated teach-out plan",
-      "adverse action to withdraw accreditation",
-      "approve the teach-out agreements with",
-      sep = "|"
+      "(?:conduct(?:ed)?(?: and complete(?:d)?)?|complete(?:d)?) (?:its|their|the institution'?s) own teach-?out(?: plan)?",
+      "teach-out agreements? (?:are|were) not required",
+      sep = ".*"
     )
   )
   is_msche_simple_teachout_agreement_approval <- (acc_norm == "MSCHE") & stringr::str_detect(
@@ -644,7 +638,7 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     is_hlc_change_control_approval ~ "other",
     is_msche_merger_or_legal_status ~ "other",
     is_teachout_receiving_approval ~ "other",
-    is_msche_simple_teachout_plan_approval ~ "other",
+    is_msche_self_managed_teachout ~ "other",
     is_msche_simple_teachout_agreement_approval ~ "other",
     # Explicit "Notice" / notation language should win before any
     # incidental warning text elsewhere in the row.

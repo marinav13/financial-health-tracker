@@ -4,7 +4,7 @@ main <- function(cli_args = NULL) {
   get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
   has_flag <- function(flag) arg_has(args, flag)
 
-  ensure_packages(c("dplyr", "readr", "digest"))
+  ensure_packages(c("dplyr", "readr", "digest", "jsonlite"))
   source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
 
   input_path <- get_arg_value(
@@ -14,6 +14,10 @@ main <- function(cli_args = NULL) {
   output_path <- get_arg_value(
     "--output",
     file.path(getwd(), "data_pipelines", "accreditation", "editorial_overrides.csv")
+  )
+  tracker_index_path <- get_arg_value(
+    "--tracker-index",
+    file.path(getwd(), "data", "schools_index.json")
   )
   first_seen <- get_arg_value("--first-seen", as.character(Sys.Date()))
   sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("ACCREDITATION_REVIEW_SHEET_ID", unset = NA_character_))
@@ -39,6 +43,24 @@ main <- function(cli_args = NULL) {
     "accreditation review candidates",
     "Run `Rscript ./scripts/build_web_exports.R --input ...` first so the review candidates CSV exists."
   )
+  require_existing_local_file(
+    tracker_index_path,
+    "tracker schools index",
+    "Run `Rscript ./scripts/build_web_exports.R --input ...` first so data/schools_index.json exists."
+  )
+
+  tracker_index <- jsonlite::fromJSON(tracker_index_path, simplifyVector = TRUE)
+  tracker_unitids <- trim_text(as.character(tracker_index$unitid %||% character()))
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
+  if (!length(tracker_unitids)) {
+    stop(
+      paste(
+        "Tracker schools index did not yield any unitids.",
+        sprintf("Input: %s", tracker_index_path)
+      ),
+      call. = FALSE
+    )
+  }
 
   candidates <- read_accreditation_review_candidates(input_path)
   existing <- if (file.exists(output_path)) {
@@ -46,11 +68,19 @@ main <- function(cli_args = NULL) {
   } else {
     empty_accreditation_editorial_overrides()
   }
+  existing <- filter_accreditation_overrides_for_tracker_scope(
+    existing,
+    tracker_unitids = tracker_unitids
+  )
 
   staged <- stage_accreditation_editorial_overrides(
     candidates = candidates,
     existing = existing,
     first_seen = first_seen
+  )
+  staged <- filter_accreditation_overrides_for_tracker_scope(
+    staged,
+    tracker_unitids = tracker_unitids
   )
   sheet_staged <- filter_accreditation_overrides_for_review_sheet(
     staged,

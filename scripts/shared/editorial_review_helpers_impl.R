@@ -633,6 +633,48 @@ build_accreditation_review_sheet_rows <- function(overrides) {
   sheet_rows[, ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
+filter_accreditation_overrides_for_tracker_scope <- function(overrides,
+                                                             tracker_unitids = NULL,
+                                                             context = "Accreditation editorial overrides") {
+  local_rows <- coerce_accreditation_editorial_overrides(overrides)
+  tracker_unitids <- trim_text(tracker_unitids)
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
+  if (!nrow(local_rows) || !length(tracker_unitids)) {
+    return(local_rows[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE])
+  }
+
+  row_origin <- normalize_review_row_origin(local_rows$source_row_origin)
+  source_unitid <- trim_optional_text(local_rows$source_unitid)
+  override_unitid <- trim_optional_text(local_rows$override_unitid)
+  effective_unitid <- dplyr::coalesce(override_unitid, source_unitid)
+  manual_mask <- !is.na(row_origin) & row_origin == "manual"
+  invalid_manual <- manual_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
+  if (any(invalid_manual)) {
+    sample_rows <- local_rows[invalid_manual, , drop = FALSE]
+    sample_labels <- paste(
+      utils::head(trim_text(sample_rows$action_id), 5L),
+      utils::head(trim_text(sample_rows$source_institution_name), 5L),
+      sep = " / "
+    )
+    stop(
+      sprintf(
+        paste(
+          "%s contains %d manual row(s) outside the tracker roster.",
+          "Manual accreditation review rows must carry a tracker unitid.",
+          "Sample rows: %s"
+        ),
+        context,
+        sum(invalid_manual),
+        paste(sample_labels, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  keep_rows <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
+  local_rows[keep_rows, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+}
+
 filter_accreditation_overrides_for_review_sheet <- function(overrides,
                                                             candidate_action_ids = NULL) {
   local_rows <- coerce_accreditation_editorial_overrides(overrides)

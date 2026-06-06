@@ -820,7 +820,7 @@
       : "";
 
     const helpText = `<p>This page tracks accreditation actions by the accreditors listed above dating back to 2019.</p>
-        <p>The table above shows universities that have received — or corrected — notices of warning, monitoring, probation, and other actions by accreditors that require institutions to make follow-up reports from 2019 to the present. The table also shows closure and teach-out decisions. A college can still be accredited while also being under warning, notice, monitoring, probation, or another follow-up action.</p>
+        <p>The table above shows universities that have received — or corrected — warnings, notices, monitoring actions, probation, show-cause orders, removals, and closure-related decisions from 2019 to the present. A college can still be accredited while also being under warning, notice, monitoring, probation, or another follow-up action.</p>
         <p>A missing result here does not mean an institution is not accredited.</p>
         <p>If a college is not included here, check the website of the institution or the appropriate accreditor.</p>`;
     return `${covered}${helpText}`;

@@ -1576,24 +1576,33 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
 
   accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = TRUE)
   accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = TRUE)
+  review_candidates <- read_accreditation_review_candidates(
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
+  )
 
   school_accred <- accreditation_export$schools[[1]]
-  assert_identical(nrow(school_accred$actions), 2L)
+  assert_identical(nrow(school_accred$actions), 1L)
   assert_true(!any(school_accred$actions$action_label == "On Probation"),
     "Generic HLC current-status row should be dropped when a dated probation action exists.")
+  assert_true(!any(grepl("teach-out", school_accred$actions$action_label, ignore.case = TRUE)),
+    "Teach-out process rows should be excluded from the published accreditation export.")
   assert_true(any(grepl("^Placed on Probation", school_accred$actions$action_label)),
     "Detailed dated HLC probation row should be retained.")
-  assert_identical(school_accred$latest_status$action_count, 2L)
+  assert_identical(school_accred$latest_status$action_count, 1L)
   assert_identical(school_accred$latest_status$latest_action_date, "2025-11-01")
+  assert_true(!any(grepl("teach-out", review_candidates$action_label_raw, ignore.case = TRUE)),
+    "Teach-out process rows should not be staged for editorial review.")
+  assert_true(any(grepl("^Placed on Probation", review_candidates$action_label_raw)),
+    "The substantive HLC probation row should still be staged for editorial review.")
 
   accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
   if (is.data.frame(accred_index_row)) {
-    assert_identical(accred_index_row$action_count[[1]], 2L)
+    assert_identical(accred_index_row$action_count[[1]], 1L)
     assert_identical(accred_index_row$latest_action_date[[1]], "2025-11-01")
     assert_identical(accred_index_row$latest_action_label[[1]], "Placed on Probation")
     landing_actions <- accred_index_row$landing_actions[[1]]
   } else {
-    assert_identical(accred_index_row$action_count, 2L)
+    assert_identical(accred_index_row$action_count, 1L)
     assert_identical(accred_index_row$latest_action_date, "2025-11-01")
     assert_identical(accred_index_row$latest_action_label, "Placed on Probation")
     landing_actions <- accred_index_row$landing_actions
@@ -1601,9 +1610,13 @@ run_test("Web export pipeline drops generic HLC current-status rows when a dated
   if (is.data.frame(landing_actions)) {
     assert_true(!any(landing_actions$action_label == "On Probation"),
       "Landing actions should not include the generic HLC current-status duplicate.")
+    assert_true(!any(grepl("teach-out", landing_actions$action_label, ignore.case = TRUE)),
+      "Landing actions should not include teach-out process rows.")
   } else {
     assert_true(!any(vapply(landing_actions, function(action) identical(action$action_label, "On Probation"), logical(1))),
       "Landing actions should not include the generic HLC current-status duplicate.")
+    assert_true(!any(vapply(landing_actions, function(action) grepl("teach-out", action$action_label %||% "", ignore.case = TRUE), logical(1))),
+      "Landing actions should not include teach-out process rows.")
   }
 })
 

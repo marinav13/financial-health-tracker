@@ -590,8 +590,64 @@ build_accreditation_export <- function() {
   )
 
   normalize_accreditation_text <- function(x) {
-    value <- tolower(trimws(as.character(x %||% "")))
+    value <- as.character(x %||% "")
+    value[is.na(value)] <- ""
+    value <- tolower(trimws(value))
     gsub("\\s+", " ", value)
+  }
+
+  is_teachout_process_action <- function(action_type,
+                                         action_label_raw,
+                                         action_label_short = NA_character_,
+                                         notes = NA_character_) {
+    type <- normalize_accreditation_text(action_type)
+    label <- normalize_accreditation_text(action_label_raw)
+    label_short <- normalize_accreditation_text(action_label_short)
+    notes_text <- normalize_accreditation_text(notes)
+    content <- trimws(paste(label_short, label, notes_text))
+    if (!nzchar(content) || !grepl("teach-?out|teach out", content, ignore.case = TRUE, perl = TRUE)) {
+      return(FALSE)
+    }
+
+    if (type %in% c("warning", "notice", "probation", "show_cause", "removed", "monitoring")) {
+      return(FALSE)
+    }
+
+    is_requirement_or_follow_up <- grepl(
+      paste(
+        "require(?:d)? .*teach-?out plan",
+        "request(?:ed)? .*teach-?out plan",
+        "teach-?out plan[^.]{0,120}?no longer required",
+        "reject(?:ed)? .*teach-?out plan",
+        sep = "|"
+      ),
+      content,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
+    if (is_requirement_or_follow_up) {
+      return(FALSE)
+    }
+
+    grepl(
+      paste(
+        "^accepted teach-?out plan\\b",
+        "^approve(?:d)? (?:the institution'?s )?(?:updated )?teach-?out (?:plan|agreement|agreements|arrangement|arrangements)\\b",
+        "^approve(?:d)? (?:the institution'?s )?provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
+        "^approve(?:d)? provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
+        "^approve(?:d)? provisional teach-?out plan\\b",
+        "^approve(?:d)? modified provisional plan with teach-?out agreement\\b",
+        "^to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
+        "^to acknowledge receipt of the teach-?out plan\\.? to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
+        "teach-?out receiving institution",
+        "conduct(?:ed)?(?: and complete(?:d)?)? (?:its|their|the institution'?s) own teach-?out(?: plan)?",
+        "teach-?out agreements? (?:are|were) not required",
+        sep = "|"
+      ),
+      content,
+      ignore.case = TRUE,
+      perl = TRUE
+    )
   }
 
   hlc_action_family <- function(action_type, action_label_raw) {
@@ -669,6 +725,10 @@ build_accreditation_export <- function() {
       ignore.case = TRUE,
       perl = TRUE
     )
+
+    if (is_teachout_process_action(action_type, action_label_raw, label_short, notes)) {
+      return(FALSE)
+    }
 
     if (accreditor_code == "MSCHE" && identical(type, "monitoring")) return(FALSE)
 
@@ -2209,6 +2269,21 @@ build_accreditation_export <- function() {
     select(-hlc_sanction_cycle_family, -hlc_latest_removal_date)
 
   actions_df <- compact_neche_public_actions(actions_df)
+  actions_df <- actions_df %>%
+    mutate(
+      drop_teachout_process_action = vapply(
+        seq_len(n()),
+        function(i) is_teachout_process_action(
+          action_type[[i]],
+          action_label_raw[[i]],
+          action_label_short[[i]],
+          notes[[i]]
+        ),
+        logical(1)
+      )
+    ) %>%
+    filter(!drop_teachout_process_action) %>%
+    select(-drop_teachout_process_action)
   # Queue a broader recent scraper snapshot for editorial review than we
   # currently publish, so newly scraped odd-shape rows still reach the sheet
   # even when today's public export logic drops them.
@@ -2265,11 +2340,22 @@ build_accreditation_export <- function() {
             TRUE
           ),
           logical(1)
+        ),
+        drop_teachout_process_action = vapply(
+          seq_len(n()),
+          function(i) is_teachout_process_action(
+            action_type[[i]],
+            action_label_raw[[i]],
+            action_label_short[[i]],
+            notes[[i]]
+          ),
+          logical(1)
         )
       ) %>%
       filter(
         is_primary_tracker %in% TRUE,
         queue_for_editorial_review,
+        !drop_teachout_process_action,
         !(review_candidate_action_id %in% final_review_action_ids)
       ) %>%
       transmute(

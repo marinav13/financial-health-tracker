@@ -160,60 +160,6 @@
         }
       ]
     },
-    "107044": {
-      "unitid": "107044",
-      "financial_unitid": "107044",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Harding University",
-      "institution_alias": null,
-      "city": "Searcy",
-      "state": "Arkansas",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-04-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
-          "action_label_short": "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-04-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan to move the Harding School of Theology from the branch campus in Memphis, Tennessee, to the main campus in Searcy, Arkansas.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/"
-        }
-      ]
-    },
     "108232": {
       "unitid": "108232",
       "financial_unitid": "108232",
@@ -2969,14 +2915,14 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.; Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology; Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
-        "active_actions": "adverse_action; other",
+        "action_labels": "Accepted the staff recommendation to revise the institution’s teach-out date for the George Williams College location to December 31, 2023.",
+        "active_actions": "adverse_action",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
         "latest_action_date": "2023-04-01",
         "latest_action_year": "2023",
-        "action_count": 3
+        "action_count": 1
       },
       "actions": [
         {
@@ -2999,48 +2945,6 @@
           "hybrid_reason": null,
           "has_financial_profile": true,
           "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
-          "action_label_short": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-04-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan for teach-out of an additional location: AU Challenger Learning Center for Science and Technology, 222 E. Church Street, Woodstock, IL 60098.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_title": "April 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
-          "action_label_short": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-01-01",
-          "action_year": "2023",
-          "notes": "Approved the teach-out of the George Williams College Location, 1350 Constance Blvd., Williams Bay, WI 53191.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_title": "January 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
         }
       ],
       "sources": [
@@ -3049,12 +2953,6 @@
           "source_title": "April 2023 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/"
         }
       ]
     },
@@ -3179,14 +3077,14 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Affirmed change-of-control concerns were addressed; Approved the institution’s provisional teach-out plan of students enrolled in the Bachelor of Science in Dental Health Program.",
+        "action_labels": "Affirmed change-of-control concerns were addressed",
         "active_actions": "other",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
         "latest_action_date": "2024-07-01",
         "latest_action_year": "2024",
-        "action_count": 2
+        "action_count": 1
       },
       "actions": [
         {
@@ -3209,27 +3107,6 @@
           "hybrid_reason": null,
           "has_financial_profile": true,
           "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s provisional teach-out plan of students enrolled in the Bachelor of Science in Dental Health Program.",
-          "action_label_short": "Approved the institution’s provisional teach-out plan of students enrolled in the Bachelor of Science in Dental Health Program.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2022-10-01",
-          "action_year": "2022",
-          "notes": "Approved the institution’s provisional teach-out plan of students enrolled in the Bachelor of Science in Dental Health Program.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
         }
       ],
       "sources": [
@@ -3238,12 +3115,6 @@
           "source_title": "July 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/"
         }
       ]
     },
@@ -3328,114 +3199,6 @@
         }
       ]
     },
-    "149514": {
-      "unitid": "149514",
-      "financial_unitid": "149514",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Trinity International University-Illinois",
-      "institution_alias": null,
-      "city": "Deerfield",
-      "state": "Illinois",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s teach-out plan for two additional locations in North Lauderdale, FL",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-06-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for two additional locations, North Lauderdale, 955 Rock Island Road, North Lauderdale, FL 33068 Kendall, 9010 SW 137 Ave. Suite 101, Miami, FL 33186.",
-          "action_label_short": "Approved the institution’s teach-out plan for two additional locations in North Lauderdale, FL",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-06-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan for two additional locations, North Lauderdale, 955 Rock Island Road, North Lauderdale, FL 33068 Kendall, 9010 SW 137 Ave. Suite 101, Miami, FL 33186.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_title": "June 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "June 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/"
-        }
-      ]
-    },
-    "151388": {
-      "unitid": "151388",
-      "financial_unitid": "151388",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Indiana University-East",
-      "institution_alias": "IUE | IU East",
-      "city": "Richmond",
-      "state": "Indiana",
-      "control_label": "Public",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2023-04-01",
-        "latest_action_year": "2023",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg, 50 Walnut Drive, Lawrenceburg, IN 47025—Effective August 18, 2023 Indiana University East Madison, 590 Ivy Tech Drive, Madison, IN 47250—Effective August 18, 2023",
-          "action_label_short": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-04-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan for the teach-out of two additional locations: Indiana University East Lawrenceburg, 50 Walnut Drive, Lawrenceburg, IN 47025—Effective August 18, 2023 Indiana University East Madison, 590 Ivy Tech Drive, Madison, IN 47250—Effective August 18, 2023",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_title": "April 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/"
-        }
-      ]
-    },
     "152381": {
       "unitid": "152381",
       "financial_unitid": "152381",
@@ -3487,60 +3250,6 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/115560",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/115560"
-        }
-      ]
-    },
-    "152992": {
-      "unitid": "152992",
-      "financial_unitid": "152992",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Briar Cliff University",
-      "institution_alias": null,
-      "city": "Sioux City",
-      "state": "Iowa",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-11-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
-          "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-11-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Occupational Therapy.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
         }
       ]
     },
@@ -3730,60 +3439,6 @@
           "source_title": "January 2026 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2026-actions/"
-        }
-      ]
-    },
-    "154350": {
-      "unitid": "154350",
-      "financial_unitid": "154350",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Simpson College",
-      "institution_alias": null,
-      "city": "Indianola",
-      "state": "Iowa",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of the branch campus in West Des Moines",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-06-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of the branch campus at 1415 28th St., West Des Moines, IA 50266.",
-          "action_label_short": "Approved the teach-out of the branch campus in West Des Moines",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-06-01",
-          "action_year": "2024",
-          "notes": "Approved the teach-out of the branch campus at 1415 28th St., West Des Moines, IA 50266.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_title": "June 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "June 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/"
         }
       ]
     },
@@ -5212,60 +4867,6 @@
         }
       ]
     },
-    "164988": {
-      "unitid": "164988",
-      "financial_unitid": "164988",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Boston University",
-      "institution_alias": "BU|Boston U",
-      "city": "Boston",
-      "state": "Massachusetts",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-11-20",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": "Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations",
-          "action_status": "active",
-          "action_date": "2025-11-20",
-          "action_year": "2025",
-          "notes": "Boston University, Boston, MA (Master of Social Work degree at its Bedford, Cape Cod, and Fall River locations)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
-        }
-      ]
-    },
     "165644": {
       "unitid": "165644",
       "financial_unitid": "165644",
@@ -5360,14 +4961,14 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "NECHE",
-        "action_labels": "Accepted Teach Out Plan; Deferred Teach-Out Plan",
+        "action_labels": "Accepted Teach Out Plan",
         "active_actions": "adverse_action",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
         "latest_action_date": "2025-06-05",
         "latest_action_year": "2025",
-        "action_count": 2
+        "action_count": 1
       },
       "actions": [
         {
@@ -5380,81 +4981,6 @@
           "action_date": "2025-06-05",
           "action_year": "2025",
           "notes": "Framingham State University, Framingham, MA (closure of ten international locations)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Deferred Teach-Out Plan",
-          "action_label_short": "Deferred Teach-Out Plan",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-04-24",
-          "action_year": "2025",
-          "notes": "Framingham State University, Framingham, MA (closure of ten international locations)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
-        }
-      ]
-    },
-    "165936": {
-      "unitid": "165936",
-      "financial_unitid": "165936",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Gordon College",
-      "institution_alias": null,
-      "city": "Wenham",
-      "state": "Massachusetts",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-11-20",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-11-20",
-          "action_year": "2025",
-          "notes": "Gordon College, Wenham, MA (Associate of Arts in Bible and Theology for Northpoint Bible College Students)",
           "source_url": "https://www.neche.org/recent-commission-actions/",
           "source_title": "Recent Commission Actions - New England Commission Higher Education",
           "source_page_url": "https://www.neche.org/recent-commission-actions/",
@@ -5489,37 +5015,16 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans; Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns; Hampshire College announced that its Board of Trustees had voted to cease academic operations by the end of the fall 2026 semester.; Received heightened monitoring or focused review because the institution is in danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources.; Voluntarily Surrendered Accreditation",
+        "action_labels": "Asked to Show Cause for possible Probation or Withdrawal over Standard 7 (Institutional Resources) concerns; Hampshire College announced that its Board of Trustees had voted to cease academic operations by the end of the fall 2026 semester.; Received heightened monitoring or focused review because the institution is in danger of being found not to meet the Commission's standards on Organization and Governance and Institutional Resources.; Voluntarily Surrendered Accreditation",
         "active_actions": "adverse_action; notice; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": true,
-        "latest_action_date": "2026-04-23",
+        "latest_action_date": "2026-04-21",
         "latest_action_year": "2026",
-        "action_count": 5
+        "action_count": 4
       },
       "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2026-04-23",
-          "action_year": "2026",
-          "notes": "Hampshire College, Amherst, MA",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
         {
           "accreditor": "NECHE",
           "action_type": "notice",
@@ -5606,12 +5111,6 @@
         }
       ],
       "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
-        },
         {
           "accreditor": "NECHE",
           "source_title": "Joint Statement by Hampshire College and the Commission April 2026",
@@ -6113,37 +5612,16 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302); Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield",
+        "action_labels": "Approved Columbia College’s request to offer the following certificate program: Emergency and Disaster Management Certificate (Pre-Associates Certificate, 18 credit hours, CIP Code 43.0302)",
         "active_actions": "other",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2024-01-01",
-        "latest_action_year": "2024",
-        "action_count": 2
+        "latest_action_date": "2023-08-01",
+        "latest_action_year": "2023",
+        "action_count": 1
       },
       "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, 7077 Bonneval Rd #114 , Jacksonville, FL 32216-4050 Mesquite, 3737 Motley Drive, Mesquite, TX 75150 JFTB Los Alamitos, 11206 Lexington Avenue, Suite 110, Los Alamitos, CA 90720 NSB Kings Bay, 918 USS James Madison Rd, Kings Bay, GA 31547-2533 Kansas City, 4240 Blue Ridge Blvd., Suite 400, Kansas City, MO 64133-1702 Springfield, 3271 East Battlefield Road, Suite 250, Springfield, MO 65804",
-          "action_label_short": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, Mesquite, JFTB Los Alamitos, NSB Kings Bay, Kansas City, and Springfield",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-01-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan for closing six additional locations: Jacksonville, 7077 Bonneval Rd #114 , Jacksonville, FL 32216-4050 Mesquite, 3737 Motley Drive, Mesquite, TX 75150 JFTB Los Alamitos, 11206 Lexington Avenue, Suite 110, Los Alamitos, CA 90720 NSB Kings Bay, 918 USS James Madison Rd, Kings Bay, GA 31547-2533 Kansas City, 4240 Blue Ridge Blvd., Suite 400, Kansas City, MO 64133-1702 Springfield, 3271 East Battlefield Road, Suite 250, Springfield, MO 65804",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
         {
           "accreditor": "HLC",
           "action_type": "other",
@@ -6169,69 +5647,9 @@
       "sources": [
         {
           "accreditor": "HLC",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/"
-        },
-        {
-          "accreditor": "HLC",
           "source_title": "August 2023 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/"
-        }
-      ]
-    },
-    "177339": {
-      "unitid": "177339",
-      "financial_unitid": "177339",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Evangel University",
-      "institution_alias": null,
-      "city": "Springfield",
-      "state": "Missouri",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the provisional plan to teach out students currently enrolled in programs via distance education, including teach-out agreements with Regent University, VA, and Palm Beach Atlantic University, FL.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2024-11-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the provisional plan to teach out students currently enrolled in programs via distance education, including teach-out agreements with Regent University, VA, and Palm Beach Atlantic University, FL.",
-          "action_label_short": "Approved the provisional plan to teach out students currently enrolled in programs via distance education, including teach-out agreements with Regent University, VA, and Palm Beach Atlantic University, FL.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-11-01",
-          "action_year": "2024",
-          "notes": "Approved the provisional plan to teach out students currently enrolled in programs via distance education, including teach-out agreements with Regent University, VA, and Palm Beach Atlantic University, FL.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
         }
       ]
     },
@@ -6248,14 +5666,14 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan and teach-out arrangement with Missouri Baptist University.; Placed on Probation because it is out of compliance with Core Components 3.C, 2.C, and 5.B and Assumed Practice D.3.; Probation removed",
-        "active_actions": "adverse_action",
+        "action_labels": "Placed on Probation because it is out of compliance with Core Components 3.C, 2.C, and 5.B and Assumed Practice D.3.; Probation removed",
+        "active_actions": null,
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
+        "has_active_adverse_action": false,
         "latest_action_date": "2024-10-31",
         "latest_action_year": "2024",
-        "action_count": 3
+        "action_count": 2
       },
       "actions": [
         {
@@ -6274,27 +5692,6 @@
           "source_page_modified": null,
           "display_action": true,
           "public_table_strategy": "dapip_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan and teach-out arrangement with Missouri Baptist University.",
-          "action_label_short": "Approved the institution’s Provisional Plan and teach-out arrangement with Missouri Baptist University.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-04-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan and teach-out arrangement with Missouri Baptist University.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_title": "April 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
           "hybrid_candidate": false,
           "hybrid_reason": null,
           "has_financial_profile": true,
@@ -6328,12 +5725,6 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/125408",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/125408"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2023/"
         }
       ]
     },
@@ -6541,168 +5932,6 @@
         }
       ]
     },
-    "179894": {
-      "unitid": "179894",
-      "financial_unitid": "179894",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Webster University",
-      "institution_alias": null,
-      "city": "Saint Louis",
-      "state": "Missouri",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s teach-out plan for closing five additional locations: Fort Eisenhower, Fort Bliss, Colorado Springs Metropolitan, Astana International University, and PSB Academy; Approved the institution’s teach-out plan for the closing of five additional locations: Joint Base Anacostia-Bolling, Fort Sam Houston, Lackland Air Force Base, Camp LeJeune, and Hill Air Force Base; Approved the institution’s teach-out plan for the closing of two additional locations: Fort Leavenworth and Fort Sam Houston; Approved the Provisional Plan for teach-out of an additional location: Charleston Metropolitan; Approved the Teach-Out Plan for the closing of three additional locations: Kansas City",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-07-01",
-        "latest_action_year": "2024",
-        "action_count": 5
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for closing five additional locations: Fort Eisenhower, 271 Heritage Park Lane, Building 35200, Fort Eisenhower, GA 30905 Fort Bliss, Building 632 Taylor Road, Fort Bliss, TX 79906 Colorado Springs Metropolitan, 5475 Tech Center Drive, Suite 110, Colorado Springs, CO Astana International University, Kabanbay Batyr Avenue, Nur-Sultan City, Z05H0T3, Republic of Kazakhstan PSB Academy, Marina Square, 6 Raffles Blvd, #03-200, Singapore 03594.",
-          "action_label_short": "Approved the institution’s teach-out plan for closing five additional locations: Fort Eisenhower, Fort Bliss, Colorado Springs Metropolitan, Astana International University, and PSB Academy",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-07-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan for closing five additional locations: Fort Eisenhower, 271 Heritage Park Lane, Building 35200, Fort Eisenhower, GA 30905 Fort Bliss, Building 632 Taylor Road, Fort Bliss, TX 79906 Colorado Springs Metropolitan, 5475 Tech Center Drive, Suite 110, Colorado Springs, CO Astana International University, Kabanbay Batyr Avenue, Nur-Sultan City, Z05H0T3, Republic of Kazakhstan PSB Academy, Marina Square, 6 Raffles Blvd, #03-200, Singapore 03594.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_title": "July 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for the closing of five additional locations: Joint Base Anacostia-Bolling, 112 Brookley Avenue, Building 11, Joint Base Anaxcostia-Bolling, Washington, DC 20032 Fort Sam Houston, 2427 Hood Street, Trailer 4011A, Fort Sam Houston, TX 78236 Lackland Air Force Base, 1550 Wurtsmith St., Building 5725, Room 156, Lackland AFB, Texas 78236-5251 Camp LeJeune, Building 825, Stone Street, Room 115, Camp LeJeune, NC 28547 Hill Air Force Base, 75 FSS/FSDE, 7285 4th Street, Building 180, Room 103, Hill Air Force Base, UT 84056",
-          "action_label_short": "Approved the institution’s teach-out plan for the closing of five additional locations: Joint Base Anacostia-Bolling, Fort Sam Houston, Lackland Air Force Base, Camp LeJeune, and Hill Air Force Base",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-01-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan for the closing of five additional locations: Joint Base Anacostia-Bolling, 112 Brookley Avenue, Building 11, Joint Base Anaxcostia-Bolling, Washington, DC 20032 Fort Sam Houston, 2427 Hood Street, Trailer 4011A, Fort Sam Houston, TX 78236 Lackland Air Force Base, 1550 Wurtsmith St., Building 5725, Room 156, Lackland AFB, Texas 78236-5251 Camp LeJeune, Building 825, Stone Street, Room 115, Camp LeJeune, NC 28547 Hill Air Force Base, 75 FSS/FSDE, 7285 4th Street, Building 180, Room 103, Hill Air Force Base, UT 84056",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the Provisional Plan for teach-out of an additional location: Charleston Metropolitan, 4105 Faber Pl Dr., Suite 100, North Charleston, SC 29405.",
-          "action_label_short": "Approved the Provisional Plan for teach-out of an additional location: Charleston Metropolitan",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-02-01",
-          "action_year": "2023",
-          "notes": "Approved the Provisional Plan for teach-out of an additional location: Charleston Metropolitan, 4105 Faber Pl Dr., Suite 100, North Charleston, SC 29405.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_title": "February 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the Teach-Out Plan for the closing of three additional locations: Kansas City, 1740 W 92 St. #300, Kansas City, MO 64114, effective March 31, 2023 Little Rock, 200 West Capitol Ave., Suite 1500, Little Rock, AR 72201, effective March 31, 2023 Rolla, 1103 Kingshighway, Rolla, MO 65401, effective December 23, 2022",
-          "action_label_short": "Approved the Teach-Out Plan for the closing of three additional locations: Kansas City",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-01-01",
-          "action_year": "2023",
-          "notes": "Approved the Teach-Out Plan for the closing of three additional locations: Kansas City, 1740 W 92 St. #300, Kansas City, MO 64114, effective March 31, 2023 Little Rock, 200 West Capitol Ave., Suite 1500, Little Rock, AR 72201, effective March 31, 2023 Rolla, 1103 Kingshighway, Rolla, MO 65401, effective December 23, 2022",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_title": "January 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for the closing of two additional locations: Fort Leavenworth, P.O. Box 3414, Fort Leavenworth, KS 66027 Fort Sam Houston, 2408 New Braunfels Ave., Building 2248, Room 207, Fort Sam Houston, TX 78234.",
-          "action_label_short": "Approved the institution’s teach-out plan for the closing of two additional locations: Fort Leavenworth and Fort Sam Houston",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2022-10-01",
-          "action_year": "2022",
-          "notes": "Approved the institution’s teach-out plan for the closing of two additional locations: Fort Leavenworth, P.O. Box 3414, Fort Leavenworth, KS 66027 Fort Sam Houston, 2408 New Braunfels Ave., Building 2248, Room 207, Fort Sam Houston, TX 78234.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "July 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "February 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2023/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/"
-        }
-      ]
-    },
     "179955": {
       "unitid": "179955",
       "financial_unitid": "179955",
@@ -6754,60 +5983,6 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/126410",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/126410"
-        }
-      ]
-    },
-    "183026": {
-      "unitid": "183026",
-      "financial_unitid": "183026",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Southern New Hampshire University",
-      "institution_alias": "SNHU",
-      "city": "Manchester",
-      "state": "New Hampshire",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-11-20",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": "Latin American and India Programs",
-          "action_status": "active",
-          "action_date": "2025-11-20",
-          "action_year": "2025",
-          "notes": "Southern New Hampshire University, Manchester, NH (Latin American and India Programs)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
         }
       ]
     },
@@ -10195,60 +9370,6 @@
         }
       ]
     },
-    "205957": {
-      "unitid": "205957",
-      "financial_unitid": "205957",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Franciscan University of Steubenville",
-      "institution_alias": "Franciscan|Steubenville",
-      "city": "Steubenville",
-      "state": "Ohio",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan to teach out students enrolled in the Master of Science in Education in Teaching and the Master of Science in Education in Administration.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2023-10-01",
-        "latest_action_year": "2023",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan to teach out students enrolled in the Master of Science in Education in Teaching and the Master of Science in Education in Administration.",
-          "action_label_short": "Approved the institution’s Provisional Plan to teach out students enrolled in the Master of Science in Education in Teaching and the Master of Science in Education in Administration.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-10-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan to teach out students enrolled in the Master of Science in Education in Teaching and the Master of Science in Education in Administration.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2023/",
-          "source_title": "October 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "October 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2023/"
-        }
-      ]
-    },
     "206349": {
       "unitid": "206349",
       "financial_unitid": "206349",
@@ -10444,60 +9565,6 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/137184",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/137184"
-        }
-      ]
-    },
-    "206507": {
-      "unitid": "206507",
-      "financial_unitid": "206507",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Wilmington College",
-      "institution_alias": null,
-      "city": "Wilmington",
-      "state": "Ohio",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out plan for the closing of a branch campus: Wilmington College Cincinnati",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-02-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out plan for the closing of a branch campus: Wilmington College Cincinnati, 181 Main Building, 3520 Central Parkway, Cincinnati, OH 45223",
-          "action_label_short": "Approved the teach-out plan for the closing of a branch campus: Wilmington College Cincinnati",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-02-01",
-          "action_year": "2024",
-          "notes": "Approved the teach-out plan for the closing of a branch campus: Wilmington College Cincinnati, 181 Main Building, 3520 Central Parkway, Cincinnati, OH 45223",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2024/",
-          "source_title": "February 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "February 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2024/"
         }
       ]
     },
@@ -13048,60 +12115,6 @@
         }
       ]
     },
-    "230959": {
-      "unitid": "230959",
-      "financial_unitid": "230959",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Middlebury College",
-      "institution_alias": null,
-      "city": "Middlebury",
-      "state": "Vermont",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2026-04-23",
-        "latest_action_year": "2026",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": "online programs at the Monterey Institute of International Studies",
-          "action_status": "active",
-          "action_date": "2026-04-23",
-          "action_year": "2026",
-          "notes": "Middlebury College, Middlebury, VT (online programs at the Monterey Institute of International Studies)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
-        }
-      ]
-    },
     "231095": {
       "unitid": "231095",
       "financial_unitid": "231095",
@@ -13801,114 +12814,6 @@
         }
       ]
     },
-    "237312": {
-      "unitid": "237312",
-      "financial_unitid": "237312",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "University of Charleston",
-      "institution_alias": null,
-      "city": "Charleston",
-      "state": "West Virginia",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-01-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
-          "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-01-01",
-          "action_year": "2025",
-          "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Doctor of Pharmacy degree program, including a teach-out arrangement with West Virginia University (Morgantown, WV).",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_title": "January 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/"
-        }
-      ]
-    },
-    "237330": {
-      "unitid": "237330",
-      "financial_unitid": "237330",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Concord University",
-      "institution_alias": null,
-      "city": "Athens",
-      "state": "West Virginia",
-      "control_label": "Public",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan to teach out the Master of Science in Athletic Training program.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2023-11-01",
-        "latest_action_year": "2023",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan to teach out the Master of Science in Athletic Training program.",
-          "action_label_short": "Approved the institution’s Provisional Plan to teach out the Master of Science in Athletic Training program.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-11-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan to teach out the Master of Science in Athletic Training program.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
-          "source_title": "November 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "November 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/"
-        }
-      ]
-    },
     "238078": {
       "unitid": "238078",
       "financial_unitid": "238078",
@@ -13981,249 +12886,6 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/149763",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/149763"
-        }
-      ]
-    },
-    "239512": {
-      "unitid": "239512",
-      "financial_unitid": "239512",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "Northland College",
-      "institution_alias": null,
-      "city": "Ashland",
-      "state": "Wisconsin",
-      "control_label": "Private not-for-profit",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan, including teach-out arrangements with the following institutions: Beloit College, WI College of the Atlantic, ME Ripon College, WI University of Wisconsin-Superior, WI",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-03-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional plan, including teach-out arrangements with the following institutions: Beloit College, WI College of the Atlantic, ME Ripon College, WI University of Wisconsin-Superior, WI",
-          "action_label_short": "Approved the institution’s provisional plan, including teach-out arrangements with the following institutions: Beloit College, WI College of the Atlantic, ME Ripon College, WI University of Wisconsin-Superior, WI",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-03-01",
-          "action_year": "2025",
-          "notes": "Approved the institution’s provisional plan, including teach-out arrangements with the following institutions: Beloit College, WI College of the Atlantic, ME Ripon College, WI University of Wisconsin-Superior, WI",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2025/",
-          "source_title": "March 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2025/",
-          "source_page_modified": "2025-07-23",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "March 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/march-2025/"
-        }
-      ]
-    },
-    "240365": {
-      "unitid": "240365",
-      "financial_unitid": "240365",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "University of Wisconsin-Oshkosh",
-      "institution_alias": null,
-      "city": "Oshkosh",
-      "state": "Wisconsin",
-      "control_label": "Public",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of branch campus: Fond du Lac Campus",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-04-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of branch campus: Fond du Lac Campus, 400 University Drive, Fond du Lac, WI 54935.",
-          "action_label_short": "Approved the teach-out of branch campus: Fond du Lac Campus",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-04-01",
-          "action_year": "2024",
-          "notes": "Approved the teach-out of branch campus: Fond du Lac Campus, 400 University Drive, Fond du Lac, WI 54935.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/"
-        }
-      ]
-    },
-    "240453": {
-      "unitid": "240453",
-      "financial_unitid": "240453",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "University of Wisconsin-Milwaukee",
-      "institution_alias": "UWM",
-      "city": "Milwaukee",
-      "state": "Wisconsin",
-      "control_label": "Public",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of an additional location: UW Washington County",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-04-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of an additional location: UW Washington County, 400 University Dr, West Bend, WI 53095-3699.",
-          "action_label_short": "Approved the teach-out of an additional location: UW Washington County",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-04-01",
-          "action_year": "2024",
-          "notes": "Approved the teach-out of an additional location: UW Washington County, 400 University Dr, West Bend, WI 53095-3699.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/"
-        }
-      ]
-    },
-    "240462": {
-      "unitid": "240462",
-      "financial_unitid": "240462",
-      "has_financial_profile": true,
-      "is_primary_tracker": true,
-      "institution_name": "University of Wisconsin-Platteville",
-      "institution_alias": null,
-      "city": "Platteville",
-      "state": "Wisconsin",
-      "control_label": "Public",
-      "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of a branch campus: UW Platteville Baraboo/Sauk County; Approved the teach-out plan for the closing of the branch campus: University of Wisconsin-Platteville Richland",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2026-02-01",
-        "latest_action_year": "2026",
-        "action_count": 2
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of a branch campus: UW Platteville Baraboo/Sauk County, 1006 Connie Rd, Baraboo, Wisconsin",
-          "action_label_short": "Approved the teach-out of a branch campus: UW Platteville Baraboo/Sauk County",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2026-02-01",
-          "action_year": "2026",
-          "notes": "Approved the teach-out of a branch campus: UW Platteville Baraboo/Sauk County, 1006 Connie Rd, Baraboo, Wisconsin",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/",
-          "source_title": "February 2026 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out plan for the closing of the branch campus: University of Wisconsin-Platteville Richland, 1200 Highway 14 West, Richland Center, WI 53581",
-          "action_label_short": "Approved the teach-out plan for the closing of the branch campus: University of Wisconsin-Platteville Richland",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-02-01",
-          "action_year": "2023",
-          "notes": "Approved the teach-out plan for the closing of the branch campus: University of Wisconsin-Platteville Richland, 1200 Highway 14 West, Richland Center, WI 53581",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_title": "February 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": true,
-          "is_primary_tracker": true
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "February 2026 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2026-actions/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "February 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/february-2023/"
         }
       ]
     },
@@ -14680,60 +13342,6 @@
         }
       ]
     },
-    "accred-american-academy-of-art-college--illinois--hlc": {
-      "unitid": "accred-american-academy-of-art-college--illinois--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "American Academy of Art College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Illinois",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan and Teach-Out Arrangement with the following institution: Columbia College Chicago, Chicago, IL",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2024-07-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan and Teach-Out Arrangement with the following institution: Columbia College Chicago, Chicago, IL",
-          "action_label_short": "Approved the institution’s Provisional Plan and Teach-Out Arrangement with the following institution: Columbia College Chicago, Chicago, IL",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-07-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s Provisional Plan and Teach-Out Arrangement with the following institution: Columbia College Chicago, Chicago, IL",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_title": "July 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "July 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/july-2024/"
-        }
-      ]
-    },
     "accred-american-college-of-education--hlc": {
       "unitid": "accred-american-college-of-education--hlc",
       "financial_unitid": null,
@@ -15044,14 +13652,14 @@
       "category": null,
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Teach-Out Agreements with the following universities, in connection with the Provisional Plan approved in October 2023: Mid-America Christian University Ottawa University Southern Nazarene University; Withdrawal of accreditation",
+        "action_labels": "Withdrawal of accreditation",
         "active_actions": "adverse_action",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
         "latest_action_date": "2026-05-28",
         "latest_action_year": "2026",
-        "action_count": 2
+        "action_count": 1
       },
       "actions": [
         {
@@ -15074,27 +13682,6 @@
           "hybrid_reason": null,
           "has_financial_profile": false,
           "is_primary_tracker": false
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Teach-Out Agreements with the following universities, in connection with the Provisional Plan approved in October 2023: Mid-America Christian University Ottawa University Southern Nazarene University",
-          "action_label_short": "Approved the institution’s Teach-Out Agreements with the following universities, in connection with the Provisional Plan approved in October 2023: Mid-America Christian University Ottawa University Southern Nazarene University",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2023-12-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Teach-Out Agreements with the following universities, in connection with the Provisional Plan approved in October 2023: Mid-America Christian University Ottawa University Southern Nazarene University",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/december-2023/",
-          "source_title": "December 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/december-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
         }
       ],
       "sources": [
@@ -15103,12 +13690,6 @@
           "source_title": "Accreditation Actions | The Higher Learning Commission - Withdrawal of Accreditation",
           "source_url": "https://www.hlcommission.org/institution/1614/",
           "source_page_url": "https://www.hlcommission.org/institution/1614/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "December 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/december-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/december-2023/"
         }
       ]
     },
@@ -15571,60 +14152,6 @@
         }
       ]
     },
-    "accred-charles-stewart-mott-community-college--michigan--hlc": {
-      "unitid": "accred-charles-stewart-mott-community-college--michigan--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Charles Stewart Mott Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Michigan",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Applied Science in Surgical Technology program.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-01-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Applied Science in Surgical Technology program.",
-          "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Applied Science in Surgical Technology program.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-01-01",
-          "action_year": "2025",
-          "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Applied Science in Surgical Technology program.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_title": "January 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2025/"
-        }
-      ]
-    },
     "accred-claremont-school-of-theology--wscuc": {
       "unitid": "accred-claremont-school-of-theology--wscuc",
       "financial_unitid": null,
@@ -15784,141 +14311,6 @@
           "source_title": "June 2023 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2023/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2023/"
-        }
-      ]
-    },
-    "accred-covenant-theological-seminary--missouri--hlc": {
-      "unitid": "accred-covenant-theological-seminary--missouri--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Covenant Theological Seminary",
-      "institution_alias": null,
-      "city": null,
-      "state": "Missouri",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s teach-out of the following additional locations, including the teach-out agreement with Calvin Theological Seminary: Redemption Church-Gilbert, Redemption Church-Tempe, and Residence (Michael Goheen)",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-04-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out of the following additional locations, including the teach-out agreement with Calvin Theological Seminary:Redemption Church-Gilbert, 1820 W Elliot Rd, Gilbert, AZ 85223 Redemption Church-Tempe, 2050 E Southern Ave, Tempe, AZ 85282 Residence (Michael Goheen), C3717 S Cottonwood Dr, Tempe, AZ 85282.",
-          "action_label_short": "Approved the institution’s teach-out of the following additional locations, including the teach-out agreement with Calvin Theological Seminary: Redemption Church-Gilbert, Redemption Church-Tempe, and Residence (Michael Goheen)",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-04-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out of the following additional locations, including the teach-out agreement with Calvin Theological Seminary:Redemption Church-Gilbert, 1820 W Elliot Rd, Gilbert, AZ 85223 Redemption Church-Tempe, 2050 E Southern Ave, Tempe, AZ 85282 Residence (Michael Goheen), C3717 S Cottonwood Dr, Tempe, AZ 85282.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "April 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/april-2024/"
-        }
-      ]
-    },
-    "accred-cuyahoga-community-college--ohio--hlc": {
-      "unitid": "accred-cuyahoga-community-college--ohio--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Cuyahoga Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Ohio",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional teach-out plan for a contractual arrangement with Ironworkers/Canton Local 550.; Approved the institution’s provisional teach-out plan of students enrolled in the Certificate in Ironworking and the Associate of Applied Science in Applied Industrial Technology, Ironworking programs.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-09-01",
-        "latest_action_year": "2025",
-        "action_count": 2
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional teach-out plan of students enrolled in the Certificate in Ironworking and the Associate of Applied Science in Applied Industrial Technology, Ironworking programs.",
-          "action_label_short": "Approved the institution’s provisional teach-out plan of students enrolled in the Certificate in Ironworking and the Associate of Applied Science in Applied Industrial Technology, Ironworking programs.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-09-01",
-          "action_year": "2025",
-          "notes": "Approved the institution’s provisional teach-out plan of students enrolled in the Certificate in Ironworking and the Associate of Applied Science in Applied Industrial Technology, Ironworking programs.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_title": "September 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_page_modified": "2026-03-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional teach-out plan for a contractual arrangement with Ironworkers/Canton Local 550.",
-          "action_label_short": "Approved the institution’s provisional teach-out plan for a contractual arrangement with Ironworkers/Canton Local 550.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2022-10-01",
-          "action_year": "2022",
-          "notes": "Approved the institution’s provisional teach-out plan for a contractual arrangement with Ironworkers/Canton Local 550.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "September 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "October 2022 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2022/"
         }
       ]
     },
@@ -17164,60 +15556,6 @@
         }
       ]
     },
-    "accred-jefferson-college--missouri--hlc": {
-      "unitid": "accred-jefferson-college--missouri--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Jefferson College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Missouri",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s Provisional Plan to teach out students enrolled in the Associate of Applied Science in Physical Therapy Assistant.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2024-08-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan to teach out students enrolled in the Associate of Applied Science in Physical Therapy Assistant.",
-          "action_label_short": "Approved the institution’s Provisional Plan to teach out students enrolled in the Associate of Applied Science in Physical Therapy Assistant.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-08-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s Provisional Plan to teach out students enrolled in the Associate of Applied Science in Physical Therapy Assistant.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2024/",
-          "source_title": "August 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "August 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2024/"
-        }
-      ]
-    },
     "accred-joliet-junior-college--illinois--hlc": {
       "unitid": "accred-joliet-junior-college--illinois--hlc",
       "financial_unitid": null,
@@ -18109,60 +16447,6 @@
         }
       ]
     },
-    "accred-middlebury-college-middlebury-vt--california--neche": {
-      "unitid": "accred-middlebury-college-middlebury-vt--california--neche",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Middlebury College, Middlebury, VT",
-      "institution_alias": null,
-      "city": null,
-      "state": "California",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "NECHE",
-        "action_labels": "Accepted Teach-Out Plans",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-11-20",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "NECHE",
-          "action_type": "adverse_action",
-          "action_label": "Accepted Teach-Out Plans",
-          "action_label_short": "Accepted Teach-Out Plans",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-11-20",
-          "action_year": "2025",
-          "notes": "Middlebury College, Middlebury, VT (Middlebury Institute of International Studies at Monterey, CA)",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_modified": "2026-05-22",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "NECHE",
-          "source_title": "Recent Commission Actions - New England Commission Higher Education",
-          "source_url": "https://www.neche.org/recent-commission-actions/",
-          "source_page_url": "https://www.neche.org/recent-commission-actions/"
-        }
-      ]
-    },
     "accred-missouri-state-university-west-plains--missouri--hlc": {
       "unitid": "accred-missouri-state-university-west-plains--missouri--hlc",
       "financial_unitid": null,
@@ -18403,60 +16687,6 @@
           "source_title": "November 2023 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2023/"
-        }
-      ]
-    },
-    "accred-nebraska-indian-community-college--nebraska--hlc": {
-      "unitid": "accred-nebraska-indian-community-college--nebraska--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Nebraska Indian Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Nebraska",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of an additional location: Pawnee Nation College",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-10-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of an additional location: Pawnee Nation College, 891 Little Dee Drive, PO Box 390, Pawnee, OK 74058.",
-          "action_label_short": "Approved the teach-out of an additional location: Pawnee Nation College",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-10-01",
-          "action_year": "2024",
-          "notes": "Approved the teach-out of an additional location: Pawnee Nation College, 891 Little Dee Drive, PO Box 390, Pawnee, OK 74058.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/",
-          "source_title": "October 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "October 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/october-2024/"
         }
       ]
     },
@@ -18832,114 +17062,6 @@
         }
       ]
     },
-    "accred-owens-community-college--ohio--hlc": {
-      "unitid": "accred-owens-community-college--ohio--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Owens Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Ohio",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Technical Studies in Cement Masonry, Plaster, Insulation, and Roofing.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2024-11-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Technical Studies in Cement Masonry, Plaster, Insulation, and Roofing.",
-          "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Technical Studies in Cement Masonry, Plaster, Insulation, and Roofing.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2024-11-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Technical Studies in Cement Masonry, Plaster, Insulation, and Roofing.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "November 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/november-2024/"
-        }
-      ]
-    },
-    "accred-ozarks-technical-community-college--missouri--hlc": {
-      "unitid": "accred-ozarks-technical-community-college--missouri--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Ozarks Technical Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Missouri",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the teach-out of an additional location: Ozark Correctional Center",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2025-09-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the teach-out of an additional location: Ozark Correctional Center, 929 Honor Camp Lane, Fordland, MO 65652.",
-          "action_label_short": "Approved the teach-out of an additional location: Ozark Correctional Center",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-09-01",
-          "action_year": "2025",
-          "notes": "Approved the teach-out of an additional location: Ozark Correctional Center, 929 Honor Camp Lane, Fordland, MO 65652.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_title": "September 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_page_modified": "2026-03-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "September 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/september-2025/"
-        }
-      ]
-    },
     "accred-pacific-college--wscuc": {
       "unitid": "accred-pacific-college--wscuc",
       "financial_unitid": null,
@@ -19180,60 +17302,6 @@
           "source_title": "June 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/"
-        }
-      ]
-    },
-    "accred-rasmussen-university--minnesota--hlc": {
-      "unitid": "accred-rasmussen-university--minnesota--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Rasmussen University",
-      "institution_alias": null,
-      "city": null,
-      "state": "Minnesota",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s teach-out plan for the closing of a branch campus: Ocala Branch Campus",
-        "active_actions": "other",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2024-01-01",
-        "latest_action_year": "2024",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "other",
-          "action_label": "Approved the institution’s teach-out plan for the closing of a branch campus: Ocala Branch Campus, 4755 Southwest 46th Court, Ocala, FL 34474.",
-          "action_label_short": "Approved the institution’s teach-out plan for the closing of a branch campus: Ocala Branch Campus",
-          "action_scope": "Approved the institution’s teach-out plan for the closing of a branch campus: Ocala Branch Campus",
-          "action_status": "active",
-          "action_date": "2024-01-01",
-          "action_year": "2024",
-          "notes": "Approved the institution’s teach-out plan for the closing of a branch campus: Ocala Branch Campus, 4755 Southwest 46th Court, Ocala, FL 34474.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "January 2024 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/january-2024/"
         }
       ]
     },
@@ -20101,60 +18169,6 @@
         }
       ]
     },
-    "accred-southeastern-community-college--iowa--hlc": {
-      "unitid": "accred-southeastern-community-college--iowa--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Southeastern Community College",
-      "institution_alias": null,
-      "city": null,
-      "state": "Iowa",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Arts at Mt.",
-        "active_actions": "adverse_action",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
-        "latest_action_date": "2025-05-01",
-        "latest_action_year": "2025",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Arts at Mt. Pleasant Correctional Facility, 1200 E Washington St., Mt. Pleasant, IA 52641, and Iowa State Penitentiary, 2111 330th Ave., Fort Madison, IA 52627.",
-          "action_label_short": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Arts at Mt.",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2025-05-01",
-          "action_year": "2025",
-          "notes": "Approved the institution’s provisional plan to teach out students enrolled in the Associate of Arts at Mt. Pleasant Correctional Facility, 1200 E Washington St., Mt. Pleasant, IA 52641, and Iowa State Penitentiary, 2111 330th Ave., Fort Madison, IA 52627.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2025/",
-          "source_title": "May 2025 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2025/",
-          "source_page_modified": "2025-07-23",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "May 2025 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2025/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2025/"
-        }
-      ]
-    },
     "accred-southwest-christian-college--texas--sacscoc": {
       "unitid": "accred-southwest-christian-college--texas--sacscoc",
       "financial_unitid": null,
@@ -20330,14 +18344,14 @@
       "category": null,
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Approved provisional plan with teach-out arrangement with Lasell University for 2 programs; Placed on Administrative Probation.",
-        "active_actions": "adverse_action; probation",
+        "action_labels": "Placed on Administrative Probation.",
+        "active_actions": "probation",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
-        "has_active_adverse_action": true,
+        "has_active_adverse_action": false,
         "latest_action_date": "2024-05-01",
         "latest_action_year": "2024",
-        "action_count": 2
+        "action_count": 1
       },
       "actions": [
         {
@@ -20360,27 +18374,6 @@
           "hybrid_reason": null,
           "has_financial_profile": false,
           "is_primary_tracker": false
-        },
-        {
-          "accreditor": "HLC",
-          "action_type": "adverse_action",
-          "action_label": "Approved the institution’s Provisional Plan for students currently enrolled in the Master of Education in Montessori Integrative Learning and Master of Education in Integrative Learning, including the Teach-Out Arrangement with Lasell University (Newton, MA).",
-          "action_label_short": "Approved provisional plan with teach-out arrangement with Lasell University for 2 programs",
-          "action_scope": "2 programs",
-          "action_status": "active",
-          "action_date": "2023-08-01",
-          "action_year": "2023",
-          "notes": "Approved the institution’s Provisional Plan for students currently enrolled in the Master of Education in Montessori Integrative Learning and Master of Education in Integrative Learning, including the Teach-Out Arrangement with Lasell University (Newton, MA).",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
-          "source_title": "August 2023 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
-          "source_page_modified": "2025-04-03",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
         }
       ],
       "sources": [
@@ -20389,12 +18382,6 @@
           "source_title": "May 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2024/"
-        },
-        {
-          "accreditor": "HLC",
-          "source_title": "August 2023 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/august-2023/"
         }
       ]
     },

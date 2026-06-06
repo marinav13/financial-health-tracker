@@ -863,9 +863,9 @@ run_test("Accreditation review sheet append rows only include unseen action_ids"
     export_institution_name = c("Example University", "Example College"),
     accreditor = c("MSCHE", "HLC"),
     action_date = c("2026-04-24", "2026-05-01"),
-    action_type = c("warning", "other"),
-    action_label_raw = c("Warning", "Approved the institution's teach-out agreement with Sample University."),
-    action_label_short = c("Generated warning", "Approved the institution's teach-out agreement with Sample University."),
+    action_type = c("warning", "probation"),
+    action_label_raw = c("Warning", "Placed on Probation for failure to comply."),
+    action_label_short = c("Generated warning", "Placed on Probation"),
     source_url = c("https://example.org/action-one", "https://example.org/action-two"),
     source_title = c("Source one", "Source two"),
     source_page_url = c("https://example.org/action-one", "https://example.org/action-two"),
@@ -888,4 +888,86 @@ run_test("Accreditation review sheet append rows only include unseen action_ids"
     trim_text(append_rows$action_id[[1]]),
     trim_text(local_sheet_rows$action_id[[2]])
   )
+})
+
+run_test("Accreditation review candidates drop teach-out process rows but keep sanction rows that mention teach-out plans", function() {
+  actions_df <- data.frame(
+    export_unitid = c("100", "101", "102"),
+    unitid = c("100", "101", "102"),
+    export_institution_name = c("Process University", "Monitoring College", "Closure Institute"),
+    accreditor = c("MSCHE", "MSCHE", "HLC"),
+    action_date = c("2026-04-24", "2026-05-01", "2026-05-02"),
+    action_type = c("other", "monitoring", "adverse_action"),
+    action_label_raw = c(
+      "Approved the institution's teach-out agreement with Sample University.",
+      "Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2).",
+      "Withdrawal of accreditation and required teach-out plan."
+    ),
+    action_label_short = c(
+      "Approved the institution's teach-out agreement with Sample University.",
+      "Required teach-out plan and financial viability monitoring after Heightened Cash Monitoring (HCM2).",
+      "Withdrawal of accreditation and required teach-out plan."
+    ),
+    source_url = c(
+      "https://example.org/process-row",
+      "https://example.org/monitoring-row",
+      "https://example.org/adverse-row"
+    ),
+    source_title = c("Process row", "Monitoring row", "Adverse row"),
+    source_page_url = c(
+      "https://example.org/process-row",
+      "https://example.org/monitoring-row",
+      "https://example.org/adverse-row"
+    ),
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_accreditation_review_candidates(actions_df)
+
+  assert_identical(nrow(candidates), 2L)
+  assert_true(
+    !any(grepl("teach-out agreement with sample university", tolower(candidates$action_label_raw), fixed = TRUE)),
+    "Administrative teach-out agreement approvals should not be staged for editorial review."
+  )
+  assert_true(
+    any(candidates$action_type == "monitoring"),
+    "Monitoring rows that mention teach-out requirements should still be staged."
+  )
+  assert_true(
+    any(candidates$action_type == "adverse_action"),
+    "Adverse-action rows that mention teach-out requirements should still be staged."
+  )
+})
+
+run_test("Accreditation review sheet selection excludes legacy teach-out process rows but keeps substantive sanctions", function() {
+  overrides <- data.frame(
+    action_id = c("keep-1", "drop-1"),
+    unitid = c("100", "101"),
+    institution_name = c("Example University", "Process University"),
+    accreditor = c("HLC", "MSCHE"),
+    action_date = c("2026-05-01", "2026-05-02"),
+    action_type = c("probation", "other"),
+    action_label_raw = c(
+      "Placed on Probation and required a teach-out plan.",
+      "Approved the institution's teach-out agreement with Sample University."
+    ),
+    generated_statement = c(
+      "Placed on Probation and required a teach-out plan.",
+      "Approved the institution's teach-out agreement with Sample University."
+    ),
+    source_url = c("https://example.org/probation-row", "https://example.org/process-row"),
+    source_title = c("Probation row", "Process row"),
+    row_origin = c("scraper", "scraper"),
+    first_seen = c("2026-06-06", "2026-06-06"),
+    review_status = c("approved", "approved"),
+    stringsAsFactors = FALSE
+  )
+
+  filtered <- filter_accreditation_overrides_for_review_sheet(
+    overrides,
+    candidate_action_ids = c("keep-1", "drop-1")
+  )
+
+  assert_identical(nrow(filtered), 1L)
+  assert_identical(trim_text(filtered$action_id[[1]]), "keep-1")
 })

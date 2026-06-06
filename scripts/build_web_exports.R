@@ -602,53 +602,11 @@ build_accreditation_export <- function() {
                                          action_label_raw,
                                          action_label_short = NA_character_,
                                          notes = NA_character_) {
-    type <- normalize_accreditation_text(action_type)
-    label <- normalize_accreditation_text(action_label_raw)
-    label_short <- normalize_accreditation_text(action_label_short)
-    notes_text <- normalize_accreditation_text(notes)
-    content <- trimws(paste(label_short, label, notes_text))
-    if (!nzchar(content) || !grepl("teach-?out|teach out", content, ignore.case = TRUE, perl = TRUE)) {
-      return(FALSE)
-    }
-
-    if (type %in% c("warning", "notice", "probation", "show_cause", "removed", "monitoring")) {
-      return(FALSE)
-    }
-
-    is_requirement_or_follow_up <- grepl(
-      paste(
-        "require(?:d)? .*teach-?out plan",
-        "request(?:ed)? .*teach-?out plan",
-        "teach-?out plan[^.]{0,120}?no longer required",
-        "reject(?:ed)? .*teach-?out plan",
-        sep = "|"
-      ),
-      content,
-      ignore.case = TRUE,
-      perl = TRUE
-    )
-    if (is_requirement_or_follow_up) {
-      return(FALSE)
-    }
-
-    grepl(
-      paste(
-        "^accepted teach-?out plan\\b",
-        "^approve(?:d)? (?:the institution'?s )?(?:updated )?teach-?out (?:plan|agreement|agreements|arrangement|arrangements)\\b",
-        "^approve(?:d)? (?:the institution'?s )?provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
-        "^approve(?:d)? provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
-        "^approve(?:d)? provisional teach-?out plan\\b",
-        "^approve(?:d)? modified provisional plan with teach-?out agreement\\b",
-        "^to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
-        "^to acknowledge receipt of the teach-?out plan\\.? to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
-        "teach-?out receiving institution",
-        "conduct(?:ed)?(?: and complete(?:d)?)? (?:its|their|the institution'?s) own teach-?out(?: plan)?",
-        "teach-?out agreements? (?:are|were) not required",
-        sep = "|"
-      ),
-      content,
-      ignore.case = TRUE,
-      perl = TRUE
+    is_accreditation_teachout_process_action(
+      action_type = action_type,
+      action_label_raw = action_label_raw,
+      action_label_short = action_label_short,
+      notes = notes
     )
   }
 

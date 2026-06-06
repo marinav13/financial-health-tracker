@@ -119,7 +119,14 @@ This worksheet now has one active review tab:
 Only primary-tracker accreditation rows stay in the Sheet review queue. "Other
 institutions" accreditation rows and college cuts no longer route through the
 Google Sheet. Research grants also remain trusted and do **not** go through an
-editorial review queue right now.
+editorial review queue right now. Administrative teach-out process rows
+(accepted/approved teach-out plans, agreements, provisional-plan paperwork,
+receiving-institution approvals) are excluded from this queue; substantive
+sanction or monitoring rows that mention teach-out requirements still stay in
+scope.
+
+The spreadsheet document title can change without affecting the workflow. The
+actual contract is the Google Sheet ID/URL plus the tab name `accreditation_review`.
 
 ### Accreditation tab
 

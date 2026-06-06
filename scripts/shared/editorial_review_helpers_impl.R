@@ -427,6 +427,113 @@ compute_accreditation_action_id <- function(unitid,
   substr(digest::digest(seed, algo = "sha1", serialize = FALSE), 1L, 12L)
 }
 
+normalize_accreditation_review_text <- function(x) {
+  value <- as.character(x %||% "")
+  value[is.na(value)] <- ""
+  value <- tolower(trimws(value))
+  gsub("\\s+", " ", value)
+}
+
+is_accreditation_teachout_process_action <- function(action_type,
+                                                     action_label_raw,
+                                                     action_label_short = NA_character_,
+                                                     notes = NA_character_) {
+  type <- normalize_accreditation_review_text(action_type)
+  label <- normalize_accreditation_review_text(action_label_raw)
+  label_short <- normalize_accreditation_review_text(action_label_short)
+  notes_text <- normalize_accreditation_review_text(notes)
+  content <- trimws(paste(label_short, label, notes_text))
+  if (!nzchar(content) || !grepl("teach-?out|teach out", content, ignore.case = TRUE, perl = TRUE)) {
+    return(FALSE)
+  }
+
+  if (type %in% c("warning", "notice", "probation", "show_cause", "removed", "monitoring")) {
+    return(FALSE)
+  }
+
+  is_requirement_or_follow_up <- grepl(
+    paste(
+      "require(?:d)? .*teach-?out plan",
+      "request(?:ed)? .*teach-?out plan",
+      "teach-?out plan[^.]{0,120}?no longer required",
+      "reject(?:ed)? .*teach-?out plan",
+      sep = "|"
+    ),
+    content,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+  if (is_requirement_or_follow_up) {
+    return(FALSE)
+  }
+
+  grepl(
+    paste(
+      "^accepted teach-?out plan\\b",
+      "^approve(?:d)? (?:the institution'?s )?(?:updated )?teach-?out (?:plan|agreement|agreements|arrangement|arrangements)\\b",
+      "^approve(?:d)? (?:the institution'?s )?provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
+      "^approve(?:d)? provisional plan and teach-?out (?:agreement|agreements|arrangement|arrangements)\\b",
+      "^approve(?:d)? provisional teach-?out plan\\b",
+      "^approve(?:d)? modified provisional plan with teach-?out agreement\\b",
+      "^to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
+      "^to acknowledge receipt of the teach-?out plan\\.? to approve (?:a |the )teach-?out (?:plan|agreement|agreements)\\b",
+      "teach-?out receiving institution",
+      "conduct(?:ed)?(?: and complete(?:d)?)? (?:its|their|the institution'?s) own teach-?out(?: plan)?",
+      "teach-?out agreements? (?:are|were) not required",
+      sep = "|"
+    ),
+    content,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+}
+
+compute_accreditation_teachout_process_mask <- function(df,
+                                                        action_type_col = "action_type",
+                                                        action_label_raw_col = "action_label_raw",
+                                                        action_label_short_col = NULL,
+                                                        notes_col = NULL) {
+  if (is.null(df) || !nrow(df)) {
+    return(logical(0))
+  }
+
+  required_columns <- c(action_type_col, action_label_raw_col)
+  missing_columns <- setdiff(required_columns, names(df))
+  if (length(missing_columns) > 0L) {
+    stop(
+      sprintf(
+        "compute_accreditation_teachout_process_mask requires these columns: %s",
+        paste(missing_columns, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  action_label_short_values <- if (!is.null(action_label_short_col) && action_label_short_col %in% names(df)) {
+    df[[action_label_short_col]]
+  } else {
+    rep(NA_character_, nrow(df))
+  }
+  notes_values <- if (!is.null(notes_col) && notes_col %in% names(df)) {
+    df[[notes_col]]
+  } else {
+    rep(NA_character_, nrow(df))
+  }
+
+  vapply(
+    seq_len(nrow(df)),
+    function(i) {
+      is_accreditation_teachout_process_action(
+        action_type = df[[action_type_col]][[i]],
+        action_label_raw = df[[action_label_raw_col]][[i]],
+        action_label_short = action_label_short_values[[i]],
+        notes = notes_values[[i]]
+      )
+    },
+    logical(1)
+  )
+}
+
 assert_unique_action_ids <- function(df, label) {
   if (!"action_id" %in% names(df) || !nrow(df)) return(invisible(df))
   ids <- trim_text(df$action_id)
@@ -488,6 +595,18 @@ build_accreditation_review_candidates <- function(actions_df) {
       sprintf("build_accreditation_review_candidates requires these columns: %s", paste(missing_columns, collapse = ", ")),
       call. = FALSE
     )
+  }
+
+  drop_teachout_rows <- compute_accreditation_teachout_process_mask(
+    actions_df,
+    action_type_col = "action_type",
+    action_label_raw_col = "action_label_raw",
+    action_label_short_col = "action_label_short",
+    notes_col = "notes"
+  )
+  actions_df <- actions_df[!drop_teachout_rows, , drop = FALSE]
+  if (!nrow(actions_df)) {
+    return(empty_accreditation_review_candidates())
   }
 
   candidates <- data.frame(
@@ -716,6 +835,15 @@ filter_accreditation_overrides_for_review_sheet <- function(overrides,
   if (length(candidate_ids) > 0L) {
     keep_rows <- keep_rows | (trim_text(local_rows$action_id) %in% candidate_ids)
   }
+
+  sheet_view <- build_accreditation_review_sheet_rows(local_rows)
+  drop_teachout_rows <- compute_accreditation_teachout_process_mask(
+    sheet_view,
+    action_type_col = "action_type",
+    action_label_raw_col = "action_label_raw",
+    action_label_short_col = "generated_statement"
+  )
+  keep_rows <- keep_rows & !drop_teachout_rows
 
   local_rows[keep_rows, , drop = FALSE]
 }

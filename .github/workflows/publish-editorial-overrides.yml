@@ -2,6 +2,16 @@
 
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: publish
+        type: choice
+        options:
+          - publish
+          - teachout-audit
+          - teachout-cleanup
 
 permissions:
   contents: write
@@ -27,11 +37,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
+        if: ${{ inputs.mode != 'teachout-audit' }}
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Set up Node.js
+        if: ${{ inputs.mode != 'teachout-audit' }}
         uses: actions/setup-node@v4
         with:
           node-version: "24"
@@ -60,6 +72,7 @@ jobs:
         run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
 
       - name: Restore IPEDS download cache
+        if: ${{ inputs.mode != 'teachout-audit' }}
         uses: actions/cache@v4
         with:
           path: ipeds/cache/downloads
@@ -68,6 +81,7 @@ jobs:
             ipeds-downloads-${{ runner.os }}-
 
       - name: Restore canonical IPEDS dataset cache
+        if: ${{ inputs.mode != 'teachout-audit' }}
         uses: actions/cache@v4
         with:
           path: ipeds/derived
@@ -77,6 +91,7 @@ jobs:
             ipeds-derived-v1-${{ runner.os }}-
 
       - name: Rebuild canonical IPEDS dataset (skip if cached)
+        if: ${{ inputs.mode != 'teachout-audit' }}
         shell: bash
         timeout-minutes: 180
         env:
@@ -129,6 +144,7 @@ jobs:
             --verbose
 
       - name: Pull college cuts review decisions
+        if: ${{ inputs.mode == 'publish' }}
         shell: bash
         timeout-minutes: 15
         env:
@@ -140,6 +156,7 @@ jobs:
             --verbose
 
       - name: Check college cuts review gate readiness
+        if: ${{ inputs.mode == 'publish' }}
         shell: bash
         timeout-minutes: 15
         run: |
@@ -148,7 +165,41 @@ jobs:
             --overrides data_pipelines/college_cuts/editorial_overrides.csv \
             --verbose
 
+      - name: Audit accreditation teach-out review rows
+        if: ${{ inputs.mode == 'teachout-audit' || inputs.mode == 'teachout-cleanup' }}
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          Rscript ./scripts/audit_accreditation_teachout_rows.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --output "$RUNNER_TEMP/accreditation_teachout_audit.csv" \
+            --verbose
+
+      - name: Upload teach-out audit artifact
+        if: ${{ inputs.mode == 'teachout-audit' || inputs.mode == 'teachout-cleanup' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: accreditation-teachout-audit
+          path: ${{ runner.temp }}/accreditation_teachout_audit.csv
+          if-no-files-found: error
+
+      - name: Clean accreditation teach-out review rows
+        if: ${{ inputs.mode == 'teachout-cleanup' }}
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          Rscript ./scripts/cleanup_accreditation_teachout_rows.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --verbose
+
       - name: Rebuild static web exports (review gate)
+        if: ${{ inputs.mode == 'publish' }}
         shell: bash
         timeout-minutes: 60
         run: >
@@ -161,7 +212,20 @@ jobs:
           --enforce-review-gate
           --enforce-cuts-review-gate
 
+      - name: Rebuild accreditation exports after teach-out cleanup
+        if: ${{ inputs.mode == 'teachout-cleanup' }}
+        shell: bash
+        timeout-minutes: 60
+        run: >
+          Rscript ./scripts/build_web_exports.R
+          --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv
+          --only accreditation
+          --apply-only-review-gate
+          --accreditation-review-candidates-input data_pipelines/accreditation/accreditation_review_candidates.csv
+          --enforce-review-gate
+
       - name: Validate rebuilt artifacts
+        if: ${{ inputs.mode != 'teachout-audit' }}
         shell: bash
         timeout-minutes: 5
         run: |
@@ -169,18 +233,31 @@ jobs:
           python ./tests/test_import_supabase.py
 
       - name: Commit and push editorial publish
+        if: ${{ inputs.mode != 'teachout-audit' }}
         shell: bash
         timeout-minutes: 5
         run: |
           set -e
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f data/ data_pipelines/accreditation/editorial_overrides.csv data_pipelines/college_cuts/editorial_overrides.csv
+          if [ "${{ inputs.mode }}" = "teachout-cleanup" ]; then
+            git add -f \
+              data/ \
+              data_pipelines/accreditation/editorial_overrides.csv \
+              data_pipelines/accreditation/accreditation_review_candidates.csv
+            commit_message="chore: remove accreditation teach-out review rows [skip ci]"
+          else
+            git add -f \
+              data/ \
+              data_pipelines/accreditation/editorial_overrides.csv \
+              data_pipelines/college_cuts/editorial_overrides.csv
+            commit_message="chore: publish editorial updates [skip ci]"
+          fi
           if git diff --staged --quiet; then
             echo "No editorial publish changes to commit."
             exit 0
           fi
-          git commit -m "chore: publish editorial updates [skip ci]"
+          git commit -m "$commit_message"
           target_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
           if [ -z "$target_branch" ] || [ "$target_branch" = "HEAD" ]; then
             target_branch=$(git rev-parse --abbrev-ref HEAD)

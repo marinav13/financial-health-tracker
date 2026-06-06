@@ -66,6 +66,70 @@ run_test("Committed college cuts overrides in legacy CSV shape still coerce", fu
   assert_identical(normalized$source_row_origin[[1]], "scraper")
 })
 
+run_test("College cuts sheet rows accept Hechinger as a human-authored row_origin", function() {
+  sheet_rows <- data.frame(
+    cut_id = "",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Massachusetts",
+    announcement_date = "2026-06-01",
+    announcement_year = "2026",
+    cut_type = "program_closure",
+    cut_description = "History BA closure",
+    source_url = "https://example.org/hechinger-cut",
+    source_publication = "The Hechinger Report",
+    row_origin = "Hechinger",
+    review_status = "approved",
+    stringsAsFactors = FALSE
+  )
+
+  normalized <- coerce_college_cuts_review_sheet_rows(
+    sheet_rows,
+    default_first_seen = "2026-06-06"
+  )
+
+  assert_identical(nrow(normalized), 1L)
+  assert_identical(normalized$row_origin[[1]], "hechinger")
+  assert_true(nzchar(trim_text(normalized$cut_id[[1]])))
+  assert_identical(normalized$first_seen[[1]], "2026-06-06")
+})
+
+run_test("College cuts unsupported row_origin errors include the literal bad value", function() {
+  bad_rows <- data.frame(
+    cut_id = "cut-1",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Massachusetts",
+    announcement_date = "2026-06-01",
+    announcement_year = "2026",
+    cut_type = "layoff",
+    cut_description = "Ten staff layoffs",
+    source_url = "https://example.org/bad-origin",
+    source_publication = "Example outlet",
+    row_origin = "BadOrigin",
+    review_status = "unreviewed",
+    stringsAsFactors = FALSE
+  )
+
+  err <- tryCatch(
+    {
+      coerce_college_cuts_review_sheet_rows(bad_rows)
+      NULL
+    },
+    error = identity
+  )
+
+  assert_true(!is.null(err), "Unsupported college cuts row_origin should fail validation.")
+  assert_true(
+    grepl("cut_id cut-1 has row_origin='BadOrigin'", conditionMessage(err), fixed = TRUE),
+    "The validation error should include the literal bad row_origin value."
+  )
+  assert_true(
+    grepl("Supported values: scraper, manual, hechinger", conditionMessage(err), fixed = TRUE),
+    "The validation error should list the allowed college cuts row_origin values."
+  )
+})
+
 run_test("Approved college cuts local overrides publish without sheet helpers", function() {
   cuts_df <- data.frame(
     cut_id = "cut-1",

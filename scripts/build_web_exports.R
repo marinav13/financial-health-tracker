@@ -42,6 +42,8 @@ output_dir <- get_arg_value("--output-dir", ".")
 enforce_review_gate <- has_flag("--enforce-review-gate")
 enforce_cuts_review_gate <- has_flag("--enforce-cuts-review-gate")
 apply_only_review_gate <- has_flag("--apply-only-review-gate")
+apply_only_review_gate_diagnostic_path <- get_arg_value("--apply-only-review-gate-diagnostic", NA_character_)
+apply_only_review_gate_diagnostic_only <- has_flag("--apply-only-review-gate-diagnostic-only")
 selected_exports <- local({
   available_exports <- c("cuts", "accreditation", "research")
   raw_value <- get_arg_value("--only", NULL)
@@ -2376,6 +2378,253 @@ build_accreditation_export <- function() {
       supplemental_review_candidates
     )
   }
+  build_apply_only_accreditation_gate_diagnostic <- function(current_actions_df,
+                                                             committed_review_candidates,
+                                                             gate_mask) {
+    empty_diagnostic <- function() {
+      data.frame(
+        current_action_id = character(),
+        matched_committed_action_id = character(),
+        matched_by = character(),
+        changed_hash_inputs = character(),
+        identity_changed = logical(),
+        accreditor_changed = logical(),
+        action_date_changed = logical(),
+        action_label_raw_changed = logical(),
+        current_identity_value = character(),
+        committed_identity_value = character(),
+        current_accreditor = character(),
+        committed_accreditor = character(),
+        current_action_date = character(),
+        committed_action_date = character(),
+        current_action_label_raw = character(),
+        committed_action_label_raw = character(),
+        current_source_url = character(),
+        committed_source_url = character(),
+        current_source_title = character(),
+        committed_source_title = character(),
+        stringsAsFactors = FALSE
+      )
+    }
+
+    if (is.null(current_actions_df) || !nrow(current_actions_df) ||
+        is.null(committed_review_candidates) || !nrow(committed_review_candidates)) {
+      return(empty_diagnostic())
+    }
+
+    gate_rows <- as.logical(gate_mask)
+    gate_rows[is.na(gate_rows)] <- FALSE
+    if (length(gate_rows) != nrow(current_actions_df)) {
+      stop("Apply-only accreditation gate diagnostic requires one gate_mask value per current action row.", call. = FALSE)
+    }
+
+    current_rows <- current_actions_df[gate_rows, , drop = FALSE]
+    if (!nrow(current_rows)) {
+      return(empty_diagnostic())
+    }
+
+    current_rows$current_action_id <- vapply(
+      seq_len(nrow(current_rows)),
+      function(i) compute_accreditation_action_id(
+        current_rows$unitid[[i]],
+        current_rows$accreditor[[i]],
+        current_rows$action_date[[i]],
+        current_rows$action_label_raw[[i]],
+        current_rows$export_unitid[[i]],
+        current_rows$export_institution_name[[i]]
+      ),
+      character(1)
+    )
+
+    allowed_ids <- unique(trim_text(committed_review_candidates$action_id))
+    allowed_ids <- allowed_ids[nzchar(allowed_ids)]
+    unexpected_rows <- current_rows[!(trim_text(current_rows$current_action_id) %in% allowed_ids), , drop = FALSE]
+    if (!nrow(unexpected_rows)) {
+      return(empty_diagnostic())
+    }
+
+    pick_identity_value <- function(unitid, fallback_unitid = NA_character_, institution_name = NA_character_) {
+      identity_value <- trim_optional_text(unitid)
+      if (is.na(identity_value) || !nzchar(identity_value)) {
+        identity_value <- trim_optional_text(fallback_unitid)
+      }
+      if (is.na(identity_value) || !nzchar(identity_value)) {
+        identity_value <- trim_optional_text(institution_name)
+      }
+      identity_value
+    }
+    normalize_url_key <- function(x) {
+      value <- trim_optional_text(x)
+      if (is.na(value)) return(NA_character_)
+      tolower(value)
+    }
+
+    committed_lookup <- committed_review_candidates %>%
+      mutate(
+        committed_identity_value = vapply(
+          seq_len(n()),
+          function(i) pick_identity_value(unitid[[i]], institution_name = institution_name[[i]]),
+          character(1)
+        ),
+        committed_identity_key = vapply(committed_identity_value, normalize_review_identity_text, character(1)),
+        committed_institution_key = vapply(institution_name, normalize_review_identity_text, character(1)),
+        committed_accreditor_key = vapply(accreditor, normalize_review_identity_text, character(1)),
+        committed_action_date_key = trim_text(action_date),
+        committed_action_label_key = vapply(action_label_raw, normalize_review_identity_text, character(1)),
+        committed_source_url_key = vapply(source_url, normalize_url_key, character(1)),
+        committed_source_title_key = vapply(source_title, normalize_review_identity_text, character(1))
+      )
+
+    diagnostic_rows <- lapply(seq_len(nrow(unexpected_rows)), function(i) {
+      current_row <- unexpected_rows[i, , drop = FALSE]
+      current_identity_value <- pick_identity_value(
+        current_row$unitid[[1]],
+        current_row$export_unitid[[1]],
+        current_row$export_institution_name[[1]]
+      )
+      current_identity_key <- normalize_review_identity_text(current_identity_value)
+      current_institution_key <- normalize_review_identity_text(current_row$export_institution_name[[1]])
+      current_accreditor_key <- normalize_review_identity_text(current_row$accreditor[[1]])
+      current_action_date_key <- trim_text(current_row$action_date[[1]])
+      current_action_label_key <- normalize_review_identity_text(current_row$action_label_raw[[1]])
+      current_source_url_key <- normalize_url_key(current_row$source_url[[1]])
+      current_source_title_key <- normalize_review_identity_text(current_row$source_title[[1]])
+
+      matched_by <- "no_plausible_snapshot_match"
+      candidate_matches <- committed_lookup[FALSE, , drop = FALSE]
+
+      if (!is.na(current_source_url_key) && nzchar(current_source_url_key)) {
+        candidate_matches <- committed_lookup[committed_lookup$committed_source_url_key == current_source_url_key, , drop = FALSE]
+        if (nrow(candidate_matches)) {
+          matched_by <- "source_url"
+        }
+      }
+      if (!nrow(candidate_matches) && nzchar(current_identity_key) && nzchar(current_accreditor_key)) {
+        candidate_matches <- committed_lookup[
+          committed_lookup$committed_identity_key == current_identity_key &
+            committed_lookup$committed_accreditor_key == current_accreditor_key,
+          ,
+          drop = FALSE
+        ]
+        if (nrow(candidate_matches)) {
+          matched_by <- "identity+accreditor"
+        }
+      }
+      if (!nrow(candidate_matches) && nzchar(current_institution_key) && nzchar(current_accreditor_key)) {
+        candidate_matches <- committed_lookup[
+          committed_lookup$committed_institution_key == current_institution_key &
+            committed_lookup$committed_accreditor_key == current_accreditor_key,
+          ,
+          drop = FALSE
+        ]
+        if (nrow(candidate_matches)) {
+          matched_by <- "institution+accreditor"
+        }
+      }
+      if (!nrow(candidate_matches) && nzchar(current_source_title_key) && nzchar(current_accreditor_key)) {
+        candidate_matches <- committed_lookup[
+          committed_lookup$committed_source_title_key == current_source_title_key &
+            committed_lookup$committed_accreditor_key == current_accreditor_key,
+          ,
+          drop = FALSE
+        ]
+        if (nrow(candidate_matches)) {
+          matched_by <- "source_title+accreditor"
+        }
+      }
+
+      if (!nrow(candidate_matches)) {
+        return(data.frame(
+          current_action_id = current_row$current_action_id[[1]],
+          matched_committed_action_id = NA_character_,
+          matched_by = matched_by,
+          changed_hash_inputs = "no_plausible_snapshot_match",
+          identity_changed = NA,
+          accreditor_changed = NA,
+          action_date_changed = NA,
+          action_label_raw_changed = NA,
+          current_identity_value = current_identity_value,
+          committed_identity_value = NA_character_,
+          current_accreditor = trim_optional_text(current_row$accreditor[[1]]),
+          committed_accreditor = NA_character_,
+          current_action_date = trim_optional_text(current_row$action_date[[1]]),
+          committed_action_date = NA_character_,
+          current_action_label_raw = trim_optional_text(current_row$action_label_raw[[1]]),
+          committed_action_label_raw = NA_character_,
+          current_source_url = trim_optional_text(current_row$source_url[[1]]),
+          committed_source_url = NA_character_,
+          current_source_title = trim_optional_text(current_row$source_title[[1]]),
+          committed_source_title = NA_character_,
+          stringsAsFactors = FALSE
+        ))
+      }
+
+      score_match <- function(candidate_row) {
+        score <- 0
+        if (!is.na(current_source_url_key) && nzchar(current_source_url_key) &&
+            identical(candidate_row$committed_source_url_key[[1]], current_source_url_key)) score <- score + 100
+        if (identical(candidate_row$committed_identity_key[[1]], current_identity_key)) score <- score + 40
+        if (identical(candidate_row$committed_institution_key[[1]], current_institution_key)) score <- score + 20
+        if (identical(candidate_row$committed_accreditor_key[[1]], current_accreditor_key)) score <- score + 20
+        if (identical(candidate_row$committed_action_date_key[[1]], current_action_date_key)) score <- score + 15
+        if (identical(candidate_row$committed_action_label_key[[1]], current_action_label_key)) score <- score + 25
+        if (!is.na(current_action_label_key) && nzchar(current_action_label_key)) {
+          score <- score - (utils::adist(current_action_label_key, candidate_row$committed_action_label_key[[1]])[[1]] / 100)
+        }
+        score
+      }
+
+      candidate_scores <- vapply(seq_len(nrow(candidate_matches)), function(candidate_index) {
+        score_match(candidate_matches[candidate_index, , drop = FALSE])
+      }, numeric(1))
+      best_match <- candidate_matches[which.max(candidate_scores), , drop = FALSE]
+
+      committed_identity_value <- trim_optional_text(best_match$committed_identity_value[[1]])
+      committed_accreditor <- trim_optional_text(best_match$accreditor[[1]])
+      committed_action_date <- trim_optional_text(best_match$action_date[[1]])
+      committed_action_label_raw <- trim_optional_text(best_match$action_label_raw[[1]])
+
+      identity_changed <- !identical(normalize_review_identity_text(committed_identity_value), current_identity_key)
+      accreditor_changed <- !identical(normalize_review_identity_text(committed_accreditor), current_accreditor_key)
+      action_date_changed <- !identical(trim_text(committed_action_date), current_action_date_key)
+      action_label_raw_changed <- !identical(normalize_review_identity_text(committed_action_label_raw), current_action_label_key)
+      changed_inputs <- c(
+        if (identity_changed) "identity",
+        if (accreditor_changed) "accreditor",
+        if (action_date_changed) "action_date",
+        if (action_label_raw_changed) "action_label_raw"
+      )
+      if (!length(changed_inputs)) {
+        changed_inputs <- "none_detected"
+      }
+
+      data.frame(
+        current_action_id = current_row$current_action_id[[1]],
+        matched_committed_action_id = trim_optional_text(best_match$action_id[[1]]),
+        matched_by = matched_by,
+        changed_hash_inputs = paste(changed_inputs, collapse = ", "),
+        identity_changed = identity_changed,
+        accreditor_changed = accreditor_changed,
+        action_date_changed = action_date_changed,
+        action_label_raw_changed = action_label_raw_changed,
+        current_identity_value = current_identity_value,
+        committed_identity_value = committed_identity_value,
+        current_accreditor = trim_optional_text(current_row$accreditor[[1]]),
+        committed_accreditor = committed_accreditor,
+        current_action_date = trim_optional_text(current_row$action_date[[1]]),
+        committed_action_date = committed_action_date,
+        current_action_label_raw = trim_optional_text(current_row$action_label_raw[[1]]),
+        committed_action_label_raw = committed_action_label_raw,
+        current_source_url = trim_optional_text(current_row$source_url[[1]]),
+        committed_source_url = trim_optional_text(best_match$source_url[[1]]),
+        current_source_title = trim_optional_text(current_row$source_title[[1]]),
+        committed_source_title = trim_optional_text(best_match$source_title[[1]]),
+        stringsAsFactors = FALSE
+      )
+    })
+
+    dplyr::bind_rows(diagnostic_rows)
+  }
   committed_review_candidates <- if (isTRUE(apply_only_review_gate)) {
     if (!file.exists(accreditation_review_candidates_input_path)) {
       stop(
@@ -2401,6 +2650,37 @@ build_accreditation_export <- function() {
     read_accreditation_editorial_overrides(accreditation_editorial_overrides_path)
   } else {
     empty_accreditation_editorial_overrides()
+  }
+  if (!is.na(apply_only_review_gate_diagnostic_path) && nzchar(trimws(apply_only_review_gate_diagnostic_path))) {
+    if (!isTRUE(apply_only_review_gate)) {
+      stop(
+        "--apply-only-review-gate-diagnostic requires --apply-only-review-gate so the committed review snapshot is available.",
+        call. = FALSE
+      )
+    }
+    diagnostic_rows <- build_apply_only_accreditation_gate_diagnostic(
+      actions_df,
+      committed_review_candidates,
+      gate_mask = actions_df$is_primary_tracker %in% TRUE
+    )
+    dir.create(dirname(apply_only_review_gate_diagnostic_path), recursive = TRUE, showWarnings = FALSE)
+    write_csv_atomic(diagnostic_rows, apply_only_review_gate_diagnostic_path)
+    message("Saved apply-only accreditation review gate diagnostic to ", apply_only_review_gate_diagnostic_path)
+    if (isTRUE(apply_only_review_gate_diagnostic_only)) {
+      result <- invisible(list(
+        diagnostic_rows = nrow(diagnostic_rows),
+        diagnostic_path = apply_only_review_gate_diagnostic_path
+      ))
+      if (sys.nframe() == 1L) {
+        quit(save = "no", status = 0L)
+      }
+      return(result)
+    }
+  } else if (isTRUE(apply_only_review_gate_diagnostic_only)) {
+    stop(
+      "--apply-only-review-gate-diagnostic-only requires --apply-only-review-gate-diagnostic <output-path>.",
+      call. = FALSE
+    )
   }
   actions_df <- apply_accreditation_editorial_overrides(
     actions_df,

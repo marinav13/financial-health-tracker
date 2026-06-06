@@ -129,7 +129,7 @@ them (the service account can still write):
 `action_id`, `first_seen`, `unitid`, `institution_name`, `accreditor`,
 `action_date`, `action_type`, `action_label_raw`, `generated_statement`
 (the current `derive_action_label_short()` output), `source_url`,
-`source_title`, `row_origin` (`scraper` | `editor`), `grandfathered`.
+`source_title`, `row_origin` (`scraper` | `manual`), `grandfathered`.
 
 **Editor columns** â€” editors own these:
 
@@ -151,6 +151,11 @@ makes the two-way sync safe.
 College cuts no longer use the Google Sheet review queue. The export can still
 apply any already-committed local overrides, but new cuts rows are no longer
 staged to or pulled from a Sheet tab as part of the supported workflow.
+
+For college cuts local overrides, `row_origin` is provenance rather than a
+publication field. Use `scraper` for pipeline rows, `manual` for generic
+human-added rows, and `hechinger` for Hechinger-found rows. Outlet names belong
+in `source_publication`, not `row_origin`.
 
 ## 7. The publish gate (in `build_web_exports.R`)
 
@@ -203,7 +208,7 @@ Editor-added rows: an editor adds a row at the bottom of the Sheet, leaves
 `action_type` / `source_url` / `editor_action_label_short`, and sets `review_status = approved`.
 `pull_accreditation_overrides.R` mints an `editor-<uuid>` id for any
 blank-id row and writes it into `editorial_overrides.csv` with
-`row_origin = editor`. `build_web_exports.R` publishes approved editor rows even
+`row_origin = manual`. `build_web_exports.R` publishes approved editor rows even
 though no scraper row backs them â€” this covers "news broke on the institution's
 site before our scraper saw it."
 

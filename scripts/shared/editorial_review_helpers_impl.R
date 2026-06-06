@@ -38,6 +38,19 @@ normalize_review_row_origin <- function(x) {
   values
 }
 
+ACCREDITATION_REVIEW_ROW_ORIGINS <- c("scraper", "manual")
+COLLEGE_CUTS_REVIEW_ROW_ORIGINS <- c("scraper", "manual", "hechinger")
+COLLEGE_CUTS_HUMAN_ROW_ORIGINS <- c("manual", "hechinger")
+
+row_origin_in <- function(x, allowed_values) {
+  values <- normalize_review_row_origin(x)
+  !is.na(values) & values %in% allowed_values
+}
+
+is_college_cuts_human_row_origin <- function(x) {
+  row_origin_in(x, COLLEGE_CUTS_HUMAN_ROW_ORIGINS)
+}
+
 derive_year_from_date_string <- function(x) {
   value <- trim_optional_text(x)
   if (length(value) == 0L) {
@@ -85,31 +98,41 @@ rep_like_template_rows <- function(template_df, n) {
 assert_valid_review_row_origins <- function(df,
                                             id_column,
                                             row_origin_column = "row_origin",
-                                            context = "Google Sheet rows") {
+                                            context = "Google Sheet rows",
+                                            valid_values = ACCREDITATION_REVIEW_ROW_ORIGINS) {
   if (is.null(df) || !nrow(df) || !(row_origin_column %in% names(df))) {
     return(invisible(df))
   }
 
   row_origin <- normalize_review_row_origin(df[[row_origin_column]])
-  valid_mask <- is.na(row_origin) | row_origin %in% c("scraper", "manual")
+  valid_mask <- is.na(row_origin) | row_origin %in% valid_values
   if (all(valid_mask)) {
     return(invisible(df))
   }
 
   bad_rows <- which(!valid_mask)
-  sample_ids <- trim_text(df[[id_column]][bad_rows])
-  sample_ids <- sample_ids[nzchar(sample_ids)]
-  sample_label <- if (length(sample_ids)) {
-    paste(utils::head(sample_ids, 5L), collapse = ", ")
-  } else {
-    paste(utils::head(bad_rows, 5L), collapse = ", ")
-  }
+  sample_label <- vapply(
+    utils::head(bad_rows, 5L),
+    function(row_index) {
+      row_id <- trim_text(df[[id_column]][[row_index]])
+      row_origin_value <- trim_text(df[[row_origin_column]][[row_index]])
+      row_prefix <- if (nzchar(row_id)) {
+        paste0(id_column, " ", row_id)
+      } else {
+        paste0("row ", row_index)
+      }
+      sprintf("%s has %s='%s'", row_prefix, row_origin_column, row_origin_value)
+    },
+    character(1)
+  )
 
   stop(
     sprintf(
-      "%s contain unsupported row_origin values. Supported values: scraper, manual. Sample rows: %s",
+      "%s contain unsupported %s values. Supported values: %s. Sample rows: %s",
       context,
-      sample_label
+      row_origin_column,
+      paste(valid_values, collapse = ", "),
+      paste(sample_label, collapse = "; ")
     ),
     call. = FALSE
   )
@@ -118,23 +141,26 @@ assert_valid_review_row_origins <- function(df,
 assert_blank_ids_only_for_manual_rows <- function(df,
                                                   id_column,
                                                   row_origin_column = "row_origin",
-                                                  context = "Google Sheet rows") {
+                                                  context = "Google Sheet rows",
+                                                  blank_id_row_origins = "manual") {
   if (is.null(df) || !nrow(df) || !(id_column %in% names(df))) {
     return(invisible(df))
   }
 
   ids <- trim_text(df[[id_column]])
-  row_origin <- normalize_review_row_origin(df[[row_origin_column]])
-  bad_rows <- which(!nzchar(ids) & (is.na(row_origin) | row_origin != "manual"))
+  allowed_blank_origins <- row_origin_in(df[[row_origin_column]], blank_id_row_origins)
+  bad_rows <- which(!nzchar(ids) & !allowed_blank_origins)
   if (!length(bad_rows)) {
     return(invisible(df))
   }
 
   stop(
     sprintf(
-      "%s allow blank %s values only when row_origin = manual. Bad row numbers: %s",
+      "%s allow blank %s values only when %s is one of: %s. Bad row numbers: %s",
       context,
       id_column,
+      row_origin_column,
+      paste(blank_id_row_origins, collapse = ", "),
       paste(utils::head(bad_rows, 5L), collapse = ", ")
     ),
     call. = FALSE
@@ -144,19 +170,19 @@ assert_blank_ids_only_for_manual_rows <- function(df,
 assert_manual_review_required_fields <- function(df,
                                                  id_column,
                                                  required_fields,
-                                                 context = "Google Sheet rows") {
+                                                 context = "Google Sheet rows",
+                                                 required_row_origins = "manual") {
   if (is.null(df) || !nrow(df)) {
     return(invisible(df))
   }
 
-  row_origin <- normalize_review_row_origin(df$row_origin)
-  manual_rows <- which(!is.na(row_origin) & row_origin == "manual")
-  if (!length(manual_rows)) {
+  required_origin_rows <- which(row_origin_in(df$row_origin, required_row_origins))
+  if (!length(required_origin_rows)) {
     return(invisible(df))
   }
 
   missing_messages <- character()
-  for (row_index in manual_rows) {
+  for (row_index in required_origin_rows) {
     missing_fields <- required_fields[vapply(
       required_fields,
       function(field_name) is.na(trim_optional_text(df[[field_name]][[row_index]])),
@@ -178,8 +204,9 @@ assert_manual_review_required_fields <- function(df,
 
   stop(
     sprintf(
-      "%s contain manual rows missing required fields: %s",
+      "%s contain rows with row_origin in (%s) that are missing required fields: %s",
       context,
+      paste(required_row_origins, collapse = ", "),
       paste(utils::head(missing_messages, 5L), collapse = "; ")
     ),
     call. = FALSE
@@ -1303,8 +1330,18 @@ coerce_college_cuts_review_sheet_rows <- function(df,
                                                   default_first_seen = as.character(Sys.Date())) {
   if (is.null(df) || !nrow(df)) return(empty_college_cuts_review_sheet_rows())
   raw_rows <- normalize_college_cuts_sheet_headers(df)
-  assert_valid_review_row_origins(raw_rows, id_column = "cut_id", context = "College cuts review sheet rows")
-  assert_blank_ids_only_for_manual_rows(raw_rows, id_column = "cut_id", context = "College cuts review sheet rows")
+  assert_valid_review_row_origins(
+    raw_rows,
+    id_column = "cut_id",
+    context = "College cuts review sheet rows",
+    valid_values = COLLEGE_CUTS_REVIEW_ROW_ORIGINS
+  )
+  assert_blank_ids_only_for_manual_rows(
+    raw_rows,
+    id_column = "cut_id",
+    context = "College cuts review sheet rows",
+    blank_id_row_origins = COLLEGE_CUTS_HUMAN_ROW_ORIGINS
+  )
 
   sheet_rows <- rep_like_template_rows(empty_college_cuts_review_sheet_rows(), nrow(raw_rows))
   for (column_name in setdiff(COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "grandfathered")) {
@@ -1320,12 +1357,18 @@ coerce_college_cuts_review_sheet_rows <- function(df,
   sheet_rows$row_origin <- normalize_review_row_origin(sheet_rows$row_origin)
   sheet_rows$row_origin[is.na(sheet_rows$row_origin)] <- "scraper"
 
-  missing_manual_ids <- which(!nzchar(trim_text(sheet_rows$cut_id)) & sheet_rows$row_origin == "manual")
-  if (length(missing_manual_ids)) {
-    sheet_rows$cut_id[missing_manual_ids] <- vapply(missing_manual_ids, function(i) compute_college_cuts_review_id(sheet_rows$cut_id[[i]], sheet_rows$unitid[[i]], sheet_rows$announcement_date[[i]], sheet_rows$cut_description[[i]], sheet_rows$institution_name[[i]], sheet_rows$state[[i]]), character(1))
+  missing_human_ids <- which(!nzchar(trim_text(sheet_rows$cut_id)) & is_college_cuts_human_row_origin(sheet_rows$row_origin))
+  if (length(missing_human_ids)) {
+    sheet_rows$cut_id[missing_human_ids] <- vapply(missing_human_ids, function(i) compute_college_cuts_review_id(sheet_rows$cut_id[[i]], sheet_rows$unitid[[i]], sheet_rows$announcement_date[[i]], sheet_rows$cut_description[[i]], sheet_rows$institution_name[[i]], sheet_rows$state[[i]]), character(1))
   }
-  sheet_rows$first_seen[is.na(sheet_rows$first_seen) & sheet_rows$row_origin == "manual"] <- default_first_seen
-  assert_manual_review_required_fields(sheet_rows, "cut_id", COLLEGE_CUTS_REQUIRED_MANUAL_FIELDS, "College cuts review sheet rows")
+  sheet_rows$first_seen[is.na(sheet_rows$first_seen) & is_college_cuts_human_row_origin(sheet_rows$row_origin)] <- default_first_seen
+  assert_manual_review_required_fields(
+    sheet_rows,
+    "cut_id",
+    COLLEGE_CUTS_REQUIRED_MANUAL_FIELDS,
+    "College cuts review sheet rows",
+    required_row_origins = COLLEGE_CUTS_HUMAN_ROW_ORIGINS
+  )
   assert_unique_cut_ids(sheet_rows, "College cuts review sheet rows")
   sheet_rows[, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
@@ -1361,10 +1404,10 @@ coerce_college_cuts_editorial_overrides <- function(df) {
   overrides$source_row_origin[is.na(overrides$source_row_origin)] <- "scraper"
   overrides$source_announcement_year <- dplyr::coalesce(overrides$source_announcement_year, derive_year_from_date_string(overrides$source_announcement_date))
 
-  missing_manual_ids <- which(!nzchar(trim_text(overrides$cut_id)) & overrides$source_row_origin == "manual")
-  if (length(missing_manual_ids)) {
-    overrides$cut_id[missing_manual_ids] <- vapply(
-      missing_manual_ids,
+  missing_human_ids <- which(!nzchar(trim_text(overrides$cut_id)) & is_college_cuts_human_row_origin(overrides$source_row_origin))
+  if (length(missing_human_ids)) {
+    overrides$cut_id[missing_human_ids] <- vapply(
+      missing_human_ids,
       function(i) {
         compute_college_cuts_review_id(
           overrides$cut_id[[i]],
@@ -1377,9 +1420,9 @@ coerce_college_cuts_editorial_overrides <- function(df) {
       },
       character(1)
     )
-    missing_first_seen <- is.na(overrides$first_seen[missing_manual_ids])
+    missing_first_seen <- is.na(overrides$first_seen[missing_human_ids])
     if (any(missing_first_seen)) {
-      overrides$first_seen[missing_manual_ids[missing_first_seen]] <- as.character(Sys.Date())
+      overrides$first_seen[missing_human_ids[missing_first_seen]] <- as.character(Sys.Date())
     }
   }
   assert_unique_cut_ids(overrides, "College cuts editorial overrides")
@@ -1400,10 +1443,10 @@ filter_college_cuts_overrides_for_tracker_scope <- function(overrides,
   source_unitid <- trim_optional_text(local_rows$source_unitid)
   override_unitid <- trim_optional_text(local_rows$override_unitid)
   effective_unitid <- dplyr::coalesce(override_unitid, source_unitid)
-  manual_mask <- !is.na(row_origin) & row_origin == "manual"
-  invalid_manual <- manual_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
-  if (any(invalid_manual)) {
-    sample_rows <- local_rows[invalid_manual, , drop = FALSE]
+  human_mask <- is_college_cuts_human_row_origin(row_origin)
+  invalid_human_rows <- human_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
+  if (any(invalid_human_rows)) {
+    sample_rows <- local_rows[invalid_human_rows, , drop = FALSE]
     sample_labels <- paste(
       utils::head(trim_text(sample_rows$cut_id), 5L),
       utils::head(trim_text(sample_rows$source_institution_name), 5L),
@@ -1412,12 +1455,13 @@ filter_college_cuts_overrides_for_tracker_scope <- function(overrides,
     stop(
       sprintf(
         paste(
-          "%s contains %d manual row(s) outside the tracker roster.",
-          "Manual college cuts review rows must carry a tracker unitid.",
+          "%s contains %d human-authored row(s) outside the tracker roster.",
+          "College cuts review rows with row_origin in (%s) must carry a tracker unitid.",
           "Sample rows: %s"
         ),
         context,
-        sum(invalid_manual),
+        sum(invalid_human_rows),
+        paste(COLLEGE_CUTS_HUMAN_ROW_ORIGINS, collapse = ", "),
         paste(sample_labels, collapse = ", ")
       ),
       call. = FALSE
@@ -1459,7 +1503,7 @@ filter_college_cuts_overrides_for_review_sheet <- function(overrides,
   candidate_ids <- trim_text(candidate_cut_ids)
   candidate_ids <- unique(candidate_ids[nzchar(candidate_ids)])
   row_origin <- normalize_review_row_origin(local_rows$source_row_origin)
-  keep_rows <- (!is.na(row_origin) & row_origin == "manual")
+  keep_rows <- is_college_cuts_human_row_origin(row_origin)
   if (length(candidate_ids) > 0L) {
     keep_rows <- keep_rows | (trim_text(local_rows$cut_id) %in% candidate_ids)
   }
@@ -1530,10 +1574,22 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
   sheet_ids <- trim_text(sheet_data$cut_id)
   sheet_only <- sheet_data[!(sheet_ids %in% local_ids), , drop = FALSE]
   if (nrow(sheet_only) > 0L) {
-    non_manual <- sheet_only[normalize_review_row_origin(sheet_only$row_origin) != "manual", , drop = FALSE]
-    if (nrow(non_manual) > 0L && !isTRUE(allow_editor_added_rows)) {
-      sample_ids <- paste(utils::head(non_manual$cut_id, 5L), collapse = ", ")
-      stop(sprintf(paste("Google Sheet contains %d cut_id value(s) that are not present in editorial_overrides.csv.", "Only row_origin = manual rows may exist only in the sheet.", "Sample cut_id values: %s"), nrow(non_manual), sample_ids), call. = FALSE)
+    non_human <- sheet_only[!is_college_cuts_human_row_origin(sheet_only$row_origin), , drop = FALSE]
+    if (nrow(non_human) > 0L && !isTRUE(allow_editor_added_rows)) {
+      sample_ids <- paste(utils::head(non_human$cut_id, 5L), collapse = ", ")
+      stop(
+        sprintf(
+          paste(
+            "Google Sheet contains %d cut_id value(s) that are not present in editorial_overrides.csv.",
+            "Only row_origin values in (%s) may exist only in the sheet.",
+            "Sample cut_id values: %s"
+          ),
+          nrow(non_human),
+          paste(COLLEGE_CUTS_HUMAN_ROW_ORIGINS, collapse = ", "),
+          sample_ids
+        ),
+        call. = FALSE
+      )
     }
   }
 
@@ -1543,15 +1599,15 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
     if (any(matched)) {
       matched_sheet_rows <- sheet_data[match_index[matched], , drop = FALSE]
       matched_rows <- which(matched)
-      matched_manual <- local_rows$source_row_origin[matched] == "manual"
-      matched_manual_rows <- matched_rows[matched_manual]
+      matched_human <- is_college_cuts_human_row_origin(local_rows$source_row_origin[matched])
+      matched_human_rows <- matched_rows[matched_human]
       for (field_name in names(COLLEGE_CUTS_SHEET_OVERRIDE_MAP)) {
         source_column <- COLLEGE_CUTS_SHEET_SOURCE_MAP[[field_name]]
         override_column <- COLLEGE_CUTS_SHEET_OVERRIDE_MAP[[field_name]]
         local_rows[[override_column]][matched] <- compute_override_delta(matched_sheet_rows[[field_name]], local_rows[[source_column]][matched])
-        if (length(matched_manual_rows)) {
-          local_rows[[source_column]][matched_manual_rows] <- matched_sheet_rows[[field_name]][matched_manual]
-          local_rows[[override_column]][matched_manual_rows] <- NA_character_
+        if (length(matched_human_rows)) {
+          local_rows[[source_column]][matched_human_rows] <- matched_sheet_rows[[field_name]][matched_human]
+          local_rows[[override_column]][matched_human_rows] <- NA_character_
         }
       }
       local_rows$review_status[matched] <- matched_sheet_rows$review_status
@@ -1567,19 +1623,19 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
     }
   }
 
-  sheet_only_manual <- sheet_only[normalize_review_row_origin(sheet_only$row_origin) == "manual", , drop = FALSE]
-  if (nrow(sheet_only_manual) > 0L) {
-    manual_rows <- rep_like_template_rows(empty_college_cuts_editorial_overrides(), nrow(sheet_only_manual))
-    manual_rows$cut_id <- sheet_only_manual$cut_id
-    for (field_name in names(COLLEGE_CUTS_SHEET_SOURCE_MAP)) manual_rows[[COLLEGE_CUTS_SHEET_SOURCE_MAP[[field_name]]]] <- sheet_only_manual[[field_name]]
-    manual_rows$source_source_title <- dplyr::coalesce(if ("source_title" %in% names(sheet_only)) trim_optional_text(sheet_only_manual$source_title) else rep(NA_character_, nrow(sheet_only_manual)), sheet_only_manual$source_publication)
-    manual_rows$first_seen <- dplyr::coalesce(sheet_only_manual$first_seen, first_seen)
-    manual_rows$review_status <- sheet_only_manual$review_status
-    manual_rows$reviewer <- sheet_only_manual$reviewer
-    manual_rows$reviewer_notes <- sheet_only_manual$reviewer_notes
-    manual_rows$reviewed_at <- sheet_only_manual$reviewed_at
-    manual_rows$grandfathered <- sheet_only_manual$grandfathered
-    local_rows <- dplyr::bind_rows(local_rows, manual_rows)
+  sheet_only_human <- sheet_only[is_college_cuts_human_row_origin(sheet_only$row_origin), , drop = FALSE]
+  if (nrow(sheet_only_human) > 0L) {
+    human_rows <- rep_like_template_rows(empty_college_cuts_editorial_overrides(), nrow(sheet_only_human))
+    human_rows$cut_id <- sheet_only_human$cut_id
+    for (field_name in names(COLLEGE_CUTS_SHEET_SOURCE_MAP)) human_rows[[COLLEGE_CUTS_SHEET_SOURCE_MAP[[field_name]]]] <- sheet_only_human[[field_name]]
+    human_rows$source_source_title <- dplyr::coalesce(if ("source_title" %in% names(sheet_only)) trim_optional_text(sheet_only_human$source_title) else rep(NA_character_, nrow(sheet_only_human)), sheet_only_human$source_publication)
+    human_rows$first_seen <- dplyr::coalesce(sheet_only_human$first_seen, first_seen)
+    human_rows$review_status <- sheet_only_human$review_status
+    human_rows$reviewer <- sheet_only_human$reviewer
+    human_rows$reviewer_notes <- sheet_only_human$reviewer_notes
+    human_rows$reviewed_at <- sheet_only_human$reviewed_at
+    human_rows$grandfathered <- sheet_only_human$grandfathered
+    local_rows <- dplyr::bind_rows(local_rows, human_rows)
   }
 
   coerce_college_cuts_editorial_overrides(local_rows)

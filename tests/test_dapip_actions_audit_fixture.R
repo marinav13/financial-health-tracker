@@ -247,3 +247,113 @@ run_test("DAPIP actions and audit pipeline fixture", function() {
   assert_equal(gp_row$kept_count[[1]], 0L)
   assert_true(any(public_counts_df$public_table_strategy == "drop_from_public_table"))
 })
+
+run_test("Closure notice against stale DAPIP monitoring notice gets scraper_backed_keep", function() {
+  # Regression test for Hampshire College Apr 2026: the scraper had a notice
+  # row saying the board voted to cease operations, which was being paired with
+  # a stale 2019 DAPIP monitoring notice and getting dapip_backed_keep (hidden).
+  # Fix: scraper_action_family() classifies closure-language notices as
+  # "closure_exit_signal", breaking the family match so the DAPIP monitoring
+  # row becomes dapip_only and the scraper closure notice becomes scraper_only
+  # with scraper_backed_keep. The recommend_public_table_strategy() guard is a
+  # safety net for the within-tolerance edge case.
+  fixture_root <- tempfile("closure-notice-audit-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "scripts"),
+    file.path(fixture_root, "scripts", "shared"),
+    file.path(fixture_root, "data_pipelines"),
+    file.path(fixture_root, "data_pipelines", "accreditation")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  for (nm in c(
+    "shared/utils.R",
+    "shared/ipeds_paths.R",
+    "shared/name_normalization.R",
+    "shared/accreditation_helpers.R",
+    "shared/dapip_helpers.R",
+    "shared/export_helpers.R",
+    "build_dapip_vs_scraper_audit.R"
+  )) {
+    file.copy(
+      file.path(root, "scripts", nm),
+      file.path(fixture_root, "scripts", nm),
+      overwrite = TRUE
+    )
+  }
+
+  # DAPIP: stale monitoring notice from 2019 (~7 years before the closure notice)
+  dapip_df <- data.frame(
+    unitid = "208353",
+    institution_name_raw = "Hampshire College",
+    accreditor = "New England Commission of Higher Education",
+    action_type = "notice",
+    action_label_raw = "Issued a monitoring notice due to concerns about institutional resources.",
+    action_date = "2019-04-15",
+    source_url = "https://ope.ed.gov/dapip/#/institution-profile/208353",
+    source_page_url = "https://ope.ed.gov/dapip/#/institution-profile/208353",
+    file_id = "12345",
+    action_code = "HM",
+    action_description = "Heightened Monitoring or Focused Review",
+    mapped_action_family = "monitoring_or_notice",
+    keep_reason = "public_action_code",
+    notes = NA_character_,
+    label_source = NA_character_,
+    file_text_path = NA_character_,
+    stringsAsFactors = FALSE
+  )
+
+  # Scraper: 2026 closure notice. Before the fix this got dapip_backed_keep
+  # (buried under the 2019 DAPIP row). After the fix it must be scraper_backed_keep.
+  scraper_df <- data.frame(
+    unitid = "208353",
+    tracker_name = "Hampshire College",
+    institution_name_raw = "Hampshire College",
+    accreditor = "New England Commission of Higher Education",
+    action_type = "notice",
+    action_label_raw = "Board of Trustees voted to cease operations effective June 30, 2026.",
+    action_date = "2026-04-01",
+    source_url = "https://www.neche.org/notice/hampshire-2026/",
+    notes = NA_character_,
+    stringsAsFactors = FALSE
+  )
+
+  dapip_path <- file.path(fixture_root, "data_pipelines", "accreditation", "dapip_filtered.csv")
+  scraper_path <- file.path(fixture_root, "data_pipelines", "accreditation", "scraper.csv")
+  readr::write_csv(dapip_df, dapip_path, na = "")
+  readr::write_csv(scraper_df, scraper_path, na = "")
+
+  setwd(fixture_root)
+  env_audit <- new.env(parent = globalenv())
+  sys.source(file.path(fixture_root, "scripts", "build_dapip_vs_scraper_audit.R"), envir = env_audit)
+  env_audit$main(c(
+    "--dapip-input", dapip_path,
+    "--scraper-input", scraper_path,
+    "--output-prefix", file.path(fixture_root, "data_pipelines", "accreditation", "dapip"),
+    "--date-tolerance-days", "45"
+  ))
+
+  audit_path <- file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv")
+  audit_df <- readr::read_csv(audit_path, show_col_types = FALSE)
+
+  closure_row <- audit_df[
+    !is.na(audit_df$scraper_action_label) &
+      grepl("voted to cease", tolower(audit_df$scraper_action_label), fixed = TRUE),
+    , drop = FALSE
+  ]
+  assert_true(nrow(closure_row) >= 1L, "Closure notice should appear in audit output.")
+  assert_equal(
+    closure_row$public_table_strategy[[1]],
+    "scraper_backed_keep"
+  )
+  assert_true(
+    isTRUE(closure_row$scraper_public_keep[[1]]),
+    "scraper_public_keep (display_action) must be TRUE for the closure notice."
+  )
+})

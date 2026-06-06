@@ -119,6 +119,7 @@ main <- function(cli_args = NULL) {
       at == "probation" ~ "probation",
       at == "warning" ~ "warning",
       at == "show_cause" ~ "show_cause",
+      at == "notice" & stringr::str_detect(lbl, "cease.*operations|cease.*instruction|institution(?:al)? will close|voted.*cease|voluntar(?:ily|y) surrender|board of trustees voted") ~ "closure_exit_signal",
       at == "notice" ~ "monitoring_or_notice",
       at == "removed" ~ "removed",
       at == "adverse_action" & stringr::str_detect(lbl, "withdraw|withdrawal|surrender|loss of accreditation|denied|closure|teach-out|terminate") ~ "withdrawal_or_loss",
@@ -453,7 +454,7 @@ main <- function(cli_args = NULL) {
     (generic_dapip || no_file) && scraper_has_detail
   }
 
-  recommend_public_table_strategy <- function(audit_result, scraper_keep, dapip_keep, scraper_label, dapip_label, dapip_file_id = NA_character_) {
+  recommend_public_table_strategy <- function(audit_result, scraper_keep, dapip_keep, scraper_label, dapip_label, dapip_file_id = NA_character_, scraper_eval_reason = NA_character_, dapip_family = NA_character_) {
     if (!isTRUE(scraper_keep) && !isTRUE(dapip_keep)) {
       return(list(strategy = "drop_from_public_table", hybrid = FALSE, hybrid_reason = NA_character_))
     }
@@ -469,6 +470,16 @@ main <- function(cli_args = NULL) {
       return(list(strategy = "hybrid_keep", hybrid = TRUE, hybrid_reason = "scraper_detail_enriches_generic_or_fileless_dapip"))
     }
 
+    # Safety net: a scraper closure/exit signal must always outrank a stale
+    # DAPIP monitoring row, regardless of date delta. Without this guard the
+    # default dapip_backed_keep would bury the scraper closure notice under
+    # an unrelated old monitoring notice (e.g. Hampshire College Apr 2026
+    # board-voted-to-cease row matched to a 2019 NECHE monitoring notice).
+    if (isTRUE(scraper_keep) && isTRUE(dapip_keep) &&
+        identical(as.character(scraper_eval_reason), "closure_teachout_or_exit_signal") &&
+        as.character(dapip_family) %in% c("monitoring_or_notice", "monitoring")) {
+      return(list(strategy = "scraper_backed_keep", hybrid = FALSE, hybrid_reason = NA_character_))
+    }
     list(strategy = "dapip_backed_keep", hybrid = FALSE, hybrid_reason = NA_character_)
   }
 
@@ -622,7 +633,9 @@ main <- function(cli_args = NULL) {
         dapip_keep = dapip_eval$keep %||% FALSE,
         scraper_label = scraper_action_label,
         dapip_label = action_label_raw,
-        dapip_file_id = file_id
+        dapip_file_id = file_id,
+        scraper_eval_reason = scraper_eval$reason %||% NA_character_,
+        dapip_family = dapip_family
       )),
       scraper_public_keep = scraper_eval$keep %||% FALSE,
       scraper_public_reason = value_or_na(scraper_eval$reason),

@@ -9,6 +9,7 @@ Accrediting Council for Independent Colleges and Schools,drop_from_public_table,
 Accrediting Council for Independent Colleges and Schools,drop_from_public_table,warning,5
 Accrediting Council for Independent Colleges and Schools,drop_from_public_table,withdrawal_or_loss,6
 "Association for Biblical Higher Education, Commission on Accreditation",drop_from_public_table,monitoring_or_notice,6
+"Association for Biblical Higher Education, Commission on Accreditation",drop_from_public_table,ownership_change,1
 "Association for Biblical Higher Education, Commission on Accreditation",drop_from_public_table,probation,5
 "Association for Biblical Higher Education, Commission on Accreditation",drop_from_public_table,removed,2
 "Association for Biblical Higher Education, Commission on Accreditation",drop_from_public_table,show_cause,2
@@ -18,6 +19,7 @@ Accrediting Council for Independent Colleges and Schools,drop_from_public_table,
 Association of Institutions of Jewish Studies,drop_from_public_table,withdrawal_or_loss,5
 Commission on Accrediting of the Association of Theological Schools,drop_from_public_table,removed,1
 Commission on Accrediting of the Association of Theological Schools,drop_from_public_table,warning,1
+Distance Education Accrediting Commission,drop_from_public_table,ownership_change,1
 Distance Education Accrediting Commission,drop_from_public_table,removed,2
 Distance Education Accrediting Commission,drop_from_public_table,show_cause,6
 Distance Education Accrediting Commission,drop_from_public_table,withdrawal_or_loss,1
@@ -25,66 +27,72 @@ HLC,dapip_backed_keep,monitoring_or_notice,1
 HLC,dapip_backed_keep,probation,11
 HLC,dapip_backed_keep,removed,19
 HLC,dapip_backed_keep,warning,5
-HLC,dapip_backed_keep,withdrawal_or_loss,1
-HLC,drop_from_public_table,institutional_change_or_closure,12
+HLC,dapip_backed_keep,withdrawal_or_loss,3
+HLC,drop_from_public_table,institutional_change_or_closure,13
 HLC,drop_from_public_table,monitoring_or_notice,14
-HLC,drop_from_public_table,other,2260
-HLC,hybrid_keep,withdrawal_or_loss,2
+HLC,drop_from_public_table,other,2358
 HLC,scraper_backed_keep,adverse_action_other,11
-HLC,scraper_backed_keep,institutional_change_or_closure,46
-HLC,scraper_backed_keep,other,13
+HLC,scraper_backed_keep,institutional_change_or_closure,49
+HLC,scraper_backed_keep,monitoring_or_notice,1
+HLC,scraper_backed_keep,other,22
 HLC,scraper_backed_keep,probation,11
-HLC,scraper_backed_keep,removed,11
-HLC,scraper_backed_keep,withdrawal_or_loss,59
+HLC,scraper_backed_keep,removed,10
+HLC,scraper_backed_keep,withdrawal_or_loss,51
+MSCHE,dapip_backed_keep,ownership_change,22
 MSCHE,dapip_backed_keep,probation,5
-MSCHE,dapip_backed_keep,removed,18
+MSCHE,dapip_backed_keep,removed,19
 MSCHE,dapip_backed_keep,show_cause,7
 MSCHE,dapip_backed_keep,warning,28
 MSCHE,dapip_backed_keep,withdrawal_or_loss,16
-MSCHE,drop_from_public_table,adverse_action_other,351
-MSCHE,drop_from_public_table,institutional_change_or_closure,63
-MSCHE,drop_from_public_table,monitoring_or_notice,5
-MSCHE,drop_from_public_table,other,3555
-MSCHE,drop_from_public_table,probation,100
-MSCHE,drop_from_public_table,show_cause,18
-MSCHE,drop_from_public_table,warning,272
-MSCHE,drop_from_public_table,withdrawal_or_loss,55
-MSCHE,scraper_backed_keep,adverse_action_other,1
-MSCHE,scraper_backed_keep,institutional_change_or_closure,4
-MSCHE,scraper_backed_keep,other,2
-MSCHE,scraper_backed_keep,show_cause,15
+MSCHE,drop_from_public_table,adverse_action_other,350
+MSCHE,drop_from_public_table,institutional_change_or_closure,146
+MSCHE,drop_from_public_table,monitoring_or_notice,7
+MSCHE,drop_from_public_table,other,3391
+MSCHE,drop_from_public_table,ownership_change,3
+MSCHE,drop_from_public_table,probation,99
+MSCHE,drop_from_public_table,removed,48
+MSCHE,drop_from_public_table,show_cause,29
+MSCHE,drop_from_public_table,warning,257
+MSCHE,drop_from_public_table,withdrawal_or_loss,95
+MSCHE,scraper_backed_keep,adverse_action_other,2
+MSCHE,scraper_backed_keep,institutional_change_or_closure,22
+MSCHE,scraper_backed_keep,other,32
+MSCHE,scraper_backed_keep,show_cause,6
 MSCHE,scraper_backed_keep,warning,2
-MSCHE,scraper_backed_keep,withdrawal_or_loss,22
-NECHE,dapip_backed_keep,monitoring_or_notice,4
+MSCHE,scraper_backed_keep,withdrawal_or_loss,21
+NECHE,dapip_backed_keep,monitoring_or_notice,3
 NECHE,dapip_backed_keep,probation,1
 NECHE,dapip_backed_keep,removed,1
 NECHE,dapip_backed_keep,show_cause,1
 NECHE,dapip_backed_keep,withdrawal_or_loss,5
-NECHE,drop_from_public_table,monitoring_or_notice,4
-NECHE,hybrid_keep,monitoring_or_notice,1
+NECHE,drop_from_public_table,monitoring_or_notice,8
+NECHE,hybrid_keep,monitoring_or_notice,2
 NECHE,hybrid_keep,withdrawal_or_loss,1
 NECHE,scraper_backed_keep,adverse_action_other,1
+NECHE,scraper_backed_keep,closure_exit_signal,3
 NECHE,scraper_backed_keep,institutional_change_or_closure,1
-NECHE,scraper_backed_keep,monitoring_or_notice,7
-NECHE,scraper_backed_keep,probation,2
-NECHE,scraper_backed_keep,show_cause,8
+NECHE,scraper_backed_keep,monitoring_or_notice,6
+NECHE,scraper_backed_keep,probation,1
+NECHE,scraper_backed_keep,show_cause,3
 NECHE,scraper_backed_keep,withdrawal_or_loss,11
 NWCCU,dapip_backed_keep,removed,2
 NWCCU,dapip_backed_keep,show_cause,1
-NWCCU,dapip_backed_keep,warning,2
+NWCCU,dapip_backed_keep,warning,3
+NWCCU,scraper_backed_keep,warning,1
 "National Association of Schools of Art and Design, Commission on Accreditation",drop_from_public_table,withdrawal_or_loss,16
 "National Association of Schools of Music, Commission on Accreditation",drop_from_public_table,withdrawal_or_loss,4
 "New York State Board of Regents, and the Commissioner of Education",drop_from_public_table,monitoring_or_notice,3
-SACSCOC,dapip_backed_keep,monitoring_or_notice,119
+SACSCOC,dapip_backed_keep,monitoring_or_notice,122
+SACSCOC,dapip_backed_keep,ownership_change,2
 SACSCOC,dapip_backed_keep,probation,17
 SACSCOC,dapip_backed_keep,removed,106
-SACSCOC,dapip_backed_keep,show_cause,19
+SACSCOC,dapip_backed_keep,show_cause,20
 SACSCOC,dapip_backed_keep,warning,43
-SACSCOC,dapip_backed_keep,withdrawal_or_loss,7
-SACSCOC,drop_from_public_table,monitoring_or_notice,582
+SACSCOC,dapip_backed_keep,withdrawal_or_loss,8
+SACSCOC,drop_from_public_table,monitoring_or_notice,587
 SACSCOC,drop_from_public_table,other,6
+SACSCOC,drop_from_public_table,ownership_change,10
 SACSCOC,drop_from_public_table,removed,13
-SACSCOC,drop_from_public_table,show_cause,1
 SACSCOC,drop_from_public_table,withdrawal_or_loss,1
 SACSCOC,hybrid_keep,probation,4
 SACSCOC,hybrid_keep,removed,34
@@ -93,22 +101,24 @@ SACSCOC,scraper_backed_keep,adverse_action_other,2
 SACSCOC,scraper_backed_keep,monitoring_or_notice,3
 SACSCOC,scraper_backed_keep,probation,7
 SACSCOC,scraper_backed_keep,removed,25
-SACSCOC,scraper_backed_keep,warning,6
-SACSCOC,scraper_backed_keep,withdrawal_or_loss,3
+SACSCOC,scraper_backed_keep,warning,7
+SACSCOC,scraper_backed_keep,withdrawal_or_loss,2
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,probation,7
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,removed,5
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,show_cause,3
 "Transnational Association of Christian Colleges and Schools, Accreditation Commission",drop_from_public_table,warning,4
 WSCUC,dapip_backed_keep,monitoring_or_notice,20
+WSCUC,dapip_backed_keep,ownership_change,4
 WSCUC,dapip_backed_keep,probation,3
 WSCUC,dapip_backed_keep,removed,15
 WSCUC,dapip_backed_keep,show_cause,1
 WSCUC,dapip_backed_keep,warning,5
 WSCUC,dapip_backed_keep,withdrawal_or_loss,4
-WSCUC,drop_from_public_table,monitoring_or_notice,9
+WSCUC,drop_from_public_table,monitoring_or_notice,7
+WSCUC,drop_from_public_table,ownership_change,5
 WSCUC,hybrid_keep,monitoring_or_notice,1
 WSCUC,hybrid_keep,show_cause,1
-WSCUC,scraper_backed_keep,monitoring_or_notice,8
+WSCUC,scraper_backed_keep,monitoring_or_notice,10
 WSCUC,scraper_backed_keep,probation,3
 WSCUC,scraper_backed_keep,removed,2
 WSCUC,scraper_backed_keep,show_cause,1

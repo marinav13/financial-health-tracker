@@ -16,14 +16,14 @@
   "summary": {
     "latest_year": 2024,
     "enrollment_pct_change_5yr": 0.469,
-    "sector_median_enrollment_pct_change_5yr": -4.2732,
+    "sector_median_enrollment_pct_change_5yr": -4.3185,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": -7.9273,
-    "sector_median_revenue_pct_change_5yr": -1.3261,
+    "sector_median_revenue_pct_change_5yr": -1.3735,
     "net_tuition_per_fte_change_5yr": -25.9014,
-    "sector_median_net_tuition_per_fte_change_5yr": -17.7529,
+    "sector_median_net_tuition_per_fte_change_5yr": -17.789,
     "staff_total_headcount_pct_change_5yr": 1.2732,
-    "sector_median_staff_total_headcount_pct_change_5yr": 0.3908,
+    "sector_median_staff_total_headcount_pct_change_5yr": 0.516,
     "staff_instructional_headcount_pct_change_5yr": 4.6228,
     "students_per_instructional_staff_fte": 28,
     "sector_median_students_per_instructional_staff_fte": 16,
@@ -31,7 +31,7 @@
     "losses_last_3_of_5": "Yes",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 19.045,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": "This college got 19.0% of its revenue from net tuition in 2024, below the median of 21% for public colleges.",
     "unfunded_discount_rate": 45.9246,
     "unfunded_discount_pct_change_5yr": 16.4279,
@@ -61,9 +61,9 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 13.2372,
     "state_funding_pct_change_5yr": 2.6103,
     "endowment_assets_per_fte_adjusted": 3330.2546,
-    "sector_median_endowment_assets_per_fte_adjusted": 12637.3807,
+    "sector_median_endowment_assets_per_fte_adjusted": 12654.749,
     "endowment_pct_change_5yr": 1.0721,
-    "sector_median_endowment_pct_change_5yr": 19.1807,
+    "sector_median_endowment_pct_change_5yr": 19.147,
     "endowment_spending_current_use_pct_core_revenue": 0.0051,
     "graduation_rate_6yr": 78,
     "median_earnings_10yr": 58308,
@@ -829,5 +829,47 @@
         "value": 482492685
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Voluntarily Surrendered Accreditation",
+    "active_actions": "adverse_action",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": true,
+    "latest_action_date": "2025-12-31",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "adverse_action",
+      "action_label": "Voluntary Withdrawal Received",
+      "action_label_short": "Voluntarily Surrendered Accreditation",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-12-31",
+      "action_year": "2025",
+      "notes": "Voluntary Withdrawal Received | Changed accreditors",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/109174",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/109174"
+    }
+  ]
 }

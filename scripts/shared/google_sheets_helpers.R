@@ -57,6 +57,16 @@ authenticate_google_sheets <- function(auth_json = Sys.getenv("GOOGLE_APPLICATIO
       cache = FALSE
     )
   } else {
+    if (!interactive()) {
+      stop(
+        paste(
+          "Google Sheets auth in non-interactive Rscript sessions requires a service account JSON.",
+          "Set GOOGLE_APPLICATION_CREDENTIALS or pass --auth-json.",
+          "GitHub workflows provide this automatically; local manual checks do not."
+        ),
+        call. = FALSE
+      )
+    }
     if (verbose) {
       message("Authenticating with interactive OAuth cache at: ", cache_dir)
     }

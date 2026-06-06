@@ -28,6 +28,16 @@ main <- function(cli_args = NULL) {
   rewrite_sheet <- has_flag("--rewrite-sheet")
   verbose <- has_flag("--verbose")
 
+  if (isTRUE(rewrite_sheet)) {
+    stop(
+      paste(
+        "College cuts review sheet rewrites are disabled.",
+        "This workflow is append-only so existing human-reviewed rows are never replaced or deleted."
+      ),
+      call. = FALSE
+    )
+  }
+
   require_existing_local_file(
     input_path,
     "college cuts review candidates",
@@ -105,22 +115,7 @@ main <- function(cli_args = NULL) {
     )
     sheet_append_count <- nrow(sheet_append_rows)
 
-    if (isTRUE(rewrite_sheet)) {
-      if (verbose) {
-        message("Rewriting college cuts review sheet tab: ", sheet_tab)
-      }
-      googlesheets4::sheet_write(
-        data = format_college_cuts_sheet_headers(
-          build_college_cuts_review_sheet_rows(
-            sheet_staged,
-            tracker_unitids = tracker_unitids
-          )
-        ),
-        ss = sheet_target,
-        sheet = sheet_tab
-      )
-      sheet_append_count <- nrow(sheet_staged)
-    } else if (!nrow(sheet_rows)) {
+    if (!nrow(sheet_rows)) {
       if (verbose) {
         message("Writing initial college cuts review sheet tab: ", sheet_tab)
       }

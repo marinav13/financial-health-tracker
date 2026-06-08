@@ -42,10 +42,10 @@
       : "";
     return `
       <article class="data-card data-card--cut">
-        <h3>${escapeHtml(cleanCutLabel(cut.program_name) || "Unnamed cut")}</h3>
+        <h3>${escapeHtml(cut.cut_label_public || cleanCutLabel(cut.program_name) || "Unnamed cut")}</h3>
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
-        ${cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : ""}
+        ${cut.cut_summary_public ? `<p>${escapeHtml(cut.cut_summary_public)}</p>` : (cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : "")}
         ${source}
       </article>
     `;
@@ -89,7 +89,7 @@
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = items.map((cut) => [
       renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
-      cleanCutLabel(cut.program_name),
+      cleanCutLabel(cut.cut_label_public || cut.program_name),
       cut.state,
       cut.control_label,
       cut.announcement_date || cut.announcement_year || ""
@@ -191,7 +191,7 @@
         cut.institution_name || "",
         cut.state || "",
         cut.control_label || "",
-        cleanCutLabel(cut.program_name),
+        cleanCutLabel(cut.cut_label_public || cut.program_name),
         cut.announcement_date || cut.announcement_year || "",
         cut.source_url || ""
       ]
@@ -350,7 +350,7 @@
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
-            cleanCutLabel(cut.program_name),
+            cleanCutLabel(cut.cut_label_public || cut.program_name),
             cut.announcement_date || cut.announcement_year || "",
             cut.source_url || ""
           ])

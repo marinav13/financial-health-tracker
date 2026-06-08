@@ -396,6 +396,17 @@ main <- function(cli_args = NULL) {
     }
   }
 
+  # Strip internal triage bracket tags like [staff], [faculty] from notes text.
+  # These are CollegeCuts workflow markers and must not appear in public output.
+  strip_cut_bracket_tags <- function(x) {
+    value <- trimws(as.character(x %||% ""))
+    if (!nzchar(value)) return(NA_character_)
+    value <- gsub("\\[[A-Za-z0-9_/-]+\\]\\s*", "", value, perl = TRUE)
+    value <- trimws(gsub("\\s{2,}", " ", value))
+    if (!nzchar(value)) return(NA_character_)
+    value
+  }
+
   # --api-cuts-csv allows tests and offline runs to supply a pre-built CSV
   # (same column schema as cuts_raw below) instead of calling the live API.
   api_cuts_csv_path <- get_arg_value("--api-cuts-csv")
@@ -413,7 +424,10 @@ main <- function(cli_args = NULL) {
       )
     ) |>
       dplyr::filter(!is.na(institution_name_collegecuts), nzchar(institution_name_collegecuts)) |>
-      dplyr::mutate(norm_name = normalize_name(institution_name_collegecuts)) |>
+      dplyr::mutate(
+        notes    = strip_cut_bracket_tags(notes),
+        norm_name = normalize_name(institution_name_collegecuts)
+      ) |>
       dplyr::left_join(
         fallback_lookup,
         by = c("norm_name", "institution_state_full" = "state_full")
@@ -446,7 +460,7 @@ main <- function(cli_args = NULL) {
       students_affected            = sa,
       faculty_affected             = fa,
       cip_code                     = x$cipCode %||% NA_character_,
-      notes                        = x$notes %||% NA_character_,
+      notes                        = strip_cut_bracket_tags(x$notes %||% NA_character_),
       institution_id               = NA_character_,
       institution_name_collegecuts = if (nzchar(inst)) inst else NA_character_,
       institution_city             = NA_character_,

@@ -5304,3 +5304,128 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
   }
   .capitalize_summary_head(trimws(stringr::str_sub(raw, 1L, 200L)))
 }
+
+# ---------------------------------------------------------------------------
+# College cuts public text helpers
+# ---------------------------------------------------------------------------
+
+# Strip bracket role tags like [staff], [faculty], [program], [admin] from text.
+# These are internal triage markers from the CollegeCuts data entry workflow.
+normalize_cut_notes_text <- function(x) {
+  value <- trimws(as.character(x %||% ""))
+  if (!nzchar(value)) return(NA_character_)
+  value <- gsub("\\[[A-Za-z0-9_/-]+\\]\\s*", "", value, perl = TRUE)
+  value <- trimws(gsub("\\s{2,}", " ", value))
+  if (!nzchar(value)) return(NA_character_)
+  value
+}
+
+# Splits notes text into sentences conservatively.
+# Does NOT split on semicolons, em dashes, or common numeric shorthand.
+split_cut_summary_sentences <- function(x) {
+  value <- trimws(as.character(x %||% ""))
+  if (!nzchar(value)) return(character(0))
+  # Protect number-period and single-capital-letter-period patterns.
+  protected <- gsub("([0-9])\\.", "\\1\x01", value, perl = TRUE)
+  protected <- gsub("\\b([A-Z])\\.", "\\1\x01", protected, perl = TRUE)
+  parts <- strsplit(protected, "(?<=\\.)\\s+(?=[A-Z])", perl = TRUE)[[1]]
+  sentences <- gsub("\x01", ".", parts, fixed = TRUE)
+  sentences <- trimws(sentences)
+  sentences[nzchar(sentences)]
+}
+
+# Five generic fallback labels that signal the cut has no action description.
+.GENERIC_CUT_LABELS <- c(
+  "Staff layoff",
+  "Institution closure",
+  "Department closure",
+  "Hiring freeze",
+  "Programs suspended"
+)
+
+# Pattern matching common action verbs in a cut label.
+.CUT_ACTION_VERB_PATTERN <- paste(
+  "\\bcut[s]?\\b", "\\blay[s]?\\s+off\\b", "\\blaid\\s+off\\b",
+  "\\bclose[sd]?\\b", "\\bclosing\\b", "\\beliminate[sd]?\\b",
+  "\\brestructure[sd]?\\b", "\\bsuspend[sed]?\\b", "\\breduces?\\b",
+  "\\bdissolve[sd]?\\b", "\\bshutter[sed]?\\b", "\\bconsolidate[sd]?\\b",
+  "\\bfreeze[sd]?\\b", "\\bfreezing\\b", "\\bdismiss[ed]?\\b",
+  "\\bterminate[sd]?\\b", "\\bannounce[sd]?\\b", "\\bplan[ns]?\\s+to\\b",
+  "\\blose[s]?\\b", "\\blosing\\b", "\\bwill\\b",
+  "\\bloss\\b", "\\bimpact[s]?\\b", "\\baffect[s]?\\b",
+  "\\bjob[s]?\\b", "\\bposition[s]?\\b",
+  sep = "|"
+)
+
+# Returns TRUE when the program_name is generic or lacks an action verb.
+program_name_needs_action_fallback <- function(program_name) {
+  value <- trimws(as.character(program_name %||% ""))
+  if (!nzchar(value)) return(TRUE)
+  if (value %in% .GENERIC_CUT_LABELS) return(TRUE)
+  !grepl(.CUT_ACTION_VERB_PATTERN, value, ignore.case = TRUE, perl = TRUE)
+}
+
+# Truncates x to at most max_chars characters at a word boundary.
+.truncate_cut_label <- function(x, max_chars = 160L) {
+  if (is.na(x) || !nzchar(trimws(x))) return(x)
+  x <- trimws(x)
+  if (nchar(x, type = "chars") <= max_chars) return(x)
+  candidate <- substr(x, 1L, max_chars)
+  last_ws  <- regexpr(".*\\s", candidate, perl = TRUE)
+  end_pos  <- if (last_ws > 0L) last_ws + attr(last_ws, "match.length") - 1L else max_chars
+  candidate <- trimws(sub("[,;:]+$", "", substr(candidate, 1L, end_pos)))
+  paste0(candidate, "\u2026")
+}
+
+# Derives the public short label for a cut (max 160 chars).
+# Precedence:
+#   1. approved override_cut_label (if provided and non-empty)
+#   2. first sentence of cleaned notes when program_name is generic/actionless
+#   3. program_name as-is when it already reads like an action sentence
+derive_cut_label_public <- function(program_name,
+                                    notes,
+                                    override_cut_label = NA_character_,
+                                    max_chars = 160L) {
+  ov <- trimws(as.character(override_cut_label %||% ""))
+  if (!is.na(override_cut_label) && nzchar(ov)) {
+    return(.truncate_cut_label(ov, max_chars))
+  }
+
+  pn <- trimws(as.character(program_name %||% ""))
+
+  if (program_name_needs_action_fallback(pn)) {
+    clean_notes <- normalize_cut_notes_text(notes)
+    if (!is.na(clean_notes) && nzchar(clean_notes)) {
+      sentences <- split_cut_summary_sentences(clean_notes)
+      if (length(sentences) > 0L) {
+        candidate <- trimws(sentences[[1L]])
+        if (nzchar(candidate)) {
+          return(.truncate_cut_label(candidate, max_chars))
+        }
+      }
+    }
+  }
+
+  if (nzchar(pn)) return(.truncate_cut_label(pn, max_chars))
+  NA_character_
+}
+
+# Derives the public institution-page summary for a cut (max 4 sentences).
+# Precedence:
+#   1. approved override_cut_summary (if provided and non-empty)
+#   2. cleaned notes capped to 4 sentences
+derive_cut_summary_public <- function(notes,
+                                      override_cut_summary = NA_character_,
+                                      max_sentences = 4L) {
+  ov <- trimws(as.character(override_cut_summary %||% ""))
+  if (!is.na(override_cut_summary) && nzchar(ov)) return(ov)
+
+  clean_notes <- normalize_cut_notes_text(notes)
+  if (is.na(clean_notes) || !nzchar(clean_notes)) return(NA_character_)
+
+  sentences <- split_cut_summary_sentences(clean_notes)
+  if (!length(sentences)) return(clean_notes)
+
+  capped <- sentences[seq_len(min(length(sentences), max_sentences))]
+  trimws(paste(capped, collapse = " "))
+}

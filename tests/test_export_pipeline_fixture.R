@@ -745,6 +745,21 @@ run_test("Web export pipeline fixture", function() {
     assert_true(f %in% names(cuts_df),
       sprintf("cuts data.frame should have column '%s'.", f))
   }
+  for (f in c("cut_label_public", "cut_summary_public")) {
+    assert_true(f %in% names(cuts_df),
+      sprintf("cuts data.frame should have public field '%s'.", f))
+  }
+  assert_true(!is.null(school_cuts$latest_cut_label) || !is.null(school_cuts[["latest_cut_label"]]),
+    "cuts_export school entry should have 'latest_cut_label'.")
+  # cut_label_public for the fixture cut ("Humanities" program name has action context from notes).
+  # The fixture notes text is "Twelve faculty positions affected" — no action verb in "Humanities",
+  # so cut_label_public should use the first sentence of notes.
+  cut_label_public_val <- if (is.data.frame(cuts_df)) cuts_df$cut_label_public[[1]] else cuts_df$cut_label_public
+  assert_true(!is.na(cut_label_public_val) && nzchar(trimws(cut_label_public_val %||% "")),
+    paste0("cut_label_public should be non-empty. Got: ", cut_label_public_val))
+  cut_summary_public_val <- if (is.data.frame(cuts_df)) cuts_df$cut_summary_public[[1]] else cuts_df$cut_summary_public
+  assert_true(is.na(cut_summary_public_val) || is.character(cut_summary_public_val),
+    "cut_summary_public should be character or NA.")
 
   # ── accreditation.json ──────────────────────────────────────────────────────
   assert_identical(length(accreditation_export$schools), 1L)

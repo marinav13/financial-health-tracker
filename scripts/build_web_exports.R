@@ -343,6 +343,19 @@ build_cuts_export <- function() {
           cut_type[[i]]
         ),
         integer(1)
+      ),
+      generated_cut_label = vapply(
+        seq_len(n()),
+        function(i) derive_cut_label_public(
+          program_name = program_name[[i]],
+          notes        = notes[[i]]
+        ),
+        character(1)
+      ),
+      generated_cut_summary = vapply(
+        seq_len(n()),
+        function(i) derive_cut_summary_public(notes = notes[[i]]),
+        character(1)
       )
     )
 
@@ -400,6 +413,18 @@ build_cuts_export <- function() {
 
   if (nrow(cuts) == 0) return(NULL)
 
+  # Compute public label and summary fields using approved overrides when present.
+  {
+    approved_label_ov <- if ("cut_label_override_effective" %in% names(cuts)) cuts$cut_label_override_effective else rep(NA_character_, nrow(cuts))
+    approved_summary_ov <- if ("cut_summary_override_effective" %in% names(cuts)) cuts$cut_summary_override_effective else rep(NA_character_, nrow(cuts))
+    cuts$cut_label_public <- vapply(seq_len(nrow(cuts)), function(i)
+      derive_cut_label_public(cuts$program_name[[i]], cuts$notes[[i]], approved_label_ov[[i]]),
+      character(1))
+    cuts$cut_summary_public <- vapply(seq_len(nrow(cuts)), function(i)
+      derive_cut_summary_public(cuts$notes[[i]], approved_summary_ov[[i]]),
+      character(1))
+  }
+
   recent <- cuts %>%
     arrange(desc(announcement_date), desc(announcement_year)) %>%
     slice_head(n = 25) %>%
@@ -416,6 +441,8 @@ build_cuts_export <- function() {
       announcement_date = announcement_date,
       announcement_year = announcement_year,
       program_name = program_name,
+      cut_label_public = cut_label_public,
+      cut_summary_public = cut_summary_public,
       cut_type = cut_type,
       status = status,
       effective_term = effective_term,
@@ -441,13 +468,15 @@ build_cuts_export <- function() {
       control_label = latest$control_label_display[[1]],
       category = latest$category_display[[1]],
       latest_cut_date = or_null(latest$announcement_date),
-      latest_cut_label = or_null(latest$program_name),
+      latest_cut_label = or_null(latest$cut_label_public) %||% or_null(latest$program_name),
       cut_count = nrow(df),
       cuts = lapply(seq_len(nrow(df)), function(i) {
         list(
           announcement_date = or_null(df$announcement_date[i]),
           announcement_year = or_null(df$announcement_year[i]),
           program_name = or_null(df$program_name[i]),
+          cut_label_public = or_null(df$cut_label_public[i]),
+          cut_summary_public = or_null(df$cut_summary_public[i]),
           cut_type = or_null(df$cut_type[i]),
           status = or_null(df$status[i]),
           effective_term = or_null(df$effective_term[i]),

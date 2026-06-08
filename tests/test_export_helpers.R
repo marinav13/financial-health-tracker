@@ -2947,3 +2947,86 @@ run_test("derive_action_label_short: MSCHE completed merger notifications use th
     "Merger of Salus University with Drexel University (effective June 30, 2024)"
   )
 })
+run_test("normalize_cut_notes_text strips bracket tags and preserves substantive content", function() {
+  assert_identical(
+    normalize_cut_notes_text("[staff] University cuts 20 positions amid budget deficit."),
+    "University cuts 20 positions amid budget deficit."
+  )
+  assert_identical(
+    normalize_cut_notes_text("[faculty] [admin] Department closure effective June 30."),
+    "Department closure effective June 30."
+  )
+  assert_identical(
+    normalize_cut_notes_text("No tags here, just text."),
+    "No tags here, just text."
+  )
+  assert_true(is.na(normalize_cut_notes_text("[staff]")),
+              "All-tag input should return NA")
+  assert_true(is.na(normalize_cut_notes_text(NA_character_)),
+              "NA input should return NA")
+  assert_true(is.na(normalize_cut_notes_text("")),
+              "Empty input should return NA")
+})
+
+run_test("program_name_needs_action_fallback identifies generic and actionless labels", function() {
+  # Generic fallback labels
+  assert_true(program_name_needs_action_fallback("Staff layoff"))
+  assert_true(program_name_needs_action_fallback("Institution closure"))
+  assert_true(program_name_needs_action_fallback("Department closure"))
+  assert_true(program_name_needs_action_fallback("Hiring freeze"))
+  assert_true(program_name_needs_action_fallback("Programs suspended"))
+  # Proper-noun unit names (no action verb)
+  assert_true(program_name_needs_action_fallback("Early Childhood Center"))
+  assert_true(program_name_needs_action_fallback("Men's tennis"))
+  assert_true(program_name_needs_action_fallback("Earth and Atmospheric Sciences"))
+  assert_true(program_name_needs_action_fallback("MADE Program"))
+  # Action sentences (should NOT need fallback)
+  assert_true(!program_name_needs_action_fallback("University cuts 20 positions amid deficit."))
+  assert_true(!program_name_needs_action_fallback("History BA program will close."))
+  assert_true(!program_name_needs_action_fallback("Center for a Regenerative Future closed after 3 years."))
+  assert_true(!program_name_needs_action_fallback("Energy research center lays off 27 amid federal delays."))
+})
+
+run_test("derive_cut_label_public uses override, notes fallback, then program_name", function() {
+  # Override takes precedence
+  assert_identical(
+    derive_cut_label_public("Staff layoff", "University cuts 20 staff.", "Editor label"),
+    "Editor label"
+  )
+  # Generic program_name -> first sentence of notes
+  assert_identical(
+    derive_cut_label_public("Staff layoff", "University cuts 20 positions amid budget deficit. The positions include admin roles."),
+    "University cuts 20 positions amid budget deficit."
+  )
+  # Actionless proper-noun -> first sentence of notes
+  assert_identical(
+    derive_cut_label_public("Early Childhood Center", "University closes the Early Childhood Center effective May 2026."),
+    "University closes the Early Childhood Center effective May 2026."
+  )
+  # Action sentence program_name -> use it as-is (no fallback needed)
+  result <- derive_cut_label_public("Center for Regenerative Future closed after 3 years of budget decline.", NA_character_)
+  assert_true(grepl("Center for Regenerative Future", result, fixed = TRUE))
+  # Label truncated at 160 chars at word boundary
+  long_text <- paste(rep("word ", 50), collapse = "")
+  result_long <- derive_cut_label_public("Staff layoff", long_text)
+  assert_true(nchar(result_long) <= 163, # 160 + ellipsis (3 bytes)
+              paste("Label should be at most ~163 chars. Got:", nchar(result_long)))
+})
+
+run_test("derive_cut_summary_public caps to 4 sentences and uses override", function() {
+  # Override
+  assert_identical(
+    derive_cut_summary_public("Long notes here.", "Override summary."),
+    "Override summary."
+  )
+  # 4-sentence cap
+  notes <- "Sentence one. Sentence two. Sentence three. Sentence four. Sentence five should be dropped."
+  result <- derive_cut_summary_public(notes)
+  assert_true(!grepl("Sentence five", result, fixed = TRUE),
+              "Fifth sentence should be dropped.")
+  assert_true(grepl("Sentence four", result, fixed = TRUE),
+              "Fourth sentence should be kept.")
+  # NA notes -> NA
+  assert_true(is.na(derive_cut_summary_public(NA_character_)))
+})
+

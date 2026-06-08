@@ -381,3 +381,114 @@ run_test("College Cuts join: duplicate unitid in financial tracker raises stop()
     paste0("Error message should mention 'duplicate unitid'. Got: ", error_msg)
   )
 })
+run_test("Bracket tags are stripped from notes in the CSV ingest path", function() {
+  fixture_root <- tempfile("cc-bracket-strip-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "scripts"),
+    file.path(fixture_root, "scripts", "shared"),
+    file.path(fixture_root, "data_pipelines"),
+    file.path(fixture_root, "data_pipelines", "college_cuts"),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "cache")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R",
+               "shared/name_normalization.R")) {
+    file.copy(file.path(root, "scripts", nm),
+              file.path(fixture_root, "scripts", nm), overwrite = TRUE)
+  }
+  file.copy(file.path(root, "scripts", "build_college_cuts_join.R"),
+            file.path(fixture_root, "scripts", "build_college_cuts_join.R"), overwrite = TRUE)
+
+  financial_df <- data.frame(
+    unitid = "100", institution_name = "Example University",
+    institution_unique_name = "Example University | Boston | MA",
+    year = 2024, control_label = "Public", sector = "Public, 4-year or above",
+    level = "4-year", urbanization = "City",
+    category = "Degree-granting, primarily baccalaureate or above",
+    state = "Massachusetts", city = "Boston",
+    enrollment_headcount_total = 120, enrollment_headcount_undergrad = 100,
+    enrollment_headcount_graduate = 20, pct_international_all = 0.10,
+    pct_international_undergraduate = 0.08, pct_international_graduate = 0.20,
+    international_enrollment_pct_change_5yr = 15, international_enrollment_pct_change_10yr = 25,
+    share_grad_students = 0.17, staff_headcount_total = 55, staff_headcount_instructional = 14,
+    staff_total_headcount_pct_change_5yr = -1, staff_instructional_headcount_pct_change_5yr = -1,
+    revenue_total = 1000, expenses_total = 900, loss_amount = NA, ended_2024_at_loss = "No",
+    losses_last_3_of_5 = "No", loss_years_last_5 = 0, loss_years_last_10 = 0,
+    revenue_10pct_drop_last_3_of_5 = "No", revenue_pct_change_5yr = -2,
+    revenue_decreased_5yr = "No", enrollment_decline_last_3_of_5 = "No",
+    enrollment_pct_change_5yr = -4, enrollment_decreased_5yr = "No",
+    net_tuition_per_fte = 8, net_tuition_per_fte_change_5yr = 1,
+    tuition_dependence_pct = 29, discount_rate = 0.28, discount_pct_change_5yr = 4,
+    federal_grants_contracts_pell_adjusted = 190,
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = 0.20,
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = 5,
+    state_funding = 140, state_funding_pct_core_revenue = 0.10,
+    state_funding_pct_change_5yr = 3, endowment_value = 800, endowment_pct_change_5yr = 2,
+    liquidity = 1.2, liquidity_percentile_private_nfp = NA, leverage = 0.5,
+    leverage_percentile_private_nfp = NA, loan_pct_undergrad_federal_latest = 20,
+    loan_count_undergrad_federal_latest = 100, loan_avg_undergrad_federal_latest = 5000,
+    stringsAsFactors = FALSE
+  )
+  financial_input <- file.path(fixture_root, "fixture_financial.csv")
+  readr::write_csv(financial_df, financial_input, na = "")
+
+  file.copy(file.path(root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
+            file.path(fixture_root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
+            overwrite = TRUE)
+  readr::write_csv(
+    data.frame(institution_name_api = "Example University", unitid = 100,
+               state_full = "Massachusetts", tracker_institution_name = "Example University",
+               match_source = "supabase_mapping", stringsAsFactors = FALSE),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "supabase_institution_unitid_mapping.csv"),
+    na = ""
+  )
+
+  output_prefix <- file.path(fixture_root, "data_pipelines", "college_cuts", "cc_bracket")
+  api_cuts_csv  <- file.path(fixture_root, "data_pipelines", "college_cuts", "fixture_api_cuts.csv")
+  readr::write_csv(
+    data.frame(
+      id = "20", program_name = "Staff layoff",
+      cut_type = "staff_layoff", announcement_date = "2025-03-01",
+      effective_term = NA_character_, status = "confirmed",
+      students_affected = NA_integer_, faculty_affected = NA_integer_,
+      cip_code = NA_character_,
+      notes = "[staff] University cuts 20 positions amid budget deficit.",
+      institution_id = NA_character_, institution_name_collegecuts = "Example University",
+      institution_city = "Boston", institution_state_abbr = "MA",
+      institution_state_full = "Massachusetts", institution_control = "Public",
+      institution_url = NA_character_, institution_unitid = NA_integer_,
+      source_id = NA_character_, source_url_full = "https://example.org/staff-cut",
+      source_title = NA_character_, source_publication_name = "Example News",
+      source_published_at = NA_character_, stringsAsFactors = FALSE
+    ),
+    api_cuts_csv, na = ""
+  )
+
+  setwd(fixture_root)
+  cuts_env <- new.env(parent = globalenv())
+  sys.source(file.path(fixture_root, "scripts", "build_college_cuts_join.R"), envir = cuts_env)
+  cuts_env$main(c("--financial-input", financial_input, "--output-prefix", output_prefix,
+                  "--api-cuts-csv", api_cuts_csv))
+
+  cut_level_path <- paste0(output_prefix, "_cut_level_joined.csv")
+  assert_true(file.exists(cut_level_path), "Cut-level output should exist.")
+  cuts_joined <- readr::read_csv(cut_level_path, show_col_types = FALSE)
+  assert_identical(nrow(cuts_joined), 1L)
+  notes_val <- cuts_joined$notes[[1]]
+  assert_true(
+    !grepl("[staff]", notes_val %||% "", fixed = TRUE),
+    paste0("notes should have [staff] tag stripped. Got: ", notes_val)
+  )
+  assert_true(
+    grepl("University cuts 20 positions", notes_val %||% "", fixed = TRUE),
+    paste0("Substantive notes text should be preserved. Got: ", notes_val)
+  )
+})
+

@@ -1378,3 +1378,159 @@ run_test("Accreditation teach-out classifier handles real production phrasings",
   expected <- c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE)
   assert_identical(actual, expected)
 })
+run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip through stage->sheet->merge", function() {
+  cuts_df <- data.frame(
+    cut_id = "cut-1",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "Staff layoff",
+    generated_cut_label = "University cuts 12 staff amid federal funding loss",
+    generated_cut_summary = "University cuts 12 staff amid federal funding loss. The positions include administrative and academic support roles.",
+    source_url = "https://example.org/cut",
+    source_title = NA_character_,
+    source_publication = "Example Paper",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = "100")
+  assert_identical("generated_cut_label" %in% names(candidates), TRUE)
+  assert_identical("generated_cut_summary" %in% names(candidates), TRUE)
+  assert_identical(candidates$generated_cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+
+  staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-01", tracker_unitids = "100")
+  assert_identical("source_generated_cut_label" %in% names(staged), TRUE)
+  assert_identical(staged$source_generated_cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = "100")
+  assert_identical("cut_label" %in% names(sheet_rows), TRUE)
+  assert_identical("cut_summary" %in% names(sheet_rows), TRUE)
+  assert_identical(sheet_rows$cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+
+  # Simulate editor editing cut_label and cut_summary
+  sheet_rows$cut_label[[1]] <- "Editor-revised short label"
+  sheet_rows$cut_summary[[1]] <- "Editor-revised summary."
+  sheet_rows$review_status[[1]] <- "approved"
+  sheet_rows$reviewer[[1]] <- "editor@example.org"
+
+  merged <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-01")
+  assert_identical(merged$override_cut_label[[1]], "Editor-revised short label")
+  assert_identical(merged$override_cut_summary[[1]], "Editor-revised summary.")
+})
+
+run_test("Legacy college cuts sheet without cut_label/cut_summary columns coerces cleanly", function() {
+  legacy_sheet <- data.frame(
+    cut_id = "cut-2",
+    unitid = "200",
+    institution_name = "Legacy University",
+    state = "Ohio",
+    announcement_date = "2025-09-01",
+    announcement_year = "2025",
+    cut_type = "staff_layoff",
+    cut_description = "Staff layoff",
+    source_url = "https://example.org/legacy",
+    source_publication = "Legacy Paper",
+    row_origin = "scraper",
+    first_seen = "2025-09-05",
+    review_status = "approved",
+    reviewer = "editor@example.org",
+    reviewer_notes = "ok",
+    reviewed_at = "2025-09-06",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  coerced <- coerce_college_cuts_review_sheet_rows(legacy_sheet, default_first_seen = "2025-09-05")
+  assert_identical(nrow(coerced), 1L)
+  assert_identical("cut_label" %in% names(coerced), TRUE)
+  assert_true(is.na(coerced$cut_label[[1]]) || !nzchar(trimws(coerced$cut_label[[1]] %||% "")),
+              "cut_label should be NA for legacy rows without it set")
+})
+
+run_test("reviewer_notes stays internal and is not exposed in public schema fields", function() {
+  # reviewer_notes must NOT be routed to cut_label_public, cut_summary_public, or cut_description
+  staged <- empty_college_cuts_editorial_overrides()
+  assert_true("reviewer_notes" %in% names(staged))
+  assert_true(!("reviewer_notes" %in% c(
+    unname(COLLEGE_CUTS_SHEET_SOURCE_MAP),
+    unname(COLLEGE_CUTS_SHEET_OVERRIDE_MAP)
+  )), "reviewer_notes must not be in any source or override map")
+})
+
+run_test("editor_cut_label alias maps to cut_label in sheet coerce", function() {
+  sheet_with_alias <- data.frame(
+    cut_id = "cut-3",
+    unitid = "300",
+    institution_name = "Alias University",
+    state = "Texas",
+    announcement_date = "2026-01-01",
+    announcement_year = "2026",
+    cut_type = "program_closure",
+    cut_description = "Programs suspended",
+    editor_cut_label = "Alias-derived public label",
+    source_url = "https://example.org/alias",
+    source_publication = "Alias Paper",
+    row_origin = "scraper",
+    first_seen = "2026-01-02",
+    review_status = "unreviewed",
+    reviewer = NA_character_,
+    reviewer_notes = NA_character_,
+    reviewed_at = NA_character_,
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  coerced <- coerce_college_cuts_review_sheet_rows(sheet_with_alias, default_first_seen = "2026-01-02")
+  assert_identical(nrow(coerced), 1L)
+  assert_identical(coerced$cut_label[[1]], "Alias-derived public label")
+})
+
+run_test("Committed college cuts overrides CSV with new label/summary columns reads correctly", function() {
+  overrides <- data.frame(
+    cut_id = "cut-4",
+    source_unitid = "400",
+    source_institution_name = "New Schema U",
+    source_state = "Michigan",
+    source_announcement_date = "2026-03-01",
+    source_announcement_year = "2026",
+    source_cut_type = "staff_layoff",
+    source_cut_description = "Staff layoff",
+    source_generated_cut_label = "University lays off 25 staff in deficit response",
+    source_generated_cut_summary = "University lays off 25 staff in deficit response. The move affects instructional and administrative staff.",
+    source_source_url = "https://example.org/new-schema",
+    source_source_title = NA_character_,
+    source_source_publication = "Michigan News",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_state = NA_character_,
+    override_announcement_date = NA_character_,
+    override_announcement_year = NA_character_,
+    override_cut_type = NA_character_,
+    override_cut_description = NA_character_,
+    override_cut_label = "Revised short label",
+    override_cut_summary = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    override_source_publication = NA_character_,
+    first_seen = "2026-03-05",
+    review_status = "approved",
+    reviewer = "editor@example.org",
+    reviewer_notes = "checked",
+    reviewed_at = "2026-03-06",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  coerced <- coerce_college_cuts_editorial_overrides(overrides)
+  assert_identical(nrow(coerced), 1L)
+  assert_identical(coerced$source_generated_cut_label[[1]], "University lays off 25 staff in deficit response")
+  assert_identical(coerced$override_cut_label[[1]], "Revised short label")
+  assert_true(is.na(coerced$override_cut_summary[[1]]))
+})
+

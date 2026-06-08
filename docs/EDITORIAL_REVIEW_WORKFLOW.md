@@ -153,11 +153,34 @@ The pipeline **only ever** appends new rows and writes system columns. It never
 touches an existing row's editor columns. That one-directional rule is what
 makes the two-way sync safe.
 
-### College cuts
+### College cuts (`college_cuts_review` tab)
 
-College cuts no longer use the Google Sheet review queue. The export can still
-apply any already-committed local overrides, but new cuts rows are no longer
-staged to or pulled from a Sheet tab as part of the supported workflow.
+College cuts use a separate `college_cuts_review` tab in the same Google Sheet.
+New cuts rows for primary-tracker institutions are staged to the sheet by
+`stage_college_cuts_review.R` and pulled back via `pull_college_cuts_overrides.R`.
+
+**Sheet columns:**
+
+`cut_id`, `unitid`, `institution_name`, `state`, `announcement_date`,
+`announcement_year`, `cut_type`, `cut_description` (the source action
+description), `cut_label` (public short label, max 160 chars), `cut_summary`
+(public institution-page summary, max 4 sentences), `source_url`,
+`source_publication`, `row_origin`, `first_seen`, `review_status`, `reviewer`,
+`reviewer_notes` (internal-only workflow notes, never public), `reviewed_at`,
+`grandfathered`.
+
+**Lane semantics:**
+- `cut_description` = the source action description lane; editors correct
+  mislabeled types or descriptions here.
+- `cut_label` = the public short label shown in the cuts table and index card.
+  Pre-populated from `cut_label_public` derivation (notes fallback for generic
+  labels, `program_name` for actionable descriptions). Editors can refine.
+- `cut_summary` = the public institution-page paragraph. Pre-populated from
+  cleaned `notes` capped to 4 sentences. Editors can refine.
+- `reviewer_notes` = internal workflow column; **never routed to public fields**.
+
+**Migration:** Run `scripts/migrate_college_cuts_review_sheet_schema.R` once
+to add the new `cut_label` / `cut_summary` columns to an existing sheet.
 
 For college cuts local overrides, `row_origin` is provenance rather than a
 publication field. Use `scraper` for pipeline rows, `manual` for generic

@@ -826,6 +826,32 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
   candidate5 <- make_candidate("new-diff-type", "500", "SACSCOC", "2025-12-01", "warning")
   staged5 <- stage_accreditation_editorial_overrides(candidate5, existing5, first_seen = "2026-06-05")
   assert_true("new-diff-type" %in% staged5$action_id, "Incompatible action types should not be suppressed")
+
+  # 6. Same institution/accreditor within 30 days but teach-out process vs
+  # actual resignation: NOT suppressed
+  existing6 <- make_override(
+    "existing-6",
+    "151810",
+    "HLC",
+    "2025-12-01",
+    "adverse_action",
+    action_label_raw = "Approved the institution’s provisional plan and teach-out agreement with the following institution: University of Indianapolis, Indianapolis, IN"
+  )
+  existing6$source_generated_statement <- "Approved provisional plan and teach-out agreement with University of Indianapolis"
+  candidate6 <- make_candidate(
+    "new-martin-resignation",
+    "151810",
+    "HLC",
+    "2025-12-31",
+    "adverse_action",
+    action_label_raw = "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025."
+  )
+  candidate6$generated_statement <- "Voluntarily Surrendered Accreditation"
+  staged6 <- stage_accreditation_editorial_overrides(candidate6, existing6, first_seen = "2026-06-08")
+  assert_true(
+    "new-martin-resignation" %in% staged6$action_id,
+    "Teach-out process approvals must not suppress a later same-month resignation action."
+  )
 })
 
 run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot ids to existing override rows", function() {
@@ -916,6 +942,56 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
   assert_identical(nrow(applied), 1L)
   assert_identical(trim_text(applied$action_id[[1]]), "existing-1")
   assert_identical(trim_text(applied$action_label_short[[1]]), "Existing warning")
+})
+
+run_test("Apply-only accreditation review gate does not canonicalize teach-out process rows to later resignation actions", function() {
+  overrides <- data.frame(
+    action_id = "existing-6",
+    source_unitid = "151810",
+    source_institution_name = "Martin University",
+    source_accreditor = "HLC",
+    source_action_date = "2025-12-01",
+    source_action_type = "adverse_action",
+    source_action_label_raw = "Approved the institution’s provisional plan and teach-out agreement with the following institution: University of Indianapolis, Indianapolis, IN",
+    source_generated_statement = "Approved provisional plan and teach-out agreement with University of Indianapolis",
+    source_source_url = "https://example.org/existing",
+    source_source_title = "Existing source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = NA_character_,
+    override_generated_statement = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = NA_character_,
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  committed_candidates <- data.frame(
+    action_id = "new-martin-resignation",
+    unitid = "151810",
+    institution_name = "Martin University",
+    accreditor = "HLC",
+    action_date = "2025-12-31",
+    action_type = "adverse_action",
+    action_label_raw = "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025.",
+    generated_statement = "Voluntarily Surrendered Accreditation",
+    source_url = "https://example.org/martin",
+    source_title = "Martin source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+
+  allowed_ids <- canonicalize_accreditation_review_gate_action_ids(committed_candidates, overrides)
+  assert_identical(allowed_ids, "new-martin-resignation")
 })
 
 run_test("Apply-only accreditation review gate still fails true missing override rows", function() {

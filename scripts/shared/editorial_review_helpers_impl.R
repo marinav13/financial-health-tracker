@@ -886,6 +886,12 @@ find_cross_source_duplicate_id <- function(candidate_row, overrides) {
   c_accred   <- trim_text(candidate_row$accreditor[[1]])
   c_type     <- trim_text(candidate_row$action_type[[1]])
   c_date     <- suppressWarnings(as.Date(trim_text(candidate_row$action_date[[1]])))
+  c_is_teachout_process <- is_accreditation_teachout_process_action(
+    action_type = candidate_row$action_type[[1]],
+    action_label_raw = candidate_row$action_label_raw[[1]],
+    action_label_short = candidate_row$generated_statement[[1]],
+    notes = NA_character_
+  )
 
   if (!nzchar(c_unitid) || !nzchar(c_accred) || is.na(c_date)) return(NA_character_)
 
@@ -894,9 +900,18 @@ find_cross_source_duplicate_id <- function(candidate_row, overrides) {
     o_accred <- trim_text(overrides$source_accreditor[[i]])
     o_type   <- trim_text(overrides$source_action_type[[i]])
     o_date   <- suppressWarnings(as.Date(trim_text(overrides$source_action_date[[i]])))
+    o_is_teachout_process <- is_accreditation_teachout_process_action(
+      action_type = overrides$source_action_type[[i]],
+      action_label_raw = overrides$source_action_label_raw[[i]],
+      action_label_short = overrides$source_generated_statement[[i]],
+      notes = NA_character_
+    )
 
     if (o_unitid != c_unitid || o_accred != c_accred) next
     if (is.na(o_date) || abs(as.integer(c_date - o_date)) > 30L) next
+    # Treat teach-out paperwork as distinct from the institution's actual
+    # resignation/withdrawal action even when both occur in the same month.
+    if (xor(isTRUE(c_is_teachout_process), isTRUE(o_is_teachout_process))) next
 
     type_match <- identical(c_type, o_type) || (
       c_type == "warning" && o_type == "adverse_action" &&

@@ -672,7 +672,7 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   const patternStrong = document.createElement("strong");
   patternStrong.textContent = "shows a pattern";
   tooltip.append(patternStrong);
-  tooltip.append(document.createTextNode(" of declining enrollment, falling net tuition revenue per student and losses in 3 of the last 5 years. Across all "));
+  tooltip.append(document.createTextNode(" of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all "));
   const countStrong = document.createElement("strong");
   countStrong.textContent = `${count} ${count === 1 ? "is" : "are"} flagged as concerning`;
   tooltip.append(document.createTextNode(`${totalVisible} potential indicators for a ${typeLabel}, `));
@@ -685,7 +685,7 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   auditsLink.textContent = "audits";
   tooltip.append(auditsLink);
   tooltip.append(document.createTextNode(" for more context."));
-  const tooltipLabel = `This school shows a pattern of declining enrollment, falling net tuition revenue per student and losses in 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
+  const tooltipLabel = `This school shows a pattern of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
   const icon = document.createElement("span");
   icon.className = "guide-warning-icon";
   icon.setAttribute("aria-hidden", "true");

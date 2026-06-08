@@ -1,6 +1,6 @@
 {
   "unitid": "231624",
-  "generated_at": "2026-06-07",
+  "generated_at": "2026-06-08",
   "profile": {
     "institution_name": "William & Mary",
     "institution_unique_name": "William & Mary | Williamsburg | Virginia",
@@ -16,14 +16,14 @@
   "summary": {
     "latest_year": 2024,
     "enrollment_pct_change_5yr": 11.2954,
-    "sector_median_enrollment_pct_change_5yr": -4.3185,
+    "sector_median_enrollment_pct_change_5yr": -4.2732,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 16.7978,
-    "sector_median_revenue_pct_change_5yr": -1.3735,
+    "sector_median_revenue_pct_change_5yr": -1.3261,
     "net_tuition_per_fte_change_5yr": -10.9307,
-    "sector_median_net_tuition_per_fte_change_5yr": -17.789,
+    "sector_median_net_tuition_per_fte_change_5yr": -17.7529,
     "staff_total_headcount_pct_change_5yr": 4.9361,
-    "sector_median_staff_total_headcount_pct_change_5yr": 0.516,
+    "sector_median_staff_total_headcount_pct_change_5yr": 0.3908,
     "staff_instructional_headcount_pct_change_5yr": 1.0045,
     "students_per_instructional_staff_fte": 12,
     "sector_median_students_per_instructional_staff_fte": 16,
@@ -31,7 +31,7 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 31.4251,
-    "sector_median_tuition_dependence_pct": 21.229,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 31.0% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "unfunded_discount_rate": 17.4303,
     "unfunded_discount_pct_change_5yr": -10.2743,
@@ -61,9 +61,9 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 12.4514,
     "state_funding_pct_change_5yr": 25.3722,
     "endowment_assets_per_fte_adjusted": 154167.442,
-    "sector_median_endowment_assets_per_fte_adjusted": 12654.749,
+    "sector_median_endowment_assets_per_fte_adjusted": 12637.3807,
     "endowment_pct_change_5yr": 19.0262,
-    "sector_median_endowment_pct_change_5yr": 19.147,
+    "sector_median_endowment_pct_change_5yr": 19.1807,
     "endowment_spending_current_use_pct_core_revenue": 0.0831,
     "graduation_rate_6yr": 89,
     "median_earnings_10yr": 73490,
@@ -108,7 +108,7 @@
       },
       {
         "year": 2022,
-        "value": 660248248.9643
+        "value": 665102925.889
       },
       {
         "year": 2023,
@@ -154,7 +154,7 @@
       },
       {
         "year": 2022,
-        "value": 553688038.3191
+        "value": 558130985.2339
       },
       {
         "year": 2023,
@@ -726,7 +726,7 @@
       },
       {
         "year": 2022,
-        "value": 0.0701
+        "value": 0.0696
       },
       {
         "year": 2023,
@@ -829,47 +829,5 @@
         "value": 111322026
       }
     ]
-  },
-  "latest_status": {
-    "accreditors": "SACSCOC",
-    "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
-    "active_actions": "notice",
-    "has_active_warning": false,
-    "has_active_warning_or_notice": true,
-    "has_active_adverse_action": false,
-    "latest_action_date": "2022-06-16",
-    "latest_action_year": "2022",
-    "action_count": 1
-  },
-  "actions": [
-    {
-      "accreditor": "SACSCOC",
-      "action_type": "notice",
-      "action_label": "Based only on those reviewed standards, the institution should submit a Referral Report due April 3, 2023, addressing the standards of the Principtes identified below.",
-      "action_label_short": "Requested to submit a Referral Report documenting compliance with accreditation standards",
-      "action_scope": null,
-      "action_status": "active",
-      "action_date": "2022-06-16",
-      "action_year": "2022",
-      "notes": "Heightened Monitoring or Focused Review",
-      "source_url": null,
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147396",
-      "source_page_modified": null,
-      "display_action": true,
-      "public_table_strategy": "dapip_backed_keep",
-      "hybrid_candidate": false,
-      "hybrid_reason": null,
-      "has_financial_profile": true,
-      "is_primary_tracker": true
-    }
-  ],
-  "sources": [
-    {
-      "accreditor": "SACSCOC",
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": null,
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147396"
-    }
-  ]
+  }
 }

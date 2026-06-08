@@ -37,6 +37,7 @@
   const OTHER_PAGE_SIZE = 5;
   const TODAY = new Date();
   const MIN_ACTION_YEAR = 2019;
+  let exportAsOfDate = null;
 
   const ACCREDITOR_NAMES = {
     HLC: "Higher Learning Commission",
@@ -150,10 +151,11 @@
   }
 
   function hasOccurred(action) {
+    const cutoffDate = exportAsOfDate || TODAY;
     const actionDate = parseActionDate(action);
-    if (actionDate) return actionDate.getTime() <= TODAY.getTime();
+    if (actionDate) return actionDate.getTime() <= cutoffDate.getTime();
     const year = getActionYear(action);
-    return !Number.isNaN(year) && year >= MIN_ACTION_YEAR && year <= TODAY.getFullYear();
+    return !Number.isNaN(year) && year >= MIN_ACTION_YEAR && year <= cutoffDate.getFullYear();
   }
 
   function isDisplayAction(action) {
@@ -837,6 +839,7 @@
         loadJson("data/accreditation_index.json"),
         loadJson("data/metadata.json")
       ]);
+      exportAsOfDate = parseActionDate({ action_date: metadata?.generated_at });
       renderDataAsOf("accreditation-data-as-of", metadata?.generated_at);
       document.getElementById("accreditation-limitations").innerHTML = renderLimitations({
         covered_accreditors: Object.keys(ACCREDITOR_NAMES),
@@ -885,6 +888,7 @@
       loadJson("data/research_funding_index.json"),
       loadJson("data/metadata.json")
     ]);
+    exportAsOfDate = parseActionDate({ action_date: metadata?.generated_at });
     renderDataAsOf("accreditation-data-as-of", metadata?.generated_at);
     const limitations = document.getElementById("accreditation-limitations");
     if (limitations) {

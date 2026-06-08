@@ -828,6 +828,177 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
   assert_true("new-diff-type" %in% staged5$action_id, "Incompatible action types should not be suppressed")
 })
 
+run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot ids to existing override rows", function() {
+  make_override <- function(action_id, unitid, accreditor, action_date, action_type,
+                            action_label_raw = "Warning", generated_statement = action_label_raw,
+                            review_status = "approved") {
+    data.frame(
+      action_id = action_id,
+      source_unitid = unitid,
+      source_institution_name = "Example University",
+      source_accreditor = accreditor,
+      source_action_date = action_date,
+      source_action_type = action_type,
+      source_action_label_raw = action_label_raw,
+      source_generated_statement = generated_statement,
+      source_source_url = "https://example.org/existing",
+      source_source_title = "Existing source",
+      source_row_origin = "scraper",
+      override_unitid = NA_character_,
+      override_institution_name = NA_character_,
+      override_accreditor = NA_character_,
+      override_action_date = NA_character_,
+      override_action_type = NA_character_,
+      override_action_label_raw = NA_character_,
+      override_generated_statement = NA_character_,
+      override_source_url = NA_character_,
+      override_source_title = NA_character_,
+      first_seen = "2025-12-01",
+      review_status = review_status,
+      reviewer = "MV",
+      reviewer_notes = NA_character_,
+      reviewed_at = "2025-12-01",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }
+
+  committed_candidates <- data.frame(
+    action_id = "new-dup-1",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Updated warning summary",
+    generated_statement = "Updated warning summary",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+  overrides <- make_override(
+    "existing-1",
+    "100",
+    "SACSCOC",
+    "2025-12-07",
+    "warning",
+    action_label_raw = "Existing warning label",
+    generated_statement = "Existing warning"
+  )
+  allowed_ids <- canonicalize_accreditation_review_gate_action_ids(committed_candidates, overrides)
+  assert_identical(allowed_ids, "existing-1")
+
+  actions_df <- data.frame(
+    export_unitid = "100",
+    unitid = "100",
+    export_institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Updated warning summary",
+    action_label_short = "Updated warning summary",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    source_page_url = "https://example.org/refreshed",
+    stringsAsFactors = FALSE
+  )
+
+  applied <- apply_accreditation_editorial_overrides(
+    actions_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = allowed_ids,
+    drop_unlisted = TRUE,
+    gate_mask = TRUE
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$action_id[[1]]), "existing-1")
+  assert_identical(trim_text(applied$action_label_short[[1]]), "Existing warning")
+})
+
+run_test("Apply-only accreditation review gate still fails true missing override rows", function() {
+  committed_candidates <- data.frame(
+    action_id = "missing-1",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Updated warning summary",
+    generated_statement = "Updated warning summary",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+  overrides <- data.frame(
+    action_id = "existing-other",
+    source_unitid = "200",
+    source_institution_name = "Other University",
+    source_accreditor = "HLC",
+    source_action_date = "2025-11-01",
+    source_action_type = "probation",
+    source_action_label_raw = "Probation",
+    source_generated_statement = "Probation",
+    source_source_url = "https://example.org/existing-other",
+    source_source_title = "Existing other source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = NA_character_,
+    override_generated_statement = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = NA_character_,
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+  allowed_ids <- canonicalize_accreditation_review_gate_action_ids(committed_candidates, overrides)
+  assert_identical(allowed_ids, "missing-1")
+
+  actions_df <- data.frame(
+    export_unitid = "100",
+    unitid = "100",
+    export_institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Updated warning summary",
+    action_label_short = "Updated warning summary",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    source_page_url = "https://example.org/refreshed",
+    stringsAsFactors = FALSE
+  )
+
+  err <- tryCatch(
+    {
+      apply_accreditation_editorial_overrides(
+        actions_df,
+        overrides,
+        enforce_review_gate = TRUE,
+        allowed_action_ids = allowed_ids,
+        drop_unlisted = TRUE,
+        gate_mask = TRUE
+      )
+      NULL
+    },
+    error = identity
+  )
+
+  assert_true(!is.null(err), "Missing override rows should still fail the apply-only review gate.")
+  assert_true(grepl("missing editorial overrides", conditionMessage(err), fixed = TRUE))
+})
+
 run_test("HLC institution-page bare status rows are suppressed before staging", function() {
   hlc_candidates <- data.frame(
     action_id = c("hlc-on-prob", "hlc-real-action", "hlc-wrong-url"),

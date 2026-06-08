@@ -916,6 +916,59 @@ find_cross_source_duplicate_id <- function(candidate_row, overrides) {
   NA_character_
 }
 
+canonicalize_accreditation_review_gate_action_ids <- function(candidates, overrides) {
+  review_candidates <- coerce_accreditation_review_candidates(candidates)
+  override_rows <- coerce_accreditation_editorial_overrides(overrides)
+  if (!nrow(review_candidates)) return(character())
+
+  candidate_ids <- trim_text(review_candidates$action_id)
+  if (!nrow(override_rows)) {
+    return(unique(candidate_ids[nzchar(candidate_ids)]))
+  }
+
+  # Stage-time cross-source duplicate suppression intentionally keeps the
+  # existing override row and discards the new candidate action_id. Apply-only
+  # publish rebuilds must map those committed snapshot ids back to the
+  # canonical override row or the review gate will falsely fail.
+  override_ids <- trim_text(override_rows$action_id)
+  canonical_ids <- vapply(
+    seq_len(nrow(review_candidates)),
+    function(i) {
+      action_id <- candidate_ids[[i]]
+      if (!nzchar(action_id)) return(NA_character_)
+      if (action_id %in% override_ids) return(action_id)
+
+      duplicate_id <- find_cross_source_duplicate_id(
+        review_candidates[i, , drop = FALSE],
+        override_rows
+      )
+      if (!is.na(duplicate_id) && nzchar(duplicate_id)) {
+        return(duplicate_id)
+      }
+
+      action_id
+    },
+    character(1)
+  )
+
+  remapped_count <- sum(
+    nzchar(candidate_ids) &
+      nzchar(canonical_ids) &
+      candidate_ids != canonical_ids
+  )
+  if (remapped_count > 0L) {
+    message(sprintf(
+      paste(
+        "Apply-only accreditation review gate: canonicalized %d committed review",
+        "candidate action_id value(s) to existing override rows."
+      ),
+      remapped_count
+    ))
+  }
+
+  unique(canonical_ids[nzchar(canonical_ids)])
+}
+
 stage_accreditation_editorial_overrides <- function(candidates,
                                                     existing = NULL,
                                                     first_seen = as.character(Sys.Date())) {

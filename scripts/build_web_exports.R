@@ -2609,6 +2609,18 @@ build_accreditation_export <- function() {
   } else {
     empty_accreditation_editorial_overrides()
   }
+  # Apply-only publish compares current rebuilt rows against the committed
+  # review snapshot. Some committed candidate ids are intentionally suppressed
+  # during staging as cross-source duplicates and represented by an existing
+  # canonical override row instead.
+  allowed_review_action_ids <- if (isTRUE(apply_only_review_gate)) {
+    canonicalize_accreditation_review_gate_action_ids(
+      committed_review_candidates,
+      editorial_overrides
+    )
+  } else {
+    committed_review_candidates$action_id %||% NULL
+  }
   if (!is.na(apply_only_review_gate_diagnostic_path) && nzchar(trimws(apply_only_review_gate_diagnostic_path))) {
     if (!isTRUE(apply_only_review_gate)) {
       stop(
@@ -2644,7 +2656,7 @@ build_accreditation_export <- function() {
     actions_df,
     overrides = editorial_overrides,
     enforce_review_gate = enforce_review_gate,
-    allowed_action_ids = committed_review_candidates$action_id %||% NULL,
+    allowed_action_ids = allowed_review_action_ids,
     drop_unlisted = isTRUE(apply_only_review_gate),
     gate_mask = actions_df$is_primary_tracker %in% TRUE
   )

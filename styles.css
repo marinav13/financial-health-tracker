@@ -361,11 +361,9 @@ body {
   line-height: 1.5;
   padding: 8px 12px;
   border-radius: 6px;
+  display: none;
   white-space: normal;
   max-width: 260px;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.15s ease;
   z-index: 100;
 }
 
@@ -376,8 +374,7 @@ body {
 
 .help-btn-wrap:hover .help-tooltip,
 .help-btn-wrap:focus-within .help-tooltip {
-  opacity: 1;
-  pointer-events: auto;
+  display: block;
 }
 
 .site-masthead .help-btn-wrap .help-tooltip {
@@ -2956,7 +2953,7 @@ body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
    wins. */
 .data-card--cut h3 {
   padding: 16px 24px 6px;
-  text-align: left;
+  text-align: center;
   font-family: var(--font-body);
   font-size: 18px;
   font-weight: 600;
@@ -3922,6 +3919,10 @@ blockquote {
   /* clamp() handles most of the small-screen sizing automatically;
      these overrides are for the things clamp() can't address. */
 
+  body[data-search-page="school.html"] {
+    overflow-x: hidden;
+  }
+
   /* Masthead: allow logo/wordmark to wrap on very narrow phones. */
   .site-masthead {
     padding: 16px 20px;
@@ -4184,6 +4185,33 @@ blockquote {
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
+  }
+
+  body[data-search-page="school.html"] .section-block .metric-strip.negative,
+  body[data-search-page="school.html"] .section-block .metric-strip.neg {
+    padding-left: 72px;
+    padding-right: 18px;
+    text-align: left;
+  }
+
+  body[data-search-page="school.html"] .section-block .metric-strip.negative::before,
+  body[data-search-page="school.html"] .section-block .metric-strip.neg::before {
+    top: 22px;
+    left: 18px;
+    width: 36px;
+    height: 36px;
+    transform: none;
+  }
+
+  body[data-search-page="school.html"] .section-block .metric-strip.negative .metric-question,
+  body[data-search-page="school.html"] .section-block .metric-strip.neg .metric-question,
+  body[data-search-page="school.html"] .section-block .metric-strip.negative .metric-statement,
+  body[data-search-page="school.html"] .section-block .metric-strip.neg .metric-statement,
+  body[data-search-page="school.html"] .section-block .metric-strip.negative .metric-answer,
+  body[data-search-page="school.html"] .section-block .metric-strip.neg .metric-answer {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
   }
 
   .data-card h2,

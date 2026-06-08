@@ -718,12 +718,12 @@ body {
 }
 
 .home-illustration-frame {
-  border: 2px solid var(--ink);
-  background: var(--paper);
+  border: 0;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -860,7 +860,7 @@ body {
   }
 
   .home-illustration-frame {
-    padding: 12px;
+    padding: 0;
   }
 
   .home-story-copy p {

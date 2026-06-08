@@ -24,7 +24,7 @@
 const { test, expect } = require('@playwright/test');
 
 const FIXTURE = {
-  generated_at: '2025-12-01T00:00:00Z',
+  generated_at: '2100-01-15T00:00:00Z',
   covered_accreditors: ['MSCHE'],
   schools: {
     '100': {
@@ -116,7 +116,7 @@ const INDEX_FIXTURE = {
         action_type: 'adverse_action',
         action_label_short: 'Voluntarily Surrendered Accreditation',
         action_label: 'Staff acted on behalf of the Commission to acknowledge receipt of the notification, dated April 2, 2026, of the institution\'s intent to change their primary accreditor, voluntarily surrender accreditation, and terminate membership. To accept the institution\'s request to voluntarily surrender its accreditation and intent to terminate its membership effective May 31, 2026.',
-        action_date: '2026-04-24',
+        action_date: '2099-12-31',
         notes: 'Voluntary surrender row should remain visible on landing tables.',
         source_url: 'https://example.org/voluntary-surrender',
         display_action: true
@@ -185,7 +185,7 @@ test.describe('Accreditation display_action + date parsing', () => {
       route.fulfill({
         status: 200,
         contentType: 'application/json; charset=utf-8',
-        body: JSON.stringify({ generated_at: '2025-12-01' })
+        body: JSON.stringify({ generated_at: '2100-01-15' })
       });
     });
     await page.route('**/data/accreditation.json', (route) => {

@@ -16,14 +16,14 @@
   "summary": {
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -6.7392,
-    "sector_median_enrollment_pct_change_5yr": -4.2732,
+    "sector_median_enrollment_pct_change_5yr": -4.3185,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": 10.7686,
-    "sector_median_revenue_pct_change_5yr": -1.3261,
+    "sector_median_revenue_pct_change_5yr": -1.3735,
     "net_tuition_per_fte_change_5yr": -28.5949,
-    "sector_median_net_tuition_per_fte_change_5yr": -17.7529,
+    "sector_median_net_tuition_per_fte_change_5yr": -17.789,
     "staff_total_headcount_pct_change_5yr": 10.9265,
-    "sector_median_staff_total_headcount_pct_change_5yr": 0.3908,
+    "sector_median_staff_total_headcount_pct_change_5yr": 0.516,
     "staff_instructional_headcount_pct_change_5yr": 7.7642,
     "students_per_instructional_staff_fte": 17,
     "sector_median_students_per_instructional_staff_fte": 16,
@@ -31,7 +31,7 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 0,
     "tuition_dependence_pct": 25.6835,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.229,
     "tuition_dependence_vs_sector_median_sentence": "This college got 26.0% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "unfunded_discount_rate": 44.3083,
     "unfunded_discount_pct_change_5yr": 43.4819,
@@ -61,9 +61,9 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 833.0576,
     "state_funding_pct_change_5yr": 28.7404,
     "endowment_assets_per_fte_adjusted": 6509.8931,
-    "sector_median_endowment_assets_per_fte_adjusted": 12637.3807,
+    "sector_median_endowment_assets_per_fte_adjusted": 12654.749,
     "endowment_pct_change_5yr": 133.3631,
-    "sector_median_endowment_pct_change_5yr": 19.1807,
+    "sector_median_endowment_pct_change_5yr": 19.147,
     "endowment_spending_current_use_pct_core_revenue": 0,
     "graduation_rate_6yr": 47,
     "median_earnings_10yr": 57237,
@@ -640,7 +640,7 @@
       },
       {
         "year": 2017,
-        "value": 31537436.1723
+        "value": 20952810.1726
       },
       {
         "year": 2018,
@@ -802,7 +802,7 @@
       },
       {
         "year": 2018,
-        "value": 103426848.699
+        "value": 106328991.9387
       },
       {
         "year": 2019,
@@ -832,16 +832,37 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Merger of New Jersey City University with Kean University (effective July 1, 2026)",
-    "active_actions": null,
+    "action_labels": "Grant Substantive Change: Ownership; Merger of New Jersey City University with Kean University (effective July 1, 2026)",
+    "active_actions": "other",
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
     "latest_action_date": "2026-04-23",
     "latest_action_year": "2026",
-    "action_count": 1
+    "action_count": 2
   },
   "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "Grant Substantive Change: Ownership",
+      "action_label_short": "Grant Substantive Change: Ownership",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-04-23",
+      "action_year": "2026",
+      "notes": "Grant Substantive Change: Ownership | merger of New Jersey City University with Kean University, effective July 1, 2026. Institution meets the requirements for this substantive change",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/128294",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "MSCHE",
       "action_type": "other",
@@ -856,7 +877,7 @@
       "source_title": "MSCHE Statement of Accreditation Status - Kean University",
       "source_page_url": "https://www.msche.org/institution/0226/",
       "source_page_modified": null,
-      "display_action": false,
+      "display_action": true,
       "public_table_strategy": null,
       "hybrid_candidate": false,
       "hybrid_reason": null,
@@ -865,6 +886,12 @@
     }
   ],
   "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/128294"
+    },
     {
       "accreditor": "MSCHE",
       "source_title": "MSCHE Statement of Accreditation Status - Kean University",

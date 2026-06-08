@@ -69,7 +69,8 @@ function collectPageErrors(page) {
     // Covered noise:
     //   favicon — browser's own /favicon.ico request
     //   image extensions (.png/.jpg/.svg) — decorative <img> like
-    //     assets/quad-banner.svg that empty-data fixtures don't mock
+    //     assets/college-financial-health-school.png that empty-data fixtures
+    //     don't mock
     //   font extensions (.woff/.woff2/.otf/.ttf/.eot) — @font-face
     //     URLs for locally-licensed fonts that may not be present
     //     in every test environment

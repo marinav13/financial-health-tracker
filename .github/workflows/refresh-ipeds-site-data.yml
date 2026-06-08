@@ -184,7 +184,7 @@ jobs:
       # into a single log file that the drift-warning reporter (at the end of
       # the job) scans for known `warn_*` patterns. Keeping every scraper
       # log in one place means one grep catches drift no matter which
-      # pipeline emitted it. See docs/SCRAPER_DRIFT_RUNBOOK.md.
+      # pipeline emitted it. See docs/OPERATIONS_MANUAL.md.
       - name: Create refresh log directory
         shell: bash
         run: |
@@ -422,7 +422,7 @@ jobs:
       # disappears, parse returns 0 rows from a non-empty page). The weekly
       # refresh keeps going because public JSON is rebuilt from the last
       # committed reviewed snapshot, but the warnings are still surfaced for
-      # human triage. See docs/SCRAPER_DRIFT_RUNBOOK.md for remediation steps.
+      # human triage. See docs/OPERATIONS_MANUAL.md for remediation steps.
       - name: Report scraper drift warnings
         shell: bash
         run: |
@@ -448,7 +448,7 @@ jobs:
             echo "::warning::Scraper drift warning(s) detected; weekly refresh continued because publish is pinned to the last committed reviewed snapshot."
             echo "$MATCHES"
             echo
-            echo "See docs/SCRAPER_DRIFT_RUNBOOK.md for triage."
+            echo "See docs/OPERATIONS_MANUAL.md for triage."
             exit 0
           fi
           echo "No scraper drift warnings found."

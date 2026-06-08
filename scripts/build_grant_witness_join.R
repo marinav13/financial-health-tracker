@@ -41,7 +41,7 @@
 #   because statutory wind-down outlays (30-90 days after termination) are
 #   indistinguishable from reinstatement outlays in the public data, and
 #   Grant Witness already adjudicates reinstatement using legal/court signals
-#   that are more reliable than outlay shape. See docs/REFRESH_CYCLE.md.
+#   that are more reliable than outlay shape. See docs/OPERATIONS_MANUAL.md.
 
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))

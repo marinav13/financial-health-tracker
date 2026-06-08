@@ -1,55 +1,68 @@
 # Financial Health Tracker
 
-Static website and data pipeline for the college financial health interactive.
-The site lets users search four-year, primarily bachelor's-degree-granting
-institutions and inspect decade-scale financial trends, accreditation actions,
-college cuts, research funding cuts, HCM status, and federal composite scores.
-Closure import plumbing remains in the repo, but closure records are not shown
-on the public site until the separate closure scraper is ready.
+Public source repo for The Hechinger Report's College Financial Health Tracker.
+
+Live site:
+[https://hechingerreport.org/college-financial-health-tracker/](https://hechingerreport.org/college-financial-health-tracker/)
+
+This repo is a public source repository, not a deploy-only snapshot. It keeps
+the shipped static site in-tree alongside the scripts, workflows, tests, and
+versioned source-domain inputs used to rebuild that site.
+
+## At A Glance
+
+- Runtime files served by the site:
+  `index.html`, `school.html`, `cuts.html`, `research.html`,
+  `accreditation.html`, `methodology.html`, `styles.css`, `js/`, `assets/`,
+  `data/`, `404.html`, `robots.txt`
+- Source/build/editorial infrastructure kept in the public repo:
+  `scripts/`, `data_pipelines/`, `tests/`, `docs/`, `.github/workflows/`,
+  `renv.lock`, `requirements.txt`, `package.json`, `playwright.config.js`
+- Local-only caches and private credentials stay out of Git through
+  [`.gitignore`](./.gitignore)
 
 ## Start Here
 
 | Need | Read |
 |---|---|
-| Rebuild the project step by step | [docs/WALKTHROUGH.md](./docs/WALKTHROUGH.md) |
-| Understand data flow and rerun safety | [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) |
-| Set up a local dev machine | [docs/DEV_SETUP.md](./docs/DEV_SETUP.md) |
-| Publish or hand off the static site | [docs/WEBSITE_MANAGER_NOTE.md](./docs/WEBSITE_MANAGER_NOTE.md) |
-| Diagnose weekly refresh failures | [docs/RUNBOOK_WEEKLY_REFRESH.md](./docs/RUNBOOK_WEEKLY_REFRESH.md) |
-| Find definitions | [docs/GLOSSARY.md](./docs/GLOSSARY.md) |
-| Work on build scripts | [scripts/README.md](./scripts/README.md) |
+| Rebuild, refresh, test, or troubleshoot the project | [docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md) |
+| Deploy or hand off the static site | [docs/DEPLOY_HANDOFF.md](./docs/DEPLOY_HANDOFF.md) |
 
-## Repository Shape
+## Runtime Vs Source Repo
 
-| Path | Purpose |
+| Area | Role |
 |---|---|
-| `index.html`, `school.html`, `cuts.html`, `research.html`, `accreditation.html` | Static site entry points served by GitHub Pages |
-| `styles.css`, `js/` | Browser UI code, no bundler required |
-| `data/` | Committed site JSON, indexes, school files, and download CSVs |
-| `scripts/` | R/Python build and import entry points |
-| `scripts/shared/` | Reusable pipeline helpers and contracts |
-| `data_pipelines/` | Supporting source domains, committed source-versioned inputs, and ignored local caches |
-| `ipeds/` | Local IPEDS raw/cache/derived workspace, mostly ignored |
+| `index.html`, `school.html`, `cuts.html`, `research.html`, `accreditation.html`, `methodology.html` | Static entry points served directly |
+| `styles.css`, `js/`, `assets/` | Browser runtime code and visual assets |
+| `data/` | Committed JSON, per-school files, indexes, and the public download CSV |
+| `scripts/`, `scripts/shared/` | R/Python rebuild entry points and helpers |
+| `data_pipelines/` | Versioned source-domain inputs plus ignored local caches |
 | `tests/` | R, Python, Node, Playwright, and accessibility checks |
-| `docs/` | Walkthroughs, runbooks, setup notes, and glossary |
+| `docs/` | Setup notes, walkthroughs, runbooks, and deployment notes |
 
-Root files that look like tooling files are intentionally root-level:
-`package.json`, `package-lock.json`, `playwright.config.js`, `requirements.txt`,
-`renv.lock`, `.Rprofile`, `.pa11yci.json`, and GitHub Pages files need to stay
-where their tools expect them.
+Root tooling files such as `package.json`, `package-lock.json`,
+`playwright.config.js`, `requirements.txt`, `renv.lock`, `.Rprofile`, and
+`.pa11yci.json` remain at the repo root because their tools expect them there.
 
-## What Gets Committed
+## Local-Only Paths
 
-Commit code, docs, workflows, tests, and finished site assets in `data/`.
+Keep local caches, scratch outputs, and credentials out of Git. The main
+ignored paths are:
 
-Keep local caches, raw downloads, scratch outputs, and workbooks out of Git.
-The main ignored local folders are `node_modules/`, `renv/library/`,
-`ipeds/cache/`, `ipeds/raw/`, `ipeds/derived/`, `data_pipelines/*/cache/`,
-`test-results/`, and `workbooks/`.
+- `node_modules/`
+- `renv/library/`
+- `.renv_cache/`
+- `ipeds/cache/`, `ipeds/raw/`, `ipeds/derived/`
+- `data_pipelines/*/cache/`
+- `test-results/`
+- `workbooks/`
+- `.secrets/`
+- `.private_docs/`
 
-See [docs/REFRESH_CYCLE.md](./docs/REFRESH_CYCLE.md) for the longer output map.
+See [docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md) for the fuller
+output map, script inventory, source-data overview, and rebuild flow.
 
-## Fast Commands
+## Common Commands
 
 ```bash
 # R smoke and fixture tests
@@ -65,13 +78,13 @@ npm run test:e2e
 npm run test:a11y
 ```
 
-Use `npm ci` on fresh machines or in CI. Use `npm install` only when you intend
-to update `package-lock.json`.
+Use `npm ci` on fresh machines or in CI. Use `npm install` only when you
+intend to update `package-lock.json`.
 
-## Build Entry Point
+## Build Summary
 
-The full rebuild sequence lives in [docs/WALKTHROUGH.md](./docs/WALKTHROUGH.md).
-The short version is:
+The rebuild, refresh, and troubleshooting details live in
+[docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md). The short version is:
 
 1. Build or refresh the canonical IPEDS dataset.
 2. Rebuild supporting joins for outcomes, cuts, accreditation, research, HCM,

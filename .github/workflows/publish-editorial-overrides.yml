@@ -162,16 +162,6 @@ jobs:
             --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
             --verbose
 
-      - name: Check college cuts review gate readiness
-        if: ${{ inputs.mode == 'publish' }}
-        shell: bash
-        timeout-minutes: 15
-        run: |
-          Rscript ./scripts/check_college_cuts_review_gate_ready.R \
-            --candidates data_pipelines/college_cuts/college_cuts_review_candidates.csv \
-            --overrides data_pipelines/college_cuts/editorial_overrides.csv \
-            --verbose
-
       - name: Audit accreditation teach-out review rows
         if: ${{ inputs.mode == 'teachout-audit' || inputs.mode == 'teachout-cleanup' }}
         shell: bash

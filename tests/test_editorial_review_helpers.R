@@ -739,6 +739,117 @@ run_test("College cuts review gate accepts reject as a terminal decision but exc
   assert_true(!(trim_text(candidates$cut_id[[2]]) %in% trim_text(applied$cut_id)))
 })
 
+run_test("Apply-only college cuts review gate withholds unreviewed rows instead of failing", function() {
+  cuts_df <- data.frame(
+    cut_id = c("cut-1", "cut-2"),
+    matched_unitid = c("100", "101"),
+    export_unitid = c("100", "101"),
+    institution_name_display = c("Example University", "Example College"),
+    state_display = c("Alabama", "Georgia"),
+    announcement_date = c("2026-04-24", "2026-05-01"),
+    announcement_year = c(2026L, 2026L),
+    cut_type = c("program_closure", "layoff"),
+    program_name = c("History BA", "Ten staff layoffs"),
+    source_url = c("https://example.org/cut-one", "https://example.org/cut-two"),
+    source_title = c("Source one", "Source two"),
+    source_publication = c("Paper one", "Paper two"),
+    is_primary_tracker = c(TRUE, TRUE),
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = c("100", "101"))
+  staged <- stage_college_cuts_editorial_overrides(
+    candidates,
+    first_seen = "2026-05-27",
+    tracker_unitids = c("100", "101")
+  )
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = c("100", "101"))
+  sheet_rows$review_status <- c("approved", "unreviewed")
+  overrides <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-27")
+
+  applied <- apply_college_cuts_editorial_overrides(
+    cuts_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_cut_ids = candidates$cut_id,
+    drop_unlisted = TRUE,
+    gate_mask = cuts_df$is_primary_tracker %in% TRUE
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$cut_id[[1]]), trim_text(candidates$cut_id[[1]]))
+  assert_true(!(trim_text(candidates$cut_id[[2]]) %in% trim_text(applied$cut_id)))
+})
+
+run_test("Apply-only college cuts review gate still fails true missing override rows", function() {
+  cuts_df <- data.frame(
+    cut_id = "cut-1",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/cut-one",
+    source_title = "Source one",
+    source_publication = "Paper one",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  overrides <- data.frame(
+    cut_id = "other-cut",
+    source_unitid = "101",
+    source_institution_name = "Other College",
+    source_state = "Georgia",
+    source_announcement_date = "2026-05-01",
+    source_announcement_year = "2026",
+    source_cut_type = "layoff",
+    source_cut_description = "Ten staff layoffs",
+    source_source_url = "https://example.org/cut-two",
+    source_source_title = "Source two",
+    source_source_publication = "Paper two",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_state = NA_character_,
+    override_announcement_date = NA_character_,
+    override_announcement_year = NA_character_,
+    override_cut_type = NA_character_,
+    override_cut_description = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    override_source_publication = NA_character_,
+    first_seen = "2026-05-27",
+    review_status = "approved",
+    reviewer = "editor@example.org",
+    reviewer_notes = NA_character_,
+    reviewed_at = "2026-05-28",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  err <- tryCatch(
+    {
+      apply_college_cuts_editorial_overrides(
+        cuts_df,
+        overrides,
+        enforce_review_gate = TRUE,
+        allowed_cut_ids = "cut-1",
+        drop_unlisted = TRUE,
+        gate_mask = TRUE
+      )
+      NULL
+    },
+    error = identity
+  )
+
+  assert_true(!is.null(err), "Missing cut override rows should still fail the apply-only review gate.")
+  assert_true(grepl("missing editorial overrides", conditionMessage(err), fixed = TRUE))
+})
+
 run_test("Cross-source duplicate suppression in stage_accreditation_editorial_overrides", function() {
   make_override <- function(action_id, unitid, accreditor, action_date, action_type,
                             action_label_raw = "Warning", review_status = "approved") {

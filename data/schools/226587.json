@@ -829,5 +829,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Requested Referral Report on Admissions policies and practices",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-04-25",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Based only on those reviewed standards, the institution is requested to submit a Referral Report due April 1, 2026, addressing the following referenced standard(s) of the Principles: Standard 10.5 (Admissions policies and practices) This standard expects an institution to publish admissions policies consistent with its mission.",
+      "action_label_short": "Requested Referral Report on Admissions policies and practices",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-04-25",
+      "action_year": "2025",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/145460",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/145460",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/145460",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/145460"
+    }
+  ]
 }

@@ -829,5 +829,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "SACSCOC",
+    "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2024-04-26",
+    "latest_action_year": "2024",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Based only on those reviewed standards, the institution should submit a Referral Report due September 8, 2024, addressing the standards of the Principles identified below.",
+      "action_label_short": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2024-04-26",
+      "action_year": "2024",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/109040",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/109040",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "SACSCOC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/109040",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/109040"
+    }
+  ]
 }

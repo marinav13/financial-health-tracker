@@ -824,16 +824,37 @@
   },
   "latest_status": {
     "accreditors": "WSCUC",
-    "action_labels": "Issued a Notice of Concern over standards concerning financial sustainability and leadership capacity; Removed Notice of Concern",
-    "active_actions": "notice",
+    "action_labels": "Approve the proposed merger of University of Redlands and Woodbury University. Following a change of control of Woodbury to Redlands in 2024; Issued a Notice of Concern over standards concerning financial sustainability and leadership capacity; Removed Notice of Concern",
+    "active_actions": "notice; other",
     "has_active_warning": false,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": false,
-    "latest_action_date": "2025-06-27",
-    "latest_action_year": "2025",
-    "action_count": 2
+    "latest_action_date": "2026-05-29",
+    "latest_action_year": "2026",
+    "action_count": 3
   },
   "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "other",
+      "action_label": "June 1, 2026 Krista Newkirk President University of Redlands 1200 East Colton Ave PO Box 3080 Redlands, CA 92373-0999 Jeff Bellantoni President Woodbury University 7500 North Glenoaks Boulevard Burbank, CA 91504 Dear Presidents Newkirk and Bellantoni: During its May 29, 2026 meeting, the WASC Senior College and University Commission (WSCUC) considered a proposal submitted by University of Redlands (Redlands) and Woodbury University (Woodbury) for a merger of the two institutions following a Change of Control of Woodbury to Redlands in 2024, which was the first step of a two-step process in accordance with federal regulations pertaining to mergers of institutions.",
+      "action_label_short": "Approve the proposed merger of University of Redlands and Woodbury University. Following a change of control of Woodbury to Redlands in 2024",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-05-29",
+      "action_year": "2026",
+      "notes": "Grant Substantive Change: Ownership",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/107169",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/107169",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "WSCUC",
       "action_type": "removed",

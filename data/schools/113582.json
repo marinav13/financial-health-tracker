@@ -620,5 +620,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "WSCUC",
+    "action_labels": "Approve the Change of Ownership to Torreyana College, LLC, an entity managed by Palm Ventures.",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-02-13",
+    "latest_action_year": "2026",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "WSCUC",
+      "action_type": "other",
+      "action_label": "February 27, 2026 Margot Doucette President Design Institute of San Diego 8555 Commerce Avenue San Diego, CA 92121 Dear President Doucette: During its February 11-13, 2026 meeting, the WASC Senior College and University Commission (WSCUC) considered a request submitted by Design Institute of San Diego (DISD) for a Change of Ownership to Torreyana College, LLC, an entity managed by Palm Ventures.",
+      "action_label_short": "Approve the Change of Ownership to Torreyana College, LLC, an entity managed by Palm Ventures.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-02-13",
+      "action_year": "2026",
+      "notes": "Grant Substantive Change: Ownership",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/103787",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/103787",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "WSCUC",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/103787",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/103787"
+    }
+  ]
 }

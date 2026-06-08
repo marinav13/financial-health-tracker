@@ -27,8 +27,10 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 355
+    env:
+      RENV_CONFIG_CACHE_SYMLINKS: "FALSE"
 
     steps:
       - name: Check out repository
@@ -47,22 +49,26 @@ jobs:
       - name: Set up R
         uses: r-lib/actions/setup-r@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2.11.4
         with:
-          r-version: "4.5.1"
+          r-version: "4.5.3"
 
       - name: Cache R packages
         uses: actions/cache@v4
         with:
           path: renv/library
-          key: r-${{ runner.os }}-${{ hashFiles('renv.lock') }}
+          key: r-ubuntu-24.04-${{ hashFiles('renv.lock') }}
           restore-keys: |
-            r-${{ runner.os }}-
+            r-ubuntu-24.04-
 
       - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
+            cmake \
             libcurl4-openssl-dev \
-            libpoppler-cpp-dev
+            libjpeg-dev \
+            libpoppler-cpp-dev \
+            libx11-dev \
+            pandoc
 
       - name: Restore R packages
         run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"

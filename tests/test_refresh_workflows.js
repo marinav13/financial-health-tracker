@@ -12,6 +12,7 @@ const ROOT = path.resolve(__dirname, "..");
 const WEEKLY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-ipeds-site-data.yml"), "utf8");
 const FULL = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-ipeds-full.yml"), "utf8");
 const TESTS = fs.readFileSync(path.join(ROOT, ".github", "workflows", "tests.yml"), "utf8");
+const PUBLISH = fs.readFileSync(path.join(ROOT, ".github", "workflows", "publish-editorial-overrides.yml"), "utf8");
 const ACCESSIBILITY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "accessibility.yml"), "utf8");
 const PAGES_PARITY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "pages-parity.yml"), "utf8");
 const PACKAGE_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"));
@@ -120,8 +121,16 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
 
 run("weekly refresh runs R smoke tests through activated renv library", () => {
   const sysreqBlock = stepBlock(WEEKLY, "Install system dependencies");
-  assert(sysreqBlock.includes("libpoppler-cpp-dev"), "Expected weekly refresh to install poppler sysreqs before renv restore");
-  assert(sysreqBlock.includes("libcurl4-openssl-dev"), "Expected weekly refresh to install libcurl sysreqs before renv restore");
+  [
+    "cmake",
+    "libcurl4-openssl-dev",
+    "libjpeg-dev",
+    "libpoppler-cpp-dev",
+    "libx11-dev",
+    "pandoc"
+  ].forEach((pkg) => {
+    assert(sysreqBlock.includes(pkg), `Expected weekly refresh to install ${pkg} before renv restore`);
+  });
   const restoreBlock = stepBlock(WEEKLY, "Restore R packages");
   assert(restoreBlock.includes("renv::restore()"), "Expected weekly refresh to restore the renv library before smoke tests");
   const block = stepBlock(WEEKLY, "Run shared helper smoke tests");
@@ -129,24 +138,64 @@ run("weekly refresh runs R smoke tests through activated renv library", () => {
   assert(!block.includes("--vanilla"), "Expected weekly smoke tests not to bypass renv activation with --vanilla");
 });
 
-run("weekly refresh caches the same renv library path as test workflow", () => {
+run("R-bearing workflows pin Ubuntu 24.04, align to lockfile R, and disable symlinked renv caches", () => {
+  [TESTS, WEEKLY, FULL, PUBLISH].forEach((workflow) => {
+    assert(workflow.includes("runs-on: ubuntu-24.04"), "Expected Ubuntu 24.04 pin on R-bearing workflow");
+    assert(workflow.includes('r-version: "4.5.3"'), "Expected R version to match the lockfile");
+    assert(workflow.includes('RENV_CONFIG_CACHE_SYMLINKS: "FALSE"'), "Expected symlink-free renv cache configuration");
+  });
+  assert(!TESTS.includes("use-public-rspm: true"), "Expected tests workflow to stop forcing public RSPM");
+});
+
+run("R-bearing workflows cache the same pinned renv library path and cache key", () => {
   const weeklyBlock = stepBlock(WEEKLY, "Cache R packages");
   const testsBlock = stepBlock(TESTS, "Cache R packages");
-  assert(weeklyBlock.includes("path: renv/library"), "Expected weekly refresh to cache renv/library");
-  assert(testsBlock.includes("path: renv/library"), "Expected tests workflow to cache renv/library");
-  assert(!weeklyBlock.includes("R_LIBS_USER"), "Expected weekly refresh not to cache a divergent R_LIBS_USER path");
+  const fullBlock = stepBlock(FULL, "Cache R packages");
+  const publishBlock = stepBlock(PUBLISH, "Cache R packages");
+  [weeklyBlock, testsBlock, fullBlock, publishBlock].forEach((block) => {
+    assert(block.includes("path: renv/library"), "Expected renv/library cache path");
+    assert(block.includes("key: r-ubuntu-24.04-${{ hashFiles('renv.lock') }}"), "Expected image-pinned renv cache key");
+    assert(block.includes("r-ubuntu-24.04-"), "Expected image-pinned renv restore key prefix");
+    assert(!block.includes("R_LIBS_USER"), "Expected no divergent R_LIBS_USER cache path");
+  });
 });
 
 run("full refresh restores renv and installs system dependencies before --vanilla R scripts", () => {
   const cacheBlock = stepBlock(FULL, "Cache R packages");
   assert(cacheBlock.includes("path: renv/library"), "Expected full refresh to cache renv/library");
   const sysreqBlock = stepBlock(FULL, "Install system dependencies");
-  assert(sysreqBlock.includes("libpoppler-cpp-dev"), "Expected full refresh to install poppler sysreqs before renv restore");
-  assert(sysreqBlock.includes("libcurl4-openssl-dev"), "Expected full refresh to install libcurl sysreqs before renv restore");
+  [
+    "cmake",
+    "libcurl4-openssl-dev",
+    "libjpeg-dev",
+    "libpoppler-cpp-dev",
+    "libx11-dev",
+    "pandoc"
+  ].forEach((pkg) => {
+    assert(sysreqBlock.includes(pkg), `Expected full refresh to install ${pkg} before renv restore`);
+  });
   const restoreBlock = stepBlock(FULL, "Restore R packages");
   assert(restoreBlock.includes("renv::restore()"), "Expected full refresh to restore packages from renv.lock");
   const smokeBlock = stepBlock(FULL, "Run shared helper smoke tests");
   assert(smokeBlock.includes("Rscript --vanilla ./tests/run_shared_helper_smoke_tests.R"), "Expected full refresh smoke tests to preserve --vanilla coverage");
+});
+
+run("publish workflow restores renv with the same hardened system dependency set", () => {
+  const cacheBlock = stepBlock(PUBLISH, "Cache R packages");
+  assert(cacheBlock.includes("path: renv/library"), "Expected publish workflow to cache renv/library");
+  const sysreqBlock = stepBlock(PUBLISH, "Install system dependencies");
+  [
+    "cmake",
+    "libcurl4-openssl-dev",
+    "libjpeg-dev",
+    "libpoppler-cpp-dev",
+    "libx11-dev",
+    "pandoc"
+  ].forEach((pkg) => {
+    assert(sysreqBlock.includes(pkg), `Expected publish workflow to install ${pkg} before renv restore`);
+  });
+  const restoreBlock = stepBlock(PUBLISH, "Restore R packages");
+  assert(restoreBlock.includes("renv::restore()"), "Expected publish workflow to restore packages from renv.lock");
 });
 
 run("full refresh restores IPEDS downloads from cache before external collection", () => {

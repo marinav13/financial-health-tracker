@@ -1210,6 +1210,7 @@ build_review_backed_accreditation_export_row <- function(override_row, template_
   if ("source_url" %in% names(export_row)) export_row$source_url[[1]] <- effective_row$source_url[[1]]
   if ("source_title" %in% names(export_row)) export_row$source_title[[1]] <- effective_row$source_title[[1]]
   if ("source_page_url" %in% names(export_row)) export_row$source_page_url[[1]] <- effective_row$source_url[[1]]
+  if ("display_action" %in% names(export_row)) export_row$display_action[[1]] <- TRUE
   export_row$row_origin[[1]] <- row_origin_value
   if ("has_financial_profile" %in% names(export_row)) export_row$has_financial_profile[[1]] <- !is.na(effective_row$unitid[[1]]) && nzchar(effective_row$unitid[[1]])
   if ("is_primary_tracker" %in% names(export_row)) export_row$is_primary_tracker[[1]] <- FALSE

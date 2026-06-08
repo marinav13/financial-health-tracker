@@ -847,6 +847,296 @@ run_test("Web export pipeline fixture", function() {
     sprintf("Download CSV should have substantial data columns (found %d).", ncol(download_csv)))
 })
 
+run_test("Web export pipeline surfaces approved review-backed Martin resignation rows on landing actions", function() {
+  fixture_root <- tempfile("web-export-martin-review-backed-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "data"),
+    file.path(fixture_root, "data", "schools"),
+    file.path(fixture_root, "data", "downloads"),
+    file.path(fixture_root, "data_pipelines", "accreditation"),
+    file.path(fixture_root, "data_pipelines", "scorecard")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  canonical_path <- file.path(fixture_root, "fixture_canonical.csv")
+  canonical_df <- data.frame(
+    unitid = c("151810", "151810"),
+    institution_name = c("Martin University", "Martin University"),
+    institution_unique_name = c("Martin University | Indianapolis | Indiana", "Martin University | Indianapolis | Indiana"),
+    city = c("Indianapolis", "Indianapolis"),
+    state = c("Indiana", "Indiana"),
+    control_label = c("Private not-for-profit", "Private not-for-profit"),
+    sector = c("Private not-for-profit, 4-year or above", "Private not-for-profit, 4-year or above"),
+    category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+    urbanization = c("City: Large", "City: Large"),
+    religious_affiliation = c(NA, NA),
+    all_programs_distance_education = c("No", "No"),
+    year = c("2024", "2025"),
+    enrollment_pct_change_5yr = c("-27.67", "-27.67"),
+    enrollment_decline_last_3_of_5 = c("Yes", "Yes"),
+    revenue_pct_change_5yr = c("-12.05", "-12.05"),
+    net_tuition_per_fte_change_5yr = c("7.89", "7.89"),
+    staff_total_headcount_pct_change_5yr = c("0.01", "0.01"),
+    staff_instructional_headcount_pct_change_5yr = c("35.86", "35.86"),
+    students_per_instructional_staff_fte = c("12", "12"),
+    sector_median_students_per_instructional_staff_fte = c("13", "13"),
+    ended_year_at_loss = c("No", "No"),
+    losses_last_3_of_5 = c("No", "No"),
+    loss_years_last_10 = c("0", "0"),
+    tuition_dependence_pct = c("31.38", "31.38"),
+    sector_median_tuition_dependence_pct = c("44.86", "44.86"),
+    tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+    discount_rate = c("0.42", "0.42"),
+    discount_pct_change_5yr = c("0.25", "0.25"),
+    share_grad_students = c("0.15", "0.15"),
+    research_expense = c("0", "0"),
+    research_expense_per_fte = c("0", "0"),
+    research_expense_pct_core_expenses = c("0", "0"),
+    sector_research_spending_n = c("0", "0"),
+    sector_research_spending_positive_n = c("0", "0"),
+    sector_research_spending_reporting_share_pct = c("0", "0"),
+    sector_median_research_expense_per_fte_positive = c("0", "0"),
+    pct_international_all = c("0.01", "0.01"),
+    pct_international_undergraduate = c("0.01", "0.01"),
+    pct_international_graduate = c("0.02", "0.02"),
+    international_student_count_change_5yr = c("0", "0"),
+    international_enrollment_pct_change_5yr = c("0", "0"),
+    international_students_sentence = c("In 2024, 1% of students were international.", "In 2025, 1% of students were international."),
+    federal_loan_pct_most_recent = c("40", "40"),
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.10", "0.10"),
+    state_funding_pct_core_revenue = c("0.02", "0.02"),
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = c("0", "0"),
+    state_funding_pct_change_5yr = c("0", "0"),
+    endowment_pct_change_5yr = c("0", "0"),
+    endowment_spending_current_use_pct_core_revenue = c("0.01", "0.01"),
+    revenue_total = c("100", "100"),
+    expenses_total = c("90", "90"),
+    revenue_total_adjusted = c("100", "100"),
+    expenses_total_adjusted = c("90", "90"),
+    net_tuition_per_fte_adjusted = c("3", "3"),
+    enrollment_headcount_total = c("100", "100"),
+    enrollment_nonresident_total = c("1", "1"),
+    enrollment_nonresident_undergrad = c("1", "1"),
+    enrollment_nonresident_graduate = c("0", "0"),
+    staff_headcount_total = c("20", "20"),
+    staff_headcount_instructional = c("8", "8"),
+    endowment_value_adjusted = c("50", "50"),
+    endowment_assets_per_fte_adjusted = c("0.5", "0.5"),
+    endowment_spending_current_use = c("1", "1"),
+    endowment_spending_current_use_adjusted = c("1", "1"),
+    federal_grants_contracts_pell_adjusted_adjusted = c("10", "10"),
+    state_funding_adjusted = c("2", "2"),
+    graduation_rate_6yr = c("41.1", "41.1"),
+    median_earnings_10yr = c("42002", "42002"),
+    median_debt_completers = c("22544", "22544"),
+    outcomes_data_available = c(TRUE, TRUE),
+    scorecard_data_updated = c("2026-03-23", "2026-03-23"),
+    ipeds_graduation_rate_year = c("2024", "2024"),
+    ipeds_graduation_rate_label = c("2024 cohort", "2024 cohort"),
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(canonical_df, canonical_path, na = "")
+
+  readr::write_csv(
+    data.frame(
+      unitid = "151810",
+      institution_name = "Martin University",
+      state = "Indiana",
+      city = "Indianapolis",
+      control_label = "Private not-for-profit",
+      category = "Degree-granting, primarily baccalaureate or above",
+      accreditors = "HLC",
+      latest_action_date = "2025-12-31",
+      latest_action_year = "2025",
+      action_labels = "Voluntarily Surrendered Accreditation effective December 31, 2025. The institution has established a teach-out agreement that has been approved by HLC with University of Indianapolis in Indianapolis, Indiana.",
+      active_actions = NA_character_,
+      has_active_warning = FALSE,
+      has_active_warning_or_notice = FALSE,
+      has_active_adverse_action = FALSE,
+      action_count = 1L,
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name = character(),
+      state = character(),
+      city = character(),
+      control_label = character(),
+      category = character(),
+      accreditor = character(),
+      action_type = character(),
+      action_label_raw = character(),
+      action_status = character(),
+      action_date = character(),
+      action_year = character(),
+      notes = character(),
+      source_url = character(),
+      source_title = character(),
+      source_page_url = character(),
+      source_page_modified = character(),
+      display_action = logical(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name_raw = character(),
+      institution_state_raw = character(),
+      tracker_name = character(),
+      tracker_state = character(),
+      city = character(),
+      control_label = character(),
+      category = character(),
+      accreditor = character(),
+      action_type = character(),
+      action_label_raw = character(),
+      action_status = character(),
+      action_date = character(),
+      action_year = character(),
+      action_scope = character(),
+      notes = character(),
+      source_url = character(),
+      source_title = character(),
+      source_page_url = character(),
+      source_page_modified = character(),
+      file_id = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name = character(),
+      accreditor = character(),
+      public_table_strategy = character(),
+      hybrid_candidate = logical(),
+      hybrid_reason = character(),
+      public_action_family = character(),
+      scraper_source_key = character(),
+      dapip_source_key = character(),
+      scraper_action_type = character(),
+      scraper_action_label = character(),
+      scraper_action_date = character(),
+      scraper_source_url = character(),
+      dapip_action_type = character(),
+      dapip_action_label = character(),
+      dapip_action_date = character(),
+      dapip_source_page_url = character(),
+      dapip_file_id = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      accreditor = character(),
+      source_url = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      action_id = "91a619a88984",
+      source_unitid = "151810",
+      source_institution_name = "Martin University",
+      source_accreditor = "HLC",
+      source_action_date = "2025-12-31",
+      source_action_type = "adverse_action",
+      source_action_label_raw = "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025.",
+      source_generated_statement = "Voluntarily Surrendered Accreditation effective December 31, 2025. The institution has established a teach-out agreement that has been approved by HLC with University of Indianapolis in Indianapolis, Indiana.",
+      source_source_url = "https://ope.ed.gov/dapip/#/institution-profile/115320",
+      source_source_title = "DAPIP Institutional Accreditation Action",
+      source_row_origin = "scraper",
+      override_unitid = NA_character_,
+      override_institution_name = NA_character_,
+      override_accreditor = NA_character_,
+      override_action_date = NA_character_,
+      override_action_type = NA_character_,
+      override_action_label_raw = NA_character_,
+      override_generated_statement = NA_character_,
+      override_source_url = NA_character_,
+      override_source_title = NA_character_,
+      first_seen = "2026-06-06",
+      review_status = "approved",
+      reviewer = "MV",
+      reviewer_notes = NA_character_,
+      reviewed_at = NA_character_,
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "editorial_overrides.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "151810",
+      graduation_rate_6yr = "41.1",
+      median_earnings_10yr = "42002",
+      median_debt_completers = "22544",
+      outcomes_data_available = TRUE,
+      scorecard_data_updated = "2026-03-23",
+      ipeds_graduation_rate_year = "2024",
+      ipeds_graduation_rate_label = "2024 cohort",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+    na = ""
+  )
+
+  readr::write_file('{"as_of_date":"2026-06-08","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2026-06-08","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2026-06-08","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+
+  export_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
+  export_env$main(c("--input", canonical_path, "--output-dir", fixture_root, "--only", "accreditation"))
+
+  accreditation_export <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation.json"), simplifyVector = FALSE)
+  accred_index <- jsonlite::read_json(file.path(fixture_root, "data", "accreditation_index.json"), simplifyVector = FALSE)
+
+  assert_identical(length(accreditation_export$schools), 1L)
+  martin_school <- accreditation_export$schools[[1]]
+  assert_identical(martin_school$institution_name, "Martin University")
+  assert_true(isTRUE(martin_school$is_primary_tracker))
+  assert_identical(length(martin_school$actions), 1L)
+  martin_action <- martin_school$actions[[1]]
+  assert_true(isTRUE(martin_action$display_action),
+    "Approved review-backed Martin resignation rows should export with display_action=true.")
+  assert_true(grepl("Voluntarily Surrendered Accreditation", martin_action$action_label_short, fixed = TRUE))
+  assert_identical(martin_action$action_date, "2025-12-31")
+
+  assert_identical(length(accred_index), 1L)
+  martin_index <- accred_index[[1]]
+  assert_identical(martin_index$institution_name, "Martin University")
+  assert_true(isTRUE(martin_index$is_primary_tracker))
+  assert_identical(length(martin_index$landing_actions), 1L)
+  landing_action <- martin_index$landing_actions[[1]]
+  assert_true(isTRUE(landing_action$display_action),
+    "Martin should contribute one visible landing action through the review-backed export path.")
+  assert_true(grepl("Voluntarily Surrendered Accreditation", landing_action$action_label_short, fixed = TRUE))
+})
+
 run_test("Web export pipeline resolves HLC sanctions after warning removal", function() {
   fixture_root <- tempfile("web-export-hlc-removal-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)

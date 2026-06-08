@@ -1186,6 +1186,78 @@ run_test("Apply-only accreditation review gate still fails true missing override
   assert_true(grepl("missing editorial overrides", conditionMessage(err), fixed = TRUE))
 })
 
+run_test("Approved review-backed accreditation overrides export as visible rows", function() {
+  actions_df <- data.frame(
+    unitid = "151810",
+    export_unitid = "151810",
+    export_institution_name = "Martin University",
+    institution_name = "Martin University",
+    accreditor = "HLC",
+    action_date = "2025-12-01",
+    action_year = "2025",
+    action_type = "adverse_action",
+    action_label_raw = "Approved the institutionâ€™s provisional plan and teach-out agreement with the following institution: University of Indianapolis, Indianapolis, IN",
+    action_label_short = "Approved provisional plan and teach-out agreement with University of Indianapolis",
+    source_url = "https://example.org/existing",
+    source_title = "Existing source",
+    source_page_url = "https://example.org/existing",
+    source_page_modified = NA_character_,
+    display_action = TRUE,
+    public_table_strategy = "scraper_backed_keep",
+    hybrid_candidate = FALSE,
+    hybrid_reason = NA_character_,
+    has_financial_profile = TRUE,
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  overrides <- data.frame(
+    action_id = "91a619a88984",
+    source_unitid = "151810",
+    source_institution_name = "Martin University",
+    source_accreditor = "HLC",
+    source_action_date = "2025-12-31",
+    source_action_type = "adverse_action",
+    source_action_label_raw = "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025.",
+    source_generated_statement = "Voluntarily Surrendered Accreditation effective December 31, 2025. The institution has established a teach-out agreement that has been approved by HLC with University of Indianapolis in Indianapolis, Indiana.",
+    source_source_url = "https://ope.ed.gov/dapip/#/institution-profile/115320",
+    source_source_title = "DAPIP Institutional Accreditation Action",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = NA_character_,
+    override_generated_statement = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2026-06-06",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = NA_character_,
+    reviewed_at = NA_character_,
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+
+  applied <- apply_accreditation_editorial_overrides(
+    actions_df,
+    overrides,
+    enforce_review_gate = FALSE
+  )
+
+  martin_row <- applied[trim_text(applied$action_id) == "91a619a88984", , drop = FALSE]
+  assert_identical(nrow(martin_row), 1L)
+  assert_true(isTRUE(martin_row$display_action[[1]]),
+    "Approved review-backed accreditation rows should export with display_action=true.")
+  assert_true(nzchar(trim_text(martin_row$action_label_raw[[1]])),
+    "Review-backed accreditation rows should retain the raw action label.")
+  assert_true(nzchar(trim_text(martin_row$action_label_short[[1]])),
+    "Review-backed accreditation rows should retain the short action label.")
+  assert_identical(trim_text(martin_row$source_url[[1]]), "https://ope.ed.gov/dapip/#/institution-profile/115320")
+})
+
 run_test("HLC institution-page bare status rows are suppressed before staging", function() {
   hlc_candidates <- data.frame(
     action_id = c("hlc-on-prob", "hlc-real-action", "hlc-wrong-url"),
@@ -1533,4 +1605,3 @@ run_test("Committed college cuts overrides CSV with new label/summary columns re
   assert_identical(coerced$override_cut_label[[1]], "Revised short label")
   assert_true(is.na(coerced$override_cut_summary[[1]]))
 })
-

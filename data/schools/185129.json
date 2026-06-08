@@ -16,14 +16,14 @@
   "summary": {
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -26.7329,
-    "sector_median_enrollment_pct_change_5yr": -4.3185,
+    "sector_median_enrollment_pct_change_5yr": -4.2732,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -24.9589,
-    "sector_median_revenue_pct_change_5yr": -1.3735,
+    "sector_median_revenue_pct_change_5yr": -1.3261,
     "net_tuition_per_fte_change_5yr": -8.0771,
-    "sector_median_net_tuition_per_fte_change_5yr": -17.789,
+    "sector_median_net_tuition_per_fte_change_5yr": -17.7529,
     "staff_total_headcount_pct_change_5yr": -25.1032,
-    "sector_median_staff_total_headcount_pct_change_5yr": 0.516,
+    "sector_median_staff_total_headcount_pct_change_5yr": 0.3908,
     "staff_instructional_headcount_pct_change_5yr": -29.2289,
     "students_per_instructional_staff_fte": 13,
     "sector_median_students_per_instructional_staff_fte": 16,
@@ -31,7 +31,7 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 5,
     "tuition_dependence_pct": 29.6259,
-    "sector_median_tuition_dependence_pct": 21.229,
+    "sector_median_tuition_dependence_pct": 21.2464,
     "tuition_dependence_vs_sector_median_sentence": "This college got 30.0% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "unfunded_discount_rate": 47.6397,
     "unfunded_discount_pct_change_5yr": 6.7242,
@@ -61,9 +61,9 @@
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": -15.1961,
     "state_funding_pct_change_5yr": -11.9339,
     "endowment_assets_per_fte_adjusted": 3893.2636,
-    "sector_median_endowment_assets_per_fte_adjusted": 12654.749,
+    "sector_median_endowment_assets_per_fte_adjusted": 12637.3807,
     "endowment_pct_change_5yr": 14.3521,
-    "sector_median_endowment_pct_change_5yr": 19.147,
+    "sector_median_endowment_pct_change_5yr": 19.1807,
     "endowment_spending_current_use_pct_core_revenue": 0.0039,
     "graduation_rate_6yr": 34,
     "median_earnings_10yr": 52745,
@@ -832,37 +832,16 @@
   },
   "latest_status": {
     "accreditors": "MSCHE",
-    "action_labels": "Grant Substantive Change: Ownership; Merger of New Jersey City University with Kean University (effective July 1, 2026)",
-    "active_actions": "other",
+    "action_labels": "Merger of New Jersey City University with Kean University (effective July 1, 2026)",
+    "active_actions": null,
     "has_active_warning": false,
     "has_active_warning_or_notice": false,
     "has_active_adverse_action": false,
     "latest_action_date": "2026-04-23",
     "latest_action_year": "2026",
-    "action_count": 2
+    "action_count": 1
   },
   "actions": [
-    {
-      "accreditor": "MSCHE",
-      "action_type": "other",
-      "action_label": "Grant Substantive Change: Ownership",
-      "action_label_short": "Grant Substantive Change: Ownership",
-      "action_scope": null,
-      "action_status": "active",
-      "action_date": "2026-04-23",
-      "action_year": "2026",
-      "notes": "Grant Substantive Change: Ownership | merger of New Jersey City University with Kean University, effective July 1, 2026. Institution meets the requirements for this substantive change",
-      "source_url": null,
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/128258",
-      "source_page_modified": null,
-      "display_action": true,
-      "public_table_strategy": "dapip_backed_keep",
-      "hybrid_candidate": false,
-      "hybrid_reason": null,
-      "has_financial_profile": true,
-      "is_primary_tracker": true
-    },
     {
       "accreditor": "MSCHE",
       "action_type": "adverse_action",
@@ -886,12 +865,6 @@
     }
   ],
   "sources": [
-    {
-      "accreditor": "MSCHE",
-      "source_title": "DAPIP Institutional Accreditation Action",
-      "source_url": null,
-      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/128258"
-    },
     {
       "accreditor": "MSCHE",
       "source_title": "MSCHE Statement of Accreditation Status - New Jersey City University",

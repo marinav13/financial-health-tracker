@@ -55,6 +55,17 @@ run("weekly refresh verifies Supabase mapping output before downstream joins", (
   assert(block.includes("exit 1"), "Expected missing mapping to fail the workflow");
 });
 
+run("weekly refresh stages review queues before pulling sheet decisions", () => {
+  const stageAccreditationIndex = WEEKLY.indexOf("- name: Stage accreditation review queue");
+  const pullAccreditationIndex = WEEKLY.indexOf("- name: Pull accreditation review decisions");
+  const stageCutsIndex = WEEKLY.indexOf("- name: Stage college cuts review queue");
+  const pullCutsIndex = WEEKLY.indexOf("- name: Pull college cuts review decisions");
+  assert(stageAccreditationIndex >= 0, "Expected accreditation stage step");
+  assert(pullAccreditationIndex > stageAccreditationIndex, "Expected accreditation sheet pull after stage");
+  assert(stageCutsIndex >= 0, "Expected college cuts stage step");
+  assert(pullCutsIndex > stageCutsIndex, "Expected college cuts sheet pull after stage");
+});
+
 run("weekly refresh fails loudly when closure sheet import breaks", () => {
   // Requirement change: the closure-sheet step previously carried
   // `continue-on-error: true`, which silently masked import failures and let

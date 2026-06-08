@@ -303,38 +303,9 @@ jobs:
           echo "${GOOGLE_SERVICE_ACCOUNT_JSON_B64}" | base64 --decode > "$RUNNER_TEMP/google-service-account.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/google-service-account.json" >> "$GITHUB_ENV"
 
-      - name: Pull accreditation review decisions
-        shell: bash
-        timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
-        run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/accreditation/editorial_overrides.csv ]; then
-            Rscript ./scripts/pull_accreditation_overrides.R \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
-          fi
-
-      - name: Pull college cuts review decisions
-        shell: bash
-        timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
-        run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/college_cuts/editorial_overrides.csv ]; then
-            Rscript ./scripts/pull_college_cuts_overrides.R \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
-          fi
-
+      # Stage before pull so a prior failed weekly run that appended rows to
+      # the Google Sheet but died before committing editorial_overrides.csv can
+      # be repaired from the freshly rebuilt candidate CSV on the next run.
       - name: Stage accreditation review queue
         shell: bash
         timeout-minutes: 15
@@ -377,6 +348,38 @@ jobs:
               --output data_pipelines/college_cuts/editorial_overrides.csv \
               --verbose \
               2>&1 | tee -a refresh-logs/combined.log
+          fi
+
+      - name: Pull accreditation review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/accreditation/editorial_overrides.csv ]; then
+            Rscript ./scripts/pull_accreditation_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
+          fi
+
+      - name: Pull college cuts review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/college_cuts/editorial_overrides.csv ]; then
+            Rscript ./scripts/pull_college_cuts_overrides.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
           fi
 
       - name: Rebuild static web exports (review gate)

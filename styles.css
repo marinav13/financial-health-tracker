@@ -1461,6 +1461,15 @@ body[data-search-source="research"] .hero-solo-center .lede.lede-intro {
   font-weight: 700;
 }
 
+.guide-inline-gold {
+  display: inline-block;
+  padding: 1px 8px 3px;
+  border-radius: 4px;
+  background: var(--hechinger-gold);
+  color: var(--ink);
+  font-weight: 700;
+}
+
 .guide-inline-red-warning {
   display: inline-flex;
   align-items: center;
@@ -2274,14 +2283,22 @@ body[data-search-source="research"] .school-quad-banner img {
   gap: 12px;
 }
 
+.school-warning-summary-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: min(100%, 48rem);
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
 .school-warning-summary {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   max-width: min(100%, 36rem);
-  margin-top: 4px;
-  margin-bottom: 2px;
   padding: 10px 16px;
   border: 1px solid var(--neg);
   border-radius: 999px;
@@ -2291,6 +2308,12 @@ body[data-search-source="research"] .school-quad-banner img {
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.01em;
+}
+
+.school-warning-summary.is-broad {
+  border-color: var(--hechinger-gold-deep);
+  background: var(--hechinger-gold);
+  color: var(--ink);
 }
 
 .school-warning-summary .guide-warning-icon {

@@ -456,6 +456,46 @@ function schoolWarningTypeLabel(profile) {
   return "school";
 }
 
+const WIDESPREAD_WARNING_RATIO = 0.75;
+
+function appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel) {
+  const countStrong = document.createElement("strong");
+  countStrong.textContent = `${count} ${count === 1 ? "is" : "are"} flagged as concerning`;
+  tooltip.append(document.createTextNode(` Across all ${totalVisible} potential indicators for a ${typeLabel}, `));
+  tooltip.append(countStrong);
+  tooltip.append(document.createTextNode(". This is a sign of financial stress. Check out this institution's "));
+  const auditsLink = document.createElement("a");
+  auditsLink.href = "https://www.fac.gov/";
+  auditsLink.target = "_blank";
+  auditsLink.rel = "noopener noreferrer";
+  auditsLink.textContent = "audits";
+  tooltip.append(auditsLink);
+  tooltip.append(document.createTextNode(" for more context."));
+}
+
+function buildSchoolWarningBadge({ label, tooltipLabel, variantClass = "", buildTooltipContent }) {
+  const badge = document.createElement("span");
+  badge.className = `school-warning-summary${variantClass ? ` ${variantClass}` : ""}`;
+  badge.setAttribute("role", "img");
+  badge.setAttribute("tabindex", "0");
+  badge.setAttribute("aria-label", tooltipLabel);
+
+  const icon = document.createElement("span");
+  icon.className = "guide-warning-icon";
+  icon.setAttribute("aria-hidden", "true");
+
+  const text = document.createElement("span");
+  text.textContent = label;
+
+  const tooltip = document.createElement("span");
+  tooltip.className = "warning-sign-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  buildTooltipContent(tooltip);
+
+  badge.append(icon, text, tooltip);
+  return badge;
+}
+
 function trackerSectorCollegeLabel(profile) {
   const control = String(profile?.control_label || profile?.sector || "").trim().toLowerCase();
   if (control === "public") return "public colleges";
@@ -651,52 +691,56 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   const node = document.getElementById("school-warning-summary");
   if (!node) return;
 
-  if (!warningSummary?.showBadge) {
+  if (!warningSummary?.showPatternBadge && !warningSummary?.showBroadBadge) {
     node.replaceChildren();
     node.classList.add("is-hidden");
     node.setAttribute("aria-hidden", "true");
-    node.removeAttribute("tabindex");
     node.removeAttribute("aria-label");
-    delete node.dataset.tooltip;
     return;
   }
 
   const count = warningSummary.count;
   const totalVisible = warningSummary.totalVisible;
-  const badgeLabel = "Pattern of warning signs";
   const typeLabel = schoolWarningTypeLabel(profile);
-  const tooltip = document.createElement("span");
-  tooltip.className = "warning-sign-tooltip";
-  tooltip.setAttribute("role", "tooltip");
-  tooltip.append(document.createTextNode("This school "));
-  const patternStrong = document.createElement("strong");
-  patternStrong.textContent = "shows a pattern";
-  tooltip.append(patternStrong);
-  tooltip.append(document.createTextNode(" of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all "));
-  const countStrong = document.createElement("strong");
-  countStrong.textContent = `${count} ${count === 1 ? "is" : "are"} flagged as concerning`;
-  tooltip.append(document.createTextNode(`${totalVisible} potential indicators for a ${typeLabel}, `));
-  tooltip.append(countStrong);
-  tooltip.append(document.createTextNode(". This is a signal of sustained financial stress. Check out this institution's "));
-  const auditsLink = document.createElement("a");
-  auditsLink.href = "https://www.fac.gov/";
-  auditsLink.target = "_blank";
-  auditsLink.rel = "noopener noreferrer";
-  auditsLink.textContent = "audits";
-  tooltip.append(auditsLink);
-  tooltip.append(document.createTextNode(" for more context."));
-  const tooltipLabel = `This school shows a pattern of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
-  const icon = document.createElement("span");
-  icon.className = "guide-warning-icon";
-  icon.setAttribute("aria-hidden", "true");
-  const text = document.createElement("span");
-  text.textContent = badgeLabel;
+  const badges = [];
 
-  node.replaceChildren(icon, text, tooltip);
+  if (warningSummary.showPatternBadge) {
+    const tooltipLabel = `This school shows a pattern of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
+    badges.push(buildSchoolWarningBadge({
+      label: "Pattern of declining enrollment and losses",
+      tooltipLabel,
+      buildTooltipContent: (tooltip) => {
+        tooltip.append(document.createTextNode("This school "));
+        const patternStrong = document.createElement("strong");
+        patternStrong.textContent = "shows a pattern";
+        tooltip.append(patternStrong);
+        tooltip.append(document.createTextNode(" of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years."));
+        appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel);
+      }
+    }));
+  }
+
+  if (warningSummary.showBroadBadge) {
+    const tooltipLabel = `This school shows widespread warning signs across the visible indicators on this profile. At least 75% of its visible warning indicators are flagged as concerning. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of financial stress. Check out this institution's audits for more context.`;
+    badges.push(buildSchoolWarningBadge({
+      label: "Widespread warning signs",
+      tooltipLabel,
+      variantClass: "is-broad",
+      buildTooltipContent: (tooltip) => {
+        tooltip.append(document.createTextNode("This school "));
+        const broadStrong = document.createElement("strong");
+        broadStrong.textContent = "shows widespread warning signs";
+        tooltip.append(broadStrong);
+        tooltip.append(document.createTextNode(" across the visible indicators on this profile. At least 75% of its visible warning indicators are flagged as concerning."));
+        appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel);
+      }
+    }));
+  }
+
+  node.replaceChildren(...badges);
   node.classList.remove("is-hidden");
   node.setAttribute("aria-hidden", "false");
-  node.setAttribute("tabindex", "0");
-  node.setAttribute("aria-label", tooltipLabel);
+  node.removeAttribute("aria-label");
 }
 
 function strongSegment(text) {
@@ -1210,16 +1254,23 @@ function computeSchoolWarningSummary(summary, enrollmentFlag, visibility) {
   pushMetric("endowment", "Endowment", visibility.hasEndowmentCard, isEndowmentRed(summary));
 
   const coreIndicatorsMissing = !visibility.hasEnrollmentCard || !visibility.hasNetTuitionCard || !visibility.hasLossRepeatCard;
-  const showBadge = !coreIndicatorsMissing &&
+  const count = visibleMetrics.filter((metric) => metric.isRed).length;
+  const totalVisible = visibleMetrics.length;
+  const redRatio = totalVisible > 0 ? count / totalVisible : 0;
+  const showPatternBadge = !coreIndicatorsMissing &&
     isEnrollmentRed(summary) &&
     isNetTuitionRed(summary) &&
     isLossPatternRed(summary);
+  const showBroadBadge = totalVisible > 0 && redRatio >= WIDESPREAD_WARNING_RATIO;
 
   return {
-    count: visibleMetrics.filter((metric) => metric.isRed).length,
-    totalVisible: visibleMetrics.length,
+    count,
+    totalVisible,
+    redRatio,
     contributingVisibleMetrics: visibleMetrics.filter((metric) => metric.isRed),
-    showBadge
+    showBadge: showPatternBadge || showBroadBadge,
+    showPatternBadge,
+    showBroadBadge
   };
 }
 

@@ -29,6 +29,10 @@ const closureStatusUnitid = schoolWithClosureStatus();
 const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
 const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
+const patternOnlyWarningBadgeUnitid = '102614';
+const patternAndWideWarningBadgeUnitid = '101116';
+const wideOnlyWarningBadgeUnitid = '110060';
+const noWarningBadgeUnitid = '104586';
 
 function parseVisibleMonthYear(value) {
   const text = String(value || '').trim();
@@ -327,6 +331,46 @@ test.describe('Frontend state synchronization', () => {
     const closureFlag = page.locator('#school-closure-flag');
     await expect(closureFlag).toHaveClass(/is-hidden/);
     await expect(closureFlag).toBeEmpty();
+  });
+
+  test('school warning badges distinguish recurring patterns from widespread warnings', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${patternOnlyWarningBadgeUnitid}`);
+
+    let badgeGroup = page.locator('#school-warning-summary');
+    let badges = badgeGroup.locator('.school-warning-summary');
+    await expect(badgeGroup).not.toHaveClass(/is-hidden/);
+    await expect(badges).toHaveCount(1);
+    await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
+    await expect(badges.nth(0)).not.toHaveClass(/is-broad/);
+    await expect(badges.nth(0)).toHaveAttribute('aria-label', /operating losses in at least 3 of the last 5 years/i);
+
+    await page.goto(`/school.html?unitid=${patternAndWideWarningBadgeUnitid}`);
+
+    badgeGroup = page.locator('#school-warning-summary');
+    badges = badgeGroup.locator('.school-warning-summary');
+    await expect(badgeGroup).not.toHaveClass(/is-hidden/);
+    await expect(badges).toHaveCount(2);
+    await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
+    await expect(badges.nth(1)).toContainText('Widespread warning signs');
+    await expect(badges.nth(1)).toHaveClass(/is-broad/);
+    await expect(badges.nth(1)).toHaveAttribute('aria-label', /75%/);
+
+    await page.goto(`/school.html?unitid=${wideOnlyWarningBadgeUnitid}`);
+
+    badgeGroup = page.locator('#school-warning-summary');
+    badges = badgeGroup.locator('.school-warning-summary');
+    await expect(badgeGroup).not.toHaveClass(/is-hidden/);
+    await expect(badges).toHaveCount(1);
+    await expect(badges.nth(0)).toContainText('Widespread warning signs');
+    await expect(badges.nth(0)).toHaveClass(/is-broad/);
+    await expect(badges.nth(0)).toHaveAttribute('aria-label', /75%/);
+
+    await page.goto(`/school.html?unitid=${noWarningBadgeUnitid}`);
+
+    badgeGroup = page.locator('#school-warning-summary');
+    badges = badgeGroup.locator('.school-warning-summary');
+    await expect(badgeGroup).toHaveClass(/is-hidden/);
+    await expect(badges).toHaveCount(0);
   });
 
   test('school page without unitid shows a clean empty state', async ({ page }) => {

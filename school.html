@@ -93,7 +93,8 @@
         <li class="guide-body"><span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Red</span> with a warning sign means a trend is growing in a concerning direction.</li>
         <li class="guide-body">One or two <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> boxes do not automatically mean a school is in crisis.</li>
         <li class="guide-body">But if a college shows several <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
-        <li class="guide-body">Look out for the <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Pattern of warning signs</span> indicator at the top of a profile. That means the college posted declines of at least 5% in enrollment and net tuition revenue per student over the previous 5 years, along with operating losses in at least 3 of the last 5 years.</li>
+        <li class="guide-body">Look out for the <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Pattern of declining enrollment and losses</span> indicator at the top of a profile. That means the college posted declines of at least 5% in enrollment and net tuition revenue per student over the previous 5 years, along with operating losses in at least 3 of the last 5 years.</li>
+        <li class="guide-body">A gold <span class="guide-inline-gold guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Widespread warning signs</span> badge means at least 75% of the visible warning indicators on that profile are flagged as concerning.</li>
       </ul>
       <div class="guide-learn-more">
         <p class="guide-body">Click on the tabs at the top of the page to learn about colleges that have:</p>
@@ -148,10 +149,16 @@
       <h2 id="guide-example-section-title" class="section-title">Here are some example financial profiles:</h2>
       <div class="guide-example">
         <div class="guide-example-mast">
-          <span class="school-warning-summary" aria-label="Pattern of warning signs">
-            <span class="guide-warning-icon" aria-hidden="true"></span>
-            <span>Pattern of warning signs</span>
-          </span>
+          <div class="school-warning-summary-group" aria-label="Example warning badges">
+            <span class="school-warning-summary" aria-label="Pattern of declining enrollment and losses">
+              <span class="guide-warning-icon" aria-hidden="true"></span>
+              <span>Pattern of declining enrollment and losses</span>
+            </span>
+            <span class="school-warning-summary is-broad" aria-label="Widespread warning signs">
+              <span class="guide-warning-icon" aria-hidden="true"></span>
+              <span>Widespread warning signs</span>
+            </span>
+          </div>
           <p id="guide-example-title" class="serif guide-example-school-name">Example University</p>
           <p class="guide-example-meta">Sampleville, State &middot; Private nonprofit &middot; Suburb: Small</p>
         </div>
@@ -271,7 +278,7 @@
       <div class="school-profile-header">
         <section id="school-meta-wrap" class="school-meta-wrap">
           <div class="school-name-row">
-            <span id="school-warning-summary" class="school-warning-summary is-hidden" role="img" aria-hidden="true"></span>
+            <div id="school-warning-summary" class="school-warning-summary-group is-hidden" aria-hidden="true"></div>
             <h1 id="school-name">Loading...</h1>
           </div>
           <div class="meta">

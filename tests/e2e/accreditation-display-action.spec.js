@@ -122,6 +122,16 @@ const INDEX_FIXTURE = {
         display_action: true
       },
       {
+        accreditor: 'HLC',
+        action_type: 'adverse_action',
+        action_label_short: 'Voluntarily Surrendered Accreditation',
+        action_label: 'Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025.',
+        action_date: '2025-12-31',
+        notes: 'Loss of Accreditation or Preaccreditation: Voluntary Withdrawal | The institution voluntarily resigned status with HLC, effective December 31, 2025.',
+        source_url: 'https://example.org/martin-university',
+        display_action: true
+      },
+      {
         accreditor: 'MSCHE',
         action_type: 'adverse_action',
         action_label_short: 'Change of Legal Status (effective January 3, 2024)',
@@ -235,6 +245,7 @@ test.describe('Accreditation display_action + date parsing', () => {
     await expect(statusSection).toContainText('Landing warning');
     await expect(statusSection).toContainText('Merger of Example College with State University');
     await expect(statusSection).toContainText('Voluntarily Surrendered Accreditation');
+    await expect(statusSection.locator('a[href="https://example.org/martin-university"]')).toBeVisible();
     await expect(statusSection).not.toContainText('Hidden landing action');
     await expect(statusSection).not.toContainText('supplemental information report requested by the Commission action of November 7, 2025');
     await expect(statusSection).not.toContainText('teach-out plan as required of candidate institutions');

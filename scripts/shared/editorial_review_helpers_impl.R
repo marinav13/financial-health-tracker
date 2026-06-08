@@ -976,6 +976,14 @@ stage_accreditation_editorial_overrides <- function(candidates,
     if (any(is_cross_dup)) {
       dup_rows <- new_rows[is_cross_dup, , drop = FALSE]
       dup_matched <- cross_dup_ids[is_cross_dup]
+      dup_match_index <- match(dup_matched, trim_text(overrides$action_id))
+      valid_dup_match <- !is.na(dup_match_index)
+      if (any(valid_dup_match)) {
+        for (field_name in names(ACCREDITATION_SOURCE_FIELD_MAP)) {
+          source_column <- ACCREDITATION_SOURCE_FIELD_MAP[[field_name]]
+          overrides[[source_column]][dup_match_index[valid_dup_match]] <- dup_rows[[field_name]][valid_dup_match]
+        }
+      }
       for (i in seq_len(nrow(dup_rows))) {
         message(sprintf(
           "Suppressing cross-source duplicate: %s (%s / %s / %s) matches existing %s",

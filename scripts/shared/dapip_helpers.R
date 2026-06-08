@@ -612,32 +612,179 @@ dapip_extract_action_label_from_text <- function(text, fallback_label) {
     return(list(label = fallback_label, label_source = "dapip_action_description"))
   }
 
-  keyword_idx <- which(stringr::str_detect(
-    sentences,
-    stringr::regex(
+  select_sentence_index <- function(pattern) {
+    match_idx <- which(stringr::str_detect(
+      sentences,
+      stringr::regex(pattern, ignore_case = TRUE)
+    ))[1]
+    if (length(match_idx) == 0L || is.na(match_idx)) NA_integer_ else match_idx
+  }
+
+  keyword_patterns <- c(
+    paste(
+      "requested to submit a referral report",
+      "should submit a referral report",
+      "requested referral report",
+      "reviewed [^.]{0,160}? referral report",
+      sep = "|"
+    ),
+    paste(
+      "requested (?:a|the) (?:first |second |third |fourth |fifth )?monitoring report",
+      "reviewed [^.]{0,160}? monitoring report",
+      "no referrals or adverse findings(?: subsequent to this review)?",
+      "no additional report was requested",
+      "no additional report requested",
+      sep = "|"
+    ),
+    paste(
+      "voluntary resignation of accreditation",
+      "voluntar(?:ily|y) resign(?:ed|ation) [^.]{0,80}? accreditation",
+      "voluntary withdrawal",
+      "loss of accreditation",
+      sep = "|"
+    ),
+    paste(
       "warning|probation|show cause|withdraw|withdrawal|denied|reaffirmation|monitoring|continued|placed on|surrender|loss of accreditation|closure|cease|teach-?out|merger|change of ownership|sale of|acquisition|sole member",
-      ignore_case = TRUE
+      sep = ""
     )
-  ))[1]
+  )
+
+  keyword_idx <- NA_integer_
+  for (pattern in keyword_patterns) {
+    keyword_idx <- select_sentence_index(pattern)
+    if (!is.na(keyword_idx)) break
+  }
 
   if (is.na(keyword_idx)) {
     return(list(label = fallback_label, label_source = "dapip_action_description"))
   }
 
   label <- sentences[[keyword_idx]]
-  if (keyword_idx < length(sentences)) {
-    next_sentence <- sentences[[keyword_idx + 1L]]
-    if (stringr::str_detect(next_sentence, stringr::regex("^(For |Additional oversight|Fails to meet|Anticipated closure|A Special Committee)", ignore_case = TRUE))) {
-      label <- paste(label, next_sentence)
-    }
+  append_idx <- keyword_idx + 1L
+  referral_report_context <- stringr::str_detect(
+    label,
+    stringr::regex("referral report[^.]*addressing the following referenced standards", ignore_case = TRUE)
+  )
+  while (append_idx <= length(sentences)) {
+    next_sentence <- sentences[[append_idx]]
+    append_standard_detail <- referral_report_context &&
+      stringr::str_detect(
+        next_sentence,
+        stringr::regex("^(Core Requirement|CR|Standard|Standards)\\b", ignore_case = TRUE)
+      )
+    append_existing_detail <- stringr::str_detect(
+      next_sentence,
+      stringr::regex("^(For |Additional oversight|Fails to meet|Anticipated closure|A Special Committee)", ignore_case = TRUE)
+    )
+    if (!append_standard_detail && !append_existing_detail) break
+    label <- paste(label, next_sentence)
+    append_idx <- append_idx + 1L
+    if (!append_standard_detail) break
   }
 
   list(label = stringr::str_squish(label), label_source = "dapip_file_text")
 }
 
-dapip_classify_action_code <- function(action_code, action_description = NA_character_) {
+dapip_is_nonpublic_monitoring_letter <- function(action_code,
+                                                 action_label = NA_character_,
+                                                 full_text = NA_character_) {
+  code <- toupper(trimws(as.character(action_code %||% "")))
+  if (!identical(code, "HM")) return(FALSE)
+
+  label_txt <- stringr::str_squish(trimws(as.character(action_label %||% "")))
+  full_txt <- stringr::str_squish(trimws(as.character(full_text %||% "")))
+  combined_txt <- trimws(paste(c(label_txt, full_txt), collapse = " "))
+  if (!nzchar(combined_txt)) return(FALSE)
+
+  has_public_signal <- stringr::str_detect(
+    combined_txt,
+    stringr::regex(
+      paste(
+        "requested to submit a referral report",
+        "should submit a referral report",
+        "requested referral report",
+        "requested (?:a|the) (?:first |second |third |fourth |fifth )?monitoring report",
+        "monitoring report, due",
+        "monitoring report due",
+        "referral report, due",
+        "referral report due",
+        "show cause",
+        "probation",
+        "warning",
+        "notice of concern",
+        "non-?compliance",
+        "not in compliance",
+        "fails? to meet",
+        "addressing the following referenced standards",
+        "placed on notice",
+        "continued [^.]{0,80}? on (?:warning|probation)",
+        "withdraw(?:al)?",
+        "loss of accreditation",
+        "teach-?out",
+        "closure",
+        "cease instruction",
+        "denied",
+        sep = "|"
+      ),
+      ignore_case = TRUE
+    )
+  )
+  has_clean_outcome <- stringr::str_detect(
+    combined_txt,
+    stringr::regex(
+      paste(
+        "no referrals or adverse findings(?: subsequent to this review)?",
+        "no additional report was requested",
+        "no additional report requested",
+        sep = "|"
+      ),
+      ignore_case = TRUE
+    )
+  )
+  has_generic_review_shape <- stringr::str_detect(
+    combined_txt,
+    stringr::regex(
+      paste(
+        "fifth-?year interim review",
+        "reviewed the institution'?s (?:compliance|monitoring report|first monitoring report|second monitoring report|third monitoring report|fourth monitoring report|fifth-?year interim report|referral report)",
+        "continued accreditation following review of (?:an? )?off-?campus instructional site",
+        "continued accreditation following review of membership at level",
+        "reaffirmed accreditation",
+        sep = "|"
+      ),
+      ignore_case = TRUE
+    )
+  )
+  has_courtesy_or_closing_label <- stringr::str_detect(
+    label_txt,
+    stringr::regex(
+      paste(
+        "^we appreciate your continued support",
+        "^we extend our sincere gratitude",
+        "^your institution'?s next reaffirmation will take place",
+        "the following action regarding your institution was taken",
+        sep = "|"
+      ),
+      ignore_case = TRUE
+    )
+  )
+
+  has_clean_outcome ||
+    (has_courtesy_or_closing_label && !has_public_signal) ||
+    (has_generic_review_shape && !has_public_signal)
+}
+
+dapip_classify_action_code <- function(action_code,
+                                       action_description = NA_character_,
+                                       action_label = NA_character_,
+                                       full_text = NA_character_) {
   code <- toupper(trimws(as.character(action_code %||% "")))
   desc <- trimws(as.character(action_description %||% ""))
+  drop_nonpublic_monitoring_letter <- dapip_is_nonpublic_monitoring_letter(
+    action_code = code,
+    action_label = action_label,
+    full_text = full_text
+  )
 
   keep_codes <- c("P", "PW", "SC", "HM", "PN", "WE", "PO", "DR", "R", "VR",
                   "LD", "LA", "LO", "AD", "AA", "SD", "PR", "WR", "RM", "RS",
@@ -645,6 +792,7 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
   review_codes <- c("DP", "DA", "DO")
 
   action_type <- dplyr::case_when(
+    drop_nonpublic_monitoring_letter ~ "other",
     code == "P" ~ "probation",
     code == "PW" ~ "warning",
     code == "SC" ~ "show_cause",
@@ -664,9 +812,10 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
   list(
     action_type = action_type,
     action_status = action_status,
-    keep = code %in% keep_codes,
+    keep = if (drop_nonpublic_monitoring_letter) FALSE else code %in% keep_codes,
     review_required = code %in% review_codes,
     mapped_action_family = dplyr::case_when(
+      drop_nonpublic_monitoring_letter ~ "routine_clean_review",
       code == "P" ~ "probation",
       code == "PW" ~ "warning",
       code == "SC" ~ "show_cause",
@@ -679,6 +828,7 @@ dapip_classify_action_code <- function(action_code, action_description = NA_char
       TRUE ~ "other"
     ),
     keep_reason = dplyr::case_when(
+      drop_nonpublic_monitoring_letter ~ "routine_clean_review_letter",
       code %in% keep_codes ~ "public_action_code",
       code %in% review_codes ~ "review_code",
       TRUE ~ "routine_or_unmapped_code"
@@ -695,8 +845,13 @@ dapip_build_filtered_action_row <- function(crosswalk_row, record_row, action_ro
   justification_desc <- justification_lookup$justification_description[
     match(justification_code, justification_lookup$justification_code)
   ][[1]] %||% NA_character_
-  classed <- dapip_classify_action_code(action_code, action_desc)
   label <- dapip_extract_action_label_from_text(extracted_text$text %||% NA_character_, action_desc %||% action_code)
+  classed <- dapip_classify_action_code(
+    action_code,
+    action_desc,
+    action_label = label$label,
+    full_text = extracted_text$text %||% NA_character_
+  )
 
   tibble::tibble(
     unitid = crosswalk_row$unitid[[1]],

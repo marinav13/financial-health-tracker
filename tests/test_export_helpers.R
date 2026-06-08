@@ -1829,7 +1829,7 @@ run_test("derive_action_label_short: HLC Arkansas Baptist probation uses detaile
   )
   assert_identical(
     derive_action_label_short("probation", text, "HLC"),
-    "Placed on Probation because it is out of compliance with Core Components 5.C and 5.A."
+    "Placed on Probation because it is out of compliance with standards concerning financial resources and planning."
   )
 })
 
@@ -1842,7 +1842,7 @@ run_test("derive_action_label_short: HLC Saint Mary-of-the-Woods notice names Co
   )
   assert_identical(
     derive_action_label_short("warning", text, "HLC"),
-    "Placed on Warning because it is at risk of being out of compliance with Core Components 2.A, 2.C, 5.A, and 5.B and Assumed Practice D.4."
+    "Placed on Warning because it is at risk of being out of compliance with standards concerning integrity, governance, and financial resources and planning."
   )
 })
 
@@ -1860,7 +1860,7 @@ run_test("derive_action_label_short: HLC Ohio Christian full letter text resolve
       "HLC",
       "Probation or Equivalent or a More Severe Status: Warning | HLC took this action because it determined that the institution is at risk of being out of compliance with HLC’s Criteria for Accreditation."
     ),
-    "Placed on Warning because the institution is at risk of being out of compliance with Core Components 5.A and 5.C."
+    "Placed on Warning because the institution is at risk of being out of compliance with standards concerning financial resources and planning."
   )
 })
 
@@ -1891,7 +1891,7 @@ run_test("derive_action_label_short: HLC Wheeling full letter text resolves gene
       "HLC",
       "Probation or Equivalent or a More Severe Status: Probation | HLC took this action because it determined that the institution is out of compliance with HLC's Criteria for Accreditation."
     ),
-    "Placed on Probation because the institution is out of compliance with Core Components 2.C, 4.B, 4.C, 5.D, 5.A, and 5.C."
+    "Placed on Probation because the institution is out of compliance with standards concerning governance, outcomes, institutional effectiveness, and financial resources and planning."
   )
 })
 
@@ -1931,7 +1931,7 @@ run_test("derive_action_label_short: HLC Wilberforce notice names multiple Core 
   )
   assert_identical(
     derive_action_label_short("warning", text, "HLC"),
-    "Placed on Warning because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C and Assumed Practices D.3 and D.4."
+    "Placed on Warning because it is at risk of being out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, and governance."
   )
 })
 
@@ -1945,7 +1945,7 @@ run_test("derive_action_label_short: HLC Wilberforce probation extension uses de
   )
   assert_identical(
     derive_action_label_short("probation", text, "HLC"),
-    "The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with Core Components 3.C, 4.C, 5.C, 5.A, and 5.D and Assumed Practices D.1 and D.2."
+    "The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, institutional effectiveness, and governance."
   )
 })
 
@@ -1971,7 +1971,20 @@ run_test("derive_action_label_short: HLC Harris-Stowe notice uses full-letter co
   )
   assert_identical(
     derive_action_label_short("warning", text, "HLC"),
-    "Placed on Warning because it is at risk of being out of compliance with Core Components 2.A, 4.A, 4.B, 4.C, and 5.B."
+    "Placed on Warning because it is at risk of being out of compliance with standards concerning integrity, outcomes, and financial resources and planning."
+  )
+})
+
+run_test("derive_action_label_short: HLC Defiance probation groups component findings into public concern buckets", function() {
+  text <- paste0(
+    "June 22, 2023 BY CERTIFIED MAIL Richanne Mankey President Defiance College. ",
+    "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. ",
+    "The Institution does not meet Core Components 3.A, 4.A, 4.B, 5.C, and 5.B. ",
+    "Board Rationale The Board based its action on the following findings made with regard to the Institution."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC"),
+    "Placed on Probation because it is out of compliance with standards concerning educational offerings, outcomes, and financial resources and planning."
   )
 })
 
@@ -2170,6 +2183,19 @@ run_test("derive_action_label_short: SACSCOC referral-report letters become comp
   )
 })
 
+run_test("derive_action_label_short: SACSCOC referral-report letters with institutional-environment concerns keep a substantive summary", function() {
+  text <- paste0(
+    "The Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Committee on Fifth-Year Interim Reports reviewed the institution's compliance with the select standards of the Principles of Accreditation outlined in the SACSCOC Fifth-Year Interim Report. ",
+    "Based only on those reviewed standards, the institution is requested to submit a Referral Report due April 1, 2020, addressing the following referenced standards of the Principles: ",
+    "Standard 10.7 (Policies for awarding credit). Standard 10.9 (Cooperative academic arrangements). ",
+    "The institution did not include information relating to any investigations by the U.S. Department of Education's Office of Civil Rights for possible violations alleging sexual violence as part of its narrative addressing a healthy, safe, and secure campus environment."
+  )
+  assert_identical(
+    derive_action_label_short("notice", text, "SACSCOC"),
+    "Requested to submit a Referral Report due April 1, 2020, addressing accreditation standards involving academics and institutional environment."
+  )
+})
+
 run_test("derive_action_label_short: SACSCOC monitoring-report letters become compact summaries", function() {
   text <- paste0(
     "The institution is requested to submit a First Monitoring Report due April 1, 2026, addressing the following referenced standard of the Principles of accreditation: ",
@@ -2262,6 +2288,49 @@ run_test("derive_action_label_short: MSCHE show cause retains Standard VI reason
   )
 })
 
+run_test("derive_action_label_short: MSCHE continued show cause ignores new-information preamble", function() {
+  text <- paste0(
+    "To acknowledge receipt of the show cause report. ",
+    "To note the follow-up team visit by Commission representatives to the main campus. ",
+    "To acknowledge receipt of the request to present new information as approved by the Chair of the Commission: ",
+    "(1) November 12, 2025, email submission of new information; ",
+    "(2) New materials approving sale of real property and an enhanced enrollment plan; ",
+    "(3) PowerPoint Presentation. ",
+    "To require the institution to continue to show cause by February 27, 2026, to demonstrate why its accreditation should not be withdrawn because of insufficient evidence that the institution is in compliance with Standard VI (Planning, Resources, and Institutional Improvement). ",
+    "To note that the institution remains accredited while on show cause."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "MSCHE"),
+    "Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)"
+  )
+})
+
+run_test("derive_action_label_short: MSCHE continued show cause beats supporting-materials clauses in the full letter body", function() {
+  text <- paste0(
+    "November 24, 2025 Dr. Charles J. Gibbs President Metropolitan College of New York 60 West Street New York, NY 10006 NOTIFICATION OF NON-COMPLIANCE SHOW CAUSE ACTION Dear Dr. Gibbs: ",
+    "On behalf of the Middle States Commission on Higher Education, I am writing to inform you that on November 20, 2025, the Commission acted as follows: ",
+    "To acknowledge receipt of the show cause report. ",
+    "To note the follow-up team visit by Commission representatives to the main campus at 60 West Street, New York, NY 10006 on September 15-16, 2025. ",
+    "To note the following additional location was visited: 463 East 149th Street, Bronx, NY 10455. ",
+    "To acknowledge receipt of the intent to appear before the Commission to present its reasons why its accreditation should not be withdrawn. ",
+    "To note the presentation by institutional representatives on November 19, 2025. ",
+    "To acknowledge receipt of the request to present new information as approved by the Chair of the Commission: ",
+    "(1) November 12, 2025, email submission of new information; ",
+    "(2) New materials approving sale of real property and an enhanced enrollment plan; ",
+    "(3) PowerPoint Presentation; ",
+    "(4) November 13, 2025, email submission of supplemental new information regarding the status of the New York Attorney General's Office review and New York State Education Department approval of the sale of real property; ",
+    "(5) November 13, 2025, Letter from New York State Education Department; ",
+    "(6) November 16, 2025, email submission of new information; and ",
+    "(7) updated teach-out plan with agreements dated November 16, 2025. ",
+    "To require the institution to continue to show cause by February 27, 2026, to demonstrate why its accreditation should not be withdrawn because of insufficient evidence that the institution is in compliance with Standard VI (Planning, Resources, and Institutional Improvement). ",
+    "To note that the institution remains accredited while on show cause."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "MSCHE"),
+    "Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)"
+  )
+})
+
 run_test("derive_action_label_short: SACSCOC disclosure statement retains injunction detail", function() {
   text <- paste0(
     "Disclosure Statement Regarding the Status of Saint Augustine's University. ",
@@ -2335,6 +2404,21 @@ run_test("derive_action_label_short: SACSCOC off-campus review letters drop the 
   assert_identical(
     derive_action_label_short("other", text, "SACSCOC"),
     "Continued accreditation following review of the off-campus instructional site at Dalian Maritime University in Liaoning Province, China."
+  )
+})
+
+run_test("derive_action_label_short: SACSCOC institutional contingency teach-out approvals become compact plan summaries", function() {
+  text <- paste0(
+    "Kinloch: Thank you for submitting the following substantive change: ",
+    "Substantive change: Institutional Contingency Teach-out Submission date: 7/14/2025 Intended Implementation date: 6/12/2026 Case ID: SC032630. ",
+    "Background The institution submitted an institutional contingency teach-out plan as required by the SACSCOC Substantive Change Policy and Procedures. ",
+    "The teach-out plan is required because the institution was placed on probation for good cause by the SACSCOC Board of Trustees. ",
+    "The Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges reviewed the materials seeking approval of the institutional contingency teach-out plan. ",
+    "It was the decision of the Board to approve the teach-out plan."
+  )
+  assert_identical(
+    derive_action_label_short("show_cause", text, "SACSCOC"),
+    "Approved institutional contingency teach-out plan required after probation for good cause"
   )
 })
 
@@ -2863,4 +2947,3 @@ run_test("derive_action_label_short: MSCHE completed merger notifications use th
     "Merger of Salus University with Drexel University (effective June 30, 2024)"
   )
 })
-

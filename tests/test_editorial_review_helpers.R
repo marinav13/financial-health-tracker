@@ -793,9 +793,15 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
 
   # 1. Same unitid/accreditor/type within 7 days: suppressed
   existing <- make_override("existing-1", "100", "SACSCOC", "2025-12-07", "warning")
-  candidate <- make_candidate("new-dup-1", "100", "SACSCOC", "2025-12-01", "warning")
+  candidate <- make_candidate("new-dup-1", "100", "SACSCOC", "2025-12-01", "warning", action_label_raw = "Updated warning summary")
+  candidate$generated_statement <- "Updated warning summary"
+  candidate$source_url <- "https://example.org/refreshed"
+  candidate$source_title <- "Refreshed source"
   staged <- stage_accreditation_editorial_overrides(candidate, existing, first_seen = "2026-06-05")
   assert_true(!("new-dup-1" %in% staged$action_id), "7-day gap same event should be suppressed")
+  assert_identical(trim_text(staged$source_action_label_raw[[1]]), "Updated warning summary")
+  assert_identical(trim_text(staged$source_generated_statement[[1]]), "Updated warning summary")
+  assert_identical(trim_text(staged$source_source_url[[1]]), "https://example.org/refreshed")
 
   # 2. 26-day gap within 30-day tolerance: suppressed
   existing2 <- make_override("existing-2", "200", "WSCUC", "2025-06-27", "monitoring")

@@ -435,15 +435,8 @@
     return isDisplayAction(action) && isRecentTrackedAction(action);
   }
 
-  function isVoluntarySurrenderAction(action) {
-    const shortLabel = normalizeActionText(action.action_label_short);
-    const fullLabel = normalizeActionText(action.action_label || action.action_label_raw);
-    return shortLabel === "voluntarily surrendered accreditation" ||
-      /\bvoluntar(?:ily|y)\s+surrender(?:ed)?\s+accreditation\b/.test(fullLabel);
-  }
-
   function isLandingDisplayAction(action) {
-    return isRecentDisplayAction(action) && !isVoluntarySurrenderAction(action);
+    return isRecentDisplayAction(action);
   }
 
   // Deduplication key: accreditor + action label + date + URL

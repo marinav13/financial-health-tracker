@@ -197,6 +197,44 @@ run_test("DAPIP text extraction can surface ownership and merger action sentence
   assert_true(grepl("Change of Ownership to Torreyana College, LLC", extracted$label, fixed = TRUE))
 })
 
+run_test("DAPIP text extraction prefers referral-report action sentences over later boilerplate comments", function() {
+  text <- paste0(
+    "The Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Committee on Fifth-Year Interim Reports reviewed the institution's compliance with the select standards of the Principles of Accreditation outlined in the SACSCOC Fifth-Year Interim Report. ",
+    "Based only on those reviewed standards, the institution is requested to submit a Referral Report due April 1, 2020, addressing the following referenced standards of the Principles: ",
+    "Standard 10.7 (Policies for awarding credit). ",
+    "Comments As per Dr. Belle S. Wheelan's email of July 3, 2018, institutions were prompted to select a baseline completion indicator."
+  )
+  extracted <- dapip_extract_action_label_from_text(text, "Heightened Monitoring or Focused Review")
+  assert_equal(extracted$label_source, "dapip_file_text")
+  assert_true(grepl("Referral Report due April 1, 2020", extracted$label, fixed = TRUE))
+  assert_true(grepl("Standard 10.7 (Policies for awarding credit)", extracted$label, fixed = TRUE))
+  assert_true(!grepl("baseline completion indicator", extracted$label, fixed = TRUE))
+})
+
+run_test("DAPIP text extraction prefers voluntary resignation sentences over downstream teach-out detail", function() {
+  text <- paste0(
+    "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025. ",
+    "Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025. ",
+    "The institution has established a teach-out agreement that has been approved by HLC with University of Indianapolis in Indianapolis, Indiana."
+  )
+  extracted <- dapip_extract_action_label_from_text(text, "Loss of Accreditation or Preaccreditation: Voluntary Withdrawal")
+  assert_equal(extracted$label_source, "dapip_file_text")
+  assert_true(grepl("voluntarily resigned its accreditation", extracted$label, ignore.case = TRUE))
+  assert_true(!grepl("teach-out agreement", extracted$label, ignore.case = TRUE))
+})
+
+run_test("DAPIP text extraction prefers clean-review outcome sentences over courtesy closings", function() {
+  text <- paste0(
+    "The Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Fifth-Year Interim Review Committee reviewed the institution's compliance with select standards of the Principles of Accreditation as outlined in the SACSCOC Fifth-Year Interim Report. ",
+    "Based only on those reviewed standards, we are pleased to inform you that there are no referrals or adverse findings subsequent to this review. ",
+    "We extend our sincere gratitude for your continued dedication and support of the accreditation process."
+  )
+  extracted <- dapip_extract_action_label_from_text(text, "Heightened Monitoring or Focused Review")
+  assert_equal(extracted$label_source, "dapip_file_text")
+  assert_true(grepl("no referrals or adverse findings subsequent to this review", extracted$label, ignore.case = TRUE))
+  assert_true(!grepl("sincere gratitude", extracted$label, ignore.case = TRUE))
+})
+
 run_test("DAPIP ownership substantive change codes are classified as substantive transaction sources", function() {
   granted <- dapip_classify_action_code("GO", "Grant Substantive Change: Ownership")
   assert_equal(granted$action_type, "other")
@@ -209,4 +247,40 @@ run_test("DAPIP ownership substantive change codes are classified as substantive
   assert_true(isTRUE(denied$review_required))
   assert_equal(denied$mapped_action_family, "ownership_change_denial")
   assert_equal(denied$keep_reason, "review_code")
+})
+
+run_test("DAPIP HM clean-review letters are dropped from public-action candidates", function() {
+  clean_letter <- paste0(
+    "The Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Fifth-Year Interim Review Committee reviewed the institution's compliance with select standards of the Principles of Accreditation as outlined in the SACSCOC Fifth-Year Interim Report. ",
+    "Based only on those reviewed standards, we are pleased to inform you that there are no referrals or adverse findings subsequent to this review. ",
+    "We extend our sincere gratitude for your continued dedication and support of the accreditation process."
+  )
+  classed <- dapip_classify_action_code(
+    "HM",
+    "Heightened Monitoring or Focused Review",
+    action_label = "We extend our sincere gratitude for your continued dedication and support of the accreditation process.",
+    full_text = clean_letter
+  )
+  assert_equal(classed$action_type, "other")
+  assert_true(!isTRUE(classed$keep))
+  assert_equal(classed$mapped_action_family, "routine_clean_review")
+  assert_equal(classed$keep_reason, "routine_clean_review_letter")
+})
+
+run_test("DAPIP HM referral-report letters remain public-action candidates", function() {
+  referral_letter <- paste0(
+    "The Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) Committee on Fifth-Year Interim Reports reviewed the institution's compliance with the select standards of the Principles of Accreditation outlined in the SACSCOC Fifth-Year Interim Report. ",
+    "Based only on those reviewed standards, the institution is requested to submit a Referral Report due April 1, 2020, addressing the following referenced standards of the Principles: ",
+    "Standard 10.7 (Policies for awarding credit)."
+  )
+  classed <- dapip_classify_action_code(
+    "HM",
+    "Heightened Monitoring or Focused Review",
+    action_label = "Requested to submit a Referral Report due April 1, 2020, addressing the following referenced standards of the Principles: Standard 10.7 (Policies for awarding credit).",
+    full_text = referral_letter
+  )
+  assert_equal(classed$action_type, "notice")
+  assert_true(isTRUE(classed$keep))
+  assert_equal(classed$mapped_action_family, "monitoring_or_notice")
+  assert_equal(classed$keep_reason, "public_action_code")
 })

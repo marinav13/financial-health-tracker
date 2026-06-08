@@ -1588,7 +1588,7 @@ build_accreditation_export <- function() {
       !(
         accreditor == "SACSCOC" &
           grepl(
-            "^requested (?:to submit a )?(?:referral|monitoring) report\\b|^no additional report requested\\b",
+            "^no additional report (?:was )?requested\\b",
             trimws(as.character(action_label_short %||% "")),
             ignore.case = TRUE,
             perl = TRUE

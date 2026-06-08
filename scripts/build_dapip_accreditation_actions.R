@@ -348,7 +348,12 @@ main <- function(cli_args = NULL) {
           accreditor = normalize_accreditor_code(filtered$accreditor[[1]]),
           notes = filtered$notes[[1]]
         )
-        classed <- dapip_classify_action_code(action_code, action_desc)
+        classed <- dapip_classify_action_code(
+          action_code,
+          action_desc,
+          action_label = filtered$action_label_raw[[1]],
+          full_text = extracted_text$text %||% NA_character_
+        )
         if (isTRUE(classed$keep) || (isTRUE(classed$review_required) && include_review_codes)) {
           filtered_rows[[length(filtered_rows) + 1L]] <- filtered
         }

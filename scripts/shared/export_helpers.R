@@ -1624,6 +1624,43 @@ extract_hlc_findings <- function(text) {
   )
 }
 
+.map_hlc_core_component_bucket <- function(code) {
+  code_norm <- toupper(stringr::str_squish(as.character(code %||% "")))
+  dplyr::case_when(
+    code_norm %in% c("2.A", "2.B") ~ "integrity",
+    code_norm %in% c("2.C", "2.D") ~ "governance",
+    code_norm %in% c("3.A", "3.B", "3.C") ~ "educational offerings",
+    code_norm %in% c("4.A", "4.B", "4.C") ~ "outcomes",
+    code_norm %in% c("5.A", "5.B", "5.C") ~ "financial resources and planning",
+    code_norm %in% c("5.D") ~ "institutional effectiveness",
+    TRUE ~ NA_character_
+  )
+}
+
+.map_hlc_assumed_practice_bucket <- function(code) {
+  code_norm <- toupper(stringr::str_squish(as.character(code %||% "")))
+  dplyr::case_when(
+    stringr::str_detect(code_norm, "^D\\.") ~ "governance",
+    TRUE ~ NA_character_
+  )
+}
+
+.build_hlc_public_concern_detail <- function(text) {
+  findings <- extract_hlc_findings(text)
+  ref_count <- length(findings$core_components) + length(findings$assumed_practices)
+  if (ref_count < 2L) return(NA_character_)
+
+  buckets <- c(
+    vapply(findings$core_components, .map_hlc_core_component_bucket, character(1)),
+    vapply(findings$assumed_practices, .map_hlc_assumed_practice_bucket, character(1))
+  )
+  buckets <- buckets[!is.na(buckets) & nzchar(buckets)]
+  if (!length(buckets)) return(NA_character_)
+
+  buckets <- .unique_preserve_order(buckets)
+  .format_standards_concerning(buckets, limit = length(buckets))
+}
+
 .extract_hlc_summary_clause <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
@@ -1765,7 +1802,10 @@ extract_hlc_findings <- function(text) {
     stringr::regex("^it determined that the institution\\s+", ignore_case = TRUE),
     "the institution "
   )
-  findings_detail <- .build_hlc_findings_detail(context_text)
+  findings_detail <- .build_hlc_public_concern_detail(context_text)
+  if (is.na(findings_detail) || !nzchar(findings_detail)) {
+    findings_detail <- .build_hlc_findings_detail(context_text)
+  }
   if (is.na(findings_detail) || !nzchar(findings_detail)) {
     return(reason_value)
   }
@@ -2952,6 +2992,63 @@ extract_hlc_findings <- function(text) {
   if (length(areas) == 1L) return(areas[[1]])
   if (length(areas) == 2L) return(paste(areas[[1]], "and", areas[[2]]))
   if (length(areas) == 3L) return(paste0(areas[[1]], ", ", areas[[2]], ", and ", areas[[3]]))
+  "certain accreditation standards"
+}
+
+.referral_report_focus_buckets <- function(text, areas) {
+  buckets <- character()
+  normalized_areas <- unique(tolower(stringr::str_squish(as.character(areas %||% character()))))
+  normalized_areas <- normalized_areas[nzchar(normalized_areas)]
+
+  for (area in normalized_areas) {
+    bucket <- dplyr::case_when(
+      area %in% c(
+        "policies for awarding credit",
+        "cooperative academic arrangements",
+        "program content",
+        "program faculty",
+        "full-time faculty",
+        "qualified administrative/academic officers",
+        "distance and correspondence education"
+      ) ~ "academics",
+      area %in% c(
+        "institutional environment"
+      ) ~ "institutional environment",
+      area %in% c(
+        "public information",
+        "publication of accreditation status"
+      ) ~ "public information",
+      TRUE ~ area
+    )
+    if (!is.na(bucket) && nzchar(bucket)) {
+      buckets <- c(buckets, bucket)
+    }
+  }
+
+  text_norm <- tolower(stringr::str_squish(as.character(text %||% "")))
+  if (stringr::str_detect(
+    text_norm,
+    "healthy, safe, and secure campus environment|institutional environment|office of civil rights|sexual violence"
+  )) {
+    buckets <- c(buckets, "institutional environment")
+  }
+  if (stringr::str_detect(
+    text_norm,
+    "policies for awarding credit|cooperative academic arrangements|academically qual"
+  )) {
+    buckets <- c(buckets, "academics")
+  }
+
+  .unique_preserve_order(buckets[nzchar(buckets)])
+}
+
+.summarize_referral_report_focus_buckets <- function(buckets) {
+  buckets <- unique(stringr::str_squish(as.character(buckets %||% character())))
+  buckets <- buckets[nzchar(buckets)]
+  if (!length(buckets)) return(NA_character_)
+  if (length(buckets) == 1L) return(buckets[[1]])
+  if (length(buckets) == 2L) return(paste(buckets[[1]], "and", buckets[[2]]))
+  if (length(buckets) == 3L) return(paste0(buckets[[1]], ", ", buckets[[2]], ", and ", buckets[[3]]))
   "certain accreditation standards"
 }
 
@@ -4186,7 +4283,26 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
 
   if (acc_norm == "SACSCOC" &&
       stringr::str_detect(lowered, "(is requested to submit|should submit) a referral report")) {
-    areas <- .summarize_standard_areas(.extract_standard_areas(cleaned))
+    extracted_areas <- .extract_standard_areas(cleaned)
+    focus_buckets <- .referral_report_focus_buckets(cleaned, extracted_areas)
+    due_date <- stringr::str_match(
+      cleaned,
+      stringr::regex("referral report due\\s+([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})", ignore_case = TRUE)
+    )[, 2]
+    if ("institutional environment" %in% focus_buckets &&
+        "academics" %in% focus_buckets) {
+      due_clause <- if (!is.na(due_date) && nzchar(due_date)) {
+        paste0(" due ", stringr::str_squish(due_date))
+      } else {
+        ""
+      }
+      return(.capitalize_summary_head(sprintf(
+        "Requested to submit a Referral Report%s, addressing accreditation standards involving %s.",
+        due_clause,
+        .summarize_referral_report_focus_buckets(focus_buckets)
+      )))
+    }
+    areas <- .summarize_standard_areas(extracted_areas)
     if (!is.na(areas) && nzchar(areas) && !identical(areas, "certain accreditation standards")) {
       return(.capitalize_summary_head(sprintf(
         "Requested Referral Report on %s",
@@ -4357,6 +4473,18 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
   if (acc_norm == "SACSCOC" &&
       stringr::str_detect(lowered, "loss of accreditation or preaccreditation: other")) {
     return("Loss of Accreditation")
+  }
+
+  if (acc_norm == "SACSCOC" &&
+      stringr::str_detect(lowered, "substantive change:\\s*institutional contingency teach-?out") &&
+      stringr::str_detect(lowered, "institutional contingency teach-?out plan")) {
+    if (stringr::str_detect(lowered, "approve the teach-?out plan|decision of the board to approve the teach-?out plan")) {
+      if (stringr::str_detect(lowered, "required because the institution was (?:continued|placed) on probation for good cause")) {
+        return("Approved institutional contingency teach-out plan required after probation for good cause")
+      }
+      return("Approved institutional contingency teach-out plan")
+    }
+    return("Submitted institutional contingency teach-out plan required by SACSCOC")
   }
 
   if (acc_norm == "SACSCOC") {
@@ -4683,6 +4811,27 @@ derive_action_label_short <- function(action_type, action_label_raw, accreditor 
         stringr::regex("to\\s+warn\\s+the\\s+institution", ignore_case = TRUE)
       )) {
     return("Received a warning")
+  }
+  m_msche_showcause <- stringr::str_match(
+    raw,
+    stringr::regex(
+      paste0(
+        "to require the institution to (continue to )?show cause by ",
+        "([A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4})[^.]*?",
+        "because of insufficient evidence that the institution is in compliance with ",
+        "(Standard\\s+[IVXLC]+\\s*\\([^)]+\\))"
+      ),
+      ignore_case = TRUE
+    )
+  )
+  if (!is.na(m_msche_showcause[1, 1])) {
+    is_continued <- !is.na(m_msche_showcause[1, 2]) && nzchar(m_msche_showcause[1, 2])
+    reason_match <- .normalize_standard_reason_case(m_msche_showcause[1, 4] %||% "")
+    return(paste0(
+      if (is_continued) "Continued Show Cause" else "Required to Show Cause",
+      " because of insufficient evidence of compliance with ",
+      stringr::str_squish(reason_match)
+    ))
   }
   if (stringr::str_detect(tolower(raw), "^voluntary withdrawal received$|^loss of accreditation or preaccreditation: voluntary withdrawal$")) {
     return("Voluntarily Surrendered Accreditation")

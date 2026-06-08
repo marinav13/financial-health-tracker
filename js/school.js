@@ -512,6 +512,17 @@ function firstNumericValue(...values) {
   return null;
 }
 
+// Returns "an" for percent strings whose spoken form starts with a vowel sound
+// ("an 8% decline", "an 11% increase", "an 18% drop"), "a" for everything else.
+// Receives the already-formatted string from fmtRoundedPct (e.g. "8%", "11%").
+function indefiniteArticle(pctStr) {
+  const digits = String(pctStr).replace(/[^0-9]/g, "");
+  if (digits.startsWith("8") || digits.startsWith("11") || digits.startsWith("18")) {
+    return "an";
+  }
+  return "a";
+}
+
 function buildSectorComparisonLine(benchmarkValue, profile) {
   const benchmark = asNumber(benchmarkValue);
   if (benchmark === null) return null;
@@ -520,9 +531,11 @@ function buildSectorComparisonLine(benchmarkValue, profile) {
   if (displayedBenchmark === 0) {
     comparisonPhrase = strongSegment("about no change");
   } else if (benchmark < 0) {
-    comparisonPhrase = strongSegment(`a ${fmtRoundedPct(Math.abs(benchmark))} decline`);
+    const declinePct = fmtRoundedPct(Math.abs(benchmark));
+    comparisonPhrase = strongSegment(`${indefiniteArticle(declinePct)} ${declinePct} decline`);
   } else {
-    comparisonPhrase = strongSegment(`a ${fmtRoundedPct(Math.abs(benchmark))} increase`);
+    const increasePct = fmtRoundedPct(Math.abs(benchmark));
+    comparisonPhrase = strongSegment(`${indefiniteArticle(increasePct)} ${increasePct} increase`);
   }
   return [
     "That compares to ",

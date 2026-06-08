@@ -2188,9 +2188,9 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
   background: #ffcc33;
   display: block;
 }
-/* When other pages (cuts / accreditation / research) keep the SVG band,
-   stretch it to fill the same 240px tall container. The school page
-   leaves the figure empty so only the yellow background shows. */
+/* Default quad-banner media fills the shared container; institution-detail
+   pages that opt into .school-quad-banner below reuse the finance-page
+   illustration sizing instead of the old full-bleed SVG band treatment. */
 .quad-banner img,
 .quad-banner svg {
   width: 100%;
@@ -2203,7 +2203,10 @@ body[data-search-page="school.html"] .guide-sample-card.metric-strip.is-visible[
   object-position: center 42%;
 }
 
-body[data-search-page="school.html"] .school-quad-banner {
+body[data-search-page="school.html"] .school-quad-banner,
+body[data-search-source="cuts"] .school-quad-banner,
+body[data-search-source="accreditation"] .school-quad-banner,
+body[data-search-source="research"] .school-quad-banner {
   margin-left: 0;
   margin-right: 0;
   width: 100%;
@@ -2211,7 +2214,10 @@ body[data-search-page="school.html"] .school-quad-banner {
   overflow: hidden;
 }
 
-body[data-search-page="school.html"] .school-quad-banner img {
+body[data-search-page="school.html"] .school-quad-banner img,
+body[data-search-source="cuts"] .school-quad-banner img,
+body[data-search-source="accreditation"] .school-quad-banner img,
+body[data-search-source="research"] .school-quad-banner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -4106,7 +4112,10 @@ blockquote {
     height: 160px;
   }
 
-  body[data-search-page="school.html"] .school-quad-banner {
+  body[data-search-page="school.html"] .school-quad-banner,
+  body[data-search-source="cuts"] .school-quad-banner,
+  body[data-search-source="accreditation"] .school-quad-banner,
+  body[data-search-source="research"] .school-quad-banner {
     margin-left: 0;
     margin-right: 0;
     height: 165px;

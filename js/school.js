@@ -243,11 +243,14 @@ function recentFiveYearRangeText(seriesValues) {
   return `from ${start} to ${end}`;
 }
 
+const TREND_RED_THRESHOLD = -10;
+const TREND_BLUE_THRESHOLD = 10;
+
 function sentimentClass(value) {
   const n = asNumber(value);
   if (n === null) return "neutral";
-  if (n <= -5) return "negative";
-  if (n >= 5) return "positive";
+  if (n <= TREND_RED_THRESHOLD) return "negative";
+  if (n >= TREND_BLUE_THRESHOLD) return "positive";
   return "neutral";
 }
 
@@ -456,7 +459,9 @@ function schoolWarningTypeLabel(profile) {
   return "school";
 }
 
-const WIDESPREAD_WARNING_RATIO = 0.75;
+const WIDESPREAD_WARNING_MIN_REDS = 6;
+const PATTERN_YEAR_END = 2024;
+const PATTERN_YEAR_START = PATTERN_YEAR_END - 5;
 
 function appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel) {
   const countStrong = document.createElement("strong");
@@ -718,23 +723,23 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   const badges = [];
 
   if (warningSummary.showPatternBadge) {
-    const tooltipLabel = `This school shows a pattern of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of sustained financial stress. Check out this institution's audits for more context.`;
+    const tooltipLabel = `This school shows a pattern of declines of at least 10% in both enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a sign of financial stress. Check out this institution's audits for more context.`;
     badges.push(buildSchoolWarningBadge({
       label: "Pattern of declining enrollment and losses",
       tooltipLabel,
       buildTooltipContent: (tooltip) => {
-        tooltip.append(document.createTextNode("This school "));
+        tooltip.append(document.createTextNode("This school shows a pattern of "));
         const patternStrong = document.createElement("strong");
-        patternStrong.textContent = "shows a pattern";
+        patternStrong.textContent = "declines of at least 10%";
         tooltip.append(patternStrong);
-        tooltip.append(document.createTextNode(" of declines of at least 5% in enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years."));
+        tooltip.append(document.createTextNode(" in both enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years."));
         appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel);
       }
     }));
   }
 
   if (warningSummary.showBroadBadge) {
-    const tooltipLabel = `This school shows widespread warning signs across the visible indicators on this profile. At least 75% of its visible warning indicators are flagged as concerning. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of financial stress. Check out this institution's audits for more context.`;
+    const tooltipLabel = `This school shows widespread warning signs across visible indicators on this profile. At least 6 of its visible warning indicators are flagged as concerning. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of financial stress. Check out this institution's audits for more context.`;
     badges.push(buildSchoolWarningBadge({
       label: "Widespread warning signs",
       tooltipLabel,
@@ -744,7 +749,7 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
         const broadStrong = document.createElement("strong");
         broadStrong.textContent = "shows widespread warning signs";
         tooltip.append(broadStrong);
-        tooltip.append(document.createTextNode(" across the visible indicators on this profile. At least 75% of its visible warning indicators are flagged as concerning."));
+        tooltip.append(document.createTextNode(" across visible indicators on this profile. At least 6 of its visible warning indicators are flagged as concerning."));
         appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel);
       }
     }));
@@ -1286,7 +1291,7 @@ function computeSchoolWarningSummary(summary, enrollmentFlag, visibility) {
     isEnrollmentRed(summary) &&
     isNetTuitionRed(summary) &&
     isLossPatternRed(summary);
-  const showBroadBadge = totalVisible > 0 && redRatio >= WIDESPREAD_WARNING_RATIO;
+  const showBroadBadge = totalVisible > 0 && count >= WIDESPREAD_WARNING_MIN_REDS;
 
   return {
     count,
@@ -1599,6 +1604,7 @@ async function init() {
   const enrollmentBenchmark = firstNumericValue(s.sector_median_enrollment_pct_change_5yr, sectorHeadlineBenchmarks?.median_enrollment_pct_change_5yr);
   const staffBenchmark = firstNumericValue(s.sector_median_staff_total_headcount_pct_change_5yr, sectorHeadlineBenchmarks?.median_staff_total_headcount_pct_change_5yr);
   const endowmentBenchmark = firstNumericValue(s.sector_median_endowment_pct_change_5yr, sectorHeadlineBenchmarks?.median_endowment_pct_change_5yr);
+  const stateAidBenchmark = sectorHeadlineBenchmarks?.median_state_funding_pct_change_5yr;
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -1962,16 +1968,28 @@ async function init() {
     );
     setHidden("state-share-copy", false);
 
-    applyQuestionValueStrip(
-      "state-change-card",
-      "How much has state aid changed over the past 5 years?",
-      stateChange5yr === null
-        ? "No data"
-        : fmtRoundedPct(s.state_funding_pct_change_5yr, true),
-      stateChange5yr === null ? "neutral" : sentimentClass(s.state_funding_pct_change_5yr),
-      trendDirection(s.state_funding_pct_change_5yr)
-    );
-    setHidden("state-change-card", stateChange5yr === null);
+    if (stateChange5yr === null) {
+      applyStrip(
+        "state-change-card",
+        "State aid data are not available.",
+        "neutral",
+        ""
+      );
+    } else {
+      applyStripLines(
+        "state-change-card",
+        buildTrendCardLines(
+          "State aid",
+          s.state_funding_pct_change_5yr,
+          fiveYearRangeText,
+          p,
+          stateAidBenchmark
+        ),
+        sentimentClass(s.state_funding_pct_change_5yr),
+        trendDirection(s.state_funding_pct_change_5yr)
+      );
+    }
+    setHidden("state-change-card", false);
   } else {
     setHidden("state-share-copy", true);
     setHidden("state-change-card", true);

@@ -3296,6 +3296,11 @@ benchmark_specs <- list(
     value_col = "endowment_assets_per_fte_adjusted",
     summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
     group_col = "control_label"
+  ),
+  sector_median_state_funding_pct_change_5yr = list(
+    value_col = "state_funding_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
   )
 )
 benchmark_values <- lapply(benchmark_specs, function(spec) {
@@ -3315,6 +3320,7 @@ sector_headline_enrollment_benchmarks <- benchmark_values$sector_median_enrollme
 sector_headline_staff_benchmarks <- benchmark_values$sector_median_staff_total_headcount_pct_change_5yr
 sector_headline_endowment_benchmarks <- benchmark_values$sector_median_endowment_pct_change_5yr
 sector_endowment_per_fte_benchmarks <- benchmark_values$sector_median_endowment_assets_per_fte_adjusted
+sector_headline_state_aid_benchmarks <- benchmark_values$sector_median_state_funding_pct_change_5yr
 
 schools_index <- latest_financial %>%
   transmute(
@@ -3358,6 +3364,27 @@ metadata <- list(
 )
 
 write_json_file(schools_index, file.path(data_dir, "schools_index.json"))
+# Build and write the sector headline benchmarks JSON used by school.js
+sector_headline_benchmarks_export <- lapply(
+  names(sector_headline_revenue_benchmarks),
+  function(ctrl) {
+    safe <- function(lookup) {
+      v <- lookup[[ctrl]]
+      if (is.null(v) || (length(v) == 1 && is.na(v))) NULL else unname(v)
+    }
+    list(
+      median_revenue_pct_change_5yr                = safe(sector_headline_revenue_benchmarks),
+      median_net_tuition_per_fte_change_5yr        = safe(sector_headline_net_tuition_benchmarks),
+      median_enrollment_pct_change_5yr             = safe(sector_headline_enrollment_benchmarks),
+      median_staff_total_headcount_pct_change_5yr  = safe(sector_headline_staff_benchmarks),
+      median_endowment_pct_change_5yr              = safe(sector_headline_endowment_benchmarks),
+      median_endowment_per_fte_adjusted            = safe(sector_endowment_per_fte_benchmarks),
+      median_state_funding_pct_change_5yr          = safe(sector_headline_state_aid_benchmarks)
+    )
+  }
+)
+names(sector_headline_benchmarks_export) <- names(sector_headline_revenue_benchmarks)
+write_json_file(sector_headline_benchmarks_export, file.path(data_dir, "sector_headline_benchmarks.json"))
 # Write the site metadata first, then each section export and the school-level
 # JSON files consumed by the static frontend.
 write_json_file(metadata, file.path(data_dir, "metadata.json"))

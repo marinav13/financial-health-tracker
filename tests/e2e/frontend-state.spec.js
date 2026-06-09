@@ -29,9 +29,9 @@ const closureStatusUnitid = schoolWithClosureStatus();
 const unmatchedCutUnitid = unmatchedCutSchool();
 const unmatchedResearchUnitid = unmatchedResearchSchool();
 const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
-const patternOnlyWarningBadgeUnitid = '102614';
+const patternOnlyWarningBadgeUnitid = '119173'; // Mount Saint Mary's University: pattern badge (enr -19.7%, ntr -30.7%, losses 3/5) with only 3 reds total
 const patternAndWideWarningBadgeUnitid = '101116';
-const wideOnlyWarningBadgeUnitid = '110060';
+const wideOnlyWarningBadgeUnitid = '144281'; // Columbia College Chicago: 6 reds, no pattern badge (enr -8.2% not below -10%)
 const noWarningBadgeUnitid = '104586';
 
 function parseVisibleMonthYear(value) {
@@ -353,7 +353,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
     await expect(badges.nth(1)).toContainText('Widespread warning signs');
     await expect(badges.nth(1)).toHaveClass(/is-broad/);
-    await expect(badges.nth(1)).toHaveAttribute('aria-label', /75%/);
+    await expect(badges.nth(1)).toHaveAttribute('aria-label', /at least 6/);
 
     await page.goto(`/school.html?unitid=${wideOnlyWarningBadgeUnitid}`);
 
@@ -363,7 +363,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(badges).toHaveCount(1);
     await expect(badges.nth(0)).toContainText('Widespread warning signs');
     await expect(badges.nth(0)).toHaveClass(/is-broad/);
-    await expect(badges.nth(0)).toHaveAttribute('aria-label', /75%/);
+    await expect(badges.nth(0)).toHaveAttribute('aria-label', /at least 6/);
 
     await page.goto(`/school.html?unitid=${noWarningBadgeUnitid}`);
 

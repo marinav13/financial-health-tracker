@@ -353,7 +353,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
     await expect(badges.nth(1)).toContainText('Widespread warning signs');
     await expect(badges.nth(1)).toHaveClass(/is-broad/);
-    await expect(badges.nth(1)).toHaveAttribute('aria-label', /at least 6/);
+    await expect(badges.nth(1)).toHaveAttribute('aria-label', /at least 6/i);
 
     await page.goto(`/school.html?unitid=${wideOnlyWarningBadgeUnitid}`);
 
@@ -363,7 +363,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(badges).toHaveCount(1);
     await expect(badges.nth(0)).toContainText('Widespread warning signs');
     await expect(badges.nth(0)).toHaveClass(/is-broad/);
-    await expect(badges.nth(0)).toHaveAttribute('aria-label', /at least 6/);
+    await expect(badges.nth(0)).toHaveAttribute('aria-label', /at least 6/i);
 
     await page.goto(`/school.html?unitid=${noWarningBadgeUnitid}`);
 

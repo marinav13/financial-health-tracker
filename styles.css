@@ -2542,6 +2542,33 @@ body[data-search-page="school.html"] .metric-strip[data-warning-tooltip="true"]:
   font-weight: 600;
 }
 
+.school-announced-closure-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: default;
+  position: relative;
+}
+
+.school-announced-closure-badge:hover .warning-sign-tooltip,
+.school-announced-closure-badge:focus .warning-sign-tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.school-announced-closure-badge .warning-sign-tooltip a {
+  color: #fff;
+  text-decoration: underline;
+}
+
 /* ---------- Section heads (school-profile sections) ----------
    Centered Tiempos Headline H2 with a 40px gold underline. (The
    §-numeral eyebrow from earlier mockups was dropped at the user's

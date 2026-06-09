@@ -920,9 +920,7 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
   relatedPages.forEach((relatedPage) => {
     const relatedUnitid = relatedPage.record.unitid || unitid;
     links.push({
-      href: relatedPage.page === "cuts.html"
-        ? "cuts.html"
-        : `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`,
+      href: `${relatedPage.page}?unitid=${encodeURIComponent(relatedUnitid)}`,
       label: relatedPage.label,
       external: false
     });
@@ -1198,6 +1196,20 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   ];
 }
 
+function announcedClosureYear(cutsRecord) {
+  const pattern = /institution clos|permanent.*clos/i;
+  const cut = (cutsRecord?.landing_cuts ?? []).find(c => pattern.test(c.program_name ?? ""));
+  if (!cut) return null;
+  const explicit = Number(cut.announcement_year || "");
+  if (Number.isFinite(explicit) && explicit > 1900) return explicit;
+  const m = String(cut.announcement_date || "").match(/(20\d{2})/);
+  return m ? Number(m[1]) : null;
+}
+
+function hasAnnouncedMerger(cutsRecord) {
+  return /absorb/i.test(cutsRecord?.latest_cut_label ?? "");
+}
+
 function buildClosureSentence(closureRecord) {
   if (!closureRecord) return null;
   const closeDate = String(closureRecord.close_date || "").trim();
@@ -1396,6 +1408,10 @@ function showSchoolGuideLanding() {
   setText("school-urbanization", "");
   setText("school-closure-flag", "");
   setHidden("school-closure-flag", true);
+  setText("school-announced-closure", "");
+  setHidden("school-announced-closure", true);
+  setText("school-announced-merger", "");
+  setHidden("school-announced-merger", true);
   setHidden("school-meta-wrap", true);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);
@@ -1430,6 +1446,10 @@ function showSchoolLoadError(message) {
   setText("school-control", "");
   setText("school-closure-flag", "");
   setHidden("school-closure-flag", true);
+  setText("school-announced-closure", "");
+  setHidden("school-announced-closure", true);
+  setText("school-announced-merger", "");
+  setHidden("school-announced-merger", true);
   setHidden("school-meta-wrap", true);
   setHidden("download-school-data", true);
   setHidden("share-school-profile", true);
@@ -1600,6 +1620,66 @@ async function init() {
   const closureSentence = buildClosureSentence(closureRecord);
   setText("school-closure-flag", closureSentence || "");
   setHidden("school-closure-flag", !closureSentence);
+  const cutsRecord = findRelatedIndexRecord(cutsIndex, unitid, "cut_count");
+  const cutsHref = `cuts.html?unitid=${encodeURIComponent(unitid)}`;
+  const mergerFlag = hasAnnouncedMerger(cutsRecord);
+  const closureYear = mergerFlag ? null : announcedClosureYear(cutsRecord);
+
+  function buildBadge(text, ariaText, buildTipContent) {
+    const badge = document.createElement("span");
+    badge.className = "school-announced-closure-badge";
+    badge.setAttribute("role", "img");
+    badge.setAttribute("tabindex", "0");
+    badge.setAttribute("aria-label", ariaText);
+    badge.textContent = text;
+    const tip = document.createElement("span");
+    tip.className = "warning-sign-tooltip";
+    tip.setAttribute("role", "tooltip");
+    tip.setAttribute("aria-hidden", "true");
+    buildTipContent(tip);
+    badge.append(tip);
+    return badge;
+  }
+
+  function tipLink(href, word) {
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = word;
+    return a;
+  }
+
+  function renderBadgeWrap(id, show, badgeNode) {
+    const wrap = document.getElementById(id);
+    if (!wrap) return;
+    if (show && badgeNode) {
+      wrap.replaceChildren(badgeNode);
+      wrap.classList.remove("is-hidden");
+      wrap.setAttribute("aria-hidden", "false");
+    } else {
+      wrap.replaceChildren();
+      wrap.classList.add("is-hidden");
+      wrap.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  const mergerBadge = mergerFlag
+    ? buildBadge("Merger Announced", "This institution has been absorbed by another institution.", (tip) => {
+        tip.append("This institution has been ");
+        tip.append(tipLink(cutsHref, "absorbed"));
+        tip.append(" by another institution.");
+      })
+    : null;
+  renderBadgeWrap("school-announced-merger", mergerFlag, mergerBadge);
+
+  const closureYearSuffix = closureYear ? ` in ${closureYear}` : "";
+  const closureBadge = closureYear !== null
+    ? buildBadge("Closure Announced", `This institution announced its closure${closureYearSuffix}.`, (tip) => {
+        tip.append("This institution announced its ");
+        tip.append(tipLink(cutsHref, "closure"));
+        tip.append(`${closureYearSuffix}.`);
+      })
+    : null;
+  renderBadgeWrap("school-announced-closure", closureYear !== null, closureBadge);
   // Editorial Calm: these three paragraphs are joined into a single
   // inline italic line by .school-mast .meta CSS using an :empty filter
   // and a sibling-combinator '·' separator. Pass an empty string (not

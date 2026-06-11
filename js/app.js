@@ -25,6 +25,15 @@ async function loadJson(path) {
   return response.json();
 }
 
+let siteMetadataPromise = null;
+
+function loadSiteMetadata() {
+  if (!siteMetadataPromise) {
+    siteMetadataPromise = loadJson("data/metadata.json");
+  }
+  return siteMetadataPromise;
+}
+
 // Determines target page for search navigation
 function getSearchTargetPage() {
   return document.body.dataset.searchPage || "school.html";
@@ -165,50 +174,194 @@ function renderRelatedInstitutionLinks(options = {}) {
 }
 
 function upgradeSiteFooter() {
-  if (typeof document === "undefined" || typeof document.querySelector !== "function") return;
+  if (typeof document === "undefined" || typeof document.querySelector !== "function") return Promise.resolve();
   const footer = document.querySelector(".pg-foot");
-  if (!footer) return;
+  if (!footer) return Promise.resolve();
+  const illustrationCredit = document.querySelector(".illustration-credit");
+  const illustrationText = illustrationCredit
+    ? String(illustrationCredit.textContent || "").trim()
+    : "";
+  if (illustrationCredit?.parentNode) {
+    illustrationCredit.parentNode.removeChild(illustrationCredit);
+  }
 
   footer.replaceChildren();
+  return loadSiteMetadata().catch(() => null).then((metadata) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "ftr-bottom";
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "ftr-bottom";
+    const columns = document.createElement("div");
+    columns.className = "ftr-columns";
 
-  const content = document.createElement("div");
-  content.className = "site-nav-copyright";
+    const left = document.createElement("section");
+    left.className = "ftr-column ftr-column--left";
 
-  const message = document.createElement("p");
-  message.className = "ftr-info-msg";
-  message.textContent = "The Hechinger Report covers inequality and innovation in education with in-depth journalism that uses research, data and stories from classrooms and campuses to show the public how education can be improved and why it matters.";
+    const message = document.createElement("p");
+    message.className = "ftr-info-msg";
+    message.textContent = "The Hechinger Report is a nonprofit, independent newsroom that covers inequality and innovation in education with in-depth journalism that uses research, data and stories from classrooms and campuses to show the public how education can be improved and why it matters.";
 
-  const nav = document.createElement("nav");
-  nav.className = "ftr-site-nav";
-  nav.setAttribute("aria-label", "Footer");
+    const nav = document.createElement("nav");
+    nav.className = "ftr-site-nav";
+    nav.setAttribute("aria-label", "Footer");
 
-  const list = document.createElement("ul");
-  list.className = "ftr-nav-items";
+    const list = document.createElement("ul");
+    list.className = "ftr-nav-items";
 
-  [
-    ["Our Work", "https://hechingerreport.org/"],
-    ["Our Mission", "https://hechingerreport.org/our-mission/"],
-    ["Contact Us", "https://hechingerreport.org/contact/"]
-  ].forEach(([label, href]) => {
-    const item = document.createElement("li");
-    item.className = "ftr-nav-item";
+    [
+      ["Our Work", "https://hechingerreport.org/"],
+      ["Our Mission", "https://hechingerreport.org/our-mission/"],
+      ["Contact Us", "https://hechingerreport.org/contact/"]
+    ].forEach(([label, href]) => {
+      const item = document.createElement("li");
+      item.className = "ftr-nav-item";
 
-    const link = document.createElement("a");
-    link.className = "ftr-nav-link";
-    link.href = href;
-    link.textContent = label;
+      const link = document.createElement("a");
+      link.className = "ftr-nav-link";
+      link.href = href;
+      link.textContent = label;
 
-    item.appendChild(link);
-    list.appendChild(item);
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+
+    nav.appendChild(list);
+    const right = document.createElement("section");
+    right.className = "ftr-column ftr-column--right";
+
+    const rightKicker = document.createElement("p");
+    rightKicker.className = "ftr-credit-kicker ftr-credit-kicker--right";
+    rightKicker.textContent = "The Hechinger Report";
+
+    const kicker = document.createElement("p");
+    kicker.className = "ftr-credit-kicker";
+    kicker.textContent = "College Financial Health Tracker";
+
+    const institutionCount = Number(metadata?.institution_count || 0);
+    const countText = institutionCount > 0
+      ? new Intl.NumberFormat("en-US").format(institutionCount)
+      : "many";
+
+    const summary = document.createElement("p");
+    summary.className = "ftr-credit-summary";
+    summary.textContent = `Browse financial data for ${countText} four-year colleges nationwide. Explore details like accreditation, revenue, expenses and more.`;
+
+    const credits = document.createElement("p");
+    credits.className = "ftr-credit-meta";
+    credits.textContent = "Coding, design and data analysis by Marina Villeneuve. Editing by Sarah Butrymowicz and Lawrie Mifflin.";
+
+    left.append(kicker, summary, credits);
+
+    if (illustrationText) {
+      const illustration = document.createElement("p");
+      illustration.className = "ftr-credit-illustration";
+      illustration.textContent = illustrationText;
+      left.appendChild(illustration);
+    }
+
+    const updatedLabel = formatDisplayDate(metadata?.last_modified || metadata?.generated_at);
+    if (updatedLabel) {
+      const updated = document.createElement("p");
+      updated.className = "ftr-credit-updated";
+      updated.textContent = `Updated ${updatedLabel}`;
+      left.appendChild(updated);
+    }
+
+    right.append(rightKicker, message, nav);
+
+    columns.append(left, right);
+    wrapper.appendChild(columns);
+    footer.appendChild(wrapper);
+  });
+}
+
+function initStickySectionNav(navId) {
+  if (typeof document === "undefined") return;
+  const nav = document.getElementById(navId);
+  if (!nav || typeof nav.querySelectorAll !== "function") return;
+
+  const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+  if (!links.length) return;
+
+  const sections = links
+    .map((link) => {
+      const href = String(link.getAttribute("href") || "");
+      const id = href.startsWith("#") ? href.slice(1) : "";
+      const section = id ? document.getElementById(id) : null;
+      return section ? { link, section } : null;
+    })
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  let pinnedLink = null;
+  let pinUntil = 0;
+  let rafId = 0;
+
+  function clearActive() {
+    links.forEach((link) => {
+      link.classList.remove("is-active");
+      link.removeAttribute("aria-current");
+    });
+  }
+
+  function setActive(link) {
+    links.forEach((current) => {
+      const active = current === link;
+      current.classList.toggle("is-active", active);
+      if (active) current.setAttribute("aria-current", "location");
+      else current.removeAttribute("aria-current");
+    });
+  }
+
+  function getTriggerTop(section) {
+    const heading = section.querySelector(".section-title, .section-disclosure-summary, .more-detail-subhead");
+    return (heading || section).getBoundingClientRect().top;
+  }
+
+  function update() {
+    rafId = 0;
+    const now = Date.now();
+    if (pinnedLink && now < pinUntil) {
+      setActive(pinnedLink);
+      return;
+    }
+    pinnedLink = null;
+
+    const anchor = nav.getBoundingClientRect().bottom + 8;
+    let activeLink = sections[0].link;
+    sections.forEach(({ link, section }) => {
+      if (getTriggerTop(section) <= anchor) activeLink = link;
+    });
+    setActive(activeLink);
+  }
+
+  function requestUpdate() {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(update);
+  }
+
+  const clickHandlers = sections.map(({ link }) => {
+    const handler = () => {
+      pinnedLink = link;
+      pinUntil = Date.now() + 700;
+      setActive(link);
+      requestUpdate();
+    };
+    link.addEventListener("click", handler);
+    return { link, handler };
   });
 
-  nav.appendChild(list);
-  content.append(message, nav);
-  wrapper.appendChild(content);
-  footer.appendChild(wrapper);
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  requestUpdate();
+
+  return () => {
+    window.removeEventListener("scroll", requestUpdate);
+    window.removeEventListener("resize", requestUpdate);
+    clickHandlers.forEach(({ link, handler }) => link.removeEventListener("click", handler));
+    if (rafId) window.cancelAnimationFrame(rafId);
+    clearActive();
+  };
 }
 
 // ------ Search Tokenization & Matching ------
@@ -377,13 +530,19 @@ function getSearchInstances() {
   const canQueryAll = typeof document.querySelectorAll === "function";
   const canGetById = typeof document.getElementById === "function";
   const explicitInstances = (canQueryAll
-    ? Array.from(document.querySelectorAll("[data-school-search-instance]"))
+    ? Array.from(document.querySelectorAll("[data-school-search-instance], [data-search-instance]"))
     : []
   ).map((container, index) => {
-    const input = container.querySelector(".search");
-    const results = container.querySelector(".results");
+    const input = container.querySelector(".search, [data-search-input]");
+    const results = container.querySelector(".results, [data-search-results]");
     if (!input || !results) return null;
-    return { container, input, results, index };
+    return {
+      container,
+      input,
+      results,
+      index,
+      mode: container.dataset.searchMode || "navigate"
+    };
   }).filter(Boolean);
 
   if (explicitInstances.length) return explicitInstances;
@@ -395,7 +554,7 @@ function getSearchInstances() {
   const container = typeof input.closest === "function"
     ? (input.closest(".search-panel") || document.body)
     : document.body;
-  return [{ container, input, results, index: 0 }];
+  return [{ container, input, results, index: 0, mode: "navigate" }];
 }
 
 // ------ Search Initialization & Rendering ------
@@ -439,6 +598,9 @@ async function initSearch() {
   }
 
   function getResultMeta(row) {
+    if (sourceKind === "cuts" || sourceKind === "accreditation") {
+      return [row.city, row.state].filter(Boolean).join(", ");
+    }
     return [row.city, row.state].filter(Boolean).join(" | ");
   }
 
@@ -448,18 +610,11 @@ async function initSearch() {
       const value = String(text || "");
       return value.length > 120 ? `${value.slice(0, 117)}...` : value;
     }
-    if (sourceKind === "cuts" && row.latest_cut_label) {
-      const date = row.latest_cut_date || "";
-      return `Latest cut${date ? ` (${date})` : ""}: ${trimBadge(cleanCutLabel(row.latest_cut_label))}`;
-    }
-    if (sourceKind === "accreditation" && row.latest_action_label) {
-      const date = row.latest_action_date || "";
-      return `Latest action${date ? ` (${date})` : ""}: ${trimBadge(row.latest_action_label)}`;
-    }
+    if (sourceKind === "cuts" || sourceKind === "accreditation") return "";
     return "";
   }
 
-  instances.forEach(({ input, results, index }) => {
+  instances.forEach(({ input, results, index, mode }) => {
     let activeIndex = -1;
 
     // Mark the results container as a listbox so screen readers announce
@@ -484,6 +639,27 @@ async function initSearch() {
       return Array.from(results.querySelectorAll('.result-item[role="option"]'));
     }
 
+    function dispatchSearchCommit() {
+      input.dispatchEvent(new Event("tracker:search-commit"));
+    }
+
+    function commitFilterValue(value) {
+      const nextValue = String(value || "").trim();
+      input.value = nextValue;
+      if (nextValue) {
+        input.dataset.filterValue = nextValue;
+      } else {
+        delete input.dataset.filterValue;
+      }
+      clearResults();
+      dispatchSearchCommit();
+      input.focus();
+      if (typeof input.setSelectionRange === "function") {
+        const end = input.value.length;
+        input.setSelectionRange(end, end);
+      }
+    }
+
     function setActiveOption(newIndex) {
       const buttons = getAllResultButtons();
       if (!buttons.length) return;
@@ -499,6 +675,11 @@ async function initSearch() {
 
     function commitOption(button) {
       if (!button) return;
+      const label = String(button.dataset.label || "").trim();
+      if (mode === "filter" && label) {
+        commitFilterValue(label);
+        return;
+      }
       const unitid = String(button.dataset.unitid || "").trim();
       if (unitid) {
         window.location.href = schoolUrl(unitid, page);
@@ -591,7 +772,7 @@ async function initSearch() {
         const id = `${results.id}-option-${optionIndex++}`;
         const metaParts = [getResultMeta(row), getResultBadge(row)].filter(Boolean);
         return `
-          <button type="button" id="${id}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" tabindex="-1" aria-selected="false">
+          <button type="button" id="${id}" class="result-item" role="option" data-unitid="${escapeHtml(row.unitid)}" data-label="${escapeHtml(getMatchText(row))}" tabindex="-1" aria-selected="false">
             <span class="result-item-label">${escapeHtml(getMatchText(row))}</span>
             ${metaParts.length ? `<span class="result-item-meta">${escapeHtml(metaParts.join(" | "))}</span>` : ""}
           </button>
@@ -619,6 +800,17 @@ async function initSearch() {
     });
 
     input.addEventListener("input", (e) => {
+      if (mode === "filter") {
+        const committedValue = String(e.target.dataset.filterValue || "").trim();
+        const typedValue = String(e.target.value || "").trim();
+        if (!typedValue && committedValue) {
+          delete e.target.dataset.filterValue;
+          dispatchSearchCommit();
+        } else if (committedValue && typedValue !== committedValue) {
+          delete e.target.dataset.filterValue;
+          dispatchSearchCommit();
+        }
+      }
       renderMatches(e.target.value);
     });
 
@@ -641,20 +833,34 @@ async function initSearch() {
   });
 }
 
-upgradeSiteFooter();
-
 async function initMethodologyInstitutionCount() {
   if (typeof document === "undefined" || typeof document.querySelectorAll !== "function") return;
   const targets = Array.from(document.querySelectorAll("#methodology-institution-count, #methodology-institution-count-lower"));
   if (!targets.length) return;
-  const schools = await loadJson("data/schools_index.json");
-  const count = Array.isArray(schools) ? schools.length : 0;
+  let count = 0;
+  try {
+    const metadata = await loadSiteMetadata();
+    count = Number(metadata?.institution_count || 0);
+  } catch (_) {
+    count = 0;
+  }
+  if (!Number.isFinite(count) || count <= 0) {
+    const schools = await loadJson("data/schools_index.json");
+    count = Array.isArray(schools) ? schools.length : 0;
+  }
   if (!Number.isFinite(count) || count <= 0) return;
   const formatted = new Intl.NumberFormat("en-US").format(count);
   targets.forEach((target) => {
     target.textContent = formatted;
   });
 }
+
+upgradeSiteFooter().catch((error) => {
+  console.error("Footer upgrade failed:", error);
+});
+
+initStickySectionNav("guide-jump-links");
+initStickySectionNav("methodology-jump-links");
 
 initMethodologyInstitutionCount().catch((error) => {
   console.error("Methodology institution count failed:", error);
@@ -679,42 +885,41 @@ initSearch().catch((error) => {
 // Accepts an ISO YYYY-MM-DD string from the pipeline's `generated_at`. Leaves
 // the element hidden if the value is missing or cannot be parsed, so the UI
 // never shows "Invalid Date" or a stale placeholder.
-function renderDataAsOf(elementId, generatedAt) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-  if (typeof generatedAt !== "string" || !generatedAt) {
-    el.hidden = true;
-    el.textContent = "";
-    return;
-  }
-  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(generatedAt);
-  if (!match) {
-    el.hidden = true;
-    el.textContent = "";
-    return;
-  }
+function formatDisplayDate(value) {
+  if (typeof value !== "string" || !value) return "";
+  const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+  if (!match) return "";
   const year = Number(match[1]);
   const month = Number(match[2]) - 1;
   const day = Number(match[3]);
   const date = new Date(Date.UTC(year, month, day));
-  if (Number.isNaN(date.getTime())) {
-    el.hidden = true;
-    el.textContent = "";
-    return;
-  }
-  const formatted = date.toLocaleDateString("en-US", {
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
     timeZone: "UTC"
   });
+}
+
+function renderDataAsOf(elementId, generatedAt) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const formatted = formatDisplayDate(generatedAt);
+  if (!formatted) {
+    el.hidden = true;
+    el.textContent = "";
+    return;
+  }
   el.textContent = `Data as of ${formatted}.`;
   el.hidden = false;
 }
 
 window.TrackerApp = window.TrackerApp || {};
 window.TrackerApp.loadJson = loadJson;
+window.TrackerApp.loadSiteMetadata = loadSiteMetadata;
 window.TrackerApp.renderDataAsOf = renderDataAsOf;
+window.TrackerApp.formatDisplayDate = formatDisplayDate;
 window.TrackerApp.schoolUrl = schoolUrl;
 window.TrackerApp.isNumericUnitid = isNumericUnitid;
 window.TrackerApp.isPrimaryTrackerInstitution = isPrimaryTrackerInstitution;
@@ -729,6 +934,10 @@ window.TrackerApp.tokenizeSearch = tokenizeSearch;
 
 window.TrackerApp.normalizeQuery = function normalizeQuery(value) {
   return normalizeSearchText(value).trim();
+};
+
+window.TrackerApp.getCommittedSearchValue = function getCommittedSearchValue(input) {
+  return String(input?.dataset.filterValue || "").trim();
 };
 
 window.TrackerApp.filterByInstitution = function filterByInstitution(items, query) {
@@ -1046,6 +1255,8 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
     items,
     pageSize,
     searchInput = null,
+    searchValueResolver = (input) => input?.value || "",
+    filterOnInput = true,
     filterItems = (rows) => rows,
     sortItems = (rows) => rows,
     renderPage,
@@ -1065,7 +1276,7 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
   let pendingFocusSelector = focusSelector;
 
   const render = () => {
-    const filteredItems = filterItems(sourceItems, searchInput?.value || "");
+    const filteredItems = filterItems(sourceItems, searchValueResolver(searchInput));
     const sortedItems = sortItems(filteredItems, sortState);
     container.innerHTML = renderPage(sortedItems, currentPage, pageSize, sortState);
     if (shouldFocusAfterRender) {
@@ -1103,12 +1314,20 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
     }
   };
 
-  if (searchInput && !searchInput.dataset.boundPaginatedTable) {
+  if (searchInput && filterOnInput && !searchInput.dataset.boundPaginatedTableInput) {
     searchInput.addEventListener("input", () => {
       currentPage = 1;
       render();
     });
-    searchInput.dataset.boundPaginatedTable = "true";
+    searchInput.dataset.boundPaginatedTableInput = "true";
+  }
+
+  if (searchInput && !searchInput.dataset.boundPaginatedTableCommit) {
+    searchInput.addEventListener("tracker:search-commit", () => {
+      currentPage = 1;
+      render();
+    });
+    searchInput.dataset.boundPaginatedTableCommit = "true";
   }
 
   render();
@@ -1156,6 +1375,8 @@ window.TrackerApp.makeTableController = function makeTableController(options) {
     items: options.items,
     pageSize: options.pageSize,
     searchInput: options.searchInput || null,
+    searchValueResolver: options.searchValueResolver,
+    filterOnInput: options.filterOnInput,
     filterItems: options.filterItems || window.TrackerApp.filterByInstitution,
     sortItems: options.sortItems,
     renderPage: options.renderPage,

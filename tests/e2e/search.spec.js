@@ -9,12 +9,35 @@
  */
 
 const { test, expect } = require('@playwright/test');
-const { firstSchoolIndexEntry, schoolIndexEntryByUnitid, searchTermFor, stateWithMultipleSchools } = require('./helpers');
+const { firstSchoolIndexEntry, firstIndexEntry, schoolIndexEntryByUnitid, searchTermFor, stateWithMultipleSchools } = require('./helpers');
 
 const searchTarget = firstSchoolIndexEntry();
 const searchTerm = searchTermFor(searchTarget);
 const stateSearch = stateWithMultipleSchools();
 const caltech = schoolIndexEntryByUnitid('110404');
+const landingSearchCases = [
+  {
+    page: '/cuts.html',
+    input: '#cuts-filter',
+    results: '#cuts-search-results',
+    table: '#cuts-list',
+    target: firstIndexEntry('data/college_cuts_index.json')
+  },
+  {
+    page: '/accreditation.html',
+    input: '#accreditation-filter',
+    results: '#accreditation-search-results',
+    table: '#accreditation-status',
+    target: firstIndexEntry('data/accreditation_index.json')
+  },
+  {
+    page: '/research.html',
+    input: '#research-filter',
+    results: '#research-search-results',
+    table: '#research-list',
+    target: firstIndexEntry('data/research_funding_index.json')
+  }
+];
 
 test.describe('Search functionality', () => {
   test('shows search input on index page', async ({ page }) => {
@@ -117,4 +140,29 @@ test.describe('Search functionality', () => {
     const resultItems = results.locator('.result-item:not(.is-empty)');
     await expect(resultItems.first()).toBeVisible();
   });
+
+  for (const searchCase of landingSearchCases) {
+    test(`landing autocomplete filters in place on ${searchCase.page}`, async ({ page }) => {
+      await page.goto(searchCase.page);
+
+      const query = searchTermFor(searchCase.target);
+      const searchInput = page.locator(searchCase.input);
+      const results = page.locator(searchCase.results);
+      const table = page.locator(searchCase.table);
+
+      await searchInput.fill(query);
+      await expect(results).toBeVisible();
+      const firstOption = results.locator('.result-item[role="option"]').first();
+      await expect(firstOption).toBeVisible();
+      const selectedLabel = ((await firstOption.locator('.result-item-label').textContent()) || '').trim();
+
+      const currentUrl = page.url();
+      await firstOption.click();
+
+      await expect(searchInput).toHaveValue(selectedLabel);
+      await expect(results).not.toBeVisible();
+      await expect(table).toContainText(selectedLabel);
+      await expect(page).toHaveURL(currentUrl);
+    });
+  }
 });

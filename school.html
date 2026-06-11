@@ -6,21 +6,22 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Look Up a College's Financial Health | College Financial Health Tracker</title>
   <meta name="description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
+  <meta name="author" content="The Hechinger Report, Marina Villeneuve">
   <meta name="news-keywords" content="college financial health, college budget, college enrollment, university finances">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/school.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Hechinger Report">
-  <meta property="og:title" content="College Financial Health Explorer, by The Hechinger Report">
+  <meta property="og:title" content="College Financial Health Tracker, by The Hechinger Report">
   <meta property="og:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
   <meta property="og:url" content="https://hechingerreport.org/college-financial-health-tracker/school.html">
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="College Financial Health Explorer by The Hechinger Report">
+  <meta property="og:image:alt" content="College Financial Health Tracker by The Hechinger Report">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
-  <meta name="twitter:title" content="College Financial Health Explorer, by The Hechinger Report">
+  <meta name="twitter:title" content="College Financial Health Tracker, by The Hechinger Report">
   <meta name="twitter:description" content="Look up a single college's financial health: revenue and expenses, enrollment trends, endowment, state aid, and any program cuts or accreditation actions.">
   <meta name="twitter:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <link rel="stylesheet" href="styles.css">
@@ -35,12 +36,12 @@
         <span class="wm-text">The Hechinger Report</span>
       </a>
       <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
+        <button class="help-btn" type="button" aria-label="Questions about this tracker? Email us at editor@hechingerreport.org">?</button>
+        <span class="help-tooltip" role="tooltip">Questions about this tracker? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
       </div>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab" id="tab-home" href="index.html">Home</a>
+      <a class="top-tab" id="tab-home" href="index.html">Tracker Home</a>
       <a class="top-tab is-active" id="tab-finances" href="school.html" aria-current="page">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
@@ -54,7 +55,7 @@
     </figure>
     <section id="school-intro-callout" class="guide-hero guide-only" aria-labelledby="guide-hero-title">
       <div class="guide-hero-copy">
-      <h1 id="guide-hero-title" class="serif">College Financial Health Explorer</h1>
+      <h1 id="guide-hero-title" class="serif">College Financial Health Tracker</h1>
         <p class="guide-deck">Search for a college or university below to see how its finances and enrollment have changed over time.</p>
       </div>
     </section>
@@ -77,7 +78,7 @@
             <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/>
             <path d="m21 21-4.3-4.3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
-          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state, alias or IPEDS ID" autocomplete="off">
+          <input id="school-search" class="search" type="search" placeholder="Start typing a college name, city, state or nickname" autocomplete="off">
         </div>
         <div id="search-results" class="results" role="listbox" aria-label="Search results"></div>
       </section>
@@ -85,16 +86,17 @@
 
     <section id="guide-intro" class="guide-section guide-intro guide-only" aria-labelledby="guide-intro-title">
       <h2 id="guide-intro-title" class="guide-subhead">A guide to using this tool</h2>
-      <p class="guide-body"><strong>Use this explorer to look at the big picture.</strong></p>
+      <p class="guide-body"><strong>Use this tracker to look at the big picture.</strong></p>
       <ul class="guide-point-list">
         <li class="guide-body">Once you search for a university and click on it, you'll see its financial profile.</li>
         <li class="guide-body">Scroll down to learn about different financial and enrollment indicators.</li>
         <li class="guide-body">The colored boxes can help you spot patterns.</li>
         <li class="guide-body"><span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Red</span> with a warning sign means a trend is growing in a concerning direction.</li>
-        <li class="guide-body">One or two <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> boxes do not automatically mean a school is in crisis.</li>
+        <li class="guide-body">Move your mouse over a <span class="guide-inline-red guide-inline-red-warning guide-inline-warning-tooltip" tabindex="0"><span class="guide-warning-icon" aria-hidden="true"></span>warning<span class="warning-sign-tooltip" role="tooltip">Here is a sample pop-up message for a warning sign.</span></span> sign to learn more about what it means.</li>
+        <li class="guide-body">1 or 2 <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> boxes do not automatically mean a school is in crisis.</li>
         <li class="guide-body">But if a college shows several <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>red</span> indicators across revenue, enrollment and losses, that may be a sign of deeper financial pressure.</li>
-        <li class="guide-body">Look out for the <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Pattern of declining enrollment and losses</span> indicator at the top of a profile. That means the college posted declines of at least 10% in both enrollment and net tuition revenue per student between 2019 and 2024, along with operating losses in at least three years of that five year period.</li>
-        <li class="guide-body">A gold <span class="guide-inline-gold guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Widespread warning signs</span> badge means at least 6 of the visible warning indicators on that profile are flagged as concerning.</li>
+        <li class="guide-body">Look out for the <span class="guide-inline-red guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>Significant enrollment declines and losses</span> indicator at the top of a profile. That means the college posted declines of at least 10 percent in both enrollment and net tuition revenue per student between 2019 and 2024, along with operating losses in at least 3 years of that 5-year period.</li>
+        <li class="guide-body">A gold <span class="guide-inline-gold guide-inline-red-warning"><span class="guide-warning-icon" aria-hidden="true"></span>At least 6 warning signs</span> badge means at least 6 of the visible warning indicators on that profile are flagged as concerning.</li>
       </ul>
       <div class="guide-learn-more">
         <p class="guide-body">Click on the tabs at the top of the page to learn about colleges that have:</p>
@@ -117,8 +119,8 @@
     <section id="guide-search-tips" class="guide-section guide-search-tips guide-only" aria-labelledby="guide-search-tips-title">
       <h2 id="guide-search-tips-title" class="section-title">How to search</h2>
       <div class="guide-search-copy">
-        <p>Search by college name, nickname, state or its unique Integrated Postsecondary Education Data System ID.</p>
-        <p>For example: If you type in Massachusetts, you'll see all the colleges included in our explorer in that state.</p>
+        <p>Search by college name, nickname or state.</p>
+        <p>For example: If you type in Massachusetts, you'll see all the colleges included in our tracker in that state.</p>
         <p>You can also search by nicknames like CalTech, MIT or Georgia Tech.</p>
       </div>
       <figure class="guide-search-example">
@@ -131,78 +133,108 @@
       <div class="guide-legend-grid">
         <article class="guide-legend-item">
           <span class="guide-chip guide-chip-blue" aria-hidden="true"></span>
-          <p>Blue means a trend is moving in a positive direction (an increase of 10% or more).</p>
+          <p>Blue means a trend is moving in a positive direction (an increase of 10 percent or more).</p>
         </article>
         <article class="guide-legend-item">
           <span class="guide-chip guide-chip-red" aria-hidden="true"></span>
-          <p>Red means a trend moved in a more concerning direction (a decline of 10% or more).</p>
+          <p>Red means a trend moved in a more concerning direction (a decline of 10 percent or more).</p>
         </article>
         <article class="guide-legend-item">
           <span class="guide-chip guide-chip-yellow" aria-hidden="true"></span>
-          <p>Yellow means the change was flat or minor (between a 10% decline and a 10% increase).</p>
+          <p>Yellow means the change was flat or minor (between a 10 percent decline and a 10 percent increase).</p>
         </article>
       </div>
       <p class="guide-note"><em>For detail on how we define a concerning or positive change, head to our <a href="methodology.html">methodology</a>.</em></p>
     </section>
 
     <section id="guide-example" class="guide-section guide-example-section guide-only" aria-labelledby="guide-example-section-title">
-      <h2 id="guide-example-section-title" class="section-title">Here are some example financial profiles:</h2>
+      <h2 id="guide-example-section-title" class="section-title">Here are some examples of what information you may see on the profile --</h2>
       <div class="guide-example">
         <div class="guide-example-mast">
           <div class="school-warning-summary-group" aria-label="Example warning badges">
-            <span class="school-warning-summary" aria-label="Pattern of declining enrollment and losses">
+            <span class="school-warning-summary" aria-label="Significant enrollment declines and losses">
               <span class="guide-warning-icon" aria-hidden="true"></span>
-              <span>Pattern of declining enrollment and losses</span>
+              <span>Significant enrollment declines and losses</span>
             </span>
-            <span class="school-warning-summary is-broad" aria-label="Widespread warning signs">
+            <span class="school-warning-summary is-broad" aria-label="At least 6 warning signs">
               <span class="guide-warning-icon" aria-hidden="true"></span>
-              <span>Widespread warning signs</span>
+              <span>At least 6 warning signs</span>
             </span>
           </div>
           <p id="guide-example-title" class="serif guide-example-school-name">Example University</p>
           <p class="guide-example-meta">Sampleville, State &middot; Private nonprofit &middot; Suburb: Small</p>
         </div>
 
-        <div id="guide-sample-cards" class="guide-sample-grid">
-          <article class="metric-strip negative guide-sample-card" data-arrow="down">
-            <div class="metric-statement">Revenue decreased 19% from 2019 to 2024, after adjusting for inflation.</div>
-          </article>
+        <div class="guide-example-board">
+          <div id="guide-sample-cards" class="guide-sample-grid">
+            <article class="metric-strip negative guide-sample-card" data-arrow="down">
+              <div class="metric-statement">Revenue decreased 19 percent from 2019 to 2024, after adjusting for inflation.</div>
+            </article>
 
-          <article class="metric-strip negative guide-sample-card guide-arrow-right" data-arrow="down">
-            <div class="metric-statement">Enrollment decreased 17% from 2019 to 2024.</div>
-          </article>
+            <article class="metric-strip negative guide-sample-card" data-arrow="down">
+              <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 23 percent from 2019 to 2024, after adjusting for inflation.</div>
+            </article>
 
-          <article class="metric-strip negative guide-sample-card" data-arrow="down">
-            <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 23% from 2019 to 2024, after adjusting for inflation.</div>
-          </article>
+            <article class="chart-panel guide-sample-card guide-sample-chart-card">
+              <p class="guide-sample-mini-chart-title">Enrollment trends<span class="sub">12-month unduplicated headcount</span></p>
+              <svg class="guide-sample-chart-svg" viewBox="0 0 320 120" aria-hidden="true" focusable="false">
+                <line class="guide-sample-chart-axis" x1="26" y1="16" x2="26" y2="102"></line>
+                <line class="guide-sample-chart-axis" x1="26" y1="102" x2="302" y2="102"></line>
+                <polyline class="guide-sample-chart-grid" points="26,34 302,34"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,60 302,60"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,84 302,84"></polyline>
+                <polyline class="guide-sample-chart-line" points="34,28 88,40 142,52 196,68 250,82 294,92"></polyline>
+                <circle class="guide-sample-chart-point" cx="34" cy="28" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="88" cy="40" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="142" cy="52" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="196" cy="68" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="250" cy="82" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="294" cy="92" r="4"></circle>
+              </svg>
+            </article>
 
-          <article class="metric-strip positive guide-sample-card guide-arrow-right" data-arrow="up">
-            <div class="metric-statement">The institution's endowment increased 12% from 2019 to 2024, after adjusting for inflation.</div>
-          </article>
+            <article class="chart-panel guide-sample-card guide-sample-chart-card">
+              <p class="guide-sample-mini-chart-title">Staffing trends<span class="sub">Total staff headcount</span></p>
+              <svg class="guide-sample-chart-svg" viewBox="0 0 320 120" aria-hidden="true" focusable="false">
+                <line class="guide-sample-chart-axis" x1="26" y1="16" x2="26" y2="102"></line>
+                <line class="guide-sample-chart-axis" x1="26" y1="102" x2="302" y2="102"></line>
+                <polyline class="guide-sample-chart-grid" points="26,34 302,34"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,60 302,60"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,84 302,84"></polyline>
+                <polyline class="guide-sample-chart-line" points="34,24 88,32 142,45 196,57 250,74 294,88"></polyline>
+                <circle class="guide-sample-chart-point" cx="34" cy="24" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="88" cy="32" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="142" cy="45" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="196" cy="57" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="250" cy="74" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="294" cy="88" r="4"></circle>
+              </svg>
+            </article>
 
-          <article class="metric-strip negative guide-sample-card">
-            <div class="metric-question">How many times has this institution ended the year with a loss in the past decade?</div>
-            <div class="metric-answer">8</div>
-          </article>
+            <article class="metric-strip negative guide-sample-card">
+              <div class="metric-question">How many times has this institution ended the year with a loss in the past decade?</div>
+              <div class="metric-answer">8</div>
+            </article>
 
-          <article class="metric-strip negative guide-sample-card">
-            <div class="metric-question">Did this institution see a decline in enrollment in 3 of the previous 5 years?</div>
-            <div class="metric-answer">Yes</div>
-          </article>
-        </div>
+            <article class="metric-strip negative guide-sample-card">
+              <div class="metric-question">Did this institution see a decline in enrollment in 3 of the previous 5 years?</div>
+              <div class="metric-answer">Yes</div>
+            </article>
+          </div>
 
-        <div class="guide-example-callouts" aria-label="Example University callouts">
-          <article class="guide-callout guide-callout-left guide-callout-row-1">This box is red because revenue is down by more than 10 percent.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-1">This box is red because enrollment fell by more than 10 percent.</article>
-          <article class="guide-callout guide-callout-left guide-callout-row-2">This box is red because net tuition revenue per student fell sharply.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-2">This box is blue because the endowment grew by more than 10 percent.</article>
-          <article class="guide-callout guide-callout-left guide-callout-row-3">This box is red because the college ended 8 years with a loss.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-3">This box is red because the college is seeing repeated enrollment drops.</article>
+          <div class="guide-example-callouts" aria-label="Example University callouts">
+            <article class="guide-callout guide-callout-left guide-callout-row-1">This box is red because revenue is down by more than 10 percent.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-1">This box is red because net tuition revenue per student fell sharply.</article>
+            <article class="guide-callout guide-callout-left guide-callout-row-2">This chart shows enrollment falling steadily over time.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-2">This chart shows staffing also trending downward over time.</article>
+            <article class="guide-callout guide-callout-left guide-callout-row-3">This box is red because the college ended 8 years with a loss.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-3">This box is red because the college is seeing repeated enrollment drops.</article>
+          </div>
         </div>
 
         <div class="guide-example-summary">
-          <p>This example school profile has a mix of red and blue boxes at the same time.</p>
-          <p>Revenue and enrollment are dropping significantly, and it has ended 8 of the past 10 years at a loss.</p>
+          <p>This example school profile is filled with concerning signals.</p>
+          <p>Revenue, enrollment and staffing are all moving downward, and it has ended 8 of the past 10 years at a loss.</p>
           <p>This suggests deeper financial pressure.</p>
         </div>
       </div>
@@ -213,41 +245,71 @@
           <p class="guide-example-meta">Samplecity, State &middot; Public &middot; City: Medium </p>
         </div>
 
-        <div class="guide-sample-grid">
-          <article class="metric-strip positive guide-sample-card" data-arrow="up">
-            <div class="metric-statement">Revenue increased 12% from 2019 to 2024, after adjusting for inflation.</div>
-          </article>
+        <div class="guide-example-board">
+          <div class="guide-sample-grid">
+            <article class="metric-strip positive guide-sample-card" data-arrow="up">
+              <div class="metric-statement">Revenue increased 12 percent from 2019 to 2024, after adjusting for inflation.</div>
+            </article>
 
-          <article class="metric-strip neutral guide-sample-card">
-            <div class="metric-statement">Enrollment increased 1% from 2019 to 2024.</div>
-          </article>
+            <article class="metric-strip negative guide-sample-card" data-arrow="down">
+              <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 12 percent from 2019 to 2024, after adjusting for inflation.</div>
+            </article>
 
-          <article class="metric-strip negative guide-sample-card" data-arrow="down">
-            <div class="metric-statement">Net tuition revenue per full-time equivalent student decreased 12% from 2019 to 2024, after adjusting for inflation.</div>
-          </article>
+            <article class="chart-panel guide-sample-card guide-sample-chart-card">
+              <p class="guide-sample-mini-chart-title">Enrollment trends<span class="sub">12-month unduplicated headcount</span></p>
+              <svg class="guide-sample-chart-svg" viewBox="0 0 320 120" aria-hidden="true" focusable="false">
+                <line class="guide-sample-chart-axis" x1="26" y1="16" x2="26" y2="102"></line>
+                <line class="guide-sample-chart-axis" x1="26" y1="102" x2="302" y2="102"></line>
+                <polyline class="guide-sample-chart-grid" points="26,34 302,34"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,60 302,60"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,84 302,84"></polyline>
+                <polyline class="guide-sample-chart-line" points="34,61 88,58 142,60 196,57 250,59 294,56"></polyline>
+                <circle class="guide-sample-chart-point" cx="34" cy="61" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="88" cy="58" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="142" cy="60" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="196" cy="57" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="250" cy="59" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="294" cy="56" r="4"></circle>
+              </svg>
+            </article>
 
-          <article class="metric-strip neutral guide-sample-card">
-            <div class="metric-statement">Total staff headcount increased 3% from 2019 to 2024.</div>
-          </article>
+            <article class="chart-panel guide-sample-card guide-sample-chart-card">
+              <p class="guide-sample-mini-chart-title">Endowment value<span class="sub">Adjusted for inflation</span></p>
+              <svg class="guide-sample-chart-svg" viewBox="0 0 320 120" aria-hidden="true" focusable="false">
+                <line class="guide-sample-chart-axis" x1="26" y1="16" x2="26" y2="102"></line>
+                <line class="guide-sample-chart-axis" x1="26" y1="102" x2="302" y2="102"></line>
+                <polyline class="guide-sample-chart-grid" points="26,34 302,34"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,60 302,60"></polyline>
+                <polyline class="guide-sample-chart-grid" points="26,84 302,84"></polyline>
+                <polyline class="guide-sample-chart-line" points="34,40 88,44 142,46 196,49 250,52 294,55"></polyline>
+                <circle class="guide-sample-chart-point" cx="34" cy="40" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="88" cy="44" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="142" cy="46" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="196" cy="49" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="250" cy="52" r="4"></circle>
+                <circle class="guide-sample-chart-point" cx="294" cy="55" r="4"></circle>
+              </svg>
+            </article>
 
-          <article class="metric-strip positive guide-sample-card">
-            <div class="metric-question">Did this college end the latest year at a loss?</div>
-            <div class="metric-answer">No</div>
-          </article>
+            <article class="metric-strip positive guide-sample-card">
+              <div class="metric-question">Did this college end the latest year at a loss?</div>
+              <div class="metric-answer">No</div>
+            </article>
 
-          <article class="metric-strip positive guide-sample-card guide-arrow-right" data-arrow="up">
-            <div class="metric-question">How much has state aid changed over the past 5 years?</div>
-            <div class="metric-answer">+25%</div>
-          </article>
-        </div>
+            <article class="metric-strip positive guide-sample-card guide-arrow-right" data-arrow="up">
+              <div class="metric-question">How much has state aid changed over the past 5 years?</div>
+              <div class="metric-answer">+25 percent</div>
+            </article>
+          </div>
 
-        <div class="guide-example-callouts" aria-label="Example State College callouts">
-          <article class="guide-callout guide-callout-left guide-callout-row-1">This box is blue because revenue is up by more than 10 percent.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-1">This box is yellow because enrollment stayed about the same.</article>
-          <article class="guide-callout guide-callout-left guide-callout-row-2">This box is red because net tuition revenue per student fell by more than 10 percent.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-2">This box is yellow because staff headcount stayed about the same.</article>
-          <article class="guide-callout guide-callout-left guide-callout-row-3">This box is blue because the college did not end 2024 with a loss.</article>
-          <article class="guide-callout guide-callout-right guide-callout-row-3">This box is blue because state aid has gone up by more than 10 percent.</article>
+          <div class="guide-example-callouts" aria-label="Example State College callouts">
+            <article class="guide-callout guide-callout-left guide-callout-row-1">This box is blue because revenue is up by more than 10 percent.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-1">This box is red because net tuition revenue per student fell by more than 10 percent.</article>
+            <article class="guide-callout guide-callout-left guide-callout-row-2">This chart shows enrollment staying mostly flat over time.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-2">This chart shows the endowment dipping only slightly.</article>
+            <article class="guide-callout guide-callout-left guide-callout-row-3">This box is blue because the college did not end 2024 with a loss.</article>
+            <article class="guide-callout guide-callout-right guide-callout-row-3">This box is blue because state aid has gone up by more than 10 percent.</article>
+          </div>
         </div>
 
         <div class="guide-example-summary">

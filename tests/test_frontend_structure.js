@@ -27,7 +27,7 @@ const PAGES = [
       // <span class="logo"> that lives inside .wordmark and renders the
       // glyph via CSS ::after pseudo-content.
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Home<\/a>/, message: "Home nav tab with aria-current" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*aria-current="page"[^>]*>Tracker Home<\/a>/, message: "Home nav tab with aria-current" },
       { pattern: /<a[^>]+href="school\.html"[^>]*>Finances<\/a>/, message: "Finances nav tab" },
       { pattern: /<a[^>]+href="cuts\.html"[^>]*>College Cuts<\/a>/, message: "College Cuts nav tab" },
       { pattern: /<a[^>]+href="accreditation\.html"[^>]*>Accreditation<\/a>/, message: "Accreditation nav tab" },
@@ -35,7 +35,7 @@ const PAGES = [
       // Editorial Calm moved the index hero h1 inside the .hero-split
       // and gave it class="serif". Match either treatment so the
       // landing page still has a real top-level heading.
-      { pattern: /<h1[^>]*class="(?:masthead-title|serif)"[^>]*>College Financial Health Explorer<\/h1>/, message: "Index landing h1" },
+      { pattern: /<h1[^>]*class="(?:masthead-title|serif)"[^>]*>College Financial Health Tracker<\/h1>/, message: "Index landing h1" },
       { pattern: /class="[^"]*\bsearch-panel\b[^"]*"/, message: "Search panel" },
       { pattern: /id="school-search"/, message: "Search input" },
       { pattern: /id="search-results"/, message: "Search results container" },
@@ -51,14 +51,15 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
+      { pattern: /id="cuts-search-results"/, message: "Cuts autocomplete results container" },
       // Editorial Calm dropped the legacy .masthead-title decorative
       // duplicate from cuts/accred/research/school in favor of a real
       // page-specific h1 in the hero. Accept the legacy treatment OR
       // a serif h1 in the .hero-solo-center landing block.
-      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>College Cuts<\/h1>)/, message: "Page heading" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>College Cuts<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -70,14 +71,16 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="research\.html"[^>]+aria-current="page"[^>]*>Research Funding Cuts<\/a>/, message: "Active Research nav tab with aria-current" },
       { pattern: /id="research-list"[^>]*aria-live="polite"/, message: 'research-list with aria-live="polite"' },
       { pattern: /id="research-other-list"[^>]*aria-live="polite"/, message: 'research-other-list with aria-live="polite"' },
       { pattern: /id="research-state-summary"[^>]*aria-live="polite"/, message: 'research-state-summary with aria-live="polite"' },
       { pattern: /id="research-filter"/, message: "Research filter input" },
+      { pattern: /id="research-search-results"/, message: "Research autocomplete results container" },
+      { pattern: /id="research-other-search-results"/, message: "Research other-table autocomplete results container" },
       { pattern: /class="table-filter-label"[^>]+for="research-filter"/, message: 'Visible label for research-filter' },
-      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Research Funding Cuts<\/h1>)/, message: "Page heading" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Research Funding Cuts<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -89,12 +92,13 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="accreditation\.html"[^>]+aria-current="page"[^>]*>Accreditation<\/a>/, message: "Active Accreditation tab with aria-current" },
       { pattern: /id="accreditation-status"[^>]*aria-live="polite"/, message: 'accreditation-status with aria-live="polite"' },
       { pattern: /id="accreditation-filter"/, message: "Primary accreditation filter input" },
+      { pattern: /id="accreditation-search-results"/, message: "Accreditation autocomplete results container" },
       { pattern: /class="table-filter-label"[^>]+for="accreditation-filter"/, message: 'Visible label for accreditation-filter' },
-      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Accreditation<\/h1>)/, message: "Page heading" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Accreditation<\/h1>)/, message: "Page heading" },
     ],
   },
   {
@@ -106,14 +110,14 @@ const PAGES = [
       { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
       { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
       { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
-      { pattern: /<a[^>]+href="index\.html"[^>]*>Home<\/a>/, message: "Home nav tab" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
       // school.html no longer uses .masthead-title — the institution
       // name lives in <h1 id="school-name"> inside .school-mast and is
       // populated by school.js. Accept the legacy decorative title or
       // the new editorial school-mast heading.
-      { pattern: /(class="masthead-title"[^>]*>College Financial Health Explorer<\/div>|class="school-mast"[\s\S]*<h1[^>]+id="school-name")/, message: "School heading" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="school-mast"[\s\S]*<h1[^>]+id="school-name")/, message: "School heading" },
       { pattern: /id="share-school-profile"/, message: "Share profile button" },
       { pattern: /id="share-school-status"[^>]*aria-live="polite"/, message: "Share status live region" },
       // Editorial Calm renamed the first financial section from
@@ -127,6 +131,25 @@ const PAGES = [
       { pattern: /(<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about state aid\?<\/h2>)/, message: "State aid heading" },
     ],
   },
+  {
+    name: "Methodology (methodology.html)",
+    file: "methodology.html",
+    checks: [
+      { pattern: /<a[^>]+href="#main"[^>]*class="skip-link"/, message: 'Skip-to-main link targeting "#main"' },
+      { pattern: /<main[^>]+id="main"/, message: '<main id="main">' },
+      { pattern: /class="(?:site-masthead|masthead)"/, message: "Masthead element" },
+      { pattern: /class="top-tabs"[^>]*aria-label="Sections"/, message: 'Top nav with aria-label="Sections"' },
+      { pattern: /(class="nav-logo-link"[\s\S]*assets\/hechinger-logo-yellow\.jpg|class="wordmark"[\s\S]*class="logo")/, message: "Hechinger logo in top nav" },
+      { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
+      { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="methodology\.html"[^>]+aria-current="page"[^>]*>Methodology<\/a>/, message: "Active Methodology tab with aria-current" },
+      { pattern: /class="hero-solo-center"[\s\S]*<h1[^>]*class="serif"[^>]*>Methodology<\/h1>/, message: "Page heading" },
+      { pattern: /id="methodology-jump-links"[^>]*aria-label="Methodology sections"/, message: "Methodology jump-links nav" },
+      { pattern: /<a[^>]+href="#methodology-geography"[^>]*>Geography &amp; Outcomes<\/a>/, message: "Methodology nav link for Geography & Outcomes" },
+      { pattern: /<a[^>]+href="#methodology-enrollment"[^>]*>Enrollment &amp; Staffing<\/a>/, message: "Methodology nav link for Enrollment & Staffing" },
+      { pattern: /<section[^>]+id="methodology-geography"[\s\S]*<h2[^>]+class="section-title"[^>]*>Geography and outcomes<\/h2>/, message: "Geography and outcomes section heading" },
+      { pattern: /<section[^>]+id="methodology-enrollment"[\s\S]*<h2[^>]+class="section-title"[^>]*>Enrollment &amp; Staffing<\/h2>/, message: "Enrollment & Staffing section heading" },
+    ],
+  },
 ];
 
 // CSS smoke tests: check styles.css contains required patterns
@@ -138,6 +161,7 @@ const CSS_CHECKS = [
   { pattern: /\.pagination-button:focus-visible/, message: ".pagination-button:focus-visible" },
   { pattern: /\.sort-button:focus-visible/, message: ".sort-button:focus-visible" },
   { pattern: /\.filter-button:focus-visible/, message: ".filter-button:focus-visible" },
+  { pattern: /\.table-search-autocomplete/, message: ".table-search-autocomplete class" },
   { pattern: /\.skip-link/, message: ".skip-link class" },
   { pattern: /--status-blue-dark:/, message: "--status-blue-dark CSS variable" },
   // Editorial Calm split the search box into a separate
@@ -145,6 +169,7 @@ const CSS_CHECKS = [
   // treatment lives on the wrap now (gold border + soft yellow
   // glow). Accept either selector.
   { pattern: /(\.search-panel:focus-within|\.search-input-wrap:focus-within)/, message: "Search box visible focus indicator" },
+  { pattern: /\.guide-jump-links a\.is-active\s*\{[\s\S]*border-bottom-color:\s*var\(--hechinger-yellow\)/, message: "Guide sticky-nav active underline uses yellow" },
 ];
 
 let passed = 0;
@@ -213,6 +238,8 @@ if (fs.existsSync(appJsPath)) {
   check("app.js", /ariaLabel/, appJs, "accessible table label support");
   check("app.js", /setActiveOption/, appJs, "combobox active option helper");
   check("app.js", /aria-selected/, appJs, "search active option aria-selected state");
+  check("app.js", /initStickySectionNav\("guide-jump-links"\)/, appJs, "school guide sticky-nav initialization");
+  check("app.js", /initStickySectionNav\("methodology-jump-links"\)/, appJs, "methodology sticky-nav initialization");
   check("app.js", /ArrowDown/, appJs, "arrow key navigation: ArrowDown handler");
   check("app.js", /Escape/, appJs, "Escape key closes results");
   check("app.js", /aria-label.*search result/, appJs, "aria-label on search results container");

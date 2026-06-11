@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>College Accreditation Actions: Warnings &amp; Probation Tracker</title>
   <meta name="description" content="Tracking accreditation warnings, probations, show-cause orders, and teach-out approvals from the U.S. regional accreditors, updated as actions are issued.">
+  <meta name="author" content="The Hechinger Report, Marina Villeneuve">
   <meta name="news-keywords" content="college accreditation, accreditation warning, accreditation probation, show cause">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/accreditation.html">
   <meta property="og:type" content="website">
@@ -16,7 +17,7 @@
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="College Financial Health Explorer by The Hechinger Report">
+  <meta property="og:image:alt" content="College Financial Health Tracker by The Hechinger Report">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
@@ -35,12 +36,12 @@
         <span class="wm-text">The Hechinger Report</span>
       </a>
       <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
+        <button class="help-btn" type="button" aria-label="Questions about this tracker? Email us at editor@hechingerreport.org">?</button>
+        <span class="help-tooltip" role="tooltip">Questions about this tracker? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
       </div>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab" id="tab-home" href="index.html">Home</a>
+      <a class="top-tab" id="tab-home" href="index.html">Tracker Home</a>
       <a class="top-tab" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab is-active" id="tab-accreditation" href="accreditation.html" aria-current="page">Accreditation</a>
@@ -72,6 +73,7 @@
 
     <section class="data-card">
       <h2>Recent accreditation actions at four-year degree-granting institutions</h2>
+      <p id="accreditation-table-intro" class="section-copy">Click on a college below to learn more about the institution&rsquo;s history of accreditation actions. You can also check out accreditation documents in the source links.</p>
       <div class="table-toolbar">
         <div class="table-toolbar-actions table-toolbar-actions--stack">
           <div class="table-toolbar-row">
@@ -79,7 +81,10 @@
           </div>
           <div class="table-toolbar-row">
             <label class="table-filter-label" for="accreditation-filter">Institution:</label>
-            <input id="accreditation-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+            <div class="table-search-autocomplete" data-search-instance data-search-mode="filter">
+              <input id="accreditation-filter" class="table-filter-input" type="search" data-search-input aria-label="Filter by institution" placeholder="Filter by institution" autocomplete="off">
+              <div id="accreditation-search-results" class="results table-search-results" data-search-results role="listbox" aria-label="Search results"></div>
+            </div>
           </div>
         </div>
       </div>

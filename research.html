@@ -5,23 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Research Funding Cuts: University Grant Termination Tracker</title>
-  <meta name="description" content="Tracking terminated, frozen, and at-risk federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
+  <meta name="description" content="Tracking terminated and frozen federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
+  <meta name="author" content="The Hechinger Report, Marina Villeneuve">
   <meta name="news-keywords" content="research funding cuts, NIH grant terminations, NSF funding cuts, university research funding">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/research.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="The Hechinger Report">
   <meta property="og:title" content="Research Funding Cuts Tracker">
-  <meta property="og:description" content="Tracking terminated, frozen, and at-risk federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
+  <meta property="og:description" content="Tracking terminated and frozen federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
   <meta property="og:url" content="https://hechingerreport.org/college-financial-health-tracker/research.html">
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="College Financial Health Explorer by The Hechinger Report">
+  <meta property="og:image:alt" content="College Financial Health Tracker by The Hechinger Report">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
   <meta name="twitter:title" content="Research Funding Cuts Tracker">
-  <meta name="twitter:description" content="Tracking terminated, frozen, and at-risk federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
+  <meta name="twitter:description" content="Tracking terminated and frozen federal research grants — NIH, NSF, EPA, CDC — at U.S. universities, drawn from the Grant Witness database.">
   <meta name="twitter:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -35,12 +36,12 @@
         <span class="wm-text">The Hechinger Report</span>
       </a>
       <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
+        <button class="help-btn" type="button" aria-label="Questions about this tracker? Email us at editor@hechingerreport.org">?</button>
+        <span class="help-tooltip" role="tooltip">Questions about this tracker? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
       </div>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab" id="tab-home" href="index.html">Home</a>
+      <a class="top-tab" id="tab-home" href="index.html">Tracker Home</a>
       <a class="top-tab" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
@@ -52,9 +53,9 @@
     <section id="research-landing-hero" class="hero-solo-center">
       <h1 class="serif">Research Funding Cuts</h1>
       <p class="lede lede-intro" id="research-intro-top">Below, explore a database showing federal research funding cuts to colleges and universities across the U.S. since the start of the second Trump administration.</p>
-      <p class="lede">The federal research grants below have been terminated, frozen, or otherwise remain at risk amid legal battles. This data comes from the <a href="https://grant-witness.us/" target="_blank" rel="noopener" aria-label="Grant Witness database (opens in new tab)">Grant Witness database</a>.</p>
+      <p class="lede">The federal research grants below have been terminated or frozen. This data comes from the <a href="https://grant-witness.us/" target="_blank" rel="noopener" aria-label="Grant Witness database (opens in new tab)">Grant Witness database</a>.</p>
       <p class="lede">Grants include funding from the National Institutes of Health, National Science Foundation, Environmental Protection Agency, Substance Abuse and Mental Health Services Administration, and Centers for Disease Control and Prevention. </p>
-     <p class="lede"> The table below shows cuts at universities in our explorer. Keep scrolling for another table showing cuts at other institutions, followed by a state-by-state breakdown.</p>
+     <p class="lede"> The table below shows cuts at universities in our tracker. Keep scrolling for another table showing cuts at other institutions, followed by a state-by-state breakdown.</p>
       <p class="lede" id="research-intro-bottom"></p>
       <p class="data-as-of" id="research-data-as-of" aria-live="polite" hidden></p>
     </section>
@@ -76,6 +77,7 @@
 
     <section class="data-card">
       <h2 id="research-section-title" class="is-hidden">Funding cuts at four-year degree-granting institutions</h2>
+      <p id="research-table-intro" class="section-copy">Click on a college below to learn more about the institution&rsquo;s history of funding cuts. You can also check out the federal website source links.</p>
       <div class="table-toolbar">
         <div class="table-toolbar-actions table-toolbar-actions--stack">
           <div class="table-toolbar-row">
@@ -83,7 +85,10 @@
           </div>
           <div class="table-toolbar-row">
             <label class="table-filter-label" for="research-filter">Institution:</label>
-            <input id="research-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+            <div class="table-search-autocomplete" data-search-instance data-search-mode="filter">
+              <input id="research-filter" class="table-filter-input" type="search" data-search-input aria-label="Filter by institution" placeholder="Filter by institution" autocomplete="off">
+              <div id="research-search-results" class="results table-search-results" data-search-results role="listbox" aria-label="Search results"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -91,7 +96,7 @@
     </section>
 
     <section class="data-card is-hidden" aria-hidden="true">
-      <h2 id="research-other-section-title">Research funding cuts at other higher-ed institutions</h2>
+      <h2 id="research-other-section-title">Research funding cuts at medical schools and other higher-ed institutions</h2>
       <div class="table-toolbar">
         <div class="table-toolbar-actions table-toolbar-actions--stack">
           <div class="table-toolbar-row">
@@ -99,7 +104,10 @@
           </div>
           <div class="table-toolbar-row">
             <label class="table-filter-label" for="research-other-filter">Institution:</label>
-            <input id="research-other-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+            <div class="table-search-autocomplete" data-search-instance data-search-mode="filter">
+              <input id="research-other-filter" class="table-filter-input" type="search" data-search-input aria-label="Filter by institution" placeholder="Filter by institution" autocomplete="off">
+              <div id="research-other-search-results" class="results table-search-results" data-search-results role="listbox" aria-label="Search results"></div>
+            </div>
           </div>
         </div>
       </div>

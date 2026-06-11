@@ -387,6 +387,12 @@ normalize_status <- function(x) {
     stringr::str_to_lower()
 }
 
+normalize_optional_text <- function(x) {
+  out <- trimws(as.character(x))
+  out[out %in% c("", "NA", "N/A")] <- NA_character_
+  out
+}
+
 # Agency-specific status rules are data, not control flow. Keep them in lookup
 # tables so changing a label means editing one row, not rewriting case_when().
 GRANT_WITNESS_STATUS_RULES <- list(
@@ -446,22 +452,151 @@ status_matches_rule <- function(agency, status, rule_name) {
   }, logical(1))
 }
 
-is_currently_disrupted <- function(agency, status) {
-  status_matches_rule(agency, status, "currently_disrupted")
+history_shows_post_termination_restoration <- function(status_history, termination_date) {
+  status_history <- normalize_optional_text(status_history)
+  termination_date <- normalize_optional_text(termination_date)
+
+  n <- max(length(status_history), length(termination_date))
+  if (n == 0L) {
+    return(logical())
+  }
+
+  if (length(status_history) == 1L && n > 1L) {
+    status_history <- rep(status_history, n)
+  }
+  if (length(termination_date) == 1L && n > 1L) {
+    termination_date <- rep(termination_date, n)
+  }
+
+  vapply(seq_len(n), function(i) {
+    history_value <- status_history[[i]]
+    termination_value <- suppressWarnings(as.Date(termination_date[[i]]))
+    if (is.na(history_value) || is.na(termination_value)) {
+      return(FALSE)
+    }
+
+    lines <- trimws(unlist(strsplit(history_value, "\n", fixed = TRUE), use.names = FALSE))
+    if (!length(lines)) {
+      return(FALSE)
+    }
+
+    restoration_lines <- lines[
+      grepl("grant renewed|end date extended|reinstated|unfrozen funding", lines, ignore.case = TRUE, perl = TRUE)
+    ]
+    if (!length(restoration_lines)) {
+      return(FALSE)
+    }
+
+    line_dates <- suppressWarnings(as.Date(sub(
+      "^\\s*-\\s*([0-9]{4}-[0-9]{2}-[0-9]{2}).*$",
+      "\\1",
+      restoration_lines,
+      perl = TRUE
+    )))
+
+    any(!is.na(line_dates) & line_dates > termination_value)
+  }, logical(1))
 }
 
-is_possibly_restored <- function(agency, status) {
-  status_matches_rule(agency, status, "possibly_restored")
+is_definitively_restored <- function(
+  agency,
+  status,
+  reinstatement_date = NA_character_,
+  status_history = NA_character_,
+  termination_date = NA_character_
+) {
+  baseline_disrupted <- status_matches_rule(agency, status, "currently_disrupted")
+  explicit_reinstatement <- !is.na(normalize_optional_text(reinstatement_date))
+  post_termination_restoration <- history_shows_post_termination_restoration(status_history, termination_date)
+  baseline_disrupted & (explicit_reinstatement | post_termination_restoration)
 }
 
-is_public_tracker_included <- function(agency, status) {
-  is_currently_disrupted(agency, status) | is_possibly_restored(agency, status)
+is_currently_disrupted <- function(
+  agency,
+  status,
+  reinstatement_date = NA_character_,
+  status_history = NA_character_,
+  termination_date = NA_character_
+) {
+  status_matches_rule(agency, status, "currently_disrupted") &
+    !is_definitively_restored(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    )
 }
 
-classify_status_bucket <- function(agency, status) {
+is_possibly_restored <- function(
+  agency,
+  status,
+  reinstatement_date = NA_character_,
+  status_history = NA_character_,
+  termination_date = NA_character_
+) {
+  status_matches_rule(agency, status, "possibly_restored") &
+    !is_definitively_restored(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    )
+}
+
+is_public_tracker_included <- function(
+  agency,
+  status,
+  reinstatement_date = NA_character_,
+  status_history = NA_character_,
+  termination_date = NA_character_
+) {
+  is_currently_disrupted(
+    agency,
+    status,
+    reinstatement_date = reinstatement_date,
+    status_history = status_history,
+    termination_date = termination_date
+  ) |
+    is_possibly_restored(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    )
+}
+
+classify_status_bucket <- function(
+  agency,
+  status,
+  reinstatement_date = NA_character_,
+  status_history = NA_character_,
+  termination_date = NA_character_
+) {
   dplyr::case_when(
-    is_currently_disrupted(agency, status) ~ "currently_disrupted",
-    is_possibly_restored(agency, status) ~ "possibly_restored",
+    is_currently_disrupted(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    ) ~ "currently_disrupted",
+    is_possibly_restored(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    ) ~ "possibly_restored",
+    is_definitively_restored(
+      agency,
+      status,
+      reinstatement_date = reinstatement_date,
+      status_history = status_history,
+      termination_date = termination_date
+    ) ~ "not_currently_disrupted",
     status_matches_rule(agency, status, "not_currently_disrupted") ~ "not_currently_disrupted",
     TRUE ~ "other"
   )
@@ -568,6 +703,7 @@ GRANT_WITNESS_STANDARDIZATION_SPECS <- list(
     original_end_date = list(columns = "project_original_end_date"),
     termination_date = list(columns = "termination_date"),
     reinstatement_date = list(columns = "reinstatement_date"),
+    status_history = list(columns = "event_history"),
     award_value = list(columns = "award_value", transform = "numeric"),
     award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
     award_remaining = list(columns = "award_remaining", transform = "numeric"),
@@ -626,6 +762,7 @@ standardize_grant_witness_rows <- function(agency, df, source_file_name = paste0
     original_end_date = extract_grant_witness_field(df, spec$original_end_date),
     termination_date = extract_grant_witness_field(df, spec$termination_date),
     reinstatement_date = extract_grant_witness_field(df, spec$reinstatement_date),
+    status_history = extract_grant_witness_field(df, spec$status_history %||% list(value = NA_character_)),
     award_value = extract_grant_witness_field(df, spec$award_value),
     award_outlaid = extract_grant_witness_field(df, spec$award_outlaid),
     award_remaining = extract_grant_witness_field(df, spec$award_remaining),

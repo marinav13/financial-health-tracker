@@ -2852,6 +2852,25 @@ build_research_export <- function() {
   if (!"public_tracker_included" %in% names(grants_df)) {
     grants_df$public_tracker_included <- grants_df$currently_disrupted
   }
+  if ("reinstatement_date" %in% names(grants_df)) {
+    stale_reinstated_rows <- grants_df %>%
+      dplyr::filter(
+        as.logical(currently_disrupted),
+        !is.na(reinstatement_date),
+        trimws(as.character(reinstatement_date)) != ""
+      )
+    if (nrow(stale_reinstated_rows) > 0) {
+      stop(
+        "Research grants input is stale: ",
+        nrow(stale_reinstated_rows),
+        " row(s) are still marked currently_disrupted despite a Grant Witness reinstatement date. ",
+        "Rerun scripts/build_grant_witness_join.R before scripts/build_web_exports.R. ",
+        "Sample grant IDs: ",
+        paste(utils::head(stale_reinstated_rows$grant_id, 5), collapse = ", "),
+        call. = FALSE
+      )
+    }
+  }
   grants_df <- grants_df %>%
     mutate(
       matched_unitid = as.character(matched_unitid),
@@ -2875,7 +2894,11 @@ build_research_export <- function() {
       likely_higher_ed = as.logical(likely_higher_ed)
   ) %>%
     filter(
-      public_tracker_included == TRUE,
+      # Public research page should show only grants that are still actively
+      # disrupted now. `public_tracker_included` is broader and intentionally
+      # keeps "possibly reinstated/unfrozen" rows in the joined pipeline for
+      # analysis, but those should not reach the published tracker tables.
+      currently_disrupted == TRUE,
       !is.na(award_remaining),
       award_remaining > research_min_public_award_remaining
     )
@@ -3168,6 +3191,62 @@ require_local_file(
   "Run `python ./scripts/build_federal_composite_scores.py` first."
 )
 
+build_hcm_download_lookup <- function(path) {
+  parsed <- jsonlite::fromJSON(path, simplifyVector = FALSE)
+  schools <- parsed$schools %||% list()
+  if (!length(schools)) {
+    return(data.frame(
+      unitid = character(),
+      hcm2_on_latest_snapshot = logical(),
+      hcm2_latest_reason_on_description = character(),
+      hcm2_first_snapshot_label = character(),
+      hcm2_latest_snapshot_label_present = character(),
+      hcm2_downgraded_to_hcm1_after_hcm2 = logical(),
+      stringsAsFactors = FALSE
+    ))
+  }
+
+  dplyr::bind_rows(lapply(seq_along(schools), function(i) {
+    school <- schools[[i]]
+    data.frame(
+      unitid = as.character(or_null(school$unitid) %||% names(schools)[[i]]),
+      hcm2_on_latest_snapshot = as.logical(or_null(school$on_latest_snapshot)),
+      hcm2_latest_reason_on_description = as.character(null_if_empty(or_null(school$latest_reason_on_description))),
+      hcm2_first_snapshot_label = as.character(null_if_empty(or_null(school$first_snapshot_label))),
+      hcm2_latest_snapshot_label_present = as.character(null_if_empty(or_null(school$latest_snapshot_label_present))),
+      hcm2_downgraded_to_hcm1_after_hcm2 = as.logical(or_null(school$downgraded_to_hcm1_after_hcm2)),
+      stringsAsFactors = FALSE
+    )
+  }))
+}
+
+build_federal_composite_download_lookup <- function(path) {
+  parsed <- jsonlite::fromJSON(path, simplifyVector = FALSE)
+  schools <- parsed$schools %||% list()
+  if (!length(schools)) {
+    return(data.frame(
+      unitid = character(),
+      federal_composite_score_2022_2023 = numeric(),
+      federal_composite_score_year_label = character(),
+      federal_composite_score_status = character(),
+      federal_composite_score_status_label = character(),
+      stringsAsFactors = FALSE
+    ))
+  }
+
+  dplyr::bind_rows(lapply(seq_along(schools), function(i) {
+    school <- schools[[i]]
+    data.frame(
+      unitid = as.character(or_null(school$unitid) %||% names(schools)[[i]]),
+      federal_composite_score_2022_2023 = to_num(school$federal_composite_score_2022_2023),
+      federal_composite_score_year_label = as.character(null_if_empty(or_null(school$federal_composite_score_year_label))),
+      federal_composite_score_status = as.character(null_if_empty(or_null(school$federal_composite_score_status))),
+      federal_composite_score_status_label = as.character(null_if_empty(or_null(school$federal_composite_score_status_label))),
+      stringsAsFactors = FALSE
+    )
+  }))
+}
+
 numeric_cols <- c(
   "year","enrollment_pct_change_5yr","revenue_pct_change_5yr","net_tuition_per_fte_change_5yr",
   "staff_total_headcount_pct_change_5yr","staff_instructional_headcount_pct_change_5yr","loss_years_last_10",
@@ -3238,6 +3317,13 @@ latest_financial <- latest_financial %>%
     outcomes_summary %>% dplyr::select(dplyr::all_of(outcomes_join_fields)),
     by = "unitid"
   )
+
+hcm_download_lookup <- build_hcm_download_lookup(hcm_json_path)
+federal_composite_download_lookup <- build_federal_composite_download_lookup(federal_composite_json_path)
+latest_financial <- latest_financial %>%
+  left_join(hcm_download_lookup, by = "unitid") %>%
+  left_join(federal_composite_download_lookup, by = "unitid")
+
 if (!"institution_alias" %in% names(latest_financial)) {
   latest_financial$institution_alias <- NA_character_
 }
@@ -3341,8 +3427,15 @@ schools_index <- latest_financial %>%
   ) %>%
   arrange(institution_name)
 
+metadata_generated_at <- as.character(Sys.Date())
+metadata_built_at <- format(as.POSIXct(Sys.time(), tz = "UTC"), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
+
 metadata <- list(
-  generated_at = as.character(Sys.Date()),
+  generated_at = metadata_generated_at,
+  author = "The Hechinger Report, Marina Villeneuve",
+  last_modified = metadata_generated_at,
+  built_at = metadata_built_at,
+  institution_count = nrow(schools_index),
   latest_year = latest_year,
   title = "College Financial Health Tracker",
   dataset = "IPEDS Financial Health Canonical Dataset",
@@ -3369,6 +3462,7 @@ sector_headline_benchmarks_export <- lapply(
   names(sector_headline_revenue_benchmarks),
   function(ctrl) {
     safe <- function(lookup) {
+      if (is.null(lookup) || is.null(names(lookup)) || !ctrl %in% names(lookup)) return(NULL)
       v <- lookup[[ctrl]]
       if (is.null(v) || (length(v) == 1 && is.na(v))) NULL else unname(v)
     }
@@ -3588,7 +3682,7 @@ validate_json_output(
 )
 validate_json_output(
   file.path(data_dir, "metadata.json"),
-  required_keys = c("generated_at", "title", "files")
+  required_keys = c("generated_at", "author", "last_modified", "built_at", "institution_count", "title", "files")
 )
 if (!is.null(cuts_paths)) {
   validate_json_output(

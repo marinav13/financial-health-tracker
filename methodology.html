@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>Methodology | College Financial Health Tracker</title>
   <meta name="description" content="How the College Financial Health Tracker is built: data sources, filtering and normalization, and what the financial indicators do and don't tell you.">
+  <meta name="author" content="The Hechinger Report, Marina Villeneuve">
   <meta name="news-keywords" content="college financial data methodology, IPEDS, higher education data">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/methodology.html">
   <meta property="og:type" content="website">
@@ -16,7 +17,7 @@
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="College Financial Health Explorer by The Hechinger Report">
+  <meta property="og:image:alt" content="College Financial Health Tracker by The Hechinger Report">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
@@ -26,7 +27,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
-<body data-search-page="school.html">
+<body data-search-page="methodology.html">
   <a href="#main" class="skip-link">Skip to main content</a>
   <div class="page">
     <header class="site-masthead">
@@ -35,12 +36,12 @@
         <span class="wm-text">The Hechinger Report</span>
       </a>
       <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
+        <button class="help-btn" type="button" aria-label="Questions about this tracker? Email us at editor@hechingerreport.org">?</button>
+        <span class="help-tooltip" role="tooltip">Questions about this tracker? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
       </div>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab" id="tab-home" href="index.html">Home</a>
+      <a class="top-tab" id="tab-home" href="index.html">Tracker Home</a>
       <a class="top-tab" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab" id="tab-cuts" href="cuts.html">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
@@ -52,13 +53,26 @@
         <h1 class="serif">Methodology</h1>
       </section>
 
-      <section class="section-block">
+      <nav id="methodology-jump-links" class="guide-jump-links" aria-label="Methodology sections">
+        <a href="#methodology-scope">Scope</a>
+        <a href="#methodology-geography">Geography &amp; Outcomes</a>
+        <a href="#methodology-financial">Financial Indicators</a>
+        <a href="#methodology-enrollment">Enrollment &amp; Staffing</a>
+        <a href="#methodology-cuts">College Cuts</a>
+        <a href="#methodology-accreditation">Accreditation</a>
+        <a href="#methodology-research">Research Funding Cuts</a>
+        <a href="#methodology-limitations">Limitations</a>
+        <a href="#methodology-downloads">Downloads &amp; Reuse</a>
+        <a href="#methodology-contact">Spot a Problem?</a>
+      </nav>
+
+      <section id="methodology-scope" class="section-block">
         <h2 class="section-title">Scope &amp; Institutions</h2>
         <p class="section-copy">The tracker covers <span id="methodology-institution-count">1,890</span> active four-year public, private nonprofit and private for-profit institutions across all 50 states and Washington, D.C., where more than half of the degrees awarded are bachelor&rsquo;s level or higher. We only include institutions flagged as operating in the most recent year in the National Center for Education Statistics&rsquo; Integrated Postsecondary Education Data System (IPEDS). We also exclude online-only colleges.</p>
         <p class="section-copy">We refresh the IPEDS Complete Data Files three times a year when the federal government publishes new data files in the fall, winter and spring. Definitions of IPEDS variables can be found <a href="https://surveys.nces.ed.gov/ipeds/public/glossary" target="_blank" rel="noopener">here</a>.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-geography" class="section-block">
         <h2 class="section-title">Geography and outcomes</h2>
         <p class="section-copy">College geographic information &ndash; including how urban the local area is &ndash; is based on IPEDS classifications of city, suburb, town and rural. Within those categories, IPEDS further specifies if a city or suburb is large, midsize or small. Similarly, a town or rural community may be classified as fringe, distant and remote depending on how far away it is from a community of at least 50,000 people. Definitions are <a href="https://nces.ed.gov/surveys/annualreports/topical-studies/locale/definitions" target="_blank" rel="noopener">available here</a>.</p>
         <p class="section-copy">Graduation rate data also comes from IPEDS. The tracker shows the percentage of students who graduate within six years &ndash; a measure long used as the benchmark for graduation rates by colleges, researchers and lawmakers <a href="https://hechingerreport.org/how-the-college-lobby-got-the-government-to-measure-graduation-rates-over-six-years-instead-of-four/" target="_blank" rel="noopener">despite some pushback from critics who question whether the benchmark should be four years</a>.</p>
@@ -66,67 +80,64 @@
         <p class="section-copy">Grad PLUS loan data is found in the U.S. Department of Education&rsquo;s <a href="https://studentaid.gov/data-center/student/portfolio" target="_blank" rel="noopener">Federal Student Aid Direct Loan dashboard</a>.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-financial" class="section-block">
         <h2 class="section-title">Financial Indicators</h2>
         <p class="section-copy">IPEDS finance surveys provide the bulk of our financial indicator data, including: revenue, expenses, net tuition per full-time equivalent student, endowment levels, spending, research expenses and revenue from state and federal grants and contracts. We collected and analyzed a decade of data. Using the Bureau of Labor Statistics&rsquo; Consumer Price Index, we adjust dollar figures to 2024 dollars to reflect the most recent year of IPEDS data available. For federal grants and contracts, we exclude Pell grants &ndash; which pass through the institution to help low-income students pay for college. Excluding Pell grants helps us better show how much federal funding an institution receives for reasons other than student financial aid.</p>
         <p class="section-copy">The <a href="https://studentaid.gov/data-center/school/composite-scores" target="_blank" rel="noopener">Financial Responsibility Composite Score</a> comes from filings published annually by the U.S. Department of Education&rsquo;s office of Federal Student Aid. The scores were last updated with data from the 2022-2023 school year. The government calculates these scores on a scale from -1 to 3 by looking at three ratios designed to gauge institutional financial health: primary reserve ratio, equity ratio and net income ratio. An institution passes with a score of 1.5 or above. The measure is imperfect; leading researchers <a href="https://robertkelchen.com/2021/05/18/an-updated-look-at-financial-responsibility-scores-and-college-closures/" target="_blank" rel="noopener">have pointed out</a> some colleges that close due to financial challenges still achieved a passing score. Still, the scores can signal financial trouble and bring increased scrutiny. Colleges are placed into an oversight zone if they score between 1 and 1.4, and are subject to more financial monitoring. Colleges with scores below 1 must submit a letter of credit to remain eligible for federal financial aid.</p>
         <p class="section-copy">Private colleges receive composite scores. Public colleges can instead prove they are financially responsible by following requirements including providing a letter that they are backed by the <a href="https://www.federalregister.gov/documents/2023/10/31/2023-22785/financial-responsibility-administrative-capability-certification-procedures-ability-to-benefit-atb#p-2131" target="_blank" rel="noopener">&ldquo;full faith and credit of a government entity&rdquo;</a>.</p>
         <p class="section-copy">The tracker also displays, if applicable, when an institution is on the highest level of federal financial monitoring, known as Heightened Cash Monitoring 2. The Education Department can delay the disbursement of aid to these colleges. The tracker shows if an institution has been at this status at any point since December 2024 and for what reason, such as financial responsibility concerns or an adverse accreditor action.</p>
+        <p class="section-copy">No single measure on this site should be read in isolation. A school may post a weak five-year revenue trend while still holding a strong endowment, or it may have a passing composite score while also facing enrollment declines and repeated operating losses. The tracker is designed to show those signals side by side so readers can see whether potential pressure appears narrow, temporary or part of a broader pattern.</p>
         <p class="section-copy">On a college&rsquo;s individual institutional profile, the tracker may show blue, red or yellow fields depending on whether a specific financial or enrollment trend is getting better or worse. Declines of 10 percent or more over five years appear red, increases of 10 percent or more appear blue, and all other changes appear yellow. For example, a college that has experienced a 25 percent decrease in revenue from 2019 to 2024 will show red. A college with a 5 percent difference will show yellow. A college with a 20 percent increase will show blue. The sole exception is the tuition discount rate trend, which is reversed; increases appear red because those can signal more financial pressure.</p>
         <p class="section-copy">Other indicators show red for a &ldquo;yes&rdquo; response and blue for a &ldquo;no&rdquo; response, including whether the college ended the latest year at a loss, meaning expenses exceeded revenue. Colleges that ended the year at a loss at most once in the past decade show blue. The tracker shows yellow for two to four losses and red for five or more. For the federal financial responsibility score, colleges with a score of 1.5 or above show blue. Scores below 1.5 show red.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-enrollment" class="section-block">
         <h2 class="section-title">Enrollment &amp; Staffing</h2>
         <p class="section-copy">Enrollment and staffing data come from IPEDS. For enrollment data, we use the 12-month unduplicated headcount, which includes both full-time and part-time students. In this data, international students are classified as U.S. nonresident alien students, which IPEDS defines as &ldquo;individuals who are not citizens or nationals of the United States and who do not have the right to remain in the country indefinitely.&rdquo;</p>
         <p class="section-copy">Staffing data includes part-time and full-time employees. Instructional staff is defined as employees whose major regular assignment is instruction, including those with time for research. Total staff adds together &ldquo;instructional&rdquo; and &ldquo;non-instructional&rdquo; employees.</p>
         <p class="section-copy">We use the IPEDS student-to-faculty ratio, which is calculated by dividing the number of fall full-time equivalent undergraduate students by the number of fall full-time equivalent instructional staff at the undergraduate level. IPEDS calculates full-time equivalent students by taking the number of full-time students and adding one-third of the number of part-time students. That formula is the same for staff.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-cuts" class="section-block">
         <h2 class="section-title">College Cuts</h2>
         <p class="section-copy">Layoffs, program suspensions, teach-outs, and closures are pulled weekly from the <a href="https://www.college-cuts.com/" target="_blank" rel="noopener">CollegeCuts Tracker</a>, supplemented by reporting from The Hechinger Report. We verify each entry from CollegeCuts weekly before adding it to our tracker and also add cuts we find separately.</p>
         <p class="section-copy">Have you heard of a cut at your university? <a href="https://www.college-cuts.com/" target="_blank" rel="noopener">Submit information here</a>.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-accreditation" class="section-block">
         <h2 class="section-title">Accreditation Actions</h2>
         <p class="section-copy">Accreditation actions are compiled from the six regional accreditors recognized by the U.S. Department of Education: Higher Learning Commission, Middle States Commission on Higher Education, New England Commission of Higher Education, Northwest Commission on Colleges and Universities, Southern Association of Colleges and Schools Commission on Colleges, Western Association of Schools and Colleges Senior College and University Commission.</p>
         <p class="section-copy">We include warnings, probations, notices of concern, show-cause actions, closures and teach-out approvals, as well as when such actions are lifted or removed. Specialized accreditors, such as those overseeing art schools, are not currently covered.</p>
         <p class="section-copy">The tracker pulls data weekly from the U.S. Department of Education <a href="https://surveys.ope.ed.gov/dapip/#/home" target="_blank" rel="noopener">Database of Accredited Postsecondary Institutions and Programs</a> (DAPIP). The tracker also pulls data weekly from the six regional accreditor individual websites because DAPIP data can lag. The Hechinger Report verifies each entry before it appears on the website.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-research" class="section-block">
         <h2 class="section-title">Research Funding Cuts</h2>
         <p class="section-copy">This tracker displays federal research funding cuts since the start of the second Trump administration in 2025. It uses data from the <a href="https://grant-witness.us/" target="_blank" rel="noopener">Grant Witness database</a>, covering grants from the National Institutes of Health (NIH), National Science Foundation, Environmental Protection Agency, Substance Abuse and Mental Health Services Administration, and Centers for Disease Control and Prevention. We display grants that Grant Witness marks as terminated, as well as NIH grants that are marked frozen. Legal challenges remain active in some cases. Grants that have been reinstated or unfrozen are excluded. We exclude grants where the university is passing funds on to community groups by looking at project titles and abstracts and filtering phrases including &ldquo;manage and distribute funds&rdquo; and &ldquo;regional grantmaker.&rdquo; We only display grants with a remaining award amount of at least $100.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-limitations" class="section-block">
         <h2 class="section-title">Limitations</h2>
         <p class="section-copy">Data released by the Department of Education lags by one to two academic years. Because we update the college cuts, accreditation actions and federal research funding cuts on a weekly, rather than daily basis, this tracker may not show the most recent data from these sources.</p>
         <p class="section-copy">The tracker does not provide a report card-style grade for an institution and it does not directly state whether an institution is likely to close or roll back offerings. Instead, we show whether an institution shows concerning trends: a college with eight years of losses in the last decade and declining enrollment and net tuition revenue may be facing significant financial challenges. Conversely, a college with one or two red indicators may be responsibly offering more financial aid to students while buttressed by a strong endowment and increased revenue.</p>
         <p class="section-copy">Private nonprofit colleges, as well as foundations linked to public institutions, also report financial information to the Internal Revenue Service by filling out paperwork known as 990s and reporting data in categories defined by the IRS. IPEDS and IRS financial categories can differ even when they may share the same name. For example: IPEDS reports a single combined endowment assets figure. The 990, in contrast, has breakdowns for board-designated and donor-restricted endowments. Our figures may also contrast with those provided in an individual university&rsquo;s financial statements or audits. For example: a school may use a calendar year timeframe instead of a school year timeframe. We use IPEDS data because it&rsquo;s more widely available and comparable for the <span id="methodology-institution-count-lower">1,890</span> universities in our tracker. However, a limitation of using IPEDS data is that it could understate the entire value of public university endowments by excluding the amount held by an associated foundation &ndash; it depends on how that endowment gets reported in IPEDS.</p>
+        <p class="section-copy">Institutional finances can also change faster than federal datasets capture. A school may announce a merger, campus closure, borrowing plan, emergency cash infusion or leadership change long before those developments are visible in IPEDS. That is one reason we pair the financial data with separate cuts, accreditation and research-funding sections rather than treating historical finance data alone as a complete picture.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-downloads" class="section-block">
         <h2 class="section-title">Downloads &amp; Reuse</h2>
-        <p class="section-copy">Every institution page and landing table has a download button that produces a plain text file separated by commas containing data across all years. This tracker is free and available for the public. Please credit The Hechinger Report and link back to this tracker. For further questions about reuse and attribution, <a href="mailto:datateam@hechingerreport.org">email the data team</a>.</p>
+        <p class="section-copy">Every institution page and landing table has a download button that produces a plain text file separated by commas containing data across all years. This tracker is free and available for the public. Please credit The Hechinger Report and link back to this tracker.</p>
+        <p class="section-copy">Below, you can also download the full dataset of financial indicators used by this tracker. It includes IPEDS data as well as federal data showing financial responsibility scores for universities and showing which institutions are on heightened cash monitoring.</p>
+        <div class="methodology-download-actions">
+          <a class="download-button" href="data/downloads/full_dataset.csv" download>Download all the financial data we analyzed</a>
+        </div>
+        <p class="section-copy">For further questions about reuse and attribution, <a href="mailto:editor@hechingerreport.org">email us</a>.</p>
       </section>
 
-      <section class="section-block">
+      <section id="methodology-contact" class="section-block">
         <h2 class="section-title">Spot a problem?</h2>
-        <p class="section-copy">If you&rsquo;ve found a problem or issue with our data, contact us at <a href="mailto:datateam@hechingerreport.org">datateam@hechingerreport.org</a>. We&rsquo;ll look into it and get back to you.</p>
+        <p class="section-copy">If you&rsquo;ve found a problem or issue with our data, contact us at <a href="mailto:editor@hechingerreport.org">editor@hechingerreport.org</a>. We&rsquo;ll look into it and get back to you.</p>
       </section>
-
-      <aside class="related-card">
-        <h3>Continue reading</h3>
-        <ul class="related-list">
-          <li><a href="index.html">Finances</a></li>
-          <li><a href="cuts.html">College Cuts</a></li>
-          <li><a href="accreditation.html">Accreditation</a></li>
-          <li><a href="research.html">Research Funding Cuts</a></li>
-        </ul>
-      </aside>
 
       <footer class="pg-foot">
         <span class="sig"><span class="sq"></span> The Hechinger Report</span>

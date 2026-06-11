@@ -49,40 +49,69 @@ run_test("Grant Witness join pipeline fixture", function() {
   readr::write_csv(financial_df, financial_input, na = "")
 
   nih_df <- data.frame(
-    full_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004", "NIH-005"),
-    core_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004", "NIH-005"),
-    status = c("terminated", "terminated", "terminated", "terminated", "possibly reinstated"),
-    org_name = c("Example University", "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College", "Sample College", "Sample College", "Example University"),
-    org_state = c("MA", "MA", "MA", "MA", "MA"),
-    org_city = c("Boston", "Springfield", "Springfield", "Springfield", "Boston"),
-    org_type = c("University", "College", "College", "College", "University"),
-    org_traits = c(NA, NA, NA, NA, NA),
-    project_title = c("Immune Response Study", "Campus Health Study", "Corrected Zero Study", "Forced Other Study", "Still Litigated Study"),
-    abstract_text = c("Research abstract", "More research", "Stale amount", "Force other match override", "Potential reinstatement remains unresolved"),
-    targeted_start_date = c("2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01"),
-    targeted_end_date = c("2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31"),
-    termination_date = c("2025-01-15", "2025-01-20", "2025-02-01", "2025-02-15", "2025-03-01"),
-    reinstated_est_date = c(NA, NA, NA, NA, "2025-04-01"),
-    total_award = c(1000000, 500000, 48974, 200000, 300000),
-    total_estimated_outlays = c(400000, 100000, 48973.15, 50000, 50000),
-    total_estimated_remaining = c(600000, 400000, 0.85, 150000, 250000),
+    full_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004", "NIH-005", "NIH-006"),
+    core_award_number = c("NIH-001", "NIH-002", "NIH-003", "NIH-004", "NIH-005", "NIH-006"),
+    status = c("terminated", "terminated", "terminated", "terminated", "possibly reinstated", "terminated"),
+    org_name = c("Example University", "ALAMO COMMUNITY COLLEGE DISTRICT - St. Philip's College", "Sample College", "Sample College", "Example University", "Example University"),
+    org_state = c("MA", "MA", "MA", "MA", "MA", "MA"),
+    org_city = c("Boston", "Springfield", "Springfield", "Springfield", "Boston", "Boston"),
+    org_type = c("University", "College", "College", "College", "University", "University"),
+    org_traits = c(NA, NA, NA, NA, NA, NA),
+    project_title = c("Immune Response Study", "Campus Health Study", "Corrected Zero Study", "Forced Other Study", "Still Litigated Study", "Restored NIH Study"),
+    abstract_text = c("Research abstract", "More research", "Stale amount", "Force other match override", "Potential reinstatement remains unresolved", "Terminated row with explicit Grant Witness reinstatement date"),
+    targeted_start_date = c("2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01"),
+    targeted_end_date = c("2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31", "2025-12-31"),
+    termination_date = c("2025-01-15", "2025-01-20", "2025-02-01", "2025-02-15", "2025-03-01", "2025-04-01"),
+    reinstated_est_date = c(NA, NA, NA, NA, "2025-04-01", "2025-05-01"),
+    total_award = c(1000000, 500000, 48974, 200000, 300000, 120000),
+    total_estimated_outlays = c(400000, 100000, 48973.15, 50000, 50000, 60000),
+    total_estimated_remaining = c(600000, 400000, 0.85, 150000, 250000, 60000),
     usaspending_url = c(
       "https://www.usaspending.gov/award/AWARD1",
       "https://www.usaspending.gov/award/AWARD2",
       "https://www.usaspending.gov/award/AWARD3",
       "https://www.usaspending.gov/award/AWARD4",
-      "https://www.usaspending.gov/award/AWARD5"
+      "https://www.usaspending.gov/award/AWARD5",
+      "https://www.usaspending.gov/award/AWARD6"
     ),
     reporter_url = c(
       "https://grant-witness.us/nih/1",
       "https://grant-witness.us/nih/2",
       "https://grant-witness.us/nih/3",
       "https://grant-witness.us/nih/4",
-      "https://grant-witness.us/nih/5"
+      "https://grant-witness.us/nih/5",
+      "https://grant-witness.us/nih/6"
     ),
     stringsAsFactors = FALSE
   )
   readr::write_csv(nih_df, file.path(cache_dir, "nih_terminations.csv"), na = "")
+
+  cdc_df <- data.frame(
+    grant_id = "CDC-001",
+    status = "terminated",
+    org_name = "Example University",
+    org_state = "MA",
+    org_city = "Boston",
+    org_type = "University",
+    title = "Restored CDC Study",
+    project_start_date = "2024-07-01",
+    project_original_end_date = "2029-06-30",
+    termination_date = "2025-05-20",
+    reinstatement_date = NA_character_,
+    award_value = 250000,
+    award_outlaid = 100000,
+    award_remaining = 150000,
+    event_history = paste(
+      "- 2025-05-20: Termination date in TAGGS PDF",
+      "- 2025-09-24: Grant renewed",
+      "- 2025-09-24: Obligation of $200,000",
+      sep = "\n"
+    ),
+    usaspending_url = "https://www.usaspending.gov/award/CDC-AWARD1",
+    taggs_url = "https://example.org/taggs/cdc-1",
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(cdc_df, file.path(cache_dir, "cdc_terminations.csv"), na = "")
 
   empty_specs <- list(
     nsf = c("grant_id", "status", "org_name", "org_state", "org_city", "award_type", "project_title",
@@ -96,11 +125,7 @@ run_test("Grant Witness join pipeline fixture", function() {
     samhsa = c("grant_id", "status", "org_name", "org_state", "org_city", "org_type", "title",
                "abstract", "project_start_date", "first_award_date", "project_original_end_date",
                "termination_date", "reinstatement_date", "award_value", "award_outlaid",
-               "award_remaining", "usaspending_url", "taggs_url"),
-    cdc = c("grant_id", "status", "org_name", "org_state", "org_city", "org_type", "title",
-            "project_start_date", "project_original_end_date", "termination_date",
-            "reinstatement_date", "award_value", "award_outlaid", "award_remaining",
-            "usaspending_url", "taggs_url")
+               "award_remaining", "usaspending_url", "taggs_url")
   )
   for (agency in names(empty_specs)) {
     empty_df <- as.data.frame(stats::setNames(replicate(length(empty_specs[[agency]]), character(), simplify = FALSE),
@@ -174,12 +199,24 @@ run_test("Grant Witness join pipeline fixture", function() {
               "Joined grants should retain AWARD4 when a manual include forces the institution into other.")
   assert_true("AWARD5" %in% grants_joined$award_id_string,
               "Joined grants should retain AWARD5 when the status is only possibly reinstated.")
+  assert_true("AWARD6" %in% grants_joined$award_id_string,
+              "Joined grants should retain terminated NIH rows even when a Grant Witness reinstatement date clears them from disrupted totals.")
+  assert_true("CDC-AWARD1" %in% grants_joined$award_id_string,
+              "Joined grants should retain CDC rows even when a later Grant Witness renewal clears them from disrupted totals.")
   assert_true(!("AWARD3" %in% grants_joined$award_id_string),
               "Joined grants should not retain amount-corrected zero award AWARD3.")
   assert_true(!isTRUE(grants_joined$currently_disrupted[grants_joined$award_id_string == "AWARD5"][[1]]),
               "Possibly reinstated grants should not be marked currently_disrupted.")
   assert_true(isTRUE(grants_joined$public_tracker_included[grants_joined$award_id_string == "AWARD5"][[1]]),
               "Possibly reinstated grants should still be included in the public tracker.")
+  assert_true(!isTRUE(grants_joined$currently_disrupted[grants_joined$award_id_string == "AWARD6"][[1]]),
+              "Terminated NIH rows with a Grant Witness reinstatement date should not be marked currently_disrupted.")
+  assert_true(!isTRUE(grants_joined$public_tracker_included[grants_joined$award_id_string == "AWARD6"][[1]]),
+              "Terminated NIH rows with a Grant Witness reinstatement date should drop out of the public tracker.")
+  assert_true(!isTRUE(grants_joined$currently_disrupted[grants_joined$award_id_string == "CDC-AWARD1"][[1]]),
+              "CDC rows with a later Grant Witness renewal should not be marked currently_disrupted.")
+  assert_true(!isTRUE(grants_joined$public_tracker_included[grants_joined$award_id_string == "CDC-AWARD1"][[1]]),
+              "CDC rows with a later Grant Witness renewal should drop out of the public tracker.")
   assert_identical(
     grants_joined$match_method[grants_joined$award_id_string == "AWARD2"][[1]],
     "manual_include_unmatched",

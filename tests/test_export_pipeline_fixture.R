@@ -469,31 +469,31 @@ run_test("Web export pipeline fixture", function() {
 
   readr::write_csv(
     data.frame(
-      matched_unitid = "100",
-      tracker_institution_name = "Example University",
-      tracker_state = "Massachusetts",
-      currently_disrupted = "TRUE",
-      public_tracker_included = "TRUE",
-      likely_higher_ed = TRUE,
-      agency = "nih",
-      grant_id = "R01-1",
-      grant_id_core = "R01",
-      status = "terminated",
-      organization_name = "Example University",
-      organization_city = "Boston",
-      organization_state = "Massachusetts",
-      organization_type = "University",
-      project_title = "Cancer research",
-      project_abstract = "Research abstract",
-      start_date = "2023-01-01",
-      original_end_date = "2025-12-31",
-      termination_date = "2024-04-01",
-      award_value = "100000",
-      award_outlaid = "50000",
-      award_remaining = "50000",
-      remaining_field = "award_remaining",
-      source_url = "https://example.org/grant",
-      detail_url = "https://example.org/grant-detail",
+      matched_unitid = c("100", "100"),
+      tracker_institution_name = c("Example University", "Example University"),
+      tracker_state = c("Massachusetts", "Massachusetts"),
+      currently_disrupted = c("TRUE", "FALSE"),
+      public_tracker_included = c("TRUE", "TRUE"),
+      likely_higher_ed = c(TRUE, TRUE),
+      agency = c("nih", "nih"),
+      grant_id = c("R01-1", "R01-2"),
+      grant_id_core = c("R01", "R01"),
+      status = c("terminated", "possibly reinstated"),
+      organization_name = c("Example University", "Example University"),
+      organization_city = c("Boston", "Boston"),
+      organization_state = c("Massachusetts", "Massachusetts"),
+      organization_type = c("University", "University"),
+      project_title = c("Cancer research", "Recovered research"),
+      project_abstract = c("Research abstract", "Recovered abstract"),
+      start_date = c("2023-01-01", "2023-06-01"),
+      original_end_date = c("2025-12-31", "2025-12-31"),
+      termination_date = c("2024-04-01", "2024-05-01"),
+      award_value = c("100000", "80000"),
+      award_outlaid = c("50000", "40000"),
+      award_remaining = c("50000", "40000"),
+      remaining_field = c("award_remaining", "award_remaining"),
+      source_url = c("https://example.org/grant", "https://example.org/grant-2"),
+      detail_url = c("https://example.org/grant-detail", "https://example.org/grant-detail-2"),
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv"),
@@ -521,8 +521,8 @@ run_test("Web export pipeline fixture", function() {
   )
 
   readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
-  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
-  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","on_latest_snapshot":true,"latest_reason_on_description":"Financial responsibility concerns","first_snapshot_label":"December 2024","latest_snapshot_label_present":"March 2025","downgraded_to_hcm1_after_hcm2":false}}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","federal_composite_score_2022_2023":1.2,"federal_composite_score_year_label":"2022-23","federal_composite_score_status":"zone","federal_composite_score_status_label":"Zone"}}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
 
   export_env <- new.env(parent = globalenv())
   sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
@@ -828,16 +828,27 @@ run_test("Web export pipeline fixture", function() {
     "research_export grants should be a data.frame.")
   assert_true(nrow(grants_df) > 0,
     "research_export should have at least one grant record.")
+  assert_identical(nrow(grants_df), 1L)
   for (f in c("agency", "grant_id", "status")) {
     assert_true(f %in% names(grants_df),
       sprintf("grants data.frame should have column '%s'.", f))
   }
+  assert_true(
+    all(tolower(grants_df$status) %in% c("terminated", "frozen funding")),
+    "research_export should include only terminated or frozen grants."
+  )
 
   # ── Download CSV ────────────────────────────────────────────────────────────
   assert_identical(nrow(download_csv), 1L)
   assert_identical(as.integer(download_csv$year[[1]]), as.integer(metadata$latest_year))
   assert_true("unitid" %in% names(download_csv), "Download CSV must have 'unitid' column.")
   assert_true("year" %in% names(download_csv), "Download CSV must have 'year' column.")
+  assert_true("hcm2_on_latest_snapshot" %in% names(download_csv), "Download CSV must include HCM2 status columns.")
+  assert_true("federal_composite_score_2022_2023" %in% names(download_csv), "Download CSV must include federal composite score columns.")
+  assert_identical(download_csv$hcm2_on_latest_snapshot[[1]], TRUE)
+  assert_identical(download_csv$hcm2_latest_reason_on_description[[1]], "Financial responsibility concerns")
+  assert_identical(download_csv$federal_composite_score_2022_2023[[1]], 1.2)
+  assert_identical(download_csv$federal_composite_score_status_label[[1]], "Zone")
   assert_true(
     !any(grepl("\\.(x|y)$", names(download_csv))),
     paste("Download CSV should not contain suffixed join-collision columns:", paste(names(download_csv), collapse = ", "))

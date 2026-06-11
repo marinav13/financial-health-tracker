@@ -1,6 +1,6 @@
 {
   "unitid": "459994",
-  "generated_at": "2026-06-09",
+  "generated_at": "2026-06-11",
   "profile": {
     "institution_name": "Strayer University-Global Region",
     "institution_unique_name": "Strayer University-Global Region | Washington | District of Columbia",
@@ -21,7 +21,7 @@
     "revenue_pct_change_5yr": null,
     "sector_median_revenue_pct_change_5yr": -10.5352,
     "net_tuition_per_fte_change_5yr": null,
-    "sector_median_net_tuition_per_fte_change_5yr": -14.919,
+    "sector_median_net_tuition_per_fte_change_5yr": -12.0088,
     "staff_total_headcount_pct_change_5yr": null,
     "sector_median_staff_total_headcount_pct_change_5yr": -0.2994,
     "staff_instructional_headcount_pct_change_5yr": null,
@@ -31,12 +31,12 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 1,
     "tuition_dependence_pct": null,
-    "sector_median_tuition_dependence_pct": 97.9704,
+    "sector_median_tuition_dependence_pct": 98.0964,
     "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": null,
     "unfunded_discount_pct_change_5yr": null,
     "share_grad_students": 19.812,
-    "sector_avg_share_grad_students": 26.5887,
+    "sector_avg_share_grad_students": 27.3534,
     "research_expense": null,
     "research_expense_per_fte": null,
     "research_expense_pct_core_expenses": null,
@@ -51,7 +51,7 @@
     "international_enrollment_pct_change_5yr": -11.1111,
     "international_students_sentence": "In 2024, 0% of students were international. That includes 0% of undergraduates and 0.1% of graduate students.",
     "federal_loan_pct_most_recent": 57,
-    "sector_avg_federal_loan_pct_most_recent": 60.9034,
+    "sector_avg_federal_loan_pct_most_recent": 60.9324,
     "grad_plus_recipients": 170,
     "grad_plus_disbursements_amt": 1065510,
     "grad_plus_disbursements_per_recipient": 6267.7059,
@@ -556,5 +556,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Grant Substantive Change: Ownership",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2025-08-28",
+    "latest_action_year": "2025",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "Grant Substantive Change: Ownership",
+      "action_label_short": "Grant Substantive Change: Ownership",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2025-08-28",
+      "action_year": "2025",
+      "notes": "Grant Substantive Change: Ownership | To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective September 8, 2025. To note that the complex substantive change request includes Strayer University's acquisition, through stock transfer, of the Media Design School (MDS)",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/108968",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/108968"
+    }
+  ]
 }

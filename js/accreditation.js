@@ -28,7 +28,8 @@
     syncTabs,
     renderRelatedInstitutionLinks,
     renderDataAsOf,
-    makeTableController
+    makeTableController,
+    getCommittedSearchValue
   } = window.TrackerApp;
 
   // ------ Constants & Lookups ------
@@ -46,15 +47,6 @@
     NECHE: "New England Commission of Higher Education",
     NWCCU: "Northwest Commission on Colleges and Universities",
     WSCUC: "WASC Senior College and University Commission"
-  };
-
-  const ACCREDITOR_STATES = {
-    HLC:     "Arizona, Arkansas, Colorado, Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, New Mexico, North Dakota, Ohio, Oklahoma, South Dakota, West Virginia, Wisconsin, Wyoming",
-    MSCHE:   "Delaware, District of Columbia, Maryland, New Jersey, New York, Pennsylvania, Puerto Rico, U.S. Virgin Islands",
-    NECHE:   "Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont",
-    NWCCU:   "Alaska, Idaho, Montana, Nevada, Oregon, Washington",
-    SACSCOC: "Alabama, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, South Carolina, Tennessee, Texas, Virginia",
-    WSCUC:   "California, Hawaii, Guam, American Samoa, Federated States of Micronesia, Republic of Palau, Commonwealth of the Northern Mariana Islands"
   };
 
   const ACCREDITOR_URLS = {
@@ -720,6 +712,8 @@
     downloadButtonId = null,
     downloadFilename = "accreditation-actions.csv",
     searchInput = null,
+    filterOnInput = true,
+    searchValueResolver = null,
     linkNames = true
   }) {
     makeTableController({
@@ -727,6 +721,8 @@
       items: actions,
       pageSize,
       searchInput,
+      filterOnInput,
+      searchValueResolver,
       initialSortState: { key: "action_date", direction: "desc" },
       sortItems: sortAccreditationActions,
       renderPage: (filteredActions, currentPage, size, sortState) => renderActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames, sortState),
@@ -754,6 +750,8 @@
     downloadButtonId = null,
     downloadFilename = "accreditation-actions.csv",
     searchInput = null,
+    filterOnInput = true,
+    searchValueResolver = null,
     linkNames = true
   }) {
     makeTableController({
@@ -761,6 +759,8 @@
       items: actions,
       pageSize,
       searchInput,
+      filterOnInput,
+      searchValueResolver,
       initialSortState: { key: "action_date", direction: "desc" },
       sortItems: sortAccreditationActions,
       renderPage: (filteredActions, currentPage, size, sortState) => renderOtherActionTablePage(filteredActions, currentPage, size, emptyMessage, linkNames, sortState),
@@ -798,16 +798,14 @@
       .map((code) => {
         const name = ACCREDITOR_NAMES[code] || code;
         const url = ACCREDITOR_URLS[code];
-        const states = ACCREDITOR_STATES[code];
         const codeLabel = ACCREDITOR_NAMES[code] ? `(${code})` : "";
         const rawLinkLabel = `${name} ${codeLabel}`.trim();
-        const safeStatesNote = states ? ` (${escapeHtml(states)})` : "";
         if (url) {
           const linkHtml = window.TrackerApp.renderExternalLink(url, rawLinkLabel)
             || escapeHtml(rawLinkLabel);
-          return `<li>${linkHtml}${safeStatesNote}</li>`;
+          return `<li>${linkHtml}</li>`;
         }
-        return `<li>${escapeHtml(rawLinkLabel)}${safeStatesNote}</li>`;
+        return `<li>${escapeHtml(rawLinkLabel)}</li>`;
       });
 
     const covered = trackedLinks.length
@@ -833,6 +831,8 @@
     if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
     const institutionMast = document.getElementById("accreditation-institution-mast");
     if (institutionMast) institutionMast.classList.toggle("is-hidden", !unitid);
+    const tableIntro = document.getElementById("accreditation-table-intro");
+    if (tableIntro) tableIntro.classList.toggle("is-hidden", Boolean(unitid));
 
     if (!unitid) {
       const [accreditationIndex, metadata] = await Promise.all([
@@ -867,7 +867,9 @@
         emptyMessage: "No accreditation actions from 2019 to the present are available for 4-year, primarily bachelor's-degree-granting institutions.",
         downloadButtonId: "accreditation-table-download",
         downloadFilename: "accreditation-primary.csv",
-        searchInput: primaryFilter
+        searchInput: primaryFilter,
+        filterOnInput: false,
+        searchValueResolver: getCommittedSearchValue
       });
       setupOtherPagination({
         container: document.getElementById("accreditation-other-status"),
@@ -877,6 +879,8 @@
         downloadButtonId: "accreditation-other-download",
         downloadFilename: "accreditation-other.csv",
         searchInput: otherFilter,
+        filterOnInput: false,
+        searchValueResolver: getCommittedSearchValue,
         linkNames: false
       });
       return;

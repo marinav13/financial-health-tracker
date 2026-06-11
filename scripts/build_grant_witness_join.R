@@ -386,11 +386,30 @@ main <- function(cli_args = NULL) {
         original_end_date = null_if_empty(original_end_date),
         termination_date = null_if_empty(termination_date),
         reinstatement_date = null_if_empty(reinstatement_date),
+        status_history = null_if_empty(status_history),
         source_url = null_if_empty(source_url),
         detail_url = null_if_empty(detail_url),
-        status_bucket = classify_status_bucket(agency, status),
-        currently_disrupted = is_currently_disrupted(agency, status),
-        public_tracker_included = is_public_tracker_included(agency, status),
+        status_bucket = classify_status_bucket(
+          agency,
+          status,
+          reinstatement_date = reinstatement_date,
+          status_history = status_history,
+          termination_date = termination_date
+        ),
+        currently_disrupted = is_currently_disrupted(
+          agency,
+          status,
+          reinstatement_date = reinstatement_date,
+          status_history = status_history,
+          termination_date = termination_date
+        ),
+        public_tracker_included = is_public_tracker_included(
+          agency,
+          status,
+          reinstatement_date = reinstatement_date,
+          status_history = status_history,
+          termination_date = termination_date
+        ),
         organization_name_display = prettify_institution_name(organization_name),
         norm_name = normalize_name(organization_name),
         simplified_norm_name = simplify_institution_name(organization_name),

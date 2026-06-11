@@ -14,6 +14,14 @@ function firstSchoolIndexEntry() {
   return entry;
 }
 
+function firstIndexEntry(relativePath) {
+  const raw = readJson(relativePath);
+  const entries = Array.isArray(raw) ? raw : Object.values(raw || {});
+  const entry = entries.find((row) => row && row.unitid && (row.institution_unique_name || row.institution_name));
+  if (!entry) throw new Error(`No searchable index entry available in ${relativePath}`);
+  return entry;
+}
+
 function schoolIndexEntryByUnitid(unitid) {
   const schools = readJson('data/schools_index.json');
   const entry = schools.find((school) => String(school.unitid || '') === String(unitid || ''));
@@ -473,6 +481,7 @@ async function expectAriaHiddenInSync(page, expect, label = '') {
 
 module.exports = {
   firstSchoolIndexEntry,
+  firstIndexEntry,
   schoolIndexEntryByUnitid,
   searchTermFor,
   stateWithMultipleSchools,

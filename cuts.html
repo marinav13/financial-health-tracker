@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
   <title>College Cuts: Layoffs &amp; Closures Tracker</title>
   <meta name="description" content="Tracking college program cuts, staff and faculty layoffs, and campus closures at U.S. four-year institutions since 2024, with a source for every entry.">
+  <meta name="author" content="The Hechinger Report, Marina Villeneuve">
   <meta name="news-keywords" content="college cuts, college layoffs, college closures, college shutting down, higher education budget cuts">
   <link rel="canonical" href="https://hechingerreport.org/college-financial-health-tracker/cuts.html">
   <meta property="og:type" content="website">
@@ -16,7 +17,7 @@
   <meta property="og:image" content="https://hechingerreport.org/college-financial-health-tracker/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="College Financial Health Explorer by The Hechinger Report">
+  <meta property="og:image:alt" content="College Financial Health Tracker by The Hechinger Report">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hechingerreport">
   <meta name="twitter:creator" content="@hechingerreport">
@@ -35,12 +36,12 @@
         <span class="wm-text">The Hechinger Report</span>
       </a>
       <div class="help-btn-wrap">
-        <button class="help-btn" type="button" aria-label="Questions about this explorer? Email us at editor@hechingerreport.org">?</button>
-        <span class="help-tooltip" role="tooltip">Questions about this explorer? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
+        <button class="help-btn" type="button" aria-label="Questions about this tracker? Email us at editor@hechingerreport.org">?</button>
+        <span class="help-tooltip" role="tooltip">Questions about this tracker? Email us <a href="mailto:editor@hechingerreport.org">here</a>.</span>
       </div>
     </header>
     <nav class="top-tabs" aria-label="Sections">
-      <a class="top-tab" id="tab-home" href="index.html">Home</a>
+      <a class="top-tab" id="tab-home" href="index.html">Tracker Home</a>
       <a class="top-tab" id="tab-finances" href="school.html">Finances</a>
       <a class="top-tab is-active" id="tab-cuts" href="cuts.html" aria-current="page">College Cuts</a>
       <a class="top-tab" id="tab-accreditation" href="accreditation.html">Accreditation</a>
@@ -70,6 +71,7 @@
 
     <section class="data-card">
       <h2 id="cuts-section-title">College program or staffing cuts</h2>
+      <p id="cuts-table-intro" class="section-copy">Click on a college below to learn more about the institution&rsquo;s history of previous cuts. You can also check out news articles in the source links.</p>
       <div class="table-toolbar">
         <div class="table-toolbar-actions table-toolbar-actions--stack">
           <div class="table-toolbar-row">
@@ -77,7 +79,10 @@
           </div>
           <div class="table-toolbar-row">
             <label class="table-filter-label" for="cuts-filter">Institution:</label>
-            <input id="cuts-filter" class="table-filter-input" type="search" aria-label="Filter by institution" placeholder="Filter by institution">
+            <div class="table-search-autocomplete" data-search-instance data-search-mode="filter">
+              <input id="cuts-filter" class="table-filter-input" type="search" data-search-input aria-label="Filter by institution" placeholder="Filter by institution" autocomplete="off">
+              <div id="cuts-search-results" class="results table-search-results" data-search-results role="listbox" aria-label="Search results"></div>
+            </div>
           </div>
         </div>
       </div>

@@ -42,6 +42,21 @@ run_test("Grant Witness name helpers", function() {
   assert_true(is_public_tracker_included("nih", "Possibly Unfrozen Funding"))
   assert_true(is_public_tracker_included("epa", "Possibly Reinstated"))
   assert_true(!is_public_tracker_included("epa", "Reinstated"))
+  assert_true(!is_currently_disrupted("nih", "Terminated", reinstatement_date = "2025-09-18"))
+  assert_true(!is_public_tracker_included("nih", "Terminated", reinstatement_date = "2025-09-18"))
+  cdc_renewed_history <- paste(
+    "- 2025-05-20: Termination date in TAGGS PDF",
+    "- 2025-09-24: Grant renewed",
+    sep = "\n"
+  )
+  assert_true(
+    !is_currently_disrupted(
+      "cdc",
+      "Terminated",
+      status_history = cdc_renewed_history,
+      termination_date = "2025-05-20"
+    )
+  )
   # CDC "At Risk" used to classify as currently_disrupted, but Grant Witness
   # treats that status as "on a termination target list with no formal notice
   # yet" — i.e. not yet a confirmed loss. We deliberately exclude those so
@@ -58,6 +73,15 @@ run_test("Grant Witness name helpers", function() {
   assert_identical(
     classify_status_bucket("cdc", "Terminated"),
     "currently_disrupted"
+  )
+  assert_identical(
+    classify_status_bucket(
+      "cdc",
+      "Terminated",
+      status_history = cdc_renewed_history,
+      termination_date = "2025-05-20"
+    ),
+    "not_currently_disrupted"
   )
 })
 

@@ -23,7 +23,8 @@
     renderRelatedInstitutionLinks,
     renderDataAsOf,
     makeTableController,
-    cleanCutLabel
+    cleanCutLabel,
+    getCommittedSearchValue
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const OTHER_PAGE_SIZE = 5;
@@ -45,7 +46,6 @@
         <h3>${escapeHtml(cut.cut_label_public || cleanCutLabel(cut.program_name) || "Unnamed cut")}</h3>
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
-        ${cut.cut_summary_public ? `<p>${escapeHtml(cut.cut_summary_public)}</p>` : (cut.notes ? `<p>${escapeHtml(cut.notes)}</p>` : "")}
         ${source}
       </article>
     `;
@@ -174,13 +174,17 @@
     emptyMessage = `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available.`,
     downloadButtonId = null,
     downloadFilename = "college-cuts.csv",
-    searchInput = null
+    searchInput = null,
+    filterOnInput = true,
+    searchValueResolver = null
   }) {
     return makeTableController({
       container,
       items,
       pageSize,
       searchInput,
+      filterOnInput,
+      searchValueResolver,
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
       renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
@@ -211,8 +215,10 @@
     const container = document.getElementById("cuts-list");
     const otherContainer = document.getElementById("cuts-other-list");
     const title = document.getElementById("cuts-section-title");
+    const tableIntro = document.getElementById("cuts-table-intro");
     const otherTitle = document.getElementById("cuts-other-section-title");
     const mainToolbar = document.getElementById("cuts-table-download")?.closest(".table-toolbar");
+    if (tableIntro) tableIntro.classList.toggle("is-hidden", Boolean(unitid));
 
     if (!unitid) {
       // Landing view: keep a real document heading for screen-reader navigation,
@@ -240,7 +246,9 @@
         emptyMessage: `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for 4-year, primarily bachelor's-degree-granting institutions.`,
         downloadButtonId: "cuts-table-download",
         downloadFilename: "cuts-primary.csv",
-        searchInput: primaryFilter
+        searchInput: primaryFilter,
+        filterOnInput: false,
+        searchValueResolver: getCommittedSearchValue
       });
       setupPagination({
         container: otherContainer,
@@ -249,7 +257,9 @@
         emptyMessage: `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`,
         downloadButtonId: "cuts-other-download",
         downloadFilename: "cuts-other.csv",
-        searchInput: otherFilter
+        searchInput: otherFilter,
+        filterOnInput: false,
+        searchValueResolver: getCommittedSearchValue
       });
       return;
     }

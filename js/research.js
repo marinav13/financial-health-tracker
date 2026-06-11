@@ -22,7 +22,8 @@
     syncTabs,
     renderRelatedInstitutionLinks,
     renderDataAsOf,
-    makeTableController
+    makeTableController,
+    getCommittedSearchValue
   } = window.TrackerApp;
   const PAGE_SIZE = 20;
   const OTHER_PAGE_SIZE = 8;
@@ -373,6 +374,8 @@
     downloadFilename,
     paginationLabel,
     searchInput = null,
+    filterOnInput = true,
+    searchValueResolver = null,
     tableLabel = "Research funding cuts by institution"
   }) {
     return makeTableController({
@@ -380,6 +383,8 @@
       items,
       pageSize,
       searchInput,
+      filterOnInput,
+      searchValueResolver,
       initialSortState: { key: "funding", direction: "desc" },
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
@@ -417,6 +422,8 @@
     downloadFilename,
     paginationLabel,
     searchInput = null,
+    filterOnInput = true,
+    searchValueResolver = null,
     tableLabel = "Research funding cuts at other institutions"
   }) {
     return makeTableController({
@@ -424,6 +431,8 @@
       items,
       pageSize,
       searchInput,
+      filterOnInput,
+      searchValueResolver,
       initialSortState: { key: "funding", direction: "desc" },
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderOtherTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
@@ -458,6 +467,7 @@
     const stateSummaryCard = document.getElementById("research-state-summary-card");
     const summaryGrid = document.getElementById("research-summary-grid");
     const title = document.getElementById("research-section-title");
+    const tableIntro = document.getElementById("research-table-intro");
     const otherTitle = document.getElementById("research-other-section-title");
     const searchInput = document.getElementById("research-filter");
     const otherSearchInput = document.getElementById("research-other-filter");
@@ -471,6 +481,7 @@
     if (landingHero) landingHero.classList.toggle("is-hidden", Boolean(unitid));
     const institutionMast = document.getElementById("research-institution-mast");
     if (institutionMast) institutionMast.classList.toggle("is-hidden", !unitid);
+    if (tableIntro) tableIntro.classList.toggle("is-hidden", Boolean(unitid));
 
     if (!unitid) {
       // Landing view: the h1#research-school-name ships with class="sr-only"
@@ -491,22 +502,26 @@
           downloadFilename: "research-funding-primary.csv",
           paginationLabel: "Research funding pages",
           searchInput,
+          filterOnInput: false,
+          searchValueResolver: getCommittedSearchValue,
           tableLabel: "Research funding cuts at 4-year institutions"
         });
         setupOtherPagination({
           container: otherContainer,
           items: other,
           pageSize: OTHER_PAGE_SIZE,
-          emptyMessage: "No currently disrupted research grants are available for other higher-ed institutions.",
+          emptyMessage: "No currently disrupted research grants are available for medical schools and other higher-ed institutions.",
           downloadButtonId: "research-other-download",
           downloadFilename: "research-funding-other.csv",
-          paginationLabel: "Research funding pages for other higher-ed institutions",
+          paginationLabel: "Research funding pages for medical schools and other higher-ed institutions",
           searchInput: otherSearchInput,
-          tableLabel: "Research funding cuts at other higher-ed institutions"
+          filterOnInput: false,
+          searchValueResolver: getCommittedSearchValue,
+          tableLabel: "Research funding cuts at medical schools and other higher-ed institutions"
         });
       };
       setDataCardVisible("research-other-list", other.length > 0);
-      if (otherTitle) otherTitle.textContent = "Research funding cuts at other higher-ed institutions";
+      if (otherTitle) otherTitle.textContent = "Research funding cuts at medical schools and other higher-ed institutions";
       if (title) title.classList.remove("is-hidden");
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);

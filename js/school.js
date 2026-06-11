@@ -367,7 +367,7 @@ function createWarningTooltipNode({ leadingText = "", emphasizedOne = "", middle
 function defaultWarningTooltipNode() {
   return createWarningTooltipNode({
     leadingText: "Red with a warning sign means a trend is growing in a concerning direction. ",
-    emphasizedOne: "One or two red boxes",
+    emphasizedOne: "1 or 2 red boxes",
     middleText: " don't automatically signal crisis. ",
     emphasizedTwo: "Multiple red indicators",
     trailingText: " may signal deeper financial pressure."
@@ -725,7 +725,7 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   if (warningSummary.showPatternBadge) {
     const tooltipLabel = `This school shows a pattern of declines of at least 10% in both enrollment and net tuition revenue per student over five years, plus operating losses in at least 3 of the last 5 years. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a sign of financial stress. Check out this institution's audits for more context.`;
     badges.push(buildSchoolWarningBadge({
-      label: "Pattern of declining enrollment and losses",
+      label: "Significant enrollment declines and losses",
       tooltipLabel,
       buildTooltipContent: (tooltip) => {
         tooltip.append(document.createTextNode("This school shows a pattern of "));
@@ -739,15 +739,15 @@ function syncSchoolWarningSummaryBadge(warningSummary, profile = null) {
   }
 
   if (warningSummary.showBroadBadge) {
-    const tooltipLabel = `This school shows widespread warning signs across visible indicators on this profile. At least 6 of its visible warning indicators are flagged as concerning. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of financial stress. Check out this institution's audits for more context.`;
+    const tooltipLabel = `This school shows at least 6 warning signs across visible indicators on this profile. At least 6 of its visible warning indicators are flagged as concerning. Across all ${totalVisible} potential indicators for a ${typeLabel}, ${count} ${count === 1 ? "is" : "are"} flagged as concerning. This is a signal of financial stress. Check out this institution's audits for more context.`;
     badges.push(buildSchoolWarningBadge({
-      label: "Widespread warning signs",
+      label: "At least 6 warning signs",
       tooltipLabel,
       variantClass: "is-broad",
       buildTooltipContent: (tooltip) => {
         tooltip.append(document.createTextNode("This school "));
         const broadStrong = document.createElement("strong");
-        broadStrong.textContent = "shows widespread warning signs";
+        broadStrong.textContent = "shows at least 6 warning signs";
         tooltip.append(broadStrong);
         tooltip.append(document.createTextNode(" across visible indicators on this profile. At least 6 of its visible warning indicators are flagged as concerning."));
         appendSchoolWarningContext(tooltip, count, totalVisible, typeLabel);
@@ -852,9 +852,9 @@ function renderMoreFinancialDetailSection(institutionName, profile) {
 
   const link = document.getElementById("emma-search-link");
   if (link) {
-    link.textContent = `Search EMMA for ${displayName}`;
+    link.textContent = `Search a database of bond disclosures for ${displayName}`;
     link.setAttribute("href", EMMA_SEARCH_URL);
-    link.setAttribute("aria-label", `Search EMMA for ${displayName} (opens in new tab)`);
+    link.setAttribute("aria-label", `Search a database of bond disclosures for ${displayName} (opens in new tab)`);
   }
 
   const auditSpan = document.getElementById("federal-audit-school-name");
@@ -1510,7 +1510,7 @@ async function shareSchoolProfile(school, unitid) {
   const url = schoolProfileUrl(unitid);
   const shareData = {
     title: `${name} profile`,
-    text: `View ${name}'s College Financial Health Explorer profile:`,
+    text: `View ${name}'s College Financial Health Tracker profile:`,
     url
   };
 

@@ -44,6 +44,39 @@ run_test("Grant Witness name helpers", function() {
   assert_true(!is_public_tracker_included("epa", "Reinstated"))
   assert_true(!is_currently_disrupted("nih", "Terminated", reinstatement_date = "2025-09-18"))
   assert_true(!is_public_tracker_included("nih", "Terminated", reinstatement_date = "2025-09-18"))
+  epa_reterminated_history <- paste(
+    "- 2025-05-10: End date cut off from 2027-05-31 to 2025-05-10",
+    "- 2025-06-06: End date extended from 2025-05-10 to 2027-05-31",
+    "- 2025-06-09: End date cut off from 2027-05-31 to 2025-06-09",
+    "- 2025-06-09: Reported terminated by DOGE",
+    "- 2025-07-01: Program reported terminated",
+    sep = "\n"
+  )
+  assert_true(
+    is_currently_disrupted(
+      "epa",
+      "Terminated",
+      reinstatement_date = "2025-06-06",
+      status_history = epa_reterminated_history,
+      termination_date = "2025-05-10"
+    )
+  )
+  epa_reinstated_with_later_outlays <- paste(
+    "- 2025-05-10: End date cut off from 2027-08-31 to 2025-05-10",
+    "- 2025-06-05: End date extended from 2025-05-10 to 2027-08-31",
+    "- 2025-07-01: Program reported terminated",
+    "- 2025-07-31: Outlay of $37,850",
+    sep = "\n"
+  )
+  assert_true(
+    !is_currently_disrupted(
+      "epa",
+      "Terminated",
+      reinstatement_date = "2025-06-05",
+      status_history = epa_reinstated_with_later_outlays,
+      termination_date = "2025-05-10"
+    )
+  )
   cdc_renewed_history <- paste(
     "- 2025-05-20: Termination date in TAGGS PDF",
     "- 2025-09-24: Grant renewed",

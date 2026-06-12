@@ -31,30 +31,30 @@ test.describe('Accreditation filter input', () => {
     expect(firstInstitution.length).toBeGreaterThan(0);
 
     const filter = page.locator('#accreditation-filter');
+    const results = page.locator('#accreditation-search-results');
+
+    // Filtering commits only when the user picks an autocomplete option.
     await filter.fill(firstInstitution);
+    await expect(results).toBeVisible();
 
-    // Filter applies on 'input'; poll until the row count settles at something
-    // that both (a) is at least one and (b) is less than or equal to the
-    // initial count. Anything else (no change, empty result) indicates a
-    // broken filter wiring.
+    const firstOption = results.locator('.result-item[role="option"]').first();
+    await expect(firstOption).toBeVisible();
+    const selectedLabel = ((await firstOption.locator('.result-item-label').textContent()) || '').trim();
+    await firstOption.click();
+
+    const lower = selectedLabel.toLowerCase();
     await expect.poll(async () => {
-      const count = await rows.count();
-      return { count, narrowed: count >= 1 && count <= initialCount };
+      const institutionCells = await primaryTable.locator('tbody tr td:first-child').allTextContents();
+      const count = institutionCells.length;
+      if (count < 1 || count > initialCount) return false;
+      return institutionCells.every((cell) => cell.toLowerCase().includes(lower));
     }, {
-      message: `filter "${firstInstitution}" should narrow the primary table to ≥1 and ≤${initialCount} rows`
-    }).toMatchObject({ narrowed: true });
+      message: `filter "${selectedLabel}" should leave only matching primary-table rows`
+    }).toBe(true);
 
-    // Every remaining row must contain the filter term (case-insensitive,
-    // mirroring normalizeSearchText). The table must have *only* matching
-    // rows after filter — a stale row through would indicate a filter bug.
-    const institutionCells = await primaryTable.locator('tbody tr td:first-child').allTextContents();
-    const lower = firstInstitution.toLowerCase();
-    expect(institutionCells.length).toBeGreaterThan(0);
-    for (const cell of institutionCells) {
-      expect(cell.toLowerCase()).toContain(lower);
-    }
-
-    // Clear the filter — the table should restore to the original row count.
+    // Clearing the input fires the same commit mechanism (the input handler
+    // detects typedValue='' with a committed filterValue and dispatches
+    // tracker:search-commit) and restores the full row count.
     await filter.fill('');
     await expect.poll(() => rows.count()).toBe(initialCount);
   });

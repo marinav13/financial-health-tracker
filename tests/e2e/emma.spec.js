@@ -67,7 +67,7 @@ test.describe('EMMA bond-rating card', () => {
     await expect(link).toBeVisible();
 
     const text = await link.textContent();
-    expect(text).toMatch(/Search EMMA for .+/);
+    expect(text).toMatch(/Search a database of bond disclosures for .+/);
   });
 
   test('search link aria-label includes institution name', async ({ page }) => {
@@ -77,7 +77,7 @@ test.describe('EMMA bond-rating card', () => {
     await expect(link).toBeVisible();
 
     const ariaLabel = await link.getAttribute('aria-label');
-    expect(ariaLabel).toMatch(/Search EMMA for .+/);
+    expect(ariaLabel).toMatch(/Search a database of bond disclosures for .+/);
   });
 
   test('card is hidden on guide landing page (no unitid)', async ({ page }) => {

@@ -448,14 +448,14 @@ run_test("Web export pipeline fixture", function() {
       tracker_control_label = "Public",
       tracker_category = "Degree-granting, primarily baccalaureate or above",
       likely_higher_ed = TRUE,
-      total_disrupted_grants = 1L,
-      total_disrupted_award_remaining = 50000,
+      total_disrupted_grants = 2L,
+      total_disrupted_award_remaining = 120000,
       nih_disrupted_grants = 1L,
       nih_disrupted_award_remaining = 50000,
       nsf_disrupted_grants = 0L,
       nsf_disrupted_award_remaining = 0,
-      epa_disrupted_grants = 0L,
-      epa_disrupted_award_remaining = 0,
+      epa_disrupted_grants = 1L,
+      epa_disrupted_award_remaining = 70000,
       samhsa_disrupted_grants = 0L,
       samhsa_disrupted_award_remaining = 0,
       cdc_disrupted_grants = 0L,
@@ -469,31 +469,43 @@ run_test("Web export pipeline fixture", function() {
 
   readr::write_csv(
     data.frame(
-      matched_unitid = c("100", "100"),
-      tracker_institution_name = c("Example University", "Example University"),
-      tracker_state = c("Massachusetts", "Massachusetts"),
-      currently_disrupted = c("TRUE", "FALSE"),
-      public_tracker_included = c("TRUE", "TRUE"),
-      likely_higher_ed = c(TRUE, TRUE),
-      agency = c("nih", "nih"),
-      grant_id = c("R01-1", "R01-2"),
-      grant_id_core = c("R01", "R01"),
-      status = c("terminated", "possibly reinstated"),
-      organization_name = c("Example University", "Example University"),
-      organization_city = c("Boston", "Boston"),
-      organization_state = c("Massachusetts", "Massachusetts"),
-      organization_type = c("University", "University"),
-      project_title = c("Cancer research", "Recovered research"),
-      project_abstract = c("Research abstract", "Recovered abstract"),
-      start_date = c("2023-01-01", "2023-06-01"),
-      original_end_date = c("2025-12-31", "2025-12-31"),
-      termination_date = c("2024-04-01", "2024-05-01"),
-      award_value = c("100000", "80000"),
-      award_outlaid = c("50000", "40000"),
-      award_remaining = c("50000", "40000"),
-      remaining_field = c("award_remaining", "award_remaining"),
-      source_url = c("https://example.org/grant", "https://example.org/grant-2"),
-      detail_url = c("https://example.org/grant-detail", "https://example.org/grant-detail-2"),
+      matched_unitid = c("100", "100", "100"),
+      tracker_institution_name = c("Example University", "Example University", "Example University"),
+      tracker_state = c("Massachusetts", "Massachusetts", "Massachusetts"),
+      currently_disrupted = c("TRUE", "FALSE", "TRUE"),
+      public_tracker_included = c("TRUE", "TRUE", "TRUE"),
+      likely_higher_ed = c(TRUE, TRUE, TRUE),
+      agency = c("nih", "nih", "epa"),
+      grant_id = c("R01-1", "R01-2", "EPA-1"),
+      grant_id_core = c("R01", "R01", "EPA-1"),
+      status = c("terminated", "possibly reinstated", "terminated"),
+      organization_name = c("Example University", "Example University", "Example University"),
+      organization_city = c("Boston", "Boston", "Boston"),
+      organization_state = c("Massachusetts", "Massachusetts", "Massachusetts"),
+      organization_type = c("University", "University", "University"),
+      project_title = c("Cancer research", "Recovered research", "Re-terminated climate grant"),
+      project_abstract = c("Research abstract", "Recovered abstract", "EPA abstract"),
+      start_date = c("2023-01-01", "2023-06-01", "2024-01-01"),
+      original_end_date = c("2025-12-31", "2025-12-31", "2026-12-31"),
+      termination_date = c("2024-04-01", "2024-05-01", "2025-03-25"),
+      reinstatement_date = c(NA_character_, NA_character_, "2025-05-22"),
+      status_history = c(
+        NA_character_,
+        NA_character_,
+        paste(
+          "- 2025-03-25: Reported terminated",
+          "- 2025-05-22: End date extended from 2025-03-25 to 2026-12-31",
+          "- 2025-07-01: Program reported terminated",
+          "- 2025-07-28: End date cut off from 2026-12-31 to 2025-07-28",
+          sep = "\n"
+        )
+      ),
+      award_value = c("100000", "80000", "90000"),
+      award_outlaid = c("50000", "40000", "20000"),
+      award_remaining = c("50000", "40000", "70000"),
+      remaining_field = c("award_remaining", "award_remaining", "award_remaining"),
+      source_url = c("https://example.org/grant", "https://example.org/grant-2", "https://example.org/epa-grant"),
+      detail_url = c("https://example.org/grant-detail", "https://example.org/grant-detail-2", "https://example.org/epa-grant-detail"),
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "grant_witness", "grant_witness_grant_level_joined.csv"),
@@ -521,8 +533,8 @@ run_test("Web export pipeline fixture", function() {
   )
 
   readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
-  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","on_latest_snapshot":true,"latest_reason_on_description":"Financial responsibility concerns","first_snapshot_label":"December 2024","latest_snapshot_label_present":"March 2025","downgraded_to_hcm1_after_hcm2":false}}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
-  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","federal_composite_score_2022_2023":1.2,"federal_composite_score_year_label":"2022-23","federal_composite_score_status":"zone","federal_composite_score_status_label":"Zone"}}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","institution_name":"Example University","on_latest_snapshot":true,"latest_reason_on_description":"Financial responsibility concerns","first_snapshot_label":"December 2024","latest_snapshot_label_present":"March 2025","downgraded_to_hcm1_after_hcm2":false}}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{"100":{"unitid":"100","institution_name":"Example University","federal_composite_score_2022_2023":1.2,"federal_composite_score_year_label":"2022-23","federal_composite_score_status":"zone","federal_composite_score_status_label":"Zone"}}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
 
   export_env <- new.env(parent = globalenv())
   sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
@@ -828,11 +840,15 @@ run_test("Web export pipeline fixture", function() {
     "research_export grants should be a data.frame.")
   assert_true(nrow(grants_df) > 0,
     "research_export should have at least one grant record.")
-  assert_identical(nrow(grants_df), 1L)
+  assert_identical(nrow(grants_df), 2L)
   for (f in c("agency", "grant_id", "status")) {
     assert_true(f %in% names(grants_df),
       sprintf("grants data.frame should have column '%s'.", f))
   }
+  assert_true(
+    "EPA-1" %in% grants_df$grant_id,
+    "research_export should retain reinstated-then-reterminated EPA grants."
+  )
   assert_true(
     all(tolower(grants_df$status) %in% c("terminated", "frozen funding")),
     "research_export should include only terminated or frozen grants."

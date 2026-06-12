@@ -498,6 +498,93 @@ history_shows_post_termination_restoration <- function(status_history, terminati
   }, logical(1))
 }
 
+history_shows_post_restoration_retermination <- function(
+  status_history,
+  termination_date,
+  reinstatement_date = NA_character_
+) {
+  status_history <- normalize_optional_text(status_history)
+  termination_date <- normalize_optional_text(termination_date)
+  reinstatement_date <- normalize_optional_text(reinstatement_date)
+
+  n <- max(length(status_history), length(termination_date), length(reinstatement_date))
+  if (n == 0L) {
+    return(logical())
+  }
+
+  if (length(status_history) == 1L && n > 1L) {
+    status_history <- rep(status_history, n)
+  }
+  if (length(termination_date) == 1L && n > 1L) {
+    termination_date <- rep(termination_date, n)
+  }
+  if (length(reinstatement_date) == 1L && n > 1L) {
+    reinstatement_date <- rep(reinstatement_date, n)
+  }
+
+  vapply(seq_len(n), function(i) {
+    history_value <- status_history[[i]]
+    termination_value <- suppressWarnings(as.Date(termination_date[[i]]))
+    reinstatement_value <- suppressWarnings(as.Date(reinstatement_date[[i]]))
+    if (is.na(history_value) || is.na(termination_value)) {
+      return(FALSE)
+    }
+
+    lines <- trimws(unlist(strsplit(history_value, "\n", fixed = TRUE), use.names = FALSE))
+    if (!length(lines)) {
+      return(FALSE)
+    }
+
+    line_dates <- suppressWarnings(as.Date(sub(
+      "^\\s*-\\s*([0-9]{4}-[0-9]{2}-[0-9]{2}).*$",
+      "\\1",
+      lines,
+      perl = TRUE
+    )))
+
+    restoration_idx <- grepl(
+      "grant renewed|end date extended|reinstated|unfrozen funding",
+      lines,
+      ignore.case = TRUE,
+      perl = TRUE
+    ) & !is.na(line_dates) & line_dates > termination_value
+
+    restoration_dates <- line_dates[restoration_idx]
+    if (!is.na(reinstatement_value)) {
+      restoration_dates <- c(restoration_dates, reinstatement_value)
+    }
+    restoration_dates <- restoration_dates[!is.na(restoration_dates)]
+    if (!length(restoration_dates)) {
+      return(FALSE)
+    }
+
+    latest_restoration <- max(restoration_dates)
+
+    termination_idx <- grepl(
+      "reported terminated|program reported terminated|end date cut off|grant terminated|formally terminated|terminated by doge|termination notice",
+      lines,
+      ignore.case = TRUE,
+      perl = TRUE
+    ) & !is.na(line_dates) & line_dates > latest_restoration
+
+    later_termination_dates <- line_dates[termination_idx]
+    if (!length(later_termination_dates)) {
+      return(FALSE)
+    }
+
+    latest_retermination <- max(later_termination_dates)
+
+    recovery_idx <- grepl(
+      "grant renewed|end date extended|reinstated|unfrozen funding|outlay of|obligation of",
+      lines,
+      ignore.case = TRUE,
+      perl = TRUE
+    ) & !is.na(line_dates) & line_dates > latest_retermination
+
+    !any(recovery_idx)
+  }, logical(1))
+}
+
 is_definitively_restored <- function(
   agency,
   status,
@@ -506,9 +593,15 @@ is_definitively_restored <- function(
   termination_date = NA_character_
 ) {
   baseline_disrupted <- status_matches_rule(agency, status, "currently_disrupted")
-  explicit_reinstatement <- !is.na(normalize_optional_text(reinstatement_date))
+  post_restoration_retermination <- history_shows_post_restoration_retermination(
+    status_history,
+    termination_date,
+    reinstatement_date
+  )
+  explicit_reinstatement <- !is.na(normalize_optional_text(reinstatement_date)) &
+    !post_restoration_retermination
   post_termination_restoration <- history_shows_post_termination_restoration(status_history, termination_date)
-  baseline_disrupted & (explicit_reinstatement | post_termination_restoration)
+  baseline_disrupted & (explicit_reinstatement | (post_termination_restoration & !post_restoration_retermination))
 }
 
 is_currently_disrupted <- function(
@@ -661,6 +754,7 @@ GRANT_WITNESS_STANDARDIZATION_SPECS <- list(
     original_end_date = list(columns = "original_end_date"),
     termination_date = list(columns = "termination_date"),
     reinstatement_date = list(columns = "reinstatement_date"),
+    status_history = list(columns = "event_history"),
     award_value = list(columns = "award_value", transform = "numeric"),
     award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
     award_remaining = list(columns = "award_remaining", transform = "numeric"),
@@ -682,6 +776,7 @@ GRANT_WITNESS_STANDARDIZATION_SPECS <- list(
     original_end_date = list(columns = "project_original_end_date"),
     termination_date = list(columns = "termination_date"),
     reinstatement_date = list(columns = "reinstatement_date"),
+    status_history = list(columns = "event_history"),
     award_value = list(columns = "award_value", transform = "numeric"),
     award_outlaid = list(columns = "award_outlaid", transform = "numeric"),
     award_remaining = list(columns = "award_remaining", transform = "numeric"),

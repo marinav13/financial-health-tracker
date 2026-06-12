@@ -340,7 +340,7 @@ test.describe('Frontend state synchronization', () => {
     let badges = badgeGroup.locator('.school-warning-summary');
     await expect(badgeGroup).not.toHaveClass(/is-hidden/);
     await expect(badges).toHaveCount(1);
-    await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
+    await expect(badges.nth(0)).toContainText('Significant enrollment declines and losses');
     await expect(badges.nth(0)).not.toHaveClass(/is-broad/);
     await expect(badges.nth(0)).toHaveAttribute('aria-label', /operating losses in at least 3 of the last 5 years/i);
 
@@ -350,8 +350,8 @@ test.describe('Frontend state synchronization', () => {
     badges = badgeGroup.locator('.school-warning-summary');
     await expect(badgeGroup).not.toHaveClass(/is-hidden/);
     await expect(badges).toHaveCount(2);
-    await expect(badges.nth(0)).toContainText('Pattern of declining enrollment and losses');
-    await expect(badges.nth(1)).toContainText('Widespread warning signs');
+    await expect(badges.nth(0)).toContainText('Significant enrollment declines and losses');
+    await expect(badges.nth(1)).toContainText('At least 6 warning signs');
     await expect(badges.nth(1)).toHaveClass(/is-broad/);
     await expect(badges.nth(1)).toHaveAttribute('aria-label', /at least 6/i);
 
@@ -361,7 +361,7 @@ test.describe('Frontend state synchronization', () => {
     badges = badgeGroup.locator('.school-warning-summary');
     await expect(badgeGroup).not.toHaveClass(/is-hidden/);
     await expect(badges).toHaveCount(1);
-    await expect(badges.nth(0)).toContainText('Widespread warning signs');
+    await expect(badges.nth(0)).toContainText('At least 6 warning signs');
     await expect(badges.nth(0)).toHaveClass(/is-broad/);
     await expect(badges.nth(0)).toHaveAttribute('aria-label', /at least 6/i);
 

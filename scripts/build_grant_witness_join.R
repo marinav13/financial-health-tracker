@@ -632,6 +632,7 @@ main <- function(cli_args = NULL) {
       original_end_date,
       termination_date,
       reinstatement_date,
+      status_history,
       award_value,
       award_outlaid,
       award_remaining,

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-11",
+  "generated_at": "2026-06-12",
   "agencies": ["NIH", "NSF", "EPA", "SAMHSA", "CDC"],
   "schools": {
     "100654": {
@@ -14950,9 +14950,9 @@
       "state": "Illinois",
       "control_label": "Private not-for-profit",
       "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_termination_date": "2025-10-13",
-      "total_disrupted_grants": 15,
-      "total_disrupted_award_remaining": 12272412.5214,
+      "latest_termination_date": "2026-04-21",
+      "total_disrupted_grants": 16,
+      "total_disrupted_award_remaining": 12578016.1814,
       "agency_summary": [
         {
           "agency": "nih",
@@ -14963,8 +14963,8 @@
         {
           "agency": "nsf",
           "agency_label": "NSF",
-          "disrupted_grants": 5,
-          "disrupted_award_remaining": 6534838.88
+          "disrupted_grants": 6,
+          "disrupted_award_remaining": 6840442.54
         },
         {
           "agency": "epa",
@@ -14986,6 +14986,28 @@
         }
       ],
       "grants": [
+        {
+          "agency": "nsf",
+          "agency_label": "NSF",
+          "grant_id": "2340661",
+          "grant_id_core": "2340661",
+          "status": "❌ Terminated",
+          "organization_name": "University of Chicago",
+          "organization_city": "Chicago",
+          "organization_state": "Illinois",
+          "organization_type": "Continuing Grant",
+          "project_title": "CAREER: Skin Color and Inequality: Measurement and Mitigation",
+          "project_abstract": "Skin color discrimination, regardless of race, is common across societies around the world.  Also known as colorism, it typically manifests itself in favoring lighter skin over darker skin and has been found to be an important predictor of many outcomes, including occupation, educational attainment, criminal justice system involvement, and marital outcomes, among others.  However, there is no objective way of measuring skin color.  This CAREER award will fund research to develop new methods, based on artificial intelligence technology, to accurately measure skin tone, for a large number of young people and make the data available to other researchers.  This will allow more research on the relationship between skin tone and several outcomes.  The research will also use the data to investigate how skin tone affects who is chosen to participate in crime intervention programs as well as parental investments in their children’s education.  The results of this research will provide inputs into efforts to reduce differential opportunities based in skin tone differences.  This will improve the overall quality of the US labor force, increase productivity, economic growth, and improve the well-being of citizens.  The results of this research will also help establish the US as a global leader in reducing the effects of colorism on outcomes.  \r\n\r\n\r\nDespite the potential distortionary effects on decision-making, colorism has been understudied in the economics literature, partly because it is difficult to measure colorism. The first part of this CAREER research award will develop AI and neural networks assisted computational protocols to systematically classify skin color that is scalable, replicable, accounts for local knowledge in a study setting, and use the protocols to create a large data set on skin color. The methods and data collected will open new avenues of inquiry across the social sciences, medicine, humanities, and law.  The research project will also study how individual-level  interventions, such as those related to education and other human capital investments, and empowerment programs, may be causally influenced by colorism. This part of this research will also study the  heterogeneous impacts of interventions based on skin color, as well as explore potential underlying mechanisms that contribute to these differential effects. The results of this research will provide inputs into efforts to reduce differential opportunities to people based on skin color; efforts that are likely to improve the overall quality of the US labor force, increase productivity, economics growth, and the well-being of American citizens.  The results of this research will also help establish the US as the global leader in reducing the effects of colorism on many outcomes.\r\n\r\nThis award reflects NSF's statutory mission and has been deemed worthy of support through evaluation using the Foundation's intellectual merit and broader impacts review criteria.",
+          "start_date": "2024-07-01",
+          "original_end_date": "2026-04-21",
+          "termination_date": "2026-04-21",
+          "award_value": 563639,
+          "award_outlaid": 258035.34,
+          "award_remaining": 305603.66,
+          "remaining_field": "estimated_remaining",
+          "source_url": "https://www.usaspending.gov/award/ASST_NON_2340661_4900",
+          "detail_url": "https://www.nsf.gov/awardsearch/show-award?AWD_ID=2340661"
+        },
         {
           "agency": "nsf",
           "agency_label": "NSF",
@@ -20262,6 +20284,78 @@
         }
       ]
     },
+    "161253": {
+      "unitid": "161253",
+      "financial_unitid": "161253",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "likely_higher_ed": true,
+      "institution_name": "University of Maine",
+      "institution_alias": null,
+      "city": "Orono",
+      "state": "Maine",
+      "control_label": "Public",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_termination_date": "2025-05-10",
+      "total_disrupted_grants": 1,
+      "total_disrupted_award_remaining": 879131.1,
+      "agency_summary": [
+        {
+          "agency": "nih",
+          "agency_label": "NIH",
+          "disrupted_grants": 0,
+          "disrupted_award_remaining": 0
+        },
+        {
+          "agency": "nsf",
+          "agency_label": "NSF",
+          "disrupted_grants": 0,
+          "disrupted_award_remaining": 0
+        },
+        {
+          "agency": "epa",
+          "agency_label": "EPA",
+          "disrupted_grants": 1,
+          "disrupted_award_remaining": 879131.1
+        },
+        {
+          "agency": "samhsa",
+          "agency_label": "SAMHSA",
+          "disrupted_grants": 0,
+          "disrupted_award_remaining": 0
+        },
+        {
+          "agency": "cdc",
+          "agency_label": "CDC",
+          "disrupted_grants": 0,
+          "disrupted_award_remaining": 0
+        }
+      ],
+      "grants": [
+        {
+          "agency": "epa",
+          "agency_label": "EPA",
+          "grant_id": "84055701",
+          "grant_id_core": "84055701",
+          "status": "❌ Terminated",
+          "organization_name": "UNIVERSITY OF MAINE SYSTEM",
+          "organization_city": "Orono",
+          "organization_state": "Maine",
+          "organization_type": "State Institution of Higher Learning",
+          "project_title": "The Role of State Networks in Advancing Community-Initiated and -Engaged Sustainable Energy Action in Underserved Communities",
+          "project_abstract": "DESCRIPTION:THE GOAL IS TO UNDERSTAND THE ROLE OF STATEWIDE LOCAL ENERGY ACTION NETWORKS (LEANS) IN SUPPORTING AND ADVANCING RENEWABLE ENERGY AND ENERGY EFFICIENCY (REE) IN UNDERSERVED COMMUNITIES, WITH COMMUNITY-ENGAGED STATE AND LOCAL PILOT PROJECTS FOCUSING ON INDIGENOUS, RURAL, AND LOW-INCOME COMMUNITIES. ACTIVITIES:THE PROJECT WILL: 1) IDENTIFY AND COMPARE BARRIERS, OPPORTUNITIES, DECISION DRIVERS OF RENEWABLE ENERGY AND ENERGY EFFICIENCY (REE) ADOPTION FOR INDIVIDUALS, COMMUNITY, AND GOVERNMENT OF UNDERSERVED COMMUNITIES; 2) EXAMINE BENEFITS, CHALLENGES, AND EFFECTIVENESS OF STATEWIDE LOCAL ENERGY ACTION NETWORKS (LEANS) IN SUPPORTING REE ADOPTION IN UNDERSERVED COMMUNITIES; AND 3) EXAMINE THE ROLE OF TARGETED INTERVENTIONS (CAPACITY, EDUCATION, OWNERSHIP) IN ADVANCING REE AWARENESS, ENGAGEMENT, AND ADOPTION IN UNDERSERVED COMMUNITIES. \n\nSUBRECIPIENT:SUBAWARDEE PENOBSCOT NATION (PN) TRIBAL GOVERNMENT WILL HAVE A SUSTAINABLE ENERGY COORDINATOR TO SERVE ALL WABANAKI TRIBES, BUILD CAPACITY AND ACCELERATE IMPLEMENTATION OF LOCAL ENERGY SOLUTIONS, OVERSEE PROJECT DEVELOPMENT, ENGAGE COMMUNITY MEMBERS, AND ENGAGE IN RESEARCH ACTIVITIES.  ($307,007)\nOUTCOMES:ANTICIPATED DELIVERABLES INCLUDE COMMUNITY CO-CREATED RESEARCH INSTRUMENTS AND RESEARCH PRODUCTS INCLUDING REPORTS, BRIEFINGS, ARTICLES, AND PRESENTATIONS. EXPECTED OUTCOMES INCLUDE IMPROVED AWARENESS AND UNDERSTANDING OF BARRIERS, OPPORTUNITIES, DECISION DRIVERS RELATED TO SUSTAINABLE ENERGY ADOPTION IN UNDERSERVED COMMUNITIES; EFFECTIVE METHODS FOR ENGAGEMENT AND CO-PRODUCTION OF KNOWLEDGE WITH COMMUNITIES; BEST PRACTICES FOR STATE NETWORKS AND STATE POLICY/PROGRAM DESIGN TO SUPPORT LOCAL SUSTAINABLE ENERGY ADOPTION. ADDITIONAL OUTCOMES INCLUDE INCREASED ADOPTION AND DIFFUSION OF SUSTAINABLE ENERGY IN UNDERSERVED COMMUNITIES AS WELL AS IMPROVED RISK MANAGEMENT FOR UNDERSERVED COMMUNITIES IN CLIMATE AND ENERGY RESILIENCE. INTENDED BENEFICIARIES INCLUDE TEN UNDERSERVED INDIGENOUS, LOW-INCOME, AND/OR RURAL MAINE COMMUNITIES, AS WELL AS SIMILAR COMMUNITIES IN OTHER STATES.",
+          "start_date": "2023-06-01",
+          "original_end_date": "2027-05-31",
+          "termination_date": "2025-05-10",
+          "award_value": 1125000,
+          "award_outlaid": 245868.9,
+          "award_remaining": 879131.1,
+          "remaining_field": "award_remaining",
+          "source_url": "https://www.usaspending.gov/award/ASST_NON_84055701_068/",
+          "detail_url": "https://enviro.epa.gov/envirofacts/nggs/report?grantId=84055701"
+        }
+      ]
+    },
     "162007": {
       "unitid": "162007",
       "financial_unitid": "162007",
@@ -22850,9 +22944,9 @@
       "state": "Massachusetts",
       "control_label": "Public",
       "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_termination_date": "2025-10-08",
-      "total_disrupted_grants": 6,
-      "total_disrupted_award_remaining": 3981015.59,
+      "latest_termination_date": "2026-05-13",
+      "total_disrupted_grants": 7,
+      "total_disrupted_award_remaining": 4051487.7,
       "agency_summary": [
         {
           "agency": "nih",
@@ -22863,8 +22957,8 @@
         {
           "agency": "nsf",
           "agency_label": "NSF",
-          "disrupted_grants": 4,
-          "disrupted_award_remaining": 3358769.07
+          "disrupted_grants": 5,
+          "disrupted_award_remaining": 3429241.18
         },
         {
           "agency": "epa",
@@ -22886,6 +22980,28 @@
         }
       ],
       "grants": [
+        {
+          "agency": "nsf",
+          "agency_label": "NSF",
+          "grant_id": "2327031",
+          "grant_id_core": "2327031",
+          "status": "❌ Terminated",
+          "organization_name": "University of Massachusetts Boston",
+          "organization_city": "Dorchester",
+          "organization_state": "Massachusetts",
+          "organization_type": "Standard Grant",
+          "project_title": "Collaborative Research: Bounding global ice volumes over the last glacial cycle using reconstructions of Bering Strait flooding",
+          "project_abstract": "The stability of Earth’s ice sheets in the past informs our understanding of their resilience in the face of a warming climate. Knowing the magnitude and timing of global ice sheet changes is important for understanding how past ice sheet change related to climate change. However, we know little about how dynamic ice sheets were prior to 26,000 years ago, when ice sheets were at their largest. This project will use new geochemical tools to tell when the Bering Strait was flooded or exposed during the last glacial cycle (the past 120,000 years). In combination with computer model simulations, this information will be used to bound previously unknown global ice volume histories over this time. Further, this project will support a PhD student, who will learn about how science can produce social inequities through the UC Santa Cruz Science & Justice Research Center. PI Pico will develop innovative teaching tools for making legible the roots of geoscience culture in scientific racism and imperialism. These tools will be included in courses taught at UC Santa Cruz and Princeton. Finally, all personnel will participate in the outreach to the Alaska Native Science & Engineering Program.\r\n\r\nThe history of global ice sheet growth leading into the Last Glacial Maximum is poorly constrained, as advancing ice sheets and subsequent sea-level rise during deglaciation destroyed evidence of past ice margins and coastlines. To address this uncertainty, this project will develop a continuous, non-traditional sea-level reconstruction over the last glacial cycle (120,000 years) by constraining the flooding history of the Bering Strait. Measuring nitrogen isotope ratios of organic matter protected within the shell walls of Arctic planktic foraminifera will elucidate the past connectivity of the North Pacific and Arctic Oceans, thus constraining the local sea-level history at the Bering Strait. State-of-the-art glacial isostatic adjustment sea-level simulations will be performed using the range of uncertainty on global ice volumes to model local sea level at the Bering Strait. Finally, this continuous Bering Strait flooding reconstruction will be used to test the plausibility of different global ice volume histories, and thus bound global mean sea-level highstands and lowstands before the Last Glacial Maximum.\r\n\r\nThis award reflects NSF's statutory mission and has been deemed worthy of support through evaluation using the Foundation's intellectual merit and broader impacts review criteria.",
+          "start_date": "2023-01-15",
+          "original_end_date": "2026-05-13",
+          "termination_date": "2026-05-13",
+          "award_value": 313799,
+          "award_outlaid": 243326.89,
+          "award_remaining": 70472.11,
+          "remaining_field": "estimated_remaining",
+          "source_url": "https://www.usaspending.gov/award/ASST_NON_2327031_4900",
+          "detail_url": "https://www.nsf.gov/awardsearch/show-award?AWD_ID=2327031"
+        },
         {
           "agency": "nsf",
           "agency_label": "NSF",
@@ -26386,9 +26502,9 @@
       "state": "Minnesota",
       "control_label": "Public",
       "category": "Degree-granting, primarily baccalaureate or above",
-      "latest_termination_date": "2025-10-13",
-      "total_disrupted_grants": 18,
-      "total_disrupted_award_remaining": 13927009.91,
+      "latest_termination_date": "2026-05-13",
+      "total_disrupted_grants": 19,
+      "total_disrupted_award_remaining": 14078521.14,
       "agency_summary": [
         {
           "agency": "nih",
@@ -26399,8 +26515,8 @@
         {
           "agency": "nsf",
           "agency_label": "NSF",
-          "disrupted_grants": 13,
-          "disrupted_award_remaining": 4174563.53
+          "disrupted_grants": 14,
+          "disrupted_award_remaining": 4326074.76
         },
         {
           "agency": "epa",
@@ -26422,6 +26538,28 @@
         }
       ],
       "grants": [
+        {
+          "agency": "nsf",
+          "agency_label": "NSF",
+          "grant_id": "2243973",
+          "grant_id_core": "2243973",
+          "status": "❌ Terminated",
+          "organization_name": "University of Minnesota-Twin Cities",
+          "organization_city": "Minneapolis",
+          "organization_state": "Minnesota",
+          "organization_type": "Continuing Grant",
+          "project_title": "REU Site: Equitable Data Science in Adolescent Development",
+          "project_abstract": "This project is funded from the Research Experiences for Undergraduates (REU) Sites program in the Directorate for Social, Behavioral, and Economic Sciences (SBE). Equitable data science investigates how biases in the data, the analysis of the data, and the interpretation of results can reinforce long-standing inequalities in our society and also create new inequities and disparities. Thus, it is critical to train the next generation of data scientists to develop methods and analyze data responsibly. This interdisciplinary project will provide undergraduate students with training in equitable data science to build their research skills in data science, statistical modeling and machine learning, and scientific communication. Through this training the students will learn how data sources, analysis methods, and the interpretation of results can reflect, reinforce, and mitigate systemic inequalities. The students will be trained to prioritize equity when approaching data-centered projects. These projects will lead to publicly-available software and reports that bring awareness to societal inequities and inform discussions on how to address them. Finally, the students will disseminate their work via a community event, which will inspire future research and connect the community with equity-related research. \r\n\r\nDeveloping skills in equitable data science are invaluable towards enhancing scientific rigor while balancing fairness and equity in scientific research. During the 10-week program, students will build research skills in equitable data science and answer equity-oriented research questions about adolescent development using data from the Adolescent Brain Cognitive Development (ABCD) Study. Topics on diversity, equity, and inclusion (DEI) and their role in data science form the foundations of this program, emphasized early through DEI modules and discussions. Students will learn the causes and consequences of social inequality and how these inequalities manifest themselves in scientific research, from the data itself to the interpretation of results. The program continues with extensive technical training in R for programming, statistical modeling, and data visualization. Weekly workshops will provide technical training on topics ranging from statistics and machine learning to large-scale programming. Seminars and professional development events will be held every other week so that students will hear from researchers about their work on social and health inequities, prepare students for graduate school or the job market, and provide students with networking opportunities. Hackathons will also be held every other week so that students can gain experiences in equitable data science beyond the data from the ABCD Study. The 10-week program culminates in a public-facing event, giving the students the opportunity to present their work to the community and engage with the community in dialogue around DEI.\r\n\r\nThis award reflects NSF's statutory mission and has been deemed worthy of support through evaluation using the Foundation's intellectual merit and broader impacts review criteria.",
+          "start_date": "2023-09-15",
+          "original_end_date": "2026-05-13",
+          "termination_date": "2026-05-13",
+          "award_value": 404980,
+          "award_outlaid": 253468.77,
+          "award_remaining": 151511.23,
+          "remaining_field": "estimated_remaining",
+          "source_url": "https://www.usaspending.gov/award/ASST_NON_2243973_4900",
+          "detail_url": "https://www.nsf.gov/awardsearch/show-award?AWD_ID=2243973"
+        },
         {
           "agency": "nsf",
           "agency_label": "NSF",

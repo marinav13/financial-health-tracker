@@ -17,6 +17,7 @@ source(file.path(getwd(), "scripts", "shared", "export_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "accreditation_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
 source(file.path(getwd(), "scripts", "shared", "contracts.R"))
+source(file.path(getwd(), "scripts", "shared", "grant_witness_helpers.R"))
 
 validate_multi_year_web_input <- function(df, input_path) {
   years <- sort(unique(stats::na.omit(as.integer(df$year))))
@@ -2852,18 +2853,28 @@ build_research_export <- function() {
   if (!"public_tracker_included" %in% names(grants_df)) {
     grants_df$public_tracker_included <- grants_df$currently_disrupted
   }
+  if (!"status_history" %in% names(grants_df)) {
+    grants_df$status_history <- NA_character_
+  }
   if ("reinstatement_date" %in% names(grants_df)) {
     stale_reinstated_rows <- grants_df %>%
       dplyr::filter(
         as.logical(currently_disrupted),
         !is.na(reinstatement_date),
         trimws(as.character(reinstatement_date)) != ""
+      ) %>%
+      dplyr::filter(
+        !history_shows_post_restoration_retermination(
+          status_history = status_history,
+          termination_date = termination_date,
+          reinstatement_date = reinstatement_date
+        )
       )
     if (nrow(stale_reinstated_rows) > 0) {
       stop(
         "Research grants input is stale: ",
         nrow(stale_reinstated_rows),
-        " row(s) are still marked currently_disrupted despite a Grant Witness reinstatement date. ",
+        " row(s) are still marked currently_disrupted despite a Grant Witness reinstatement date and no later re-termination evidence. ",
         "Rerun scripts/build_grant_witness_join.R before scripts/build_web_exports.R. ",
         "Sample grant IDs: ",
         paste(utils::head(stale_reinstated_rows$grant_id, 5), collapse = ", "),

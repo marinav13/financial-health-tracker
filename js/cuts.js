@@ -43,7 +43,7 @@
       : "";
     return `
       <article class="data-card data-card--cut">
-        <h3>${escapeHtml(cut.cut_label_public || cleanCutLabel(cut.program_name) || "Unnamed cut")}</h3>
+        <h3>${escapeHtml(formatCutTypeLabel(cut.cut_type || inferCutTypeFromText(cut.program_name, cut.cut_label_public, cut.notes)))}</h3>
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
         ${source}
@@ -51,7 +51,64 @@
     `;
   }
 
+  function formatCutTypeLabel(cutType) {
+    const normalized = String(cutType || "").trim().toLowerCase();
+    switch (normalized) {
+      case "staff_layoff":
+        return "Staff layoff";
+      case "department_closure":
+        return "Department closure";
+      case "program_suspension":
+        return "Program suspension";
+      case "campus_closure":
+        return "Campus closure";
+      case "institution_closure":
+        return "Institution closure";
+      default:
+        return cleanCutLabel(normalized.replace(/_/g, " ")) || "Cut";
+    }
+  }
 
+  function inferCutTypeFromText(...values) {
+    const text = values
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    if (!text) return "";
+    if (text.includes("institution closure") || text.includes("college closed") || text.includes("university closed") || text.includes("closing as an accredited institution")) {
+      return "institution_closure";
+    }
+    if (text.includes("campus closure") || text.includes("campus closed")) {
+      return "campus_closure";
+    }
+    if (text.includes("department closure") || text.includes("department closed")) {
+      return "department_closure";
+    }
+    if (text.includes("layoff") || text.includes("layoffs") || text.includes("staff reduction") || text.includes("positions eliminated") || text.includes("faculty cut") || text.includes("faculty cuts")) {
+      return "staff_layoff";
+    }
+    if (text.includes("program suspension") || text.includes("program suspended") || text.includes("programs suspended") || text.includes("program closed") || text.includes("program closure") || text.includes("center closed") || text.includes("center closure") || text.includes("office closed") || text.includes("eliminate") || text.includes("eliminated")) {
+      return "program_suspension";
+    }
+    return "";
+  }
+
+  function findDetailedCutMatch(schoolRecord, cut) {
+    const detailedCuts = schoolRecord?.cuts || [];
+    if (!detailedCuts.length) return null;
+    const sameDate = (candidate) => String(candidate.announcement_date || candidate.announcement_year || "") === String(cut.announcement_date || cut.announcement_year || "");
+    const sameSource = (candidate) => String(candidate.source_url || "") && String(candidate.source_url || "") === String(cut.source_url || "");
+    const sameProgram = (candidate) =>
+      String(candidate.program_name || "").trim().toLowerCase() === String(cut.program_name || "").trim().toLowerCase();
+
+    return (
+      detailedCuts.find((candidate) => sameDate(candidate) && sameSource(candidate)) ||
+      detailedCuts.find((candidate) => sameDate(candidate) && sameProgram(candidate)) ||
+      detailedCuts.find((candidate) => sameSource(candidate)) ||
+      detailedCuts.find((candidate) => sameProgram(candidate)) ||
+      null
+    );
+  }
   function sortCuts(items, sortState) {
     const sorted = (items || []).slice();
     const direction = sortState?.direction === "desc" ? -1 : 1;
@@ -85,24 +142,39 @@
     return sorted;
   }
 
-  function renderCutsTable(items, sortState) {
+  function renderCutsTable(items, sortState, options = {}) {
+    const { landingMode = false } = options;
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
-    const rows = items.map((cut) => [
-      renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
-      cleanCutLabel(cut.cut_label_public || cut.program_name),
-      cut.state,
-      cut.control_label,
-      cut.announcement_date || cut.announcement_year || ""
-    ]);
+    const rows = landingMode
+      ? items.map((cut) => [
+        renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
+        formatCutTypeLabel(cut.cut_type),
+        cut.state,
+        cut.control_label
+      ])
+      : items.map((cut) => [
+        renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
+        cleanCutLabel(cut.cut_label_public || cut.program_name),
+        cut.state,
+        cut.control_label,
+        cut.announcement_date || cut.announcement_year || ""
+      ]);
     return renderHistoryTable({
       ariaLabel: "College cuts by institution",
-      headers: [
-        renderSortableHeader("institution_name", sortState, "Institution"),
-        "<th>College program or staffing cut</th>",
-        renderSortableHeader("state", sortState, "State"),
-        renderSortableHeader("control_label", sortState, "Sector"),
-        renderSortableHeader("announcement_date", sortState, "Date")
-      ],
+      headers: landingMode
+        ? [
+          renderSortableHeader("institution_name", sortState, "Institution"),
+          "<th>Cut type</th>",
+          renderSortableHeader("state", sortState, "State"),
+          renderSortableHeader("control_label", sortState, "Sector")
+        ]
+        : [
+          renderSortableHeader("institution_name", sortState, "Institution"),
+          "<th>College program or staffing cut</th>",
+          renderSortableHeader("state", sortState, "State"),
+          renderSortableHeader("control_label", sortState, "Sector"),
+          renderSortableHeader("announcement_date", sortState, "Date")
+        ],
       rows
     });
   }
@@ -115,20 +187,33 @@
     return match ? Number(match[0]) : NaN;
   }
 
-  function buildRecentCuts(cutsIndex) {
+  function buildRecentCuts(cutsIndex, cutsData) {
     return Object.values(cutsIndex || {})
-      .flatMap((school) =>
-        (school.landing_cuts || []).map((cut) => ({
-          ...cut,
-          institution_name: school.institution_name || cut.institution_name || "",
-          state: school.state || cut.state || "",
-          control_label: school.control_label || cut.control_label || "",
-          category: school.category || cut.category || "",
-          unitid: school.unitid || cut.unitid || "",
-          financial_unitid: school.financial_unitid || null,
-          is_primary_tracker: school.is_primary_tracker
-        }))
-      )
+      .flatMap((school) => {
+        const schoolRecord = cutsData?.schools?.[school.unitid];
+        return (school.landing_cuts || []).map((cut) => {
+          const matchedCut = findDetailedCutMatch(schoolRecord, cut) || {};
+          return {
+            ...matchedCut,
+            ...cut,
+            institution_name: school.institution_name || cut.institution_name || "",
+            state: school.state || cut.state || "",
+            control_label: school.control_label || cut.control_label || "",
+            category: school.category || cut.category || "",
+            unitid: school.unitid || cut.unitid || "",
+            financial_unitid: school.financial_unitid || null,
+            is_primary_tracker: school.is_primary_tracker,
+            cut_type:
+              matchedCut.cut_type ||
+              cut.cut_type ||
+              inferCutTypeFromText(
+                cut.program_name,
+                cut.cut_label_public,
+                school.latest_cut_label
+              )
+          };
+        });
+      })
       .filter((cut) => {
         const year = getAnnouncementYear(cut);
         return !Number.isNaN(year) && year >= MIN_DEFAULT_YEAR;
@@ -140,7 +225,7 @@
       );
   }
 
-  function renderCutsTablePage(items, page, pageSize, emptyMessage, sortState) {
+  function renderCutsTablePage(items, page, pageSize, emptyMessage, sortState, options = {}) {
     const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
 
     if (!pageItems.length) {
@@ -148,7 +233,7 @@
     }
 
     return `
-      ${renderCutsTable(pageItems, sortState)}
+      ${renderCutsTable(pageItems, sortState, options)}
       <div class="pagination" aria-label="College cuts pages">
         ${renderPaginationButtons({ currentPage, totalPages })}
       </div>
@@ -176,7 +261,8 @@
     downloadFilename = "college-cuts.csv",
     searchInput = null,
     filterOnInput = true,
-    searchValueResolver = null
+    searchValueResolver = null,
+    landingMode = false
   }) {
     return makeTableController({
       container,
@@ -187,7 +273,7 @@
       searchValueResolver,
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
-      renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState),
+      renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState, { landingMode }),
       downloadButton: downloadButtonId,
       downloadFilename,
       downloadHeaders: ["Institution", "State", "Sector", "Cut", "Date", "Source"],
@@ -233,7 +319,8 @@
         loadJson("data/metadata.json")
       ]);
       renderDataAsOf("cuts-data-as-of", metadata?.generated_at);
-      const recent = buildRecentCuts(cutsIndex);
+      const cutsData = await loadJson("data/college_cuts.json");
+      const recent = buildRecentCuts(cutsIndex, cutsData);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       setDataCardVisible("cuts-other-list", true);
@@ -248,7 +335,8 @@
         downloadFilename: "cuts-primary.csv",
         searchInput: primaryFilter,
         filterOnInput: false,
-        searchValueResolver: getCommittedSearchValue
+        searchValueResolver: getCommittedSearchValue,
+        landingMode: true
       });
       setupPagination({
         container: otherContainer,
@@ -259,7 +347,8 @@
         downloadFilename: "cuts-other.csv",
         searchInput: otherFilter,
         filterOnInput: false,
-        searchValueResolver: getCommittedSearchValue
+        searchValueResolver: getCommittedSearchValue,
+        landingMode: true
       });
       return;
     }

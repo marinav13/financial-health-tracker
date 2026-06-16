@@ -8,6 +8,10 @@ run_test("Grant Witness name helpers", function() {
     "Texas A&M University"
   )
   assert_identical(
+    prettify_institution_name("OHIO STATE UNIVERSITY, THE"),
+    "The Ohio State University"
+  )
+  assert_identical(
     simplify_institution_name("Board of Trustees of Southern Illinois University"),
     "southern illinois university"
   )

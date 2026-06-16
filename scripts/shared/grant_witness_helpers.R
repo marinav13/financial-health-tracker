@@ -159,6 +159,7 @@ PRETTIFY_CANONICAL_NAMES <- c(
   "(?i)^Trustees of Indiana University$"                                  = "Indiana University",
   "(?i)^Board of Trustees of Southern Illinois University$"               = "Southern Illinois University",
   "(?i)^Pennsylvania State University,? the$"                             = "Pennsylvania State University",
+  "(?i)^The Ohio State University,? the(?:-Main Campus)?$"                = "The Ohio State University",
   "(?i)^The Ohio State University(?:-Main Campus)?$"                      = "The Ohio State University",
   "(?i)^Texas a&m University$"                                            = "Texas A&M University",
   "(?i)^University of Texas Health Sciences Center$"                      = "University of Texas Health Sciences Center",

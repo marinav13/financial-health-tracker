@@ -93,22 +93,6 @@
     return "";
   }
 
-  function findDetailedCutMatch(schoolRecord, cut) {
-    const detailedCuts = schoolRecord?.cuts || [];
-    if (!detailedCuts.length) return null;
-    const sameDate = (candidate) => String(candidate.announcement_date || candidate.announcement_year || "") === String(cut.announcement_date || cut.announcement_year || "");
-    const sameSource = (candidate) => String(candidate.source_url || "") && String(candidate.source_url || "") === String(cut.source_url || "");
-    const sameProgram = (candidate) =>
-      String(candidate.program_name || "").trim().toLowerCase() === String(cut.program_name || "").trim().toLowerCase();
-
-    return (
-      detailedCuts.find((candidate) => sameDate(candidate) && sameSource(candidate)) ||
-      detailedCuts.find((candidate) => sameDate(candidate) && sameProgram(candidate)) ||
-      detailedCuts.find((candidate) => sameSource(candidate)) ||
-      detailedCuts.find((candidate) => sameProgram(candidate)) ||
-      null
-    );
-  }
   function sortCuts(items, sortState) {
     const sorted = (items || []).slice();
     const direction = sortState?.direction === "desc" ? -1 : 1;
@@ -189,14 +173,13 @@
     return match ? Number(match[0]) : NaN;
   }
 
-  function buildRecentCuts(cutsIndex, cutsData) {
+  function buildRecentCuts(cutsIndex) {
     return Object.values(cutsIndex || {})
       .flatMap((school) => {
-        const schoolRecord = cutsData?.schools?.[school.unitid];
         return (school.landing_cuts || []).map((cut) => {
-          const matchedCut = findDetailedCutMatch(schoolRecord, cut) || {};
+          const canUseLatestLabel =
+            String(cut.announcement_date || cut.announcement_year || "") === String(school.latest_cut_date || "");
           return {
-            ...matchedCut,
             ...cut,
             institution_name: school.institution_name || cut.institution_name || "",
             state: school.state || cut.state || "",
@@ -206,12 +189,11 @@
             financial_unitid: school.financial_unitid || null,
             is_primary_tracker: school.is_primary_tracker,
             cut_type:
-              matchedCut.cut_type ||
               cut.cut_type ||
               inferCutTypeFromText(
                 cut.program_name,
                 cut.cut_label_public,
-                school.latest_cut_label
+                canUseLatestLabel ? school.latest_cut_label : ""
               )
           };
         });
@@ -321,8 +303,7 @@
         loadJson("data/metadata.json")
       ]);
       renderDataAsOf("cuts-data-as-of", metadata?.generated_at);
-      const cutsData = await loadJson("data/college_cuts.json");
-      const recent = buildRecentCuts(cutsIndex, cutsData);
+      const recent = buildRecentCuts(cutsIndex);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
       const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       setDataCardVisible("cuts-other-list", true);

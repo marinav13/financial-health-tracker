@@ -517,17 +517,6 @@ function firstNumericValue(...values) {
   return null;
 }
 
-// Returns "an" for percent strings whose spoken form starts with a vowel sound
-// ("an 8% decline", "an 11% increase", "an 18% drop"), "a" for everything else.
-// Receives the already-formatted string from fmtRoundedPct (e.g. "8%", "11%").
-function indefiniteArticle(pctStr) {
-  const digits = String(pctStr).replace(/[^0-9]/g, "");
-  if (digits.startsWith("8") || digits.startsWith("11") || digits.startsWith("18")) {
-    return "an";
-  }
-  return "a";
-}
-
 function buildSectorComparisonLine(benchmarkValue, profile) {
   const benchmark = asNumber(benchmarkValue);
   if (benchmark === null) return null;
@@ -537,10 +526,10 @@ function buildSectorComparisonLine(benchmarkValue, profile) {
     comparisonPhrase = strongSegment("about no change");
   } else if (benchmark < 0) {
     const declinePct = fmtRoundedPct(Math.abs(benchmark));
-    comparisonPhrase = strongSegment(`${indefiniteArticle(declinePct)} ${declinePct} decline`);
+    comparisonPhrase = strongSegment(`${declinePct} decline`);
   } else {
     const increasePct = fmtRoundedPct(Math.abs(benchmark));
-    comparisonPhrase = strongSegment(`${indefiniteArticle(increasePct)} ${increasePct} increase`);
+    comparisonPhrase = strongSegment(`${increasePct} increase`);
   }
   return [
     "That compares to ",
@@ -809,7 +798,7 @@ function setEnrollmentTotal(id, latestEnrollment) {
   if (!node) return;
   node.replaceChildren();
   if (!latestEnrollment) return;
-  node.append(`As of ${latestEnrollment.year}, this institution reported a headcount of `);
+  node.append(`In ${latestEnrollment.year}, this institution reported a headcount of `);
   const value = document.createElement("strong");
   value.textContent = fmtNumber(latestEnrollment.value, 0);
   node.append(value);
@@ -882,7 +871,7 @@ function buildEndowmentPerFteParagraph(profile, summary, latestDataYear, endowme
   if (institutionValue === null || sectorMedian === null) return null;
   const yearLabel = Number.isFinite(latestDataYear) ? latestDataYear : "the latest year";
   return [
-    `In ${yearLabel}, that worked out to about `,
+    `In ${yearLabel}, the institution had an endowment of about `,
     strongSegment(fmtCurrency(institutionValue)),
     " per full-time equivalent student, compared with a sector median of ",
     strongSegment(fmtCurrency(sectorMedian)),
@@ -914,14 +903,6 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
   ].filter((relatedPage) => relatedPage.record);
 
   const links = [];
-  if (isNumericUnitid(unitid) && schoolName) {
-    links.push({
-      href: tuitionTrackerSchoolUrl(schoolName, unitid),
-      label: "Tuition trends",
-      external: true
-    });
-  }
-
   relatedPages.forEach((relatedPage) => {
     const relatedUnitid = relatedPage.record.unitid || unitid;
     links.push({
@@ -930,6 +911,14 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
       external: false
     });
   });
+
+  if (isNumericUnitid(unitid) && schoolName) {
+    links.push({
+      href: tuitionTrackerSchoolUrl(schoolName, unitid),
+      label: "Tuition trends",
+      external: true
+    });
+  }
 
   if (!links.length) {
     container.replaceChildren();
@@ -967,23 +956,19 @@ function buildIntlSentence(summary, series, latestDataYear) {
   const latestYear = latestPoint(series.enrollment_headcount_total)?.year || latestDataYear;
   const prefixLatestYear = Number.isFinite(latestYear) ? `In ${latestYear}, ` : "In the latest year, ";
 
-  if (summary.international_students_sentence && /^In \d{4},/i.test(summary.international_students_sentence)) {
-    return summary.international_students_sentence;
-  }
-
   if (all !== null && ug !== null && grad !== null) {
-    return `${prefixLatestYear}${fmtRoundedPct(all)} of students were international. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`;
+    return `${prefixLatestYear}${fmtRoundedPct(all)} of students at this college were international. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`;
   }
 
   if (all !== null) {
-    return `${prefixLatestYear}${fmtRoundedPct(all)} of students were international.`;
+    return `${prefixLatestYear}${fmtRoundedPct(all)} of students at this college were international.`;
   }
 
   const latestIntl = latestPoint(series.enrollment_nonresident_total);
   const latestEnrollment = latestPoint(series.enrollment_headcount_total);
   if (latestIntl && latestEnrollment && latestEnrollment.value > 0) {
     const pct = (latestIntl.value / latestEnrollment.value) * 100;
-    return `${prefixLatestYear}${fmtRoundedPct(pct)} of students were international.`;
+    return `${prefixLatestYear}${fmtRoundedPct(pct)} of students at this college were international.`;
   }
 
   return "International student data are not available.";
@@ -999,7 +984,7 @@ function buildIntlSentenceParagraph(summary, series, latestDataYear) {
   if (all !== null && ug !== null && grad !== null) {
     return [
       prefixLatestYear,
-      strongSegment(`${fmtRoundedPct(all)} of students were international`),
+      strongSegment(`${fmtRoundedPct(all)} of students at this college were international`),
       `. That includes ${fmtRoundedPct(ug)} of undergraduates and ${fmtRoundedPct(grad)} of graduate students.`
     ];
   }
@@ -1007,7 +992,7 @@ function buildIntlSentenceParagraph(summary, series, latestDataYear) {
   if (all !== null) {
     return [
       prefixLatestYear,
-      strongSegment(`${fmtRoundedPct(all)} of students were international`),
+      strongSegment(`${fmtRoundedPct(all)} of students at this college were international`),
       "."
     ];
   }
@@ -1018,7 +1003,7 @@ function buildIntlSentenceParagraph(summary, series, latestDataYear) {
     const pct = (latestIntl.value / latestEnrollment.value) * 100;
     return [
       prefixLatestYear,
-      strongSegment(`${fmtRoundedPct(pct)} of students were international`),
+      strongSegment(`${fmtRoundedPct(pct)} of students at this college were international`),
       "."
     ];
   }
@@ -1078,10 +1063,10 @@ function buildTuitionDependenceSentence(profile, summary, latestDataYear) {
 
   if (sectorMedian !== null && sectorLabel) {
     const relation = compareDisplayedPercentages(tuitionDependence, sectorMedian) || "about the same as";
-    return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`;
+    return `This college took in ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`;
   }
 
-  return `This college got ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}.`;
+  return `This college took in ${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition ${latestYearPhrase}.`;
 }
 
 function buildTuitionDependenceParagraph(profile, summary, latestDataYear) {
@@ -1095,14 +1080,14 @@ function buildTuitionDependenceParagraph(profile, summary, latestDataYear) {
   if (sectorMedian !== null && sectorLabel) {
     const relation = compareDisplayedPercentages(tuitionDependence, sectorMedian) || "about the same as";
     return [
-      "This college got ",
+      "This college took in ",
       strongSegment(`${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition`),
       ` in ${yearLabel}, ${relation} the median of ${fmtRoundedPct(sectorMedian)} for ${sectorLabel} colleges.`
     ];
   }
 
   return [
-    "This college got ",
+    "This college took in ",
     strongSegment(`${fmtRoundedPct(tuitionDependence)} of its revenue from net tuition`),
     ` in ${yearLabel}.`
   ];
@@ -1139,13 +1124,13 @@ function buildGradLoanSentence(profile, summary) {
 
   if (gradShare !== null && sectorGradShare !== null && sectorLabel) {
     sentences.push(
-      `${fmtPlainPct(gradShare, 0)} of students at this institution are graduate students, compared to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
+      `At this institution, ${fmtPlainPct(gradShare, 0)} of students are graduate students, compared to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
     );
   }
 
   if (gradPlusPerRecipient !== null && sectorGradPlusMedian !== null && sectorLabel) {
     sentences.push(
-      `On average, graduate students who took out Grad PLUS loans at this institution borrowed about ${fmtCurrency(gradPlusPerRecipient)} in the most recent year, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
+      `On average, graduate students who took out Grad PLUS loans at this institution borrowed ${fmtCurrency(gradPlusPerRecipient)} in the most recent year, compared to ${fmtCurrency(sectorGradPlusMedian)} at other ${sectorLabel} institutions.`
     );
   }
 
@@ -1164,7 +1149,7 @@ function buildGradLoanParagraphs(profile, summary) {
     paragraphs.push([
       "At this institution, ",
       strongSegment(`${fmtPlainPct(gradShare, 0)} of students are graduate students.`),
-      ` That's compared to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
+      ` That compares to ${fmtPlainPct(sectorGradShare, 0)} at other ${sectorLabel} institutions.`
     ]);
   }
 
@@ -1185,7 +1170,7 @@ function buildInstructionalStaffRatioSentence(profile, summary, latestDataYear) 
   const sectorLabel = String(profile.control_label || "").toLowerCase();
   if (ratio === null || benchmark === null || !sectorLabel) return null;
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}` : "In the latest year";
-  return `${prefix}, this institution had a student-to-faculty ratio of about ${fmtNumber(ratio)} to 1, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`;
+  return `${prefix}, this institution had a student-to-faculty ratio for undergraduates of about ${fmtNumber(ratio)} to 1, compared with the median of ${fmtNumber(benchmark)} to 1 at ${sectorLabel} colleges.`;
 }
 
 function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear) {
@@ -1196,8 +1181,8 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   const prefix = Number.isFinite(latestDataYear) ? `In ${latestDataYear}, this institution had ` : "In the latest year, this institution had ";
   return [
     prefix,
-    strongSegment(`a student-to-faculty ratio of about ${fmtNumber(ratio)} to 1`),
-    `, compared with the sector median of ${fmtNumber(benchmark)} at ${sectorLabel} colleges. This fall measure uses full-time-equivalent undergraduate students and instructional staff and excludes stand-alone graduate and professional programs.`
+    strongSegment(`a student-to-faculty ratio for undergraduates of about ${fmtNumber(ratio)} to 1`),
+    `, compared with the median of ${fmtNumber(benchmark)} to 1 at ${sectorLabel} colleges.`
   ];
 }
 
@@ -1949,7 +1934,7 @@ async function init() {
   const aidIntro = document.getElementById("aid-section-intro");
   if (aidIntro) {
     if (showAidDropdownState) {
-      aidIntro.textContent = "Some universities are more dependent than others on state funding. A higher share means the college is more exposed if that funding changes.";
+      aidIntro.textContent = "Some public colleges depend more than others on state funding. A higher share means the college is more exposed if that funding changes.";
       setHidden("aid-section-intro", false);
     } else {
       setHidden("aid-section-intro", true);
@@ -1964,7 +1949,7 @@ async function init() {
     const stateChange5yr = asNumber(s.state_funding_pct_change_5yr);
     setText(
       "state-share-copy",
-      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of core revenue came from state appropriations.`
+      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of this college's core revenue came from state appropriations.`
     );
     setHidden("state-share-copy", false);
 

@@ -400,7 +400,7 @@
       relatedIndexes
     });
     const cutCount = school.cut_count ?? 0;
-    title.textContent = cutCount === 1 ? "College program or staffing cut" : `College program or staffing cuts (${cutCount})`;
+    title.textContent = `College program or staffing cuts (${cutCount})`;
     setDataCardVisible("cuts-other-list", false);
     if (otherContainer) otherContainer.innerHTML = "";
     if (otherTitle) otherTitle.textContent = "";

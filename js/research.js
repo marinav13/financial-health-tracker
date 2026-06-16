@@ -61,6 +61,27 @@
     return labels[value] || String(value || "").toUpperCase();
   }
 
+  function normalizeFundingStatus(value) {
+    const text = String(value || "").toLowerCase();
+    if (text.includes("frozen")) return "Frozen";
+    if (text.includes("terminated")) return "Terminated";
+    return "";
+  }
+
+  function institutionFundingStatus(record) {
+    if (record?.funding_status) return record.funding_status;
+    const statuses = new Set(
+      (record?.grants || [])
+        .filter((grant) => hasPositiveFunding(grant?.award_remaining))
+        .map((grant) => normalizeFundingStatus(grant?.status))
+        .filter(Boolean)
+    );
+    if (statuses.has("Frozen") && statuses.has("Terminated")) return "Terminated and frozen";
+    if (statuses.has("Frozen")) return "Frozen";
+    if (statuses.has("Terminated")) return "Terminated";
+    return "No data";
+  }
+
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
   }
@@ -98,8 +119,8 @@
     const agencies = visibleAgencySummary
       .map((item) => `
           <article class="metric-strip neutral">
-            <div class="metric-question">${escapeHtml(item.agency_label)}</div>
-          <div class="metric-statement">${Number(item.disrupted_grants || 0)} grants<br>${formatCurrency(item.disrupted_award_remaining)}</div>
+            <div class="metric-question">${escapeHtml(item.agency_label)} &mdash; ${Number(item.disrupted_grants || 0)} grants</div>
+            <div class="metric-answer">${formatCurrency(item.disrupted_award_remaining)}</div>
         </article>
       `)
       .join("");
@@ -115,7 +136,7 @@
     const institutions = (items || []).length;
     return `
       <article class="metric-strip neutral">
-        <div class="metric-statement">Since January 2025, the federal government has cut at least <strong>${formatCurrency(funding)}</strong> in research grants that were supposed to go to at least <strong>${institutions.toLocaleString("en-US")}</strong> colleges, universities, medical schools and other higher-ed institutions nationwide.</div>
+        <div class="metric-statement">Since January 2025, the federal government has cut at least <strong>${formatCurrency(funding)}</strong> in research grants that were supposed to be awarded to at least <strong>${institutions.toLocaleString("en-US")}</strong> colleges and universities nationwide.</div>
       </article>
     `;
   }
@@ -191,7 +212,7 @@
         return compareText(a.institution_name, b.institution_name);
       }
       if (sortState?.key === "funding") {
-        const primary = (Number(a.total_disrupted_award_remaining || 0) - Number(b.total_disrupted_award_remaining || 0)) * direction;
+        const primary = compareText(institutionFundingStatus(a), institutionFundingStatus(b)) * direction;
         if (primary !== 0) return primary;
         return compareText(a.institution_name, b.institution_name);
       }
@@ -300,7 +321,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
-      formatCurrency(item.total_disrupted_award_remaining),
+      institutionFundingStatus(item),
       Number(item.total_disrupted_grants || 0),
       item.state || "",
       item.control_label || ""
@@ -309,7 +330,7 @@
       ariaLabel,
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
+        renderSortableHeader("funding", sortState, "Funding status"),
         renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
         renderSortableHeader("state", sortState, "State"),
         renderSortableHeader("sector", sortState, "Sector")
@@ -322,7 +343,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
-      formatCurrency(item.total_disrupted_award_remaining),
+      institutionFundingStatus(item),
       Number(item.total_disrupted_grants || 0),
       item.state || ""
     ]);
@@ -330,7 +351,7 @@
       ariaLabel,
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
+        renderSortableHeader("funding", sortState, "Funding status"),
         renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
         renderSortableHeader("state", sortState, "State")
       ],
@@ -385,15 +406,15 @@
       searchInput,
       filterOnInput,
       searchValueResolver,
-      initialSortState: { key: "funding", direction: "desc" },
+      initialSortState: { key: "disrupted_grants", direction: "desc" },
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State", "Sector"],
+      downloadHeaders: ["Institution", "Funding status", "Disrupted grants", "State", "Sector"],
       downloadRow: (item) => [
         item.institution_name || "",
-        item.total_disrupted_award_remaining || "",
+        institutionFundingStatus(item),
         Number(item.total_disrupted_grants || 0),
         item.state || "",
         item.control_label || ""
@@ -433,15 +454,15 @@
       searchInput,
       filterOnInput,
       searchValueResolver,
-      initialSortState: { key: "funding", direction: "desc" },
+      initialSortState: { key: "disrupted_grants", direction: "desc" },
       sortItems: sortInstitutionRows,
       renderPage: (sortedItems, currentPage, size, sortState) => renderOtherTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State"],
+      downloadHeaders: ["Institution", "Funding status", "Disrupted grants", "State"],
       downloadRow: (item) => [
         item.institution_name || "",
-        item.total_disrupted_award_remaining || "",
+        institutionFundingStatus(item),
         Number(item.total_disrupted_grants || 0),
         item.state || ""
       ]

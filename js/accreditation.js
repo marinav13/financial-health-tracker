@@ -348,8 +348,8 @@
     // institutions tables so the page surfaces only meaningful
     // accreditation events.
     //
-    //   "Policies, Regulations, and Financial Review"  — original case
-    //   "Financial Resources Review"                   — newer label
+    //   "Policies, Regulations, and Financial Review"  ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â original case
+    //   "Financial Resources Review"                   ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â newer label
     //                                                    used in the
     //                                                    NWCCU-synthetic
     //                                                    index entry
@@ -357,7 +357,7 @@
     //                                                    Pacific lands in
     //
     // Both are paired with notes containing "substantially compliant"
-    // so the second condition keeps the rule narrow — actual sanction
+    // so the second condition keeps the rule narrow ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â actual sanction
     // rows under the same accreditor still pass through.
     if (accreditor === "NWCCU" &&
         /(?:policies,?\s+regulations,?\s+and\s+financial review|financial resources review)/i.test(contentOnly) &&
@@ -425,7 +425,7 @@
 
   function isRecentDisplayAction(action) {
     // isRecentTrackedAction already checks year validity, MIN_ACTION_YEAR floor,
-    // and hasOccurred — no need to re-check them here.
+    // and hasOccurred ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no need to re-check them here.
     return isDisplayAction(action) && isRecentTrackedAction(action);
   }
 
@@ -791,15 +791,15 @@
         .forEach((part) => accreditorCodes.add(part));
     });
 
-    // Build a linked list of tracked accreditors, sorted alphabetically by name.
+    // Build a linked list of tracked accreditors in the editorial order shown on the page.
+    const accreditorOrder = ["HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC"];
     const trackedLinks = [...accreditorCodes]
       .filter((code) => ACCREDITOR_NAMES[code])
-      .sort((a, b) => (ACCREDITOR_NAMES[a] || a).localeCompare(ACCREDITOR_NAMES[b] || b))
+      .sort((a, b) => accreditorOrder.indexOf(a) - accreditorOrder.indexOf(b))
       .map((code) => {
         const name = ACCREDITOR_NAMES[code] || code;
         const url = ACCREDITOR_URLS[code];
-        const codeLabel = ACCREDITOR_NAMES[code] ? `(${code})` : "";
-        const rawLinkLabel = `${name} ${codeLabel}`.trim();
+        const rawLinkLabel = `${name}`.trim();
         if (url) {
           const linkHtml = window.TrackerApp.renderExternalLink(url, rawLinkLabel)
             || escapeHtml(rawLinkLabel);
@@ -809,12 +809,11 @@
       });
 
     const covered = trackedLinks.length
-      ? `<p><strong>Currently tracked accreditors:</strong></p><ul class="link-list">${trackedLinks.join("")}</ul>`
+      ? `<p><strong>Currently Tracked Accreditors</strong></p><ul class="link-list">${trackedLinks.join("")}</ul>`
       : "";
 
-    const helpText = `<p>This page tracks accreditation actions by the accreditors listed above dating back to 2019.</p>
-        <p>The table above shows universities that have received — or corrected — warnings, notices, monitoring actions, probation, show-cause orders, removals, and closure-related decisions from 2019 to the present. A college can still be accredited while also being under warning, notice, monitoring, probation, or another follow-up action.</p>
-        <p>A missing result here does not mean an institution is not accredited.</p>
+    const helpText = `<p>This page tracks accreditation actions dating back to 2019.</p>
+        <p>The table above shows universities that have received &mdash; or corrected &mdash; warnings, notices, monitoring actions, probation, show-cause orders, removals, and closure-related decisions. A college can still be accredited while also being under warning, notice, monitoring, probation, or another follow-up action.</p>
         <p>If a college is not included here, check the website of the institution or the appropriate accreditor.</p>`;
     return `${covered}${helpText}`;
   }
@@ -934,8 +933,8 @@
     syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
-    // Editorial Calm: italic meta line under the H1 — "City, State · Sector".
-    // Uses <span class="sep">·</span> separators so the dot picks up its
+    // Editorial Calm: italic meta line under the H1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â "City, State Ãƒâ€šÃ‚Â· Sector".
+    // Uses <span class="sep">Ãƒâ€šÃ‚Â·</span> separators so the dot picks up its
     // own muted color and spacing from CSS.
     const schoolMeta = document.getElementById("accreditation-school-meta");
     if (schoolMeta) {
@@ -943,7 +942,7 @@
         [school.city, school.state].filter(Boolean).join(", "),
         school.control_label || ""
       ].filter(Boolean);
-      // Empty <span class="sep"> nodes — the middle-dot glyph is added
+      // Empty <span class="sep"> nodes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the middle-dot glyph is added
       // via CSS ::after so the span has no real text content. Keeps the
       // Playwright aria-hidden-sync helper happy and lets screen readers
       // skip the separator (pseudo-content is invisible to AT).

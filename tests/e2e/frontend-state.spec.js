@@ -135,7 +135,7 @@ test.describe('Frontend state synchronization', () => {
     await expect(list.locator('table.history-table')).toBeVisible();
 
     await expect(list.locator('th[aria-sort="descending"]')).toHaveCount(1);
-    await expect(list.locator('th[aria-sort="descending"]')).toContainText('Funding cut or frozen');
+    await expect(list.locator('th[aria-sort="descending"]')).toContainText('Disrupted grants');
 
     await list.locator('button[data-sort-key="state"][data-sort-direction="asc"]').click();
 

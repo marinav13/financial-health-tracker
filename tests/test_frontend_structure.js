@@ -124,7 +124,7 @@ const PAGES = [
       // "Financial Trends" to "Revenue Trends" and split out separate
       // sections for net tuition revenue, tuition dependence, and
       // graduate students. Accept either heading.
-      { pattern: /<h2[^>]+class="section-title"[^>]*>(?:Financial Trends|Revenue Trends)<\/h2>/, message: "Revenue / Financial Trends h2" },
+      { pattern: /<h2[^>]+class="section-title"[^>]*>(?:Financial Trends|Revenue Trends|Revenue trends)<\/h2>/, message: "Revenue / Financial Trends h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },

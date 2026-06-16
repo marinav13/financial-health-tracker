@@ -120,7 +120,7 @@ function latestEnrollmentText(unitid) {
     .filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
   if (!points.length) return '';
   const latest = points[points.length - 1];
-  return `As of ${latest.year}, this institution reported a headcount of ${new Intl.NumberFormat('en-US', {
+  return `In ${latest.year}, this institution reported a headcount of ${new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(latest.value)} students.`;

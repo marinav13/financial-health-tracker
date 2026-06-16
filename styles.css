@@ -1922,6 +1922,21 @@ body[data-search-page="school.html"] #school-bottom-search-section {
   color: var(--ink-3);
 }
 
+.guide-example-section-title {
+  margin: 26px auto 6px;
+}
+
+body[data-search-page="school.html"] .guide-example-section-copy {
+  max-width: 28rem;
+  margin: 16px auto 0;
+  padding: 0 12px;
+  text-align: left;
+}
+
+#guide-example-title {
+  margin-top: 18px;
+}
+
 .guide-example-note {
   margin: 0;
   font-family: var(--font-body);

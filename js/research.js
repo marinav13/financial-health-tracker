@@ -504,7 +504,7 @@
           searchInput,
           filterOnInput: false,
           searchValueResolver: getCommittedSearchValue,
-          tableLabel: "Research funding cuts at 4-year institutions"
+          tableLabel: "Federal research funding cuts at four-year degree-granting institutions"
         });
         setupOtherPagination({
           container: otherContainer,
@@ -517,11 +517,11 @@
           searchInput: otherSearchInput,
           filterOnInput: false,
           searchValueResolver: getCommittedSearchValue,
-          tableLabel: "Research funding cuts at medical schools and other higher-ed institutions"
+          tableLabel: "Federal research funding cuts at medical schools and other higher-ed institutions"
         });
       };
       setDataCardVisible("research-other-list", other.length > 0);
-      if (otherTitle) otherTitle.textContent = "Research funding cuts at medical schools and other higher-ed institutions";
+      if (otherTitle) otherTitle.textContent = "Federal research funding cuts at medical schools and other higher-ed institutions";
       if (title) title.classList.remove("is-hidden");
       if (stateSummaryCard) stateSummaryCard.classList.remove("is-hidden");
       setupStateSummary(stateSummaryContainer, ranked);

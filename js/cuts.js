@@ -150,7 +150,8 @@
         renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
         formatCutTypeLabel(cut.cut_type),
         cut.state,
-        cut.control_label
+        cut.control_label,
+        cut.announcement_date || cut.announcement_year || ""
       ])
       : items.map((cut) => [
         renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
@@ -166,7 +167,8 @@
           renderSortableHeader("institution_name", sortState, "Institution"),
           "<th>Cut type</th>",
           renderSortableHeader("state", sortState, "State"),
-          renderSortableHeader("control_label", sortState, "Sector")
+          renderSortableHeader("control_label", sortState, "Sector"),
+          renderSortableHeader("announcement_date", sortState, "Date")
         ]
         : [
           renderSortableHeader("institution_name", sortState, "Institution"),

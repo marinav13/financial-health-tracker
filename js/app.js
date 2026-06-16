@@ -177,13 +177,6 @@ function upgradeSiteFooter() {
   if (typeof document === "undefined" || typeof document.querySelector !== "function") return Promise.resolve();
   const footer = document.querySelector(".pg-foot");
   if (!footer) return Promise.resolve();
-  const illustrationCredit = document.querySelector(".illustration-credit");
-  const illustrationText = illustrationCredit
-    ? String(illustrationCredit.textContent || "").trim()
-    : "";
-  if (illustrationCredit?.parentNode) {
-    illustrationCredit.parentNode.removeChild(illustrationCredit);
-  }
 
   footer.replaceChildren();
   return loadSiteMetadata().catch(() => null).then((metadata) => {
@@ -245,18 +238,21 @@ function upgradeSiteFooter() {
     summary.className = "ftr-credit-summary";
     summary.textContent = `Browse financial data for ${countText} four-year colleges nationwide. Explore details like accreditation, revenue, expenses and more.`;
 
-    const credits = document.createElement("p");
-    credits.className = "ftr-credit-meta";
-    credits.textContent = "Coding, design and data analysis by Marina Villeneuve. Editing by Sarah Butrymowicz and Lawrie Mifflin.";
+    const creditLines = [
+      "Coding, design and data analysis by <strong>Marina Villeneuve</strong>.",
+      "Editing by <strong>Sarah Butrymowicz, Lawrie Mifflin and Caroline Preston</strong>.",
+      "Additional contributions by <strong>William Lager</strong>.",
+      "Illustration by <strong>Elena Lacey</strong> for The Hechinger Report."
+    ];
 
-    left.append(kicker, summary, credits);
+    left.append(kicker, summary);
 
-    if (illustrationText) {
-      const illustration = document.createElement("p");
-      illustration.className = "ftr-credit-illustration";
-      illustration.textContent = illustrationText;
-      left.appendChild(illustration);
-    }
+    creditLines.forEach((line) => {
+      const credit = document.createElement("p");
+      credit.className = "ftr-credit-meta";
+      credit.innerHTML = line;
+      left.appendChild(credit);
+    });
 
     const updatedLabel = formatDisplayDate(metadata?.last_modified || metadata?.generated_at);
     if (updatedLabel) {

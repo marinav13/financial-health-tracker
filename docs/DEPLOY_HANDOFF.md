@@ -25,10 +25,13 @@ For rebuilds, refreshes, tests, and failure triage, use
 ## Do Not Treat These As Deploy Artifacts
 
 - `scripts/`
+- `scripts/archive/`
 - `data_pipelines/`
 - `tests/`
 - `docs/`
 - `.github/workflows/`
+- `outputs/`
+- `.private_docs/`
 - `renv/`, `renv.lock`, `.Rprofile`
 - `requirements.txt`, `package.json`, `package-lock.json`, `playwright.config.js`
 
@@ -37,6 +40,8 @@ For rebuilds, refreshes, tests, and failure triage, use
 - `robots.txt` is intentionally restrictive right now and should be relaxed as
   a final publication step.
 - `LICENSE` has not been added yet and should be decided before or at launch.
+- Local analyst review bundles and private working notes should stay outside
+  the deploy payload in ignored paths such as `outputs/` and `.private_docs/`.
 - Most routine refreshes change files under `data/`.
 - HTML, CSS, JS, and image assets change only when the interactive itself
   changes.

@@ -1,3 +1,6 @@
+#
+# Archived on 2026-06-17: historical bootstrap utility for college-cuts review state.
+#
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args <- parse_cli_args(cli_args)

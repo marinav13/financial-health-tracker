@@ -99,6 +99,7 @@ ignored local-only paths include:
 - `ipeds/cache/`, `ipeds/raw/`, `ipeds/derived/`
 - `data_pipelines/*/cache/`
 - `test-results/`
+- `outputs/`
 - `workbooks/`
 - `.secrets/`
 - `.private_docs/`
@@ -275,6 +276,12 @@ Important shared helpers:
 - `publish_to_google_sheets.R`
   - optional Google Sheets publisher for the site-ready CSV
 
+### Archived one-time scripts
+
+Historical bootstrap and migration utilities live under `scripts/archive/`.
+They are retained for forensic context, but they are not part of the current
+production refresh or publish path.
+
 ### Data contracts
 
 `scripts/shared/contracts.R` contains validators that run at script
@@ -420,6 +427,20 @@ Rscript --vanilla ./scripts/build_grant_witness_join.R
 python ./scripts/import_closure_sheet.py --sheet "YOUR_GOOGLE_SHEET_URL_OR_ID"
 Rscript --vanilla ./scripts/build_web_exports.R
 ```
+
+## Active Workflows
+
+The tracked GitHub Actions workflows serve different roles. Treat them as part
+of the public source repo, not as deploy artifacts.
+
+| Workflow | Role |
+|---|---|
+| `tests.yml` | Main CI for R, JS, Python, and Playwright |
+| `accessibility.yml` | Static accessibility checks against the local built pages |
+| `pages-parity.yml` | Compares deployed Pages output against committed artifacts |
+| `refresh-ipeds-site-data.yml` | Weekly downstream data refresh and publish |
+| `refresh-ipeds-full.yml` | Full IPEDS rebuild on the 3-times-a-year release cadence |
+| `publish-editorial-overrides.yml` | Manual editorial publish and teach-out cleanup workflow |
 
 ## Rerun Safety
 

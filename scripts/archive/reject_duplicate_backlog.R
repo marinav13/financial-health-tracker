@@ -1,11 +1,13 @@
 ################################################################################
-# scripts/reject_duplicate_backlog.R
+# scripts/archive/reject_duplicate_backlog.R
+#
+# Archived on 2026-06-17: one-time duplicate-review cleanup utility.
 #
 # One-time bulk rejection of confirmed duplicate rows in editorial_overrides.csv.
 # Reads the current CSV, sets review_status = "reject" for each listed action_id
 # that is currently "unreviewed", and writes the file back.
 #
-# Usage: Rscript --vanilla scripts/reject_duplicate_backlog.R
+# Usage: Rscript --vanilla scripts/archive/reject_duplicate_backlog.R
 ################################################################################
 
 if (!exists("root", inherits = TRUE)) {

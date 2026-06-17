@@ -1,3 +1,6 @@
+#
+# Archived on 2026-06-17: one-time Google Sheet schema migration utility.
+#
 main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "utils.R"))
   args <- parse_cli_args(cli_args)
@@ -8,8 +11,8 @@ main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "google_sheets_helpers.R"))
 
-  sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("ACCREDITATION_REVIEW_SHEET_ID", unset = NA_character_))
-  sheet_tab <- get_arg_value("--tab", Sys.getenv("ACCREDITATION_REVIEW_SHEET_TAB", unset = "accreditation_review"))
+  sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("COLLEGE_CUTS_REVIEW_SHEET_ID", unset = NA_character_))
+  sheet_tab <- get_arg_value("--tab", Sys.getenv("COLLEGE_CUTS_REVIEW_SHEET_TAB", unset = "college_cuts_review"))
   auth_json <- get_arg_value("--auth-json", Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_))
   email <- get_arg_value("--email", NA_character_)
   cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
@@ -18,7 +21,7 @@ main <- function(cli_args = NULL) {
 
   sheet_target <- trimws(as.character(sheet_id_or_url %||% ""))
   if (!nzchar(sheet_target)) {
-    stop("Provide --sheet <Google Sheet URL or ID> or set ACCREDITATION_REVIEW_SHEET_ID.", call. = FALSE)
+    stop("Provide --sheet <Google Sheet URL or ID> or set COLLEGE_CUTS_REVIEW_SHEET_ID.", call. = FALSE)
   }
 
   authenticate_google_sheets(
@@ -35,25 +38,26 @@ main <- function(cli_args = NULL) {
     sheet_name = sheet_tab,
     verbose = verbose
   )
-  assert_accreditation_review_sheet_header(raw_rows)
-  migrated_rows <- coerce_accreditation_review_sheet_rows(raw_rows, default_first_seen = first_seen)
+  # assert_college_cuts_review_sheet_header would fail on the old schema —
+  # skip it here since migration is the point of this script.
+  migrated_rows <- coerce_college_cuts_review_sheet_rows(raw_rows, default_first_seen = first_seen)
 
   googlesheets4::sheet_write(
-    data = format_accreditation_review_sheet_headers(
-      migrated_rows[, ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]
+    data = format_college_cuts_sheet_headers(
+      migrated_rows[, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, drop = FALSE]
     ),
     ss = sheet_target,
     sheet = sheet_tab
   )
 
-  message("Accreditation review sheet rows before migration: ", nrow(raw_rows))
-  message("Accreditation review sheet rows after migration: ", nrow(migrated_rows))
-  print(utils::head(migrated_rows, 3L))
+  message("College cuts review sheet rows before migration: ", nrow(raw_rows))
+  message("College cuts review sheet rows after migration: ", nrow(migrated_rows))
+  if (verbose) print(utils::head(migrated_rows, 3L))
 
   invisible(list(
     before_rows = nrow(raw_rows),
-    after_rows = nrow(migrated_rows),
-    tab = sheet_tab
+    after_rows  = nrow(migrated_rows),
+    tab         = sheet_tab
   ))
 }
 

@@ -73,7 +73,11 @@ run_test("Pipeline entry scripts source cleanly", function() {
     file.path(root, "scripts", "build_ipeds_canonical_dataset.R"),
     file.path(root, "scripts", "collect_ipeds_data.R"),
     file.path(root, "scripts", "stage_accreditation_review.R"),
-    file.path(root, "scripts", "grandfather_accreditation_review.R"),
+    file.path(root, "scripts", "archive", "grandfather_accreditation_review.R"),
+    file.path(root, "scripts", "archive", "grandfather_college_cuts_review.R"),
+    file.path(root, "scripts", "archive", "migrate_accreditation_review_sheet_schema.R"),
+    file.path(root, "scripts", "archive", "migrate_college_cuts_review_sheet_schema.R"),
+    file.path(root, "scripts", "archive", "reject_duplicate_backlog.R"),
     file.path(root, "scripts", "pull_accreditation_overrides.R"),
     file.path(root, "scripts", "publish_to_google_sheets.R"),
     file.path(root, "scripts", "write_accreditation_review_instructions.R")

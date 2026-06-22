@@ -474,7 +474,7 @@
     if (!unitid && "scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
-    syncTabs(unitid, { active: "research" });
+    syncTabs({ active: "research" });
 
     const [researchIndex, metadata] = await Promise.all([
       loadJson("data/research_funding_index.json"),
@@ -579,7 +579,7 @@
       return;
     }
 
-    syncTabs(unitid, { active: "research", financialUnitid: school.financial_unitid });
+    syncTabs({ active: "research" });
 
     const schoolHeading = document.getElementById("research-school-name");
     schoolHeading.textContent = school.institution_name || "Research Funding Cuts";

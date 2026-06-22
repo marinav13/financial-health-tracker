@@ -822,7 +822,7 @@
 
   async function init() {
     const unitid = getParam("unitid");
-    syncTabs(unitid, { active: "accreditation" });
+    syncTabs({ active: "accreditation" });
     // Editorial Calm: swap landing-mode hero (visible H1 + lede on landing
     // pages) for the institution-mode quad-banner + school-mast block when
     // ?unitid is set. Two siblings, exactly one visible at a time.
@@ -930,7 +930,7 @@
     const schoolActions = getEffectiveActions(school).filter(isRecentDisplayAction);
     const schoolName = resolveInstitutionName(school.institution_name, schoolActions[0]);
     schoolHeading.textContent = schoolName || "Accreditation";
-    syncTabs(unitid, { active: "accreditation", financialUnitid: school.financial_unitid });
+    syncTabs({ active: "accreditation" });
     schoolHeading.classList.remove("is-hidden");
     schoolHeading.classList.remove("sr-only");
     // Editorial Calm: italic meta line under the H1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â "City, State Ãƒâ€šÃ‚Â· Sector".

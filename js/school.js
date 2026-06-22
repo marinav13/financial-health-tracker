@@ -1544,7 +1544,7 @@ async function init() {
   window.addEventListener("resize", syncSearchToggle);
 
   const unitid = getParam("unitid");
-  window.TrackerApp.syncTabs(unitid, { active: "finances" });
+  window.TrackerApp.syncTabs({ active: "finances" });
   if (!unitid) {
     showSchoolGuideLanding();
     initGuideCalloutReveal();

@@ -2,19 +2,13 @@
  * syncTabs integration tests.
  *
  * These execute the real js/app.js `syncTabs` against a minimal DOM so we
- * assert the *actual* rendered hrefs, not just the presence of the symbol.
+ * assert the actual rendered hrefs, not just the presence of the symbol.
  *
  * Requirement (set: no-deep-link top nav): the top-nav tabs are pure
- * site-level navigation — each tab always points at its section's landing
+ * site-level navigation - each tab always points at its section's landing
  * page, regardless of whether a school is in view. Per-school navigation
  * lives in the in-body "Explore this institution" block, which only
  * surfaces links to sections that actually contain the school.
- *
- * An earlier iteration deep-linked the top nav to the current school. That
- * regressed UX for the majority of schools, which aren't tracked in
- * cuts/accreditation/research, because clicking a top tab from a school
- * detail page would land on an empty "No X found" state. Reverted; these
- * tests lock the landing-page-only contract.
  */
 
 const fs = require("fs");
@@ -52,7 +46,7 @@ function makeTab(id) {
   };
 }
 
-function loadAppInContext() {
+function loadAppInContext(bodyDataset = {}) {
   const tabs = {
     "tab-home": makeTab("tab-home"),
     "tab-finances": makeTab("tab-finances"),
@@ -62,7 +56,7 @@ function loadAppInContext() {
   };
 
   const documentStub = {
-    body: { dataset: {} },
+    body: { dataset: { ...bodyDataset } },
     getElementById(id) {
       return tabs[id] || null;
     },
@@ -72,17 +66,12 @@ function loadAppInContext() {
     addEventListener() {}
   };
 
-  // js/app.js expects `fetch`, `window`, and various DOM globals. We only
-  // exercise syncTabs so provide the minimum surface area.
   const context = {
     console,
     Date,
     URL,
     URLSearchParams,
     document: documentStub,
-    // js/app.js calls initSearch() at load time, which fetches the schools
-    // index. We don't exercise search here; return an empty response so
-    // init completes cleanly and doesn't log noise.
     fetch: async () => ({ ok: true, async json() { return []; } }),
     window: {
       location: { search: "", pathname: "/index.html" },
@@ -119,9 +108,9 @@ function run(name, fn) {
 
 console.log("\n=== syncTabs Integration Tests ===\n");
 
-run("with no unitid, tabs point to landing pages", () => {
+run("with explicit active tab, tabs point to landing pages", () => {
   const { tabs, trackerApp } = loadAppInContext();
-  trackerApp.syncTabs("", { active: "finances" });
+  trackerApp.syncTabs({ active: "finances" });
   assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
   assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
@@ -129,9 +118,9 @@ run("with no unitid, tabs point to landing pages", () => {
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
 });
 
-run("with numeric unitid, tabs still point to landing pages (no deep-link)", () => {
+run("top-nav tabs still point to landing pages (no deep-link)", () => {
   const { tabs, trackerApp } = loadAppInContext();
-  trackerApp.syncTabs("100654", { active: "cuts" });
+  trackerApp.syncTabs({ active: "cuts" });
   assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
   assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
   assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
@@ -139,33 +128,23 @@ run("with numeric unitid, tabs still point to landing pages (no deep-link)", () 
   assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
 });
 
-run("financialUnitid option does not change top-nav hrefs", () => {
-  const { tabs, trackerApp } = loadAppInContext();
-  // This is the exact call shape cuts.js/research.js/accreditation.js use on
-  // school-context pages (a system member whose finances roll up to a parent
-  // unitid). Top nav is site-level only — financialUnitid does not influence
-  // hrefs. Per-school routing happens in the in-body related-pages block.
-  trackerApp.syncTabs("100654", { active: "cuts", financialUnitid: "100663" });
-  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
-  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
-  assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
-  assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
-  assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
+run("body activeTab fallback wins when no explicit active option is passed", () => {
+  const { tabs, trackerApp } = loadAppInContext({ activeTab: "cuts", searchSource: "research" });
+  trackerApp.syncTabs();
+  assert(tabs["tab-cuts"].getAttribute("aria-current") === "page", "cuts tab should have aria-current=page");
+  assert(tabs["tab-research"].getAttribute("aria-current") === null, "research tab should not carry aria-current");
 });
 
-run("with non-numeric namespaced unitid, tabs still point to landing pages", () => {
-  const { tabs, trackerApp } = loadAppInContext();
-  trackerApp.syncTabs("cut-abc123", { active: "cuts" });
-  assert(tabs["tab-home"].href === "index.html", `home href=${tabs["tab-home"].href}`);
-  assert(tabs["tab-finances"].href === "school.html", `finances href=${tabs["tab-finances"].href}`);
-  assert(tabs["tab-cuts"].href === "cuts.html", `cuts href=${tabs["tab-cuts"].href}`);
-  assert(tabs["tab-accreditation"].href === "accreditation.html", `accreditation href=${tabs["tab-accreditation"].href}`);
-  assert(tabs["tab-research"].href === "research.html", `research href=${tabs["tab-research"].href}`);
+run("body searchSource fallback marks the matching tab active", () => {
+  const { tabs, trackerApp } = loadAppInContext({ searchSource: "research" });
+  trackerApp.syncTabs();
+  assert(tabs["tab-research"].getAttribute("aria-current") === "page", "research tab should have aria-current=page");
+  assert(tabs["tab-cuts"].getAttribute("aria-current") === null, "cuts tab should not carry aria-current");
 });
 
 run("aria-current is applied only to the active tab", () => {
   const { tabs, trackerApp } = loadAppInContext();
-  trackerApp.syncTabs("100654", { active: "accreditation" });
+  trackerApp.syncTabs({ active: "accreditation" });
   assert(tabs["tab-accreditation"].getAttribute("aria-current") === "page", "accreditation tab should have aria-current=page");
   assert(tabs["tab-finances"].getAttribute("aria-current") === null, "finances tab should not carry aria-current");
   assert(tabs["tab-cuts"].getAttribute("aria-current") === null, "cuts tab should not carry aria-current");

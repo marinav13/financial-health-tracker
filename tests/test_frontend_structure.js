@@ -113,11 +113,12 @@ const PAGES = [
       { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+href="school\.html"[^>]+aria-current="page"[^>]*>Finances<\/a>/, message: "Finances nav tab with aria-current" },
       { pattern: /role="listbox"/, message: 'Search results role="listbox"' },
+      { pattern: /id="school-profile-mast"[^>]*class="[^"]*\bschool-mast\b[^"]*\bis-hidden\b[^"]*"[^>]*aria-hidden="true"/, message: "School profile mast starts hidden until a school is selected" },
       // school.html no longer uses .masthead-title — the institution
       // name lives in <h1 id="school-name"> inside .school-mast and is
       // populated by school.js. Accept the legacy decorative title or
       // the new editorial school-mast heading.
-      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="school-mast"[\s\S]*<h1[^>]+id="school-name")/, message: "School heading" },
+      { pattern: /(class="masthead-title"[^>]*>College Financial Health Tracker<\/div>|class="[^"]*\bschool-mast\b[^"]*"[\s\S]*<h1[^>]+id="school-name")/, message: "School heading" },
       { pattern: /id="share-school-profile"/, message: "Share profile button" },
       { pattern: /id="share-school-status"[^>]*aria-live="polite"/, message: "Share status live region" },
       // Editorial Calm renamed the first financial section from

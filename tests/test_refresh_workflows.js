@@ -229,6 +229,30 @@ run("refresh workflows validate rebuilt artifacts before committing", () => {
   });
 });
 
+run("full refresh stages every tracked pipeline artifact it rebuilds before publish", () => {
+  const block = stepBlock(FULL, "Commit and push updated data");
+  [
+    "set -e",
+    "git add -f \\",
+    "data/ \\",
+    "data_pipelines/accreditation/accreditation_review_candidates.csv \\",
+    "data_pipelines/accreditation/accreditation_tracker_actions_joined.csv \\",
+    "data_pipelines/accreditation/accreditation_tracker_institution_summary.csv \\",
+    "data_pipelines/accreditation/dapip_action_rows_filtered.csv \\",
+    "data_pipelines/accreditation/dapip_code_coverage.csv \\",
+    "data_pipelines/accreditation/dapip_public_table_policy_counts.csv \\",
+    "data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \\",
+    "data_pipelines/accreditation/dapip_vs_scraper_audit.csv \\",
+    "data_pipelines/college_cuts/college_cuts_review_candidates.csv \\",
+    "data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \\",
+    "data_pipelines/scorecard/tracker_outcomes_joined.csv",
+    "if git diff --staged --quiet; then"
+  ].forEach((needle) => {
+    assert(block.includes(needle), `Expected full refresh commit block to include: ${needle}`);
+  });
+  assert(!block.includes("git add data/"), "Expected full refresh to avoid bare git add data/");
+});
+
 run("full refresh rebuilds side data lookups before static web exports", () => {
   const rebuildIndex = FULL.indexOf("- name: Rebuild static web exports");
   [

@@ -274,7 +274,7 @@
 
   async function init() {
     const unitid = getParam("unitid");
-    syncTabs(unitid, { active: "cuts" });
+    syncTabs({ active: "cuts" });
     // Editorial Calm: swap landing-mode hero (visible H1 + lede on landing
     // pages) for the institution-mode quad-banner + school-mast block when
     // ?unitid is set. Two siblings, exactly one visible at a time.
@@ -391,7 +391,7 @@
         .join('<span class="sep"></span>');
     }
     if (mainToolbar) mainToolbar.classList.add("is-hidden");
-    syncTabs(unitid, { active: "cuts", financialUnitid: school.financial_unitid });
+    syncTabs({ active: "cuts" });
     const relatedLinks = renderRelatedInstitutionLinks({
       unitid: school.unitid,
       financialUnitid: school.financial_unitid,

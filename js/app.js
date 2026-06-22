@@ -84,7 +84,7 @@ function findRelatedIndexRecord(index, unitid, countField) {
   ) || null;
 }
 
-function syncTabs(unitid = "", options = {}) {
+function syncTabs(options = {}) {
   const active = options.active || document.body.dataset.activeTab || (
     document.body.dataset.searchSource || "finances"
   );
@@ -106,9 +106,6 @@ function syncTabs(unitid = "", options = {}) {
   // block (see renderRelatedInstitutionLinks and school.js's
   // renderSchoolRelatedPages), which only links to sections where the
   // school actually has data.
-  //
-  // The `unitid` / `financialUnitid` args are retained for call-site
-  // backward compatibility and future use, but no longer influence hrefs.
   if (tabs.home) tabs.home.href = "index.html";
   if (tabs.finances) tabs.finances.href = "school.html";
   if (tabs.cuts) tabs.cuts.href = "cuts.html";

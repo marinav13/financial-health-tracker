@@ -200,12 +200,14 @@ test.describe('Frontend state synchronization', () => {
       await checkbox.check();
     }
 
-    const categoryCells = await list.locator('tbody tr td:nth-child(2)').evaluateAll((cells) =>
-      cells.map((cell) => (cell.textContent || '').trim())
+    const categoryRows = await list.locator('tbody tr td:nth-child(2)').evaluateAll((cells) =>
+      cells.map((cell) =>
+        Array.from(cell.querySelectorAll('.cut-tag')).map((tag) => (tag.textContent || '').trim()).filter(Boolean)
+      )
     );
-    expect(categoryCells.length).toBeGreaterThan(0);
-    for (const value of categoryCells) {
-      expect(selectableCategories).toContain(value);
+    expect(categoryRows.length).toBeGreaterThan(0);
+    for (const values of categoryRows) {
+      expect(values.some((value) => selectableCategories.includes(value))).toBe(true);
     }
 
     await page.locator('body').click({ position: { x: 20, y: 20 } });

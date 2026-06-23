@@ -424,8 +424,17 @@ build_cuts_export <- function() {
     cuts$cut_summary_public <- vapply(seq_len(nrow(cuts)), function(i)
       derive_cut_summary_public(cuts$notes[[i]], approved_summary_ov[[i]]),
       character(1))
-    cuts$display_category <- vapply(seq_len(nrow(cuts)), function(i)
-      derive_cut_display_category(
+    cuts$display_categories <- I(lapply(seq_len(nrow(cuts)), function(i)
+      derive_cut_display_categories(
+        cut_type = cuts$cut_type[[i]],
+        program_name = cuts$program_name[[i]],
+        cut_label_public = cuts$cut_label_public[[i]],
+        cut_summary_public = cuts$cut_summary_public[[i]],
+        notes = cuts$notes[[i]]
+      )
+    ))
+    cuts$primary_display_category <- vapply(seq_len(nrow(cuts)), function(i)
+      derive_cut_primary_display_category(
         cut_type = cuts$cut_type[[i]],
         program_name = cuts$program_name[[i]],
         cut_label_public = cuts$cut_label_public[[i]],
@@ -433,6 +442,7 @@ build_cuts_export <- function() {
         notes = cuts$notes[[i]]
       ),
       character(1))
+    cuts$display_category <- cuts$primary_display_category
   }
 
   recent <- cuts %>%
@@ -453,7 +463,9 @@ build_cuts_export <- function() {
       program_name = program_name,
       cut_label_public = cut_label_public,
       cut_summary_public = cut_summary_public,
+      primary_display_category = primary_display_category,
       display_category = display_category,
+      display_categories = display_categories,
       cut_type = cut_type,
       status = status,
       effective_term = effective_term,
@@ -488,7 +500,9 @@ build_cuts_export <- function() {
           program_name = or_null(df$program_name[i]),
           cut_label_public = or_null(df$cut_label_public[i]),
           cut_summary_public = or_null(df$cut_summary_public[i]),
+          primary_display_category = or_null(df$primary_display_category[i]),
           display_category = or_null(df$display_category[i]),
+          display_categories = unname(as.character(df$display_categories[[i]] %||% character(0))),
           cut_type = or_null(df$cut_type[i]),
           status = or_null(df$status[i]),
           effective_term = or_null(df$effective_term[i]),
@@ -3521,7 +3535,9 @@ if ("cuts" %in% selected_exports) {
         announcement_year = cut$announcement_year,
         program_name = cut$program_name,
         cut_label_public = cut$cut_label_public,
+        primary_display_category = cut$primary_display_category,
         display_category = cut$display_category,
+        display_categories = cut$display_categories,
         positions_affected = cut$positions_affected,
         faculty_affected = cut$faculty_affected,
         source_url = cut$source_url

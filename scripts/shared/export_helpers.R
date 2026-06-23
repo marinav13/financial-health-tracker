@@ -5434,10 +5434,10 @@ derive_cut_summary_public <- function(notes,
 .CUT_DISPLAY_CATEGORY_CAMPUS <- "Campus closures"
 .CUT_DISPLAY_CATEGORY_ATHLETICS <- "Athletics cuts"
 .CUT_DISPLAY_CATEGORY_STAFF <- "Staff layoffs / furloughs"
-.CUT_DISPLAY_CATEGORY_ACADEMIC <- "Academic program cuts / admissions pauses"
-.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT <- "Student support closures"
+.CUT_DISPLAY_CATEGORY_ACADEMIC <- "Academic program cuts"
+.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT <- "Student support cuts"
 .CUT_DISPLAY_CATEGORY_RESEARCH <- "Research center cuts"
-.CUT_DISPLAY_CATEGORY_MULTIPLE <- "Multiple cut types"
+.CUT_DISPLAY_CATEGORY_COMMUNITY <- "Community program cuts"
 
 .normalize_cut_category_text <- function(...) {
   parts <- unlist(lapply(list(...), function(value) {
@@ -5463,6 +5463,20 @@ derive_cut_display_category <- function(cut_type,
                                         cut_label_public = NA_character_,
                                         cut_summary_public = NA_character_,
                                         notes = NA_character_) {
+  derive_cut_primary_display_category(
+    cut_type = cut_type,
+    program_name = program_name,
+    cut_label_public = cut_label_public,
+    cut_summary_public = cut_summary_public,
+    notes = notes
+  )
+}
+
+derive_cut_display_categories <- function(cut_type,
+                                          program_name,
+                                          cut_label_public = NA_character_,
+                                          cut_summary_public = NA_character_,
+                                          notes = NA_character_) {
   normalized_type <- tolower(trimws(as.character(cut_type %||% "")))
   subject_text <- .normalize_cut_category_text(
     program_name,
@@ -5610,6 +5624,29 @@ derive_cut_display_category <- function(cut_type,
       .cut_category_matches(text, c("\\bshut(?:ting)? down\\b", "\\bclosing\\b", "\\bclosed\\b", "\\bdiscontinu(?:e|ed|ing)\\b"))
   )
 
+  community_program_subject <- .cut_category_matches(subject_text, c(
+    "\\bcommunity program(?:s)?\\b",
+    "\\bcommunity music school\\b",
+    "\\bmusic school\\b",
+    "\\bextension\\b",
+    "\\boutreach program(?:s)?\\b",
+    "\\bpublic service\\b",
+    "\\bcontinuing education\\b",
+    "\\bsnap-?ed\\b",
+    "\\bnutrition education\\b",
+    "\\bcommunity education\\b",
+    "\\bcommunity engagement\\b"
+  )) || .cut_category_matches(text, c(
+    "\\bserved [0-9, ]+ people annually\\b",
+    "\\bserved communities? across\\b",
+    "\\bcommunity members?\\b"
+  ))
+  community_program_action <- community_program_subject && (
+    normalized_type %in% c("program_suspension", "department_closure") ||
+      .cut_category_matches(subject_text, unit_action_patterns) ||
+      .cut_category_matches(text, c("\\bfunding (?:eliminated|ended|cut)\\b", "\\bgrant funding (?:cut|eliminated)\\b"))
+  )
+
   academic_action <- FALSE
   if (.cut_category_matches(subject_text, c(
     "\\badmissions? paus(?:e|ed|ing)\\b",
@@ -5635,33 +5672,37 @@ derive_cut_display_category <- function(cut_type,
     academic_action <- TRUE
   }
   if (!academic_action && normalized_type == "program_suspension" &&
-      !athletics_action && !student_support_action && !research_center_action) {
+      !athletics_action && !student_support_action && !research_center_action && !community_program_action) {
     academic_action <- TRUE
   }
   if (!academic_action && normalized_type == "department_closure" &&
-      !athletics_action && !student_support_action && !research_center_action) {
+      !athletics_action && !student_support_action && !research_center_action && !community_program_action) {
     academic_action <- TRUE
   }
   if (!academic_action &&
       .cut_category_matches(subject_text, c("\\bdepartment\\b")) &&
       (.cut_category_matches(subject_text, unit_action_patterns) || normalized_type == "department_closure") &&
-      !athletics_action && !student_support_action && !research_center_action) {
+      !athletics_action && !student_support_action && !research_center_action && !community_program_action) {
     academic_action <- TRUE
   }
 
-  if ((athletics_action && (academic_action || student_support_action || research_center_action)) ||
-      (academic_action && (student_support_action || research_center_action)) ||
-      (staff_primary_action && academic_action) ||
-      (staff_primary_action && student_support_action) ||
-      (staff_primary_action && research_center_action)) {
-    return(.CUT_DISPLAY_CATEGORY_MULTIPLE)
+  categories <- character(0)
+  add_category <- function(value) {
+    if (!nzchar(value) || value %in% categories) return(invisible(NULL))
+    categories <<- c(categories, value)
+    invisible(NULL)
   }
 
-  if (athletics_action) return(.CUT_DISPLAY_CATEGORY_ATHLETICS)
-  if (academic_action) return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
-  if (student_support_action) return(.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT)
-  if (research_center_action) return(.CUT_DISPLAY_CATEGORY_RESEARCH)
-  if (staff_action) return(.CUT_DISPLAY_CATEGORY_STAFF)
+  if (athletics_action) add_category(.CUT_DISPLAY_CATEGORY_ATHLETICS)
+  if (student_support_action) add_category(.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT)
+  if (research_center_action) add_category(.CUT_DISPLAY_CATEGORY_RESEARCH)
+  if (community_program_action) add_category(.CUT_DISPLAY_CATEGORY_COMMUNITY)
+  if (academic_action) add_category(.CUT_DISPLAY_CATEGORY_ACADEMIC)
+  if (staff_action) add_category(.CUT_DISPLAY_CATEGORY_STAFF)
+
+  if (length(categories)) {
+    return(categories)
+  }
 
   if (normalized_type %in% c("staff_layoff", "faculty_layoff", "hiring_freeze")) {
     return(.CUT_DISPLAY_CATEGORY_STAFF)
@@ -5670,11 +5711,32 @@ derive_cut_display_category <- function(cut_type,
     return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
   }
   if (normalized_type == "department_closure") {
-    return(if (research_center_subject) .CUT_DISPLAY_CATEGORY_RESEARCH else .CUT_DISPLAY_CATEGORY_ACADEMIC)
+    if (research_center_subject) return(.CUT_DISPLAY_CATEGORY_RESEARCH)
+    if (community_program_subject) return(.CUT_DISPLAY_CATEGORY_COMMUNITY)
+    return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
   }
   if (research_center_subject) {
     return(.CUT_DISPLAY_CATEGORY_RESEARCH)
   }
+  if (community_program_subject) {
+    return(.CUT_DISPLAY_CATEGORY_COMMUNITY)
+  }
 
   .CUT_DISPLAY_CATEGORY_ACADEMIC
+}
+
+derive_cut_primary_display_category <- function(cut_type,
+                                                program_name,
+                                                cut_label_public = NA_character_,
+                                                cut_summary_public = NA_character_,
+                                                notes = NA_character_) {
+  categories <- derive_cut_display_categories(
+    cut_type = cut_type,
+    program_name = program_name,
+    cut_label_public = cut_label_public,
+    cut_summary_public = cut_summary_public,
+    notes = notes
+  )
+  if (!length(categories)) return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
+  as.character(categories[[1]])
 }

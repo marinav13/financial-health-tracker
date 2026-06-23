@@ -3217,6 +3217,38 @@ body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
   letter-spacing: 0;
 }
 
+.cut-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 12px;
+  max-width: 720px;
+  padding: 0 24px;
+}
+
+.history-table-cut-tags {
+  justify-content: flex-start;
+  margin: 0;
+  max-width: none;
+  padding: 0;
+}
+
+.cut-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--hechinger-gold);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 #school-outcomes-section.data-card {
   width: 100%;
   margin: 0 auto;

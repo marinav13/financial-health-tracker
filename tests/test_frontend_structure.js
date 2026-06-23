@@ -56,7 +56,7 @@ const PAGES = [
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
       { pattern: /id="cuts-category-filter"/, message: "Cuts category filter menu" },
       { pattern: /id="cuts-category-filter-summary"/, message: "Cuts category filter summary" },
-      { pattern: /class="table-filter-label"[^>]+for="cuts-category-filter-summary"/, message: 'Visible label for cuts-category-filter' },
+      { pattern: /<label[^>]+class="table-filter-label"[^>]+for="cuts-category-filter-summary"[^>]*>FILTER BY TYPE OF CUTS:<\/label>/, message: 'Visible label for cuts-category-filter' },
       { pattern: /id="cuts-search-results"/, message: "Cuts autocomplete results container" },
       // Editorial Calm dropped the legacy .masthead-title decorative
       // duplicate from cuts/accred/research/school in favor of a real

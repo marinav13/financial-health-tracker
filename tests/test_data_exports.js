@@ -47,12 +47,17 @@ function numericSeries(school, key) {
 }
 
 function cutComparableRow(cut = {}) {
+  const displayCategories = Array.isArray(cut.display_categories)
+    ? cut.display_categories
+    : (cut.display_category ? [cut.display_category] : []);
   return {
     announcement_date: cut.announcement_date ?? null,
     announcement_year: cut.announcement_year ?? null,
     program_name: cut.program_name ?? null,
     cut_label_public: cut.cut_label_public ?? null,
-    display_category: cut.display_category ?? null
+    primary_display_category: cut.primary_display_category ?? cut.display_category ?? null,
+    display_category: cut.display_category ?? cut.primary_display_category ?? null,
+    display_categories: displayCategories
   };
 }
 

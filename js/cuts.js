@@ -33,12 +33,18 @@
     "Institution closures/absorptions",
     "Campus closures",
     "Athletics cuts",
-    "Staff layoffs / furloughs",
-    "Academic program cuts / admissions pauses",
-    "Student support closures",
+    "Student support cuts",
     "Research center cuts",
-    "Multiple cut types"
+    "Community program cuts",
+    "Academic program cuts",
+    "Staff layoffs / furloughs"
   ];
+  const DISPLAY_CATEGORY_ALIASES = new Map([
+    ["Institution closures", "Institution closures/absorptions"],
+    ["Research centers", "Research center cuts"],
+    ["Academic program cuts / admissions pauses", "Academic program cuts"],
+    ["Student support closures", "Student support cuts"]
+  ]);
 
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
@@ -46,20 +52,17 @@
 
   function renderCutItem(cut) {
     const label = cleanCutLabel(cut.cut_label_public || cut.program_name || resolveDisplayCategory(cut));
-    const category = resolveDisplayCategory(cut);
+    const categories = resolveDisplayCategories(cut);
     const date = cut.announcement_date || cut.announcement_year || "";
     const term = cut.effective_term ? `<p class="small-meta">Effective term: ${escapeHtml(cut.effective_term)}</p>` : "";
     const sourceLink = renderExternalLink(cut.source_url, "Source");
     const source = sourceLink
       ? `<p class="small-meta">${sourceLink}${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
       : "";
-    const categoryMeta = category && category !== label
-      ? `<p class="small-meta">Category: ${escapeHtml(category)}</p>`
-      : "";
     return `
       <article class="data-card data-card--cut">
         <h3>${escapeHtml(label)}</h3>
-        ${categoryMeta}
+        ${renderCategoryTags(categories)}
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
         ${source}
@@ -69,33 +72,284 @@
 
   function normalizeDisplayCategory(value) {
     const category = String(value || "").trim();
-    if (category === "Research centers") return "Research center cuts";
-    return category;
+    if (!category || category === "Multiple cut types") return "";
+    return DISPLAY_CATEGORY_ALIASES.get(category) || category;
+  }
+
+  function normalizeDisplayCategories(values) {
+    const categories = Array.isArray(values) ? values : [values];
+    return categories
+      .map((value) => normalizeDisplayCategory(value))
+      .filter(Boolean)
+      .filter((value, index, list) => list.indexOf(value) === index);
+  }
+
+  function normalizeCategoryText(...parts) {
+    return parts
+      .flat()
+      .map((value) => String(value || "").trim())
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+      .replace(/[\r\n\t]+/g, " ")
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/[^a-z0-9'./& -]+/g, " ")
+      .replace(/\s{2,}/g, " ")
+      .trim();
+  }
+
+  function matchesCategory(text, patterns) {
+    if (!text || !patterns.length) return false;
+    return patterns.some((pattern) => pattern.test(text));
+  }
+
+  function inferDisplayCategories(cut) {
+    const normalizedType = String(cut?.cut_type || "").trim().toLowerCase();
+    const subjectText = normalizeCategoryText(cut?.program_name, cut?.cut_label_public);
+    const text = normalizeCategoryText(subjectText, cut?.cut_summary_public, cut?.notes);
+    const unitActionPatterns = [
+      /\bclos(?:e|ed|es)\b/i,
+      /\bclosing\b/i,
+      /\bclosure\b/i,
+      /\bshut(?:ting)? down\b/i,
+      /\beliminat(?:e|ed|ing)\b/i,
+      /\bdiscontinu(?:e|ed|ing)\b/i,
+      /\bsuspend(?:ed|ing)?\b/i,
+      /\bsunset(?:ted|ting)?\b/i,
+      /\bphase(?:d)? out\b/i,
+      /\bdrop(?:ped|ping)?\b/i,
+      /\bpaus(?:e|ed|ing)\b/i,
+      /\bterminat(?:e|ed|ing)\b/i
+    ];
+    const unitClosurePatterns = [
+      /\bclos(?:e|ed|es)\b/i,
+      /\bclosing\b/i,
+      /\bclosure\b/i,
+      /\bshut(?:ting)? down\b/i,
+      /\bdiscontinu(?:e|ed|ing)\b/i,
+      /\bsuspend(?:ed|ing)?\b/i,
+      /\bsunset(?:ted|ting)?\b/i,
+      /\bphase(?:d)? out\b/i,
+      /\bdrop(?:ped|ping)?\b/i,
+      /\bpaus(?:e|ed|ing)\b/i,
+      /\bterminat(?:e|ed|ing)\b/i
+    ];
+    const institutionSignal = normalizedType === "institution_closure" || matchesCategory(text, [
+      /\binstitution closure\b/i,
+      /\bclosing as an accredited institution\b/i,
+      /\bceasing all (?:academic |mba )?operations\b/i,
+      /\bpermanently closing\b/i,
+      /\bclosing permanently\b/i,
+      /\b(?:college|university|institution|school) (?:is |will be |will )?clos(?:e|ing|ed)\b/i
+    ]);
+    if (institutionSignal) return ["Institution closures/absorptions"];
+
+    const campusSignal = normalizedType === "campus_closure" || matchesCategory(text, [
+      /\bcampus closure\b/i,
+      /\bcampus (?:is |will be |will )?clos(?:e|ing|ed)\b/i,
+      /\bsatellite campus(?:es)?\b/i,
+      /\bdowntown center campus\b/i
+    ]);
+    if (campusSignal) return ["Campus closures"];
+
+    const athleticsAction = matchesCategory(subjectText, [
+      /\bathletics\b/i,
+      /\bathletic department\b/i,
+      /\bncaa\b/i,
+      /\bstudent-?athletes?\b/i,
+      /\bfootball\b/i,
+      /\bbasketball\b/i,
+      /\bbaseball\b/i,
+      /\bsoftball\b/i,
+      /\bsoccer\b/i,
+      /\bvolleyball\b/i,
+      /\bwrestling\b/i,
+      /\bswimming\b/i,
+      /\bdiving\b/i,
+      /\bgolf\b/i,
+      /\btennis\b/i,
+      /\btrack\b/i,
+      /\bcross country\b/i,
+      /\bcoach(?:ing)?\b/i,
+      /\bathletic scholarships?\b/i
+    ]) || matchesCategory(text, [/\bathletic department\b/i, /\bathletics\b/i]);
+
+    const staffPatterns = [
+      /\blayoff(?:s)?\b/i,
+      /\blaid off\b/i,
+      /\bfurlough(?:ed|s)?\b/i,
+      /\breduction in force\b/i,
+      /\brif\b/i,
+      /\bpositions? eliminated\b/i,
+      /\bjob cuts?\b/i,
+      /\bworkforce reduction\b/i,
+      /\bvoluntary separations?\b/i,
+      /\bnon-?renew(?:al|ed)?\b/i,
+      /\bhiring freeze\b/i
+    ];
+    const staffPrimaryAction = ["staff_layoff", "faculty_layoff", "hiring_freeze"].includes(normalizedType) ||
+      matchesCategory(subjectText, staffPatterns);
+    const staffAction = staffPrimaryAction || matchesCategory(text, staffPatterns);
+
+    const studentSupportSubject = matchesCategory(subjectText, [
+      /\bstudent support\b/i,
+      /\bstudent success\b/i,
+      /\bwelcome center\b/i,
+      /\boutreach\b/i,
+      /\badvis(?:ing|or)\b/i,
+      /\bretention\b/i,
+      /\bpre-?college\b/i,
+      /\bfirst-?year\b/i,
+      /\borientation\b/i,
+      /\bscholar(?:s|ship)?\b/i,
+      /\bdiversity\b/i,
+      /\bequity\b/i,
+      /\binclusion\b/i,
+      /\bsocial justice\b/i,
+      /\blgbtq?\b/i,
+      /\bgender and sexuality\b/i,
+      /\bmulticultural\b/i,
+      /\bcampus ministry\b/i,
+      /\bstudent life\b/i,
+      /\bstudent culture\b/i,
+      /\bcollege to career\b/i
+    ]) || matchesCategory(text, [
+      /\bgender and sexuality center\b/i,
+      /\boffice of diversity\b/i,
+      /\boffice of social justice\b/i
+    ]);
+    const studentSupportAction = studentSupportSubject && (
+      ["program_suspension", "department_closure"].includes(normalizedType) ||
+      matchesCategory(subjectText, unitClosurePatterns) ||
+      matchesCategory(text, [/\bshut(?:ting)? down\b/i, /\bclosing\b/i, /\bclosed\b/i, /\bdiscontinu(?:e|ed|ing)\b/i, /\bpaus(?:e|ed|ing)\b/i])
+    );
+
+    const researchCenterSubject = matchesCategory(subjectText, [
+      /\bcenter\b/i,
+      /\bcentre\b/i,
+      /\binstitute\b/i,
+      /\bresearch lab\b/i,
+      /\bresearch laboratory\b/i,
+      /\bobservatory\b/i,
+      /\bmuseum\b/i,
+      /\boffice\b/i
+    ]) && !studentSupportSubject;
+    const researchCenterAction = researchCenterSubject && (
+      normalizedType === "department_closure" ||
+      matchesCategory(subjectText, unitClosurePatterns) ||
+      matchesCategory(text, [/\bshut(?:ting)? down\b/i, /\bclosing\b/i, /\bclosed\b/i, /\bdiscontinu(?:e|ed|ing)\b/i])
+    );
+
+    const communityProgramSubject = matchesCategory(subjectText, [
+      /\bcommunity program(?:s)?\b/i,
+      /\bcommunity music school\b/i,
+      /\bmusic school\b/i,
+      /\bextension\b/i,
+      /\boutreach program(?:s)?\b/i,
+      /\bpublic service\b/i,
+      /\bcontinuing education\b/i,
+      /\bsnap-?ed\b/i,
+      /\bnutrition education\b/i,
+      /\bcommunity education\b/i,
+      /\bcommunity engagement\b/i
+    ]) || matchesCategory(text, [
+      /\bserved [0-9, ]+ people annually\b/i,
+      /\bserved communities? across\b/i,
+      /\bcommunity members?\b/i
+    ]);
+    const communityProgramAction = communityProgramSubject && (
+      ["program_suspension", "department_closure"].includes(normalizedType) ||
+      matchesCategory(subjectText, unitActionPatterns) ||
+      matchesCategory(text, [/\bfunding (?:eliminated|ended|cut)\b/i, /\bgrant funding (?:cut|eliminated)\b/i])
+    );
+
+    let academicAction = matchesCategory(subjectText, [
+      /\badmissions? paus(?:e|ed|ing)\b/i,
+      /\bmajor(?:s)?\b/i,
+      /\bminor(?:s)?\b/i,
+      /\bdegree(?:s)?\b/i,
+      /\bcertificate(?:s)?\b/i,
+      /\bconcentration(?:s)?\b/i,
+      /\bph\.?d\.?\b/i,
+      /\bmaster'?s\b/i,
+      /\bbachelor'?s\b/i,
+      /\bgraduate programs?\b/i,
+      /\bacademic programs?\b/i
+    ]);
+    if (!academicAction) {
+      academicAction = matchesCategory(subjectText, [
+        /\bclasses?\b.{0,24}\bcut/i,
+        /\bcut(?:ting)?\b.{0,24}\bclasses?\b/i,
+        /\bcourses?\b.{0,24}\bcut/i,
+        /\bcut(?:ting)?\b.{0,24}\bcourses?\b/i
+      ]);
+    }
+    if (!academicAction && normalizedType === "program_suspension" &&
+      !athleticsAction && !studentSupportAction && !researchCenterAction && !communityProgramAction) {
+      academicAction = true;
+    }
+    if (!academicAction && normalizedType === "department_closure" &&
+      !athleticsAction && !studentSupportAction && !researchCenterAction && !communityProgramAction) {
+      academicAction = true;
+    }
+    if (!academicAction &&
+      matchesCategory(subjectText, [/\bdepartment\b/i]) &&
+      (matchesCategory(subjectText, unitActionPatterns) || normalizedType === "department_closure") &&
+      !athleticsAction && !studentSupportAction && !researchCenterAction && !communityProgramAction) {
+      academicAction = true;
+    }
+
+    const categories = [];
+    const addCategory = (value) => {
+      if (value && !categories.includes(value)) categories.push(value);
+    };
+    if (athleticsAction) addCategory("Athletics cuts");
+    if (studentSupportAction) addCategory("Student support cuts");
+    if (researchCenterAction) addCategory("Research center cuts");
+    if (communityProgramAction) addCategory("Community program cuts");
+    if (academicAction) addCategory("Academic program cuts");
+    if (staffAction) addCategory("Staff layoffs / furloughs");
+    if (categories.length) return categories;
+    if (["staff_layoff", "faculty_layoff", "hiring_freeze"].includes(normalizedType)) return ["Staff layoffs / furloughs"];
+    if (normalizedType === "program_suspension") return ["Academic program cuts"];
+    if (normalizedType === "department_closure") {
+      if (researchCenterSubject) return ["Research center cuts"];
+      if (communityProgramSubject) return ["Community program cuts"];
+      return ["Academic program cuts"];
+    }
+    if (researchCenterSubject) return ["Research center cuts"];
+    if (communityProgramSubject) return ["Community program cuts"];
+    return ["Academic program cuts"];
+  }
+
+  function resolveDisplayCategories(cut) {
+    const explicit = normalizeDisplayCategories(cut?.display_categories);
+    if (explicit.length) return explicit;
+    const inferred = inferDisplayCategories(cut);
+    if (inferred.length) return inferred;
+    const hinted = normalizeDisplayCategories([cut?.primary_display_category, cut?.display_category]);
+    return hinted.length ? hinted : ["Academic program cuts"];
   }
 
   function resolveDisplayCategory(cut) {
-    if (cut?.display_category) return normalizeDisplayCategory(cut.display_category);
-    switch (String(cut?.cut_type || "").trim().toLowerCase()) {
-      case "institution_closure":
-        return "Institution closures/absorptions";
-      case "campus_closure":
-        return "Campus closures";
-      case "staff_layoff":
-      case "faculty_layoff":
-      case "hiring_freeze":
-        return "Staff layoffs / furloughs";
-      case "program_suspension":
-        return "Academic program cuts / admissions pauses";
-      case "department_closure":
-        return "Research center cuts";
-      default:
-        break;
-    }
-    return "Academic program cuts / admissions pauses";
+    const [primary = "Academic program cuts"] = resolveDisplayCategories(cut);
+    return primary;
+  }
+
+  function renderCategoryTags(categories, className = "") {
+    const tags = normalizeDisplayCategories(categories);
+    if (!tags.length) return "";
+    const classAttr = ["cut-tag-list", className].filter(Boolean).join(" ");
+    return `<div class="${classAttr}" aria-label="Type of cuts">${tags.map((tag) => `<span class="cut-tag">${escapeHtml(tag)}</span>`).join("")}</div>`;
+  }
+
+  function formatCategoriesForCsv(cut) {
+    return resolveDisplayCategories(cut).join("; ");
   }
 
   function buildCategoryOptions(items) {
-    const present = new Set((items || []).map((item) => resolveDisplayCategory(item)).filter(Boolean));
+    const present = new Set((items || []).flatMap((item) => resolveDisplayCategories(item)).filter(Boolean));
     const ordered = CUT_CATEGORY_ORDER.filter((category) => present.has(category));
     const extras = Array.from(present).filter((category) => !CUT_CATEGORY_ORDER.includes(category)).sort((a, b) => a.localeCompare(b));
     return [...ordered, ...extras];
@@ -234,13 +488,15 @@
     const { landingMode = false } = options;
     if (!items || !items.length) return renderEmpty("No matched cuts are available.");
     const rows = landingMode
-      ? items.map((cut) => [
-        renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
-        resolveDisplayCategory(cut),
-        cut.state,
-        cut.control_label,
-        cut.announcement_date || cut.announcement_year || ""
-      ])
+      ? items.map((cut) => `
+        <tr>
+          <td>${window.TrackerApp.renderSchoolLink(cut.financial_unitid, cut.institution_name, "cuts.html")}</td>
+          <td>${renderCategoryTags(resolveDisplayCategories(cut), "history-table-cut-tags")}</td>
+          <td>${escapeHtml(cut.state || "")}</td>
+          <td>${escapeHtml(cut.control_label || "")}</td>
+          <td>${escapeHtml(cut.announcement_date || cut.announcement_year || "")}</td>
+        </tr>
+      `)
       : items.map((cut) => [
         renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
         cleanCutLabel(cut.cut_label_public || cut.program_name),
@@ -290,8 +546,9 @@
             unitid: school.unitid || cut.unitid || "",
             financial_unitid: school.financial_unitid || null,
             is_primary_tracker: school.is_primary_tracker,
-            display_category:
-              cut.display_category || ""
+            primary_display_category: cut.primary_display_category || cut.display_category || "",
+            display_category: cut.display_category || "",
+            display_categories: Array.isArray(cut.display_categories) ? cut.display_categories : []
           };
         });
       })
@@ -357,19 +614,19 @@
         const institutionMatches = window.TrackerApp.filterByInstitution(rows, query);
         const selectedCategories = getSelectedCategories(categoryFilter);
         if (!selectedCategories.length) return institutionMatches;
-        return institutionMatches.filter((row) => selectedCategories.includes(resolveDisplayCategory(row)));
+        return institutionMatches.filter((row) => resolveDisplayCategories(row).some((category) => selectedCategories.includes(category)));
       },
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
       renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState, { landingMode }),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "State", "Sector", "Category", "Cut", "Date", "Source"],
+      downloadHeaders: ["Institution", "State", "Sector", "Type of cuts", "Cut", "Date", "Source"],
       downloadRow: (cut) => [
         cut.institution_name || "",
         cut.state || "",
         cut.control_label || "",
-        resolveDisplayCategory(cut),
+        formatCategoriesForCsv(cut),
         cleanCutLabel(cut.cut_label_public || cut.program_name),
         cut.announcement_date || cut.announcement_year || "",
         cut.source_url || ""
@@ -531,12 +788,12 @@
       if (detailDownload) {
         detailDownload.onclick = () => downloadRowsCsv(
           `${String(school.institution_name || "college-cuts").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-cuts.csv`,
-          ["Institution", "State", "Sector", "Category", "Cut", "Date", "Source"],
+          ["Institution", "State", "Sector", "Type of cuts", "Cut", "Date", "Source"],
           detailRows.map((cut) => [
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
-            resolveDisplayCategory(cut),
+            formatCategoriesForCsv(cut),
             cleanCutLabel(cut.cut_label_public || cut.program_name),
             cut.announcement_date || cut.announcement_year || "",
             cut.source_url || ""

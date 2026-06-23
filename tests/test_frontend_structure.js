@@ -130,6 +130,10 @@ const PAGES = [
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },
       { pattern: /(<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about state aid\?<\/h2>)/, message: "State aid heading" },
+      { pattern: /<p class="guide-sample-mini-chart-title">Endowment value<span class="sub">Adjusted for inflation<\/span><\/p>/, message: "Example University guide endowment chart" },
+      { pattern: /guide-callout-right guide-callout-row-1">This box is red because net tuition revenue fell by more than 10%\.<\/article>/, message: "Example University top-right callout matches net tuition box" },
+      { pattern: /guide-callout-left guide-callout-row-2">This chart shows enrollment falling by more than 10% over time\.<\/article>/, message: "Example University middle-left callout matches enrollment chart" },
+      { pattern: /guide-callout-right guide-callout-row-2">This chart shows the endowment growing by more than 10% over time\.<\/article>/, message: "Example University middle-right callout matches endowment chart" },
     ],
   },
   {

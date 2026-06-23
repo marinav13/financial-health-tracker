@@ -34,25 +34,25 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "24"
 
       - name: Set up R
-        uses: r-lib/actions/setup-r@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2.11.4
+        uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6  # v2.12.1
         with:
           r-version: "4.5.3"
 
       - name: Cache R packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: renv/library
           key: r-ubuntu-24.04-${{ hashFiles('renv.lock') }}
@@ -83,7 +83,7 @@ jobs:
       # canonical-rebuild step below cold-fetches every IPEDS table on
       # every weekly run.
       - name: Restore IPEDS download cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ipeds/cache/downloads
           key: ipeds-downloads-${{ runner.os }}-${{ hashFiles('scripts/collect_ipeds_data.R', 'scripts/build_ipeds_dataset.R') }}
@@ -91,7 +91,7 @@ jobs:
             ipeds-downloads-${{ runner.os }}-
 
       - name: Cache accreditation scraped HTML
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: data_pipelines/accreditation/cache
           key: accreditation-cache-v1-${{ steps.cache-week.outputs.week }}
@@ -99,7 +99,7 @@ jobs:
             accreditation-cache-v1-
 
       - name: Cache Grant Witness downloads and USAspending responses
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: data_pipelines/grant_witness/cache
           key: grant-witness-cache-v1-${{ steps.cache-week.outputs.week }}
@@ -121,7 +121,7 @@ jobs:
       # hash drifts mid-cycle (still better than a 2-hour cold rebuild).
       - name: Cache canonical IPEDS dataset
         id: cache-ipeds-canonical
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ipeds/derived
           key: ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-${{ hashFiles('scripts/build_ipeds_dataset.R', 'scripts/build_ipeds_canonical_dataset.R', 'scripts/collect_ipeds_data.R', 'scripts/shared/ipeds_helpers.R', 'scripts/shared/ipeds_row_builders.R', 'scripts/shared/ipeds_collector_helpers.R') }}
@@ -196,7 +196,7 @@ jobs:
         timeout-minutes: 60
         run: |
           # --cache-max-age-days: reuse HTML cached within this many days even
-          #   when refresh=TRUE. actions/cache@v4 restores last week's cache, so
+          #   when refresh=TRUE. actions/cache@v5 restores last week's cache, so
           #   a 6-day window means a Monday run reuses last Monday's pages but
           #   any older page (or any new institution since last week) refetches.
           # --msche-parallel-workers: number of concurrent workers for the
@@ -406,7 +406,7 @@ jobs:
       # rows that triggered the red run.
       - name: Upload failed accreditation rebuild outputs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: failed-accreditation-outputs
           path: |
@@ -455,7 +455,7 @@ jobs:
 
       - name: Upload refresh logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: refresh-logs
           path: refresh-logs/

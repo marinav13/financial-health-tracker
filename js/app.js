@@ -158,7 +158,7 @@ function renderRelatedInstitutionLinks(options = {}) {
     links.push(window.TrackerApp.renderSchoolLink(accreditationRecord.unitid, "Accreditation", "accreditation.html"));
   }
   if (include.includes("research") && current !== "research" && researchRecord?.unitid) {
-    links.push(window.TrackerApp.renderSchoolLink(researchRecord.unitid, "Research Funding Cuts", "research.html"));
+    links.push(window.TrackerApp.renderSchoolLink(researchRecord.unitid, "Research funding cuts", "research.html"));
   }
 
   if (!links.length) return "";
@@ -233,7 +233,7 @@ function upgradeSiteFooter() {
 
     const summary = document.createElement("p");
     summary.className = "ftr-credit-summary";
-    summary.textContent = `Browse financial data for ${countText} four-year colleges nationwide. Explore details like accreditation, revenue, expenses and more.`;
+    summary.textContent = `Browse financial data for ${countText} four-year colleges nationwide. Explore details like accreditation actions, revenue, expenses and more.`;
 
     const creditLines = [
       "Coding, design and data analysis by <strong>Marina Villeneuve</strong>.",

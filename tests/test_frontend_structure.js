@@ -149,6 +149,7 @@ const PAGES = [
       { pattern: /<a[^>]+href="#methodology-enrollment"[^>]*>Enrollment &amp; Staffing<\/a>/, message: "Methodology nav link for Enrollment & Staffing" },
       { pattern: /<section[^>]+id="methodology-geography"[\s\S]*<h2[^>]+class="section-title"[^>]*>Geography and outcomes<\/h2>/, message: "Geography and outcomes section heading" },
       { pattern: /<section[^>]+id="methodology-enrollment"[\s\S]*<h2[^>]+class="section-title"[^>]*>Enrollment &amp; Staffing<\/h2>/, message: "Enrollment & Staffing section heading" },
+      { pattern: /<a[^>]+class="download-button"[^>]+href="data\/downloads\/full_dataset\.csv"[^>]*download[^>]*>Download all the federal higher ed data we analyzed<\/a>/, message: "Methodology full dataset download button" },
     ],
   },
 ];

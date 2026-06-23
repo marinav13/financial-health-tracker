@@ -896,7 +896,7 @@ function renderSchoolRelatedPages(unitid, schoolName, relatedIndexes = {}) {
       record: findRelatedIndexRecord(relatedIndexes.accreditation, unitid, "action_count")
     },
     {
-      label: "Research Funding Cuts",
+      label: "Research funding cuts",
       page: "research.html",
       record: findRelatedIndexRecord(relatedIndexes.research, unitid, "total_disrupted_grants")
     }
@@ -1654,7 +1654,7 @@ async function init() {
   }
 
   const mergerBadge = mergerFlag
-    ? buildBadge("Merger Announced", "This institution has been absorbed by another institution.", (tip) => {
+    ? buildBadge("Merger announced", "This institution has been absorbed by another institution.", (tip) => {
         tip.append("This institution has been ");
         tip.append(tipLink(cutsHref, "absorbed"));
         tip.append(" by another institution.");
@@ -1664,7 +1664,7 @@ async function init() {
 
   const closureYearSuffix = closureYear ? ` in ${closureYear}` : "";
   const closureBadge = closureYear !== null
-    ? buildBadge("Closure Announced", `This institution announced its closure${closureYearSuffix}.`, (tip) => {
+    ? buildBadge("Closure announced", `This institution announced its closure${closureYearSuffix}.`, (tip) => {
         tip.append("This institution announced its ");
         tip.append(tipLink(cutsHref, "closure"));
         tip.append(`${closureYearSuffix}.`);

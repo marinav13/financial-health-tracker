@@ -179,7 +179,7 @@ function relatedPagesForSchool(unitid, options = {}) {
       countField: 'action_count'
     },
     {
-      label: 'Research Funding Cuts',
+      label: 'Research funding cuts',
       page: 'research.html',
       index: readJson('data/research_funding_index.json'),
       countField: 'total_disrupted_grants'

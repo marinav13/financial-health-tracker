@@ -5436,7 +5436,7 @@ derive_cut_summary_public <- function(notes,
 .CUT_DISPLAY_CATEGORY_STAFF <- "Staff layoffs / furloughs"
 .CUT_DISPLAY_CATEGORY_ACADEMIC <- "Academic program cuts / admissions pauses"
 .CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT <- "Student support closures"
-.CUT_DISPLAY_CATEGORY_RESEARCH <- "Research centers"
+.CUT_DISPLAY_CATEGORY_RESEARCH <- "Research center cuts"
 .CUT_DISPLAY_CATEGORY_MULTIPLE <- "Multiple cut types"
 
 .normalize_cut_category_text <- function(...) {

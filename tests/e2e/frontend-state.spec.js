@@ -177,31 +177,39 @@ test.describe('Frontend state synchronization', () => {
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
   });
 
-  test('cuts landing category filter shows only the selected category', async ({ page }) => {
+  test('cuts landing category filter supports selecting multiple categories', async ({ page }) => {
     await page.goto('/cuts.html');
 
     const list = page.locator('#cuts-list');
     await expect(list.locator('table.history-table')).toBeVisible();
-    await expect(list.locator('thead th')).toContainText(['Institution', 'Cuts type', 'State', 'Sector', 'Date']);
+    await expect(list.locator('thead th')).toContainText(['Institution', 'TYPE OF CUTS', 'State', 'Sector', 'Date']);
 
     const categoryFilter = page.locator('#cuts-category-filter');
     await expect(categoryFilter).toBeVisible();
 
-    const optionLabels = await categoryFilter.locator('option').evaluateAll((options) =>
-      options.map((option) => (option.textContent || '').trim()).filter(Boolean)
-    );
-    const selectedCategory = optionLabels.find((label) => label !== 'All categories');
-    expect(selectedCategory).toBeTruthy();
+    await categoryFilter.locator('summary').click();
 
-    await categoryFilter.selectOption({ label: selectedCategory });
+    const categoryLabels = await categoryFilter.locator('.table-filter-option span').evaluateAll((nodes) =>
+      nodes.map((node) => (node.textContent || '').trim()).filter(Boolean)
+    );
+    const selectableCategories = categoryLabels.filter((label) => label !== 'All categories').slice(0, 2);
+    expect(selectableCategories).toHaveLength(2);
+
+    for (const label of selectableCategories) {
+      const checkbox = categoryFilter.locator('.table-filter-option').filter({ hasText: label }).locator('input[type="checkbox"]');
+      await checkbox.check();
+    }
 
     const categoryCells = await list.locator('tbody tr td:nth-child(2)').evaluateAll((cells) =>
       cells.map((cell) => (cell.textContent || '').trim())
     );
     expect(categoryCells.length).toBeGreaterThan(0);
     for (const value of categoryCells) {
-      expect(value).toBe(selectedCategory);
+      expect(selectableCategories).toContain(value);
     }
+
+    await page.locator('body').click({ position: { x: 20, y: 20 } });
+    await expect(categoryFilter).not.toHaveAttribute('open', '');
   });
 
   test('accreditation sortable headers move aria-sort in landing and detail tables', async ({ page }) => {

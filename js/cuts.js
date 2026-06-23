@@ -28,6 +28,7 @@
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
   const MIN_DEFAULT_YEAR = 2024;
+  const ALL_CATEGORIES_VALUE = "__all__";
   const CUT_CATEGORY_ORDER = [
     "Institution closures/absorptions",
     "Campus closures",
@@ -66,8 +67,14 @@
     `;
   }
 
+  function normalizeDisplayCategory(value) {
+    const category = String(value || "").trim();
+    if (category === "Research centers") return "Research center cuts";
+    return category;
+  }
+
   function resolveDisplayCategory(cut) {
-    if (cut?.display_category) return String(cut.display_category).trim();
+    if (cut?.display_category) return normalizeDisplayCategory(cut.display_category);
     switch (String(cut?.cut_type || "").trim().toLowerCase()) {
       case "institution_closure":
         return "Institution closures/absorptions";
@@ -91,18 +98,103 @@
     const present = new Set((items || []).map((item) => resolveDisplayCategory(item)).filter(Boolean));
     const ordered = CUT_CATEGORY_ORDER.filter((category) => present.has(category));
     const extras = Array.from(present).filter((category) => !CUT_CATEGORY_ORDER.includes(category)).sort((a, b) => a.localeCompare(b));
-    return ["", ...ordered, ...extras];
+    return [...ordered, ...extras];
   }
 
-  function populateCategoryFilter(select, items) {
-    if (!select) return;
-    const selectedValue = String(select.value || "");
+  function getSelectedCategories(filterRoot) {
+    if (!filterRoot) return [];
+    const selected = Array.from(filterRoot.querySelectorAll('input[type="checkbox"][data-category-value]:checked'))
+      .map((input) => String(input.getAttribute("data-category-value") || "").trim())
+      .filter(Boolean);
+    return selected.includes(ALL_CATEGORIES_VALUE) ? [] : selected;
+  }
+
+  function updateCategoryFilterSummary(filterRoot) {
+    if (!filterRoot) return;
+    const summary = filterRoot.querySelector(".table-filter-select");
+    if (!summary) return;
+    const selected = getSelectedCategories(filterRoot);
+    if (!selected.length) {
+      summary.textContent = "All categories";
+      return;
+    }
+    if (selected.length === 1) {
+      [summary.textContent] = selected;
+      return;
+    }
+    summary.textContent = `${selected.length} categories selected`;
+  }
+
+  function normalizeCategoryFilterState(filterRoot, changedValue = "") {
+    if (!filterRoot) return;
+    const checkboxes = Array.from(filterRoot.querySelectorAll('input[type="checkbox"][data-category-value]'));
+    const allCheckbox = checkboxes.find((input) => String(input.getAttribute("data-category-value")) === ALL_CATEGORIES_VALUE);
+    const categoryCheckboxes = checkboxes.filter((input) => input !== allCheckbox);
+    if (!allCheckbox) return;
+
+    if (changedValue === ALL_CATEGORIES_VALUE && allCheckbox.checked) {
+      categoryCheckboxes.forEach((input) => {
+        input.checked = false;
+      });
+      updateCategoryFilterSummary(filterRoot);
+      return;
+    }
+
+    const checkedCategories = categoryCheckboxes.filter((input) => input.checked);
+    if (!checkedCategories.length || checkedCategories.length === categoryCheckboxes.length) {
+      allCheckbox.checked = true;
+      categoryCheckboxes.forEach((input) => {
+        input.checked = false;
+      });
+    } else {
+      allCheckbox.checked = false;
+    }
+
+    updateCategoryFilterSummary(filterRoot);
+  }
+
+  function populateCategoryFilter(filterRoot, items) {
+    if (!filterRoot) return;
+    const optionsContainer = filterRoot.querySelector("#cuts-category-filter-options");
+    if (!optionsContainer) return;
+    const previouslySelected = getSelectedCategories(filterRoot);
     const options = buildCategoryOptions(items);
-    select.innerHTML = options.map((value) => {
-      const label = value || "All categories";
-      return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
-    }).join("");
-    select.value = options.includes(selectedValue) ? selectedValue : "";
+    const selectedValues = new Set(previouslySelected.filter((value) => options.includes(value)));
+    const showAll = !selectedValues.size;
+    optionsContainer.innerHTML = [
+      `<label class="table-filter-option"><input type="checkbox" data-category-value="${ALL_CATEGORIES_VALUE}"${showAll ? " checked" : ""}> <span>All categories</span></label>`,
+      ...options.map((value) => {
+        const checked = selectedValues.has(value);
+        return `<label class="table-filter-option"><input type="checkbox" data-category-value="${escapeHtml(value)}"${checked ? " checked" : ""}> <span>${escapeHtml(value)}</span></label>`;
+      })
+    ].join("");
+    updateCategoryFilterSummary(filterRoot);
+  }
+
+  function initCategoryFilterDismissal(filterRoot) {
+    if (!filterRoot || filterRoot.dataset.dismissalBound === "true") return;
+    filterRoot.dataset.dismissalBound = "true";
+
+    document.addEventListener("click", (event) => {
+      if (!filterRoot.open) return;
+      if (filterRoot.contains(event.target)) return;
+      filterRoot.open = false;
+    });
+
+    filterRoot.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      filterRoot.open = false;
+      filterRoot.querySelector(".table-filter-select")?.focus();
+    });
+
+    filterRoot.addEventListener("focusout", () => {
+      window.setTimeout(() => {
+        if (!filterRoot.open) return;
+        const active = document.activeElement;
+        if (active && filterRoot.contains(active)) return;
+        filterRoot.open = false;
+      }, 0);
+    });
   }
 
   function sortCuts(items, sortState) {
@@ -161,7 +253,7 @@
       headers: landingMode
         ? [
           renderSortableHeader("institution_name", sortState, "Institution"),
-          "<th>Cuts type</th>",
+          "<th>TYPE OF CUTS</th>",
           renderSortableHeader("state", sortState, "State"),
           renderSortableHeader("control_label", sortState, "Sector"),
           renderSortableHeader("announcement_date", sortState, "Date")
@@ -252,7 +344,7 @@
     filterOnInput = true,
     searchValueResolver = null,
     landingMode = false,
-    categorySelect = null
+    categoryFilter = null
   }) {
     const controller = makeTableController({
       container,
@@ -263,9 +355,9 @@
       searchValueResolver,
       filterItems: (rows, query) => {
         const institutionMatches = window.TrackerApp.filterByInstitution(rows, query);
-        const selectedCategory = String(categorySelect?.value || "").trim();
-        if (!selectedCategory) return institutionMatches;
-        return institutionMatches.filter((row) => resolveDisplayCategory(row) === selectedCategory);
+        const selectedCategories = getSelectedCategories(categoryFilter);
+        if (!selectedCategories.length) return institutionMatches;
+        return institutionMatches.filter((row) => selectedCategories.includes(resolveDisplayCategory(row)));
       },
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
@@ -283,8 +375,13 @@
         cut.source_url || ""
       ]
     });
-    if (categorySelect) {
-      categorySelect.addEventListener("change", () => controller?.reset?.());
+    if (categoryFilter) {
+      categoryFilter.addEventListener("change", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement) || target.type !== "checkbox") return;
+        normalizeCategoryFilterState(categoryFilter, String(target.getAttribute("data-category-value") || ""));
+        controller?.reset?.();
+      });
     }
     return controller;
   }
@@ -327,6 +424,7 @@
       const primaryFilter = document.getElementById("cuts-filter");
       const categoryFilter = document.getElementById("cuts-category-filter");
       populateCategoryFilter(categoryFilter, primary);
+      initCategoryFilterDismissal(categoryFilter);
       setupPagination({
         container,
         items: primary,
@@ -337,7 +435,7 @@
         filterOnInput: false,
         searchValueResolver: getCommittedSearchValue,
         landingMode: true,
-        categorySelect: categoryFilter
+        categoryFilter
       });
       return;
     }

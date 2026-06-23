@@ -239,7 +239,8 @@ function upgradeSiteFooter() {
       "Coding, design and data analysis by <strong>Marina Villeneuve</strong>.",
       "Editing by <strong>Sarah Butrymowicz, Lawrie Mifflin and Caroline Preston</strong>.",
       "Additional contributions by <strong>William Lager</strong>.",
-      "Illustration by <strong>Elena Lacey</strong> for The Hechinger Report."
+      "Copy editing by <strong>Matt Cella</strong>.",
+      "Illustrations by <strong>Elena Lacey</strong>."
     ];
 
     left.append(kicker, summary);
@@ -553,6 +554,27 @@ function getSearchInstances() {
 // ------ Search Initialization & Rendering ------
 
 async function initSearch() {
+  function syncResponsivePlaceholders() {
+    const useMobile = typeof window !== "undefined"
+      && typeof window.matchMedia === "function"
+      && window.matchMedia("(max-width: 420px)").matches;
+    document.querySelectorAll("input[data-mobile-placeholder]").forEach((input) => {
+      if (!input.dataset.desktopPlaceholder) {
+        input.dataset.desktopPlaceholder = input.getAttribute("placeholder") || "";
+      }
+      input.setAttribute(
+        "placeholder",
+        useMobile ? String(input.dataset.mobilePlaceholder || "") : String(input.dataset.desktopPlaceholder || "")
+      );
+    });
+  }
+
+  syncResponsivePlaceholders();
+  if (typeof document !== "undefined" && document.body && document.body.dataset.responsivePlaceholdersBound !== "true") {
+    document.body.dataset.responsivePlaceholdersBound = "true";
+    window.addEventListener("resize", syncResponsivePlaceholders);
+  }
+
   const raw = await loadJson(getSearchSourcePath());
 
   const schools = (Array.isArray(raw) ? raw : Object.values(raw || {})).slice().map((row) => {

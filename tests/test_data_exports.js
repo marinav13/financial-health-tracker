@@ -16,6 +16,8 @@ const SCHOOLS_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "school
 const ACCREDITATION = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "accreditation.json"), "utf8"));
 const RESEARCH_FUNDING = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding.json"), "utf8"));
 const RESEARCH_FUNDING_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "research_funding_index.json"), "utf8"));
+const COLLEGE_CUTS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "college_cuts.json"), "utf8"));
+const COLLEGE_CUTS_INDEX = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "college_cuts_index.json"), "utf8"));
 const CLOSURE_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "closure_status_by_unitid.json"), "utf8"));
 const HCM_STATUS = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "hcm2_by_unitid.json"), "utf8"));
 const FEDERAL_COMPOSITE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "federal_composite_scores_by_unitid.json"), "utf8"));
@@ -42,6 +44,16 @@ function numericSeries(school, key) {
     .filter((point) => point && point.year != null && point.value != null)
     .map((point) => ({ year: Number(point.year), value: Number(point.value) }))
     .filter((point) => Number.isFinite(point.year) && Number.isFinite(point.value));
+}
+
+function cutComparableRow(cut = {}) {
+  return {
+    announcement_date: cut.announcement_date ?? null,
+    announcement_year: cut.announcement_year ?? null,
+    program_name: cut.program_name ?? null,
+    cut_label_public: cut.cut_label_public ?? null,
+    display_category: cut.display_category ?? null
+  };
 }
 
 console.log("\n=== Static Data Export Smoke Tests ===\n");
@@ -161,6 +173,63 @@ run("school JSON files keep multi-year revenue series when five-year summaries e
   assert(
     staleFiles.length === 0,
     `Expected multi-year revenue series; one-year exports found in: ${staleFiles.slice(0, 10).join(", ")}`
+  );
+});
+
+run("college cuts full export and index stay in sync", () => {
+  const fullSchools = COLLEGE_CUTS.schools || {};
+  const indexSchools = COLLEGE_CUTS_INDEX || {};
+
+  const fullIds = Object.keys(fullSchools).sort();
+  const indexIds = Object.keys(indexSchools).sort();
+  assert(
+    JSON.stringify(fullIds) === JSON.stringify(indexIds),
+    `college cuts school keys differ between full and index exports. ` +
+    `Only in full: ${fullIds.filter((id) => !indexIds.includes(id)).slice(0, 10).join(", ") || "none"}. ` +
+    `Only in index: ${indexIds.filter((id) => !fullIds.includes(id)).slice(0, 10).join(", ") || "none"}.`
+  );
+
+  const mismatches = [];
+
+  for (const unitid of fullIds) {
+    const fullSchool = fullSchools[unitid] || {};
+    const indexSchool = indexSchools[unitid] || {};
+    const fullCuts = Array.isArray(fullSchool.cuts) ? fullSchool.cuts : [];
+    const landingCuts = Array.isArray(indexSchool.landing_cuts) ? indexSchool.landing_cuts : [];
+
+    if ((fullSchool.cut_count ?? null) !== (indexSchool.cut_count ?? null)) {
+      mismatches.push(`${unitid} ${fullSchool.institution_name || ""}: cut_count full=${fullSchool.cut_count} index=${indexSchool.cut_count}`);
+      continue;
+    }
+    if ((fullSchool.latest_cut_date ?? null) !== (indexSchool.latest_cut_date ?? null)) {
+      mismatches.push(`${unitid} ${fullSchool.institution_name || ""}: latest_cut_date full=${fullSchool.latest_cut_date} index=${indexSchool.latest_cut_date}`);
+      continue;
+    }
+    if ((fullSchool.latest_cut_label ?? null) !== (indexSchool.latest_cut_label ?? null)) {
+      mismatches.push(`${unitid} ${fullSchool.institution_name || ""}: latest_cut_label differs`);
+      continue;
+    }
+    if (fullCuts.length !== landingCuts.length) {
+      mismatches.push(`${unitid} ${fullSchool.institution_name || ""}: cuts length full=${fullCuts.length} index=${landingCuts.length}`);
+      continue;
+    }
+
+    for (let index = 0; index < fullCuts.length; index += 1) {
+      const fullRow = cutComparableRow(fullCuts[index]);
+      const indexRow = cutComparableRow(landingCuts[index]);
+      if (JSON.stringify(fullRow) !== JSON.stringify(indexRow)) {
+        mismatches.push(
+          `${unitid} ${fullSchool.institution_name || ""}: row ${index} differs ` +
+          `full=${JSON.stringify(fullRow)} index=${JSON.stringify(indexRow)}`
+        );
+        break;
+      }
+    }
+  }
+
+  assert(
+    mismatches.length === 0,
+    `college cuts full and index exports drifted in ${mismatches.length} school(s). First 10: ${mismatches.slice(0, 10).join("; ")}`
   );
 });
 

@@ -424,6 +424,15 @@ build_cuts_export <- function() {
     cuts$cut_summary_public <- vapply(seq_len(nrow(cuts)), function(i)
       derive_cut_summary_public(cuts$notes[[i]], approved_summary_ov[[i]]),
       character(1))
+    cuts$display_category <- vapply(seq_len(nrow(cuts)), function(i)
+      derive_cut_display_category(
+        cut_type = cuts$cut_type[[i]],
+        program_name = cuts$program_name[[i]],
+        cut_label_public = cuts$cut_label_public[[i]],
+        cut_summary_public = cuts$cut_summary_public[[i]],
+        notes = cuts$notes[[i]]
+      ),
+      character(1))
   }
 
   recent <- cuts %>%
@@ -444,6 +453,7 @@ build_cuts_export <- function() {
       program_name = program_name,
       cut_label_public = cut_label_public,
       cut_summary_public = cut_summary_public,
+      display_category = display_category,
       cut_type = cut_type,
       status = status,
       effective_term = effective_term,
@@ -478,6 +488,7 @@ build_cuts_export <- function() {
           program_name = or_null(df$program_name[i]),
           cut_label_public = or_null(df$cut_label_public[i]),
           cut_summary_public = or_null(df$cut_summary_public[i]),
+          display_category = or_null(df$display_category[i]),
           cut_type = or_null(df$cut_type[i]),
           status = or_null(df$status[i]),
           effective_term = or_null(df$effective_term[i]),
@@ -3509,6 +3520,8 @@ if ("cuts" %in% selected_exports) {
         announcement_date = cut$announcement_date,
         announcement_year = cut$announcement_year,
         program_name = cut$program_name,
+        cut_label_public = cut$cut_label_public,
+        display_category = cut$display_category,
         positions_affected = cut$positions_affected,
         faculty_affected = cut$faculty_affected,
         source_url = cut$source_url

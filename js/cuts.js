@@ -27,23 +27,38 @@
     getCommittedSearchValue
   } = window.TrackerApp;
   const PAGE_SIZE = 25;
-  const OTHER_PAGE_SIZE = 5;
   const MIN_DEFAULT_YEAR = 2024;
+  const CUT_CATEGORY_ORDER = [
+    "Institution closures/absorptions",
+    "Campus closures",
+    "Athletics cuts",
+    "Staff layoffs / furloughs",
+    "Academic program cuts / admissions pauses",
+    "Student support closures",
+    "Research center cuts",
+    "Multiple cut types"
+  ];
 
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
   }
 
   function renderCutItem(cut) {
+    const label = cleanCutLabel(cut.cut_label_public || cut.program_name || resolveDisplayCategory(cut));
+    const category = resolveDisplayCategory(cut);
     const date = cut.announcement_date || cut.announcement_year || "";
     const term = cut.effective_term ? `<p class="small-meta">Effective term: ${escapeHtml(cut.effective_term)}</p>` : "";
     const sourceLink = renderExternalLink(cut.source_url, "Source");
     const source = sourceLink
       ? `<p class="small-meta">${sourceLink}${cut.source_publication ? ` | ${escapeHtml(cut.source_publication)}` : ""}</p>`
       : "";
+    const categoryMeta = category && category !== label
+      ? `<p class="small-meta">Category: ${escapeHtml(category)}</p>`
+      : "";
     return `
       <article class="data-card data-card--cut">
-        <h3>${escapeHtml(formatCutTypeLabel(cut.cut_type || inferCutTypeFromText(cut.program_name, cut.cut_label_public, cut.notes)))}</h3>
+        <h3>${escapeHtml(label)}</h3>
+        ${categoryMeta}
         ${date ? `<p class="small-meta">Date: ${escapeHtml(date)}</p>` : ""}
         ${term}
         ${source}
@@ -51,46 +66,43 @@
     `;
   }
 
-  function formatCutTypeLabel(cutType) {
-    const normalized = String(cutType || "").trim().toLowerCase();
-    switch (normalized) {
-      case "staff_layoff":
-        return "Staff layoff";
-      case "department_closure":
-        return "Department closure";
-      case "program_suspension":
-        return "Program suspension";
-      case "campus_closure":
-        return "Campus closure";
+  function resolveDisplayCategory(cut) {
+    if (cut?.display_category) return String(cut.display_category).trim();
+    switch (String(cut?.cut_type || "").trim().toLowerCase()) {
       case "institution_closure":
-        return "Institution closure";
+        return "Institution closures/absorptions";
+      case "campus_closure":
+        return "Campus closures";
+      case "staff_layoff":
+      case "faculty_layoff":
+      case "hiring_freeze":
+        return "Staff layoffs / furloughs";
+      case "program_suspension":
+        return "Academic program cuts / admissions pauses";
+      case "department_closure":
+        return "Research center cuts";
       default:
-        return cleanCutLabel(normalized.replace(/_/g, " ")) || "Cut";
+        break;
     }
+    return "Academic program cuts / admissions pauses";
   }
 
-  function inferCutTypeFromText(...values) {
-    const text = values
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-    if (!text) return "";
-    if (text.includes("institution closure") || text.includes("college closed") || text.includes("university closed") || text.includes("closing as an accredited institution")) {
-      return "institution_closure";
-    }
-    if (text.includes("campus closure") || text.includes("campus closed")) {
-      return "campus_closure";
-    }
-    if (text.includes("department closure") || text.includes("department closed")) {
-      return "department_closure";
-    }
-    if (text.includes("layoff") || text.includes("layoffs") || text.includes("staff reduction") || text.includes("positions eliminated") || text.includes("faculty cut") || text.includes("faculty cuts")) {
-      return "staff_layoff";
-    }
-    if (text.includes("program suspension") || text.includes("program suspended") || text.includes("programs suspended") || text.includes("program closed") || text.includes("program closure") || text.includes("center closed") || text.includes("center closure") || text.includes("office closed") || text.includes("eliminate") || text.includes("eliminated")) {
-      return "program_suspension";
-    }
-    return "";
+  function buildCategoryOptions(items) {
+    const present = new Set((items || []).map((item) => resolveDisplayCategory(item)).filter(Boolean));
+    const ordered = CUT_CATEGORY_ORDER.filter((category) => present.has(category));
+    const extras = Array.from(present).filter((category) => !CUT_CATEGORY_ORDER.includes(category)).sort((a, b) => a.localeCompare(b));
+    return ["", ...ordered, ...extras];
+  }
+
+  function populateCategoryFilter(select, items) {
+    if (!select) return;
+    const selectedValue = String(select.value || "");
+    const options = buildCategoryOptions(items);
+    select.innerHTML = options.map((value) => {
+      const label = value || "All categories";
+      return `<option value="${escapeHtml(value)}">${escapeHtml(label)}</option>`;
+    }).join("");
+    select.value = options.includes(selectedValue) ? selectedValue : "";
   }
 
   function sortCuts(items, sortState) {
@@ -132,7 +144,7 @@
     const rows = landingMode
       ? items.map((cut) => [
         renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
-        formatCutTypeLabel(cut.cut_type),
+        resolveDisplayCategory(cut),
         cut.state,
         cut.control_label,
         cut.announcement_date || cut.announcement_year || ""
@@ -149,7 +161,7 @@
       headers: landingMode
         ? [
           renderSortableHeader("institution_name", sortState, "Institution"),
-          "<th>Cut type</th>",
+          "<th>Cuts type</th>",
           renderSortableHeader("state", sortState, "State"),
           renderSortableHeader("control_label", sortState, "Sector"),
           renderSortableHeader("announcement_date", sortState, "Date")
@@ -177,8 +189,6 @@
     return Object.values(cutsIndex || {})
       .flatMap((school) => {
         return (school.landing_cuts || []).map((cut) => {
-          const canUseLatestLabel =
-            String(cut.announcement_date || cut.announcement_year || "") === String(school.latest_cut_date || "");
           return {
             ...cut,
             institution_name: school.institution_name || cut.institution_name || "",
@@ -188,13 +198,8 @@
             unitid: school.unitid || cut.unitid || "",
             financial_unitid: school.financial_unitid || null,
             is_primary_tracker: school.is_primary_tracker,
-            cut_type:
-              cut.cut_type ||
-              inferCutTypeFromText(
-                cut.program_name,
-                cut.cut_label_public,
-                canUseLatestLabel ? school.latest_cut_label : ""
-              )
+            display_category:
+              cut.display_category || ""
           };
         });
       })
@@ -246,30 +251,42 @@
     searchInput = null,
     filterOnInput = true,
     searchValueResolver = null,
-    landingMode = false
+    landingMode = false,
+    categorySelect = null
   }) {
-    return makeTableController({
+    const controller = makeTableController({
       container,
       items,
       pageSize,
       searchInput,
       filterOnInput,
       searchValueResolver,
+      filterItems: (rows, query) => {
+        const institutionMatches = window.TrackerApp.filterByInstitution(rows, query);
+        const selectedCategory = String(categorySelect?.value || "").trim();
+        if (!selectedCategory) return institutionMatches;
+        return institutionMatches.filter((row) => resolveDisplayCategory(row) === selectedCategory);
+      },
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
       renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState, { landingMode }),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "State", "Sector", "Cut", "Date", "Source"],
+      downloadHeaders: ["Institution", "State", "Sector", "Category", "Cut", "Date", "Source"],
       downloadRow: (cut) => [
         cut.institution_name || "",
         cut.state || "",
         cut.control_label || "",
+        resolveDisplayCategory(cut),
         cleanCutLabel(cut.cut_label_public || cut.program_name),
         cut.announcement_date || cut.announcement_year || "",
         cut.source_url || ""
       ]
     });
+    if (categorySelect) {
+      categorySelect.addEventListener("change", () => controller?.reset?.());
+    }
+    return controller;
   }
 
   async function init() {
@@ -305,11 +322,11 @@
       renderDataAsOf("cuts-data-as-of", metadata?.generated_at);
       const recent = buildRecentCuts(cutsIndex);
       const primary = recent.filter(isPrimaryBachelorsInstitution);
-      const other = recent.filter((cut) => !isPrimaryBachelorsInstitution(cut));
       setDataCardVisible("cuts-other-list", true);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at four-year degree-granting institutions`;
       const primaryFilter = document.getElementById("cuts-filter");
-      const otherFilter = document.getElementById("cuts-other-filter");
+      const categoryFilter = document.getElementById("cuts-category-filter");
+      populateCategoryFilter(categoryFilter, primary);
       setupPagination({
         container,
         items: primary,
@@ -319,19 +336,8 @@
         searchInput: primaryFilter,
         filterOnInput: false,
         searchValueResolver: getCommittedSearchValue,
-        landingMode: true
-      });
-      setupPagination({
-        container: otherContainer,
-        items: other,
-        pageSize: OTHER_PAGE_SIZE,
-        emptyMessage: `No matched cuts from ${MIN_DEFAULT_YEAR} to the present are available for other institutions.`,
-        downloadButtonId: "cuts-other-download",
-        downloadFilename: "cuts-other.csv",
-        searchInput: otherFilter,
-        filterOnInput: false,
-        searchValueResolver: getCommittedSearchValue,
-        landingMode: true
+        landingMode: true,
+        categorySelect: categoryFilter
       });
       return;
     }
@@ -427,11 +433,12 @@
       if (detailDownload) {
         detailDownload.onclick = () => downloadRowsCsv(
           `${String(school.institution_name || "college-cuts").toLowerCase().replace(/[^a-z0-9]+/g, "-")}-cuts.csv`,
-          ["Institution", "State", "Sector", "Cut", "Date", "Source"],
+          ["Institution", "State", "Sector", "Category", "Cut", "Date", "Source"],
           detailRows.map((cut) => [
             cut.institution_name || "",
             cut.state || "",
             cut.control_label || "",
+            resolveDisplayCategory(cut),
             cleanCutLabel(cut.cut_label_public || cut.program_name),
             cut.announcement_date || cut.announcement_year || "",
             cut.source_url || ""

@@ -1186,18 +1186,49 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   ];
 }
 
+const INSTITUTION_CLOSURE_DISPLAY_CATEGORIES = new Set([
+  "Institution closures",
+  "Institution closures/absorptions"
+]);
+
+function normalizeInstitutionClosureText(...parts) {
+  return parts
+    .map((value) => String(value || "").trim())
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function findInstitutionClosureAnnouncement(cutsRecord) {
+  return (cutsRecord?.landing_cuts ?? []).find((cut) => {
+    const category = String(cut?.display_category || "").trim();
+    if (INSTITUTION_CLOSURE_DISPLAY_CATEGORIES.has(category)) return true;
+    const text = normalizeInstitutionClosureText(cut?.cut_label_public, cut?.program_name);
+    return /\binstitution clos|\bclos(?:e|ing|ure)\b|\babsor(?:b|bed|ption)\b/.test(text);
+  }) || null;
+}
+
+function isAbsorptionAnnouncement(cut, cutsRecord) {
+  const text = normalizeInstitutionClosureText(
+    cut?.cut_label_public,
+    cut?.program_name,
+    cutsRecord?.latest_cut_label
+  );
+  return /\babsor(?:b|bed|ption)\b/.test(text);
+}
+
 function announcedClosureYear(cutsRecord) {
-  const pattern = /institution clos|permanent.*clos/i;
-  const cut = (cutsRecord?.landing_cuts ?? []).find(c => pattern.test(c.program_name ?? ""));
-  if (!cut) return null;
+  const cut = findInstitutionClosureAnnouncement(cutsRecord);
+  if (!cut || isAbsorptionAnnouncement(cut, cutsRecord)) return null;
   const explicit = Number(cut.announcement_year || "");
   if (Number.isFinite(explicit) && explicit > 1900) return explicit;
-  const m = String(cut.announcement_date || "").match(/(20\d{2})/);
+  const m = normalizeInstitutionClosureText(cut.announcement_date, cut.cut_label_public, cut.program_name).match(/\b(20\d{2})\b/);
   return m ? Number(m[1]) : null;
 }
 
-function hasAnnouncedMerger(cutsRecord) {
-  return /absorb/i.test(cutsRecord?.latest_cut_label ?? "");
+function hasAnnouncedAbsorption(cutsRecord) {
+  const cut = findInstitutionClosureAnnouncement(cutsRecord);
+  return isAbsorptionAnnouncement(cut, cutsRecord);
 }
 
 function buildClosureSentence(closureRecord) {
@@ -1613,8 +1644,8 @@ async function init() {
   setHidden("school-closure-flag", !closureSentence);
   const cutsRecord = findRelatedIndexRecord(cutsIndex, unitid, "cut_count");
   const cutsHref = `cuts.html?unitid=${encodeURIComponent(unitid)}`;
-  const mergerFlag = hasAnnouncedMerger(cutsRecord);
-  const closureYear = mergerFlag ? null : announcedClosureYear(cutsRecord);
+  const absorptionFlag = hasAnnouncedAbsorption(cutsRecord);
+  const closureYear = absorptionFlag ? null : announcedClosureYear(cutsRecord);
 
   function buildBadge(text, ariaText, buildTipContent) {
     const badge = document.createElement("span");
@@ -1653,14 +1684,14 @@ async function init() {
     }
   }
 
-  const mergerBadge = mergerFlag
-    ? buildBadge("Merger announced", "This institution has been absorbed by another institution.", (tip) => {
-        tip.append("This institution has been ");
+  const absorptionBadge = absorptionFlag
+    ? buildBadge("Absorption announced", "This institution is being absorbed by another institution.", (tip) => {
+        tip.append("This institution is being ");
         tip.append(tipLink(cutsHref, "absorbed"));
         tip.append(" by another institution.");
       })
     : null;
-  renderBadgeWrap("school-announced-merger", mergerFlag, mergerBadge);
+  renderBadgeWrap("school-announced-merger", absorptionFlag, absorptionBadge);
 
   const closureYearSuffix = closureYear ? ` in ${closureYear}` : "";
   const closureBadge = closureYear !== null

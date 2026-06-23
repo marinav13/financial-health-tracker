@@ -33,6 +33,9 @@ const patternOnlyWarningBadgeUnitid = '119173'; // Mount Saint Mary's University
 const patternAndWideWarningBadgeUnitid = '101116';
 const wideOnlyWarningBadgeUnitid = '144281'; // Columbia College Chicago: 6 reds, no pattern badge (enr -8.2% not below -10%)
 const noWarningBadgeUnitid = '104586';
+const californiaArtsClosureUnitid = '110370';
+const limestoneClosureUnitid = '218238';
+const cornishAbsorptionUnitid = '235024';
 
 function parseVisibleMonthYear(value) {
   const text = String(value || '').trim();
@@ -172,6 +175,33 @@ test.describe('Frontend state synchronization', () => {
 
     await expect(list.locator('th[aria-sort]')).toHaveCount(1);
     await expect(list.locator('th[aria-sort="ascending"]')).toContainText('State');
+  });
+
+  test('cuts landing category filter shows only the selected category', async ({ page }) => {
+    await page.goto('/cuts.html');
+
+    const list = page.locator('#cuts-list');
+    await expect(list.locator('table.history-table')).toBeVisible();
+    await expect(list.locator('thead th')).toContainText(['Institution', 'Category', 'State', 'Sector', 'Date']);
+
+    const categoryFilter = page.locator('#cuts-category-filter');
+    await expect(categoryFilter).toBeVisible();
+
+    const optionLabels = await categoryFilter.locator('option').evaluateAll((options) =>
+      options.map((option) => (option.textContent || '').trim()).filter(Boolean)
+    );
+    const selectedCategory = optionLabels.find((label) => label !== 'All categories');
+    expect(selectedCategory).toBeTruthy();
+
+    await categoryFilter.selectOption({ label: selectedCategory });
+
+    const categoryCells = await list.locator('tbody tr td:nth-child(2)').evaluateAll((cells) =>
+      cells.map((cell) => (cell.textContent || '').trim())
+    );
+    expect(categoryCells.length).toBeGreaterThan(0);
+    for (const value of categoryCells) {
+      expect(value).toBe(selectedCategory);
+    }
   });
 
   test('accreditation sortable headers move aria-sort in landing and detail tables', async ({ page }) => {
@@ -344,6 +374,32 @@ test.describe('Frontend state synchronization', () => {
     const closureFlag = page.locator('#school-closure-flag');
     await expect(closureFlag).toHaveClass(/is-hidden/);
     await expect(closureFlag).toBeEmpty();
+  });
+
+  test('school pages show closure or absorption badges from institution closure records', async ({ page }) => {
+    await page.goto(`/school.html?unitid=${californiaArtsClosureUnitid}`);
+
+    let closureBadge = page.locator('#school-announced-closure .school-announced-closure-badge');
+    let absorptionBadgeWrap = page.locator('#school-announced-merger');
+    await expect(closureBadge).toBeVisible();
+    await expect(closureBadge).toContainText('Closure announced');
+    await expect(absorptionBadgeWrap).toHaveClass(/is-hidden/);
+
+    await page.goto(`/school.html?unitid=${limestoneClosureUnitid}`);
+
+    closureBadge = page.locator('#school-announced-closure .school-announced-closure-badge');
+    absorptionBadgeWrap = page.locator('#school-announced-merger');
+    await expect(closureBadge).toBeVisible();
+    await expect(closureBadge).toContainText('Closure announced');
+    await expect(absorptionBadgeWrap).toHaveClass(/is-hidden/);
+
+    await page.goto(`/school.html?unitid=${cornishAbsorptionUnitid}`);
+
+    const absorptionBadge = page.locator('#school-announced-merger .school-announced-closure-badge');
+    const closureBadgeWrap = page.locator('#school-announced-closure');
+    await expect(absorptionBadge).toBeVisible();
+    await expect(absorptionBadge).toContainText('Absorption announced');
+    await expect(closureBadgeWrap).toHaveClass(/is-hidden/);
   });
 
   test('school warning badges distinguish recurring patterns from widespread warnings', async ({ page }) => {

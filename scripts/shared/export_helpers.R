@@ -5429,3 +5429,252 @@ derive_cut_summary_public <- function(notes,
   capped <- sentences[seq_len(min(length(sentences), max_sentences))]
   trimws(paste(capped, collapse = " "))
 }
+
+.CUT_DISPLAY_CATEGORY_INSTITUTION <- "Institution closures/absorptions"
+.CUT_DISPLAY_CATEGORY_CAMPUS <- "Campus closures"
+.CUT_DISPLAY_CATEGORY_ATHLETICS <- "Athletics cuts"
+.CUT_DISPLAY_CATEGORY_STAFF <- "Staff layoffs / furloughs"
+.CUT_DISPLAY_CATEGORY_ACADEMIC <- "Academic program cuts / admissions pauses"
+.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT <- "Student support closures"
+.CUT_DISPLAY_CATEGORY_RESEARCH <- "Research centers"
+.CUT_DISPLAY_CATEGORY_MULTIPLE <- "Multiple cut types"
+
+.normalize_cut_category_text <- function(...) {
+  parts <- unlist(lapply(list(...), function(value) {
+    if (is.null(value)) return("")
+    paste(as.character(value), collapse = " ")
+  }), use.names = FALSE)
+  text <- trimws(paste(parts, collapse = " "))
+  if (!nzchar(text)) return("")
+  text <- gsub("[\r\n\t]+", " ", text, perl = TRUE)
+  text <- gsub("[\u2018\u2019]", "'", text, perl = TRUE)
+  text <- gsub("[\u201c\u201d]", "\"", text, perl = TRUE)
+  text <- gsub("[^[:alnum:]'./& -]+", " ", text, perl = TRUE)
+  tolower(trimws(gsub("\\s{2,}", " ", text, perl = TRUE)))
+}
+
+.cut_category_matches <- function(text, patterns) {
+  if (!nzchar(text) || !length(patterns)) return(FALSE)
+  grepl(paste(patterns, collapse = "|"), text, ignore.case = TRUE, perl = TRUE)
+}
+
+derive_cut_display_category <- function(cut_type,
+                                        program_name,
+                                        cut_label_public = NA_character_,
+                                        cut_summary_public = NA_character_,
+                                        notes = NA_character_) {
+  normalized_type <- tolower(trimws(as.character(cut_type %||% "")))
+  subject_text <- .normalize_cut_category_text(
+    program_name,
+    cut_label_public
+  )
+  text <- .normalize_cut_category_text(
+    subject_text,
+    cut_summary_public,
+    normalize_cut_notes_text(notes)
+  )
+
+  unit_action_patterns <- c(
+    "\\bclos(?:e|ed|es)\\b",
+    "\\bclosing\\b",
+    "\\bclosure\\b",
+    "\\bshut(?:ting)? down\\b",
+    "\\beliminat(?:e|ed|ing)\\b",
+    "\\bdiscontinu(?:e|ed|ing)\\b",
+    "\\bsuspend(?:ed|ing)?\\b",
+    "\\bsunset(?:ted|ting)?\\b",
+    "\\bphase(?:d)? out\\b",
+    "\\bdrop(?:ped|ping)?\\b",
+    "\\bpaus(?:e|ed|ing)\\b",
+    "\\bterminat(?:e|ed|ing)\\b"
+  )
+  unit_closure_patterns <- c(
+    "\\bclos(?:e|ed|es)\\b",
+    "\\bclosing\\b",
+    "\\bclosure\\b",
+    "\\bshut(?:ting)? down\\b",
+    "\\bdiscontinu(?:e|ed|ing)\\b",
+    "\\bsuspend(?:ed|ing)?\\b",
+    "\\bsunset(?:ted|ting)?\\b",
+    "\\bphase(?:d)? out\\b",
+    "\\bdrop(?:ped|ping)?\\b",
+    "\\bpaus(?:e|ed|ing)\\b",
+    "\\bterminat(?:e|ed|ing)\\b"
+  )
+
+  institution_signal <- normalized_type == "institution_closure" ||
+    .cut_category_matches(text, c(
+      "\\binstitution closure\\b",
+      "\\bclosing as an accredited institution\\b",
+      "\\bceasing all (?:academic |mba )?operations\\b",
+      "\\bpermanently closing\\b",
+      "\\bclosing permanently\\b",
+      "\\b(?:college|university|institution|school) (?:is |will be |will )?clos(?:e|ing|ed)\\b"
+    ))
+  campus_signal <- normalized_type == "campus_closure" ||
+    .cut_category_matches(text, c(
+      "\\bcampus closure\\b",
+      "\\bcampus (?:is |will be |will )?clos(?:e|ing|ed)\\b",
+      "\\bsatellite campus(?:es)?\\b",
+      "\\bdowntown center campus\\b"
+    ))
+
+  if (institution_signal) return(.CUT_DISPLAY_CATEGORY_INSTITUTION)
+  if (campus_signal) return(.CUT_DISPLAY_CATEGORY_CAMPUS)
+
+  athletics_action <- .cut_category_matches(subject_text, c(
+    "\\bathletics\\b",
+    "\\bathletic department\\b",
+    "\\bncaa\\b",
+    "\\bstudent-?athletes?\\b",
+    "\\bfootball\\b",
+    "\\bbasketball\\b",
+    "\\bbaseball\\b",
+    "\\bsoftball\\b",
+    "\\bsoccer\\b",
+    "\\bvolleyball\\b",
+    "\\bwrestling\\b",
+    "\\bswimming\\b",
+    "\\bdiving\\b",
+    "\\bgolf\\b",
+    "\\btennis\\b",
+    "\\btrack\\b",
+    "\\bcross country\\b",
+    "\\bcoach(?:ing)?\\b",
+    "\\bathletic scholarships?\\b"
+  )) || .cut_category_matches(text, c("\\bathletic department\\b", "\\bathletics\\b"))
+
+  staff_patterns <- c(
+    "\\blayoff(?:s)?\\b",
+    "\\blaid off\\b",
+    "\\bfurlough(?:ed|s)?\\b",
+    "\\breduction in force\\b",
+    "\\brif\\b",
+    "\\bpositions? eliminated\\b",
+    "\\bjob cuts?\\b",
+    "\\bworkforce reduction\\b",
+    "\\bvoluntary separations?\\b",
+    "\\bnon-?renew(?:al|ed)?\\b",
+    "\\bhiring freeze\\b"
+  )
+  staff_primary_action <- normalized_type %in% c("staff_layoff", "faculty_layoff", "hiring_freeze") ||
+    .cut_category_matches(subject_text, staff_patterns)
+  staff_action <- staff_primary_action || .cut_category_matches(text, staff_patterns)
+
+  student_support_subject <- .cut_category_matches(subject_text, c(
+    "\\bstudent support\\b",
+    "\\bstudent success\\b",
+    "\\bwelcome center\\b",
+    "\\boutreach\\b",
+    "\\badvis(?:ing|or)\\b",
+    "\\bretention\\b",
+    "\\bpre-?college\\b",
+    "\\bfirst-?year\\b",
+    "\\borientation\\b",
+    "\\bscholar(?:s|ship)?\\b",
+    "\\bdiversity\\b",
+    "\\bequity\\b",
+    "\\binclusion\\b",
+    "\\bsocial justice\\b",
+    "\\blgbtq?\\b",
+    "\\bgender and sexuality\\b",
+    "\\bmulticultural\\b",
+    "\\bcampus ministry\\b",
+    "\\bstudent life\\b",
+    "\\bstudent culture\\b",
+    "\\bcollege to career\\b"
+  )) || .cut_category_matches(text, c(
+    "\\bgender and sexuality center\\b",
+    "\\boffice of diversity\\b",
+    "\\boffice of social justice\\b"
+  ))
+  student_support_action <- student_support_subject && (
+    normalized_type %in% c("program_suspension", "department_closure") ||
+      .cut_category_matches(subject_text, unit_closure_patterns) ||
+      .cut_category_matches(text, c("\\bshut(?:ting)? down\\b", "\\bclosing\\b", "\\bclosed\\b", "\\bdiscontinu(?:e|ed|ing)\\b", "\\bpaus(?:e|ed|ing)\\b"))
+  )
+
+  research_center_subject <- .cut_category_matches(subject_text, c(
+    "\\bcenter\\b",
+    "\\bcentre\\b",
+    "\\binstitute\\b",
+    "\\bresearch lab\\b",
+    "\\bresearch laboratory\\b",
+    "\\bobservatory\\b",
+    "\\bmuseum\\b",
+    "\\boffice\\b"
+  )) && !student_support_subject
+  research_center_action <- research_center_subject && (
+    normalized_type == "department_closure" ||
+      .cut_category_matches(subject_text, unit_closure_patterns) ||
+      .cut_category_matches(text, c("\\bshut(?:ting)? down\\b", "\\bclosing\\b", "\\bclosed\\b", "\\bdiscontinu(?:e|ed|ing)\\b"))
+  )
+
+  academic_action <- FALSE
+  if (.cut_category_matches(subject_text, c(
+    "\\badmissions? paus(?:e|ed|ing)\\b",
+    "\\bmajor(?:s)?\\b",
+    "\\bminor(?:s)?\\b",
+    "\\bdegree(?:s)?\\b",
+    "\\bcertificate(?:s)?\\b",
+    "\\bconcentration(?:s)?\\b",
+    "\\bph\\.?d\\.?\\b",
+    "\\bmaster'?s\\b",
+    "\\bbachelor'?s\\b",
+    "\\bgraduate programs?\\b",
+    "\\bacademic programs?\\b"
+  ))) {
+    academic_action <- TRUE
+  }
+  if (!academic_action && .cut_category_matches(subject_text, c(
+    "\\bclasses?\\b.{0,24}\\bcut",
+    "\\bcut(?:ting)?\\b.{0,24}\\bclasses?\\b",
+    "\\bcourses?\\b.{0,24}\\bcut",
+    "\\bcut(?:ting)?\\b.{0,24}\\bcourses?\\b"
+  ))) {
+    academic_action <- TRUE
+  }
+  if (!academic_action && normalized_type == "program_suspension" &&
+      !athletics_action && !student_support_action && !research_center_action) {
+    academic_action <- TRUE
+  }
+  if (!academic_action && normalized_type == "department_closure" &&
+      !athletics_action && !student_support_action && !research_center_action) {
+    academic_action <- TRUE
+  }
+  if (!academic_action &&
+      .cut_category_matches(subject_text, c("\\bdepartment\\b")) &&
+      (.cut_category_matches(subject_text, unit_action_patterns) || normalized_type == "department_closure") &&
+      !athletics_action && !student_support_action && !research_center_action) {
+    academic_action <- TRUE
+  }
+
+  if ((athletics_action && (academic_action || student_support_action || research_center_action)) ||
+      (academic_action && (student_support_action || research_center_action)) ||
+      (staff_primary_action && academic_action) ||
+      (staff_primary_action && student_support_action) ||
+      (staff_primary_action && research_center_action)) {
+    return(.CUT_DISPLAY_CATEGORY_MULTIPLE)
+  }
+
+  if (athletics_action) return(.CUT_DISPLAY_CATEGORY_ATHLETICS)
+  if (academic_action) return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
+  if (student_support_action) return(.CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT)
+  if (research_center_action) return(.CUT_DISPLAY_CATEGORY_RESEARCH)
+  if (staff_action) return(.CUT_DISPLAY_CATEGORY_STAFF)
+
+  if (normalized_type %in% c("staff_layoff", "faculty_layoff", "hiring_freeze")) {
+    return(.CUT_DISPLAY_CATEGORY_STAFF)
+  }
+  if (normalized_type == "program_suspension") {
+    return(.CUT_DISPLAY_CATEGORY_ACADEMIC)
+  }
+  if (normalized_type == "department_closure") {
+    return(if (research_center_subject) .CUT_DISPLAY_CATEGORY_RESEARCH else .CUT_DISPLAY_CATEGORY_ACADEMIC)
+  }
+  if (research_center_subject) {
+    return(.CUT_DISPLAY_CATEGORY_RESEARCH)
+  }
+
+  .CUT_DISPLAY_CATEGORY_ACADEMIC
+}

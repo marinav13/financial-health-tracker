@@ -619,7 +619,7 @@ run_test("Web export pipeline fixture", function() {
     } else {
       names(first_cut_index$landing_cuts[[1]])
     }
-    assert_true(all(c("program_name", "announcement_date", "announcement_year", "source_url") %in% first_cut_row_names),
+    assert_true(all(c("program_name", "cut_label_public", "display_category", "announcement_date", "announcement_year", "source_url") %in% first_cut_row_names),
       "landing_cuts rows should include the compact row-level fields used by cuts.html.")
   }
 
@@ -753,7 +753,7 @@ run_test("Web export pipeline fixture", function() {
   }
   assert_true(nrow(cuts_df) > 0,
     "cuts_export should have at least one cut record.")
-  for (f in c("announcement_date", "cut_type", "status", "program_name")) {
+  for (f in c("announcement_date", "cut_type", "status", "program_name", "display_category")) {
     assert_true(f %in% names(cuts_df),
       sprintf("cuts data.frame should have column '%s'.", f))
   }
@@ -772,6 +772,8 @@ run_test("Web export pipeline fixture", function() {
   cut_summary_public_val <- if (is.data.frame(cuts_df)) cuts_df$cut_summary_public[[1]] else cuts_df$cut_summary_public
   assert_true(is.na(cut_summary_public_val) || is.character(cut_summary_public_val),
     "cut_summary_public should be character or NA.")
+  cut_display_category_val <- if (is.data.frame(cuts_df)) cuts_df$display_category[[1]] else cuts_df$display_category
+  assert_identical(cut_display_category_val, "Staff layoffs / furloughs")
 
   # ── accreditation.json ──────────────────────────────────────────────────────
   assert_identical(length(accreditation_export$schools), 1L)

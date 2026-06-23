@@ -3354,11 +3354,29 @@ body[data-search-page="school.html"] #aid-section .metric-strip .metric-answer {
   color: var(--ink);
 }
 
+.table-filter-select {
+  min-width: 280px;
+  max-width: 100%;
+  padding: 12px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--ink);
+}
+
 .table-filter-input:focus,
-.table-filter-input:focus-visible {
+.table-filter-input:focus-visible,
+.table-filter-select:focus,
+.table-filter-select:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 1px;
   border-color: var(--hechinger-gold);
+}
+
+.table-filter-input:focus,
+.table-filter-input:focus-visible {
   font-style: normal;
 }
 
@@ -4529,7 +4547,8 @@ blockquote {
     padding: 0 16px 14px;
     gap: 8px;
   }
-  .table-filter-input {
+  .table-filter-input,
+  .table-filter-select {
     min-width: 0;
     width: 100%;
   }

@@ -54,6 +54,8 @@ const PAGES = [
       { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
+      { pattern: /id="cuts-category-filter"/, message: "Cuts category filter select" },
+      { pattern: /class="table-filter-label"[^>]+for="cuts-category-filter"/, message: 'Visible label for cuts-category-filter' },
       { pattern: /id="cuts-search-results"/, message: "Cuts autocomplete results container" },
       // Editorial Calm dropped the legacy .masthead-title decorative
       // duplicate from cuts/accred/research/school in favor of a real
@@ -162,6 +164,7 @@ const PAGES = [
 const CSS_CHECKS = [
   { pattern: /\.sr-only/, message: ".sr-only utility class" },
   { pattern: /\.table-filter-label/, message: ".table-filter-label class" },
+  { pattern: /\.table-filter-select/, message: ".table-filter-select class" },
   { pattern: /\.top-tab:focus-visible/, message: ".top-tab:focus-visible" },
   { pattern: /\.result-item:focus-visible/, message: ".result-item:focus-visible" },
   { pattern: /\.pagination-button:focus-visible/, message: ".pagination-button:focus-visible" },

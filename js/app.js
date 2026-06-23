@@ -1324,7 +1324,13 @@ window.TrackerApp.setupPaginatedTable = function setupPaginatedTable(options) {
   }
 
   render();
-  return { render };
+  return {
+    render,
+    reset() {
+      currentPage = 1;
+      render();
+    }
+  };
 };
 
 // Convenience factory that wraps setupPaginatedTable with the boilerplate

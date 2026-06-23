@@ -182,7 +182,7 @@ test.describe('Frontend state synchronization', () => {
 
     const list = page.locator('#cuts-list');
     await expect(list.locator('table.history-table')).toBeVisible();
-    await expect(list.locator('thead th')).toContainText(['Institution', 'Category', 'State', 'Sector', 'Date']);
+    await expect(list.locator('thead th')).toContainText(['Institution', 'Cuts type', 'State', 'Sector', 'Date']);
 
     const categoryFilter = page.locator('#cuts-category-filter');
     await expect(categoryFilter).toBeVisible();

@@ -61,27 +61,6 @@
     return labels[value] || String(value || "").toUpperCase();
   }
 
-  function normalizeFundingStatus(value) {
-    const text = String(value || "").toLowerCase();
-    if (text.includes("frozen")) return "Frozen";
-    if (text.includes("terminated")) return "Terminated";
-    return "";
-  }
-
-  function institutionFundingStatus(record) {
-    if (record?.funding_status) return record.funding_status;
-    const statuses = new Set(
-      (record?.grants || [])
-        .filter((grant) => hasPositiveFunding(grant?.award_remaining))
-        .map((grant) => normalizeFundingStatus(grant?.status))
-        .filter(Boolean)
-    );
-    if (statuses.has("Frozen") && statuses.has("Terminated")) return "Terminated and frozen";
-    if (statuses.has("Frozen")) return "Frozen";
-    if (statuses.has("Terminated")) return "Terminated";
-    return "No data";
-  }
-
   function isPrimaryBachelorsInstitution(record) {
     return isPrimaryTrackerInstitution(record);
   }
@@ -212,7 +191,7 @@
         return compareText(a.institution_name, b.institution_name);
       }
       if (sortState?.key === "funding") {
-        const primary = compareText(institutionFundingStatus(a), institutionFundingStatus(b)) * direction;
+        const primary = (Number(a.total_disrupted_award_remaining || 0) - Number(b.total_disrupted_award_remaining || 0)) * direction;
         if (primary !== 0) return primary;
         return compareText(a.institution_name, b.institution_name);
       }
@@ -321,7 +300,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
-      institutionFundingStatus(item),
+      formatCurrency(item.total_disrupted_award_remaining),
       Number(item.total_disrupted_grants || 0),
       item.state || "",
       item.control_label || ""
@@ -330,7 +309,7 @@
       ariaLabel,
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("funding", sortState, "Funding status"),
+        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
         renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
         renderSortableHeader("state", sortState, "State"),
         renderSortableHeader("sector", sortState, "Sector")
@@ -343,7 +322,7 @@
     if (!items || !items.length) return renderEmpty("No research funding cuts are available.");
     const rows = items.map((item) => [
       renderSchoolLinkCell(item.unitid, item.institution_name, "research.html"),
-      institutionFundingStatus(item),
+      formatCurrency(item.total_disrupted_award_remaining),
       Number(item.total_disrupted_grants || 0),
       item.state || ""
     ]);
@@ -351,7 +330,7 @@
       ariaLabel,
       headers: [
         renderSortableHeader("institution_name", sortState, "Institution"),
-        renderSortableHeader("funding", sortState, "Funding status"),
+        renderSortableHeader("funding", sortState, "Funding cut or frozen"),
         renderSortableHeader("disrupted_grants", sortState, "Disrupted grants"),
         renderSortableHeader("state", sortState, "State")
       ],
@@ -411,10 +390,10 @@
       renderPage: (sortedItems, currentPage, size, sortState) => renderTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Funding status", "Disrupted grants", "State", "Sector"],
+      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State", "Sector"],
       downloadRow: (item) => [
         item.institution_name || "",
-        institutionFundingStatus(item),
+        item.total_disrupted_award_remaining || "",
         Number(item.total_disrupted_grants || 0),
         item.state || "",
         item.control_label || ""
@@ -459,10 +438,10 @@
       renderPage: (sortedItems, currentPage, size, sortState) => renderOtherTablePage(sortedItems, currentPage, size, emptyMessage, paginationLabel, sortState, tableLabel),
       downloadButton: downloadButtonId,
       downloadFilename,
-      downloadHeaders: ["Institution", "Funding status", "Disrupted grants", "State"],
+      downloadHeaders: ["Institution", "Funding cut or frozen", "Disrupted grants", "State"],
       downloadRow: (item) => [
         item.institution_name || "",
-        institutionFundingStatus(item),
+        item.total_disrupted_award_remaining || "",
         Number(item.total_disrupted_grants || 0),
         item.state || ""
       ]

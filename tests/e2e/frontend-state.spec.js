@@ -87,6 +87,19 @@ test.describe('Frontend state synchronization', () => {
     expect(requested.some((url) => url.endsWith('/data/research_funding.json'))).toBe(false);
   });
 
+  test('research landing table shows disrupted funding amounts from the index payload', async ({ page }) => {
+    await page.goto('/research.html');
+
+    const list = page.locator('#research-list');
+    await expect(list.locator('table.history-table')).toBeVisible();
+    await expect(list.locator('thead th')).toContainText(['Institution', 'Funding cut or frozen', 'Disrupted grants', 'State', 'Sector']);
+
+    const firstFundingCell = list.locator('tbody tr:first-child td').nth(1);
+    const text = String((await firstFundingCell.textContent()) || '').trim();
+    expect(text).toMatch(/^\$/);
+    expect(text).not.toBe('No data');
+  });
+
   test('detail pages lazy-load full exports after index presence checks', async ({ page }) => {
     const requested = [];
     page.on('request', (request) => requested.push(request.url()));

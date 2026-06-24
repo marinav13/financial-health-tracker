@@ -184,19 +184,21 @@ test.describe('Frontend state synchronization', () => {
     await expect(list.locator('table.history-table')).toBeVisible();
     await expect(list.locator('thead th')).toContainText(['Institution', 'TYPE OF CUTS', 'State', 'Sector', 'Date']);
 
-    const categoryFilter = page.locator('#cuts-category-filter');
-    await expect(categoryFilter).toBeVisible();
+    const categoryFilterButton = list.locator('#cuts-category-filter-button');
+    await expect(categoryFilterButton).toBeVisible();
+    await categoryFilterButton.click();
 
-    await categoryFilter.locator('summary').click();
+    const categoryFilterMenu = list.locator('#cuts-category-filter-menu');
+    await expect(categoryFilterMenu).toBeVisible();
 
-    const categoryLabels = await categoryFilter.locator('.table-filter-option span').evaluateAll((nodes) =>
+    const categoryLabels = await categoryFilterMenu.locator('.table-filter-option span').evaluateAll((nodes) =>
       nodes.map((node) => (node.textContent || '').trim()).filter(Boolean)
     );
     const selectableCategories = categoryLabels.filter((label) => label !== 'All categories').slice(0, 2);
     expect(selectableCategories).toHaveLength(2);
 
     for (const label of selectableCategories) {
-      const checkbox = categoryFilter.locator('.table-filter-option').filter({ hasText: label }).locator('input[type="checkbox"]');
+      const checkbox = categoryFilterMenu.locator('.table-filter-option').filter({ hasText: label }).locator('input[type="checkbox"]');
       await checkbox.check();
     }
 
@@ -211,7 +213,7 @@ test.describe('Frontend state synchronization', () => {
     }
 
     await page.locator('body').click({ position: { x: 20, y: 20 } });
-    await expect(categoryFilter).not.toHaveAttribute('open', '');
+    await expect(categoryFilterMenu).toBeHidden();
   });
 
   test('accreditation sortable headers move aria-sort in landing and detail tables', async ({ page }) => {

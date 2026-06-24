@@ -1935,6 +1935,20 @@ run_test("derive_action_label_short: HLC Wilberforce notice names multiple Core 
   )
 })
 
+run_test("derive_action_label_short: HLC condensed direct-reference notice labels still collapse to concern buckets", function() {
+  text <- "Placed on Notice because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C. The institution does not meet Assumed Practices D.3 and D.4."
+  notes <- paste0(
+    "Probation or Equivalent or a More Severe Status: Warning | ",
+    "The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. ",
+    "The Institution meets Core Components 3.C, 4.C, 5.B, and 5.C with concerns. ",
+    "The Institution does not meet Assumed Practices D.3 and D.4."
+  )
+  assert_identical(
+    derive_action_label_short("warning", text, "HLC", notes),
+    "Placed on Warning because it is at risk of being out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, and governance."
+  )
+})
+
 run_test("derive_action_label_short: HLC Wilberforce probation extension uses detailed findings from full letter text", function() {
   text <- paste0(
     "November 11, 2020 BY CERTIFIED MAIL Dr. Elfred Pinkard, President Wilberforce University. ",
@@ -1946,6 +1960,19 @@ run_test("derive_action_label_short: HLC Wilberforce probation extension uses de
   assert_identical(
     derive_action_label_short("probation", text, "HLC"),
     "The Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the Institution's progress, the Institution remains out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, institutional effectiveness, and governance."
+  )
+})
+
+run_test("derive_action_label_short: HLC condensed direct-reference probation labels preserve the prefix and collapse the findings", function() {
+  text <- "Placed on Probation because despite the university's progress, the university remains out of compliance with Core Components 3.C, 4.C, 5.C, 5.A, and 5.D and Assumed Practices D.1, D.2, and D.3."
+  notes <- paste0(
+    "Probation or Equivalent or a More Severe Status: Probation | ",
+    "The institution initially was placed on Probation in June 2018. HLC extended probation in April 2020. ",
+    "In November 2020, the Board exercised its discretion to extend Probation beyond the maximum timeframe based on HLC's COVID-19 policy and because despite the university's progress, the university remains out of compliance."
+  )
+  assert_identical(
+    derive_action_label_short("probation", text, "HLC", notes),
+    "Placed on Probation because despite the university's progress, the university remains out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, institutional effectiveness, and governance."
   )
 })
 
@@ -3029,4 +3056,3 @@ run_test("derive_cut_summary_public caps to 4 sentences and uses override", func
   # NA notes -> NA
   assert_true(is.na(derive_cut_summary_public(NA_character_)))
 })
-

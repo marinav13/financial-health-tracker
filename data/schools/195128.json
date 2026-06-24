@@ -1,6 +1,6 @@
 {
   "unitid": "195128",
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-24",
   "profile": {
     "institution_name": "Russell Sage College",
     "institution_unique_name": "Russell Sage College | Troy | New York",
@@ -16,12 +16,12 @@
   "summary": {
     "latest_year": 2024,
     "enrollment_pct_change_5yr": -23.1102,
-    "sector_median_enrollment_pct_change_5yr": -3.7344,
+    "sector_median_enrollment_pct_change_5yr": -3.7794,
     "enrollment_decline_last_3_of_5": "Yes",
     "revenue_pct_change_5yr": -15.697,
     "sector_median_revenue_pct_change_5yr": -0.5117,
     "net_tuition_per_fte_change_5yr": -22.2256,
-    "sector_median_net_tuition_per_fte_change_5yr": -17.816,
+    "sector_median_net_tuition_per_fte_change_5yr": -17.7428,
     "staff_total_headcount_pct_change_5yr": 1.0929,
     "sector_median_staff_total_headcount_pct_change_5yr": -1.7263,
     "staff_instructional_headcount_pct_change_5yr": 0.7194,
@@ -31,16 +31,16 @@
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 4,
     "tuition_dependence_pct": 60.4042,
-    "sector_median_tuition_dependence_pct": 44.8638,
+    "sector_median_tuition_dependence_pct": 44.9472,
     "tuition_dependence_vs_sector_median_sentence": "This college got 60.0% of its revenue from net tuition in 2024, above the median of 45% for private not-for-profit colleges.",
     "unfunded_discount_rate": 38.4653,
     "unfunded_discount_pct_change_5yr": 4.9388,
     "share_grad_students": 50.5847,
-    "sector_avg_share_grad_students": 29.1503,
+    "sector_avg_share_grad_students": 29.2139,
     "research_expense": 0,
     "research_expense_per_fte": 0,
     "research_expense_pct_core_expenses": 0,
-    "sector_research_spending_n": 1148,
+    "sector_research_spending_n": 1150,
     "sector_research_spending_positive_n": 401,
     "sector_research_spending_reporting_share_pct": 34.9,
     "sector_median_research_expense_per_fte_positive": 585.5059,
@@ -51,7 +51,7 @@
     "international_enrollment_pct_change_5yr": -74.0741,
     "international_students_sentence": "In 2024, 0.3% of students were international. That includes 0.4% of undergraduates and 0.3% of graduate students.",
     "federal_loan_pct_most_recent": 78,
-    "sector_avg_federal_loan_pct_most_recent": 46.041,
+    "sector_avg_federal_loan_pct_most_recent": 45.9233,
     "grad_plus_recipients": 33,
     "grad_plus_disbursements_amt": 340616,
     "grad_plus_disbursements_per_recipient": 10321.697,
@@ -63,7 +63,7 @@
     "endowment_assets_per_fte_adjusted": 25579.5156,
     "sector_median_endowment_assets_per_fte_adjusted": 37427.0318,
     "endowment_pct_change_5yr": -2.288,
-    "sector_median_endowment_pct_change_5yr": 7.7657,
+    "sector_median_endowment_pct_change_5yr": 7.7647,
     "endowment_spending_current_use_pct_core_revenue": 0.0566,
     "graduation_rate_6yr": 56,
     "median_earnings_10yr": 58316,
@@ -829,5 +829,47 @@
         "value": 198526
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "MSCHE",
+    "action_labels": "Grant Substantive Change: Ownership",
+    "active_actions": "other",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": false,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-02-26",
+    "latest_action_year": "2026",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "MSCHE",
+      "action_type": "other",
+      "action_label": "Grant Substantive Change: Ownership",
+      "action_label_short": "Grant Substantive Change: Ownership",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-02-26",
+      "action_year": "2026",
+      "notes": "Grant Substantive Change: Ownership | To include the change in legal status, form of control, and ownership within the institution's scope of accreditation, effective June 1, 2026. To note the complex substantive change request includes the merger of Albany College of Pharmacy and Health Sciences with Russell Sage College, effective June 1, 2026",
+      "source_url": null,
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131876",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "MSCHE",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_url": null,
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131876"
+    }
+  ]
 }

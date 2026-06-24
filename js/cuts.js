@@ -355,100 +355,56 @@
     return [...ordered, ...extras];
   }
 
-  function getSelectedCategories(filterRoot) {
-    if (!filterRoot) return [];
-    const selected = Array.from(filterRoot.querySelectorAll('input[type="checkbox"][data-category-value]:checked'))
-      .map((input) => String(input.getAttribute("data-category-value") || "").trim())
-      .filter(Boolean);
-    return selected.includes(ALL_CATEGORIES_VALUE) ? [] : selected;
-  }
-
-  function updateCategoryFilterSummary(filterRoot) {
-    if (!filterRoot) return;
-    const summary = filterRoot.querySelector(".table-filter-select");
-    if (!summary) return;
-    const selected = getSelectedCategories(filterRoot);
-    if (!selected.length) {
-      summary.textContent = "All categories";
-      return;
-    }
-    if (selected.length === 1) {
-      [summary.textContent] = selected;
-      return;
-    }
-    summary.textContent = `${selected.length} categories selected`;
-  }
-
-  function normalizeCategoryFilterState(filterRoot, changedValue = "") {
-    if (!filterRoot) return;
-    const checkboxes = Array.from(filterRoot.querySelectorAll('input[type="checkbox"][data-category-value]'));
-    const allCheckbox = checkboxes.find((input) => String(input.getAttribute("data-category-value")) === ALL_CATEGORIES_VALUE);
-    const categoryCheckboxes = checkboxes.filter((input) => input !== allCheckbox);
-    if (!allCheckbox) return;
-
-    if (changedValue === ALL_CATEGORIES_VALUE && allCheckbox.checked) {
-      categoryCheckboxes.forEach((input) => {
-        input.checked = false;
-      });
-      updateCategoryFilterSummary(filterRoot);
-      return;
-    }
-
-    const checkedCategories = categoryCheckboxes.filter((input) => input.checked);
-    if (!checkedCategories.length || checkedCategories.length === categoryCheckboxes.length) {
-      allCheckbox.checked = true;
-      categoryCheckboxes.forEach((input) => {
-        input.checked = false;
-      });
+  function normalizeSelectedCategoryState(selectedCategories, changedValue, isChecked, allOptions) {
+    if (changedValue === ALL_CATEGORIES_VALUE) return [];
+    const next = new Set((selectedCategories || []).filter((value) => (allOptions || []).includes(value)));
+    if (isChecked) {
+      next.add(changedValue);
     } else {
-      allCheckbox.checked = false;
+      next.delete(changedValue);
     }
-
-    updateCategoryFilterSummary(filterRoot);
+    if (!next.size || next.size === (allOptions || []).length) return [];
+    return Array.from(next);
   }
 
-  function populateCategoryFilter(filterRoot, items) {
-    if (!filterRoot) return;
-    const optionsContainer = filterRoot.querySelector("#cuts-category-filter-options");
-    if (!optionsContainer) return;
-    const previouslySelected = getSelectedCategories(filterRoot);
-    const options = buildCategoryOptions(items);
-    const selectedValues = new Set(previouslySelected.filter((value) => options.includes(value)));
-    const showAll = !selectedValues.size;
-    optionsContainer.innerHTML = [
+  function renderCategoryFilterOptions(options, selectedCategories) {
+    const selected = new Set((selectedCategories || []).filter((value) => (options || []).includes(value)));
+    const showAll = selected.size === 0;
+    return [
       `<label class="table-filter-option"><input type="checkbox" data-category-value="${ALL_CATEGORIES_VALUE}"${showAll ? " checked" : ""}> <span>All categories</span></label>`,
-      ...options.map((value) => {
-        const checked = selectedValues.has(value);
-        return `<label class="table-filter-option"><input type="checkbox" data-category-value="${escapeHtml(value)}"${checked ? " checked" : ""}> <span>${escapeHtml(value)}</span></label>`;
-      })
+      ...(options || []).map((value) => `<label class="table-filter-option"><input type="checkbox" data-category-value="${escapeHtml(value)}"${selected.has(value) ? " checked" : ""}> <span>${escapeHtml(value)}</span></label>`)
     ].join("");
-    updateCategoryFilterSummary(filterRoot);
   }
 
-  function initCategoryFilterDismissal(filterRoot) {
-    if (!filterRoot || filterRoot.dataset.dismissalBound === "true") return;
-    filterRoot.dataset.dismissalBound = "true";
-
-    document.addEventListener("click", (event) => {
-      if (!filterRoot.open) return;
-      if (filterRoot.contains(event.target)) return;
-      filterRoot.open = false;
-    });
-
-    filterRoot.addEventListener("keydown", (event) => {
-      if (event.key !== "Escape") return;
-      filterRoot.open = false;
-      filterRoot.querySelector(".table-filter-select")?.focus();
-    });
-
-    filterRoot.addEventListener("focusout", () => {
-      window.setTimeout(() => {
-        if (!filterRoot.open) return;
-        const active = document.activeElement;
-        if (active && filterRoot.contains(active)) return;
-        filterRoot.open = false;
-      }, 0);
-    });
+  function renderCutsCategoryHeader(filterState = {}) {
+    const selectedCount = (filterState.selectedCategories || []).length;
+    const buttonClasses = ["table-header-filter-trigger", "filter-button"];
+    if (selectedCount > 0) buttonClasses.push("is-active");
+    return `
+      <th class="history-table-filter-col">
+        <div class="table-header-filter-wrap">
+          <span>TYPE OF CUTS</span>
+          <button
+            id="cuts-category-filter-button"
+            class="${buttonClasses.join(" ")}"
+            type="button"
+            aria-label="Filter by type of cuts"
+            aria-controls="cuts-category-filter-menu"
+            aria-expanded="${filterState.isOpen ? "true" : "false"}"
+          >
+            <img class="filter-icon" src="assets/cuts-filter-icon.png" alt="" aria-hidden="true">
+          </button>
+          <div
+            id="cuts-category-filter-menu"
+            class="table-filter-menu-options table-filter-menu-options--header"
+            aria-label="Filter by type of cuts"
+            ${filterState.isOpen ? "" : "hidden"}
+          >
+            ${renderCategoryFilterOptions(filterState.options, filterState.selectedCategories)}
+          </div>
+        </div>
+      </th>
+    `;
   }
 
   function sortCuts(items, sortState) {
@@ -485,10 +441,18 @@
   }
 
   function renderCutsTable(items, sortState, options = {}) {
-    const { landingMode = false } = options;
-    if (!items || !items.length) return renderEmpty("No matched cuts are available.");
+    const {
+      landingMode = false,
+      categoryFilterState = null,
+      preserveHeaderOnEmpty = false,
+      emptyMessage = "No matched cuts are available."
+    } = options;
+    if ((!items || !items.length) && !(landingMode && preserveHeaderOnEmpty)) {
+      return renderEmpty(emptyMessage);
+    }
     const rows = landingMode
-      ? items.map((cut) => `
+      ? ((items && items.length)
+        ? items.map((cut) => `
         <tr>
           <td>${window.TrackerApp.renderSchoolLink(cut.financial_unitid, cut.institution_name, "cuts.html")}</td>
           <td>${renderCategoryTags(resolveDisplayCategories(cut), "history-table-cut-tags")}</td>
@@ -497,6 +461,7 @@
           <td>${escapeHtml(cut.announcement_date || cut.announcement_year || "")}</td>
         </tr>
       `)
+        : [`<tr><td colspan="5" class="history-table-empty-cell">${escapeHtml(emptyMessage)}</td></tr>`])
       : items.map((cut) => [
         renderSchoolLinkCell(cut.financial_unitid, cut.institution_name, "cuts.html"),
         cleanCutLabel(cut.cut_label_public || cut.program_name),
@@ -509,7 +474,7 @@
       headers: landingMode
         ? [
           renderSortableHeader("institution_name", sortState, "Institution"),
-          "<th>TYPE OF CUTS</th>",
+          renderCutsCategoryHeader(categoryFilterState || {}),
           renderSortableHeader("state", sortState, "State"),
           renderSortableHeader("control_label", sortState, "Sector"),
           renderSortableHeader("announcement_date", sortState, "Date")
@@ -567,7 +532,12 @@
     const { totalPages, currentPage, pageItems } = paginateItems(items, page, pageSize);
 
     if (!pageItems.length) {
-      return renderEmpty(emptyMessage);
+      if (!options.landingMode) return renderEmpty(emptyMessage);
+      return renderCutsTable([], sortState, {
+        ...options,
+        preserveHeaderOnEmpty: true,
+        emptyMessage
+      });
     }
 
     return `
@@ -600,9 +570,11 @@
     searchInput = null,
     filterOnInput = true,
     searchValueResolver = null,
-    landingMode = false,
-    categoryFilter = null
+    landingMode = false
   }) {
+    let selectedCategories = [];
+    let isCategoryFilterOpen = false;
+    const categoryOptions = landingMode ? buildCategoryOptions(items) : [];
     const controller = makeTableController({
       container,
       items,
@@ -612,13 +584,19 @@
       searchValueResolver,
       filterItems: (rows, query) => {
         const institutionMatches = window.TrackerApp.filterByInstitution(rows, query);
-        const selectedCategories = getSelectedCategories(categoryFilter);
         if (!selectedCategories.length) return institutionMatches;
         return institutionMatches.filter((row) => resolveDisplayCategories(row).some((category) => selectedCategories.includes(category)));
       },
       initialSortState: { key: "announcement_date", direction: "desc" },
       sortItems: sortCuts,
-      renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState, { landingMode }),
+      renderPage: (sortedItems, currentPage, size, sortState) => renderCutsTablePage(sortedItems, currentPage, size, emptyMessage, sortState, {
+        landingMode,
+        categoryFilterState: landingMode ? {
+          isOpen: isCategoryFilterOpen,
+          options: categoryOptions,
+          selectedCategories
+        } : null
+      }),
       downloadButton: downloadButtonId,
       downloadFilename,
       downloadHeaders: ["Institution", "State", "Sector", "Type of cuts", "Cut", "Date", "Source"],
@@ -632,12 +610,42 @@
         cut.source_url || ""
       ]
     });
-    if (categoryFilter) {
-      categoryFilter.addEventListener("change", (event) => {
+
+    if (landingMode && container && !container.dataset.boundCutsCategoryFilter) {
+      container.dataset.boundCutsCategoryFilter = "true";
+
+      container.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const trigger = target.closest("#cuts-category-filter-button");
+        if (!trigger) return;
+        event.preventDefault();
+        event.stopPropagation();
+        isCategoryFilterOpen = !isCategoryFilterOpen;
+        controller?.render?.();
+      });
+
+      container.addEventListener("change", (event) => {
         const target = event.target;
         if (!(target instanceof HTMLInputElement) || target.type !== "checkbox") return;
-        normalizeCategoryFilterState(categoryFilter, String(target.getAttribute("data-category-value") || ""));
+        const changedValue = String(target.getAttribute("data-category-value") || "").trim();
+        if (!changedValue) return;
+        selectedCategories = normalizeSelectedCategoryState(selectedCategories, changedValue, target.checked, categoryOptions);
+        isCategoryFilterOpen = true;
         controller?.reset?.();
+      });
+
+      container.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !isCategoryFilterOpen) return;
+        isCategoryFilterOpen = false;
+        controller?.render?.();
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!isCategoryFilterOpen) return;
+        if (container.contains(event.target)) return;
+        isCategoryFilterOpen = false;
+        controller?.render?.();
       });
     }
     return controller;
@@ -679,9 +687,6 @@
       setDataCardVisible("cuts-other-list", true);
       title.textContent = `Cuts since ${MIN_DEFAULT_YEAR} at four-year degree-granting institutions`;
       const primaryFilter = document.getElementById("cuts-filter");
-      const categoryFilter = document.getElementById("cuts-category-filter");
-      populateCategoryFilter(categoryFilter, primary);
-      initCategoryFilterDismissal(categoryFilter);
       setupPagination({
         container,
         items: primary,
@@ -691,8 +696,7 @@
         searchInput: primaryFilter,
         filterOnInput: false,
         searchValueResolver: getCommittedSearchValue,
-        landingMode: true,
-        categoryFilter
+        landingMode: true
       });
       return;
     }

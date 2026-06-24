@@ -167,12 +167,84 @@
   // NECHE program-level actions) we append it inline in parentheses after
   // the label. Returned as plain text; renderHistoryTable's default branch
   // runs it through escapeHtml.
+  function formatReadableList(values) {
+    const list = (values || []).filter(Boolean);
+    if (!list.length) return "";
+    if (list.length === 1) return list[0];
+    if (list.length === 2) return `${list[0]} and ${list[1]}`;
+    return `${list.slice(0, -1).join(", ")}, and ${list[list.length - 1]}`;
+  }
+
+  function normalizeHlcConcernBucket(code) {
+    const normalized = String(code || "").trim().toUpperCase();
+    if (["2.A", "2.B"].includes(normalized)) return "integrity";
+    if (["2.C", "2.D"].includes(normalized)) return "governance";
+    if (["3.A", "3.B", "3.C"].includes(normalized)) return "educational offerings";
+    if (["4.A", "4.B", "4.C"].includes(normalized)) return "outcomes";
+    if (["5.A", "5.B", "5.C"].includes(normalized)) return "financial resources and planning";
+    if (normalized === "5.D") return "institutional effectiveness";
+    if (/^D\./.test(normalized)) return "governance";
+    return "";
+  }
+
+  function buildHlcConcernDetail(action) {
+    const combinedText = [
+      action?.action_label_short,
+      action?.action_label,
+      action?.action_label_raw,
+      action?.notes
+    ]
+      .filter((value) => typeof value === "string" && value.trim())
+      .join(" ");
+    const componentCodes = Array.from(
+      new Set((combinedText.match(/\b[1-5]\.[A-Z]\b/g) || []).map((value) => value.toUpperCase()))
+    );
+    const assumedPracticeCodes = Array.from(
+      new Set((combinedText.match(/\bD\.\d\b/g) || []).map((value) => value.toUpperCase()))
+    );
+    const buckets = Array.from(
+      new Set(
+        [...componentCodes, ...assumedPracticeCodes]
+          .map((code) => normalizeHlcConcernBucket(code))
+          .filter(Boolean)
+      )
+    );
+    if (!buckets.length) return "";
+    return `standards concerning ${formatReadableList(buckets)}`;
+  }
+
+  function normalizeHlcActionLabel(action, label) {
+    if (String(action?.accreditor || "").toUpperCase() !== "HLC") return label;
+    const detail = buildHlcConcernDetail(action);
+    if (!detail) return label;
+    const normalizedLabel = String(label || "").trim();
+    const lowerLabel = normalizedLabel.toLowerCase();
+    const hasDirectReference = /core components?|core component|assumed practices?|assumed practice/i.test(normalizedLabel)
+      || /criteria for accreditation/i.test(normalizedLabel);
+    if (!hasDirectReference) return label;
+
+    if (lowerLabel.includes("placed on notice") && lowerLabel.includes("at risk of being out of compliance with")) {
+      return normalizedLabel
+        .replace(/^Placed on Notice/i, "Placed on Warning")
+        .replace(/at risk of being out of compliance with[\s\S]*$/i, `at risk of being out of compliance with ${detail}.`);
+    }
+
+    if (lowerLabel.includes("placed on probation") && lowerLabel.includes("out of compliance with")) {
+      return normalizedLabel.replace(/out of compliance with[\s\S]*$/i, `out of compliance with ${detail}.`);
+    }
+
+    return label;
+  }
+
   function actionLabelCell(action) {
-    const label = action.action_label_short
+    const label = normalizeHlcActionLabel(
+      action,
+      action.action_label_short
       || action.action_label
       || action.action_label_raw
       || action.action_type
-      || "";
+      || ""
+    );
     const rawScope = String(action.action_scope || "").trim();
     const scope = rawScope
       .replace(/^(program|location):\s*/i, "")
@@ -297,6 +369,14 @@
     // signals are kept since they represent more substantive monitoring
     // statuses, not routine receipt acknowledgements.
     if (accreditor === "MSCHE" && type === "monitoring") return false;
+
+    if (accreditor === "SACSCOC" &&
+        type === "notice" &&
+        /continued accreditation following (the )?review of an off-?\s*campus instructional site|continued accreditation following (the )?review of membership at level/i.test(
+          [action.action_label_short, action.action_label, action.action_label_raw].filter(Boolean).join(" ")
+        )) {
+      return false;
+    }
 
     // Phase 4: drop procedural MSCHE rows (request-for-report,
     // requirement-to-submit-teach-out-plan, follow-up-visit notes,

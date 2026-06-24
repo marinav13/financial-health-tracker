@@ -54,9 +54,6 @@ const PAGES = [
       { pattern: /<a[^>]+href="index\.html"[^>]*>Tracker Home<\/a>/, message: "Home nav tab" },
       { pattern: /<a[^>]+class="top-tab is-active"[^>]+href="cuts\.html"[^>]+aria-current="page"[^>]*>College Cuts<\/a>/, message: "Active College Cuts tab with aria-current" },
       { pattern: /id="cuts-list"[^>]*aria-live="polite"/, message: 'cuts-list with aria-live="polite"' },
-      { pattern: /id="cuts-category-filter"/, message: "Cuts category filter menu" },
-      { pattern: /id="cuts-category-filter-summary"/, message: "Cuts category filter summary" },
-      { pattern: /<label[^>]+class="table-filter-label"[^>]+for="cuts-category-filter-summary"[^>]*>FILTER BY TYPE OF CUTS:<\/label>/, message: 'Visible label for cuts-category-filter' },
       { pattern: /id="cuts-search-results"/, message: "Cuts autocomplete results container" },
       // Editorial Calm dropped the legacy .masthead-title decorative
       // duplicate from cuts/accred/research/school in favor of a real
@@ -293,6 +290,20 @@ if (fs.existsSync(accreditationJsPath)) {
 } else {
   console.log("  FAIL: js/accreditation.js not found");
   failures.push("accreditation.js: File not found");
+  failed++;
+}
+
+console.log("\n\njs/cuts.js:");
+const cutsJsPath = path.join(ROOT, "js", "cuts.js");
+if (fs.existsSync(cutsJsPath)) {
+  const cutsJs = fs.readFileSync(cutsJsPath, "utf8");
+  check("cuts.js", /cuts-category-filter-button/, cutsJs, "cuts header filter button id");
+  check("cuts.js", /cuts-category-filter-menu/, cutsJs, "cuts header filter menu id");
+  check("cuts.js", /Filter by type of cuts/, cutsJs, "cuts header filter accessible label");
+  check("cuts.js", /table-header-filter-wrap/, cutsJs, "cuts header filter wrapper");
+} else {
+  console.log("  FAIL: js/cuts.js not found");
+  failures.push("cuts.js: File not found");
   failed++;
 }
 

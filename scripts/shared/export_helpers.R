@@ -1838,6 +1838,55 @@ extract_hlc_findings <- function(text) {
   reason_value
 }
 
+.rewrite_hlc_direct_reference_summary <- function(summary_text,
+                                                  action_type = NA_character_,
+                                                  context_text = summary_text) {
+  text <- .normalize_action_summary_text(summary_text)
+  if (!nzchar(text)) return(NA_character_)
+
+  detail <- .build_hlc_public_concern_detail(context_text)
+  if (is.na(detail) || !nzchar(detail)) {
+    detail <- .build_hlc_findings_detail(context_text)
+  }
+  if (is.na(detail) || !nzchar(detail)) return(NA_character_)
+
+  lower_text <- tolower(text)
+  has_direct_reference <- stringr::str_detect(
+    text,
+    stringr::regex("Core Components?|Core Component|Assumed Practices?|Assumed Practice", ignore_case = TRUE)
+  )
+  if (!has_direct_reference && !stringr::str_detect(lower_text, "criteria for accreditation")) {
+    return(NA_character_)
+  }
+
+  if (stringr::str_detect(lower_text, "placed on notice") &&
+      stringr::str_detect(lower_text, "at risk of being out of compliance with")) {
+    rewritten <- stringr::str_replace(
+      text,
+      stringr::regex("at risk of being out of compliance with.+$", ignore_case = TRUE),
+      paste0("at risk of being out of compliance with ", detail, ".")
+    )
+    rewritten <- stringr::str_replace(
+      rewritten,
+      stringr::regex("^Placed on Notice", ignore_case = TRUE),
+      "Placed on Warning"
+    )
+    return(.capitalize_summary_head(rewritten))
+  }
+
+  if ((identical(action_type, "probation") || stringr::str_detect(lower_text, "placed on probation")) &&
+      stringr::str_detect(lower_text, "out of compliance with")) {
+    rewritten <- stringr::str_replace(
+      text,
+      stringr::regex("out of compliance with.+$", ignore_case = TRUE),
+      paste0("out of compliance with ", detail, ".")
+    )
+    return(.capitalize_summary_head(rewritten))
+  }
+
+  NA_character_
+}
+
 .summarize_hlc_change_of_control_affirmation <- function(text) {
   value <- .normalize_action_summary_text(text)
   if (!nzchar(value)) return(NA_character_)
@@ -3973,6 +4022,14 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         "the institution is "
       )
       reason_match <- .specialize_hlc_reason(reason_match, hlc_context_text)
+    }
+    direct_reference_summary <- .rewrite_hlc_direct_reference_summary(
+      hlc_summary_text,
+      action_type = action_type,
+      context_text = hlc_context_text
+    )
+    if (!is.na(direct_reference_summary) && nzchar(direct_reference_summary)) {
+      return(direct_reference_summary)
     }
     if (stringr::str_detect(primary_note, stringr::regex("^Accreditation Reaffirmed:\\s*Warning Removed$", ignore_case = TRUE))) {
       return("Warning removed")

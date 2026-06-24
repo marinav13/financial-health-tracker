@@ -59,6 +59,30 @@ const FIXTURE = {
           display_action: false
         }
       ]
+    },
+    '200': {
+      unitid: '200',
+      financial_unitid: '200',
+      has_financial_profile: true,
+      is_primary_tracker: true,
+      institution_name: 'Example HLC College',
+      city: 'Wilberforce',
+      state: 'Ohio',
+      control_label: 'Private not-for-profit',
+      category: 'Degree-granting, primarily baccalaureate or above',
+      actions: [
+        {
+          accreditor: 'HLC',
+          action_type: 'warning',
+          action_label_short: 'Placed on Notice because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C. The institution does not meet Assumed Practices D.3 and D.4.',
+          action_label: 'Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.',
+          action_status: 'active',
+          action_date: 'November 2023',
+          notes: 'Probation or Equivalent or a More Severe Status: Warning | The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. The Institution meets Core Components 3.C, 4.C, 5.B, and 5.C with concerns. The Institution does not meet Assumed Practices D.3 and D.4.',
+          source_url: 'https://example.org/hlc-warning',
+          display_action: true
+        }
+      ]
     }
   }
 };
@@ -152,6 +176,16 @@ const INDEX_FIXTURE = {
         display_action: true
       },
       {
+        accreditor: 'SACSCOC',
+        action_type: 'notice',
+        action_label_short: 'Continued accreditation following review of the off-campus instructional site at Dalian Maritime University in Liaoning Province, China.',
+        action_label: 'The SACSCOC Board of Trustees continued accreditation following the review of an off-campus instructional site located at Dalian Maritime University in Liaoning Province, China (approved June 2021).',
+        action_date: '2022-06-16',
+        notes: 'Routine site review row should stay hidden.',
+        source_url: 'https://example.org/dalian-site-review',
+        display_action: true
+      },
+      {
         accreditor: 'NWCCU',
         action_type: 'warning',
         action_label_short: 'Accredited – Spring 2026 Policies, Regulations, and Financial Review',
@@ -159,6 +193,28 @@ const INDEX_FIXTURE = {
         action_date: '2026-04-28',
         notes: 'Status: Accredited | Evaluation: Spring 2026 Policies, Regulations, and Financial Review | Reason: As of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.',
         source_url: 'https://example.org/nwccu-accredited',
+        display_action: true
+      }
+    ]
+  },
+  '200': {
+    unitid: '200',
+    financial_unitid: '200',
+    has_financial_profile: true,
+    is_primary_tracker: true,
+    institution_name: 'Example HLC College',
+    state: 'Ohio',
+    control_label: 'Private not-for-profit',
+    action_count: 1,
+    landing_actions: [
+      {
+        accreditor: 'HLC',
+        action_type: 'warning',
+        action_label_short: 'Placed on Notice because it is at risk of being out of compliance with Core Components 3.C, 4.C, 5.B, and 5.C. The institution does not meet Assumed Practices D.3 and D.4.',
+        action_label: 'Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.',
+        action_date: '2023-11-02',
+        notes: 'Probation or Equivalent or a More Severe Status: Warning | The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. The Institution meets Core Components 3.C, 4.C, 5.B, and 5.C with concerns. The Institution does not meet Assumed Practices D.3 and D.4.',
+        source_url: 'https://example.org/hlc-warning',
         display_action: true
       }
     ]
@@ -251,5 +307,17 @@ test.describe('Accreditation display_action + date parsing', () => {
     await expect(statusSection).not.toContainText('teach-out plan as required of candidate institutions');
     await expect(statusSection).not.toContainText('Change of Legal Status (effective January 3, 2024)');
     await expect(statusSection).not.toContainText('Policies, Regulations, and Financial Review');
+    await expect(statusSection).not.toContainText('off-campus instructional site at Dalian Maritime University');
+  });
+
+  test('HLC direct-reference labels collapse to plain-English concern summaries', async ({ page }) => {
+    await page.goto('/accreditation.html?unitid=200');
+
+    const statusSection = page.locator('#accreditation-status');
+    await expect(statusSection).toBeVisible();
+    await expect(statusSection).toContainText(
+      'Placed on Warning because it is at risk of being out of compliance with standards concerning educational offerings, outcomes, financial resources and planning, and governance.'
+    );
+    await expect(statusSection).not.toContainText('Core Components 3.C, 4.C, 5.B, and 5.C');
   });
 });

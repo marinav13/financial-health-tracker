@@ -1843,6 +1843,29 @@ extract_hlc_findings <- function(text) {
                                                   context_text = summary_text) {
   text <- .normalize_action_summary_text(summary_text)
   if (!nzchar(text)) return(NA_character_)
+  text <- stringr::str_replace(
+    text,
+    stringr::regex(
+      "^Probation or Equivalent or a More Severe Status:\\s*(Warning|Probation|Show Cause)\\s*\\|\\s*",
+      ignore_case = TRUE
+    ),
+    ""
+  )
+  text <- stringr::str_replace(
+    text,
+    stringr::regex("^Summary of the Action:\\s*", ignore_case = TRUE),
+    ""
+  )
+  text <- stringr::str_replace(
+    text,
+    stringr::regex("^The Institution has been placed on Notice", ignore_case = TRUE),
+    "Placed on Notice"
+  )
+  text <- stringr::str_replace(
+    text,
+    stringr::regex("^The Institution has been placed on Probation", ignore_case = TRUE),
+    "Placed on Probation"
+  )
 
   detail <- .build_hlc_public_concern_detail(context_text)
   if (is.na(detail) || !nzchar(detail)) {
@@ -3991,7 +4014,23 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     primary_note <- if (length(note_parts) >= 1L) stringr::str_squish(note_parts[[1]]) else ""
     secondary_note <- if (length(note_parts) >= 2L) stringr::str_squish(note_parts[[2]]) else ""
     hlc_summary_clause <- .extract_hlc_summary_clause(cleaned)
-    hlc_summary_text <- hlc_summary_clause %||% cleaned
+    hlc_fallback_summary_text <- if (nzchar(secondary_note)) secondary_note else cleaned
+    hlc_fallback_summary_text <- stringr::str_replace(
+      hlc_fallback_summary_text,
+      stringr::regex("^summary of the action:\\s*", ignore_case = TRUE),
+      ""
+    )
+    hlc_fallback_summary_text <- stringr::str_replace(
+      hlc_fallback_summary_text,
+      stringr::regex("^The Institution has been placed on Notice", ignore_case = TRUE),
+      "Placed on Notice"
+    )
+    hlc_fallback_summary_text <- stringr::str_replace(
+      hlc_fallback_summary_text,
+      stringr::regex("^The Institution has been placed on Probation", ignore_case = TRUE),
+      "Placed on Probation"
+    )
+    hlc_summary_text <- hlc_summary_clause %||% hlc_fallback_summary_text
     hlc_summary_lower <- tolower(hlc_summary_text)
     hlc_context_text <- stringr::str_squish(paste(cleaned, notes_text))
     reason_match <- stringr::str_match(
@@ -4022,6 +4061,24 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
         "the institution is "
       )
       reason_match <- .specialize_hlc_reason(reason_match, hlc_context_text)
+    }
+    if (!is.na(reason_match) &&
+        nzchar(reason_match) &&
+        nzchar(secondary_note) &&
+        stringr::str_detect(hlc_summary_lower, "criteria for accreditation") &&
+        stringr::str_detect(
+          reason_match,
+          stringr::regex("^the institution (?:is|was)\\b", ignore_case = TRUE)
+        )) {
+      status <- dplyr::case_when(
+        identical(action_type, "warning") ~ "Warning",
+        identical(action_type, "notice") ~ "Notice",
+        identical(action_type, "probation") ~ "Probation",
+        TRUE ~ NA_character_
+      )
+      if (!is.na(status) && nzchar(status)) {
+        return(sprintf("Placed on %s because %s.", status, reason_match))
+      }
     }
     direct_reference_summary <- .rewrite_hlc_direct_reference_summary(
       hlc_summary_text,
@@ -4070,7 +4127,7 @@ is_sacscoc_public_table_row_to_drop <- function(action_type, action_label_short,
     placed_with_reason <- stringr::str_match(
       hlc_summary_text,
       stringr::regex(
-        "^The Institution has been placed on (Notice|Probation) because (.+?)\\.(?:\\s|$)",
+        "^(?:The Institution has been )?Placed on (Notice|Probation) because (.+?)\\.(?:\\s|$)",
         ignore_case = TRUE
       )
     )

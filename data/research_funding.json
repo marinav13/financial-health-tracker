@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22",
+  "generated_at": "2026-06-29",
   "agencies": ["NIH", "NSF", "EPA", "SAMHSA", "CDC"],
   "schools": {
     "100654": {
@@ -39546,7 +39546,7 @@
       "has_financial_profile": true,
       "is_primary_tracker": true,
       "likely_higher_ed": true,
-      "institution_name": "The The Ohio State University",
+      "institution_name": "The Ohio State University",
       "institution_alias": null,
       "city": "Columbus",
       "state": "Ohio",
@@ -62280,9 +62280,9 @@
       "state": "Tennessee",
       "control_label": null,
       "category": null,
-      "latest_termination_date": "2025-05-19",
-      "total_disrupted_grants": 1,
-      "total_disrupted_award_remaining": 184206.46,
+      "latest_termination_date": "2026-05-29",
+      "total_disrupted_grants": 2,
+      "total_disrupted_award_remaining": 431518.23,
       "agency_summary": [
         {
           "agency": "nih",
@@ -62305,8 +62305,8 @@
         {
           "agency": "samhsa",
           "agency_label": "SAMHSA",
-          "disrupted_grants": 0,
-          "disrupted_award_remaining": 0
+          "disrupted_grants": 1,
+          "disrupted_award_remaining": 247311.77
         },
         {
           "agency": "cdc",
@@ -62316,6 +62316,28 @@
         }
       ],
       "grants": [
+        {
+          "agency": "samhsa",
+          "agency_label": "SAMHSA",
+          "grant_id": "TI086008",
+          "grant_id_core": "TI086008",
+          "status": "❌ Terminated",
+          "organization_name": "MEHARRY MEDICAL COLLEGE",
+          "organization_city": "Nashville",
+          "organization_state": "Tennessee",
+          "organization_type": "Junior College, College & University",
+          "project_title": "Adult Reentry Program",
+          "project_abstract": null,
+          "start_date": "2023-09-30",
+          "original_end_date": "2028-09-29",
+          "termination_date": "2026-05-29",
+          "award_value": 800000,
+          "award_outlaid": 552688.23,
+          "award_remaining": 247311.77,
+          "remaining_field": "award_remaining",
+          "source_url": "https://www.usaspending.gov/award/ASST_NON_H79TI086008_075/",
+          "detail_url": "https://taggs.hhs.gov/Detail/AwardDetail?arg_AwardNum=H79TI086008&arg_ProgOfficeCode=147"
+        },
         {
           "agency": "nih",
           "agency_label": "NIH",
@@ -64109,7 +64131,7 @@
           "organization_state": "California",
           "organization_type": "Junior College, College & University",
           "project_title": "Minority HIV/AIDS Fund: Integrated Behavioral Health and HIV Care for Unsheltered Populations Pilot Project",
-          "project_abstract": "Mental illness increases the risk of HIV risk behaviors and acquisition by 4 to 10-fold. People experiencing homelessness (PEH) in Alameda County face multiple intersectional vulnerabilities and are amongst the most heavily impacted by the HIV, sexually transmitted infections (STI), hepatitis C (HCV), substance use, and mental illness. On any given night, >9,700 people experience homelessness in Alameda County, with an estimated >15,000 people who were without a home in the past year. The population of PEH in Alameda County increased by 241% from 2015 to 2022. While homelessness occurs across the county, it is highly concentrated in Oakland, CA (~8000 people). Almost half of (49%) of PEH are experiencing psychiatric or emotional conditions, PTSD (42%), drug or alcohol abuse (30%), and HIV/AIDS related illness (2%). Twenty-seven percent of PEH reported that mental health assistance might have prevented homelessness. The number of PEH reported as living with HIV was 98, however, the number of late diagnoses of HIV with a diagnosis of AIDS within one year, from 2019-2021 of the overall population was 21-24%. Mental illness and substance use impact HIV outcomes. There are gaps in access to and in the uptake of effective traditional mental health and substance use screening and treatment resources among the homeless population. Mobile health clinics (MHC) serve communities by delivering convenient and necessary services directly to clients in their proximal environment, overcoming barriers in access to care for those who lack resources, time, or safety to travel to traditional clinics. Therefore, we will use community-based participatory research principles and the Equity-Focused Implementation Research Framework to guide us in implementing and evaluating a portable based mental health and substance use disorder prevention and treatment intervention. This intervention will be an expansion of the HOPE MHC HIV syndemic prevention and treatment engagement services among PEH. Our project goals are to: A). Implement, refine, and evaluate a culturally tailored street-based mental health and substance use screening, treatment, referral pilot program integrated with the existing HOPE mobile status-neutral HIV, STI, and HCV prevention and treatment program for PEH in Alameda County. B). Provide an APRN clinical immersion site available to all students interested in under-served and marginalized populations. C). Document best practices and lessons learned while implementing integrated care using the enhanced HOPE model and disseminate findings from the pilot program.",
+          "project_abstract": null,
           "start_date": "2023-09-30",
           "original_end_date": "2026-09-29",
           "termination_date": "2025-09-30",

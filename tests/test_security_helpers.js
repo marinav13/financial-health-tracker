@@ -214,6 +214,19 @@ run("school visibility and yes/no helpers handle non-string values", () => {
   assert(!("aria-hidden" in elements.get("sample-section").attrs), "Expected aria-hidden to be removed when shown");
 });
 
+run("school trend comparison copy restores a/an before percentage changes", () => {
+  const { context } = loadSchoolHelpers();
+  const onePercentLine = context.buildSectorComparisonLine(-1, { control_label: "Public" });
+  assert(Array.isArray(onePercentLine), "Expected comparison line array");
+  assert(onePercentLine[0] === "That compares to ", "Expected comparison prefix");
+  assert(onePercentLine[1] === "a ", "Expected 'a' before 1% decline");
+  assert(onePercentLine[2] && onePercentLine[2].strong === "1% decline", "Expected strong 1% decline segment");
+
+  const eightPercentLine = context.buildSectorComparisonLine(-8, { control_label: "Public" });
+  assert(eightPercentLine[1] === "an ", "Expected 'an' before 8% decline");
+  assert(eightPercentLine[2] && eightPercentLine[2].strong === "8% decline", "Expected strong 8% decline segment");
+});
+
 run("setupPaginatedTable renders filtered rows and downloads the full sorted set", () => {
   const listeners = {};
   const searchInput = {

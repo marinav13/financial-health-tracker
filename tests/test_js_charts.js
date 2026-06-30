@@ -485,6 +485,26 @@ const basicConfig = {
 })();
 
 // -----------------------------------------------------------------------
+// renderLineChart: native point titles can be disabled for custom tooltip UX
+// -----------------------------------------------------------------------
+(function() {
+  const ok = runChartTest("omits native point title markup when showNativePointTitle is false", {
+    containerId: "chart-no-native-title",
+    showLegend: false,
+    showTooltip: true,
+    showNativePointTitle: false,
+    series: [
+      { label: "Revenue", color: "#005b8e", values: [{ year: "2023", value: "100" }, { year: "2024", value: "120" }] }
+    ]
+  }, (dom) => {
+    const el = dom.getElementById("chart-no-native-title");
+    assert(!el.innerHTML.includes("<title>Revenue:"), "point circles should not render native SVG title tooltips");
+    assert(el.innerHTML.includes('class="chart-tooltip"'), "custom tooltip container should still render");
+  });
+  if (ok) passed++; else failed++;
+})();
+
+// -----------------------------------------------------------------------
 // renderLineChart: container not found
 // -----------------------------------------------------------------------
 (function() {

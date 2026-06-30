@@ -43,6 +43,27 @@ function roundedPercentDisplayValue(value) {
   return Math.abs(n) < 1 ? Math.round(n * 10) / 10 : Math.round(n);
 }
 
+function startsWithVowelSoundNumber(value) {
+  let numeric = Math.abs(asNumber(value) ?? NaN);
+  if (!Number.isFinite(numeric) || numeric < 1) return false;
+
+  while (numeric >= 1000) {
+    numeric /= 1000;
+  }
+
+  if (numeric >= 100) {
+    return Math.floor(numeric / 100) === 8;
+  }
+  if (numeric >= 20) {
+    return Math.floor(numeric / 10) === 8;
+  }
+  if (numeric >= 10) {
+    const whole = Math.floor(numeric);
+    return whole === 11 || whole === 18;
+  }
+  return numeric >= 8 && numeric < 9;
+}
+
 function compareDisplayedPercentages(value, benchmark) {
   const displayedValue = roundedPercentDisplayValue(value);
   const displayedBenchmark = roundedPercentDisplayValue(benchmark);
@@ -531,8 +552,12 @@ function buildSectorComparisonLine(benchmarkValue, profile) {
     const increasePct = fmtRoundedPct(Math.abs(benchmark));
     comparisonPhrase = strongSegment(`${increasePct} increase`);
   }
+  const comparisonArticle = displayedBenchmark === 0
+    ? ""
+    : `${startsWithVowelSoundNumber(displayedBenchmark) ? "an" : "a"} `;
   return [
     "That compares to ",
+    comparisonArticle,
     comparisonPhrase,
     ` for all ${trackerSectorCollegeLabel(profile)} we track.`
   ];
@@ -2030,7 +2055,8 @@ async function init() {
   const financeTooltip2024Config = {
     showTooltip: true,
     tooltipYear: 2024,
-    tooltipPointOnly: true
+    tooltipPointOnly: true,
+    showNativePointTitle: false
   };
 
   renderLineChart("chart-revenue", {

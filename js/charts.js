@@ -125,6 +125,7 @@ function renderLineChart(containerId, config) {
   if (!container) return;
 
   const showTooltip = config.showTooltip !== false;
+  const showNativePointTitle = config.showNativePointTitle !== false;
   const showLegend = config.showLegend !== false;
   const enableSeriesToggle = config.enableSeriesToggle === true;
   const tooltipYear = Number(config.tooltipYear);
@@ -244,7 +245,7 @@ function renderLineChart(containerId, config) {
     const pointGroups = seriesList.map((series) => series.values.map((point) => {
       const x = xScale(Number(point.year));
       const y = yScale(Number(point.value));
-      const pointTitle = showTooltip
+      const pointTitle = showTooltip && showNativePointTitle
         ? `<title>${escapeChartHtml(series.label)}: ${escapeChartHtml(formatChartValue(Number(point.value), format))} (${escapeChartHtml(point.year)})</title>`
         : "";
       return `<circle cx="${x}" cy="${y}" r="3.5" fill="${series.color}" opacity="0.9">${pointTitle}</circle>`;

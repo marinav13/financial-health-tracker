@@ -59,7 +59,10 @@ build_article_workbook_registry <- function(
   mergers_consol,
   private_federal_main_closures,
   intl_vulnerable,
-  intl_vulnerable_large
+  intl_vulnerable_large,
+  public_intl_grad_top50 = data.frame(stringsAsFactors = FALSE),
+  public_intl_answers = data.frame(stringsAsFactors = FALSE),
+  state_intl_offset = data.frame(stringsAsFactors = FALSE)
 ) {
   list(
     Summary = summary_rows,
@@ -139,7 +142,10 @@ build_article_workbook_registry <- function(
     MergersConsol = mergers_consol,
     PrivFedMainClose = private_federal_main_closures,
     IntlVulnerable = intl_vulnerable,
-    IntlVulnLarge = intl_vulnerable_large
+    IntlVulnLarge = intl_vulnerable_large,
+    PublicIntlGradRisk50 = public_intl_grad_top50,
+    PublicIntlAnswers = public_intl_answers,
+    StateIntlOffset = state_intl_offset
   )
 }
 

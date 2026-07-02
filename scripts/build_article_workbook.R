@@ -181,6 +181,32 @@ for (nm in intersect(num_cols, names(read_df))) {
 validate_workbook_input(read_df)
 
 # ============================================================================
+# SECTION: Merge Grad PLUS Borrowing Data
+# The workbook input CSV does not carry FSA Grad PLUS volumes, so pull them
+# from the outcomes join used by the web exports. Without this merge the
+# grad_plus_* columns on GradDependTop/PublicGradTop are entirely blank.
+# Columns are only filled when missing or empty so a future dataset-level
+# merge would win.
+# ============================================================================
+
+grad_plus_join <- read_csv_if_exists("./data_pipelines/scorecard/tracker_outcomes_joined.csv")
+grad_plus_cols <- c("grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_disbursements_per_recipient")
+if (nrow(grad_plus_join) > 0 && all(c("unitid", grad_plus_cols) %in% names(grad_plus_join))) {
+  gp_lookup <- grad_plus_join[, c("unitid", grad_plus_cols), drop = FALSE]
+  gp_lookup$unitid <- to_num(gp_lookup$unitid)
+  for (nm in grad_plus_cols) {
+    gp_lookup[[nm]] <- to_num(gp_lookup[[nm]])
+  }
+  gp_lookup <- gp_lookup[!is.na(gp_lookup$unitid), , drop = FALSE]
+  gp_idx <- match(to_num(latest$unitid), gp_lookup$unitid)
+  for (nm in grad_plus_cols) {
+    if (!(nm %in% names(latest)) || all(is.na(to_num(latest[[nm]])))) {
+      latest[[nm]] <- gp_lookup[[nm]][gp_idx]
+    }
+  }
+}
+
+# ============================================================================
 # SECTION: Compute Risk Scores
 # Calculate warning scores and risk metrics for all institutions
 # ============================================================================
@@ -464,7 +490,10 @@ sheet_index_specs <- list(
   list(name = "MergersConsol", description = "IPEDS exits that look more like mergers or consolidations than clean closures."),
   list(name = "PrivFedMainClose", description = "Selective list of private-sector main/full-system closures from federal closure sources only."),
   list(name = "IntlVulnerable", description = "High-international-share institutions from the 10-year offset list with additional financial warning signs."),
-  list(name = "IntlVulnLarge", description = "Same as IntlVulnerable, limited to institutions with at least 5,000 students.")
+  list(name = "IntlVulnLarge", description = "Same as IntlVulnerable, limited to institutions with at least 5,000 students."),
+  list(name = "PublicIntlGradRisk50", description = "Top 50 public universities most exposed to both international-enrollment declines and new graduate borrowing limits, ranked by a composite percentile score of international share, international-dependent 10-year enrollment change, graduate share, and Grad PLUS dollars per student."),
+  list(name = "PublicIntlAnswers", description = "Topline counts for public international-enrollment dependence: significant international increases since the baseline year, publics whose enrollment would have fallen significantly without international growth, and state-level tallies."),
+  list(name = "StateIntlOffset", description = "State-by-state public enrollment change with and without the 10-year net change in international students, in absolute and percent terms.")
 )
 sheet_index_rows <- build_worksheet_index_rows(sheet_index_specs)
 
@@ -934,6 +963,129 @@ if (nrow(intl_vulnerable) > 0) {
 
 intl_vulnerable_large <- intl_vulnerable[!is.na(intl_vulnerable$enrollment_headcount_total) & intl_vulnerable$enrollment_headcount_total >= 5000, , drop = FALSE]
 
+# ============================================================================
+# SECTION: Public International + Grad PLUS Vulnerability
+# Datapoints on publics exposed both to international-enrollment declines and
+# to the new federal caps on graduate borrowing (Grad PLUS wind-down).
+# "Significant" thresholds are explicit constants so the article can state them.
+# ============================================================================
+
+intl_sig_growth_pct    <- 50   # significant intl increase: >= 50% growth over 10 years...
+intl_sig_growth_count  <- 100  # ...and at least 100 additional international students
+domestic_sig_drop_pct  <- -5   # significant implied domestic drop: <= -5% over 10 years
+
+# Percentile rank (0-100) matching pandas rank(pct=TRUE); NAs stay NA.
+pctile_rank <- function(x) {
+  n <- sum(!is.na(x))
+  if (n == 0) return(rep(NA_real_, length(x)))
+  100 * rank(x, na.last = "keep") / n
+}
+
+pub_intl <- merge(
+  all_sheet_bacc[all_sheet_bacc$control_label == "Public", , drop = FALSE],
+  intl_base_10yr, by = "unitid", all.x = TRUE
+)
+pub_intl$total_change_10yr_proxy <- pub_intl$enrollment_headcount_total - pub_intl$enrollment_headcount_total_baseline
+pub_intl$domestic_change_10yr_proxy <- pub_intl$total_change_10yr_proxy - pub_intl$international_enrollment_change_10yr
+pub_intl$domestic_pct_change_10yr_proxy <- 100 * pub_intl$domestic_change_10yr_proxy / pub_intl$enrollment_headcount_total_baseline
+pub_intl$pct_international_all_pct <- pub_intl$pct_international_all * 100
+pub_intl$share_grad_students_pct <- pub_intl$share_grad_students * 100
+pub_intl$grad_plus_per_student <- ifelse(is.na(pub_intl$grad_plus_disbursements_amt), 0, pub_intl$grad_plus_disbursements_amt) /
+  pub_intl$enrollment_headcount_total
+
+pub_intl$intl_sig_increase_10yr <-
+  !is.na(pub_intl$international_enrollment_pct_change_10yr) &
+  !is.na(pub_intl$international_enrollment_change_10yr) &
+  pub_intl$international_enrollment_pct_change_10yr >= intl_sig_growth_pct &
+  pub_intl$international_enrollment_change_10yr >= intl_sig_growth_count
+pub_intl$implied_domestic_drop_any <-
+  !is.na(pub_intl$international_enrollment_change_10yr) &
+  !is.na(pub_intl$domestic_change_10yr_proxy) &
+  pub_intl$international_enrollment_change_10yr > 0 &
+  pub_intl$domestic_change_10yr_proxy < 0
+pub_intl$implied_domestic_drop_sig <-
+  pub_intl$implied_domestic_drop_any &
+  !is.na(pub_intl$domestic_pct_change_10yr_proxy) &
+  pub_intl$domestic_pct_change_10yr_proxy <= domestic_sig_drop_pct
+pub_intl$flipped_growth_to_decline <-
+  pub_intl$implied_domestic_drop_any &
+  !is.na(pub_intl$total_change_10yr_proxy) &
+  pub_intl$total_change_10yr_proxy >= 0
+
+# Composite vulnerability score: average of four percentile ranks (0-100),
+# skipping components an institution has no data for. Grad PLUS dollars are
+# treated as 0 where FSA reports no volume, since that is genuine non-exposure.
+pub_intl$pctile_intl_share <- pctile_rank(pub_intl$pct_international_all)
+pub_intl$pctile_intl_offset <- pctile_rank(-pub_intl$domestic_pct_change_10yr_proxy)
+pub_intl$pctile_grad_share <- pctile_rank(pub_intl$share_grad_students)
+pub_intl$pctile_grad_plus <- pctile_rank(pub_intl$grad_plus_per_student)
+pub_intl$intl_grad_vuln_score <- rowMeans(
+  cbind(pub_intl$pctile_intl_share, pub_intl$pctile_intl_offset, pub_intl$pctile_grad_share, pub_intl$pctile_grad_plus),
+  na.rm = TRUE
+)
+
+public_intl_grad_top50 <- pub_intl[order(-xtfrm(pub_intl$intl_grad_vuln_score), -xtfrm(pub_intl$pct_international_all), na.last = TRUE), , drop = FALSE]
+public_intl_grad_top50 <- utils::head(public_intl_grad_top50, 50)
+if (nrow(public_intl_grad_top50) > 0) {
+  public_intl_grad_top50$vulnerability_rank <- seq_len(nrow(public_intl_grad_top50))
+}
+
+# State tallies: what would each state's public enrollment change look like
+# without the net change in international students since the baseline year?
+state_intl_base <- pub_intl[!is.na(pub_intl$enrollment_headcount_total_baseline) & !is.na(pub_intl$enrollment_headcount_total), , drop = FALSE]
+state_intl_base$intl_change_10yr_filled <- ifelse(
+  is.na(state_intl_base$international_enrollment_change_10yr), 0,
+  state_intl_base$international_enrollment_change_10yr
+)
+state_intl_offset <- do.call(rbind, lapply(split(state_intl_base, state_intl_base$state), function(chunk) {
+  data.frame(
+    state = chunk$state[[1]],
+    public_institutions_n = nrow(chunk),
+    enrollment_baseline = sum(chunk$enrollment_headcount_total_baseline),
+    enrollment_latest = sum(chunk$enrollment_headcount_total),
+    actual_change = sum(chunk$enrollment_headcount_total) - sum(chunk$enrollment_headcount_total_baseline),
+    international_change_10yr = sum(chunk$intl_change_10yr_filled),
+    publics_with_sig_implied_drop = sum(chunk$implied_domestic_drop_sig, na.rm = TRUE),
+    publics_flipped_growth_to_decline = sum(chunk$flipped_growth_to_decline, na.rm = TRUE),
+    stringsAsFactors = FALSE
+  )
+}))
+state_intl_offset$actual_pct_change <- 100 * state_intl_offset$actual_change / state_intl_offset$enrollment_baseline
+state_intl_offset$change_without_intl <- state_intl_offset$actual_change - state_intl_offset$international_change_10yr
+state_intl_offset$pct_change_without_intl <- 100 * state_intl_offset$change_without_intl / state_intl_offset$enrollment_baseline
+state_intl_offset$drop_deepens_pct_points <- state_intl_offset$pct_change_without_intl - state_intl_offset$actual_pct_change
+state_intl_offset$would_have_declined_without_intl <- ifelse(state_intl_offset$change_without_intl < 0, "Yes", "No")
+state_intl_offset$flipped_growth_to_decline <- ifelse(state_intl_offset$actual_change >= 0 & state_intl_offset$change_without_intl < 0, "Yes", "No")
+state_intl_offset <- state_intl_offset[order(xtfrm(state_intl_offset$change_without_intl)), , drop = FALSE]
+rownames(state_intl_offset) <- NULL
+
+# Topline answer rows for the two "how many publics" questions plus state counts.
+pub_intl_n <- nrow(pub_intl)
+pub_intl_data_n <- sum(!is.na(pub_intl$international_enrollment_change_10yr) & !is.na(pub_intl$total_change_10yr_proxy))
+count_answer_row <- function(metric, definition, value, denominator, notes = "") {
+  data.frame(
+    metric = metric,
+    definition = definition,
+    value = value,
+    percent_of_bacc_publics = if (is.na(suppressWarnings(as.numeric(value))) || denominator == 0) "" else round(100 * as.numeric(value) / denominator, 1),
+    notes = notes,
+    stringsAsFactors = FALSE
+  )
+}
+public_intl_answers <- rbind(
+  count_answer_row("Public universe", "Predominantly baccalaureate public institutions in the workbook universe", pub_intl_n, 0),
+  count_answer_row("Publics with 10-year international data", sprintf("Universe rows with both %s international change and %s-%s total enrollment change", latest_year, latest_year - 10L, latest_year), pub_intl_data_n, pub_intl_n),
+  count_answer_row("Significant international increase", sprintf("International enrollment up at least %s%% and at least %s students, %s-%s", intl_sig_growth_pct, intl_sig_growth_count, latest_year - 10L, latest_year), sum(pub_intl$intl_sig_increase_10yr, na.rm = TRUE), pub_intl_n),
+  count_answer_row("Any international increase", sprintf("International enrollment up by any amount, %s-%s", latest_year - 10L, latest_year), sum(yes_flag(pub_intl$international_enrollment_increase_10yr), na.rm = TRUE), pub_intl_n),
+  count_answer_row("International enrollment doubled", sprintf("International enrollment up at least 100%% and at least %s students, %s-%s", intl_sig_growth_count, latest_year - 10L, latest_year), sum(!is.na(pub_intl$international_enrollment_pct_change_10yr) & pub_intl$international_enrollment_pct_change_10yr >= 100 & !is.na(pub_intl$international_enrollment_change_10yr) & pub_intl$international_enrollment_change_10yr >= intl_sig_growth_count, na.rm = TRUE), pub_intl_n),
+  count_answer_row("Significant decrease avoided via internationals", sprintf("International enrollment grew and enrollment would have fallen at least %s%% without that growth, %s-%s", abs(domestic_sig_drop_pct), latest_year - 10L, latest_year), sum(pub_intl$implied_domestic_drop_sig, na.rm = TRUE), pub_intl_n, "Domestic proxy: total enrollment change minus international change"),
+  count_answer_row("Any decrease avoided via internationals", "International enrollment grew and implied domestic enrollment fell by any amount", sum(pub_intl$implied_domestic_drop_any, na.rm = TRUE), pub_intl_n),
+  count_answer_row("Flipped growth to decline", "Enrollment grew or held flat overall but would have fallen without international growth", sum(pub_intl$flipped_growth_to_decline, na.rm = TRUE), pub_intl_n),
+  count_answer_row("States that would have seen a public enrollment dip without internationals", "State bacc-public totals where enrollment change minus international change is negative", sum(state_intl_offset$would_have_declined_without_intl == "Yes"), nrow(state_intl_offset), "See StateIntlOffset sheet"),
+  count_answer_row("States flipped from growth to decline", "State bacc-public totals that grew overall but would have declined without international change", sum(state_intl_offset$flipped_growth_to_decline == "Yes"), nrow(state_intl_offset), "See StateIntlOffset sheet"),
+  count_answer_row("Method note", "International students = IPEDS nonresident students; Grad PLUS volumes from FSA AY 2025-2026 Q2 via tracker_outcomes_joined.csv", "", 0, sprintf("Top-50 score: mean percentile of international share, implied domestic 10-year change (inverted), graduate share, and Grad PLUS dollars per student; thresholds: %s%%/%s students and %s%%", intl_sig_growth_pct, intl_sig_growth_count, domestic_sig_drop_pct))
+)
+
 report_answers <- build_report_answers(
   read_df = read_df,
   distress_compare = distress_compare,
@@ -1009,7 +1161,10 @@ worksheets <- build_article_workbook_registry(
   mergers_consol = mergers_consol,
   private_federal_main_closures = private_federal_main_closures,
   intl_vulnerable = intl_vulnerable,
-  intl_vulnerable_large = intl_vulnerable_large
+  intl_vulnerable_large = intl_vulnerable_large,
+  public_intl_grad_top50 = public_intl_grad_top50,
+  public_intl_answers = public_intl_answers,
+  state_intl_offset = state_intl_offset
 )
 
 # worksheet_signature(), xml_cell(), worksheet_xml() are in workbook_helpers.R

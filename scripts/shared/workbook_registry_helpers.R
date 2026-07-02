@@ -61,7 +61,7 @@ build_article_workbook_registry <- function(
   intl_vulnerable,
   intl_vulnerable_large,
   public_intl_grad_top50 = data.frame(stringsAsFactors = FALSE),
-  public_intl_answers = data.frame(stringsAsFactors = FALSE),
+  intl_grad_answers = data.frame(stringsAsFactors = FALSE),
   state_intl_offset = data.frame(stringsAsFactors = FALSE)
 ) {
   list(
@@ -144,7 +144,7 @@ build_article_workbook_registry <- function(
     IntlVulnerable = intl_vulnerable,
     IntlVulnLarge = intl_vulnerable_large,
     PublicIntlGradRisk50 = public_intl_grad_top50,
-    PublicIntlAnswers = public_intl_answers,
+    IntlGradAnswers = intl_grad_answers,
     StateIntlOffset = state_intl_offset
   )
 }

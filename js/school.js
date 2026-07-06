@@ -1530,14 +1530,36 @@ function tuitionTrackerSchoolUrl(name, unitid) {
   return `https://www.tuitiontracker.org/schools/${slugify(name)}-${encodeURIComponent(unitid)}`;
 }
 
+const SCHOOL_GRAD_PLUS_DOWNLOAD_FIELDS = new Set([
+  "grad_plus_recipients",
+  "grad_plus_disbursements_amt",
+  "grad_plus_disbursements_per_recipient",
+  "sector_median_grad_plus_disbursements_per_recipient"
+]);
+
+function hasCampusGradPlusSummary(summary) {
+  return [
+    "grad_plus_recipients",
+    "grad_plus_disbursements_amt",
+    "grad_plus_disbursements_per_recipient"
+  ].some((field) => {
+    const value = summary?.[field];
+    return value !== null
+      && value !== undefined
+      && !(typeof value === "string" && value.trim() === "");
+  });
+}
+
 function downloadSchoolCsv(school) {
   const rows = [["section", "field", "year", "value"]];
+  const hasGradPlusSummary = hasCampusGradPlusSummary(school.summary || {});
 
   Object.entries(school.profile || {}).forEach(([field, value]) => {
     rows.push(["profile", field, "", value ?? ""]);
   });
 
   Object.entries(school.summary || {}).forEach(([field, value]) => {
+    if (SCHOOL_GRAD_PLUS_DOWNLOAD_FIELDS.has(field) && !hasGradPlusSummary) return;
     rows.push(["summary", field, "", value ?? ""]);
   });
 

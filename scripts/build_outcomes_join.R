@@ -174,17 +174,36 @@ hd2024 <- readr::read_csv(hd2024_csv_path, show_col_types = FALSE) %>%
   filter(!is.na(opeid_int)) %>%
   distinct(unitid, .keep_all = TRUE)
 
+opeid_unitid_counts <- hd2024 %>%
+  distinct(opeid_int, unitid) %>%
+  count(opeid_int, name = "opeid_unitid_count")
+
 grad_plus <- fsa_grad_plus %>%
+  left_join(opeid_unitid_counts, by = "opeid_int") %>%
   left_join(hd2024, by = "opeid_int") %>%
   filter(!is.na(unitid)) %>%
   transmute(
     unitid,
+    grad_plus_parent_level_suppressed = !is.na(opeid_unitid_count) & opeid_unitid_count > 1L,
     grad_plus_recipients,
     grad_plus_loans_originated_n,
     grad_plus_loans_originated_amt,
     grad_plus_disbursements_n,
     grad_plus_disbursements_amt,
     grad_plus_disbursements_per_recipient = safe_divide(grad_plus_disbursements_amt, grad_plus_recipients)
+  ) %>%
+  mutate(
+    across(
+      c(
+        grad_plus_recipients,
+        grad_plus_loans_originated_n,
+        grad_plus_loans_originated_amt,
+        grad_plus_disbursements_n,
+        grad_plus_disbursements_amt,
+        grad_plus_disbursements_per_recipient
+      ),
+      ~ ifelse(grad_plus_parent_level_suppressed, NA_real_, .x)
+    )
   ) %>%
   distinct(unitid, .keep_all = TRUE)
 
@@ -207,13 +226,19 @@ grad_plus <- fsa_grad_plus %>%
     left_join(drvgr, by = "unitid") %>%
     left_join(grad_plus, by = "unitid") %>%
     mutate(
+      grad_plus_parent_level_suppressed = coalesce(grad_plus_parent_level_suppressed, FALSE),
       institution_name = normalize_display_institution_name(coalesce(institution_name, scorecard_institution_name)),
       city = coalesce(city, scorecard_city),
       scorecard_institution_name = normalize_display_institution_name(scorecard_institution_name),
       state = coalesce(state, scorecard_state),
       outcomes_data_available = !is.na(median_earnings_10yr) | !is.na(median_debt_completers) | !is.na(graduation_rate_6yr) | !is.na(grad_plus_recipients) | !is.na(grad_plus_disbursements_amt),
       scorecard_data_updated = scorecard_release_date,
-      grad_plus_data_updated = grad_plus_award_year_label,
+      grad_plus_data_updated = if_else(
+        grad_plus_parent_level_suppressed,
+        NA_character_,
+        grad_plus_award_year_label,
+        missing = grad_plus_award_year_label
+      ),
       ipeds_graduation_rate_year = source_ipeds_graduation_rate_year,
       ipeds_graduation_rate_label = "Bachelor degree within 6 years, total"
     ) %>%

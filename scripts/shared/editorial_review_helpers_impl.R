@@ -1360,7 +1360,7 @@ COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS <- c(
 
 COLLEGE_CUTS_REVIEW_SHEET_COLUMNS <- c(
   "cut_id", "unitid", "institution_name", "state", "announcement_date", "announcement_year",
-  "cut_type", "cut_description", "cut_label", "cut_summary",
+  "cut_type", "display_categories", "cut_description", "cut_label", "cut_summary",
   "source_url", "source_publication", "row_origin",
   "first_seen", "review_status", "reviewer", "reviewer_notes", "reviewed_at", "grandfathered"
 )
@@ -1452,6 +1452,29 @@ normalize_college_cuts_sheet_headers <- function(df) {
 format_college_cuts_sheet_headers <- function(df) df
 format_accreditation_review_sheet_headers <- function(df) df
 
+derive_college_cuts_review_display_categories <- function(cut_type,
+                                                          cut_description,
+                                                          cut_label = NA_character_,
+                                                          cut_summary = NA_character_) {
+  if (!nzchar(trim_text(cut_type)) &&
+      !nzchar(trim_text(cut_description)) &&
+      !nzchar(trim_text(cut_label)) &&
+      !nzchar(trim_text(cut_summary))) {
+    return(NA_character_)
+  }
+
+  categories <- derive_cut_display_categories(
+    cut_type = cut_type,
+    program_name = cut_description,
+    cut_label_public = cut_label,
+    cut_summary_public = cut_summary
+  )
+  categories <- trim_text(as.character(categories %||% character()))
+  categories <- unique(categories[nzchar(categories)])
+  if (!length(categories)) return(NA_character_)
+  paste(categories, collapse = "; ")
+}
+
 empty_college_cuts_review_candidates <- function() {
   data.frame(
     cut_id = character(), unitid = character(), institution_name = character(),
@@ -1468,7 +1491,7 @@ empty_college_cuts_review_sheet_rows <- function() {
   data.frame(
     cut_id = character(), unitid = character(), institution_name = character(),
     state = character(), announcement_date = character(), announcement_year = character(),
-    cut_type = character(), cut_description = character(),
+    cut_type = character(), display_categories = character(), cut_description = character(),
     cut_label = character(), cut_summary = character(),
     source_url = character(), source_publication = character(),
     row_origin = character(), first_seen = character(), review_status = character(),
@@ -1642,6 +1665,16 @@ coerce_college_cuts_review_sheet_rows <- function(df,
   if ("editor_source_url" %in% names(raw_rows)) sheet_rows$source_url <- dplyr::coalesce(trim_optional_text(raw_rows$editor_source_url), sheet_rows$source_url)
   if ("editor_source_publication" %in% names(raw_rows)) sheet_rows$source_publication <- dplyr::coalesce(trim_optional_text(raw_rows$editor_source_publication), sheet_rows$source_publication)
   sheet_rows$announcement_year <- dplyr::coalesce(sheet_rows$announcement_year, derive_year_from_date_string(sheet_rows$announcement_date))
+  sheet_rows$display_categories <- vapply(
+    seq_len(nrow(sheet_rows)),
+    function(i) derive_college_cuts_review_display_categories(
+      cut_type = sheet_rows$cut_type[[i]],
+      cut_description = sheet_rows$cut_description[[i]],
+      cut_label = sheet_rows$cut_label[[i]],
+      cut_summary = sheet_rows$cut_summary[[i]]
+    ),
+    character(1)
+  )
   sheet_rows$row_origin <- normalize_review_row_origin(sheet_rows$row_origin)
   sheet_rows$row_origin[is.na(sheet_rows$row_origin)] <- "scraper"
 
@@ -1777,6 +1810,16 @@ build_college_cuts_review_sheet_rows <- function(overrides,
   sheet_rows$reviewed_at <- local_rows$reviewed_at
   sheet_rows$grandfathered <- local_rows$grandfathered
   sheet_rows$announcement_year <- dplyr::coalesce(sheet_rows$announcement_year, derive_year_from_date_string(sheet_rows$announcement_date))
+  sheet_rows$display_categories <- vapply(
+    seq_len(nrow(sheet_rows)),
+    function(i) derive_college_cuts_review_display_categories(
+      cut_type = sheet_rows$cut_type[[i]],
+      cut_description = sheet_rows$cut_description[[i]],
+      cut_label = sheet_rows$cut_label[[i]],
+      cut_summary = sheet_rows$cut_summary[[i]]
+    ),
+    character(1)
+  )
   sheet_rows[, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 

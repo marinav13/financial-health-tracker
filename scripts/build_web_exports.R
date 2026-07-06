@@ -3321,6 +3321,7 @@ outcomes_join_fields <- c(
   "graduation_rate_6yr",
   "median_earnings_10yr",
   "median_debt_completers",
+  "grad_plus_parent_level_suppressed",
   "grad_plus_recipients",
   "grad_plus_disbursements_amt",
   "grad_plus_disbursements_per_recipient",
@@ -3331,12 +3332,15 @@ outcomes_join_fields <- c(
   "ipeds_graduation_rate_label"
 )
 for (nm in c(
+  "grad_plus_parent_level_suppressed",
   "grad_plus_recipients",
   "grad_plus_disbursements_amt",
   "grad_plus_disbursements_per_recipient",
   "grad_plus_data_updated"
 )) {
-  if (!(nm %in% names(outcomes_summary))) outcomes_summary[[nm]] <- NA
+  if (!(nm %in% names(outcomes_summary))) {
+    outcomes_summary[[nm]] <- if (identical(nm, "grad_plus_parent_level_suppressed")) FALSE else NA
+  }
 }
 outcomes_cols_to_join <- setdiff(outcomes_join_fields, "unitid")
 df <- df %>%

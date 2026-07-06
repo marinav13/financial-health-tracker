@@ -22,7 +22,7 @@ run_test("Accreditation text and classification", function() {
   assert_identical(classify_action("Placed on probation"), "probation")
   assert_identical(classify_action("Continued on High Probation"), "probation")
   assert_identical(classify_action("Issue a Notice of Concern"), "notice")
-  assert_identical(classify_action("Accepted Teach-Out Plan"), "adverse_action")
+  assert_identical(classify_action("Accepted Teach-Out Plan"), "other")
   assert_identical(classify_action("Denied Reaffirmation"), "adverse_action")
   # SACSCOC denied-reaffirmation + placed on Warning must classify as "warning", not "adverse_action"
   assert_identical(
@@ -105,7 +105,7 @@ run_test("Accreditation text and classification", function() {
     "To accept the institution's voluntary surrender of accreditation",
     "effective immediately."
   )
-  assert_identical(classify_action(voluntary_surrender, "MSCHE"), "adverse_action")
+  assert_identical(classify_action(voluntary_surrender, "MSCHE"), "other")
 
   # False positives that previously classified as adverse_action but are
   # really substantive-change paperwork tied to a sub-unit. These must

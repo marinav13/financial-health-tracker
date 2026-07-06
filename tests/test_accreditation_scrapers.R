@@ -431,7 +431,7 @@ run_test("Accreditation scraper public action parser handles phrasing variants",
   assert_identical(nrow(rows), 2L)
   assert_identical(rows$institution_name_raw[[1]], "Gamma College")
   assert_identical(rows$institution_state_raw[[1]], "Texas")
-  assert_identical(rows$action_type[[1]], "adverse_action")
+  assert_identical(rows$action_type[[1]], "other")
   assert_identical(rows$action_type[[2]], "adverse_action")
 })
 
@@ -1405,7 +1405,7 @@ run_test("parse_msche_institution_page returns ACCREDITATION_ACTION_COLUMNS-conf
   assert_identical(nrow(rows), 2L)
   checked <- ensure_accreditation_action_schema(rows, "MSCHE per-institution fixture")
   assert_true(all(ACCREDITATION_ACTION_COLUMNS %in% names(checked)))
-  assert_identical(rows$action_type[[1]], "adverse_action")
+  assert_identical(rows$action_type[[1]], "other")
   assert_identical(rows$action_type[[2]], "warning")
   assert_identical(rows$accreditor[[1]], "MSCHE")
   assert_identical(rows$source_url[[1]], inst_url)
@@ -1535,7 +1535,7 @@ run_test("parse_msche orchestrator emits real per-institution rows and falls bac
   real_rows <- rows[rows$source_url == "https://www.msche.org/institution/0100/", ]
   assert_identical(nrow(real_rows), 2L)
   assert_true(any(real_rows$action_type == "warning"))
-  assert_true(any(real_rows$action_type == "adverse_action"))
+  assert_true(any(real_rows$action_type == "other"))
   assert_true(all(real_rows$action_label_raw != "Commission action"))
 
   stub_rows <- rows[rows$source_url == "https://www.msche.org/institution/0999/", ]
@@ -1559,11 +1559,11 @@ run_test("classify_action handles MSCHE phrasings", function() {
   )
   assert_identical(
     classify_action("To approve the teach-out plan and agreements with several institutions."),
-    "adverse_action"
+    "other"
   )
   assert_identical(
     classify_action("To approve the teach-out plan with another university.", "MSCHE"),
-    "adverse_action"
+    "other"
   )
   assert_identical(
     classify_action(

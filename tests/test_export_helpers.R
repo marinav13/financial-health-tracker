@@ -581,7 +581,7 @@ run_test("derive_action_label_short: MSCHE pattern 1 — Approved Teach-Out Plan
   # DeSales (MSCHE) — closure of an additional location.
   assert_identical(
     derive_action_label_short(
-      "adverse_action",
+      "other",
       "To approve the teach-out plan for the closure of the additional location at DeSales Institute of Philosophy and Religion, Bangalore, India.",
       "MSCHE"
     ),
@@ -590,7 +590,7 @@ run_test("derive_action_label_short: MSCHE pattern 1 — Approved Teach-Out Plan
   # Saint Rose (MSCHE) — multi-institution agreements connector "and agreements with".
   assert_identical(
     derive_action_label_short(
-      "adverse_action",
+      "other",
       "To approve the teach-out plan and agreements with several institutions.",
       "MSCHE"
     ),
@@ -710,13 +710,13 @@ run_test("derive_action_label_short: MSCHE pattern 2 — Voluntarily Surrendered
     "voluntarily surrender accreditation, and terminate membership."
   )
   assert_identical(
-    derive_action_label_short("adverse_action", bard_text, "MSCHE"),
+    derive_action_label_short("other", bard_text, "MSCHE"),
     "Voluntarily Surrendered Accreditation"
   )
   # Word-form variant ("voluntary surrender") should also match.
   assert_identical(
     derive_action_label_short(
-      "adverse_action",
+      "other",
       "To accept the institution's request for voluntary surrender of its accreditation.",
       "MSCHE"
     ),
@@ -2605,7 +2605,7 @@ run_test("derive_action_label_short: HLC voluntary resignation rows become compa
     "University of Arizona in Tucson, Arizona, voluntarily resigned its accreditation with the Higher Learning Commission, effective August 1, 2023."
   )
   assert_identical(
-    derive_action_label_short("adverse_action", text, "HLC"),
+    derive_action_label_short("other", text, "HLC"),
     "Voluntarily Surrendered Accreditation"
   )
 })

@@ -118,7 +118,7 @@ const INDEX_FIXTURE = {
       },
       {
         accreditor: 'MSCHE',
-        action_type: 'adverse_action',
+        action_type: 'other',
         action_label: 'Staff acted to acknowledge receipt of the supplemental information report requested by the Commission action of November 7, 2025.',
         action_date: '2026-02-27',
         notes: 'Procedural-only landing row',
@@ -127,7 +127,7 @@ const INDEX_FIXTURE = {
       },
       {
         accreditor: 'MSCHE',
-        action_type: 'adverse_action',
+        action_type: 'other',
         action_label_short: "To approve the teach-out plan as required of candidate institutions in accordance with the Commission's Teach-Out Plans and Agreement(s) Policy and Procedures and federal regulation.",
         action_label: "To acknowledge receipt of the teach-out plan. To approve the teach-out plan as required of candidate institutions in accordance with the Commission's Teach-Out Plans and Agreement(s) Policy and Procedures and federal regulation.",
         action_date: '2023-03-09',
@@ -137,7 +137,7 @@ const INDEX_FIXTURE = {
       },
       {
         accreditor: 'MSCHE',
-        action_type: 'adverse_action',
+        action_type: 'other',
         action_label_short: 'Voluntarily Surrendered Accreditation',
         action_label: 'Staff acted on behalf of the Commission to acknowledge receipt of the notification, dated April 2, 2026, of the institution\'s intent to change their primary accreditor, voluntarily surrender accreditation, and terminate membership. To accept the institution\'s request to voluntarily surrender its accreditation and intent to terminate its membership effective May 31, 2026.',
         action_date: '2099-12-31',

@@ -1,10 +1,10 @@
-/* ---------- Official brand fonts ---------- */
+/* ---------- Hechinger-hosted brand fonts ---------- */
 @font-face {
   font-family: "National";
   src:
     local("National Book"), local("National-Book"), local("National 2 Book"),
     local("National Regular"), local("National-Regular"),
-    url("assets/Official_Fonts/NATIONAL/National-Book.otf") format("opentype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-Book.woff") format("woff");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -14,7 +14,7 @@
   src:
     local("National Book Italic"), local("National-BookItalic"), local("National 2 Book Italic"),
     local("National Regular Italic"), local("National-RegularItalic"),
-    url("assets/Official_Fonts/NATIONAL/National-BookItalic.otf") format("opentype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-BookItalic.woff") format("woff");
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -23,7 +23,9 @@
   font-family: "National";
   src:
     local("National Semibold"), local("National-Semibold"),
-    url("assets/Official_Fonts/NATIONAL/National-Semibold.otf") format("opentype");
+    /* The main site does not currently publish a semibold webfont, so
+       reuse bold as the closest served match. */
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-Bold.woff") format("woff");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -32,7 +34,7 @@
   font-family: "National";
   src:
     local("National Bold"), local("National-Bold"), local("National 2 Bold"),
-    url("assets/Official_Fonts/NATIONAL/National-Bold.otf") format("opentype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-Bold.woff") format("woff");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -41,7 +43,7 @@
   font-family: "National";
   src:
     local("National Black"), local("National-Black"), local("National 2 Black"),
-    url("assets/Official_Fonts/NATIONAL/National-Black.otf") format("opentype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-Black.woff") format("woff");
   font-style: normal;
   font-weight: 900;
   font-display: swap;
@@ -50,7 +52,9 @@
   font-family: "National";
   src:
     local("National Black Italic"), local("National-BlackItalic"),
-    url("assets/Official_Fonts/NATIONAL/National-BlackItalic.otf") format("opentype");
+    /* The main site does not currently publish a black italic webfont, so
+       reuse bold italic as the closest served match. */
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/NationalWeb-BoldItalic.woff") format("woff");
   font-style: italic;
   font-weight: 900;
   font-display: swap;
@@ -62,7 +66,7 @@
   src:
     local("Tiempos Text Regular"),
     local("TiemposText-Regular"),
-    url("assets/Official_Fonts/TiemposTextWeb-Regular.woff") format("woff");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/TiemposTextWeb-Regular.woff") format("woff");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -72,7 +76,7 @@
   src:
     local("Tiempos Text Regular Italic"),
     local("TiemposText-RegularItalic"),
-    url("assets/Official_Fonts/TiemposTextWeb-RegularItalic.woff") format("woff");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/TiemposTextWeb-RegularItalic.woff") format("woff");
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -83,8 +87,7 @@
   src:
     local("Tiempos Headline Black"),
     local("TiemposHeadline-Black"),
-    url("assets/Official_Fonts/TiemposHeadlineWeb-Black.woff") format("woff"),
-    url("assets/Official_Fonts/TiemposHeadline-Black.ttf") format("truetype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/TiemposHeadlineWeb-Black.woff") format("woff");
   font-style: normal;
   font-weight: 900;
   font-display: swap;
@@ -94,8 +97,7 @@
   src:
     local("Tiempos Headline Black Italic"),
     local("TiemposHeadline-BlackItalic"),
-    url("assets/Official_Fonts/TiemposHeadlineWeb-BlackItalic.woff") format("woff"),
-    url("assets/Official_Fonts/TiemposHeadline-BlackItalic.ttf") format("truetype");
+    url("https://hechingerreport.org/wp-content/hechinger-fonts/TiemposHeadlineWeb-BlackItalic.woff") format("woff");
   font-style: italic;
   font-weight: 900;
   font-display: swap;

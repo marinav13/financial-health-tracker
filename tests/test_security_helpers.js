@@ -227,6 +227,36 @@ run("school trend comparison copy restores a/an before percentage changes", () =
   assert(eightPercentLine[2] && eightPercentLine[2].strong === "8% decline", "Expected strong 8% decline segment");
 });
 
+run("school CSV download omits grad plus rows when no campus-level grad plus data exists", () => {
+  const { context } = loadSchoolHelpers();
+  let download = null;
+  context.window.TrackerApp.downloadRowsCsv = (filename, headers, rows) => {
+    download = { filename, headers, rows };
+  };
+
+  context.downloadSchoolCsv({
+    profile: { institution_name: "Example University" },
+    summary: {
+      latest_year: 2024,
+      grad_plus_recipients: null,
+      grad_plus_disbursements_amt: null,
+      grad_plus_disbursements_per_recipient: null,
+      sector_median_grad_plus_disbursements_per_recipient: 12345
+    },
+    series: {}
+  });
+
+  assert(download && Array.isArray(download.rows), "Expected school CSV download payload");
+  const summaryFields = download.rows
+    .filter((row) => row[0] === "summary")
+    .map((row) => row[1]);
+  assert(summaryFields.includes("latest_year"), "Expected non-Grad-PLUS summary rows to remain");
+  assert(!summaryFields.includes("grad_plus_recipients"), "Expected blank grad plus recipients row to be omitted");
+  assert(!summaryFields.includes("grad_plus_disbursements_amt"), "Expected blank grad plus amount row to be omitted");
+  assert(!summaryFields.includes("grad_plus_disbursements_per_recipient"), "Expected blank grad plus per-recipient row to be omitted");
+  assert(!summaryFields.includes("sector_median_grad_plus_disbursements_per_recipient"), "Expected sector median grad plus row to be omitted when campus data is suppressed");
+});
+
 run("setupPaginatedTable renders filtered rows and downloads the full sorted set", () => {
   const listeners = {};
   const searchInput = {

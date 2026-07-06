@@ -141,10 +141,10 @@ run_test("Web export pipeline fixture", function() {
       latest_action_date = "2026-04-24",
       latest_action_year = "2026",
       action_labels = "Program Addition; Substantive Change; Voluntarily Surrendered Accreditation",
-      active_actions = "program_addition; adverse_action",
+      active_actions = "other; program_addition",
       has_active_warning = FALSE,
       has_active_warning_or_notice = FALSE,
-      has_active_adverse_action = TRUE,
+      has_active_adverse_action = FALSE,
       action_count = 3L,
       stringsAsFactors = FALSE
     ),
@@ -823,8 +823,8 @@ run_test("Web export pipeline fixture", function() {
     "display_action should be exported with accreditation actions.")
   assert_true(isTRUE(school_accred$actions$display_action[[1]]),
     "displayed accreditation action should carry display_action=true.")
-  assert_true(isTRUE(school_accred$latest_status$has_active_adverse_action),
-    "voluntary surrender row should count as an active adverse action.")
+  assert_true(!isTRUE(school_accred$latest_status$has_active_adverse_action),
+    "voluntary surrender row should not count as an active adverse action.")
 
   accred_index_row <- if (is.data.frame(accred_index)) accred_index[1, , drop = FALSE] else accred_index[[1]]
   if (is.data.frame(accred_index_row)) {
@@ -879,6 +879,246 @@ run_test("Web export pipeline fixture", function() {
   # The download CSV must have more columns than just unitid + year.
   assert_true(ncol(download_csv) > 5,
     sprintf("Download CSV should have substantial data columns (found %d).", ncol(download_csv)))
+})
+
+run_test("Web export fixture preserves suppressed parent-level grad plus flags without exporting campus values", function() {
+  fixture_root <- tempfile("web-export-grad-plus-suppressed-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "data"),
+    file.path(fixture_root, "data", "schools"),
+    file.path(fixture_root, "data", "downloads"),
+    file.path(fixture_root, "data_pipelines", "accreditation"),
+    file.path(fixture_root, "data_pipelines", "scorecard")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  canonical_path <- file.path(fixture_root, "fixture_canonical.csv")
+  canonical_df <- data.frame(
+    unitid = c("200", "200"),
+    institution_name = c("Example Branch University", "Example Branch University"),
+    institution_unique_name = c("Example Branch University | Boston | Massachusetts", "Example Branch University | Boston | Massachusetts"),
+    city = c("Boston", "Boston"),
+    state = c("Massachusetts", "Massachusetts"),
+    control_label = c("Public", "Public"),
+    sector = c("Public, 4-year or above", "Public, 4-year or above"),
+    category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+    urbanization = c("City", "City"),
+    religious_affiliation = c(NA, NA),
+    all_programs_distance_education = c("No", "No"),
+    year = c("2024", "2025"),
+    enrollment_pct_change_5yr = c("-4", "-5"),
+    enrollment_decline_last_3_of_5 = c("Yes", "Yes"),
+    revenue_pct_change_5yr = c("-2", "-3"),
+    net_tuition_per_fte_change_5yr = c("1", "2"),
+    staff_total_headcount_pct_change_5yr = c("-1", "-2"),
+    staff_instructional_headcount_pct_change_5yr = c("-1", "-2"),
+    students_per_instructional_staff_fte = c("11", "12"),
+    sector_median_students_per_instructional_staff_fte = c("13", "13"),
+    ended_year_at_loss = c("No", "No"),
+    losses_last_3_of_5 = c("No", "No"),
+    loss_years_last_10 = c("0", "0"),
+    tuition_dependence_pct = c("29", "30"),
+    sector_median_tuition_dependence_pct = c("28", "29"),
+    tuition_dependence_vs_sector_median_sentence = c("Sample sentence 2024", "Sample sentence 2025"),
+    discount_rate = c("0.28", "0.32"),
+    discount_pct_change_5yr = c("4", "6"),
+    share_grad_students = c("0.24", "0.25"),
+    research_expense = c("40", "50"),
+    research_expense_per_fte = c("0.4", "0.5"),
+    research_expense_pct_core_expenses = c("0.08", "0.10"),
+    sector_research_spending_n = c("10", "10"),
+    sector_research_spending_positive_n = c("8", "8"),
+    sector_research_spending_reporting_share_pct = c("80", "80"),
+    sector_median_research_expense_per_fte_positive = c("0.45", "0.45"),
+    pct_international_all = c("0.09", "0.10"),
+    pct_international_undergraduate = c("0.07", "0.08"),
+    pct_international_graduate = c("0.18", "0.20"),
+    international_student_count_change_5yr = c("8", "10"),
+    international_enrollment_pct_change_5yr = c("12", "15"),
+    international_students_sentence = c("In 2024, 9% of students were international.", "In 2025, 10% of students were international."),
+    federal_loan_pct_most_recent = c("20", "25"),
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.20", "0.25"),
+    state_funding_pct_core_revenue = c("0.10", "0.12"),
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = c("5", "6"),
+    state_funding_pct_change_5yr = c("3", "4"),
+    endowment_pct_change_5yr = c("2", "3"),
+    endowment_spending_current_use_pct_core_revenue = c("0.05", "0.06"),
+    revenue_total = c("1000", "1050"),
+    expenses_total = c("900", "950"),
+    revenue_total_adjusted = c("950", "1000"),
+    expenses_total_adjusted = c("850", "900"),
+    net_tuition_per_fte_adjusted = c("2.9", "3.0"),
+    enrollment_headcount_total = c("110", "120"),
+    enrollment_nonresident_total = c("10", "12"),
+    enrollment_nonresident_undergrad = c("7", "8"),
+    enrollment_nonresident_graduate = c("3", "4"),
+    staff_headcount_total = c("55", "60"),
+    staff_headcount_instructional = c("14", "15"),
+    endowment_value_adjusted = c("780", "800"),
+    endowment_assets_per_fte_adjusted = c("7.1", "6.7"),
+    endowment_spending_current_use = c("35", "40"),
+    endowment_spending_current_use_adjusted = c("35", "40"),
+    federal_grants_contracts_pell_adjusted_adjusted = c("190", "200"),
+    state_funding_adjusted = c("140", "150"),
+    graduation_rate_6yr = c("11", "12"),
+    median_earnings_10yr = c("11111", "22222"),
+    median_debt_completers = c("3333", "4444"),
+    outcomes_data_available = c(FALSE, FALSE),
+    scorecard_data_updated = c("stale", "stale"),
+    ipeds_graduation_rate_year = c("stale", "stale"),
+    ipeds_graduation_rate_label = c("stale", "stale"),
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(canonical_df, canonical_path, na = "")
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      institution_name = "Example Branch University",
+      latest_action_date = "2024-03-01",
+      action_count = 1L,
+      action_labels = "Warning",
+      action_types = "warning",
+      action_scope = "",
+      notes = "",
+      source_url = "https://example.org/accreditation",
+      financial_unitid = "200",
+      latest_status = "Warning",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      institution_name = "Example Branch University",
+      accreditor = "MSCHE",
+      action_type = "warning",
+      action_label = "Warning",
+      action_label_short = "Warning",
+      action_date = "2024-03-01",
+      action_scope = "",
+      notes = "",
+      source_url = "https://example.org/accreditation",
+      source_page_url = "",
+      source_title = "Accreditation source",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      institution_name = "Example Branch University",
+      accreditor = "MSCHE",
+      public_table_strategy = "scraper_backed_keep",
+      public_action_family = "warning",
+      hybrid_candidate = FALSE,
+      hybrid_reason = "",
+      scraper_source_key = "",
+      dapip_source_key = "",
+      scraper_action_type = "warning",
+      scraper_action_label = "Warning",
+      scraper_action_date = "2024-03-01",
+      scraper_source_url = "https://example.org/accreditation",
+      dapip_action_type = "",
+      dapip_action_label = "",
+      dapip_action_date = "",
+      dapip_source_page_url = "",
+      dapip_file_id = "",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_vs_scraper_audit.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = character(),
+      institution_name_raw = character(),
+      institution_state_raw = character(),
+      accreditor = character(),
+      action_type = character(),
+      action_label_raw = character(),
+      action_status = character(),
+      action_date = character(),
+      action_year = character(),
+      action_scope = character(),
+      source_url = character(),
+      source_title = character(),
+      notes = character(),
+      source_page_url = character(),
+      source_page_modified = character(),
+      file_id = character(),
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "accreditation", "dapip_action_rows_filtered.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(accreditor = "MSCHE", source_url = "https://example.org/accreditation", stringsAsFactors = FALSE),
+    file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      unitid = "200",
+      graduation_rate_6yr = "72",
+      median_earnings_10yr = "56000",
+      median_debt_completers = "21000",
+      grad_plus_parent_level_suppressed = TRUE,
+      grad_plus_recipients = NA,
+      grad_plus_disbursements_amt = NA,
+      grad_plus_disbursements_per_recipient = NA,
+      outcomes_data_available = TRUE,
+      scorecard_data_updated = "2024-01-01",
+      grad_plus_data_updated = NA,
+      ipeds_graduation_rate_year = "2024",
+      ipeds_graduation_rate_label = "2024 cohort",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+    na = ""
+  )
+
+  readr::write_file('{"as_of_date":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "closure_status_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "hcm2_by_unitid.json"))
+  readr::write_file('{"generated_at":"2024-01-01","schools":{}}', file.path(fixture_root, "data", "federal_composite_scores_by_unitid.json"))
+
+  export_env <- new.env(parent = globalenv())
+  sys.source(file.path(root, "scripts", "build_web_exports.R"), envir = export_env)
+  export_env$main(c("--input", canonical_path, "--output-dir", fixture_root, "--only", "accreditation"))
+
+  school_file <- jsonlite::read_json(file.path(fixture_root, "data", "schools", "200.json"), simplifyVector = TRUE)
+  download_csv <- readr::read_csv(file.path(fixture_root, "data", "downloads", "full_dataset.csv"), show_col_types = FALSE)
+
+  assert_identical(nrow(download_csv), 1L)
+  assert_true(isTRUE(download_csv$grad_plus_parent_level_suppressed[[1]]), "Expected full download to carry the parent-level suppression flag.")
+  assert_true(is.na(download_csv$grad_plus_recipients[[1]]), "Expected suppressed campus grad plus recipients to stay blank in the full download.")
+  assert_true(is.na(download_csv$grad_plus_disbursements_amt[[1]]), "Expected suppressed campus grad plus dollars to stay blank in the full download.")
+  assert_true(is.na(download_csv$grad_plus_disbursements_per_recipient[[1]]), "Expected suppressed campus grad plus per-recipient dollars to stay blank in the full download.")
+  assert_true(is.na(download_csv$grad_plus_data_updated[[1]]), "Expected suppressed campus grad plus rows to omit the source-vintage label.")
+  assert_true(
+    is.null(school_file$summary$grad_plus_recipients) || (length(school_file$summary$grad_plus_recipients) == 1L && is.na(school_file$summary$grad_plus_recipients)),
+    "Expected school JSON to omit campus grad plus recipients when the value is parent-level only."
+  )
+  assert_true(
+    is.null(school_file$summary$grad_plus_disbursements_amt) || (length(school_file$summary$grad_plus_disbursements_amt) == 1L && is.na(school_file$summary$grad_plus_disbursements_amt)),
+    "Expected school JSON to omit campus grad plus dollars when the value is parent-level only."
+  )
+  assert_true(
+    is.null(school_file$summary$grad_plus_disbursements_per_recipient) || (length(school_file$summary$grad_plus_disbursements_per_recipient) == 1L && is.na(school_file$summary$grad_plus_disbursements_per_recipient)),
+    "Expected school JSON to omit campus grad plus per-recipient dollars when the value is parent-level only."
+  )
 })
 
 run_test("Web export pipeline surfaces approved review-backed Martin resignation rows on landing actions", function() {

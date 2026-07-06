@@ -1459,10 +1459,10 @@ run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip thr
     state_display = "Alabama",
     announcement_date = "2026-04-24",
     announcement_year = 2026L,
-    cut_type = "program_closure",
-    program_name = "Staff layoff",
-    generated_cut_label = "University cuts 12 staff amid federal funding loss",
-    generated_cut_summary = "University cuts 12 staff amid federal funding loss. The positions include administrative and academic support roles.",
+    cut_type = "department_closure",
+    program_name = "Athletics department",
+    generated_cut_label = "University closes athletics department",
+    generated_cut_summary = "University closes athletics department and laid off 12 staff.",
     source_url = "https://example.org/cut",
     source_title = NA_character_,
     source_publication = "Example Paper",
@@ -1477,12 +1477,14 @@ run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip thr
 
   staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-01", tracker_unitids = "100")
   assert_identical("source_generated_cut_label" %in% names(staged), TRUE)
-  assert_identical(staged$source_generated_cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+  assert_identical(staged$source_generated_cut_label[[1]], "University closes athletics department")
 
   sheet_rows <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = "100")
+  assert_identical("display_categories" %in% names(sheet_rows), TRUE)
   assert_identical("cut_label" %in% names(sheet_rows), TRUE)
   assert_identical("cut_summary" %in% names(sheet_rows), TRUE)
-  assert_identical(sheet_rows$cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+  assert_identical(sheet_rows$cut_label[[1]], "University closes athletics department")
+  assert_identical(sheet_rows$display_categories[[1]], "Athletics cuts; Staff layoffs / furloughs")
 
   # Simulate editor editing cut_label and cut_summary
   sheet_rows$cut_label[[1]] <- "Editor-revised short label"
@@ -1495,7 +1497,7 @@ run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip thr
   assert_identical(merged$override_cut_summary[[1]], "Editor-revised summary.")
 })
 
-run_test("Legacy college cuts sheet without cut_label/cut_summary columns coerces cleanly", function() {
+run_test("Legacy college cuts sheet without display_categories/cut_label/cut_summary columns coerces cleanly", function() {
   legacy_sheet <- data.frame(
     cut_id = "cut-2",
     unitid = "200",
@@ -1519,7 +1521,9 @@ run_test("Legacy college cuts sheet without cut_label/cut_summary columns coerce
 
   coerced <- coerce_college_cuts_review_sheet_rows(legacy_sheet, default_first_seen = "2025-09-05")
   assert_identical(nrow(coerced), 1L)
+  assert_identical("display_categories" %in% names(coerced), TRUE)
   assert_identical("cut_label" %in% names(coerced), TRUE)
+  assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
   assert_true(is.na(coerced$cut_label[[1]]) || !nzchar(trimws(coerced$cut_label[[1]] %||% "")),
               "cut_label should be NA for legacy rows without it set")
 })

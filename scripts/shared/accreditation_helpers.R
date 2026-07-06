@@ -459,8 +459,9 @@ extract_page_title <- function(html) {
 # adverse_action bucket only contains true institution-level signals.
 # Real institutional closures use phrasings the guard intentionally does
 # not match: "close all locations", "cease instruction at all locations",
-# "the institution will close", "decision to close ... institution",
-# "voluntary withdrawal", etc.
+# "the institution will close", "decision to close ... institution", etc.
+# Voluntary surrender / voluntary withdrawal rows are tracked as substantive
+# closure-or-loss events, but not typed as adverse_action.
 classify_action <- function(raw_action, accreditor = NA_character_) {
   txt <- stringr::str_to_lower(as.character(raw_action))
   acc_norm <- normalize_accreditor_code(accreditor)
@@ -549,6 +550,30 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     txt,
     "teach-out plan and teach-out agreement"
   )
+  is_teachout_plan_approval <- stringr::str_detect(
+    txt,
+    paste(
+      "^accepted teach-?out plans?$",
+      "^to approve (?:the )?teach-?out plan\\b",
+      "^to approve (?:the )?teach-?out plan and agreements\\b",
+      "^to approve (?:the )?teach-?out agreements?\\b",
+      "^approved (?:the institution'?s |the )?teach-?out plan\\b",
+      "^approved (?:the institution'?s |the )?teach-?out agreements?\\b",
+      "approved the institution'?s provisional plan and teach-?out",
+      "approved the provisional plan to teach out students",
+      sep = "|"
+    )
+  )
+  is_voluntary_surrender_or_withdrawal <- stringr::str_detect(
+    txt,
+    paste(
+      "voluntar(?:ily|y) surrender",
+      "voluntar(?:ily|y) withdraw(?:al)?",
+      "voluntary resignation of accreditation",
+      "voluntarily resigned (?:its )?accreditation",
+      sep = "|"
+    )
+  )
 
   # Sub-institutional / regulatory-paperwork context: the action concerns
   # something other than the institution itself ceasing operations.
@@ -598,8 +623,6 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
       "withdraws from membership",
       "withdraw accreditation",
       "withdrawal of accreditation",
-      "voluntar(?:ily|y) surrender",
-      "voluntar(?:ily|y) withdrawal",
       sep = "|"
     )
   )
@@ -640,6 +663,8 @@ classify_action <- function(raw_action, accreditor = NA_character_) {
     is_teachout_receiving_approval ~ "other",
     is_msche_self_managed_teachout ~ "other",
     is_msche_simple_teachout_agreement_approval ~ "other",
+    is_teachout_plan_approval ~ "other",
+    is_voluntary_surrender_or_withdrawal ~ "other",
     # Explicit "Notice" / notation language should win before any
     # incidental warning text elsewhere in the row.
     is_notice_notation ~ "notice",

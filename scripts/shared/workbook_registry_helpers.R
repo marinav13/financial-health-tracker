@@ -38,10 +38,14 @@ build_article_workbook_registry <- function(
   theme_sheets,
   staff_cut_yoy,
   graduate_sheets,
+  public_flagship_exposure = data.frame(stringsAsFactors = FALSE),
+  public_grad_plus_per_student = data.frame(stringsAsFactors = FALSE),
   flagship_cuts,
   distress_compare,
   intl_offset_10yr,
   intl_offset_10yr_ranked,
+  public_double_jeopardy_intl_share = data.frame(stringsAsFactors = FALSE),
+  public_double_jeopardy_intl_grad = data.frame(stringsAsFactors = FALSE),
   accredit_finance_xtab,
   accreditation_summary_bacc,
   cuts_finance_xtab,
@@ -62,7 +66,10 @@ build_article_workbook_registry <- function(
   intl_vulnerable_large,
   public_intl_grad_top50 = data.frame(stringsAsFactors = FALSE),
   intl_grad_answers = data.frame(stringsAsFactors = FALSE),
-  state_intl_offset = data.frame(stringsAsFactors = FALSE)
+  state_intl_offset = data.frame(stringsAsFactors = FALSE),
+  public_state_grad_changes = data.frame(stringsAsFactors = FALSE),
+  state_no_intl_sector = data.frame(stringsAsFactors = FALSE),
+  geo_sector_exposure = data.frame(stringsAsFactors = FALSE)
 ) {
   list(
     Summary = summary_rows,
@@ -120,11 +127,15 @@ build_article_workbook_registry <- function(
     PublicFedTop = graduate_sheets$PublicFedTop,
     GradDependTop = graduate_sheets$GradDependTop,
     PublicGradTop = graduate_sheets$PublicGradTop,
+    PubFlagshipExposure = public_flagship_exposure,
+    PublicGPperStudent = public_grad_plus_per_student,
     StudPerInstr50 = base_sheets$StudPerInstr50,
     FlagshipCuts = flagship_cuts,
     DistressCompare = distress_compare,
     IntlOffset10yr = intl_offset_10yr,
     BiggestDropsNoIntl = intl_offset_10yr_ranked,
+    PublicDJIntlShare = public_double_jeopardy_intl_share,
+    PublicDJIntlGrad = public_double_jeopardy_intl_grad,
     AccredFinanceXtab = accredit_finance_xtab,
     AccredMatches = accreditation_summary_bacc,
     CutsFinanceXtab = cuts_finance_xtab,
@@ -145,7 +156,10 @@ build_article_workbook_registry <- function(
     IntlVulnLarge = intl_vulnerable_large,
     PublicIntlGradRisk50 = public_intl_grad_top50,
     IntlGradAnswers = intl_grad_answers,
-    StateIntlOffset = state_intl_offset
+    StateIntlOffset = state_intl_offset,
+    PubStateGradChanges = public_state_grad_changes,
+    StateNoIntlSector = state_no_intl_sector,
+    GeoSectorExposure = geo_sector_exposure
   )
 }
 

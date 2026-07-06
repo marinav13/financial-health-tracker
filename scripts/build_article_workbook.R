@@ -182,15 +182,25 @@ validate_workbook_input(read_df)
 
 # ============================================================================
 # SECTION: Merge Grad PLUS Borrowing Data
-# The workbook input CSV does not carry FSA Grad PLUS volumes, so pull them
-# from the outcomes join used by the web exports. Without this merge the
-# grad_plus_* columns on GradDependTop/PublicGradTop are entirely blank.
-# Columns are only filled when missing or empty so a future dataset-level
-# merge would win.
+# The workbook input CSV does not carry FSA Grad PLUS volumes consistently, so
+# pull them from the outcomes join used by the web exports, falling back to the
+# latest full dataset export when needed. Fill missing cells row by row so a
+# partial upstream merge does not leave workbook export columns blank.
 # ============================================================================
 
-grad_plus_join <- read_csv_if_exists("./data_pipelines/scorecard/tracker_outcomes_joined.csv")
 grad_plus_cols <- c("grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_disbursements_per_recipient")
+grad_plus_sources <- c(
+  file.path(ipeds_paths$repo_root, "data_pipelines", "scorecard", "tracker_outcomes_joined.csv"),
+  file.path(ipeds_paths$repo_root, "data", "downloads", "full_dataset.csv")
+)
+grad_plus_join <- data.frame(stringsAsFactors = FALSE)
+for (path in grad_plus_sources) {
+  candidate <- read_csv_if_exists(path)
+  if (nrow(candidate) > 0 && all(c("unitid", grad_plus_cols) %in% names(candidate))) {
+    grad_plus_join <- candidate
+    break
+  }
+}
 if (nrow(grad_plus_join) > 0 && all(c("unitid", grad_plus_cols) %in% names(grad_plus_join))) {
   gp_lookup <- grad_plus_join[, c("unitid", grad_plus_cols), drop = FALSE]
   gp_lookup$unitid <- to_num(gp_lookup$unitid)
@@ -198,11 +208,18 @@ if (nrow(grad_plus_join) > 0 && all(c("unitid", grad_plus_cols) %in% names(grad_
     gp_lookup[[nm]] <- to_num(gp_lookup[[nm]])
   }
   gp_lookup <- gp_lookup[!is.na(gp_lookup$unitid), , drop = FALSE]
+  gp_lookup <- gp_lookup[order(
+    -rowSums(!is.na(gp_lookup[, grad_plus_cols, drop = FALSE])),
+    gp_lookup$unitid
+  ), , drop = FALSE]
+  gp_lookup <- gp_lookup[!duplicated(gp_lookup$unitid), , drop = FALSE]
   gp_idx <- match(to_num(latest$unitid), gp_lookup$unitid)
   for (nm in grad_plus_cols) {
-    if (!(nm %in% names(latest)) || all(is.na(to_num(latest[[nm]])))) {
-      latest[[nm]] <- gp_lookup[[nm]][gp_idx]
-    }
+    existing <- if (nm %in% names(latest)) to_num(latest[[nm]]) else rep(NA_real_, nrow(latest))
+    lookup_vals <- gp_lookup[[nm]][gp_idx]
+    fill_idx <- is.na(existing) & !is.na(lookup_vals)
+    existing[fill_idx] <- lookup_vals[fill_idx]
+    latest[[nm]] <- existing
   }
 }
 
@@ -468,11 +485,18 @@ sheet_index_specs <- list(
   list(name = "PublicFedTop", description = "Public universities ranked by federal grants and contracts as a share of core revenue."),
   list(name = "GradDependTop", description = "Universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
   list(name = "PublicGradTop", description = "Public universities ranked by graduate-student share and Grad PLUS borrowing intensity."),
+  list(name = "PubFlagshipExposure", description = "Flagship versus non-flagship public comparison for graduate share, international share, Grad PLUS dollars per student, and the international-plus-Grad-PLUS vulnerability lists."),
+  list(name = "PublicGPperStudent", description = "Public universities ranked by Grad PLUS dollars per student, with flagship status, graduate share, and international shares."),
   list(name = "StudPerInstr50", description = "Top 50 universities with the highest students-per-instructional-staff ratio, using the FTE-based IPEDS measure."),
   list(name = "FlagshipCuts", description = "Public flagships matched to still-disrupted federal research cuts from Grant Witness."),
   list(name = "DistressCompare", description = sprintf("Year comparison for the distress paragraph framing, including %s toplines and %s/%s context.", latest_year, latest_year - 5L, latest_year - 10L)),
   list(name = "IntlOffset10yr", description = "Institutions where domestic enrollment would have fallen further without 10-year international enrollment growth."),
   list(name = "BiggestDropsNoIntl", description = sprintf("All ranked institutions where %s-%s enrollment would have fallen further without international enrollment growth, sorted by the biggest implied domestic drops.", latest_year - 10L, latest_year)),
+  list(name = "PublicDJIntlShare", description = "Public universities at or above the public-universe 75th percentile for both overall international share and Grad PLUS dollars per student, with implied no-international enrollment changes."),
+  list(name = "PublicDJIntlGrad", description = "Public universities at or above the public-universe 75th percentile for both international graduate share and Grad PLUS dollars per student, with implied no-international graduate-enrollment changes."),
+  list(name = "PubStateGradChanges", description = "State-by-state public graduate enrollment change with and without the 10-year net change in international graduate students, in absolute and percent terms."),
+  list(name = "StateNoIntlSector", description = "State-by-state enrollment change with and without the 10-year net change in international students, broken out by public, private nonprofit, private for-profit, and all sectors."),
+  list(name = "GeoSectorExposure", description = "Sector-by-geography comparison of international share, international graduate share, Grad PLUS dollars per student, repeated losses, and endowment per student, including public city flagship and non-flagship splits."),
   list(name = "AccredFinanceXtab", description = "Finance, enrollment, and staffing comparison for institutions with versus without accreditation actions."),
   list(name = "AccredMatches", description = "Matched 4-year primarily bachelor's institutions with accreditation actions and finance metrics."),
   list(name = "CutsFinanceXtab", description = "Finance, enrollment, and staffing comparison for institutions with versus without college cuts."),
@@ -526,6 +550,7 @@ for (nm in missing_all_sheet_columns) {
 }
 all_sheet <- latest[, all_sheet_columns, drop = FALSE]
 all_sheet_bacc <- all_sheet[all_sheet$category == bacc_category_label, , drop = FALSE]
+latest_bacc_full <- latest[latest$category == bacc_category_label, , drop = FALSE]
 
 base_sheet_specs <- list(
   EnrollDecl3of5 = list(
@@ -925,8 +950,24 @@ article_graphics <- build_article_graphics_table(
   baseline_year = latest_year - 10L
 )
 
-intl_base_10yr <- read_df[as.integer(read_df$year) == latest_year - 10L, c("unitid","enrollment_headcount_total"), drop = FALSE]
-names(intl_base_10yr)[2] <- "enrollment_headcount_total_baseline"
+intl_base_10yr <- read_df[
+  as.integer(read_df$year) == latest_year - 10L,
+  c(
+    "unitid",
+    "enrollment_headcount_total",
+    "enrollment_nonresident_total",
+    "enrollment_headcount_graduate",
+    "enrollment_nonresident_graduate"
+  ),
+  drop = FALSE
+]
+names(intl_base_10yr) <- c(
+  "unitid",
+  "enrollment_headcount_total_baseline",
+  "enrollment_nonresident_total_baseline",
+  "enrollment_headcount_graduate_baseline",
+  "enrollment_nonresident_graduate_baseline"
+)
 intl_offset_10yr <- merge(all_sheet_bacc, intl_base_10yr, by = "unitid", all.x = TRUE)
 intl_offset_10yr$total_change_10yr_proxy <- intl_offset_10yr$enrollment_headcount_total - intl_offset_10yr$enrollment_headcount_total_baseline
 intl_offset_10yr$domestic_change_10yr_proxy <- intl_offset_10yr$total_change_10yr_proxy - intl_offset_10yr$international_enrollment_change_10yr
@@ -976,6 +1017,10 @@ intl_vulnerable_large <- intl_vulnerable[!is.na(intl_vulnerable$enrollment_headc
 intl_sig_growth_pct   <- 10   # significant intl increase: >= 10% growth over 10 years
 domestic_sig_drop_pct <- -10  # significant implied domestic drop: <= -10% over 10 years
 
+safe_pct_change <- function(change, baseline) {
+  ifelse(is.na(change) | is.na(baseline) | baseline == 0, NA_real_, 100 * change / baseline)
+}
+
 # Percentile rank (0-100) matching pandas rank(pct=TRUE); NAs stay NA.
 pctile_rank <- function(x) {
   n <- sum(!is.na(x))
@@ -1012,6 +1057,70 @@ intl_universe$intl_decline_5yr <-
   !is.na(intl_universe$international_student_count_change_5yr) &
   intl_universe$international_student_count_change_5yr < 0
 
+trend_cols <- c(
+  "unitid",
+  "institution_name",
+  "state",
+  "city",
+  "control_label",
+  "sector",
+  "category",
+  "urbanization",
+  "warning_score_core",
+  "public_campus_risk_score",
+  "enrollment_decline_last_3_of_5",
+  "losses_last_3_of_5",
+  "ended_year_at_loss",
+  "revenue_pct_change_5yr",
+  "enrollment_headcount_total",
+  "enrollment_nonresident_total",
+  "enrollment_headcount_graduate",
+  "enrollment_nonresident_graduate",
+  "share_grad_students",
+  "pct_international_all",
+  "pct_international_undergraduate",
+  "pct_international_graduate",
+  "international_enrollment_change_10yr",
+  "international_enrollment_pct_change_10yr",
+  "grad_plus_recipients",
+  "grad_plus_disbursements_amt",
+  "grad_plus_disbursements_per_recipient"
+)
+trend_universe <- merge(
+  latest_bacc_full[, intersect(trend_cols, names(latest_bacc_full)), drop = FALSE],
+  intl_base_10yr,
+  by = "unitid",
+  all.x = TRUE
+)
+trend_universe$is_flagship <- !is.na(trend_universe$unitid) & trend_universe$unitid %in% flagship_unitids
+trend_universe$flagship_group <- ifelse(trend_universe$is_flagship, "Flagship", "Non-flagship")
+trend_universe$share_grad_students_pct <- 100 * trend_universe$share_grad_students
+trend_universe$pct_international_all_pct <- 100 * trend_universe$pct_international_all
+trend_universe$pct_international_undergraduate_pct <- 100 * trend_universe$pct_international_undergraduate
+trend_universe$pct_international_graduate_pct <- 100 * trend_universe$pct_international_graduate
+trend_universe$grad_plus_per_student <- ifelse(is.na(trend_universe$grad_plus_disbursements_amt), 0, trend_universe$grad_plus_disbursements_amt) /
+  trend_universe$enrollment_headcount_total
+trend_universe$overall_change_10yr <- trend_universe$enrollment_headcount_total - trend_universe$enrollment_headcount_total_baseline
+trend_universe$overall_pct_change_10yr <- safe_pct_change(trend_universe$overall_change_10yr, trend_universe$enrollment_headcount_total_baseline)
+trend_universe$intl_change_10yr <- trend_universe$enrollment_nonresident_total - trend_universe$enrollment_nonresident_total_baseline
+trend_universe$intl_pct_change_10yr <- safe_pct_change(trend_universe$intl_change_10yr, trend_universe$enrollment_nonresident_total_baseline)
+trend_universe$no_intl_change_10yr <- trend_universe$overall_change_10yr - trend_universe$intl_change_10yr
+trend_universe$no_intl_pct_change_10yr <- safe_pct_change(trend_universe$no_intl_change_10yr, trend_universe$enrollment_headcount_total_baseline)
+trend_universe$added_drop_without_intl_pct_pts <- trend_universe$no_intl_pct_change_10yr - trend_universe$overall_pct_change_10yr
+trend_universe$overall_grad_change_10yr <- trend_universe$enrollment_headcount_graduate - trend_universe$enrollment_headcount_graduate_baseline
+trend_universe$overall_grad_pct_change_10yr <- safe_pct_change(trend_universe$overall_grad_change_10yr, trend_universe$enrollment_headcount_graduate_baseline)
+trend_universe$intl_grad_change_10yr <- trend_universe$enrollment_nonresident_graduate - trend_universe$enrollment_nonresident_graduate_baseline
+trend_universe$intl_grad_pct_change_10yr <- safe_pct_change(trend_universe$intl_grad_change_10yr, trend_universe$enrollment_nonresident_graduate_baseline)
+trend_universe$no_intl_grad_change_10yr <- trend_universe$overall_grad_change_10yr - trend_universe$intl_grad_change_10yr
+trend_universe$no_intl_grad_pct_change_10yr <- safe_pct_change(trend_universe$no_intl_grad_change_10yr, trend_universe$enrollment_headcount_graduate_baseline)
+trend_universe$added_drop_without_intl_grad_pct_pts <- trend_universe$no_intl_grad_pct_change_10yr - trend_universe$overall_grad_pct_change_10yr
+trend_universe$implied_domestic_drop_sig <- !is.na(trend_universe$intl_change_10yr) &
+  trend_universe$intl_change_10yr > 0 &
+  !is.na(trend_universe$no_intl_change_10yr) &
+  trend_universe$no_intl_change_10yr < 0 &
+  !is.na(trend_universe$no_intl_pct_change_10yr) &
+  trend_universe$no_intl_pct_change_10yr <= domestic_sig_drop_pct
+
 # Composite vulnerability score for publics: average of four percentile ranks
 # (0-100) within the public universe, skipping components an institution has no
 # data for. Grad PLUS dollars are treated as 0 where FSA reports no volume,
@@ -1030,6 +1139,129 @@ public_intl_grad_top50 <- pub_intl[order(-xtfrm(pub_intl$intl_grad_vuln_score), 
 public_intl_grad_top50 <- utils::head(public_intl_grad_top50, 50)
 if (nrow(public_intl_grad_top50) > 0) {
   public_intl_grad_top50$vulnerability_rank <- seq_len(nrow(public_intl_grad_top50))
+}
+
+pub_trend <- trend_universe[trend_universe$control_label == "Public", , drop = FALSE]
+pub_intl_share_q75 <- q75_safe(pub_trend$pct_international_all)
+pub_intl_grad_share_q75 <- q75_safe(pub_trend$pct_international_graduate)
+pub_grad_plus_q75 <- q75_safe(pub_trend$grad_plus_per_student)
+pub_trend$top_quartile_grad_plus <- !is.na(pub_trend$grad_plus_per_student) & !is.na(pub_grad_plus_q75) &
+  pub_trend$grad_plus_per_student >= pub_grad_plus_q75
+pub_trend$double_jeopardy_intl_share <- !is.na(pub_trend$pct_international_all) & !is.na(pub_intl_share_q75) &
+  !is.na(pub_trend$grad_plus_per_student) & !is.na(pub_grad_plus_q75) &
+  pub_trend$pct_international_all >= pub_intl_share_q75 &
+  pub_trend$grad_plus_per_student >= pub_grad_plus_q75
+pub_trend$double_jeopardy_intl_grad <- !is.na(pub_trend$pct_international_graduate) & !is.na(pub_intl_grad_share_q75) &
+  !is.na(pub_trend$grad_plus_per_student) & !is.na(pub_grad_plus_q75) &
+  pub_trend$pct_international_graduate >= pub_intl_grad_share_q75 &
+  pub_trend$grad_plus_per_student >= pub_grad_plus_q75
+pub_trend$in_intl_offset <- pub_trend$unitid %in% intl_offset_10yr$unitid
+pub_trend$in_strict_vulnerable <- pub_trend$unitid %in% intl_vulnerable$unitid
+
+public_flagship_exposure <- do.call(rbind, lapply(c("Flagship", "Non-flagship"), function(group_name) {
+  gdf <- pub_trend[pub_trend$flagship_group == group_name, , drop = FALSE]
+  n <- nrow(gdf)
+  data.frame(
+    flagship_group = group_name,
+    publics_n = n,
+    median_grad_share_pct = if (n == 0) NA_real_ else median(gdf$share_grad_students_pct, na.rm = TRUE),
+    median_intl_share_pct = if (n == 0) NA_real_ else median(gdf$pct_international_all_pct, na.rm = TRUE),
+    median_intl_grad_share_pct = if (n == 0) NA_real_ else median(gdf$pct_international_graduate_pct, na.rm = TRUE),
+    median_grad_plus_per_student = if (n == 0) NA_real_ else median(gdf$grad_plus_per_student, na.rm = TRUE),
+    q75_grad_plus_per_student = if (n == 0) NA_real_ else q75_safe(gdf$grad_plus_per_student),
+    top_quartile_grad_plus_n = sum(gdf$top_quartile_grad_plus, na.rm = TRUE),
+    top_quartile_grad_plus_pct = if (n == 0) NA_real_ else 100 * sum(gdf$top_quartile_grad_plus, na.rm = TRUE) / n,
+    dj_intl_share_grad_plus_n = sum(gdf$double_jeopardy_intl_share, na.rm = TRUE),
+    dj_intl_share_grad_plus_pct = if (n == 0) NA_real_ else 100 * sum(gdf$double_jeopardy_intl_share, na.rm = TRUE) / n,
+    dj_intl_grad_share_grad_plus_n = sum(gdf$double_jeopardy_intl_grad, na.rm = TRUE),
+    dj_intl_grad_share_grad_plus_pct = if (n == 0) NA_real_ else 100 * sum(gdf$double_jeopardy_intl_grad, na.rm = TRUE) / n,
+    intl_offset_n = sum(gdf$in_intl_offset, na.rm = TRUE),
+    intl_offset_pct = if (n == 0) NA_real_ else 100 * sum(gdf$in_intl_offset, na.rm = TRUE) / n,
+    sig_no_intl_decline_n = sum(gdf$implied_domestic_drop_sig, na.rm = TRUE),
+    sig_no_intl_decline_pct = if (n == 0) NA_real_ else 100 * sum(gdf$implied_domestic_drop_sig, na.rm = TRUE) / n,
+    strict_vulnerable_n = sum(gdf$in_strict_vulnerable, na.rm = TRUE),
+    strict_vulnerable_pct = if (n == 0) NA_real_ else 100 * sum(gdf$in_strict_vulnerable, na.rm = TRUE) / n,
+    stringsAsFactors = FALSE
+  )
+}))
+
+public_grad_plus_per_student <- pub_trend[order(
+  -xtfrm(pub_trend$grad_plus_per_student),
+  -xtfrm(pub_trend$share_grad_students_pct),
+  -xtfrm(pub_trend$pct_international_all_pct),
+  na.last = TRUE
+), c(
+  "unitid", "institution_name", "state", "flagship_group", "urbanization",
+  "enrollment_headcount_total", "share_grad_students_pct",
+  "pct_international_all_pct", "pct_international_graduate_pct",
+  "grad_plus_recipients", "grad_plus_disbursements_amt",
+  "grad_plus_disbursements_per_recipient", "grad_plus_per_student"
+), drop = FALSE]
+if (nrow(public_grad_plus_per_student) > 0) {
+  public_grad_plus_per_student$rank_grad_plus_per_student <- seq_len(nrow(public_grad_plus_per_student))
+  public_grad_plus_per_student <- public_grad_plus_per_student[, c(
+    "rank_grad_plus_per_student", "unitid", "institution_name", "state", "flagship_group", "urbanization",
+    "enrollment_headcount_total", "share_grad_students_pct",
+    "pct_international_all_pct", "pct_international_graduate_pct",
+    "grad_plus_recipients", "grad_plus_disbursements_amt",
+    "grad_plus_disbursements_per_recipient", "grad_plus_per_student"
+  ), drop = FALSE]
+}
+
+public_double_jeopardy_intl_share <- pub_trend[pub_trend$double_jeopardy_intl_share, c(
+  "unitid", "institution_name", "state", "flagship_group", "urbanization",
+  "enrollment_headcount_total_baseline", "enrollment_headcount_total",
+  "overall_change_10yr", "overall_pct_change_10yr",
+  "intl_change_10yr", "intl_pct_change_10yr",
+  "no_intl_change_10yr", "no_intl_pct_change_10yr", "added_drop_without_intl_pct_pts",
+  "share_grad_students_pct", "pct_international_all_pct", "pct_international_graduate_pct",
+  "grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_per_student"
+), drop = FALSE]
+if (nrow(public_double_jeopardy_intl_share) > 0) {
+  public_double_jeopardy_intl_share <- public_double_jeopardy_intl_share[order(
+    xtfrm(public_double_jeopardy_intl_share$no_intl_change_10yr),
+    xtfrm(public_double_jeopardy_intl_share$added_drop_without_intl_pct_pts),
+    -xtfrm(public_double_jeopardy_intl_share$pct_international_all_pct),
+    na.last = TRUE
+  ), , drop = FALSE]
+  public_double_jeopardy_intl_share$double_jeopardy_rank <- seq_len(nrow(public_double_jeopardy_intl_share))
+  public_double_jeopardy_intl_share <- public_double_jeopardy_intl_share[, c(
+    "double_jeopardy_rank", "unitid", "institution_name", "state", "flagship_group", "urbanization",
+    "enrollment_headcount_total_baseline", "enrollment_headcount_total",
+    "overall_change_10yr", "overall_pct_change_10yr",
+    "intl_change_10yr", "intl_pct_change_10yr",
+    "no_intl_change_10yr", "no_intl_pct_change_10yr", "added_drop_without_intl_pct_pts",
+    "share_grad_students_pct", "pct_international_all_pct", "pct_international_graduate_pct",
+    "grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_per_student"
+  ), drop = FALSE]
+}
+
+public_double_jeopardy_intl_grad <- pub_trend[pub_trend$double_jeopardy_intl_grad, c(
+  "unitid", "institution_name", "state", "flagship_group", "urbanization",
+  "enrollment_headcount_graduate_baseline", "enrollment_headcount_graduate",
+  "overall_grad_change_10yr", "overall_grad_pct_change_10yr",
+  "intl_grad_change_10yr", "intl_grad_pct_change_10yr",
+  "no_intl_grad_change_10yr", "no_intl_grad_pct_change_10yr", "added_drop_without_intl_grad_pct_pts",
+  "share_grad_students_pct", "pct_international_all_pct", "pct_international_graduate_pct",
+  "grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_per_student"
+), drop = FALSE]
+if (nrow(public_double_jeopardy_intl_grad) > 0) {
+  public_double_jeopardy_intl_grad <- public_double_jeopardy_intl_grad[order(
+    xtfrm(public_double_jeopardy_intl_grad$no_intl_grad_change_10yr),
+    xtfrm(public_double_jeopardy_intl_grad$added_drop_without_intl_grad_pct_pts),
+    -xtfrm(public_double_jeopardy_intl_grad$pct_international_graduate_pct),
+    na.last = TRUE
+  ), , drop = FALSE]
+  public_double_jeopardy_intl_grad$double_jeopardy_rank <- seq_len(nrow(public_double_jeopardy_intl_grad))
+  public_double_jeopardy_intl_grad <- public_double_jeopardy_intl_grad[, c(
+    "double_jeopardy_rank", "unitid", "institution_name", "state", "flagship_group", "urbanization",
+    "enrollment_headcount_graduate_baseline", "enrollment_headcount_graduate",
+    "overall_grad_change_10yr", "overall_grad_pct_change_10yr",
+    "intl_grad_change_10yr", "intl_grad_pct_change_10yr",
+    "no_intl_grad_change_10yr", "no_intl_grad_pct_change_10yr", "added_drop_without_intl_grad_pct_pts",
+    "share_grad_students_pct", "pct_international_all_pct", "pct_international_graduate_pct",
+    "grad_plus_recipients", "grad_plus_disbursements_amt", "grad_plus_per_student"
+  ), drop = FALSE]
 }
 
 # State tallies: what would each state's public enrollment change look like
@@ -1061,6 +1293,198 @@ state_intl_offset$flipped_growth_to_decline <- ifelse(state_intl_offset$actual_c
 state_intl_offset <- state_intl_offset[order(xtfrm(state_intl_offset$change_without_intl)), , drop = FALSE]
 rownames(state_intl_offset) <- NULL
 
+public_state_grad_base <- pub_trend[
+  !is.na(pub_trend$enrollment_headcount_graduate_baseline) &
+    !is.na(pub_trend$enrollment_headcount_graduate) &
+    !is.na(pub_trend$enrollment_nonresident_graduate_baseline) &
+    !is.na(pub_trend$enrollment_nonresident_graduate),
+  , drop = FALSE]
+public_state_grad_changes <- do.call(rbind, lapply(split(public_state_grad_base, public_state_grad_base$state), function(chunk) {
+  grad_baseline <- sum(chunk$enrollment_headcount_graduate_baseline)
+  grad_latest <- sum(chunk$enrollment_headcount_graduate)
+  intl_grad_baseline <- sum(chunk$enrollment_nonresident_graduate_baseline)
+  intl_grad_latest <- sum(chunk$enrollment_nonresident_graduate)
+  overall_grad_change <- grad_latest - grad_baseline
+  intl_grad_change <- intl_grad_latest - intl_grad_baseline
+  no_intl_grad_change <- overall_grad_change - intl_grad_change
+  data.frame(
+    state = chunk$state[[1]],
+    public_institutions_n = nrow(chunk),
+    grad_enrollment_baseline = grad_baseline,
+    grad_enrollment_latest = grad_latest,
+    overall_grad_change_10yr = overall_grad_change,
+    overall_grad_pct_change_10yr = safe_pct_change(overall_grad_change, grad_baseline),
+    intl_grad_baseline = intl_grad_baseline,
+    intl_grad_latest = intl_grad_latest,
+    intl_grad_change_10yr = intl_grad_change,
+    intl_grad_pct_change_10yr = safe_pct_change(intl_grad_change, intl_grad_baseline),
+    no_intl_grad_change_10yr = no_intl_grad_change,
+    no_intl_grad_pct_change_10yr = safe_pct_change(no_intl_grad_change, grad_baseline),
+    added_drop_without_intl_grads_pct_pts = safe_pct_change(no_intl_grad_change, grad_baseline) - safe_pct_change(overall_grad_change, grad_baseline),
+    stringsAsFactors = FALSE
+  )
+}))
+public_state_grad_changes <- public_state_grad_changes[order(
+  xtfrm(public_state_grad_changes$added_drop_without_intl_grads_pct_pts),
+  xtfrm(public_state_grad_changes$no_intl_grad_pct_change_10yr),
+  public_state_grad_changes$state,
+  na.last = TRUE
+), , drop = FALSE]
+rownames(public_state_grad_changes) <- NULL
+
+state_sector_base <- trend_universe[
+  !is.na(trend_universe$enrollment_headcount_total_baseline) &
+    !is.na(trend_universe$enrollment_headcount_total) &
+    !is.na(trend_universe$enrollment_nonresident_total_baseline) &
+    !is.na(trend_universe$enrollment_nonresident_total),
+  , drop = FALSE]
+build_state_sector_rows <- function(chunk, sector_group) {
+  enrollment_baseline <- sum(chunk$enrollment_headcount_total_baseline)
+  enrollment_latest <- sum(chunk$enrollment_headcount_total)
+  intl_baseline <- sum(chunk$enrollment_nonresident_total_baseline)
+  intl_latest <- sum(chunk$enrollment_nonresident_total)
+  actual_change <- enrollment_latest - enrollment_baseline
+  intl_change <- intl_latest - intl_baseline
+  no_intl_change <- actual_change - intl_change
+  data.frame(
+    state = chunk$state[[1]],
+    sector_group = sector_group,
+    institutions_n = nrow(chunk),
+    enrollment_baseline = enrollment_baseline,
+    enrollment_latest = enrollment_latest,
+    actual_change = actual_change,
+    actual_pct_change = safe_pct_change(actual_change, enrollment_baseline),
+    intl_baseline = intl_baseline,
+    intl_latest = intl_latest,
+    intl_change_10yr = intl_change,
+    intl_pct_change_10yr = safe_pct_change(intl_change, intl_baseline),
+    change_without_intl = no_intl_change,
+    pct_change_without_intl = safe_pct_change(no_intl_change, enrollment_baseline),
+    drop_deepens_pct_points = safe_pct_change(no_intl_change, enrollment_baseline) - safe_pct_change(actual_change, enrollment_baseline),
+    would_have_declined_without_intl = ifelse(no_intl_change < 0, "Yes", "No"),
+    flipped_growth_to_decline = ifelse(actual_change >= 0 & no_intl_change < 0, "Yes", "No"),
+    stringsAsFactors = FALSE
+  )
+}
+state_no_intl_sector <- do.call(rbind, c(
+  lapply(split(state_sector_base, interaction(state_sector_base$state, state_sector_base$control_label, drop = TRUE)), function(chunk) {
+    build_state_sector_rows(chunk, chunk$control_label[[1]])
+  }),
+  lapply(split(state_sector_base, state_sector_base$state), function(chunk) {
+    build_state_sector_rows(chunk, "All")
+  })
+))
+sector_order <- c("All", "Public", "Private not-for-profit", "Private for-profit")
+state_no_intl_sector$sector_group <- factor(state_no_intl_sector$sector_group, levels = sector_order)
+state_no_intl_sector <- state_no_intl_sector[order(
+  xtfrm(state_no_intl_sector$change_without_intl),
+  xtfrm(state_no_intl_sector$drop_deepens_pct_points),
+  xtfrm(state_no_intl_sector$sector_group),
+  state_no_intl_sector$state,
+  na.last = TRUE
+), , drop = FALSE]
+state_no_intl_sector$sector_group <- as.character(state_no_intl_sector$sector_group)
+rownames(state_no_intl_sector) <- NULL
+
+summarize_geo_sector_exposure <- function(df) {
+  n <- nrow(df)
+  if (n == 0) {
+    return(data.frame(
+      N = 0L,
+      aggregate_intl_share_pct = NA_real_,
+      aggregate_intl_grad_share_pct = NA_real_,
+      aggregate_grad_plus_per_student = NA_real_,
+      repeated_losses_3plus_10yr_pct = NA_real_,
+      median_endowment_per_student = NA_real_,
+      stringsAsFactors = FALSE
+    ))
+  }
+  endowment_per_student <- df$endowment_value / df$enrollment_headcount_total
+  data.frame(
+    N = n,
+    aggregate_intl_share_pct = 100 * sum(df$enrollment_nonresident_total, na.rm = TRUE) / sum(df$enrollment_headcount_total, na.rm = TRUE),
+    aggregate_intl_grad_share_pct = 100 * sum(df$enrollment_nonresident_graduate, na.rm = TRUE) / sum(df$enrollment_headcount_graduate, na.rm = TRUE),
+    aggregate_grad_plus_per_student = sum(ifelse(is.na(df$grad_plus_disbursements_amt), 0, df$grad_plus_disbursements_amt), na.rm = TRUE) / sum(df$enrollment_headcount_total, na.rm = TRUE),
+    repeated_losses_3plus_10yr_pct = 100 * mean(!is.na(df$loss_years_last_10) & df$loss_years_last_10 >= 3),
+    median_endowment_per_student = median(endowment_per_student, na.rm = TRUE),
+    stringsAsFactors = FALSE
+  )
+}
+
+urbanization_text <- ifelse(is.na(trend_universe$urbanization), "", trend_universe$urbanization)
+trend_universe$geo_group <- ifelse(
+  grepl("^City:", urbanization_text),
+  "City",
+  ifelse(
+    grepl("^(Suburb:|Town:)", urbanization_text),
+    "Suburb/Town",
+    ifelse(grepl("^Rural:", urbanization_text), "Rural", "Other")
+  )
+)
+trend_universe$non_city_group <- trend_universe$geo_group %in% c("Suburb/Town", "Rural")
+
+geo_sector_specs <- list(
+  list(sector = "All public", data = trend_universe[trend_universe$control_label == "Public", , drop = FALSE]),
+  list(sector = "Private not-for-profit", data = trend_universe[trend_universe$control_label == "Private not-for-profit", , drop = FALSE]),
+  list(sector = "Private for-profit", data = trend_universe[trend_universe$control_label == "Private for-profit", , drop = FALSE]),
+  list(sector = "All private", data = trend_universe[trend_universe$control_label %in% c("Private not-for-profit", "Private for-profit"), , drop = FALSE]),
+  list(sector = "All in universe", data = trend_universe)
+)
+
+geo_sector_group_specs <- list(
+  list(group = "All", filter_fn = function(df) rep(TRUE, nrow(df))),
+  list(group = "City", filter_fn = function(df) df$geo_group == "City"),
+  list(group = "Non-city", filter_fn = function(df) df$non_city_group),
+  list(group = "Suburb/Town", filter_fn = function(df) df$geo_group == "Suburb/Town"),
+  list(group = "Rural", filter_fn = function(df) df$geo_group == "Rural")
+)
+
+geo_sector_exposure <- do.call(rbind, lapply(geo_sector_specs, function(spec) {
+  do.call(rbind, lapply(geo_sector_group_specs, function(group_spec) {
+    chunk <- spec$data[group_spec$filter_fn(spec$data), , drop = FALSE]
+    out <- summarize_geo_sector_exposure(chunk)
+    out$sector <- spec$sector
+    out$group <- group_spec$group
+    out
+  }))
+}))
+
+public_geo_extras <- do.call(rbind, lapply(list(
+  list(group = "City, flagship", filter_fn = function(df) df$geo_group == "City" & df$is_flagship),
+  list(group = "City, non-flagship", filter_fn = function(df) df$geo_group == "City" & !df$is_flagship),
+  list(group = "Flagship", filter_fn = function(df) df$is_flagship),
+  list(group = "Non-flagship", filter_fn = function(df) !df$is_flagship)
+), function(group_spec) {
+  chunk <- pub_trend[group_spec$filter_fn(pub_trend), , drop = FALSE]
+  out <- summarize_geo_sector_exposure(chunk)
+  out$sector <- "All public"
+  out$group <- group_spec$group
+  out
+}))
+
+geo_sector_exposure <- rbind(geo_sector_exposure, public_geo_extras)
+geo_sector_exposure$sector <- factor(
+  geo_sector_exposure$sector,
+  levels = c("All public", "Private not-for-profit", "Private for-profit", "All private", "All in universe")
+)
+geo_sector_exposure$group <- factor(
+  geo_sector_exposure$group,
+  levels = c("All", "City", "City, flagship", "City, non-flagship", "Non-city", "Suburb/Town", "Rural", "Flagship", "Non-flagship")
+)
+geo_sector_exposure <- geo_sector_exposure[order(
+  xtfrm(geo_sector_exposure$sector),
+  xtfrm(geo_sector_exposure$group),
+  na.last = TRUE
+), c(
+  "sector", "group", "N",
+  "aggregate_intl_share_pct",
+  "aggregate_intl_grad_share_pct",
+  "aggregate_grad_plus_per_student",
+  "repeated_losses_3plus_10yr_pct",
+  "median_endowment_per_student"
+), drop = FALSE]
+rownames(geo_sector_exposure) <- NULL
+
 # Topline answer rows for the "how many" questions, per sector, plus
 # public-only state counts and a method note.
 count_answer_row <- function(group, metric, definition, value, denominator, notes = "") {
@@ -1085,9 +1509,12 @@ intl_grad_answers <- do.call(rbind, lapply(names(intl_answer_groups), function(g
   n <- nrow(gdf)
   n_data <- sum(!is.na(gdf$international_enrollment_change_10yr) & !is.na(gdf$total_change_10yr_proxy))
   intl_share_q75 <- q75_safe(gdf$pct_international_all)
+  intl_grad_share_q75 <- q75_safe(gdf$pct_international_graduate)
   grad_plus_q75 <- q75_safe(gdf$grad_plus_per_student)
   both_quartile <- !is.na(gdf$pct_international_all) & !is.na(intl_share_q75) & !is.na(grad_plus_q75) &
     gdf$pct_international_all >= intl_share_q75 & gdf$grad_plus_per_student >= grad_plus_q75
+  both_quartile_grad <- !is.na(gdf$pct_international_graduate) & !is.na(intl_grad_share_q75) & !is.na(grad_plus_q75) &
+    gdf$pct_international_graduate >= intl_grad_share_q75 & gdf$grad_plus_per_student >= grad_plus_q75
   rbind(
     count_answer_row(group_name, "Universe", "Predominantly baccalaureate institutions in the workbook universe", n, 0),
     count_answer_row(group_name, "With 10-year international data", sprintf("Rows with both %s international change and %s-%s total enrollment change", latest_year, latest_year - 10L, latest_year), n_data, n),
@@ -1096,7 +1523,8 @@ intl_grad_answers <- do.call(rbind, lapply(names(intl_answer_groups), function(g
     count_answer_row(group_name, "Significant decline avoided via internationals", sprintf("International enrollment grew and enrollment would have fallen at least %s%% without that growth, %s-%s", abs(domestic_sig_drop_pct), latest_year - 10L, latest_year), sum(gdf$implied_domestic_drop_sig, na.rm = TRUE), n, "Domestic proxy: total enrollment change minus international change"),
     count_answer_row(group_name, "Flipped growth to decline", "Enrollment grew or held flat overall but would have fallen without international growth", sum(gdf$flipped_growth_to_decline, na.rm = TRUE), n),
     count_answer_row(group_name, "International enrollment declined over past 5 years", "Five-year international student count change below zero", sum(gdf$intl_decline_5yr, na.rm = TRUE), n),
-    count_answer_row(group_name, "Top quartile on both exposures", "At or above the group's 75th percentile for both international share and Grad PLUS dollars per student", sum(both_quartile, na.rm = TRUE), n)
+    count_answer_row(group_name, "Top quartile on overall intl share + Grad PLUS", "At or above the group's 75th percentile for both overall international share and Grad PLUS dollars per student", sum(both_quartile, na.rm = TRUE), n),
+    count_answer_row(group_name, "Top quartile on intl grad share + Grad PLUS", "At or above the group's 75th percentile for both international graduate share and Grad PLUS dollars per student", sum(both_quartile_grad, na.rm = TRUE), n)
   )
 }))
 intl_grad_answers <- rbind(
@@ -1160,10 +1588,14 @@ worksheets <- build_article_workbook_registry(
   theme_sheets = theme_sheets,
   staff_cut_yoy = staff_cut_yoy,
   graduate_sheets = graduate_sheets,
+  public_flagship_exposure = public_flagship_exposure,
+  public_grad_plus_per_student = public_grad_plus_per_student,
   flagship_cuts = flagship_cuts,
   distress_compare = distress_compare,
   intl_offset_10yr = intl_offset_10yr,
   intl_offset_10yr_ranked = intl_offset_10yr_ranked,
+  public_double_jeopardy_intl_share = public_double_jeopardy_intl_share,
+  public_double_jeopardy_intl_grad = public_double_jeopardy_intl_grad,
   accredit_finance_xtab = accredit_finance_xtab,
   accreditation_summary_bacc = accreditation_summary_bacc,
   cuts_finance_xtab = cuts_finance_xtab,
@@ -1184,7 +1616,10 @@ worksheets <- build_article_workbook_registry(
   intl_vulnerable_large = intl_vulnerable_large,
   public_intl_grad_top50 = public_intl_grad_top50,
   intl_grad_answers = intl_grad_answers,
-  state_intl_offset = state_intl_offset
+  state_intl_offset = state_intl_offset,
+  public_state_grad_changes = public_state_grad_changes,
+  state_no_intl_sector = state_no_intl_sector,
+  geo_sector_exposure = geo_sector_exposure
 )
 
 # worksheet_signature(), xml_cell(), worksheet_xml() are in workbook_helpers.R

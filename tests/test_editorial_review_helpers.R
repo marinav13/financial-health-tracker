@@ -223,7 +223,8 @@ run_test("College cuts visible-field edits merge from the sheet and publish", fu
   edited_sheet_rows$announcement_date[[1]] <- "2026-04-30"
   edited_sheet_rows$announcement_year[[1]] <- "2026"
   edited_sheet_rows$cut_type[[1]] <- "restructuring"
-  edited_sheet_rows$cut_description[[1]] <- "Corrected History BA"
+  edited_sheet_rows$edited_cut_text[[1]] <- "Corrected History BA"
+  edited_sheet_rows$raw_cut_text[[1]] <- "Part of 20 programs eliminated due to enrollment declines and budget deficits."
   edited_sheet_rows$source_url[[1]] <- "https://example.org/corrected-cut"
   edited_sheet_rows$source_publication[[1]] <- "Corrected paper"
   edited_sheet_rows$review_status[[1]] <- "approved"
@@ -246,6 +247,7 @@ run_test("College cuts visible-field edits merge from the sheet and publish", fu
   assert_identical(applied$announcement_year[[1]], 2026L)
   assert_identical(applied$cut_type[[1]], "restructuring")
   assert_identical(applied$program_name[[1]], "Corrected History BA")
+  assert_identical(applied$cut_label_override_effective[[1]], "Corrected History BA")
   assert_identical(applied$source_url[[1]], "https://example.org/corrected-cut")
   assert_identical(applied$source_publication[[1]], "Corrected paper")
 })
@@ -290,9 +292,8 @@ run_test("Stale sheet-only scraper college cuts rows drop before merge while hum
   human_sheet_row$announcement_year[[1]] <- "2026"
   human_sheet_row$cut_type[[1]] <- "staff_layoff"
   human_sheet_row$display_categories[[1]] <- "Staff layoffs / furloughs"
-  human_sheet_row$cut_description[[1]] <- "Manual layoff row"
-  human_sheet_row$cut_label[[1]] <- "Manual layoff row"
-  human_sheet_row$cut_summary[[1]] <- "Manual layoff summary."
+  human_sheet_row$edited_cut_text[[1]] <- "Manual layoff row"
+  human_sheet_row$raw_cut_text[[1]] <- "Manual layoff summary."
   human_sheet_row$source_url[[1]] <- "https://example.org/manual-cut"
   human_sheet_row$source_publication[[1]] <- "Manual paper"
   human_sheet_row$row_origin[[1]] <- "manual"
@@ -1519,7 +1520,7 @@ run_test("Accreditation teach-out classifier handles real production phrasings",
   expected <- c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE)
   assert_identical(actual, expected)
 })
-run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip through stage->sheet->merge", function() {
+run_test("College cuts edited/raw text columns round-trip through stage->sheet->merge", function() {
   cuts_df <- data.frame(
     cut_id = "cut-1",
     matched_unitid = "100",
@@ -1550,23 +1551,23 @@ run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip thr
 
   sheet_rows <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = "100")
   assert_identical("display_categories" %in% names(sheet_rows), TRUE)
-  assert_identical("cut_label" %in% names(sheet_rows), TRUE)
-  assert_identical("cut_summary" %in% names(sheet_rows), TRUE)
-  assert_identical(sheet_rows$cut_label[[1]], "University closes athletics department")
+  assert_identical("edited_cut_text" %in% names(sheet_rows), TRUE)
+  assert_identical("raw_cut_text" %in% names(sheet_rows), TRUE)
+  assert_identical(sheet_rows$edited_cut_text[[1]], "Athletics department")
+  assert_identical(sheet_rows$raw_cut_text[[1]], "University closes athletics department and laid off 12 staff.")
   assert_identical(sheet_rows$display_categories[[1]], "Athletics cuts; Staff layoffs / furloughs")
 
-  # Simulate editor editing cut_label and cut_summary
-  sheet_rows$cut_label[[1]] <- "Editor-revised short label"
-  sheet_rows$cut_summary[[1]] <- "Editor-revised summary."
+  sheet_rows$edited_cut_text[[1]] <- "Editor-revised short label"
   sheet_rows$review_status[[1]] <- "approved"
   sheet_rows$reviewer[[1]] <- "editor@example.org"
 
   merged <- merge_college_cuts_review_sheet_editor_columns(staged, sheet_rows, first_seen = "2026-05-01")
+  assert_identical(merged$override_cut_description[[1]], "Editor-revised short label")
   assert_identical(merged$override_cut_label[[1]], "Editor-revised short label")
-  assert_identical(merged$override_cut_summary[[1]], "Editor-revised summary.")
+  assert_true(is.na(merged$override_cut_summary[[1]]) || !nzchar(trimws(merged$override_cut_summary[[1]] %||% "")))
 })
 
-run_test("Legacy college cuts sheet without display_categories/cut_label/cut_summary columns coerces cleanly", function() {
+run_test("Legacy college cuts sheet without edited/raw names coerces cleanly", function() {
   legacy_sheet <- data.frame(
     cut_id = "cut-2",
     unitid = "200",
@@ -1591,10 +1592,11 @@ run_test("Legacy college cuts sheet without display_categories/cut_label/cut_sum
   coerced <- coerce_college_cuts_review_sheet_rows(legacy_sheet, default_first_seen = "2025-09-05")
   assert_identical(nrow(coerced), 1L)
   assert_identical("display_categories" %in% names(coerced), TRUE)
-  assert_identical("cut_label" %in% names(coerced), TRUE)
+  assert_identical("edited_cut_text" %in% names(coerced), TRUE)
+  assert_identical("raw_cut_text" %in% names(coerced), TRUE)
   assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
-  assert_true(is.na(coerced$cut_label[[1]]) || !nzchar(trimws(coerced$cut_label[[1]] %||% "")),
-              "cut_label should be NA for legacy rows without it set")
+  assert_identical(coerced$edited_cut_text[[1]], "Staff layoff")
+  assert_true(is.na(coerced$raw_cut_text[[1]]) || !nzchar(trimws(coerced$raw_cut_text[[1]] %||% "")))
 })
 
 run_test("College cuts sheet rows with the legacy one-column shift repair before row_origin validation", function() {
@@ -1625,9 +1627,8 @@ run_test("College cuts sheet rows with the legacy one-column shift repair before
   coerced <- coerce_college_cuts_review_sheet_rows(shifted_sheet, default_first_seen = "2026-07-06")
 
   assert_identical(nrow(coerced), 1L)
-  assert_identical(coerced$cut_description[[1]], shifted_sheet$display_categories[[1]])
-  assert_identical(coerced$cut_label[[1]], shifted_sheet$cut_description[[1]])
-  assert_identical(coerced$cut_summary[[1]], shifted_sheet$cut_label[[1]])
+  assert_identical(coerced$edited_cut_text[[1]], shifted_sheet$cut_description[[1]])
+  assert_identical(coerced$raw_cut_text[[1]], shifted_sheet$cut_label[[1]])
   assert_identical(coerced$source_url[[1]], shifted_sheet$cut_summary[[1]])
   assert_identical(coerced$source_publication[[1]], shifted_sheet$source_url[[1]])
   assert_identical(coerced$row_origin[[1]], "scraper")
@@ -1638,7 +1639,7 @@ run_test("College cuts sheet rows with the legacy one-column shift repair before
 })
 
 run_test("reviewer_notes stays internal and is not exposed in public schema fields", function() {
-  # reviewer_notes must NOT be routed to cut_label_public, cut_summary_public, or cut_description
+  # reviewer_notes must NOT be routed to cut_label_public, cut_summary_public, or edited_cut_text
   staged <- empty_college_cuts_editorial_overrides()
   assert_true("reviewer_notes" %in% names(staged))
   assert_true(!("reviewer_notes" %in% c(
@@ -1647,7 +1648,7 @@ run_test("reviewer_notes stays internal and is not exposed in public schema fiel
   )), "reviewer_notes must not be in any source or override map")
 })
 
-run_test("editor_cut_label alias maps to cut_label in sheet coerce", function() {
+run_test("editor_cut_label alias maps to edited_cut_text in sheet coerce", function() {
   sheet_with_alias <- data.frame(
     cut_id = "cut-3",
     unitid = "300",
@@ -1672,7 +1673,7 @@ run_test("editor_cut_label alias maps to cut_label in sheet coerce", function() 
 
   coerced <- coerce_college_cuts_review_sheet_rows(sheet_with_alias, default_first_seen = "2026-01-02")
   assert_identical(nrow(coerced), 1L)
-  assert_identical(coerced$cut_label[[1]], "Alias-derived public label")
+  assert_identical(coerced$edited_cut_text[[1]], "Alias-derived public label")
 })
 
 run_test("Committed college cuts overrides CSV with new label/summary columns reads correctly", function() {

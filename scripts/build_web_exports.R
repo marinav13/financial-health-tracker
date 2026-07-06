@@ -116,6 +116,25 @@ max_int_when <- function(values, mask) {
   suppressWarnings(max(as.integer(values[mask]), na.rm = TRUE))
 }
 
+is_non_adverse_voluntary_exit_action <- function(action_type, action_label_raw, action_label_short) {
+  normalized_type <- tolower(trimws(as.character(action_type %||% "")))
+  if (!identical(normalized_type, "adverse_action")) {
+    return(FALSE)
+  }
+
+  label_text <- tolower(trimws(paste(
+    as.character(action_label_short %||% ""),
+    as.character(action_label_raw %||% "")
+  )))
+  label_text <- gsub("\\s+", " ", label_text, perl = TRUE)
+
+  grepl(
+    "voluntar(?:ily|y) (?:surrender(?:ed|ing)? accreditation|withdraw(?:al)?(?: received)?)",
+    label_text,
+    perl = TRUE
+  )
+}
+
 normalize_neche_compaction_family <- function(public_action_family, action_type) {
   family <- tolower(trimws(as.character(public_action_family %||% "")))
   type <- tolower(trimws(as.character(action_type %||% "")))
@@ -930,6 +949,18 @@ build_accreditation_export <- function() {
       action_label_raw = NA_character_
     )) %>%
     mutate(
+      across(
+        c(
+          "unitid", "institution_name_raw", "accreditor", "action_type",
+          "action_label_raw", "action_status", "action_year", "action_scope",
+          "tracker_name", "tracker_state", "tracker_city", "tracker_control",
+          "tracker_category", "notes", "source_url", "source_title",
+          "source_page_url", "source_page_modified", "accreditors",
+          "latest_action_date", "latest_action_year", "action_labels",
+          "active_actions"
+        ),
+        as.character
+      ),
       unitid = as.character(unitid),
       action_date = normalize_accreditation_date(action_date),
       action_year = na_if(as.character(action_year), ""),
@@ -982,7 +1013,24 @@ build_accreditation_export <- function() {
       source_page_url = NA_character_,
       source_page_modified = NA_character_,
       file_id = NA_character_
-    ))
+    )) %>%
+    mutate(
+      across(
+        c(
+          "unitid", "institution_name_raw", "institution_state_raw",
+          "tracker_name", "tracker_state", "city", "control_label",
+          "category", "accreditor", "action_type", "action_label_raw",
+          "action_status", "action_year", "action_scope", "notes",
+          "source_url", "source_title", "source_page_url",
+          "source_page_modified", "file_id"
+        ),
+        as.character
+      ),
+      unitid = as.character(unitid),
+      action_date = normalize_accreditation_date(action_date),
+      action_year = na_if(as.character(action_year), ""),
+      source_page_modified = na_if(as.character(source_page_modified), "")
+    )
   audit_df <- readr::read_csv(
     dapip_public_audit_path,
     show_col_types = FALSE
@@ -2756,7 +2804,20 @@ build_accreditation_export <- function() {
         active_actions = or_null(collapse_unique_values(active_types)),
         has_active_warning = any(df$action_status == "active" & df$action_type == "warning", na.rm = TRUE),
         has_active_warning_or_notice = any(df$action_status == "active" & df$action_type %in% c("warning", "notice"), na.rm = TRUE),
-        has_active_adverse_action = any(df$action_status == "active" & df$action_type == "adverse_action", na.rm = TRUE),
+        has_active_adverse_action = any(
+          df$action_status == "active" &
+            df$action_type == "adverse_action" &
+            !vapply(
+              seq_len(nrow(df)),
+              function(i) is_non_adverse_voluntary_exit_action(
+                action_type = df$action_type[[i]],
+                action_label_raw = df$action_label_raw[[i]],
+                action_label_short = df$action_label_short[[i]]
+              ),
+              logical(1)
+            ),
+          na.rm = TRUE
+        ),
         # Use the rescued max date from the per-school action subset (df) so
         # institutions whose only actions are MSCHE non-compliance / HLC
         # current-status rows -- which arrive without a per-row date and are

@@ -1,6 +1,7 @@
 pull_college_cuts_overrides <- function(input_path,
                                         output_path = input_path,
                                         sheet_id_or_url,
+                                        candidates_path = file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_review_candidates.csv"),
                                         sheet_tab = "college_cuts_review",
                                         auth_json = Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_),
                                         email = NA_character_,
@@ -55,6 +56,23 @@ pull_college_cuts_overrides <- function(input_path,
     )
   }
 
+  candidate_ids <- character()
+  if (!is.null(candidates_path) && file.exists(candidates_path)) {
+    candidate_ids <- read_college_cuts_review_candidates(candidates_path)$cut_id
+  }
+  filtered_sheet <- drop_stale_college_cuts_sheet_rows(
+    sheet_rows = sheet_rows,
+    local_cut_ids = local_overrides$cut_id,
+    candidate_cut_ids = candidate_ids
+  )
+  if (verbose && nrow(filtered_sheet$dropped_rows) > 0L) {
+    message(
+      "Ignoring stale sheet-only scraper row(s) that are absent from both local overrides and current candidates: ",
+      nrow(filtered_sheet$dropped_rows)
+    )
+  }
+  sheet_rows <- filtered_sheet$kept_rows
+
   merged <- merge_college_cuts_review_sheet_editor_columns(
     overrides = local_overrides,
     sheet_rows = sheet_rows,
@@ -87,6 +105,10 @@ main <- function(cli_args = NULL) {
     file.path(getwd(), "data_pipelines", "college_cuts", "editorial_overrides.csv")
   )
   output_path <- get_arg_value("--output", input_path)
+  candidates_path <- get_arg_value(
+    "--candidates",
+    file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_review_candidates.csv")
+  )
   sheet_id_or_url <- get_arg_value(
     "--sheet",
     Sys.getenv(
@@ -104,6 +126,7 @@ main <- function(cli_args = NULL) {
     input_path = input_path,
     output_path = output_path,
     sheet_id_or_url = sheet_id_or_url,
+    candidates_path = candidates_path,
     sheet_tab = sheet_tab,
     auth_json = auth_json,
     email = email,

@@ -38,6 +38,22 @@ normalize_review_row_origin <- function(x) {
   values
 }
 
+looks_like_iso_date <- function(x) {
+  values <- trim_optional_text(x)
+  if (length(values) == 0L) {
+    return(logical(0))
+  }
+  !is.na(values) & grepl("^\\d{4}-\\d{2}-\\d{2}$", values)
+}
+
+looks_like_http_url <- function(x) {
+  values <- trim_optional_text(x)
+  if (length(values) == 0L) {
+    return(logical(0))
+  }
+  !is.na(values) & grepl("^(https?://|\\[https?://)", values, ignore.case = TRUE)
+}
+
 ACCREDITATION_REVIEW_ROW_ORIGINS <- c("scraper", "manual")
 COLLEGE_CUTS_REVIEW_ROW_ORIGINS <- c("scraper", "manual", "hechinger")
 COLLEGE_CUTS_HUMAN_ROW_ORIGINS <- c("manual", "hechinger")
@@ -1449,6 +1465,50 @@ normalize_college_cuts_sheet_headers <- function(df) {
   normalized
 }
 
+repair_shifted_college_cuts_review_sheet_rows <- function(df) {
+  required_columns <- c(
+    "display_categories", "cut_description", "cut_label", "cut_summary",
+    "source_url", "source_publication", "row_origin", "first_seen",
+    "review_status", "reviewer", "reviewer_notes", "reviewed_at", "grandfathered"
+  )
+  if (is.null(df) || !nrow(df) || !all(required_columns %in% names(df))) {
+    return(df)
+  }
+
+  row_origin_values <- if ("row_origin" %in% names(df)) normalize_review_row_origin(df$row_origin) else rep(NA_character_, nrow(df))
+  source_publication_values <- if ("source_publication" %in% names(df)) normalize_review_row_origin(df$source_publication) else rep(NA_character_, nrow(df))
+  misaligned_rows <- !is.na(row_origin_values) &
+    !(row_origin_values %in% COLLEGE_CUTS_REVIEW_ROW_ORIGINS) &
+    looks_like_iso_date(df$row_origin) &
+    !is.na(source_publication_values) &
+    source_publication_values %in% COLLEGE_CUTS_REVIEW_ROW_ORIGINS &
+    looks_like_http_url(df$cut_summary) &
+    !looks_like_http_url(df$source_url)
+
+  if (!any(misaligned_rows)) {
+    return(df)
+  }
+
+  repaired <- df
+  repaired$display_categories[misaligned_rows] <- NA_character_
+  repaired$cut_description[misaligned_rows] <- trim_optional_text(df$display_categories[misaligned_rows])
+  repaired$cut_label[misaligned_rows] <- trim_optional_text(df$cut_description[misaligned_rows])
+  repaired$cut_summary[misaligned_rows] <- trim_optional_text(df$cut_label[misaligned_rows])
+  repaired$source_url[misaligned_rows] <- trim_optional_text(df$cut_summary[misaligned_rows])
+  repaired$source_publication[misaligned_rows] <- trim_optional_text(df$source_url[misaligned_rows])
+  repaired$row_origin[misaligned_rows] <- trim_optional_text(df$source_publication[misaligned_rows])
+  repaired$first_seen[misaligned_rows] <- trim_optional_text(df$row_origin[misaligned_rows])
+  repaired$review_status[misaligned_rows] <- trim_optional_text(df$first_seen[misaligned_rows])
+  repaired$reviewer[misaligned_rows] <- trim_optional_text(df$review_status[misaligned_rows])
+  repaired$reviewer_notes[misaligned_rows] <- trim_optional_text(df$reviewer[misaligned_rows])
+  repaired$reviewed_at[misaligned_rows] <- trim_optional_text(df$reviewer_notes[misaligned_rows])
+  if ("grandfathered" %in% names(repaired)) {
+    repaired$grandfathered[misaligned_rows] <- coerce_false_default_logical(df$reviewed_at[misaligned_rows])
+  }
+
+  repaired
+}
+
 format_college_cuts_sheet_headers <- function(df) df
 format_accreditation_review_sheet_headers <- function(df) df
 
@@ -1640,7 +1700,7 @@ build_college_cuts_review_candidates <- function(cuts_df,
 coerce_college_cuts_review_sheet_rows <- function(df,
                                                   default_first_seen = as.character(Sys.Date())) {
   if (is.null(df) || !nrow(df)) return(empty_college_cuts_review_sheet_rows())
-  raw_rows <- normalize_college_cuts_sheet_headers(df)
+  raw_rows <- repair_shifted_college_cuts_review_sheet_rows(normalize_college_cuts_sheet_headers(df))
   assert_valid_review_row_origins(
     raw_rows,
     id_column = "cut_id",
@@ -1970,6 +2030,34 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
   }
 
   coerce_college_cuts_editorial_overrides(local_rows)
+}
+
+drop_stale_college_cuts_sheet_rows <- function(sheet_rows,
+                                               local_cut_ids,
+                                               candidate_cut_ids = NULL) {
+  sheet_data <- coerce_college_cuts_review_sheet_rows(sheet_rows)
+  if (!nrow(sheet_data)) {
+    return(list(
+      kept_rows = sheet_data,
+      dropped_rows = sheet_data
+    ))
+  }
+
+  local_ids <- unique(trim_text(local_cut_ids))
+  local_ids <- local_ids[nzchar(local_ids)]
+  candidate_ids <- unique(trim_text(candidate_cut_ids))
+  candidate_ids <- candidate_ids[nzchar(candidate_ids)]
+
+  sheet_ids <- trim_text(sheet_data$cut_id)
+  human_mask <- is_college_cuts_human_row_origin(sheet_data$row_origin)
+  local_mask <- nzchar(sheet_ids) & (sheet_ids %in% local_ids)
+  current_candidate_mask <- nzchar(sheet_ids) & (sheet_ids %in% candidate_ids)
+  stale_non_human_mask <- !human_mask & !local_mask & !current_candidate_mask
+
+  list(
+    kept_rows = sheet_data[!stale_non_human_mask, , drop = FALSE],
+    dropped_rows = sheet_data[stale_non_human_mask, , drop = FALSE]
+  )
 }
 
 grandfather_college_cuts_editorial_overrides <- function(overrides,

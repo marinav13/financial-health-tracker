@@ -993,20 +993,34 @@ run_test("Web export fixture preserves suppressed parent-level grad plus flags w
     na = ""
   )
 
+  suppressed_scraper_key <- build_accreditation_action_source_key(
+    unitid = "200",
+    institution_name = "Example Branch University",
+    accreditor = "MSCHE",
+    action_type = "warning",
+    action_label = "Warning",
+    action_date = "2024-03-01",
+    source_url = "https://example.org/accreditation"
+  )
+
   readr::write_csv(
     data.frame(
       unitid = "200",
       institution_name = "Example Branch University",
       accreditor = "MSCHE",
       action_type = "warning",
-      action_label = "Warning",
+      action_label_raw = "Warning",
       action_label_short = "Warning",
+      action_status = "active",
       action_date = "2024-03-01",
+      action_year = "2024",
       action_scope = "",
       notes = "",
       source_url = "https://example.org/accreditation",
       source_page_url = "",
       source_title = "Accreditation source",
+      source_page_modified = "",
+      display_action = TRUE,
       stringsAsFactors = FALSE
     ),
     file.path(fixture_root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv"),
@@ -1022,7 +1036,7 @@ run_test("Web export fixture preserves suppressed parent-level grad plus flags w
       public_action_family = "warning",
       hybrid_candidate = FALSE,
       hybrid_reason = "",
-      scraper_source_key = "",
+      scraper_source_key = suppressed_scraper_key,
       dapip_source_key = "",
       scraper_action_type = "warning",
       scraper_action_label = "Warning",

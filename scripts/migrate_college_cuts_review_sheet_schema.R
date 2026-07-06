@@ -8,7 +8,13 @@ main <- function(cli_args = NULL) {
   source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "google_sheets_helpers.R"))
 
-  sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("COLLEGE_CUTS_REVIEW_SHEET_ID", unset = NA_character_))
+  sheet_id_or_url <- get_arg_value(
+    "--sheet",
+    Sys.getenv(
+      "COLLEGE_CUTS_REVIEW_SHEET_ID",
+      unset = Sys.getenv("ACCREDITATION_REVIEW_SHEET_ID", unset = NA_character_)
+    )
+  )
   sheet_tab <- get_arg_value("--tab", Sys.getenv("COLLEGE_CUTS_REVIEW_SHEET_TAB", unset = "college_cuts_review"))
   auth_json <- get_arg_value("--auth-json", Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_))
   email <- get_arg_value("--email", NA_character_)
@@ -18,7 +24,10 @@ main <- function(cli_args = NULL) {
 
   sheet_target <- trimws(as.character(sheet_id_or_url %||% ""))
   if (!nzchar(sheet_target)) {
-    stop("Provide --sheet <Google Sheet URL or ID> or set COLLEGE_CUTS_REVIEW_SHEET_ID.", call. = FALSE)
+    stop(
+      "Provide --sheet <Google Sheet URL or ID> or set COLLEGE_CUTS_REVIEW_SHEET_ID / ACCREDITATION_REVIEW_SHEET_ID.",
+      call. = FALSE
+    )
   }
 
   authenticate_google_sheets(

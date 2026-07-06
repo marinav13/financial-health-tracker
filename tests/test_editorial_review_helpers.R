@@ -250,6 +250,75 @@ run_test("College cuts visible-field edits merge from the sheet and publish", fu
   assert_identical(applied$source_publication[[1]], "Corrected paper")
 })
 
+run_test("Stale sheet-only scraper college cuts rows drop before merge while human rows stay", function() {
+  cuts_df <- data.frame(
+    cut_id = "cut-current",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/pipeline-cut",
+    source_title = "Pipeline source",
+    source_publication = "Pipeline paper",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = "100")
+  staged <- stage_college_cuts_editorial_overrides(
+    candidates,
+    first_seen = "2026-05-27",
+    tracker_unitids = "100"
+  )
+  current_sheet_row <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = "100")
+  current_sheet_row$review_status[[1]] <- "approved"
+
+  stale_scraper_row <- current_sheet_row
+  stale_scraper_row$cut_id[[1]] <- "cut-stale"
+  stale_scraper_row$institution_name[[1]] <- "Stale University"
+
+  human_sheet_row <- current_sheet_row
+  human_sheet_row$cut_id[[1]] <- ""
+  human_sheet_row$unitid[[1]] <- "200"
+  human_sheet_row$institution_name[[1]] <- "Manual University"
+  human_sheet_row$state[[1]] <- "Georgia"
+  human_sheet_row$announcement_date[[1]] <- "2026-05-01"
+  human_sheet_row$announcement_year[[1]] <- "2026"
+  human_sheet_row$cut_type[[1]] <- "staff_layoff"
+  human_sheet_row$display_categories[[1]] <- "Staff layoffs / furloughs"
+  human_sheet_row$cut_description[[1]] <- "Manual layoff row"
+  human_sheet_row$cut_label[[1]] <- "Manual layoff row"
+  human_sheet_row$cut_summary[[1]] <- "Manual layoff summary."
+  human_sheet_row$source_url[[1]] <- "https://example.org/manual-cut"
+  human_sheet_row$source_publication[[1]] <- "Manual paper"
+  human_sheet_row$row_origin[[1]] <- "manual"
+  human_sheet_row$first_seen[[1]] <- "2026-05-27"
+  human_sheet_row$review_status[[1]] <- "approved"
+
+  filtered <- drop_stale_college_cuts_sheet_rows(
+    sheet_rows = dplyr::bind_rows(current_sheet_row, stale_scraper_row, human_sheet_row),
+    local_cut_ids = staged$cut_id,
+    candidate_cut_ids = candidates$cut_id
+  )
+
+  assert_identical(nrow(filtered$dropped_rows), 1L)
+  assert_identical(filtered$dropped_rows$cut_id[[1]], "cut-stale")
+  assert_identical(nrow(filtered$kept_rows), 2L)
+
+  merged <- merge_college_cuts_review_sheet_editor_columns(
+    staged,
+    filtered$kept_rows,
+    first_seen = "2026-05-27"
+  )
+
+  assert_identical(nrow(merged), 2L)
+  assert_true(any(trim_text(merged$source_row_origin) == "manual"))
+})
+
 run_test("Manual accreditation rows with blank ids get stable generated ids", function() {
   manual_rows <- data.frame(
     action_id = "",
@@ -1473,7 +1542,7 @@ run_test("New college cuts sheet columns (cut_label, cut_summary) round-trip thr
   candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = "100")
   assert_identical("generated_cut_label" %in% names(candidates), TRUE)
   assert_identical("generated_cut_summary" %in% names(candidates), TRUE)
-  assert_identical(candidates$generated_cut_label[[1]], "University cuts 12 staff amid federal funding loss")
+  assert_identical(candidates$generated_cut_label[[1]], "University closes athletics department")
 
   staged <- stage_college_cuts_editorial_overrides(candidates, first_seen = "2026-05-01", tracker_unitids = "100")
   assert_identical("source_generated_cut_label" %in% names(staged), TRUE)
@@ -1526,6 +1595,46 @@ run_test("Legacy college cuts sheet without display_categories/cut_label/cut_sum
   assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
   assert_true(is.na(coerced$cut_label[[1]]) || !nzchar(trimws(coerced$cut_label[[1]] %||% "")),
               "cut_label should be NA for legacy rows without it set")
+})
+
+run_test("College cuts sheet rows with the legacy one-column shift repair before row_origin validation", function() {
+  shifted_sheet <- data.frame(
+    cut_id = "cut-shift",
+    unitid = "179159",
+    institution_name = "Saint Louis University",
+    state = "Missouri",
+    announcement_date = "2026-07-01",
+    announcement_year = "2026",
+    cut_type = "staff_layoff",
+    display_categories = "80 vacant positions eliminated and filled faculty and staff cuts announced - FY2027 raises suspended",
+    cut_description = "80 vacant positions eliminated and filled faculty and staff cuts announced - FY2027 raises suspended",
+    cut_label = "80 vacant positions eliminated (35 open faculty + 45 open staff) plus unspecified cuts to filled faculty and staff positions.",
+    cut_summary = "https://example.org/slu-cuts",
+    source_url = "KSDK / St. Louis Business Journal",
+    source_publication = "scraper",
+    row_origin = "2026-07-06",
+    first_seen = "unreviewed",
+    review_status = NA_character_,
+    reviewer = NA_character_,
+    reviewer_notes = NA_character_,
+    reviewed_at = "FALSE",
+    grandfathered = NA,
+    stringsAsFactors = FALSE
+  )
+
+  coerced <- coerce_college_cuts_review_sheet_rows(shifted_sheet, default_first_seen = "2026-07-06")
+
+  assert_identical(nrow(coerced), 1L)
+  assert_identical(coerced$cut_description[[1]], shifted_sheet$display_categories[[1]])
+  assert_identical(coerced$cut_label[[1]], shifted_sheet$cut_description[[1]])
+  assert_identical(coerced$cut_summary[[1]], shifted_sheet$cut_label[[1]])
+  assert_identical(coerced$source_url[[1]], shifted_sheet$cut_summary[[1]])
+  assert_identical(coerced$source_publication[[1]], shifted_sheet$source_url[[1]])
+  assert_identical(coerced$row_origin[[1]], "scraper")
+  assert_identical(coerced$first_seen[[1]], "2026-07-06")
+  assert_identical(coerced$review_status[[1]], "unreviewed")
+  assert_identical(coerced$grandfathered[[1]], FALSE)
+  assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
 })
 
 run_test("reviewer_notes stays internal and is not exposed in public schema fields", function() {

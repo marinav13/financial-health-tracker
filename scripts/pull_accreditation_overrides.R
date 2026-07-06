@@ -19,6 +19,7 @@ main <- function(cli_args = NULL) {
   email <- get_arg_value("--email", NA_character_)
   cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
   verbose <- has_flag("--verbose")
+  allow_editor_added_rows <- has_flag("--allow-editor-added-rows")
 
   require_existing_local_file(
     input_path,
@@ -65,7 +66,7 @@ main <- function(cli_args = NULL) {
   merged <- merge_accreditation_review_sheet_editor_columns(
     overrides = local_overrides,
     sheet_rows = sheet_rows,
-    allow_editor_added_rows = FALSE
+    allow_editor_added_rows = allow_editor_added_rows
   )
 
   dir.create(dirname(output_path), recursive = TRUE, showWarnings = FALSE)

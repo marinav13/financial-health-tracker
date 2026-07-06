@@ -12,6 +12,11 @@ on:
           - publish
           - teachout-audit
           - teachout-cleanup
+      allow_editor_added_rows:
+        description: "Repair: import sheet-only non-manual rows into editorial_overrides.csv instead of failing the pull"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -145,10 +150,14 @@ jobs:
         env:
           ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
         run: |
+          extra_flags=""
+          if [ "${{ inputs.allow_editor_added_rows }}" = "true" ]; then
+            extra_flags="--allow-editor-added-rows"
+          fi
           Rscript ./scripts/pull_accreditation_overrides.R \
             --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
             --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
-            --verbose
+            --verbose $extra_flags
 
       - name: Pull college cuts review decisions
         if: ${{ inputs.mode == 'publish' }}
@@ -157,10 +166,14 @@ jobs:
         env:
           ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
         run: |
+          extra_flags=""
+          if [ "${{ inputs.allow_editor_added_rows }}" = "true" ]; then
+            extra_flags="--allow-editor-added-rows"
+          fi
           Rscript ./scripts/pull_college_cuts_overrides.R \
             --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
             --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
-            --verbose
+            --verbose $extra_flags
 
       - name: Audit accreditation teach-out review rows
         if: ${{ inputs.mode == 'teachout-audit' || inputs.mode == 'teachout-cleanup' }}

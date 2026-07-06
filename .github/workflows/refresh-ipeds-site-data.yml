@@ -361,7 +361,8 @@ jobs:
               --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
               --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
               --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
+              2>&1 | tee -a refresh-logs/combined.log \
+              || echo "::warning::Accreditation review sheet pull failed; continuing with committed editorial_overrides.csv (sheet review edits will not sync this run). Repair: run Publish Editorial Overrides with allow_editor_added_rows, or fix row_origin in the sheet." | tee -a refresh-logs/combined.log
           else
             echo "Skipping Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
           fi
@@ -377,7 +378,8 @@ jobs:
               --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
               --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
               --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
+              2>&1 | tee -a refresh-logs/combined.log \
+              || echo "::warning::College cuts review sheet pull failed; continuing with committed editorial_overrides.csv (sheet review edits will not sync this run). Repair: run Publish Editorial Overrides with allow_editor_added_rows, or fix row_origin in the sheet." | tee -a refresh-logs/combined.log
           else
             echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
           fi

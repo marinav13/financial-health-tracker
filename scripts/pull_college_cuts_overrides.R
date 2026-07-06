@@ -76,7 +76,7 @@ pull_college_cuts_overrides <- function(input_path,
   merged <- merge_college_cuts_review_sheet_editor_columns(
     overrides = local_overrides,
     sheet_rows = sheet_rows,
-    allow_editor_added_rows = FALSE
+    allow_editor_added_rows = allow_editor_added_rows
   )
 
   dir.create(dirname(output_path), recursive = TRUE, showWarnings = FALSE)
@@ -121,6 +121,7 @@ main <- function(cli_args = NULL) {
   email <- get_arg_value("--email", NA_character_)
   cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
   verbose <- has_flag("--verbose")
+  allow_editor_added_rows <- has_flag("--allow-editor-added-rows")
 
   pull_college_cuts_overrides(
     input_path = input_path,

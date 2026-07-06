@@ -1719,3 +1719,90 @@ run_test("Committed college cuts overrides CSV with new label/summary columns re
   assert_identical(coerced$override_cut_label[[1]], "Revised short label")
   assert_true(is.na(coerced$override_cut_summary[[1]]))
 })
+
+run_test("allow_editor_added_rows imports sheet-only non-manual accreditation rows", function() {
+  sheet_rows <- data.frame(
+    action_id = "orphan1234ab",
+    unitid = "100",
+    institution_name = "Orphan University",
+    accreditor = "MSCHE",
+    action_date = "2026-06-15",
+    action_type = "warning",
+    action_label_raw = "Issued warning",
+    generated_statement = "Scraped action stranded in the sheet",
+    source_url = "https://example.org/orphan-action",
+    source_title = "Orphan source",
+    row_origin = "scraper",
+    review_status = "approved",
+    stringsAsFactors = FALSE
+  )
+
+  err <- tryCatch(
+    {
+      merge_accreditation_review_sheet_editor_columns(
+        empty_accreditation_editorial_overrides(),
+        sheet_rows,
+        first_seen = "2026-07-06"
+      )
+      NULL
+    },
+    error = identity
+  )
+  assert_true(!is.null(err), "Strict merge should reject sheet-only non-manual accreditation rows.")
+  assert_true(grepl("not present in editorial_overrides.csv", conditionMessage(err), fixed = TRUE))
+
+  merged <- merge_accreditation_review_sheet_editor_columns(
+    empty_accreditation_editorial_overrides(),
+    sheet_rows,
+    allow_editor_added_rows = TRUE,
+    first_seen = "2026-07-06"
+  )
+  assert_identical(nrow(merged), 1L)
+  assert_identical(trim_text(merged$action_id[[1]]), "orphan1234ab")
+  assert_identical(merged$source_row_origin[[1]], "scraper")
+  assert_identical(merged$review_status[[1]], "approved")
+})
+
+run_test("allow_editor_added_rows imports sheet-only non-human college cuts rows", function() {
+  sheet_rows <- data.frame(
+    cut_id = "orphancut1234",
+    unitid = "100",
+    institution_name = "Orphan College",
+    state = "MA",
+    announcement_date = "2026-06-15",
+    announcement_year = "2026",
+    cut_type = "layoffs",
+    edited_cut_text = "College lays off 10 staff",
+    raw_cut_text = "College lays off ten staff members",
+    source_url = "https://example.org/orphan-cut",
+    source_publication = "Example News",
+    row_origin = "scraper",
+    review_status = "approved",
+    stringsAsFactors = FALSE
+  )
+
+  err <- tryCatch(
+    {
+      merge_college_cuts_review_sheet_editor_columns(
+        empty_college_cuts_editorial_overrides(),
+        sheet_rows,
+        first_seen = "2026-07-06"
+      )
+      NULL
+    },
+    error = identity
+  )
+  assert_true(!is.null(err), "Strict merge should reject sheet-only non-human cuts rows.")
+  assert_true(grepl("not present in editorial_overrides.csv", conditionMessage(err), fixed = TRUE))
+
+  merged <- merge_college_cuts_review_sheet_editor_columns(
+    empty_college_cuts_editorial_overrides(),
+    sheet_rows,
+    allow_editor_added_rows = TRUE,
+    first_seen = "2026-07-06"
+  )
+  assert_identical(nrow(merged), 1L)
+  assert_identical(trim_text(merged$cut_id[[1]]), "orphancut1234")
+  assert_identical(merged$source_row_origin[[1]], "scraper")
+  assert_identical(merged$review_status[[1]], "approved")
+})

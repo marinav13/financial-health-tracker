@@ -1120,9 +1120,12 @@ merge_accreditation_review_sheet_editor_columns <- function(overrides,
   sheet_only <- sheet_data[!(sheet_ids %in% local_ids), , drop = FALSE]
   if (nrow(sheet_only) > 0L) {
     non_manual <- sheet_only[normalize_review_row_origin(sheet_only$row_origin) != "manual", , drop = FALSE]
-    if (nrow(non_manual) > 0L && !isTRUE(allow_editor_added_rows)) {
+    if (nrow(non_manual) > 0L) {
       sample_ids <- paste(utils::head(non_manual$action_id, 5L), collapse = ", ")
-      stop(sprintf(paste("Google Sheet contains %d action_id value(s) that are not present in editorial_overrides.csv.", "Only row_origin = manual rows may exist only in the sheet.", "Sample action_id values: %s"), nrow(non_manual), sample_ids), call. = FALSE)
+      if (!isTRUE(allow_editor_added_rows)) {
+        stop(sprintf(paste("Google Sheet contains %d action_id value(s) that are not present in editorial_overrides.csv.", "Only row_origin = manual rows may exist only in the sheet.", "Sample action_id values: %s"), nrow(non_manual), sample_ids), call. = FALSE)
+      }
+      message(sprintf("allow_editor_added_rows: importing %d sheet-only non-manual row(s) into accreditation editorial overrides. Sample action_id values: %s", nrow(non_manual), sample_ids))
     }
   }
 
@@ -1156,7 +1159,11 @@ merge_accreditation_review_sheet_editor_columns <- function(overrides,
     }
   }
 
-  sheet_only_manual <- sheet_only[normalize_review_row_origin(sheet_only$row_origin) == "manual", , drop = FALSE]
+  sheet_only_manual <- if (isTRUE(allow_editor_added_rows)) {
+    sheet_only
+  } else {
+    sheet_only[normalize_review_row_origin(sheet_only$row_origin) == "manual", , drop = FALSE]
+  }
   if (nrow(sheet_only_manual) > 0L) {
     manual_rows <- rep_like_template_rows(empty_accreditation_editorial_overrides(), nrow(sheet_only_manual))
     manual_rows$action_id <- sheet_only_manual$action_id
@@ -2033,21 +2040,24 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
   sheet_only <- sheet_data[!(sheet_ids %in% local_ids), , drop = FALSE]
   if (nrow(sheet_only) > 0L) {
     non_human <- sheet_only[!is_college_cuts_human_row_origin(sheet_only$row_origin), , drop = FALSE]
-    if (nrow(non_human) > 0L && !isTRUE(allow_editor_added_rows)) {
+    if (nrow(non_human) > 0L) {
       sample_ids <- paste(utils::head(non_human$cut_id, 5L), collapse = ", ")
-      stop(
-        sprintf(
-          paste(
-            "Google Sheet contains %d cut_id value(s) that are not present in editorial_overrides.csv.",
-            "Only row_origin values in (%s) may exist only in the sheet.",
-            "Sample cut_id values: %s"
+      if (!isTRUE(allow_editor_added_rows)) {
+        stop(
+          sprintf(
+            paste(
+              "Google Sheet contains %d cut_id value(s) that are not present in editorial_overrides.csv.",
+              "Only row_origin values in (%s) may exist only in the sheet.",
+              "Sample cut_id values: %s"
+            ),
+            nrow(non_human),
+            paste(COLLEGE_CUTS_HUMAN_ROW_ORIGINS, collapse = ", "),
+            sample_ids
           ),
-          nrow(non_human),
-          paste(COLLEGE_CUTS_HUMAN_ROW_ORIGINS, collapse = ", "),
-          sample_ids
-        ),
-        call. = FALSE
-      )
+          call. = FALSE
+        )
+      }
+      message(sprintf("allow_editor_added_rows: importing %d sheet-only non-human row(s) into college cuts editorial overrides. Sample cut_id values: %s", nrow(non_human), sample_ids))
     }
   }
 
@@ -2094,7 +2104,11 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
     }
   }
 
-  sheet_only_human <- sheet_only[is_college_cuts_human_row_origin(sheet_only$row_origin), , drop = FALSE]
+  sheet_only_human <- if (isTRUE(allow_editor_added_rows)) {
+    sheet_only
+  } else {
+    sheet_only[is_college_cuts_human_row_origin(sheet_only$row_origin), , drop = FALSE]
+  }
   if (nrow(sheet_only_human) > 0L) {
     human_rows <- rep_like_template_rows(empty_college_cuts_editorial_overrides(), nrow(sheet_only_human))
     human_rows$cut_id <- sheet_only_human$cut_id

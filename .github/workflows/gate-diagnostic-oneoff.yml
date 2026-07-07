@@ -1,0 +1,131 @@
+name: Gate Diagnostic (one-off, cache-present)
+
+# Phase 0 forensic tool: runs the apply-only accreditation review-gate
+# diagnostic on a real runner with the real accreditation cache restored,
+# so the stranded-actions count reflects the cache-PRESENT environment the
+# weekly refresh actually runs in. Read-only: no pushes, no Sheet access,
+# no data commits. Delete this workflow after Phase 0 closes (Phase 1
+# item 7 adds a permanent diagnostic artifact to the weekly run instead).
+
+on:
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  IPEDS_START_YEAR: "2014"
+  IPEDS_END_YEAR: "2024"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-diagnostic-oneoff
+  cancel-in-progress: false
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      RENV_CONFIG_CACHE_SYMLINKS: "FALSE"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@6f6e5bc62fba3a704f74e7ad7ef7676c5c6a2590  # v2.11.4
+        with:
+          r-version: "4.5.3"
+
+      - name: Cache R packages
+        uses: actions/cache@v4
+        with:
+          path: renv/library
+          key: r-ubuntu-24.04-${{ hashFiles('renv.lock') }}
+          restore-keys: |
+            r-ubuntu-24.04-
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            cmake \
+            libcurl4-openssl-dev \
+            libjpeg-dev \
+            libpoppler-cpp-dev \
+            libx11-dev \
+            pandoc
+
+      - name: Restore R packages
+        run: Rscript -e "Sys.setenv(RENV_CONFIG_SNAPSHOT_PROMPT = 'false'); renv::restore()"
+
+      - name: Compute weekly cache key
+        id: cache-week
+        shell: bash
+        run: echo "week=$(date +%Y-W%V)" >> $GITHUB_OUTPUT
+
+      - name: Restore accreditation scraped cache (incl. DAPIP text cache)
+        uses: actions/cache/restore@v4
+        with:
+          path: data_pipelines/accreditation/cache
+          key: accreditation-cache-v1-${{ steps.cache-week.outputs.week }}
+          restore-keys: |
+            accreditation-cache-v1-
+
+      - name: Restore canonical IPEDS dataset
+        uses: actions/cache/restore@v4
+        with:
+          path: ipeds/derived
+          key: ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-${{ hashFiles('scripts/build_ipeds_dataset.R', 'scripts/build_ipeds_canonical_dataset.R', 'scripts/collect_ipeds_data.R', 'scripts/shared/ipeds_helpers.R', 'scripts/shared/ipeds_row_builders.R', 'scripts/shared/ipeds_collector_helpers.R') }}
+          restore-keys: |
+            ipeds-derived-v1-${{ runner.os }}-${{ env.IPEDS_END_YEAR }}-
+            ipeds-derived-v1-${{ runner.os }}-
+
+      - name: Verify cache state (fail if cache-absent — result would be meaningless)
+        shell: bash
+        run: |
+          set -e
+          if [ ! -f ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv ]; then
+            echo "::error::Canonical IPEDS CSV cache miss — cannot run diagnostic."
+            exit 1
+          fi
+          text_files=$(find data_pipelines/accreditation/cache -type f 2>/dev/null | wc -l)
+          dapip_files=$(find data_pipelines/accreditation/cache/dapip -type f 2>/dev/null | wc -l || echo 0)
+          echo "accreditation cache files: $text_files (dapip subtree: $dapip_files)"
+          if [ "$dapip_files" -eq 0 ]; then
+            echo "::error::DAPIP cache subtree is empty — this run would be cache-ABSENT, same as the local scan. Aborting so a cold cache is never mistaken for a real count."
+            exit 1
+          fi
+
+      - name: Run apply-only gate diagnostic (cache-present)
+        shell: bash
+        run: |
+          Rscript ./scripts/build_web_exports.R \
+            --input ipeds/derived/ipeds_financial_health_canonical_2014_2024.csv \
+            --only accreditation \
+            --apply-only-review-gate \
+            --accreditation-review-candidates-input data_pipelines/accreditation/accreditation_review_candidates.csv \
+            --apply-only-review-gate-diagnostic "$RUNNER_TEMP/gate_diagnostic.csv" \
+            --apply-only-review-gate-diagnostic-only \
+            2>&1 | tee diagnostic_run.log || true
+          if [ ! -f "$RUNNER_TEMP/gate_diagnostic.csv" ]; then
+            echo "::error::Diagnostic CSV was not produced."
+            exit 1
+          fi
+          rows=$(( $(wc -l < "$RUNNER_TEMP/gate_diagnostic.csv") - 1 ))
+          echo "=============================================="
+          echo "CACHE-PRESENT STRANDED-ACTIONS COUNT: $rows"
+          echo "=============================================="
+          cat "$RUNNER_TEMP/gate_diagnostic.csv"
+          grep -E "ignoring [0-9]+ recomputed|canonicalized [0-9]+" diagnostic_run.log || true
+          cp "$RUNNER_TEMP/gate_diagnostic.csv" gate_diagnostic_cache_present.csv
+
+      - name: Upload diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-diagnostic-cache-present
+          path: |
+            gate_diagnostic_cache_present.csv
+            diagnostic_run.log
+          if-no-files-found: error

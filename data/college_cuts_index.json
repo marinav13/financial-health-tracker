@@ -599,6 +599,36 @@
       }
     ]
   },
+  "119331": {
+    "unitid": "119331",
+    "financial_unitid": "119331",
+    "has_financial_profile": true,
+    "is_primary_tracker": false,
+    "institution_name": "Napa Valley College",
+    "institution_alias": null,
+    "institution_unique_name": "Napa Valley College | California",
+    "state": "California",
+    "city": null,
+    "control_label": "Public",
+    "category": null,
+    "latest_cut_date": "2026-02-12",
+    "latest_cut_label": "Board voted 4-2 to lay off 16 non-faculty workers and eliminate 17 vacant positions (33 total).",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-02-12",
+        "announcement_year": 2026,
+        "program_name": "Programs suspended",
+        "cut_label_public": "Board voted 4-2 to lay off 16 non-faculty workers and eliminate 17 vacant positions (33 total).",
+        "primary_display_category": "Academic program cuts",
+        "display_category": "Academic program cuts",
+        "display_categories": "Academic program cuts",
+        "positions_affected": 16,
+        "faculty_affected": null,
+        "source_url": "https://www.pressdemocrat.com/2026/02/13/layoffs-napa-valley-college-physical-education-program-disabled-students/"
+      }
+    ]
+  },
   "122977": {
     "unitid": "122977",
     "financial_unitid": "122977",
@@ -7721,6 +7751,36 @@
       }
     ]
   },
+  "447847": {
+    "unitid": "447847",
+    "financial_unitid": "447847",
+    "has_financial_profile": true,
+    "is_primary_tracker": false,
+    "institution_name": "Aviator College of Aeronautical Science and Technology",
+    "institution_alias": null,
+    "institution_unique_name": "Aviator College of Aeronautical Science and Technology | Florida",
+    "state": "Florida",
+    "city": null,
+    "control_label": "Private for-profit",
+    "category": null,
+    "latest_cut_date": "2026-04-09",
+    "latest_cut_label": "Main campus in Fort Pierce, FL closed",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-04-09",
+        "announcement_year": 2026,
+        "program_name": "Main campus in Fort Pierce, FL closed",
+        "cut_label_public": "Main campus in Fort Pierce, FL closed",
+        "primary_display_category": "Campus closures",
+        "display_category": "Campus closures",
+        "display_categories": "Campus closures",
+        "positions_affected": 45,
+        "faculty_affected": 45,
+        "source_url": "https://www.highereddive.com/news/florida-for-profit-flight-college-shuts-down-suddenly/818137/"
+      }
+    ]
+  },
   "454184": {
     "unitid": "454184",
     "financial_unitid": "454184",
@@ -7913,36 +7973,6 @@
       }
     ]
   },
-  "cut-aviator-college-of-aeronautical-science-and-technology--florida": {
-    "unitid": "cut-aviator-college-of-aeronautical-science-and-technology--florida",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": "Aviator College of Aeronautical Science and Technology",
-    "institution_alias": null,
-    "institution_unique_name": "Aviator College of Aeronautical Science and Technology | Florida",
-    "state": "Florida",
-    "city": null,
-    "control_label": "Private for-profit",
-    "category": null,
-    "latest_cut_date": "2026-04-09",
-    "latest_cut_label": "Main campus in Fort Pierce, FL closed",
-    "cut_count": 1,
-    "landing_cuts": [
-      {
-        "announcement_date": "2026-04-09",
-        "announcement_year": 2026,
-        "program_name": "Main campus in Fort Pierce, FL closed",
-        "cut_label_public": "Main campus in Fort Pierce, FL closed",
-        "primary_display_category": "Campus closures",
-        "display_category": "Campus closures",
-        "display_categories": "Campus closures",
-        "positions_affected": 45,
-        "faculty_affected": 45,
-        "source_url": "https://www.highereddive.com/news/florida-for-profit-flight-college-shuts-down-suddenly/818137/"
-      }
-    ]
-  },
   "cut-labour-college-of-healthcare--massachusetts": {
     "unitid": "cut-labour-college-of-healthcare--massachusetts",
     "financial_unitid": null,
@@ -7970,36 +8000,6 @@
         "positions_affected": 20,
         "faculty_affected": null,
         "source_url": "https://www.laboure.edu/hubfs/Joint%20Press%20Release.pdf"
-      }
-    ]
-  },
-  "cut-napa-valley-college--california": {
-    "unitid": "cut-napa-valley-college--california",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": "Napa Valley College",
-    "institution_alias": null,
-    "institution_unique_name": "Napa Valley College | California",
-    "state": "California",
-    "city": null,
-    "control_label": "Public",
-    "category": null,
-    "latest_cut_date": "2026-02-12",
-    "latest_cut_label": "Board voted 4-2 to lay off 16 non-faculty workers and eliminate 17 vacant positions (33 total).",
-    "cut_count": 1,
-    "landing_cuts": [
-      {
-        "announcement_date": "2026-02-12",
-        "announcement_year": 2026,
-        "program_name": "Programs suspended",
-        "cut_label_public": "Board voted 4-2 to lay off 16 non-faculty workers and eliminate 17 vacant positions (33 total).",
-        "primary_display_category": "Academic program cuts",
-        "display_category": "Academic program cuts",
-        "display_categories": "Academic program cuts",
-        "positions_affected": 16,
-        "faculty_affected": null,
-        "source_url": "https://www.pressdemocrat.com/2026/02/13/layoffs-napa-valley-college-physical-education-program-disabled-students/"
       }
     ]
   },

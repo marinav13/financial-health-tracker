@@ -1,6 +1,6 @@
 {
   "unitid": "156356",
-  "generated_at": "2026-06-29",
+  "generated_at": "2026-07-07",
   "profile": {
     "institution_name": "Brescia University",
     "institution_unique_name": "Brescia University | Owensboro | Kentucky",
@@ -832,16 +832,37 @@
   },
   "latest_status": {
     "accreditors": "SACSCOC",
-    "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+    "action_labels": "Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.; Requested to submit a Referral Report documenting compliance with accreditation standards",
     "active_actions": "notice",
     "has_active_warning": false,
     "has_active_warning_or_notice": true,
     "has_active_adverse_action": false,
-    "latest_action_date": "2025-04-25",
-    "latest_action_year": "2025",
-    "action_count": 1
+    "latest_action_date": "2026-06-11",
+    "latest_action_year": "2026",
+    "action_count": 2
   },
   "actions": [
+    {
+      "accreditor": "SACSCOC",
+      "action_type": "notice",
+      "action_label": "Silvert President Brescia University 717 Frederica Street Owensboro, KY 42301-3023 Dear President Silvert: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees requested a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.",
+      "action_label_short": "Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-06-11",
+      "action_year": "2026",
+      "notes": "Heightened Monitoring or Focused Review",
+      "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117423",
+      "source_title": "DAPIP Institutional Accreditation Action",
+      "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117423",
+      "source_page_modified": null,
+      "display_action": true,
+      "public_table_strategy": "dapip_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    },
     {
       "accreditor": "SACSCOC",
       "action_type": "notice",

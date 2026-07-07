@@ -1,37 +1,21 @@
 action_code,action_description,row_count,kept_count,dropped_count,review_required_count,mapped_action_type
-AA,Adverse Action Initiated,2,2,0,0,adverse_action
-AD,Affirm Denial Following Appeal,3,3,0,0,adverse_action
-CA,Agency no longer recognized,8,0,8,0,other
-DB,Deny Substantive Change: Final Branch Approval,5,0,5,0,other
-DD,Deny Substantive Change: Degree,18,0,18,0,other
-DE,Approved for Distance Education,128,0,128,0,other
-DO,Deny Substantive Change: Ownership,2,0,2,2,adverse_action
-DP,Deny Substantive Change: Program,31,0,31,31,adverse_action
-DR,Deferral of Action,2,2,0,0,notice
-DT,Deny Substantive Change: Other,17,0,17,0,other
-GD,Grant Substantive Change: Degree,381,0,381,0,other
-GF,Grant Substantive Change: Final Branch Approval,61,0,61,0,other
-GO,Grant Substantive Change: Ownership,48,48,0,0,other
-GP,Grant Substantive Change: Program,1295,0,1295,0,other
-GT,Grant Substantive Change: Other,845,0,845,0,other
-HM,Heightened Monitoring or Focused Review,800,497,303,0,notice
-IA,Initial Accreditation,37,0,37,0,other
-IC,Institution Closed,5,0,5,0,other
-LC,Additional Location Closed,4,0,4,0,other
-LD,Loss of Accreditation or Preaccreditation: Denial,3,3,0,0,adverse_action
-LO,Loss of Accreditation or Preaccreditation: Other,8,8,0,0,adverse_action
-P,Probation or Equivalent or a More Severe Status: Probation,53,53,0,0,probation
-PM,Program Merged Into Institutional Accreditation,1,0,1,0,other
-PN,Probation or Equivalent or More Severe Status: Monitoring,2,2,0,0,notice
-PO,Probation or Equivalent or a More Severe Status: Other,3,3,0,0,notice
-PR,Accreditation Reaffirmed: Probation Removed,38,38,0,0,removed
-PW,Probation or Equivalent or a More Severe Status: Warning,95,95,0,0,warning
-R,Loss of Accreditation or Preaccreditation: Voluntary Withdrawal,36,36,0,0,adverse_action
-RA,Renewal of Accreditation,1787,0,1787,0,other
-RM,Removal of Monitoring Status,109,109,0,0,removed
-RS,Removal of Show Cause Status,12,12,0,0,removed
-SC,Probation or Equivalent or a More Severe Status: Show Cause,49,49,0,0,show_cause
-TO,Accreditation Reinstated: Termination Overturned on Appeal,1,1,0,0,removed
-VR,Voluntary Withdrawal Received,33,33,0,0,adverse_action
-WE,Warning or Equivalent-Factors Affecting Academic Quality,27,27,0,0,notice
-WR,Accreditation Reaffirmed:  Warning Removed,64,64,0,0,removed
+AA,,2,2,0,0,adverse_action
+AD,,3,3,0,0,adverse_action
+DR,,2,2,0,0,notice
+GO,,48,48,0,0,other
+HM,,497,497,0,0,notice
+LD,,3,3,0,0,adverse_action
+LO,,8,8,0,0,adverse_action
+P,,53,53,0,0,probation
+PN,,2,2,0,0,notice
+PO,,3,3,0,0,notice
+PR,,38,38,0,0,removed
+PW,,95,95,0,0,warning
+R,,36,36,0,0,adverse_action
+RM,,109,109,0,0,removed
+RS,,12,12,0,0,removed
+SC,,49,49,0,0,show_cause
+TO,,1,1,0,0,removed
+VR,,33,33,0,0,adverse_action
+WE,,27,27,0,0,notice
+WR,,64,64,0,0,removed

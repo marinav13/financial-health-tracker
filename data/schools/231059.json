@@ -1,6 +1,6 @@
 {
   "unitid": "231059",
-  "generated_at": "2026-06-29",
+  "generated_at": "2026-07-07",
   "profile": {
     "institution_name": "Saint Michael's College",
     "institution_unique_name": "Saint Michael's College | Colchester | Vermont",
@@ -829,5 +829,47 @@
         "value": 0
       }
     ]
-  }
+  },
+  "latest_status": {
+    "accreditors": "NECHE",
+    "action_labels": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources",
+    "active_actions": "notice",
+    "has_active_warning": false,
+    "has_active_warning_or_notice": true,
+    "has_active_adverse_action": false,
+    "latest_action_date": "2026-06-25",
+    "latest_action_year": "2026",
+    "action_count": 1
+  },
+  "actions": [
+    {
+      "accreditor": "NECHE",
+      "action_type": "notice",
+      "action_label": "At its meeting on June 4, 2026, the New England Commission of Higher Education (NECHE) issued Saint Michael’s College a Notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources due to the continued…",
+      "action_label_short": "Received a notation because the Commission found that the College is in danger of not meeting the Commission’s Standard on Institutional Resources",
+      "action_scope": null,
+      "action_status": "active",
+      "action_date": "2026-06-25",
+      "action_year": "2026",
+      "notes": "Joint Statement by Saint Michael’s College and the Commission June 2026",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-michaels-college-and-the-commission-june-2026/",
+      "source_title": "Joint Statement by Saint Michael’s College and the Commission June 2026",
+      "source_page_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-michaels-college-and-the-commission-june-2026/",
+      "source_page_modified": "2026-06-25",
+      "display_action": true,
+      "public_table_strategy": "scraper_backed_keep",
+      "hybrid_candidate": false,
+      "hybrid_reason": null,
+      "has_financial_profile": true,
+      "is_primary_tracker": true
+    }
+  ],
+  "sources": [
+    {
+      "accreditor": "NECHE",
+      "source_title": "Joint Statement by Saint Michael’s College and the Commission June 2026",
+      "source_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-michaels-college-and-the-commission-june-2026/",
+      "source_page_url": "https://www.neche.org/commission-statements/joint-statement-by-saint-michaels-college-and-the-commission-june-2026/"
+    }
+  ]
 }

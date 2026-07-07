@@ -830,6 +830,14 @@ main <- function(cli_args = NULL) {
   } else {
     dapip
   }
+  if (!"action_description" %in% names(code_source)) {
+    code_source$action_description <- NA_character_
+  }
+  code_source <- code_source |>
+    dplyr::mutate(
+      action_code = as.character(action_code),
+      action_description = as.character(action_description)
+    )
 
   filtered_counts <- dapip |>
     dplyr::count(action_code, name = "kept_count")

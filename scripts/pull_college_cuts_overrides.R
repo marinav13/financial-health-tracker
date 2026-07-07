@@ -6,6 +6,7 @@ pull_college_cuts_overrides <- function(input_path,
                                         auth_json = Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_),
                                         email = NA_character_,
                                         cache_dir = file.path(getwd(), ".secrets", "googlesheets4"),
+                                        allow_editor_added_rows = FALSE,
                                         verbose = FALSE) {
   ensure_packages(c("dplyr", "readr", "googlesheets4"))
   source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
@@ -132,6 +133,7 @@ main <- function(cli_args = NULL) {
     auth_json = auth_json,
     email = email,
     cache_dir = cache_dir,
+    allow_editor_added_rows = allow_editor_added_rows,
     verbose = verbose
   )
 }

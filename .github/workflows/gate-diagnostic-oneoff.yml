@@ -9,6 +9,11 @@ name: Gate Diagnostic (one-off, cache-present)
 
 on:
   workflow_dispatch:
+  # workflow_dispatch requires the file on the default branch; the PR
+  # trigger lets this run from its own branch without touching main.
+  pull_request:
+    paths:
+      - ".github/workflows/gate-diagnostic-oneoff.yml"
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"

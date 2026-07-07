@@ -671,7 +671,12 @@ normalize_accreditation_review_sheet_headers <- function(df) {
   }
 
   normalized <- df
-  alias_map <- c(visible_statement = "generated_statement", editor_notes = "reviewer_notes")
+  alias_map <- c(
+    visible_statement = "generated_statement",
+    editor_notes = "reviewer_notes",
+    action_edited = "generated_statement",
+    action_raw = "action_label_raw"
+  )
   for (old_name in names(alias_map)) {
     new_name <- alias_map[[old_name]]
     if (!(old_name %in% names(normalized))) next
@@ -1429,8 +1434,6 @@ COLLEGE_CUTS_SHEET_OVERRIDE_MAP <- c(
   source_publication = "override_source_publication"
 )
 
-COLLEGE_CUTS_EDITED_TEXT_SOURCE_COLUMN <- "source_cut_description"
-
 COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS <- c(
   "cut_id",
   "source_unitid", "source_institution_name", "source_state",
@@ -1570,7 +1573,16 @@ repair_shifted_college_cuts_review_sheet_rows <- function(df) {
 }
 
 format_college_cuts_sheet_headers <- function(df) df
-format_accreditation_review_sheet_headers <- function(df) df
+format_accreditation_review_sheet_headers <- function(df) {
+  if (is.null(df) || !ncol(df)) return(df)
+  rename_map <- c(generated_statement = "action_edited", action_label_raw = "action_raw")
+  for (old_name in names(rename_map)) {
+    new_name <- rename_map[[old_name]]
+    if (!(old_name %in% names(df))) next
+    names(df)[names(df) == old_name] <- new_name
+  }
+  df
+}
 
 derive_college_cuts_review_display_categories <- function(cut_type,
                                                           cut_description,
@@ -1756,6 +1768,54 @@ build_college_cuts_review_candidates <- function(cuts_df,
   candidates
 }
 
+derive_default_college_cuts_edited_text <- function(source_cut_description,
+                                                    source_generated_cut_label) {
+  description_values <- trim_optional_text(source_cut_description)
+  generated_label_values <- trim_optional_text(source_generated_cut_label)
+
+  row_count <- max(length(description_values), length(generated_label_values))
+  if (row_count == 0L) return(character(0))
+  if (!length(description_values)) description_values <- rep(NA_character_, row_count)
+  if (!length(generated_label_values)) generated_label_values <- rep(NA_character_, row_count)
+  if (length(description_values) != row_count) description_values <- rep_len(description_values, row_count)
+  if (length(generated_label_values) != row_count) generated_label_values <- rep_len(generated_label_values, row_count)
+
+  resolved <- description_values
+  use_generated_label <- !is.na(generated_label_values) &
+    nzchar(generated_label_values) &
+    (is.na(description_values) | !nzchar(trimws(description_values)) |
+       description_values %in% .GENERIC_CUT_LABELS)
+  if (any(use_generated_label)) {
+    resolved[use_generated_label] <- generated_label_values[use_generated_label]
+  }
+
+  trim_optional_text(resolved)
+}
+
+derive_college_cuts_sheet_default_edited_text <- function(source_cut_description,
+                                                          source_generated_cut_label) {
+  description_values <- trim_optional_text(source_cut_description)
+  generated_label_values <- trim_optional_text(source_generated_cut_label)
+
+  row_count <- max(length(description_values), length(generated_label_values))
+  if (row_count == 0L) return(character(0))
+  if (!length(description_values)) description_values <- rep(NA_character_, row_count)
+  if (!length(generated_label_values)) generated_label_values <- rep(NA_character_, row_count)
+  if (length(description_values) != row_count) description_values <- rep_len(description_values, row_count)
+  if (length(generated_label_values) != row_count) generated_label_values <- rep_len(generated_label_values, row_count)
+
+  resolved <- description_values
+  use_generated_label <- !is.na(generated_label_values) &
+    nzchar(generated_label_values) &
+    (is.na(description_values) | !nzchar(trimws(description_values)) |
+       description_values %in% .GENERIC_CUT_LABELS)
+  if (any(use_generated_label)) {
+    resolved[use_generated_label] <- generated_label_values[use_generated_label]
+  }
+
+  trim_optional_text(resolved)
+}
+
 coerce_college_cuts_review_sheet_rows <- function(df,
                                                   default_first_seen = as.character(Sys.Date())) {
   if (is.null(df) || !nrow(df)) return(empty_college_cuts_review_sheet_rows())
@@ -1935,13 +1995,17 @@ build_college_cuts_review_sheet_rows <- function(overrides,
   sheet_rows$reviewer_notes <- local_rows$reviewer_notes
   sheet_rows$reviewed_at <- local_rows$reviewed_at
   sheet_rows$grandfathered <- local_rows$grandfathered
+  default_edited_cut_text <- derive_college_cuts_sheet_default_edited_text(
+    local_rows$source_cut_description,
+    local_rows$source_generated_cut_label
+  )
   effective_cut_description <- dplyr::coalesce(
     trim_optional_text(local_rows$override_cut_description),
     trim_optional_text(local_rows$override_cut_label),
-    trim_optional_text(local_rows$source_cut_description)
+    default_edited_cut_text
   )
   source_raw_cut_text <- local_rows$source_generated_cut_summary
-  sheet_rows$edited_cut_text <- dplyr::coalesce(sheet_rows$edited_cut_text, effective_cut_description)
+  sheet_rows$edited_cut_text <- effective_cut_description
   sheet_rows$raw_cut_text <- dplyr::coalesce(sheet_rows$raw_cut_text, source_raw_cut_text)
   sheet_rows$announcement_year <- dplyr::coalesce(sheet_rows$announcement_year, derive_year_from_date_string(sheet_rows$announcement_date))
   sheet_rows$display_categories <- vapply(
@@ -2069,6 +2133,10 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
       matched_rows <- which(matched)
       matched_human <- is_college_cuts_human_row_origin(local_rows$source_row_origin[matched])
       matched_human_rows <- matched_rows[matched_human]
+      default_edited_cut_text <- derive_college_cuts_sheet_default_edited_text(
+        local_rows$source_cut_description,
+        local_rows$source_generated_cut_label
+      )
       for (field_name in names(COLLEGE_CUTS_SHEET_OVERRIDE_MAP)) {
         source_column <- COLLEGE_CUTS_SHEET_SOURCE_MAP[[field_name]]
         override_column <- COLLEGE_CUTS_SHEET_OVERRIDE_MAP[[field_name]]
@@ -2080,10 +2148,10 @@ merge_college_cuts_review_sheet_editor_columns <- function(overrides,
       }
       edited_cut_text_delta <- compute_override_delta(
         matched_sheet_rows$edited_cut_text,
-        local_rows[[COLLEGE_CUTS_EDITED_TEXT_SOURCE_COLUMN]][matched]
+        default_edited_cut_text[matched]
       )
       local_rows$override_cut_description[matched] <- edited_cut_text_delta
-      local_rows$override_cut_label[matched] <- trim_optional_text(matched_sheet_rows$edited_cut_text)
+      local_rows$override_cut_label[matched] <- edited_cut_text_delta
       if (length(matched_human_rows)) {
         local_rows$source_cut_description[matched_human_rows] <- matched_sheet_rows$edited_cut_text[matched_human]
         local_rows$source_generated_cut_summary[matched_human_rows] <- matched_sheet_rows$raw_cut_text[matched_human]
@@ -2177,14 +2245,53 @@ grandfather_college_cuts_editorial_overrides <- function(overrides,
   local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
+backfill_college_cuts_grandfathered_generic_labels <- function(overrides,
+                                                               review_statuses = "approved",
+                                                               grandfathered_only = TRUE) {
+  local_rows <- coerce_college_cuts_editorial_overrides(overrides)
+  if (!nrow(local_rows)) return(local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE])
+
+  preferred_edited_text <- derive_default_college_cuts_edited_text(
+    local_rows$source_cut_description,
+    local_rows$source_generated_cut_label
+  )
+  status_values <- trim_text(local_rows$review_status)
+  eligible_statuses <- trim_text(review_statuses)
+  source_description <- trim_optional_text(local_rows$source_cut_description)
+  override_description <- trim_optional_text(local_rows$override_cut_description)
+  override_label <- trim_optional_text(local_rows$override_cut_label)
+
+  to_repair <- status_values %in% eligible_statuses &
+    !is.na(preferred_edited_text) &
+    nzchar(preferred_edited_text) &
+    (isFALSE(grandfathered_only) | local_rows$grandfathered %in% TRUE) &
+    (is.na(override_description) | !nzchar(override_description)) &
+    !is.na(override_label) &
+    !is.na(source_description) &
+    override_label == source_description &
+    preferred_edited_text != override_label
+
+  if (!any(to_repair)) {
+    return(local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE])
+  }
+
+  local_rows$override_cut_description[to_repair] <- preferred_edited_text[to_repair]
+  local_rows$override_cut_label[to_repair] <- preferred_edited_text[to_repair]
+  local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+}
+
 build_review_backed_college_cuts_export_row <- function(override_row, template_df) {
   internal_row <- coerce_college_cuts_editorial_overrides(override_row)
   if (!nrow(internal_row)) return(template_df[0, , drop = FALSE])
   effective_row <- build_college_cuts_review_sheet_rows(internal_row)[1, , drop = FALSE]
+  default_edited_cut_text <- derive_default_college_cuts_edited_text(
+    internal_row$source_cut_description[[1]],
+    internal_row$source_generated_cut_label[[1]]
+  )
   effective_cut_description <- dplyr::coalesce(
     internal_row$override_cut_description[[1]],
     internal_row$override_cut_label[[1]],
-    internal_row$source_cut_description[[1]],
+    default_edited_cut_text[[1]],
     effective_row$edited_cut_text[[1]]
   )
   export_row <- blank_like_row(template_df)
@@ -2303,6 +2410,11 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
     approved_values
   }
 
+  approved_default_edited_cut_text <- derive_default_college_cuts_edited_text(
+    joined$source_cut_description,
+    joined$source_generated_cut_label
+  )
+  approved_default_edited_cut_text[!joined_approved_mask] <- NA_character_
   joined$matched_unitid <- effective_override_values(joined$matched_unitid, approved_override_values(joined$override_unitid))
   joined$institution_name_display <- effective_override_values(joined$institution_name_display, approved_override_values(joined$override_institution_name))
   joined$state_display <- effective_override_values(joined$state_display, approved_override_values(joined$override_state))
@@ -2311,14 +2423,18 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   joined$cut_type <- effective_override_values(joined$cut_type, approved_override_values(joined$override_cut_type))
   approved_edited_cut_text <- dplyr::coalesce(
     approved_override_values(joined$override_cut_description),
-    approved_override_values(joined$override_cut_label)
+    approved_override_values(joined$override_cut_label),
+    approved_default_edited_cut_text
   )
   joined$program_name <- effective_override_values(joined$program_name, approved_edited_cut_text)
   # Expose approved label/summary overrides for downstream public field derivation.
   if ("override_cut_label" %in% names(joined)) {
-    joined$cut_label_override_effective <- approved_override_values(joined$override_cut_label)
+    joined$cut_label_override_effective <- dplyr::coalesce(
+      approved_override_values(joined$override_cut_label),
+      approved_default_edited_cut_text
+    )
   } else {
-    joined$cut_label_override_effective <- NA_character_
+    joined$cut_label_override_effective <- approved_default_edited_cut_text
   }
   if ("override_cut_summary" %in% names(joined)) {
     joined$cut_summary_override_effective <- approved_override_values(joined$override_cut_summary)

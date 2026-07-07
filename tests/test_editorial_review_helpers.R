@@ -252,6 +252,59 @@ run_test("College cuts visible-field edits merge from the sheet and publish", fu
   assert_identical(applied$source_publication[[1]], "Corrected paper")
 })
 
+run_test("Generic college cuts source descriptions prefill edited text from generated label without override churn", function() {
+  generated_label <- "At least 16 faculty laid off, mostly in humanities, effective end of academic year (pay and benefits through August)."
+  generated_summary <- paste(
+    generated_label,
+    "Board of trustees approved cuts in early February 2026.",
+    "Driven by ongoing fiscal distress."
+  )
+  cuts_df <- data.frame(
+    cut_id = "cut-generic",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Ohio",
+    announcement_date = "2026-02-20",
+    announcement_year = 2026L,
+    cut_type = "staff_layoff",
+    program_name = "Staff layoff",
+    generated_cut_label = generated_label,
+    generated_cut_summary = generated_summary,
+    source_url = "https://example.org/csu",
+    source_title = "Pipeline source",
+    source_publication = "Example Paper",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+
+  candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = "100")
+  staged <- stage_college_cuts_editorial_overrides(
+    candidates,
+    first_seen = "2026-05-27",
+    tracker_unitids = "100"
+  )
+  sheet_rows <- build_college_cuts_review_sheet_rows(staged, tracker_unitids = "100")
+
+  assert_identical(sheet_rows$edited_cut_text[[1]], generated_label)
+  assert_identical(sheet_rows$raw_cut_text[[1]], generated_summary)
+
+  sheet_rows$review_status[[1]] <- "approved"
+  sheet_rows$reviewer[[1]] <- "editor@example.org"
+  merged <- merge_college_cuts_review_sheet_editor_columns(
+    staged,
+    sheet_rows,
+    first_seen = "2026-05-27"
+  )
+
+  assert_true(is.na(merged$override_cut_description[[1]]) || !nzchar(trimws(merged$override_cut_description[[1]] %||% "")))
+  assert_true(is.na(merged$override_cut_label[[1]]) || !nzchar(trimws(merged$override_cut_label[[1]] %||% "")))
+
+  applied <- apply_college_cuts_editorial_overrides(cuts_df, merged, enforce_review_gate = FALSE)
+  assert_identical(applied$program_name[[1]], generated_label)
+  assert_identical(applied$cut_label_override_effective[[1]], generated_label)
+})
+
 run_test("Stale sheet-only scraper college cuts rows drop before merge while human rows stay", function() {
   cuts_df <- data.frame(
     cut_id = "cut-current",
@@ -1718,6 +1771,58 @@ run_test("Committed college cuts overrides CSV with new label/summary columns re
   assert_identical(coerced$source_generated_cut_label[[1]], "University lays off 25 staff in deficit response")
   assert_identical(coerced$override_cut_label[[1]], "Revised short label")
   assert_true(is.na(coerced$override_cut_summary[[1]]))
+})
+
+run_test("Grandfathered generic college cuts labels backfill from generated label only when untouched", function() {
+  generated_label <- "At least 16 faculty laid off, mostly in humanities, effective end of academic year (pay and benefits through August)."
+  overrides <- data.frame(
+    cut_id = c("cut-repair", "cut-keep"),
+    source_unitid = c("100", "101"),
+    source_institution_name = c("Repair University", "Keep University"),
+    source_state = c("Ohio", "Alabama"),
+    source_announcement_date = c("2026-02-20", "2026-02-13"),
+    source_announcement_year = c("2026", "2026"),
+    source_cut_type = c("staff_layoff", "program_suspension"),
+    source_cut_description = c("Staff layoff", "Programs suspended"),
+    source_generated_cut_label = c(
+      generated_label,
+      "Board unanimously voted to eliminate 9 minors and 7 concentrations (16 total), saving ~$400K."
+    ),
+    source_generated_cut_summary = c(
+      paste(generated_label, "Board approved cuts in early February 2026."),
+      "Board unanimously voted to eliminate 9 minors and 7 concentrations (16 total), saving ~$400K."
+    ),
+    source_source_url = c("https://example.org/repair", "https://example.org/keep"),
+    source_source_title = c(NA_character_, NA_character_),
+    source_source_publication = c("Example Paper", "Example Paper"),
+    source_row_origin = c("scraper", "scraper"),
+    override_unitid = c(NA_character_, NA_character_),
+    override_institution_name = c(NA_character_, NA_character_),
+    override_state = c(NA_character_, NA_character_),
+    override_announcement_date = c(NA_character_, NA_character_),
+    override_announcement_year = c(NA_character_, NA_character_),
+    override_cut_type = c(NA_character_, NA_character_),
+    override_cut_description = c(NA_character_, "Already edited text"),
+    override_cut_label = c("Staff layoff", "Already edited text"),
+    override_cut_summary = c(NA_character_, NA_character_),
+    override_source_url = c(NA_character_, NA_character_),
+    override_source_title = c(NA_character_, NA_character_),
+    override_source_publication = c(NA_character_, NA_character_),
+    first_seen = c("2026-05-15", "2026-05-15"),
+    review_status = c("approved", "approved"),
+    reviewer = c("grandfathered", "grandfathered"),
+    reviewer_notes = c(NA_character_, NA_character_),
+    reviewed_at = c("2026-05-15", "2026-05-15"),
+    grandfathered = c(TRUE, TRUE),
+    stringsAsFactors = FALSE
+  )
+
+  repaired <- backfill_college_cuts_grandfathered_generic_labels(overrides)
+
+  assert_identical(repaired$override_cut_description[[1]], generated_label)
+  assert_identical(repaired$override_cut_label[[1]], generated_label)
+  assert_identical(repaired$override_cut_description[[2]], "Already edited text")
+  assert_identical(repaired$override_cut_label[[2]], "Already edited text")
 })
 
 run_test("allow_editor_added_rows imports sheet-only non-manual accreditation rows", function() {

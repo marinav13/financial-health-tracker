@@ -347,7 +347,14 @@ run_test("Web export pipeline fixture", function() {
   readr::write_csv(
     data.frame(
       unitid = c("100", "100", "100", "100", "100", "100"),
-      institution_name = c("Example University", "Example University", "Example University", "Example University", "Example University", "Example University"),
+      institution_name = c(
+        "Example University (Audit Alias)",
+        "Example University",
+        "Example University (Audit Alias)",
+        "Example University",
+        "Example University (Audit Alias)",
+        "Example University"
+      ),
       accreditor = c("MSCHE", "MSCHE", "MSCHE", "MSCHE", "MSCHE", "MSCHE"),
       scraper_action_type = c("adverse_action", "", "monitoring", "", "monitoring", ""),
       scraper_action_label = c(

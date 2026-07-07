@@ -1070,24 +1070,30 @@ build_accreditation_export <- function() {
       unitid = as.character(unitid),
       institution_name = as.character(institution_name),
       accreditor = normalize_accreditor_code(accreditor),
-      scraper_source_key = build_accreditation_action_source_key(
-        unitid = unitid,
-        institution_name = institution_name,
-        accreditor = accreditor,
-        action_type = scraper_action_type,
-        action_label = scraper_action_label,
-        action_date = scraper_action_date,
-        source_url = scraper_source_url
+      scraper_source_key = dplyr::coalesce(
+        dplyr::na_if(as.character(scraper_source_key), ""),
+        build_accreditation_action_source_key(
+          unitid = unitid,
+          institution_name = institution_name,
+          accreditor = accreditor,
+          action_type = scraper_action_type,
+          action_label = scraper_action_label,
+          action_date = scraper_action_date,
+          source_url = scraper_source_url
+        )
       ),
-      dapip_source_key = build_accreditation_action_source_key(
-        unitid = unitid,
-        institution_name = institution_name,
-        accreditor = accreditor,
-        action_type = dapip_action_type,
-        action_label = dapip_action_label,
-        action_date = dapip_action_date,
-        source_page_url = dapip_source_page_url,
-        file_id = dapip_file_id
+      dapip_source_key = dplyr::coalesce(
+        dplyr::na_if(as.character(dapip_source_key), ""),
+        build_accreditation_action_source_key(
+          unitid = unitid,
+          institution_name = institution_name,
+          accreditor = accreditor,
+          action_type = dapip_action_type,
+          action_label = dapip_action_label,
+          action_date = dapip_action_date,
+          source_page_url = dapip_source_page_url,
+          file_id = dapip_file_id
+        )
       )
     )
   coverage_df <- if (file.exists(accreditation_coverage_path)) {

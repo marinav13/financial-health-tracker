@@ -220,6 +220,13 @@ jobs:
             --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
             --verbose
 
+      - name: Rebuild DAPIP vs scraper audit
+        if: ${{ inputs.mode == 'publish' }}
+        shell: bash
+        timeout-minutes: 60
+        run: |
+          Rscript ./scripts/build_dapip_vs_scraper_audit.R
+
       - name: Rebuild static web exports (review gate)
         if: ${{ inputs.mode == 'publish' }}
         shell: bash

@@ -1633,6 +1633,31 @@ function styleAnswerCard(answerId, value, resolveState = yesNoClass) {
   syncWarningTooltip(card, state);
 }
 
+// Google indexes the rendered DOM, so per-school canonical/title must be
+// set at render time: the static head tags point every ?unitid= URL at
+// bare school.html, which would fold all school pages into one search
+// result. The canonical base is read from the existing tag so the same
+// code works on any host (preview and production domains differ).
+function updateSchoolPageMetadata(institutionName, unitid) {
+  const name = String(institutionName || "").trim();
+  if (!name || !isNumericUnitid(unitid)) return;
+  const pageTitle = `${name} \u2014 College Financial Health Tracker`;
+  document.title = pageTitle;
+  const setMetaContent = (selector, value) => {
+    const node = document.querySelector(selector);
+    if (node) node.setAttribute("content", value);
+  };
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical && canonical.href) {
+    const canonicalUrl = new URL(canonical.href);
+    canonicalUrl.search = `?unitid=${encodeURIComponent(unitid)}`;
+    canonical.setAttribute("href", canonicalUrl.toString());
+    setMetaContent('meta[property="og:url"]', canonicalUrl.toString());
+  }
+  setMetaContent('meta[property="og:title"]', pageTitle);
+  setMetaContent('meta[name="twitter:title"]', pageTitle);
+}
+
 async function init() {
   syncSearchToggle();
   window.addEventListener("resize", syncSearchToggle);
@@ -1657,6 +1682,7 @@ async function init() {
     loadJsonOrNull("data/endowment_per_fte_by_unitid.json")
   ]);
   const p = school.profile;
+  updateSchoolPageMetadata(p.institution_name, unitid);
   const s = school.summary;
   const series = school.series;
   const latestDataYear = asNumber(s.latest_year) || latestYearFromSeries(series);

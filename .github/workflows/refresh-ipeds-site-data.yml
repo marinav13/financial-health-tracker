@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: refresh-source-data-weekly
+  group: site-data-writes
   cancel-in-progress: false
 
 jobs:

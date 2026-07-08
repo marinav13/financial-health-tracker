@@ -68,11 +68,11 @@ There is no launch-day workflow flip anymore: the private cron never moves.
   `hechingerreport.org` Domain property (covers the subdomain automatically),
   or create a Domain property for the subdomain via a DNS TXT record in the
   same panel as the CNAME.
-- [ ] **Confirm the old tracker's exact URL** for the redirect (noted as
-  `https://hechinger.org/interactives/fitness/` — confirm hechinger.org vs
-  hechingerreport.org) and identify who manages that host.
-- [ ] Decide on `SECURITY.md`, `CODEOWNERS`, and Issues policy for the public
-  repo (explanations provided 2026-07-08; quick to add once decided).
+- [ ] **Line up the redirect** from the previous tracker at
+  `https://hechinger.org/interactives/fitness/` (URL confirmed 2026-07-08) —
+  identify who manages that host so the 301 can flip on launch day.
+- [x] ~~SECURITY.md / CODEOWNERS / issue templates~~ — **decided against**
+  (2026-07-08). Do not re-raise.
 
 ## Launch day — repo side (Claude can run these)
 
@@ -100,7 +100,7 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 8. Make `marinav13/financial-health-tracker` **private** (Actions keep
    running on private repos — the pipeline is unaffected). This also removes
    the historical commits carrying a personal email from public view.
-9. **301-redirect the previous tracker** (URL above, once confirmed) to
+9. **301-redirect** `https://hechinger.org/interactives/fitness/` to
    `https://financialtracker.hechingerreport.org/` — server-side on whatever
    hosts that page (WordPress Redirection plugin or hosting config); hand
    source + destination to the web team.
@@ -119,8 +119,10 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 
 ## Open items not tied to launch
 
-- [ ] Cuts submission CTA: create a Hechinger-owned Google Form and repoint
-  the submit link in `cuts.html` (CollegeCuts *attribution* links stay).
+- [ ] Cuts submission CTA: build the Hechinger-owned Google Form — full
+  ready-to-build spec in [docs/CUTS_FORM_SPEC.md](CUTS_FORM_SPEC.md) — then
+  hand the form URL to Claude to repoint the submit links in `cuts.html`
+  (CollegeCuts *attribution* links stay).
 - [ ] Move the Google review Sheet and the GCP service account under
   Hechinger-controlled accounts (both currently personal). When this
   happens: re-share the Sheet with the new service account, update
@@ -140,3 +142,97 @@ There is no launch-day workflow flip anymore: the private cron never moves.
   licenses, robots.txt, and metadata URLs).
 - The dev repo's `robots.txt` stays `Disallow: /` while its preview site
   exists; the dev preview site disappears at launch anyway.
+
+---
+
+## Appendix: current license texts (drafts pending legal review)
+
+Exactly what is in the public repo today. Legal should review these before
+the repo goes public.
+
+### `LICENSE` (umbrella)
+
+```
+College Financial Health Tracker - Rights
+
+Copyright (c) 2026 The Hechinger Report
+
+This repository is public for transparency and reference. Different
+rights apply to different parts of it:
+
+- Data (the data/ directory and public downloadable datasets):
+  reusable with attribution under Creative Commons Attribution 4.0
+  International (CC BY 4.0). See LICENSE-DATA.md.
+
+- Code (HTML, CSS, JavaScript, R, Python, workflow definitions, and
+  tests): all rights reserved. Published for transparency; not
+  licensed for reuse without written permission. See LICENSE-CODE.md.
+
+- Assets (logos, branding, illustrations, and images under assets/):
+  all rights reserved. See LICENSE-ASSETS.md.
+
+For permissions and questions: https://hechingerreport.org/contact/
+```
+
+### `LICENSE-DATA.md`
+
+```
+# Data License (CC BY 4.0)
+
+The datasets in the `data/` directory, and the CSV downloads offered by
+the live site, are licensed under the Creative Commons Attribution 4.0
+International license (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+You may copy, redistribute, and adapt this data for any purpose,
+including commercially, provided you give appropriate credit.
+
+Suggested attribution:
+
+> Source: College Financial Health Tracker, The Hechinger Report
+> (https://financialtracker.hechingerreport.org/)
+
+## Third-party source note
+
+The tracker combines records from U.S. Department of Education sources
+(IPEDS, DAPIP, College Scorecard, Federal Student Aid), which are U.S.
+government works, with entries derived from the CollegeCuts Tracker and
+Grant Witness. Reusers who redistribute at scale should review those
+projects' own terms; this license covers The Hechinger Report's
+compilation, curation, and derived fields.
+```
+
+### `LICENSE-CODE.md`
+
+```
+# Code License
+
+Copyright (c) 2026 The Hechinger Report. All rights reserved.
+
+The code in this repository (HTML, CSS, JavaScript, R, Python, GitHub
+Actions workflow definitions, and tests) is published so readers can
+inspect how the College Financial Health Tracker is built. It is NOT
+licensed for reuse: you may view it here, but you may not copy, modify,
+redistribute, or use it in other projects without written permission
+from The Hechinger Report.
+
+For permissions: https://hechingerreport.org/contact/
+```
+
+### `LICENSE-ASSETS.md`
+
+```
+# Assets License
+
+Copyright (c) 2026 The Hechinger Report. All rights reserved.
+
+Logos, branding, wordmarks, illustrations, screenshots, and other
+images in this repository (primarily under `assets/`) are not licensed
+for reuse. The Hechinger Report name and logo identify The Hechinger
+Report and may not be used in ways that suggest endorsement or
+affiliation.
+
+Brand fonts are not distributed in this repository.
+
+For permissions: https://hechingerreport.org/contact/
+```

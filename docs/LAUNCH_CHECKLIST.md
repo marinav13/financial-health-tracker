@@ -2,8 +2,10 @@
 
 **Updated:** 2026-07-08 (rev 2 — architecture changed: derived CSVs are not public)
 **Public repo:** `hechinger/FinancialHealth` — site only, will be **public**
-**Private repo:** `marinav13/financial-health-tracker` — the pipeline lives here
-**permanently**; goes **private** at launch and keeps running everything
+**Private repo:** `hechinger/Private_Financial_Health_Tracker` — the pipeline
+lives here permanently (migrated 2026-07-08; full history). The old
+`marinav13/financial-health-tracker` repo is retired: its Pages preview gets
+unpublished at launch, then archive it.
 **Launch date:** TBD
 
 ---
@@ -51,15 +53,14 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 ## Do before launch
 
 - [ ] **Create the deploy token** so the private pipeline can publish to the
-  public repo. As a user with write access to `hechinger/FinancialHealth`:
-  GitHub → Settings → Developer settings → Personal access tokens →
-  **Fine-grained tokens** → Generate: Resource owner **hechinger**, repository
-  access **only FinancialHealth**, permissions **Contents: Read and write**,
-  expiration 1 year (calendar a renewal). If the org doesn't allow
-  fine-grained PATs, a classic token with `repo` scope works but is broader.
-  Then in the **private** repo: Settings → Secrets and variables → Actions →
-  new secret **`PUBLIC_SITE_DEPLOY_TOKEN`** with the token value. The next
-  weekly refresh will publish automatically; or dispatch one to test.
+  public repo. Log in as **hechinger** (both repos live under it now):
+  Settings → Developer settings → Personal access tokens → **Fine-grained
+  tokens** → Generate: repository access **only FinancialHealth**,
+  permissions **Contents: Read and write**, expiration 1 year (calendar a
+  renewal). Then in `hechinger/Private_Financial_Health_Tracker`:
+  Settings → Secrets and variables → Actions → new secret
+  **`PUBLIC_SITE_DEPLOY_TOKEN`** with the token value. The next weekly
+  refresh publishes automatically; or dispatch one to test.
 - [ ] **Legal review of the license texts** (`LICENSE*`) — drafted to the
   agreed model (data CC BY 4.0, code/assets reserved) but not lawyer-reviewed.
   Must be settled before the repo goes public; a license can't be retracted
@@ -96,10 +97,11 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 
 ## Launch day — old site handoff
 
-7. Unpublish the dev repo's Pages site (`marinav13.github.io/...`).
-8. Make `marinav13/financial-health-tracker` **private** (Actions keep
-   running on private repos — the pipeline is unaffected). This also removes
-   the historical commits carrying a personal email from public view.
+7. Unpublish the old repo's Pages site (`marinav13.github.io/...`).
+8. Archive or make private `marinav13/financial-health-tracker` — it is
+   retired (the pipeline moved to the hechinger account 2026-07-08); going
+   non-public also removes the historical commits carrying a personal email
+   from public view.
 9. **301-redirect** `https://hechinger.org/interactives/fitness/` to
    `https://financialtracker.hechingerreport.org/` — server-side on whatever
    hosts that page (WordPress Redirection plugin or hosting config); hand
@@ -140,8 +142,8 @@ There is no launch-day workflow flip anymore: the private cron never moves.
   (the site files are the same; the public repo lacks `data_pipelines/`,
   `docs/`, agent files, pipeline workflows, and carries its own README,
   licenses, robots.txt, and metadata URLs).
-- The dev repo's `robots.txt` stays `Disallow: /` while its preview site
-  exists; the dev preview site disappears at launch anyway.
+- The pipeline repo's `robots.txt` stays `Disallow: /` (its content is
+  never served anywhere once the old preview site is unpublished).
 
 ---
 

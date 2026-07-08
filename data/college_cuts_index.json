@@ -437,6 +437,36 @@
       }
     ]
   },
+  "110644": {
+    "unitid": "110644",
+    "financial_unitid": "110644",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "University of California-Davis",
+    "institution_alias": "UC Davis",
+    "institution_unique_name": "University of California-Davis | California",
+    "state": "California",
+    "city": null,
+    "control_label": "Public",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-01-09",
+    "latest_cut_label": "NCAA Division I women's equestrian program eliminated",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-01-09",
+        "announcement_year": 2026,
+        "program_name": "NCAA Division I women's equestrian program eliminated",
+        "cut_label_public": "NCAA Division I women's equestrian program eliminated",
+        "primary_display_category": "Athletics cuts",
+        "display_category": "Athletics cuts",
+        "display_categories": ["Athletics cuts", "Community program cuts"],
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://nypost.com/2026/06/28/us-news/uc-davis-cuts-entire-equestrian-team-then-furious-parents-investigated/"
+      }
+    ]
+  },
   "110662": {
     "unitid": "110662",
     "financial_unitid": "110662",
@@ -1109,10 +1139,22 @@
     "city": null,
     "control_label": "Public",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2025-11-21",
-    "latest_cut_label": "Layoffs due to decline in external research funding and federal energy research priorities shift; resulted in elimination of 57 positions at FSEC.",
-    "cut_count": 1,
+    "latest_cut_date": "2026-06-25",
+    "latest_cut_label": "Downtown Library, LibTech lending desk and Curriculum Materials Center closed with no notice",
+    "cut_count": 2,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-06-25",
+        "announcement_year": 2026,
+        "program_name": "Downtown Library, LibTech lending desk and Curriculum Materials Center closed with no notice",
+        "cut_label_public": "Downtown Library, LibTech lending desk and Curriculum Materials Center closed with no notice",
+        "primary_display_category": "Research center cuts",
+        "display_category": "Research center cuts",
+        "display_categories": "Research center cuts",
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.orlandosentinel.com/2026/06/26/ucf-abruptly-shuts-down-some-campus-libraries-and-technology-resources/"
+      },
       {
         "announcement_date": "2025-11-21",
         "announcement_year": 2025,
@@ -1184,6 +1226,36 @@
         "positions_affected": null,
         "faculty_affected": null,
         "source_url": "https://www.emorywheel.com/article/2025/09/emory-ends-dei-programs"
+      }
+    ]
+  },
+  "140252": {
+    "unitid": "140252",
+    "financial_unitid": "140252",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "Life University",
+    "institution_alias": "LifeU",
+    "institution_unique_name": "Life University | Georgia",
+    "state": "Georgia",
+    "city": null,
+    "control_label": "Private not-for-profit",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-06-16",
+    "latest_cut_label": "30+ positions eliminated including 14 faculty — 401(k) matching discontinued to save $4.4M",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-06-16",
+        "announcement_year": 2026,
+        "program_name": "30+ positions eliminated including 14 faculty — 401(k) matching discontinued to save $4.4M",
+        "cut_label_public": "30+ positions eliminated including 14 faculty — 401(k) matching discontinued to save $4.4M",
+        "primary_display_category": "Staff layoffs / furloughs",
+        "display_category": "Staff layoffs / furloughs",
+        "display_categories": "Staff layoffs / furloughs",
+        "positions_affected": 14,
+        "faculty_affected": 14,
+        "source_url": "https://www.ajc.com/education/2026/06/life-university-makes-difficult-but-necessary-cuts-amid-financial-challenges/"
       }
     ]
   },
@@ -2037,14 +2109,14 @@
     "unitid": "151810",
     "financial_unitid": "151810",
     "has_financial_profile": true,
-    "is_primary_tracker": false,
+    "is_primary_tracker": true,
     "institution_name": "Martin University",
     "institution_alias": null,
     "institution_unique_name": "Martin University | Indiana",
     "state": "Indiana",
     "city": null,
-    "control_label": null,
-    "category": null,
+    "control_label": "Private not-for-profit",
+    "category": "Degree-granting, primarily baccalaureate or above",
     "latest_cut_date": "2025-12-09",
     "latest_cut_label": "Institution closing",
     "cut_count": 1,
@@ -2210,6 +2282,36 @@
         "positions_affected": null,
         "faculty_affected": null,
         "source_url": "https://news.drake.edu/2024/03/01/message-from-provost-sue-mattison/"
+      }
+    ]
+  },
+  "153603": {
+    "unitid": "153603",
+    "financial_unitid": "153603",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "Iowa State University",
+    "institution_alias": "ISU",
+    "institution_unique_name": "Iowa State University | Iowa",
+    "state": "Iowa",
+    "city": null,
+    "control_label": "Public",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-04-02",
+    "latest_cut_label": "10 degree programs eliminated and 13 consolidated under Iowa Board of Regents mandate",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-04-02",
+        "announcement_year": 2026,
+        "program_name": "10 degree programs eliminated and 13 consolidated under Iowa Board of Regents mandate",
+        "cut_label_public": "10 degree programs eliminated and 13 consolidated under Iowa Board of Regents mandate",
+        "primary_display_category": "Academic program cuts",
+        "display_category": "Academic program cuts",
+        "display_categories": "Academic program cuts",
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.highereddive.com/news/iowa-state-university-program-cuts-review-regents/817262/"
       }
     ]
   },
@@ -3545,10 +3647,22 @@
     "city": null,
     "control_label": "Private not-for-profit",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2026-04-27",
-    "latest_cut_label": "Men's (est. 1975) and women's (est. 1976) NCAA Division I tennis programs discontinued effective immediately following completion of 2025-26 season at Atlantic…",
-    "cut_count": 2,
+    "latest_cut_date": "2026-07-01",
+    "latest_cut_label": "80 vacant positions eliminated and filled faculty and staff cuts announced — FY2027 raises suspended",
+    "cut_count": 3,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-07-01",
+        "announcement_year": 2026,
+        "program_name": "80 vacant positions eliminated and filled faculty and staff cuts announced — FY2027 raises suspended",
+        "cut_label_public": "80 vacant positions eliminated and filled faculty and staff cuts announced — FY2027 raises suspended",
+        "primary_display_category": "Staff layoffs / furloughs",
+        "display_category": "Staff layoffs / furloughs",
+        "display_categories": "Staff layoffs / furloughs",
+        "positions_affected": 80,
+        "faculty_affected": 80,
+        "source_url": "https://www.ksdk.com/article/news/local/business-journal/slu-cuts-faculty-and-staff-positions-forgoes-raises-structural-deficit/63-f5e9b675-1607-48e8-a44b-3ca4a2dc54b3"
+      },
       {
         "announcement_date": "2026-04-27",
         "announcement_year": 2026,
@@ -5048,6 +5162,36 @@
         "positions_affected": 45,
         "faculty_affected": 45,
         "source_url": "https://www.wosu.org/2026-05-04/kent-state-university-says-it-will-lay-off-up-to-45-staff-in-the-coming-weeks"
+      }
+    ]
+  },
+  "203535": {
+    "unitid": "203535",
+    "financial_unitid": "203535",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "Kenyon College",
+    "institution_alias": "Kenyon",
+    "institution_unique_name": "Kenyon College | Ohio",
+    "state": "Ohio",
+    "city": null,
+    "control_label": "Private not-for-profit",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2025-11-20",
+    "latest_cut_label": "Voluntary early retirement accepted by 10-16 of 200 faculty to rightsize amid 6.5% enrollment decline",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2025-11-20",
+        "announcement_year": 2025,
+        "program_name": "Voluntary early retirement accepted by 10-16 of 200 faculty to rightsize amid 6.5% enrollment decline",
+        "cut_label_public": "Voluntary early retirement accepted by 10-16 of 200 faculty to rightsize amid 6.5% enrollment decline",
+        "primary_display_category": "Staff layoffs / furloughs",
+        "display_category": "Staff layoffs / furloughs",
+        "display_categories": "Staff layoffs / furloughs",
+        "positions_affected": 16,
+        "faculty_affected": 16,
+        "source_url": "https://kenyoncollegian.com/news/2026/01/bowman-gives-details-on-the-new-faculty-retirement-plan/"
       }
     ]
   },
@@ -7013,15 +7157,27 @@
     "city": null,
     "control_label": "Public",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2026-01-15",
-    "latest_cut_label": "Eastern Washington University announced the discontinuation of its Division I adaptive athletics program (wheelchair basketball) at the end of the 2025-26…",
-    "cut_count": 1,
+    "latest_cut_date": "2026-06-25",
+    "latest_cut_label": "9 degree programs discontinued unanimously including Gender Studies, Urban Planning and Applied Math",
+    "cut_count": 2,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-06-25",
+        "announcement_year": 2026,
+        "program_name": "9 degree programs discontinued unanimously including Gender Studies, Urban Planning and Applied Math",
+        "cut_label_public": "9 degree programs discontinued unanimously including Gender Studies, Urban Planning and Applied Math",
+        "primary_display_category": "Academic program cuts",
+        "display_category": "Academic program cuts",
+        "display_categories": "Academic program cuts",
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.inlander.com/news/eastern-washington-university-discontinues-nine-degree-programs-a-little-more-than-a-year-after-its/article_be95bad4-f092-4997-ac5e-c86495b938b0.html"
+      },
       {
         "announcement_date": "2026-01-15",
         "announcement_year": 2026,
-        "program_name": "Eastern Washington University announced the discontinuation of its Division I adaptive athletics program (wheelchair basketball) at the end of the 2025-26…",
-        "cut_label_public": "Eastern Washington University announced the discontinuation of its Division I adaptive athletics program (wheelchair basketball) at the end of the 2025-26…",
+        "program_name": "Eastern Washington University announced the discontinuation of its Division I adaptive athletics program (wheelchair basketball) at the end of the 2025-26 year.",
+        "cut_label_public": "Eastern Washington University announced the discontinuation of its Division I adaptive athletics program (wheelchair basketball) at the end of the 2025-26 year.",
         "primary_display_category": "Athletics cuts",
         "display_category": "Athletics cuts",
         "display_categories": "Athletics cuts",
@@ -7970,6 +8126,36 @@
         "positions_affected": null,
         "faculty_affected": null,
         "source_url": "https://www.insidehighered.com/news/quick-takes/2024/04/29/university-saint-katherine-announces-closure"
+      }
+    ]
+  },
+  "498571": {
+    "unitid": "498571",
+    "financial_unitid": "498571",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "Pennsylvania Western University",
+    "institution_alias": "PennWest University",
+    "institution_unique_name": "Pennsylvania Western University | Pennsylvania",
+    "state": "Pennsylvania",
+    "city": null,
+    "control_label": "Public",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-06-30",
+    "latest_cut_label": "43 academic majors and minors eliminated — replaced by dozens of workforce-focused certificates",
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-06-30",
+        "announcement_year": 2026,
+        "program_name": "43 academic majors and minors eliminated — replaced by dozens of workforce-focused certificates",
+        "cut_label_public": "43 academic majors and minors eliminated — replaced by dozens of workforce-focused certificates",
+        "primary_display_category": "Academic program cuts",
+        "display_category": "Academic program cuts",
+        "display_categories": "Academic program cuts",
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.post-gazette.com/news/education/2026/06/30/pennwest-program-cuts-california-arts-certificates/stories/202606290046"
       }
     ]
   },

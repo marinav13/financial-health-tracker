@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07",
+  "generated_at": "2026-07-08",
   "covered_accreditors": ["HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC"],
   "source_coverage": [
     {
@@ -550,11 +550,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 41,
-      "fetch_fresh_count": 41,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 41,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.3543,
+      "fetch_cache_age_max_days": 1.3546,
       "scrape_row_count": 2563
     },
     {
@@ -565,11 +565,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 1605,
-      "fetch_fresh_count": 1605,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 1605,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.3546,
+      "fetch_cache_age_max_days": 1.3684,
       "scrape_row_count": 4599
     },
     {
@@ -595,11 +595,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 25,
-      "fetch_fresh_count": 25,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 25,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.354,
+      "fetch_cache_age_max_days": 1.3541,
       "scrape_row_count": 41
     },
     {
@@ -610,11 +610,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 135,
-      "fetch_fresh_count": 135,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 135,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.3537,
+      "fetch_cache_age_max_days": 1.354,
       "scrape_row_count": 2
     },
     {
@@ -640,11 +640,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 13,
-      "fetch_fresh_count": 13,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 13,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.3541,
+      "fetch_cache_age_max_days": 1.3543,
       "scrape_row_count": 100
     },
     {
@@ -655,11 +655,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 26,
-      "fetch_fresh_count": 26,
-      "fetch_cache_read_count": 0,
+      "fetch_fresh_count": 0,
+      "fetch_cache_read_count": 26,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
+      "fetch_cache_age_min_days": 1.354,
+      "fetch_cache_age_max_days": 1.354,
       "scrape_row_count": 31
     }
   ],
@@ -954,16 +954,58 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Placed on warning for twelve months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, and sponsored research/external funds; Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.; Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "action_labels": "Continued the institution on warning for twelve (12) months for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and sponsored research/external funds; Continued the institution on warning for twelve (12) months for failure to comply with standards concerning Student achievement, Qualified administrative/academic officers, faculty, Program coordination, federal/state responsibilities, and Physical resources; Placed on warning for twelve months for failure to comply with standards concerning financial resources, financial documents, financial responsibility, and sponsored research/external funds; Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.; Requested to submit a Referral Report documenting compliance with accreditation standards",
         "active_actions": "notice; warning",
         "has_active_warning": true,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-12-07",
-        "latest_action_year": "2025",
-        "action_count": 3
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 5
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Todd: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June II, 2026: The SACSCOC Board of Trustees continued the institution on Warning. For twelve (12) months for failure to comply with Core Requirement 8.1 (Student achievement), Standard 5.4 (Qualified administrative/academic officers), Standard 6.2.b (Program faculty), Standard 6.2.c (Program coordination), Standard 13.6 (Federal and state responsibilities), and Standard 13.7 (Physical resources) of the Principles of Accreditation.",
+          "action_label_short": "Continued the institution on warning for twelve (12) months for failure to comply with standards concerning Student achievement, Qualified administrative/academic officers, faculty, Program coordination, federal/state responsibilities, and Physical resources",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/100681",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/100681",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Todd: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees continued the institution on Warning. For twelve (12) months for failure to comply with Core Requirement 13.1 (Financial Resources), Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), and Standard 13.5 (Control of sponsored research/external funds) of the Principles of Accreditation.",
+          "action_label_short": "Continued the institution on warning for twelve (12) months for failure to comply with standards concerning financial resources, financial responsibility, control of finances, and sponsored research/external funds",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/100681",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/100681",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "notice",
@@ -5405,6 +5447,60 @@
         }
       ]
     },
+    "156417": {
+      "unitid": "156417",
+      "financial_unitid": "156417",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Clear Creek Baptist Bible College",
+      "institution_alias": "Clear Creek Springs|Clear Creek Mountain Preachers Bible School|Clear Creek Baptist School|CCBBC",
+      "city": "Pineville",
+      "state": "Kentucky",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "SACSCOC",
+        "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "active_actions": "notice",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2020-12-04",
+        "latest_action_year": "2020",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Basedonly on those reviewed standards,the institution should submit a Referral Report due September 8, 2021, addressingthe standards ofthe Principles identified below.",
+          "action_label_short": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2020-12-04",
+          "action_year": "2020",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117469",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117469",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "SACSCOC",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/117469",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/117469"
+        }
+      ]
+    },
     "156471": {
       "unitid": "156471",
       "financial_unitid": "156471",
@@ -6621,16 +6717,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
-        "active_actions": "notice",
+        "action_labels": "Placed on probation for good cause for twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility); Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "active_actions": "notice; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2023-06-14",
-        "latest_action_year": "2023",
-        "action_count": 1
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "show_cause",
+          "action_label": "McNeely President University of Holy Cross 4123 Woodland Drive New Orleans, LA 70131-7399 Dear President McNeely: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees placed the institution on Probation for Good Cause. For twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility) of the Principles of Accreditation.",
+          "action_label_short": "Placed on probation for good cause for twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/118967",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/118967",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "notice",
@@ -6939,16 +7056,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "Merger of Maryland University of Integrative Health with Notre Dame of Maryland University (effective February 1, 2024)",
-        "active_actions": null,
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
+        "action_labels": "Merger of Maryland University of Integrative Health with Notre Dame of Maryland University (effective February 1, 2024); Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2024-01-25",
-        "latest_action_year": "2024",
-        "action_count": 1
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "MSCHE",
           "action_type": "other",
@@ -6972,6 +7110,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf"
+        },
         {
           "accreditor": "MSCHE",
           "source_title": "MSCHE Statement of Accreditation Status - Notre Dame of Maryland University",
@@ -7881,16 +8025,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "action_labels": "Placed on warning for twelve (12) months for failure to comply with standards concerning Student achievement, Program content, student outcomes, Policies for awarding credit, cooperative academic arrangements, and Student complaints; Requested to submit a Referral Report documenting compliance with accreditation standards",
         "active_actions": "notice",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-04-25",
-        "latest_action_year": "2025",
-        "action_count": 1
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Donzell Lee President Tougaloo College 500 West County Line Road Tougaloo, MS 39174 Dear President Lee: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees placed the institution on Warning: For twelve (12) months for failure to comply with Core Requirement 8.1 (Student achievement), Core Requirement 9.1 (Program content), Standard 8.2.a (Student outcomes: educational programs), Standard 10.7 (Policies for awarding credit), Standard 10.9 (Cooperative academic arrangements), Standard 12.4 (Student complaints), and Standard 13.6 (Federal and state responsibilities) of the Principles of Accreditation. A Special Committee was not authorized to visit the institution.",
+          "action_label_short": "Placed on warning for twelve (12) months for failure to comply with standards concerning Student achievement, Program content, student outcomes, Policies for awarding credit, cooperative academic arrangements, and Student complaints",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/124937",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/124937",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "notice",
@@ -8027,6 +8192,87 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/125046",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/125046"
+        }
+      ]
+    },
+    "176789": {
+      "unitid": "176789",
+      "financial_unitid": "176789",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Calvary University",
+      "institution_alias": null,
+      "city": "Kansas City",
+      "state": "Missouri",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Placed on Probation; Placed on Probation because it is out of compliance with standards concerning educational offerings, outcomes, and governance.",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-25",
+        "latest_action_year": "2026",
+        "action_count": 2
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation.",
+          "action_label_short": "Placed on Probation because it is out of compliance with standards concerning educational offerings, outcomes, and governance.",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-25",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Probation | The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. The Institution meets Core Component 3.C with concerns. The Institution does not meet Core Component 4.B and Assumed Practice D.1.",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/125082",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/125082",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "action_label_short": "Placed on Probation",
+          "action_scope": null,
+          "action_status": null,
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": null,
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": null,
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/125082",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/125082"
+        },
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
         }
       ]
     },
@@ -8661,16 +8907,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "Placed on Warning because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+        "action_labels": "Non-Compliance Warning; Placed on Warning because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
         "active_actions": "warning",
         "has_active_warning": true,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2024-03-14",
-        "latest_action_year": "2024",
-        "action_count": 1
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": null,
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": null,
+          "source_url": "https://msche.box.com/shared/static/hg09yjkpq7e08q88qahf7qwnsz3hc815.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/hg09yjkpq7e08q88qahf7qwnsz3hc815.pdf",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": null,
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "MSCHE",
           "action_type": "warning",
@@ -8694,6 +8961,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/hg09yjkpq7e08q88qahf7qwnsz3hc815.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/hg09yjkpq7e08q88qahf7qwnsz3hc815.pdf"
+        },
         {
           "accreditor": "MSCHE",
           "source_title": "DAPIP Institutional Accreditation Action",
@@ -8769,16 +9042,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "Continued Non-Compliance Probation; Continued on Probation because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Placed on Probation for insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+        "action_labels": "Continued Non-Compliance Probation; Continued on Probation because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Non-Compliance Probation; Placed on Probation for insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
         "active_actions": "probation",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2026-03-23",
+        "latest_action_date": "2026-07-06",
         "latest_action_year": "2026",
-        "action_count": 3
+        "action_count": 4
       },
       "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "probation",
+          "action_label": "Non-Compliance Probation",
+          "action_label_short": "Non-Compliance Probation",
+          "action_scope": null,
+          "action_status": null,
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": null,
+          "source_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/kjv0qwxl7sesejv0328yc1iglpgfkpdl.pdf",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": null,
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "MSCHE",
           "action_type": "probation",
@@ -9054,16 +9348,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "Approved Teach-Out Plan and Agreements; Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Required to Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
-        "active_actions": "adverse_action; show_cause",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
+        "action_labels": "Approved Teach-Out Plan and Agreements; Continued Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement); Non-Compliance Warning; Required to Show Cause because of insufficient evidence of compliance with Standard VI (Planning, Resources, and Institutional Improvement)",
+        "active_actions": "adverse_action; show_cause; warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
         "has_active_adverse_action": true,
-        "latest_action_date": "2025-12-05",
-        "latest_action_year": "2025",
-        "action_count": 3
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 4
       },
       "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/w6ujdy96h23fqoo08dal7lt4ipi1ces5.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/w6ujdy96h23fqoo08dal7lt4ipi1ces5.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "MSCHE",
           "action_type": "adverse_action",
@@ -9129,6 +9444,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/w6ujdy96h23fqoo08dal7lt4ipi1ces5.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/w6ujdy96h23fqoo08dal7lt4ipi1ces5.pdf"
+        },
         {
           "accreditor": "MSCHE",
           "source_title": "MSCHE Statement of Accreditation Status - Metropolitan College of New York",
@@ -9218,6 +9539,60 @@
         }
       ]
     },
+    "190761": {
+      "unitid": "190761",
+      "financial_unitid": "190761",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Dominican University New York",
+      "institution_alias": "Dominican University New York",
+      "city": "Orangeburg",
+      "state": "New York",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/bdnmebjsins5ct2s2944j9ur0chv5e11.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/bdnmebjsins5ct2s2944j9ur0chv5e11.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/bdnmebjsins5ct2s2944j9ur0chv5e11.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/bdnmebjsins5ct2s2944j9ur0chv5e11.pdf"
+        }
+      ]
+    },
     "191621": {
       "unitid": "191621",
       "financial_unitid": "191621",
@@ -9231,16 +9606,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "MSCHE",
-        "action_labels": "To warn the institution that its accreditation may be in jeopardy because of insufficient evidence that the institution is currently in compliance with: Standard II (Ethics and Integrity), Standard VI (Planning, Resources, and Institutional Improvement), and Standard VII (Governance, Leadership, and Administration); Warning removed",
-        "active_actions": null,
+        "action_labels": "Non-Compliance Probation; To warn the institution that its accreditation may be in jeopardy because of insufficient evidence that the institution is currently in compliance with: Standard II (Ethics and Integrity), Standard VI (Planning, Resources, and Institutional Improvement), and Standard VII (Governance, Leadership, and Administration); Warning removed",
+        "active_actions": "probation",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2024-02-15",
-        "latest_action_year": "2024",
-        "action_count": 2
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 3
       },
       "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "probation",
+          "action_label": "Non-Compliance Probation",
+          "action_label_short": "Non-Compliance Probation",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Probation",
+          "source_url": "https://msche.box.com/shared/static/bcycivjnzscr8v9y19qic375b92uofc9.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/bcycivjnzscr8v9y19qic375b92uofc9.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "MSCHE",
           "action_type": "removed",
@@ -9285,6 +9681,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/bcycivjnzscr8v9y19qic375b92uofc9.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/bcycivjnzscr8v9y19qic375b92uofc9.pdf"
+        },
         {
           "accreditor": "MSCHE",
           "source_title": "DAPIP Institutional Accreditation Action",
@@ -9515,6 +9917,60 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/131025",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/131025"
+        }
+      ]
+    },
+    "193353": {
+      "unitid": "193353",
+      "financial_unitid": "193353",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Mount Saint Mary College",
+      "institution_alias": "The Mount/Mount Saint Mary College",
+      "city": "Newburgh",
+      "state": "New York",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/quhk651ixkk0dukw2g11ni6vf4jktugx.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/quhk651ixkk0dukw2g11ni6vf4jktugx.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/quhk651ixkk0dukw2g11ni6vf4jktugx.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/quhk651ixkk0dukw2g11ni6vf4jktugx.pdf"
         }
       ]
     },
@@ -11031,16 +11487,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Placed on probation for good cause for twelve months for failure to comply with Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), and Standard 13.6 (Federal and state responsibilities); Requested to Submit a Monitoring Report on Financial Responsibility; Submitted institutional contingency teach-out plan required by SACSCOC. The teach-out plan is required\r\nbecause the institution was placed on probation for good cause.",
+        "action_labels": "Continued on probation for good cause for twelve (12) months for failure to comply with standards concerning financial responsibility, control of finances, sponsored research/external funds, and federal/state responsibilities; Placed on probation for good cause for twelve months for failure to comply with Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), and Standard 13.6 (Federal and state responsibilities); Requested to Submit a Monitoring Report on Financial Responsibility; Submitted institutional contingency teach-out plan required by SACSCOC. The teach-out plan is required\r\nbecause the institution was placed on probation for good cause.",
         "active_actions": "notice; probation; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-09-26",
-        "latest_action_year": "2025",
-        "action_count": 3
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 4
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "show_cause",
+          "action_label": "Smith University 100 Beatties Ford Road Charlotte, NC 28216 Dear President Kinloch: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees continued the institution on Probation for good cause. For twelve (12) months for failure to comply with Standard 13.3 (Financial responsibility), Standard 13.4 (Control of finances), Standard 13.5 (Control of sponsored research/external funds), and Standard 13.6 (Federal and state responsibilities) of the Principles of Accreditation.",
+          "action_label_short": "Continued on probation for good cause for twelve (12) months for failure to comply with standards concerning financial responsibility, control of finances, sponsored research/external funds, and federal/state responsibilities",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/133605",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133605",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "show_cause",
@@ -11505,16 +11982,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Placed on probation; Placed on warning; Placed on warning for twelve (12) months for failure to comply with Standard 13.1 (Financial resources) and Standard 13.3 (Financial responsibility); Removed from probation",
-        "active_actions": "probation; warning",
+        "action_labels": "Continued the institution on warning for twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility); Placed on probation; Placed on warning; Placed on warning for twelve (12) months for failure to comply with Standard 13.1 (Financial resources) and Standard 13.3 (Financial responsibility); Removed from probation",
+        "active_actions": "notice; probation; warning",
         "has_active_warning": true,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-06-12",
-        "latest_action_year": "2025",
-        "action_count": 5
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 6
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Bullard: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11,2026: The SACSCOC Board of Trustees continued the institution on Warning. For twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility) of the Principles of Accreditation.",
+          "action_label_short": "Continued the institution on warning for twelve (12) months for failure to comply with Core Requirement 13.1 (Financial resources) and Standard 13.3 (Financial responsibility)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/133997",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "warning",
@@ -12401,6 +12899,141 @@
         }
       ]
     },
+    "204200": {
+      "unitid": "204200",
+      "financial_unitid": "204200",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Mount St. Joseph University",
+      "institution_alias": "Mount St. Joseph University, Mount St. Joe, Mount, The Mount,Mount St. Joseph University on the Ohio.",
+      "city": "Cincinnati",
+      "state": "Ohio",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Approved continuation of accreditation related to change of control",
+        "active_actions": "other",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "other",
+          "action_label": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
+          "action_label_short": "Approved continuation of accreditation related to change of control",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-02",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
+    "204617": {
+      "unitid": "204617",
+      "financial_unitid": "204617",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Ohio Dominican University",
+      "institution_alias": "ODU",
+      "city": "Columbus",
+      "state": "Ohio",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Placed on Notice; Placed on Warning because it is at risk of being out of compliance with Core Component 4.B (Institution’s Financial and Personnel Resources).",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-25",
+        "latest_action_year": "2026",
+        "action_count": 2
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "warning",
+          "action_label": "Summary of the Action: The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation.",
+          "action_label_short": "Placed on Warning because it is at risk of being out of compliance with Core Component 4.B (Institution’s Financial and Personnel Resources).",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-25",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Warning | The Institution has been placed on Notice because it is at risk of being out of compliance with the Criteria for Accreditation. The Institution meets Core Component 4.B with concerns.",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/136376",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/136376",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
+        {
+          "accreditor": "HLC",
+          "action_type": "notice",
+          "action_label": "Placed on Notice. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "action_label_short": "Placed on Notice",
+          "action_scope": null,
+          "action_status": null,
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": null,
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": null,
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/136376",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/136376"
+        },
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
     "205027": {
       "unitid": "205027",
       "financial_unitid": "205027",
@@ -12845,6 +13478,60 @@
         }
       ]
     },
+    "210571": {
+      "unitid": "210571",
+      "financial_unitid": "210571",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Albright College",
+      "institution_alias": null,
+      "city": "Reading",
+      "state": "Pennsylvania",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/tnszwiqlai16s5p8qe8elyc6ob74igkt.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/tnszwiqlai16s5p8qe8elyc6ob74igkt.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/tnszwiqlai16s5p8qe8elyc6ob74igkt.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/tnszwiqlai16s5p8qe8elyc6ob74igkt.pdf"
+        }
+      ]
+    },
     "210669": {
       "unitid": "210669",
       "financial_unitid": "210669",
@@ -12971,6 +13658,60 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/138877",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/138877"
+        }
+      ]
+    },
+    "211556": {
+      "unitid": "211556",
+      "financial_unitid": "211556",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Chatham University",
+      "institution_alias": "Chatham",
+      "city": "Pittsburgh",
+      "state": "Pennsylvania",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/28zetyxsbzbp8ikhh9bffzjd6yc0rns1.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/28zetyxsbzbp8ikhh9bffzjd6yc0rns1.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/28zetyxsbzbp8ikhh9bffzjd6yc0rns1.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/28zetyxsbzbp8ikhh9bffzjd6yc0rns1.pdf"
         }
       ]
     },
@@ -13430,6 +14171,60 @@
         }
       ]
     },
+    "214157": {
+      "unitid": "214157",
+      "financial_unitid": "214157",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Moravian University",
+      "institution_alias": "Moravian Theological Seminary | Moravian | Moravian Seminary",
+      "city": "Bethlehem",
+      "state": "Pennsylvania",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Warning",
+        "active_actions": "warning",
+        "has_active_warning": true,
+        "has_active_warning_or_notice": true,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "warning",
+          "action_label": "Non-Compliance Warning",
+          "action_label_short": "Non-Compliance Warning",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Warning",
+          "source_url": "https://msche.box.com/shared/static/fur8osk7e17lzueess2xs4iljy96xms4.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/fur8osk7e17lzueess2xs4iljy96xms4.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/fur8osk7e17lzueess2xs4iljy96xms4.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/fur8osk7e17lzueess2xs4iljy96xms4.pdf"
+        }
+      ]
+    },
     "214883": {
       "unitid": "214883",
       "financial_unitid": "214883",
@@ -13664,6 +14459,60 @@
           "source_title": "MSCHE Statement of Accreditation Status - Saint Joseph’s University",
           "source_url": "https://www.msche.org/institution/0557/",
           "source_page_url": "https://www.msche.org/institution/0557/"
+        }
+      ]
+    },
+    "216542": {
+      "unitid": "216542",
+      "financial_unitid": "216542",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "University of Valley Forge",
+      "institution_alias": "VFCC; UVF; Valley Forge",
+      "city": "Phoenixville",
+      "state": "Pennsylvania",
+      "control_label": "Private not-for-profit",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "MSCHE",
+        "action_labels": "Non-Compliance Show Cause",
+        "active_actions": "show_cause",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-06",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "MSCHE",
+          "action_type": "show_cause",
+          "action_label": "Non-Compliance Show Cause",
+          "action_label_short": "Non-Compliance Show Cause",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Non-Compliance Show Cause",
+          "source_url": "https://msche.box.com/shared/static/sejuhprw93drq0dnjzupsgv2yxn06jmr.pdf",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_page_url": "https://msche.box.com/shared/static/sejuhprw93drq0dnjzupsgv2yxn06jmr.pdf",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "MSCHE",
+          "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
+          "source_url": "https://msche.box.com/shared/static/sejuhprw93drq0dnjzupsgv2yxn06jmr.pdf",
+          "source_page_url": "https://msche.box.com/shared/static/sejuhprw93drq0dnjzupsgv2yxn06jmr.pdf"
         }
       ]
     },
@@ -14768,6 +15617,87 @@
           "source_title": "DAPIP Institutional Accreditation Action",
           "source_url": "https://ope.ed.gov/dapip/#/institution-profile/142559",
           "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/142559"
+        }
+      ]
+    },
+    "219374": {
+      "unitid": "219374",
+      "financial_unitid": "219374",
+      "has_financial_profile": true,
+      "is_primary_tracker": true,
+      "institution_name": "Sinte Gleska University",
+      "institution_alias": null,
+      "city": "Mission",
+      "state": "South Dakota",
+      "control_label": "Public",
+      "category": "Degree-granting, primarily baccalaureate or above",
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Placed on Probation; Placed on Probation because it is out of compliance with standards concerning integrity, educational offerings, and outcomes.",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-25",
+        "latest_action_year": "2026",
+        "action_count": 2
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Summary of the Action: The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation.",
+          "action_label_short": "Placed on Probation because it is out of compliance with standards concerning integrity, educational offerings, and outcomes.",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-25",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Probation | The Institution has been placed on Probation because it is out of compliance with the Criteria for Accreditation. The Institution meets Core Components 2.B, 3.C, and 4.A with concerns. The Institution does not meet Core Components 3.E, 3.F, 3.G, and 4.C. The Institution also does not meet Assumed Practices A.5.a and B.2.a.",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/142993",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/142993",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "action_label_short": "Placed on Probation",
+          "action_scope": null,
+          "action_status": null,
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": null,
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": null,
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/142993",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/142993"
+        },
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
         }
       ]
     },
@@ -18087,16 +19017,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "action_labels": "Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.; Requested to submit a Referral Report documenting compliance with accreditation standards",
         "active_actions": "notice",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-04-25",
-        "latest_action_year": "2025",
-        "action_count": 1
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "notice",
+          "action_label": "Gordon Robertson Chancellor Regent University 1000 Regent University Drive Virginia Beach, VA 23464-9801 Dear Chancellor Robertson: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees requested a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.",
+          "action_label_short": "Requested to Submit a Monitoring Report in twelve (12) months to provide required oversight and resolution of compliance issues.",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Heightened Monitoring or Focused Review",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/147411",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147411",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "notice",
@@ -18459,16 +19410,37 @@
       "category": "Degree-granting, primarily baccalaureate or above",
       "latest_status": {
         "accreditors": "SACSCOC",
-        "action_labels": "Requested to submit a Referral Report documenting compliance with accreditation standards",
-        "active_actions": "notice",
+        "action_labels": "Placed on probation for good cause for twelve (12) months for failure to comply with Standard 13.3 (Financial responsibility); Requested to submit a Referral Report documenting compliance with accreditation standards",
+        "active_actions": "notice; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2023-06-14",
-        "latest_action_year": "2023",
-        "action_count": 1
+        "latest_action_date": "2026-06-11",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "SACSCOC",
+          "action_type": "show_cause",
+          "action_label": "Staunton, VA 24401 Dear President Telemeco: The following action regarding your institution was taken by the Board of Trustees of the Southern Association of Colleges and Schools Commission on Colleges (SACSCOC) during its meeting held on June 11, 2026: The SACSCOC Board of Trustees placed the institution on Probation for Good Cause. For twelve (12) months for failure to comply with Standard 13.3 (Financial responsibility) of the Principles of Accreditation.",
+          "action_label_short": "Placed on probation for good cause for twelve (12) months for failure to comply with Standard 13.3 (Financial responsibility)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-11",
+          "action_year": "2026",
+          "notes": "Probation or Equivalent or a More Severe Status: Show Cause",
+          "source_url": "https://ope.ed.gov/dapip/#/institution-profile/147758",
+          "source_title": "DAPIP Institutional Accreditation Action",
+          "source_page_url": "https://ope.ed.gov/dapip/#/institution-profile/147758",
+          "source_page_modified": null,
+          "display_action": true,
+          "public_table_strategy": "dapip_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": true,
+          "is_primary_tracker": true
+        },
         {
           "accreditor": "SACSCOC",
           "action_type": "notice",

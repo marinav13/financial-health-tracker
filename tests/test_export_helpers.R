@@ -3107,3 +3107,37 @@ run_test("derive_cut_summary_public caps to 4 sentences and uses override", func
   # NA notes -> NA
   assert_true(is.na(derive_cut_summary_public(NA_character_)))
 })
+
+run_test("is_substantive_dapip_transaction_review_candidate: real VWU/Sentara monitoring-family row routes to review", function() {
+  # The 2026-06-11 SACSCOC merger approval classifies into
+  # monitoring_or_notice (PDF-text classification), not ownership_change.
+  # This is the row the predicate was built for; it must route.
+  assert_true(isTRUE(is_substantive_dapip_transaction_review_candidate(
+    public_table_strategy = "dapip_backed_keep",
+    mapped_action_family = "monitoring_or_notice",
+    action_label_raw = "Approved the merger/consolidation of Virginia Wesleyan University and Sentara College of Health Sciences",
+    parsed_reason_text = NA_character_,
+    parsed_reason_snippet = NA_character_,
+    notes = NA_character_
+  )))
+
+  # A monitoring-family row with no transaction language must NOT route.
+  assert_true(!isTRUE(is_substantive_dapip_transaction_review_candidate(
+    public_table_strategy = "dapip_backed_keep",
+    mapped_action_family = "monitoring_or_notice",
+    action_label_raw = "Continued on monitoring pending the follow-up report",
+    parsed_reason_text = NA_character_,
+    parsed_reason_snippet = NA_character_,
+    notes = NA_character_
+  )))
+
+  # Other families still never route regardless of text.
+  assert_true(!isTRUE(is_substantive_dapip_transaction_review_candidate(
+    public_table_strategy = "dapip_backed_keep",
+    mapped_action_family = "adverse_action",
+    action_label_raw = "Accreditation withdrawn following the merger of the institution",
+    parsed_reason_text = NA_character_,
+    parsed_reason_snippet = NA_character_,
+    notes = NA_character_
+  )))
+})

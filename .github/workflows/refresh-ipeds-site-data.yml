@@ -20,6 +20,7 @@ env:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: site-data-writes
@@ -403,8 +404,15 @@ jobs:
       # refresh keeps going because public JSON is rebuilt from the last
       # committed reviewed snapshot, but the warnings are still surfaced for
       # human triage. See docs/OPERATIONS_MANUAL.md for remediation steps.
+      # Detects drift, updates the committed consecutive-week state file
+      # (pushed by the commit step below), and files/updates a GitHub Issue
+      # so drift on a green run actually notifies someone. Always exits 0;
+      # the chronic-drift red-run check is the job's final step so a red
+      # week still pushes data and appends review rows.
       - name: Report scraper drift warnings
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -o pipefail
           LOG=refresh-logs/combined.log
@@ -412,26 +420,81 @@ jobs:
             echo "Refresh log $LOG is empty — scrapers produced no output, failing to be safe."
             exit 1
           fi
-          # grep -E so the alternation works; -n for line numbers; || true so
-          # grep's "no match" exit code doesn't abort the step before we can
-          # decide. Patterns:
-          #   - the three named scraper drift warnings from the warn_* helpers
-          #   - the tail of warn_on_empty_parse's message (which does not
-          #     include the function name)
-          #   - "SCRAPER RETURNED 0 ROWS" from build_accreditation_actions.R.
-          #     Weekly refresh now runs with --allow-partial-accreditation,
-          #     so this stays a warning and is surfaced here for human triage.
-          MATCHES=$(grep -nE \
-            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS|carry review decisions' \
-            "$LOG" || true)
-          if [ -n "$MATCHES" ]; then
-            echo "::warning::Scraper drift warning(s) detected; weekly refresh continued because publish is pinned to the last committed reviewed snapshot."
-            echo "$MATCHES"
-            echo
-            echo "See docs/OPERATIONS_MANUAL.md for triage."
+          # Patterns, per source:
+          #   - accreditor scrapers: the warn_* helpers, empty-parse tail,
+          #     and "SCRAPER RETURNED 0 ROWS" (refresh runs with
+          #     --allow-partial-accreditation, so these are warnings).
+          #   - DAPIP / cuts API / Grant Witness: "PIPELINE DRIFT WARNING"
+          #     structured markers emitted at each source's 0-row path.
+          #   - "carry review decisions": the pull-step quarantine guard.
+          #   - "ANOMALY:": review-gate rows stranded outside the candidates.
+          ACC=$(grep -cE 'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS' "$LOG" || true)
+          DAPIP=$(grep -cE 'PIPELINE DRIFT WARNING: DAPIP' "$LOG" || true)
+          CUTS=$(grep -cE 'PIPELINE DRIFT WARNING: (College Cuts|fetch_all_api_cuts)' "$LOG" || true)
+          GW=$(grep -cE 'PIPELINE DRIFT WARNING: Grant Witness' "$LOG" || true)
+          QUAR=$(grep -cE 'carry review decisions' "$LOG" || true)
+          ANOM=$(grep -cE 'ANOMALY:' "$LOG" || true)
+
+          DRIFTED=""
+          [ "$ACC" -gt 0 ] && DRIFTED="$DRIFTED,accreditation_scrapers"
+          [ "$DAPIP" -gt 0 ] && DRIFTED="$DRIFTED,dapip"
+          [ "$CUTS" -gt 0 ] && DRIFTED="$DRIFTED,cuts_api"
+          [ "$GW" -gt 0 ] && DRIFTED="$DRIFTED,grant_witness"
+          [ "$QUAR" -gt 0 ] && DRIFTED="$DRIFTED,review_decision_quarantine"
+          [ "$ANOM" -gt 0 ] && DRIFTED="$DRIFTED,review_gate_anomaly"
+          DRIFTED="${DRIFTED#,}"
+
+          python3 scripts/ci/update_drift_state.py \
+            --state data_pipelines/drift_state.json \
+            --threshold 3 \
+            --drifted "$DRIFTED"
+
+          if [ -z "$DRIFTED" ]; then
+            echo "No scraper drift warnings found."
             exit 0
           fi
-          echo "No scraper drift warnings found."
+
+          MATCHES=$(grep -nE \
+            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS|PIPELINE DRIFT WARNING|carry review decisions|ANOMALY:' \
+            "$LOG" || true)
+          echo "::warning::Scraper drift warning(s) detected; weekly refresh continued because publish is pinned to the last committed reviewed snapshot."
+          echo "$MATCHES"
+          echo
+          echo "See docs/OPERATIONS_MANUAL.md for triage."
+
+          # Escalate through a tracked Issue (email notification to watchers).
+          # Failure to file must never fail the refresh.
+          {
+            RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            BODY_FILE=$(mktemp)
+            {
+              echo "Weekly refresh detected pipeline drift in: ${DRIFTED//,/, }"
+              echo
+              echo "Run: ${RUN_URL}"
+              echo
+              echo '```'
+              echo "$MATCHES" | head -50
+              echo '```'
+              echo
+              echo "Consecutive-week counts live in data_pipelines/drift_state.json; the run goes red when any source reaches 3. See docs/OPERATIONS_MANUAL.md for triage."
+            } > "$BODY_FILE"
+            gh label create pipeline-drift \
+              --description "Automated weekly-refresh drift reports" \
+              --color D93F0B 2>/dev/null || true
+            EXISTING=$(gh issue list --label pipeline-drift --state open \
+              --json number --jq '.[0].number' 2>/dev/null || true)
+            if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+              gh issue comment "$EXISTING" --body-file "$BODY_FILE"
+              echo "Commented on existing drift issue #$EXISTING"
+            else
+              gh issue create \
+                --title "Pipeline drift detected by weekly refresh" \
+                --label pipeline-drift \
+                --body-file "$BODY_FILE"
+              echo "Filed new drift issue"
+            fi
+          } || echo "::warning::Could not file/update the pipeline-drift issue; drift is still visible in this run's annotations."
+          exit 0
 
       - name: Upload refresh logs
         if: always()
@@ -465,6 +528,7 @@ jobs:
             --add data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             --add data_pipelines/scorecard/tracker_outcomes_joined.csv \
             --add-if-exists data_pipelines/college_cuts/review_quarantine.csv \
+            --add-if-exists data_pipelines/drift_state.json \
             --conflict-path data/ \
             --conflict-path data_pipelines/accreditation/accreditation_review_candidates.csv \
             --conflict-path data_pipelines/accreditation/accreditation_tracker_actions_joined.csv \
@@ -508,3 +572,14 @@ jobs:
             --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
             --verbose \
             || echo "::warning::College cuts review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
+
+      # Runs LAST deliberately: data push and review-sheet appends have
+      # already completed, so a chronic-drift red run loses nothing — it
+      # only makes week-3+ drift impossible to ignore.
+      - name: Fail on chronic pipeline drift
+        shell: bash
+        run: |
+          python3 scripts/ci/update_drift_state.py \
+            --state data_pipelines/drift_state.json \
+            --threshold 3 \
+            --check-only

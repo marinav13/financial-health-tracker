@@ -3141,3 +3141,78 @@ run_test("is_substantive_dapip_transaction_review_candidate: real VWU/Sentara mo
     notes = NA_character_
   )))
 })
+
+run_test("resolve_dapip_persisted_summary_short surfaces the DAPIP justification when the summary repeats the bare label", function() {
+  # Real Notre Dame of Maryland row (2024-01-25 GO action).
+  ndm_notes <- paste(
+    "Grant Substantive Change: Ownership |",
+    "Merger of Maryland University of Integrative Health with Notre Dame of",
+    "Maryland University: institution meets the requirements for this substantive change"
+  )
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Grant Substantive Change: Ownership",
+      summary_text = "Grant Substantive Change: Ownership",
+      action_type = "other",
+      accreditor = "MSCHE",
+      notes = ndm_notes,
+      action_label_raw = "Grant Substantive Change: Ownership"
+    ),
+    paste(
+      "Merger of Maryland University of Integrative Health with Notre Dame of",
+      "Maryland University: institution meets the requirements for this substantive change"
+    )
+  )
+
+  # A PDF-derived snippet that already differs from the label is untouched.
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Placed on Probation for insufficient evidence of compliance",
+      summary_text = "long letter body",
+      action_type = "probation",
+      accreditor = "MSCHE",
+      notes = "Probation or Equivalent or a More Severe Status: Probation",
+      action_label_raw = "To place the institution on probation"
+    ),
+    "Placed on Probation for insufficient evidence of compliance"
+  )
+
+  # No justification beyond the label: summary stays the label.
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Grant Substantive Change: Ownership",
+      summary_text = "Grant Substantive Change: Ownership",
+      action_type = "other",
+      accreditor = "MSCHE",
+      notes = "Grant Substantive Change: Ownership",
+      action_label_raw = "Grant Substantive Change: Ownership"
+    ),
+    "Grant Substantive Change: Ownership"
+  )
+
+  # Notes whose first segment is not the label are not treated as
+  # label-plus-justification.
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Grant Substantive Change: Ownership",
+      summary_text = "Grant Substantive Change: Ownership",
+      action_type = "other",
+      accreditor = "MSCHE",
+      notes = "Some unrelated preamble | trailing text",
+      action_label_raw = "Grant Substantive Change: Ownership"
+    ),
+    "Grant Substantive Change: Ownership"
+  )
+
+  # Backward compatible: no action_label_raw supplied, persisted wins as before.
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Approved merger of University of Redlands and Woodbury University",
+      summary_text = "letter body",
+      action_type = "other",
+      accreditor = "WSCUC",
+      notes = "Grant Substantive Change: Ownership"
+    ),
+    "Approved merger of University of Redlands and Woodbury University"
+  )
+})

@@ -584,6 +584,44 @@ jobs:
             --verbose \
             || echo "::warning::College cuts review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
 
+      # Site hosting lives in the public hechinger/FinancialHealth repo,
+      # which deliberately contains no data_pipelines/ CSVs (editorial
+      # decision, 2026-07-08: derived review/override data is not public).
+      # This pipeline is the single writer: it publishes the data/ exports
+      # (and a regenerated sitemap) to the public repo after its own commit
+      # lands. Skips quietly until the PUBLIC_SITE_DEPLOY_TOKEN secret (a
+      # fine-grained PAT with contents:write on hechinger/FinancialHealth)
+      # is configured. Publish failures warn and self-heal next run.
+      - name: Publish site data to public repo
+        if: success()
+        shell: bash
+        timeout-minutes: 10
+        env:
+          PUBLIC_SITE_DEPLOY_TOKEN: ${{ secrets.PUBLIC_SITE_DEPLOY_TOKEN }}
+        run: |
+          if [ -z "${PUBLIC_SITE_DEPLOY_TOKEN}" ]; then
+            echo "PUBLIC_SITE_DEPLOY_TOKEN secret is not set; skipping public site publish."
+            exit 0
+          fi
+          rm -rf "$RUNNER_TEMP/pubsite"
+          git clone --depth 1 \
+            "https://x-access-token:${PUBLIC_SITE_DEPLOY_TOKEN}@github.com/hechinger/FinancialHealth.git" \
+            "$RUNNER_TEMP/pubsite"
+          rsync -a --delete data/ "$RUNNER_TEMP/pubsite/data/"
+          cp scripts/build_sitemap.py "$RUNNER_TEMP/pubsite/scripts/build_sitemap.py"
+          (cd "$RUNNER_TEMP/pubsite" && python3 scripts/build_sitemap.py)
+          cd "$RUNNER_TEMP/pubsite"
+          git config user.name "The Hechinger Report"
+          git config user.email "noreply@hechingerreport.org"
+          git add -A data/ sitemap.xml scripts/build_sitemap.py
+          if git diff --staged --quiet; then
+            echo "No public site changes to publish."
+            exit 0
+          fi
+          git commit -m "chore: update site data [skip ci]"
+          git push origin HEAD \
+            || echo "::warning::Public site publish failed; the public repo will catch up on the next successful refresh."
+
       # Runs LAST deliberately: data push and review-sheet appends have
       # already completed, so a chronic-drift red run loses nothing — it
       # only makes week-3+ drift impossible to ignore.

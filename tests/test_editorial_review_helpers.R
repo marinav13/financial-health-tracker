@@ -2081,3 +2081,45 @@ run_test("Quarantine CSV appends dropped decision rows and dedupes within a day"
   assert_identical(nrow(saved), 2L)
   assert_true(all(c("cut_id", "quarantined_at") %in% names(saved)))
 })
+
+run_test("Review sheet header order assert refuses mismatched tabs before positional appends", function() {
+  make_empty <- function(columns) {
+    as.data.frame(
+      setNames(rep(list(character(0)), length(columns)), columns),
+      stringsAsFactors = FALSE
+    )
+  }
+  good <- make_empty(COLLEGE_CUTS_REVIEW_SHEET_COLUMNS)
+  assert_review_sheet_header_order(
+    good, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+    normalizer = normalize_college_cuts_sheet_headers
+  )
+
+  swapped <- good[, c(2L, 1L, seq(3L, ncol(good))), drop = FALSE]
+  err <- tryCatch({
+    assert_review_sheet_header_order(
+      swapped, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+      normalizer = normalize_college_cuts_sheet_headers
+    )
+    NULL
+  }, error = function(e) e)
+  assert_true(!is.null(err), "Swapped header order must be refused")
+
+  short <- good[, seq(1L, ncol(good) - 1L), drop = FALSE]
+  err_short <- tryCatch({
+    assert_review_sheet_header_order(
+      short, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+      normalizer = normalize_college_cuts_sheet_headers
+    )
+    NULL
+  }, error = function(e) e)
+  assert_true(!is.null(err_short), "Missing trailing column must be refused")
+
+  formatted <- make_empty(ACCREDITATION_REVIEW_SHEET_COLUMNS)
+  names(formatted)[names(formatted) == "generated_statement"] <- "action_edited"
+  names(formatted)[names(formatted) == "action_label_raw"] <- "action_raw"
+  assert_review_sheet_header_order(
+    formatted, ACCREDITATION_REVIEW_SHEET_COLUMNS, "accreditation_review",
+    normalizer = normalize_accreditation_review_sheet_headers
+  )
+})

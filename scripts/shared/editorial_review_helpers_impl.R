@@ -976,6 +976,25 @@ assert_accreditation_review_sheet_header <- function(df) {
   invisible(df)
 }
 
+# Positional sheet_append corrupts every appended cell when the tab's
+# header order differs from the local column contract (the row_origin=date
+# incident, audit doc 3.2). Callers must refuse to append into a tab whose
+# normalized header order does not start with the expected contract.
+assert_review_sheet_header_order <- function(sheet_rows, expected_columns, tab_label, normalizer = identity) {
+  if (is.null(sheet_rows) || !ncol(sheet_rows)) return(invisible(sheet_rows))
+  actual <- names(normalizer(sheet_rows))
+  expected <- as.character(expected_columns)
+  if (length(actual) < length(expected) || !identical(actual[seq_along(expected)], expected)) {
+    stop(sprintf(paste(
+      "Review sheet tab `%s` header order does not match the expected column contract;",
+      "refusing to append (positional sheet_append would corrupt rows).",
+      "Expected: %s.",
+      "Actual: %s"
+    ), tab_label, paste(expected, collapse = ", "), paste(actual, collapse = ", ")), call. = FALSE)
+  }
+  invisible(sheet_rows)
+}
+
 # Returns the action_id of an existing override row that describes the same
 # real-world event as the candidate, or NA if no match.
 # Matches on: same unitid + accreditor + date within 30 days + compatible action_type.

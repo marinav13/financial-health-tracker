@@ -900,6 +900,27 @@ assert_accreditation_review_sheet_header <- function(df) {
 # real-world event as the candidate, or NA if no match.
 # Matches on: same unitid + accreditor + date within 30 days + compatible action_type.
 # All existing rows (approved, reject, unreviewed) suppress the new candidate.
+# HLC institution pages expose a bare status badge ("On Probation",
+# "On Notice") alongside the real board-action listings. Staging never
+# creates override rows for these badge rows, so the apply-only review
+# gate must apply the same exemption or every gated export fails on
+# committed candidates that can never have overrides.
+is_hlc_institution_status_page_row <- function(accreditor, source_url, action_label_raw) {
+  mask <- (
+    trim_text(accreditor) == "HLC" &
+    stringr::str_detect(
+      dplyr::coalesce(source_url, ""),
+      "hlcommission\\.org/institution/"
+    ) &
+    stringr::str_detect(
+      dplyr::coalesce(action_label_raw, ""),
+      stringr::regex("^\\s*On\\s+(Probation|Warning|Notice|Show\\s+Cause)\\s*$", ignore_case = TRUE)
+    )
+  )
+  mask[is.na(mask)] <- FALSE
+  mask
+}
+
 find_cross_source_duplicate_id <- function(candidate_row, overrides) {
   if (!nrow(overrides)) return(NA_character_)
 
@@ -958,6 +979,24 @@ canonicalize_accreditation_review_gate_action_ids <- function(candidates, overri
   if (!nrow(review_candidates)) return(character())
 
   candidate_ids <- trim_text(review_candidates$action_id)
+
+  status_page_candidate_mask <- is_hlc_institution_status_page_row(
+    review_candidates$accreditor,
+    review_candidates$source_url,
+    review_candidates$action_label_raw
+  )
+  if (any(status_page_candidate_mask)) {
+    message(sprintf(
+      paste(
+        "Apply-only accreditation review gate: exempting %d HLC institution-page",
+        "status candidate(s) that staging deliberately leaves unstaged."
+      ),
+      sum(status_page_candidate_mask)
+    ))
+    review_candidates <- review_candidates[!status_page_candidate_mask, , drop = FALSE]
+    candidate_ids <- candidate_ids[!status_page_candidate_mask]
+  }
+
   if (!nrow(override_rows)) {
     return(unique(candidate_ids[nzchar(candidate_ids)]))
   }
@@ -1026,18 +1065,11 @@ stage_accreditation_editorial_overrides <- function(candidates,
   new_rows <- review_candidates[!(review_candidates$action_id %in% trim_text(overrides$action_id)), , drop = FALSE]
 
   if (nrow(new_rows)) {
-    hlc_status_page_mask <- (
-      trim_text(new_rows$accreditor) == "HLC" &
-      stringr::str_detect(
-        dplyr::coalesce(new_rows$source_url, ""),
-        "hlcommission\\.org/institution/"
-      ) &
-      stringr::str_detect(
-        dplyr::coalesce(new_rows$action_label_raw, ""),
-        stringr::regex("^\\s*On\\s+(Probation|Warning|Notice|Show\\s+Cause)\\s*$", ignore_case = TRUE)
-      )
+    hlc_status_page_mask <- is_hlc_institution_status_page_row(
+      new_rows$accreditor,
+      new_rows$source_url,
+      new_rows$action_label_raw
     )
-    hlc_status_page_mask[is.na(hlc_status_page_mask)] <- FALSE
     if (any(hlc_status_page_mask)) {
       suppressed <- new_rows[hlc_status_page_mask, , drop = FALSE]
       for (i in seq_len(nrow(suppressed))) {

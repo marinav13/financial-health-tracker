@@ -1178,6 +1178,93 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
   assert_identical(trim_text(applied$action_label_short[[1]]), "Existing warning")
 })
 
+run_test("HLC institution-page status rows are exempt from staging and the apply-only review gate", function() {
+  make_hlc_candidate <- function(action_id, action_label_raw) {
+    data.frame(
+      action_id = action_id,
+      unitid = "204617",
+      institution_name = "Ohio Dominican University",
+      accreditor = "HLC",
+      action_date = "2026-07-02",
+      action_type = "notice",
+      action_label_raw = action_label_raw,
+      generated_statement = action_label_raw,
+      source_url = "https://www.hlcommission.org/institution/ohio-dominican-university/",
+      source_title = "HLC institution page",
+      row_origin = "scraper",
+      stringsAsFactors = FALSE
+    )
+  }
+  badge_id <- compute_accreditation_action_id(
+    "204617", "HLC", "2026-07-02", "On Notice",
+    "204617", "Ohio Dominican University"
+  )
+  real_label <- "Placed on Notice by the Board of Trustees for financial reasons."
+  real_id <- compute_accreditation_action_id(
+    "204617", "HLC", "2026-07-02", real_label,
+    "204617", "Ohio Dominican University"
+  )
+  badge_candidate <- make_hlc_candidate(badge_id, "On Notice")
+  real_candidate <- make_hlc_candidate(real_id, real_label)
+  candidates <- rbind(badge_candidate, real_candidate)
+
+  assert_true(
+    is_hlc_institution_status_page_row(
+      badge_candidate$accreditor, badge_candidate$source_url, badge_candidate$action_label_raw
+    ),
+    "Bare status badge on an HLC institution page must match the mask"
+  )
+  assert_true(
+    !is_hlc_institution_status_page_row(
+      real_candidate$accreditor, real_candidate$source_url, real_candidate$action_label_raw
+    ),
+    "A real action label must not match the mask"
+  )
+  assert_true(
+    !is_hlc_institution_status_page_row("MSCHE", badge_candidate$source_url, "On Notice"),
+    "Non-HLC rows must not match the mask"
+  )
+
+  staged <- stage_accreditation_editorial_overrides(candidates, first_seen = "2026-07-07")
+  assert_true(!(badge_id %in% staged$action_id), "Staging must suppress the badge row")
+  assert_true(real_id %in% staged$action_id, "Staging must keep the real action")
+
+  allowed_ids <- canonicalize_accreditation_review_gate_action_ids(candidates, staged)
+  assert_true(!(badge_id %in% allowed_ids), "Gate must exempt the badge candidate")
+  assert_true(real_id %in% allowed_ids, "Gate must keep the staged candidate")
+
+  # Regression for the 2026-07-07 publish failure: an enforced gated export
+  # whose committed candidates include a badge row must not stop() on the
+  # badge row's missing override; it drops the badge action and publishes
+  # the approved real action.
+  staged$review_status[trim_text(staged$action_id) == real_id] <- "approved"
+  staged$reviewer[trim_text(staged$action_id) == real_id] <- "MV"
+  actions_df <- data.frame(
+    export_unitid = c("204617", "204617"),
+    unitid = c("204617", "204617"),
+    export_institution_name = c("Ohio Dominican University", "Ohio Dominican University"),
+    accreditor = c("HLC", "HLC"),
+    action_date = c("2026-07-02", "2026-07-02"),
+    action_type = c("notice", "notice"),
+    action_label_raw = c("On Notice", real_label),
+    action_label_short = c("On Notice", "Placed on Notice"),
+    source_url = rep(badge_candidate$source_url, 2L),
+    source_title = c("HLC institution page", "HLC institution page"),
+    source_page_url = rep(badge_candidate$source_url, 2L),
+    stringsAsFactors = FALSE
+  )
+  applied <- apply_accreditation_editorial_overrides(
+    actions_df,
+    staged,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = allowed_ids,
+    drop_unlisted = TRUE,
+    gate_mask = c(TRUE, TRUE)
+  )
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$action_id[[1]]), real_id)
+})
+
 run_test("Apply-only accreditation review gate does not canonicalize teach-out process rows to later resignation actions", function() {
   overrides <- data.frame(
     action_id = "existing-6",

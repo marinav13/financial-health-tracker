@@ -410,6 +410,12 @@ build_cuts_export <- function() {
     }
   )
 
+  for (text_column in c("program_name", "cut_label_override_effective", "cut_description_override_effective")) {
+    if (text_column %in% names(cuts)) {
+      cuts[[text_column]] <- clean_text_extraction_artifacts(cuts[[text_column]])
+    }
+  }
+
   if (nrow(cuts) > 0L) {
     cuts <- cuts %>%
       mutate(
@@ -2938,6 +2944,16 @@ build_accreditation_export <- function() {
   )
 
   actions_df <- reconcile_accreditation_tracker_metadata(actions_df, accreditor_col = "accreditor")
+
+  # Write-boundary text repair: every public accreditation output (JSON,
+  # index, school files) derives from actions_df past this point, and no
+  # id or gate logic runs after it, so cleaning here cannot perturb the
+  # pipeline (see clean_text_extraction_artifacts).
+  for (text_column in c("action_label_raw", "action_label_short")) {
+    if (text_column %in% names(actions_df)) {
+      actions_df[[text_column]] <- clean_text_extraction_artifacts(actions_df[[text_column]])
+    }
+  }
 
   # Always include all accreditors the project actively tracks, even if the
   # scraper returned zero rows for one of them (e.g. NWCCU with no qualifying

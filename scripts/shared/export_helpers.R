@@ -2899,6 +2899,73 @@ resolve_dapip_persisted_summary_text <- function(parsed_reason_text = NA_charact
   )
 }
 
+# PDF text extraction loses ligature glyphs and curly apostrophes as
+# U+FFFD replacement characters ("ac\uFFFDons", "a\uFFFDer",
+# "institution\uFFFDs") and sometimes keeps raw ligature codepoints
+# ("e\uFB00ec\uFFFDve"). Repairs are word-validated against a domain
+# vocabulary so an unrecognized token is left alone rather than guessed
+# wrong. Applied ONLY at the export write boundary - stored raw labels,
+# action ids, and every pipeline identity check are untouched.
+TEXT_EXTRACTION_REPAIR_WORDS <- c(
+  "action", "actions", "activities", "additional", "affiliation", "after",
+  "accreditation", "accreditations", "certification", "condition",
+  "conditions", "consideration", "considerations", "continuation",
+  "designation", "education", "educational", "effective", "evaluation",
+  "financial", "function", "functions", "information", "institution",
+  "institutional", "institutions", "instruction", "notification",
+  "notifications", "obligations", "office", "official", "operation",
+  "operations", "probation", "reaffirmation", "recommendation",
+  "recommendations", "restoration", "retention", "sanction", "sanctions",
+  "section", "sections", "situation", "staff", "sufficient", "termination",
+  "transition", "tuition"
+)
+
+.repair_extraction_token <- function(token) {
+  candidates <- c("'", "ti", "ft", "fi", "ffi", "fl", "ff", "tt")
+  for (candidate in candidates) {
+    repaired <- gsub("\uFFFD", candidate, token, fixed = TRUE)
+    base <- tolower(repaired)
+    base <- sub("'s$", "", base)
+    base <- gsub("'", "", base)
+    if (base %in% TEXT_EXTRACTION_REPAIR_WORDS) {
+      return(repaired)
+    }
+  }
+  token
+}
+
+clean_text_extraction_artifacts <- function(x) {
+  values <- as.character(x)
+  needs_repair <- !is.na(values) &
+    grepl("[\uFFFD\uFB00-\uFB04]", values, perl = TRUE)
+  if (!any(needs_repair)) {
+    return(values)
+  }
+
+  ligature_map <- c(
+    "\uFB00" = "ff", "\uFB01" = "fi", "\uFB02" = "fl",
+    "\uFB03" = "ffi", "\uFB04" = "ffl"
+  )
+
+  values[needs_repair] <- vapply(values[needs_repair], function(value) {
+    for (ligature in names(ligature_map)) {
+      value <- gsub(ligature, ligature_map[[ligature]], value, fixed = TRUE)
+    }
+    # Repair word tokens containing U+FFFD, one token at a time.
+    pattern <- "[A-Za-z]+(?:\uFFFD[A-Za-z]*)+"
+    match_data <- gregexpr(pattern, value, perl = TRUE)
+    tokens <- regmatches(value, match_data)[[1]]
+    if (length(tokens)) {
+      regmatches(value, match_data)[[1]] <- vapply(tokens, .repair_extraction_token, character(1))
+    }
+    # Anything left (stray or trailing replacement chars) is dropped.
+    value <- gsub("\uFFFD", "", value, fixed = TRUE)
+    value
+  }, character(1), USE.NAMES = FALSE)
+
+  values
+}
+
 resolve_dapip_persisted_summary_source <- function(parsed_reason_source = NA_character_,
                                                    action_label_raw,
                                                    file_text_path = NA_character_,

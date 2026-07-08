@@ -389,6 +389,12 @@ main <- function(cli_args = NULL) {
     nrow(filtered_df),
     nrow(files_df)
   ))
+  if (!nrow(raw_df) || !nrow(filtered_df)) {
+    message(
+      "PIPELINE DRIFT WARNING: DAPIP build produced 0 raw and/or 0 filtered action rows - ",
+      "the download may have failed or the source schema may have changed."
+    )
+  }
 }
 
 if (sys.nframe() == 0) {

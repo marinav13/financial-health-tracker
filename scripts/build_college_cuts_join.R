@@ -352,10 +352,14 @@ main <- function(cli_args = NULL) {
       # Guard against API responses that omit totalPages (schema drift).
       total_pages <- body$totalPages
       if (is.null(total_pages) || !is.numeric(total_pages) || length(total_pages) != 1L) {
+        # Single format string: the previous two-string form passed the
+        # "(got: %s)" text as an unused sprintf argument, silently dropping it.
         warning(sprintf(
-          "fetch_all_api_cuts: page %d response missing or malformed totalPages field ",
+          paste0(
+            "PIPELINE DRIFT WARNING: fetch_all_api_cuts: page %d response missing or ",
+            "malformed totalPages field (got: %s). Stopping pagination early."
+          ),
           page,
-          "(got: %s). Stopping pagination early.",
           paste(deparse(total_pages), collapse = "")
         ), call. = FALSE)
         break
@@ -368,6 +372,12 @@ main <- function(cli_args = NULL) {
       "  Pagination complete: %d page(s), %d record(s) fetched.",
       page, length(all_rows)
     ))
+    if (!length(all_rows)) {
+      message(
+        "PIPELINE DRIFT WARNING: College Cuts API pagination returned 0 records - ",
+        "the upstream feed may be empty or its schema may have changed."
+      )
+    }
     all_rows
   }
 

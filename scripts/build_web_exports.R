@@ -399,7 +399,15 @@ build_cuts_export <- function() {
     enforce_review_gate = enforce_cuts_review_gate,
     allowed_cut_ids = committed_review_candidates$cut_id %||% NULL,
     drop_unlisted = isTRUE(apply_only_cuts_review_gate),
-    gate_mask = cuts$is_primary_tracker %in% TRUE
+    gate_mask = cuts$is_primary_tracker %in% TRUE,
+    current_candidate_ids = if (isTRUE(apply_only_cuts_review_gate)) {
+      build_college_cuts_review_candidates(
+        dplyr::filter(cuts, is_primary_tracker %in% TRUE),
+        tracker_unitids = schools_index$unitid
+      )$cut_id
+    } else {
+      NULL
+    }
   )
 
   if (nrow(cuts) > 0L) {
@@ -2767,7 +2775,14 @@ build_accreditation_export <- function() {
     enforce_review_gate = enforce_review_gate,
     allowed_action_ids = allowed_review_action_ids,
     drop_unlisted = isTRUE(apply_only_review_gate),
-    gate_mask = actions_df$is_primary_tracker %in% TRUE
+    gate_mask = actions_df$is_primary_tracker %in% TRUE,
+    current_candidate_ids = if (isTRUE(apply_only_review_gate)) {
+      build_accreditation_review_candidates(
+        dplyr::filter(actions_df, is_primary_tracker %in% TRUE)
+      )$action_id
+    } else {
+      NULL
+    }
   )
 
   actions_df <- reconcile_accreditation_tracker_metadata(actions_df, accreditor_col = "accreditor")

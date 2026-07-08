@@ -669,6 +669,13 @@ main <- function(cli_args = NULL) {
       )
   }
 
+  if (!nrow(grants_joined)) {
+    message(
+      "PIPELINE DRIFT WARNING: Grant Witness produced 0 grant rows after standardization - ",
+      "the cached downloads may be empty or the source format may have changed."
+    )
+  }
+
   # -----------------------------------------------------------------------
   # DEDUPLICATION: Keep one best row per award/institution pair
   grants_joined <- grants_joined |>

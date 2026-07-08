@@ -22,6 +22,7 @@ main <- function(cli_args = NULL) {
   email <- get_arg_value("--email", NA_character_)
   cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
   verbose <- has_flag("--verbose")
+  force_discard <- has_flag("--force-discard-decisions")
 
   require_existing_local_file(
     input_path,
@@ -69,6 +70,57 @@ main <- function(cli_args = NULL) {
   )
 
   sheet_target <- extract_google_sheet_id(sheet_target)
+
+  # Never blind-overwrite the live tab: inspect it first and refuse to
+  # destroy or revert rows that carry editorial decisions (see the
+  # 2026-07-06/07 wipe post-mortem in docs/PHASE0_PIPELINE_AUDIT.md).
+  guard_result <- tryCatch({
+    current_sheet_rows <- read_google_sheet_table(
+      ss = sheet_target,
+      sheet_name = sheet_tab,
+      verbose = verbose
+    )
+    if (nrow(current_sheet_rows)) {
+      find_review_rows_lost_by_rewrite(
+        coerce_accreditation_review_sheet_rows(current_sheet_rows),
+        rewritten_rows,
+        id_column = "action_id"
+      )
+    } else {
+      NULL
+    }
+  }, error = function(e) e)
+  if (inherits(guard_result, "error")) {
+    if (!isTRUE(force_discard)) {
+      stop(sprintf(paste(
+        "Could not inspect current tab `%s` before rewriting (%s).",
+        "Refusing to overwrite a tab whose contents cannot be verified.",
+        "Re-run with --force-discard-decisions to overwrite anyway."
+      ), sheet_tab, conditionMessage(guard_result)), call. = FALSE)
+    }
+    message(sprintf(
+      "--force-discard-decisions: current tab could not be inspected (%s); overwriting anyway.",
+      conditionMessage(guard_result)
+    ))
+  } else if (!is.null(guard_result) && nrow(guard_result) > 0L) {
+    dump_path <- file.path(getwd(), "data_pipelines", "accreditation", "rewrite_blocked_decision_rows.csv")
+    dir.create(dirname(dump_path), recursive = TRUE, showWarnings = FALSE)
+    write_csv_atomic(guard_result, dump_path)
+    sample_ids <- paste(utils::head(unique(trim_text(guard_result$action_id)), 5L), collapse = ", ")
+    if (!isTRUE(force_discard)) {
+      stop(sprintf(paste(
+        "Refusing to rewrite tab `%s`: %d sheet row(s) carry review decisions the rewrite would discard or revert.",
+        "Their current values were saved to %s.",
+        "Sample action_id values: %s.",
+        "Re-run with --force-discard-decisions to overwrite them anyway."
+      ), sheet_tab, nrow(guard_result), dump_path, sample_ids), call. = FALSE)
+    }
+    message(sprintf(
+      "--force-discard-decisions: overwriting %d decision-carrying sheet row(s); previous values saved to %s.",
+      nrow(guard_result), dump_path
+    ))
+  }
+
   googlesheets4::sheet_write(
     data = format_accreditation_review_sheet_headers(
       rewritten_rows[, ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]

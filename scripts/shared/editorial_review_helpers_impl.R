@@ -26,6 +26,86 @@ is_terminal_review_decision <- function(x) {
   trim_text(x) %in% c("approved", "reject")
 }
 
+REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD <- 20L
+
+# A review row "carries an editorial decision" when an editor has touched
+# it. Any non-blank review_status other than the staging default
+# "unreviewed" counts -- deliberately including unexpected vocabulary, so
+# unknown statuses block destructive paths instead of passing them.
+# Populated reviewer metadata also counts even when review_status was left
+# at the default. Guards call this before any path that could discard
+# sheet rows (stale-row dropping, full-tab rewrites).
+review_sheet_row_has_decision <- function(review_status,
+                                          reviewer = NULL,
+                                          reviewer_notes = NULL,
+                                          reviewed_at = NULL) {
+  status_values <- trim_text(review_status)
+  mask <- nzchar(status_values) & status_values != "unreviewed"
+  for (values in list(reviewer, reviewer_notes, reviewed_at)) {
+    if (!is.null(values)) {
+      mask <- mask | nzchar(trim_text(values))
+    }
+  }
+  mask
+}
+
+# Rows in the live review tab that a full-tab rewrite would destroy:
+# decision-carrying rows missing from the rewrite payload entirely, or
+# present but with the decision reverted to unreviewed. The rewrite
+# scripts refuse to overwrite the tab while this returns rows unless
+# --force-discard-decisions is passed.
+find_review_rows_lost_by_rewrite <- function(current_rows, payload_rows, id_column) {
+  if (is.null(current_rows) || !nrow(current_rows)) {
+    return(current_rows)
+  }
+  current_ids <- trim_text(current_rows[[id_column]])
+  payload_ids <- trim_text(payload_rows[[id_column]])
+  decision_mask <- review_sheet_row_has_decision(
+    current_rows$review_status,
+    current_rows$reviewer,
+    current_rows$reviewer_notes,
+    current_rows$reviewed_at
+  )
+  payload_index <- match(current_ids, payload_ids)
+  missing_mask <- decision_mask & (!nzchar(current_ids) | is.na(payload_index))
+  payload_status <- trim_text(payload_rows$review_status[payload_index])
+  status_values <- trim_text(current_rows$review_status)
+  reverted_mask <- nzchar(status_values) & status_values != "unreviewed" &
+    !is.na(payload_index) &
+    (!nzchar(payload_status) | payload_status == "unreviewed")
+  current_rows[missing_mask | reverted_mask, , drop = FALSE]
+}
+
+# Durable preservation for decision-carrying sheet rows that a pull had to
+# exclude from the merge (stale sheet-only rows). Appends to the committed
+# quarantine CSV, deduplicating on id + quarantined_at so repeated pulls on
+# the same day do not grow the file.
+append_review_quarantine_rows <- function(rows, path, id_column) {
+  if (is.null(rows) || !nrow(rows)) {
+    return(invisible(NULL))
+  }
+  quarantined <- as.data.frame(
+    lapply(rows, function(x) as.character(x)),
+    stringsAsFactors = FALSE
+  )
+  quarantined$quarantined_at <- as.character(Sys.Date())
+  existing <- if (file.exists(path)) {
+    readr::read_csv(
+      path,
+      col_types = readr::cols(.default = readr::col_character()),
+      show_col_types = FALSE
+    )
+  } else {
+    NULL
+  }
+  combined <- dplyr::bind_rows(existing, quarantined)
+  dedupe_key <- paste(trim_text(combined[[id_column]]), trim_text(combined$quarantined_at))
+  combined <- combined[!duplicated(dedupe_key), , drop = FALSE]
+  dir.create(dirname(path), recursive = TRUE, showWarnings = FALSE)
+  write_csv_atomic(combined, path)
+  invisible(combined)
+}
+
 coerce_false_default_logical <- function(x) {
   values <- as.logical(x)
   values[is.na(values)] <- FALSE
@@ -1322,7 +1402,11 @@ apply_accreditation_editorial_overrides <- function(actions_df,
   if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
     unexpected_rows <- gate_rows & !(review_actions$action_id %in% allowed_ids)
     if (any(unexpected_rows)) {
-      message(sprintf(paste("Apply-only accreditation review gate: ignoring %d recomputed action(s)", "that are not present in the committed review candidate snapshot."), sum(unexpected_rows)))
+      unexpected_ids <- unique(trim_text(review_actions$action_id[unexpected_rows]))
+      message(sprintf(paste("Apply-only accreditation review gate: ignoring %d recomputed action(s)", "that are not present in the committed review candidate snapshot.", "Sample action_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      if (sum(unexpected_rows) > REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD) {
+        warning(sprintf(paste("Apply-only accreditation review gate ignored %d recomputed action(s),", "above the %d-row threshold: the committed snapshot and recomputed actions may have drifted."), sum(unexpected_rows), REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD), call. = FALSE)
+      }
       review_actions <- review_actions[!unexpected_rows, , drop = FALSE]
       gate_rows <- gate_rows[!unexpected_rows]
     }
@@ -2236,7 +2320,8 @@ drop_stale_college_cuts_sheet_rows <- function(sheet_rows,
   if (!nrow(sheet_data)) {
     return(list(
       kept_rows = sheet_data,
-      dropped_rows = sheet_data
+      dropped_rows = sheet_data,
+      quarantined_rows = sheet_data
     ))
   }
 
@@ -2250,10 +2335,22 @@ drop_stale_college_cuts_sheet_rows <- function(sheet_rows,
   local_mask <- nzchar(sheet_ids) & (sheet_ids %in% local_ids)
   current_candidate_mask <- nzchar(sheet_ids) & (sheet_ids %in% candidate_ids)
   stale_non_human_mask <- !human_mask & !local_mask & !current_candidate_mask
+  # Stale rows that carry editorial decisions are never silently dropped:
+  # they are excluded from the merge (they have no local row to merge into)
+  # but returned separately so the caller can preserve them durably.
+  decision_mask <- review_sheet_row_has_decision(
+    sheet_data$review_status,
+    sheet_data$reviewer,
+    sheet_data$reviewer_notes,
+    sheet_data$reviewed_at
+  )
+  quarantine_mask <- stale_non_human_mask & decision_mask
+  drop_mask <- stale_non_human_mask & !decision_mask
 
   list(
     kept_rows = sheet_data[!stale_non_human_mask, , drop = FALSE],
-    dropped_rows = sheet_data[stale_non_human_mask, , drop = FALSE]
+    dropped_rows = sheet_data[drop_mask, , drop = FALSE],
+    quarantined_rows = sheet_data[quarantine_mask, , drop = FALSE]
   )
 }
 
@@ -2402,7 +2499,11 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   if (length(allowed_ids) > 0L && isTRUE(drop_unlisted)) {
     unexpected_rows <- gate_rows & !(review_cuts$cut_id %in% allowed_ids)
     if (any(unexpected_rows)) {
-      message(sprintf(paste("Apply-only college cuts review gate: ignoring %d recomputed cut row(s)", "that are not present in the committed review candidate snapshot."), sum(unexpected_rows)))
+      unexpected_ids <- unique(trim_text(review_cuts$cut_id[unexpected_rows]))
+      message(sprintf(paste("Apply-only college cuts review gate: ignoring %d recomputed cut row(s)", "that are not present in the committed review candidate snapshot.", "Sample cut_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      if (sum(unexpected_rows) > REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD) {
+        warning(sprintf(paste("Apply-only college cuts review gate ignored %d recomputed cut row(s),", "above the %d-row threshold: the committed snapshot and recomputed cuts may have drifted."), sum(unexpected_rows), REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD), call. = FALSE)
+      }
       review_cuts <- review_cuts[!unexpected_rows, , drop = FALSE]
       gate_rows <- gate_rows[!unexpected_rows]
     }

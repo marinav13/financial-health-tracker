@@ -444,7 +444,7 @@ jobs:
           #     Weekly refresh now runs with --allow-partial-accreditation,
           #     so this stays a warning and is surfaced here for human triage.
           MATCHES=$(grep -nE \
-            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS' \
+            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS|carry review decisions' \
             "$LOG" || true)
           if [ -n "$MATCHES" ]; then
             echo "::warning::Scraper drift warning(s) detected; weekly refresh continued because publish is pinned to the last committed reviewed snapshot."
@@ -491,6 +491,9 @@ jobs:
             data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             data_pipelines/scorecard/tracker_outcomes_joined.csv \
             || true
+          if [ -f data_pipelines/college_cuts/review_quarantine.csv ]; then
+            git add -f data_pipelines/college_cuts/review_quarantine.csv
+          fi
           if git diff --staged --quiet; then
             echo "No data changes to commit."
             exit 0

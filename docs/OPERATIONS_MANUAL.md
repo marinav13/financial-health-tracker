@@ -607,6 +607,23 @@ What to check:
 - the review sheet tabs named in workflow env
 - header consistency before rerunning the sheet sync steps
 
+Accreditation-specific note:
+
+- the accreditation review stack has two load-bearing absorption layers for
+  drifted `action_id` values:
+  - stage-time cross-source duplicate suppression in
+    `stage_accreditation_editorial_overrides()`
+  - gate-time canonicalization in
+    `canonicalize_accreditation_review_gate_action_ids()`
+- both layers match on unitid + accreditor + +/- 30 days + compatible type, then
+  require raw-vs-raw label similarity using the stored `source_action_label_raw`
+  and the incoming candidate `action_label_raw`
+- do not compare against human-edited `override_*` text when debugging or
+  changing these layers; doing so would requeue every edited approved row on
+  the next matching refresh
+- if weekly refresh logs `Suppressing cross-source duplicate: ...`, treat that
+  as triage-worthy drift, not just routine noise
+
 #### `Rebuild static web exports (candidate generation)`
 #### `Rebuild static web exports (review gate)`
 

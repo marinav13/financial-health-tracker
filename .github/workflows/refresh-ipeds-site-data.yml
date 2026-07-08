@@ -449,6 +449,16 @@ jobs:
             --threshold 3 \
             --drifted "$DRIFTED"
 
+          # Cross-source duplicate suppression is load-bearing absorption
+          # (C1): surface it for triage as a notice, but keep it out of the
+          # drift-state taxonomy - it firing weekly is expected behavior and
+          # must never accumulate toward a chronic-drift red run.
+          SUPPRESS=$(grep -nE 'Suppressing cross-source duplicate' "$LOG" || true)
+          if [ -n "$SUPPRESS" ]; then
+            echo "::notice::Cross-source duplicate suppression fired this run (expected absorption; triage if the folded rows look wrong)."
+            echo "$SUPPRESS"
+          fi
+
           if [ -z "$DRIFTED" ]; then
             echo "No scraper drift warnings found."
             exit 0

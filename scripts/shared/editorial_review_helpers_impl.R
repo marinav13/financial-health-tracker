@@ -1385,7 +1385,8 @@ apply_accreditation_editorial_overrides <- function(actions_df,
                                                     enforce_review_gate = FALSE,
                                                     allowed_action_ids = NULL,
                                                     drop_unlisted = FALSE,
-                                                    gate_mask = NULL) {
+                                                    gate_mask = NULL,
+                                                    current_candidate_ids = NULL) {
   override_rows <- coerce_accreditation_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
@@ -1422,7 +1423,18 @@ apply_accreditation_editorial_overrides <- function(actions_df,
     unexpected_rows <- gate_rows & !(review_actions$action_id %in% allowed_ids)
     if (any(unexpected_rows)) {
       unexpected_ids <- unique(trim_text(review_actions$action_id[unexpected_rows]))
-      message(sprintf(paste("Apply-only accreditation review gate: ignoring %d recomputed action(s)", "that are not present in the committed review candidate snapshot.", "Sample action_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      current_ids <- unique(trim_text(current_candidate_ids))
+      current_ids <- current_ids[nzchar(current_ids)]
+      if (length(current_ids) > 0L) {
+        new_this_week_ids <- unexpected_ids[unexpected_ids %in% current_ids]
+        anomaly_ids <- unexpected_ids[!(unexpected_ids %in% current_ids)]
+        message(sprintf(paste("Apply-only accreditation review gate: withholding %d new recomputed action(s) pending review", "(present in current candidates, absent from the committed snapshot).", "Sample action_id values: %s"), length(new_this_week_ids), paste(utils::head(new_this_week_ids, 5L), collapse = ", ")))
+        if (length(anomaly_ids) > 0L) {
+          warning(sprintf(paste("ANOMALY: %d recomputed accreditation action(s) are in the export assembly but absent from the", "current review candidates - they cannot enter the review queue and stay withheld from", "publication indefinitely (audit doc 3.10). Sample action_id values: %s"), length(anomaly_ids), paste(utils::head(anomaly_ids, 5L), collapse = ", ")), call. = FALSE)
+        }
+      } else {
+        message(sprintf(paste("Apply-only accreditation review gate: ignoring %d recomputed action(s)", "that are not present in the committed review candidate snapshot.", "Sample action_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      }
       if (sum(unexpected_rows) > REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD) {
         warning(sprintf(paste("Apply-only accreditation review gate ignored %d recomputed action(s),", "above the %d-row threshold: the committed snapshot and recomputed actions may have drifted."), sum(unexpected_rows), REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD), call. = FALSE)
       }
@@ -2483,7 +2495,8 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
                                                    enforce_review_gate = FALSE,
                                                    allowed_cut_ids = NULL,
                                                    drop_unlisted = FALSE,
-                                                   gate_mask = NULL) {
+                                                   gate_mask = NULL,
+                                                   current_candidate_ids = NULL) {
   override_rows <- coerce_college_cuts_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
@@ -2519,7 +2532,18 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
     unexpected_rows <- gate_rows & !(review_cuts$cut_id %in% allowed_ids)
     if (any(unexpected_rows)) {
       unexpected_ids <- unique(trim_text(review_cuts$cut_id[unexpected_rows]))
-      message(sprintf(paste("Apply-only college cuts review gate: ignoring %d recomputed cut row(s)", "that are not present in the committed review candidate snapshot.", "Sample cut_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      current_ids <- unique(trim_text(current_candidate_ids))
+      current_ids <- current_ids[nzchar(current_ids)]
+      if (length(current_ids) > 0L) {
+        new_this_week_ids <- unexpected_ids[unexpected_ids %in% current_ids]
+        anomaly_ids <- unexpected_ids[!(unexpected_ids %in% current_ids)]
+        message(sprintf(paste("Apply-only college cuts review gate: withholding %d new recomputed cut row(s) pending review", "(present in current candidates, absent from the committed snapshot).", "Sample cut_id values: %s"), length(new_this_week_ids), paste(utils::head(new_this_week_ids, 5L), collapse = ", ")))
+        if (length(anomaly_ids) > 0L) {
+          warning(sprintf(paste("ANOMALY: %d recomputed cut row(s) are in the export assembly but absent from the", "current review candidates - they cannot enter the review queue and stay withheld from", "publication indefinitely (audit doc 3.10). Sample cut_id values: %s"), length(anomaly_ids), paste(utils::head(anomaly_ids, 5L), collapse = ", ")), call. = FALSE)
+        }
+      } else {
+        message(sprintf(paste("Apply-only college cuts review gate: ignoring %d recomputed cut row(s)", "that are not present in the committed review candidate snapshot.", "Sample cut_id values: %s"), sum(unexpected_rows), paste(utils::head(unexpected_ids, 5L), collapse = ", ")))
+      }
       if (sum(unexpected_rows) > REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD) {
         warning(sprintf(paste("Apply-only college cuts review gate ignored %d recomputed cut row(s),", "above the %d-row threshold: the committed snapshot and recomputed cuts may have drifted."), sum(unexpected_rows), REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD), call. = FALSE)
       }

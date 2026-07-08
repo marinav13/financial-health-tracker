@@ -2123,3 +2123,117 @@ run_test("Review sheet header order assert refuses mismatched tabs before positi
     normalizer = normalize_accreditation_review_sheet_headers
   )
 })
+
+run_test("Apply-only gate splits ignored actions into new-this-week vs anomalies", function() {
+  overrides <- data.frame(
+    action_id = "existing-1",
+    source_unitid = "100",
+    source_institution_name = "Example University",
+    source_accreditor = "SACSCOC",
+    source_action_date = "2025-12-01",
+    source_action_type = "warning",
+    source_action_label_raw = "Warning",
+    source_generated_statement = "Warning",
+    source_source_url = "https://example.org/existing",
+    source_source_title = "Existing source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = NA_character_,
+    override_generated_statement = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = NA_character_,
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+  make_action <- function(unitid, label) {
+    data.frame(
+      export_unitid = unitid,
+      unitid = unitid,
+      export_institution_name = "Example University",
+      accreditor = "SACSCOC",
+      action_date = "2025-12-01",
+      action_type = "warning",
+      action_label_raw = label,
+      action_label_short = label,
+      source_url = "https://example.org/existing",
+      source_title = "Existing source",
+      source_page_url = "https://example.org/existing",
+      stringsAsFactors = FALSE
+    )
+  }
+  # Row 1 joins the allowed override; rows 2-3 are unexpected. Different
+  # unitids keep them clear of the cross-source matcher.
+  actions_df <- dplyr::bind_rows(
+    make_action("100", "Warning"),
+    make_action("200", "New warning this week"),
+    make_action("300", "Stranded action")
+  )
+  ids <- vapply(seq_len(nrow(actions_df)), function(i) {
+    compute_accreditation_action_id(
+      actions_df$unitid[[i]], actions_df$accreditor[[i]], actions_df$action_date[[i]],
+      actions_df$action_label_raw[[i]], actions_df$export_unitid[[i]],
+      actions_df$export_institution_name[[i]]
+    )
+  }, character(1))
+  overrides$action_id <- ids[[1]]
+
+  msgs <- character()
+  warns <- character()
+  applied <- withCallingHandlers(
+    apply_accreditation_editorial_overrides(
+      actions_df,
+      overrides,
+      enforce_review_gate = FALSE,
+      allowed_action_ids = ids[[1]],
+      drop_unlisted = TRUE,
+      gate_mask = rep(TRUE, 3L),
+      current_candidate_ids = ids[[2]]
+    ),
+    message = function(m) {
+      msgs <<- c(msgs, conditionMessage(m))
+      invokeRestart("muffleMessage")
+    },
+    warning = function(w) {
+      warns <<- c(warns, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  assert_identical(nrow(applied), 1L)
+  assert_true(any(grepl("withholding 1 new recomputed action", msgs)),
+              "By-design bucket must be reported as withheld-pending-review")
+  assert_true(any(grepl(sprintf("ANOMALY: 1 recomputed.*%s", ids[[3]]), warns)),
+              "Anomaly bucket must warn with the stranded id")
+  assert_true(!any(grepl(ids[[2]], warns)),
+              "New-this-week id must not appear in the anomaly warning")
+
+  # Without current_candidate_ids the legacy single-bucket message remains.
+  msgs2 <- character()
+  applied2 <- withCallingHandlers(
+    apply_accreditation_editorial_overrides(
+      actions_df,
+      overrides,
+      enforce_review_gate = FALSE,
+      allowed_action_ids = ids[[1]],
+      drop_unlisted = TRUE,
+      gate_mask = rep(TRUE, 3L)
+    ),
+    message = function(m) {
+      msgs2 <<- c(msgs2, conditionMessage(m))
+      invokeRestart("muffleMessage")
+    },
+    warning = function(w) invokeRestart("muffleWarning")
+  )
+  assert_identical(nrow(applied2), 1L)
+  assert_true(any(grepl("ignoring 2 recomputed action", msgs2)),
+              "Legacy message must remain when no current candidate ids are supplied")
+})

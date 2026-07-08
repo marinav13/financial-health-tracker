@@ -1276,8 +1276,12 @@ stage_accreditation_editorial_overrides <- function(candidates,
         }
         if (
           trim_text(overrides$review_status[[match_index]]) == "approved" &&
+          !(overrides$inactive[[match_index]] %in% TRUE) &&
           !isTRUE(matched_override$labels_identical)
         ) {
+          # Tombstoned rows are excluded from the flip: they are unpublished
+          # regardless of review_status, and clearing their reviewer metadata
+          # would silently discard the approval if the row is ever revived.
           overrides$review_status[[match_index]] <- "unreviewed"
           overrides$reviewer[[match_index]] <- NA_character_
           overrides$reviewer_notes[[match_index]] <- NA_character_

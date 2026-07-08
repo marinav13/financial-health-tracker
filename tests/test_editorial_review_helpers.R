@@ -2720,3 +2720,50 @@ run_test("Sheet-facing selection and staging both respect tombstones", function(
   )
   assert_identical(nrow(sheet_rows), 0L)
 })
+
+run_test("Cross-source fold never flips a tombstoned approved row to unreviewed", function() {
+  tombstoned <- make_tombstone_test_override(
+    "act-dead-approved", "100",
+    review_status = "approved",
+    inactive = TRUE,
+    inactive_reason = "teachout_cleanup"
+  )
+  # Same institution/accreditor, 6 days apart, same type, reworded label:
+  # similar enough to suppress, different enough that an active approved row
+  # would flip to unreviewed.
+  candidate <- data.frame(
+    action_id = "new-reworded",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-07",
+    action_type = "warning",
+    action_label_raw = "Warning continued for good cause",
+    generated_statement = "Warning continued for good cause",
+    source_url = "https://example.org/new",
+    source_title = "New source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+  tombstoned$source_action_label_raw <- "Warning continued"
+  tombstoned$source_generated_statement <- "Warning continued"
+
+  staged <- stage_accreditation_editorial_overrides(candidate, tombstoned, first_seen = "2026-07-08")
+  assert_true(!("new-reworded" %in% trim_text(staged$action_id)),
+              "Reworded duplicate must still be suppressed by the tombstoned row")
+  row <- staged[trim_text(staged$action_id) == "act-dead-approved", , drop = FALSE]
+  assert_identical(trim_text(row$review_status), "approved",
+                   "Tombstoned approved row must keep its review_status")
+  assert_identical(trim_text(row$reviewer), "MV",
+                   "Tombstoned approved row must keep its reviewer metadata")
+  assert_true(row$inactive %in% TRUE, "Row stays tombstoned")
+
+  # Control: the same fold against an ACTIVE approved row does flip.
+  active <- tombstoned
+  active$inactive <- FALSE
+  active$inactive_reason <- NA_character_
+  staged2 <- stage_accreditation_editorial_overrides(candidate, active, first_seen = "2026-07-08")
+  row2 <- staged2[trim_text(staged2$action_id) == "act-dead-approved", , drop = FALSE]
+  assert_identical(trim_text(row2$review_status), "unreviewed",
+                   "Active approved row with changed raw text must flip to unreviewed")
+})

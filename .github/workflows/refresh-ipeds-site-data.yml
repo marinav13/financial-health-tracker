@@ -303,52 +303,30 @@ jobs:
           echo "${GOOGLE_SERVICE_ACCOUNT_JSON_B64}" | base64 --decode > "$RUNNER_TEMP/google-service-account.json"
           echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/google-service-account.json" >> "$GITHUB_ENV"
 
-      # Stage before pull so a prior failed weekly run that appended rows to
-      # the Google Sheet but died before committing editorial_overrides.csv can
-      # be repaired from the freshly rebuilt candidate CSV on the next run.
+      # Staging is CSV-only: new candidate rows are written to
+      # editorial_overrides.csv and reach the Google Sheet only after the
+      # CSV commit lands (see "Append new review rows to Google Sheet" at
+      # the end of this job). A run that dies mid-way therefore never
+      # leaves sheet-only orphan rows behind (audit doc 3.1).
       - name: Stage accreditation review queue
         shell: bash
         timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
         run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
-            Rscript ./scripts/stage_accreditation_review.R \
-              --input data_pipelines/accreditation/accreditation_review_candidates.csv \
-              --output data_pipelines/accreditation/editorial_overrides.csv \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            Rscript ./scripts/stage_accreditation_review.R \
-              --input data_pipelines/accreditation/accreditation_review_candidates.csv \
-              --output data_pipelines/accreditation/editorial_overrides.csv \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          fi
+          Rscript ./scripts/stage_accreditation_review.R \
+            --input data_pipelines/accreditation/accreditation_review_candidates.csv \
+            --output data_pipelines/accreditation/editorial_overrides.csv \
+            --verbose \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Stage college cuts review queue
         shell: bash
         timeout-minutes: 15
-        env:
-          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
         run: |
-          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
-            Rscript ./scripts/stage_college_cuts_review.R \
-              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
-              --output data_pipelines/college_cuts/editorial_overrides.csv \
-              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
-              --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          else
-            Rscript ./scripts/stage_college_cuts_review.R \
-              --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
-              --output data_pipelines/college_cuts/editorial_overrides.csv \
-              --verbose \
-              2>&1 | tee -a refresh-logs/combined.log
-          fi
+          Rscript ./scripts/stage_college_cuts_review.R \
+            --input data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+            --output data_pipelines/college_cuts/editorial_overrides.csv \
+            --verbose \
+            2>&1 | tee -a refresh-logs/combined.log
 
       - name: Pull accreditation review decisions
         shell: bash
@@ -444,7 +422,7 @@ jobs:
           #     Weekly refresh now runs with --allow-partial-accreditation,
           #     so this stays a warning and is surfaced here for human triage.
           MATCHES=$(grep -nE \
-            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS' \
+            'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS|carry review decisions' \
             "$LOG" || true)
           if [ -n "$MATCHES" ]; then
             echo "::warning::Scraper drift warning(s) detected; weekly refresh continued because publish is pinned to the last committed reviewed snapshot."
@@ -491,6 +469,9 @@ jobs:
             data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             data_pipelines/scorecard/tracker_outcomes_joined.csv \
             || true
+          if [ -f data_pipelines/college_cuts/review_quarantine.csv ]; then
+            git add -f data_pipelines/college_cuts/review_quarantine.csv
+          fi
           if git diff --staged --quiet; then
             echo "No data changes to commit."
             exit 0
@@ -590,3 +571,33 @@ jobs:
           done
           echo "All push attempts failed."
           exit 1
+
+      # Sheet appends deliberately run AFTER commit-and-push: a row may
+      # reach the review Sheet only once it exists in a pushed commit of
+      # editorial_overrides.csv. If this step fails, the new rows stay
+      # CSV-only and the next successful run recomputes the same diff and
+      # appends them then (self-healing). The strict pull guard therefore
+      # never sees sheet-only orphan rows from a dead run (audit doc 3.1).
+      - name: Append new review rows to Google Sheet (post-commit)
+        if: success()
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -z "${ACCREDITATION_REVIEW_SHEET_ID}" ] || [ -z "${GOOGLE_APPLICATION_CREDENTIALS:-}" ]; then
+            echo "Skipping review sheet append; Google Sheet credentials are not configured."
+            exit 0
+          fi
+          Rscript ./scripts/sync_review_sheet_appends.R \
+            --pipeline accreditation \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${ACCREDITATION_REVIEW_SHEET_TAB}" \
+            --verbose \
+            || echo "::warning::Accreditation review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
+          Rscript ./scripts/sync_review_sheet_appends.R \
+            --pipeline cuts \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
+            --verbose \
+            || echo "::warning::College cuts review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."

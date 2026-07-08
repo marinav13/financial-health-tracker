@@ -66,11 +66,31 @@ pull_college_cuts_overrides <- function(input_path,
     local_cut_ids = local_overrides$cut_id,
     candidate_cut_ids = candidate_ids
   )
-  if (verbose && nrow(filtered_sheet$dropped_rows) > 0L) {
+  if (nrow(filtered_sheet$dropped_rows) > 0L) {
     message(
       "Ignoring stale sheet-only scraper row(s) that are absent from both local overrides and current candidates: ",
-      nrow(filtered_sheet$dropped_rows)
+      nrow(filtered_sheet$dropped_rows),
+      ". Sample cut_id values: ",
+      paste(utils::head(unique(trim_text(filtered_sheet$dropped_rows$cut_id)), 5L), collapse = ", ")
     )
+  }
+  if (nrow(filtered_sheet$quarantined_rows) > 0L) {
+    quarantine_path <- file.path(dirname(output_path), "review_quarantine.csv")
+    append_review_quarantine_rows(
+      filtered_sheet$quarantined_rows,
+      quarantine_path,
+      id_column = "cut_id"
+    )
+    message(sprintf(
+      paste(
+        "WARNING: %d stale sheet-only row(s) carry review decisions and were NOT merged.",
+        "Their current values are preserved in %s and the Sheet rows were left untouched.",
+        "Sample cut_id values: %s"
+      ),
+      nrow(filtered_sheet$quarantined_rows),
+      quarantine_path,
+      paste(utils::head(unique(trim_text(filtered_sheet$quarantined_rows$cut_id)), 5L), collapse = ", ")
+    ))
   }
   sheet_rows <- filtered_sheet$kept_rows
 

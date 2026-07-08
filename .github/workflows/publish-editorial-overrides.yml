@@ -289,6 +289,9 @@ jobs:
               data_pipelines/college_cuts/editorial_overrides.csv
             commit_message="chore: publish editorial updates [skip ci]"
           fi
+          if [ -f data_pipelines/college_cuts/review_quarantine.csv ]; then
+            git add -f data_pipelines/college_cuts/review_quarantine.csv
+          fi
           if git diff --staged --quiet; then
             echo "No editorial publish changes to commit."
             exit 0

@@ -336,6 +336,13 @@ run_test("Stale sheet-only scraper college cuts rows drop before merge while hum
   stale_scraper_row$cut_id[[1]] <- "cut-stale"
   stale_scraper_row$institution_name[[1]] <- "Stale University"
 
+  stale_undecided_row <- stale_scraper_row
+  stale_undecided_row$cut_id[[1]] <- "cut-stale-undecided"
+  stale_undecided_row$review_status[[1]] <- "unreviewed"
+  stale_undecided_row$reviewer[[1]] <- ""
+  stale_undecided_row$reviewer_notes[[1]] <- ""
+  stale_undecided_row$reviewed_at[[1]] <- ""
+
   human_sheet_row <- current_sheet_row
   human_sheet_row$cut_id[[1]] <- ""
   human_sheet_row$unitid[[1]] <- "200"
@@ -354,13 +361,15 @@ run_test("Stale sheet-only scraper college cuts rows drop before merge while hum
   human_sheet_row$review_status[[1]] <- "approved"
 
   filtered <- drop_stale_college_cuts_sheet_rows(
-    sheet_rows = dplyr::bind_rows(current_sheet_row, stale_scraper_row, human_sheet_row),
+    sheet_rows = dplyr::bind_rows(current_sheet_row, stale_scraper_row, stale_undecided_row, human_sheet_row),
     local_cut_ids = staged$cut_id,
     candidate_cut_ids = candidates$cut_id
   )
 
   assert_identical(nrow(filtered$dropped_rows), 1L)
-  assert_identical(filtered$dropped_rows$cut_id[[1]], "cut-stale")
+  assert_identical(filtered$dropped_rows$cut_id[[1]], "cut-stale-undecided")
+  assert_identical(nrow(filtered$quarantined_rows), 1L)
+  assert_identical(filtered$quarantined_rows$cut_id[[1]], "cut-stale")
   assert_identical(nrow(filtered$kept_rows), 2L)
 
   merged <- merge_college_cuts_review_sheet_editor_columns(
@@ -1997,4 +2006,120 @@ run_test("allow_editor_added_rows imports sheet-only non-human college cuts rows
   assert_identical(trim_text(merged$cut_id[[1]]), "orphancut1234")
   assert_identical(merged$source_row_origin[[1]], "scraper")
   assert_identical(merged$review_status[[1]], "approved")
+})
+
+run_test("review_sheet_row_has_decision is fail-closed on status vocabulary and reviewer metadata", function() {
+  statuses <- c("approved", "reject", "rejected", "hold", "unreviewed", "", NA_character_)
+  mask <- review_sheet_row_has_decision(statuses)
+  assert_identical(mask, c(TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE))
+
+  with_reviewer <- review_sheet_row_has_decision(
+    c("unreviewed", "unreviewed", ""),
+    reviewer = c("MV", "", ""),
+    reviewer_notes = c("", "checked", ""),
+    reviewed_at = c("", "", NA_character_)
+  )
+  assert_identical(with_reviewer, c(TRUE, TRUE, FALSE))
+})
+
+run_test("Rewrite guard finds decision rows a tab rewrite would discard or revert", function() {
+  make_sheet_row <- function(action_id, review_status, reviewer = "") {
+    data.frame(
+      action_id = action_id,
+      unitid = "100",
+      institution_name = "Example University",
+      accreditor = "MSCHE",
+      action_date = "2026-04-24",
+      action_type = "warning",
+      action_label_raw = "Warning",
+      generated_statement = "Warning",
+      source_url = "https://example.org/one",
+      source_title = "Source",
+      row_origin = "scraper",
+      first_seen = "2026-05-01",
+      review_status = review_status,
+      reviewer = reviewer,
+      reviewer_notes = "",
+      reviewed_at = "",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }
+  current <- dplyr::bind_rows(
+    make_sheet_row("act-kept", "approved"),
+    make_sheet_row("act-missing", "approved"),
+    make_sheet_row("act-reverted", "reject"),
+    make_sheet_row("act-undecided-missing", "unreviewed")
+  )
+  payload <- dplyr::bind_rows(
+    make_sheet_row("act-kept", "approved"),
+    make_sheet_row("act-reverted", "unreviewed")
+  )
+  lost <- find_review_rows_lost_by_rewrite(current, payload, id_column = "action_id")
+  assert_identical(sort(trim_text(lost$action_id)), c("act-missing", "act-reverted"))
+
+  none_lost <- find_review_rows_lost_by_rewrite(current[1, , drop = FALSE], payload, id_column = "action_id")
+  assert_identical(nrow(none_lost), 0L)
+})
+
+run_test("Quarantine CSV appends dropped decision rows and dedupes within a day", function() {
+  quarantine_path <- file.path(tempdir(), sprintf("review-quarantine-%d.csv", as.integer(Sys.time())))
+  on.exit(unlink(quarantine_path), add = TRUE)
+  rows <- data.frame(
+    cut_id = c("cut-q1", "cut-q2"),
+    institution_name = c("A University", "B College"),
+    review_status = c("approved", "reject"),
+    stringsAsFactors = FALSE
+  )
+  append_review_quarantine_rows(rows, quarantine_path, id_column = "cut_id")
+  append_review_quarantine_rows(rows[1, , drop = FALSE], quarantine_path, id_column = "cut_id")
+  saved <- readr::read_csv(
+    quarantine_path,
+    col_types = readr::cols(.default = readr::col_character()),
+    show_col_types = FALSE
+  )
+  assert_identical(nrow(saved), 2L)
+  assert_true(all(c("cut_id", "quarantined_at") %in% names(saved)))
+})
+
+run_test("Review sheet header order assert refuses mismatched tabs before positional appends", function() {
+  make_empty <- function(columns) {
+    as.data.frame(
+      setNames(rep(list(character(0)), length(columns)), columns),
+      stringsAsFactors = FALSE
+    )
+  }
+  good <- make_empty(COLLEGE_CUTS_REVIEW_SHEET_COLUMNS)
+  assert_review_sheet_header_order(
+    good, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+    normalizer = normalize_college_cuts_sheet_headers
+  )
+
+  swapped <- good[, c(2L, 1L, seq(3L, ncol(good))), drop = FALSE]
+  err <- tryCatch({
+    assert_review_sheet_header_order(
+      swapped, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+      normalizer = normalize_college_cuts_sheet_headers
+    )
+    NULL
+  }, error = function(e) e)
+  assert_true(!is.null(err), "Swapped header order must be refused")
+
+  short <- good[, seq(1L, ncol(good) - 1L), drop = FALSE]
+  err_short <- tryCatch({
+    assert_review_sheet_header_order(
+      short, COLLEGE_CUTS_REVIEW_SHEET_COLUMNS, "college_cuts_review",
+      normalizer = normalize_college_cuts_sheet_headers
+    )
+    NULL
+  }, error = function(e) e)
+  assert_true(!is.null(err_short), "Missing trailing column must be refused")
+
+  formatted <- make_empty(ACCREDITATION_REVIEW_SHEET_COLUMNS)
+  names(formatted)[names(formatted) == "generated_statement"] <- "action_edited"
+  names(formatted)[names(formatted) == "action_label_raw"] <- "action_raw"
+  assert_review_sheet_header_order(
+    formatted, ACCREDITATION_REVIEW_SHEET_COLUMNS, "accreditation_review",
+    normalizer = normalize_accreditation_review_sheet_headers
+  )
 })

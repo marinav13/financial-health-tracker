@@ -12,6 +12,18 @@
 **Rev 8 (2026-07-07):** accreditation-side recovery functionally closed — the editor confirmed the §3.12 destruction finding (27 re-derived accreditation rows + 8 cuts rows wiped and re-staged `unreviewed`) and has manually re-reviewed and re-approved all 27 rows, mirroring the cuts-side closure. Residual: the 11 never-re-derived IDs; the Drive-API revision-history pull is now of forensic interest only. PR #5 (`phase0-gate-diagnostic`) is closed and its branch deleted. An interrupted Phase 1 implementation attempt left no code changes (working tree and integrity scan verified clean 2026-07-07).
 **Rev 9 (2026-07-07):** added §3.13 — a fourth suppression/consistency defect found live when the post-recovery Publish run failed: HLC institution-page status badges are excluded at staging but had no gate-side exemption; hotfixed and merged same day (`d57bff8d2`). §7 items 1–2 implemented on PR #6: post-commit sheet appends (§3.1 loop closed), decision-row guards with committed quarantine (§3.9/§3.12 hazard closed pending merge), and header-order append verification (§3.2 write side closed). The 35 re-approved rows were made durable ahead of Tranche A via local pulls committed in `97ceca714`.
 **Rev 10 (2026-07-07):** Tranche A merged to `main` (`4d775a181`, PR #6; all five CI checks green including lintr). Live verification before merge: sync-script dry-runs returned 0-append clean against both real tabs (validating the header-order assert against the tab's formatted headers), and the rewrite guard's abort path was proven on a sacrificial tab copy (63 decision rows blocked, rescue CSV written, tab untouched — the UC Davis scenario replayed with the guard on). `claude-wip` and the stale `phase0-gate-diagnostic` tracking ref cleaned up. This audit doc is now committed to the repo; the Tranche B–D implementation plan is split into `docs/PHASE1_PLAN.md`.
+**Rev 11 (2026-07-08):** Phase 1 fully implemented and merged. Tranche B
+(PR #7, Codex), C4 (PR #8 + completion PR #10 — #8 shipped without its
+workflow half after a partial edit-script failure that the file-integrity
+verification did not catch; per-edit landing checks are now standing
+practice), C2 tombstones (PR #9), C1 matcher hardening + C3 determinism
+(PR #11, Codex, rebased with a guard so the fold-flip never strips a
+tombstoned approved row), Tranche D (PR #12: pull-script shape parity,
+accreditation stale dropper + quarantine, publish coverage-write skip).
+Every §7 item 1–9 is closed; item 10 (durable action_id migration)
+remains deferred by design. Residual: the first supervised live refresh
+run, and the editorial review of the merger/absorption candidates that
+C3's [DECIDED] routing will surface (VWU/Sentara expected first).
 
 ---
 

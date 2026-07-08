@@ -2767,3 +2767,47 @@ run_test("Cross-source fold never flips a tombstoned approved row to unreviewed"
   assert_identical(trim_text(row2$review_status), "unreviewed",
                    "Active approved row with changed raw text must flip to unreviewed")
 })
+
+run_test("Stale sheet-only accreditation rows drop before merge; decisions quarantine; manual rows stay", function() {
+  make_sheet_row <- function(action_id, row_origin = "scraper",
+                             review_status = "unreviewed", reviewer = "") {
+    data.frame(
+      action_id = action_id,
+      unitid = "100",
+      institution_name = "Example University",
+      accreditor = "MSCHE",
+      action_date = "2026-04-24",
+      action_type = "warning",
+      action_label_raw = "Warning",
+      generated_statement = "Warning",
+      source_url = "https://example.org/one",
+      source_title = "Source",
+      row_origin = row_origin,
+      first_seen = "2026-05-01",
+      review_status = review_status,
+      reviewer = reviewer,
+      reviewer_notes = "",
+      reviewed_at = "",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }
+  sheet_rows <- dplyr::bind_rows(
+    make_sheet_row("act-local", review_status = "approved", reviewer = "MV"),
+    make_sheet_row("act-candidate-only"),
+    make_sheet_row("act-stale-undecided"),
+    make_sheet_row("act-stale-approved", review_status = "approved", reviewer = "MV"),
+    make_sheet_row("act-manual-only", row_origin = "manual", review_status = "approved", reviewer = "MV")
+  )
+
+  filtered <- drop_stale_accreditation_sheet_rows(
+    sheet_rows = sheet_rows,
+    local_action_ids = "act-local",
+    candidate_action_ids = "act-candidate-only"
+  )
+
+  kept_ids <- sort(trim_text(filtered$kept_rows$action_id))
+  assert_identical(kept_ids, c("act-candidate-only", "act-local", "act-manual-only"))
+  assert_identical(trim_text(filtered$dropped_rows$action_id), "act-stale-undecided")
+  assert_identical(trim_text(filtered$quarantined_rows$action_id), "act-stale-approved")
+})

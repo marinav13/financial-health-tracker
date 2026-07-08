@@ -1,25 +1,16 @@
-main <- function(cli_args = NULL) {
-  source(file.path(getwd(), "scripts", "shared", "utils.R"))
-  args <- parse_cli_args(cli_args)
-  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
-  has_flag <- function(flag) arg_has(args, flag)
-
+pull_accreditation_overrides <- function(input_path,
+                                         output_path = input_path,
+                                         sheet_id_or_url,
+                                         candidates_path = file.path(getwd(), "data_pipelines", "accreditation", "accreditation_review_candidates.csv"),
+                                         sheet_tab = "accreditation_review",
+                                         auth_json = Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_),
+                                         email = NA_character_,
+                                         cache_dir = file.path(getwd(), ".secrets", "googlesheets4"),
+                                         allow_editor_added_rows = FALSE,
+                                         verbose = FALSE) {
   ensure_packages(c("dplyr", "readr", "digest", "googlesheets4"))
   source(file.path(getwd(), "scripts", "shared", "editorial_review_helpers.R"))
   source(file.path(getwd(), "scripts", "shared", "google_sheets_helpers.R"))
-
-  input_path <- get_arg_value(
-    "--input",
-    file.path(getwd(), "data_pipelines", "accreditation", "editorial_overrides.csv")
-  )
-  output_path <- get_arg_value("--output", input_path)
-  sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("ACCREDITATION_REVIEW_SHEET_ID", unset = NA_character_))
-  sheet_tab <- get_arg_value("--tab", Sys.getenv("ACCREDITATION_REVIEW_SHEET_TAB", unset = "accreditation_review"))
-  auth_json <- get_arg_value("--auth-json", Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_))
-  email <- get_arg_value("--email", NA_character_)
-  cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
-  verbose <- has_flag("--verbose")
-  allow_editor_added_rows <- has_flag("--allow-editor-added-rows")
 
   require_existing_local_file(
     input_path,
@@ -63,6 +54,43 @@ main <- function(cli_args = NULL) {
     )
   }
 
+  candidate_ids <- character()
+  if (!is.null(candidates_path) && file.exists(candidates_path)) {
+    candidate_ids <- read_accreditation_review_candidates(candidates_path)$action_id
+  }
+  filtered_sheet <- drop_stale_accreditation_sheet_rows(
+    sheet_rows = sheet_rows,
+    local_action_ids = local_overrides$action_id,
+    candidate_action_ids = candidate_ids
+  )
+  if (nrow(filtered_sheet$dropped_rows) > 0L) {
+    message(
+      "Ignoring stale sheet-only scraper row(s) that are absent from both local overrides and current candidates: ",
+      nrow(filtered_sheet$dropped_rows),
+      ". Sample action_id values: ",
+      paste(utils::head(unique(trim_text(filtered_sheet$dropped_rows$action_id)), 5L), collapse = ", ")
+    )
+  }
+  if (nrow(filtered_sheet$quarantined_rows) > 0L) {
+    quarantine_path <- file.path(dirname(output_path), "review_quarantine.csv")
+    append_review_quarantine_rows(
+      filtered_sheet$quarantined_rows,
+      quarantine_path,
+      id_column = "action_id"
+    )
+    message(sprintf(
+      paste(
+        "WARNING: %d stale sheet-only row(s) carry review decisions and were NOT merged.",
+        "Their current values are preserved in %s and the Sheet rows were left untouched.",
+        "Sample action_id values: %s"
+      ),
+      nrow(filtered_sheet$quarantined_rows),
+      quarantine_path,
+      paste(utils::head(unique(trim_text(filtered_sheet$quarantined_rows$action_id)), 5L), collapse = ", ")
+    ))
+  }
+  sheet_rows <- filtered_sheet$kept_rows
+
   merged <- merge_accreditation_review_sheet_editor_columns(
     overrides = local_overrides,
     sheet_rows = sheet_rows,
@@ -82,6 +110,43 @@ main <- function(cli_args = NULL) {
     sheet_rows = nrow(sheet_rows),
     output = output_path
   ))
+}
+
+main <- function(cli_args = NULL) {
+  source(file.path(getwd(), "scripts", "shared", "utils.R"))
+  args <- parse_cli_args(cli_args)
+  get_arg_value <- function(flag, default = NULL) get_arg(args, flag, default)
+  has_flag <- function(flag) arg_has(args, flag)
+
+  input_path <- get_arg_value(
+    "--input",
+    file.path(getwd(), "data_pipelines", "accreditation", "editorial_overrides.csv")
+  )
+  output_path <- get_arg_value("--output", input_path)
+  candidates_path <- get_arg_value(
+    "--candidates",
+    file.path(getwd(), "data_pipelines", "accreditation", "accreditation_review_candidates.csv")
+  )
+  sheet_id_or_url <- get_arg_value("--sheet", Sys.getenv("ACCREDITATION_REVIEW_SHEET_ID", unset = NA_character_))
+  sheet_tab <- get_arg_value("--tab", Sys.getenv("ACCREDITATION_REVIEW_SHEET_TAB", unset = "accreditation_review"))
+  auth_json <- get_arg_value("--auth-json", Sys.getenv("GOOGLE_APPLICATION_CREDENTIALS", unset = NA_character_))
+  email <- get_arg_value("--email", NA_character_)
+  cache_dir <- get_arg_value("--cache", file.path(getwd(), ".secrets", "googlesheets4"))
+  verbose <- has_flag("--verbose")
+  allow_editor_added_rows <- has_flag("--allow-editor-added-rows")
+
+  pull_accreditation_overrides(
+    input_path = input_path,
+    output_path = output_path,
+    sheet_id_or_url = sheet_id_or_url,
+    candidates_path = candidates_path,
+    sheet_tab = sheet_tab,
+    auth_json = auth_json,
+    email = email,
+    cache_dir = cache_dir,
+    allow_editor_added_rows = allow_editor_added_rows,
+    verbose = verbose
+  )
 }
 
 if (sys.nframe() == 0) {

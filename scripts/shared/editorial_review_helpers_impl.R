@@ -1339,6 +1339,50 @@ build_accreditation_review_sheet_append_rows <- function(overrides, existing_she
   local_sheet_rows[!(trim_text(local_sheet_rows$action_id) %in% trim_text(sheet_rows$action_id)), ACCREDITATION_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
+# Accreditation twin of drop_stale_college_cuts_sheet_rows: sheet-only
+# non-manual rows absent from both the local overrides and the current
+# candidates are excluded from the merge. Decision-carrying rows are never
+# silently dropped - they are returned separately for durable quarantine.
+drop_stale_accreditation_sheet_rows <- function(sheet_rows,
+                                                local_action_ids,
+                                                candidate_action_ids = NULL) {
+  sheet_data <- coerce_accreditation_review_sheet_rows(sheet_rows)
+  if (!nrow(sheet_data)) {
+    return(list(
+      kept_rows = sheet_data,
+      dropped_rows = sheet_data,
+      quarantined_rows = sheet_data
+    ))
+  }
+
+  local_ids <- unique(trim_text(local_action_ids))
+  local_ids <- local_ids[nzchar(local_ids)]
+  candidate_ids <- unique(trim_text(candidate_action_ids))
+  candidate_ids <- candidate_ids[nzchar(candidate_ids)]
+
+  sheet_ids <- trim_text(sheet_data$action_id)
+  row_origin <- normalize_review_row_origin(sheet_data$row_origin)
+  manual_mask <- !is.na(row_origin) & row_origin == "manual"
+  local_mask <- nzchar(sheet_ids) & (sheet_ids %in% local_ids)
+  current_candidate_mask <- nzchar(sheet_ids) & (sheet_ids %in% candidate_ids)
+  stale_non_manual_mask <- !manual_mask & !local_mask & !current_candidate_mask
+
+  decision_mask <- review_sheet_row_has_decision(
+    sheet_data$review_status,
+    sheet_data$reviewer,
+    sheet_data$reviewer_notes,
+    sheet_data$reviewed_at
+  )
+  quarantine_mask <- stale_non_manual_mask & decision_mask
+  drop_mask <- stale_non_manual_mask & !decision_mask
+
+  list(
+    kept_rows = sheet_data[!stale_non_manual_mask, , drop = FALSE],
+    dropped_rows = sheet_data[drop_mask, , drop = FALSE],
+    quarantined_rows = sheet_data[quarantine_mask, , drop = FALSE]
+  )
+}
+
 merge_accreditation_review_sheet_editor_columns <- function(overrides,
                                                             sheet_rows,
                                                             allow_editor_added_rows = FALSE,

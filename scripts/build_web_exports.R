@@ -1672,7 +1672,8 @@ build_accreditation_export <- function() {
           action_summary_source_text[[i]],
           action_type[[i]],
           normalize_accreditor_code(accreditor[[i]]),
-          notes[[i]]
+          notes[[i]],
+          action_label_raw = action_label_raw[[i]]
         ),
         character(1)
       )
@@ -1947,6 +1948,13 @@ build_accreditation_export <- function() {
             action_label_short = vapply(
               seq_len(n()),
               function(i) {
+                # Only scraper rows take the pool-enriched recompute; DAPIP
+                # rows keep the resolver's summary (which may carry the DAPIP
+                # justification text), otherwise this recompute silently
+                # reverts them to the bare code label.
+                if (!identical(source_selection_candidate_kind[[i]], "scraper")) {
+                  return(action_label_short[[i]])
+                }
                 derive_action_label_short(
                   action_type[[i]],
                   action_summary_source_text[[i]],
@@ -2006,6 +2014,13 @@ build_accreditation_export <- function() {
             action_label_short = vapply(
               seq_len(n()),
               function(i) {
+                # Only scraper rows take the pool-enriched recompute; DAPIP
+                # rows keep the resolver's summary (which may carry the DAPIP
+                # justification text), otherwise this recompute silently
+                # reverts them to the bare code label.
+                if (!identical(source_selection_candidate_kind[[i]], "scraper")) {
+                  return(action_label_short[[i]])
+                }
                 derive_action_label_short(
                   action_type[[i]],
                   action_summary_source_text[[i]],
@@ -2072,6 +2087,13 @@ build_accreditation_export <- function() {
             action_label_short = vapply(
               seq_len(n()),
               function(i) {
+                # Only scraper rows take the pool-enriched recompute; DAPIP
+                # rows keep the resolver's summary (which may carry the DAPIP
+                # justification text), otherwise this recompute silently
+                # reverts them to the bare code label.
+                if (!identical(source_selection_candidate_kind[[i]], "scraper")) {
+                  return(action_label_short[[i]])
+                }
                 derive_action_label_short(
                   action_type[[i]],
                   action_summary_source_text[[i]],
@@ -2507,7 +2529,8 @@ build_accreditation_export <- function() {
             action_summary_source_text[[i]],
             action_type[[i]],
             normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
+            notes[[i]],
+            action_label_raw = action_label_raw[[i]]
           ),
           character(1)
         ),

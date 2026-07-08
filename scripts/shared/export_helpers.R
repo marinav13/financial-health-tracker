@@ -2921,22 +2921,59 @@ resolve_dapip_persisted_summary_source <- function(parsed_reason_source = NA_cha
   )
 }
 
+# DAPIP notes are assembled as "action label | justification description |
+# justification other" at build time. When the summary would otherwise just
+# repeat the bare code label ("Grant Substantive Change: Ownership"), the
+# justification carries the actual substance ("Merger of X with Y ...") and
+# is what the editor needs to see in the review sheet's edited column.
+# action_label_raw itself is never altered: it is the action_id hash input.
+.dapip_notes_justification_text <- function(notes, action_label_raw) {
+  notes_text <- stringr::str_squish(as.character(notes %||% ""))
+  label <- stringr::str_squish(as.character(action_label_raw %||% ""))
+  if (!nzchar(notes_text) || !nzchar(label)) {
+    return(NA_character_)
+  }
+  parts <- strsplit(notes_text, " | ", fixed = TRUE)[[1]]
+  if (length(parts) < 2L) {
+    return(NA_character_)
+  }
+  if (!identical(tolower(stringr::str_squish(parts[[1]])), tolower(label))) {
+    return(NA_character_)
+  }
+  justification <- stringr::str_squish(paste(parts[-1L], collapse = ": "))
+  if (!nzchar(justification) || identical(tolower(justification), tolower(label))) {
+    return(NA_character_)
+  }
+  justification
+}
+
 resolve_dapip_persisted_summary_short <- function(parsed_reason_snippet = NA_character_,
                                                   summary_text = NA_character_,
                                                   action_type = NA_character_,
                                                   accreditor = NA_character_,
-                                                  notes = NA_character_) {
+                                                  notes = NA_character_,
+                                                  action_label_raw = NA_character_) {
   persisted <- trimws(as.character(parsed_reason_snippet %||% ""))
-  if (nzchar(persisted)) {
-    return(persisted)
+  resolved <- if (nzchar(persisted)) {
+    persisted
+  } else {
+    derive_action_label_short(
+      action_type = action_type,
+      action_label_raw = summary_text,
+      accreditor = accreditor,
+      notes = notes
+    )
   }
 
-  derive_action_label_short(
-    action_type = action_type,
-    action_label_raw = summary_text,
-    accreditor = accreditor,
-    notes = notes
-  )
+  label <- stringr::str_squish(as.character(action_label_raw %||% ""))
+  resolved_clean <- stringr::str_squish(as.character(resolved %||% ""))
+  if (nzchar(label) && identical(tolower(resolved_clean), tolower(label))) {
+    justification <- .dapip_notes_justification_text(notes, action_label_raw)
+    if (!is.na(justification)) {
+      return(justification)
+    }
+  }
+  resolved
 }
 
 resolve_dapip_persisted_specificity_score <- function(source_selection_specificity_score = NA_integer_,

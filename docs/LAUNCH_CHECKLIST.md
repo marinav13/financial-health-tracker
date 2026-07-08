@@ -123,6 +123,83 @@
 
 ---
 
+## Folded in from PRE_LAUNCH_CHECKLIST.md (June 30) — still open
+
+Items from the earlier root-level checklist not yet done, updated for
+decisions made since:
+
+### Needs an editorial/legal decision
+
+- [ ] **Licensing conflict to resolve.** The repo now carries a plain MIT
+  LICENSE (added 2026-07-08 on request). The June 30 plan recommended split
+  rights instead: data reusable (CC BY 4.0), code all-rights-reserved,
+  assets/branding all-rights-reserved, plus a README rights section and
+  LICENSE-DATA/CODE/ASSETS files. MIT grants broad reuse of everything in the
+  repo. Decide which model Hechinger actually wants before the repo goes
+  public; if split rights, the MIT file must be replaced before launch, not
+  after.
+- [ ] **Cuts submission CTA.** `cuts.html` sends readers to college-cuts.com
+  to submit cuts. Create a Hechinger-owned Google Form and repoint the
+  submission link (the *attribution* links to CollegeCuts in cuts.html and
+  methodology.html should stay — that's source credit). Confirm all other
+  contact/correction links point at Hechinger-owned destinations.
+- [ ] **Which derived CSVs stay public.** `data_pipelines/` ships review
+  candidates, editorial overrides (including reviewer initials and notes
+  columns), audit CSVs, etc. Decide what belongs in a public repo vs
+  internal-only — before flipping visibility, since removing files later
+  leaves them in history.
+
+### Repo governance (public-repo hygiene)
+
+- [ ] Add `SECURITY.md` (how to report a vulnerability) — does not exist yet.
+- [ ] Add `CODEOWNERS` — does not exist yet.
+- [ ] Decide whether GitHub Issues are enabled on the public repo; if yes,
+  add issue templates. Note the pipeline auto-files `pipeline-drift` issues,
+  so Issues should probably stay on.
+- [ ] Run a history secret scanner (Gitleaks, or enable GitHub secret
+  scanning, which is free on public repos) against `hechinger/FinancialHealth`.
+  Low risk — the history is 8 fresh commits — but cheap to confirm. A June 30
+  local scan of the dev repo found nothing.
+
+### Content quality
+
+- [ ] **Fix mojibake in public-facing text.** Encoding artifacts (a
+  replacement character where apostrophes should be) exist in scraped data
+  that reaches the site, e.g. in `data/accreditation.json`
+  ("the institution�s accreditation"). Root cause is upstream PDF/HTML
+  extraction encoding; fix in the pipeline text-cleaning layer, not by hand.
+
+### Launch verification (from the June 30 list, still the right drill)
+
+- [ ] `Rscript ./tests/run_shared_helper_smoke_tests.R`
+- [ ] `npm run test:smoke` / `npm run test:e2e` / `npm run test:a11y`
+- [ ] Manual pass: home page, several `school.html?unitid=...` pages,
+  cuts/accreditation/research/methodology pages, CSV downloads, mobile
+  layout, chart tooltips, social preview cards.
+
+### After launch (ownership)
+
+- [ ] Assign an owner for weekly-refresh failures (the pipeline-drift GitHub
+  Issues need a subscriber who acts on them).
+- [ ] Assign editorial triage ownership for the cuts submission workflow.
+- [ ] Move Google Sheets review queue + the GCP service account under
+  Hechinger-controlled accounts (both currently live in a personal GCP
+  project/Google account).
+- [ ] Submit the property to Bing Webmaster Tools as well as Google Search
+  Console.
+
+### Superseded June 30 items (no action)
+
+- "Do not get institution detail pages indexed before launch" — superseded
+  by the explicit 2026-07-08 decision to ship the full sitemap and
+  per-school canonicals at launch.
+- Font decision — resolved: font binaries excluded from the public repo and
+  its history; site loads fonts from hechingerreport.org.
+- Repo move, secrets, Pages-parity URLs, robots/sitemap, canonical/social
+  metadata — all done (see top of this document).
+- "No named slug routes before launch" — unchanged behavior; `unitid` remains
+  the lookup key. Readable slugs can be added later without breaking it.
+
 ## Standing cautions
 
 - **One pipeline at a time.** The weekly refresh must only be enabled in one

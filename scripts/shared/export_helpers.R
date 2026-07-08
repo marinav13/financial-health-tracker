@@ -2969,7 +2969,13 @@ is_substantive_dapip_transaction_review_candidate <- function(public_table_strat
                                                               notes = NA_character_) {
   strategy <- trimws(as.character(public_table_strategy %||% ""))
   family <- tolower(trimws(as.character(mapped_action_family %||% "")))
-  if (!identical(strategy, "dapip_backed_keep") || !identical(family, "ownership_change")) {
+  # SACSCOC merger/absorption approvals routinely classify into the
+  # monitoring/notice family (the PDF text reads as monitoring paperwork -
+  # the VWU/Sentara case, audit doc 3.10), so gating on ownership_change
+  # alone misses the rows this predicate exists for. The transaction-text
+  # match below stays the actual decider.
+  if (!identical(strategy, "dapip_backed_keep") ||
+      !(family %in% c("ownership_change", "monitoring_or_notice"))) {
     return(FALSE)
   }
 

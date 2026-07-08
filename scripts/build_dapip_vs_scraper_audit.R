@@ -832,7 +832,13 @@ main <- function(cli_args = NULL) {
     dplyr::count(accreditor, public_table_strategy, public_action_family, name = "row_count") |>
     dplyr::arrange(accreditor, public_table_strategy, public_action_family)
 
-  code_source <- if (file.exists(raw_dapip_input)) {
+  # Publish runners never download DAPIP, so the raw CSV is absent there.
+  # Rebuilding coverage from the filtered fallback produces an all-NA
+  # action_description file that would overwrite refresh's good committed
+  # copy (audit doc 3.5), so the coverage write is skipped entirely when
+  # the raw input is missing.
+  build_code_coverage <- file.exists(raw_dapip_input)
+  code_source <- if (build_code_coverage) {
     readr::read_csv(raw_dapip_input, show_col_types = FALSE, progress = FALSE) |>
       dplyr::mutate(action_code = as.character(action_code))
   } else {
@@ -889,12 +895,18 @@ main <- function(cli_args = NULL) {
   )
 
   write_csv_atomic(audit_df, outputs$audit)
-  write_csv_atomic(code_coverage, outputs$coverage)
+  if (build_code_coverage) {
+    write_csv_atomic(code_coverage, outputs$coverage)
+  }
   write_csv_atomic(public_counts, outputs$public_counts)
   write_csv_atomic(public_family_counts, outputs$public_family_counts)
 
   message(sprintf("Saved DAPIP vs scraper audit to %s", outputs$audit))
-  message(sprintf("Saved DAPIP code coverage to %s", outputs$coverage))
+  if (build_code_coverage) {
+    message(sprintf("Saved DAPIP code coverage to %s", outputs$coverage))
+  } else {
+    message("Skipped DAPIP code coverage rebuild: raw action rows CSV is missing (publish runners never download DAPIP); committed copy left untouched.")
+  }
   message(sprintf("Saved DAPIP public-table policy counts to %s", outputs$public_counts))
   message(sprintf("Saved DAPIP public-table policy family counts to %s", outputs$public_family_counts))
   message(sprintf(

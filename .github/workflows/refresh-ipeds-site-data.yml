@@ -1,9 +1,11 @@
 name: Refresh Source Data Weekly
 
+# The weekly schedule moved to hechinger/FinancialHealth (production home
+# since 2026-07-08). This copy stays manually dispatchable as a fallback;
+# do not re-enable the cron here while the production repo runs it, or two
+# pipelines will race on the shared review Sheet.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * 1"
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"

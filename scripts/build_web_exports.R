@@ -954,7 +954,13 @@ build_accreditation_export <- function() {
       has_active_warning_or_notice = NA,
       has_active_adverse_action = NA,
       action_count = NA_integer_,
-      action_label_raw = NA_character_
+      action_label_raw = NA_character_,
+      action_label_source = NA_character_,
+      parsed_reason_text = NA_character_,
+      parsed_reason_source = NA_character_,
+      parsed_reason_snippet = NA_character_,
+      source_selection_specificity_score = NA_integer_,
+      source_selection_substantive_text_length = NA_integer_
     )) %>%
     mutate(
       across(
@@ -965,7 +971,8 @@ build_accreditation_export <- function() {
           "tracker_category", "notes", "source_url", "source_title",
           "source_page_url", "source_page_modified", "accreditors",
           "latest_action_date", "latest_action_year", "action_labels",
-          "active_actions"
+          "active_actions", "action_label_source", "parsed_reason_text",
+          "parsed_reason_source", "parsed_reason_snippet"
         ),
         as.character
       ),
@@ -1020,7 +1027,15 @@ build_accreditation_export <- function() {
       source_title = NA_character_,
       source_page_url = NA_character_,
       source_page_modified = NA_character_,
-      file_id = NA_character_
+      file_text_path = NA_character_,
+      file_id = NA_character_,
+      label_source = NA_character_,
+      mapped_action_family = NA_character_,
+      parsed_reason_text = NA_character_,
+      parsed_reason_source = NA_character_,
+      parsed_reason_snippet = NA_character_,
+      source_selection_specificity_score = NA_integer_,
+      source_selection_substantive_text_length = NA_integer_
     )) %>%
     mutate(
       across(
@@ -1030,7 +1045,9 @@ build_accreditation_export <- function() {
           "category", "accreditor", "action_type", "action_label_raw",
           "action_status", "action_year", "action_scope", "notes",
           "source_url", "source_title", "source_page_url",
-          "source_page_modified", "file_id"
+          "source_page_modified", "file_text_path", "file_id", "label_source",
+          "mapped_action_family", "parsed_reason_text",
+          "parsed_reason_source", "parsed_reason_snippet"
         ),
         as.character
       ),
@@ -1362,6 +1379,9 @@ build_accreditation_export <- function() {
       scraper_source_key = NA_character_,
       dapip_source_key = as.character(dapip_source_key)
     )
+  if (!"file_text_path" %in% names(public_dapip_actions)) {
+    public_dapip_actions$file_text_path <- NA_character_
+  }
   msche_dapip_enrichment_actions <- dapip_actions_df %>%
     filter(
       normalize_accreditor_code(accreditor) == "MSCHE",
@@ -1401,18 +1421,21 @@ build_accreditation_export <- function() {
         accreditor = normalize_accreditor_code(accreditor),
         action_summary_source_text = vapply(
           seq_len(n()),
-          function(i) .select_action_summary_source_text(
+          function(i) resolve_dapip_persisted_summary_text(
+            parsed_reason_text[[i]],
             action_label_raw[[i]],
             file_text_path[[i]],
             action_type[[i]],
             normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
+            notes[[i]],
+            label_source[[i]]
           ),
           character(1)
         ),
         source_selection_specificity_score = vapply(
           seq_len(n()),
-          function(i) get_action_summary_specificity_score(
+          function(i) resolve_dapip_persisted_specificity_score(
+            source_selection_specificity_score[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1420,7 +1443,8 @@ build_accreditation_export <- function() {
         ),
         source_selection_substantive_text_length = vapply(
           seq_len(n()),
-          function(i) get_action_summary_substantive_text_length(
+          function(i) resolve_dapip_persisted_substantive_text_length(
+            source_selection_substantive_text_length[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1475,18 +1499,21 @@ build_accreditation_export <- function() {
         accreditor = normalize_accreditor_code(accreditor),
         action_summary_source_text = vapply(
           seq_len(n()),
-          function(i) .select_action_summary_source_text(
+          function(i) resolve_dapip_persisted_summary_text(
+            parsed_reason_text[[i]],
             action_label_raw[[i]],
             file_text_path[[i]],
             action_type[[i]],
             normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
+            notes[[i]],
+            label_source[[i]]
           ),
           character(1)
         ),
         source_selection_specificity_score = vapply(
           seq_len(n()),
-          function(i) get_action_summary_specificity_score(
+          function(i) resolve_dapip_persisted_specificity_score(
+            source_selection_specificity_score[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1494,7 +1521,8 @@ build_accreditation_export <- function() {
         ),
         source_selection_substantive_text_length = vapply(
           seq_len(n()),
-          function(i) get_action_summary_substantive_text_length(
+          function(i) resolve_dapip_persisted_substantive_text_length(
+            source_selection_substantive_text_length[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1548,18 +1576,21 @@ build_accreditation_export <- function() {
         accreditor = normalize_accreditor_code(accreditor),
         action_summary_source_text = vapply(
           seq_len(n()),
-          function(i) .select_action_summary_source_text(
+          function(i) resolve_dapip_persisted_summary_text(
+            parsed_reason_text[[i]],
             action_label_raw[[i]],
             file_text_path[[i]],
             action_type[[i]],
             normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
+            notes[[i]],
+            label_source[[i]]
           ),
           character(1)
         ),
         source_selection_specificity_score = vapply(
           seq_len(n()),
-          function(i) get_action_summary_specificity_score(
+          function(i) resolve_dapip_persisted_specificity_score(
+            source_selection_specificity_score[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1567,7 +1598,8 @@ build_accreditation_export <- function() {
         ),
         source_selection_substantive_text_length = vapply(
           seq_len(n()),
-          function(i) get_action_summary_substantive_text_length(
+          function(i) resolve_dapip_persisted_substantive_text_length(
+            source_selection_substantive_text_length[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1622,25 +1654,26 @@ build_accreditation_export <- function() {
     mutate(
       action_summary_source_text = vapply(
         seq_len(n()),
-        function(i) .select_action_summary_source_text(
+        function(i) resolve_dapip_persisted_summary_text(
+          parsed_reason_text[[i]],
           action_label_raw[[i]],
           file_text_path[[i]],
           action_type[[i]],
           normalize_accreditor_code(accreditor[[i]]),
-          notes[[i]]
+          notes[[i]],
+          dplyr::coalesce(label_source[[i]], action_label_source[[i]])
         ),
         character(1)
       ),
       action_label_short = vapply(
         seq_len(n()),
-        function(i) {
-          derive_action_label_short(
-            action_type[[i]],
-            action_summary_source_text[[i]],
-            normalize_accreditor_code(accreditor[[i]]),
-            notes[[i]]
-          )
-        },
+        function(i) resolve_dapip_persisted_summary_short(
+          parsed_reason_snippet[[i]],
+          action_summary_source_text[[i]],
+          action_type[[i]],
+          normalize_accreditor_code(accreditor[[i]]),
+          notes[[i]]
+        ),
         character(1)
       )
     ) %>%
@@ -1659,7 +1692,8 @@ build_accreditation_export <- function() {
         !is.na(source_selection_candidate_kind),
         vapply(
           seq_len(n()),
-          function(i) get_action_summary_specificity_score(
+          function(i) resolve_dapip_persisted_specificity_score(
+            source_selection_specificity_score[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -1671,7 +1705,8 @@ build_accreditation_export <- function() {
         !is.na(source_selection_candidate_kind),
         vapply(
           seq_len(n()),
-          function(i) get_action_summary_substantive_text_length(
+          function(i) resolve_dapip_persisted_substantive_text_length(
+            source_selection_substantive_text_length[[i]],
             action_summary_source_text[[i]],
             accreditor[[i]]
           ),
@@ -2448,9 +2483,103 @@ build_accreditation_export <- function() {
         source_title = source_title,
         source_page_url = source_page_url
       )
+    supplemental_dapip_review_candidates <- public_dapip_actions %>%
+      mutate(
+        action_date = normalize_accreditation_date(action_date),
+        action_year = dplyr::coalesce(trim_optional_text(action_year), derive_year_from_date_string(action_date)),
+        action_summary_source_text = vapply(
+          seq_len(n()),
+          function(i) resolve_dapip_persisted_summary_text(
+            parsed_reason_text[[i]],
+            action_label_raw[[i]],
+            file_text_path[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]],
+            label_source[[i]]
+          ),
+          character(1)
+        ),
+        action_label_short = vapply(
+          seq_len(n()),
+          function(i) resolve_dapip_persisted_summary_short(
+            parsed_reason_snippet[[i]],
+            action_summary_source_text[[i]],
+            action_type[[i]],
+            normalize_accreditor_code(accreditor[[i]]),
+            notes[[i]]
+          ),
+          character(1)
+        ),
+        review_candidate_action_id = vapply(
+          seq_len(n()),
+          function(i) compute_accreditation_action_id(
+            unitid[[i]],
+            accreditor[[i]],
+            action_date[[i]],
+            action_label_raw[[i]],
+            export_unitid[[i]],
+            export_institution_name[[i]]
+          ),
+          character(1)
+        ),
+        queue_for_editorial_review = vapply(
+          seq_len(n()),
+          function(i) {
+            is_substantive_dapip_transaction_review_candidate(
+              public_table_strategy[[i]],
+              dplyr::coalesce(public_action_family[[i]], mapped_action_family[[i]]),
+              action_label_raw[[i]],
+              parsed_reason_text[[i]],
+              parsed_reason_snippet[[i]],
+              notes[[i]]
+            ) &&
+              is_recent_public_action(
+                action_type[[i]],
+                accreditor[[i]],
+                action_label_raw[[i]],
+                notes[[i]],
+                action_year[[i]],
+                action_date[[i]],
+                TRUE
+              )
+          },
+          logical(1)
+        ),
+        drop_teachout_process_action = vapply(
+          seq_len(n()),
+          function(i) is_teachout_process_action(
+            action_type[[i]],
+            action_label_raw[[i]],
+            action_label_short[[i]],
+            notes[[i]]
+          ),
+          logical(1)
+        )
+      ) %>%
+      filter(
+        is_primary_tracker %in% TRUE,
+        queue_for_editorial_review,
+        !drop_teachout_process_action,
+        !(review_candidate_action_id %in% final_review_action_ids)
+      ) %>%
+      transmute(
+        export_unitid = export_unitid,
+        unitid = unitid,
+        export_institution_name = export_institution_name,
+        accreditor = accreditor,
+        action_date = action_date,
+        action_type = action_type,
+        action_label_raw = action_label_raw,
+        action_label_short = action_label_short,
+        source_url = source_url,
+        source_title = source_title,
+        source_page_url = source_page_url
+      )
     review_candidate_actions_df <- dplyr::bind_rows(
       primary_actions_for_review,
-      supplemental_review_candidates
+      supplemental_review_candidates,
+      supplemental_dapip_review_candidates
     )
   }
   build_apply_only_accreditation_gate_diagnostic <- function(current_actions_df,

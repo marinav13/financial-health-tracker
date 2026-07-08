@@ -27,6 +27,7 @@ is_terminal_review_decision <- function(x) {
 }
 
 REVIEW_GATE_IGNORED_ROWS_WARN_THRESHOLD <- 20L
+CROSS_SOURCE_DUPLICATE_LABEL_SIMILARITY_MIN <- 0.5
 
 # A review row "carries an editorial decision" when an editor has touched
 # it. Any non-blank review_status other than the staging default
@@ -313,6 +314,27 @@ normalize_review_identity_text <- function(x) {
   value <- tolower(trim_text(x))
   value <- gsub("[^a-z0-9]+", " ", value, perl = TRUE)
   trimws(gsub("\\s+", " ", value, perl = TRUE))
+}
+
+tokenize_review_identity_text <- function(x) {
+  normalized <- normalize_review_identity_text(x)
+  if (!nzchar(normalized)) {
+    return(character())
+  }
+  unique(strsplit(normalized, " ", fixed = TRUE)[[1]])
+}
+
+cross_source_duplicate_label_similarity <- function(candidate_label_raw, override_label_raw) {
+  candidate_tokens <- tokenize_review_identity_text(candidate_label_raw)
+  override_tokens <- tokenize_review_identity_text(override_label_raw)
+  if (!length(candidate_tokens) && !length(override_tokens)) {
+    return(1)
+  }
+  if (!length(candidate_tokens) || !length(override_tokens)) {
+    return(0)
+  }
+  shared_tokens <- intersect(candidate_tokens, override_tokens)
+  (2 * length(shared_tokens)) / (length(candidate_tokens) + length(override_tokens))
 }
 
 ACCREDITATION_REVIEW_CANDIDATE_COLUMNS <- c(
@@ -1024,10 +1046,13 @@ assert_review_sheet_header_order <- function(sheet_rows, expected_columns, tab_l
   invisible(sheet_rows)
 }
 
-# Returns the action_id of an existing override row that describes the same
-# real-world event as the candidate, or NA if no match.
-# Matches on: same unitid + accreditor + date within 30 days + compatible action_type.
-# All existing rows (approved, reject, unreviewed) suppress the new candidate.
+# Returns metadata for an existing override row that describes the same
+# real-world event as the candidate, or NULL if no match.
+# Matches on: same unitid + accreditor + date within 30 days + compatible
+# action_type + raw-vs-raw label similarity.
+# Similar-enough rows still suppress the new candidate regardless of existing
+# review_status; approved rows additionally flip back to unreviewed if the raw
+# source label changed.
 # HLC institution pages expose a bare status badge ("On Probation",
 # "On Notice") alongside the real board-action listings. Staging never
 # creates override rows for these badge rows, so the apply-only review
@@ -1049,13 +1074,15 @@ is_hlc_institution_status_page_row <- function(accreditor, source_url, action_la
   mask
 }
 
-find_cross_source_duplicate_id <- function(candidate_row, overrides) {
-  if (!nrow(overrides)) return(NA_character_)
+find_cross_source_duplicate_match <- function(candidate_row, overrides) {
+  if (!nrow(overrides)) return(NULL)
 
   c_unitid   <- trim_text(candidate_row$unitid[[1]])
   c_accred   <- trim_text(candidate_row$accreditor[[1]])
   c_type     <- trim_text(candidate_row$action_type[[1]])
   c_date     <- suppressWarnings(as.Date(trim_text(candidate_row$action_date[[1]])))
+  c_label_raw <- candidate_row$action_label_raw[[1]]
+  c_label_normalized <- normalize_review_identity_text(c_label_raw)
   c_is_teachout_process <- is_accreditation_teachout_process_action(
     action_type = candidate_row$action_type[[1]],
     action_label_raw = candidate_row$action_label_raw[[1]],
@@ -1063,13 +1090,15 @@ find_cross_source_duplicate_id <- function(candidate_row, overrides) {
     notes = NA_character_
   )
 
-  if (!nzchar(c_unitid) || !nzchar(c_accred) || is.na(c_date)) return(NA_character_)
+  if (!nzchar(c_unitid) || !nzchar(c_accred) || is.na(c_date)) return(NULL)
 
   for (i in seq_len(nrow(overrides))) {
     o_unitid <- trim_text(overrides$source_unitid[[i]])
     o_accred <- trim_text(overrides$source_accreditor[[i]])
     o_type   <- trim_text(overrides$source_action_type[[i]])
     o_date   <- suppressWarnings(as.Date(trim_text(overrides$source_action_date[[i]])))
+    o_label_raw <- overrides$source_action_label_raw[[i]]
+    o_label_normalized <- normalize_review_identity_text(o_label_raw)
     o_is_teachout_process <- is_accreditation_teachout_process_action(
       action_type = overrides$source_action_type[[i]],
       action_label_raw = overrides$source_action_label_raw[[i]],
@@ -1091,14 +1120,28 @@ find_cross_source_duplicate_id <- function(candidate_row, overrides) {
       )
     ) || (
       c_type == "notice" && o_type %in% c("notice", "monitoring")
-    ) || (
-      o_type == "notice" && c_type %in% c("notice", "monitoring")
     )
     if (!type_match) next
 
-    return(trim_text(overrides$action_id[[i]]))
+    similarity <- cross_source_duplicate_label_similarity(c_label_raw, o_label_raw)
+    if (similarity < CROSS_SOURCE_DUPLICATE_LABEL_SIMILARITY_MIN) next
+
+    return(list(
+      action_id = trim_text(overrides$action_id[[i]]),
+      index = i,
+      similarity = similarity,
+      labels_identical = identical(c_label_normalized, o_label_normalized)
+    ))
   }
-  NA_character_
+  NULL
+}
+
+find_cross_source_duplicate_id <- function(candidate_row, overrides) {
+  match <- find_cross_source_duplicate_match(candidate_row, overrides)
+  if (is.null(match)) {
+    return(NA_character_)
+  }
+  match$action_id
 }
 
 canonicalize_accreditation_review_gate_action_ids <- function(candidates, overrides) {
@@ -1216,32 +1259,54 @@ stage_accreditation_editorial_overrides <- function(candidates,
   if (!nrow(new_rows)) return(coerce_accreditation_editorial_overrides(overrides))
 
   if (nrow(overrides)) {
-    cross_dup_ids <- vapply(
+    cross_dup_matches <- lapply(
       seq_len(nrow(new_rows)),
-      function(i) find_cross_source_duplicate_id(new_rows[i, , drop = FALSE], overrides),
-      character(1)
+      function(i) find_cross_source_duplicate_match(new_rows[i, , drop = FALSE], overrides)
     )
-    is_cross_dup <- !is.na(cross_dup_ids)
+    is_cross_dup <- vapply(cross_dup_matches, function(match) !is.null(match), logical(1))
     if (any(is_cross_dup)) {
       dup_rows <- new_rows[is_cross_dup, , drop = FALSE]
-      dup_matched <- cross_dup_ids[is_cross_dup]
-      dup_match_index <- match(dup_matched, trim_text(overrides$action_id))
-      valid_dup_match <- !is.na(dup_match_index)
-      if (any(valid_dup_match)) {
+      dup_matches <- cross_dup_matches[is_cross_dup]
+      for (i in seq_len(nrow(dup_rows))) {
+        matched_override <- dup_matches[[i]]
+        match_index <- matched_override$index
         for (field_name in names(ACCREDITATION_SOURCE_FIELD_MAP)) {
           source_column <- ACCREDITATION_SOURCE_FIELD_MAP[[field_name]]
-          overrides[[source_column]][dup_match_index[valid_dup_match]] <- dup_rows[[field_name]][valid_dup_match]
+          overrides[[source_column]][match_index] <- dup_rows[[field_name]][[i]]
         }
-      }
-      for (i in seq_len(nrow(dup_rows))) {
-        message(sprintf(
-          "Suppressing cross-source duplicate: %s (%s / %s / %s) matches existing %s",
-          dup_rows$action_id[[i]],
-          dplyr::coalesce(dup_rows$institution_name[[i]], ""),
-          dplyr::coalesce(dup_rows$accreditor[[i]], ""),
-          dplyr::coalesce(dup_rows$action_date[[i]], ""),
-          dup_matched[[i]]
-        ))
+        if (
+          trim_text(overrides$review_status[[match_index]]) == "approved" &&
+          !(overrides$inactive[[match_index]] %in% TRUE) &&
+          !isTRUE(matched_override$labels_identical)
+        ) {
+          # Tombstoned rows are excluded from the flip: they are unpublished
+          # regardless of review_status, and clearing their reviewer metadata
+          # would silently discard the approval if the row is ever revived.
+          overrides$review_status[[match_index]] <- "unreviewed"
+          overrides$reviewer[[match_index]] <- NA_character_
+          overrides$reviewer_notes[[match_index]] <- NA_character_
+          overrides$reviewed_at[[match_index]] <- NA_character_
+          message(sprintf(
+            paste(
+              "Suppressing cross-source duplicate: %s (%s / %s / %s) matches existing %s",
+              "and resets review_status to unreviewed because the raw source text changed."
+            ),
+            dup_rows$action_id[[i]],
+            dplyr::coalesce(dup_rows$institution_name[[i]], ""),
+            dplyr::coalesce(dup_rows$accreditor[[i]], ""),
+            dplyr::coalesce(dup_rows$action_date[[i]], ""),
+            matched_override$action_id
+          ))
+        } else {
+          message(sprintf(
+            "Suppressing cross-source duplicate: %s (%s / %s / %s) matches existing %s",
+            dup_rows$action_id[[i]],
+            dplyr::coalesce(dup_rows$institution_name[[i]], ""),
+            dplyr::coalesce(dup_rows$accreditor[[i]], ""),
+            dplyr::coalesce(dup_rows$action_date[[i]], ""),
+            matched_override$action_id
+          ))
+        }
       }
       new_rows <- new_rows[!is_cross_dup, , drop = FALSE]
     }

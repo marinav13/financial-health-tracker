@@ -984,7 +984,13 @@ run_test("Apply-only college cuts review gate still fails true missing override 
 
 run_test("Cross-source duplicate suppression in stage_accreditation_editorial_overrides", function() {
   make_override <- function(action_id, unitid, accreditor, action_date, action_type,
-                            action_label_raw = "Warning", review_status = "approved") {
+                            action_label_raw = "Warning due to financial reporting failures",
+                            generated_statement = action_label_raw,
+                            review_status = "approved",
+                            reviewer = "MV",
+                            reviewer_notes = NA_character_,
+                            reviewed_at = "2025-12-01",
+                            override_action_label_raw = NA_character_) {
     data.frame(
       action_id = action_id,
       source_unitid = unitid,
@@ -993,7 +999,7 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
       source_action_date = action_date,
       source_action_type = action_type,
       source_action_label_raw = action_label_raw,
-      source_generated_statement = action_label_raw,
+      source_generated_statement = generated_statement,
       source_source_url = "https://example.org/existing",
       source_source_title = "Existing source",
       source_row_origin = "scraper",
@@ -1002,22 +1008,23 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
       override_accreditor = NA_character_,
       override_action_date = NA_character_,
       override_action_type = NA_character_,
-      override_action_label_raw = NA_character_,
+      override_action_label_raw = override_action_label_raw,
       override_generated_statement = NA_character_,
       override_source_url = NA_character_,
       override_source_title = NA_character_,
       first_seen = "2025-12-01",
       review_status = review_status,
-      reviewer = "MV",
-      reviewer_notes = NA_character_,
-      reviewed_at = "2025-12-01",
+      reviewer = reviewer,
+      reviewer_notes = reviewer_notes,
+      reviewed_at = reviewed_at,
       grandfathered = FALSE,
       stringsAsFactors = FALSE
     )
   }
 
   make_candidate <- function(action_id, unitid, accreditor, action_date, action_type,
-                             action_label_raw = "Warning") {
+                             action_label_raw = "Warning due to financial reporting failures",
+                             generated_statement = action_label_raw) {
     data.frame(
       action_id = action_id,
       unitid = unitid,
@@ -1026,7 +1033,7 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
       action_date = action_date,
       action_type = action_type,
       action_label_raw = action_label_raw,
-      generated_statement = action_label_raw,
+      generated_statement = generated_statement,
       source_url = "https://example.org/new",
       source_title = "New source",
       row_origin = "scraper",
@@ -1034,44 +1041,105 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
     )
   }
 
-  # 1. Same unitid/accreditor/type within 7 days: suppressed
-  existing <- make_override("existing-1", "100", "SACSCOC", "2025-12-07", "warning")
-  candidate <- make_candidate("new-dup-1", "100", "SACSCOC", "2025-12-01", "warning", action_label_raw = "Updated warning summary")
-  candidate$generated_statement <- "Updated warning summary"
+  # 1. Same unitid/accreditor/type within 7 days with similar raw text:
+  # suppressed and source fields refresh in place.
+  existing <- make_override("existing-1", "100", "SACSCOC", "2025-12-07", "warning", review_status = "reject")
+  candidate <- make_candidate(
+    "new-dup-1",
+    "100",
+    "SACSCOC",
+    "2025-12-01",
+    "warning",
+    action_label_raw = "Warning due to financial reporting failures and governance concerns",
+    generated_statement = "Warning due to financial reporting failures and governance concerns"
+  )
   candidate$source_url <- "https://example.org/refreshed"
   candidate$source_title <- "Refreshed source"
   staged <- stage_accreditation_editorial_overrides(candidate, existing, first_seen = "2026-06-05")
   assert_true(!("new-dup-1" %in% staged$action_id), "7-day gap same event should be suppressed")
-  assert_identical(trim_text(staged$source_action_label_raw[[1]]), "Updated warning summary")
-  assert_identical(trim_text(staged$source_generated_statement[[1]]), "Updated warning summary")
+  assert_identical(trim_text(staged$source_action_label_raw[[1]]), "Warning due to financial reporting failures and governance concerns")
+  assert_identical(trim_text(staged$source_generated_statement[[1]]), "Warning due to financial reporting failures and governance concerns")
   assert_identical(trim_text(staged$source_source_url[[1]]), "https://example.org/refreshed")
+  assert_identical(trim_text(staged$review_status[[1]]), "reject")
 
-  # 2. 26-day gap within 30-day tolerance: suppressed
-  existing2 <- make_override("existing-2", "200", "WSCUC", "2025-06-27", "monitoring")
-  candidate2 <- make_candidate("new-dup-2", "200", "WSCUC", "2025-06-01", "notice")
+  # 2. A new notice candidate may still absorb an older monitoring row.
+  existing2 <- make_override(
+    "existing-2",
+    "200",
+    "WSCUC",
+    "2025-06-27",
+    "monitoring",
+    action_label_raw = "Monitoring notice regarding financial responsibility concerns",
+    generated_statement = "Monitoring notice regarding financial responsibility concerns"
+  )
+  candidate2 <- make_candidate(
+    "new-dup-2",
+    "200",
+    "WSCUC",
+    "2025-06-01",
+    "notice",
+    action_label_raw = "Notice regarding financial responsibility monitoring concerns",
+    generated_statement = "Notice regarding financial responsibility monitoring concerns"
+  )
   staged2 <- stage_accreditation_editorial_overrides(candidate2, existing2, first_seen = "2026-06-05")
   assert_true(!("new-dup-2" %in% staged2$action_id), "26-day gap notice/monitoring should be suppressed")
 
-  # 3. Different institution at same date: NOT suppressed
-  existing3 <- make_override("existing-3", "300", "SACSCOC", "2025-12-01", "warning")
-  candidate3 <- make_candidate("new-diff-inst", "999", "SACSCOC", "2025-12-01", "warning")
+  # 3. The reverse direction must fail closed: monitoring follow-up rows do
+  # not swallow an existing notice sanction.
+  existing3 <- make_override(
+    "existing-3",
+    "300",
+    "SACSCOC",
+    "2025-12-27",
+    "notice",
+    action_label_raw = "Notice regarding financial responsibility monitoring concerns"
+  )
+  candidate3 <- make_candidate(
+    "new-monitoring-followup",
+    "300",
+    "SACSCOC",
+    "2025-12-01",
+    "monitoring",
+    action_label_raw = "Monitoring follow-up regarding financial responsibility concerns"
+  )
   staged3 <- stage_accreditation_editorial_overrides(candidate3, existing3, first_seen = "2026-06-05")
-  assert_true("new-diff-inst" %in% staged3$action_id, "Different unitid should not be suppressed")
+  assert_true("new-monitoring-followup" %in% staged3$action_id, "Monitoring follow-up rows must not swallow a formal notice sanction")
 
-  # 4. Same institution/accreditor, 45-day gap: NOT suppressed
+  # 4. Same-type distinct actions within 30 days: NOT suppressed.
+  existing4 <- make_override(
+    "existing-4",
+    "400",
+    "MSCHE",
+    "2025-12-01",
+    "other",
+    action_label_raw = "Grant Substantive Change: Ownership"
+  )
+  candidate4 <- make_candidate(
+    "new-distinct-other",
+    "400",
+    "MSCHE",
+    "2025-12-18",
+    "other",
+    action_label_raw = "To acknowledge receipt of notification that the merger of Keystone College into Keystone College, LLC occurred on May 30, 2025."
+  )
+  staged4 <- stage_accreditation_editorial_overrides(candidate4, existing4, first_seen = "2026-06-05")
+  assert_true("new-distinct-other" %in% staged4$action_id, "Low-similarity same-type actions must stage as new rows")
+
+  # 5. Same institution/accreditor, 45-day gap: NOT suppressed.
   existing4 <- make_override("existing-4", "400", "HLC", "2025-12-01", "warning")
   candidate4 <- make_candidate("new-too-far", "400", "HLC", "2026-01-15", "warning")
-  staged4 <- stage_accreditation_editorial_overrides(candidate4, existing4, first_seen = "2026-06-05")
-  assert_true("new-too-far" %in% staged4$action_id, "45-day gap should not be suppressed")
+  staged5 <- stage_accreditation_editorial_overrides(candidate4, existing4, first_seen = "2026-06-05")
+  assert_true("new-too-far" %in% staged5$action_id, "45-day gap should not be suppressed")
 
-  # 5. Same institution/accreditor/date but incompatible types (warning vs removed): NOT suppressed
+  # 6. Same institution/accreditor/date but incompatible types (warning vs
+  # removed): NOT suppressed.
   existing5 <- make_override("existing-5", "500", "SACSCOC", "2025-12-01", "removed")
   candidate5 <- make_candidate("new-diff-type", "500", "SACSCOC", "2025-12-01", "warning")
-  staged5 <- stage_accreditation_editorial_overrides(candidate5, existing5, first_seen = "2026-06-05")
-  assert_true("new-diff-type" %in% staged5$action_id, "Incompatible action types should not be suppressed")
+  staged6 <- stage_accreditation_editorial_overrides(candidate5, existing5, first_seen = "2026-06-05")
+  assert_true("new-diff-type" %in% staged6$action_id, "Incompatible action types should not be suppressed")
 
-  # 6. Same institution/accreditor within 30 days but teach-out process vs
-  # actual resignation: NOT suppressed
+  # 7. Same institution/accreditor within 30 days but teach-out process vs
+  # actual resignation: NOT suppressed.
   existing6 <- make_override(
     "existing-6",
     "151810",
@@ -1090,16 +1158,123 @@ run_test("Cross-source duplicate suppression in stage_accreditation_editorial_ov
     action_label_raw = "Martin University Voluntary Resignation of Accreditation Effective: December 31, 2025 Martin University in Indianapolis, Indiana, voluntarily resigned its accreditation with the Higher Learning Commission effective December 31, 2025."
   )
   candidate6$generated_statement <- "Voluntarily Surrendered Accreditation"
-  staged6 <- stage_accreditation_editorial_overrides(candidate6, existing6, first_seen = "2026-06-08")
+  staged7 <- stage_accreditation_editorial_overrides(candidate6, existing6, first_seen = "2026-06-08")
   assert_true(
-    "new-martin-resignation" %in% staged6$action_id,
+    "new-martin-resignation" %in% staged7$action_id,
     "Teach-out process approvals must not suppress a later same-month resignation action."
   )
 })
 
+run_test("Cross-source duplicate suppression flips approved rows back to unreviewed on raw-text drift", function() {
+  existing <- data.frame(
+    action_id = "existing-approved",
+    source_unitid = "100",
+    source_institution_name = "Example University",
+    source_accreditor = "SACSCOC",
+    source_action_date = "2025-12-07",
+    source_action_type = "warning",
+    source_action_label_raw = "Warning due to financial reporting failures",
+    source_generated_statement = "Warning due to financial reporting failures",
+    source_source_url = "https://example.org/existing",
+    source_source_title = "Existing source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = "Editor-facing public text",
+    override_generated_statement = "Editor-facing public text",
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = "Approved under old wording",
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+  candidate <- data.frame(
+    action_id = "new-approved-dup",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Warning due to financial reporting failures and governance concerns",
+    generated_statement = "Warning due to financial reporting failures and governance concerns",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+
+  staged <- stage_accreditation_editorial_overrides(candidate, existing, first_seen = "2026-06-05")
+  assert_true(!("new-approved-dup" %in% staged$action_id), "Approved duplicate rows should still fold into the existing override row")
+  assert_identical(trim_text(staged$source_action_label_raw[[1]]), "Warning due to financial reporting failures and governance concerns")
+  assert_identical(trim_text(staged$review_status[[1]]), "unreviewed")
+  assert_identical(trim_text(staged$reviewer[[1]]), "")
+  assert_identical(trim_text(staged$reviewer_notes[[1]]), "")
+  assert_identical(trim_text(staged$reviewed_at[[1]]), "")
+  assert_identical(trim_text(staged$override_action_label_raw[[1]]), "Editor-facing public text")
+})
+
+run_test("Cross-source duplicate suppression compares raw source text, not edited override text", function() {
+  existing <- data.frame(
+    action_id = "existing-raw-contract",
+    source_unitid = "100",
+    source_institution_name = "Example University",
+    source_accreditor = "SACSCOC",
+    source_action_date = "2025-12-07",
+    source_action_type = "warning",
+    source_action_label_raw = "Warning due to financial reporting failures",
+    source_generated_statement = "Warning due to financial reporting failures",
+    source_source_url = "https://example.org/existing",
+    source_source_title = "Existing source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = "Completely different editor text",
+    override_generated_statement = "Completely different editor text",
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = "approved",
+    reviewer = "MV",
+    reviewer_notes = "Reviewed",
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    stringsAsFactors = FALSE
+  )
+  candidate <- data.frame(
+    action_id = "new-raw-contract",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-01",
+    action_type = "warning",
+    action_label_raw = "Warning due to financial reporting failures",
+    generated_statement = "Warning due to financial reporting failures",
+    source_url = "https://example.org/refreshed",
+    source_title = "Refreshed source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+
+  staged <- stage_accreditation_editorial_overrides(candidate, existing, first_seen = "2026-06-05")
+  assert_true(!("new-raw-contract" %in% staged$action_id), "The raw-vs-raw matcher should still suppress identical source text")
+  assert_identical(trim_text(staged$review_status[[1]]), "approved")
+  assert_identical(trim_text(staged$reviewer[[1]]), "MV")
+  assert_identical(trim_text(staged$override_action_label_raw[[1]]), "Completely different editor text")
+})
+
 run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot ids to existing override rows", function() {
   make_override <- function(action_id, unitid, accreditor, action_date, action_type,
-                            action_label_raw = "Warning", generated_statement = action_label_raw,
+                            action_label_raw = "Warning due to financial reporting failures", generated_statement = action_label_raw,
                             review_status = "approved") {
     data.frame(
       action_id = action_id,
@@ -1139,8 +1314,8 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
     accreditor = "SACSCOC",
     action_date = "2025-12-01",
     action_type = "warning",
-    action_label_raw = "Updated warning summary",
-    generated_statement = "Updated warning summary",
+    action_label_raw = "Warning due to financial reporting failures and governance concerns",
+    generated_statement = "Warning due to financial reporting failures and governance concerns",
     source_url = "https://example.org/refreshed",
     source_title = "Refreshed source",
     row_origin = "scraper",
@@ -1152,8 +1327,8 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
     "SACSCOC",
     "2025-12-07",
     "warning",
-    action_label_raw = "Existing warning label",
-    generated_statement = "Existing warning"
+    action_label_raw = "Warning due to financial reporting failures",
+    generated_statement = "Warning due to financial reporting failures"
   )
   allowed_ids <- canonicalize_accreditation_review_gate_action_ids(committed_candidates, overrides)
   assert_identical(allowed_ids, "existing-1")
@@ -1165,8 +1340,8 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
     accreditor = "SACSCOC",
     action_date = "2025-12-01",
     action_type = "warning",
-    action_label_raw = "Updated warning summary",
-    action_label_short = "Updated warning summary",
+    action_label_raw = "Warning due to financial reporting failures and governance concerns",
+    action_label_short = "Warning due to financial reporting failures and governance concerns",
     source_url = "https://example.org/refreshed",
     source_title = "Refreshed source",
     source_page_url = "https://example.org/refreshed",
@@ -1184,7 +1359,107 @@ run_test("Apply-only accreditation review gate canonicalizes duplicate snapshot 
 
   assert_identical(nrow(applied), 1L)
   assert_identical(trim_text(applied$action_id[[1]]), "existing-1")
-  assert_identical(trim_text(applied$action_label_short[[1]]), "Existing warning")
+  assert_identical(trim_text(applied$action_label_short[[1]]), "Warning due to financial reporting failures")
+})
+
+run_test("Apply-only accreditation review gate does not canonicalize low-similarity or monitoring-follow-up rows", function() {
+  overrides <- rbind(
+    data.frame(
+      action_id = "existing-other",
+      source_unitid = "400",
+      source_institution_name = "Example University",
+      source_accreditor = "MSCHE",
+      source_action_date = "2025-12-01",
+      source_action_type = "other",
+      source_action_label_raw = "Grant Substantive Change: Ownership",
+      source_generated_statement = "Grant Substantive Change: Ownership",
+      source_source_url = "https://example.org/ownership",
+      source_source_title = "Existing source",
+      source_row_origin = "scraper",
+      override_unitid = NA_character_,
+      override_institution_name = NA_character_,
+      override_accreditor = NA_character_,
+      override_action_date = NA_character_,
+      override_action_type = NA_character_,
+      override_action_label_raw = NA_character_,
+      override_generated_statement = NA_character_,
+      override_source_url = NA_character_,
+      override_source_title = NA_character_,
+      first_seen = "2025-12-01",
+      review_status = "approved",
+      reviewer = "MV",
+      reviewer_notes = NA_character_,
+      reviewed_at = "2025-12-01",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    ),
+    data.frame(
+      action_id = "existing-notice",
+      source_unitid = "300",
+      source_institution_name = "Example University",
+      source_accreditor = "SACSCOC",
+      source_action_date = "2025-12-27",
+      source_action_type = "notice",
+      source_action_label_raw = "Notice regarding financial responsibility monitoring concerns",
+      source_generated_statement = "Notice regarding financial responsibility monitoring concerns",
+      source_source_url = "https://example.org/notice",
+      source_source_title = "Existing source",
+      source_row_origin = "scraper",
+      override_unitid = NA_character_,
+      override_institution_name = NA_character_,
+      override_accreditor = NA_character_,
+      override_action_date = NA_character_,
+      override_action_type = NA_character_,
+      override_action_label_raw = NA_character_,
+      override_generated_statement = NA_character_,
+      override_source_url = NA_character_,
+      override_source_title = NA_character_,
+      first_seen = "2025-12-01",
+      review_status = "approved",
+      reviewer = "MV",
+      reviewer_notes = NA_character_,
+      reviewed_at = "2025-12-01",
+      grandfathered = FALSE,
+      stringsAsFactors = FALSE
+    )
+  )
+
+  committed_candidates <- rbind(
+    data.frame(
+      action_id = "new-distinct-other",
+      unitid = "400",
+      institution_name = "Example University",
+      accreditor = "MSCHE",
+      action_date = "2025-12-18",
+      action_type = "other",
+      action_label_raw = "To acknowledge receipt of notification that the merger of Keystone College into Keystone College, LLC occurred on May 30, 2025.",
+      generated_statement = "To acknowledge receipt of notification that the merger of Keystone College into Keystone College, LLC occurred on May 30, 2025.",
+      source_url = "https://example.org/merger",
+      source_title = "Committed candidate",
+      row_origin = "scraper",
+      stringsAsFactors = FALSE
+    ),
+    data.frame(
+      action_id = "new-monitoring-followup",
+      unitid = "300",
+      institution_name = "Example University",
+      accreditor = "SACSCOC",
+      action_date = "2025-12-01",
+      action_type = "monitoring",
+      action_label_raw = "Monitoring follow-up regarding financial responsibility concerns",
+      generated_statement = "Monitoring follow-up regarding financial responsibility concerns",
+      source_url = "https://example.org/monitoring",
+      source_title = "Committed candidate",
+      row_origin = "scraper",
+      stringsAsFactors = FALSE
+    )
+  )
+
+  allowed_ids <- canonicalize_accreditation_review_gate_action_ids(committed_candidates, overrides)
+  assert_identical(
+    sort(allowed_ids),
+    sort(c("new-distinct-other", "new-monitoring-followup"))
+  )
 })
 
 run_test("HLC institution-page status rows are exempt from staging and the apply-only review gate", function() {
@@ -2444,4 +2719,51 @@ run_test("Sheet-facing selection and staging both respect tombstones", function(
     tracker_unitids = "100"
   )
   assert_identical(nrow(sheet_rows), 0L)
+})
+
+run_test("Cross-source fold never flips a tombstoned approved row to unreviewed", function() {
+  tombstoned <- make_tombstone_test_override(
+    "act-dead-approved", "100",
+    review_status = "approved",
+    inactive = TRUE,
+    inactive_reason = "teachout_cleanup"
+  )
+  # Same institution/accreditor, 6 days apart, same type, reworded label:
+  # similar enough to suppress, different enough that an active approved row
+  # would flip to unreviewed.
+  candidate <- data.frame(
+    action_id = "new-reworded",
+    unitid = "100",
+    institution_name = "Example University",
+    accreditor = "SACSCOC",
+    action_date = "2025-12-07",
+    action_type = "warning",
+    action_label_raw = "Warning continued for good cause",
+    generated_statement = "Warning continued for good cause",
+    source_url = "https://example.org/new",
+    source_title = "New source",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+  tombstoned$source_action_label_raw <- "Warning continued"
+  tombstoned$source_generated_statement <- "Warning continued"
+
+  staged <- stage_accreditation_editorial_overrides(candidate, tombstoned, first_seen = "2026-07-08")
+  assert_true(!("new-reworded" %in% trim_text(staged$action_id)),
+              "Reworded duplicate must still be suppressed by the tombstoned row")
+  row <- staged[trim_text(staged$action_id) == "act-dead-approved", , drop = FALSE]
+  assert_identical(trim_text(row$review_status), "approved",
+                   "Tombstoned approved row must keep its review_status")
+  assert_identical(trim_text(row$reviewer), "MV",
+                   "Tombstoned approved row must keep its reviewer metadata")
+  assert_true(row$inactive %in% TRUE, "Row stays tombstoned")
+
+  # Control: the same fold against an ACTIVE approved row does flip.
+  active <- tombstoned
+  active$inactive <- FALSE
+  active$inactive_reason <- NA_character_
+  staged2 <- stage_accreditation_editorial_overrides(candidate, active, first_seen = "2026-07-08")
+  row2 <- staged2[trim_text(staged2$action_id) == "act-dead-approved", , drop = FALSE]
+  assert_identical(trim_text(row2$review_status), "unreviewed",
+                   "Active approved row with changed raw text must flip to unreviewed")
 })

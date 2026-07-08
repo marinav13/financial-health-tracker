@@ -2877,6 +2877,120 @@ extract_hlc_findings <- function(text) {
   )$source
 }
 
+resolve_dapip_persisted_summary_text <- function(parsed_reason_text = NA_character_,
+                                                 action_label_raw,
+                                                 file_text_path = NA_character_,
+                                                 action_type = NA_character_,
+                                                 accreditor = NA_character_,
+                                                 notes = NA_character_,
+                                                 action_label_source_hint = NA_character_) {
+  persisted <- .normalize_action_summary_text(parsed_reason_text)
+  if (!is.na(persisted) && nzchar(persisted)) {
+    return(persisted)
+  }
+
+  .select_action_summary_source_text(
+    action_label_raw = action_label_raw,
+    file_text_path = file_text_path,
+    action_type = action_type,
+    accreditor = accreditor,
+    notes = notes,
+    action_label_source_hint = action_label_source_hint
+  )
+}
+
+resolve_dapip_persisted_summary_source <- function(parsed_reason_source = NA_character_,
+                                                   action_label_raw,
+                                                   file_text_path = NA_character_,
+                                                   action_type = NA_character_,
+                                                   accreditor = NA_character_,
+                                                   notes = NA_character_,
+                                                   action_label_source_hint = NA_character_) {
+  persisted <- trimws(as.character(parsed_reason_source %||% ""))
+  if (nzchar(persisted)) {
+    return(persisted)
+  }
+
+  .select_action_summary_source_kind(
+    action_label_raw = action_label_raw,
+    file_text_path = file_text_path,
+    action_type = action_type,
+    accreditor = accreditor,
+    notes = notes,
+    action_label_source_hint = action_label_source_hint
+  )
+}
+
+resolve_dapip_persisted_summary_short <- function(parsed_reason_snippet = NA_character_,
+                                                  summary_text = NA_character_,
+                                                  action_type = NA_character_,
+                                                  accreditor = NA_character_,
+                                                  notes = NA_character_) {
+  persisted <- trimws(as.character(parsed_reason_snippet %||% ""))
+  if (nzchar(persisted)) {
+    return(persisted)
+  }
+
+  derive_action_label_short(
+    action_type = action_type,
+    action_label_raw = summary_text,
+    accreditor = accreditor,
+    notes = notes
+  )
+}
+
+resolve_dapip_persisted_specificity_score <- function(source_selection_specificity_score = NA_integer_,
+                                                      summary_text = NA_character_,
+                                                      accreditor = NA_character_) {
+  persisted <- suppressWarnings(as.integer(source_selection_specificity_score %||% NA_integer_))
+  if (!is.na(persisted)) {
+    return(persisted)
+  }
+
+  get_action_summary_specificity_score(summary_text, accreditor)
+}
+
+resolve_dapip_persisted_substantive_text_length <- function(source_selection_substantive_text_length = NA_integer_,
+                                                            summary_text = NA_character_,
+                                                            accreditor = NA_character_) {
+  persisted <- suppressWarnings(as.integer(source_selection_substantive_text_length %||% NA_integer_))
+  if (!is.na(persisted)) {
+    return(persisted)
+  }
+
+  get_action_summary_substantive_text_length(summary_text, accreditor)
+}
+
+is_substantive_dapip_transaction_review_candidate <- function(public_table_strategy = NA_character_,
+                                                              mapped_action_family = NA_character_,
+                                                              action_label_raw = NA_character_,
+                                                              parsed_reason_text = NA_character_,
+                                                              parsed_reason_snippet = NA_character_,
+                                                              notes = NA_character_) {
+  strategy <- trimws(as.character(public_table_strategy %||% ""))
+  family <- tolower(trimws(as.character(mapped_action_family %||% "")))
+  if (!identical(strategy, "dapip_backed_keep") || !identical(family, "ownership_change")) {
+    return(FALSE)
+  }
+
+  content <- .normalize_action_summary_text(paste(
+    action_label_raw %||% "",
+    parsed_reason_text %||% "",
+    parsed_reason_snippet %||% "",
+    notes %||% ""
+  ))
+  if (!nzchar(content)) {
+    return(FALSE)
+  }
+
+  grepl(
+    "merger|absorption|sale of|sale to|acquisition|change of ownership|change in ownership|change of control|sole member|member substitution|surviving institution",
+    content,
+    ignore.case = TRUE,
+    perl = TRUE
+  )
+}
+
 .extract_sacscoc_disclosure_reason_summary <- function(text) {
   value <- stringr::str_squish(as.character(text %||% ""))
   if (!nzchar(value)) return(NA_character_)

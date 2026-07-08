@@ -205,7 +205,12 @@ run_test("DAPIP actions and audit pipeline fixture", function() {
   assert_true(grepl("denied reaffirmation", tolower(warning_row$action_label_raw[[1]])),
     "DAPIP filtered warning label should prefer extracted file text when available.")
   assert_equal(warning_row$parsed_reason_source[[1]], "pdf_body")
-  assert_true(grepl("denied reaffirmation", tolower(warning_row$parsed_reason_snippet[[1]])))
+  assert_true(
+    grepl("continued the institution on warning", tolower(warning_row$parsed_reason_snippet[[1]])) &&
+      grepl("8.2.a", warning_row$parsed_reason_snippet[[1]], fixed = TRUE) &&
+      grepl("13.3", warning_row$parsed_reason_snippet[[1]], fixed = TRUE),
+    "Warning parsed_reason_snippet should follow the established SACSCOC compact-summary contract."
+  )
 
   env_audit <- new.env(parent = globalenv())
   sys.source(file.path(fixture_root, "scripts", "build_dapip_vs_scraper_audit.R"), envir = env_audit)

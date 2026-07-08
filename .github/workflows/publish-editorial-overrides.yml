@@ -274,7 +274,8 @@ jobs:
               --add data/ \
               --add data_pipelines/accreditation/editorial_overrides.csv \
               --add data_pipelines/accreditation/accreditation_review_candidates.csv \
-              --add-if-exists data_pipelines/college_cuts/review_quarantine.csv
+              --add-if-exists data_pipelines/college_cuts/review_quarantine.csv \
+              --add-if-exists data_pipelines/accreditation/review_quarantine.csv
           else
             bash ./scripts/ci/commit_and_push.sh \
               --commit-message "chore: publish editorial updates [skip ci]" \
@@ -287,5 +288,6 @@ jobs:
               --add data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
               --add data_pipelines/accreditation/editorial_overrides.csv \
               --add data_pipelines/college_cuts/editorial_overrides.csv \
-              --add-if-exists data_pipelines/college_cuts/review_quarantine.csv
+              --add-if-exists data_pipelines/college_cuts/review_quarantine.csv \
+              --add-if-exists data_pipelines/accreditation/review_quarantine.csv
           fi

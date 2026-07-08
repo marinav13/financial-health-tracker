@@ -538,6 +538,7 @@ jobs:
             --add data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             --add data_pipelines/scorecard/tracker_outcomes_joined.csv \
             --add-if-exists data_pipelines/college_cuts/review_quarantine.csv \
+            --add-if-exists data_pipelines/accreditation/review_quarantine.csv \
             --add-if-exists data_pipelines/drift_state.json \
             --conflict-path data/ \
             --conflict-path data_pipelines/accreditation/accreditation_review_candidates.csv \

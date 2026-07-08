@@ -484,6 +484,13 @@ main <- function(cli_args = NULL) {
   }
 
   dapip <- readr::read_csv(dapip_input, show_col_types = FALSE, progress = FALSE) |>
+    (\(df) {
+      if (!"label_source" %in% names(df)) df$label_source <- NA_character_
+      if (!"parsed_reason_text" %in% names(df)) df$parsed_reason_text <- NA_character_
+      if (!"parsed_reason_source" %in% names(df)) df$parsed_reason_source <- NA_character_
+      if (!"parsed_reason_snippet" %in% names(df)) df$parsed_reason_snippet <- NA_character_
+      df
+    })() |>
     dplyr::mutate(
       dapip_row_id = dplyr::row_number(),
       unitid = as.character(unitid),
@@ -652,7 +659,8 @@ main <- function(cli_args = NULL) {
         notes = scraper_notes,
         action_label_source_hint = scraper_action_label_source
       )),
-      dapip_display_reason_source = value_or_na(.select_action_summary_source_kind(
+      dapip_display_reason_source = value_or_na(resolve_dapip_persisted_summary_source(
+        parsed_reason_source = parsed_reason_source,
         action_label_raw = action_label_raw,
         file_text_path = file_text_path,
         action_type = action_type,

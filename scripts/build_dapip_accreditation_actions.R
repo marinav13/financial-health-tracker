@@ -138,8 +138,11 @@ main <- function(cli_args = NULL) {
       keep_reason = character(),
       file_cache_path = character(),
       file_text_path = character(),
+      parsed_reason_text = character(),
       parsed_reason_source = character(),
-      parsed_reason_snippet = character()
+      parsed_reason_snippet = character(),
+      source_selection_specificity_score = integer(),
+      source_selection_substantive_text_length = integer()
     )
   }
 
@@ -334,6 +337,12 @@ main <- function(cli_args = NULL) {
           notes = filtered$notes[[1]],
           action_label_source_hint = filtered$label_source[[1]]
         )
+        # Persist the cache-derived summary choice here so downstream export and
+        # review-candidate assembly do not re-read the gitignored DAPIP text
+        # cache. Re-classifying later from only the committed generic fields was
+        # explicitly rejected because it would drop PDF-text classification
+        # quality on publish/cache-cold runners.
+        filtered$parsed_reason_text <- summary_text
         filtered$parsed_reason_source <- .select_action_summary_source_kind(
           action_label_raw = filtered$action_label_raw[[1]],
           file_text_path = filtered$file_text_path[[1]],
@@ -347,6 +356,14 @@ main <- function(cli_args = NULL) {
           action_label_raw = summary_text,
           accreditor = normalize_accreditor_code(filtered$accreditor[[1]]),
           notes = filtered$notes[[1]]
+        )
+        filtered$source_selection_specificity_score <- get_action_summary_specificity_score(
+          summary_text,
+          normalize_accreditor_code(filtered$accreditor[[1]])
+        )
+        filtered$source_selection_substantive_text_length <- get_action_summary_substantive_text_length(
+          summary_text,
+          normalize_accreditor_code(filtered$accreditor[[1]])
         )
         classed <- dapip_classify_action_code(
           action_code,

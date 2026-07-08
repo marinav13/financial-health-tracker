@@ -1135,6 +1135,57 @@ run_test("select_action_summary_source_text: MSCHE DAPIP notes override raw lett
   )
 })
 
+run_test("resolve_dapip_persisted_summary_text: committed parsed reason text outranks cache lookup", function() {
+  assert_identical(
+    resolve_dapip_persisted_summary_text(
+      parsed_reason_text = "Merger of Bloomfield College with Montclair State University (effective June 30, 2023)",
+      action_label_raw = "Grant Substantive Change: Ownership",
+      file_text_path = "Z:/not-a-real-dapip-cache-path.txt",
+      action_type = "other",
+      accreditor = "MSCHE",
+      notes = "Grant Substantive Change: Ownership"
+    ),
+    "Merger of Bloomfield College with Montclair State University (effective June 30, 2023)"
+  )
+})
+
+run_test("resolve_dapip_persisted_summary_short: committed parsed reason snippet outranks recompute", function() {
+  assert_identical(
+    resolve_dapip_persisted_summary_short(
+      parsed_reason_snippet = "Approved merger of University of Redlands and Woodbury University",
+      summary_text = "June 1, 2026 ... long DAPIP letter body ...",
+      action_type = "other",
+      accreditor = "WSCUC",
+      notes = "Grant Substantive Change: Ownership"
+    ),
+    "Approved merger of University of Redlands and Woodbury University"
+  )
+})
+
+run_test("is_substantive_dapip_transaction_review_candidate: ownership-change dapip keep rows route to review from transaction text", function() {
+  assert_true(isTRUE(is_substantive_dapip_transaction_review_candidate(
+    public_table_strategy = "dapip_backed_keep",
+    mapped_action_family = "ownership_change",
+    action_label_raw = "Grant Substantive Change: Ownership",
+    parsed_reason_text = NA_character_,
+    parsed_reason_snippet = "Grant Substantive Change: Ownership",
+    notes = paste(
+      "Grant Substantive Change: Ownership",
+      "To note the complex substantive change request includes the merger of",
+      "Bloomfield College with Montclair State University, effective June 30, 2023.",
+      sep = " | "
+    )
+  )))
+  assert_true(!isTRUE(is_substantive_dapip_transaction_review_candidate(
+    public_table_strategy = "dapip_backed_keep",
+    mapped_action_family = "monitoring_or_notice",
+    action_label_raw = "Heightened Monitoring or Focused Review",
+    parsed_reason_text = "Requested to submit a Monitoring Report.",
+    parsed_reason_snippet = "Requested to submit a Monitoring Report.",
+    notes = "Heightened Monitoring or Focused Review"
+  )))
+})
+
 run_test("select_action_summary_source_text: MSCHE correspondence wrappers prefer file text", function() {
   raw <- paste0(
     "Pullo: Notification of Non-Compliance Action On behalf of the Middle States Commission on Higher Education, ",

@@ -3216,3 +3216,37 @@ run_test("resolve_dapip_persisted_summary_short surfaces the DAPIP justification
     "Approved merger of University of Redlands and Woodbury University"
   )
 })
+
+run_test("clean_text_extraction_artifacts repairs ligature and apostrophe mojibake at the write boundary", function() {
+  fffd <- "\uFFFD"
+  # Real SDCC/WSCUC production string: lost ti and ft ligatures plus a raw ff ligature.
+  sdcc <- paste0(
+    "These ac", fffd, "ons were taken a", fffd, "er reviewing the ins", fffd, "tu",
+    fffd, "on\u2019s appeal of the withdrawal of its accredita", fffd, "on e\uFB00ec",
+    fffd, "ve July 14, 2023."
+  )
+  assert_identical(
+    clean_text_extraction_artifacts(sdcc),
+    "These actions were taken after reviewing the institution\u2019s appeal of the withdrawal of its accreditation effective July 14, 2023."
+  )
+
+  # Lost curly apostrophe (the Bloomfield probation pattern).
+  assert_identical(
+    clean_text_extraction_artifacts(paste0("the institution", fffd, "s accreditation is in jeopardy")),
+    "the institution's accreditation is in jeopardy"
+  )
+
+  # Trailing stray replacement char (the EWU cuts pattern) is dropped.
+  assert_identical(
+    clean_text_extraction_artifacts(paste0("at the end of the 2025-26", fffd)),
+    "at the end of the 2025-26"
+  )
+
+  # Unrecognized tokens are left alone rather than guessed.
+  weird <- paste0("Zyx", fffd, "qrs")
+  assert_identical(clean_text_extraction_artifacts(weird), "Zyxqrs")
+
+  # Clean strings pass through untouched, NA stays NA.
+  assert_identical(clean_text_extraction_artifacts("No artifacts here."), "No artifacts here.")
+  assert_true(is.na(clean_text_extraction_artifacts(NA_character_)))
+})

@@ -51,9 +51,9 @@ run_test("Staged college cuts overrides keep only tracker-scoped review rows", f
 
   assert_true(nrow(staged) > 0L, "Expected staged college cuts overrides to be non-empty.")
   assert_identical(
-    nrow(out_of_scope),
+    sum(!(out_of_scope$inactive %in% TRUE)),
     0L,
-    "Staged non-manual college cuts overrides should only include tracker institutions."
+    "Staged non-manual out-of-scope college cuts overrides must be tombstoned (inactive), not active."
   )
 })
 
@@ -80,8 +80,8 @@ run_test("Accreditation committed overrides stay within tracker roster", functio
 
   assert_true(nrow(overrides) > 0L, "Expected committed accreditation overrides to be non-empty.")
   assert_identical(
-    nrow(out_of_scope),
+    sum(!(out_of_scope$inactive %in% TRUE)),
     0L,
-    "Accreditation committed overrides should only include tracker institutions."
+    "Out-of-scope committed accreditation overrides must be tombstoned (inactive), not active."
   )
 })

@@ -383,7 +383,9 @@ ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS <- c(
   "reviewer",
   "reviewer_notes",
   "reviewed_at",
-  "grandfathered"
+  "grandfathered",
+  "inactive",
+  "inactive_reason"
 )
 
 ACCREDITATION_REQUIRED_MANUAL_FIELDS <- c(
@@ -474,6 +476,8 @@ empty_accreditation_editorial_overrides <- function() {
     reviewer_notes = character(),
     reviewed_at = character(),
     grandfathered = logical(),
+    inactive = logical(),
+    inactive_reason = character(),
     stringsAsFactors = FALSE
   )
 }
@@ -844,6 +848,9 @@ coerce_accreditation_editorial_overrides <- function(df) {
   overrides$reviewer_notes <- if ("reviewer_notes" %in% names(normalized)) trim_optional_text(normalized$reviewer_notes) else NA_character_
   overrides$reviewed_at <- if ("reviewed_at" %in% names(normalized)) trim_optional_text(normalized$reviewed_at) else NA_character_
   overrides$grandfathered <- if ("grandfathered" %in% names(normalized)) coerce_false_default_logical(normalized$grandfathered) else FALSE
+  overrides$inactive <- if ("inactive" %in% names(normalized)) coerce_false_default_logical(normalized$inactive) else FALSE
+  overrides$inactive_reason <- if ("inactive_reason" %in% names(normalized)) trim_optional_text(normalized$inactive_reason) else NA_character_
+  overrides$inactive_reason[!(overrides$inactive %in% TRUE)] <- NA_character_
   overrides$source_row_origin <- normalize_review_row_origin(overrides$source_row_origin)
   overrides$source_row_origin[is.na(overrides$source_row_origin)] <- "scraper"
 
@@ -912,7 +919,7 @@ filter_accreditation_overrides_for_tracker_scope <- function(overrides,
   override_unitid <- trim_optional_text(local_rows$override_unitid)
   effective_unitid <- dplyr::coalesce(override_unitid, source_unitid)
   manual_mask <- !is.na(row_origin) & row_origin == "manual"
-  invalid_manual <- manual_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
+  invalid_manual <- manual_mask & !(local_rows$inactive %in% TRUE) & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
   if (any(invalid_manual)) {
     sample_rows <- local_rows[invalid_manual, , drop = FALSE]
     sample_labels <- paste(
@@ -935,8 +942,29 @@ filter_accreditation_overrides_for_tracker_scope <- function(overrides,
     )
   }
 
-  keep_rows <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
-  local_rows[keep_rows, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+  # Tombstone instead of delete: out-of-scope rows stay in the CSV marked
+  # inactive so their ids remain known to the strict pull guard and staging
+  # dedup (a Sheet row matching a tombstoned CSV row is not an orphan, and
+  # a tombstoned action is never re-staged as new). Rows that come back
+  # into scope are revived, but only when this filter was what tombstoned
+  # them - other reasons (e.g. teachout_cleanup) are permanent here.
+  in_scope <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
+  newly_out <- !in_scope & !(local_rows$inactive %in% TRUE)
+  revived <- in_scope & (local_rows$inactive %in% TRUE) &
+    trim_text(local_rows$inactive_reason) == "out_of_tracker_scope"
+  if (any(newly_out)) {
+    message(sprintf(
+      "%s: tombstoning %d out-of-scope row(s) (inactive_reason=out_of_tracker_scope). Sample action_id values: %s",
+      context,
+      sum(newly_out),
+      paste(utils::head(trim_text(local_rows$action_id[newly_out]), 5L), collapse = ", ")
+    ))
+  }
+  local_rows$inactive[newly_out] <- TRUE
+  local_rows$inactive_reason[newly_out] <- "out_of_tracker_scope"
+  local_rows$inactive[revived] <- FALSE
+  local_rows$inactive_reason[revived] <- NA_character_
+  local_rows[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
 filter_accreditation_overrides_for_review_sheet <- function(overrides,
@@ -962,6 +990,7 @@ filter_accreditation_overrides_for_review_sheet <- function(overrides,
     action_label_short_col = "generated_statement"
   )
   keep_rows <- keep_rows & !drop_teachout_rows
+  keep_rows <- keep_rows & !(local_rows$inactive %in% TRUE)
 
   local_rows[keep_rows, , drop = FALSE]
 }
@@ -1232,6 +1261,8 @@ stage_accreditation_editorial_overrides <- function(candidates,
   new_internal_rows$reviewer_notes <- NA_character_
   new_internal_rows$reviewed_at <- NA_character_
   new_internal_rows$grandfathered <- FALSE
+  new_internal_rows$inactive <- FALSE
+  new_internal_rows$inactive_reason <- NA_character_
   coerce_accreditation_editorial_overrides(dplyr::bind_rows(overrides, new_internal_rows))
 }
 
@@ -1390,6 +1421,7 @@ apply_accreditation_editorial_overrides <- function(actions_df,
   override_rows <- coerce_accreditation_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
+  approved_review_mask <- approved_review_mask & !(override_rows$inactive %in% TRUE)
   published_override_rows <- override_rows[approved_review_mask, , drop = FALSE]
   if (is.null(actions_df)) {
     if (!nrow(published_override_rows)) return(actions_df)
@@ -1593,7 +1625,8 @@ COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS <- c(
   "override_cut_type", "override_cut_description",
   "override_cut_label", "override_cut_summary",
   "override_source_url", "override_source_title", "override_source_publication",
-  "first_seen", "review_status", "reviewer", "reviewer_notes", "reviewed_at", "grandfathered"
+  "first_seen", "review_status", "reviewer", "reviewer_notes", "reviewed_at", "grandfathered",
+  "inactive", "inactive_reason"
 )
 
 COLLEGE_CUTS_REQUIRED_MANUAL_FIELDS <- c("institution_name", "state", "announcement_date", "cut_type", "edited_cut_text", "source_url", "source_publication")
@@ -1795,6 +1828,7 @@ empty_college_cuts_editorial_overrides <- function() {
     override_source_publication = character(),
     first_seen = character(), review_status = character(), reviewer = character(),
     reviewer_notes = character(), reviewed_at = character(), grandfathered = logical(),
+    inactive = logical(), inactive_reason = character(),
     stringsAsFactors = FALSE
   )
 }
@@ -2054,6 +2088,9 @@ coerce_college_cuts_editorial_overrides <- function(df) {
   overrides$reviewer_notes <- if ("reviewer_notes" %in% names(normalized)) trim_optional_text(normalized$reviewer_notes) else NA_character_
   overrides$reviewed_at <- if ("reviewed_at" %in% names(normalized)) trim_optional_text(normalized$reviewed_at) else NA_character_
   overrides$grandfathered <- if ("grandfathered" %in% names(normalized)) coerce_false_default_logical(normalized$grandfathered) else FALSE
+  overrides$inactive <- if ("inactive" %in% names(normalized)) coerce_false_default_logical(normalized$inactive) else FALSE
+  overrides$inactive_reason <- if ("inactive_reason" %in% names(normalized)) trim_optional_text(normalized$inactive_reason) else NA_character_
+  overrides$inactive_reason[!(overrides$inactive %in% TRUE)] <- NA_character_
   overrides$source_row_origin <- normalize_review_row_origin(overrides$source_row_origin)
   overrides$source_row_origin[is.na(overrides$source_row_origin)] <- "scraper"
   overrides$source_announcement_year <- dplyr::coalesce(overrides$source_announcement_year, derive_year_from_date_string(overrides$source_announcement_date))
@@ -2098,7 +2135,7 @@ filter_college_cuts_overrides_for_tracker_scope <- function(overrides,
   override_unitid <- trim_optional_text(local_rows$override_unitid)
   effective_unitid <- dplyr::coalesce(override_unitid, source_unitid)
   human_mask <- is_college_cuts_human_row_origin(row_origin)
-  invalid_human_rows <- human_mask & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
+  invalid_human_rows <- human_mask & !(local_rows$inactive %in% TRUE) & (is.na(effective_unitid) | !(effective_unitid %in% tracker_unitids))
   if (any(invalid_human_rows)) {
     sample_rows <- local_rows[invalid_human_rows, , drop = FALSE]
     sample_labels <- paste(
@@ -2122,8 +2159,24 @@ filter_college_cuts_overrides_for_tracker_scope <- function(overrides,
     )
   }
 
-  keep_rows <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
-  local_rows[keep_rows, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+  # Tombstone instead of delete (see the accreditation twin above).
+  in_scope <- !is.na(effective_unitid) & effective_unitid %in% tracker_unitids
+  newly_out <- !in_scope & !(local_rows$inactive %in% TRUE)
+  revived <- in_scope & (local_rows$inactive %in% TRUE) &
+    trim_text(local_rows$inactive_reason) == "out_of_tracker_scope"
+  if (any(newly_out)) {
+    message(sprintf(
+      "%s: tombstoning %d out-of-scope row(s) (inactive_reason=out_of_tracker_scope). Sample cut_id values: %s",
+      context,
+      sum(newly_out),
+      paste(utils::head(trim_text(local_rows$cut_id[newly_out]), 5L), collapse = ", ")
+    ))
+  }
+  local_rows$inactive[newly_out] <- TRUE
+  local_rows$inactive_reason[newly_out] <- "out_of_tracker_scope"
+  local_rows$inactive[revived] <- FALSE
+  local_rows$inactive_reason[revived] <- NA_character_
+  local_rows[, COLLEGE_CUTS_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 }
 
 build_college_cuts_review_sheet_rows <- function(overrides,
@@ -2183,6 +2236,7 @@ filter_college_cuts_overrides_for_review_sheet <- function(overrides,
   if (length(candidate_ids) > 0L) {
     keep_rows <- keep_rows | (trim_text(local_rows$cut_id) %in% candidate_ids)
   }
+  keep_rows <- keep_rows & !(local_rows$inactive %in% TRUE)
 
   local_rows[keep_rows, , drop = FALSE]
 }
@@ -2221,6 +2275,8 @@ stage_college_cuts_editorial_overrides <- function(candidates,
   new_internal_rows$first_seen <- first_seen
   new_internal_rows$review_status <- "unreviewed"
   new_internal_rows$grandfathered <- FALSE
+  new_internal_rows$inactive <- FALSE
+  new_internal_rows$inactive_reason <- NA_character_
   filter_college_cuts_overrides_for_tracker_scope(
     dplyr::bind_rows(overrides, new_internal_rows),
     tracker_unitids = tracker_unitids,
@@ -2500,6 +2556,7 @@ apply_college_cuts_editorial_overrides <- function(cuts_df,
   override_rows <- coerce_college_cuts_editorial_overrides(overrides)
   approved_review_mask <- trim_text(override_rows$review_status) == "approved"
   approved_review_mask[is.na(approved_review_mask)] <- FALSE
+  approved_review_mask <- approved_review_mask & !(override_rows$inactive %in% TRUE)
   published_override_rows <- override_rows[approved_review_mask, , drop = FALSE]
   if (is.null(cuts_df)) {
     if (!nrow(published_override_rows)) return(cuts_df)

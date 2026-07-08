@@ -38,8 +38,14 @@ main <- function(cli_args = NULL) {
       action_label_raw_col = "action_label_raw",
       action_label_short_col = "generated_statement"
     )
-    removed_overrides <- sum(drop_overrides)
-    cleaned_overrides <- overrides[!drop_overrides, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
+    removed_overrides <- sum(drop_overrides & !(overrides$inactive %in% TRUE))
+    # Tombstone instead of delete: the row keeps its id (so the strict pull
+    # guard and staging dedup still know it) but is inactive for publication
+    # and excluded from every sheet-facing view.
+    cleaned_overrides <- overrides
+    cleaned_overrides$inactive[drop_overrides] <- TRUE
+    cleaned_overrides$inactive_reason[drop_overrides] <- "teachout_cleanup"
+    cleaned_overrides <- cleaned_overrides[, ACCREDITATION_EDITORIAL_OVERRIDE_COLUMNS, drop = FALSE]
 
     if (!isTRUE(dry_run)) {
       dir.create(dirname(overrides_output_path), recursive = TRUE, showWarnings = FALSE)
@@ -107,7 +113,7 @@ main <- function(cli_args = NULL) {
   if (isTRUE(dry_run)) {
     message("Dry run only: no files or Google Sheet tabs were rewritten.")
   }
-  message("Removed teach-out rows from local editorial overrides: ", removed_overrides)
+  message("Tombstoned teach-out rows in local editorial overrides: ", removed_overrides)
   message("Removed teach-out rows from local review candidates: ", removed_review_candidates)
   if (nzchar(sheet_target)) {
     message("Removed teach-out rows from Google Sheet tab: ", removed_sheet_rows)

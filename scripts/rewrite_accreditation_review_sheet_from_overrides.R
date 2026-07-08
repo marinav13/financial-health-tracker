@@ -59,6 +59,11 @@ main <- function(cli_args = NULL) {
     tracker_unitids = tracker_unitids,
     context = "Accreditation editorial overrides"
   )
+  inactive_rows <- local_overrides$inactive %in% TRUE
+  if (any(inactive_rows)) {
+    message("Excluding ", sum(inactive_rows), " tombstoned (inactive) row(s) from the rewrite payload.")
+    local_overrides <- local_overrides[!inactive_rows, , drop = FALSE]
+  }
   rewritten_rows <- build_accreditation_review_sheet_rows(local_overrides)
 
   authenticate_google_sheets(

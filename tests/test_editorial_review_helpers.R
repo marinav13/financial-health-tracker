@@ -2237,3 +2237,211 @@ run_test("Apply-only gate splits ignored actions into new-this-week vs anomalies
   assert_true(any(grepl("ignoring 2 recomputed action", msgs2)),
               "Legacy message must remain when no current candidate ids are supplied")
 })
+
+make_tombstone_test_override <- function(action_id, unitid,
+                                         review_status = "approved",
+                                         inactive = FALSE,
+                                         inactive_reason = NA_character_) {
+  data.frame(
+    action_id = action_id,
+    source_unitid = unitid,
+    source_institution_name = "Example University",
+    source_accreditor = "SACSCOC",
+    source_action_date = "2025-12-01",
+    source_action_type = "warning",
+    source_action_label_raw = "Warning",
+    source_generated_statement = "Warning",
+    source_source_url = "https://example.org/existing",
+    source_source_title = "Existing source",
+    source_row_origin = "scraper",
+    override_unitid = NA_character_,
+    override_institution_name = NA_character_,
+    override_accreditor = NA_character_,
+    override_action_date = NA_character_,
+    override_action_type = NA_character_,
+    override_action_label_raw = NA_character_,
+    override_generated_statement = NA_character_,
+    override_source_url = NA_character_,
+    override_source_title = NA_character_,
+    first_seen = "2025-12-01",
+    review_status = review_status,
+    reviewer = "MV",
+    reviewer_notes = NA_character_,
+    reviewed_at = "2025-12-01",
+    grandfathered = FALSE,
+    inactive = inactive,
+    inactive_reason = inactive_reason,
+    stringsAsFactors = FALSE
+  )
+}
+
+run_test("Coerce backfills tombstone columns on legacy override data", function() {
+  legacy <- make_tombstone_test_override("act-legacy", "100")
+  legacy$inactive <- NULL
+  legacy$inactive_reason <- NULL
+  coerced <- coerce_accreditation_editorial_overrides(legacy)
+  assert_true(all(c("inactive", "inactive_reason") %in% names(coerced)))
+  assert_identical(coerced$inactive, FALSE)
+  assert_true(is.na(coerced$inactive_reason))
+
+  # A stray reason on an active row is cleared.
+  noisy <- make_tombstone_test_override("act-noisy", "100",
+                                        inactive = FALSE,
+                                        inactive_reason = "out_of_tracker_scope")
+  coerced2 <- coerce_accreditation_editorial_overrides(noisy)
+  assert_true(is.na(coerced2$inactive_reason))
+})
+
+run_test("Tracker scope filter tombstones and revives instead of deleting", function() {
+  overrides <- dplyr::bind_rows(
+    make_tombstone_test_override("act-in", "100"),
+    make_tombstone_test_override("act-out", "999"),
+    make_tombstone_test_override("act-revive", "100",
+                                 inactive = TRUE,
+                                 inactive_reason = "out_of_tracker_scope"),
+    make_tombstone_test_override("act-teachout", "100",
+                                 inactive = TRUE,
+                                 inactive_reason = "teachout_cleanup")
+  )
+  msgs <- character()
+  filtered <- withCallingHandlers(
+    filter_accreditation_overrides_for_tracker_scope(overrides, tracker_unitids = "100"),
+    message = function(m) {
+      msgs <<- c(msgs, conditionMessage(m))
+      invokeRestart("muffleMessage")
+    }
+  )
+  assert_identical(nrow(filtered), 4L)
+
+  by_id <- function(id) filtered[trim_text(filtered$action_id) == id, , drop = FALSE]
+  assert_true(!(by_id("act-in")$inactive %in% TRUE), "In-scope active row stays active")
+  assert_true(by_id("act-out")$inactive %in% TRUE, "Out-of-scope row is tombstoned")
+  assert_identical(trim_text(by_id("act-out")$inactive_reason), "out_of_tracker_scope")
+  assert_true(!(by_id("act-revive")$inactive %in% TRUE),
+              "Back-in-scope scope-tombstoned row is revived")
+  assert_true(by_id("act-teachout")$inactive %in% TRUE,
+              "Teachout tombstone is never revived by the scope filter")
+  assert_true(any(grepl("tombstoning 1 out-of-scope", msgs)),
+              "Tombstoning must be reported with a count")
+
+  # An already-tombstoned out-of-roster manual row must not abort the filter.
+  manual_out <- make_tombstone_test_override("act-manual-out", "999",
+                                             inactive = TRUE,
+                                             inactive_reason = "out_of_tracker_scope")
+  manual_out$source_row_origin <- "manual"
+  filtered2 <- filter_accreditation_overrides_for_tracker_scope(
+    dplyr::bind_rows(make_tombstone_test_override("act-in2", "100"), manual_out),
+    tracker_unitids = "100"
+  )
+  assert_identical(nrow(filtered2), 2L)
+})
+
+run_test("Tombstoned approved rows are never published or resurrected by apply", function() {
+  active <- make_tombstone_test_override("id-active", "100")
+  tombstoned <- make_tombstone_test_override("id-dead", "200",
+                                             inactive = TRUE,
+                                             inactive_reason = "teachout_cleanup")
+  overrides <- dplyr::bind_rows(active, tombstoned)
+
+  make_action <- function(unitid, label) {
+    data.frame(
+      export_unitid = unitid,
+      unitid = unitid,
+      export_institution_name = "Example University",
+      accreditor = "SACSCOC",
+      action_date = "2025-12-01",
+      action_type = "warning",
+      action_label_raw = label,
+      action_label_short = label,
+      source_url = "https://example.org/existing",
+      source_title = "Existing source",
+      source_page_url = "https://example.org/existing",
+      stringsAsFactors = FALSE
+    )
+  }
+  actions_df <- dplyr::bind_rows(
+    make_action("100", "Warning"),
+    make_action("200", "Warning")
+  )
+  ids <- vapply(seq_len(nrow(actions_df)), function(i) {
+    compute_accreditation_action_id(
+      actions_df$unitid[[i]], actions_df$accreditor[[i]], actions_df$action_date[[i]],
+      actions_df$action_label_raw[[i]], actions_df$export_unitid[[i]],
+      actions_df$export_institution_name[[i]]
+    )
+  }, character(1))
+  overrides$action_id <- ids
+
+  # Enforce mode: the tombstoned action passes the identity check (its id is
+  # a known override) but is withheld from publication like a reject.
+  applied <- apply_accreditation_editorial_overrides(
+    actions_df,
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = ids,
+    drop_unlisted = TRUE,
+    gate_mask = c(TRUE, TRUE)
+  )
+  assert_identical(nrow(applied), 1L)
+  assert_identical(trim_text(applied$action_id[[1]]), ids[[1]])
+
+  # And a tombstoned override with no matching recomputed action must not
+  # resurrect as a review-backed export row.
+  applied2 <- apply_accreditation_editorial_overrides(
+    actions_df[1, , drop = FALSE],
+    overrides,
+    enforce_review_gate = TRUE,
+    allowed_action_ids = ids[[1]],
+    drop_unlisted = TRUE,
+    gate_mask = TRUE
+  )
+  assert_true(!(ids[[2]] %in% trim_text(applied2$action_id)),
+              "Tombstoned override must not resurrect into the export")
+})
+
+run_test("Sheet-facing selection and staging both respect tombstones", function() {
+  cuts_df <- data.frame(
+    cut_id = "cut-live",
+    matched_unitid = "100",
+    export_unitid = "100",
+    institution_name_display = "Example University",
+    state_display = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = 2026L,
+    cut_type = "program_closure",
+    program_name = "History BA",
+    source_url = "https://example.org/pipeline-cut",
+    source_title = "Pipeline source",
+    source_publication = "Pipeline paper",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+  candidates <- build_college_cuts_review_candidates(cuts_df, tracker_unitids = "100")
+  staged <- stage_college_cuts_editorial_overrides(
+    candidates,
+    first_seen = "2026-05-27",
+    tracker_unitids = "100"
+  )
+
+  # Tombstone the staged row, then re-stage the same candidate: it must NOT
+  # come back as a new row (dedup sees the tombstone).
+  staged$inactive <- TRUE
+  staged$inactive_reason <- "teachout_cleanup"
+  restaged <- stage_college_cuts_editorial_overrides(
+    candidates,
+    existing = staged,
+    first_seen = "2026-06-03",
+    tracker_unitids = "100"
+  )
+  assert_identical(nrow(restaged), 1L)
+  assert_true(restaged$inactive %in% TRUE, "Tombstone survives re-staging")
+
+  # The sheet-facing filter must exclude the tombstoned row so it can never
+  # be appended (or re-appended) to the review tab.
+  sheet_rows <- filter_college_cuts_overrides_for_review_sheet(
+    restaged,
+    candidate_cut_ids = candidates$cut_id,
+    tracker_unitids = "100"
+  )
+  assert_identical(nrow(sheet_rows), 0L)
+})

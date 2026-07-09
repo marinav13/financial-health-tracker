@@ -1,6 +1,6 @@
 # Launch Checklist — financialtracker.hechingerreport.org
 
-**Updated:** 2026-07-09 (rev 3 — cutover complete; cuts form live)
+**Updated:** 2026-07-09 (rev 4 — deploy token live; review Sheet + service account moved to Hechinger)
 **Public repo:** `hechinger/FinancialHealth` — site only, will be **public**
 **Private repo:** `hechinger/Private_Financial_Health_Tracker` — the pipeline
 lives here permanently (migrated 2026-07-08; full history). The old
@@ -21,9 +21,11 @@ The private repo runs every workflow on its existing schedule, exactly as
 today. Its two refresh workflows end with a **"Publish site data to public
 repo"** step that clones the public repo, syncs `data/`, regenerates
 `sitemap.xml`, and pushes as `The Hechinger Report <noreply@hechingerreport.org>`.
-That step **skips quietly until the `PUBLIC_SITE_DEPLOY_TOKEN` secret exists**
-(see pre-launch tasks) — so until then, the public repo's data is a static
-snapshot of 2026-07-08.
+The `PUBLIC_SITE_DEPLOY_TOKEN` secret was configured on 2026-07-09, so every
+successful refresh now publishes to the public repo automatically. (If the
+secret is ever missing or expired, the step degrades to a skip-with-notice
+and the public repo's data quietly stops updating — hence the renewal
+reminder under "Open items".)
 
 There is no launch-day workflow flip anymore: the private cron never moves.
 
@@ -65,15 +67,11 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 
 ## Do before launch
 
-- [ ] **Create the deploy token** so the private pipeline can publish to the
-  public repo. Log in as **hechinger** (both repos live under it now):
-  Settings → Developer settings → Personal access tokens → **Fine-grained
-  tokens** → Generate: repository access **only FinancialHealth**,
-  permissions **Contents: Read and write**, expiration 1 year (calendar a
-  renewal). Then in `hechinger/Private_Financial_Health_Tracker`:
-  Settings → Secrets and variables → Actions → new secret
-  **`PUBLIC_SITE_DEPLOY_TOKEN`** with the token value. The next weekly
-  refresh publishes automatically; or dispatch one to test.
+- [x] ~~Create the deploy token~~ — done 2026-07-09. Fine-grained PAT
+  ("Deploy Token": Contents read/write, FinancialHealth only) created under
+  the hechinger account and saved as the `PUBLIC_SITE_DEPLOY_TOKEN` secret
+  in the private repo; a refresh was dispatched the same day to verify the
+  first automatic publish end to end.
 - [ ] **Legal review of the license texts** (`LICENSE*`) — drafted to the
   agreed model (data CC BY 4.0, code/assets reserved) but not lawyer-reviewed.
   Must be settled before the repo goes public; a license can't be retracted
@@ -138,11 +136,23 @@ There is no launch-day workflow flip anymore: the private cron never moves.
   <https://docs.google.com/forms/d/e/1FAIpQLSdKz0SCWdCtA2XJvDBuLmsnUZBQ5eOGukKJTbcbrehsRQpvhw/viewform?usp=dialog>
   (spec: [docs/CUTS_FORM_SPEC.md](CUTS_FORM_SPEC.md)). CollegeCuts
   *attribution* links stay.
-- [ ] Move the Google review Sheet and the GCP service account under
-  Hechinger-controlled accounts (both currently personal). When this
-  happens: re-share the Sheet with the new service account, update
-  `GOOGLE_SERVICE_ACCOUNT_JSON_B64` in the private repo.
-- [ ] PAT renewal reminder for `PUBLIC_SITE_DEPLOY_TOKEN` (expires per the
+- [x] ~~Move the Google review Sheet and the GCP service account under
+  Hechinger-controlled accounts~~ — done 2026-07-09. New GCP project
+  `hechinger-financial-tracker`, service account
+  `sheets-pipeline@hechinger-financial-tracker.iam.gserviceaccount.com`;
+  the review sheet was copied to a Hechinger-owned Google account (new
+  sheet ID) and shared with the new service account; both secrets
+  (`ACCREDITATION_REVIEW_SHEET_ID`, `GOOGLE_SERVICE_ACCOUNT_JSON_B64`)
+  updated in the private repo; read and write access verified locally.
+  **Marina reviews in the new sheet from now on** (the old one is renamed
+  "OLD").
+- [ ] Old-credentials cleanup, once the first scheduled weekly refresh runs
+  green on the new credentials (Sunday evening ET, 2026-07-12): delete the
+  old personal GCP project (or at least its service-account key), trash
+  the old review sheet, and delete both service-account JSON files from
+  the Downloads folder.
+- [ ] PAT renewal reminder for `PUBLIC_SITE_DEPLOY_TOKEN` (created
+  2026-07-09; expires per the
   chosen lifetime; the publish step degrades to a skip-with-notice, so the
   site silently stops updating — put it on a calendar).
 

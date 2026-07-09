@@ -10,7 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const BASE_URL = (process.env.PAGES_BASE_URL || "https://marinav13.github.io/financial-health-tracker").replace(/\/+$/, "");
+const BASE_URL = (process.env.PAGES_BASE_URL || "https://financialtracker.hechingerreport.org").replace(/\/+$/, "");
 const ATTEMPTS = Math.max(1, Number(process.env.PAGES_PARITY_ATTEMPTS || 1));
 const RETRY_MS = Math.max(0, Number(process.env.PAGES_PARITY_RETRY_MS || 0));
 const ASSET_PATHS = [

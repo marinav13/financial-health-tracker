@@ -35,7 +35,7 @@ jobs:
 
       - name: Compare deployed Pages with committed artifacts
         env:
-          PAGES_BASE_URL: https://marinav13.github.io/financial-health-tracker
+          PAGES_BASE_URL: https://financialtracker.hechingerreport.org
           PAGES_PARITY_ATTEMPTS: "6"
           PAGES_PARITY_RETRY_MS: "10000"
         run: npm run test:pages

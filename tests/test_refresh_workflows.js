@@ -332,7 +332,7 @@ run("deployed Pages parity workflow compares live site to committed artifacts", 
   assert(PAGES_PARITY.includes('workflows: ["pages build and deployment"]'), "Expected workflow_run trigger after Pages deployment");
   assert(PAGES_PARITY.includes("workflow_dispatch:"), "Expected manual parity trigger");
   assert(PAGES_PARITY.includes("npm run test:pages"), "Expected deployed parity npm script");
-  assert(PAGES_PARITY.includes("PAGES_BASE_URL: https://marinav13.github.io/financial-health-tracker"), "Expected explicit GitHub Pages URL");
+  assert(PAGES_PARITY.includes("PAGES_BASE_URL: https://financialtracker.hechingerreport.org"), "Expected explicit GitHub Pages URL");
   assert(PACKAGE_JSON.scripts["test:pages"] === "node tests/test_deployed_pages_parity.js", "Expected test:pages script");
 });
 

@@ -29,7 +29,8 @@ console.log("\n=== Documentation Structure Tests ===\n");
 run("README points readers to the operations manual and deploy handoff", () => {
   assert(README.includes("docs/OPERATIONS_MANUAL.md"), "Expected README to point to docs/OPERATIONS_MANUAL.md");
   assert(README.includes("docs/DEPLOY_HANDOFF.md"), "Expected README to point to docs/DEPLOY_HANDOFF.md");
-  assert(README.includes("This repo is the canonical source for the public interactive."), "Expected README to state canonical source status");
+  assert(README.includes("Private source-and-pipeline repo"), "Expected README to state the private pipeline-repo role");
+  assert(README.includes("hechinger/FinancialHealth"), "Expected README to name the public site repo");
 });
 
 run("repo docs avoid Looker Studio framing", () => {
@@ -44,12 +45,12 @@ run("operations manual owns workflow and rebuild detail", () => {
   assert(/refresh-ipeds-site-data\.yml/.test(OPERATIONS), "Expected weekly refresh workflow coverage");
 });
 
-run("deploy handoff clearly separates deploy artifacts from source-only paths", () => {
-  assert(HANDOFF.includes("## Deploy This Runtime Surface"), "Expected deploy runtime section");
-  assert(HANDOFF.includes("## Do Not Treat These As Deploy Artifacts"), "Expected non-deploy section");
-  assert(HANDOFF.includes("scripts/archive/"), "Expected archived scripts to stay out of deploy payload");
-  assert(HANDOFF.includes("outputs/"), "Expected outputs/ to stay out of deploy payload");
-  assert(HANDOFF.includes(".private_docs/"), "Expected .private_docs/ to stay out of deploy payload");
+run("deploy handoff explains the two-repo publish model", () => {
+  assert(HANDOFF.includes("## How the site is served"), "Expected serving section");
+  assert(HANDOFF.includes("## How data reaches the site"), "Expected data-flow section");
+  assert(HANDOFF.includes("hechinger/FinancialHealth"), "Expected the public site repo to be named");
+  assert(HANDOFF.includes("PUBLIC_SITE_DEPLOY_TOKEN"), "Expected the publish step's token requirement to be documented");
+  assert(HANDOFF.includes("Never edit `data/` in the public repo by hand"), "Expected the hand-edit warning for public data");
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

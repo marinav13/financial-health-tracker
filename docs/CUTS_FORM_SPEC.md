@@ -1,5 +1,9 @@
 # Cuts Submission Form — build spec
 
+**Status: built and live (2026-07-09).** Form URL:
+<https://docs.google.com/forms/d/e/1FAIpQLSdKz0SCWdCtA2XJvDBuLmsnUZBQ5eOGukKJTbcbrehsRQpvhw/viewform?usp=dialog>
+`cuts.html` points at it in both repos.
+
 Ready-to-build spec for the Hechinger-owned Google Form that replaces the
 college-cuts.com submission link in `cuts.html`. Build at forms.google.com
 with a Hechinger Google account (so responses land in a Hechinger-owned

@@ -1,11 +1,12 @@
 # Launch Checklist — financialtracker.hechingerreport.org
 
-**Updated:** 2026-07-08 (rev 2 — architecture changed: derived CSVs are not public)
+**Updated:** 2026-07-09 (rev 3 — cutover complete; cuts form live)
 **Public repo:** `hechinger/FinancialHealth` — site only, will be **public**
 **Private repo:** `hechinger/Private_Financial_Health_Tracker` — the pipeline
 lives here permanently (migrated 2026-07-08; full history). The old
-`marinav13/financial-health-tracker` repo is retired: its Pages preview gets
-unpublished at launch, then archive it.
+`marinav13/financial-health-tracker` repo is retired — every workflow in it
+was disabled on 2026-07-09 after a green end-to-end test refresh in the
+private repo. Its Pages preview gets unpublished at launch, then archive it.
 **Launch date:** TBD
 
 ---
@@ -28,6 +29,18 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 
 ## Already done
 
+- [x] Pipeline cutover complete (2026-07-09): end-to-end test refresh green
+  in the private repo — data commit landed, the one new review-sheet row
+  was the intended Virginia Wesleyan/Sentara merger candidate, publish
+  step skipped pending the deploy token — and every workflow in
+  `marinav13/financial-health-tracker` disabled
+- [x] NWCCU rendered-directory snapshot committed under
+  `data_pipelines/accreditation/cache_seed/` and copied into the scrape
+  cache by both refresh workflows when missing (the page is JS-rendered
+  and can't be fetched fresh; Actions caches don't survive repo migration
+  or 7-day eviction)
+- [x] Cuts submission form built and `cuts.html` submit link repointed to
+  it in both repos (2026-07-09); CollegeCuts attribution links kept
 - [x] Public repo rebuilt (single clean commit `2deafc0`): no proprietary
   fonts, no `data_pipelines/`, no `docs/`, no CLAUDE/AGENTS files, no
   personal emails — verified by automated scan before push
@@ -121,10 +134,10 @@ There is no launch-day workflow flip anymore: the private cron never moves.
 
 ## Open items not tied to launch
 
-- [ ] Cuts submission CTA: build the Hechinger-owned Google Form — full
-  ready-to-build spec in [docs/CUTS_FORM_SPEC.md](CUTS_FORM_SPEC.md) — then
-  hand the form URL to Claude to repoint the submit links in `cuts.html`
-  (CollegeCuts *attribution* links stay).
+- [x] ~~Cuts submission CTA~~ — done 2026-07-09. Live form:
+  <https://docs.google.com/forms/d/e/1FAIpQLSdKz0SCWdCtA2XJvDBuLmsnUZBQ5eOGukKJTbcbrehsRQpvhw/viewform?usp=dialog>
+  (spec: [docs/CUTS_FORM_SPEC.md](CUTS_FORM_SPEC.md)). CollegeCuts
+  *attribution* links stay.
 - [ ] Move the Google review Sheet and the GCP service account under
   Hechinger-controlled accounts (both currently personal). When this
   happens: re-share the Sheet with the new service account, update

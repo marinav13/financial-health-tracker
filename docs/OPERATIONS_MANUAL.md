@@ -1,16 +1,27 @@
 # Operations Manual
 
-This is the single operational reference for the public source repo behind The
-Hechinger Report's College Financial Health Tracker.
+This is the single operational reference for the private pipeline repo behind
+The Hechinger Report's College Financial Health Tracker.
 
 Live site:
-[https://hechingerreport.org/college-financial-health-tracker/](https://hechingerreport.org/college-financial-health-tracker/)
+[https://financialtracker.hechingerreport.org/](https://financialtracker.hechingerreport.org/)
+(served by GitHub Pages from the public site repo,
+[hechinger/FinancialHealth](https://github.com/hechinger/FinancialHealth))
 
-For the deployment-only handoff, use [docs/DEPLOY_HANDOFF.md](./DEPLOY_HANDOFF.md).
+For how the site deploys and how data reaches the public repo, use
+[docs/DEPLOY_HANDOFF.md](./DEPLOY_HANDOFF.md).
 
 ## Repo Model
 
-This repo is a public source repository, not a deploy-only snapshot.
+This repo is the private source-and-pipeline repository. It runs every
+scheduled workflow and holds the pipeline code, the working
+`data_pipelines/` CSVs (including review and editorial-override records),
+and the internal docs. The public repo carries the same site files plus
+the finished `data/` exports, which this repo's refresh workflows publish
+to it automatically ("Publish site data to public repo" step, gated on the
+`PUBLIC_SITE_DEPLOY_TOKEN` secret); the public repo cannot run the
+pipeline. Code changes are made here first and ported to the public repo.
+This repo's `robots.txt` intentionally stays `Disallow: /`.
 
 The browser-served runtime surface is:
 
@@ -412,7 +423,20 @@ At a high level it:
 6. Stages accreditation and college-cuts review queues to Google Sheets.
 7. Pulls review decisions back into repo snapshots.
 8. Rebuilds the site with the review gate enforced.
-9. Validates outputs, reports scraper drift warnings, and commits updated data.
+9. Validates outputs, updates per-source drift state, and commits updated
+   data.
+10. Publishes `data/` and a regenerated `sitemap.xml` to the public
+    `hechinger/FinancialHealth` repo. Skips with a notice until the
+    `PUBLIC_SITE_DEPLOY_TOKEN` secret is configured.
+
+Before the accreditation scrape, the workflow copies
+`data_pipelines/accreditation/cache_seed/nwccu_directory.html` into the
+scrape cache if the cached copy is missing. The NWCCU directory page is
+JavaScript-rendered and can never be fetched fresh, and Actions caches do
+not survive repo migration or 7-day eviction, so without the seed a cold
+cache hard-fails the run (see
+`data_pipelines/accreditation/cache_seed/README.md` for how to refresh
+the snapshot).
 
 The closure import step is intentionally disabled in the current weekly
 workflow. Re-enable it only when the upstream closure tracker is stable again.
@@ -679,6 +703,13 @@ That usually points directly to the broken JSON file.
 The weekly refresh workflow tees scraper stdout and stderr into
 `refresh-logs/combined.log`. A final drift-warning step greps that log for
 known warning patterns and surfaces them for human triage.
+
+That step also tracks drift over time: `scripts/ci/update_drift_state.py`
+maintains per-source consecutive-week counts in
+`data_pipelines/drift_state.json` (committed with the data refresh). A
+drifting source files or updates a GitHub Issue labeled `pipeline-drift`,
+a drift-free week resets that source's count, and the run itself goes red
+when any source reaches 3 consecutive weeks.
 
 The refresh is allowed to continue because the public JSON rebuild is pinned to
 the last committed reviewed snapshot. Drift still needs follow-up.

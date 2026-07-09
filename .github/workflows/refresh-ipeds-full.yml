@@ -72,6 +72,22 @@ jobs:
           restore-keys: |
             accreditation-cache-v1-
 
+      # NWCCU's institutional directory is JavaScript-rendered: a plain
+      # fetch always fails content validation, so the scraper falls back
+      # to a cached rendered copy of the page. Actions caches are
+      # per-repo and evicted after 7 days without access, so a cold
+      # cache (new repo, eviction) hard-fails the refresh. Seed the
+      # committed rendered snapshot whenever the cached copy is missing.
+      - name: Seed NWCCU rendered directory into cache when missing
+        shell: bash
+        run: |
+          mkdir -p data_pipelines/accreditation/cache
+          if [ ! -f data_pipelines/accreditation/cache/nwccu_directory.html ]; then
+            cp data_pipelines/accreditation/cache_seed/nwccu_directory.html \
+              data_pipelines/accreditation/cache/
+            echo "Seeded nwccu_directory.html from committed snapshot."
+          fi
+
       # Seed the canonical IPEDS dataset cache that refresh-ipeds-site-data
       # reads on each weekly run. Keys must match the weekly workflow
       # exactly — same prefix, same OS, same end year, same script hash.

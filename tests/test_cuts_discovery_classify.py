@@ -1,7 +1,5 @@
 """Classification and model-mode assembly tests for cuts discovery."""
 
-import csv
-import io
 import os
 import sys
 import tempfile
@@ -12,7 +10,6 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from cuts_discovery.assemble_candidates import assemble_candidates, write_discovered_candidates  # noqa: E402
 from cuts_discovery.classify_leads import classify_survivors, write_classification_cache  # noqa: E402
-from cuts_discovery.common import CLASSIFICATION_FIELDS, read_csv_rows  # noqa: E402
 
 
 class FakeFetcher:
@@ -49,6 +46,16 @@ class FakeRequester:
         self.calls.append(req)
         payload = self.payloads.pop(0)
         return FakeResponse(payload)
+
+
+class RaisingRequester:
+    def __init__(self, exc: Exception):
+        self.exc = exc
+        self.calls = []
+
+    def __call__(self, req, timeout=60):  # noqa: ARG002
+        self.calls.append(req)
+        raise self.exc
 
 
 def test_classify_survivors_happy_path():
@@ -214,6 +221,65 @@ def test_classify_survivors_cache_hit_avoids_http():
         assert len(requester.calls) == 0, requester.calls
 
 
+def test_classify_survivors_transport_error_marks_only_that_lead():
+    cached_row = {
+        "lead_id": "lead-cached",
+        "classified_at": "2026-07-13",
+        "model": "fixture-model",
+        "is_cut": "true",
+        "confidence": "high",
+        "institution_name_raw": "Temple University",
+        "unitid": "216339",
+        "state": "Pennsylvania",
+        "cut_type": "staff_layoff",
+        "announcement_date": "2026-07-08",
+        "scale_text": "40 employees",
+        "summary": "Temple University laid off 40 employees to reduce a budget deficit.",
+        "notes": "",
+    }
+    lead = {
+        "lead_id": "lead-transport",
+        "headline": "Regional University institutes hiring freeze",
+        "publisher": "Local Gazette",
+        "published_date": "2026-07-09",
+        "snippet": "Officials said a hiring freeze begins immediately.",
+        "url": "https://example.org/lead-transport",
+    }
+    fetcher = FakeFetcher(
+        {
+            "https://example.org/lead-transport": (
+                b"<html><body><article><p>Regional University announced a hiring freeze.</p></article></body></html>"
+            )
+        }
+    )
+    requester = RaisingRequester(RuntimeError("HTTP 429"))
+
+    with tempfile.TemporaryDirectory() as tmp:
+        cache_path = Path(tmp) / "classifications.csv"
+        write_classification_cache({"lead-cached": cached_row}, cache_path)
+        old_key = os.environ.get("ANTHROPIC_API_KEY")
+        os.environ["ANTHROPIC_API_KEY"] = "test-key"
+        try:
+            cache, errors = classify_survivors(
+                [{"lead_id": "lead-cached", "url": "https://example.org/lead-cached"}, lead],
+                fetcher=fetcher,
+                mapping_rows=[],
+                path=cache_path,
+                requester=requester,
+            )
+        finally:
+            if old_key is None:
+                os.environ.pop("ANTHROPIC_API_KEY", None)
+            else:
+                os.environ["ANTHROPIC_API_KEY"] = old_key
+
+        assert "lead-transport" in errors, errors
+        assert "lead-cached" in cache, cache
+        assert "lead-transport" not in cache, cache
+        assert cache["lead-cached"]["summary"] == cached_row["summary"], cache
+        assert len(requester.calls) == 1, requester.calls
+
+
 def test_model_mode_candidate_golden_csv():
     survivors = [
         {
@@ -290,6 +356,7 @@ def main():
         test_classify_survivors_retries_on_malformed_json,
         test_classify_survivors_skips_when_key_missing,
         test_classify_survivors_cache_hit_avoids_http,
+        test_classify_survivors_transport_error_marks_only_that_lead,
         test_model_mode_candidate_golden_csv,
     ]
     for test in tests:

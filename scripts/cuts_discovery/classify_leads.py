@@ -148,14 +148,7 @@ def parse_verdict(raw_text: str) -> dict:
         raise ValueError("Verdict state must be two uppercase letters or null.")
     if announcement_date is not None and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", announcement_date):
         raise ValueError("Verdict announcement_date must be YYYY-MM-DD or null.")
-    if not payload["is_cut"]:
-        institution_name = institution_name
-        state = state
-        cut_type = cut_type
-        announcement_date = announcement_date
-        scale_text = scale_text
-        summary = summary
-    else:
+    if payload["is_cut"]:
         if cut_type not in ALLOWED_CUT_TYPES:
             raise ValueError(f"Verdict cut_type must be one of {sorted(ALLOWED_CUT_TYPES)}.")
         if not summary:
@@ -320,28 +313,32 @@ def classify_survivors(
     for lead in uncached:
         if remaining <= 0:
             break
-        article_text, article_notes = extract_article_text(fetcher, lead)
-        result = classify_single_lead(
-            lead,
-            article_text=article_text,
-            article_notes=article_notes,
-            api_key=api_key,
-            requester=requester,
-            model=model,
-        )
-        if result["ok"]:
-            cache_row = verdict_to_cache_row(
+        try:
+            article_text, article_notes = extract_article_text(fetcher, lead)
+            result = classify_single_lead(
                 lead,
-                verdict=result["verdict"],
-                mapping_rows=mapping_rows,
+                article_text=article_text,
+                article_notes=article_notes,
+                api_key=api_key,
+                requester=requester,
                 model=model,
-                notes=result["notes"],
             )
-            cache[lead["lead_id"]] = cache_row
-            mutated = True
-        else:
+            if result["ok"]:
+                cache_row = verdict_to_cache_row(
+                    lead,
+                    verdict=result["verdict"],
+                    mapping_rows=mapping_rows,
+                    model=model,
+                    notes=result["notes"],
+                )
+                cache[lead["lead_id"]] = cache_row
+                mutated = True
+            else:
+                error_lead_ids.add(lead["lead_id"])
+                print(f"::warning::cuts discovery classification failed for {lead['lead_id']}: {result['error']}")
+        except Exception as exc:
             error_lead_ids.add(lead["lead_id"])
-            print(f"::warning::cuts discovery classification failed for {lead['lead_id']}: {result['error']}")
+            print(f"::warning::cuts discovery classification failed for {lead['lead_id']}: {exc}")
         remaining -= 1
 
     if mutated:

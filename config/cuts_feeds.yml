@@ -7,3 +7,14 @@ feeds:
     tier: trade_feed
   # Verified on 2026-07-13: https://www.chronicle.com/section/news/rss returned 404.
   # Keep Chronicle out of the live config until a working first-party RSS URL is verified.
+  #
+  # WARN discovery sources live in scripts/cuts_discovery/harvest_warn.py because
+  # each source needs a custom parser and shape guard:
+  # - California: https://edd.ca.gov/siteassets/files/jobs_and_training/warn/warn_report.xlsx
+  #   (xlsx workbook; the harvester warns when the workbook goes stale)
+  # - Washington: https://fortress.wa.gov/esd/file/WARN
+  #   (ASP.NET table with per-notice PDFs)
+  # - New York: https://dol.ny.gov/warn-notices
+  #   (HTML notice index whose detail links redirect to PDFs)
+  # - WARNTracker aggregator: https://www.warntracker.com/?company=College&tab=by-company-and-state
+  #   (server-rendered results table; empty query pages warn and continue)

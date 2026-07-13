@@ -122,3 +122,6 @@ jobs:
           python tests/test_cuts_discovery_filter.py
           python tests/test_cuts_discovery_name_parity.py
           python tests/test_cuts_discovery_classify.py
+          python tests/test_cuts_discovery_watchlist.py
+          python tests/test_cuts_discovery_warn.py
+          python tests/test_cuts_discovery_precision.py

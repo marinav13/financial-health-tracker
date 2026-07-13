@@ -189,6 +189,13 @@ jobs:
         run: >
           Rscript --vanilla ./scripts/build_dapip_vs_scraper_audit.R
 
+      - name: Build college cuts watchlist
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          python3 scripts/cuts_discovery/build_watchlist.py \
+            || echo "::warning::cuts discovery watchlist build failed during full refresh; continuing with the last committed watchlist."
+
       - name: Discover college cuts
         shell: bash
         timeout-minutes: 20

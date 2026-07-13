@@ -260,6 +260,11 @@ def parse_date_to_iso(value: str) -> str:
         return datetime.fromisoformat(text.replace("Z", "+00:00")).date().isoformat()
     except ValueError:
         pass
+    for fmt in ("%m/%d/%Y", "%m/%d/%y", "%B %d, %Y", "%b %d, %Y"):
+        try:
+            return datetime.strptime(text, fmt).date().isoformat()
+        except ValueError:
+            continue
     try:
         return parsedate_to_datetime(text).date().isoformat()
     except (TypeError, ValueError, IndexError, OverflowError):

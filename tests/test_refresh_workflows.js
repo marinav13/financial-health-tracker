@@ -91,10 +91,12 @@ run("weekly external-data steps have bounded timeouts", () => {
   const names = [
     "Refresh accreditation actions with cache fallback",
     "Sync Supabase",
+    "Build college cuts watchlist",
     "Discover college cuts",
     "Refresh college cuts with cache fallback",
     "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
+    "Report college cuts discovery precision",
     "Rebuild static web exports"
   ];
   names.forEach((name) => {
@@ -109,6 +111,7 @@ run("full refresh external and build steps have bounded timeouts", () => {
     "Rebuild canonical IPEDS dataset",
     "Rebuild Scorecard and graduation-rate joins",
     "Refresh accreditation actions with cache fallback",
+    "Build college cuts watchlist",
     "Discover college cuts",
     "Refresh college cuts with cache fallback",
     "Refresh research cuts from Grant Witness",
@@ -134,16 +137,52 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
   assert(WEEKLY.includes("data_pipelines/college_cuts/discovery/cache"), "Expected college cuts discovery cache path");
 });
 
-run("weekly refresh runs college cuts discovery before the cuts join and warn-gates failures", () => {
+run("refresh workflows install Python packages before discovery-time Python scripts", () => {
+  const weeklySetupIndex = WEEKLY.indexOf("- name: Set up Python");
+  const weeklyInstallIndex = WEEKLY.indexOf("- name: Install Python packages");
+  const weeklyNodeIndex = WEEKLY.indexOf("- name: Set up Node.js");
+  assert(weeklySetupIndex >= 0, "Expected weekly Python setup step");
+  assert(weeklyInstallIndex > weeklySetupIndex, "Expected weekly pip install after Python setup");
+  assert(weeklyNodeIndex > weeklyInstallIndex, "Expected weekly pip install before Node setup");
+  const weeklyBlock = stepBlock(WEEKLY, "Install Python packages");
+  assert(weeklyBlock.includes("pip install -r requirements.txt"), "Expected weekly workflow to install requirements.txt");
+
+  const fullSetupIndex = FULL.indexOf("- name: Set up Python");
+  const fullInstallIndex = FULL.indexOf("- name: Install Python packages");
+  const fullNodeIndex = FULL.indexOf("- name: Set up Node.js");
+  assert(fullSetupIndex >= 0, "Expected full refresh Python setup step");
+  assert(fullInstallIndex > fullSetupIndex, "Expected full refresh pip install after Python setup");
+  assert(fullNodeIndex > fullInstallIndex, "Expected full refresh pip install before Node setup");
+  const fullBlock = stepBlock(FULL, "Install Python packages");
+  assert(fullBlock.includes("pip install -r requirements.txt"), "Expected full refresh workflow to install requirements.txt");
+});
+
+run("weekly refresh builds the cuts watchlist before discovery and warn-gates failures", () => {
+  const watchlistIndex = WEEKLY.indexOf("- name: Build college cuts watchlist");
   const discoveryIndex = WEEKLY.indexOf("- name: Discover college cuts");
   const cutsJoinIndex = WEEKLY.indexOf("- name: Refresh college cuts with cache fallback");
+  assert(watchlistIndex >= 0, "Expected weekly watchlist build step");
+  assert(discoveryIndex > watchlistIndex, "Expected weekly watchlist build before discovery");
   assert(discoveryIndex >= 0, "Expected weekly college cuts discovery step");
   assert(cutsJoinIndex > discoveryIndex, "Expected weekly discovery before the college cuts join");
+  const watchlistBlock = stepBlock(WEEKLY, "Build college cuts watchlist");
+  assert(watchlistBlock.includes("build_watchlist.py"), "Expected weekly watchlist builder");
+  assert(watchlistBlock.includes("timeout-minutes: 10"), "Expected bounded timeout for weekly watchlist build");
   const block = stepBlock(WEEKLY, "Discover college cuts");
   assert(block.includes("timeout-minutes: 20"), "Expected bounded timeout for weekly discovery");
   assert(block.includes("ANTHROPIC_API_KEY"), "Expected weekly discovery to pass ANTHROPIC_API_KEY");
   assert(block.includes("run_discovery.py"), "Expected weekly discovery runner");
   assert(block.includes('|| echo "::warning::cuts discovery failed; staging continues without new discovered candidates."'), "Expected weekly discovery failure to warn and continue");
+});
+
+run("weekly refresh reports cuts discovery precision after pulling the cuts review sheet", () => {
+  const pullIndex = WEEKLY.indexOf("- name: Pull college cuts review decisions");
+  const precisionIndex = WEEKLY.indexOf("- name: Report college cuts discovery precision");
+  assert(pullIndex >= 0, "Expected weekly cuts review pull step");
+  assert(precisionIndex > pullIndex, "Expected precision report after cuts review pull");
+  const block = stepBlock(WEEKLY, "Report college cuts discovery precision");
+  assert(block.includes("report_precision.py"), "Expected precision telemetry script");
+  assert(block.includes("timeout-minutes: 5"), "Expected bounded timeout for precision telemetry");
 });
 
 run("weekly refresh runs R smoke tests through activated renv library", () => {

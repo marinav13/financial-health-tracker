@@ -91,7 +91,7 @@ run("weekly external-data steps have bounded timeouts", () => {
   const names = [
     "Refresh accreditation actions with cache fallback",
     "Sync Supabase",
-    "Refresh college cuts from public API",
+    "Refresh college cuts with cache fallback",
     "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
     "Rebuild static web exports"

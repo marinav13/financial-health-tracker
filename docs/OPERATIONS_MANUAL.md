@@ -585,7 +585,7 @@ What to check:
 - intermediate DAPIP outputs before broadening the rerun
 
 #### `Sync Supabase institution -> unitid mapping`
-#### `Refresh college cuts from public API`
+#### `Refresh college cuts with cache fallback`
 
 Likely causes:
 

@@ -27,7 +27,7 @@ secret is ever missing or expired, the step degrades to a skip-with-notice
 and the public repo's data quietly stops updating — hence the renewal
 reminder under "Open items".)
 
-There is no launch-day workflow flip anymore: the private cron never moves.
+There is no launch-day workflow flip: the private cron never moves.
 
 ## Already done
 

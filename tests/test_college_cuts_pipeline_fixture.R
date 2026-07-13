@@ -257,6 +257,241 @@ run_test("College Cuts join pipeline fixture", function() {
   assert_identical(nrow(unmatched_df), 0L)
 })
 
+run_test("College Cuts join falls back to cached cut-level snapshot when API is unavailable", function() {
+  fixture_root <- tempfile("college-cuts-cache-fallback-")
+  dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
+  on.exit(unlink(fixture_root, recursive = TRUE, force = TRUE), add = TRUE)
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+
+  dirs <- c(
+    file.path(fixture_root, "scripts"),
+    file.path(fixture_root, "scripts", "shared"),
+    file.path(fixture_root, "data_pipelines"),
+    file.path(fixture_root, "data_pipelines", "college_cuts"),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "cache")
+  )
+  invisible(lapply(dirs, dir.create, recursive = TRUE, showWarnings = FALSE))
+
+  for (nm in c("shared/utils.R", "shared/ipeds_paths.R", "shared/contracts.R",
+               "shared/name_normalization.R")) {
+    file.copy(
+      file.path(root, "scripts", nm),
+      file.path(fixture_root, "scripts", nm),
+      overwrite = TRUE
+    )
+  }
+  file.copy(
+    file.path(root, "scripts", "build_college_cuts_join.R"),
+    file.path(fixture_root, "scripts", "build_college_cuts_join.R"),
+    overwrite = TRUE
+  )
+
+  financial_input <- file.path(fixture_root, "fixture_financial.csv")
+  output_prefix <- file.path(fixture_root, "data_pipelines", "college_cuts", "fixture_cached")
+  fallback_snapshot <- paste0(output_prefix, "_cut_level_joined.csv")
+
+  financial_df <- data.frame(
+    unitid = "179159",
+    institution_name = "Saint Louis University",
+    institution_unique_name = "Saint Louis University | St. Louis | Missouri",
+    year = 2024,
+    control_label = "Private not-for-profit",
+    sector = "Private not-for-profit, 4-year or above",
+    level = "Four or more years",
+    urbanization = "City",
+    category = "Degree-granting, primarily baccalaureate or above",
+    state = "Missouri",
+    city = "St. Louis",
+    enrollment_headcount_total = 15000,
+    enrollment_headcount_undergrad = 11000,
+    enrollment_headcount_graduate = 4000,
+    pct_international_all = 0.2,
+    pct_international_undergraduate = 0.05,
+    pct_international_graduate = 0.45,
+    international_enrollment_pct_change_5yr = 10,
+    international_enrollment_pct_change_10yr = 20,
+    share_grad_students = 0.27,
+    staff_headcount_total = 3000,
+    staff_headcount_instructional = 1000,
+    staff_total_headcount_pct_change_5yr = -5,
+    staff_instructional_headcount_pct_change_5yr = -4,
+    revenue_total = 700000000,
+    expenses_total = 690000000,
+    loss_amount = 10000000,
+    ended_2024_at_loss = "Yes",
+    losses_last_3_of_5 = "Yes",
+    loss_years_last_5 = 3,
+    loss_years_last_10 = 4,
+    revenue_10pct_drop_last_3_of_5 = "No",
+    revenue_pct_change_5yr = -2,
+    revenue_decreased_5yr = "Yes",
+    enrollment_decline_last_3_of_5 = "Yes",
+    enrollment_pct_change_5yr = -3,
+    enrollment_decreased_5yr = "Yes",
+    net_tuition_per_fte = 20000,
+    net_tuition_per_fte_change_5yr = -1,
+    tuition_dependence_pct = 40,
+    discount_rate = 0.45,
+    discount_pct_change_5yr = 2,
+    federal_grants_contracts_pell_adjusted = 100000000,
+    federal_grants_contracts_pell_adjusted_pct_core_revenue = 0.20,
+    federal_grants_contracts_pell_adjusted_pct_change_5yr = 5,
+    state_funding = 5000000,
+    state_funding_pct_core_revenue = 0.01,
+    state_funding_pct_change_5yr = 1,
+    endowment_value = 1000000000,
+    endowment_pct_change_5yr = 3,
+    liquidity = 1.1,
+    liquidity_percentile_private_nfp = 65,
+    leverage = 0.4,
+    leverage_percentile_private_nfp = 55,
+    loan_pct_undergrad_federal_latest = 30,
+    loan_count_undergrad_federal_latest = 5000,
+    loan_avg_undergrad_federal_latest = 7000,
+    stringsAsFactors = FALSE
+  )
+  readr::write_csv(financial_df, financial_input, na = "")
+
+  file.copy(
+    file.path(root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "manual_aliases.csv"),
+    overwrite = TRUE
+  )
+  readr::write_csv(
+    data.frame(
+      institution_name_api = "Saint Louis University",
+      unitid = 179159,
+      state_full = "Missouri",
+      tracker_institution_name = "Saint Louis University",
+      match_source = "supabase_mapping",
+      stringsAsFactors = FALSE
+    ),
+    file.path(fixture_root, "data_pipelines", "college_cuts", "supabase_institution_unitid_mapping.csv"),
+    na = ""
+  )
+
+  readr::write_csv(
+    data.frame(
+      cut_id = c("cached-cut-1", "cached-cut-2"),
+      program_name = c("80 vacant positions eliminated", "Additional staff cuts"),
+      cut_type = c("staff_layoff", "staff_layoff"),
+      announcement_date = c("2026-07-01", "2026-07-02"),
+      announcement_year = c(2026, 2026),
+      effective_term = c("2026-2027", "2026-2027"),
+      status = c("confirmed", "confirmed"),
+      students_affected = c(NA_integer_, NA_integer_),
+      faculty_affected = c(80L, 5L),
+      cip_code = c(NA_character_, NA_character_),
+      notes = c("Cached fallback row", "[staff] Additional cached fallback row"),
+      institution_id = c(NA_character_, NA_character_),
+      institution_name_collegecuts = c("Saint Louis University", "Saint Louis University"),
+      institution_city = c(NA_character_, NA_character_),
+      institution_state_abbr = c("MO", "MO"),
+      institution_state_full = c("Missouri", "Missouri"),
+      institution_control = c("Private non-profit", "Private non-profit"),
+      institution_url = c(NA_character_, NA_character_),
+      institution_unitid = c(NA_integer_, NA_integer_),
+      matched_unitid = c(179159L, 179159L),
+      match_method = c("supabase_mapping", "supabase_mapping"),
+      in_financial_tracker = c(TRUE, TRUE),
+      financial_warning_count = c(0, 0),
+      tracker_institution_name = c("Saint Louis University", "Saint Louis University"),
+      tracker_control_label = c("Private not-for-profit", "Private not-for-profit"),
+      tracker_sector = c("Private not-for-profit, 4-year or above", "Private not-for-profit, 4-year or above"),
+      tracker_level = c("Four or more years", "Four or more years"),
+      tracker_urbanization = c("City", "City"),
+      tracker_category = c("Degree-granting, primarily baccalaureate or above", "Degree-granting, primarily baccalaureate or above"),
+      tracker_enrollment_headcount_total = c(15000, 15000),
+      tracker_enrollment_pct_change_5yr = c(-3, -3),
+      tracker_enrollment_decline_last_3_of_5 = c("Yes", "Yes"),
+      tracker_revenue_total = c(700000000, 700000000),
+      tracker_expenses_total = c(690000000, 690000000),
+      tracker_revenue_pct_change_5yr = c(-2, -2),
+      tracker_revenue_decreased_5yr = c("Yes", "Yes"),
+      tracker_revenue_10pct_drop_last_3_of_5 = c("No", "No"),
+      tracker_loss_amount = c(10000000, 10000000),
+      tracker_ended_2024_at_loss = c("Yes", "Yes"),
+      tracker_losses_last_3_of_5 = c("Yes", "Yes"),
+      tracker_loss_years_last_5 = c(3, 3),
+      tracker_loss_years_last_10 = c(4, 4),
+      tracker_net_tuition_per_fte = c(20000, 20000),
+      tracker_net_tuition_per_fte_change_5yr = c(-1, -1),
+      tracker_tuition_dependence_pct = c(40, 40),
+      tracker_staff_headcount_total = c(3000, 3000),
+      tracker_staff_headcount_instructional = c(1000, 1000),
+      tracker_staff_total_headcount_pct_change_5yr = c(-5, -5),
+      tracker_staff_instructional_headcount_pct_change_5yr = c(-4, -4),
+      tracker_pct_international_all = c(0.2, 0.2),
+      tracker_pct_international_undergraduate = c(0.05, 0.05),
+      tracker_pct_international_graduate = c(0.45, 0.45),
+      tracker_international_enrollment_pct_change_5yr = c(10, 10),
+      tracker_international_enrollment_pct_change_10yr = c(20, 20),
+      tracker_share_grad_students = c(0.27, 0.27),
+      tracker_federal_grants_contracts_pell_adjusted_pct_core_revenue = c(0.20, 0.20),
+      tracker_federal_grants_contracts_pell_adjusted_pct_change_5yr = c(5, 5),
+      tracker_state_funding_pct_core_revenue = c(0.01, 0.01),
+      tracker_state_funding_pct_change_5yr = c(1, 1),
+      tracker_endowment_value = c(1000000000, 1000000000),
+      tracker_endowment_pct_change_5yr = c(3, 3),
+      tracker_discount_rate = c(0.45, 0.45),
+      tracker_discount_pct_change_5yr = c(2, 2),
+      tracker_liquidity = c(1.1, 1.1),
+      tracker_liquidity_percentile_private_nfp = c(65, 65),
+      tracker_leverage = c(0.4, 0.4),
+      tracker_leverage_percentile_private_nfp = c(55, 55),
+      tracker_loan_pct_undergrad_federal_latest = c(30, 30),
+      tracker_loan_count_undergrad_federal_latest = c(5000, 5000),
+      tracker_loan_avg_undergrad_federal_latest = c(7000, 7000),
+      source_id = c(NA_character_, NA_character_),
+      source_url = c("https://example.org/cached-cut", "https://example.org/cached-cut-2"),
+      source_title = c(NA_character_, NA_character_),
+      source_publication = c("Example News", "Example News"),
+      source_published_at = c(NA_character_, NA_character_),
+      stringsAsFactors = FALSE
+    ),
+    fallback_snapshot,
+    na = ""
+  )
+
+  setwd(fixture_root)
+  cuts_env <- new.env(parent = globalenv())
+  sys.source(file.path(fixture_root, "scripts", "build_college_cuts_join.R"), envir = cuts_env)
+
+  cuts_env$main(c(
+    "--financial-input", financial_input,
+    "--output-prefix", output_prefix,
+    "--cuts-api-base-url", "http://127.0.0.1:9/api/cuts"
+  ))
+
+  cut_level_path <- paste0(output_prefix, "_cut_level_joined.csv")
+  summary_path <- paste0(output_prefix, "_institution_summary.csv")
+
+  assert_true(file.exists(cut_level_path), "Cut-level output should exist after cached fallback.")
+  assert_true(file.exists(summary_path), "Institution summary should exist after cached fallback.")
+
+  cuts_joined <- readr::read_csv(cut_level_path, show_col_types = FALSE)
+  summary_df <- readr::read_csv(summary_path, show_col_types = FALSE)
+
+  assert_identical(nrow(cuts_joined), 2L)
+  assert_true(
+    setequal(cuts_joined$cut_id, c("cached-cut-1", "cached-cut-2")),
+    paste0("Expected cached fallback cut ids to round-trip. Got: ", paste(cuts_joined$cut_id, collapse = ", "))
+  )
+  assert_identical(cuts_joined$cut_id[[1]], "cached-cut-2")
+  assert_identical(as.character(cuts_joined$matched_unitid[[1]]), "179159")
+  assert_identical(cuts_joined$match_method[[1]], "supabase_mapping")
+  assert_true(isTRUE(cuts_joined$in_financial_tracker[[1]]), "Cached fallback row should remain matched.")
+  assert_identical(cuts_joined$financial_warning_count[[1]], 5)
+  assert_true(
+    !grepl("[staff]", cuts_joined$notes[[1]] %||% "", fixed = TRUE),
+    paste0("Cached fallback notes should have [staff] tag stripped. Got: ", cuts_joined$notes[[1]])
+  )
+  assert_identical(nrow(summary_df), 1L)
+  assert_identical(summary_df$cut_records[[1]], 2)
+})
+
 run_test("College Cuts join: duplicate unitid in financial tracker raises stop()", function() {
   fixture_root <- tempfile("college-cuts-dup-unitid-")
   dir.create(fixture_root, recursive = TRUE, showWarnings = FALSE)
@@ -491,4 +726,3 @@ run_test("Bracket tags are stripped from notes in the CSV ingest path", function
     paste0("Substantive notes text should be preserved. Got: ", notes_val)
   )
 })
-

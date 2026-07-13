@@ -272,7 +272,7 @@ jobs:
         run: |
           test -s data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || { echo "Missing Supabase mapping CSV"; exit 1; }
 
-      - name: Refresh college cuts from public API
+      - name: Refresh college cuts with cache fallback
         shell: bash
         timeout-minutes: 60
         run: |

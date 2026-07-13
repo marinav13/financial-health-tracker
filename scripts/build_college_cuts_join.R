@@ -55,11 +55,32 @@ main <- function(cli_args = NULL) {
     "--output-prefix",
     file.path(getwd(), "data_pipelines", "college_cuts", "college_cuts_financial_tracker")
   )
+  cache_dir <- get_arg_value(
+    "--cache-dir",
+    file.path(getwd(), "data_pipelines", "college_cuts", "cache")
+  )
+  cuts_api_base_url <- get_arg_value(
+    "--cuts-api-base-url",
+    Sys.getenv("COLLEGE_CUTS_API_BASE_URL", unset = "https://college-cuts.com/api/cuts")
+  )
+  default_fallback_cuts_csv <- paste0(output_prefix, "_cut_level_joined.csv")
+  legacy_fallback_cuts_csv <- file.path(
+    getwd(), "data_pipelines", "college_cuts", "college_cuts_financial_tracker_csv_fallback.csv"
+  )
+  fallback_cuts_csv <- get_arg_value("--fallback-cuts-csv")
+  if (is.null(fallback_cuts_csv)) {
+    fallback_cuts_csv <- if (file.exists(default_fallback_cuts_csv)) {
+      default_fallback_cuts_csv
+    } else {
+      legacy_fallback_cuts_csv
+    }
+  }
 
   if (!file.exists(financial_input)) {
     stop("Financial input file not found: ", financial_input)
   }
   dir.create(dirname(output_prefix), recursive = TRUE, showWarnings = FALSE)
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
 
   # -----------------------------------------------------------------------
   # HELPER: Convert state abbreviations to full names
@@ -333,7 +354,7 @@ main <- function(cli_args = NULL) {
       }
 
       url <- paste0(
-        "https://college-cuts.com/api/cuts",
+        cuts_api_base_url,
         "?status=", utils::URLencode(status, reserved = TRUE),
         "&limit=", limit,
         "&page=", page
@@ -409,33 +430,160 @@ main <- function(cli_args = NULL) {
   # Strip internal triage bracket tags like [staff], [faculty] from notes text.
   # These are CollegeCuts workflow markers and must not appear in public output.
   strip_cut_bracket_tags <- function(x) {
-    value <- trimws(as.character(x %||% ""))
-    if (!nzchar(value)) return(NA_character_)
-    value <- gsub("\\[[A-Za-z0-9_/-]+\\]\\s*", "", value, perl = TRUE)
-    value <- trimws(gsub("\\s{2,}", " ", value))
-    if (!nzchar(value)) return(NA_character_)
+    if (is.null(x)) return(NA_character_)
+    value <- trimws(as.character(x))
+    value[!nzchar(value)] <- NA_character_
+    keep <- !is.na(value)
+    value[keep] <- gsub("\\[[A-Za-z0-9_/-]+\\]\\s*", "", value[keep], perl = TRUE)
+    value[keep] <- trimws(gsub("\\s{2,}", " ", value[keep]))
+    value[!nzchar(value)] <- NA_character_
     value
   }
 
-  # --api-cuts-csv allows tests and offline runs to supply a pre-built CSV
-  # (same column schema as cuts_raw below) instead of calling the live API.
-  api_cuts_csv_path <- get_arg_value("--api-cuts-csv")
+  make_cached_cut_id <- function(institution_name, announcement_date, cut_type,
+                                 source_url, program_name, row_index) {
+    base <- paste(
+      institution_name %||% "",
+      announcement_date %||% "",
+      cut_type %||% "",
+      source_url %||% "",
+      program_name %||% "",
+      sep = "|"
+    )
+    slug <- iconv(base, from = "", to = "ASCII//TRANSLIT", sub = "")
+    if (is.na(slug)) slug <- base
+    slug <- tolower(gsub("[^a-z0-9]+", "-", slug))
+    slug <- gsub("(^-+|-+$)", "", slug)
+    if (!nzchar(slug)) slug <- "cached-cut"
+    paste0("cached-", sprintf("%04d", row_index), "-", substr(slug, 1L, 160L))
+  }
 
-  if (!is.null(api_cuts_csv_path)) {
-    message("Reading pre-built API cuts from: ", api_cuts_csv_path, " (skipping live API)")
-    cuts_raw <- readr::read_csv(
-      api_cuts_csv_path,
-      show_col_types = FALSE, progress = FALSE,
-      col_types = readr::cols(
-        students_affected = readr::col_integer(),
-        faculty_affected  = readr::col_integer(),
-        institution_unitid = readr::col_integer(),
-        .default = readr::col_character()
-      )
-    ) |>
+  coerce_prebuilt_cuts_csv <- function(path) {
+    if (!file.exists(path)) {
+      stop("Pre-built cuts CSV not found: ", path, call. = FALSE)
+    }
+    raw <- readr::read_csv(path, show_col_types = FALSE, progress = FALSE)
+
+    api_like_cols <- c(
+      "id", "program_name", "cut_type", "announcement_date", "effective_term",
+      "status", "students_affected", "faculty_affected", "cip_code", "notes",
+      "institution_id", "institution_name_collegecuts", "institution_city",
+      "institution_state_abbr", "institution_state_full", "institution_control",
+      "institution_url", "institution_unitid", "source_id", "source_url_full",
+      "source_title", "source_publication_name", "source_published_at"
+    )
+    joined_snapshot_cols <- c(
+      "cut_id", "program_name", "cut_type", "announcement_date", "effective_term",
+      "status", "students_affected", "faculty_affected", "cip_code", "notes",
+      "institution_id", "institution_name_collegecuts", "institution_city",
+      "institution_state_abbr", "institution_state_full", "institution_control",
+      "institution_url", "institution_unitid", "matched_unitid", "match_method",
+      "source_id", "source_url", "source_title", "source_publication",
+      "source_published_at"
+    )
+    legacy_cache_cols <- c(
+      "institution_name", "state_abbr", "cut_type", "program_dept",
+      "announcement_date", "effective_term", "students_affected",
+      "staff_affected", "status", "source_url", "notes"
+    )
+
+    if (all(api_like_cols %in% names(raw))) {
+      return(raw |>
+        dplyr::mutate(
+          id = as.character(id),
+          students_affected = suppressWarnings(as.integer(students_affected)),
+          faculty_affected = suppressWarnings(as.integer(faculty_affected)),
+          institution_unitid = suppressWarnings(as.integer(institution_unitid)),
+          cached_matched_unitid = if ("matched_unitid" %in% names(raw)) suppressWarnings(as.integer(matched_unitid)) else NA_integer_,
+          cached_match_method = if ("match_method" %in% names(raw)) as.character(match_method) else NA_character_
+        ) |>
+        dplyr::select(dplyr::all_of(api_like_cols), cached_matched_unitid, cached_match_method))
+    }
+
+    if (all(joined_snapshot_cols %in% names(raw))) {
+      return(raw |>
+        dplyr::transmute(
+          id = as.character(cut_id),
+          program_name = as.character(program_name),
+          cut_type = as.character(cut_type),
+          announcement_date = as.character(announcement_date),
+          effective_term = as.character(effective_term),
+          status = as.character(status),
+          students_affected = suppressWarnings(as.integer(students_affected)),
+          faculty_affected = suppressWarnings(as.integer(faculty_affected)),
+          cip_code = as.character(cip_code),
+          notes = as.character(notes),
+          institution_id = as.character(institution_id),
+          institution_name_collegecuts = as.character(institution_name_collegecuts),
+          institution_city = as.character(institution_city),
+          institution_state_abbr = as.character(institution_state_abbr),
+          institution_state_full = as.character(institution_state_full),
+          institution_control = as.character(institution_control),
+          institution_url = as.character(institution_url),
+          institution_unitid = suppressWarnings(as.integer(institution_unitid)),
+          source_id = as.character(source_id),
+          source_url_full = as.character(source_url),
+          source_title = as.character(source_title),
+          source_publication_name = as.character(source_publication),
+          source_published_at = as.character(source_published_at),
+          cached_matched_unitid = suppressWarnings(as.integer(matched_unitid)),
+          cached_match_method = as.character(match_method)
+        ))
+    }
+
+    if (all(legacy_cache_cols %in% names(raw))) {
+      row_ids <- vapply(seq_len(nrow(raw)), function(i) {
+        make_cached_cut_id(
+          raw$institution_name[[i]],
+          raw$announcement_date[[i]],
+          raw$cut_type[[i]],
+          raw$source_url[[i]],
+          raw$program_dept[[i]],
+          i
+        )
+      }, character(1))
+      return(raw |>
+        dplyr::transmute(
+          id = row_ids,
+          program_name = as.character(program_dept),
+          cut_type = as.character(cut_type),
+          announcement_date = as.character(announcement_date),
+          effective_term = as.character(effective_term),
+          status = as.character(status),
+          students_affected = suppressWarnings(as.integer(students_affected)),
+          faculty_affected = suppressWarnings(as.integer(staff_affected)),
+          cip_code = NA_character_,
+          notes = as.character(notes),
+          institution_id = NA_character_,
+          institution_name_collegecuts = as.character(institution_name),
+          institution_city = NA_character_,
+          institution_state_abbr = as.character(state_abbr),
+          institution_state_full = abbr_to_state(state_abbr),
+          institution_control = NA_character_,
+          institution_url = NA_character_,
+          institution_unitid = NA_integer_,
+          source_id = NA_character_,
+          source_url_full = as.character(source_url),
+          source_title = NA_character_,
+          source_publication_name = NA_character_,
+          source_published_at = NA_character_,
+          cached_matched_unitid = NA_integer_,
+          cached_match_method = NA_character_
+        ))
+    }
+
+    stop(
+      "Unsupported pre-built cuts CSV schema at ", path,
+      ". Expected an API-like cuts export, a cut-level joined snapshot, or the legacy fallback cache.",
+      call. = FALSE
+    )
+  }
+
+  attach_tracker_matches <- function(cuts_df) {
+    cuts_df |>
       dplyr::filter(!is.na(institution_name_collegecuts), nzchar(institution_name_collegecuts)) |>
       dplyr::mutate(
-        notes    = strip_cut_bracket_tags(notes),
+        notes = strip_cut_bracket_tags(notes),
         norm_name = normalize_name(institution_name_collegecuts)
       ) |>
       dplyr::left_join(
@@ -443,66 +591,91 @@ main <- function(cli_args = NULL) {
         by = c("norm_name", "institution_state_full" = "state_full")
       ) |>
       dplyr::mutate(
-        matched_unitid = unitid_candidate,
-        match_method = dplyr::if_else(
-          !is.na(unitid_candidate),
-          match_method_candidate,
-          "unmatched"
+        matched_unitid = dplyr::coalesce(unitid_candidate, cached_matched_unitid),
+        match_method = dplyr::case_when(
+          !is.na(unitid_candidate) ~ match_method_candidate,
+          !is.na(cached_matched_unitid) ~ dplyr::coalesce(cached_match_method, "cached_snapshot"),
+          TRUE ~ "unmatched"
         )
+      ) |>
+      dplyr::select(-cached_matched_unitid, -cached_match_method)
+  }
+
+  load_cached_cuts_snapshot <- function(api_error_message) {
+    if (!file.exists(fallback_cuts_csv)) {
+      stop(
+        "College Cuts API request failed (", api_error_message, ") and no cached cuts snapshot was found at ",
+        fallback_cuts_csv, ".", call. = FALSE
       )
+    }
+    snapshot_age_days <- as.numeric(Sys.time() - file.info(fallback_cuts_csv)$mtime) / 86400
+    warning(
+      sprintf(
+        "College Cuts API request failed (%s). Falling back to cached cuts snapshot: %s (%.1f days old).",
+        api_error_message, fallback_cuts_csv, snapshot_age_days
+      ),
+      call. = FALSE
+    )
+    attach_tracker_matches(coerce_prebuilt_cuts_csv(fallback_cuts_csv))
+  }
+
+  # --api-cuts-csv allows tests and offline runs to supply a pre-built cuts CSV
+  # instead of calling the live API. It accepts the raw API-like schema, a
+  # prior cut-level joined snapshot, or the legacy fallback cache schema.
+  api_cuts_csv_path <- get_arg_value("--api-cuts-csv")
+
+  if (!is.null(api_cuts_csv_path)) {
+    message("Reading pre-built cuts CSV from: ", api_cuts_csv_path, " (skipping live API)")
+    cuts_raw <- attach_tracker_matches(coerce_prebuilt_cuts_csv(api_cuts_csv_path))
     message("Loaded ", nrow(cuts_raw), " cut record(s) from local CSV")
   } else {
 
-  api_records <- fetch_all_api_cuts("confirmed")
-  message("Fetched ", length(api_records), " confirmed cuts from API")
+  api_records_result <- tryCatch(
+    fetch_all_api_cuts("confirmed"),
+    error = function(e) e
+  )
+  if (inherits(api_records_result, "error")) {
+    cuts_raw <- load_cached_cuts_snapshot(conditionMessage(api_records_result))
+  } else if (!length(api_records_result)) {
+    cuts_raw <- load_cached_cuts_snapshot("API returned 0 confirmed cuts")
+  } else {
+    api_records <- api_records_result
+    message("Fetched ", length(api_records), " confirmed cuts from API")
 
-  cuts_raw <- dplyr::bind_rows(lapply(api_records, function(x) {
-    fa <- if (!is.null(x$facultyAffected))  suppressWarnings(as.integer(x$facultyAffected))  else NA_integer_
-    sa <- if (!is.null(x$studentsAffected)) suppressWarnings(as.integer(x$studentsAffected)) else NA_integer_
-    inst <- x$institution %||% ""
-    tibble::tibble(
-      id                           = x$id %||% NA_character_,
-      program_name                 = make_program_name(x$programName, inst, x$cutType, fa, sa),
-      cut_type                     = x$cutType %||% NA_character_,
-      announcement_date            = x$announcementDate %||% NA_character_,
-      effective_term               = x$effectiveTerm %||% NA_character_,
-      status                       = x$status %||% NA_character_,
-      students_affected            = sa,
-      faculty_affected             = fa,
-      cip_code                     = x$cipCode %||% NA_character_,
-      notes                        = strip_cut_bracket_tags(x$notes %||% NA_character_),
-      institution_id               = NA_character_,
-      institution_name_collegecuts = if (nzchar(inst)) inst else NA_character_,
-      institution_city             = NA_character_,
-      institution_state_abbr       = x$state %||% NA_character_,
-      institution_state_full       = abbr_to_state(x$state %||% ""),
-      institution_control          = x$control %||% NA_character_,
-      institution_url              = NA_character_,
-      institution_unitid           = NA_integer_,
-      source_id                    = NA_character_,
-      source_url_full              = x$sourceUrl %||% NA_character_,
-      source_title                 = NA_character_,
-      source_publication_name      = x$sourcePublication %||% NA_character_,
-      source_published_at          = NA_character_
-    )
-  })) |>
-    dplyr::filter(
-      !is.na(institution_name_collegecuts),
-      nzchar(institution_name_collegecuts)
-    ) |>
-    dplyr::mutate(norm_name = normalize_name(institution_name_collegecuts)) |>
-    dplyr::left_join(
-      fallback_lookup,
-      by = c("norm_name", "institution_state_full" = "state_full")
-    ) |>
-    dplyr::mutate(
-      matched_unitid = unitid_candidate,
-      match_method = dplyr::if_else(
-        !is.na(unitid_candidate),
-        match_method_candidate,
-        "unmatched"
+    cuts_raw <- dplyr::bind_rows(lapply(api_records, function(x) {
+      fa <- if (!is.null(x$facultyAffected))  suppressWarnings(as.integer(x$facultyAffected))  else NA_integer_
+      sa <- if (!is.null(x$studentsAffected)) suppressWarnings(as.integer(x$studentsAffected)) else NA_integer_
+      inst <- x$institution %||% ""
+      tibble::tibble(
+        id                           = x$id %||% NA_character_,
+        program_name                 = make_program_name(x$programName, inst, x$cutType, fa, sa),
+        cut_type                     = x$cutType %||% NA_character_,
+        announcement_date            = x$announcementDate %||% NA_character_,
+        effective_term               = x$effectiveTerm %||% NA_character_,
+        status                       = x$status %||% NA_character_,
+        students_affected            = sa,
+        faculty_affected             = fa,
+        cip_code                     = x$cipCode %||% NA_character_,
+        notes                        = strip_cut_bracket_tags(x$notes %||% NA_character_),
+        institution_id               = NA_character_,
+        institution_name_collegecuts = if (nzchar(inst)) inst else NA_character_,
+        institution_city             = NA_character_,
+        institution_state_abbr       = x$state %||% NA_character_,
+        institution_state_full       = abbr_to_state(x$state %||% ""),
+        institution_control          = x$control %||% NA_character_,
+        institution_url              = NA_character_,
+        institution_unitid           = NA_integer_,
+        source_id                    = NA_character_,
+        source_url_full              = x$sourceUrl %||% NA_character_,
+        source_title                 = NA_character_,
+        source_publication_name      = x$sourcePublication %||% NA_character_,
+        source_published_at          = NA_character_,
+        cached_matched_unitid        = NA_integer_,
+        cached_match_method          = NA_character_
       )
-    )
+    })) |>
+      attach_tracker_matches()
+  }
   } # end else (live API path)
 
   # -----------------------------------------------------------------------

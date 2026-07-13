@@ -123,6 +123,14 @@ jobs:
           restore-keys: |
             grant-witness-cache-v1-
 
+      - name: Cache college cuts discovery fetches
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/college_cuts/discovery/cache
+          key: cuts-discovery-cache-v1-${{ steps.cache-week.outputs.week }}
+          restore-keys: |
+            cuts-discovery-cache-v1-
+
       # Cache the canonical IPEDS CSV between weekly runs. IPEDS releases
       # data 3 times a year (fall, winter, spring); refresh-ipeds-full.yml
       # is scheduled to rebuild on those releases and seeds this cache.
@@ -271,6 +279,20 @@ jobs:
         shell: bash
         run: |
           test -s data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || { echo "Missing Supabase mapping CSV"; exit 1; }
+
+      # Discovers cut candidates from news feeds/queries. Failures warn
+      # and skip - discovery must never take down the refresh. The Claude
+      # classification step inside activates only when ANTHROPIC_API_KEY
+      # is configured (Tranche C); until then the script runs rules-only.
+      - name: Discover college cuts
+        shell: bash
+        timeout-minutes: 20
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 scripts/cuts_discovery/run_discovery.py \
+            2>&1 | tee -a refresh-logs/combined.log \
+            || echo "::warning::cuts discovery failed; staging continues without new discovered candidates."
 
       - name: Refresh college cuts with cache fallback
         shell: bash
@@ -447,6 +469,7 @@ jobs:
           ACC=$(grep -cE 'warn_if_scrape_count_dropped|warn_if_action_type_dropped|warn_on_empty_parse|Returning empty table|SCRAPER RETURNED 0 ROWS' "$LOG" || true)
           DAPIP=$(grep -cE 'PIPELINE DRIFT WARNING: DAPIP' "$LOG" || true)
           CUTS=$(grep -cE 'PIPELINE DRIFT WARNING: (College Cuts|fetch_all_api_cuts)' "$LOG" || true)
+          DISCOVERY=$(grep -cE 'PIPELINE DRIFT WARNING: cuts_discovery' "$LOG" || true)
           GW=$(grep -cE 'PIPELINE DRIFT WARNING: Grant Witness' "$LOG" || true)
           QUAR=$(grep -cE 'carry review decisions' "$LOG" || true)
           ANOM=$(grep -cE 'ANOMALY:' "$LOG" || true)
@@ -455,6 +478,7 @@ jobs:
           [ "$ACC" -gt 0 ] && DRIFTED="$DRIFTED,accreditation_scrapers"
           [ "$DAPIP" -gt 0 ] && DRIFTED="$DRIFTED,dapip"
           [ "$CUTS" -gt 0 ] && DRIFTED="$DRIFTED,cuts_api"
+          [ "$DISCOVERY" -gt 0 ] && DRIFTED="$DRIFTED,cuts_discovery"
           [ "$GW" -gt 0 ] && DRIFTED="$DRIFTED,grant_witness"
           [ "$QUAR" -gt 0 ] && DRIFTED="$DRIFTED,review_decision_quarantine"
           [ "$ANOM" -gt 0 ] && DRIFTED="$DRIFTED,review_gate_anomaly"
@@ -550,6 +574,10 @@ jobs:
             --add data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --add data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             --add data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            --add data_pipelines/college_cuts/discovered_cut_candidates.csv \
+            --add data_pipelines/college_cuts/discovery/leads.csv \
+            --add data_pipelines/college_cuts/discovery/classifications.csv \
+            --add data_pipelines/college_cuts/discovery/watchlist.csv \
             --add data_pipelines/college_cuts/editorial_overrides.csv \
             --add data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             --add data_pipelines/scorecard/tracker_outcomes_joined.csv \
@@ -567,6 +595,10 @@ jobs:
             --conflict-path data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            --conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/leads.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/classifications.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/watchlist.csv \
             --conflict-path data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv \
             --conflict-path data_pipelines/scorecard/tracker_outcomes_joined.csv
 

@@ -1,4 +1,22 @@
-standing_queries: []
-include_keywords: []
-kill_patterns: []
-
+standing_queries:
+  - '"university" ("layoffs" OR "laid off" OR "eliminating positions")'
+  - '"college" ("program cuts" OR "programs eliminated" OR "majors cut")'
+  - 'university ("hiring freeze" OR furloughs)'
+  - 'college ("campus closing" OR "campus closure" OR "teach-out")'
+  - 'university "budget deficit" ("layoffs" OR "cuts")'
+include_keywords:
+  - layoff
+  - laid off
+  - eliminat
+  - suspend
+  - discontinu
+  - furlough
+  - hiring freeze
+  - closure
+  - closing
+  - teach-out
+kill_patterns:
+  - '\b(football|basketball|roster|athletic)\b'
+  - '\bschool district\b'
+  - '\b(op-ed|opinion|letters? to the editor)\b'
+  - '\bproposed budget\b(?![^.]*approv)'

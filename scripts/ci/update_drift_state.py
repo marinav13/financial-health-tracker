@@ -18,6 +18,7 @@ KNOWN_SOURCES = [
     "accreditation_scrapers",
     "dapip",
     "cuts_api",
+    "cuts_discovery",
     "grant_witness",
     "review_decision_quarantine",
     "review_gate_anomaly",

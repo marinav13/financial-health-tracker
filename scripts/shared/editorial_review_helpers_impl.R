@@ -136,7 +136,8 @@ looks_like_http_url <- function(x) {
 }
 
 ACCREDITATION_REVIEW_ROW_ORIGINS <- c("scraper", "manual")
-COLLEGE_CUTS_REVIEW_ROW_ORIGINS <- c("scraper", "manual", "hechinger")
+COLLEGE_CUTS_DISCOVERY_ROW_ORIGINS <- c("news_scan", "warn_notice")
+COLLEGE_CUTS_REVIEW_ROW_ORIGINS <- c("scraper", "manual", "hechinger", COLLEGE_CUTS_DISCOVERY_ROW_ORIGINS)
 COLLEGE_CUTS_HUMAN_ROW_ORIGINS <- c("manual", "hechinger")
 
 row_origin_in <- function(x, allowed_values) {
@@ -1674,6 +1675,23 @@ COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS <- c(
   "row_origin"
 )
 
+COLLEGE_CUTS_UNMATCHED_FOR_REVIEW_COLUMNS <- c(
+  "cut_id",
+  "program_name",
+  "cut_type",
+  "announcement_date",
+  "institution_name_collegecuts",
+  "institution_city",
+  "institution_state_abbr",
+  "institution_state_full",
+  "institution_control",
+  "institution_unitid",
+  "matched_unitid",
+  "match_method",
+  "source_url",
+  "source_publication"
+)
+
 COLLEGE_CUTS_REVIEW_SHEET_COLUMNS <- c(
   "cut_id", "unitid", "institution_name", "state", "announcement_date", "announcement_year",
   "cut_type", "display_categories", "edited_cut_text", "raw_cut_text",
@@ -1908,6 +1926,26 @@ empty_college_cuts_review_candidates <- function() {
   )
 }
 
+empty_college_cuts_unmatched_for_review <- function() {
+  data.frame(
+    cut_id = character(),
+    program_name = character(),
+    cut_type = character(),
+    announcement_date = character(),
+    institution_name_collegecuts = character(),
+    institution_city = character(),
+    institution_state_abbr = character(),
+    institution_state_full = character(),
+    institution_control = character(),
+    institution_unitid = character(),
+    matched_unitid = character(),
+    match_method = character(),
+    source_url = character(),
+    source_publication = character(),
+    stringsAsFactors = FALSE
+  )
+}
+
 empty_college_cuts_review_sheet_rows <- function() {
   data.frame(
     cut_id = character(), unitid = character(), institution_name = character(),
@@ -2056,6 +2094,106 @@ build_college_cuts_review_candidates <- function(cuts_df,
   candidates <- candidates[!duplicated(candidates$cut_id), COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS, drop = FALSE]
   assert_unique_cut_ids(candidates, "College cuts review candidates")
   candidates
+}
+
+coerce_discovered_college_cuts_unmatched_for_review <- function(df) {
+  if (is.null(df) || !nrow(df)) return(empty_college_cuts_unmatched_for_review())
+  rows <- rep_like_template_rows(empty_college_cuts_unmatched_for_review(), nrow(df))
+  rows$cut_id <- trim_optional_text(df$cut_id)
+  rows$program_name <- trim_optional_text(df$program_name)
+  rows$cut_type <- trim_optional_text(df$cut_type)
+  rows$announcement_date <- trim_optional_text(df$announcement_date)
+  rows$institution_name_collegecuts <- trim_optional_text(df$institution_name)
+  rows$institution_state_full <- trim_optional_text(df$state)
+  rows$matched_unitid <- trim_optional_text(df$unitid)
+  rows$match_method <- rep("discovered_unmatched", nrow(rows))
+  rows$source_url <- trim_optional_text(df$source_url)
+  rows$source_publication <- trim_optional_text(df$source_publication)
+  rows
+}
+
+append_discovered_college_cuts_unmatched_for_review <- function(discovered_rows,
+                                                                path) {
+  if (is.null(discovered_rows) || !nrow(discovered_rows)) {
+    return(invisible(empty_college_cuts_unmatched_for_review()))
+  }
+
+  appended_rows <- coerce_discovered_college_cuts_unmatched_for_review(discovered_rows)
+  existing <- if (file.exists(path)) {
+    raw_existing <- readr::read_csv(
+      path,
+      col_types = readr::cols(.default = readr::col_character()),
+      show_col_types = FALSE
+    )
+    if (!identical(names(raw_existing), COLLEGE_CUTS_UNMATCHED_FOR_REVIEW_COLUMNS)) {
+      warning(
+        sprintf(
+          "College cuts unmatched-for-review header mismatch at %s - skipping discovered unmatched append this run.",
+          path
+        ),
+        call. = FALSE
+      )
+      return(invisible(raw_existing))
+    }
+    raw_existing
+  } else {
+    empty_college_cuts_unmatched_for_review()
+  }
+
+  combined <- dplyr::bind_rows(existing, appended_rows)
+  combined <- combined[!duplicated(trim_text(combined$cut_id)), COLLEGE_CUTS_UNMATCHED_FOR_REVIEW_COLUMNS, drop = FALSE]
+  write_csv_atomic(combined, path)
+  invisible(combined)
+}
+
+merge_discovered_college_cuts_review_candidates <- function(candidates,
+                                                            discovered_path,
+                                                            unmatched_path = NULL) {
+  merged_candidates <- coerce_college_cuts_review_candidates(candidates)
+  discovered_path <- trim_optional_text(discovered_path)
+  if (is.na(discovered_path) || !nzchar(discovered_path) || !file.exists(discovered_path)) {
+    message("No discovered cuts file at ", discovered_path, " - skipping.")
+    return(merged_candidates)
+  }
+
+  discovered_raw <- readr::read_csv(
+    discovered_path,
+    col_types = readr::cols(.default = readr::col_character()),
+    show_col_types = FALSE
+  )
+  if (!identical(names(discovered_raw), COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS)) {
+    warning(
+      sprintf(
+        "discovered_cut_candidates.csv header mismatch at %s - ignoring file this run.",
+        discovered_path
+      ),
+      call. = FALSE
+    )
+    return(merged_candidates)
+  }
+
+  discovered <- coerce_college_cuts_review_candidates(discovered_raw)
+  resolved_unitids <- trim_optional_text(discovered$unitid)
+  unresolved_mask <- is.na(resolved_unitids) | !nzchar(resolved_unitids)
+  unresolved_rows <- discovered[unresolved_mask, , drop = FALSE]
+  if (nrow(unresolved_rows) > 0L && !is.null(unmatched_path) && nzchar(trim_optional_text(unmatched_path))) {
+    append_discovered_college_cuts_unmatched_for_review(unresolved_rows, unmatched_path)
+  }
+
+  discovered <- discovered[!unresolved_mask, , drop = FALSE]
+  if (!nrow(discovered)) {
+    return(merged_candidates)
+  }
+
+  discovered <- dplyr::anti_join(discovered, merged_candidates, by = "cut_id")
+  if (!nrow(discovered)) {
+    return(merged_candidates)
+  }
+
+  combined <- dplyr::bind_rows(merged_candidates, discovered)
+  combined <- combined[!duplicated(trim_text(combined$cut_id)), COLLEGE_CUTS_REVIEW_CANDIDATE_COLUMNS, drop = FALSE]
+  assert_unique_cut_ids(combined, "College cuts review candidates")
+  combined
 }
 
 derive_default_college_cuts_edited_text <- function(source_cut_description,

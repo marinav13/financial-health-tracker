@@ -7,7 +7,6 @@ from html import unescape
 from pathlib import Path
 
 import openpyxl
-from pypdf import PdfReader
 
 if __package__ in (None, ""):
     import sys
@@ -308,9 +307,13 @@ def parse_ny_listing_rows(html: str) -> list[dict]:
     return rows
 
 
-def extract_ny_pdf_text(body: bytes) -> str:
+def extract_ny_pdf_text(body: bytes) -> str | None:
     if not body.lstrip().startswith(b"%PDF-"):
         return body.decode("utf-8", "replace")
+    try:
+        from pypdf import PdfReader
+    except ModuleNotFoundError:
+        return None
     try:
         reader = PdfReader(io.BytesIO(body))
         return "\n".join((page.extract_text() or "") for page in reader.pages)
@@ -362,7 +365,11 @@ def harvest_ny_warn(fetcher, mapping_rows: list[dict]) -> list[dict]:
         if matched is None:
             continue
 
-        pdf_fields = parse_ny_pdf_fields(extract_ny_pdf_text(fetcher.get(parsed["detail_url"], max_age_days=6.0)))
+        pdf_text = extract_ny_pdf_text(fetcher.get(parsed["detail_url"], max_age_days=6.0))
+        if pdf_text is None:
+            print("::warning::cuts discovery WARN source ny skipped: pypdf is not installed.")
+            return rows
+        pdf_fields = parse_ny_pdf_fields(pdf_text)
         employer = pdf_fields["employer"] or parsed["employer"]
         rows.append(
             _build_warn_lead(

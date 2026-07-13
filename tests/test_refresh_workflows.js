@@ -137,6 +137,26 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
   assert(WEEKLY.includes("data_pipelines/college_cuts/discovery/cache"), "Expected college cuts discovery cache path");
 });
 
+run("refresh workflows install Python packages before discovery-time Python scripts", () => {
+  const weeklySetupIndex = WEEKLY.indexOf("- name: Set up Python");
+  const weeklyInstallIndex = WEEKLY.indexOf("- name: Install Python packages");
+  const weeklyNodeIndex = WEEKLY.indexOf("- name: Set up Node.js");
+  assert(weeklySetupIndex >= 0, "Expected weekly Python setup step");
+  assert(weeklyInstallIndex > weeklySetupIndex, "Expected weekly pip install after Python setup");
+  assert(weeklyNodeIndex > weeklyInstallIndex, "Expected weekly pip install before Node setup");
+  const weeklyBlock = stepBlock(WEEKLY, "Install Python packages");
+  assert(weeklyBlock.includes("pip install -r requirements.txt"), "Expected weekly workflow to install requirements.txt");
+
+  const fullSetupIndex = FULL.indexOf("- name: Set up Python");
+  const fullInstallIndex = FULL.indexOf("- name: Install Python packages");
+  const fullNodeIndex = FULL.indexOf("- name: Set up Node.js");
+  assert(fullSetupIndex >= 0, "Expected full refresh Python setup step");
+  assert(fullInstallIndex > fullSetupIndex, "Expected full refresh pip install after Python setup");
+  assert(fullNodeIndex > fullInstallIndex, "Expected full refresh pip install before Node setup");
+  const fullBlock = stepBlock(FULL, "Install Python packages");
+  assert(fullBlock.includes("pip install -r requirements.txt"), "Expected full refresh workflow to install requirements.txt");
+});
+
 run("weekly refresh builds the cuts watchlist before discovery and warn-gates failures", () => {
   const watchlistIndex = WEEKLY.indexOf("- name: Build college cuts watchlist");
   const discoveryIndex = WEEKLY.indexOf("- name: Discover college cuts");

@@ -27,6 +27,7 @@ def main():
         data = json.loads(state.read_text())
         assert data["dapip"] == 1, data
         assert data["cuts_api"] == 0, data
+        assert data["cuts_discovery"] == 0, data
 
         # Consecutive drift increments; clean sources stay 0.
         run(["--state", str(state), "--drifted", "dapip"])

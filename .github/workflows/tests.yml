@@ -117,3 +117,7 @@ jobs:
           python tests/test_build_federal_composite_scores.py
           python tests/test_build_hcm_level2.py
           python tests/test_import_supabase.py
+          python tests/test_cuts_discovery_ids.py
+          python tests/test_cuts_discovery_harvest.py
+          python tests/test_cuts_discovery_filter.py
+          python tests/test_cuts_discovery_name_parity.py

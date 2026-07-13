@@ -91,6 +91,7 @@ run("weekly external-data steps have bounded timeouts", () => {
   const names = [
     "Refresh accreditation actions with cache fallback",
     "Sync Supabase",
+    "Discover college cuts",
     "Refresh college cuts with cache fallback",
     "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
@@ -108,6 +109,7 @@ run("full refresh external and build steps have bounded timeouts", () => {
     "Rebuild canonical IPEDS dataset",
     "Rebuild Scorecard and graduation-rate joins",
     "Refresh accreditation actions with cache fallback",
+    "Discover college cuts",
     "Refresh college cuts with cache fallback",
     "Refresh research cuts from Grant Witness",
     "Import closure outputs from published Google Sheet",
@@ -128,6 +130,20 @@ run("weekly refresh caches scraper and API responses for fallback/retry workflow
   assert(WEEKLY.includes("data_pipelines/accreditation/cache"), "Expected accreditation cache path");
   assert(WEEKLY.includes("Cache Grant Witness downloads and USAspending responses"), "Expected Grant Witness/USAspending cache step");
   assert(WEEKLY.includes("data_pipelines/grant_witness/cache"), "Expected Grant Witness cache path");
+  assert(WEEKLY.includes("Cache college cuts discovery fetches"), "Expected college cuts discovery cache step");
+  assert(WEEKLY.includes("data_pipelines/college_cuts/discovery/cache"), "Expected college cuts discovery cache path");
+});
+
+run("weekly refresh runs college cuts discovery before the cuts join and warn-gates failures", () => {
+  const discoveryIndex = WEEKLY.indexOf("- name: Discover college cuts");
+  const cutsJoinIndex = WEEKLY.indexOf("- name: Refresh college cuts with cache fallback");
+  assert(discoveryIndex >= 0, "Expected weekly college cuts discovery step");
+  assert(cutsJoinIndex > discoveryIndex, "Expected weekly discovery before the college cuts join");
+  const block = stepBlock(WEEKLY, "Discover college cuts");
+  assert(block.includes("timeout-minutes: 20"), "Expected bounded timeout for weekly discovery");
+  assert(block.includes("ANTHROPIC_API_KEY"), "Expected weekly discovery to pass ANTHROPIC_API_KEY");
+  assert(block.includes("run_discovery.py"), "Expected weekly discovery runner");
+  assert(block.includes('|| echo "::warning::cuts discovery failed; staging continues without new discovered candidates."'), "Expected weekly discovery failure to warn and continue");
 });
 
 run("weekly refresh runs R smoke tests through activated renv library", () => {
@@ -245,12 +261,35 @@ run("full refresh stages every tracked pipeline artifact it rebuilds before publ
     "data_pipelines/accreditation/dapip_vs_scraper_audit.csv \\",
     "data_pipelines/college_cuts/college_cuts_review_candidates.csv \\",
     "data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \\",
+    "data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
+    "data_pipelines/college_cuts/discovery/leads.csv \\",
+    "data_pipelines/college_cuts/discovery/classifications.csv \\",
+    "data_pipelines/college_cuts/discovery/watchlist.csv \\",
     "data_pipelines/scorecard/tracker_outcomes_joined.csv",
     "if git diff --staged --quiet; then"
   ].forEach((needle) => {
     assert(block.includes(needle), `Expected full refresh commit block to include: ${needle}`);
   });
   assert(!block.includes("git add data/"), "Expected full refresh to avoid bare git add data/");
+});
+
+run("weekly refresh stages discovery artifacts and tracks cuts discovery drift", () => {
+  const commitBlock = stepBlock(WEEKLY, "Commit and push updated data");
+  [
+    "--add data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
+    "--add data_pipelines/college_cuts/discovery/leads.csv \\",
+    "--add data_pipelines/college_cuts/discovery/classifications.csv \\",
+    "--add data_pipelines/college_cuts/discovery/watchlist.csv \\",
+    "--conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
+    "--conflict-path data_pipelines/college_cuts/discovery/leads.csv \\",
+    "--conflict-path data_pipelines/college_cuts/discovery/classifications.csv \\",
+    "--conflict-path data_pipelines/college_cuts/discovery/watchlist.csv \\"
+  ].forEach((needle) => {
+    assert(commitBlock.includes(needle), `Expected weekly refresh commit block to include: ${needle}`);
+  });
+  const driftBlock = stepBlock(WEEKLY, "Report scraper drift warnings");
+  assert(driftBlock.includes('PIPELINE DRIFT WARNING: cuts_discovery'), "Expected weekly drift scan to include cuts_discovery");
+  assert(driftBlock.includes('DRIFTED="$DRIFTED,cuts_discovery"'), "Expected weekly drift state tracking for cuts_discovery");
 });
 
 run("full refresh rebuilds side data lookups before static web exports", () => {

@@ -1,2 +1,9 @@
-feeds: []
-
+feeds:
+  - name: higher_ed_dive
+    url: https://www.highereddive.com/feeds/news/
+    tier: trade_feed
+  - name: inside_higher_ed
+    url: https://www.insidehighered.com/rss.xml
+    tier: trade_feed
+  # Verified on 2026-07-13: https://www.chronicle.com/section/news/rss returned 404.
+  # Keep Chronicle out of the live config until a working first-party RSS URL is verified.

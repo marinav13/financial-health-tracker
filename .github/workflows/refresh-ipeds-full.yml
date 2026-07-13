@@ -72,6 +72,14 @@ jobs:
           restore-keys: |
             accreditation-cache-v1-
 
+      - name: Cache college cuts discovery fetches
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/college_cuts/discovery/cache
+          key: cuts-discovery-cache-v1-${{ runner.os }}-${{ hashFiles('scripts/cuts_discovery/*.py', 'config/cuts_feeds.yml', 'config/cuts_queries.yml') }}
+          restore-keys: |
+            cuts-discovery-cache-v1-${{ runner.os }}-
+
       # NWCCU's institutional directory is JavaScript-rendered: a plain
       # fetch always fails content validation, so the scraper falls back
       # to a cached rendered copy of the page. Actions caches are
@@ -181,6 +189,15 @@ jobs:
         run: >
           Rscript --vanilla ./scripts/build_dapip_vs_scraper_audit.R
 
+      - name: Discover college cuts
+        shell: bash
+        timeout-minutes: 20
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 scripts/cuts_discovery/run_discovery.py \
+            || echo "::warning::cuts discovery failed during full refresh; continuing without new discovered candidates."
+
       - name: Refresh college cuts with cache fallback
         shell: bash
         timeout-minutes: 60
@@ -269,6 +286,10 @@ jobs:
             data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            data_pipelines/college_cuts/discovered_cut_candidates.csv \
+            data_pipelines/college_cuts/discovery/leads.csv \
+            data_pipelines/college_cuts/discovery/classifications.csv \
+            data_pipelines/college_cuts/discovery/watchlist.csv \
             data_pipelines/scorecard/tracker_outcomes_joined.csv
           if git diff --staged --quiet; then
             echo "No data changes to commit."

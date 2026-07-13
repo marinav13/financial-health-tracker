@@ -27,6 +27,7 @@ if __package__ in (None, ""):
     from cuts_discovery.filter_rules import filter_lead, load_mapping_rows
     from cuts_discovery.harvest_feeds import harvest_all as harvest_trade_feeds
     from cuts_discovery.harvest_google_news import harvest_from_config as harvest_google_news
+    from cuts_discovery.harvest_warn import harvest_all as harvest_warn
 else:
     from .assemble_candidates import assemble_candidates, load_suppression_rows, write_discovered_candidates
     from .classify_leads import archive_source_url, classify_survivors
@@ -50,6 +51,7 @@ else:
     from .filter_rules import filter_lead, load_mapping_rows
     from .harvest_feeds import harvest_all as harvest_trade_feeds
     from .harvest_google_news import harvest_from_config as harvest_google_news
+    from .harvest_warn import harvest_all as harvest_warn
 
 
 def ensure_discovery_files() -> None:
@@ -79,6 +81,7 @@ def main() -> int:
     tier_runs = [
         ("trade_feed", lambda: harvest_trade_feeds(fetcher)),
         ("google_news", lambda: harvest_google_news(fetcher, queries_config)),
+        ("warn", lambda: harvest_warn(fetcher, mapping_rows)),
     ]
     harvested_by_tier = {}
     new_count_by_tier = {}

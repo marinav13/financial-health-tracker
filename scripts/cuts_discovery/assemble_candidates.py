@@ -102,6 +102,8 @@ def row_origin_for_tier(tier: str) -> str:
 
 def source_rank(lead: dict) -> int:
     tier = (lead.get("tier") or "").strip()
+    if tier == "warn":
+        return -1
     if tier == "trade_feed":
         return 0
     publisher = " ".join(

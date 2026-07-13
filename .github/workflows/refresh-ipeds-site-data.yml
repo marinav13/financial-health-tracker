@@ -280,8 +280,16 @@ jobs:
         run: |
           test -s data_pipelines/college_cuts/supabase_institution_unitid_mapping.csv || { echo "Missing Supabase mapping CSV"; exit 1; }
 
+      - name: Build college cuts watchlist
+        shell: bash
+        timeout-minutes: 10
+        run: |
+          python3 scripts/cuts_discovery/build_watchlist.py \
+            2>&1 | tee -a refresh-logs/combined.log \
+            || echo "::warning::cuts discovery watchlist build failed; discovery will continue with the last committed watchlist."
+
       # Discovers cut candidates from news feeds/queries. Failures warn
-      # and skip - discovery must never take down the refresh. The Claude
+      # and skip — discovery must never take down the refresh. The Claude
       # classification step inside activates only when ANTHROPIC_API_KEY
       # is configured (Tranche C); until then the script runs rules-only.
       - name: Discover college cuts
@@ -398,8 +406,16 @@ jobs:
               2>&1 | tee -a refresh-logs/combined.log \
               || echo "::warning::College cuts review sheet pull failed; continuing with committed editorial_overrides.csv (sheet review edits will not sync this run). Repair: run Publish Editorial Overrides with allow_editor_added_rows, or fix row_origin in the sheet." | tee -a refresh-logs/combined.log
           else
-            echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
-          fi
+              echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
+            fi
+
+      - name: Report college cuts discovery precision
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          python3 scripts/cuts_discovery/report_precision.py \
+            2>&1 | tee -a refresh-logs/combined.log \
+            || echo "::warning::cuts discovery precision report failed."
 
       - name: Rebuild static web exports (review gate)
         shell: bash

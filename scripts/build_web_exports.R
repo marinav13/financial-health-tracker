@@ -87,8 +87,10 @@ dir.create(schools_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(downloads_dir, recursive = TRUE, showWarnings = FALSE)
 
 cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv")
+cuts_unmatched_for_review_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_unmatched_for_review.csv")
 cuts_review_candidates_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_review_candidates.csv")
 cuts_editorial_overrides_path <- file.path(root, "data_pipelines", "college_cuts", "editorial_overrides.csv")
+discovered_cuts_path <- get_arg_value("--discovered-cuts", file.path(root, "data_pipelines", "college_cuts", "discovered_cut_candidates.csv"))
 accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
 accreditation_actions_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_actions_joined.csv")
 accreditation_coverage_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_source_coverage.csv")
@@ -380,11 +382,16 @@ build_cuts_export <- function() {
     )
 
   if (!isTRUE(apply_only_cuts_review_gate)) {
-    write_csv_atomic(
+    cuts_review_candidates <- merge_discovered_college_cuts_review_candidates(
       build_college_cuts_review_candidates(
         dplyr::filter(cuts, is_primary_tracker %in% TRUE),
         tracker_unitids = schools_index$unitid
       ),
+      discovered_path = discovered_cuts_path,
+      unmatched_path = cuts_unmatched_for_review_path
+    )
+    write_csv_atomic(
+      cuts_review_candidates,
       cuts_review_candidates_path
     )
   }

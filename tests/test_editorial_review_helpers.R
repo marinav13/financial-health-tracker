@@ -1991,6 +1991,144 @@ run_test("College cuts edited/raw text columns round-trip through stage->sheet->
   assert_true(is.na(merged$override_cut_summary[[1]]) || !nzchar(trimws(merged$override_cut_summary[[1]] %||% "")))
 })
 
+run_test("Discovered college cuts candidates merge into review candidates and route unresolved rows to unmatched review", function() {
+  candidate_rows <- data.frame(
+    cut_id = c("existing-cut", "collision-cut"),
+    unitid = c("100", "100"),
+    institution_name = c("Example University", "Example University"),
+    state = c("Alabama", "Alabama"),
+    announcement_date = c("2026-04-24", "2026-04-25"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("staff_layoff", "staff_layoff"),
+    program_name = c("Existing cut", "Collision cut"),
+    generated_cut_label = c("Existing cut", "Collision cut"),
+    generated_cut_summary = c("Existing cut summary", "Collision cut summary"),
+    source_url = c("https://example.org/existing", "https://example.org/collision"),
+    source_title = c("Existing story", "Collision story"),
+    source_publication = c("Example Paper", "Example Paper"),
+    row_origin = c("scraper", "scraper"),
+    stringsAsFactors = FALSE
+  )
+
+  discovered_rows <- data.frame(
+    cut_id = c("discovered-new", "collision-cut", "discovered-unmatched"),
+    unitid = c("200", "100", ""),
+    institution_name = c("Discovery University", "Example University", "Unknown College"),
+    state = c("Ohio", "Alabama", "Texas"),
+    announcement_date = c("2026-05-01", "2026-05-02", "2026-05-03"),
+    announcement_year = c("2026", "2026", "2026"),
+    cut_type = c("hiring_freeze", "staff_layoff", "program_suspension"),
+    program_name = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut"),
+    generated_cut_label = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut"),
+    generated_cut_summary = c("Freeze announced for administrative hiring.", "Collision summary", "Programs suspended pending budget review."),
+    source_url = c("https://example.org/discovery", "https://example.org/collision-2", "https://example.org/unmatched"),
+    source_title = c("Discovery story", "Collision story 2", "Unmatched story"),
+    source_publication = c("Discovery Wire", "Example Paper", "State Paper"),
+    row_origin = c("news_scan", "news_scan", "warn_notice"),
+    stringsAsFactors = FALSE
+  )
+
+  discovered_path <- tempfile("discovered_cuts_", fileext = ".csv")
+  unmatched_path <- tempfile("discovered_unmatched_", fileext = ".csv")
+  readr::write_csv(discovered_rows, discovered_path, na = "")
+
+  merged <- merge_discovered_college_cuts_review_candidates(
+    candidate_rows,
+    discovered_path = discovered_path,
+    unmatched_path = unmatched_path
+  )
+
+  assert_identical(nrow(merged), 3L)
+  assert_true(
+    setequal(merged$cut_id, c("existing-cut", "collision-cut", "discovered-new")),
+    paste0("Expected existing ids plus one discovered id. Got: ", paste(merged$cut_id, collapse = ", "))
+  )
+  discovered_idx <- match("discovered-new", merged$cut_id)
+  assert_identical(merged$row_origin[[discovered_idx]], "news_scan")
+  assert_identical(merged$cut_type[[discovered_idx]], "hiring_freeze")
+
+  unmatched_rows <- readr::read_csv(unmatched_path, show_col_types = FALSE)
+  assert_identical(nrow(unmatched_rows), 1L)
+  assert_identical(unmatched_rows$cut_id[[1]], "discovered-unmatched")
+  assert_identical(unmatched_rows$institution_name_collegecuts[[1]], "Unknown College")
+  assert_identical(unmatched_rows$match_method[[1]], "discovered_unmatched")
+})
+
+run_test("Discovered college cuts header mismatch warns and leaves generated candidates unchanged", function() {
+  candidate_rows <- data.frame(
+    cut_id = "existing-cut",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = "2026",
+    cut_type = "staff_layoff",
+    program_name = "Existing cut",
+    generated_cut_label = "Existing cut",
+    generated_cut_summary = "Existing cut summary",
+    source_url = "https://example.org/existing",
+    source_title = "Existing story",
+    source_publication = "Example Paper",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+  bad_path <- tempfile("discovered_bad_", fileext = ".csv")
+  readr::write_csv(
+    data.frame(
+      cut_id = "discovered-new",
+      unitid = "200",
+      institution_name = "Bad Header University",
+      stringsAsFactors = FALSE
+    ),
+    bad_path,
+    na = ""
+  )
+
+  warning_message <- NULL
+  merged <- withCallingHandlers(
+    merge_discovered_college_cuts_review_candidates(candidate_rows, bad_path),
+    warning = function(w) {
+      warning_message <<- conditionMessage(w)
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  assert_identical(nrow(merged), 1L)
+  assert_identical(merged$cut_id[[1]], "existing-cut")
+  assert_true(
+    !is.null(warning_message) && grepl("header mismatch", warning_message, ignore.case = TRUE),
+    paste0("Expected discovered header mismatch warning. Got: ", warning_message %||% "<none>")
+  )
+})
+
+run_test("Missing discovered college cuts file leaves generated candidates unchanged", function() {
+  candidate_rows <- data.frame(
+    cut_id = "existing-cut",
+    unitid = "100",
+    institution_name = "Example University",
+    state = "Alabama",
+    announcement_date = "2026-04-24",
+    announcement_year = "2026",
+    cut_type = "staff_layoff",
+    program_name = "Existing cut",
+    generated_cut_label = "Existing cut",
+    generated_cut_summary = "Existing cut summary",
+    source_url = "https://example.org/existing",
+    source_title = "Existing story",
+    source_publication = "Example Paper",
+    row_origin = "scraper",
+    stringsAsFactors = FALSE
+  )
+
+  merged <- merge_discovered_college_cuts_review_candidates(
+    candidate_rows,
+    discovered_path = tempfile("missing_discovered_", fileext = ".csv")
+  )
+
+  assert_identical(nrow(merged), 1L)
+  assert_identical(merged$cut_id[[1]], "existing-cut")
+})
+
 run_test("Legacy college cuts sheet without edited/raw names coerces cleanly", function() {
   legacy_sheet <- data.frame(
     cut_id = "cut-2",

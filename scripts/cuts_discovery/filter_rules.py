@@ -18,6 +18,7 @@ from import_supabase_institution_mapping import STATE_ABBREV, normalize_name  # 
 
 COLLEGE_CUTS_DIR = ROOT / "data_pipelines" / "college_cuts"
 STATE_NAME_TO_ABBREV = {name.lower(): abbr for abbr, name in STATE_ABBREV.items()}
+STATE_ABBREV_TO_NAME = {abbr.upper(): name for abbr, name in STATE_ABBREV.items()}
 INSTITUTION_PATTERNS = [
     re.compile(
         r"\b((?:The )?(?:University|College|Institute|School|Seminary|Academy)"
@@ -137,6 +138,55 @@ def guess_institution(text: str, mapping_rows: list[dict]) -> dict:
         "institution_name": extracted_name,
         "state": guess_state_from_text(raw_text),
         "match_method": "headline_extract" if extracted_name else "",
+    }
+
+
+def resolve_institution(name: str, state: str, mapping_rows: list[dict]) -> dict:
+    norm_name = normalize_name(name or "")
+    state_value = (state or "").strip()
+    state_full = STATE_ABBREV_TO_NAME.get(state_value.upper(), state_value).strip()
+    if not norm_name:
+        return {
+            "unitid": "",
+            "institution_name": (name or "").strip(),
+            "state": state_full,
+            "match_method": "",
+        }
+
+    exact_matches = [row for row in mapping_rows if row["norm_name"] == norm_name]
+    if not exact_matches:
+        return {
+            "unitid": "",
+            "institution_name": (name or "").strip(),
+            "state": state_full,
+            "match_method": "classified_name_only",
+        }
+
+    if state_full:
+        state_matches = [row for row in exact_matches if (row.get("state") or "").strip().lower() == state_full.lower()]
+        if len({row["unitid"] for row in state_matches}) == 1 and state_matches:
+            winner = state_matches[0]
+            return {
+                "unitid": winner["unitid"],
+                "institution_name": winner["institution_name"],
+                "state": winner["state"],
+                "match_method": f"{winner['match_method']}_classified_state",
+            }
+
+    if len({row["unitid"] for row in exact_matches}) == 1:
+        winner = exact_matches[0]
+        return {
+            "unitid": winner["unitid"],
+            "institution_name": winner["institution_name"],
+            "state": winner["state"],
+            "match_method": f"{winner['match_method']}_classified_name",
+        }
+
+    return {
+        "unitid": "",
+        "institution_name": (name or "").strip(),
+        "state": state_full,
+        "match_method": "classified_ambiguous",
     }
 
 

@@ -6,6 +6,7 @@ from pathlib import Path
 if __package__ in (None, ""):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     from cuts_discovery.assemble_candidates import assemble_candidates, load_suppression_rows, write_discovered_candidates
+    from cuts_discovery.classify_leads import archive_source_url, classify_survivors
     from cuts_discovery.common import (
         CLASSIFICATION_FIELDS,
         CLASSIFICATIONS_CSV,
@@ -28,6 +29,7 @@ if __package__ in (None, ""):
     from cuts_discovery.harvest_google_news import harvest_from_config as harvest_google_news
 else:
     from .assemble_candidates import assemble_candidates, load_suppression_rows, write_discovered_candidates
+    from .classify_leads import archive_source_url, classify_survivors
     from .common import (
         CLASSIFICATION_FIELDS,
         CLASSIFICATIONS_CSV,
@@ -65,10 +67,9 @@ def summarize_tier(tier_name: str, lead_ids: set[str], harvested_count: int, new
 def main() -> int:
     ensure_discovery_files()
 
-    if not os.environ.get("ANTHROPIC_API_KEY"):
+    use_classification = bool(os.environ.get("ANTHROPIC_API_KEY", "").strip())
+    if not use_classification:
         print("ANTHROPIC_API_KEY is not set; running rules-only.")
-    else:
-        print("Classification is not enabled until tranche C; running rules-only.")
 
     queries_config = load_queries_config()
     mapping_rows = load_mapping_rows()
@@ -106,6 +107,20 @@ def main() -> int:
         if filtered.get("status") != "filtered_out":
             survivors.append(filtered)
 
+    classification_cache = {}
+    classification_error_ids = set()
+    if use_classification:
+        classification_cache, classification_error_ids = classify_survivors(
+            survivors,
+            fetcher=fetcher,
+            mapping_rows=mapping_rows,
+            path=CLASSIFICATIONS_CSV,
+        )
+        for row in survivors:
+            cached = classification_cache.get(row["lead_id"])
+            if cached:
+                row["classification"] = cached
+
     candidates, candidate_ids, suppressed_ids = assemble_candidates(survivors, suppression_rows=suppression_rows)
     survivor_ids = {row["lead_id"] for row in survivors}
 
@@ -116,12 +131,18 @@ def main() -> int:
         if row.get("status") == "filtered_out":
             updated["status"] = "filtered_out"
             updated["status_reason"] = row.get("status_reason", "")
+        elif lead_id in classification_error_ids:
+            updated["status"] = "error"
+            updated["status_reason"] = "classification_error"
         elif lead_id in suppressed_ids:
             updated["status"] = "suppressed"
             updated["status_reason"] = "existing_tracker_match"
         elif lead_id in candidate_ids:
             updated["status"] = "candidate"
             updated["status_reason"] = ""
+        elif lead_id in classification_cache:
+            updated["status"] = "classified"
+            updated["status_reason"] = "model_not_cut"
         else:
             updated["status"] = "new"
             updated["status_reason"] = ""
@@ -129,6 +150,11 @@ def main() -> int:
 
     write_csv_rows(LEADS_CSV, LEAD_FIELDS, updated_leads)
     write_discovered_candidates(candidates)
+    for candidate in candidates:
+        try:
+            archive_source_url(candidate.get("source_url") or "")
+        except Exception as exc:
+            print(f"::warning::cuts discovery archive failed for {candidate.get('source_url')}: {exc}")
 
     for tier_name, rows in harvested_by_tier.items():
         summarize_tier(

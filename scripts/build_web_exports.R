@@ -510,9 +510,26 @@ build_cuts_export <- function() {
     cuts_closure_flags_review_candidates,
     cuts_closure_flags_review_candidates_path
   )
-  confirmed_closure_unitids <- unique(trim_text(
-    cuts_closure_flags_review_candidates$unitid[cuts_closure_flags_review_candidates$flag_confirmed %in% TRUE]
-  ))
+  confirmed_closure_rows <- cuts_closure_flags_review_candidates[
+    cuts_closure_flags_review_candidates$flag_confirmed %in% TRUE,
+    ,
+    drop = FALSE
+  ]
+  confirmed_closure_unitids <- unique(trim_text(confirmed_closure_rows$unitid))
+  confirmed_closure_rows <- confirmed_closure_rows %>%
+    dplyr::mutate(
+      unitid = trim_text(unitid),
+      announcement_date = trim_optional_text(announcement_date),
+      badge_kind = trim_optional_text(badge_kind),
+      source_url = trim_optional_text(source_url),
+      evidence_text = trim_optional_text(evidence_text)
+    ) %>%
+    dplyr::arrange(dplyr::desc(announcement_date), dplyr::desc(first_seen)) %>%
+    dplyr::distinct(unitid, .keep_all = TRUE)
+  confirmed_closure_lookup <- stats::setNames(
+    split(confirmed_closure_rows, confirmed_closure_rows$unitid),
+    confirmed_closure_rows$unitid
+  )
 
   recent <- cuts %>%
     arrange(desc(announcement_date), desc(announcement_year)) %>%
@@ -549,6 +566,11 @@ build_cuts_export <- function() {
     df <- df %>% arrange(desc(announcement_date), desc(announcement_year))
     latest <- df %>% slice(1)
     school_confirmation_unitid <- trim_text(as.character(latest$matched_unitid[[1]] %||% latest$export_unitid[[1]]))
+    confirmed_row <- confirmed_closure_lookup[[school_confirmation_unitid]]
+    confirmed_badge_kind <- if (!is.null(confirmed_row) && nrow(confirmed_row) > 0L) or_null(confirmed_row$badge_kind[[1]]) else NULL
+    confirmed_announcement_date <- if (!is.null(confirmed_row) && nrow(confirmed_row) > 0L) or_null(confirmed_row$announcement_date[[1]]) else NULL
+    confirmed_source_url <- if (!is.null(confirmed_row) && nrow(confirmed_row) > 0L) or_null(confirmed_row$source_url[[1]]) else NULL
+    confirmed_evidence_text <- if (!is.null(confirmed_row) && nrow(confirmed_row) > 0L) or_null(confirmed_row$evidence_text[[1]]) else NULL
     list(
       unitid = as.character(latest$export_unitid[[1]]),
       financial_unitid = if (isTRUE(latest$has_financial_profile[[1]])) latest$matched_unitid[[1]] else NA_character_,
@@ -563,6 +585,10 @@ build_cuts_export <- function() {
       latest_cut_date = or_null(latest$announcement_date),
       latest_cut_label = or_null(latest$cut_label_public) %||% or_null(latest$program_name),
       confirmed_closure_announcement = nzchar(school_confirmation_unitid) && school_confirmation_unitid %in% confirmed_closure_unitids,
+      confirmed_closure_badge_kind = confirmed_badge_kind,
+      confirmed_closure_announcement_date = confirmed_announcement_date,
+      confirmed_closure_source_url = confirmed_source_url,
+      confirmed_closure_evidence_text = confirmed_evidence_text,
       cut_count = nrow(df),
       cuts = lapply(seq_len(nrow(df)), function(i) {
         list(

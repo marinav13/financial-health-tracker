@@ -3075,6 +3075,11 @@ run_test("Closure flags review sheet rows track one institution_closure candidat
       "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
       "Older closure row"
     ),
+    source_url = c(
+      "https://example.org/sou",
+      "https://example.org/limestone",
+      "https://example.org/limestone-older"
+    ),
     is_primary_tracker = c(TRUE, TRUE, TRUE),
     stringsAsFactors = FALSE
   )
@@ -3082,7 +3087,9 @@ run_test("Closure flags review sheet rows track one institution_closure candidat
     cut_id = "lime-1",
     unitid = "218238",
     institution_name = "Limestone University",
+    badge_kind = "closure",
     announcement_date = "2025-04-29",
+    source_url = "https://example.org/limestone",
     evidence_text = "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
     flag_confirmed = "TRUE",
     notes = "Confirmed by editor",
@@ -3099,6 +3106,8 @@ run_test("Closure flags review sheet rows track one institution_closure candidat
   assert_true(isTRUE(rows$flag_confirmed[[1]]))
   assert_identical(trim_text(rows$notes), "Confirmed by editor")
   assert_identical(trim_text(rows$first_seen), "2026-07-01")
+  assert_identical(trim_text(rows$badge_kind), "closure")
+  assert_identical(trim_text(rows$source_url), "https://example.org/limestone")
 })
 
 run_test("Closure flags review sheet appends dedupe against existing cut ids", function() {
@@ -3106,7 +3115,9 @@ run_test("Closure flags review sheet appends dedupe against existing cut ids", f
     cut_id = c("lime-1", "cornish-1"),
     unitid = c("218238", "235024"),
     institution_name = c("Limestone University", "Cornish College of the Arts"),
+    badge_kind = c("closure", "absorption"),
     announcement_date = c("2025-04-29", "2025-03-27"),
+    source_url = c("https://example.org/limestone", "https://example.org/cornish"),
     evidence_text = c(
       "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
       "Cornish College absorbed by Seattle University; all 354 employees laid off with potential rehiring by Seattle U"
@@ -3120,7 +3131,9 @@ run_test("Closure flags review sheet appends dedupe against existing cut ids", f
     cut_id = "lime-1",
     unitid = "218238",
     institution_name = "Limestone University",
+    badge_kind = "closure",
     announcement_date = "2025-04-29",
+    source_url = "https://example.org/limestone",
     evidence_text = "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
     flag_confirmed = "TRUE",
     notes = "Confirmed by editor",
@@ -3134,4 +3147,49 @@ run_test("Closure flags review sheet appends dedupe against existing cut ids", f
   )
   assert_identical(trim_text(append_rows$cut_id), "cornish-1")
   assert_true(!isTRUE(append_rows$flag_confirmed[[1]]))
+  assert_identical(trim_text(append_rows$badge_kind), "absorption")
+  assert_identical(trim_text(append_rows$source_url), "https://example.org/cornish")
+})
+
+run_test("Closure flags review sheet generates ids and preserves manual confirmed rows", function() {
+  candidates <- data.frame(
+    cut_id = "lime-1",
+    matched_unitid = "218238",
+    export_unitid = "218238",
+    institution_name_display = "Limestone University",
+    announcement_date = "2025-04-29",
+    announcement_year = "2025",
+    cut_type = "institution_closure",
+    source_url = "https://example.org/limestone",
+    program_name = "Institution closure",
+    cut_label_public = "Board of Trustees voted April 29, 2025 to close after nearly 180 years.",
+    is_primary_tracker = TRUE,
+    stringsAsFactors = FALSE
+  )
+  existing_sheet <- data.frame(
+    cut_id = "",
+    unitid = "185129",
+    institution_name = "New Jersey City University",
+    badge_kind = "absorption",
+    announcement_date = "2026-07-01",
+    source_url = "https://www.nj.com/education/2026/07/2-nj-universities-complete-massive-merger.html",
+    evidence_text = "New Jersey City University absorbed into Kean University; merger completed July 1, 2026.",
+    flag_confirmed = "TRUE",
+    notes = "",
+    first_seen = "2026-07-14",
+    stringsAsFactors = FALSE
+  )
+
+  rows <- build_college_cuts_closure_flags_review_sheet_rows(
+    candidates,
+    existing_sheet = existing_sheet,
+    first_seen_date = "2026-07-14"
+  )
+
+  assert_true(nrow(rows) == 2)
+  njcu <- rows[trim_text(rows$unitid) == "185129", , drop = FALSE]
+  assert_true(nrow(njcu) == 1)
+  assert_true(nzchar(trim_text(njcu$cut_id[[1]])))
+  assert_identical(trim_text(njcu$badge_kind[[1]]), "absorption")
+  assert_true(isTRUE(njcu$flag_confirmed[[1]]))
 })

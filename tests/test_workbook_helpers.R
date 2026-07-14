@@ -269,8 +269,8 @@ run_test("Workbook helper state breakdown builder", function() {
 
   assert_identical(nrow(state_breakdown), 2L)
   assert_identical(state_breakdown$state[[1]], "TX")
-  assert_equal(state_breakdown$state_funding_down_5yr_percent[state_breakdown$state == "CA"], 50)
-  assert_equal(state_breakdown$mean_state_funding_pct_core_revenue[state_breakdown$state == "TX"], 30)
+  assert_equal(state_breakdown$state_support_down_5yr_percent[state_breakdown$state == "CA"], 50)
+  assert_equal(state_breakdown$mean_state_support_pct_core_revenue[state_breakdown$state == "TX"], 30)
 })
 
 run_test("Workbook helper worksheet registry builder", function() {

@@ -1711,7 +1711,9 @@ COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS <- c(
   "cut_id",
   "unitid",
   "institution_name",
+  "badge_kind",
   "announcement_date",
+  "source_url",
   "evidence_text",
   "flag_confirmed",
   "notes",
@@ -1995,7 +1997,9 @@ empty_college_cuts_closure_flags_review_sheet_rows <- function() {
     cut_id = character(),
     unitid = character(),
     institution_name = character(),
+    badge_kind = character(),
     announcement_date = character(),
+    source_url = character(),
     evidence_text = character(),
     flag_confirmed = logical(),
     notes = character(),
@@ -2367,14 +2371,83 @@ parse_college_cuts_closure_flag_confirmed <- function(x) {
   confirmed
 }
 
+normalize_college_cuts_closure_badge_kind <- function(x) {
+  values <- trim_optional_text(x)
+  if (!length(values)) return(character(0))
+  normalized <- tolower(trimws(values))
+  normalized[normalized %in% c("", "na", "n/a")] <- NA_character_
+  normalized[grepl("absor|merger|merged|merge", normalized, ignore.case = TRUE, perl = TRUE)] <- "absorption"
+  normalized[grepl("clos", normalized, ignore.case = TRUE, perl = TRUE)] <- "closure"
+  normalized[!(normalized %in% c("closure", "absorption"))] <- NA_character_
+  normalized
+}
+
+infer_college_cuts_closure_badge_kind <- function(...) {
+  text <- trimws(paste(vapply(list(...), function(value) paste(trim_optional_text(value), collapse = " "), character(1)), collapse = " "))
+  if (!nzchar(text)) return(rep("closure", length(trim_optional_text(text))))
+  if (grepl("absor|merger|merged|merge|surviving institution", text, ignore.case = TRUE, perl = TRUE)) {
+    return("absorption")
+  }
+  "closure"
+}
+
+compute_college_cuts_closure_flag_id <- function(cut_id,
+                                                 unitid = NA_character_,
+                                                 announcement_date = NA_character_,
+                                                 evidence_text = NA_character_,
+                                                 institution_name = NA_character_) {
+  compute_college_cuts_review_id(
+    cut_id = cut_id,
+    unitid = unitid,
+    announcement_date = announcement_date,
+    program_name = evidence_text,
+    institution_name = institution_name,
+    state = NA_character_
+  )
+}
+
 coerce_college_cuts_closure_flags_review_sheet_rows <- function(df) {
   if (is.null(df) || !nrow(df)) return(empty_college_cuts_closure_flags_review_sheet_rows())
   sheet_rows <- rep_like_template_rows(empty_college_cuts_closure_flags_review_sheet_rows(), nrow(df))
-  sheet_rows$cut_id <- trim_text(df$cut_id)
-  sheet_rows$unitid <- trim_optional_text(df$unitid)
-  sheet_rows$institution_name <- trim_optional_text(df$institution_name)
-  sheet_rows$announcement_date <- trim_optional_text(df$announcement_date)
-  sheet_rows$evidence_text <- trim_optional_text(df$evidence_text)
+  cut_ids <- if ("cut_id" %in% names(df)) trim_text(df$cut_id) else rep("", nrow(df))
+  unitids <- if ("unitid" %in% names(df)) trim_optional_text(df$unitid) else rep(NA_character_, nrow(df))
+  institution_names <- if ("institution_name" %in% names(df)) trim_optional_text(df$institution_name) else rep(NA_character_, nrow(df))
+  announcement_dates <- if ("announcement_date" %in% names(df)) trim_optional_text(df$announcement_date) else rep(NA_character_, nrow(df))
+  evidence_values <- if ("evidence_text" %in% names(df)) trim_optional_text(df$evidence_text) else rep(NA_character_, nrow(df))
+  source_urls <- if ("source_url" %in% names(df)) trim_optional_text(df$source_url) else rep(NA_character_, nrow(df))
+  badge_values <- if ("badge_kind" %in% names(df)) normalize_college_cuts_closure_badge_kind(df$badge_kind) else rep(NA_character_, nrow(df))
+
+  missing_ids <- !nzchar(cut_ids)
+  if (any(missing_ids)) {
+    cut_ids[missing_ids] <- vapply(
+      which(missing_ids),
+      function(i) compute_college_cuts_closure_flag_id(
+        cut_id = cut_ids[[i]],
+        unitid = unitids[[i]],
+        announcement_date = announcement_dates[[i]],
+        evidence_text = evidence_values[[i]],
+        institution_name = institution_names[[i]]
+      ),
+      character(1)
+    )
+  }
+
+  missing_badge_kind <- is.na(badge_values) | !nzchar(trim_text(badge_values))
+  if (any(missing_badge_kind)) {
+    badge_values[missing_badge_kind] <- vapply(
+      which(missing_badge_kind),
+      function(i) infer_college_cuts_closure_badge_kind(evidence_values[[i]], institution_names[[i]]),
+      character(1)
+    )
+  }
+
+  sheet_rows$cut_id <- cut_ids
+  sheet_rows$unitid <- unitids
+  sheet_rows$institution_name <- institution_names
+  sheet_rows$badge_kind <- badge_values
+  sheet_rows$announcement_date <- announcement_dates
+  sheet_rows$source_url <- source_urls
+  sheet_rows$evidence_text <- evidence_values
   sheet_rows$flag_confirmed <- parse_college_cuts_closure_flag_confirmed(df$flag_confirmed)
   sheet_rows$notes <- trim_optional_text(df$notes)
   sheet_rows$first_seen <- trim_optional_text(df$first_seen)
@@ -2422,6 +2495,7 @@ build_college_cuts_closure_flags_review_sheet_rows <- function(cuts_df,
     "announcement_date",
     "announcement_year",
     "cut_type",
+    "source_url",
     "program_name",
     "cut_label_public"
   )
@@ -2463,7 +2537,16 @@ build_college_cuts_closure_flags_review_sheet_rows <- function(cuts_df,
     cut_id = trim_text(candidate_rows$cut_id),
     unitid = trim_optional_text(dplyr::coalesce(candidate_rows$matched_unitid, candidate_rows$export_unitid)),
     institution_name = trim_optional_text(candidate_rows$institution_name_display),
+    badge_kind = vapply(
+      seq_len(nrow(candidate_rows)),
+      function(i) infer_college_cuts_closure_badge_kind(
+        candidate_rows$cut_label_public[[i]],
+        candidate_rows$program_name[[i]]
+      ),
+      character(1)
+    ),
     announcement_date = trim_optional_text(candidate_rows$announcement_date),
+    source_url = trim_optional_text(candidate_rows$source_url),
     evidence_text = dplyr::coalesce(
       trim_optional_text(candidate_rows$cut_label_public),
       trim_optional_text(candidate_rows$program_name)
@@ -2481,10 +2564,27 @@ build_college_cuts_closure_flags_review_sheet_rows <- function(cuts_df,
     if (any(matched)) {
       sheet_rows$flag_confirmed[matched] <- existing_rows$flag_confirmed[existing_index[matched]]
       sheet_rows$notes[matched] <- existing_rows$notes[existing_index[matched]]
+      existing_badge_kind <- existing_rows$badge_kind[existing_index[matched]]
+      keep_existing_badge_kind <- !is.na(existing_badge_kind) & nzchar(trim_text(existing_badge_kind))
+      if (any(keep_existing_badge_kind)) {
+        matched_positions <- which(matched)
+        sheet_rows$badge_kind[matched_positions[keep_existing_badge_kind]] <- existing_badge_kind[keep_existing_badge_kind]
+      }
+      existing_source_url <- existing_rows$source_url[existing_index[matched]]
+      keep_existing_source_url <- !is.na(existing_source_url) & nzchar(trim_text(existing_source_url))
+      if (any(keep_existing_source_url)) {
+        matched_positions <- which(matched)
+        sheet_rows$source_url[matched_positions[keep_existing_source_url]] <- existing_source_url[keep_existing_source_url]
+      }
       existing_first_seen <- existing_rows$first_seen[existing_index[matched]]
       keep_first_seen <- !is.na(existing_first_seen) & nzchar(trim_text(existing_first_seen))
       matched_positions <- which(matched)
       sheet_rows$first_seen[matched_positions[keep_first_seen]] <- existing_first_seen[keep_first_seen]
+    }
+
+    existing_only <- existing_rows[!(trim_text(existing_rows$cut_id) %in% trim_text(sheet_rows$cut_id)), COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS, drop = FALSE]
+    if (nrow(existing_only)) {
+      sheet_rows <- dplyr::bind_rows(sheet_rows, existing_only)
     }
   }
 

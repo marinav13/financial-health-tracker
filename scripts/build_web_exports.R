@@ -425,30 +425,6 @@ build_cuts_export <- function() {
     }
   }
 
-  cuts_closure_flags_review <- if (file.exists(cuts_closure_flags_review_path)) {
-    coerce_college_cuts_closure_flags_review_sheet_rows(
-      readr::read_csv(
-        cuts_closure_flags_review_path,
-        col_types = readr::cols(.default = readr::col_character()),
-        show_col_types = FALSE
-      )
-    )
-  } else {
-    empty_college_cuts_closure_flags_review_sheet_rows()
-  }
-  cuts_closure_flags_review_candidates <- build_college_cuts_closure_flags_review_sheet_rows(
-    dplyr::filter(cuts, is_primary_tracker %in% TRUE),
-    existing_sheet = cuts_closure_flags_review,
-    first_seen_date = as.character(Sys.Date())
-  )
-  write_csv_atomic(
-    cuts_closure_flags_review_candidates,
-    cuts_closure_flags_review_candidates_path
-  )
-  confirmed_closure_unitids <- unique(trim_text(
-    cuts_closure_flags_review_candidates$unitid[cuts_closure_flags_review_candidates$flag_confirmed %in% TRUE]
-  ))
-
   if (nrow(cuts) > 0L) {
     cuts <- cuts %>%
       mutate(
@@ -510,6 +486,33 @@ build_cuts_export <- function() {
       character(1))
     cuts$display_category <- cuts$primary_display_category
   }
+
+  # Runs after cut_label_public/display derivation: the candidate builder
+  # requires cut_label_public for evidence text, and is_primary_tracker is
+  # recomputed in the mutate above.
+  cuts_closure_flags_review <- if (file.exists(cuts_closure_flags_review_path)) {
+    coerce_college_cuts_closure_flags_review_sheet_rows(
+      readr::read_csv(
+        cuts_closure_flags_review_path,
+        col_types = readr::cols(.default = readr::col_character()),
+        show_col_types = FALSE
+      )
+    )
+  } else {
+    empty_college_cuts_closure_flags_review_sheet_rows()
+  }
+  cuts_closure_flags_review_candidates <- build_college_cuts_closure_flags_review_sheet_rows(
+    dplyr::filter(cuts, is_primary_tracker %in% TRUE),
+    existing_sheet = cuts_closure_flags_review,
+    first_seen_date = as.character(Sys.Date())
+  )
+  write_csv_atomic(
+    cuts_closure_flags_review_candidates,
+    cuts_closure_flags_review_candidates_path
+  )
+  confirmed_closure_unitids <- unique(trim_text(
+    cuts_closure_flags_review_candidates$unitid[cuts_closure_flags_review_candidates$flag_confirmed %in% TRUE]
+  ))
 
   recent <- cuts %>%
     arrange(desc(announcement_date), desc(announcement_year)) %>%

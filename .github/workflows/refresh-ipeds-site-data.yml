@@ -2,6 +2,12 @@ name: Refresh Source Data Weekly
 
 on:
   workflow_dispatch:
+    inputs:
+      news_window:
+        description: "Optional Google News lookback override. Leave blank for the normal 14d window; month-style or >30d windows are date-sliced into after:/before: queries for backfills."
+        required: false
+        default: ""
+        type: string
   schedule:
     - cron: "0 0 * * 1"
 
@@ -11,6 +17,7 @@ env:
   IPEDS_END_YEAR: "2024"
   ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
   COLLEGE_CUTS_REVIEW_SHEET_TAB: "college_cuts_review"
+  COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB: "cuts_unmatched_review"
   # Closure sheet import is temporarily disabled while the upstream
   # closure tracker is being rebuilt outside this repo. Re-enable by
   # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
@@ -301,7 +308,12 @@ jobs:
         shell: bash
         timeout-minutes: 20
         env:
+          # Empirical probe on 2026-07-13: Google News RSS honored day tokens
+          # such as 14d / 30d, but month-style 1m / 3m queries returned zero
+          # results. harvest_google_news.py therefore date-slices long or
+          # month-like backfills into after:/before: queries automatically.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CUTS_NEWS_WINDOW: ${{ github.event.inputs.news_window || '14d' }}
         run: |
           python3 scripts/cuts_discovery/run_discovery.py \
             2>&1 | tee -a refresh-logs/combined.log \
@@ -595,6 +607,7 @@ jobs:
             --add data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --add data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             --add data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            --add data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             --add data_pipelines/college_cuts/discovered_cut_candidates.csv \
             --add data_pipelines/college_cuts/discovery/leads.csv \
             --add data_pipelines/college_cuts/discovery/classifications.csv \
@@ -616,6 +629,7 @@ jobs:
             --conflict-path data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            --conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             --conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \
             --conflict-path data_pipelines/college_cuts/discovery/leads.csv \
             --conflict-path data_pipelines/college_cuts/discovery/classifications.csv \
@@ -652,6 +666,11 @@ jobs:
             --tab "${COLLEGE_CUTS_REVIEW_SHEET_TAB}" \
             --verbose \
             || echo "::warning::College cuts review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
+          Rscript ./scripts/sync_cuts_unmatched_review_sheet_appends.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB}" \
+            --verbose \
+            || echo "::warning::College cuts unmatched review sheet append failed; unresolved discovered rows stay CSV-only and will be appended by the next successful refresh."
 
       # Site hosting lives in the public hechinger/FinancialHealth repo,
       # which deliberately contains no data_pipelines/ CSVs (editorial

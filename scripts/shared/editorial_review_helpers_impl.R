@@ -1692,6 +1692,21 @@ COLLEGE_CUTS_UNMATCHED_FOR_REVIEW_COLUMNS <- c(
   "source_publication"
 )
 
+COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS <- c(
+  "unmatched_id",
+  "first_seen",
+  "institution_name_raw",
+  "state",
+  "cut_type",
+  "announcement_date",
+  "confidence",
+  "summary",
+  "source_url",
+  "source_publication",
+  "resolution_status",
+  "resolution_notes"
+)
+
 COLLEGE_CUTS_REVIEW_SHEET_COLUMNS <- c(
   "cut_id", "unitid", "institution_name", "state", "announcement_date", "announcement_year",
   "cut_type", "display_categories", "edited_cut_text", "raw_cut_text",
@@ -1946,6 +1961,24 @@ empty_college_cuts_unmatched_for_review <- function() {
   )
 }
 
+empty_college_cuts_unmatched_review_sheet_rows <- function() {
+  data.frame(
+    unmatched_id = character(),
+    first_seen = character(),
+    institution_name_raw = character(),
+    state = character(),
+    cut_type = character(),
+    announcement_date = character(),
+    confidence = character(),
+    summary = character(),
+    source_url = character(),
+    source_publication = character(),
+    resolution_status = character(),
+    resolution_notes = character(),
+    stringsAsFactors = FALSE
+  )
+}
+
 empty_college_cuts_review_sheet_rows <- function() {
   data.frame(
     cut_id = character(), unitid = character(), institution_name = character(),
@@ -2144,6 +2177,161 @@ append_discovered_college_cuts_unmatched_for_review <- function(discovered_rows,
   combined <- combined[!duplicated(trim_text(combined$cut_id)), COLLEGE_CUTS_UNMATCHED_FOR_REVIEW_COLUMNS, drop = FALSE]
   write_csv_atomic(combined, path)
   invisible(combined)
+}
+
+extract_college_cuts_model_confidence <- function(generated_cut_label) {
+  values <- trim_optional_text(generated_cut_label)
+  if (!length(values)) return(character(0))
+  matches <- regexec("\\[model:\\s*(high|medium|low)\\s+confidence\\]", values, ignore.case = TRUE, perl = TRUE)
+  captures <- regmatches(values, matches)
+  vapply(
+    captures,
+    function(parts) {
+      if (length(parts) < 2L) return(NA_character_)
+      tolower(trimws(parts[[2L]]))
+    },
+    character(1)
+  )
+}
+
+resolve_college_cuts_discovery_first_seen <- function(source_urls,
+                                                      leads_df = NULL) {
+  source_urls <- trim_optional_text(source_urls)
+  if (!length(source_urls)) return(character(0))
+  resolved <- rep(NA_character_, length(source_urls))
+  if (is.null(leads_df) || !nrow(leads_df) || !all(c("url", "first_seen") %in% names(leads_df))) {
+    return(resolved)
+  }
+
+  lead_urls <- trim_optional_text(leads_df$url)
+  lead_first_seen <- trim_optional_text(leads_df$first_seen)
+  lead_rows <- data.frame(
+    url = lead_urls,
+    first_seen = lead_first_seen,
+    stringsAsFactors = FALSE
+  )
+  lead_rows <- lead_rows[!is.na(lead_rows$url) & nzchar(lead_rows$url), , drop = FALSE]
+  if (!nrow(lead_rows)) {
+    return(resolved)
+  }
+
+  first_seen_by_url <- stats::setNames(
+    vapply(
+      split(lead_rows$first_seen, lead_rows$url),
+      function(values) {
+        values <- trim_optional_text(values)
+        values <- unique(values[!is.na(values) & nzchar(values)])
+        if (!length(values)) return(NA_character_)
+        sort(values)[[1L]]
+      },
+      character(1)
+    ),
+    names(split(lead_rows$first_seen, lead_rows$url))
+  )
+  matched <- first_seen_by_url[source_urls]
+  resolved[!is.na(matched)] <- unname(matched[!is.na(matched)])
+  resolved
+}
+
+coerce_college_cuts_unmatched_review_sheet_rows <- function(df) {
+  if (is.null(df) || !nrow(df)) return(empty_college_cuts_unmatched_review_sheet_rows())
+  sheet_rows <- rep_like_template_rows(empty_college_cuts_unmatched_review_sheet_rows(), nrow(df))
+  for (column_name in COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS) {
+    sheet_rows[[column_name]] <- if (column_name %in% names(df)) trim_optional_text(df[[column_name]]) else NA_character_
+  }
+
+  ids <- trim_text(sheet_rows$unmatched_id)
+  duplicate_ids <- unique(ids[nzchar(ids) & duplicated(ids)])
+  if (length(duplicate_ids) > 0L) {
+    stop(
+      sprintf(
+        "College cuts unmatched review sheet rows contain duplicate unmatched_id values: %s",
+        paste(duplicate_ids, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  sheet_rows[, COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS, drop = FALSE]
+}
+
+assert_college_cuts_unmatched_review_sheet_header <- function(df) {
+  missing_columns <- setdiff(COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS, names(df))
+  if (length(missing_columns) > 0L) {
+    stop(
+      sprintf(
+        "College cuts unmatched review sheet is missing required columns: %s",
+        paste(missing_columns, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  invisible(df)
+}
+
+build_college_cuts_unmatched_review_sheet_rows <- function(discovered_candidates,
+                                                           leads_df = NULL) {
+  discovered <- coerce_college_cuts_review_candidates(discovered_candidates)
+  if (!nrow(discovered)) {
+    return(empty_college_cuts_unmatched_review_sheet_rows())
+  }
+
+  row_origin <- normalize_review_row_origin(discovered$row_origin)
+  unitid <- trim_optional_text(discovered$unitid)
+  unresolved <- discovered[
+    row_origin %in% COLLEGE_CUTS_DISCOVERY_ROW_ORIGINS &
+      (is.na(unitid) | !nzchar(unitid)),
+    ,
+    drop = FALSE
+  ]
+  if (!nrow(unresolved)) {
+    return(empty_college_cuts_unmatched_review_sheet_rows())
+  }
+
+  first_seen <- resolve_college_cuts_discovery_first_seen(unresolved$source_url, leads_df = leads_df)
+  sheet_rows <- rep_like_template_rows(empty_college_cuts_unmatched_review_sheet_rows(), nrow(unresolved))
+  sheet_rows$unmatched_id <- trim_text(unresolved$cut_id)
+  sheet_rows$first_seen <- first_seen
+  sheet_rows$institution_name_raw <- trim_optional_text(unresolved$institution_name)
+  sheet_rows$state <- trim_optional_text(unresolved$state)
+  sheet_rows$cut_type <- trim_optional_text(unresolved$cut_type)
+  sheet_rows$announcement_date <- trim_optional_text(unresolved$announcement_date)
+  sheet_rows$confidence <- extract_college_cuts_model_confidence(unresolved$generated_cut_label)
+  sheet_rows$summary <- dplyr::coalesce(
+    trim_optional_text(unresolved$generated_cut_summary),
+    trim_optional_text(unresolved$program_name)
+  )
+  sheet_rows$source_url <- trim_optional_text(unresolved$source_url)
+  sheet_rows$source_publication <- trim_optional_text(unresolved$source_publication)
+  sheet_rows$resolution_status <- NA_character_
+  sheet_rows$resolution_notes <- NA_character_
+  sheet_rows <- sheet_rows[
+    !duplicated(trim_text(sheet_rows$unmatched_id)),
+    COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS,
+    drop = FALSE
+  ]
+  coerce_college_cuts_unmatched_review_sheet_rows(sheet_rows)
+}
+
+build_college_cuts_unmatched_review_sheet_append_rows <- function(discovered_candidates,
+                                                                  existing_sheet,
+                                                                  leads_df = NULL) {
+  local_rows <- build_college_cuts_unmatched_review_sheet_rows(
+    discovered_candidates,
+    leads_df = leads_df
+  )
+  if (!nrow(local_rows)) {
+    return(local_rows)
+  }
+
+  sheet_rows <- coerce_college_cuts_unmatched_review_sheet_rows(existing_sheet)
+  if (!nrow(sheet_rows)) {
+    return(local_rows)
+  }
+
+  existing_ids <- trim_text(sheet_rows$unmatched_id)
+  append_mask <- !(trim_text(local_rows$unmatched_id) %in% existing_ids[nzchar(existing_ids)])
+  local_rows[append_mask, COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
 merge_discovered_college_cuts_review_candidates <- function(candidates,

@@ -2949,3 +2949,109 @@ run_test("Stale sheet-only accreditation rows drop before merge; decisions quara
   assert_identical(trim_text(filtered$dropped_rows$action_id), "act-stale-undecided")
   assert_identical(trim_text(filtered$quarantined_rows$action_id), "act-stale-approved")
 })
+
+run_test("Unmatched cuts review sheet rows are built only from unresolved discovered candidates", function() {
+  discovered <- data.frame(
+    cut_id = c("discovered-keep-1", "discovered-keep-2", "discovered-resolved", "manual-ignore"),
+    unitid = c("", NA_character_, "123456", ""),
+    institution_name = c("Alias University", "Warning College", "Resolved State", "Manual School"),
+    state = c("Ohio", "Texas", "Georgia", "Florida"),
+    announcement_date = c("2026-07-09", "2026-07-08", "2026-07-07", "2026-07-06"),
+    announcement_year = c("2026", "2026", "2026", "2026"),
+    cut_type = c("staff_layoff", "other", "program_suspension", "other"),
+    program_name = c("Alias University laid off 12 staff.", "Warning College announced several cuts.", "Resolved program suspension.", "Manual row should not stage."),
+    generated_cut_label = c(
+      "Alias University laid off 12 staff. [model: high confidence]",
+      "UNCLASSIFIED TYPE: Warning College announced several cuts. [model: low confidence]",
+      "Resolved program suspension. [model: medium confidence]",
+      "Manual row should not stage. [model: medium confidence]"
+    ),
+    generated_cut_summary = c(
+      "Alias University laid off 12 staff.",
+      "Warning College announced several cuts.",
+      "Resolved program suspension.",
+      "Manual row should not stage."
+    ),
+    source_url = c(
+      "https://example.org/alias",
+      "https://example.org/warn",
+      "https://example.org/resolved",
+      "https://example.org/manual"
+    ),
+    source_title = c("Alias title", "Warning title", "Resolved title", "Manual title"),
+    source_publication = c("Alias Press", "Warning Weekly", "Resolved Journal", "Manual News"),
+    row_origin = c("news_scan", "warn_notice", "news_scan", "manual"),
+    stringsAsFactors = FALSE
+  )
+  leads <- data.frame(
+    url = c("https://example.org/alias", "https://example.org/alias", "https://example.org/warn"),
+    first_seen = c("2026-07-10", "2026-07-08", "2026-07-09"),
+    stringsAsFactors = FALSE
+  )
+
+  rows <- build_college_cuts_unmatched_review_sheet_rows(discovered, leads_df = leads)
+  assert_identical(trim_text(rows$unmatched_id), c("discovered-keep-1", "discovered-keep-2"))
+  assert_identical(trim_text(rows$first_seen), c("2026-07-08", "2026-07-09"))
+  assert_identical(trim_text(rows$institution_name_raw), c("Alias University", "Warning College"))
+  assert_identical(trim_text(rows$confidence), c("high", "low"))
+  assert_identical(trim_text(rows$summary), c(
+    "Alias University laid off 12 staff.",
+    "Warning College announced several cuts."
+  ))
+  assert_true(all(is.na(rows$resolution_status)))
+  assert_true(all(is.na(rows$resolution_notes)))
+})
+
+run_test("Unmatched cuts review sheet appends dedupe against existing unmatched ids", function() {
+  discovered <- data.frame(
+    cut_id = c("discovered-keep-1", "discovered-keep-2"),
+    unitid = c("", ""),
+    institution_name = c("Alias University", "Warning College"),
+    state = c("Ohio", "Texas"),
+    announcement_date = c("2026-07-09", "2026-07-08"),
+    announcement_year = c("2026", "2026"),
+    cut_type = c("staff_layoff", "other"),
+    program_name = c("Alias University laid off 12 staff.", "Warning College announced several cuts."),
+    generated_cut_label = c(
+      "Alias University laid off 12 staff. [model: high confidence]",
+      "UNCLASSIFIED TYPE: Warning College announced several cuts. [model: low confidence]"
+    ),
+    generated_cut_summary = c(
+      "Alias University laid off 12 staff.",
+      "Warning College announced several cuts."
+    ),
+    source_url = c("https://example.org/alias", "https://example.org/warn"),
+    source_title = c("Alias title", "Warning title"),
+    source_publication = c("Alias Press", "Warning Weekly"),
+    row_origin = c("news_scan", "warn_notice"),
+    stringsAsFactors = FALSE
+  )
+  existing_sheet <- data.frame(
+    unmatched_id = "discovered-keep-1",
+    first_seen = "2026-07-08",
+    institution_name_raw = "Alias University",
+    state = "Ohio",
+    cut_type = "staff_layoff",
+    announcement_date = "2026-07-09",
+    confidence = "high",
+    summary = "Alias University laid off 12 staff.",
+    source_url = "https://example.org/alias",
+    source_publication = "Alias Press",
+    resolution_status = "needs_alias",
+    resolution_notes = "Add alias",
+    stringsAsFactors = FALSE
+  )
+  leads <- data.frame(
+    url = c("https://example.org/alias", "https://example.org/warn"),
+    first_seen = c("2026-07-08", "2026-07-09"),
+    stringsAsFactors = FALSE
+  )
+
+  append_rows <- build_college_cuts_unmatched_review_sheet_append_rows(
+    discovered,
+    existing_sheet,
+    leads_df = leads
+  )
+  assert_identical(trim_text(append_rows$unmatched_id), "discovered-keep-2")
+  assert_identical(trim_text(append_rows$confidence), "low")
+})

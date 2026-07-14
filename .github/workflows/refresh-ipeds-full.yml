@@ -200,7 +200,11 @@ jobs:
         shell: bash
         timeout-minutes: 20
         env:
+          # Keep the weekly/default discovery window aligned with the weekly
+          # workflow: day tokens work reliably, while long/month-like backfills
+          # are date-sliced inside harvest_google_news.py.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CUTS_NEWS_WINDOW: "14d"
         run: |
           python3 scripts/cuts_discovery/run_discovery.py \
             || echo "::warning::cuts discovery failed during full refresh; continuing without new discovered candidates."
@@ -293,6 +297,7 @@ jobs:
             data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             data_pipelines/college_cuts/college_cuts_review_candidates.csv \
             data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
+            data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             data_pipelines/college_cuts/discovered_cut_candidates.csv \
             data_pipelines/college_cuts/discovery/leads.csv \
             data_pipelines/college_cuts/discovery/classifications.csv \

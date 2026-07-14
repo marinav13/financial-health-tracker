@@ -171,8 +171,16 @@ run("weekly refresh builds the cuts watchlist before discovery and warn-gates fa
   const block = stepBlock(WEEKLY, "Discover college cuts");
   assert(block.includes("timeout-minutes: 20"), "Expected bounded timeout for weekly discovery");
   assert(block.includes("ANTHROPIC_API_KEY"), "Expected weekly discovery to pass ANTHROPIC_API_KEY");
+  assert(block.includes("CUTS_NEWS_WINDOW"), "Expected weekly discovery to pass CUTS_NEWS_WINDOW");
+  assert(block.includes("github.event.inputs.news_window"), "Expected weekly discovery to honor workflow_dispatch news_window overrides");
   assert(block.includes("run_discovery.py"), "Expected weekly discovery runner");
   assert(block.includes('|| echo "::warning::cuts discovery failed; staging continues without new discovered candidates."'), "Expected weekly discovery failure to warn and continue");
+});
+
+run("weekly refresh exposes a manual news_window override for discovery backfills", () => {
+  assert(WEEKLY.includes("workflow_dispatch:"), "Expected manual weekly workflow trigger");
+  assert(WEEKLY.includes("news_window:"), "Expected workflow_dispatch news_window input");
+  assert(WEEKLY.includes("Leave blank for the normal 14d window"), "Expected documented default news window behavior");
 });
 
 run("weekly refresh reports cuts discovery precision after pulling the cuts review sheet", () => {
@@ -300,6 +308,7 @@ run("full refresh stages every tracked pipeline artifact it rebuilds before publ
     "data_pipelines/accreditation/dapip_vs_scraper_audit.csv \\",
     "data_pipelines/college_cuts/college_cuts_review_candidates.csv \\",
     "data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \\",
+    "data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
     "data_pipelines/college_cuts/discovery/leads.csv \\",
     "data_pipelines/college_cuts/discovery/classifications.csv \\",
@@ -315,10 +324,12 @@ run("full refresh stages every tracked pipeline artifact it rebuilds before publ
 run("weekly refresh stages discovery artifacts and tracks cuts discovery drift", () => {
   const commitBlock = stepBlock(WEEKLY, "Commit and push updated data");
   [
+    "--add data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "--add data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
     "--add data_pipelines/college_cuts/discovery/leads.csv \\",
     "--add data_pipelines/college_cuts/discovery/classifications.csv \\",
     "--add data_pipelines/college_cuts/discovery/watchlist.csv \\",
+    "--conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "--conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
     "--conflict-path data_pipelines/college_cuts/discovery/leads.csv \\",
     "--conflict-path data_pipelines/college_cuts/discovery/classifications.csv \\",
@@ -329,6 +340,15 @@ run("weekly refresh stages discovery artifacts and tracks cuts discovery drift",
   const driftBlock = stepBlock(WEEKLY, "Report scraper drift warnings");
   assert(driftBlock.includes('PIPELINE DRIFT WARNING: cuts_discovery'), "Expected weekly drift scan to include cuts_discovery");
   assert(driftBlock.includes('DRIFTED="$DRIFTED,cuts_discovery"'), "Expected weekly drift state tracking for cuts_discovery");
+});
+
+run("weekly refresh appends unmatched discovered cuts to the dedicated triage tab after main cuts staging", () => {
+  assert(WEEKLY.includes('COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB: "cuts_unmatched_review"'), "Expected unmatched cuts review tab env");
+  const block = stepBlock(WEEKLY, "Append new review rows to Google Sheet (post-commit)");
+  assert(block.includes("sync_review_sheet_appends.R"), "Expected main review sheet append script");
+  assert(block.includes("sync_cuts_unmatched_review_sheet_appends.R"), "Expected unmatched cuts review append script");
+  assert(block.includes("${COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB}"), "Expected unmatched cuts tab env to be passed");
+  assert(block.includes("College cuts unmatched review sheet append failed"), "Expected unmatched tab append failures to warn and continue");
 });
 
 run("full refresh rebuilds side data lookups before static web exports", () => {

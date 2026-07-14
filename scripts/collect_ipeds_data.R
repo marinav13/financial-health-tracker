@@ -424,6 +424,11 @@ field_specs <- list(
   list(output = "tuition_fees_after_discounts_allowances_gasb", table = "F1A", patterns = c("^Tuition and fees, after deducting discounts and allowances$")),
   list(output = "federal_operating_grants_contracts_gasb", table = "F1A", patterns = c("^Federal operating grants and contracts$")),
   list(output = "state_appropriations_gasb", table = "F1A", patterns = c("^State appropriations$")),
+  list(output = "local_appropriations_gasb", table = "F1A", patterns = c("^Local appropriations, education district taxes, and similar support$")),
+  list(output = "state_operating_grants_contracts_gasb", table = "F1A", patterns = c("^State operating grants and contracts$")),
+  list(output = "local_operating_grants_contracts_gasb", table = "F1A", patterns = c("^Local operating grants and contracts$")),
+  list(output = "state_nonoperating_grants_gasb", table = "F1A", patterns = c("^State nonoperating grants$")),
+  list(output = "local_nonoperating_grants_gasb", table = "F1A", patterns = c("^Local nonoperating grants$")),
   list(output = "total_operating_nonoperating_revenues_gasb", table = "F1A", patterns = c("^Total revenues and other additions$", "^Total operating and nonoperating revenues$")),
   list(output = "discounts_allowances_applied_tuition_fees_gasb", table = "F1A", patterns = c("Discounts and allowances applied to tuition and fees")),
   list(output = "research_expenses_total_gasb", table = "F1A", patterns = c("^Research\\s*-\\s*Current year total$", "^Research - Current year total$")),
@@ -473,8 +478,13 @@ field_specs <- list(
   exact_field_overrides <- list(
     institution_alias = "IALIAS",
     tuition_fees_after_discounts_allowances_gasb = "F1B01",
-    federal_operating_grants_contracts_gasb = "F1B04",
-    state_appropriations_gasb = "F1B17",
+    federal_operating_grants_contracts_gasb = "F1B02",
+    state_appropriations_gasb = "F1B11",
+    local_appropriations_gasb = "F1B12",
+    state_operating_grants_contracts_gasb = "F1B03",
+    local_operating_grants_contracts_gasb = "F1B04A",
+    state_nonoperating_grants_gasb = "F1B14",
+    local_nonoperating_grants_gasb = "F1B15",
     total_operating_nonoperating_revenues_gasb = "F1D01",
     total_expenses_deductions_current_total_gasb = "F1D02",
     institutional_grants_funded_fasb = "F2C05",
@@ -551,6 +561,7 @@ year_table_alias_patterns <- c(
 for (year in start_year:end_year) {
   # Build each year separately so we can cache the result and avoid
   # recomputing years that already exist locally.
+  cached_year_df <- NULL
   year_cache_csv <- file.path(year_cache_dir, sprintf("%s_year_%d.csv", output_stem, year))
 
   # ── Use cached year if available and not force-rebuilding ──────────────
@@ -561,14 +572,15 @@ for (year in start_year:end_year) {
     if (length(missing_cache_cols) == 0) {
       if ("unitid" %in% names(cached)) cached <- cached %>% mutate(unitid = as.character(unitid))
       if ("year" %in% names(cached)) cached <- cached %>% mutate(year = suppressWarnings(as.integer(year)))
-      all_rows[[length(all_rows) + 1L]] <- cached
-      next
+      cached_year_df <- cached
     }
-    cat(sprintf(
-      "[%d] Rebuilding cache because required columns are missing: %s\n",
-      year,
-      paste(missing_cache_cols, collapse = ", ")
-    ))
+    if (is.null(cached_year_df)) {
+      cat(sprintf(
+        "[%d] Rebuilding cache because required columns are missing: %s\n",
+        year,
+        paste(missing_cache_cols, collapse = ", ")
+      ))
+    }
   }
 
   year_catalog <- catalog_by_year[[as.character(year)]]
@@ -599,6 +611,11 @@ for (year in start_year:end_year) {
   )
   resolved_fields <- field_resolution$resolved_fields
   resolution_audit_rows[[length(resolution_audit_rows) + 1L]] <- field_resolution$resolution_audit
+
+  if (!is.null(cached_year_df)) {
+    all_rows[[length(all_rows) + 1L]] <- cached_year_df
+    next
+  }
 
   hd_table <- data_tables[["HD"]]
   if (is.null(hd_table) || nrow(hd_table) == 0) next
@@ -818,6 +835,11 @@ for (year in start_year:end_year) {
       tuition_fees_after_discounts_allowances_gasb = get_number(f1, resolved_fields[["tuition_fees_after_discounts_allowances_gasb"]]),
       federal_operating_grants_contracts_gasb = get_number(f1, resolved_fields[["federal_operating_grants_contracts_gasb"]]),
       state_appropriations_gasb = get_number(f1, resolved_fields[["state_appropriations_gasb"]]),
+      local_appropriations_gasb = get_number(f1, resolved_fields[["local_appropriations_gasb"]]),
+      state_operating_grants_contracts_gasb = get_number(f1, resolved_fields[["state_operating_grants_contracts_gasb"]]),
+      local_operating_grants_contracts_gasb = get_number(f1, resolved_fields[["local_operating_grants_contracts_gasb"]]),
+      state_nonoperating_grants_gasb = get_number(f1, resolved_fields[["state_nonoperating_grants_gasb"]]),
+      local_nonoperating_grants_gasb = get_number(f1, resolved_fields[["local_nonoperating_grants_gasb"]]),
       total_operating_nonoperating_revenues_gasb = dplyr::coalesce(
         get_number(f1, resolved_fields[["total_operating_nonoperating_revenues_gasb"]]),
         get_number(f1, "F1D01"),

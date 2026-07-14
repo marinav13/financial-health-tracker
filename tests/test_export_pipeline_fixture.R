@@ -64,8 +64,10 @@ run_test("Web export pipeline fixture", function() {
     international_students_sentence = c("In 2024, 9% of students were international.", "In 2025, 10% of students were international."),
     federal_loan_pct_most_recent = c("20", "25"),
     federal_grants_contracts_pell_adjusted_pct_core_revenue = c("0.20", "0.25"),
+    state_local_support_pct_core_revenue = c("0.16", "0.18"),
     state_funding_pct_core_revenue = c("0.10", "0.12"),
     federal_grants_contracts_pell_adjusted_pct_change_5yr = c("5", "6"),
+    state_local_support_pct_change_5yr = c("7", "8"),
     state_funding_pct_change_5yr = c("3", "4"),
     endowment_pct_change_5yr = c("2", "3"),
     endowment_spending_current_use_pct_core_revenue = c("0.05", "0.06"),
@@ -85,6 +87,7 @@ run_test("Web export pipeline fixture", function() {
     endowment_spending_current_use = c("35", "40"),
     endowment_spending_current_use_adjusted = c("35", "40"),
     federal_grants_contracts_pell_adjusted_adjusted = c("190", "200"),
+    state_local_support_adjusted = c("170", "180"),
     state_funding_adjusted = c("140", "150"),
     # Stale outcomes fields simulate rerunning the export after a previous
     # outcomes join. The exporter should replace these, not create .x/.y pairs.
@@ -689,7 +692,8 @@ run_test("Web export pipeline fixture", function() {
   required_summary_fields <- c("enrollment_pct_change_5yr", "revenue_pct_change_5yr",
     "tuition_dependence_pct", "ended_year_at_loss", "losses_last_3_of_5",
     "latest_year", "share_grad_students", "federal_grants_contracts_pell_adjusted_pct_core_revenue",
-    "state_funding_pct_core_revenue", "endowment_pct_change_5yr", "unfunded_discount_rate", "unfunded_discount_pct_change_5yr")
+    "state_funding_pct_core_revenue", "state_local_support_pct_core_revenue",
+    "state_local_support_pct_change_5yr", "endowment_pct_change_5yr", "unfunded_discount_rate", "unfunded_discount_pct_change_5yr")
   for (f in required_summary_fields) {
     assert_true(f %in% names(school_file$summary),
       sprintf("school_file$summary should have field '%s'.", f))
@@ -699,7 +703,7 @@ run_test("Web export pipeline fixture", function() {
   numeric_summary_fields <- c("tuition_dependence_pct", "graduation_rate_6yr",
     "pct_international_all", "share_grad_students",
     "federal_grants_contracts_pell_adjusted_pct_core_revenue",
-    "state_funding_pct_core_revenue")
+    "state_funding_pct_core_revenue", "state_local_support_pct_core_revenue")
   for (f in numeric_summary_fields) {
     if (f %in% names(school_file$summary)) {
       val <- school_file$summary[[f]]
@@ -728,6 +732,10 @@ run_test("Web export pipeline fixture", function() {
   # ── Section export schemas ───────────────────────────────────────────────────
   assert_equal(school_file$summary$tuition_dependence_pct, 30)
   assert_equal(school_file$summary$unfunded_discount_rate, 32)
+  assert_equal(school_file$summary$state_local_support_pct_core_revenue, 18)
+  assert_equal(school_file$summary$state_local_support_pct_change_5yr, 8)
+  assert_true("state_local_support_adjusted" %in% names(school_file$series),
+    "public school exports should expose the state_local_support_adjusted series.")
   assert_equal(school_file$summary$unfunded_discount_pct_change_5yr, 6)
   assert_equal(school_file$summary$graduation_rate_6yr, 72)
   assert_equal(school_file$summary$median_earnings_10yr, 56000)

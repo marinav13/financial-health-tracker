@@ -1684,7 +1684,10 @@ async function init() {
   const enrollmentBenchmark = firstNumericValue(s.sector_median_enrollment_pct_change_5yr, sectorHeadlineBenchmarks?.median_enrollment_pct_change_5yr);
   const staffBenchmark = firstNumericValue(s.sector_median_staff_total_headcount_pct_change_5yr, sectorHeadlineBenchmarks?.median_staff_total_headcount_pct_change_5yr);
   const endowmentBenchmark = firstNumericValue(s.sector_median_endowment_pct_change_5yr, sectorHeadlineBenchmarks?.median_endowment_pct_change_5yr);
-  const stateAidBenchmark = sectorHeadlineBenchmarks?.median_state_funding_pct_change_5yr;
+  const stateAidBenchmark = firstNumericValue(
+    sectorHeadlineBenchmarks?.median_state_local_support_pct_change_5yr,
+    sectorHeadlineBenchmarks?.median_state_funding_pct_change_5yr
+  );
 
   const downloadButton = document.getElementById("download-school-data");
   if (downloadButton) {
@@ -1960,10 +1963,21 @@ async function init() {
 
   const hasEndowmentValue = hasMeaningfulData(series.endowment_value_adjusted);
 
+  const stateSupportPctCoreRevenue = firstNumericValue(
+    s.state_local_support_pct_core_revenue,
+    s.state_funding_pct_core_revenue
+  );
+  const stateSupportPctChange5yr = firstNumericValue(
+    s.state_local_support_pct_change_5yr,
+    s.state_funding_pct_change_5yr
+  );
+  const stateSupportSeries = hasMeaningfulData(series.state_local_support_adjusted)
+    ? series.state_local_support_adjusted
+    : series.state_funding_adjusted;
   const hasState =
-    (asNumber(s.state_funding_pct_core_revenue) ?? 0) !== 0 ||
-    ((asNumber(s.state_funding_pct_change_5yr) ?? 0) !== 0) ||
-    hasMeaningfulData(series.state_funding_adjusted);
+    (stateSupportPctCoreRevenue ?? 0) !== 0 ||
+    ((stateSupportPctChange5yr ?? 0) !== 0) ||
+    hasMeaningfulData(stateSupportSeries);
   const isPublic = isPublicProfile(p);
   const showPublicStateAidSection = isPublic && hasState;
   const showAidDropdownState = hasState && !isPublic;
@@ -2029,7 +2043,7 @@ async function init() {
   const aidIntro = document.getElementById("aid-section-intro");
   if (aidIntro) {
     if (showAidDropdownState) {
-      aidIntro.textContent = "Some public colleges depend more than others on state funding. A higher share means the college is more exposed if that funding changes.";
+      aidIntro.textContent = "Some public colleges depend more than others on state and local funding. A higher share means the college is more exposed if that funding changes.";
       setHidden("aid-section-intro", false);
     } else {
       setHidden("aid-section-intro", true);
@@ -2037,21 +2051,21 @@ async function init() {
   }
   const aidTitle = document.getElementById("aid-section-title");
   if (aidTitle) {
-    aidTitle.textContent = "Want details about state aid?";
+    aidTitle.textContent = "Want details about state & local funding?";
   }
 
   if (hasState) {
-    const stateChange5yr = asNumber(s.state_funding_pct_change_5yr);
+    const stateChange5yr = stateSupportPctChange5yr;
     setText(
       "state-share-copy",
-      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(s.state_funding_pct_core_revenue || 0)} of this college's core revenue came from state appropriations.`
+      `${Number.isFinite(latestDataYear) ? `In ${latestDataYear}, ` : "In the latest year, "}${fmtPlainPct(stateSupportPctCoreRevenue || 0)} of this college's core revenue came from state and local appropriations, grants and contracts.`
     );
     setHidden("state-share-copy", false);
 
     if (stateChange5yr === null) {
       applyStrip(
         "state-change-card",
-        "State aid data are not available.",
+        "State and local funding data are not available.",
         "neutral",
         ""
       );
@@ -2059,14 +2073,14 @@ async function init() {
       applyStripLines(
         "state-change-card",
         buildTrendCardLines(
-          "State aid",
-          s.state_funding_pct_change_5yr,
+          "State & local funding",
+          stateChange5yr,
           fiveYearRangeText,
           p,
           stateAidBenchmark
         ),
-        sentimentClass(s.state_funding_pct_change_5yr),
-        trendDirection(s.state_funding_pct_change_5yr)
+        sentimentClass(stateChange5yr),
+        trendDirection(stateChange5yr)
       );
     }
     setHidden("state-change-card", false);
@@ -2207,19 +2221,19 @@ async function init() {
 
   if (hasState) {
     renderLineChart("chart-state", {
-      title: "State government appropriations over time (adjusted for inflation)",
+      title: "State & local funding over time (adjusted for inflation)",
       format: "currency",
       ...financeTooltip2024Config,
       showLegend: false,
       series: [
-        { label: "State Funding", color: CHART_COLOR_PRIMARY, values: toSeries(series.state_funding_adjusted) }
+        { label: "State & Local Funding", color: CHART_COLOR_PRIMARY, values: toSeries(stateSupportSeries) }
       ]
     });
   }
   upsertSectionSourceNote("chart-state", hasState ? [
     createIpedsCitation(latestDataYear || "latest", "Finance", schoolRetrievedAt)
   ] : []);
-  moveChartNoteBelowSource("state-negative-note", "chart-state", hasState && hasNegativePoint(series.state_funding_adjusted));
+  moveChartNoteBelowSource("state-negative-note", "chart-state", hasState && hasNegativePoint(stateSupportSeries));
 
   // Nav tracker is built here after all section visibility updates land.
   setupProfileJumpLinkTracking();

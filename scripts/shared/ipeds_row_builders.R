@@ -175,6 +175,34 @@ calculate_ipeds_finance_components <- function(row, context) {
     "state_appropriations_pfp",
     context$uses_gasb_finance, context$uses_fasb_finance, context$control_label
   )
+  state_local_support <- if (context$uses_gasb_finance) {
+    state_appropriations <- to_num(row_value(row, "state_appropriations_gasb"))
+    local_appropriations <- to_num(row_value(row, "local_appropriations_gasb"))
+    state_operating_grants_contracts <- to_num(row_value(row, "state_operating_grants_contracts_gasb"))
+    local_operating_grants_contracts <- to_num(row_value(row, "local_operating_grants_contracts_gasb"))
+    state_nonoperating_grants <- to_num(row_value(row, "state_nonoperating_grants_gasb"))
+    local_nonoperating_grants <- to_num(row_value(row, "local_nonoperating_grants_gasb"))
+    grant_lines <- c(
+      state_operating_grants_contracts,
+      local_operating_grants_contracts,
+      state_nonoperating_grants,
+      local_nonoperating_grants
+    )
+    if (is.na(state_appropriations) && all(is.na(grant_lines))) {
+      NA_real_
+    } else {
+      zero_if_null(state_appropriations) +
+        zero_if_null(local_appropriations) +
+        zero_if_null(state_operating_grants_contracts) +
+        zero_if_null(local_operating_grants_contracts) +
+        zero_if_null(state_nonoperating_grants) +
+        zero_if_null(local_nonoperating_grants)
+    }
+  } else if (context$uses_fasb_finance || identical(context$control_label, "Private for-profit")) {
+    state_funding
+  } else {
+    NA_real_
+  }
   assets <- to_num(row_value(row, "assets"))
   liabilities <- to_num(row_value(row, "liabilities"))
   unrestricted_assets <- if (context$uses_gasb_finance) {
@@ -341,6 +369,8 @@ calculate_ipeds_finance_components <- function(row, context) {
     federal_funding_adjusted = inflate_to_base_year(federal_funding, context$year),
     federal_adj_adjusted = inflate_to_base_year(federal_adj, context$year),
     state_funding_adjusted = inflate_to_base_year(state_funding, context$year),
+    state_local_support = state_local_support,
+    state_local_support_adjusted = inflate_to_base_year(state_local_support, context$year),
     government_funding_adjusted = inflate_to_base_year(government_funding, context$year),
     core_revenue_adjusted = inflate_to_base_year(core_revenue, context$year),
     endowment_value_adjusted = inflate_to_base_year(endowment_value, context$year),
@@ -418,9 +448,12 @@ build_finance_fields <- function(row, context, finance) {
     federal_grants_contracts_pell_adjusted_pct_core_revenue = safe_divide(finance$federal_adj, finance$core_revenue),
     state_funding = finance$state_funding,
     state_funding_adjusted = finance$state_funding_adjusted,
+    state_local_support = finance$state_local_support,
+    state_local_support_adjusted = finance$state_local_support_adjusted,
     core_revenue = finance$core_revenue,
     core_revenue_adjusted = finance$core_revenue_adjusted,
     state_funding_pct_core_revenue = safe_divide(finance$state_funding, finance$core_revenue),
+    state_local_support_pct_core_revenue = safe_divide(finance$state_local_support, finance$core_revenue),
     state_approps_percent_core_gasb = finance$state_approps_percent_core_gasb,
     gov_grants_fasb = finance$gov_grants_fasb,
     state_revenue_fte_fasb = finance$state_revenue_fte_fasb,

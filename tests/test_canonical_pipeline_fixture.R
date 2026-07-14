@@ -132,6 +132,11 @@ run_test("IPEDS canonical pipeline fixture", function() {
     tuition_fees_after_discounts_allowances_gasb = c("260", "300"),
     federal_operating_grants_contracts_gasb = c("180", "200"),
     state_appropriations_gasb = c("140", "150"),
+    local_appropriations_gasb = c("5", "10"),
+    state_operating_grants_contracts_gasb = c("15", "20"),
+    local_operating_grants_contracts_gasb = c("2", "5"),
+    state_nonoperating_grants_gasb = c("3", "4"),
+    local_nonoperating_grants_gasb = c("1", "1"),
     assets = c("480", "500"),
     liabilities = c("190", "200"),
     unrestricted_public = c("230", "250"),
@@ -186,11 +191,14 @@ run_test("IPEDS canonical pipeline fixture", function() {
   assert_identical(sort(as.integer(canonical_df$year)), c(2023L, 2024L))
   assert_identical(unique(canonical_df$institution_unique_name), "Example University | Boston | Massachusetts")
   assert_identical(unique(canonical_df$control_label), "Public")
-  assert_true(all(c("tuition_dependence_pct", "revenue_total_adjusted", "pct_international_all") %in% names(canonical_df)))
+  assert_true(all(c("tuition_dependence_pct", "revenue_total_adjusted", "pct_international_all", "state_local_support", "state_local_support_pct_core_revenue") %in% names(canonical_df)))
   assert_true(all(c("operating_margin", "government_funding_total") %in% names(extended_df)))
   row_2024 <- canonical_df[canonical_df$year == 2024, , drop = FALSE]
   assert_equal(row_2024$tuition_dependence_pct[[1]], 30)
   assert_equal(row_2024$loss_amount[[1]], 100)
+  assert_equal(row_2024$state_local_support[[1]], 190)
+  assert_equal(row_2024$state_local_support_adjusted[[1]], 190)
+  assert_equal(round(row_2024$state_local_support_pct_core_revenue[[1]], 4), round(190 / 825, 4))
   assert_true(is.na(row_2024$pct_international_all[[1]]))
 })
 

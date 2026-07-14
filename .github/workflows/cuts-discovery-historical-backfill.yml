@@ -8,6 +8,11 @@ on:
         required: true
         default: "2024-01-01"
         type: string
+      end_date:
+        description: "Inclusive end date for this backfill chunk (YYYY-MM-DD). Use bounded chunks, for example one month at a time."
+        required: true
+        default: "2024-01-31"
+        type: string
       classify_candidates:
         description: "Run Claude classification during the backfill."
         required: true
@@ -55,21 +60,29 @@ jobs:
             cuts-discovery-cache-v1-${{ runner.os }}-
             cuts-discovery-cache-v1-
 
-      - name: Validate backfill start date
+      - name: Validate backfill date range
         shell: bash
         run: |
           python3 - <<'PY'
           from datetime import date
-          import os
 
-          raw = "${{ inputs.start_date }}".strip()
+          start_raw = "${{ inputs.start_date }}".strip()
+          end_raw = "${{ inputs.end_date }}".strip()
           try:
-              start_date = date.fromisoformat(raw)
+              start_date = date.fromisoformat(start_raw)
           except ValueError as exc:
-              raise SystemExit(f"Invalid start_date {raw!r}; expected YYYY-MM-DD.") from exc
+              raise SystemExit(f"Invalid start_date {start_raw!r}; expected YYYY-MM-DD.") from exc
+          try:
+              end_date = date.fromisoformat(end_raw)
+          except ValueError as exc:
+              raise SystemExit(f"Invalid end_date {end_raw!r}; expected YYYY-MM-DD.") from exc
 
           if start_date > date.today():
-              raise SystemExit(f"start_date {raw} cannot be in the future.")
+              raise SystemExit(f"start_date {start_raw} cannot be in the future.")
+          if end_date > date.today():
+              raise SystemExit(f"end_date {end_raw} cannot be in the future.")
+          if end_date < start_date:
+              raise SystemExit(f"end_date {end_raw} cannot be before start_date {start_raw}.")
           PY
 
       - name: Run historical cuts discovery backfill
@@ -79,6 +92,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CUTS_DISCOVERY_PROFILE: historical_backfill
           CUTS_NEWS_WINDOW: from:${{ inputs.start_date }}
+          CUTS_NEWS_END_DATE: ${{ inputs.end_date }}
           CUTS_DISCOVERY_USE_CLASSIFICATION: ${{ inputs.classify_candidates && 'true' || 'false' }}
           CUTS_CLASSIFICATION_MAX: "75"
           CUTS_WATCHLIST_QUERY_LIMIT: "0"

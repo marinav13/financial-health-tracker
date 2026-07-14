@@ -31,6 +31,7 @@ def main():
     feed_xml = (fixture_dir / "trade_feed.xml").read_bytes()
     google_xml = (fixture_dir / "google_news.xml").read_bytes()
     previous_news_window = os.environ.get("CUTS_NEWS_WINDOW")
+    previous_news_end_date = os.environ.get("CUTS_NEWS_END_DATE")
 
     try:
         os.environ.pop("CUTS_NEWS_WINDOW", None)
@@ -82,6 +83,25 @@ def main():
         assert historical_urls[0].endswith("after%3A2024-01-01%20before%3A2024-01-15&hl=en-US&gl=US&ceid=US:en"), historical_urls[0]
         assert historical_urls[-1].endswith("after%3A2024-01-29%20before%3A2024-02-01&hl=en-US&gl=US&ceid=US:en"), historical_urls[-1]
 
+        bounded_urls = google_news_rss_urls(
+            "example",
+            news_window="from:2024-01-01",
+            today=date(2024, 7, 31),
+            end_date=date(2024, 1, 31),
+        )
+        assert bounded_urls == historical_urls, bounded_urls
+
+        os.environ.pop("CUTS_NEWS_WINDOW", None)
+        seen_batches = []
+        harvest_query(
+            fetcher,
+            "example",
+            "google_news",
+            on_rss_batch=lambda **kwargs: seen_batches.append(kwargs),
+        )
+        assert len(seen_batches) == 1, seen_batches
+        assert seen_batches[0]["rows"][0]["lead_id"] == google_rows[0]["lead_id"], seen_batches
+
         limited_rows = harvest_all(
             fetcher,
             standing_queries=[],
@@ -97,6 +117,10 @@ def main():
             os.environ.pop("CUTS_NEWS_WINDOW", None)
         else:
             os.environ["CUTS_NEWS_WINDOW"] = previous_news_window
+        if previous_news_end_date is None:
+            os.environ.pop("CUTS_NEWS_END_DATE", None)
+        else:
+            os.environ["CUTS_NEWS_END_DATE"] = previous_news_end_date
 
     print("cuts discovery harvest tests: all passed.")
 

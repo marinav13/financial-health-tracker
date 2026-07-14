@@ -2,6 +2,7 @@ import csv
 import hashlib
 import io
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -149,8 +150,10 @@ def read_known_lead_ids(leads_path: Path = LEADS_CSV) -> set[str]:
     return {row["lead_id"] for row in read_csv_rows(leads_path, LEAD_FIELDS) if row.get("lead_id")}
 
 
-def append_leads(rows: list[dict], leads_path: Path = LEADS_CSV) -> int:
-    known_ids = read_known_lead_ids(leads_path)
+def append_leads(rows: list[dict], leads_path: Path = LEADS_CSV, known_ids: set[str] | None = None) -> int:
+    csv_path = Path(leads_path)
+    ensure_csv(csv_path, LEAD_FIELDS)
+    known_ids = known_ids if known_ids is not None else read_known_lead_ids(csv_path)
     new_rows = []
     for row in rows:
         if row["lead_id"] in known_ids:
@@ -159,8 +162,10 @@ def append_leads(rows: list[dict], leads_path: Path = LEADS_CSV) -> int:
         known_ids.add(row["lead_id"])
     if not new_rows:
         return 0
-    existing_rows = read_csv_rows(leads_path, LEAD_FIELDS)
-    write_csv_rows(leads_path, LEAD_FIELDS, existing_rows + new_rows)
+    with csv_path.open("a", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=LEAD_FIELDS, lineterminator="\n")
+        for row in new_rows:
+            writer.writerow(row)
     return len(new_rows)
 
 
@@ -278,14 +283,87 @@ class PoliteFetcher:
         self.cache_dir = Path(cache_dir)
         self.min_interval_s = min_interval_s
         self._last_hit: dict[str, float] = {}
+        self._host_penalty_s: dict[str, float] = {}
         self._resolved_url_memory: dict[str, str] = {}
 
+    def _host_for(self, url: str) -> str:
+        return urllib.parse.urlsplit(url).netloc.lower()
+
     def _respect_host_spacing(self, url: str) -> None:
-        host = urllib.parse.urlsplit(url).netloc.lower()
-        wait_seconds = self.min_interval_s - (time.time() - self._last_hit.get(host, 0.0))
+        host = self._host_for(url)
+        min_interval_s = self.min_interval_s + self._host_penalty_s.get(host, 0.0)
+        wait_seconds = min_interval_s - (time.time() - self._last_hit.get(host, 0.0))
         if wait_seconds > 0:
             time.sleep(wait_seconds)
         self._last_hit[host] = time.time()
+
+    def _bump_host_penalty(self, host: str, amount_s: float, ceiling_s: float = 45.0) -> None:
+        self._host_penalty_s[host] = min(ceiling_s, max(0.0, self._host_penalty_s.get(host, 0.0) + amount_s))
+
+    def _relax_host_penalty(self, host: str, amount_s: float = 0.5) -> None:
+        current = self._host_penalty_s.get(host, 0.0)
+        if current <= 0:
+            return
+        next_value = max(0.0, current - amount_s)
+        if next_value == 0.0:
+            self._host_penalty_s.pop(host, None)
+        else:
+            self._host_penalty_s[host] = next_value
+
+    def _request_with_backoff(self, url: str, timeout: int, reader):
+        host = self._host_for(url)
+        max_attempts = 3 if host == "news.google.com" else 1
+        last_error = None
+
+        for attempt in range(1, max_attempts + 1):
+            self._respect_host_spacing(url)
+            request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            started = time.time()
+            try:
+                with urllib.request.urlopen(request, timeout=timeout) as response:
+                    result = reader(response)
+                elapsed_s = time.time() - started
+                if host == "news.google.com":
+                    if elapsed_s >= 8.0:
+                        self._bump_host_penalty(host, 2.0)
+                        print(
+                            f"cuts_discovery: google_news slow_response elapsed_s={elapsed_s:.1f} "
+                            f"penalty_s={self._host_penalty_s.get(host, 0.0):.1f}"
+                        )
+                    else:
+                        self._relax_host_penalty(host)
+                return result
+            except urllib.error.HTTPError as exc:
+                last_error = exc
+                if host != "news.google.com" or exc.code not in {429, 500, 502, 503, 504} or attempt >= max_attempts:
+                    raise
+                retry_after = 0.0
+                if exc.headers:
+                    retry_after_raw = (exc.headers.get("Retry-After") or "").strip()
+                    if retry_after_raw.isdigit():
+                        retry_after = float(retry_after_raw)
+                self._bump_host_penalty(host, max(5.0, retry_after or 10.0))
+                delay_s = max(5.0, retry_after or self._host_penalty_s.get(host, 5.0))
+                print(
+                    f"cuts_discovery: google_news retryable_http code={exc.code} attempt={attempt}/{max_attempts} "
+                    f"sleep_s={delay_s:.1f}"
+                )
+                time.sleep(delay_s)
+            except (TimeoutError, urllib.error.URLError) as exc:
+                last_error = exc
+                if host != "news.google.com" or attempt >= max_attempts:
+                    raise
+                self._bump_host_penalty(host, 5.0)
+                delay_s = max(5.0, self._host_penalty_s.get(host, 5.0))
+                print(
+                    f"cuts_discovery: google_news retryable_network attempt={attempt}/{max_attempts} "
+                    f"sleep_s={delay_s:.1f} error={exc}"
+                )
+                time.sleep(delay_s)
+
+        if last_error is not None:
+            raise last_error
+        raise RuntimeError(f"Unexpected request failure for {url}")
 
     def get(self, url: str, max_age_days: float = 6.0) -> bytes:
         key = hashlib.sha1(normalize_url(url).encode("utf-8")).hexdigest()
@@ -295,10 +373,7 @@ class PoliteFetcher:
             if age_days <= max_age_days:
                 return cached_path.read_bytes()
 
-        self._respect_host_spacing(url)
-        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-        with urllib.request.urlopen(request, timeout=30) as response:
-            body = response.read()
+        body = self._request_with_backoff(url, timeout=30, reader=lambda response: response.read())
 
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         cached_path.write_bytes(body)
@@ -319,10 +394,9 @@ class PoliteFetcher:
                 self._resolved_url_memory[normalized_url] = cached_resolved
                 return cached_resolved
 
-        self._respect_host_spacing(url)
-        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-        with urllib.request.urlopen(request, timeout=30) as response:
-            resolved = normalize_url(response.geturl() or normalized_url)
+        resolved = normalize_url(
+            self._request_with_backoff(url, timeout=30, reader=lambda response: response.geturl() or normalized_url)
+        )
 
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         cached_path.write_text(resolved, encoding="utf-8", newline="\n")

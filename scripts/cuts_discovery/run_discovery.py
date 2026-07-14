@@ -85,6 +85,31 @@ def env_int(name: str) -> int | None:
     return max(parsed, 0)
 
 
+def run_google_news_tier(fetcher, queries_config: dict, watchlist_query_limit: int | None) -> tuple[list[dict], int]:
+    known_lead_ids = read_csv_rows(LEADS_CSV, LEAD_FIELDS)
+    known_ids = {row["lead_id"] for row in known_lead_ids if row.get("lead_id")}
+    new_count = 0
+
+    def persist_rss_batch(*, query: str, tier: str, rss_url: str, rows: list[dict]) -> None:
+        nonlocal new_count
+        batch_new = append_leads(rows, LEADS_CSV, known_ids=known_ids)
+        new_count += batch_new
+        print(
+            "cuts_discovery: "
+            f"google_news_batch tier={tier} "
+            f"rows={len(rows)} new={batch_new} "
+            f"rss_url={rss_url}"
+        )
+
+    rows = harvest_google_news(
+        fetcher,
+        queries_config,
+        max_watchlist_queries=watchlist_query_limit,
+        on_rss_batch=persist_rss_batch,
+    )
+    return rows, new_count
+
+
 def main() -> int:
     ensure_discovery_files()
 
@@ -114,16 +139,16 @@ def main() -> int:
     fetcher = PoliteFetcher(DISCOVERY_CACHE_DIR)
 
     tier_runs = [
-        ("trade_feed", lambda: harvest_trade_feeds(fetcher)),
+        ("trade_feed", lambda: (harvest_trade_feeds(fetcher), None)),
         (
             "google_news",
-            lambda: harvest_google_news(
+            lambda: run_google_news_tier(
                 fetcher,
                 queries_config,
-                max_watchlist_queries=watchlist_query_limit,
+                watchlist_query_limit,
             ),
         ),
-        ("warn", lambda: harvest_warn(fetcher, mapping_rows)),
+        ("warn", lambda: (harvest_warn(fetcher, mapping_rows), None)),
     ]
     harvested_by_tier = {}
     new_count_by_tier = {}
@@ -132,9 +157,11 @@ def main() -> int:
     for tier_name, runner in tier_runs:
         tier_started = time.perf_counter()
         try:
-            rows = runner()
+            rows, new_count = runner()
             harvested_by_tier[tier_name] = rows
-            new_count_by_tier[tier_name] = append_leads(rows)
+            if new_count is None:
+                new_count = append_leads(rows)
+            new_count_by_tier[tier_name] = new_count
         except Exception as exc:
             tier_failures += 1
             harvested_by_tier[tier_name] = []

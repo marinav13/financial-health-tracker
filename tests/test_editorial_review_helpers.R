@@ -3075,6 +3075,11 @@ run_test("Closure flags review sheet rows track one institution_closure candidat
       "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
       "Older closure row"
     ),
+    source_url = c(
+      "https://example.org/sou",
+      "https://example.org/limestone",
+      "https://example.org/limestone-older"
+    ),
     is_primary_tracker = c(TRUE, TRUE, TRUE),
     stringsAsFactors = FALSE
   )

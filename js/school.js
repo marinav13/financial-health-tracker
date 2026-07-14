@@ -1224,7 +1224,14 @@ function findInstitutionClosureAnnouncement(cutsRecord) {
   return (cutsRecord?.landing_cuts ?? []).find((cut) => cut?.cut_type === "institution_closure") || null;
 }
 
+function confirmedClosureBadgeKind(cutsRecord) {
+  if (cutsRecord?.confirmed_closure_announcement !== true) return null;
+  const kind = String(cutsRecord?.confirmed_closure_badge_kind || "").trim().toLowerCase();
+  return kind || null;
+}
+
 function isAbsorptionAnnouncement(cut, cutsRecord) {
+  if (confirmedClosureBadgeKind(cutsRecord) === "absorption") return true;
   const text = normalizeInstitutionClosureText(
     cut?.cut_label_public,
     cut?.program_name,
@@ -1235,6 +1242,13 @@ function isAbsorptionAnnouncement(cut, cutsRecord) {
 
 function announcedClosureYear(cutsRecord) {
   const cut = findInstitutionClosureAnnouncement(cutsRecord);
+  const confirmedKind = confirmedClosureBadgeKind(cutsRecord);
+  if (confirmedKind === "absorption") return null;
+  const explicitDate = String(cutsRecord?.confirmed_closure_announcement_date || "").trim();
+  if (confirmedKind === "closure" && explicitDate) {
+    const match = explicitDate.match(/\b(20\d{2})\b/);
+    if (match) return Number(match[1]);
+  }
   if (!cut || isAbsorptionAnnouncement(cut, cutsRecord)) return null;
   const explicit = Number(cut.announcement_year || "");
   if (Number.isFinite(explicit) && explicit > 1900) return explicit;
@@ -1243,6 +1257,7 @@ function announcedClosureYear(cutsRecord) {
 }
 
 function hasAnnouncedAbsorption(cutsRecord) {
+  if (confirmedClosureBadgeKind(cutsRecord) === "absorption") return true;
   const cut = findInstitutionClosureAnnouncement(cutsRecord);
   return isAbsorptionAnnouncement(cut, cutsRecord);
 }

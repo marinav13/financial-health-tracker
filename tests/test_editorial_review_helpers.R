@@ -3055,3 +3055,83 @@ run_test("Unmatched cuts review sheet appends dedupe against existing unmatched 
   assert_identical(trim_text(append_rows$unmatched_id), "discovered-keep-2")
   assert_identical(trim_text(append_rows$confidence), "low")
 })
+
+run_test("Closure flags review sheet rows track one institution_closure candidate per school and carry confirmations forward", function() {
+  cuts <- data.frame(
+    cut_id = c("sou-1", "lime-1", "lime-older"),
+    matched_unitid = c("210146", "218238", "218238"),
+    export_unitid = c("210146", "218238", "218238"),
+    institution_name_display = c("Southern Oregon University", "Limestone University", "Limestone University"),
+    announcement_date = c("2026-05-09", "2025-04-29", "2024-12-15"),
+    announcement_year = c(2026L, 2025L, 2024L),
+    cut_type = c("department_closure", "institution_closure", "institution_closure"),
+    program_name = c(
+      "3 majors eliminated and 66 positions cut to close $5M deficit after Deloitte review",
+      "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+      "Older closure row"
+    ),
+    cut_label_public = c(
+      "3 majors eliminated and 66 positions cut to close $5M deficit after Deloitte review",
+      "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+      "Older closure row"
+    ),
+    is_primary_tracker = c(TRUE, TRUE, TRUE),
+    stringsAsFactors = FALSE
+  )
+  existing_sheet <- data.frame(
+    cut_id = "lime-1",
+    unitid = "218238",
+    institution_name = "Limestone University",
+    announcement_date = "2025-04-29",
+    evidence_text = "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+    flag_confirmed = "TRUE",
+    notes = "Confirmed by editor",
+    first_seen = "2026-07-01",
+    stringsAsFactors = FALSE
+  )
+
+  rows <- build_college_cuts_closure_flags_review_sheet_rows(
+    cuts,
+    existing_sheet = existing_sheet,
+    first_seen_date = "2026-07-14"
+  )
+  assert_identical(trim_text(rows$cut_id), "lime-1")
+  assert_true(isTRUE(rows$flag_confirmed[[1]]))
+  assert_identical(trim_text(rows$notes), "Confirmed by editor")
+  assert_identical(trim_text(rows$first_seen), "2026-07-01")
+})
+
+run_test("Closure flags review sheet appends dedupe against existing cut ids", function() {
+  candidates <- data.frame(
+    cut_id = c("lime-1", "cornish-1"),
+    unitid = c("218238", "235024"),
+    institution_name = c("Limestone University", "Cornish College of the Arts"),
+    announcement_date = c("2025-04-29", "2025-03-27"),
+    evidence_text = c(
+      "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+      "Cornish College absorbed by Seattle University; all 354 employees laid off with potential rehiring by Seattle U"
+    ),
+    flag_confirmed = c("TRUE", ""),
+    notes = c("Confirmed by editor", ""),
+    first_seen = c("2026-07-01", "2026-07-14"),
+    stringsAsFactors = FALSE
+  )
+  existing_sheet <- data.frame(
+    cut_id = "lime-1",
+    unitid = "218238",
+    institution_name = "Limestone University",
+    announcement_date = "2025-04-29",
+    evidence_text = "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+    flag_confirmed = "TRUE",
+    notes = "Confirmed by editor",
+    first_seen = "2026-07-01",
+    stringsAsFactors = FALSE
+  )
+
+  append_rows <- build_college_cuts_closure_flags_review_sheet_append_rows(
+    candidates,
+    existing_sheet
+  )
+  assert_identical(trim_text(append_rows$cut_id), "cornish-1")
+  assert_true(!isTRUE(append_rows$flag_confirmed[[1]]))
+})

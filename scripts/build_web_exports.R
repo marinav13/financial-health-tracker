@@ -89,6 +89,8 @@ dir.create(downloads_dir, recursive = TRUE, showWarnings = FALSE)
 cuts_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_cut_level_joined.csv")
 cuts_unmatched_for_review_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_financial_tracker_unmatched_for_review.csv")
 cuts_review_candidates_path <- file.path(root, "data_pipelines", "college_cuts", "college_cuts_review_candidates.csv")
+cuts_closure_flags_review_path <- file.path(root, "data_pipelines", "college_cuts", "closure_flags_review.csv")
+cuts_closure_flags_review_candidates_path <- file.path(root, "data_pipelines", "college_cuts", "closure_flags_review_candidates.csv")
 cuts_editorial_overrides_path <- file.path(root, "data_pipelines", "college_cuts", "editorial_overrides.csv")
 discovered_cuts_path <- get_arg_value("--discovered-cuts", file.path(root, "data_pipelines", "college_cuts", "discovered_cut_candidates.csv"))
 accreditation_summary_path <- file.path(root, "data_pipelines", "accreditation", "accreditation_tracker_institution_summary.csv")
@@ -485,6 +487,33 @@ build_cuts_export <- function() {
     cuts$display_category <- cuts$primary_display_category
   }
 
+  # Runs after cut_label_public/display derivation: the candidate builder
+  # requires cut_label_public for evidence text, and is_primary_tracker is
+  # recomputed in the mutate above.
+  cuts_closure_flags_review <- if (file.exists(cuts_closure_flags_review_path)) {
+    coerce_college_cuts_closure_flags_review_sheet_rows(
+      readr::read_csv(
+        cuts_closure_flags_review_path,
+        col_types = readr::cols(.default = readr::col_character()),
+        show_col_types = FALSE
+      )
+    )
+  } else {
+    empty_college_cuts_closure_flags_review_sheet_rows()
+  }
+  cuts_closure_flags_review_candidates <- build_college_cuts_closure_flags_review_sheet_rows(
+    dplyr::filter(cuts, is_primary_tracker %in% TRUE),
+    existing_sheet = cuts_closure_flags_review,
+    first_seen_date = as.character(Sys.Date())
+  )
+  write_csv_atomic(
+    cuts_closure_flags_review_candidates,
+    cuts_closure_flags_review_candidates_path
+  )
+  confirmed_closure_unitids <- unique(trim_text(
+    cuts_closure_flags_review_candidates$unitid[cuts_closure_flags_review_candidates$flag_confirmed %in% TRUE]
+  ))
+
   recent <- cuts %>%
     arrange(desc(announcement_date), desc(announcement_year)) %>%
     slice_head(n = 25) %>%
@@ -519,6 +548,7 @@ build_cuts_export <- function() {
   schools <- lapply(split(cuts, cuts$export_unitid), function(df) {
     df <- df %>% arrange(desc(announcement_date), desc(announcement_year))
     latest <- df %>% slice(1)
+    school_confirmation_unitid <- trim_text(as.character(latest$matched_unitid[[1]] %||% latest$export_unitid[[1]]))
     list(
       unitid = as.character(latest$export_unitid[[1]]),
       financial_unitid = if (isTRUE(latest$has_financial_profile[[1]])) latest$matched_unitid[[1]] else NA_character_,
@@ -532,6 +562,7 @@ build_cuts_export <- function() {
       category = latest$category_display[[1]],
       latest_cut_date = or_null(latest$announcement_date),
       latest_cut_label = or_null(latest$cut_label_public) %||% or_null(latest$program_name),
+      confirmed_closure_announcement = nzchar(school_confirmation_unitid) && school_confirmation_unitid %in% confirmed_closure_unitids,
       cut_count = nrow(df),
       cuts = lapply(seq_len(nrow(df)), function(i) {
         list(
@@ -3790,6 +3821,7 @@ if ("cuts" %in% selected_exports) {
     index_builder = function(school) list(
       latest_cut_date = school$latest_cut_date,
       latest_cut_label = school$latest_cut_label,
+      confirmed_closure_announcement = isTRUE(school$confirmed_closure_announcement),
       cut_count = school$cut_count,
       landing_cuts = lapply(school$cuts %||% list(), function(cut) list(
         announcement_date = cut$announcement_date,

@@ -616,6 +616,8 @@ run_test("Web export pipeline fixture", function() {
 
   # ── Individual school JSON schema ────────────────────────────────────────────
   first_cut_index <- cuts_index[[1]]
+  assert_true("confirmed_closure_announcement" %in% names(first_cut_index),
+    "cuts_index entries should expose confirmed_closure_announcement for school-page badge gating.")
   assert_true("landing_cuts" %in% names(first_cut_index),
     "cuts_index entries should expose landing_cuts for the landing-page table.")
   assert_true(is.list(first_cut_index$landing_cuts),
@@ -744,6 +746,8 @@ run_test("Web export pipeline fixture", function() {
       "cuts_export school entry should have 'unitid'.")
     assert_true("latest_cut_date" %in% names(school_cuts),
       "cuts_export school entry should have 'latest_cut_date'.")
+    assert_true("confirmed_closure_announcement" %in% names(school_cuts),
+      "cuts_export school entry should expose confirmed_closure_announcement.")
     # cuts is a list column inside the school row; access via $cuts[[1]].
     cuts_df <- school_cuts$cuts[[1]]
     assert_true(!is.null(cuts_df) && is.data.frame(cuts_df),
@@ -754,6 +758,8 @@ run_test("Web export pipeline fixture", function() {
       "cuts_export school entry should have 'unitid'.")
     assert_true("latest_cut_date" %in% names(school_cuts),
       "cuts_export school entry should have 'latest_cut_date'.")
+    assert_true("confirmed_closure_announcement" %in% names(school_cuts),
+      "cuts_export school entry should expose confirmed_closure_announcement.")
     assert_true("cuts" %in% names(school_cuts) && is.data.frame(school_cuts$cuts),
       "cuts_export school entry should have a 'cuts' data.frame.")
     cuts_df <- school_cuts$cuts

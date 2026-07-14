@@ -257,6 +257,29 @@ run("college cuts index preserves editorial cut_type for closure badge decisions
   }
 });
 
+run("college cuts confirmation gate stays in sync and fails closed for unconfirmed schools", () => {
+  const expectations = [
+    ["210146", "Southern Oregon University", false],
+    ["218238", "Limestone University", true],
+    ["235024", "Cornish College of the Arts", true]
+  ];
+
+  for (const [unitid, name, expectedConfirmed] of expectations) {
+    const fullSchool = COLLEGE_CUTS.schools?.[unitid];
+    const indexSchool = COLLEGE_CUTS_INDEX[unitid];
+    assert(fullSchool, `college cuts full export missing ${name} (${unitid})`);
+    assert(indexSchool, `college cuts index missing ${name} (${unitid})`);
+    assert(
+      fullSchool.confirmed_closure_announcement === expectedConfirmed,
+      `${name} (${unitid}) expected full confirmed_closure_announcement=${expectedConfirmed}, got ${fullSchool.confirmed_closure_announcement}`
+    );
+    assert(
+      indexSchool.confirmed_closure_announcement === expectedConfirmed,
+      `${name} (${unitid}) expected index confirmed_closure_announcement=${expectedConfirmed}, got ${indexSchool.confirmed_closure_announcement}`
+    );
+  }
+});
+
 run("sample school chart series spans the committed IPEDS range", () => {
   const sample = JSON.parse(fs.readFileSync(path.join(SCHOOLS_DIR, "101709.json"), "utf8"));
   const years = numericSeries(sample, "revenue_total_adjusted").map((point) => point.year);

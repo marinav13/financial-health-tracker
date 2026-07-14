@@ -103,9 +103,10 @@ compute_private_closure_risk_score <- function(df, tuition_q75, leverage_q75, li
 }
 
 # Sums 8 distress signals for non-flagship public campuses: enrollment/staff cuts,
-# rising transfer-out rates, state funding decline, and missing financial data.
+# rising transfer-out rates, declining state/local support, and missing financial data.
 compute_public_campus_risk_score <- function(df, flagship_unitids) {
   is_nonflagship <- df$control_label == "Public" & !(as.integer(df$unitid) %in% flagship_unitids)
+  state_support_change <- state_support_change_values(df)
   row_score(
     is_nonflagship & yes_flag(df$enrollment_decline_last_3_of_5),
     is_nonflagship & !is.na(df$enrollment_pct_change_5yr) & df$enrollment_pct_change_5yr <= -20,
@@ -113,7 +114,7 @@ compute_public_campus_risk_score <- function(df, flagship_unitids) {
     is_nonflagship & !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0,
     is_nonflagship & yes_flag(df$transfer_out_rate_bachelor_increase_5yr),
     is_nonflagship & yes_flag(df$transfer_out_rate_bachelor_increase_10yr),
-    is_nonflagship & !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0,
+    is_nonflagship & !is.na(state_support_change) & state_support_change < 0,
     is_nonflagship & (is.na(df$revenue_total) | is.na(df$expenses_total))
   )
 }
@@ -161,7 +162,8 @@ num_cols <- c(
   "tuition_dependence_pct","admissions_yield","yield_pct_change_5yr","discount_rate","discount_pct_change_5yr",
   "federal_grants_contracts_pell_adjusted","federal_grants_contracts_pell_adjusted_pct_core_revenue",
   "federal_grants_contracts_pell_adjusted_pct_change_5yr","state_funding","state_funding_pct_core_revenue",
-  "state_funding_pct_change_5yr","endowment_value","endowment_pct_change_5yr","liquidity",
+  "state_funding_pct_change_5yr","state_local_support","state_local_support_pct_core_revenue",
+  "state_local_support_pct_change_5yr","endowment_value","endowment_pct_change_5yr","liquidity",
   "liquidity_percentile_private_nfp","leverage","leverage_percentile_private_nfp","loan_year_latest",
   "federal_loan_pct_most_recent","federal_loan_count_most_recent","federal_loan_avg_most_recent"
 )
@@ -176,6 +178,12 @@ for (nm in intersect(num_cols, names(prev_year))) {
 for (nm in intersect(num_cols, names(read_df))) {
   read_df[[nm]] <- to_num(read_df[[nm]])
 }
+
+state_support_change_field <- state_support_change_col(read_df)
+state_support_share_field <- state_support_share_col(read_df)
+state_support_metric_label <- if (state_support_share_field == "state_local_support_pct_core_revenue") "State & local funding" else "State funding"
+state_support_metric_label_lower <- if (state_support_share_field == "state_local_support_pct_core_revenue") "state & local funding" else "state funding"
+state_support_metric_note <- if (state_support_share_field == "state_local_support_pct_core_revenue") "State and local appropriations, grants and contracts" else "State appropriations"
 
 # Validate that required columns exist and data looks reasonable
 validate_workbook_input(read_df)
@@ -323,8 +331,14 @@ summary_metric_specs <- list(
   list(metric = "Instructional staffing cut over past 5 years", pred = function(df) !is.na(df$staff_instructional_headcount_pct_change_5yr) & df$staff_instructional_headcount_pct_change_5yr < 0, notes = "Using staff headcount"),
   list(metric = sprintf("Ended %s fiscal year at a loss", latest_year), pred = function(df) yes_flag(df$ended_year_at_loss)),
   list(metric = "Net tuition per FTE decreased over past 5 years", pred = function(df) !is.na(df$net_tuition_per_fte_change_5yr) & df$net_tuition_per_fte_change_5yr < 0, notes = "Using net tuition per FTE"),
-  list(metric = "State appropriations decreased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0),
-  list(metric = "State appropriations increased over past 5 years", pred = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr > 0),
+  list(metric = paste(state_support_metric_label, "decreased over past 5 years"), pred = function(df) {
+    state_support_change <- state_support_change_values(df)
+    !is.na(state_support_change) & state_support_change < 0
+  }),
+  list(metric = paste(state_support_metric_label, "increased over past 5 years"), pred = function(df) {
+    state_support_change <- state_support_change_values(df)
+    !is.na(state_support_change) & state_support_change > 0
+  }),
   list(metric = "Endowment increased over past 5 years", pred = function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr > 0),
   list(metric = "Endowment decreased over past 5 years", pred = function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0),
   list(metric = "Enrollment decreased over past 5 years", pred = function(df) !is.na(df$enrollment_pct_change_5yr) & df$enrollment_pct_change_5yr < 0),
@@ -368,7 +382,7 @@ net_tuition_per_fte_change_median <- numeric_stat_by_group(groups, "net_tuition_
 transfer_out_rate_median <- numeric_stat_by_group(groups, "transfer_out_rate_bachelor")
 transfer_out_change_median <- numeric_stat_by_group(groups, "transfer_out_rate_bachelor_change_5yr")
 staffing_cut_share <- pct_by_group_from(groups, function(df) !is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0)
-state_funding_change_median <- numeric_stat_by_group(groups, "state_funding_pct_change_5yr")
+state_support_change_median <- numeric_stat_by_group(groups, state_support_change_field)
 
 summary_rows <- append_rows(
   summary_rows,
@@ -378,7 +392,7 @@ summary_rows <- append_rows(
   make_group_row("Transfer-out rate by sector", "median rate", transfer_out_rate_median, "Bachelor cohort"),
   make_group_row("Transfer-out rate change over past 5 years by sector", "median point change", transfer_out_change_median, "Bachelor cohort"),
   make_group_row("Staffing cuts national share by sector", "percent", staffing_cut_share, "Share with 5-year staff headcount decline"),
-  make_group_row("State-funding change by sector", "median percent", state_funding_change_median, "Mostly meaningful for publics")
+  make_group_row(paste(state_support_metric_label, "change by sector"), "median percent", state_support_change_median, "Mostly meaningful for publics")
 )
 
 loss_prev_counts <- count_by_group_from(groups_prev_year, function(df) yes_flag(df$ended_year_at_loss))
@@ -395,7 +409,7 @@ summary_rows <- append_rows(
 )
 
 top_fed <- top_metric_by_group_from(groups, "federal_grants_contracts_pell_adjusted_pct_core_revenue")
-top_state <- top_metric_by_group_from(groups, "state_funding_pct_core_revenue")
+top_state <- top_metric_by_group_from(groups, state_support_share_field)
 
 summary_rows <- append_rows(
   summary_rows,
@@ -412,16 +426,16 @@ summary_rows <- append_rows(
     "Pell-adjusted federal grants/contracts"
   ),
   make_group_row(
-    "Highest state funding share of core revenue",
+    paste("Highest", state_support_metric_label_lower, "share of core revenue"),
     "institution",
     sapply(top_state, function(row) if (is.null(row)) NA else row$institution_name[[1]]),
-    "State appropriations"
+    state_support_metric_note
   ),
   make_group_row(
-    "Highest state funding share of core revenue",
+    paste("Highest", state_support_metric_label_lower, "share of core revenue"),
     "percent",
-    sapply(top_state, function(row) if (is.null(row)) NA else row$state_funding_pct_core_revenue[[1]] * 100),
-    "State appropriations"
+    sapply(top_state, function(row) if (is.null(row)) NA else row[[state_support_share_field]][[1]] * 100),
+    state_support_metric_note
   )
 )
 
@@ -450,7 +464,7 @@ sheet_index_specs <- list(
   list(name = "FlagshipFed", description = "Predominantly baccalaureate public flagships ranked by dependence on Pell-adjusted federal grants and contracts."),
   list(name = "ResearchLeaders", description = "Predominantly baccalaureate colleges ranked by research spending per FTE, with research spending levels and research spending as a share of core expenses."),
   list(name = "Loss2024", description = sprintf("Predominantly baccalaureate colleges that ended %s at a loss.", latest_year)),
-  list(name = "StateDown5yr", description = "Predominantly baccalaureate colleges with declining state appropriations over the past 5 years."),
+  list(name = "StateDown5yr", description = sprintf("Predominantly baccalaureate colleges with declining %s over the past 5 years.", state_support_metric_label_lower)),
   list(name = "EndowDown5yr", description = "Predominantly baccalaureate colleges with declining endowment value over the past 5 years."),
   list(name = "DiscRateUp5yr", description = "Predominantly baccalaureate colleges with rising discount rates over the past 5 years."),
   list(name = "EnrollDown5yr", description = "Predominantly baccalaureate colleges ranked by biggest enrollment decline over the past 5 years."),
@@ -462,7 +476,7 @@ sheet_index_specs <- list(
   list(name = "TransferOutUp5yr", description = "Predominantly baccalaureate colleges with rising transfer-out rates over the past 5 years."),
   list(name = "TransferOutUp10yr", description = "Predominantly baccalaureate colleges with rising transfer-out rates over the past 10 years."),
   list(name = "FedDepend", description = "Predominantly baccalaureate colleges ranked by dependence on Pell-adjusted federal grants and contracts."),
-  list(name = "StateDepend", description = "Predominantly baccalaureate colleges ranked by dependence on state appropriations."),
+  list(name = "StateDepend", description = sprintf("Predominantly baccalaureate colleges ranked by dependence on %s.", state_support_metric_label_lower)),
   list(name = "StateBySt", description = "State-level public breakdowns using predominantly baccalaureate institutions."),
   list(name = "YearsAtLoss", description = "Predominantly baccalaureate colleges ranked by how many of the past 10 years they ended at a loss."),
   list(name = "TuitionDepend", description = "Predominantly baccalaureate colleges ranked by net tuition dependence."),
@@ -473,7 +487,7 @@ sheet_index_specs <- list(
   list(name = "FedAndIntl", description = "Predominantly baccalaureate colleges with both high federal dependence and high international share."),
   list(name = "MultiSignal", description = "Predominantly baccalaureate colleges with the highest combined warning-signal score."),
   list(name = "PrivateCloseRisk", description = sprintf("Predominantly baccalaureate private colleges ranked by a transparent closure-risk score built from enrollment decline, repeated losses, ending %s at a loss, net tuition decline, high tuition dependence, weak liquidity, high leverage, endowment decline, and instructional staffing cuts.", latest_year)),
-  list(name = "PublicCampusRisk", description = "Predominantly baccalaureate non-flagship public campuses ranked by a restructuring-risk score built from enrollment decline, large 5-year enrollment losses, staffing cuts, rising transfer-out rates, falling state funding, and missing campus-level revenue or expense data."),
+  list(name = "PublicCampusRisk", description = sprintf("Predominantly baccalaureate non-flagship public campuses ranked by a restructuring-risk score built from enrollment decline, large 5-year enrollment losses, staffing cuts, rising transfer-out rates, falling %s, and missing campus-level revenue or expense data.", state_support_metric_label_lower)),
   list(name = "PublicFinBad50", description = "Top 50 public institutions with the most finance-page indicators currently styled as bad on the site."),
   list(name = "PrivateFinBad50", description = "Top 50 private institutions with the most finance-page indicators currently styled as bad on the site."),
   list(name = "LossTuition", description = "Predominantly baccalaureate colleges with repeated losses and high tuition dependence."),
@@ -536,6 +550,7 @@ all_sheet_columns <- c(
   "discount_rate","discount_pct_change_5yr",
   "federal_grants_contracts_pell_adjusted","federal_grants_contracts_pell_adjusted_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
   "state_funding","state_funding_pct_core_revenue","state_funding_pct_change_5yr",
+  "state_local_support","state_local_support_pct_core_revenue","state_local_support_pct_change_5yr",
   "research_expense","research_expense_per_fte","research_expense_pct_core_expenses","sector_research_spending_n","research_spending_per_fte_percentile","research_spending_peer_bucket",
   "endowment_value","endowment_pct_change_5yr",
   "liquidity","liquidity_percentile_private_nfp","leverage","leverage_percentile_private_nfp",
@@ -602,8 +617,11 @@ base_sheet_specs <- list(
     order_fn = function(df) sort_df(df, c("loss_amount"))
   ),
   StateDown5yr = list(
-    filter_fn = function(df) !is.na(df$state_funding_pct_change_5yr) & df$state_funding_pct_change_5yr < 0,
-    order_fn = function(df) sort_df(df, c("state_funding_pct_change_5yr"))
+    filter_fn = function(df) {
+      state_support_change <- state_support_change_values(df)
+      !is.na(state_support_change) & state_support_change < 0
+    },
+    order_fn = function(df) sort_df(df, c(state_support_change_col(df)))
   ),
   EndowDown5yr = list(
     filter_fn = function(df) !is.na(df$endowment_pct_change_5yr) & df$endowment_pct_change_5yr < 0,
@@ -650,8 +668,15 @@ base_sheet_specs <- list(
     order_fn = function(df) df[order(-xtfrm(df$federal_grants_contracts_pell_adjusted_pct_core_revenue), -xtfrm(df$federal_grants_contracts_pell_adjusted), na.last = TRUE), , drop = FALSE]
   ),
   StateDepend = list(
-    filter_fn = function(df) !is.na(df$state_funding_pct_core_revenue),
-    order_fn = function(df) df[order(-xtfrm(df$state_funding_pct_core_revenue), -xtfrm(df$state_funding), na.last = TRUE), , drop = FALSE]
+    filter_fn = function(df) {
+      state_support_share <- state_support_share_values(df)
+      !is.na(state_support_share)
+    },
+    order_fn = function(df) {
+      share_col <- state_support_share_col(df)
+      amount_col <- state_support_amount_col(df)
+      df[order(-xtfrm(df[[share_col]]), -xtfrm(df[[amount_col]]), na.last = TRUE), , drop = FALSE]
+    }
   ),
   YearsAtLoss = list(
     filter_fn = function(df) !is.na(df$loss_years_last_10),
@@ -691,7 +716,10 @@ base_sheet_specs <- list(
   ),
   PublicCampusRisk = list(
     filter_fn = function(df) df$control_label == "Public" & !(as.integer(df$unitid) %in% flagship_unitids) & !is.na(df$public_campus_risk_score),
-    order_fn = function(df) df[order(-xtfrm(df$public_campus_risk_score), xtfrm(df$enrollment_pct_change_5yr), xtfrm(df$state_funding_pct_change_5yr), na.last = TRUE), , drop = FALSE]
+    order_fn = function(df) {
+      state_support_change <- state_support_change_values(df)
+      df[order(-xtfrm(df$public_campus_risk_score), xtfrm(df$enrollment_pct_change_5yr), xtfrm(state_support_change), na.last = TRUE), , drop = FALSE]
+    }
   ),
   StudPerInstr50 = list(
     filter_fn = function(df) !is.na(df$students_per_instructional_staff_fte),
@@ -713,7 +741,10 @@ finance_bad$bad_enrollment_flag <- yes_flag(finance_bad$enrollment_decline_last_
 finance_bad$bad_staff_change <- !is.na(finance_bad$staff_total_headcount_pct_change_5yr) & finance_bad$staff_total_headcount_pct_change_5yr <= -5
 finance_bad$bad_endowment_change <- !is.na(finance_bad$endowment_pct_change_5yr) & finance_bad$endowment_pct_change_5yr <= -5
 finance_bad$bad_federal_change <- !is.na(finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr) & finance_bad$federal_grants_contracts_pell_adjusted_pct_change_5yr <= -5
-finance_bad$bad_state_change <- !is.na(finance_bad$state_funding_pct_change_5yr) & finance_bad$state_funding_pct_change_5yr <= -5
+finance_bad$bad_state_change <- {
+  state_support_change <- state_support_change_values(finance_bad)
+  !is.na(state_support_change) & state_support_change <= -5
+}
 finance_bad$finance_page_bad_count <- row_score(
   finance_bad$bad_revenue_change,
   finance_bad$bad_latest_loss,

@@ -99,7 +99,10 @@ enrich_funding_metrics <- function(df, years, lookups) {
       federal_grants_contracts_pell_adjusted_pct_change_5yr_adjusted   = federal_grants_contracts_pell_adjusted_pct_change_5yr,
       state_funding_pct_change_5yr_nominal                             = safe_pct_change(state_funding, unname(lookups$state[as.character(year - 5)])),
       state_funding_pct_change_5yr                                     = safe_pct_change(state_funding_adjusted, unname(lookups$state_adj[as.character(year - 5)])),
-      state_funding_pct_change_5yr_adjusted                            = state_funding_pct_change_5yr
+      state_funding_pct_change_5yr_adjusted                            = state_funding_pct_change_5yr,
+      state_local_support_pct_change_5yr_nominal                       = safe_pct_change(state_local_support, unname(lookups$state_local_support[as.character(year - 5)])),
+      state_local_support_pct_change_5yr                               = safe_pct_change(state_local_support_adjusted, unname(lookups$state_local_support_adj[as.character(year - 5)])),
+      state_local_support_pct_change_5yr_adjusted                      = state_local_support_pct_change_5yr
     ) %>%
     ungroup()
 }
@@ -265,6 +268,8 @@ enrich_group <- function(df) {
     federal_adj_adj  = stats::setNames(df$federal_grants_contracts_pell_adjusted_adjusted, years),
     state            = stats::setNames(df$state_funding,                                   years),
     state_adj        = stats::setNames(df$state_funding_adjusted,                          years),
+    state_local_support = stats::setNames(df$state_local_support,                          years),
+    state_local_support_adj = stats::setNames(df$state_local_support_adjusted,             years),
     transfer_out     = stats::setNames(df$transfer_out_rate_bachelor,                      years)
   )
 

@@ -31,6 +31,29 @@ safe_pct <- function(num, den) {
   ifelse(is.na(num) | is.na(den) | den == 0, NA_real_, (num / den) * 100)
 }
 
+# Publics now prefer the composite state-and-local-support fields, but the
+# workbook can still fall back to legacy appropriations-only columns when
+# older inputs are loaded.
+state_support_change_col <- function(df) {
+  if ("state_local_support_pct_change_5yr" %in% names(df)) "state_local_support_pct_change_5yr" else "state_funding_pct_change_5yr"
+}
+
+state_support_share_col <- function(df) {
+  if ("state_local_support_pct_core_revenue" %in% names(df)) "state_local_support_pct_core_revenue" else "state_funding_pct_core_revenue"
+}
+
+state_support_amount_col <- function(df) {
+  if ("state_local_support" %in% names(df)) "state_local_support" else "state_funding"
+}
+
+state_support_change_values <- function(df) {
+  to_num(df[[state_support_change_col(df)]])
+}
+
+state_support_share_values <- function(df) {
+  to_num(df[[state_support_share_col(df)]])
+}
+
 # Escapes four XML-reserved characters (&, <, >, ") for safe embedding in SpreadsheetML.
 # Must replace & first to avoid double-escaping.
 escape_xml <- function(x) {
@@ -224,6 +247,7 @@ build_workbook_sheets <- function(df, specs) {
 build_benchmark_tab <- function(group_list, label_prefix = "") {
   rows <- lapply(names(group_list), function(gname) {
     df <- group_list[[gname]]
+    state_support_change <- state_support_change_values(df)
     data.frame(
       group = paste0(label_prefix, gname),
       institutions = nrow(df),
@@ -241,11 +265,11 @@ build_benchmark_tab <- function(group_list, label_prefix = "") {
         x <- to_num(df$transfer_out_rate_bachelor_change_5yr); x <- x[!is.na(x)]; if (length(x) == 0) NA_real_ else stats::median(x)
       },
       staffing_cut_share = if (nrow(df) == 0) NA_real_ else safe_pct(sum(!is.na(df$staff_total_headcount_pct_change_5yr) & df$staff_total_headcount_pct_change_5yr < 0, na.rm = TRUE), nrow(df)),
-      state_funding_pct_change_5yr_median = {
-        x <- to_num(df$state_funding_pct_change_5yr); x <- x[!is.na(x)]; if (length(x) == 0) NA_real_ else stats::median(x)
+      state_support_pct_change_5yr_median = {
+        x <- state_support_change[!is.na(state_support_change)]; if (length(x) == 0) NA_real_ else stats::median(x)
       },
-      mean_state_funding_pct_change_5yr = {
-        x <- to_num(df$state_funding_pct_change_5yr); x <- x[!is.na(x)]; if (length(x) == 0) NA_real_ else mean(x)
+      mean_state_support_pct_change_5yr = {
+        x <- state_support_change[!is.na(state_support_change)]; if (length(x) == 0) NA_real_ else mean(x)
       },
       stringsAsFactors = FALSE
     )
@@ -1158,22 +1182,26 @@ build_state_breakdown <- function(df) {
     drop = FALSE
   ]
   out <- do.call(rbind, lapply(split(state_public, state_public$state), function(state_df) {
-    state_df <- state_df[!is.na(state_df$state_funding_pct_change_5yr), , drop = FALSE]
+    state_support_change <- state_support_change_values(state_df)
+    state_support_share <- state_support_share_values(state_df)
+    state_df <- state_df[!is.na(state_support_change), , drop = FALSE]
     if (nrow(state_df) == 0) return(NULL)
-    down_n <- sum(state_df$state_funding_pct_change_5yr < 0, na.rm = TRUE)
-    up_n <- sum(state_df$state_funding_pct_change_5yr > 0, na.rm = TRUE)
+    state_support_change <- state_support_change_values(state_df)
+    state_support_share <- state_support_share_values(state_df)
+    down_n <- sum(state_support_change < 0, na.rm = TRUE)
+    up_n <- sum(state_support_change > 0, na.rm = TRUE)
     data.frame(
       state = state_df$state[1],
       public_institutions_with_state_change = nrow(state_df),
-      state_funding_down_5yr_count = down_n,
-      state_funding_down_5yr_percent = safe_pct(down_n, nrow(state_df)),
-      state_funding_up_5yr_count = up_n,
-      state_funding_up_5yr_percent = safe_pct(up_n, nrow(state_df)),
-      mean_state_funding_pct_change_5yr = mean(state_df$state_funding_pct_change_5yr, na.rm = TRUE),
-      median_state_funding_pct_change_5yr = median(state_df$state_funding_pct_change_5yr, na.rm = TRUE),
-      mean_state_funding_pct_core_revenue = mean(state_df$state_funding_pct_core_revenue, na.rm = TRUE) * 100,
-      median_state_funding_pct_core_revenue = median(state_df$state_funding_pct_core_revenue, na.rm = TRUE) * 100,
-      biggest_state_funding_drop_pct_5yr = min(state_df$state_funding_pct_change_5yr, na.rm = TRUE),
+      state_support_down_5yr_count = down_n,
+      state_support_down_5yr_percent = safe_pct(down_n, nrow(state_df)),
+      state_support_up_5yr_count = up_n,
+      state_support_up_5yr_percent = safe_pct(up_n, nrow(state_df)),
+      mean_state_support_pct_change_5yr = mean(state_support_change, na.rm = TRUE),
+      median_state_support_pct_change_5yr = median(state_support_change, na.rm = TRUE),
+      mean_state_support_pct_core_revenue = mean(state_support_share, na.rm = TRUE) * 100,
+      median_state_support_pct_core_revenue = median(state_support_share, na.rm = TRUE) * 100,
+      biggest_state_support_drop_pct_5yr = min(state_support_change, na.rm = TRUE),
       stringsAsFactors = FALSE
     )
   }))
@@ -1182,7 +1210,7 @@ build_state_breakdown <- function(df) {
     return(data.frame(stringsAsFactors = FALSE))
   }
 
-  out[order(out$state_funding_down_5yr_percent, out$mean_state_funding_pct_change_5yr, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
+  out[order(out$state_support_down_5yr_percent, out$mean_state_support_pct_change_5yr, decreasing = TRUE, na.last = TRUE), , drop = FALSE]
 }
 
 # Computes year-by-year staffing changes (total and instructional staff),

@@ -368,7 +368,7 @@ const basicConfig = {
 (function() {
   const ok = runChartTest("supports negative values without clipping points", {
     containerId: "chart-negative",
-    title: "State Funding",
+    title: "State & Local Funding",
     format: "currency",
     showTooltip: false,
     series: [

@@ -133,6 +133,17 @@ run_test("IPEDS collector pipeline fixture", function() {
   assert_identical(audit_subset$resolved_var_name[audit_subset$output == "city"][[1]], "CITY")
   assert_identical(audit_subset$resolved_var_name[audit_subset$output == "state"][[1]], "STABBR")
 
+  unlink(result$field_resolution_audit)
+  cached_result <- env$main(c(
+    "--start-year", "2024",
+    "--end-year", "2024",
+    "--output-stem", "fixture_collect"
+  ))
+  cached_audit <- suppressMessages(readr::read_csv(cached_result$field_resolution_audit, show_col_types = FALSE))
+  cached_audit_subset <- cached_audit[cached_audit$output %in% c("institution_name", "city", "state"), , drop = FALSE]
+  assert_identical(nrow(cached_audit_subset), 3L)
+  assert_identical(cached_audit_subset$resolved_var_name[cached_audit_subset$output == "institution_name"][[1]], "INSTNM")
+
   assert_identical(nrow(selected_catalog), 1L)
   assert_identical(selected_catalog$table_name[[1]], "HD2024")
 })

@@ -3482,6 +3482,12 @@ build_school_file <- function(df, accreditation_school = NULL) {
     )
   )
 
+  if (identical(latest$control_label[[1]], "Public")) {
+    school$summary$state_local_support_pct_core_revenue <- scale_ratio_to_pct(latest$state_local_support_pct_core_revenue[[1]])
+    school$summary$state_local_support_pct_change_5yr <- latest$state_local_support_pct_change_5yr[[1]]
+    school$series$state_local_support_adjusted <- build_series(df, "state_local_support_adjusted")
+  }
+
   if (!is.null(accreditation_school)) {
     school$latest_status <- accreditation_school$latest_status %||% NULL
     school$actions <- accreditation_school$actions %||% NULL
@@ -3498,6 +3504,17 @@ df <- readr::read_csv(
   show_col_types = FALSE,
   col_types = readr::cols(.default = readr::col_character())
 )
+
+for (nm in c(
+  "state_local_support",
+  "state_local_support_adjusted",
+  "state_local_support_pct_core_revenue",
+  "state_local_support_pct_change_5yr",
+  "state_local_support_pct_change_5yr_adjusted",
+  "state_local_support_pct_change_5yr_nominal"
+)) {
+  if (!(nm %in% names(df))) df[[nm]] <- NA_character_
+}
 
 require_local_file(
   closure_status_json_path,
@@ -3582,6 +3599,7 @@ numeric_cols <- c(
   "pct_international_undergraduate","pct_international_graduate","international_student_count_change_5yr",
   "international_enrollment_pct_change_5yr",
   "federal_loan_pct_most_recent","grad_plus_recipients","grad_plus_disbursements_amt","grad_plus_disbursements_per_recipient","federal_grants_contracts_pell_adjusted_pct_core_revenue",
+  "state_local_support_pct_core_revenue","state_local_support_pct_change_5yr","state_local_support_adjusted",
   "state_funding_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
   "state_funding_pct_change_5yr","endowment_pct_change_5yr","endowment_spending_current_use_pct_core_revenue","revenue_total_adjusted",
   "expenses_total_adjusted","net_tuition_per_fte_adjusted","enrollment_headcount_total",
@@ -3715,6 +3733,11 @@ benchmark_specs <- list(
     value_col = "state_funding_pct_change_5yr",
     summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
     group_col = "control_label"
+  ),
+  sector_median_state_local_support_pct_change_5yr = list(
+    value_col = "state_local_support_pct_change_5yr",
+    summarizer = function(x) if (all(is.na(x))) NA_real_ else stats::median(x, na.rm = TRUE),
+    group_col = "control_label"
   )
 )
 benchmark_values <- lapply(benchmark_specs, function(spec) {
@@ -3735,6 +3758,7 @@ sector_headline_staff_benchmarks <- benchmark_values$sector_median_staff_total_h
 sector_headline_endowment_benchmarks <- benchmark_values$sector_median_endowment_pct_change_5yr
 sector_endowment_per_fte_benchmarks <- benchmark_values$sector_median_endowment_assets_per_fte_adjusted
 sector_headline_state_aid_benchmarks <- benchmark_values$sector_median_state_funding_pct_change_5yr
+sector_headline_state_local_support_benchmarks <- benchmark_values$sector_median_state_local_support_pct_change_5yr
 
 schools_index <- latest_financial %>%
   transmute(
@@ -3801,7 +3825,8 @@ sector_headline_benchmarks_export <- lapply(
       median_staff_total_headcount_pct_change_5yr  = safe(sector_headline_staff_benchmarks),
       median_endowment_pct_change_5yr              = safe(sector_headline_endowment_benchmarks),
       median_endowment_per_fte_adjusted            = safe(sector_endowment_per_fte_benchmarks),
-      median_state_funding_pct_change_5yr          = safe(sector_headline_state_aid_benchmarks)
+      median_state_funding_pct_change_5yr          = safe(sector_headline_state_aid_benchmarks),
+      median_state_local_support_pct_change_5yr    = safe(sector_headline_state_local_support_benchmarks)
     )
   }
 )

@@ -129,7 +129,7 @@ const PAGES = [
       { pattern: /<h2[^>]+class="section-title"[^>]*>Enrollment<\/h2>/, message: "Enrollment h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Staffing<\/h2>/, message: "Staffing h2" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Endowment<\/h2>/, message: "Endowment h2" },
-      { pattern: /(<h2[^>]+class="section-title"[^>]*>State aid<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about state aid\?<\/h2>)/, message: "State aid heading" },
+      { pattern: /(<h2[^>]+class="section-title"[^>]*>State &amp; local funding<\/h2>|<h2[^>]+id="aid-section-title"[^>]*class="section-title"[^>]*>Want details about state &amp; local funding\?<\/h2>)/, message: "State & local funding heading" },
       { pattern: /<h2[^>]+class="section-title"[^>]*>Looking for more financial details\?<\/h2>/, message: "More financial details heading" },
       { pattern: /<p class="guide-sample-mini-chart-title">Endowment value<span class="sub">Adjusted for inflation<\/span><\/p>/, message: "Example University guide endowment chart" },
       { pattern: /guide-callout-right guide-callout-row-1">This box is red because net tuition revenue fell by more than 10%\.<\/article>/, message: "Example University top-right callout matches net tuition box" },

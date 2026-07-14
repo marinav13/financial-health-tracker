@@ -844,6 +844,8 @@ main <- function(cli_args = NULL) {
     "federal_grants_contracts_pell_adjusted_pct_core_revenue","federal_grants_contracts_pell_adjusted_pct_change_5yr",
     "federal_grants_contracts_pell_adjusted_pct_change_5yr_adjusted",
     "state_approps_percent_core_gasb","gov_grants_fasb","state_revenue_fte_fasb","gov_revenue_fte_fasb",
+    "state_local_support","state_local_support_adjusted","state_local_support_pct_core_revenue",
+    "state_local_support_pct_change_5yr","state_local_support_pct_change_5yr_adjusted",
     "state_funding","state_funding_adjusted","state_funding_pct_core_revenue",
     "state_funding_pct_change_5yr","state_funding_pct_change_5yr_adjusted","endowment_value","endowment_value_adjusted","endowment_spending_current_use","endowment_spending_current_use_adjusted","endowment_spending_current_use_pct_core_revenue","endowment_assets_per_fte_gasb","endowment_assets_per_fte_fasb","endowment_assets_per_fte",
     "endowment_assets_per_fte_adjusted","endowment_pct_change_5yr","endowment_pct_change_5yr_adjusted","liquidity","liquidity_percentile_private_nfp","leverage",
@@ -859,7 +861,7 @@ main <- function(cli_args = NULL) {
     "sector_enrollment_total_national","sector_enrollment_pct_change_5yr_national",
     "net_tuition_pct_change_5yr_nominal","net_tuition_per_fte_change_5yr_nominal",
     "government_funding_pct_change_5yr_nominal","federal_grants_contracts_pell_adjusted_pct_change_5yr_nominal",
-    "state_funding_pct_change_5yr_nominal","endowment_pct_change_5yr_nominal"
+    "state_funding_pct_change_5yr_nominal","state_local_support_pct_change_5yr_nominal","endowment_pct_change_5yr_nominal"
   )
 
   extended_columns <- unique(c(
@@ -878,6 +880,7 @@ main <- function(cli_args = NULL) {
     "revenue_change_1yr_nominal","revenue_pct_change_5yr_nominal","net_tuition_pct_change_5yr_nominal",
     "net_tuition_per_fte_change_5yr_nominal","government_funding_pct_change_5yr_nominal",
     "federal_grants_contracts_pell_adjusted_pct_change_5yr_nominal","state_funding_pct_change_5yr_nominal",
+    "state_local_support_pct_change_5yr_nominal",
     "endowment_pct_change_5yr_nominal",
     "loss_amount_2024","ended_2024_at_loss"
   ))

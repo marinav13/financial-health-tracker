@@ -70,7 +70,9 @@
     "median_debt_completers": 24965,
     "scorecard_data_updated": "2026-03-23",
     "ipeds_graduation_rate_year": 2024,
-    "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total"
+    "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total",
+    "state_local_support_pct_core_revenue": 65.0255,
+    "state_local_support_pct_change_5yr": 9.2804
   },
   "series": {
     "revenue_total_adjusted": [
@@ -795,6 +797,52 @@
       {
         "year": 2024,
         "value": 53145401
+      }
+    ],
+    "state_local_support_adjusted": [
+      {
+        "year": 2014,
+        "value": 33415757.2966
+      },
+      {
+        "year": 2015,
+        "value": 37108276.986
+      },
+      {
+        "year": 2016,
+        "value": 38561297.9787
+      },
+      {
+        "year": 2017,
+        "value": 40516047.9488
+      },
+      {
+        "year": 2018,
+        "value": 54281412.5453
+      },
+      {
+        "year": 2019,
+        "value": 49606422.657
+      },
+      {
+        "year": 2020,
+        "value": 54615477.6581
+      },
+      {
+        "year": 2021,
+        "value": 45626968.5975
+      },
+      {
+        "year": 2022,
+        "value": 51711065.969
+      },
+      {
+        "year": 2023,
+        "value": 48204982.5763
+      },
+      {
+        "year": 2024,
+        "value": 54210119
       }
     ]
   }

@@ -1211,11 +1211,6 @@ function buildInstructionalStaffRatioParagraph(profile, summary, latestDataYear)
   ];
 }
 
-const INSTITUTION_CLOSURE_DISPLAY_CATEGORIES = new Set([
-  "Institution closures",
-  "Institution closures/absorptions"
-]);
-
 function normalizeInstitutionClosureText(...parts) {
   return parts
     .map((value) => String(value || "").trim())
@@ -1224,29 +1219,8 @@ function normalizeInstitutionClosureText(...parts) {
     .toLowerCase();
 }
 
-function normalizeInstitutionClosureCategory(value) {
-  const category = String(value || "").trim();
-  if (category === "Institution closures") return "Institution closures/absorptions";
-  return category;
-}
-
-function getInstitutionClosureCategories(cut) {
-  const values = Array.isArray(cut?.display_categories)
-    ? cut.display_categories
-    : [cut?.primary_display_category, cut?.display_category];
-  return values
-    .map((value) => normalizeInstitutionClosureCategory(value))
-    .filter(Boolean)
-    .filter((value, index, list) => list.indexOf(value) === index);
-}
-
 function findInstitutionClosureAnnouncement(cutsRecord) {
-  return (cutsRecord?.landing_cuts ?? []).find((cut) => {
-    const categories = getInstitutionClosureCategories(cut);
-    if (categories.some((category) => INSTITUTION_CLOSURE_DISPLAY_CATEGORIES.has(category))) return true;
-    const text = normalizeInstitutionClosureText(cut?.cut_label_public, cut?.program_name);
-    return /\binstitution clos|\bclos(?:e|ing|ure)\b|\babsor(?:b|bed|ption)\b/.test(text);
-  }) || null;
+  return (cutsRecord?.landing_cuts ?? []).find((cut) => cut?.cut_type === "institution_closure") || null;
 }
 
 function isAbsorptionAnnouncement(cut, cutsRecord) {

@@ -626,7 +626,7 @@ run_test("Web export pipeline fixture", function() {
     } else {
       names(first_cut_index$landing_cuts[[1]])
     }
-    assert_true(all(c("program_name", "cut_label_public", "primary_display_category", "display_category", "display_categories", "announcement_date", "announcement_year", "source_url") %in% first_cut_row_names),
+    assert_true(all(c("program_name", "cut_type", "cut_label_public", "primary_display_category", "display_category", "display_categories", "announcement_date", "announcement_year", "source_url") %in% first_cut_row_names),
       "landing_cuts rows should include the compact row-level fields used by cuts.html.")
   }
 

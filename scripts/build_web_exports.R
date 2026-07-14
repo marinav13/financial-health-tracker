@@ -3795,6 +3795,7 @@ if ("cuts" %in% selected_exports) {
         announcement_date = cut$announcement_date,
         announcement_year = cut$announcement_year,
         program_name = cut$program_name,
+        cut_type = cut$cut_type,
         cut_label_public = cut$cut_label_public,
         primary_display_category = cut$primary_display_category,
         display_category = cut$display_category,

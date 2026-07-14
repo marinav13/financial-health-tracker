@@ -54,6 +54,7 @@ function cutComparableRow(cut = {}) {
     announcement_date: cut.announcement_date ?? null,
     announcement_year: cut.announcement_year ?? null,
     program_name: cut.program_name ?? null,
+    cut_type: cut.cut_type ?? null,
     cut_label_public: cut.cut_label_public ?? null,
     primary_display_category: cut.primary_display_category ?? cut.display_category ?? null,
     display_category: cut.display_category ?? cut.primary_display_category ?? null,
@@ -236,6 +237,24 @@ run("college cuts full export and index stay in sync", () => {
     mismatches.length === 0,
     `college cuts full and index exports drifted in ${mismatches.length} school(s). First 10: ${mismatches.slice(0, 10).join("; ")}`
   );
+});
+
+run("college cuts index preserves editorial cut_type for closure badge decisions", () => {
+  const expectations = [
+    ["210146", "Southern Oregon University", "department_closure"],
+    ["218238", "Limestone University", "institution_closure"]
+  ];
+
+  for (const [unitid, name, expectedCutType] of expectations) {
+    const school = COLLEGE_CUTS_INDEX[unitid];
+    assert(school, `college cuts index missing ${name} (${unitid})`);
+    const landingCut = Array.isArray(school.landing_cuts) ? school.landing_cuts[0] : null;
+    assert(landingCut, `college cuts index missing landing cut for ${name} (${unitid})`);
+    assert(
+      landingCut.cut_type === expectedCutType,
+      `${name} (${unitid}) expected landing cut_type=${expectedCutType}, got ${landingCut.cut_type}`
+    );
+  }
 });
 
 run("sample school chart series spans the committed IPEDS range", () => {

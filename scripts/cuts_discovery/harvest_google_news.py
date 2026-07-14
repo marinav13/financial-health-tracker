@@ -43,11 +43,20 @@ def _window_token_to_days(news_window: str) -> int | None:
     return count * 30
 
 
-def _date_slice_fragments(total_days: int, today: date) -> list[str]:
-    if total_days <= 0:
+def _window_token_to_start_date(news_window: str) -> date | None:
+    token = (news_window or "").strip().lower()
+    match = re.fullmatch(r"(?:from|since):(\d{4}-\d{2}-\d{2})", token)
+    if not match:
+        return None
+    try:
+        return date.fromisoformat(match.group(1))
+    except ValueError:
+        return None
+
+
+def _date_slice_fragments_between(start_date: date, end_date: date) -> list[str]:
+    if start_date >= end_date:
         return []
-    end_date = today + timedelta(days=1)
-    start_date = end_date - timedelta(days=total_days)
     fragments = []
     cursor = start_date
     while cursor < end_date:
@@ -55,6 +64,14 @@ def _date_slice_fragments(total_days: int, today: date) -> list[str]:
         fragments.append(f"after:{cursor.isoformat()} before:{slice_end.isoformat()}")
         cursor = slice_end
     return fragments
+
+
+def _date_slice_fragments(total_days: int, today: date) -> list[str]:
+    if total_days <= 0:
+        return []
+    end_date = today + timedelta(days=1)
+    start_date = end_date - timedelta(days=total_days)
+    return _date_slice_fragments_between(start_date, end_date)
 
 
 def google_news_rss_urls(query: str,
@@ -65,6 +82,10 @@ def google_news_rss_urls(query: str,
 
     if "after:" in token or "before:" in token:
         return [_build_google_news_rss_url(query, token)]
+
+    start_date = _window_token_to_start_date(token)
+    if start_date is not None:
+        return [_build_google_news_rss_url(query, fragment) for fragment in _date_slice_fragments_between(start_date, today + timedelta(days=1))]
 
     total_days = _window_token_to_days(token)
     if total_days is None:
@@ -94,9 +115,9 @@ def resolve_google_news_url(fetcher, url: str) -> str:
         return normalize_url(url)
 
 
-def harvest_query(fetcher, query: str, tier: str) -> list[dict]:
+def harvest_query(fetcher, query: str, tier: str, seen_lead_ids: set[str] | None = None) -> list[dict]:
     leads = []
-    seen_lead_ids = set()
+    seen_lead_ids = seen_lead_ids if seen_lead_ids is not None else set()
     for rss_url in google_news_rss_urls(query):
         body = fetcher.get(rss_url, max_age_days=0.9)
         root = ET.fromstring(body)
@@ -142,18 +163,28 @@ def build_watchlist_queries(rows: list[dict]) -> list[str]:
     return queries
 
 
-def harvest_all(fetcher, standing_queries: list[str], watchlist_rows: list[dict] | None = None) -> list[dict]:
+def harvest_all(
+    fetcher,
+    standing_queries: list[str],
+    watchlist_rows: list[dict] | None = None,
+    max_watchlist_queries: int | None = None,
+) -> list[dict]:
     leads = []
+    seen_lead_ids: set[str] = set()
     for query in standing_queries:
-        leads.extend(harvest_query(fetcher, query, "google_news"))
-    for query in build_watchlist_queries(watchlist_rows or []):
-        leads.extend(harvest_query(fetcher, query, "watchlist_feed"))
+        leads.extend(harvest_query(fetcher, query, "google_news", seen_lead_ids=seen_lead_ids))
+    watchlist_queries = build_watchlist_queries(watchlist_rows or [])
+    if max_watchlist_queries is not None:
+        watchlist_queries = watchlist_queries[:max(0, max_watchlist_queries)]
+    for query in watchlist_queries:
+        leads.extend(harvest_query(fetcher, query, "watchlist_feed", seen_lead_ids=seen_lead_ids))
     return leads
 
 
-def harvest_from_config(fetcher, queries_config: dict) -> list[dict]:
+def harvest_from_config(fetcher, queries_config: dict, max_watchlist_queries: int | None = None) -> list[dict]:
     return harvest_all(
         fetcher,
         standing_queries=queries_config.get("standing_queries", []),
         watchlist_rows=load_watchlist_rows(),
+        max_watchlist_queries=max_watchlist_queries,
     )

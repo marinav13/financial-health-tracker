@@ -1,0 +1,114 @@
+name: Historical Cuts Discovery Backfill
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        description: "Inclusive start date for the Google News historical backfill (YYYY-MM-DD)."
+        required: true
+        default: "2024-01-01"
+        type: string
+      classify_candidates:
+        description: "Run Claude classification during the backfill."
+        required: true
+        default: false
+        type: boolean
+      archive_candidates:
+        description: "Archive discovered candidate source URLs to Wayback."
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: historical-cuts-discovery
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python packages
+        shell: bash
+        timeout-minutes: 5
+        run: pip install -r requirements.txt
+
+      - name: Cache college cuts discovery fetches
+        uses: actions/cache@v4
+        with:
+          path: data_pipelines/college_cuts/discovery/cache
+          key: cuts-discovery-cache-v2-backfill-${{ runner.os }}-${{ inputs.start_date }}-${{ hashFiles('scripts/cuts_discovery/*.py', 'config/cuts_feeds.yml', 'config/cuts_queries.yml') }}
+          restore-keys: |
+            cuts-discovery-cache-v2-backfill-${{ runner.os }}-
+            cuts-discovery-cache-v1-${{ runner.os }}-
+            cuts-discovery-cache-v1-
+
+      - name: Validate backfill start date
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from datetime import date
+          import os
+
+          raw = "${{ inputs.start_date }}".strip()
+          try:
+              start_date = date.fromisoformat(raw)
+          except ValueError as exc:
+              raise SystemExit(f"Invalid start_date {raw!r}; expected YYYY-MM-DD.") from exc
+
+          if start_date > date.today():
+              raise SystemExit(f"start_date {raw} cannot be in the future.")
+          PY
+
+      - name: Run historical cuts discovery backfill
+        shell: bash
+        timeout-minutes: 120
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CUTS_DISCOVERY_PROFILE: historical_backfill
+          CUTS_NEWS_WINDOW: from:${{ inputs.start_date }}
+          CUTS_DISCOVERY_USE_CLASSIFICATION: ${{ inputs.classify_candidates && 'true' || 'false' }}
+          CUTS_CLASSIFICATION_MAX: "75"
+          CUTS_WATCHLIST_QUERY_LIMIT: "0"
+          CUTS_ENABLE_ARCHIVE: ${{ inputs.archive_candidates && 'true' || 'false' }}
+        run: |
+          mkdir -p refresh-logs
+          python3 scripts/cuts_discovery/run_discovery.py \
+            2>&1 | tee -a refresh-logs/combined.log
+
+      - name: Upload discovery backfill log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-cuts-discovery-backfill-log
+          path: refresh-logs/combined.log
+          if-no-files-found: warn
+
+      - name: Commit and push discovery backfill outputs
+        shell: bash
+        timeout-minutes: 5
+        run: |
+          bash ./scripts/ci/commit_and_push.sh \
+            --commit-message "chore: backfill historical cuts discovery [skip ci]" \
+            --no-changes-message "No historical cuts discovery backfill changes to commit." \
+            --target-branch-error-message "Could not determine target branch for historical cuts discovery backfill." \
+            --add data_pipelines/college_cuts/discovered_cut_candidates.csv \
+            --add data_pipelines/college_cuts/discovery/leads.csv \
+            --add data_pipelines/college_cuts/discovery/classifications.csv \
+            --add data_pipelines/college_cuts/discovery/watchlist.csv \
+            --conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/leads.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/classifications.csv \
+            --conflict-path data_pipelines/college_cuts/discovery/watchlist.csv

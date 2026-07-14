@@ -11,7 +11,7 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from cuts_discovery.common import LEAD_FIELDS, append_leads, read_csv_rows  # noqa: E402
 from cuts_discovery.harvest_feeds import harvest_feed  # noqa: E402
-from cuts_discovery.harvest_google_news import google_news_rss_url, google_news_rss_urls, harvest_query  # noqa: E402
+from cuts_discovery.harvest_google_news import google_news_rss_url, google_news_rss_urls, harvest_all, harvest_query  # noqa: E402
 
 
 class FakeFetcher:
@@ -76,6 +76,22 @@ def main():
         assert len(wide_urls) > 1, wide_urls
         assert all("after%3A" in url and "before%3A" in url for url in wide_urls), wide_urls
         assert "when%3A90d" not in " ".join(wide_urls), wide_urls
+
+        historical_urls = google_news_rss_urls("example", news_window="from:2024-01-01", today=date(2024, 1, 31))
+        assert len(historical_urls) == 3, historical_urls
+        assert historical_urls[0].endswith("after%3A2024-01-01%20before%3A2024-01-15&hl=en-US&gl=US&ceid=US:en"), historical_urls[0]
+        assert historical_urls[-1].endswith("after%3A2024-01-29%20before%3A2024-02-01&hl=en-US&gl=US&ceid=US:en"), historical_urls[-1]
+
+        limited_rows = harvest_all(
+            fetcher,
+            standing_queries=[],
+            watchlist_rows=[
+                {"institution_name": "Alpha College"},
+                {"institution_name": "Beta University"},
+            ],
+            max_watchlist_queries=0,
+        )
+        assert len(limited_rows) == 0, limited_rows
     finally:
         if previous_news_window is None:
             os.environ.pop("CUTS_NEWS_WINDOW", None)

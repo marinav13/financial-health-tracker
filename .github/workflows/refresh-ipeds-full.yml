@@ -205,6 +205,9 @@ jobs:
           # are date-sliced inside harvest_google_news.py.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CUTS_NEWS_WINDOW: "14d"
+          CUTS_DISCOVERY_PROFILE: full_refresh
+          CUTS_WATCHLIST_QUERY_LIMIT: "25"
+          CUTS_CLASSIFICATION_MAX: "40"
         run: |
           python3 scripts/cuts_discovery/run_discovery.py \
             || echo "::warning::cuts discovery failed during full refresh; continuing without new discovered candidates."
@@ -332,6 +335,7 @@ jobs:
         timeout-minutes: 10
         env:
           PUBLIC_SITE_DEPLOY_TOKEN: ${{ secrets.PUBLIC_SITE_DEPLOY_TOKEN }}
+          PUBLIC_SITE_REPO: ${{ vars.PUBLIC_SITE_REPO || 'hechinger/FinancialHealth' }}
         run: |
           if [ -z "${PUBLIC_SITE_DEPLOY_TOKEN}" ]; then
             echo "PUBLIC_SITE_DEPLOY_TOKEN secret is not set; skipping public site publish."
@@ -339,7 +343,7 @@ jobs:
           fi
           rm -rf "$RUNNER_TEMP/pubsite"
           git clone --depth 1 \
-            "https://x-access-token:${PUBLIC_SITE_DEPLOY_TOKEN}@github.com/hechinger/FinancialHealth.git" \
+            "https://x-access-token:${PUBLIC_SITE_DEPLOY_TOKEN}@github.com/${PUBLIC_SITE_REPO}.git" \
             "$RUNNER_TEMP/pubsite"
           rsync -a --delete data/ "$RUNNER_TEMP/pubsite/data/"
           cp scripts/build_sitemap.py "$RUNNER_TEMP/pubsite/scripts/build_sitemap.py"

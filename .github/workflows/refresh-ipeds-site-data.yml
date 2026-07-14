@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       news_window:
-        description: "Optional Google News lookback override. Leave blank for the normal 14d window; month-style or >30d windows are date-sliced into after:/before: queries for backfills."
+        description: "Optional short Google News lookback override. Leave blank for the normal 14d window; use the Historical Cuts Discovery Backfill workflow for 2024+ recovery."
         required: false
         default: ""
         type: string
@@ -303,8 +303,8 @@ jobs:
 
       # Discovers cut candidates from news feeds/queries. Failures warn
       # and skip — discovery must never take down the refresh. The Claude
-      # classification step inside activates only when ANTHROPIC_API_KEY
-      # is configured (Tranche C); until then the script runs rules-only.
+      # classification step stays bounded here; the separate Historical
+      # Cuts Discovery Backfill workflow handles older 2024+ recovery work.
       - name: Discover college cuts
         shell: bash
         timeout-minutes: 20
@@ -315,6 +315,9 @@ jobs:
           # month-like backfills into after:/before: queries automatically.
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CUTS_NEWS_WINDOW: ${{ github.event.inputs.news_window || '14d' }}
+          CUTS_DISCOVERY_PROFILE: weekly
+          CUTS_WATCHLIST_QUERY_LIMIT: "25"
+          CUTS_CLASSIFICATION_MAX: "40"
         run: |
           python3 scripts/cuts_discovery/run_discovery.py \
             2>&1 | tee -a refresh-logs/combined.log \
@@ -699,20 +702,22 @@ jobs:
             --verbose \
             || echo "::warning::Closure flags review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
 
-      # Site hosting lives in the public hechinger/FinancialHealth repo,
-      # which deliberately contains no data_pipelines/ CSVs (editorial
-      # decision, 2026-07-08: derived review/override data is not public).
-      # This pipeline is the single writer: it publishes the data/ exports
-      # (and a regenerated sitemap) to the public repo after its own commit
-      # lands. Skips quietly until the PUBLIC_SITE_DEPLOY_TOKEN secret (a
-      # fine-grained PAT with contents:write on hechinger/FinancialHealth)
-      # is configured. Publish failures warn and self-heal next run.
+      # Site hosting lives in the public Pages repo configured via
+      # vars.PUBLIC_SITE_REPO (default hechinger/FinancialHealth). That repo
+      # deliberately contains no data_pipelines/ CSVs (editorial decision,
+      # 2026-07-08: derived review/override data is not public). This
+      # pipeline is the single writer: it publishes the data/ exports (and a
+      # regenerated sitemap) to the public repo after its own commit lands.
+      # Skips quietly until the PUBLIC_SITE_DEPLOY_TOKEN secret (a
+      # fine-grained PAT with contents:write on the configured Pages repo) is
+      # configured. Publish failures warn and self-heal next run.
       - name: Publish site data to public repo
         if: success()
         shell: bash
         timeout-minutes: 10
         env:
           PUBLIC_SITE_DEPLOY_TOKEN: ${{ secrets.PUBLIC_SITE_DEPLOY_TOKEN }}
+          PUBLIC_SITE_REPO: ${{ vars.PUBLIC_SITE_REPO || 'hechinger/FinancialHealth' }}
         run: |
           if [ -z "${PUBLIC_SITE_DEPLOY_TOKEN}" ]; then
             echo "PUBLIC_SITE_DEPLOY_TOKEN secret is not set; skipping public site publish."
@@ -720,7 +725,7 @@ jobs:
           fi
           rm -rf "$RUNNER_TEMP/pubsite"
           git clone --depth 1 \
-            "https://x-access-token:${PUBLIC_SITE_DEPLOY_TOKEN}@github.com/hechinger/FinancialHealth.git" \
+            "https://x-access-token:${PUBLIC_SITE_DEPLOY_TOKEN}@github.com/${PUBLIC_SITE_REPO}.git" \
             "$RUNNER_TEMP/pubsite"
           rsync -a --delete data/ "$RUNNER_TEMP/pubsite/data/"
           cp scripts/build_sitemap.py "$RUNNER_TEMP/pubsite/scripts/build_sitemap.py"

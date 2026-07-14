@@ -278,6 +278,7 @@ class PoliteFetcher:
         self.cache_dir = Path(cache_dir)
         self.min_interval_s = min_interval_s
         self._last_hit: dict[str, float] = {}
+        self._resolved_url_memory: dict[str, str] = {}
 
     def _respect_host_spacing(self, url: str) -> None:
         host = urllib.parse.urlsplit(url).netloc.lower()
@@ -303,8 +304,27 @@ class PoliteFetcher:
         cached_path.write_bytes(body)
         return body
 
-    def resolve_url(self, url: str) -> str:
+    def resolve_url(self, url: str, max_age_days: float = 30.0) -> str:
+        normalized_url = normalize_url(url)
+        cached_resolved = self._resolved_url_memory.get(normalized_url)
+        if cached_resolved:
+            return cached_resolved
+
+        key = hashlib.sha1(normalized_url.encode("utf-8")).hexdigest()
+        cached_path = self.cache_dir / f"{key}.redirect"
+        if cached_path.exists():
+            age_days = (time.time() - cached_path.stat().st_mtime) / 86400
+            if age_days <= max_age_days:
+                cached_resolved = cached_path.read_text(encoding="utf-8").strip() or normalized_url
+                self._resolved_url_memory[normalized_url] = cached_resolved
+                return cached_resolved
+
         self._respect_host_spacing(url)
         request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(request, timeout=30) as response:
-            return response.geturl()
+            resolved = normalize_url(response.geturl() or normalized_url)
+
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+        cached_path.write_text(resolved, encoding="utf-8", newline="\n")
+        self._resolved_url_memory[normalized_url] = resolved
+        return resolved

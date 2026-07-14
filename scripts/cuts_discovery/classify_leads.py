@@ -67,6 +67,8 @@ Answer in strict JSON only, no prose, matching exactly this schema:
   "summary": "one to two factual sentences describing the cut, suitable for an editor to review"
 }}
 
+Do not wrap the JSON in markdown code fences or add any text outside the JSON object.
+
 Furloughs and hiring freezes both map to "hiring_freeze". If the story
 covers multiple institutions, answer for the most prominent one and note
 the others in summary. If not a cut, set is_cut=false and leave the other
@@ -74,6 +76,7 @@ fields null."""
 
 RETRY_PROMPT = (
     "Your previous answer was not valid JSON matching the schema. "
+    "Do not wrap the JSON in markdown code fences or add any text outside the JSON object. "
     "Answer again in strict JSON only."
 )
 
@@ -110,9 +113,19 @@ def _clean_optional_text(value):
     return text or None
 
 
+def _unwrap_fenced_json(raw_text: str) -> str:
+    text = (raw_text or "").strip()
+    if not text:
+        return text
+    fence_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", text, flags=re.IGNORECASE)
+    if fence_match:
+        return fence_match.group(1).strip()
+    return text
+
+
 def parse_verdict(raw_text: str) -> dict:
     try:
-        payload = json.loads(raw_text)
+        payload = json.loads(_unwrap_fenced_json(raw_text))
     except json.JSONDecodeError as exc:
         raise ValueError(f"Verdict was not valid JSON: {exc}") from exc
     if not isinstance(payload, dict):

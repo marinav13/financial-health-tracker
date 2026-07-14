@@ -9,7 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from cuts_discovery.assemble_candidates import assemble_candidates, write_discovered_candidates  # noqa: E402
-from cuts_discovery.classify_leads import classify_survivors, write_classification_cache  # noqa: E402
+from cuts_discovery.classify_leads import parse_verdict, classify_survivors, write_classification_cache  # noqa: E402
 
 
 class FakeFetcher:
@@ -148,6 +148,28 @@ def test_classify_survivors_retries_on_malformed_json():
         assert not errors, errors
         assert cache["lead-2"]["cut_type"] == "hiring_freeze", cache
         assert len(requester.calls) == 2, len(requester.calls)
+
+
+def test_parse_verdict_unwraps_fenced_json():
+    raw_text = """Model output:
+
+```json
+{
+  "is_cut": true,
+  "confidence": "high",
+  "institution_name": "Temple University",
+  "state": "PA",
+  "cut_type": "staff_layoff",
+  "announcement_date": "2026-07-08",
+  "scale_text": "40 employees",
+  "summary": "Temple University laid off 40 employees to reduce a budget deficit."
+}
+```
+"""
+    verdict = parse_verdict(raw_text)
+    assert verdict["is_cut"] is True, verdict
+    assert verdict["cut_type"] == "staff_layoff", verdict
+    assert verdict["institution_name"] == "Temple University", verdict
 
 
 def test_classify_survivors_skips_when_key_missing():
@@ -354,6 +376,7 @@ def main():
     tests = [
         test_classify_survivors_happy_path,
         test_classify_survivors_retries_on_malformed_json,
+        test_parse_verdict_unwraps_fenced_json,
         test_classify_survivors_skips_when_key_missing,
         test_classify_survivors_cache_hit_avoids_http,
         test_classify_survivors_transport_error_marks_only_that_lead,

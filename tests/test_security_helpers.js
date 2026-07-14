@@ -227,6 +227,35 @@ run("school trend comparison copy restores a/an before percentage changes", () =
   assert(eightPercentLine[2] && eightPercentLine[2].strong === "8% decline", "Expected strong 8% decline segment");
 });
 
+run("school closure badge helper matches only institution_closure cuts", () => {
+  const { context } = loadSchoolHelpers();
+  const southernOregon = {
+    latest_cut_label: "3 majors eliminated and 66 positions cut to close $5M deficit after Deloitte review",
+    landing_cuts: [{
+      announcement_date: "2026-05-09",
+      announcement_year: 2026,
+      program_name: "3 majors eliminated and 66 positions cut to close $5M deficit after Deloitte review",
+      cut_label_public: "3 majors eliminated and 66 positions cut to close $5M deficit after Deloitte review",
+      cut_type: "department_closure"
+    }]
+  };
+  const limestone = {
+    latest_cut_label: "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+    landing_cuts: [{
+      announcement_date: "2025-04-29",
+      announcement_year: 2025,
+      program_name: "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+      cut_label_public: "Board of Trustees voted April 29, 2025 to close after nearly 180 years, citing an unresolvable $6M budget shortfall.",
+      cut_type: "institution_closure"
+    }]
+  };
+
+  assert(context.findInstitutionClosureAnnouncement(southernOregon) === null, "Expected Southern Oregon-shaped cut not to badge as a closure");
+  const closureCut = context.findInstitutionClosureAnnouncement(limestone);
+  assert(closureCut && closureCut.cut_type === "institution_closure", "Expected Limestone-shaped cut to badge as a closure");
+  assert(context.announcedClosureYear(limestone) === 2025, "Expected closure year to come from the confirmed institution_closure record");
+});
+
 run("school CSV download omits grad plus rows when no campus-level grad plus data exists", () => {
   const { context } = loadSchoolHelpers();
   let download = null;

@@ -296,6 +296,8 @@ jobs:
             data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
             data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+            data_pipelines/college_cuts/closure_flags_review.csv \
+            data_pipelines/college_cuts/closure_flags_review_candidates.csv \
             data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
             data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             data_pipelines/college_cuts/discovered_cut_candidates.csv \

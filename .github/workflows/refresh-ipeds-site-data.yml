@@ -18,6 +18,7 @@ env:
   ACCREDITATION_REVIEW_SHEET_TAB: "accreditation_review"
   COLLEGE_CUTS_REVIEW_SHEET_TAB: "college_cuts_review"
   COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB: "cuts_unmatched_review"
+  COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB: "closure_flags_review"
   # Closure sheet import is temporarily disabled while the upstream
   # closure tracker is being rebuilt outside this repo. Re-enable by
   # un-commenting CLOSURE_SHEET_URL here AND the matching "Import closure
@@ -426,6 +427,23 @@ jobs:
               echo "Skipping college cuts Google Sheet pull; using committed editorial_overrides.csv" | tee -a refresh-logs/combined.log
             fi
 
+      - name: Pull closure flag review decisions
+        shell: bash
+        timeout-minutes: 15
+        env:
+          ACCREDITATION_REVIEW_SHEET_ID: ${{ secrets.ACCREDITATION_REVIEW_SHEET_ID }}
+        run: |
+          if [ -n "${ACCREDITATION_REVIEW_SHEET_ID}" ] && [ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" ] && [ -f data_pipelines/college_cuts/closure_flags_review.csv ]; then
+            Rscript ./scripts/pull_closure_flags_review.R \
+              --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+              --tab "${COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB}" \
+              --verbose \
+              2>&1 | tee -a refresh-logs/combined.log \
+              || echo "::warning::Closure flags review sheet pull failed; continuing with committed closure_flags_review.csv (sheet confirmation edits will not sync this run)." | tee -a refresh-logs/combined.log
+          else
+            echo "Skipping closure flags Google Sheet pull; using committed closure_flags_review.csv" | tee -a refresh-logs/combined.log
+          fi
+
       - name: Report college cuts discovery precision
         shell: bash
         timeout-minutes: 5
@@ -606,6 +624,8 @@ jobs:
             --add data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
             --add data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --add data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+            --add data_pipelines/college_cuts/closure_flags_review.csv \
+            --add data_pipelines/college_cuts/closure_flags_review_candidates.csv \
             --add data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
             --add data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             --add data_pipelines/college_cuts/discovered_cut_candidates.csv \
@@ -628,6 +648,8 @@ jobs:
             --conflict-path data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \
             --conflict-path data_pipelines/accreditation/dapip_vs_scraper_audit.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_review_candidates.csv \
+            --conflict-path data_pipelines/college_cuts/closure_flags_review.csv \
+            --conflict-path data_pipelines/college_cuts/closure_flags_review_candidates.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \
             --conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \
             --conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \
@@ -671,6 +693,11 @@ jobs:
             --tab "${COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB}" \
             --verbose \
             || echo "::warning::College cuts unmatched review sheet append failed; unresolved discovered rows stay CSV-only and will be appended by the next successful refresh."
+          Rscript ./scripts/sync_closure_flags_review_sheet_appends.R \
+            --sheet "${ACCREDITATION_REVIEW_SHEET_ID}" \
+            --tab "${COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB}" \
+            --verbose \
+            || echo "::warning::Closure flags review sheet append failed; new rows stay CSV-only and will be appended by the next successful refresh."
 
       # Site hosting lives in the public hechinger/FinancialHealth repo,
       # which deliberately contains no data_pipelines/ CSVs (editorial

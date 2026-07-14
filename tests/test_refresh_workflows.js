@@ -60,10 +60,12 @@ run("weekly refresh stages review queues before pulling sheet decisions", () => 
   const pullAccreditationIndex = WEEKLY.indexOf("- name: Pull accreditation review decisions");
   const stageCutsIndex = WEEKLY.indexOf("- name: Stage college cuts review queue");
   const pullCutsIndex = WEEKLY.indexOf("- name: Pull college cuts review decisions");
+  const pullClosureFlagsIndex = WEEKLY.indexOf("- name: Pull closure flag review decisions");
   assert(stageAccreditationIndex >= 0, "Expected accreditation stage step");
   assert(pullAccreditationIndex > stageAccreditationIndex, "Expected accreditation sheet pull after stage");
   assert(stageCutsIndex >= 0, "Expected college cuts stage step");
   assert(pullCutsIndex > stageCutsIndex, "Expected college cuts sheet pull after stage");
+  assert(pullClosureFlagsIndex > pullCutsIndex, "Expected closure flag sheet pull after the main cuts sheet pull");
 });
 
 run("weekly refresh fails loudly when closure sheet import breaks", () => {
@@ -184,10 +186,10 @@ run("weekly refresh exposes a manual news_window override for discovery backfill
 });
 
 run("weekly refresh reports cuts discovery precision after pulling the cuts review sheet", () => {
-  const pullIndex = WEEKLY.indexOf("- name: Pull college cuts review decisions");
+  const pullIndex = WEEKLY.indexOf("- name: Pull closure flag review decisions");
   const precisionIndex = WEEKLY.indexOf("- name: Report college cuts discovery precision");
-  assert(pullIndex >= 0, "Expected weekly cuts review pull step");
-  assert(precisionIndex > pullIndex, "Expected precision report after cuts review pull");
+  assert(pullIndex >= 0, "Expected weekly closure flag review pull step");
+  assert(precisionIndex > pullIndex, "Expected precision report after closure flag review pull");
   const block = stepBlock(WEEKLY, "Report college cuts discovery precision");
   assert(block.includes("report_precision.py"), "Expected precision telemetry script");
   assert(block.includes("timeout-minutes: 5"), "Expected bounded timeout for precision telemetry");
@@ -307,6 +309,8 @@ run("full refresh stages every tracked pipeline artifact it rebuilds before publ
     "data_pipelines/accreditation/dapip_public_table_policy_family_counts.csv \\",
     "data_pipelines/accreditation/dapip_vs_scraper_audit.csv \\",
     "data_pipelines/college_cuts/college_cuts_review_candidates.csv \\",
+    "data_pipelines/college_cuts/closure_flags_review.csv \\",
+    "data_pipelines/college_cuts/closure_flags_review_candidates.csv \\",
     "data_pipelines/college_cuts/college_cuts_financial_tracker_cut_level_joined.csv \\",
     "data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
@@ -324,11 +328,15 @@ run("full refresh stages every tracked pipeline artifact it rebuilds before publ
 run("weekly refresh stages discovery artifacts and tracks cuts discovery drift", () => {
   const commitBlock = stepBlock(WEEKLY, "Commit and push updated data");
   [
+    "--add data_pipelines/college_cuts/closure_flags_review.csv \\",
+    "--add data_pipelines/college_cuts/closure_flags_review_candidates.csv \\",
     "--add data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "--add data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
     "--add data_pipelines/college_cuts/discovery/leads.csv \\",
     "--add data_pipelines/college_cuts/discovery/classifications.csv \\",
     "--add data_pipelines/college_cuts/discovery/watchlist.csv \\",
+    "--conflict-path data_pipelines/college_cuts/closure_flags_review.csv \\",
+    "--conflict-path data_pipelines/college_cuts/closure_flags_review_candidates.csv \\",
     "--conflict-path data_pipelines/college_cuts/college_cuts_financial_tracker_unmatched_for_review.csv \\",
     "--conflict-path data_pipelines/college_cuts/discovered_cut_candidates.csv \\",
     "--conflict-path data_pipelines/college_cuts/discovery/leads.csv \\",
@@ -344,11 +352,15 @@ run("weekly refresh stages discovery artifacts and tracks cuts discovery drift",
 
 run("weekly refresh appends unmatched discovered cuts to the dedicated triage tab after main cuts staging", () => {
   assert(WEEKLY.includes('COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB: "cuts_unmatched_review"'), "Expected unmatched cuts review tab env");
+  assert(WEEKLY.includes('COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB: "closure_flags_review"'), "Expected closure flags review tab env");
   const block = stepBlock(WEEKLY, "Append new review rows to Google Sheet (post-commit)");
   assert(block.includes("sync_review_sheet_appends.R"), "Expected main review sheet append script");
   assert(block.includes("sync_cuts_unmatched_review_sheet_appends.R"), "Expected unmatched cuts review append script");
+  assert(block.includes("sync_closure_flags_review_sheet_appends.R"), "Expected closure flags review append script");
   assert(block.includes("${COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_TAB}"), "Expected unmatched cuts tab env to be passed");
+  assert(block.includes("${COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB}"), "Expected closure flags tab env to be passed");
   assert(block.includes("College cuts unmatched review sheet append failed"), "Expected unmatched tab append failures to warn and continue");
+  assert(block.includes("Closure flags review sheet append failed"), "Expected closure flags append failures to warn and continue");
 });
 
 run("full refresh rebuilds side data lookups before static web exports", () => {

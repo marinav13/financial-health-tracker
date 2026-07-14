@@ -1220,6 +1220,7 @@ function normalizeInstitutionClosureText(...parts) {
 }
 
 function findInstitutionClosureAnnouncement(cutsRecord) {
+  if (cutsRecord?.confirmed_closure_announcement !== true) return null;
   return (cutsRecord?.landing_cuts ?? []).find((cut) => cut?.cut_type === "institution_closure") || null;
 }
 

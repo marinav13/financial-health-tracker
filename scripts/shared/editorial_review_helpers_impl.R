@@ -1707,6 +1707,17 @@ COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS <- c(
   "resolution_notes"
 )
 
+COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS <- c(
+  "cut_id",
+  "unitid",
+  "institution_name",
+  "announcement_date",
+  "evidence_text",
+  "flag_confirmed",
+  "notes",
+  "first_seen"
+)
+
 COLLEGE_CUTS_REVIEW_SHEET_COLUMNS <- c(
   "cut_id", "unitid", "institution_name", "state", "announcement_date", "announcement_year",
   "cut_type", "display_categories", "edited_cut_text", "raw_cut_text",
@@ -1975,6 +1986,20 @@ empty_college_cuts_unmatched_review_sheet_rows <- function() {
     source_publication = character(),
     resolution_status = character(),
     resolution_notes = character(),
+    stringsAsFactors = FALSE
+  )
+}
+
+empty_college_cuts_closure_flags_review_sheet_rows <- function() {
+  data.frame(
+    cut_id = character(),
+    unitid = character(),
+    institution_name = character(),
+    announcement_date = character(),
+    evidence_text = character(),
+    flag_confirmed = logical(),
+    notes = character(),
+    first_seen = character(),
     stringsAsFactors = FALSE
   )
 }
@@ -2332,6 +2357,164 @@ build_college_cuts_unmatched_review_sheet_append_rows <- function(discovered_can
   existing_ids <- trim_text(sheet_rows$unmatched_id)
   append_mask <- !(trim_text(local_rows$unmatched_id) %in% existing_ids[nzchar(existing_ids)])
   local_rows[append_mask, COLLEGE_CUTS_UNMATCHED_REVIEW_SHEET_COLUMNS, drop = FALSE]
+}
+
+parse_college_cuts_closure_flag_confirmed <- function(x) {
+  values <- trim_text(x)
+  normalized <- tolower(values)
+  confirmed <- normalized %in% c("true", "t", "yes", "y", "1")
+  confirmed[normalized %in% c("", "false", "f", "no", "n", "0")] <- FALSE
+  confirmed
+}
+
+coerce_college_cuts_closure_flags_review_sheet_rows <- function(df) {
+  if (is.null(df) || !nrow(df)) return(empty_college_cuts_closure_flags_review_sheet_rows())
+  sheet_rows <- rep_like_template_rows(empty_college_cuts_closure_flags_review_sheet_rows(), nrow(df))
+  sheet_rows$cut_id <- trim_text(df$cut_id)
+  sheet_rows$unitid <- trim_optional_text(df$unitid)
+  sheet_rows$institution_name <- trim_optional_text(df$institution_name)
+  sheet_rows$announcement_date <- trim_optional_text(df$announcement_date)
+  sheet_rows$evidence_text <- trim_optional_text(df$evidence_text)
+  sheet_rows$flag_confirmed <- parse_college_cuts_closure_flag_confirmed(df$flag_confirmed)
+  sheet_rows$notes <- trim_optional_text(df$notes)
+  sheet_rows$first_seen <- trim_optional_text(df$first_seen)
+
+  ids <- trim_text(sheet_rows$cut_id)
+  duplicate_ids <- unique(ids[nzchar(ids) & duplicated(ids)])
+  if (length(duplicate_ids) > 0L) {
+    stop(
+      sprintf(
+        "Closure flags review sheet rows contain duplicate cut_id values: %s",
+        paste(duplicate_ids, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  sheet_rows[, COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS, drop = FALSE]
+}
+
+assert_college_cuts_closure_flags_review_sheet_header <- function(df) {
+  missing_columns <- setdiff(COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS, names(df))
+  if (length(missing_columns) > 0L) {
+    stop(
+      sprintf(
+        "Closure flags review sheet is missing required columns: %s",
+        paste(missing_columns, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+  invisible(df)
+}
+
+build_college_cuts_closure_flags_review_sheet_rows <- function(cuts_df,
+                                                               existing_sheet = NULL,
+                                                               first_seen_date = as.character(Sys.Date())) {
+  if (is.null(cuts_df) || !nrow(cuts_df)) {
+    return(empty_college_cuts_closure_flags_review_sheet_rows())
+  }
+  required_columns <- c(
+    "cut_id",
+    "matched_unitid",
+    "export_unitid",
+    "institution_name_display",
+    "announcement_date",
+    "announcement_year",
+    "cut_type",
+    "program_name",
+    "cut_label_public"
+  )
+  missing_columns <- setdiff(required_columns, names(cuts_df))
+  if (length(missing_columns) > 0L) {
+    stop(
+      sprintf(
+        "build_college_cuts_closure_flags_review_sheet_rows requires these columns: %s",
+        paste(missing_columns, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
+
+  candidate_rows <- cuts_df
+  if ("is_primary_tracker" %in% names(candidate_rows)) {
+    candidate_rows <- candidate_rows[candidate_rows$is_primary_tracker %in% TRUE, , drop = FALSE]
+  }
+  candidate_rows <- candidate_rows[
+    trim_text(candidate_rows$cut_type) == "institution_closure",
+    ,
+    drop = FALSE
+  ]
+  if (!nrow(candidate_rows)) {
+    return(empty_college_cuts_closure_flags_review_sheet_rows())
+  }
+
+  candidate_rows <- candidate_rows %>%
+    dplyr::arrange(desc(announcement_date), desc(announcement_year))
+  candidate_rows <- candidate_rows[
+    !duplicated(trim_text(candidate_rows$export_unitid)),
+    ,
+    drop = FALSE
+  ]
+
+  normalized_first_seen <- trimws(as.character(first_seen_date %||% ""))
+  if (!nzchar(normalized_first_seen)) normalized_first_seen <- as.character(Sys.Date())
+  sheet_rows <- data.frame(
+    cut_id = trim_text(candidate_rows$cut_id),
+    unitid = trim_optional_text(dplyr::coalesce(candidate_rows$matched_unitid, candidate_rows$export_unitid)),
+    institution_name = trim_optional_text(candidate_rows$institution_name_display),
+    announcement_date = trim_optional_text(candidate_rows$announcement_date),
+    evidence_text = dplyr::coalesce(
+      trim_optional_text(candidate_rows$cut_label_public),
+      trim_optional_text(candidate_rows$program_name)
+    ),
+    flag_confirmed = rep(FALSE, nrow(candidate_rows)),
+    notes = rep(NA_character_, nrow(candidate_rows)),
+    first_seen = rep(normalized_first_seen, nrow(candidate_rows)),
+    stringsAsFactors = FALSE
+  )
+
+  existing_rows <- coerce_college_cuts_closure_flags_review_sheet_rows(existing_sheet)
+  if (nrow(existing_rows)) {
+    existing_index <- match(trim_text(sheet_rows$cut_id), trim_text(existing_rows$cut_id))
+    matched <- !is.na(existing_index)
+    if (any(matched)) {
+      sheet_rows$flag_confirmed[matched] <- existing_rows$flag_confirmed[existing_index[matched]]
+      sheet_rows$notes[matched] <- existing_rows$notes[existing_index[matched]]
+      existing_first_seen <- existing_rows$first_seen[existing_index[matched]]
+      keep_first_seen <- !is.na(existing_first_seen) & nzchar(trim_text(existing_first_seen))
+      matched_positions <- which(matched)
+      sheet_rows$first_seen[matched_positions[keep_first_seen]] <- existing_first_seen[keep_first_seen]
+    }
+  }
+
+  coerce_college_cuts_closure_flags_review_sheet_rows(sheet_rows)
+}
+
+build_college_cuts_closure_flags_review_sheet_append_rows <- function(candidate_rows,
+                                                                      existing_sheet,
+                                                                      first_seen_date = as.character(Sys.Date())) {
+  local_rows <- if (all(COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS %in% names(candidate_rows))) {
+    coerce_college_cuts_closure_flags_review_sheet_rows(candidate_rows)
+  } else {
+    build_college_cuts_closure_flags_review_sheet_rows(
+      candidate_rows,
+      existing_sheet = existing_sheet,
+      first_seen_date = first_seen_date
+    )
+  }
+  if (!nrow(local_rows)) {
+    return(local_rows)
+  }
+
+  sheet_rows <- coerce_college_cuts_closure_flags_review_sheet_rows(existing_sheet)
+  if (!nrow(sheet_rows)) {
+    return(local_rows)
+  }
+
+  existing_ids <- trim_text(sheet_rows$cut_id)
+  append_mask <- !(trim_text(local_rows$cut_id) %in% existing_ids[nzchar(existing_ids)])
+  local_rows[append_mask, COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_COLUMNS, drop = FALSE]
 }
 
 merge_discovered_college_cuts_review_candidates <- function(candidates,

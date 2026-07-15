@@ -2059,7 +2059,7 @@ run_test("Discovered college cuts candidates merge into review candidates and ro
   assert_identical(unmatched_rows$institution_name_collegecuts[[unresolved_idx]], "Unknown College")
   assert_identical(unmatched_rows$match_method[[unresolved_idx]], "discovered_unmatched")
   assert_identical(unmatched_rows$institution_name_collegecuts[[out_of_roster_idx]], "Out of Roster College")
-  assert_identical(unmatched_rows$matched_unitid[[out_of_roster_idx]], "999")
+  assert_identical(trim_text(as.character(unmatched_rows$matched_unitid[[out_of_roster_idx]])), "999")
   assert_identical(unmatched_rows$match_method[[out_of_roster_idx]], "discovered_out_of_roster")
 })
 

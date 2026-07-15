@@ -2011,20 +2011,20 @@ run_test("Discovered college cuts candidates merge into review candidates and ro
   )
 
   discovered_rows <- data.frame(
-    cut_id = c("discovered-new", "collision-cut", "discovered-unmatched"),
-    unitid = c("200", "100", ""),
-    institution_name = c("Discovery University", "Example University", "Unknown College"),
-    state = c("Ohio", "Alabama", "Texas"),
-    announcement_date = c("2026-05-01", "2026-05-02", "2026-05-03"),
-    announcement_year = c("2026", "2026", "2026"),
-    cut_type = c("hiring_freeze", "staff_layoff", "program_suspension"),
-    program_name = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut"),
-    generated_cut_label = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut"),
-    generated_cut_summary = c("Freeze announced for administrative hiring.", "Collision summary", "Programs suspended pending budget review."),
-    source_url = c("https://example.org/discovery", "https://example.org/collision-2", "https://example.org/unmatched"),
-    source_title = c("Discovery story", "Collision story 2", "Unmatched story"),
-    source_publication = c("Discovery Wire", "Example Paper", "State Paper"),
-    row_origin = c("news_scan", "news_scan", "warn_notice"),
+    cut_id = c("discovered-new", "collision-cut", "discovered-unmatched", "discovered-out-of-roster"),
+    unitid = c("200", "100", "", "999"),
+    institution_name = c("Discovery University", "Example University", "Unknown College", "Out of Roster College"),
+    state = c("Ohio", "Alabama", "Texas", "California"),
+    announcement_date = c("2026-05-01", "2026-05-02", "2026-05-03", "2026-05-04"),
+    announcement_year = c("2026", "2026", "2026", "2026"),
+    cut_type = c("hiring_freeze", "staff_layoff", "program_suspension", "staff_layoff"),
+    program_name = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut", "Out of roster layoff"),
+    generated_cut_label = c("Discovery hiring freeze", "Duplicate collision", "Unresolved program cut", "Out of roster layoff"),
+    generated_cut_summary = c("Freeze announced for administrative hiring.", "Collision summary", "Programs suspended pending budget review.", "Layoffs announced at a non-tracker institution."),
+    source_url = c("https://example.org/discovery", "https://example.org/collision-2", "https://example.org/unmatched", "https://example.org/out-of-roster"),
+    source_title = c("Discovery story", "Collision story 2", "Unmatched story", "Out of roster story"),
+    source_publication = c("Discovery Wire", "Example Paper", "State Paper", "Regional Paper"),
+    row_origin = c("news_scan", "news_scan", "warn_notice", "news_scan"),
     stringsAsFactors = FALSE
   )
 
@@ -2035,7 +2035,8 @@ run_test("Discovered college cuts candidates merge into review candidates and ro
   merged <- merge_discovered_college_cuts_review_candidates(
     candidate_rows,
     discovered_path = discovered_path,
-    unmatched_path = unmatched_path
+    unmatched_path = unmatched_path,
+    tracker_unitids = c("100", "200")
   )
 
   assert_identical(nrow(merged), 3L)
@@ -2048,10 +2049,18 @@ run_test("Discovered college cuts candidates merge into review candidates and ro
   assert_identical(merged$cut_type[[discovered_idx]], "hiring_freeze")
 
   unmatched_rows <- readr::read_csv(unmatched_path, show_col_types = FALSE)
-  assert_identical(nrow(unmatched_rows), 1L)
-  assert_identical(unmatched_rows$cut_id[[1]], "discovered-unmatched")
-  assert_identical(unmatched_rows$institution_name_collegecuts[[1]], "Unknown College")
-  assert_identical(unmatched_rows$match_method[[1]], "discovered_unmatched")
+  assert_identical(nrow(unmatched_rows), 2L)
+  assert_true(
+    setequal(unmatched_rows$cut_id, c("discovered-unmatched", "discovered-out-of-roster")),
+    paste0("Expected unresolved and out-of-roster discovered rows in unmatched output. Got: ", paste(unmatched_rows$cut_id, collapse = ", "))
+  )
+  unresolved_idx <- match("discovered-unmatched", unmatched_rows$cut_id)
+  out_of_roster_idx <- match("discovered-out-of-roster", unmatched_rows$cut_id)
+  assert_identical(unmatched_rows$institution_name_collegecuts[[unresolved_idx]], "Unknown College")
+  assert_identical(unmatched_rows$match_method[[unresolved_idx]], "discovered_unmatched")
+  assert_identical(unmatched_rows$institution_name_collegecuts[[out_of_roster_idx]], "Out of Roster College")
+  assert_identical(unmatched_rows$matched_unitid[[out_of_roster_idx]], "999")
+  assert_identical(unmatched_rows$match_method[[out_of_roster_idx]], "discovered_out_of_roster")
 })
 
 run_test("Discovered college cuts header mismatch warns and leaves generated candidates unchanged", function() {

@@ -462,7 +462,11 @@
     }
     if (standaloneLowSignalPattern.test(label)) return false;
 
-    return ["warning", "probation", "monitoring", "notice"].includes(type) ||
+    // Severe types must never depend on label phrasing: DAPIP-style labels
+    // ("Loss of accreditation or Preaccreditation: Denial") match none of
+    // the keyword patterns above and were silently dropped when only the
+    // milder types were allowlisted here.
+    return ["warning", "probation", "monitoring", "notice", "show_cause", "adverse_action"].includes(type) ||
       /removed from membership|teach-?out|institutional closure/.test(haystack);
   }
 

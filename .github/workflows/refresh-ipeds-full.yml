@@ -330,7 +330,7 @@ jobs:
       # refresh also regenerates the sitemap (IPEDS releases are when the
       # school roster actually changes).
       - name: Publish site data to public repo
-        if: success()
+        if: success() && github.ref == 'refs/heads/main'
         shell: bash
         timeout-minutes: 10
         env:

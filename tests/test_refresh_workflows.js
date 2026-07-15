@@ -363,6 +363,17 @@ run("weekly refresh appends unmatched discovered cuts to the dedicated triage ta
   assert(block.includes("Closure flags review sheet append failed"), "Expected closure flags append failures to warn and continue");
 });
 
+run("site-data publish is restricted to main for both refresh workflows", () => {
+  assert(
+    WEEKLY.includes("if: success() && github.ref == 'refs/heads/main'"),
+    "Expected weekly public-site publish step to be gated to main."
+  );
+  assert(
+    FULL.includes("if: success() && github.ref == 'refs/heads/main'"),
+    "Expected full refresh public-site publish step to be gated to main."
+  );
+});
+
 run("full refresh rebuilds side data lookups before static web exports", () => {
   const rebuildIndex = FULL.indexOf("- name: Rebuild static web exports");
   [

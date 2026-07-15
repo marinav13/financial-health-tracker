@@ -712,7 +712,7 @@ jobs:
       # fine-grained PAT with contents:write on the configured Pages repo) is
       # configured. Publish failures warn and self-heal next run.
       - name: Publish site data to public repo
-        if: success()
+        if: success() && github.ref == 'refs/heads/main'
         shell: bash
         timeout-minutes: 10
         env:

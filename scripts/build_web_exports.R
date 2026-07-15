@@ -561,6 +561,7 @@ build_cuts_export <- function() {
       source_title = source_title,
       source_publication = source_publication
     )
+  recent$display_categories <- I(lapply(recent$display_categories, json_string_array))
 
   schools <- lapply(split(cuts, cuts$export_unitid), function(df) {
     df <- df %>% arrange(desc(announcement_date), desc(announcement_year))
@@ -599,7 +600,7 @@ build_cuts_export <- function() {
           cut_summary_public = or_null(df$cut_summary_public[i]),
           primary_display_category = or_null(df$primary_display_category[i]),
           display_category = or_null(df$display_category[i]),
-          display_categories = unname(as.character(df$display_categories[[i]] %||% character(0))),
+          display_categories = json_string_array(df$display_categories[[i]] %||% character(0)),
           cut_type = or_null(df$cut_type[i]),
           status = or_null(df$status[i]),
           effective_term = or_null(df$effective_term[i]),

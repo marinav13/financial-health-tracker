@@ -263,6 +263,17 @@ build_international_students_sentence <- function(year, all_pct, ug_pct, grad_pc
 # JSON / series helpers
 # ---------------------------------------------------------------------------
 
+# Forces a character vector to stay a JSON array even when it has one item.
+# This avoids jsonlite auto_unbox collapsing list-like display categories to
+# scalars under local environments that drift from CI's locked package set.
+json_string_array <- function(values) {
+  if (is.null(values)) return(list())
+  text <- as.character(values)
+  text <- text[!is.na(text)]
+  if (!length(text)) return(list())
+  unname(as.list(text))
+}
+
 # Writes an R object to a JSON file with pretty formatting.
 # NA values become JSON null (not "NA"), and single-element vectors stay as scalars.
 # Also strips ALL null bytes (not just trailing) that Windows/mounted filesystems sometimes inject,

@@ -239,6 +239,29 @@ run("college cuts full export and index stay in sync", () => {
   );
 });
 
+run("college cuts export keeps display_categories array-shaped for every cut row", () => {
+  const invalid = [];
+
+  for (const [unitid, school] of Object.entries(COLLEGE_CUTS.schools || {})) {
+    for (const [index, cut] of (school.cuts || []).entries()) {
+      if (!Array.isArray(cut.display_categories)) {
+        invalid.push(`school ${unitid} row ${index}: ${JSON.stringify(cut.display_categories)}`);
+      }
+    }
+  }
+
+  for (const [index, cut] of (COLLEGE_CUTS.recent || []).entries()) {
+    if (!Array.isArray(cut.display_categories)) {
+      invalid.push(`recent row ${index}: ${JSON.stringify(cut.display_categories)}`);
+    }
+  }
+
+  assert(
+    invalid.length === 0,
+    `college_cuts.json has non-array display_categories in ${invalid.length} row(s). First 10: ${invalid.slice(0, 10).join("; ")}`
+  );
+});
+
 run("college cuts index preserves editorial cut_type for closure badge decisions", () => {
   const expectations = [
     ["210146", "Southern Oregon University", "department_closure"],

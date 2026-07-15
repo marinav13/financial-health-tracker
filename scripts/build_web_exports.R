@@ -526,10 +526,10 @@ build_cuts_export <- function() {
     ) %>%
     dplyr::arrange(dplyr::desc(announcement_date), dplyr::desc(first_seen)) %>%
     dplyr::distinct(unitid, .keep_all = TRUE)
-  confirmed_closure_lookup <- stats::setNames(
-    split(confirmed_closure_rows, confirmed_closure_rows$unitid),
-    confirmed_closure_rows$unitid
-  )
+  # split() names its groups by unitid (sorted); wrapping it in setNames()
+  # with the unsorted row-order unitids shuffled every school's confirmed
+  # metadata onto the wrong institution.
+  confirmed_closure_lookup <- split(confirmed_closure_rows, confirmed_closure_rows$unitid)
 
   recent <- cuts %>%
     arrange(desc(announcement_date), desc(announcement_year)) %>%
@@ -3873,6 +3873,10 @@ if ("cuts" %in% selected_exports) {
       latest_cut_date = school$latest_cut_date,
       latest_cut_label = school$latest_cut_label,
       confirmed_closure_announcement = isTRUE(school$confirmed_closure_announcement),
+      confirmed_closure_badge_kind = school$confirmed_closure_badge_kind,
+      confirmed_closure_announcement_date = school$confirmed_closure_announcement_date,
+      confirmed_closure_source_url = school$confirmed_closure_source_url,
+      confirmed_closure_evidence_text = school$confirmed_closure_evidence_text,
       cut_count = school$cut_count,
       landing_cuts = lapply(school$cuts %||% list(), function(cut) list(
         announcement_date = cut$announcement_date,

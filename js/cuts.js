@@ -77,7 +77,14 @@
   }
 
   function normalizeDisplayCategories(values) {
-    const categories = Array.isArray(values) ? values : [values];
+    let categories = [];
+    if (Array.isArray(values)) {
+      categories = values;
+    } else if (typeof values === "string") {
+      categories = values.trim() ? [values] : [];
+    } else if (values != null) {
+      categories = [values];
+    }
     return categories
       .map((value) => normalizeDisplayCategory(value))
       .filter(Boolean)
@@ -513,7 +520,7 @@
             is_primary_tracker: school.is_primary_tracker,
             primary_display_category: cut.primary_display_category || cut.display_category || "",
             display_category: cut.display_category || "",
-            display_categories: Array.isArray(cut.display_categories) ? cut.display_categories : []
+            display_categories: normalizeDisplayCategories(cut.display_categories)
           };
         });
       })

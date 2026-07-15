@@ -400,8 +400,10 @@ python ./scripts/build_federal_composite_scores.py
 
 ### 4. Build site exports
 
+Run local exports under `renv` with plain `Rscript`, not `Rscript --vanilla`, so JSON serialization matches CI.
+
 ```bash
-Rscript --vanilla ./scripts/build_web_exports.R
+Rscript ./scripts/build_web_exports.R
 ```
 
 This writes the committed site outputs under `data/`.
@@ -449,7 +451,7 @@ python ./scripts/import_supabase_institution_mapping.py --skip-stale-check
 Rscript --vanilla ./scripts/build_college_cuts_join.R
 Rscript --vanilla ./scripts/build_grant_witness_join.R
 python ./scripts/import_closure_sheet.py --sheet "YOUR_GOOGLE_SHEET_URL_OR_ID"
-Rscript --vanilla ./scripts/build_web_exports.R
+Rscript ./scripts/build_web_exports.R
 ```
 
 ## Active Workflows
@@ -506,7 +508,7 @@ Example: research funding only
 
 ```bash
 Rscript --vanilla ./scripts/build_grant_witness_join.R
-Rscript --vanilla ./scripts/build_web_exports.R
+Rscript ./scripts/build_web_exports.R
 ```
 
 That updates the research pipeline plus the runtime exports. It does not

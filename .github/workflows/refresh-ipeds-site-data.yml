@@ -319,7 +319,7 @@ jobs:
           CUTS_WATCHLIST_QUERY_LIMIT: "25"
           CUTS_CLASSIFICATION_MAX: "40"
         run: |
-          python3 scripts/cuts_discovery/run_discovery.py \
+          timeout --kill-after=30s 19m python3 -u scripts/cuts_discovery/run_discovery.py \
             2>&1 | tee -a refresh-logs/combined.log \
             || echo "::warning::cuts discovery failed; staging continues without new discovered candidates."
 

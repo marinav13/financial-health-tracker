@@ -176,6 +176,8 @@ run("weekly refresh builds the cuts watchlist before discovery and warn-gates fa
   assert(block.includes("CUTS_NEWS_WINDOW"), "Expected weekly discovery to pass CUTS_NEWS_WINDOW");
   assert(block.includes("github.event.inputs.news_window"), "Expected weekly discovery to honor workflow_dispatch news_window overrides");
   assert(block.includes("run_discovery.py"), "Expected weekly discovery runner");
+  assert(block.includes("timeout --kill-after=30s 19m"), "Expected weekly discovery runner to enforce an in-shell timeout before the step timeout");
+  assert(block.includes("python3 -u"), "Expected weekly discovery runner to stream unbuffered logs");
   assert(block.includes('|| echo "::warning::cuts discovery failed; staging continues without new discovered candidates."'), "Expected weekly discovery failure to warn and continue");
 });
 

@@ -130,6 +130,49 @@ for path in "${stage_if_exists_paths[@]}"; do
   fi
 done
 
+# Append-only logs (discovery leads/classifications) must never lose the
+# other writer's rows when the weekly refresh races a backfill run: a
+# blanket `checkout --theirs` keeps only this runner's copy. Union-merge
+# them instead: header once, then every distinct row from both sides,
+# keyed on the first column (lead_id).
+union_merge_paths=(
+  "data_pipelines/college_cuts/discovery/leads.csv"
+  "data_pipelines/college_cuts/discovery/classifications.csv"
+)
+
+union_merge_csv() {
+  path="$1"
+  ours_tmp=$(mktemp)
+  theirs_tmp=$(mktemp)
+  git show ":2:$path" > "$ours_tmp" 2>/dev/null || : > "$ours_tmp"
+  git show ":3:$path" > "$theirs_tmp" 2>/dev/null || : > "$theirs_tmp"
+  python3 - "$ours_tmp" "$theirs_tmp" "$path" <<'PYEOF'
+import csv, sys
+ours_path, theirs_path, out_path = sys.argv[1], sys.argv[2], sys.argv[3]
+header = None
+rows = {}
+for source in (ours_path, theirs_path):
+    with open(source, encoding="utf-8", newline="") as fh:
+        reader = csv.reader(fh)
+        try:
+            file_header = next(reader)
+        except StopIteration:
+            continue
+        if header is None:
+            header = file_header
+        for row in reader:
+            if row:
+                rows.setdefault(row[0], row)
+with open(out_path, "w", encoding="utf-8", newline="") as fh:
+    writer = csv.writer(fh, lineterminator="\n")
+    if header is not None:
+        writer.writerow(header)
+    for row in rows.values():
+        writer.writerow(row)
+PYEOF
+  rm -f "$ours_tmp" "$theirs_tmp"
+}
+
 if [ "$dry_run" -eq 1 ]; then
   echo "Dry run: printing git commands without executing them."
   echo "+ git diff --staged --quiet"
@@ -148,7 +191,7 @@ if [ "$dry_run" -eq 1 ]; then
       echo "+ git checkout --theirs -- $path 2>/dev/null || true"
     done
     print_cmd git add "${conflict_paths[@]}"
-    echo "+ git rebase --continue"
+    echo "+ GIT_EDITOR=true git rebase --continue"
     print_cmd git push origin "HEAD:$target_branch"
   done
   echo "Dry run complete."
@@ -184,6 +227,13 @@ for attempt in 1 2 3; do
     conflicted=$(git diff --name-only --diff-filter=U || true)
     if [ -n "$conflicted" ]; then
       echo "Conflicts on: $conflicted"
+      for path in "${union_merge_paths[@]}"; do
+        if printf '%s\n' "$conflicted" | grep -qxF "$path"; then
+          echo "Union-merging append-only file: $path"
+          union_merge_csv "$path"
+          git add -f "$path"
+        fi
+      done
       for path in "${conflict_paths[@]}"; do
         git checkout --theirs -- "$path" 2>/dev/null || true
       done
@@ -209,7 +259,7 @@ EOF
       fi
 
       git add "${conflict_paths[@]}" 2>/dev/null || true
-      git rebase --continue
+      GIT_EDITOR=true git rebase --continue
     else
       git rebase --abort 2>/dev/null || true
       exit 1

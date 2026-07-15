@@ -348,6 +348,17 @@ function isEndowmentRed(summary) {
   return stateIsNegative(endowmentChangeState(summary));
 }
 
+function stateAidChangeState(summary) {
+  return sentimentClass(firstNumericValue(
+    summary?.state_local_support_pct_change_5yr,
+    summary?.state_funding_pct_change_5yr
+  ));
+}
+
+function isStateAidRed(summary) {
+  return stateIsNegative(stateAidChangeState(summary));
+}
+
 function trendDirection(value) {
   const numeric = asNumber(value);
   if (numeric === null || numeric === 0) return "";
@@ -1328,6 +1339,7 @@ function computeSchoolWarningSummary(summary, enrollmentFlag, visibility) {
   pushMetric("enrollment", "Enrollment", visibility.hasEnrollmentCard, isEnrollmentRed(summary));
   pushMetric("enrollment_decline", "Enrollment declined in 3 of the previous 5 years", visibility.hasEnrollmentFlagCard, isEnrollmentDeclineRed(enrollmentFlag));
   pushMetric("staff", "Staff headcount", visibility.hasStaffCard, isStaffRed(summary));
+  pushMetric("state_aid", "State & local funding", visibility.hasStateAidCard, isStateAidRed(summary));
   pushMetric("endowment", "Endowment", visibility.hasEndowmentCard, isEndowmentRed(summary));
 
   const coreIndicatorsMissing = !visibility.hasEnrollmentCard || !visibility.hasNetTuitionCard || !visibility.hasLossRepeatCard;
@@ -2020,7 +2032,8 @@ async function init() {
     hasEnrollmentCard,
     hasEnrollmentFlagCard,
     hasStaffCard,
-    hasEndowmentCard
+    hasEndowmentCard,
+    hasStateAidCard: showPublicStateAidSection && stateSupportPctChange5yr !== null
   });
   syncSchoolWarningSummaryBadge(warningSummary, p);
 

@@ -32,6 +32,7 @@ const unmatchedAccreditationUnitid = unmatchedAccreditationSchool();
 const patternOnlyWarningBadgeUnitid = '119173'; // Mount Saint Mary's University: pattern badge (enr -19.7%, ntr -30.7%, losses 3/5) with only 3 reds total
 const patternAndWideWarningBadgeUnitid = '101116';
 const wideOnlyWarningBadgeUnitid = '144281'; // Columbia College Chicago: 6 reds, no pattern badge (enr -8.2% not below -10%)
+const stateAidWideBadgeUnitid = '185129'; // NJCU (public): 6th red is the state & local funding indicator (-14.9%); net tuition -8.1% stays neutral
 const noWarningBadgeUnitid = '104586';
 const southernOregonNoClosureUnitid = '210146';
 const limestoneClosureUnitid = '218238';
@@ -436,6 +437,17 @@ test.describe('Frontend state synchronization', () => {
     await expect(badges.nth(1)).toHaveAttribute('aria-label', /at least 6/i);
 
     await page.goto(`/school.html?unitid=${wideOnlyWarningBadgeUnitid}`);
+
+    badgeGroup = page.locator('#school-warning-summary');
+    badges = badgeGroup.locator('.school-warning-summary');
+    await expect(badgeGroup).not.toHaveClass(/is-hidden/);
+    await expect(badges).toHaveCount(1);
+    await expect(badges.nth(0)).toContainText('At least 6 warning signs');
+    await expect(badges.nth(0)).toHaveClass(/is-broad/);
+
+    // Public institutions: the state & local funding indicator counts toward
+    // the tally (NJCU only reaches 6 reds through it).
+    await page.goto(`/school.html?unitid=${stateAidWideBadgeUnitid}`);
 
     badgeGroup = page.locator('#school-warning-summary');
     badges = badgeGroup.locator('.school-warning-summary');

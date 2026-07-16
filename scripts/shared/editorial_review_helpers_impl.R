@@ -2168,7 +2168,14 @@ coerce_discovered_college_cuts_unmatched_for_review <- function(df) {
   rows$institution_name_collegecuts <- trim_optional_text(df$institution_name)
   rows$institution_state_full <- trim_optional_text(df$state)
   rows$matched_unitid <- trim_optional_text(df$unitid)
-  rows$match_method <- rep("discovered_unmatched", nrow(rows))
+  if ("match_method" %in% names(df)) {
+    rows$match_method <- dplyr::coalesce(
+      trim_optional_text(df$match_method),
+      rep("discovered_unmatched", nrow(rows))
+    )
+  } else {
+    rows$match_method <- rep("discovered_unmatched", nrow(rows))
+  }
   rows$source_url <- trim_optional_text(df$source_url)
   rows$source_publication <- trim_optional_text(df$source_publication)
   rows
@@ -2619,9 +2626,12 @@ build_college_cuts_closure_flags_review_sheet_append_rows <- function(candidate_
 
 merge_discovered_college_cuts_review_candidates <- function(candidates,
                                                             discovered_path,
-                                                            unmatched_path = NULL) {
+                                                            unmatched_path = NULL,
+                                                            tracker_unitids = NULL) {
   merged_candidates <- coerce_college_cuts_review_candidates(candidates)
   discovered_path <- trim_optional_text(discovered_path)
+  tracker_unitids <- trim_text(tracker_unitids)
+  tracker_unitids <- unique(tracker_unitids[nzchar(tracker_unitids)])
   if (is.na(discovered_path) || !nzchar(discovered_path) || !file.exists(discovered_path)) {
     message("No discovered cuts file at ", discovered_path, " - skipping.")
     return(merged_candidates)
@@ -2646,12 +2656,26 @@ merge_discovered_college_cuts_review_candidates <- function(candidates,
   discovered <- coerce_college_cuts_review_candidates(discovered_raw)
   resolved_unitids <- trim_optional_text(discovered$unitid)
   unresolved_mask <- is.na(resolved_unitids) | !nzchar(resolved_unitids)
-  unresolved_rows <- discovered[unresolved_mask, , drop = FALSE]
-  if (nrow(unresolved_rows) > 0L && !is.null(unmatched_path) && nzchar(trim_optional_text(unmatched_path))) {
-    append_discovered_college_cuts_unmatched_for_review(unresolved_rows, unmatched_path)
+  unmatched_rows <- discovered[unresolved_mask, , drop = FALSE]
+  if (nrow(unmatched_rows)) {
+    unmatched_rows$match_method <- "discovered_unmatched"
   }
 
-  discovered <- discovered[!unresolved_mask, , drop = FALSE]
+  out_of_roster_mask <- rep(FALSE, nrow(discovered))
+  if (length(tracker_unitids)) {
+    out_of_roster_mask <- !unresolved_mask & !(trim_text(resolved_unitids) %in% tracker_unitids)
+    out_of_roster_rows <- discovered[out_of_roster_mask, , drop = FALSE]
+    if (nrow(out_of_roster_rows)) {
+      out_of_roster_rows$match_method <- "discovered_out_of_roster"
+      unmatched_rows <- dplyr::bind_rows(unmatched_rows, out_of_roster_rows)
+    }
+  }
+
+  if (nrow(unmatched_rows) > 0L && !is.null(unmatched_path) && nzchar(trim_optional_text(unmatched_path))) {
+    append_discovered_college_cuts_unmatched_for_review(unmatched_rows, unmatched_path)
+  }
+
+  discovered <- discovered[!(unresolved_mask | out_of_roster_mask), , drop = FALSE]
   if (!nrow(discovered)) {
     return(merged_candidates)
   }

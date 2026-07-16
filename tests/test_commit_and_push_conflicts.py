@@ -72,17 +72,20 @@ def build_scenario(tmp):
     git(seed, "add", "-A")
     git(seed, "commit", "-qm", "base")
     git(seed, "push", "-q", "origin", "main")
+    git(origin, "symbolic-ref", "HEAD", "refs/heads/main")
 
     runner = Path(tmp) / "runner"
     subprocess.run(["git", "clone", "-q", str(origin), str(runner)], check=True)
     git(runner, "config", "user.email", "runner@example.org")
     git(runner, "config", "user.name", "runner")
+    git(runner, "checkout", "-q", "main")
 
     # Backfill writer advances origin AFTER the runner cloned.
     ladder = Path(tmp) / "ladder"
     subprocess.run(["git", "clone", "-q", str(origin), str(ladder)], check=True)
     git(ladder, "config", "user.email", "ladder@example.org")
     git(ladder, "config", "user.name", "ladder")
+    git(ladder, "checkout", "-q", "main")
     write(
         ladder,
         LEADS_REL,
@@ -159,6 +162,7 @@ def test_concurrent_writers():
         subprocess.run(
             ["git", "clone", "-q", str(Path(tmp) / "origin.git"), str(verify)], check=True
         )
+        git(verify, "checkout", "-q", "main")
         lead_ids = read_csv_ids(verify, LEADS_REL)
         assert sorted(lead_ids) == ["base-1", "ladder-1", "ladder-2", "weekly-1"], (
             f"append-only union lost rows: {sorted(lead_ids)}"
@@ -189,6 +193,7 @@ def test_clean_fast_forward_still_works():
         subprocess.run(
             ["git", "clone", "-q", str(Path(tmp) / "origin.git"), str(verify)], check=True
         )
+        git(verify, "checkout", "-q", "main")
         assert "weekly-9" in read_csv_ids(verify, LEADS_REL)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

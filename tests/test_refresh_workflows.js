@@ -176,6 +176,8 @@ run("weekly refresh builds the cuts watchlist before discovery and warn-gates fa
   assert(block.includes("CUTS_NEWS_WINDOW"), "Expected weekly discovery to pass CUTS_NEWS_WINDOW");
   assert(block.includes("github.event.inputs.news_window"), "Expected weekly discovery to honor workflow_dispatch news_window overrides");
   assert(block.includes("run_discovery.py"), "Expected weekly discovery runner");
+  assert(block.includes("timeout --kill-after=30s 19m"), "Expected weekly discovery runner to enforce an in-shell timeout before the step timeout");
+  assert(block.includes("python3 -u"), "Expected weekly discovery runner to stream unbuffered logs");
   assert(block.includes('|| echo "::warning::cuts discovery failed; staging continues without new discovered candidates."'), "Expected weekly discovery failure to warn and continue");
 });
 
@@ -361,6 +363,17 @@ run("weekly refresh appends unmatched discovered cuts to the dedicated triage ta
   assert(block.includes("${COLLEGE_CUTS_CLOSURE_FLAGS_REVIEW_SHEET_TAB}"), "Expected closure flags tab env to be passed");
   assert(block.includes("College cuts unmatched review sheet append failed"), "Expected unmatched tab append failures to warn and continue");
   assert(block.includes("Closure flags review sheet append failed"), "Expected closure flags append failures to warn and continue");
+});
+
+run("site-data publish is restricted to main for both refresh workflows", () => {
+  assert(
+    WEEKLY.includes("if: success() && github.ref == 'refs/heads/main'"),
+    "Expected weekly public-site publish step to be gated to main."
+  );
+  assert(
+    FULL.includes("if: success() && github.ref == 'refs/heads/main'"),
+    "Expected full refresh public-site publish step to be gated to main."
+  );
 });
 
 run("full refresh rebuilds side data lookups before static web exports", () => {

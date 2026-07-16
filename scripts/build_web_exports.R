@@ -390,7 +390,8 @@ build_cuts_export <- function() {
         tracker_unitids = schools_index$unitid
       ),
       discovered_path = discovered_cuts_path,
-      unmatched_path = cuts_unmatched_for_review_path
+      unmatched_path = cuts_unmatched_for_review_path,
+      tracker_unitids = schools_index$unitid
     )
     write_csv_atomic(
       cuts_review_candidates,

@@ -359,7 +359,12 @@ def classify_survivors(
     return cache, error_lead_ids
 
 
-def archive_source_url(url: str, requester=urllib.request.urlopen, cache_dir: Path = DISCOVERY_CACHE_DIR) -> str:
+def archive_source_url(
+    url: str,
+    requester=urllib.request.urlopen,
+    cache_dir: Path = DISCOVERY_CACHE_DIR,
+    timeout: int = 10,
+) -> str:
     target = (url or "").strip()
     if not target:
         return ""
@@ -372,7 +377,7 @@ def archive_source_url(url: str, requester=urllib.request.urlopen, cache_dir: Pa
         method="POST",
         headers={"User-Agent": "HechingerFinancialHealthTracker/1.0"},
     )
-    with requester(req, timeout=60) as resp:
+    with requester(req, timeout=timeout) as resp:
         archived = resp.headers.get("Content-Location", "")
     Path(cache_dir).mkdir(parents=True, exist_ok=True)
     cached_path.write_text(archived, encoding="utf-8", newline="\n")

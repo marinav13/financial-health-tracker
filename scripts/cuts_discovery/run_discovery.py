@@ -85,6 +85,17 @@ def env_int(name: str) -> int | None:
     return max(parsed, 0)
 
 
+def env_float(name: str) -> float | None:
+    value = os.environ.get(name)
+    if value is None or not value.strip():
+        return None
+    try:
+        parsed = float(value.strip())
+    except ValueError as exc:
+        raise ValueError(f"Environment variable {name} must be a number, got {value!r}") from exc
+    return max(parsed, 0.0)
+
+
 def run_google_news_tier(fetcher, queries_config: dict, watchlist_query_limit: int | None) -> tuple[list[dict], int]:
     known_lead_ids = read_csv_rows(LEADS_CSV, LEAD_FIELDS)
     known_ids = {row["lead_id"] for row in known_lead_ids if row.get("lead_id")}
@@ -110,6 +121,43 @@ def run_google_news_tier(fetcher, queries_config: dict, watchlist_query_limit: i
     return rows, new_count
 
 
+def archive_candidates(
+    candidates: list[dict],
+    *,
+    archive_url=archive_source_url,
+    max_seconds: float = 120.0,
+    request_timeout: int = 10,
+    now_fn=time.perf_counter,
+) -> int:
+    archive_attempts = 0
+    archive_started = now_fn()
+    budget_hit = False
+    for candidate in candidates:
+        source_url = (candidate.get("source_url") or "").strip()
+        if not source_url:
+            continue
+        if max_seconds > 0 and (now_fn() - archive_started) >= max_seconds:
+            budget_hit = True
+            break
+        archive_attempts += 1
+        try:
+            archive_url(source_url, timeout=request_timeout)
+        except Exception as exc:
+            print(f"::warning::cuts discovery archive failed for {source_url}: {exc}")
+    archive_elapsed_s = now_fn() - archive_started
+    if budget_hit:
+        print(
+            "::warning::cuts discovery archive budget exhausted; "
+            f"stopped after {archive_attempts} attempt(s) and {archive_elapsed_s:.1f}s."
+        )
+    print(
+        "cuts_discovery: "
+        f"archive elapsed_s={archive_elapsed_s:.1f} "
+        f"attempted={archive_attempts}"
+    )
+    return archive_attempts
+
+
 def main() -> int:
     ensure_discovery_files()
 
@@ -117,6 +165,8 @@ def main() -> int:
     watchlist_query_limit = env_int("CUTS_WATCHLIST_QUERY_LIMIT")
     classification_limit = env_int("CUTS_CLASSIFICATION_MAX")
     archive_enabled = env_bool("CUTS_ENABLE_ARCHIVE", True)
+    archive_max_seconds = env_float("CUTS_ARCHIVE_MAX_SECONDS")
+    archive_request_timeout = env_int("CUTS_ARCHIVE_TIMEOUT_SECONDS")
     use_classification = env_bool(
         "CUTS_DISCOVERY_USE_CLASSIFICATION",
         bool(os.environ.get("ANTHROPIC_API_KEY", "").strip()),
@@ -128,7 +178,9 @@ def main() -> int:
         f"watchlist_query_limit={watchlist_query_limit if watchlist_query_limit is not None else 'all'} "
         f"classification={'on' if use_classification else 'off'} "
         f"classification_limit={classification_limit if classification_limit is not None else 'default'} "
-        f"archive={'on' if archive_enabled else 'off'}"
+        f"archive={'on' if archive_enabled else 'off'} "
+        f"archive_max_seconds={archive_max_seconds if archive_max_seconds is not None else 120.0} "
+        f"archive_timeout_s={archive_request_timeout if archive_request_timeout is not None else 10}"
     )
     if not use_classification:
         print("cuts_discovery: running rules-only classification path.")
@@ -258,20 +310,17 @@ def main() -> int:
 
     write_csv_rows(LEADS_CSV, LEAD_FIELDS, updated_leads)
     write_discovered_candidates(candidates)
-    archive_attempts = 0
-    archive_started = time.perf_counter()
     if archive_enabled:
-        for candidate in candidates:
-            archive_attempts += 1
-            try:
-                archive_source_url(candidate.get("source_url") or "")
-            except Exception as exc:
-                print(f"::warning::cuts discovery archive failed for {candidate.get('source_url')}: {exc}")
-    print(
-        "cuts_discovery: "
-        f"archive elapsed_s={time.perf_counter() - archive_started:.1f} "
-        f"attempted={archive_attempts}"
-    )
+        archive_candidates(
+            candidates,
+            max_seconds=archive_max_seconds if archive_max_seconds is not None else 120.0,
+            request_timeout=archive_request_timeout if archive_request_timeout is not None else 10,
+        )
+    else:
+        print(
+            "cuts_discovery: "
+            "archive elapsed_s=0.0 attempted=0"
+        )
 
     for tier_name, rows in harvested_by_tier.items():
         summarize_tier(

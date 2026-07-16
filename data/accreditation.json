@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-15",
+  "generated_at": "2026-07-16",
   "covered_accreditors": ["HLC", "MSCHE", "NECHE", "NWCCU", "SACSCOC", "WSCUC"],
   "source_coverage": [
     {
@@ -22,7 +22,7 @@
       "accreditor": "HLC",
       "action_type": "other",
       "action_status": "active",
-      "n": 2437,
+      "n": 2544,
       "resource_type": null,
       "fetch_total_count": null,
       "fetch_fresh_count": null,
@@ -97,7 +97,7 @@
       "accreditor": "HLC",
       "action_type": "adverse_action",
       "action_status": "active",
-      "n": 62,
+      "n": 64,
       "resource_type": null,
       "fetch_total_count": null,
       "fetch_fresh_count": null,
@@ -244,10 +244,10 @@
     },
     {
       "row_type": "action_count",
-      "accreditor": "SACSCOC",
-      "action_type": "warning",
+      "accreditor": "WSCUC",
+      "action_type": "notice",
       "action_status": "active",
-      "n": 16,
+      "n": 17,
       "resource_type": null,
       "fetch_total_count": null,
       "fetch_fresh_count": null,
@@ -259,8 +259,8 @@
     },
     {
       "row_type": "action_count",
-      "accreditor": "WSCUC",
-      "action_type": "notice",
+      "accreditor": "SACSCOC",
+      "action_type": "warning",
       "action_status": "active",
       "n": 16,
       "resource_type": null,
@@ -307,7 +307,22 @@
       "accreditor": "HLC",
       "action_type": "monitoring",
       "action_status": "active",
-      "n": 8,
+      "n": 9,
+      "resource_type": null,
+      "fetch_total_count": null,
+      "fetch_fresh_count": null,
+      "fetch_cache_read_count": null,
+      "fetch_cache_fallback_count": null,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": null
+    },
+    {
+      "row_type": "action_count",
+      "accreditor": "WSCUC",
+      "action_type": "warning",
+      "action_status": "active",
+      "n": 6,
       "resource_type": null,
       "fetch_total_count": null,
       "fetch_fresh_count": null,
@@ -322,6 +337,36 @@
       "accreditor": "SACSCOC",
       "action_type": "adverse_action",
       "action_status": "active",
+      "n": 5,
+      "resource_type": null,
+      "fetch_total_count": null,
+      "fetch_fresh_count": null,
+      "fetch_cache_read_count": null,
+      "fetch_cache_fallback_count": null,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": null
+    },
+    {
+      "row_type": "action_count",
+      "accreditor": "WSCUC",
+      "action_type": "probation",
+      "action_status": "active",
+      "n": 5,
+      "resource_type": null,
+      "fetch_total_count": null,
+      "fetch_fresh_count": null,
+      "fetch_cache_read_count": null,
+      "fetch_cache_fallback_count": null,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": null
+    },
+    {
+      "row_type": "action_count",
+      "accreditor": "WSCUC",
+      "action_type": "removed",
+      "action_status": "resolved",
       "n": 5,
       "resource_type": null,
       "fetch_total_count": null,
@@ -364,21 +409,6 @@
     },
     {
       "row_type": "action_count",
-      "accreditor": "WSCUC",
-      "action_type": "probation",
-      "action_status": "active",
-      "n": 4,
-      "resource_type": null,
-      "fetch_total_count": null,
-      "fetch_fresh_count": null,
-      "fetch_cache_read_count": null,
-      "fetch_cache_fallback_count": null,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
-      "scrape_row_count": null
-    },
-    {
-      "row_type": "action_count",
       "accreditor": "MSCHE",
       "action_type": "notice",
       "action_status": "active",
@@ -395,9 +425,24 @@
     {
       "row_type": "action_count",
       "accreditor": "WSCUC",
-      "action_type": "removed",
-      "action_status": "resolved",
+      "action_type": "show_cause",
+      "action_status": "active",
       "n": 3,
+      "resource_type": null,
+      "fetch_total_count": null,
+      "fetch_fresh_count": null,
+      "fetch_cache_read_count": null,
+      "fetch_cache_fallback_count": null,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": null
+    },
+    {
+      "row_type": "action_count",
+      "accreditor": "NWCCU",
+      "action_type": "warning",
+      "action_status": "active",
+      "n": 2,
       "resource_type": null,
       "fetch_total_count": null,
       "fetch_fresh_count": null,
@@ -439,36 +484,6 @@
     },
     {
       "row_type": "action_count",
-      "accreditor": "WSCUC",
-      "action_type": "show_cause",
-      "action_status": "active",
-      "n": 2,
-      "resource_type": null,
-      "fetch_total_count": null,
-      "fetch_fresh_count": null,
-      "fetch_cache_read_count": null,
-      "fetch_cache_fallback_count": null,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
-      "scrape_row_count": null
-    },
-    {
-      "row_type": "action_count",
-      "accreditor": "WSCUC",
-      "action_type": "warning",
-      "action_status": "active",
-      "n": 2,
-      "resource_type": null,
-      "fetch_total_count": null,
-      "fetch_fresh_count": null,
-      "fetch_cache_read_count": null,
-      "fetch_cache_fallback_count": null,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
-      "scrape_row_count": null
-    },
-    {
-      "row_type": "action_count",
       "accreditor": "HLC",
       "action_type": "notice",
       "action_status": "resolved",
@@ -486,21 +501,6 @@
       "row_type": "action_count",
       "accreditor": "NECHE",
       "action_type": "probation",
-      "action_status": "active",
-      "n": 1,
-      "resource_type": null,
-      "fetch_total_count": null,
-      "fetch_fresh_count": null,
-      "fetch_cache_read_count": null,
-      "fetch_cache_fallback_count": null,
-      "fetch_cache_age_min_days": null,
-      "fetch_cache_age_max_days": null,
-      "scrape_row_count": null
-    },
-    {
-      "row_type": "action_count",
-      "accreditor": "NWCCU",
-      "action_type": "warning",
       "action_status": "active",
       "n": 1,
       "resource_type": null,
@@ -550,12 +550,12 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 41,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 41,
+      "fetch_fresh_count": 41,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8522,
-      "fetch_cache_age_max_days": 5.8525,
-      "scrape_row_count": 2563
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": 2673
     },
     {
       "row_type": "fetch_summary",
@@ -565,11 +565,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 1605,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 1605,
+      "fetch_fresh_count": 1605,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8525,
-      "fetch_cache_age_max_days": 5.8654,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
       "scrape_row_count": 4599
     },
     {
@@ -595,11 +595,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 25,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 25,
+      "fetch_fresh_count": 25,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8521,
-      "fetch_cache_age_max_days": 5.8523,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
       "scrape_row_count": 41
     },
     {
@@ -609,13 +609,13 @@
       "action_status": null,
       "n": null,
       "resource_type": "html",
-      "fetch_total_count": 134,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 134,
+      "fetch_total_count": 135,
+      "fetch_fresh_count": 135,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8518,
-      "fetch_cache_age_max_days": 5.9103,
-      "scrape_row_count": 1
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": 2
     },
     {
       "row_type": "fetch_summary",
@@ -640,11 +640,11 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 13,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 13,
+      "fetch_fresh_count": 13,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8522,
-      "fetch_cache_age_max_days": 5.8522,
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
       "scrape_row_count": 100
     },
     {
@@ -655,12 +655,12 @@
       "n": null,
       "resource_type": "html",
       "fetch_total_count": 26,
-      "fetch_fresh_count": 0,
-      "fetch_cache_read_count": 26,
+      "fetch_fresh_count": 26,
+      "fetch_cache_read_count": 0,
       "fetch_cache_fallback_count": 0,
-      "fetch_cache_age_min_days": 5.8521,
-      "fetch_cache_age_max_days": 5.8521,
-      "scrape_row_count": 31
+      "fetch_cache_age_min_days": null,
+      "fetch_cache_age_max_days": null,
+      "scrape_row_count": 40
     }
   ],
   "not_covered": [
@@ -7057,9 +7057,9 @@
       "latest_status": {
         "accreditors": "MSCHE",
         "action_labels": "Merger of Maryland University of Integrative Health with Notre Dame of Maryland University (effective February 1, 2024); Non-Compliance Warning",
-        "active_actions": "warning",
-        "has_active_warning": true,
-        "has_active_warning_or_notice": true,
+        "active_actions": null,
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
         "latest_action_date": "2026-07-06",
         "latest_action_year": "2026",
@@ -7072,16 +7072,16 @@
           "action_label": "Non-Compliance Warning",
           "action_label_short": "Non-Compliance Warning",
           "action_scope": null,
-          "action_status": "active",
+          "action_status": null,
           "action_date": "2026-07-06",
           "action_year": "2026",
-          "notes": "Non-Compliance Warning",
+          "notes": null,
           "source_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf",
           "source_title": "Non-Compliance and Adverse Actions by Status - Middle States Commission on Higher Education",
           "source_page_url": "https://msche.box.com/shared/static/xaw39ju2vhyqyc0c4pqnhc0qy7un3nop.pdf",
-          "source_page_modified": "2026-07-06",
+          "source_page_modified": null,
           "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
+          "public_table_strategy": null,
           "hybrid_candidate": false,
           "hybrid_reason": null,
           "has_financial_profile": true,
@@ -12913,7 +12913,7 @@
       "latest_status": {
         "accreditors": "HLC",
         "action_labels": "Approved continuation of accreditation related to change of control",
-        "active_actions": "other",
+        "active_actions": null,
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
@@ -12928,16 +12928,16 @@
           "action_label": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
           "action_label_short": "Approved continuation of accreditation related to change of control",
           "action_scope": null,
-          "action_status": "active",
+          "action_status": null,
           "action_date": "2026-06-01",
           "action_year": "2026",
-          "notes": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
+          "notes": null,
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
           "source_title": "June 2026 Actions | The Higher Learning Commission",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_modified": "2026-07-02",
+          "source_page_modified": null,
           "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
+          "public_table_strategy": null,
           "hybrid_candidate": false,
           "hybrid_reason": null,
           "has_financial_profile": true,
@@ -21219,16 +21219,37 @@
       "category": null,
       "latest_status": {
         "accreditors": "HLC",
-        "action_labels": "Accepted the staff recommendation and approved the institution’s request tochange the current method of delivery (English) for the Master of Science inEmergency and Disaster Management (En Espanol) (36 credit hours, CIP code43.0302) and the Master of Science in Sports and Health Sciences (36 credit hours, CIP code 31.0501) to Spanish.",
+        "action_labels": "Accepted the staff recommendation and approved the institution’s request tochange the current method of delivery (English) for the Master of Science inEmergency and Disaster Management (En Espanol) (36 credit hours, CIP code43.0302) and the Master of Science in Sports and Health Sciences (36 credit hours, CIP code 31.0501) to Spanish.; Approved the institution’s request for an aggregate change of 25% or more in program content since the last accreditation review for the following educational programs: Associate of Arts in Business Administration (60 credit hours, CIP code 52.0201) Associate of Arts in Management (60 credit hours, CIP code 52.0201) Associate of Arts in Real Estate Studies (60 credit hours, CIP code 52.1501) Associate of Arts in Supply Chain Management (60 credit hours, CIP code 52.0203) Bachelor of Business Administration (120 credit hours, CIP code 52.0201) Associate of Applied Science in Administration (60 credit hours, CIP code 52.0201) Associate of Applied Science in Culinary and Food Service Management (60 credit hours, CIP code 12.0599) Associate of Applied Science in Technical Management (60 credit hours, CIP code 52.0201) Associate of Science in Accounting (60 credit hours, CIP code 52.302) Bachelor of Arts in Business (120 credit hours, CIP code 52.0101) Bachelor of Arts in Entrepreneurship (120 credit hours, CIP code 52.0701) Bachelor of Arts in Government Contracting & Acquisition (120 credit hours, CIP code 28.0503) Bachelor of Arts in Hospitality Management (120 credit hours, CIP code 52.0901) Bachelor of Arts in Human Resource Management (120 credit hours, CIP code 52.1001) Bachelor of Arts in Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Marketing (120 credit hours, CIP code 52.1401) Bachelor of Arts in Reverse Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Supply Chain Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Transportation & Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Applied Science in Technical Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Business Analytics (120 credit hours, CIP code 52.1301) Bachelor of Arts in Accounting (120 credit hours, CIP code 52.0301) Master of Arts in Entrepreneurship (33 credit hours, CIP code 52.0701) Master of Arts in Human Resource Management (33 credit hours, CIP code 52.1001) Master of Arts in Management (33 credit hours, CIP code 52.0201) Master of Arts in Reverse Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Supply Chain Management (39 credit hours, CIP code 52.0203) Master of Arts in Transportation & Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Accounting (36 credit hours, CIP code 52.0301) Master of Science in Applied Business Analytics (33 credit hours, CIP code 52.1301)",
         "active_actions": "other",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2026-05-01",
+        "latest_action_date": "2026-06-01",
         "latest_action_year": "2026",
-        "action_count": 1
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "other",
+          "action_label": "Approved the institution’s request for an aggregate change of 25% or more in program content since the last accreditation review for the following educational programs: Associate of Arts in Business Administration (60 credit hours, CIP code 52.0201) Associate of Arts in Management (60 credit hours, CIP code 52.0201) Associate of Arts in Real Estate Studies (60 credit hours, CIP code 52.1501) Associate of Arts in Supply Chain Management (60 credit hours, CIP code 52.0203) Bachelor of Business Administration (120 credit hours, CIP code 52.0201) Associate of Applied Science in Administration (60 credit hours, CIP code 52.0201) Associate of Applied Science in Culinary and Food Service Management (60 credit hours, CIP code 12.0599) Associate of Applied Science in Technical Management (60 credit hours, CIP code 52.0201) Associate of Science in Accounting (60 credit hours, CIP code 52.302) Bachelor of Arts in Business (120 credit hours, CIP code 52.0101) Bachelor of Arts in Entrepreneurship (120 credit hours, CIP code 52.0701) Bachelor of Arts in Government Contracting & Acquisition (120 credit hours, CIP code 28.0503) Bachelor of Arts in Hospitality Management (120 credit hours, CIP code 52.0901) Bachelor of Arts in Human Resource Management (120 credit hours, CIP code 52.1001) Bachelor of Arts in Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Marketing (120 credit hours, CIP code 52.1401) Bachelor of Arts in Reverse Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Supply Chain Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Transportation & Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Applied Science in Technical Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Business Analytics (120 credit hours, CIP code 52.1301) Bachelor of Arts in Accounting (120 credit hours, CIP code 52.0301) Master of Arts in Entrepreneurship (33 credit hours, CIP code 52.0701) Master of Arts in Human Resource Management (33 credit hours, CIP code 52.1001) Master of Arts in Management (33 credit hours, CIP code 52.0201) Master of Arts in Reverse Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Supply Chain Management (39 credit hours, CIP code 52.0203) Master of Arts in Transportation & Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Accounting (36 credit hours, CIP code 52.0301) Master of Science in Applied Business Analytics (33 credit hours, CIP code 52.1301)",
+          "action_label_short": "Approved the institution’s request for an aggregate change of 25% or more in program content since the last accreditation review for the following educational programs: Associate of Arts in Business Administration (60 credit hours, CIP code 52.0201) Associate of Arts in Management (60 credit hours, CIP code 52.0201) Associate of Arts in Real Estate Studies (60 credit hours, CIP code 52.1501) Associate of Arts in Supply Chain Management (60 credit hours, CIP code 52.0203) Bachelor of Business Administration (120 credit hours, CIP code 52.0201) Associate of Applied Science in Administration (60 credit hours, CIP code 52.0201) Associate of Applied Science in Culinary and Food Service Management (60 credit hours, CIP code 12.0599) Associate of Applied Science in Technical Management (60 credit hours, CIP code 52.0201) Associate of Science in Accounting (60 credit hours, CIP code 52.302) Bachelor of Arts in Business (120 credit hours, CIP code 52.0101) Bachelor of Arts in Entrepreneurship (120 credit hours, CIP code 52.0701) Bachelor of Arts in Government Contracting & Acquisition (120 credit hours, CIP code 28.0503) Bachelor of Arts in Hospitality Management (120 credit hours, CIP code 52.0901) Bachelor of Arts in Human Resource Management (120 credit hours, CIP code 52.1001) Bachelor of Arts in Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Marketing (120 credit hours, CIP code 52.1401) Bachelor of Arts in Reverse Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Supply Chain Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Transportation & Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Applied Science in Technical Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Business Analytics (120 credit hours, CIP code 52.1301) Bachelor of Arts in Accounting (120 credit hours, CIP code 52.0301) Master of Arts in Entrepreneurship (33 credit hours, CIP code 52.0701) Master of Arts in Human Resource Management (33 credit hours, CIP code 52.1001) Master of Arts in Management (33 credit hours, CIP code 52.0201) Master of Arts in Reverse Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Supply Chain Management (39 credit hours, CIP code 52.0203) Master of Arts in Transportation & Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Accounting (36 credit hours, CIP code 52.0301) Master of Science in Applied Business Analytics (33 credit hours, CIP code 52.1301)",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Approved the institution’s request for an aggregate change of 25% or more in program content since the last accreditation review for the following educational programs: Associate of Arts in Business Administration (60 credit hours, CIP code 52.0201) Associate of Arts in Management (60 credit hours, CIP code 52.0201) Associate of Arts in Real Estate Studies (60 credit hours, CIP code 52.1501) Associate of Arts in Supply Chain Management (60 credit hours, CIP code 52.0203) Bachelor of Business Administration (120 credit hours, CIP code 52.0201) Associate of Applied Science in Administration (60 credit hours, CIP code 52.0201) Associate of Applied Science in Culinary and Food Service Management (60 credit hours, CIP code 12.0599) Associate of Applied Science in Technical Management (60 credit hours, CIP code 52.0201) Associate of Science in Accounting (60 credit hours, CIP code 52.302) Bachelor of Arts in Business (120 credit hours, CIP code 52.0101) Bachelor of Arts in Entrepreneurship (120 credit hours, CIP code 52.0701) Bachelor of Arts in Government Contracting & Acquisition (120 credit hours, CIP code 28.0503) Bachelor of Arts in Hospitality Management (120 credit hours, CIP code 52.0901) Bachelor of Arts in Human Resource Management (120 credit hours, CIP code 52.1001) Bachelor of Arts in Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Marketing (120 credit hours, CIP code 52.1401) Bachelor of Arts in Reverse Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Supply Chain Management (120 credit hours, CIP code 52.0203) Bachelor of Arts in Transportation & Logistics Management (120 credit hours, CIP code 52.0203) Bachelor of Applied Science in Technical Management (120 credit hours, CIP code 52.0201) Bachelor of Arts in Business Analytics (120 credit hours, CIP code 52.1301) Bachelor of Arts in Accounting (120 credit hours, CIP code 52.0301) Master of Arts in Entrepreneurship (33 credit hours, CIP code 52.0701) Master of Arts in Human Resource Management (33 credit hours, CIP code 52.1001) Master of Arts in Management (33 credit hours, CIP code 52.0201) Master of Arts in Reverse Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Supply Chain Management (39 credit hours, CIP code 52.0203) Master of Arts in Transportation & Logistics Management (36 credit hours, CIP code 52.0203) Master of Arts in Accounting (36 credit hours, CIP code 52.0301) Master of Science in Applied Business Analytics (33 credit hours, CIP code 52.1301)",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        },
         {
           "accreditor": "HLC",
           "action_type": "other",
@@ -21254,21 +21275,81 @@
       "sources": [
         {
           "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        },
+        {
+          "accreditor": "HLC",
           "source_title": "May 2026 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2026-actions/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/may-2026-actions/"
         }
       ]
     },
-    "accred-amerion-college--hlc": {
-      "unitid": "accred-amerion-college--hlc",
+    "accred-amerion-college--west-virginia--hlc": {
+      "unitid": "accred-amerion-college--west-virginia--hlc",
       "financial_unitid": null,
       "has_financial_profile": false,
       "is_primary_tracker": false,
       "institution_name": "Amerion College",
       "institution_alias": null,
       "city": null,
-      "state": null,
+      "state": "West Virginia",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "On Probation",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-07-14",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "On Probation",
+          "action_label_short": "On Probation",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-14",
+          "action_year": "2026",
+          "notes": "On Probation",
+          "source_url": "https://www.hlcommission.org/institution/2046/",
+          "source_title": "Accreditation Actions | The Higher Learning Commission - On Probation",
+          "source_page_url": "https://www.hlcommission.org/institution/2046/",
+          "source_page_modified": "2026-07-14",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "Accreditation Actions | The Higher Learning Commission - On Probation",
+          "source_url": "https://www.hlcommission.org/institution/2046/",
+          "source_page_url": "https://www.hlcommission.org/institution/2046/"
+        }
+      ]
+    },
+    "accred-amerion-college--wyoming--hlc": {
+      "unitid": "accred-amerion-college--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Amerion College",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
       "control_label": null,
       "category": null,
       "latest_status": {
@@ -21296,7 +21377,7 @@
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
           "source_title": "June 2026 Actions | The Higher Learning Commission",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_modified": "2026-07-02",
+          "source_page_modified": "2026-07-15",
           "display_action": true,
           "public_table_strategy": "scraper_backed_keep",
           "hybrid_candidate": false,
@@ -21311,60 +21392,6 @@
           "source_title": "June 2026 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
-        }
-      ]
-    },
-    "accred-amerion-college--west-virginia--hlc": {
-      "unitid": "accred-amerion-college--west-virginia--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Amerion College",
-      "institution_alias": null,
-      "city": null,
-      "state": "West Virginia",
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "On Probation",
-        "active_actions": "probation",
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2026-07-02",
-        "latest_action_year": "2026",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "probation",
-          "action_label": "On Probation",
-          "action_label_short": "On Probation",
-          "action_scope": null,
-          "action_status": "active",
-          "action_date": "2026-07-02",
-          "action_year": "2026",
-          "notes": "On Probation",
-          "source_url": "https://www.hlcommission.org/institution/2046/",
-          "source_title": "Accreditation Actions | The Higher Learning Commission - On Probation",
-          "source_page_url": "https://www.hlcommission.org/institution/2046/",
-          "source_page_modified": "2026-07-02",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "Accreditation Actions | The Higher Learning Commission - On Probation",
-          "source_url": "https://www.hlcommission.org/institution/2046/",
-          "source_page_url": "https://www.hlcommission.org/institution/2046/"
         }
       ]
     },
@@ -21842,7 +21869,7 @@
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
-        "latest_action_date": "2026-07-02",
+        "latest_action_date": "2026-07-14",
         "latest_action_year": "2026",
         "action_count": 1
       },
@@ -21854,13 +21881,13 @@
           "action_label_short": "Withdrawal of accreditation",
           "action_scope": null,
           "action_status": "active",
-          "action_date": "2026-07-02",
+          "action_date": "2026-07-14",
           "action_year": "2026",
           "notes": "Withdrawal of Accreditation",
           "source_url": "https://www.hlcommission.org/institution/1614/",
           "source_title": "Accreditation Actions | The Higher Learning Commission - Withdrawal of Accreditation",
           "source_page_url": "https://www.hlcommission.org/institution/1614/",
-          "source_page_modified": "2026-07-02",
+          "source_page_modified": "2026-07-14",
           "display_action": true,
           "public_table_strategy": "scraper_backed_keep",
           "hybrid_candidate": false,
@@ -22094,6 +22121,60 @@
         }
       ]
     },
+    "accred-calvary-university--wyoming--hlc": {
+      "unitid": "accred-calvary-university--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Calvary University",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Placed on Probation",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "action_label_short": "Placed on Probation",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
     "accred-cape-fear-community-college--north-carolina--sacscoc": {
       "unitid": "accred-cape-fear-community-college--north-carolina--sacscoc",
       "financial_unitid": null,
@@ -22215,16 +22296,37 @@
       "category": null,
       "latest_status": {
         "accreditors": "WSCUC",
-        "action_labels": "Following an accreditation visit – impose probation",
-        "active_actions": "probation",
+        "action_labels": "Following an accreditation visit – impose probation; Order to show cause",
+        "active_actions": "probation; show_cause",
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2025-06-01",
-        "latest_action_year": "2025",
-        "action_count": 1
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "WSCUC",
+          "action_type": "show_cause",
+          "action_label": "Following a Special Visit – Order to Show Cause",
+          "action_label_short": "Order to show cause",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Claremont School of Theology",
+          "source_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_title": "June 2026 Commission Actions - WSCUC",
+          "source_page_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_page_modified": "2026-07-14",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        },
         {
           "accreditor": "WSCUC",
           "action_type": "probation",
@@ -22248,6 +22350,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "WSCUC",
+          "source_title": "June 2026 Commission Actions - WSCUC",
+          "source_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_page_url": "https://www.wscuc.org/post/june-2026-commission-actions/"
+        },
         {
           "accreditor": "WSCUC",
           "source_title": "June 2025 Commission Actions - WSCUC",
@@ -24299,6 +24407,60 @@
         }
       ]
     },
+    "accred-lincoln-university--wscuc": {
+      "unitid": "accred-lincoln-university--wscuc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Lincoln University",
+      "institution_alias": null,
+      "city": null,
+      "state": null,
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "WSCUC",
+        "action_labels": "Following an accreditation visit – impose probation",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "WSCUC",
+          "action_type": "probation",
+          "action_label": "Following an Accreditation Visit – Impose Probation",
+          "action_label_short": "Following an accreditation visit – impose probation",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Lincoln University",
+          "source_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_title": "June 2026 Commission Actions - WSCUC",
+          "source_page_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_page_modified": "2026-07-14",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "WSCUC",
+          "source_title": "June 2026 Commission Actions - WSCUC",
+          "source_url": "https://www.wscuc.org/post/june-2026-commission-actions/",
+          "source_page_url": "https://www.wscuc.org/post/june-2026-commission-actions/"
+        }
+      ]
+    },
     "accred-logos-evangelical-seminary--wscuc": {
       "unitid": "accred-logos-evangelical-seminary--wscuc",
       "financial_unitid": null,
@@ -24947,60 +25109,6 @@
         }
       ]
     },
-    "accred-missouri-state-university-west-plains--hlc": {
-      "unitid": "accred-missouri-state-university-west-plains--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Missouri State University-West Plains",
-      "institution_alias": null,
-      "city": null,
-      "state": null,
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-        "active_actions": null,
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2026-06-01",
-        "latest_action_year": "2026",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "removed",
-          "action_label": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "action_label_short": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "action_scope": null,
-          "action_status": "resolved",
-          "action_date": "2026-06-01",
-          "action_year": "2026",
-          "notes": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_title": "June 2026 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_modified": "2026-07-02",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "June 2026 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
-        }
-      ]
-    },
     "accred-missouri-state-university-west-plains--wisconsin--hlc": {
       "unitid": "accred-missouri-state-university-west-plains--wisconsin--hlc",
       "financial_unitid": null,
@@ -25055,6 +25163,114 @@
         }
       ]
     },
+    "accred-missouri-state-university-west-plains--wyoming--hlc": {
+      "unitid": "accred-missouri-state-university-west-plains--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Missouri State University-West Plains",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+        "active_actions": null,
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "removed",
+          "action_label": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "action_label_short": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "action_scope": null,
+          "action_status": "resolved",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
+    "accred-mount-saint-joseph-university--wyoming--hlc": {
+      "unitid": "accred-mount-saint-joseph-university--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Mount St. Joseph University",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Approved continuation of accreditation related to change of control",
+        "active_actions": "other",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "other",
+          "action_label": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
+          "action_label_short": "Approved continuation of accreditation related to change of control",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Approved the continuation of accreditation related to the application for Change of Control, Structure or Organization wherein the institution undergoes certain governance changes that would result in the termination of the institution’s current sponsorship by the Sisters of Charity of Cincinnati, with the institution, through the execution of a Sponsorship Agreement, to subsequently be sponsored by the Setonian Vincentian Ministries.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
     "accred-nazarene-bible-college--colorado--hlc": {
       "unitid": "accred-nazarene-bible-college--colorado--hlc",
       "financial_unitid": null,
@@ -25073,7 +25289,7 @@
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": false,
-        "latest_action_date": "2026-07-02",
+        "latest_action_date": "2026-07-14",
         "latest_action_year": "2026",
         "action_count": 1
       },
@@ -25085,13 +25301,13 @@
           "action_label_short": "On Probation",
           "action_scope": null,
           "action_status": "active",
-          "action_date": "2026-07-02",
+          "action_date": "2026-07-14",
           "action_year": "2026",
           "notes": "On Probation",
           "source_url": "https://www.hlcommission.org/institution/2866/",
           "source_title": "Accreditation Actions | The Higher Learning Commission - On Probation",
           "source_page_url": "https://www.hlcommission.org/institution/2866/",
-          "source_page_modified": "2026-07-02",
+          "source_page_modified": "2026-07-14",
           "display_action": true,
           "public_table_strategy": "scraper_backed_keep",
           "hybrid_candidate": false,
@@ -25505,7 +25721,7 @@
         "has_active_warning": false,
         "has_active_warning_or_notice": false,
         "has_active_adverse_action": true,
-        "latest_action_date": "2026-07-02",
+        "latest_action_date": "2026-07-14",
         "latest_action_year": "2026",
         "action_count": 1
       },
@@ -25517,13 +25733,13 @@
           "action_label_short": "Withdrawal of accreditation",
           "action_scope": null,
           "action_status": "active",
-          "action_date": "2026-07-02",
+          "action_date": "2026-07-14",
           "action_year": "2026",
           "notes": "Withdrawal of Accreditation",
           "source_url": "https://www.hlcommission.org/institution/1812/",
           "source_title": "Accreditation Actions | The Higher Learning Commission - Withdrawal of Accreditation",
           "source_page_url": "https://www.hlcommission.org/institution/1812/",
-          "source_page_modified": "2026-07-02",
+          "source_page_modified": "2026-07-14",
           "display_action": true,
           "public_table_strategy": "scraper_backed_keep",
           "hybrid_candidate": false,
@@ -25608,16 +25824,37 @@
       "category": null,
       "latest_status": {
         "accreditors": "NWCCU",
-        "action_labels": "Accredited – Spring 2026 financial resources Review",
+        "action_labels": "Accredited – Spring 2026 Evaluation of Institutional Effectiveness; Accredited – Spring 2026 financial resources Review",
         "active_actions": "warning",
         "has_active_warning": true,
         "has_active_warning_or_notice": true,
         "has_active_adverse_action": false,
-        "latest_action_date": "2026-06-17",
+        "latest_action_date": "2026-07-06",
         "latest_action_year": "2026",
-        "action_count": 1
+        "action_count": 2
       },
       "actions": [
+        {
+          "accreditor": "NWCCU",
+          "action_type": "warning",
+          "action_label": "Accredited – \n\t\t\t\t\t\tSpring 2026 Evaluation of Institutional Effectiveness",
+          "action_label_short": "Accredited – Spring 2026 Evaluation of Institutional Effectiveness",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-07-06",
+          "action_year": "2026",
+          "notes": "Status: Accredited | Evaluation: \n\t\t\t\t\t\tSpring 2026 Evaluation of Institutional Effectiveness\t\t\t\t\t | Reason: \n\t\t\t\t\t\tAs of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.",
+          "source_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp",
+          "source_title": "NWCCU Institution Notification Letter – NA",
+          "source_page_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp",
+          "source_page_modified": "2026-07-06",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        },
         {
           "accreditor": "NWCCU",
           "action_type": "warning",
@@ -25641,6 +25878,12 @@
         }
       ],
       "sources": [
+        {
+          "accreditor": "NWCCU",
+          "source_title": "NWCCU Institution Notification Letter – NA",
+          "source_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp",
+          "source_page_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp"
+        },
         {
           "accreditor": "NWCCU",
           "source_title": "NWCCU Institution Notification Letter – NA",
@@ -26582,6 +26825,60 @@
         }
       ]
     },
+    "accred-sinte-gleska-university--wyoming--hlc": {
+      "unitid": "accred-sinte-gleska-university--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Sinte Gleska University",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Placed on Probation",
+        "active_actions": "probation",
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "probation",
+          "action_label": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "action_label_short": "Placed on Probation",
+          "action_scope": null,
+          "action_status": "active",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Placed on Probation. The institution was notified of this action on June 30, 2026. Information was posted for the public on July 1, 2026.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
+        }
+      ]
+    },
     "accred-snead-state--alabama--sacscoc": {
       "unitid": "accred-snead-state--alabama--sacscoc",
       "financial_unitid": null,
@@ -26690,60 +26987,6 @@
         }
       ]
     },
-    "accred-southeast-arkansas-college--hlc": {
-      "unitid": "accred-southeast-arkansas-college--hlc",
-      "financial_unitid": null,
-      "has_financial_profile": false,
-      "is_primary_tracker": false,
-      "institution_name": "Southeast Arkansas College",
-      "institution_alias": null,
-      "city": null,
-      "state": null,
-      "control_label": null,
-      "category": null,
-      "latest_status": {
-        "accreditors": "HLC",
-        "action_labels": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-        "active_actions": null,
-        "has_active_warning": false,
-        "has_active_warning_or_notice": false,
-        "has_active_adverse_action": false,
-        "latest_action_date": "2026-06-01",
-        "latest_action_year": "2026",
-        "action_count": 1
-      },
-      "actions": [
-        {
-          "accreditor": "HLC",
-          "action_type": "removed",
-          "action_label": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "action_label_short": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "action_scope": null,
-          "action_status": "resolved",
-          "action_date": "2026-06-01",
-          "action_year": "2026",
-          "notes": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_title": "June 2026 Actions | The Higher Learning Commission",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_modified": "2026-07-02",
-          "display_action": true,
-          "public_table_strategy": "scraper_backed_keep",
-          "hybrid_candidate": false,
-          "hybrid_reason": null,
-          "has_financial_profile": false,
-          "is_primary_tracker": false
-        }
-      ],
-      "sources": [
-        {
-          "accreditor": "HLC",
-          "source_title": "June 2026 Actions | The Higher Learning Commission",
-          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
-          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
-        }
-      ]
-    },
     "accred-southeast-arkansas-college--wisconsin--hlc": {
       "unitid": "accred-southeast-arkansas-college--wisconsin--hlc",
       "financial_unitid": null,
@@ -26795,6 +27038,60 @@
           "source_title": "June 2024 Actions | The Higher Learning Commission",
           "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
           "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/"
+        }
+      ]
+    },
+    "accred-southeast-arkansas-college--wyoming--hlc": {
+      "unitid": "accred-southeast-arkansas-college--wyoming--hlc",
+      "financial_unitid": null,
+      "has_financial_profile": false,
+      "is_primary_tracker": false,
+      "institution_name": "Southeast Arkansas College",
+      "institution_alias": null,
+      "city": null,
+      "state": "Wyoming",
+      "control_label": null,
+      "category": null,
+      "latest_status": {
+        "accreditors": "HLC",
+        "action_labels": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+        "active_actions": null,
+        "has_active_warning": false,
+        "has_active_warning_or_notice": false,
+        "has_active_adverse_action": false,
+        "latest_action_date": "2026-06-01",
+        "latest_action_year": "2026",
+        "action_count": 1
+      },
+      "actions": [
+        {
+          "accreditor": "HLC",
+          "action_type": "removed",
+          "action_label": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "action_label_short": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "action_scope": null,
+          "action_status": "resolved",
+          "action_date": "2026-06-01",
+          "action_year": "2026",
+          "notes": "Removed from Probation and continued and reaffirmed accreditation with monitoring.",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_modified": "2026-07-15",
+          "display_action": true,
+          "public_table_strategy": "scraper_backed_keep",
+          "hybrid_candidate": false,
+          "hybrid_reason": null,
+          "has_financial_profile": false,
+          "is_primary_tracker": false
+        }
+      ],
+      "sources": [
+        {
+          "accreditor": "HLC",
+          "source_title": "June 2026 Actions | The Higher Learning Commission",
+          "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/",
+          "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2026-actions/"
         }
       ]
     },

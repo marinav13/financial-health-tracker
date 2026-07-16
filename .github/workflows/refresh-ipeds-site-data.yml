@@ -36,7 +36,7 @@ concurrency:
 
 jobs:
   refresh:
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted]
     timeout-minutes: 355
     env:
       RENV_CONFIG_CACHE_SYMLINKS: "FALSE"

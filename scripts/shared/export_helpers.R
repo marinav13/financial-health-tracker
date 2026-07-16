@@ -5782,7 +5782,8 @@ derive_cut_summary_public <- function(notes,
 .CUT_DISPLAY_CATEGORY_INSTITUTION <- "Institution closures/absorptions"
 .CUT_DISPLAY_CATEGORY_CAMPUS <- "Campus closures"
 .CUT_DISPLAY_CATEGORY_ATHLETICS <- "Athletics cuts"
-.CUT_DISPLAY_CATEGORY_STAFF <- "Staff layoffs / furloughs"
+.CUT_DISPLAY_CATEGORY_HIRING_FREEZE <- "Hiring freezes / furloughs"
+.CUT_DISPLAY_CATEGORY_STAFF <- "Staff layoffs"
 .CUT_DISPLAY_CATEGORY_ACADEMIC <- "Academic program cuts"
 .CUT_DISPLAY_CATEGORY_STUDENT_SUPPORT <- "Student support cuts"
 .CUT_DISPLAY_CATEGORY_RESEARCH <- "Research center cuts"
@@ -5910,19 +5911,24 @@ derive_cut_display_categories <- function(cut_type,
   staff_patterns <- c(
     "\\blayoff(?:s)?\\b",
     "\\blaid off\\b",
-    "\\bfurlough(?:ed|s)?\\b",
     "\\breduction in force\\b",
     "\\brif\\b",
     "\\bpositions? eliminated\\b",
     "\\bjob cuts?\\b",
     "\\bworkforce reduction\\b",
     "\\bvoluntary separations?\\b",
-    "\\bnon-?renew(?:al|ed)?\\b",
+    "\\bnon-?renew(?:al|ed)?\\b"
+  )
+  hiring_freeze_patterns <- c(
+    "\\bfurlough(?:ed|s)?\\b",
     "\\bhiring freeze\\b"
   )
-  staff_primary_action <- normalized_type %in% c("staff_layoff", "faculty_layoff", "hiring_freeze") ||
+  staff_primary_action <- normalized_type %in% c("staff_layoff", "faculty_layoff") ||
     .cut_category_matches(subject_text, staff_patterns)
   staff_action <- staff_primary_action || .cut_category_matches(text, staff_patterns)
+  hiring_freeze_primary_action <- normalized_type == "hiring_freeze" ||
+    .cut_category_matches(subject_text, hiring_freeze_patterns)
+  hiring_freeze_action <- hiring_freeze_primary_action || .cut_category_matches(text, hiring_freeze_patterns)
 
   student_support_subject <- .cut_category_matches(subject_text, c(
     "\\bstudent support\\b",
@@ -6047,13 +6053,17 @@ derive_cut_display_categories <- function(cut_type,
   if (research_center_action) add_category(.CUT_DISPLAY_CATEGORY_RESEARCH)
   if (community_program_action) add_category(.CUT_DISPLAY_CATEGORY_COMMUNITY)
   if (academic_action) add_category(.CUT_DISPLAY_CATEGORY_ACADEMIC)
+  if (hiring_freeze_action) add_category(.CUT_DISPLAY_CATEGORY_HIRING_FREEZE)
   if (staff_action) add_category(.CUT_DISPLAY_CATEGORY_STAFF)
 
   if (length(categories)) {
     return(categories)
   }
 
-  if (normalized_type %in% c("staff_layoff", "faculty_layoff", "hiring_freeze")) {
+  if (normalized_type == "hiring_freeze") {
+    return(.CUT_DISPLAY_CATEGORY_HIRING_FREEZE)
+  }
+  if (normalized_type %in% c("staff_layoff", "faculty_layoff")) {
     return(.CUT_DISPLAY_CATEGORY_STAFF)
   }
   if (normalized_type == "program_suspension") {

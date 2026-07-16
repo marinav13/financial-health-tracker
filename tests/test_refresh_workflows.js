@@ -11,6 +11,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const WEEKLY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-ipeds-site-data.yml"), "utf8");
 const FULL = fs.readFileSync(path.join(ROOT, ".github", "workflows", "refresh-ipeds-full.yml"), "utf8");
+const BACKFILL = fs.readFileSync(path.join(ROOT, ".github", "workflows", "cuts-discovery-historical-backfill.yml"), "utf8");
 const TESTS = fs.readFileSync(path.join(ROOT, ".github", "workflows", "tests.yml"), "utf8");
 const PUBLISH = fs.readFileSync(path.join(ROOT, ".github", "workflows", "publish-editorial-overrides.yml"), "utf8");
 const ACCESSIBILITY = fs.readFileSync(path.join(ROOT, ".github", "workflows", "accessibility.yml"), "utf8");
@@ -216,9 +217,15 @@ run("weekly refresh runs R smoke tests through activated renv library", () => {
   assert(!block.includes("--vanilla"), "Expected weekly smoke tests not to bypass renv activation with --vanilla");
 });
 
-run("R-bearing workflows pin Ubuntu 24.04, align to lockfile R, and disable symlinked renv caches", () => {
-  [TESTS, WEEKLY, FULL, PUBLISH].forEach((workflow) => {
-    assert(workflow.includes("runs-on: ubuntu-24.04"), "Expected Ubuntu 24.04 pin on R-bearing workflow");
+run("refresh workflows opt into explicit self-hosted runners while hosted CI keeps the Ubuntu pin", () => {
+  [WEEKLY, FULL].forEach((workflow) => {
+    assert(workflow.includes("runs-on: [self-hosted]"), "Expected refresh workflow to target the explicit self-hosted runner");
+    assert(workflow.includes('r-version: "4.5.3"'), "Expected R version to match the lockfile");
+    assert(workflow.includes('RENV_CONFIG_CACHE_SYMLINKS: "FALSE"'), "Expected symlink-free renv cache configuration");
+  });
+  assert(BACKFILL.includes("runs-on: [self-hosted]"), "Expected historical backfill workflow to target the explicit self-hosted runner");
+  [TESTS, PUBLISH].forEach((workflow) => {
+    assert(workflow.includes("runs-on: ubuntu-24.04"), "Expected hosted CI workflow to keep the Ubuntu 24.04 pin");
     assert(workflow.includes('r-version: "4.5.3"'), "Expected R version to match the lockfile");
     assert(workflow.includes('RENV_CONFIG_CACHE_SYMLINKS: "FALSE"'), "Expected symlink-free renv cache configuration");
   });

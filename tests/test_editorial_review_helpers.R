@@ -351,7 +351,7 @@ run_test("Stale sheet-only scraper college cuts rows drop before merge while hum
   human_sheet_row$announcement_date[[1]] <- "2026-05-01"
   human_sheet_row$announcement_year[[1]] <- "2026"
   human_sheet_row$cut_type[[1]] <- "staff_layoff"
-  human_sheet_row$display_categories[[1]] <- "Staff layoffs / furloughs"
+  human_sheet_row$display_categories[[1]] <- "Staff layoffs"
   human_sheet_row$edited_cut_text[[1]] <- "Manual layoff row"
   human_sheet_row$raw_cut_text[[1]] <- "Manual layoff summary."
   human_sheet_row$source_url[[1]] <- "https://example.org/manual-cut"
@@ -1979,7 +1979,7 @@ run_test("College cuts edited/raw text columns round-trip through stage->sheet->
   assert_identical("raw_cut_text" %in% names(sheet_rows), TRUE)
   assert_identical(sheet_rows$edited_cut_text[[1]], "Athletics department")
   assert_identical(sheet_rows$raw_cut_text[[1]], "University closes athletics department and laid off 12 staff.")
-  assert_identical(sheet_rows$display_categories[[1]], "Athletics cuts; Staff layoffs / furloughs")
+  assert_identical(sheet_rows$display_categories[[1]], "Athletics cuts; Staff layoffs")
 
   sheet_rows$edited_cut_text[[1]] <- "Editor-revised short label"
   sheet_rows$review_status[[1]] <- "approved"
@@ -2165,7 +2165,7 @@ run_test("Legacy college cuts sheet without edited/raw names coerces cleanly", f
   assert_identical("display_categories" %in% names(coerced), TRUE)
   assert_identical("edited_cut_text" %in% names(coerced), TRUE)
   assert_identical("raw_cut_text" %in% names(coerced), TRUE)
-  assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
+  assert_identical(coerced$display_categories[[1]], "Staff layoffs")
   assert_identical(coerced$edited_cut_text[[1]], "Staff layoff")
   assert_true(is.na(coerced$raw_cut_text[[1]]) || !nzchar(trimws(coerced$raw_cut_text[[1]] %||% "")))
 })
@@ -2206,7 +2206,7 @@ run_test("College cuts sheet rows with the legacy one-column shift repair before
   assert_identical(coerced$first_seen[[1]], "2026-07-06")
   assert_identical(coerced$review_status[[1]], "unreviewed")
   assert_identical(coerced$grandfathered[[1]], FALSE)
-  assert_identical(coerced$display_categories[[1]], "Staff layoffs / furloughs")
+  assert_identical(coerced$display_categories[[1]], "Staff layoffs")
 })
 
 run_test("reviewer_notes stays internal and is not exposed in public schema fields", function() {

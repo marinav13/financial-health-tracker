@@ -37,7 +37,8 @@
     "Research center cuts",
     "Community program cuts",
     "Academic program cuts",
-    "Staff layoffs / furloughs"
+    "Hiring freezes / furloughs",
+    "Staff layoffs"
   ];
   const DISPLAY_CATEGORY_ALIASES = new Map([
     ["Institution closures", "Institution closures/absorptions"],
@@ -70,13 +71,17 @@
     `;
   }
 
-  function normalizeDisplayCategory(value) {
+  function normalizeDisplayCategory(value, cut = null) {
     const category = String(value || "").trim();
     if (!category || category === "Multiple cut types") return "";
+    if (category === "Staff layoffs / furloughs") {
+      const normalizedType = String(cut?.cut_type || "").trim().toLowerCase();
+      return normalizedType === "hiring_freeze" ? "Hiring freezes / furloughs" : "Staff layoffs";
+    }
     return DISPLAY_CATEGORY_ALIASES.get(category) || category;
   }
 
-  function normalizeDisplayCategories(values) {
+  function normalizeDisplayCategories(values, cut = null) {
     let categories = [];
     if (Array.isArray(values)) {
       categories = values;
@@ -86,7 +91,7 @@
       categories = [values];
     }
     return categories
-      .map((value) => normalizeDisplayCategory(value))
+      .map((value) => normalizeDisplayCategory(value, cut))
       .filter(Boolean)
       .filter((value, index, list) => list.indexOf(value) === index);
   }
@@ -185,19 +190,24 @@
     const staffPatterns = [
       /\blayoff(?:s)?\b/i,
       /\blaid off\b/i,
-      /\bfurlough(?:ed|s)?\b/i,
       /\breduction in force\b/i,
       /\brif\b/i,
       /\bpositions? eliminated\b/i,
       /\bjob cuts?\b/i,
       /\bworkforce reduction\b/i,
       /\bvoluntary separations?\b/i,
-      /\bnon-?renew(?:al|ed)?\b/i,
+      /\bnon-?renew(?:al|ed)?\b/i
+    ];
+    const hiringFreezePatterns = [
+      /\bfurlough(?:ed|s)?\b/i,
       /\bhiring freeze\b/i
     ];
-    const staffPrimaryAction = ["staff_layoff", "faculty_layoff", "hiring_freeze"].includes(normalizedType) ||
+    const staffPrimaryAction = ["staff_layoff", "faculty_layoff"].includes(normalizedType) ||
       matchesCategory(subjectText, staffPatterns);
     const staffAction = staffPrimaryAction || matchesCategory(text, staffPatterns);
+    const hiringFreezePrimaryAction = normalizedType === "hiring_freeze" ||
+      matchesCategory(subjectText, hiringFreezePatterns);
+    const hiringFreezeAction = hiringFreezePrimaryAction || matchesCategory(text, hiringFreezePatterns);
 
     const studentSupportSubject = matchesCategory(subjectText, [
       /\bstudent support\b/i,
@@ -316,9 +326,11 @@
     if (researchCenterAction) addCategory("Research center cuts");
     if (communityProgramAction) addCategory("Community program cuts");
     if (academicAction) addCategory("Academic program cuts");
-    if (staffAction) addCategory("Staff layoffs / furloughs");
+    if (hiringFreezeAction) addCategory("Hiring freezes / furloughs");
+    if (staffAction) addCategory("Staff layoffs");
     if (categories.length) return categories;
-    if (["staff_layoff", "faculty_layoff", "hiring_freeze"].includes(normalizedType)) return ["Staff layoffs / furloughs"];
+    if (normalizedType === "hiring_freeze") return ["Hiring freezes / furloughs"];
+    if (["staff_layoff", "faculty_layoff"].includes(normalizedType)) return ["Staff layoffs"];
     if (normalizedType === "program_suspension") return ["Academic program cuts"];
     if (normalizedType === "department_closure") {
       if (researchCenterSubject) return ["Research center cuts"];
@@ -331,11 +343,11 @@
   }
 
   function resolveDisplayCategories(cut) {
-    const explicit = normalizeDisplayCategories(cut?.display_categories);
+    const explicit = normalizeDisplayCategories(cut?.display_categories, cut);
     if (explicit.length) return explicit;
     const inferred = inferDisplayCategories(cut);
     if (inferred.length) return inferred;
-    const hinted = normalizeDisplayCategories([cut?.primary_display_category, cut?.display_category]);
+    const hinted = normalizeDisplayCategories([cut?.primary_display_category, cut?.display_category], cut);
     return hinted.length ? hinted : ["Academic program cuts"];
   }
 

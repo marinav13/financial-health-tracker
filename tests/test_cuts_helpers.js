@@ -85,14 +85,14 @@ const cuts = loadCutsHelpers();
 
 run("resolveDisplayCategories keeps explicit string display_categories ahead of inference", () => {
   const resolved = cuts.resolveDisplayCategories({
-    display_categories: "Staff layoffs / furloughs",
+    display_categories: "Hiring freezes / furloughs",
     cut_type: "program_suspension",
     program_name: "History major suspended"
   });
 
   assert(Array.isArray(resolved), "Expected resolved categories array");
   assert(resolved.length === 1, `Expected one explicit category, got ${JSON.stringify(resolved)}`);
-  assert(resolved[0] === "Staff layoffs / furloughs", `Expected explicit category to win, got ${JSON.stringify(resolved)}`);
+  assert(resolved[0] === "Hiring freezes / furloughs", `Expected explicit category to win, got ${JSON.stringify(resolved)}`);
 });
 
 run("buildRecentCuts preserves string-shaped landing display_categories as an explicit array", () => {
@@ -108,7 +108,7 @@ run("buildRecentCuts preserves string-shaped landing display_categories as an ex
         announcement_year: 2026,
         program_name: "History major suspended",
         cut_type: "program_suspension",
-        display_categories: "Staff layoffs / furloughs"
+        display_categories: "Hiring freezes / furloughs"
       }]
     }
   });
@@ -116,9 +116,21 @@ run("buildRecentCuts preserves string-shaped landing display_categories as an ex
   assert(recent.length === 1, `Expected one recent cut row, got ${recent.length}`);
   assert(Array.isArray(recent[0].display_categories), "Expected recent cut display_categories array");
   assert(
-    JSON.stringify(recent[0].display_categories) === JSON.stringify(["Staff layoffs / furloughs"]),
+    JSON.stringify(recent[0].display_categories) === JSON.stringify(["Hiring freezes / furloughs"]),
     `Expected explicit landing category array, got ${JSON.stringify(recent[0].display_categories)}`
   );
+});
+
+run("resolveDisplayCategories maps the legacy staff/furlough label to hiring freezes for hiring_freeze rows", () => {
+  const resolved = cuts.resolveDisplayCategories({
+    display_categories: "Staff layoffs / furloughs",
+    cut_type: "hiring_freeze",
+    program_name: "Administrative hiring freeze"
+  });
+
+  assert(Array.isArray(resolved), "Expected resolved categories array");
+  assert(resolved.length === 1, `Expected one normalized category, got ${JSON.stringify(resolved)}`);
+  assert(resolved[0] === "Hiring freezes / furloughs", `Expected hiring freeze normalization, got ${JSON.stringify(resolved)}`);
 });
 
 console.log(`\n=== Results: ${passed} passed, ${failed} failed ===`);

@@ -796,9 +796,9 @@ run_test("Web export pipeline fixture", function() {
   cut_primary_display_category_val <- if (is.data.frame(cuts_df)) cuts_df$primary_display_category[[1]] else cuts_df$primary_display_category
   cut_display_category_val <- if (is.data.frame(cuts_df)) cuts_df$display_category[[1]] else cuts_df$display_category
   cut_display_categories_val <- if (is.data.frame(cuts_df)) cuts_df$display_categories[[1]] else cuts_df$display_categories
-  assert_identical(cut_primary_display_category_val, "Staff layoffs / furloughs")
-  assert_identical(cut_display_category_val, "Staff layoffs / furloughs")
-  assert_true(identical(as.character(cut_display_categories_val), "Staff layoffs / furloughs"),
+  assert_identical(cut_primary_display_category_val, "Staff layoffs")
+  assert_identical(cut_display_category_val, "Staff layoffs")
+  assert_true(identical(as.character(cut_display_categories_val), "Staff layoffs"),
     "display_categories should include the staff-layoff label for the fixture cut.")
 
   # ── accreditation.json ──────────────────────────────────────────────────────

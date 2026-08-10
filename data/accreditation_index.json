@@ -441,10 +441,10 @@
         "action_date": "2026-02-01",
         "action_year": "2026",
         "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
+        "public_table_strategy": null,
         "hybrid_candidate": false,
         "hybrid_reason": null,
-        "notes": "Academy of Art University",
+        "notes": null,
         "source_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
         "source_page_url": "https://www.wscuc.org/post/february-2026-commission-actions/",
         "source_title": "February 2026 Commission Actions - WSCUC"
@@ -493,10 +493,10 @@
         "action_date": "2024-06-01",
         "action_year": "2024",
         "display_action": true,
-        "public_table_strategy": "hybrid_keep",
-        "hybrid_candidate": true,
-        "hybrid_reason": "scraper_detail_enriches_generic_or_fileless_dapip",
-        "notes": "Azusa Pacific University",
+        "public_table_strategy": null,
+        "hybrid_candidate": false,
+        "hybrid_reason": null,
+        "notes": null,
         "source_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
         "source_page_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
         "source_title": "June 2024 Commission Actions - WSCUC"
@@ -1115,10 +1115,10 @@
         "action_date": "2024-06-01",
         "action_year": "2024",
         "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
+        "public_table_strategy": null,
         "hybrid_candidate": false,
         "hybrid_reason": null,
-        "notes": "Humphreys University",
+        "notes": null,
         "source_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
         "source_page_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
         "source_title": "June 2024 Commission Actions - WSCUC"
@@ -13730,41 +13730,6 @@
       }
     ]
   },
-  "accred-academy-for-jewish-religion-california--wscuc": {
-    "unitid": "accred-academy-for-jewish-religion-california--wscuc",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": "Academy for Jewish Religion California",
-    "institution_alias": null,
-    "institution_unique_name": "Academy for Jewish Religion California",
-    "state": null,
-    "city": null,
-    "control_label": null,
-    "category": null,
-    "latest_action_date": "2024-06-01",
-    "latest_action_label": "Reaffirm accreditation for 6 years, issue a formal notice of concern",
-    "action_count": 1,
-    "landing_actions": [
-      {
-        "accreditor": "WSCUC",
-        "action_label": "Reaffirm Accreditation for 6 Years, Issue a Formal Notice of Concern",
-        "action_label_short": "Reaffirm accreditation for 6 years, issue a formal notice of concern",
-        "action_scope": null,
-        "action_type": "notice",
-        "action_date": "2024-06-01",
-        "action_year": "2024",
-        "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
-        "hybrid_candidate": false,
-        "hybrid_reason": null,
-        "notes": "Academy for Jewish Religion California",
-        "source_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_page_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_title": "June 2024 Commission Actions - WSCUC"
-      }
-    ]
-  },
   "accred-alliance-university--new-york--msche": {
     "unitid": "accred-alliance-university--new-york--msche",
     "financial_unitid": null,
@@ -15627,7 +15592,7 @@
     "category": null,
     "latest_action_date": "2025-06-01",
     "latest_action_label": "Withdrawal of accreditation",
-    "action_count": 2,
+    "action_count": 1,
     "landing_actions": [
       {
         "accreditor": "WSCUC",
@@ -15645,23 +15610,6 @@
         "source_url": "https://www.wscuc.org/post/june-2025-commission-actions/",
         "source_page_url": "https://www.wscuc.org/post/june-2025-commission-actions/",
         "source_title": "June 2025 Commission Actions - WSCUC"
-      },
-      {
-        "accreditor": "WSCUC",
-        "action_label": "Withdrawal of Accreditation",
-        "action_label_short": "Withdrawal of accreditation",
-        "action_scope": null,
-        "action_type": "adverse_action",
-        "action_date": "2024-06-01",
-        "action_year": "2024",
-        "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
-        "hybrid_candidate": false,
-        "hybrid_reason": null,
-        "notes": "International Technological University",
-        "source_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_page_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_title": "June 2024 Commission Actions - WSCUC"
       }
     ]
   },
@@ -15958,7 +15906,7 @@
     "category": null,
     "latest_action_date": "2025-06-01",
     "latest_action_label": "Issue a notice of concern",
-    "action_count": 2,
+    "action_count": 1,
     "landing_actions": [
       {
         "accreditor": "WSCUC",
@@ -15976,23 +15924,6 @@
         "source_url": "https://www.wscuc.org/post/june-2025-commission-actions/",
         "source_page_url": "https://www.wscuc.org/post/june-2025-commission-actions/",
         "source_title": "June 2025 Commission Actions - WSCUC"
-      },
-      {
-        "accreditor": "WSCUC",
-        "action_label": "Following a Special Visit – Issue a Formal Notice of Concern",
-        "action_label_short": "Issue a formal notice of concern",
-        "action_scope": null,
-        "action_type": "notice",
-        "action_date": "2024-06-01",
-        "action_year": "2024",
-        "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
-        "hybrid_candidate": false,
-        "hybrid_reason": null,
-        "notes": "Logos Evangelical Seminary",
-        "source_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_page_url": "https://www.wscuc.org/post/june-2024-commission-actions/",
-        "source_title": "June 2024 Commission Actions - WSCUC"
       }
     ]
   },
@@ -16814,58 +16745,6 @@
         "source_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
         "source_page_url": "https://www.hlcommission.org/for-students/accreditation-actions/june-2024/",
         "source_title": "June 2024 Actions | The Higher Learning Commission"
-      }
-    ]
-  },
-  "accred-nwccu": {
-    "unitid": "accred-nwccu",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": null,
-    "institution_alias": null,
-    "institution_unique_name": "",
-    "state": null,
-    "city": null,
-    "control_label": null,
-    "category": null,
-    "latest_action_date": "2026-07-30",
-    "latest_action_label": "Accredited – Spring 2026 Policies, Regulations, and financial Review",
-    "action_count": 2,
-    "landing_actions": [
-      {
-        "accreditor": "NWCCU",
-        "action_label": "Accredited – \n\t\t\t\t\t\tSpring 2026 Policies, Regulations, and Financial Review",
-        "action_label_short": "Accredited – Spring 2026 Policies, Regulations, and financial Review",
-        "action_scope": null,
-        "action_type": "warning",
-        "action_date": "2026-07-30",
-        "action_year": "2026",
-        "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
-        "hybrid_candidate": false,
-        "hybrid_reason": null,
-        "notes": "Status: Accredited | Evaluation: \n\t\t\t\t\t\tSpring 2026 Policies, Regulations, and Financial Review\t\t\t\t\t | Reason: \n\t\t\t\t\t\tAs of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.",
-        "source_url": "https://nwccu.box.com/s/945ibeadmvz2k6fbbjgenjdsf5eu7db7",
-        "source_page_url": "https://nwccu.box.com/s/945ibeadmvz2k6fbbjgenjdsf5eu7db7",
-        "source_title": "NWCCU Institution Notification Letter – NA"
-      },
-      {
-        "accreditor": "NWCCU",
-        "action_label": "Accredited – \n\t\t\t\t\t\tSpring 2026 Evaluation of Institutional Effectiveness",
-        "action_label_short": "Accredited – Spring 2026 Evaluation of Institutional Effectiveness",
-        "action_scope": null,
-        "action_type": "warning",
-        "action_date": "2026-07-17",
-        "action_year": "2026",
-        "display_action": true,
-        "public_table_strategy": "scraper_backed_keep",
-        "hybrid_candidate": false,
-        "hybrid_reason": null,
-        "notes": "Status: Accredited | Evaluation: \n\t\t\t\t\t\tSpring 2026 Evaluation of Institutional Effectiveness\t\t\t\t\t | Reason: \n\t\t\t\t\t\tAs of their most recent evaluation, this institution is substantially compliant with the Standards, Policies, and Eligibility Requirements of the Northwest Commission on Colleges and Universities.",
-        "source_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp",
-        "source_page_url": "https://nwccu.box.com/s/d19leoqja7qqdhxvp8yz4g4xany8wpbp",
-        "source_title": "NWCCU Institution Notification Letter – NA"
       }
     ]
   },

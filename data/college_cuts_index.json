@@ -571,15 +571,30 @@
     "city": null,
     "control_label": "Public",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2025-06-30",
-    "latest_cut_label": "UCLA Extension eliminated 23 staff positions",
+    "latest_cut_date": "2026-06-30",
+    "latest_cut_label": "27 digital and technology services staff laid off amid $220M deficit",
     "confirmed_closure_announcement": false,
     "confirmed_closure_badge_kind": {},
     "confirmed_closure_announcement_date": {},
     "confirmed_closure_source_url": {},
     "confirmed_closure_evidence_text": {},
-    "cut_count": 2,
+    "cut_count": 3,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-06-30",
+        "announcement_year": 2026,
+        "program_name": "27 digital and technology services staff laid off amid $220M deficit",
+        "cut_type": "staff_layoff",
+        "cut_label_public": "27 digital and technology services staff laid off amid $220M deficit",
+        "primary_display_category": "Staff layoffs",
+        "display_category": "Staff layoffs",
+        "display_categories": [
+          "Staff layoffs"
+        ],
+        "positions_affected": 27,
+        "faculty_affected": 27,
+        "source_url": "https://dailybruin.com/2026/07/08/ucla-cuts-27-dts-jobs-amid-budget-deficit-upte-cwa-9119-alleges-contract-violation"
+      },
       {
         "announcement_date": "2025-06-30",
         "announcement_year": 2025,
@@ -3154,6 +3169,44 @@
       }
     ]
   },
+  "159382": {
+    "unitid": "159382",
+    "financial_unitid": "159382",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "Louisiana State University-Alexandria",
+    "institution_alias": "LSUA",
+    "institution_unique_name": "Louisiana State University-Alexandria | Louisiana",
+    "state": "Louisiana",
+    "city": null,
+    "control_label": "Public",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-07-02",
+    "latest_cut_label": "25 positions eliminated including CFO and VP-level admins to redirect $3.7M to faculty and research",
+    "confirmed_closure_announcement": false,
+    "confirmed_closure_badge_kind": {},
+    "confirmed_closure_announcement_date": {},
+    "confirmed_closure_source_url": {},
+    "confirmed_closure_evidence_text": {},
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-07-02",
+        "announcement_year": 2026,
+        "program_name": "25 positions eliminated including CFO and VP-level admins to redirect $3.7M to faculty and research",
+        "cut_type": "staff_layoff",
+        "cut_label_public": "25 positions eliminated including CFO and VP-level admins to redirect $3.7M to faculty and research",
+        "primary_display_category": "Staff layoffs",
+        "display_category": "Staff layoffs",
+        "display_categories": [
+          "Staff layoffs"
+        ],
+        "positions_affected": 25,
+        "faculty_affected": 25,
+        "source_url": "https://lailluminator.com/2026/07/08/lsu-axes-finance-leader-former-dei-staff/"
+      }
+    ]
+  },
   "159939": {
     "unitid": "159939",
     "financial_unitid": "159939",
@@ -4232,6 +4285,44 @@
       }
     ]
   },
+  "174066": {
+    "unitid": "174066",
+    "financial_unitid": "174066",
+    "has_financial_profile": true,
+    "is_primary_tracker": true,
+    "institution_name": "University of Minnesota-Twin Cities",
+    "institution_alias": null,
+    "institution_unique_name": "University of Minnesota-Twin Cities | Minnesota",
+    "state": "Minnesota",
+    "city": null,
+    "control_label": "Public",
+    "category": "Degree-granting, primarily baccalaureate or above",
+    "latest_cut_date": "2026-06-27",
+    "latest_cut_label": "230 jobs eliminated through layoffs and attrition",
+    "confirmed_closure_announcement": false,
+    "confirmed_closure_badge_kind": {},
+    "confirmed_closure_announcement_date": {},
+    "confirmed_closure_source_url": {},
+    "confirmed_closure_evidence_text": {},
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2026-06-27",
+        "announcement_year": 2026,
+        "program_name": "230 jobs eliminated through layoffs and attrition",
+        "cut_type": "staff_layoff",
+        "cut_label_public": "230 jobs eliminated through layoffs and attrition",
+        "primary_display_category": "Staff layoffs",
+        "display_category": "Staff layoffs",
+        "display_categories": [
+          "Staff layoffs"
+        ],
+        "positions_affected": 230,
+        "faculty_affected": 230,
+        "source_url": "https://www.startribune.com/u-budget-cuts-tuition-increase/601861732"
+      }
+    ]
+  },
   "174783": {
     "unitid": "174783",
     "financial_unitid": "174783",
@@ -5206,23 +5297,38 @@
     "unitid": "186380",
     "financial_unitid": "186380",
     "has_financial_profile": true,
-    "is_primary_tracker": true,
+    "is_primary_tracker": false,
     "institution_name": "Rutgers University-New Brunswick",
     "institution_alias": "Rutgers, The State University of New Jersey; Rutgers, The State University; Rutgers University; Rutgers U; Rutgers; RutgersâNew Brunswick; Rutgers, New Brunswick; Rutgers New Brunswick",
     "institution_unique_name": "Rutgers University-New Brunswick | New Jersey",
     "state": "New Jersey",
     "city": null,
-    "control_label": "Public",
-    "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2024-04-01",
-    "latest_cut_label": "29 of 31 Writing Program lecturers laid off; class sizes increased from 22 to 24 students; over 1000 student seats in upper-division writing courses eliminated",
+    "control_label": null,
+    "category": null,
+    "latest_cut_date": "2026-07-09",
+    "latest_cut_label": "Hiring freeze and tuition increase totalling about $450 per student",
     "confirmed_closure_announcement": false,
     "confirmed_closure_badge_kind": {},
     "confirmed_closure_announcement_date": {},
     "confirmed_closure_source_url": {},
     "confirmed_closure_evidence_text": {},
-    "cut_count": 1,
+    "cut_count": 2,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-07-09",
+        "announcement_year": 2026,
+        "program_name": "Hiring freeze and tuition increase totalling about $450 per student",
+        "cut_type": "hiring_freeze",
+        "cut_label_public": "Hiring freeze and tuition increase totalling about $450 per student",
+        "primary_display_category": "Hiring freezes / furloughs",
+        "display_category": "Hiring freezes / furloughs",
+        "display_categories": [
+          "Hiring freezes / furloughs"
+        ],
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNamRLcUpET283WGZnZWNUYjF4VkYwN0N5QVJ1VEtnc0VXYVNvcEQwR2JkckRwMkxEV2MyNTJ6c25ETTJQUHhjRHBvSlZrcUJQZlJ6aTVvbmJnWnRRcVJielVXM01ha1RsaUVRVk1PUG5rWUpkYmpjY3l6V1FoU0hjVVdzYWR1Wno0MXBZcDlySU9YblRya2xUMjhyWUE2cVJCMTBZNW9jSkp2czNlVThEMnFINA?oc=5&hl=en-US&gl=US&ceid=US%3Aen"
+      },
       {
         "announcement_date": "2024-04-01",
         "announcement_year": 2024,
@@ -7746,15 +7852,30 @@
     "city": null,
     "control_label": "Public",
     "category": "Degree-granting, primarily baccalaureate or above",
-    "latest_cut_date": "2025-07-18",
-    "latest_cut_label": "About 50 employees laid off with a total of 190 positions eliminated in an effort to slash more than $30 million from its deficit",
+    "latest_cut_date": "2026-07-08",
+    "latest_cut_label": "40 employees laid off as part of $60M in cuts to address $85M deficit",
     "confirmed_closure_announcement": false,
     "confirmed_closure_badge_kind": {},
     "confirmed_closure_announcement_date": {},
     "confirmed_closure_source_url": {},
     "confirmed_closure_evidence_text": {},
-    "cut_count": 1,
+    "cut_count": 2,
     "landing_cuts": [
+      {
+        "announcement_date": "2026-07-08",
+        "announcement_year": 2026,
+        "program_name": "40 employees laid off as part of $60M in cuts to address $85M deficit",
+        "cut_type": "staff_layoff",
+        "cut_label_public": "40 employees laid off as part of $60M in cuts to address $85M deficit",
+        "primary_display_category": "Staff layoffs",
+        "display_category": "Staff layoffs",
+        "display_categories": [
+          "Staff layoffs"
+        ],
+        "positions_affected": 40,
+        "faculty_affected": 40,
+        "source_url": "https://now.temple.edu/announcements/2026-06-26/update-progress-we-close-fiscal-year"
+      },
       {
         "announcement_date": "2025-07-18",
         "announcement_year": 2025,
@@ -8576,6 +8697,45 @@
         "positions_affected": null,
         "faculty_affected": null,
         "source_url": "https://www.sltrib.com/news/education/2025/06/10/utah-university-budget-cuts-what/"
+      }
+    ]
+  },
+  "230746": {
+    "unitid": "230746",
+    "financial_unitid": "230746",
+    "has_financial_profile": true,
+    "is_primary_tracker": false,
+    "institution_name": "Salt Lake Community College",
+    "institution_alias": null,
+    "institution_unique_name": "Salt Lake Community College | Utah",
+    "state": "Utah",
+    "city": null,
+    "control_label": "Public",
+    "category": null,
+    "latest_cut_date": "2025-09-03",
+    "latest_cut_label": "Community service center operating for 25 years, offering writing coaching and workshops.",
+    "confirmed_closure_announcement": false,
+    "confirmed_closure_badge_kind": {},
+    "confirmed_closure_announcement_date": {},
+    "confirmed_closure_source_url": {},
+    "confirmed_closure_evidence_text": {},
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2025-09-03",
+        "announcement_year": 2025,
+        "program_name": "Community Writing Center",
+        "cut_type": "department_closure",
+        "cut_label_public": "Community service center operating for 25 years, offering writing coaching and workshops.",
+        "primary_display_category": "Athletics cuts",
+        "display_category": "Athletics cuts",
+        "display_categories": [
+          "Athletics cuts",
+          "Research center cuts"
+        ],
+        "positions_affected": null,
+        "faculty_affected": null,
+        "source_url": "https://www.kuer.org/arts-culture-entertainment/2025-09-03/after-nearly-25-years-slcc-community-writing-center-will-close-due-to-budget-cuts"
       }
     ]
   },
@@ -9608,6 +9768,44 @@
       }
     ]
   },
+  "240693": {
+    "unitid": "240693",
+    "financial_unitid": "240693",
+    "has_financial_profile": true,
+    "is_primary_tracker": false,
+    "institution_name": "Western Wyoming Community College",
+    "institution_alias": null,
+    "institution_unique_name": "Western Wyoming Community College | Wyoming",
+    "state": "Wyoming",
+    "city": null,
+    "control_label": "Public",
+    "category": null,
+    "latest_cut_date": "2025-12-26",
+    "latest_cut_label": "Restructuring to address structural budget imbalances, cutting 33 positions and redesigning 30 others as part of $4 million realignment.",
+    "confirmed_closure_announcement": false,
+    "confirmed_closure_badge_kind": {},
+    "confirmed_closure_announcement_date": {},
+    "confirmed_closure_source_url": {},
+    "confirmed_closure_evidence_text": {},
+    "cut_count": 1,
+    "landing_cuts": [
+      {
+        "announcement_date": "2025-12-26",
+        "announcement_year": 2025,
+        "program_name": "Staff Layoffs",
+        "cut_type": "staff_layoff",
+        "cut_label_public": "Restructuring to address structural budget imbalances, cutting 33 positions and redesigning 30 others as part of $4 million realignment.",
+        "primary_display_category": "Staff layoffs",
+        "display_category": "Staff layoffs",
+        "display_categories": [
+          "Staff layoffs"
+        ],
+        "positions_affected": 33,
+        "faculty_affected": 33,
+        "source_url": "https://www.wyomingnews.com/rocketminer/western-president-kirk-young-explains-where-rifs-occurred-reasoning-behind-decisions/article_dad6fbe4-fb28-42fe-8ebc-a79a8b7faea3.html"
+      }
+    ]
+  },
   "243744": {
     "unitid": "243744",
     "financial_unitid": "243744",
@@ -10209,45 +10407,6 @@
       }
     ]
   },
-  "cut-salt-lake-community-college--utah": {
-    "unitid": "cut-salt-lake-community-college--utah",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": "Salt Lake Community College",
-    "institution_alias": null,
-    "institution_unique_name": "Salt Lake Community College | Utah",
-    "state": "Utah",
-    "city": null,
-    "control_label": "Public",
-    "category": null,
-    "latest_cut_date": "2025-09-03",
-    "latest_cut_label": "Community service center operating for 25 years, offering writing coaching and workshops.",
-    "confirmed_closure_announcement": false,
-    "confirmed_closure_badge_kind": {},
-    "confirmed_closure_announcement_date": {},
-    "confirmed_closure_source_url": {},
-    "confirmed_closure_evidence_text": {},
-    "cut_count": 1,
-    "landing_cuts": [
-      {
-        "announcement_date": "2025-09-03",
-        "announcement_year": 2025,
-        "program_name": "Community Writing Center",
-        "cut_type": "department_closure",
-        "cut_label_public": "Community service center operating for 25 years, offering writing coaching and workshops.",
-        "primary_display_category": "Athletics cuts",
-        "display_category": "Athletics cuts",
-        "display_categories": [
-          "Athletics cuts",
-          "Research center cuts"
-        ],
-        "positions_affected": null,
-        "faculty_affected": null,
-        "source_url": "https://www.kuer.org/arts-culture-entertainment/2025-09-03/after-nearly-25-years-slcc-community-writing-center-will-close-due-to-budget-cuts"
-      }
-    ]
-  },
   "cut-texas-aandm-university-at-qatar--non-us": {
     "unitid": "cut-texas-aandm-university-at-qatar--non-us",
     "financial_unitid": null,
@@ -10398,44 +10557,6 @@
         "positions_affected": null,
         "faculty_affected": null,
         "source_url": "https://www.si.com/college/washington-state/athletics/washington-state-athletics-announces-significant-cuts-to-track-field-program"
-      }
-    ]
-  },
-  "cut-western-wyoming-community-college--wyoming": {
-    "unitid": "cut-western-wyoming-community-college--wyoming",
-    "financial_unitid": null,
-    "has_financial_profile": false,
-    "is_primary_tracker": false,
-    "institution_name": "Western Wyoming Community College",
-    "institution_alias": null,
-    "institution_unique_name": "Western Wyoming Community College | Wyoming",
-    "state": "Wyoming",
-    "city": null,
-    "control_label": "Public",
-    "category": null,
-    "latest_cut_date": "2025-12-26",
-    "latest_cut_label": "Restructuring to address structural budget imbalances, cutting 33 positions and redesigning 30 others as part of $4 million realignment.",
-    "confirmed_closure_announcement": false,
-    "confirmed_closure_badge_kind": {},
-    "confirmed_closure_announcement_date": {},
-    "confirmed_closure_source_url": {},
-    "confirmed_closure_evidence_text": {},
-    "cut_count": 1,
-    "landing_cuts": [
-      {
-        "announcement_date": "2025-12-26",
-        "announcement_year": 2025,
-        "program_name": "Staff Layoffs",
-        "cut_type": "staff_layoff",
-        "cut_label_public": "Restructuring to address structural budget imbalances, cutting 33 positions and redesigning 30 others as part of $4 million realignment.",
-        "primary_display_category": "Staff layoffs",
-        "display_category": "Staff layoffs",
-        "display_categories": [
-          "Staff layoffs"
-        ],
-        "positions_affected": 33,
-        "faculty_affected": 33,
-        "source_url": "https://www.wyomingnews.com/rocketminer/western-president-kirk-young-explains-where-rifs-occurred-reasoning-behind-decisions/article_dad6fbe4-fb28-42fe-8ebc-a79a8b7faea3.html"
       }
     ]
   }

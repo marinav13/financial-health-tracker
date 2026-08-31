@@ -1,6 +1,6 @@
 {
   "unitid": "434937",
-  "generated_at": "2026-08-24",
+  "generated_at": "2026-08-31",
   "profile": {
     "institution_name": "Yeshiva College of the Nations Capital",
     "institution_unique_name": "Yeshiva College of the Nations Capital | Silver  Spring | Maryland",
@@ -18,21 +18,21 @@
     "enrollment_pct_change_5yr": 154.1667,
     "sector_median_enrollment_pct_change_5yr": -3.7344,
     "enrollment_decline_last_3_of_5": "No",
-    "revenue_pct_change_5yr": 20.1473,
-    "sector_median_revenue_pct_change_5yr": -0.5117,
+    "revenue_pct_change_5yr": null,
+    "sector_median_revenue_pct_change_5yr": -0.3378,
     "net_tuition_per_fte_change_5yr": -18.6328,
     "sector_median_net_tuition_per_fte_change_5yr": -17.816,
     "staff_total_headcount_pct_change_5yr": 10,
     "sector_median_staff_total_headcount_pct_change_5yr": -1.7263,
     "staff_instructional_headcount_pct_change_5yr": 12.5,
-    "students_per_instructional_staff_fte": 8,
-    "sector_median_students_per_instructional_staff_fte": 12,
-    "ended_year_at_loss": "Yes",
+    "students_per_instructional_staff_fte": 7.6957,
+    "sector_median_students_per_instructional_staff_fte": 12.9781,
+    "ended_year_at_loss": null,
     "losses_last_3_of_5": "Yes",
-    "loss_years_last_10": 7,
-    "tuition_dependence_pct": 11.5853,
-    "sector_median_tuition_dependence_pct": 44.8638,
-    "tuition_dependence_vs_sector_median_sentence": "This college got 12.0% of its revenue from net tuition in 2024, below the median of 45% for private not-for-profit colleges.",
+    "loss_years_last_10": 6,
+    "tuition_dependence_pct": null,
+    "sector_median_tuition_dependence_pct": 44.2508,
+    "tuition_dependence_vs_sector_median_sentence": null,
     "unfunded_discount_rate": 79.4169,
     "unfunded_discount_pct_change_5yr": -0.93,
     "share_grad_students": null,
@@ -56,7 +56,7 @@
     "grad_plus_disbursements_amt": null,
     "grad_plus_disbursements_per_recipient": null,
     "sector_median_grad_plus_disbursements_per_recipient": 11428,
-    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 0,
+    "federal_grants_contracts_pell_adjusted_pct_core_revenue": 6.4661,
     "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": null,
     "state_funding_pct_change_5yr": null,
@@ -113,10 +113,6 @@
       {
         "year": 2023,
         "value": 1271778.6898
-      },
-      {
-        "year": 2024,
-        "value": 1393882
       }
     ],
     "expenses_total_adjusted": [
@@ -595,7 +591,7 @@
       },
       {
         "year": 2024,
-        "value": 0
+        "value": 36789
       }
     ],
     "state_funding_adjusted": [

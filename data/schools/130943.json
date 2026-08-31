@@ -1,6 +1,6 @@
 {
   "unitid": "130943",
-  "generated_at": "2026-08-24",
+  "generated_at": "2026-08-31",
   "profile": {
     "institution_name": "University of Delaware",
     "institution_unique_name": "University of Delaware | Newark | Delaware",
@@ -19,19 +19,19 @@
     "sector_median_enrollment_pct_change_5yr": -4.2732,
     "enrollment_decline_last_3_of_5": "No",
     "revenue_pct_change_5yr": 1.0285,
-    "sector_median_revenue_pct_change_5yr": -1.3261,
+    "sector_median_revenue_pct_change_5yr": -1.3025,
     "net_tuition_per_fte_change_5yr": -19.1001,
     "sector_median_net_tuition_per_fte_change_5yr": -17.7529,
     "staff_total_headcount_pct_change_5yr": 0.1616,
     "sector_median_staff_total_headcount_pct_change_5yr": 0.3908,
     "staff_instructional_headcount_pct_change_5yr": -5.6589,
-    "students_per_instructional_staff_fte": 16,
-    "sector_median_students_per_instructional_staff_fte": 16,
+    "students_per_instructional_staff_fte": 19.8305,
+    "sector_median_students_per_instructional_staff_fte": 16.7461,
     "ended_year_at_loss": "No",
     "losses_last_3_of_5": "No",
     "loss_years_last_10": 3,
     "tuition_dependence_pct": 33.409,
-    "sector_median_tuition_dependence_pct": 21.2464,
+    "sector_median_tuition_dependence_pct": 21.2045,
     "tuition_dependence_vs_sector_median_sentence": "This college got 33.0% of its revenue from net tuition in 2024, above the median of 21% for public colleges.",
     "unfunded_discount_rate": 29.2345,
     "unfunded_discount_pct_change_5yr": 10.514,
@@ -57,9 +57,9 @@
     "grad_plus_disbursements_per_recipient": 9791.2981,
     "sector_median_grad_plus_disbursements_per_recipient": 8446.7298,
     "federal_grants_contracts_pell_adjusted_pct_core_revenue": 16.6465,
-    "state_funding_pct_core_revenue": 13.5744,
+    "state_funding_pct_core_revenue": 0,
     "federal_grants_contracts_pell_adjusted_pct_change_5yr": 44.1895,
-    "state_funding_pct_change_5yr": 18.352,
+    "state_funding_pct_change_5yr": -100,
     "endowment_assets_per_fte_adjusted": 80314.3526,
     "sector_median_endowment_assets_per_fte_adjusted": 12637.3807,
     "endowment_pct_change_5yr": 7.2789,
@@ -71,8 +71,8 @@
     "scorecard_data_updated": "2026-03-23",
     "ipeds_graduation_rate_year": 2024,
     "ipeds_graduation_rate_label": "Bachelor degree within 6 years, total",
-    "state_local_support_pct_core_revenue": 13.5744,
-    "state_local_support_pct_change_5yr": 18.352
+    "state_local_support_pct_core_revenue": 0,
+    "state_local_support_pct_change_5yr": -100
   },
   "series": {
     "revenue_total_adjusted": [
@@ -828,7 +828,7 @@
       },
       {
         "year": 2024,
-        "value": 177900764
+        "value": 0
       }
     ],
     "state_local_support_adjusted": [
@@ -874,7 +874,7 @@
       },
       {
         "year": 2024,
-        "value": 177900764
+        "value": 0
       }
     ]
   }

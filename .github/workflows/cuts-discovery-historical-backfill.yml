@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -51,7 +51,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Cache college cuts discovery fetches
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: data_pipelines/college_cuts/discovery/cache
           key: cuts-discovery-cache-v2-backfill-${{ runner.os }}-${{ inputs.start_date }}-${{ hashFiles('scripts/cuts_discovery/*.py', 'config/cuts_feeds.yml', 'config/cuts_queries.yml') }}
@@ -104,7 +104,7 @@ jobs:
 
       - name: Upload discovery backfill log
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: historical-cuts-discovery-backfill-log
           path: refresh-logs/combined.log
